@@ -1,0 +1,4 @@
+#!/bin/bash
+javac -Xlint:deprecation -g -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoFrame.java -d bin
+#javac -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoReadApplet.java -d bin
+
