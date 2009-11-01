@@ -1,0 +1,8 @@
+#!/bin/bash
+cd bin
+jar cvfm fidocadj.jar ../Manifest.txt *.class *.properties icons16/*.* icons32/*.* program_icons/*.*
+mv fidocadj.jar ../jar
+cd ..
+
+#jar cvfm fidocadj_applet.jar Manifest_applet.txt bin/CircuitPanel.class bin/FCDstdlib.class bin/FidoReadApplet.class bin/MyTimer.class bin/globals.class bin/ParseSchem.class bin/mapCoordinates.class bin/sortLayer.class bin/layerDesc.class
+

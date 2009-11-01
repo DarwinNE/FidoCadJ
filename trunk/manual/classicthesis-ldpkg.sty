@@ -1,0 +1,230 @@
+% ********************************************************************
+% classicthesis-ldpkg.sty (formerly known as loadpackages.sty)
+%
+% Copyright (C) 2007 André Miede http://www.miede.de
+%
+% If you like the style then I would appreciate a postcard. My address 
+% can be found in the file ClassicThesis.pdf. A collection of the 
+% postcards I received so far is available online at 
+% http://postcards.miede.de
+%
+% License:
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; see the file COPYING.  If not, write to
+% the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+% Boston, MA 02111-1307, USA.
+%
+% ********************************************************************  
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{classicthesis-ldpkg}[2007/11/01 v2.3 Package Loader for Classic Thesis Style]
+ 
+\@ifpackageloaded{classicthesis}%
+    {\PackageWarningNoLine{classicthesis-ldpkg}{Package "classicthesis" should be loaded AFTER "classicthesis-ldpkg".}}%
+    {\relax}%    
+ 
+% ********************************************************************
+% Options
+% ******************************************************************** 
+\RequirePackage{ifthen}
+    \newboolean{@nochapters} % disable all chapter-specific commands
+\DeclareOption{nochapters}{\setboolean{@nochapters}{true}}
+\ProcessOptions\relax
+
+% ******************************************************************** 
+% Packages
+% ******************************************************************** 
+\RequirePackage[T1]{fontenc}                
+\RequirePackage{textcomp}
+%\RequirePackage[dvipsnames]{xcolor} 
+\RequirePackage{xspace} % to get the spacing after macros right
+\RequirePackage{tabularx} % better tables
+\RequirePackage{mparhack} % get marginpar right
+\RequirePackage{fixltx2e} % fixes some LaTeX stuff
+%\RequirePackage{ellipsis} % ... ;-)
+\RequirePackage[fleqn]{amsmath} % math environments and more by the AMS                   
+\RequirePackage{relsize} % scale font up or down                                        
+\RequirePackage[smaller]{acronym} % nice macros for handling all acronyms in the thesis
+\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms
+%\RequirePackage{natbib}
+
+% ********************************************************************
+% Commands
+% ********************************************************************                
+\newcounter{dummy} % necessary for correct hyperlinks (to index, bib, etc.)
+\newcommand{\longpage}{\enlargethispage{3\baselineskip}}
+\newcommand{\medpage}{\enlargethispage{2\baselineskip}}
+\newcommand{\shortpage}{\enlargethispage{\baselineskip}}
+\newcommand{\concskip}{\medskip}
+\newcommand{\myPrimRef}[1]{\textit{#1}} % how primary index entries will be marked 
+% ******************************************************************** 
+\newcommand{\ie}{i.\,e.}
+\newcommand{\Ie}{I.\,e.}
+\newcommand{\eg}{e.\,g.}
+\newcommand{\Eg}{E.\,g.}
+\newcommand{\etAl}{et al.\xspace}
+\newcommand{\twod}{2\textsc{d}\xspace}
+\newcommand{\threed}{3\textsc{d}\xspace}
+% ******************************************************************** 
+\newcommand{\system}[1]{\emph{#1}}
+\newcommand{\person}[1]{#1}
+\newcommand{\term}[1]{\emph{#1}}
+\newcommand{\cauthor}[1]{\person{\citeauthor{#1}}}
+\newcommand{\tableheadline}[1]{\multicolumn{1}{c}{\spacedlowsmallcaps{#1}}}
+% ******************************************************************** 
+\newcommand{\RA}{\ensuremath{\Rightarrow}}
+\newcommand{\ra}{\ensuremath{\rightarrow}}
+\newcommand{\lra}{\ensuremath{\leftrightarrow}}
+\newcommand{\On}{\ensuremath{O(n)}\xspace}
+\newcommand{\Ologn}{\ensuremath{O(\log n)}\xspace}
+\newcommand{\Oone}{\ensuremath{O(1)}\xspace}
+
+% ********************************************************************
+% take care of the caption fonts and sizes (tables and figures)
+\RequirePackage{caption}
+    
+% ********************************************************************
+% caption numbering now w/o chapter number
+\RequirePackage{remreset}
+    \makeatletter
+        \ifthenelse{\boolean{@nochapters}}%
+        {\relax}{%
+            \@removefromreset{table}{chapter}  % requires remreset package
+        }
+        \renewcommand{\thetable}{\arabic{table}}
+    \makeatother
+    \makeatletter
+        \ifthenelse{\boolean{@nochapters}}%
+        {\relax}{%
+            \@removefromreset{figure}{chapter}  % requires remreset package
+        }
+        \renewcommand{\thefigure}{\arabic{figure}}  
+    \makeatother
+
+% ********************************************************************
+% enable subfigures in figures
+\RequirePackage{subfig}  
+
+% ********************************************************************
+% fine typesetting of code listings
+\RequirePackage{listings}  
+% ********************************************************************
+% caption numbering now w/o chapter number
+%\makeatletter
+%    \ifthenelse{\boolean{@nochapters}}%
+%    {\relax}{%
+%        \@removefromreset{lstlisting}{chapter}% requires remreset package
+%    }
+%    \renewcommand{\thelstlisting}{\arabic{lstlisting}} % <-- might cause an error with some TeX distributions
+%\makeatother
+% ********************************************************************
+% ...and get the layout of the list of listings right (dirty workaround)
+%\makeatletter
+%        \def\@dottedtocline#1#2#3#4#5{%
+%          \ifnum #1>\c@tocdepth \else
+%            \vskip \z@ \@plus.2\p@
+%            {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+%             \parindent #2\relax\@afterindenttrue
+%             \interlinepenalty\@M
+%             \leavevmode
+%             \@tempdima #3\relax
+%             \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+%             \hbox{{#4}\nobreak
+%             \hspace{1.5em}
+%             \nobreak
+%             \hb@xt@\@pnumwidth{\normalfont \normalcolor #5}}%
+%             \par}%
+%          \fi}
+%        \def\@pnumwidth{0em}
+%\makeatother
+% ********************************************************************
+% to get the LoL entries right, change line 1461 in listings.sty (v1.3a) to
+% {\protect\hspace{-\parindent}Listing~\thelstlisting\hspace{1.5em}\lst@@caption}%
+% really nasty, if you know of a better way, please let me know
+% ********************************************************************
+%\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
+% ********************************************************************
+\lstset{language=[LaTeX]Tex,%C++,
+    keywordstyle=\color{RoyalBlue},%\bfseries,
+    basicstyle=\small\ttfamily,
+    %identifierstyle=\color{NavyBlue},
+    commentstyle=\color{Green}\ttfamily,
+    stringstyle=\rmfamily,
+    numbers=none,%left,%
+    numberstyle=\scriptsize,%\tiny
+    stepnumber=5,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frameround=ftff,
+    frame=single
+    %frame=L
+}    
+
+% ********************************************************************
+% Using PDFLaTeX:
+% ********************************************************************
+\RequirePackage[pdftex,hyperfootnotes=false,pdfpagelabels,pagebackref]{hyperref}  % backref linktocpage pagebackref
+\pdfcompresslevel=9
+\pdfadjustspacing=1 
+\RequirePackage[pdftex]{graphicx} % PDFTeX driver for graphicx
+\DeclareGraphicsRule{*}{mps}{*}{} % enables use of MetaPost graphics with pdflatex 
+
+%*******************************************************
+% for German texts to get \autoref macros right
+\renewcommand{\figureautorefname}{Figure}
+\renewcommand{\tableautorefname}{Table}
+\renewcommand{\partautorefname}{Part}
+\renewcommand{\chapterautorefname}{Chapter}
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Section}
+\renewcommand{\subsubsectionautorefname}{Section}
+%\renewcommand{\paragraphautorefname}{Absatz}
+%\renewcommand{\subparagraphautorefname}{Unterabsatz}
+%\renewcommand{\footnoteautorefname}{Fu\"snote}
+%\renewcommand{\FancyVerbLineautorefname}{Zeile}
+%\renewcommand{\theoremautorefname}{Theorem}
+%\renewcommand{\appendixautorefname}{Anhang}
+%\renewcommand{\equationautorefname}{Gleichung}        
+%\renewcommand{\itemautorefname}{Punkt}                
+%\newcommand*{\subfigureautorefname}{Abbildung}
+
+% ********************************************************************
+% get the links to the figures and tables right
+%\RequirePackage[all]{hypcap} % to be loaded after hyperref package
+
+% ********************************************************************
+% setup the style of the backrefs from the bibliography
+\newcommand{\backrefnotcitedstring}{\relax}%(Not cited.)
+\newcommand{\backrefcitedsinglestring}[1]{(Cited on page~#1.)}
+\newcommand{\backrefcitedmultistring}[1]{(Cited on pages~#1.)}
+
+\RequirePackage[hyperpageref]{backref} % to be loaded after hyperref package 
+   \renewcommand{\backreftwosep}{ and~} % seperate 2 pages
+   \renewcommand{\backreflastsep}{, and~} % seperate last of longer list
+   \renewcommand*{\backref}[1]{}  % Disable standard
+   \renewcommand*{\backrefalt}[4]{% Detailed backref
+      \ifcase #1 %
+         \backrefnotcitedstring%
+      \or
+         \backrefcitedsinglestring{#2}%
+      \else
+         \backrefcitedmultistring{#2}%
+      \fi}
+%   \hspace*{\fill}{\scriptsize\itshape\mbox{%
+%   \ifnum#1=1 %
+%     (Cited on page~%
+%   \else
+%     (Cited on pages~%
+%   \fi
+%   #2)}
+%}       
