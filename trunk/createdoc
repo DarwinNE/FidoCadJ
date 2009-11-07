@@ -1,2 +1,0 @@
-#!/bin/bash
-javadoc -d doc -sourcepath src src/*.java
