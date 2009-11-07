@@ -2,6 +2,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+import globals.*;
+import dialogs.*;
+
 /** EnterCircuitFrame.java v.1.1
 
    ****************************************************************************

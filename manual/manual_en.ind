@@ -1,0 +1,223 @@
+\begin{theindex}
+
+  \item +, \hyperpage{21}
+  \item \LaTeX, \hyperpage{16}
+
+  \indexspace
+
+  \item A4, \hyperpage{14}
+  \item advanced text, \hyperpage{20}
+  \item asterisk, \hyperpage{21}
+  \item autoplacer, \hyperpage{10}
+  \item autorouter, \hyperpage{10}
+
+  \indexspace
+
+  \item B\'ezier, \hyperpage{5}, \hyperpage{19}, \hyperpage{22}
+  \item BE, \hyperpage{22}
+  \item bitmap format, \hyperpage{15}
+
+  \indexspace
+
+  \item CAD, \hyperpage{9}
+  \item CadSoft, \hyperpage{16}
+  \item CadSoft Eagle, \hyperpage{1}
+  \item characters dimension, \hyperpage{13}
+  \item circuit, \hyperpage{20}
+  \item code, \hyperpage{8, 9}
+  \item colour, \hyperpage{9}
+  \item command bar, \hyperpage{3}
+  \item command line, \hyperpage{15}
+  \item connection, \hyperpage{20}
+  \item control point, \hyperpage{6}
+  \item coordinates system, \hyperpage{19}
+  \item Courier, \hyperpage{21}
+  \item crossing of tracks, \hyperpage{10}
+  \item crystal ball, \hyperpage{23}
+
+  \indexspace
+
+  \item e-mail, \hyperpage{8}
+  \item Eagle, \hyperpage{v}, \hyperpage{16}
+  \item electrical schematic, \hyperpage{1}, \hyperpage{3}, 
+		\hyperpage{9}, \hyperpage{19}
+  \item ellipse, \hyperpage{5}, \hyperpage{19}, \hyperpage{22}
+  \item English, \hyperpage{11}
+  \item EP, \hyperpage{22}
+  \item EPS, \hyperpage{1}, \hyperpage{16}
+  \item error tolerance, \hyperpage{23}
+  \item EV, \hyperpage{22}
+  \item exportation, \hyperpage{15}
+
+  \indexspace
+
+  \item FCJ, \hyperpage{23}
+  \item FidoCad, \hyperpage{1--3}, \hyperpage{8}, \hyperpage{19--21}, 
+		\hyperpage{23, 24}
+  \item FidoCadJ extension, \hyperpage{8}, \hyperpage{23}
+  \item FidoCadJ.app, \hyperpage{26}
+  \item fidocadj.jar, \hyperpage{26}
+  \item FIDOLIB, \hyperpage{24}
+  \item FidoReadJ, \hyperpage{2}
+  \item forum, \hyperpage{8}
+  \item French, \hyperpage{11}
+
+  \indexspace
+
+  \item grid, \hyperpage{10}
+  \item GTK+, \hyperpage{17}
+
+  \indexspace
+
+  \item header, \hyperpage{19}, \hyperpage{24}
+
+  \indexspace
+
+  \item Inkscape, \hyperpage{16}
+  \item interpreter, \hyperpage{2}
+  \item it.hobby.elettronica, \hyperpage{v}, \hyperpage{2}
+  \item it.hobby.fai-da-te, \hyperpage{2}
+  \item Italin, \hyperpage{11}
+
+  \indexspace
+
+  \item jar, \hyperpage{15}
+  \item Java, \hyperpage{1, 2}, \hyperpage{15}, \hyperpage{17}
+  \item JPG, \hyperpage{16}
+  \item JRE, \hyperpage{15}, \hyperpage{27}
+  \item junction, \hyperpage{5}, \hyperpage{22}
+
+  \indexspace
+
+  \item layer, \hyperpage{9}, \hyperpage{11}, \hyperpage{24}
+  \item LI, \hyperpage{20}
+  \item library, \hyperpage{17}
+    \subitem standard library, \hyperpage{17}
+  \item line, \hyperpage{5}, \hyperpage{20}
+  \item linea, \hyperpage{19}
+  \item Linux, \hyperpage{17}
+  \item logic unit, \hyperpage{10}
+  \item logical unit, \hyperpage{21}
+  \item look \& feel, \hyperpage{17}
+  \item Lorenzo Lutti, \hyperpage{1}, \hyperpage{20}
+  \item lossy compression, \hyperpage{16}
+
+  \indexspace
+
+  \item Macintosh, \hyperpage{4}, \hyperpage{15}
+  \item MacOSX, \hyperpage{3, 4}, \hyperpage{17}
+  \item macro, \hyperpage{1}, \hyperpage{3}, \hyperpage{6}, 
+		\hyperpage{20}, \hyperpage{23, 24}
+  \item maximum length of text, \hyperpage{21}
+  \item maximum number of vertices, \hyperpage{21}
+  \item MC, \hyperpage{23, 24}
+  \item Metal, \hyperpage{3, 4}
+  \item Microsoft, \hyperpage{17}
+  \item Motif, \hyperpage{17}
+  \item move, \hyperpage{5}
+  \item MS-DOS prompt, \hyperpage{15}
+
+  \indexspace
+
+  \item newsgroup, \hyperpage{v}, \hyperpage{8}
+  \item newsgroups, \hyperpage{1}
+
+  \indexspace
+
+  \item Object oriented programming, \hyperpage{2}
+  \item obsolete, \hyperpage{20}
+  \item OpenJDK, \hyperpage{27}
+
+  \indexspace
+
+  \item PA, \hyperpage{22}
+  \item parameters, \hyperpage{20}
+  \item PCB, \hyperpage{1}, \hyperpage{9, 10}, \hyperpage{13}, 
+		\hyperpage{19}
+    \subitem footprint, \hyperpage{3}
+  \item PCB library, \hyperpage{24}
+  \item PCB line, \hyperpage{11}
+  \item PCB pad, \hyperpage{20}, \hyperpage{22}
+  \item \textsc{PCB }pad, \hyperpage{5}
+  \item PCB track, \hyperpage{5}, \hyperpage{12}, \hyperpage{20}, 
+		\hyperpage{23}
+  \item \textsc{pdf}\LaTeX, \hyperpage{16}
+  \item PGF, \hyperpage{16}
+  \item PL, \hyperpage{23}
+  \item PNG, \hyperpage{16}
+  \item poliline, \hyperpage{21}
+  \item polygon, \hyperpage{11, 12}
+  \item polyline, \hyperpage{5}, \hyperpage{19}
+  \item Postscript, \hyperpage{16}
+  \item PP, \hyperpage{21}
+  \item Press\&Peel, \hyperpage{13}
+  \item primitive, \hyperpage{3}, \hyperpage{20}
+  \item printing, \hyperpage{13}
+  \item printing box, \hyperpage{13}
+  \item PV, \hyperpage{21}
+
+  \indexspace
+
+  \item Quaqua, \hyperpage{26}
+
+  \indexspace
+
+  \item R41 transfers, \hyperpage{10, 11}
+  \item rectangle, \hyperpage{5}, \hyperpage{11}, \hyperpage{19, 20}
+  \item recursion, \hyperpage{24}
+  \item resistor, \hyperpage{7}
+  \item resolution, \hyperpage{10}
+  \item RP, \hyperpage{20}
+  \item RV, \hyperpage{20}
+
+  \indexspace
+
+  \item SA, \hyperpage{22}
+  \item Safari, \hyperpage{16}
+  \item SCR, \hyperpage{16}
+  \item segment, \hyperpage{20}
+  \item selection, \hyperpage{3}, \hyperpage{5}
+  \item selection mode, \hyperpage{11}
+  \item silk-screen, \hyperpage{9, 10}
+  \item simple text, \hyperpage{20}
+  \item soldering, \hyperpage{9}
+  \item square brackets, \hyperpage{24}
+  \item standard library, \hyperpage{6}, \hyperpage{24}
+  \item Sun, \hyperpage{3}, \hyperpage{15}, \hyperpage{27}
+  \item superuser, \hyperpage{27}
+  \item SVG, \hyperpage{16}
+
+  \indexspace
+
+  \item TE, \hyperpage{20}
+  \item terminal, \hyperpage{15}
+  \item text, \hyperpage{5}, \hyperpage{7}, \hyperpage{19}
+    \subitem mirrored, \hyperpage{20}
+    \subitem rotated, \hyperpage{20}
+    \subitem style, \hyperpage{21}
+  \item toolbar, \hyperpage{3}, \hyperpage{6}
+  \item transistor, \hyperpage{6}
+  \item TY, \hyperpage{20}
+
+  \indexspace
+
+  \item Ubuntu, \hyperpage{28, 29}
+  \item Unix, \hyperpage{15}
+  \item Usenet group, \hyperpage{1}
+
+  \indexspace
+
+  \item vectorial drawing, \hyperpage{3}
+  \item vectorial format, \hyperpage{15}
+
+  \indexspace
+
+  \item Windows, \hyperpage{1}, \hyperpage{15}, \hyperpage{17}
+  \item WInE, \hyperpage{1}
+  \item writings mirroring, \hyperpage{11}
+
+  \indexspace
+
+  \item zoom, \hyperpage{5}, \hyperpage{20}
+
+\end{theindex}

@@ -10,6 +10,16 @@ import java.net.*;
 import java.awt.print.*;
 import java.util.prefs.*;
 
+import globals.*;
+import dialogs.*;
+import layers.*;
+import export.*;
+import circuit.*;
+import geom.*;
+import clipboard.*;
+import toolbars.*;
+
+
 
 /** FidoFrame.java 
 
@@ -23,6 +33,7 @@ Version   Date           Author       Remarks
 2.0     May 2008            D. Bucci    Editing possibilities
 2.1		July 2008		    D. Bucci	A few nice enhancements
 2.2		February 2009		D. Bucci	Aquified 
+2.2.1	October 2009		D. Bucci	Force Win L&F when run on Windows
 
 jar cvfm fidoreadj.jar Manifest.txt *.class *.properties
 
@@ -107,9 +118,10 @@ public class FidoFrame extends JFrame implements
     private boolean printFitToPage;
     private boolean printLandscape;
     
+    //private boolean extStrict; 	// Strict FidoCad compatibility
     private boolean extFCJ_s;	// Use FidoCadJ extensions while saving
     private boolean extFCJ_c;	// Use FidoCadJ extensions while copying
-    
+        
         
     // Open/save default properties
     private String openFileName;
@@ -206,9 +218,20 @@ public class FidoFrame extends JFrame implements
          	
          		System.out.println("The Quaqua look and feel is not available");
 				System.out.println("I will continue with the basic Apple l&f");
-        	}
-
-        } else {
+			}
+        } else if (System.getProperty("os.name").startsWith("Win")) {
+        	/* If the host system is a window system, select the Windows
+        	   look and feel. This is a way to encourage people to use 
+        	   FidoCadJ even on a Windows system, forgotting about Java.
+        	   
+        	*/
+			try {
+        		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.	WindowsLookAndFeel");
+		    } catch (Exception E) {}
+		   	Globals.quaquaActive=false;
+		   	
+        
+		} else {
         	Globals.quaquaActive=false;
         }
         
@@ -220,10 +243,7 @@ public class FidoFrame extends JFrame implements
         	UIManager.setLookAndFeel(
             UIManager.getCrossPlatformLookAndFeelClassName());
             Globals.weAreOnAMac =false;
-        } catch (UnsupportedLookAndFeelException E) {}
-        catch (java.lang.ClassNotFoundException F) {}
-        catch (java.lang.InstantiationException G) {}
-        catch (java.lang.IllegalAccessException H) {}
+        } catch (Exception E) {}
         */
         
         
@@ -311,14 +331,12 @@ public class FidoFrame extends JFrame implements
         openFileDirectory = prefs.get("OPEN_DIR", "");
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
         	"true").equals("true");
-        textToolbar = prefs.get("TEXT_TOOLBAR", "false").equals("true");
+        textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
         
         extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
         extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
         
-             
-       
-        
+               
         
         exportFileName=new String();
         exportFormat=new String();
@@ -428,7 +446,8 @@ public class FidoFrame extends JFrame implements
         
         Dimension windowSize = getSize();
         CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
-        
+        CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
+       
         splitPane.setTopComponent(SC);
         splitPane.setBottomComponent(macroLib);
 		splitPane.setResizeWeight(.9);
@@ -1390,7 +1409,8 @@ public class FidoFrame extends JFrame implements
 	        CC.getPCB_pad_drill(),
             extFCJ_s,
             extFCJ_c,
-            Globals.quaquaActive);
+            Globals.quaquaActive,
+            CC.getStrict());
                     
         options.setVisible(true);
         CC.profileTime=options.profileTime;
@@ -1410,6 +1430,8 @@ public class FidoFrame extends JFrame implements
 
 		extFCJ_s = options.extFCJ_s;
 		extFCJ_c = options.extFCJ_c;
+        CC.setStrict(options.extStrict);
+
 		Globals.quaquaActive=options.quaquaActive;
   	
         libDirectory=options.libDirectory;
@@ -1422,6 +1444,9 @@ public class FidoFrame extends JFrame implements
      
     	prefs.put("QUAQUA",
     		(Globals.quaquaActive?"true":"false"));
+    	prefs.put("FCJ_EXT_STRICT",
+    		(CC.getStrict()?"true":"false"));
+    
      
         repaint();
     }

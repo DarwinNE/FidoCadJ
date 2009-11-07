@@ -1,0 +1,37 @@
+\select@language {french}
+\vspace {-\cftbeforepartskip }
+\contentsline {chapter}{\numberline {1}\spacedlowsmallcaps {Introduction}}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}La philosophie de FidoCadJ}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Histoire du logiciel}{1}{section.1.2}
+\contentsline {chapter}{\numberline {2}\spacedlowsmallcaps {Le dessin avec FidoCadJ}}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Les instruments de dessin}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Dessinons un simple sch\'ema \'electrique}{6}{section.2.2}
+\contentsline {section}{\numberline {2.3}Les couches (layer)}{10}{section.2.3}
+\contentsline {section}{\numberline {2.4}La grille}{11}{section.2.4}
+\contentsline {section}{\numberline {2.5}Dessiner un simple circuit imprim\'e}{11}{section.2.5}
+\contentsline {section}{\numberline {2.6}Exportation}{16}{section.2.6}
+\contentsline {section}{\numberline {2.7}Options de la ligne de commande}{16}{section.2.7}
+\contentsline {section}{\numberline {2.8}Gestion des librairies}{19}{section.2.8}
+\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Le format des dessins, des macros et des librairies FidoCad}}{20}{chapter.3}
+\contentsline {section}{\numberline {3.1}Description de l'en-t\^ete}{20}{section.3.1}
+\contentsline {section}{\numberline {3.2}Le syst\`eme de coordonn\'ees}{20}{section.3.2}
+\contentsline {section}{\numberline {3.3}\'El\'ements de dessin}{20}{section.3.3}
+\contentsline {subsubsection}{Ligne}{21}{section.3.3}
+\contentsline {subsubsection}{Rectangle plein ou vide}{21}{lstnumber.-8.1}
+\contentsline {subsubsection}{Texte simple (obsol\`ete)}{21}{lstnumber.-9.2}
+\contentsline {subsubsection}{Texte avanc\'e}{21}{lstnumber.-10.1}
+\contentsline {subsubsection}{Polygone plein ou vide}{22}{table.3.3}
+\contentsline {subsubsection}{Ellipse pleine ou vide}{23}{lstnumber.-12.2}
+\contentsline {subsubsection}{Courbe de B\'ezier}{23}{lstnumber.-13.2}
+\contentsline {subsubsection}{Connexion \'electrique}{23}{equation.3.1}
+\contentsline {subsubsection}{Pastille pour circuit imprim\'e}{23}{lstnumber.-15.1}
+\contentsline {subsubsection}{Piste pour circuit imprim\'e}{24}{lstnumber.-16.1}
+\contentsline {subsubsection}{Macro}{24}{lstnumber.-17.1}
+\contentsline {section}{\numberline {3.4}Extensions de FidoCadJ}{24}{section.3.4}
+\contentsline {section}{\numberline {3.5}Tol\'erance aux erreurs de syntaxe}{25}{section.3.5}
+\contentsline {section}{\numberline {3.6}Le format des librairies}{25}{section.3.6}
+\contentsline {section}{\numberline {3.7}Librairies standard}{25}{section.3.7}
+\contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Conclusion}}{27}{chapter.4}
+\contentsline {chapter}{\numberline {A}\spacedlowsmallcaps {Extensions sp\'ecifiques aux syst\`emes d'exploitation}}{28}{appendix.A}
+\contentsline {section}{\numberline {A.1}MacOSX}{28}{section.A.1}
+\contentsline {chapter}{\spacedlowsmallcaps {Index}}{28}{dummy.1}

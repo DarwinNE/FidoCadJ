@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import primitives.*;
+import circuit.*;
+import export.*;
+import geom.*;
+import toolbars.*;
+
 /* macroTree.java v.1.3
 	
 	Show in a tree the macros available in the loaded libraries.

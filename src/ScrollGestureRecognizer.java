@@ -3,6 +3,8 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import circuit.*;
+import toolbars.*;
 
 // @author Santhosh Kumar T - santhosh@in.fiorano.com 
    

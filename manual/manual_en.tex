@@ -40,10 +40,10 @@
     urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
     % uncomment the following line if you want to have black links (e.g., for printing)
     %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
-    pdftitle={FidoCadJ -- manuel de l'utilisateur},%
+    pdftitle={FidoCadJ -- user manual},%
     pdfauthor={Davide Bucci},%
     pdfsubject={Comment utiliser FidoCadJ},%
-    pdfkeywords={FidoCad, FidoCadJ, CAD, electronic schematic, printed circuit board},%
+    pdfkeywords={FidoCad, FidoCadJ, CAD, electronics schematics, printed circuit boards},%
     pdfcreator={pdfLaTeX},%
     pdfproducer={LaTeX with hyperref and classicthesis}%
 }
@@ -52,7 +52,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.21 \\ user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.22 \\ the user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -62,7 +62,7 @@
  \makeindex
 
 
-\begin{document} 
+\begin{document}
 \pagenumbering{roman}
 
 \pdfbookmark[1]{Front}{Front}
@@ -70,374 +70,516 @@
 
 \clearpage
 \pdfbookmark[1]{Licence}{Licence}
-This work is covered by the Creative Commons Public License version 2.5
-or more recent. The entire texte of this licence is available at the address\\
-\href{http://creativecommons.org/licenses/by-nc-nd/3.0/}{http://creativecommons.org/licenses/by-nc-nd/3.0/}. 
- 
- You are free to reproduce, diffuse, communicate or expose in public, represent, execute and play this work at the following conditions:
- 
+
+
+\clearpage{} \pdfbookmark[1]{Licence}{Licence} This work is covered
+by the Creative Commons Public License version 2.5 or more recent.
+The entire text of this licence is available at the address\\
+ \href{http://creativecommons.org/licenses/by-nc-nd/3.0/}{http://creativecommons.org/licenses/by-nc-nd/3.0/}.
+
+You are free to reproduce, diffuse, communicate or expose in public,
+represent, execute and play this work at the following conditions:
 \begin{description}
-\item[Attribution]{You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).}
-\item[Noncommercial]{You may not use this work for commercial purposes.}
-\item[No Derivative Works]{You may not alter, transform, or build upon this work.}
+\item [{Attribution}] {You must attribute the work in the manner specified
+by the author or licensor (but not in any way that suggests that they
+endorse you or your use of the work).} 
+\item [{Noncommercial}] {You may not use this work for commercial purposes.} 
+\item [{No Derivative Works}] {You may not alter, transform, or build
+upon this work.} 
 \end{description}
-Any of the above conditions can be waived if you get permission from the copyright holder (Davide Bucci). 
-\vfill
+Any of the above conditions can be waived if you get permission from
+the copyright holder (Davide Bucci). \vfill{}
 
 
-All commercial names, logo, trademarks cited in this work are registered by their owners.
+All commercial names, logo, trademarks cited in this work are registered
+by their owners.
 
-\begingroup
-%\let\clearpage\relax
+\begingroup %\let\clearpage\relax
 %\let\cleardoublepage\relax
 %\let\cleardoublepage\relax
+
 
 
 \chapter*{Abstract}
 
 \pdfbookmark[1]{Abstract}{Abstract}
 
-This document is the FidoCadJ official user manual. After a short introduction of the history and the born of this software, we will describe the basic use of FidoCadJ. Our goal will be to learn how to write a very simple electronic schematics as well as a printed circuit board. This manual will end with a detailed description of the FidoCad (and thus FidoCadJ) format, which has not yet been documented.
-\endgroup			
+This document is the FidoCadJ official user manual. After a short
+introduction of the history and the birth of this software, we will
+describe the basic use of FidoCadJ. Our goal is to learn how to draw
+very simple electronic schematics and their printed circuit boards.
+The manual will end with a detailed description of the FidoCad (and
+thus FidoCadJ) format, which has not yet been documented. \endgroup
 
 
+\chapter*{Acknowledgements}
 
-\chapter*{Aknowledgements}
 \pdfbookmark[1]{Aknowledgements}{Aknowledgements}
 
-A lot of people used this software from its first versions and they helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica} newsgroup\index{newsgroup} partecipants for their very fruitful discussions.
+A number of people used this software from its first versions and
+helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
+newsgroup\index{newsgroup} participants for their very fruitful discussions.
 
-This software has been very carefully tested under Linux thanks to Stefano Martini's patience. He is a very attentive alpha and beta tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta for their tests under MacOSX.
+This software has been very carefully tested under Linux thanks to
+Stefano Martini's patience. He is a very attentive alpha and beta
+tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
+for their tests under MacOSX.
 
-I would like to thank F. Bertolazzi who has given very useful advices about the usability of this software. He also assembled the CadSoft Eagle\index{Eagle} compatibility library, useful to export FidoCadJ drawings under Eagle.
-Many thanks to Celsius, who tested the software functionalities for PCB realization, as well as its libraries. Thanks to Andrea D'Amore, for his advices concerning FidoCadJ visual aspect on the Apple Machintosh from the 0.21.1 version.
+I would like to thank ``F. Bertolazzi'' who has given very useful
+advice about the usability of this software. He also assembled the
+CadSoft Eagle\index{Eagle} compatibility library, useful to export
+FidoCadJ drawings under Eagle. Many thanks to ``Celsius'', who tested
+the software functionalities for PCB realization, as well as its libraries.
+Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
+aspect on the Apple Macintosh, from the 0.21.1 version.
 
-\chapter*{FidoCadJ Licence}
-\pdfbookmark[1]{Licence FidoCadJ}{Licence FidoCadJ}
+This manual has been translated to English by ``Pasu''. I would like to thank 
+him for his work.
 
- 
-Copyright \copyright\ 2007-2009  Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
-        
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, version 3 of the License.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+\chapter*{FidoCadJ License}
+
+\pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
+
+Copyright \copyright\ 2007-2009 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+
+This software is free: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see \href{http://www.gnu.org/licenses/}{http://www.gnu.org/licenses/}.
+along with this program. If not, see \href{http://www.gnu.org/licenses/}{http://www.gnu.org/licenses/}.
 
 \tableofcontents
 \pdfbookmark[1]{Table of contents}{Table of contents}
 
 \listoffigures
-\pdfbookmark[1]{List of figures}{List of figures}
+\pdfbookmark[1]{Liste of figures}{List of figures}
 
 \begingroup
 \let\clearpage\relax
 \let\cleardoublepage\relax
 \let\cleardoublepage\relax
 \listoftables
-\pdfbookmark[1]{List of tables}{List of tables}
+\pdfbookmark[1]{Liste of tables}{Liste of tables}
 
 \endgroup
 
-\myChapter{Introduction}
-\pagenumbering{arabic}
-In this chapter, we will briefly introduce FidoCadJ. In particular, we will give a description of the phylosophy behind this software, as well as a brief history of its development.
+\myChapter{Introduction} \pagenumbering{arabic} In this chapter,
+we will briefly introduce FidoCadJ. In particular, we will give a
+description of the philosophy behind this software, as well as a brief
+history of its development.
+
 
 \section{FidoCadJ's philosophy}
 
-FidoCad\index{FidoCad} (without J at the end) is a vectorial drawing software particularly suit for electrical schematics as well as printed circuit boards.
-It is diffused in particular in the italian Usenet community from late 1990s.
+FidoCad\index{FidoCad} (without the J at the end) is a vectorial
+drawing software particularly suit for electrical schematics\index{electrical schematic} as well
+as printed circuit boards\index{PCB}. It is diffused in particular in the italian
+Usenet community from late 1990s.
 
-It can be freely downloaded (a Windows\index{Windows} version nationalized in Italian language) from Lorenzo Lutti's page\index{Lorenzo Lutti}:
+It can be freely downloaded (a Windows\index{Windows} version nationalized
+in Italian language) from Lorenzo Lutti's page\index{Lorenzo Lutti}:
 
 \href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/~lorenzo/fidocad.asp}
 
-The output files provided by this software contains only text only codes and descritpions and it is very compact. Those details makes it very easy to include the drawings in text messages, such as those used in non binary Usenet groups\index{Usenet group}.
+The output files generated by this software is a very compact textual
+descritpion. This feature makes it very easy to include drawings in
+text messages, such as those used in non binary Usenet groups\index{Usenet group}.
 
 Unfortunately, FidoCad exists only in a Windows\index{Windows} version.
-Who uses Linux can run it using WInE\index{WInE}, but for those using other platforms like me (I use MacOSX) have to find a different solution. I thus decided to give a small contribution to the Usenet community by writing FidoCadJ (with the final J, this time). This editor is written in pure Java\index{Java} and it is completely multi-platform. FidoCadJ allows showing and modifying a drawing using the FidoCad\index{FidoCad} file format.
+Who uses Linux can run it using WInE\index{WInE}, but for those using
+other platforms like me (I use MacOSX) have to find a different solution.
+I thus decided to give a small contribution to the Usenet community
+by writing FidoCadJ (with the final J, this time). This editor is
+written in pure Java\index{Java} and it is completely multi-platform.
+FidoCadJ allows showing and modifying a drawing using the FidoCad\index{FidoCad}
+file format.
 
-Whoever used FidoCad\index{FidoCad} in the past should become acquainted to FidoCadJ very quickly, since a lot of commands and procedures are pretty similar in the two softwares.
-Presently, to the best of my knowledge, FidoCadJ is almost completely compatible with the original FidoCad, apart a few details. Probably the library and macro\index{macro} handling can in particular be improved.
+Whoever used FidoCad\index{FidoCad} in the past should become acquainted
+with FidoCadJ very quickly, since many commands and procedures are
+quite similar to the original application. At the time of writing,
+to the best of my knowledge, FidoCadJ is almost completely compatible
+with the original FidoCad, apart from a few details. In particular
+the library and macro\index{macro} handling could probably be improved.
 
-My goal has been to offer a minimalistic yet complete solution to drawing needs of small schematics as well as simple printed circuit boards (P.C.B.). I tried to respect as much as possible the original FidoCad philosopy, which was to use a simple tool which was completely open.
-Of course, my middle term goal is to achieve 100\% compatibility with the original FidoCad\index{FidoCad} for Windows\index{Windows}.
+My goal has been to offer a minimalist yet complete solution to
+drawing needs of small schematics as well as simple printed circuit
+boards (P.C.B.). I tried to respect as much as possible the original
+FidoCad philosophy, which was to use a simple tool which was completely
+open. Of course, my middle term goal is to achieve 100\% compatibility
+with the original FidoCad\index{FidoCad} for Windows\index{Windows}.
 
-Among the features offered by FidoCadJ and not present in the original FidoCad  there is the export possibilities offered. Since I am a LaTeX user, I made FidoCadJ export drawings in several vectorial formats, including encapsulated Postscript (also known as \textsc{EPS}\index{EPS}).
-Another interesting format useful for electronic schematics is the export towards a CadSoft Eagle script\index{CadSoft Eagle}, available from version 0.21 of FidoCadJ. In this way, a schematics drawn with FidoCadJ can be exported to Eagle.
+Among the features offered by FidoCadJ and not present in the original
+FidoCad are the export possibilities offered. Since I am a \LaTeX{}
+user, I decided to include an export feature for a number of vectorial
+formats, including Encapsulated PostScript (\textsc{EPS}\index{EPS}).
+Another file format useful for electronic schematics is the CadSoft
+Eagle script\index{CadSoft Eagle}, which is available from version
+0.21 of FidoCadJ. In this way, a schematics drawn with FidoCadJ can
+be exported to Eagle.
+
 
 \section{History of this software}
-I have long been interested in electronic circuits.
-When I began following several dedicated italian Usenet newsgroups\index{newsgroups}, I noticed that a lot of schematics were provided using the FidoCad for Windows format\index{FidoCad}. This avoided ankwards ASCII drawings.
-Since I do not use Windows since a few years ago, it was almost impossible for me to look at them and I wanted to try to do something to solve that problem.
-\graffito{By the way, I think that it is better to work at a solution rather to claim that an operating system different from Windows lacks of software}.
 
-The first thing I did has been to study the file format used by FidoCad\index{FidoCad} and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ}, able to parse the circuit and to show it in a web page. I started searching more or less everywhere (old posts, web pages) and I did a lot of reverse engineering from existing FidoCad files. I downloaded the FidoCad sources. They have been written by Lorenzo Lutti in C++ and are pretty neat.
+I have long been interested in electronic circuits. When I began following
+several dedicated italian Usenet newsgroups\index{newsgroups}, I
+noticed that many schematics were provided using the FidoCad for Windows
+format\index{FidoCad}. This avoided awkward ASCII drawings. Since
+I do not use Windows since a few years ago, it was almost impossible
+for me to look at them and I wanted to try to do something to solve
+this problem. \graffito{By the way, I think that it is better to
+work at a solution rather claim that an operating system different
+from Windows lacks in software}.
 
-I did this work more or less around March 2007. A few moths later, the applet was on line and it was being tested by part of the community gravitating around it.hobby.elettronica\index{it.hobby.elettronica} and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.\footnote{FidoReadJ\index{FidoReadJ} is still available, even if not regularly updated, at the address:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc\&language=Francais}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.}
+The first thing I did was to study the file format used by FidoCad\index{FidoCad}
+and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ},
+able to parse the circuit and to show it in a web page. I started
+searching more or less everywhere (old posts, web pages), doing a
+lot of reverse engineering from existing FidoCad files. I downloaded
+the FidoCad sources, written in a pretty neat C++ by Lorenzo Lutti.
 
-Since I had an interpreter\index{interpreter} of the FidoCad format, it was interesting to continue the work in order to obtain a complete editor\graffito{In reality, I made a first attempt of writing a 2D vectorial drawing system arount 1993.}
-The most part of the work has been done in several steps, between january and july 2008. FidoCadJ is not an adaptation or a porting de FidoCad for Windows, but it is a complete rewrite of the program.
+I did this work more or less around March 2007. A few moths later,
+the applet was on line and it was being tested by part of the community
+gravitating around it.hobby.elettronica\index{it.hobby.elettronica}
+and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
+\footnote{FidoReadJ\index{FidoReadJ} is still available, even if not regularly
+updated, at the address:\\
+ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc\&language=Francais}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.%
+}
 
-The choice of using Java\index{Java} has been due to the fact that in these last years I changed a lot of operating systems. I do not want anymore to dedicate my efforts to something which is not completely portable. The effor of learning the Cocoa framework would have probably given a better result under MacOSX, but it would have made FidoCadJ completely non portable.
-I am not a computer guy. The time I spend to program is time vasted for my electronics interests.
-Anyway, a simple analysis of the FidoCadJ code source shows that I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming} purist. Several solutions are more practical than elegant.
+Since I had an interpreter\index{interpreter} of the FidoCad format,
+it was interesting to continue the work in order to obtain a complete
+editor\graffito{To be honest, I made a first attempt at writing
+a 2D vectorial drawing system around 1993.} The most part of the
+work was done in several steps, between January and July 2008. FidoCadJ
+is not an adaptation or a porting of FidoCad for Windows, but it is
+a completely rewritten program.
 
-What it matters, much more than the choice of a particular language, is the end user impressions while using the program. For that reason, I am always hearing your suggestions about FidoCadJ, in order to understand how to develop this project.
-To resume, I do not believe Java\index{Java} a perfect language. I believe it is criticized by many people because there are a lot of programs which are not very well integrated in the user desktop.
+The choice of using Java\index{Java} is due to the fact that in the
+last few years I changed a lot of operating systems. Spending time
+and energies on something which is not completely portable does not
+appeal to me anymore. The effort of learning the Cocoa framework would
+have probably given a better result under MacOSX, but it would have
+made FidoCadJ completely non-portable. I am not a computer guy. The
+time I spend to program is time taken away from my electronics interests.
+In fact, a simple analysis of the FidoCadJ code source shows that
+I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
+purist and I am sure that several solutions could be found that are
+more practical than elegant.
 
-% La parte non tradotta comincia qui...
+What matters is the end user impressions while using the program,
+more than the choice of a particular language. For this reason, I
+am always listening to your suggestions, in order to understand how
+to further develop this project. To summarize, I am aware that Java\index{Java}
+is not the perfect choice or the solution to every problem. However
+I am sure that its bad name derives mostly from badly written applications
+which are not very well integrated with the user desktop.
 
- Senza avere pretese di perfezione e restando 
-nell'ambito delle mie possibilità informatiche che non sono certo 
-illimitate, intendo fare in modo che FidoCadJ NON sia un programma di 
-pessima qualità ed è per questo che ogni commento sull'usabilità del 
-programma e su eventuali problemi individuati sarà quanto mai benvenuto.
+% La parte interamente tradotta da Pasu comincia qui.
 
-\myChapter{Il disegno con FidoCadJ}
 
-L'uso del programma dovrebbe essere abbastanza intuitivo per chi abbia già utilizzato un programma di disegno vettoriale\index{disegno vettoriale}. 
-L'aspetto del programma sotto MacOSX\index{MacOSX} è mostrato nella figura~\ref{fig_fidocadj};\graffito{Gli utilizzatori Mac di lunga data noteranno che i menu sono al loro posto!} sotto altri sistemi operativi cambia qualche dettaglio (per esempio, la figura~\ref{fig_metal} mostra il risultato con il look and feel Metal\index{Metal} di Sun\index{Sun}), ma la filosofia resta la medesima. Vedremo quindi quali sono le funzionalità offerte dal programma, nonché gli elementi di disegno di base (le primitive)\index{primitiva}, a partire dai quali ogni disegno FidoCadJ può essere ottenuto.
+Without aiming for perfection and knowing my programming skills limitations,
+my intent is to make sure that FidoCadJ will NOT be another poor quality
+application. For this reason any bug report or comment on the program's
+usability will be more than welcome.
+
+\myChapter{Drawing with FidoCadJ}
+
+The use of FidoCadJ should be quite intuitive for those who have ever
+used a vectorial drawing application\index{vectorial drawing}. A
+screenshot of the program running under MacOSX\index{MacOSX} is shown
+in Fig.~\ref{fig_fidocadj};\graffito{Expert Mac-users will notice
+that all the menus are at their own place!} A few details may be
+different when running under other operating systems (for example
+Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
+on Sun\index{Sun}), but the philosophy remains the same. We will
+see what the features of the program are, and its basic elements (the
+primitives)\index{primitive} which compose a FidoCadJ drawing. %
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_macosx.png}
-\caption{Una tipica sessione di lavoro di FidoCadJ sotto MacOSX Tiger\index{MacOSX}. Nell'appendice~\ref{specifics}, sono descritte le peculiarità della versione specifica per Macintosh\index{Macintosh}.}
-\label{fig_fidocadj}
+\includegraphics[width=1\textwidth]{fidocadj_macosx.png} 
+
+\caption{A typical FidoCadJ session running under MacOSX Tiger\index{MacOSX}.
+Appendix~\ref{specifics} describes the peculiarities of the version
+specific for Macintosh\index{Macintosh}.}
+
+
+\label{fig_fidocadj} 
 \end{figure}
 
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_metal.png}
-\caption{L'aspetto di FidoCadJ con il look and feel Metal\index{Metal}.}
-\label{fig_metal}
+\includegraphics[width=1\textwidth]{fidocadj_metal.png} 
+
+\caption{FidoCadJ with the Look and Feel Metal\index{Metal}.}
+
+
+\label{fig_metal} 
 \end{figure}
 
 
-\section{Gli strumenti di disegno}
-Nella barra dei comandi\index{barra dei comandi} (in alto), si trovano le funzioni più utilizzate, che permettono di creare e modificare un disegno. La tabella~\ref{tab_comandi} mostra un rapido riassunto delle funzionalità dei comandi disponibili e descrive le azioni possibili. Noterete che una volta che viene premuto un bottone, questo rimarrà premuto fino a quando non si selezionerà un altra funzione dalla barra.\graffito{Questo modo di funzionare è ispirato alle vecchie radio a valvole ed ai commutatori in voga fino agli anni 70.}
-Nella barra, è possibile scegliere quale primitiva di disegno\index{primitiva} verrà introdotta.\footnote{Per avere maggiori informazioni sul formato con cui gli elementi del disegno vengono memorizzati, riferitevi alla sezione~\ref{sec_primitive}.} Sulla destra, una lista attivabile con un click mostra il layer corrente (riferitevi al paragrafo~\ref{sec_layer} per maggiori informazioni).
 
-La barra dei comandi\index{barra dei comandi} è parzialmente personalizzabile. In particolare, l'utente può scegliere se mostrare in ogni bottone l'icona più il testo, oppure solo l'icona. Le icone sono inoltre disponibili in due formati selezionabili a piacere. Per scegliere queste impostazioni, basta andare nel menu ``Vista/Opzioni''.\footnote{Tranne su MacOSX, in cui questa voce si trova nel menu FidoCadJ e si chiama ``Preferenze''.} Le modifiche saranno attive al riavvio successivo del programma, dato che presumibilmente non si tratta di qualcosa che va cambiato tutti i giorni.
-Le figure \ref{fig_fidocadj} e \ref{fig_metal} mostrano quanto si ottiene nella barra dei comandi (subito sotto il titolo della finestra), configurata per mostrare il testo e le icone, nella loro versione più piccola. 
-Nella seconda riga, a partire da sinistra si vedono le impostazioni di zoom ed i bottoni ``Adatta'', ``Mostra griglia'' e ``Blocca sulla griglia''. Il primo permette di selezionare automaticamente le impostazioni di zoom più adatte a mostrare la totalità del disegno. Il secondo permette di selezionare se mostrare oppure no la griglia. Il terzo permette all'utente di scegliere se desidera allineare gli elementi alla griglia durante l'introduzione, oppure no.
+\section{Drawing Tools}
 
+In the toolbar\index{toolbar} (on the top of the window), we can
+find the most used features that allow the creation and the editing
+of a drawing. Table~\ref{tab_comandi} shows a brief summary of the
+functionalities and the commands and describes the possible actions.
+You will notice that once a button is pressed, it will remain in that
+position until another function from the toolbar will be selected.\graffito{This
+behavior is inspired to the old vacuum tube radios and to the switches
+very fashionable in the '70s.} From the toolbar we can select which
+drawing primitive\index{primitive} will be used.%
+\footnote{Form more information on the format used to save the drawing elements
+see~\ref{sec_primitive}.%
+} On the right, a drop-down menu will show the current working layer
+(see~\ref{sec_layer} for more information).
+
+The command bar\index{command bar} can be partially customized. In
+particular, we can choose whether we want to see the icon on each
+button or the icon and its text description. Icons are also available
+in two selectable formats. To change these settings we can select
+the menu {}``View/Options''.%
+\footnote{Except on MacOSX, where this item is found in the FidoCadJ's menu
+and it is called {}``Preferences''.%
+} Any change in the settings will be applied at the restart of the
+application, since it is arguably something that we may want to change
+every day. Figures \ref{fig_fidocadj} and \ref{fig_metal} show the
+command bar (right below the window's title), configured to show text
+and icons in their smallest version. On the second row, starting from
+the left we can see the zoom settings and the buttons {}``Fit'',
+{}``Show grid'' e {}``Snap to grid''. The first allows us to automatically
+select the most suitable zoom settings in order to show the whole
+drawing on the screen. The second toggles between visible and invisible
+grid, while when we press the third button the elements added will
+stick to the nearest step of the grid.
+
+%
 \begin{table}
-\centering
-\begin{tabular}{clp{.7\textwidth}}
-\toprule
-Tasto
-&
-Comando
-&
-Uso
-\\
+\centering \begin{tabular}{clp{0.7\textwidth}}
+\toprule Key & Comando  & Use\tabularnewline
 \midrule
 
-\keyevidence{A}
-o
-\keyevidence{Spazio}
-
-&
-
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/arrow}%
-}
- \textsc{Seleziona}\index{selezione}
-&
-Selezione di uno o più elementi grafici. 
-Premere \keyevidence{Control} (\keyevidence{Command} solo sotto MacOSX) per effettuare selezioni multiple o deselezionare un solo elemento. 
-Fare click e trascinare per selezionare più elementi in un'area. 
-Premere \keyevidence{R} per ruotare gli elementi selezionati. 
-Premere \keyevidence{S} per specchiare gli elementi selezionati. 
-Fare doppio click su un elemento per modificarne le proprietà. 
-\\
-
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/magnifier}%
-}
-\textsc{Zoom}\index{zoom}
-&
-Fare click con il pulsante sinistro per aumentare lo zoom. 
-Fare click con il pulsante destro per diminuirlo.
-\\
-
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/move}%
-}
-\textsc{Sposta}\index{sposta}
-&
-Cliccare nel disegno e spostare il mouse per fare scorrere il disegno.
-\\
-
-\keyevidence{L}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/line}%
-}
-\textsc{Linea}\index{linea}
-&
-Introduce una linea o una serie di linee. Premere \keyevidence{Esc} o fare doppio click con il pulsante sinistro del mouse per terminare l'introduzione.%\footnote{Nelle versioni di Fidocad precedenti alla 0.20.5, fare click con il pulsante destro faceva passare alla modalità ``Seleziona''}
-\\
-
-\keyevidence{T}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/text}%
-}
-\textsc{Testo}\index{testo}
-&
-Introduce una stringa di testo.
-\\
-
-\keyevidence{B}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/bezier}%
-}
-\textsc{Bézier}\index{Bézier}
-&
-Disegna una curva di Bézier.
-\\
-
-\keyevidence{P}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/polygon}%
-}
-\textsc{Poligono}\index{poligono}
-&
-Disegna un poligono pieno o vuoto. Fare doppio click o premere \keyevidence{Esc}, per terminare l'introduzione dei vertici.
-\\
-
-\keyevidence{E}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/ellipse}%
-}
-\textsc{Ellisse}\index{ellisse}
-&
-Disegna un ellisse pieno o vuoto (tener premuto \keyevidence{Control} per ottenere un cerchio).
-\\
-
-\keyevidence{G}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/rectangle}%
-}
-\textsc{Rettangolo}\index{rettangolo}
-&
-Disegna un rettangolo pieno o vuoto.
-\\
-
-\keyevidence{C}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/connection}%
-}
-\textsc{Connessione}\index{connessione}
-&
-Disegna una connessione elettrica in uno schema.
-\\
-
-\keyevidence{I}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/pcbline}%
-}
-\textsc{Pista C. S.}\index{pista c. s.}
-&
-Disegna una pista di circuito stampato. La larghezza di default può essere modificata nella finestra ``Vista/Opzioni''.
-\\
-
-\keyevidence{Z}
-&
-\raisebox{-.2em}{%
-\includegraphics[width=1em]{icons/pcbpad}%
-}
-\textsc{Piazzola C. S.}\index{piazzola c. s.}
-&
-Disegna una piazzola per circuito stampato. Le dimensioni di default possono essere modificate nella finestra ``Vista/Opzioni''.
-\\
-\bottomrule
+\keyevidence{A} or \keyevidence{Spacebar} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
+\textsc{Select}\index{selection}  & Selects one or more graphic elements. Press \keyevidence{Control}
+(\keyevidence{Command} only under MacOSX) for multiple selections
+or to deselect only one element. Click and drag to select several
+elements in an area. Press \keyevidence{R} to rotate the selected
+elements. Press \keyevidence{S} to mirror the selected elements.
+Double-click on an element to modify its properties.\tabularnewline
+ & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/magnifier}}
+\textsc{Zoom}\index{zoom}  & Left-click to increase the level of zoom. Right-click to decrease
+it.\tabularnewline
+ & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/move}}
+\textsc{Move}\index{move}  & Click on the drawing and move the mouse to move the drawing.\tabularnewline
+\keyevidence{L}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/line}}
+\textsc{Line}\index{line}  & Inserts a line or a series of lines. Press \keyevidence{Esc} or
+double-click to terminate the insertion %\footnote{In FidoCadJ versions prior to 0.20.5, a right click would switch to the ``Select'' mode}
+\tabularnewline
+\keyevidence{T}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/text}}
+\textsc{Text}\index{text}  & Inserts a text string.\tabularnewline
+\keyevidence{B}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/bezier}}
+\textsc{Bézier}\index{Bézier}  & Draws a Bézier curve\tabularnewline
+\keyevidence{P}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/polygon}}
+\textsc{Polyline}\index{polyline}  & Draws a polyline filled or empty. Double-click or press \keyevidence{Esc},
+to terminate the insertion of new vertices.\tabularnewline
+\keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
+\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} to
+draw a circle). \tabularnewline
+\keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
+\textsc{Rectangole}\index{rectangle}  & Draws a rectangle filled or empty.\tabularnewline
+\keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
+\textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
+\keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
+\textsc{PCB track}\index{PCB track}  & Draws a PCB track. The default width can be modified through the dialog
+accessed from the menu {}``View/Options''. \tabularnewline
+\keyevidence{Z}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbpad}}
+\textsc{PCB pad}\index{PCB pad@\textsc{PCB }pad}  & Draws a PCB pad. The default dimensions can be modified through the
+dialog accessed from the menu {}``View/Options''. \tabularnewline
+\bottomrule  &  & \tabularnewline
 \end{tabular}
-\caption{Riassunto dei comandi di disegno disponibili in FidoCadJ. Il tasto mostrato nella colonna più a sinistra permette di selezionare rapidamente l'operazione da tastiera. Un click destro in una delle modalità di inserimento delle primitive permette di passare direttamente nella finestra di modifica delle proprietà.}
-\label{tab_comandi}
+
+\caption{Summary of the drawing commands available in FidoCadJ. The key shown
+on the leftmost column allows their rapid selection using the keyboard.
+A right click in one of the primitive placement modes allows us to
+access the properties window.}
+
+
+\label{tab_comandi} 
 \end{table}
 
-Sulla destra, sono mostrati sotto forma di albero gli elementi\index{macro} (chiamati macro) delle librerie caricate nel programma. Basta selezionare un elemento della libreria e poi fare click nel disegno per poterlo inserire. Le librerie di FidoCad\index{FidoCad} includono tutti i simboli classici degli schemi elettrici, nonché una buona collezione di footprint\index{circuito stampato!footprint} per circuiti stampati.
 
+On the right are shown in a tree list the elements \index{macro}
+(called macro) of the libraries loaded into the application. To insert
+an element from the library we only need to select it from the list
+an click on the drawing. FidoCad\index{FidoCad} libraries include
+all standard symbols used in electrical schematics\index{electrical schematic} and a wide selection of footprints\index{PCB!footprint} for drawing PCBs.
+
+%
 \begin{figure}
-\centering
-\includegraphics[width=.7\textwidth]{param_testo}
-\caption{La finestra dei parametri di un testo in un disegno FidoCadJ.}
-\label{fig_param_testo}
+\centering \includegraphics[width=0.7\textwidth,]{param_testo} 
+
+\caption{Dialog for the text's parameters in a FidoCadJ drawing.}
+
+
+\label{fig_param_testo} 
 \end{figure}
 
-La figura~\ref{fig_param_testo} mostra un esempio di quello che si ottiene facendo doppio click, in modalità selezione\index{selezione}, su un elemento del disegno, in questo caso una stringa di testo.
-All'interno della finestra, è possibile modificare ogni aspetto (coordinate, rotazione\dots) di ogni primitiva di disegno. Naturalmente, l'aspetto non sarà sempre il medesimo, poiché le informazioni che possono venir modificate dipenderanno dall'elemento grafico che si sta modificando.
 
-\section{Disegnamo un semplice schema elettrico}
-Per capire come va usato il programma, procederemo a disegnare un semplicissimo schema elettrico, come quello mostrato in figura~\ref{fig_schema}.
+Figure~\ref{fig_param_testo} shows an example of what we can obtain
+by double-clicking, in selection mode\index{selection}, on a drawing
+element (in this case a text string). Within this window it is possible
+to modify all the parameters (coordinates, rotation\dots) of any
+drawing primitive. The aspect of this window will change because the
+information that can be modified will depend on the selected element.
+
+
+\section{A simple schematic}
+
+As an example of use of this application, we will show how to draw
+the simple electrical schematic of figure~\ref{fig_schema}. %
 \begin{figure}
-\centering
-%\includegraphics[width=.5\textwidth]{schema}
-\input{images/schema.pgf}
-\caption{Ecco il nostro obiettivo: uno specchio di corrente che utilizza transistor NPN.}
-\label{fig_schema}
-\end{figure}
-Per iniziare, lanciamo quindi il programma oppure, se è già in esecuzione, creiamo un nuovo disegno dal menu ``File/Nuovo disegno''.
+\centering %\includegraphics[width=.5\textwidth]{schema}
+\input{images/schema.pgf} 
 
-Iniziamo quindi ad introdurre nel disegno i simboli dei due transistor\index{transistor}, che sono un po' il cuore del nostro schema. Per fare questo, dovremmo utilizzare le macro a disposizione nella libreria standard\index{libreria standard}, che è caricata per default e si trova sulla destra del programma. La macro che ci serve è chiamata ``NPN senza schermo'' e si trova nella categoria ``Diodi e transistor'', all'interno della ``Libreria standard''. Facendo click per selezionare la macro\index{macro} desiderata, è poi possibile introdurla dove si vuole all'interno del disegno, facendo click una seconda volta nella posizione voluta. A questo punto, dovremmo trovarci davanti una situazione simile a quella mostrata nella figura~\ref{fig_fidocadj_fase1}.
+\caption{The reference schematic: a current mirror made with NPN transistors.}
 
-\begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_fase1}
-\caption{Incominciamo a disegnare un paio di transistor.}
-\label{fig_fidocadj_fase1}
-\end{figure}
 
-Una cosa che si nota subito è che il transistor bipolare sulla sinistra non è orientato correttamente. Basta fare click su ``Seleziona'', nella barra degli strumenti, selezionare il transistor (apparirà verde, con tre punti di controllo\index{punto di controllo} identificati da dei quadratini rossi) e poi premere \keyevidence{S} per specchiarlo. Otterremo quindi il risultato visibile in figura~\ref{fig_fidocadj_fase2}.
-
-\begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_fase2}
-\caption{Selezioniamo e specchiamo con \keyevidence{S} il transistor a sinistra.}
-\label{fig_fidocadj_fase2}
+\label{fig_schema} 
 \end{figure}
 
-Utilizzando lo strumento ``Linea'' nella barra degli strumenti\index{barra degli strumenti}, potremo completare qualche connessione elettrica, fino ad accorgerci di aver cominciato lo schema un po' troppo vicino ai bordi dell'area di disegno. Poco male: in modalità ``Seleziona'', potremo fare click in alto a sinistra e, sempre tenendo premuto il pulsante sinistro del mouse, trascinarlo in basso a destra. Apparirà un rettangolo con i bordi verdi, che indicherà che stiamo cercando di selezionare d'un colpo tutti gli elementi al suo interno. Dato che dobbiamo spostare tutto quello che abbiamo disegnato fino ad ora, dovremmo selezionarli dapprima tutti (come si vede in figura~\ref{fig_fidocadj_fase3}). A questo punto, basterà, sempre in modalità selezione, fare click su un elemento qualsiasi selezionato e trascinare tutto lo schema nella posizione voluta.
 
+Once FidoCadJ is running, let us create a new drawing from the menu
+{}``File/New''.
+
+We will then start by placing in the drawing area the symbols for
+the two transistors\index{transistor}, around which our schematic
+is built. To do so, we will need the macros contained in the standard
+library\index{standard library}, which is loaded by default and is
+found on the right-hand side of the screen. The macro that we will
+use is called {}``NPN senza schermo'' and is included in the {}``Diodi
+e transistor'' category of the {}``Libreria standard''. By clicking
+on the element's name to select the desired macro\index{macro}, it
+will then be possible to place it anywhere in the drawing, by clicking
+a second time on the desired location. We should now be at the stage
+similar to the one shown in figure ~\ref{fig_fidocadj_fase1}.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_fase3}
-\caption{Siamo troppo in alto: selezioniamo tutto e spostiamoci più in basso.}
-\label{fig_fidocadj_fase3}
+\includegraphics[width=1\textwidth,]{fidocadj_fase1} 
+
+\caption{We start by drawing a couple of transistors.}
+
+
+\label{fig_fidocadj_fase1} 
 \end{figure}
 
-Continuiamo quindi ad introdurre le parti mancanti del circuito, in particolare un resistore\index{resistore} (Libreria standard/Componenti discreti/Resistore) ed il terminale di alimentazione positiva (Libreria standard/Simbologia di base/Terminale +). Quest'ultimo, andrà ruotato per fargli assumere l'orientazione voluta. Basterà selezionarlo e premere \keyevidence{R} fino ad ottenere il risultato desiderato. Dovremmo quindi avere qualcosa di simile alla figura~\ref{fig_fidocadj_fase4}.
 
+We may notice that the bipolar transistor on the left is not correctly
+oriented. To fix the problem is sufficient to click on {}``Select'',
+from the toolbar, select the transistor (which will be highlighted
+in green, with three control points\index{control point} identified
+by small red squares) and then press \keyevidence{S} to obtain
+its mirrored version. We will thus obtain a result similar to the
+one shown in figure~\ref{fig_fidocadj_fase2}.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_fase4}
-\caption{Il circuito quasi terminato}
-\label{fig_fidocadj_fase4}
+\includegraphics[width=1\textwidth,]{fidocadj_fase2} 
+
+\caption{Select and mirror with \keyevidence{S} the transistor on the left.}
+
+
+\label{fig_fidocadj_fase2} 
 \end{figure}
 
-Manca ora solo l'introduzione delle stringhe di testo e della freccia rappresentante il verso della corrente. Per quest'ultima, c'è la macro ``Freccia'', in ``Libreria standard/Simbologia di base''. Per il testo, bisogna usare il bottone ``Testo''\index{testo} nella barra dei comandi e cliccare nel disegno alla posizione desiderata. Verrà introdotto un testo ``String'', di cui potranno essere modificate le caratteristiche, facendovi doppio click in modalità selezione. Riferitevi alla figura~\ref{fig_param_testo}. 
-Il nome e il modello del transistor utilizzato (una coppia di transistor, in realtà) sono specificati all'interno dei campi ``Name'' e ``Value'' che si ottengono facendo doppio click in modalità ``Selezione'' sulla macro.\footnote{La possibilità di associare un nome ed un valore ad una macro, ovvero ad un simbolo di un componente, è in realtà un'estensione di FidoCadJ\index{estensione FidoCadJ} non presente nel FidoCad originale\index{FidoCad}. Vedere il paragrafo~\ref{FCJ_extension} per maggiori informazioni sulla compatibilità.} 
-Una dimensione adatta per lavorare con i circuiti è 4 unità in verticale e 3 in orizzontale.
-Il circuito finito è mostrato in figura~\ref{fig_fidocadj_fase5}.
 
+By using the tool {}``Line'' from the toolbar\index{toolbar}, we
+will be able to make a few electrical connections, until we will realise
+that we started our drawing to close to the edges of the drawing area.
+The issue can be easily fixed by selecting the whole drawing: in {}``Select''
+mode, we can click on the upper left corner of the drawing and, holding
+the left button of the mouse pressed, drag the cursor up to the lower
+right corner. A rectangle with a green contour will appear to indicate
+that we are trying to select all the elements included in it. Since
+we want to move everything we have drawn so far, we will have to select
+them all first(see figure~\ref{fig_fidocadj_fase3}). Now, still
+in select mode, we can click on any selected element to drag the selection
+to the desired position.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_fase5}
-\caption{Ecco come viene mostrato il circuito finito}
-\label{fig_fidocadj_fase5}
+\includegraphics[width=1\textwidth,]{fidocadj_fase3} 
+
+\caption{We are too close to the top edge of the sheet: let's select the whole
+drawing and move it toward the centre.}
+
+
+\label{fig_fidocadj_fase3} 
 \end{figure}
 
-Per chi fosse curioso, ecco a cosa assomiglia il codice\index{codice} che descrive il circuito. Per vederlo, basta selezionare ``Testo del circuito'' dal menu ``Circuito''. Il tutto è pronto per essere copiato ed incollato su un messaggio di posta elettronica\index{posta elettronica}, in un newsgroup\index{newsgroup}, oppure un forum\index{forum}.
-\begin{lstlisting} 
+
+We can then continue placing the other parts of the circuit, in particular
+a resistor\index{resistor} (Libreria standard/Componenti discreti/Resistore)
+and the label for the positive power supply (Libreria standard/Simbologia
+di base/Terminale +). We will need to rotate the latter in order to
+place in the desired position. Again, we can select it and press \keyevidence{R}
+until we will obtain the desired result. We should now have a screen
+similar to the one in figure~\ref{fig_fidocadj_fase4}.
+
+%
+\begin{figure}
+\includegraphics[width=1\textwidth,]{fidocadj_fase4} 
+
+\caption{The circuit almost completed.}
+
+
+\label{fig_fidocadj_fase4} 
+\end{figure}
+
+
+To complete the schematic we only need to add the text strings and
+the arrow to indicate the direction of the current. For the latter
+there is a macro called {}``Freccia'', contained in {}``Libreria
+standard/Simbologia di base''. To place the text, we can press the
+button {}``Text''\index{text} from the toolbar e click in the drawing
+area on the desired position. As the default text {}``String'' will
+be introduced, we will need to modify its characteristics by double-clicking
+in select mode (see figure~\ref{fig_param_testo}). The transistor's
+part number and name used (it is actually a transistor matched pair
+in our example) are specified in the fields {}``Name'' and {}``Value''
+which are accessed in select mode by double-clicking on the macro.%
+\footnote{The feature which allows us to add a name and a value to a macro or
+a component's symbol is actually an extension introduced with FidoCadJ
+\index{FidoCadJ extension} not present in the original FidoCad\index{FidoCad}.
+See section~\ref{FCJ_extension} for more information on compatibility.%
+} The suggested dimension to work with electrical circuits is 4 units
+in vertical and 3 units in horizontal. The complete circuit is shown
+in figure~\ref{fig_fidocadj_fase5}.
+
+%
+\begin{figure}
+\includegraphics[width=1\textwidth,]{fidocadj_fase5} 
+
+\caption{The final circuit.}
+
+
+\label{fig_fidocadj_fase5} 
+\end{figure}
+
+
+As a curiosity, this is how the code\index{code} which describes
+the circuit of our example looks like. To access this code, it is
+sufficient to select {}``Insert Circuit'' from the menu {}``Circuit''.
+We are now ready to copy and paste our circuit on an e-mail message
+\index{e-mail}, in a newsgroup\index{newsgroup}, or in a forum\index{forum}.
+\begin{lstlisting}
 [FIDOCAD]
 MC 95 65 0 0 280
 FCJ
@@ -468,102 +610,246 @@ TY 45 30 4 3 0 0 0 * 10 k
 TY 115 50 4 3 0 0 0 * I
 MC 110 50 1 0 074
 \end{lstlisting} 
-Se siete interessati a comprendere il formato, in questo manuale c'è una descrizione dettagliata al capitolo~\ref{chap_formato}.
+If you are interested in the export format
+used by FidoCad, there is a detailed description on chapter~\ref{chap_formato}.
 
-Non è comunque obbligatorio passare per la finestra ``Testo del circuito''; basta infatti selezionare il disegno nell'editor ed incollarlo nel testo che si sta scrivendo: apparirà il codice\index{codice} automaticamente.
-
-\section{I layer}
-\label{sec_layer}
-Una maniera di immaginare un layer\index{layer} è quello di un disegno fatto su un acetato trasparente. Il disegno finale sarà dato dalla sovrapposizione di più layer, che verranno sovrapposti come fogli di acetato. Ogni layer
-%\graffito{Il termine italiano corrispondente sarebbe ``strato''. Dato che questa terminologia è comune a molti programmi di CAD, continuerò comunque nel seguito ad utilizzare il termine ``layer''.} 
-è distinto da un colore e può essere disegnato, oppure no. Questo modo di lavorare è comune a molti sistemi di disegno elettronico, perché permette facilmente di rappresentare le diverse parti che poi verranno sovrapposte, per esempio in un circuito stampato\index{circuito stampato}.
-
-FidoCadJ permette di utilizzare 16 layer, che sono numerati da 0 a 15. La funzione di ogni layer è basata su una convenzione ed in particolare, il layer zero sarà quello utilizzato per gli schemi elettrici\index{schemi elettrici}, il layer 1 per il rame lato saldature\index{saldature}, il layer 2 per il rame lato componenti ed il layer 3 per le serigrafie\index{serigrafia}. I restanti layer non sono associati ad una specifica funzione e potete usarli come meglio credete. Il nome ed il colore\index{colore} di ogni layer si può specificare attraverso il menu ``Vista/Layer''. Dallo stesso menu si può decidere se disegnare o meno un certo layer a schermo, oppure in stampa.
-
-L'ordine dei layer è importante. In particolare, i layer con numero più basso vengono disegnati per primi. Disegni presenti su layer successivi potranno coprire quindi quanto presente sui layer più bassi.
+However, there is no need to use the {}``Insert circuit'' dialog;
+we can simply select the entire drawing, copy it (by selecting ``edit/copy''
+or by pressing \keyevidence{Ctrl+C} ) and paste it onto the message
+we are writing and the code will be added automatically\index{code}.
 
 
-\section{La griglia}
-L'unità logica\index{unità logica} di FidoCadJ è di 5 mils (127 micron) e non si possono avere ``mezze unità'', nel senso che le coordinate di qualsiasi elemento grafico devono per forza essere intere. Questo permette di ottenere una risoluzione\index{risoluzione} sufficiente per disegnare uno schema elettrico e la maggior parte dei circuiti stampati. Per comodità, comunque, il programma può impostare una griglia\index{griglia} più larga e fare in modo che ogni operazione fatta con il mouse venga allineata al punto della griglia più vicino.
-Per questa ragione, sono presenti due bottoni, ``Mostra griglia'' e ``Blocca sulla griglia'', che permettono appunto di mostrare il reticolato utilizzato e di attivare o meno l'operazione di "aggiustamento" sui punti della griglia. Il passo della griglia può essere scelto all'interno della finestra che si attiva dal menu "Vista" e poi "Opzioni".
+\section{The layers}
 
-\section{Disegnamo un semplice circuito stampato}
-Per impratichirsi con tutto quanto visto fino ad ora, il modo migliore è vedere come fare a disegnare un circuito stampato usando FidoCadJ.
-A differenza di altri programmi di CAD elettrico che sono indubbiamente molto potenti, ma anche piuttosto difficili da usare, FidoCadJ fornisce sostanzialmente una versione elettronica dei vecchi trasferibili R41\index{trasferibili R41}. Ovviamente, il fatto di lavorare su un calcolatore permette di beneficiare di tutta la flessibilità offerta dal mezzo.
+\label{sec_layer} A way to picture a layer\index{layer} is that
+of a drawing made on acetate sheets. The final drawing will be given
+by the combination of all the layers, which will be superposed like
+acetates. Every layer is characterized by a different color and can
+be visible or hidden. This approach is common to many CAD\index{CAD}
+packages, as it allows an easy representation and management of different
+parts of the drawing that will be superposed, as for example in a
+PCB design\index{PCB}.
 
-Bisogna notare che il progetto di un circuito stampato\index{circuito stampato}, specie se complesso, non è affatto un compito semplice. \graffito{Il lettore si faccia animo: un po' di ragionamenti fatti con carta e matita (e moltissime gomme) permettono a conti fatti di guadagnare tempo per ottenere un'idea precisa poi da sviluppare sul calcolatore.}
-Esistono, è vero, autoplacer\index{autoplacer} ed autorouter\index{autorouter} che promettono miracoli nei depliant illustrativi dei grandi CAD, ma è indubbio che si tratti di un lavoro in cui l'intelligenza e l'esperienza di chi lo compie ha ancora un'importanza fondamentale.
-FidoCadJ costituisce un sistema molto rapido ed immediato per disegnare piccoli circuiti stampati su scala casalinga. Vedremo qui brevemente come fare per disegnarne uno semplicissimo, ma completo.
+FidoCadJ allows up to 16 layers, numbered from 0 to 15. Conventionally,
+some of the layers have a specific purpose. In particular, layer zero
+is used for electrical schematics\index{electrical schematic}, layer
+1 for the copper soldering side\index{soldering}, layer 2 for the
+copper components side and layer 3 for the silk-screen\index{silk-screen}.
+The remaining layers do not have any pre-defined purpose and can be
+used freely. Name and color\index{colour} of every layer can be
+specified using the menu {}``View/Layer''. From the same menu we
+can also select the layers that we want to see on screen or that we
+want to print.
 
-Quello che consiglierei a chi si accinge a fare questo lavoro è di avere già un'idea abbastanza precisa di dove piazzare i componenti e come far passare le piste di modo che si incrocino\index{incrocio piste} il meno possibile.
+The layers' ordering is important, as layer with a lower number will
+be drawn first. That is, drawings on successive layers may cover the
+ones on lower layers.
 
-Qui bariamo un po' ed iniziamo direttamente dal risultato che vogliamo ottenere, mostrato in figura~\ref{fig_amplificateur}. Si tratta di un semplice circuito di un amplificatore ad emettitore comune realizzato attorno ad un NPN, tipo BC547 o similari. Sarà utile immaginarsi la piastra come se la vetroresina fosse trasparente, guardando da sopra il circuito, dal lato componenti. A questo proposito, è utile la serigrafia\index{serigrafia} dei componenti che aiuterà a non perdersi nei collegamenti, anche se magari in un progetto casalingo non verrà riportata sulla vetroresina.
 
+\section{The grid}
+
+The logic unit\index{logic unit} in FidoCadJ is 5 mils (127 micron)
+and ``half units\textquotedbl{} are not allowed, meaning that the
+coordinates of any graphic element must be integer numbers. This allows
+us to obtain a resolution\index{resolution} sufficiently fine to
+draw an electrical schematic and the majority of PCBs. However, for
+ease of drawing, the application allows us to set a coarser grid and
+force the mouse to align with the nearest point of the grid\index{grid}.
+To enable this functionality there are two buttons, {}``Show Grid''
+and {}``Snap'', which allow toggling between visible/hidden grid
+and force the mouse cursor on the grid or let it move freely, respectively.
+The grid step can be chosen through a dialog window that can be accessed
+from the menu ``View/Options''.
+
+
+\section{A simple PCB}
+
+To practice what we learnt so far, We will see how to design a simple
+PCB. Unlike other software for electronic CAD which are very
+powerful but sometimes quite hard to manage, FidoCadJ provides in
+practice an electronic version of the good old R41 transfers\index{R41 transfers}.
+Obviously, working on a computer allows us to benefit from all the
+flexibility offered by the machine.
+
+It must be noted that the design of a PCB\index{PCB}, especially
+if this is a complex one, is not an easy task. \graffito{The reader
+will find their way through: a few scribbles made with paper and pencil
+(and a lot of erasers) will result in time saved by obtaining a clear
+idea to be developed with the use of the computer.} The autoplacer\index{autoplacer}
+and the autorouter\index{autorouter} features promise miracles on
+the publicity flyers from major CAD companies. There is no doubt that
+these are still a tasks where the user's experience still plays an
+important role. FidoCadJ constitutes a very immediate and fast way
+to draw small PCBs on a DIY scale. We will see here how to draw a
+very simple, yet complete, one.
+
+I would suggest to start with a clear idea of where to place each
+component and how to draw all the tracks so that they will cross each
+other as less as possible \index{crossing of tracks}.
+
+Here we will cheat a little and we will start from the result we want
+to obtain, as shown in figure~\ref{fig_amplificateur}. It is a simple
+common-emitter amplifier built around an NPN transistor, type BC547
+or similar. It will be useful to think of the board as it was transparent,
+by looking from the components side. For this purpose the silk-screen\index{silk-screen}
+with the components drawing will be very useful, although probably
+we do not want to print it out onto the actual board for a DIY project.
+
+%
 \begin{figure}
-\centering
-\includegraphics[width=.5\textwidth]{amplificateur}
-\caption{Un semplicissimo stadio amplificatore ad un transistor NPN connesso ad emettitore comune.}
-\label{fig_amplificateur}
+\centering \includegraphics[width=0.5\textwidth]{amplificateur} 
+
+\caption{A very simple amplifier stage using an NPN transistor connected in
+a common emitter configuration.}
+
+
+\label{fig_amplificateur} 
 \end{figure}
 
-La prima cosa che consiglierei di fare è di piazzare approssimativamente i componenti, nel nostro caso il transistor (biblioteca ``PCB footprints/Semiconduttori 3 terminali/TO92''), i resistori (``PCB footprints/Resistori/Resistore 1/4 W 0,4 i''), i condensatori elettrolitici (``PCB footprints/Condensatori elettrolitici/Vert. diam. 5 passo 2,5''). 
-Può essere utile marcare la dimensione totale desiderata del circuito, introducendo un rettangolo vuoto sul layer delle serigrafie (il 3). Per fare questo, basta utilizzare la primitiva rettangolo\index{rettangolo} avendo dapprima selezionato il layer in cui questo va introdotto.
-Si dovrebbe ottenere il risultato mostrato in figura~\ref{fig_amplificateur_phase1}.\footnote{FidoCadJ è attualmente distribuito con una nazionalizzazione\index{nazionalizzazione} italiana\index{italiano}, italiana con varianti svizzere, francese\index{francese} ed inglese\index{inglese}. È molto semplice aggiungere una nuova lingua. Nel caso, fatevi sentire! C'è anche bisogno di lavoro per tradurre le librerie (almeno quelle standard), nonché questo manuale.}
 
+The first thing I would suggest to do is to place all the components
+as best as possible. In our example these would be the transistor
+(from the library {}``PCB footprints/Semiconduttori 3 terminali/TO92''),
+the resistors ({}``PCB footprints/Resistori/Resistore 1/4 W 0,4 i''),
+and the electrolytic capacitors ({}``PCB footprints/Condensatori
+elettrolitici/Vert. diam. 5 passo 2,5''). In order to delimitate
+the board, it may be useful to place an empty rectangle on the silk-screen
+layer (layer No.~3). To do so we can use the \emph{rectangle} primitive\index{rectangle}
+making sure that we selected the appropriate layer first. We should
+get a result similar to the one shown in figure~\ref{fig_amplificateur_phase1}.%
+\footnote{FidoCadJ is currently available in Italian\index{Italin}, Italian
+with Swiss variants, French\index{French} and English\index{English}.
+It is quite easy to translate menus and commands, so if you would
+like to see FidoCadJ in your native language, please let me know!
+There is also work to be done to translate the libraries (at least
+the standard ones) and of course this manual.%
+}
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{amplificateur_phase1}
-\caption{I principali componenti vengono posizionati sulla piastrina.}
-\label{fig_amplificateur_phase1}
+\includegraphics[width=1\textwidth]{amplificateur_phase1} 
+
+\caption{The most important devices are placed on the board.}
+
+
+\label{fig_amplificateur_phase1} 
 \end{figure}
 
-Si possono quindi introdurre le regioni ramate che forniranno l'alimentazione positiva e negativa. Per fare ciò, bisognerà introdurre dei poligoni\index{poligono} con la primitiva apposita e poi farci sopra doppio click in modalità selezione\index{selezione}, per specifcare all'interno della finestra di dialogo che apparirà che quello che vogliamo è un poligono pieno. Fate attenzione a specificare anche il layer\index{layer} corretto, che è il numero 1, ovvero il rame lato saldature. L'uso di un poligono per i piani di alimentazione può essere utile per essere sicuri di disporre di collegamenti a bassa impedenza parassita. Con un po' di attenzione, dovrebbe essere possibile ottenere il risultato mostrato in figura~\ref{fig_amplificateur_phase2}.
 
+We can then introduce the copper areas which will provide the positive
+and negative power supply. These are specified by drawing a polygon\index{polygon}
+(using the \emph{poly line} primitive) and double clicking inside
+the area in selection mode\index{selection mode} to tell FidoCadJ
+(through dialog box) that we want a filled polygon. Before placing
+the polygon, make sure that the current layer\index{layer} is the
+one where we want to place the copper area (layer No~1, or copper
+solder side). The use of a filled area for the power supply lines
+may be useful to ensure that these connections will have a low stray
+inductance. We should be able to reproduce the result shown in figure~\ref{fig_amplificateur_phase2}.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{amplificateur_phase2}
-\caption{Abbiamo aggiunto le connessioni di massa e di alimentazione positiva con dei poligoni\index{poligono}.}
-\label{fig_amplificateur_phase2}
+\includegraphics[width=1\textwidth]{amplificateur_phase2} 
+
+\caption{Added the power supply connections using polygonal lines\index{polygon}.}
+
+
+\label{fig_amplificateur_phase2} 
 \end{figure}
 
-Bisognerà poi completare le connessioni elettriche utilizzando la primitiva PCB line\index{PCB line}. Ho scelto di utilizzare uno spessore di 10 unità (1,27~mm), che è una larghezza comoda, per esempio per facilitare le saldature. 
+
+To complete the electrical connections we can use the \emph{PCB line}
+primitive\index{PCB line}. I chose a track thickness of 10 unità
+(1.27~mm), which helps the soldering process. %
 \begin{figure}
-\includegraphics[width=\textwidth]{amplificateur_phase3}
-\caption{Abbiamo aggiunto le connessioni di massa e di alimentazione positiva con dei poligoni\index{poligono}.}
-\label{fig_amplificateur_phase3}
+\includegraphics[width=1\textwidth]{amplificateur_phase3} 
+
+\caption{Added the remaining connections PCB tracks\index{PCB track}.}
+
+
+\label{fig_amplificateur_phase3} 
 \end{figure}
 
-Ci rendiamo conto di aver bisogno di alcuni connettori: per far entrare il segnale, per prelevarlo e per l'alimentazione. Possiamo tranquillamente utilizzare un footprint previsto per un condensatore al poliestere. \graffito{Attenzione alle larghezze delle piste: quella che sembra un'autostrada sullo schermo si rivelerà nella realtà dannatamente stretta e pronta a scollarsi dalla vetroresina durante la saldatura.}
-Avrà probabilmente la dimensione corretta. Ricordiamoci in fondo che FidoCadJ nasce dai trasferibili\index{trasferibili R41}\dots
 
-Già che ci siamo, scriviamo un $+$ ed un $-$ sul lato rame e mettiamo un condensatore ceramico in parallelo all'alimentazione. Mettiamo anche la scritta sul lato superiore. Per scrivere sul lato rame, oltre a selezionare il layer corretto, sarà necessario specchiare le scritte\index{specchiatura scritte}. Questo lo si fa agevolmente all'interno della solita finestra delle proprietà a cui si accede facendo doppio click in modalità selezione sulla stringa da modificare. Sarà necessario fare qualche prova per ottenere le dimensioni dei caratteri corrette. Per avere un'idea, conviene mantere un rapporto approssimativo di 3/4 tra le dimensioni orizzontali e verticali dei caratteri\index{dimensioni dei caratteri}. La figura~\ref{fig_amplificateur_phase4} mostra il risultato che si è ottenuto con dimensioni del testo di 11 unità in orizzontale e 18 in verticale.
+We realize that we need a few connectors: one for the input, one for
+the output and one for the power supply. We can use the footprint
+designed for a polyester capacitor. \graffito{Pay attention to the
+track widths: something that looks like a motor-way on the screen will
+probably be a track so thin that will detach from the board during
+the soldering.} It will probably have the right dimensions. Let's
+not forget that FidoCadJ is thought as a replacement for the transfers\index{R41 transfers}\dots
 
+We can also place a ``$+$'' and a ``$-$'' on the copper layer and
+place a ceramic capacitor in parallel with the power supply. Let us
+put the writing on the top side as well. To write on the copper layer,
+after selecting the proper layer it will also be necessary to mirror
+all the writings\index{writings mirroring}. This is easily done within
+the usual properties dialog accessed by double-clicking on the string
+we want to modify when we are in selection mode. It will need a few
+tries to obtain the right dimensions for the characters. To give an
+idea it is useful to have a ratio of 3/4 between the horizontal and
+the vertical dimensions of the characters\index{characters dimension}.
+Figure~\ref{fig_amplificateur_phase4} shows the result obtained
+using 11 units for the horizontal and 18 units for the vertical dimension
+of the text.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{amplificateur_phase4}
-\caption{Ecco lo stampato\index{circuito stampato} quasi terminato.}
-\label{fig_amplificateur_phase4}
+\includegraphics[width=1\textwidth]{amplificateur_phase4} 
+
+\caption{The PCB almost completed\index{PCB}.}
+
+
+\label{fig_amplificateur_phase4} 
 \end{figure}
 
-A questo punto, l'unica cosa che manca è il testo con i nomi dei componenti, che si potrà introdurre sul layer 3, dedicato alla serigrafia. Il programma con il circuito terminato è mostrato in figura~\ref{fig_amplificateur_complet}.
 
+At this stage the only thing missing is the text with the name of
+each component, that can be placed on layer 3 (silk-screen). The program
+with the PCB completed is shown in Figure~\ref{fig_amplificateur_complet}.
+
+%
 \begin{figure}
-\includegraphics[width=\textwidth]{amplificateur_complet}
-\caption{Il lavoro finito, con tutte le serigrafie.}
-\label{fig_amplificateur_complet}
+\includegraphics[width=1\textwidth]{amplificateur_complet} 
+
+\caption{The job completed with the silk-screen.}
+
+
+\label{fig_amplificateur_complet} 
 \end{figure}
 
-Una volta concluso il lavoro, bisognerà probabilmente stampare\index{stampa} il risultato su lucido, per poi utilizzare il bromografo\index{bromografo}, oppure metodi tipo stira e ammira\index{stira e ammira}.
-Per fare questo, bisogna dapprima rendere invisibili tutti i layer che non si vogliono stampare. Questo lo si fa dalla finestra di dialogo a cui si accede tramite il menu ``Vista/Layer''. Nel nostro caso, basterà rendere invisibile il layer 3, con le serigrafie. Il programma mostrerà solo il rame lato saldature.
 
-Bisognerà quindi stampare quanto si vede sullo schermo (NON adattarlo alla pagina, ovviamente, per rispettare le dimensioni fissate) e selezionando la stampa in bianco e nero per fare in modo che il programma stampi in colore nero pieno tutto il layer. Potrà essere utile specchiare il disegno, a seconda della tecnica che userete poi per fabbricare il circuito stampato\index{circuito stampato}. Dato che il nostro stampato è relativamente piccolo, a grandezza naturale occuperà solo un angolino di un foglio in formato standard ISO-UNI A4\index{A4}, come si può vedere in figura~\ref{fig_amplificateur_impression}.
+Once the drawing is completed, we will probably need to print\index{printing}
+it either on a transparency to use it with a printing box\index{printing box}
+or to use it with other methods such as the ``Press\&Peel''\index{Press&Peel@Press\&Peel}.
+To do so we need to make invisible all the layers that we do not want
+to print. This is done from the dialog window accessed from the menu
+{}``Vista/Layer''. In our case it will be sufficient to hide the
+layer 3 containing the silk-screen. The program will show the copper
+layer only.
 
+We will then print everything that is shown on the screen (obviously
+NOT adapted to the size of the page, as we want to have the dimensions
+set in the drawing), taking care of selecting the black and white
+printing to ensure the maximum contrast. It may be useful to mirror
+the whole drawing, depending on the technique chosen for the production
+of the PCB\index{PCB}. Since our PCB is quite small, in its real
+dimensions it will occupy only a small corner of the sheet (assuming
+a standard ISO-UNI A4\index{A4}), as we can see in Figure~\ref{fig_amplificateur_impression}.
+
+%
 \begin{figure}
-\centering
-\fbox{
-\includegraphics[width=0.6\textwidth]{amplificateur_impression}}
-\caption{Il circuito stampato, così come appare stampato (specchiato) su una pagina in formato ISO-UNI A4.}
-\label{fig_amplificateur_impression}
+\centering \fbox{ \includegraphics[width=0.6\textwidth]{amplificateur_impression}} 
+
+\caption{The PCB, as it appears when printed (mirrored) on a ISO-UNI A4 sheet.}
+
+
+\label{fig_amplificateur_impression} 
 \end{figure}
 
-Per informazione, ecco il codice del circuito stampato che abbiamo usato negli esempi visti sopra (attenzione alle righe un po' lunghe!):
+
+For information, below is the code generated for the PCB of the example
+above (pay attention to the long lines!):
 \begin{lstlisting} 
 [FIDOCAD]
 TY 320 10 18 11 0 4 1 * Darwin Ampli Esempio 08 
@@ -606,283 +892,477 @@ TY 100 55 12 8 0 0 3 * R1
 RV 30 5 320 255 3
 \end{lstlisting} 
 
-\section{Esportazione}
- Una delle cose che mi interessa maggiormente di FidoCadJ è la possibilità di creare piccoli schemi ad uso tipografico. Per questa ragione, ho cercato di permettere l'esportazione\index{esportazione} di disegni anche sotto diversi formati grafici.
- 
-Per esportare il disegno corrente, basta selezionare la voce ``Esporta verso file grafico'' del menu ``File''. La tabella~\ref{tab_esportazione} mostra una lista dei formati grafici attualmente disponibili per l'esportazione.
-\graffito{Un formato vettoriale\index{formato vettoriale} memorizza le primitive di disegno. Un formato bitmap\index{formato bitmap} lavora su una matrice di punti.}
-Per ogni formato, viene specificato espressamente se il formato è vettoriale, oppure bitmap (all'interno della tabella~\ref{tab_esportazione}, ma anche nella finestra di dialogo mostrata da FidoCadJ). Qualora fosse possibile, conviene prediligere sistematicamente l'utilizzo di formati vettoriali per l'esportazione, di modo da ottenere i migliori risultati possibili in tutte le situazioni.\footnote{La struttura del codice di FidoCadJ permette di aggiungere abbastanza agevolmente formati vettoriali di esportazione. Se ve la sentite di partecipare al progetto, contattatemi.}
 
-Per i formati bitmap, può essere utile attivare l'opzione ``Anti aliasing'', per limitare l'effetto di scalettatura che si ottiene nei bordi di linee oblique. 
-La risoluzione utilizzata e l'opzione ``Anti aliasing'' non vengono utilizzate durante l'esportazione in un formato vettoriale.
+\section{Exporting}
 
-L'opzione ``Bianco e nero'' permette di stampare ogni layer visibile in nero pieno. Questo è importante quando si debbano per esempio preparare delle pellicole ad uso tipografico, oppure da passare al bromografo.
+One of the most important thing to me about FidoCadJ is the possibility
+to create simple schematics for typographic use. For this reason I
+introduced a feature that allows the exportation\index{exportation}
+of drawings through a number of different file formats. 
+
+To export the current drawing, select the command {}``Export'' from
+the menu {}``File''. The Table~\ref{tab_esportazione} shows a
+list of graphic file formats currently available. \graffito{A vectorial
+format\index{vectorial format} stores the primitives that compose
+the drawing. A bitmap format\index{bitmap format} works on a matrix
+of pixels.} For every file format, the Table (but also the export dialog
+in FidoCadJ) specifies whether it is vectorial or bitmap. Whenever
+possible it is better to choose a vectorial format to obtain the best
+results.%
+\footnote{The code structure of FidoCadJ allows the addition of other file format
+quite easily. Please contact me if you like to participate to the
+project.%
+}
+
+For the bitmap file formats it may be useful to enable the option
+{}``Anti aliasing'', to reduce the annoying effect of the quantization,
+visible especially on diagonal lines. The resolution and the {}``Anti
+aliasing'' options are not used when exporting to a vectorial file
+format.
+
+The option {}``Black\&White'' allows the printing of any visible
+layer in solid black. This is important for the preparation of films
+to be used for typographic purposes or with a printing box. %
 \begin{table}
-\centering
-\begin{tabular}{lp{.7\textwidth}}
-\toprule
-Formato
-&
-Commento
-\\
-\midrule
-\textsc{jpg}\index{JPG}
-&
-Diffusissimo formato bitmap. Per il fatto che la compressione utilizzata è lossy\index{compressione lossy}, non si presta bene per l'esportazione di schemi come quelli di FidoCadJ. È comunque disponibile per via della sua diffusione.
-\\
-
-\textsc{png}\index{PNG}
-&
-Formato bitmap compresso, adatto all'esportazione di schemi e grafici. In mancanza di un formato vettoriale, questo è probabilmente il formato migliore per esportare un disegno FidoCadJ.
-\\
-
-\textsc{svg}\index{SVG}
-&
-Formato vettoriale standard del W3C. Alcuni browser Internet (come le versioni recenti di Safari\index{Safari}) permettono di visualizzarlo all'interno di una pagina web. Ottimo formato per grafici e schemi, permette di usare programmi come Inkscape\index{Inkscape} per ritoccare i disegni forniti da FidoCadJ. Attualmente, ci sono alcune limitazioni per quanto riguarda l'esportazione del testo ruotato o specchiato.
-\\
-
-\textsc{eps}\index{EPS}
-&
-Formato vettoriale Postscript\index{Postscript} incapsulato. Molto utile per chi utilizzi programmi di grafica professionale, oppure voglia includere delle figure in documenti \LaTeX\index{LaTeX@\LaTeX}. L'esportazione dei disegni dovrebbe essere completa. Questa è la tecnica utilizzata in questo manuale per ottenere la figura~\ref{fig_amplificateur}, a pagina~\pageref{fig_amplificateur} (passando per una conversione in \textsc{pdf}, dato che utilizzo \textsc{pdf}\LaTeX\index{pdfLaTeX@\textsc{pdf}\LaTeX}).
-\\
-
-\textsc{pgf}\index{PGF}
-&
-Formato vettoriale da utilizzare direttamente all'interno di un file \LaTeX\index{LaTeX@\LaTeX}, che utilizzi il pacchetto \textsl{pgf}, disponibile nell'archivio CTAN. Questa modalità di esportazione è stata pensata in particolare per l'esportazione di schemi e fornisce uno script facilmente interpretabile e modificabile a mano. Gli attributi del testo non vengono tradotti. Questo permette di introdurre codice \LaTeX\index{LaTeX@\LaTeX} direttamente all'interno del disegno ed è la tecnica adottata in questo manuale per ottenere la figura~\ref{fig_schema}, a pagina~\pageref{fig_schema}.
-\\
-\textsc{scr}\index{SCR}
-&
-FidoCadJ, a partire dalla versione 0.21, permette di esportare un disegno verso uno script interpretabile dal programma CadSoft\index{CadSoft} Eagle\index{Eagle}. Per utilizzare questa possibilità, bisogna installare nella directory \lstinline!lbr! dell'installazione corrente di Eagle la libreria \lstinline!FidoCadJLIB.lbr!, scaricabile dal sito di FidoCadJ. Attualmente, l'esportazione è possibile solo per gli schemi elettrici che adottano i simboli più comuni. Non sono supportate alcuni elementi di disegno come le piazzole e le piste, che non saranno introdotte nello script Eagle.
-\\
-\bottomrule
+\centering \begin{tabular}{lp{0.7\textwidth}}
+\toprule Format  & Comment\tabularnewline
+\midrule \textsc{jpg}\index{JPG}  & Very diffused bitmap format. Since the compression used is lossy\index{lossy compression},
+it is not suitable to for exporting FidoCadJ schematics. It is made
+available due to its diffusion. \tabularnewline
+\textsc{png}\index{PNG}  & Compressed bitmap format, suitable for exporting schematics. This
+is probably the best way to export a FidoCadJ drawing when a vectorial
+format cannot be used. \tabularnewline
+\textsc{svg}\index{SVG}  & W3C standard vectorial format. Some internet browsers (such as the
+recent versions of Safari\index{Safari}) allow its visualization
+within a web page. Very good format for graphics and schematics, it
+enables the use in applications such as Inkscape\index{Inkscape}
+to modify the drawings made with FidoCadJ. There are currently some
+limitations with the exportation of rotated and mirrored text. \tabularnewline
+\textsc{eps}\index{EPS}  & Encapsulated Postscript vectorial format\index{Postscript}. Very
+useful to those who use professional graphics applications, or want
+to use a FidoCadJ drawing in a \LaTeX{}\index{\LaTeX{}@\LaTeX} document.
+The drawings exportation should be fully working. This is the option
+used to obtain Figure~\ref{fig_amplificateur}, page~\pageref{fig_amplificateur}
+in this manual (passing through a \textsc{pdf} conversion, since I
+use \textsc{pdf}\LaTeX{}\index{pdf\LaTeX{}@\textsc{pdf}\LaTeX}). \tabularnewline
+\textsc{pgf}\index{PGF}  & Vectorial format to be used directly in a \LaTeX{}\index{\LaTeX{}@\LaTeX}
+document, when using the \textsl{pgf} package, available in the CTAN
+archive. This exportation option was thought in particular to export
+schematics and uses an easily editable script. The text attributes
+will not be translated. This allows the introduction of \LaTeX{}\index{\LaTeX{}@\LaTeX}
+code directly into the drawing and it is the technique used in this
+manual to obtain Figure~\ref{fig_schema}, page~\pageref{fig_schema}. \tabularnewline
+\textsc{scr}\index{SCR}  & Starting from version 0.21, FidoCadJ allows the exportation of a drawing
+to a script that can be imported in CadSoft\index{CadSoft} Eagle\index{Eagle}.
+To use this feature, it is necessary to install the library \lstinline!FidoCadJLIB.lbr!
+into the directory \lstinline!lbr! of the current installation of
+Eagle. The library can be downloaded from FidoCadJ's website. At the
+time of writing, this option works only with schematics containing
+only the most common symbols. Some drawing elements such as pads and
+tracks are not available yet. These will not be exported to the Eagle
+script.\tabularnewline
+\bottomrule  & \tabularnewline
 \end{tabular}
-\caption{Lista dei formati di esportazione disponibili con FidoCadJ.}
-\label{tab_esportazione}
+
+\caption{List of all the export file formats available in FidoCadJ.}
+
+
+\label{tab_esportazione} 
 \end{table}
 
 
-\section{Opzioni linea di comando}
-Il programma viene distribuito sotto forma di file \lstinline!.jar!\index{jar}, ovvero un archivio Java.\footnote{Salvo nella versione per Macintosh\index{Macintosh}, per la quale vi è un'applicazione a sé stante.} In molti sistemi operativi, può essere sufficiente fare doppio click sul file per lanciare il programma, a patto di avere una versione recente di Java\index{Java} installata sulla macchina. Nella terminologia Sun\index{Sun}, quello che serve è il cosiddetto JRE\index{JRE}, ovvero il Java Runtime Environment, che è tutto quello che ci vuole per far girare un programma scritto in Java (ma non per scriverlo: per quello ci vuole l'SDK\dots). La versione minima di Java necessaria per utilizzare FidoCadJ è la 1.4, che è in giro ormai da diversi anni.
 
-In qualche caso, potrà essere utile far partire FidoCadJ dalla linea di comando (il terminale\index{terminale} dei sistemi Unix\index{Unix}, oppure il Prompt MS-DOS\index{prompt MS-DOS} per quelli Windows\index{Windows}). Per quello, basta utilizzare il comando \lstinline!java!, con l'opzione \lstinline!-jar!:
-\begin{lstlisting}
+\section{Command line options}
+
+The application is distributed as a file \lstinline!.jar!\index{jar},
+which is a Java archive.%
+\footnote{Except for the Macintosh\index{Macintosh} version, which is a stand
+alone application.%
+} In many operating systems, to run the application it should be enough
+to double-click on the file, provided that a recent version of Java\index{Java}
+is installed on the machine. Using Sun's\index{Sun} terminology,
+the so called JRE\index{JRE}, or the Java Runtime Environment, is
+all that is needed to run a program written in Java (but not to write
+it: in that case the SDK would be necessary\dots). The minimum Java
+version needed to run FidoCadJ is the 1.4, which has been around for
+a few years now.
+
+In some cases, it may be useful to run FidoCadJ from a command line
+(the terminal\index{terminal} in the Unix\index{Unix} systems, or
+the MS-DOS\index{MS-DOS prompt} Prompt in Windows\index{Windows}).
+To do so, it is sufficient to run the command \lstinline!java!, with
+the option \lstinline!-jar!: 
+\begin{lstlisting} 
 java -jar fidocadj.jar
 \end{lstlisting}
 
-Se un file è specificato nella linea di comando\index{linea di comando}, il programma tenta di aprirlo. Per esempio (su un sistema Unix\index{Unix}):
-\begin{lstlisting}
-java -jar fidocadj.jar ~/FidoCadJ/test.fcd
+If a file is specified in the command line\index{command line}, FidoCadJ
+will try to open it. For example (on a Unix\index{Unix} machine):
+\begin{lstlisting} 
+java -jar fidocadj.jar ~/FidoCadJ/test.fcd 
 \end{lstlisting}
 
-FidoCadJ verrà avviato e cercherà di aprire il file \lstinline!~/FidoCadJ/test.fcd! (sempreché questi esista).
+FidoCadJ will be run and it will try to open the file \lstinline!~/FidoCadJ/test.fcd!
+(provided that this exists).
 
-Un'altra possibilità interessante, sebbene a stretto rigore sia più una caratteristica di Java\index{Java} che di FidoCadJ, è la possibilità di modificare l'aspetto del programma (che in gergo Java si chiama look \& feel\index{look \& feel}). Questo si può fare per esempio se si vuole integrare maggiormente il programma all'interno di un ambiente Windows\index{Windows}, nel qual caso, la linea di comando da utilizzare per far partire il programma è la seguente:\graffito{Java a volte richiede di scrivere di comandi ben poco concisi!}
-\begin{lstlisting}
+Another interesting option, although a feature due to Java\index{Java}
+more than FidoCadJ, is the possibility to modify the look of the application
+(in the jargon of Java called look \& feel\index{look  feel@look \& feel}).
+This can be done for example to better integrate the program within
+a Windows environment\index{Windows}, in which case the command line
+to be used would be the following:\graffito{Java sometimes requires
+the writing of not so brief commands!} 
+\begin{lstlisting} 
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel -jar fidocadj.jar 
-\end{lstlisting}
-Per ragioni di licenza, il look and feel Windows\index{Windows} è disponibile solo nei sistemi Microsoft\index{Microsoft}. 
-Potete giocare comunque con il tipo di aspetto che preferite da linea 
-di comando, senza modificare di una virgola il codice. Ecco qualcosa che alcuni utilizzatori Linux\index{Linux} apprezzeranno, il look GTK+\index{GTK+}:
-\begin{lstlisting}
+\end{lstlisting} 
+For license reasons, the Windows\index{Windows}
+look and feel is available only on Microsoft\index{Microsoft} systems.
+You can choose the look\&feel that you like without modifying a single
+line of code. Here is something that Linux\index{Linux} users appreciate,
+the GTK+\index{GTK+} look: 
+\begin{lstlisting} 
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar fidocadj.jar 
-\end{lstlisting}
-Oppure, il classico e non privo di fascino look \& feel Motif\index{Motif}, che è mostrato in figura~\ref{fig_fidocadj_motif}:
+\end{lstlisting} 
+There is also the classic Motif\index{Motif}
+look \& feel, shown in Figure~\ref{fig_fidocadj_motif}: 
 \begin{lstlisting}
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fidocadj.jar 
-\end{lstlisting}
+\end{lstlisting} %
 \begin{figure}
-\includegraphics[width=\textwidth]{fidocadj_motif}
-\caption{L'aspetto del programma sotto MacOSX\index{MacOSX}, utilizzando il look \& feel Motif.}
-\label{fig_fidocadj_motif}
+\includegraphics[width=1\textwidth]{fidocadj_motif} 
+
+\caption{The appearance of the program under MacOSX\index{MacOSX}, using the Motif look \& feel.}
+
+
+\label{fig_fidocadj_motif} 
 \end{figure}
-Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella stessa directory in cui si trova il file \lstinline!fidocad.jar! e scrivendo tutto di seguito sulla stessa riga.
 
 
-\section{Gestione librerie}
-Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto all'avvio, quindi per far prendere in conto delle modifiche, il programma va riavviato.
+Obviously, the commands listed above are meant to be sent from a terminal,
+making sure that the current directory contains the file \lstinline!fidocad.jar!
+and writing everything on the same line.
 
 
-\myChapter{Il formato disegni, macro e librerie FidoCad}
-\label{chap_formato}
+\section{Libraries management}
 
-In questo capitolo, sarà descritto in dettaglio il formato utilizzato da FidoCad e di conseguenza da FidoCadJ per memorizzare i disegni. Si tratta di un semplice formato testuale che ha il pregio di essere molto compatto ed efficiente. Dato che il formato non è mai stato descritto dettagliatamente in un documento esaustivo, cerco qui di riassumere tutto quello che ho imparato durante lo studio che ho compiuto.
+The program allows us to specify a directory in which all the library\index{library}
+files are placed (extension \lstinline!.fcl!). This can be done through
+the menu {}``View/Options''. If a file named \lstinline!FCDstdlib.fcl!
+is present, its content will supersede the standard library\index{library!standard library}
+directly available in the application. Analogously, if a file named
+\lstinline!PCB.fcl! is present, its content will replace the PCB
+library%
+\footnote{Pay attention to the use of capital letters, in particular if your
+operating system distinguish uppercase and lowercase letters in the
+files management.%
+}. Other files with \lstinline!.fcl! extension are considered as add-on
+libraries and loaded together with the standard library. This is done
+at start time, which means that any modification will take effect
+when the application is restarted.
 
-\section{Descrizione dell'intestazione}
-Tutti i file contenenti un disegno in formato FidoCad\index{FidoCad} devono iniziare con il tag \lstinline![FIDOCAD]!. Un programma può quindi riconoscere la presenza di comandi FidoCad riconoscendo quindi questo tag. A questo proposito, FidoCadJ è più tollerante del FidoCad\index{FidoCad} originale e riconosce ed interpreta correttamente un file privo dell'intestazione standard\index{intestazione}. Anche comandi frammisti a testo vengono comunque riconosciuti ed interpretati correttamente, a meno che il numero di righe consecutive non corrette non superi un valore fissato internamente al programma (intorno al centinaio). Ciò evita che FidoCadJ macini inutilmente per diversi minuti per esempio tentando di aprire un file binario di grandi dimensioni.
+\myChapter{Drawing format, macros and FidoCad libraries} \label{chap_formato}
 
-\section{Il sistema di coordinate}
-FidoCadJ lavora con un sistema di coordinate\index{sistema di coordinate} molto semplice. In pratica, si ha a disposizione un'area molto grande, identificata però da delle coordinate intere e positive. La lunghezza di ogni unità in $x$ ed in $y$ è fissata a $127\micron$, valore che permette di ottenere una buona risoluzione per i package SMD\index{circuito stampato!SMD} più piccoli, senza tuttavia essere troppo fine per gli utilizzi di tutti i giorni. 
+This chapter contains a detailed description of the format used by
+FidoCad and, as a consequence, by FidoCadJ to store a drawing. It
+is a simple text format which has the advantage of being very compact
+and efficient. Since the format has never been described in detail
+in a document, I will try to summarize all that I learnt about it.
 
-Il FidoCad\index{FidoCad} originale prevedeva due modalità diverse: PCB\index{circuito stampato!PCB} e schema elettrico\index{schema elettrico}.
-In FidoCadJ questa differenza è attenuata e compare solamente al momento di stampare un disegno: sarà infatti opportuno indicare al programma di ridimensionare uno schema elettrico per occupare al meglio la dimensione del foglio, altrimenti ne verrà fuori un francobollo.
 
-\section{Primitive di disegno}
-\label{sec_primitive}
-In FidoCadJ, esistono 11 primitive di disegno e sono le seguenti:
+\section{Header description}
+
+All the files containing a drawing in the FidoCad \emph{\index{FidoCad}}
+format must start with the tag \emph{\lstinline!{[}FIDOCAD{]}!.}
+A program can therefore recognize the presence of FidoCad commands
+by reading this tag. In this regard, FidoCadJ is more tolerant
+than the original FidoCad \emph{\index{FidoCad}} and it recognizes
+and correctly interprets a file that does not contain the standard
+header\emph{\index{header}}. Even commands containing text can therefore
+be interpreted correctly as long as the number of incorrect
+lines does not exceed a value set internally in the program (approx.
+100). This ensures that FidoCadJ does not waste time working for a
+few minutes for example trying to open a very large binary file.
+
+
+\section{Coordinates system}
+
+FidoCadJ works on a very simple coordinates system\emph{\index{coordinates system}}.
+In practice, it has at its disposal a very large area identified only
+by whole and positive coordinates. The length of every unit in x and
+in y is fixed at \emph{$127\micron$}, a value that allows us to obtain
+a good resolution for even the smallest SMD package without being
+too fine for everyday use. 
+
+The original FidoCad\emph{\index{FidoCad}} had two different modes
+of operation: PCB\emph{\index{PCB}} and electrical
+schematic\index{electrical schematic}. In FidoCadJ this difference
+has been blurred and appears only at the moment of printing the drawing.
+It would therefore be advisable to set the program to resize an electrical
+schematic to make better use of the size of the page otherwise it
+will print something the size of a postage stamp.
+
+
+\section{Drawing primitives}
+
+\label{sec_primitive} FidoCadJ can manage 11 drawing primitives as
+follows
 \begin{itemize}
-\item Linea \index{linea}
-\item Rettangolo pieno o vuoto \index{rettangolo}
-\item Testo semplice (obsoleta) 
-\item Testo avanzato \index{testo}
-\item Poligono pieno o vuoto \index{poligono}
-\item Ellisse piena o vuota \index{ellisse}
-\item Curva di Bézier \index{Bézier}
-\item Connessione elettrica \index{connessione}
-\item Piazzola per circuito stampato \index{piazzola per c. s.} 
-\item Pista per circuito stampato \index{pista per c. s.}
+\item Line\index{linea}
+\item Filled or empty rectangle\index{rectangle} 
+\item Simple text (obsolete)
+\item Advanced text\index{text}
+\item Filled or empty polyline\index{polyline}
+\item Filled or empty ellipse\index{ellipse} 
+\item Bézier curve \index{Bézier} 
+\item Electrical junction\index{connection}
+\item PCB pad\index{PCB pad}
+\item PCB track\index{PCB track}
 \item Macro\index{macro}
 \end{itemize}
-Procederemo ad analizzarne il formato una per una. In generale, ogni primitiva\index{primitiva} è identificata da un comando e da una serie di parametri\index{parametri} (di solito numeri interi, oppure stringhe testuali) che si trovano sulla stessa riga, separati da uno spazio.
+We will proceed by analyzing each of them. In general, every primitive\index{primitive}
+is identified by a command and a number of parameters\index{parameters}
+(usually integer numbers or text strings) placed on the same line
+and separated by a space character.
 
-\subsubsection{Linea}
-La primitiva linea\index{linea}\graffito{I matematici troverebbero probabilmente più appropriato il termine ``segmento''\index{segmento}.}, è identificata dal comando \lstinline!LI!\index{LI} e richiede per la sua definizione solamente le coordinate iniziali, finali ed il layer:
+
+\subsubsection{Line}
+
+La line primitive\index{line}\graffito{Mathematicians would probably
+find the term ``segment''\index{segment} more appropriate.} is identified
+by the command \lstinline!LI!\index{LI} and its definition requires
+only the begin and end coordinates and the layer: 
+\begin{lstlisting}
+LI x1 y1 x2 y2 l 
+\end{lstlisting} 
+the points $(x_{1},y_{1})$ and
+$(x_{2},y_{2})$ represent respectively the initial and final coordinates,
+while $l$ is the layer, characterized by a whole number between 0
+and 15.
+
+
+\subsubsection{Filled or empty rectangle}
+
+A rectangle\index{rectangle} filled or empty is identified by the
+commands \lstinline!RP!\index{RP} and \lstinline!RV!\index{RV}
+respectively, followed by the coordinates of the two vertices on one
+of the two diagonals, and the layer. 
 \begin{lstlisting} 
-LI x1 y1 x2 y2 l
-\end{lstlisting}
-il punto $(x_1, y_1)$ rappresenta le coordinate iniziali, $(x_2, y_2)$ quelle finali e $l$ è il layer, indicato con un numero da 0 a 15.
+RP x1 y1 x2 y2 l 
+RV x1 y1 x2 y2 l 
+\end{lstlisting} the points $(x_{1},y_{1})$
+and $(x_{2},y_{2})$ represent the two vertices and $l$ is the layer,
+characterized by a whole number between 0 and 15.
 
-\subsubsection{Rettangolo pieno o vuoto}
-Un rettangolo\index{rettangolo} pieno o vuoto è indicato rispettivamente dai comandi \lstinline!RP!\index{RP} e \lstinline!RV!\index{RV} seguiti dalle coordinate di due vertici sulla diagonale e dal layer.
+
+\subsubsection{Simple text (obsolete)}
+
+The simple text \index{simple text} was the first primitive provided
+with the early versions of FidoCad\index{FidoCad}. FidoCadJ recognizes
+it and simply writes text with size 12, regardless the current zoom\index{zoom}.
+
+Since this primitive was considered obsolete\index{obsolete} by Lorenzo
+Lutti\index{Lorenzo Lutti}, the creator of FidoCad\index{FidoCad},
+FidoCadJ does exactly the same and, although this is correctly interpreted,
+it is not available on the toolbar. FidoCadJ will store this element
+exactly as it was advanced text and it will use the command \lstinline!TY!\index{TY}
+when saving the file.
+
+The command is \lstinline!TE!\index{TE} and the format is as follows:
 \begin{lstlisting} 
-RP x1 y1 x2 y2 l
-RV x1 y1 x2 y2 l
+TE x1 y1 £text to be written 
 \end{lstlisting}
-il punto $(x_1, y_1)$ rappresenta il primo vertice sulla diagonale, $(x_2, y_2)$ il secondo vertice, e $l$ è il layer, indicato con un numero da 0 a 15.
+the point $(x_{1},y_{1})$ is where the string {}``text to be written''
+will be positioned. Notice that the layer information is missing.
+FidoCadJ will treat this object as it was placed on layer zero (circuit\index{circuit}).
 
-\subsubsection{Testo semplice (obsoleta)}
-Il testo semplice\index{testo semplice} è stata la prima primitiva di testo messa a disposizione dalle prime versioni di FidoCad\index{FidoCad}. FidoCadJ la riconosce e scrive semplicemente il testo in corpo 12, qualunque sia il livello di zoom\index{zoom} utilizzato.
 
-Dato che questa primitiva è stata considerata obsoleta\index{obsoleta} da Lorenzo Lutti\index{Lorenzo Lutti}, il creatore di FidoCad\index{FidoCad}, FidoCadJ fa esattamente lo stesso e, seppure questa venga interpretata correttamente, non è presente nella barra delle primitive. FidoCadJ memorizzerà questo elemento esattamente come se fosse un testo avanzato e fra l'altro utilizzerà il comando \lstinline!TY!\index{TY} nel momento di salvare il file.
+\subsubsection{Advanced Text}
 
-Il comando è \lstinline!TE!\index{TE} ed il formato è il seguente:
-\begin{lstlisting} 
-TE x1 y1 £testo da scrivere
-\end{lstlisting}
-il punto $(x_1, y_1)$ è dove la stringa ``testo da scrivere'' verrà posizionata. Si noti come l'indicazione del layer è assente. FidoCadJ tratterà quest'oggetto come se fosse posizionato sul layer zero (circuito\index{circuito}).
+The primitive advanced text\index{advanced text} offers much more
+flexibility with respect to simple text\index{simple text} introduced
+above.
 
-\subsubsection{Testo avanzato}
-La primitiva testo avanzato\index{testo avanzato} permette una flessibilità molto maggiore rispetto alla primitiva testo semplice\index{testo semplice} presentata precedentemente.
+It is identified by the command \lstinline!TY!\index{TY}, followed
+by a number of parameters to determine the text orientation (rotated\index{text!rotated}
+or mirrored\index{text!mirrored}), as well as dimensions along $x$
+and $y$ and the font used. Due to the quantity of information to
+provide, the resulting command string is quite complex: 
+\begin{lstlisting}
+TY x1 y1 sy sx a s l f £text to be written 
+\end{lstlisting}. 
+The point $(x_{1},y_{1})$ is where the string ``text to be written''
+will be positioned. The value of $s_{y}$ and $s_{x}$ indicates the
+horizontal and vertical dimensions of the text in logical units\index{logical unit}.
+I chose to let FidoCadJ respect the vertical dimension starting from
+the horizontal one, and that aspect ratio will be chanced only if
+this is strictly necessary. The text rotation is managed by the term
+$a$, expressed in sexagesimal degrees, while the value of $s$ determines
+the text style\index{text!style}, following table~\ref{tab_stile_testo}.
+The layer is given by the usual term $l$, and $f$ indicates the
+font to be used, or it can be an asterisk\index{asterisk}, to indicate
+the use of the standard Courier font\index{Courier}, of which an
+example is shown in Figure~\ref{fig_courier_sample}. If the font
+name contains spaces these must be replaced with the symbol +\index{+}.
+At the moment the only font supported by FidoCadJ is the Courier\index{Courier},
+a constant width font which is also the default font adopted by FidoCad\index{FidoCad}.
 
-Essa è identificata dal comando \lstinline!TY!\index{TY}, seguito da svariati parametri, atti a determinare l'orientamento del testo (testo ruotato\index{testo!ruotato} o specchiato\index{testo!specchiato}), nonché le dimensioni in $x$ e $y$ del font utilizzato. Data la quantità di informazioni da fornire, la stringa di comando è abbastanza articolata:
-\begin{lstlisting} 
-TY x1 y1 sy sx a s l f £testo da scrivere
-\end{lstlisting}
-il punto $(x_1, y_1)$ è dove la stringa ``testo da scrivere'' verrà posizionata.
-Il valore di $s_y$ e $s_x$ indica la dimensione verticale ed orizzontale del testo in unità logiche\index{unità logica}. Ho scelto di fare in modo che FidoCadJ rispetti la dimensione verticale del testo a partire da quella orizzontale, e che deformi il font solo se strettamente necessario.
-La rotazione del testo è resa possibile dal termine $a$, espresso in gradi sessagesimali, mentre il valore di $s$ determina lo stile del testo\index{stile del testo}, secondo la tabella~\ref{tab_stile_testo}.
-Il layer è rappresentato dal solito termine $l$, mentre $f$ indica il font da utilizzare, oppure è un asterisco\index{asterisco}, per indicare l'utilizzo del font standard Courier\index{Courier}, di cui un esempio è mostrato in figura~\ref{fig_courier_sample}. Qualora il nome del font avesse degli spazi, questi vengono rimpiazzati dal simbolo +\index{+}.
-Nello stato attuale delle cose, l'unico font usato e supportato da FidoCadJ è il Courier\index{Courier}, font a spaziatura fissa e con grazie, che è comunque il font di default adottato anche da FidoCad\index{FidoCad}.
-
+%
 \begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{courier_sample}
-\caption{Un esempio del font Courier, utilizzato da FidoCadJ.}
-\label{fig_courier_sample}
+\centering \includegraphics[width=0.4\textwidth]{courier_sample} 
+
+\caption{An example of Courier font, used in FidoCadJ.}
+
+
+\label{fig_courier_sample} 
 \end{figure}
 
-\begin{table}
-\centering
-\begin{tabular}{llp{.7\textwidth}}
-\toprule
-Bit
-&
-Peso
-&
-Funzione
-\\
-\midrule
-0
-&
-1
-&
-Testo in neretto
-\\
-2
-&
-4
-&
-Testo specchiato
-\\
 
-\bottomrule
+%
+\begin{table}
+\centering \begin{tabular}{llp{0.7\textwidth}}
+\toprule Bit  & Peso  & Funzione \tabularnewline
+\midrule 0  & 1  & text in bold\tabularnewline
+2  & 4  & mirrored text\tabularnewline
+\bottomrule  &  & \tabularnewline
 \end{tabular}
-\caption{Funzione dei bit nello stile del testo.}
-\label{tab_stile_testo}
+
+\caption{Function of the bits in the text style term.}
+
+
+\label{tab_stile_testo} 
 \end{table}
 
-La lunghezza massima del testo\index{lunghezza massima testo} è di una ottantina di parole. Il conto è fatto in parole e non in caratteri perché nella struttura interna del programma le parole vengono contate separatamente al momento di interpretare la linea.
+
+The maximum length of the text\index{maximum length of text} is about
+80 words. The counting is done in words and not in characters because
+in the internal structure of the program the words (and command terms)
+are separated when a line is being interpreted.
 
 
+\subsubsection{Empty or filled polyline}
 
-\subsubsection{Poligono pieno o vuoto}
-Un poligono\index{poligono} pieno o vuoto è indicato rispettivamente dai comandi \lstinline!PP!\index{PP} e \lstinline!PV!\index{PV}, seguiti dalle coordinate dei vertici che definiscono il poligono e dal layer.
+A polyline\index{poliline} filled or empty is indicated with the
+commands \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV}
+respectively, followed by the coordinates of the vertices that define
+the polyline, and the layer. The commands are 
+\begin{lstlisting}
+PP x1 y1 x2 y2 ... l 
+PV x1 y1 x2 y2 ... l 
+\end{lstlisting} 
+where the points $(x_{1},y_{1})$, $(x_{2},y_{2})$\dots are the vertices
+that define the polyline and $l$ is the layer, characterized by a
+whole number between 0 and 15. The length of the command line can
+thus vary depending on the number of vertices used. The maximum number
+of vertices\index{maximum number of vertices} available has been
+arbitrarily fixed at 20, to avoid very long command lines.
+
+
+\subsubsection{Filled or Empty ellipse}
+
+An ellipse\index{ellipse} filled or empty is identified by the commands
+\lstinline!EP!\index{EP} e \lstinline!EV!\index{EV} respectively,
+followed by the coordinates of the two vertices on the diagonal and
+the layer number. 
 \begin{lstlisting} 
-PP x1 y1 x2 y2 ... l
-PV x1 y1 x2 y2 ... l
-\end{lstlisting}
-i punti $(x_1, y_1)$, $(x_2, y_2)$\dots sono i vertici che definiscono il poligono e $l$ è il layer, indicato con un numero da 0 a 15.
-La lunghezza della linea può quindi variare a seconda del numero di vertici presenti.
-Il numero massimo di vertici\index{numero massimo di vertici} disponibili è fissato arbitrariamente a 20, per evitare di avere a che fare con linee troppo lunghe. 
+EP x1 y1 x2 y2 l 
+EV x1 y1 x2 y2 l 
+\end{lstlisting} 
+the point $(x_{1},y_{1})$ represents the first
+vertex on the diagonal, $(x_{2},y_{2})$ is the second vertex, and
+$l$ is the layer, identified by a whole number between 0 and 15.
 
-\subsubsection{Ellisse piena o vuota}
-Un'ellisse\index{ellisse} piena o vuota è indicata rispettivamente dai comandi \lstinline!EP!\index{EP} e \lstinline!EV!\index{EV}, seguiti dalle coordinate di due vertici sulla diagonale e dal layer.
-\begin{lstlisting} 
-EP x1 y1 x2 y2 l
-EV x1 y1 x2 y2 l
-\end{lstlisting}
-il punto $(x_1, y_1)$ rappresenta il primo vertice sulla diagonale, $(x_2, y_2)$ il secondo vertice, e $l$ è il layer, indicato con un numero da 0 a 15.
 
 \subsubsection{Curva di Bézier}
-Una curva di Bézier\index{Bézier}, nella sua variante cubica è identificata da quattro vertici, che vengono quindi richiesti dal comando \lstinline!BE!\index{BE}:
-\begin{lstlisting} 
-BE x1 y1 x2 y2 x3 y3 x4 y4 l
-\end{lstlisting}
-i punti $P_1\equiv (x_1, y_1)$,  $P_2\equiv (x_2, y_2)$,  $P_3\equiv(x_3, y_3)$ e  $P_4\equiv (x_4, y_4)$ sono i quattro punti di controllo della curva di Bézier\index{Bézier}, mentre $l$ è il layer, indicato con un numero da 0 a 15.
-Dati i quattro punti sopra definiti, la curva viene calcolata con la combinazione:
-\begin{equation}
-B(t)=(1-t)^3P_1+3t(1-t)^2P_2+3t^2(1-t)P_3+t^3P_4
-\end{equation}
-dove $t\in [0,1]$ è un parametro.
 
-\subsubsection{Connessione elettrica}
-La primitiva connessione elettrica\index{connessione} è semplicemente un circoletto pieno di dimensione costante e viene utilizzata per rappresentare una connessione in uno schema elettrico. È identificata dal comando \lstinline!SA!\index{SA} e richiede unicamente le coordinate ed il layer:
+A Bézier\index{Bézier} curve segment, in its cubic variant, is identified
+by four vertices, which are thus required by its associated command
+\lstinline!BE!\index{BE}: 
 \begin{lstlisting} 
-SA x1 y1 l
-\end{lstlisting}
-Con FidoCadJ, il diametro del circoletto è fissato internamente al programma a due unità logiche.
+BE x1 y1 x2 y2 x3 y3 x4 y4 l 
+\end{lstlisting} 
+where $P_{1}\equiv(x_{1},y_{1})$, $P_{2}\equiv(x_{2},y_{2})$,
+$P_{3}\equiv(x_{3},y_{3})$ e $P_{4}\equiv(x_{4},y_{4})$ are the
+four control points of the Bézier\index{Bézier} curve segment, while
+$l$ is the layer, identified by a whole number between 0 and 15.
+Given the four points defined above, the curve segment is computed
+through the expression \begin{equation}
+B(t)=(1-t)^{3}P_{1}+3t(1-t)^{2}P_{2}+3t^{2}(1-t)P_{3}+t^{3}P_{4},\end{equation}
+where $t\in[0,1]$ is a parameter.
 
 
-\subsubsection{Piazzola per circuito stampato}
-Una piazzola per circuito stampato\index{piazzola per c. s.} è identificata dal comando \lstinline!PA!\index{PA} ed è caratterizzata dal suo stile (rotondo, rettangolare, rettangolare con spigoli arrotondati) e dalla dimensione del foro interno:
-\begin{lstlisting} 
-PA x1 y1 dx dy si st l
-\end{lstlisting}
-Il punto $(x_1, y_1)$ rappresenta la posizione della piazzola, $d_x$ è la larghezza secondo $x$ della piazzola, $d_y$ l'altezza lungo $y$. Il valore di $s_i$ è il diametro interno del foro e $s_t$ è lo stile della piazzola:
+\subsubsection{Electrical junction}
+
+The primitive electrical junction\index{junction} is simply a filled
+circle of constant dimensions and it is used to represent a connection
+in an electrical schematic. It is identified by the command \lstinline!SA!\index{SA}
+and it only requires its coordinates and layer: 
+\begin{lstlisting}
+SA x1 y1 l 
+\end{lstlisting} 
+With FidoCadJ, the diameter of the circle
+is fixed internally into the program to two logical units.
+
+
+\subsubsection{PCB pad}
+
+A PCB pad\index{PCB pad} is identified by the command \lstinline!PA!\index{PA}
+and it is characterized by its style (round, rectangular, rectangular
+with smoothed corners) and the diameter of its internal hole: 
+\begin{lstlisting}
+PA x1 y1 dx dy si st l 
+\end{lstlisting} 
+where the point $(x_{1},y_{1})$
+represents the position of the pad, $d_{x}$ is the pad's width (along
+the $x$ axis), $d_{y}$ is the height (along the $y$ axis). The
+value $s_{i}$ is the diameter of the pad's hole, while $s_{t}$ is
+the pad's style: 
 \begin{itemize}
-\item[0] piazzola ovale
-\item[1] piazzola rettangolare
-\item[2] piazzola rettangolare con spigoli arrotondati
+\item [0] oval pad
+\item [1] rectangular pad
+\item [2] rectangular pad with smoothed corners
 \end{itemize}
-Il valore di $l$ indica invece il layer all'interno del quale si trova la piazzola.
+The value of $l$ must be a whole number to indicate the layer where
+the pad is to be placed.
 
-\subsubsection{Pista per circuito stampato}
-La pista di circuito stampato\index{pista per c. s.} è sostanzialmente un segmento, di cui si può specificare la larghezza. Gli estremi del segmento sono sempre arrotondati, per semplificare la connessione con altre piste del circuito stampato. Il comando da utilizzare è \lstinline!PL!\index{PL}, con il formato seguente:
+
+\subsubsection{PCB track}
+
+The PCB track\index{PCB track} is essentially a segment, the width
+of which can be specified. The corners at the extremes of the segment
+are always rounded to facilitate the connection with other PCB tracks
+or pads. The command to be used is \lstinline!PL!\index{PL}, with
+the following format: 
 \begin{lstlisting} 
-PL x1 y1 x2 y2 di l
+PL x1 y1 x2 y2 di l 
 \end{lstlisting}
-La pista viene tracciata tra i punti $(x_1, y_1)$ e $(x_2, y_2)$, con spessore totale $d_i$. Il layer utilizzato è $l$.
+The track is drawn between the points $(x_{1},y_{1})$ and $(x_{2},y_{2})$,
+with total width $d_{i}$, and the layer used is $l$.
 
-\subsubsection{Chiamata di una macro}
-Una macro\index{macro} è un disegno o un simbolo presente all'interno di una libreria. Tipicamente, i simboli elettrici più frequenti sono rappresentati in questa maniera.
-Il comando per realizzare una chiamata di una macro è \lstinline!MC!\index{MC}, e la chiamata avviene nella maniera seguente:
+
+\subsubsection{Macro call}
+
+A macro\index{macro} is a drawing or a symbol contained in a library.
+Generally, this is the way frequently used electrical symbols are
+represented. The command used to calla macro is \lstinline!MC!\index{MC},
+and the call is done as follows: 
 \begin{lstlisting} 
-MC x1 y1 o m n
-\end{lstlisting}
-La macro viene disegnata nel punto $(x_1, y_1)$, l'orientazione è definito dal valore di $o$ (moltiplicato per 90°) e se $m$ è uguale a 1, la macro viene specchiata. L'ultimo parametro, $n$ è il nome della macro all'interno di una libreria, specificata come libreria.codice.
+MC x1 y1 o m n 
+\end{lstlisting} 
+The macro is drawn using position $(x_{1},y_{1})$
+as the reference, and the orientation is defined by the value of $o$
+(multiplied by 90\textdegree{}) and if $m$ is equal to 1 the macro
+is mirrored. the last parameter, $n$, is the macro's name within
+the library, specified as \emph{library.code}.
 
-\section{Estensioni di FidoCadJ}
-\label{FCJ_extension}
-A partire dalla versione 0.21, FidoCadJ ha introdotto delle estensioni\index{estensione FidoCadJ} al formato FidoCad originale, che sono identificate dal comando \lstinline!FCJ!\index{FCJ}. Per il momento, la sola che è stata implementata è quella che permette di associare un nome ed un valore ad ogni macro. L'utilizzo è il seguente:
+
+\section{FidoCadJ extensions}
+
+\label{FCJ_extension} Starting from version 0.21, FidoCadJ introduced
+some extensions\index{FidoCadJ extension} to the original FidoCad
+format, which are identified by the command \lstinline!FCJ!\index{FCJ}.
+For the moment, the only one that has been implemented is a feature
+that allows the association of a name and a value to a macro. It is
+used as follows: 
 \begin{lstlisting} 
 [FIDOCAD]
 MC 40 30 0 0 080
@@ -890,183 +1370,268 @@ FCJ
 TY 50 35 4 3 0 0 0 * R1
 TY 50 40 4 3 0 0 0 * 47k
 \end{lstlisting}
-La presenza del comando \lstinline!FCJ! indica che la definizione della macro non è terminata, ma che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Attualmente, solo le coordinate dei due comandi \lstinline!TY! sono utilizzate.
+The presence of the command \lstinline!FCJ! indicates that the definition
+of the macro is not finished, but the fields that indicate name and
+value are specified by the commands \lstinline!TY! on the lines that
+immediately follow \lstinline!FCJ!. So far, only the coordinates
+of the commands \lstinline!TY! are in use.
 
-Questo modo di procedere ha il vantaggio che se un file contenente un'estensione di questo tipo viene letto da FidoCad\index{FidoCad}, quest'ultimo ignorerà le linee contenenti  \lstinline!FCJ! (emettendo un messaggio di errore), ma il disegno ottenuto sarà identico a quello che appare su FidoCadJ.
+This has the advantage that if a file containing such an extension
+is read by FidoCad\index{FidoCad}, this will ignore the lines containing
+\lstinline!FCJ! (returning an error message), but the drawing obtained
+will be identical to the one produced by FidoCadJ.
 
-FidoCadJ può essere configurato per non emettere il comando \lstinline!FCJ!\index{FCJ} durante il salvataggio di un file, oppure le operazioni di copia/incolla. In questo caso, si otterrà un file perfettamente compatibile con FidoCad\index{FidoCad}, a prezzo della perdita dell'associazione logica tra una macro, il suo nome ed il suo valore.
+FidoCadJ can be configured in order to avoid the command \lstinline!FCJ!\index{FCJ}
+when saving a file, or during cut/paste operations. In this case,
+we will obtain an output perfectly compatible with FidoCad\index{FidoCad},
+at the price of losing the logical association between a macro, its
+name and its value.
 
-\section{Tolleranza agli errori sintattici}
-FidoCadJ è progettato per tollerare eventuali errori\index{tolleranza agli errori} o comandi malformati che vengano forniti al programma. Ovviamente, a meno che non abbiate una sfera di cristallo\index{sfera di cristallo} collegata come periferica USB, il programma non potrà correggere gli errori e si limiterà a saltare (ed eliminare) tutte le linee che li contengono.
 
-Un'eccezione a questo comportamento è dato dal fatto che, per ragioni di compatibilità con le prime versioni di FidoCad\index{FidoCad}, alcune primitive possono essere specificate omettendo il layer\index{layer} (verranno in quel caso considerate parte del layer zero, dedicato ai circuiti).
+\section{Syntax errors tolerance}
 
-\section{Il formato delle librerie}
-La struttura di un file di libreria è molto semplice:
+FidoCadJ is designed to tolerate errors\index{error tolerance} or
+or certain syntax errors in the commands passed to the program. Obviously,
+unless you have a crystal ball connected as a USB device\index{crystal ball},
+the program will not be able to correct errors but it will simply
+skip (and delete) all the lines involved.
+
+An exception to this behavior is that a number of primitives can
+be specified without the layer, which will be considered part of the
+layer\index{layer} 0 (schematics). This is for backward compatibility
+with FidoCad\index{FidoCad}.
+
+
+\section{Libraries format}
+
+The file structure of a library file is quite simple:
 
 \begin{lstlisting} 
-[FIDOLIB Libreria standard]
-{Simbologia di base}
-[000 Terminale]
+[FIDOLIB Librairie de base]
+{Syboles de base}
+[000 Terminal]
 LI 100 100 102 100
 EV 102 98 106 102
-[010 Terminale +]
+[010 Terminal +]
 LI 100 100 102 100
 EV 102 98 106 102
 LI 103 100 105 100
 LI 104 99 104 101
-[020 Terminale -]
+[020 Terminal -]
 LI 100 100 102 100
 EV 102 98 106 102
 LI 103 100 105 100
 ...
-\end{lstlisting}
-La prima linea indica fra parentesi quadre\index{parentesi quadre} il nome della libreria (preceduto da FIDOLIB\index{FIDOLIB}). La seconda linea fornisce, fra parentesi graffe, la categoria della libreria all'interno della quale riunire le macro, fornite successivamente.
+\end{lstlisting} 
+The first
+line contains, between square brackets\index{square brackets}, the
+library's name (preceded by FIDOLIB\index{FIDOLIB}). The second line
+must contain, between curly brackets, the library category under which
+the macros, specified later on in the file, will be stored.
 
-Ogni macro è formata da un'intestazione\index{intestazione} (fra parentesi quadre) ed una sequenza di comandi. L'intestazione è composta dal codice (che DEVE essere unico all'interno della libreria) e dalla descrizione. Il codice sarà utilizzato all'interno del codice FidoCad, mentre la descrizione serve solo all'utente per capire di che macro\index{macro} si tratta. I comandi non sono altro che dei disegni FidoCad, attorno al punto (100,100), utilizzato come origine. Questo punto sarà poi quello che verrà rimappato nel momento in cui la macro verrà introdotta. La macro verrà poi richiamata con la primitiva MC\index{MC}, con il codice ``libreria.macro''.
+Each macro is composed by a header\index{header} (between square
+brackets) and a sequence of commands. The header is constituted by
+a \emph{part name} (which must be unique within the library) and its
+description. The part name will be used within a FidoCad script, while
+the description helps the user while browsing all the macros\index{macro}
+contained in the file. The commands are nothing else than FidoCad
+drawings, where the coordinate point (100,100) is used as the origin.
+This is the point that will be used as the reference when the macro
+will be called. In a FidoCad script a macro is identified by {}``library.macro''
+used with the MC\index{MC} primitive.
 
-Nulla impedisce di richiamare una macro all'interno di un'altra macro. Quello che bisogna evitare, ovviamente, è la ricorsione\index{ricorsione}, ovvero di scrivere una macro che richiama sè stessa.
+Nothing prevents the calling of a macro within another macro. However,
+recursion\index{recursion} (i.e. a macro that calls itself) must
+be avoided.
 
 
+\section{Standard Libraries}
 
-\section{Librerie standard}
-FidoCadJ contiene al suo interno alcune librerie tradizionalmente fornite con FidoCad\index{FidoCad}. In particolare, si tratta della libreria standard\index{libreria standard} e della libreria dedicata ai simboli per i circuiti stampati (PCB)\index{libreria PCB}.
+FidoCadJ already contains two libraries traditionally supplied with
+FidoCad\index{FidoCad}. In particular these are the standard library\index{standard library}
+and the library that contains the PCB symbols\index{PCB library}.
 
-\'E tuttavia possibile modificare il sostituire il contenuto delle librerie interne specificando al programma (menu ``Vista/Opzioni/Directory Librerie'') una directory contenente le librerie da caricare.
-Se un file di nome \lstinline!FCDstdlib.fcl! è presente in questa directory, il suo contenuto sarà utilizzato al posto della libreria standard. Se un file di nome \lstinline!PCB.fcl! è presente, il suo contenuto verrà utilizzato al posto della libreria contenente i simboli da usare nei circuiti stampati.
-Librerie contenute in file con un altro nome e con estensione \lstinline!fcl! saranno caricate a fianco delle librerie standard.
+However, it is possible to override the content of these two internal
+library by specifying ({}``View/Options/Libraries Directory'' menu)
+a directory containing the libraries to be loaded. If a file named
+\lstinline!FCDstdlib.fcl! is present in this directory, its content
+will be used in place of that of the standard library. If a file named
+\lstinline!PCB.fcl! is present, its content will be used in place
+of that of the PCB library. Other libraries having different file
+names (but still with extension \lstinline!fcl!) will be loaded together
+with the standard libraries.
 
+\myChapter{Conclusion} We have seen in this manual how to use FidoCadJ
+to draw an electrical schematic or a simple PCB. At this stage the
+reader should possess all the elements necessary to use FidoCadJ effectively
+for their needs.
 
-\myChapter{Conclusioni}
-In questo manuale, si è visto come utilizzare FidoCadJ per disegnare uno schema elettrico oppure un semplice circuito stampato. A questo punto, il lettore dovrebbe possedere tutti gli elementi necessari per utilizzare profiquamente FidoCadJ per le proprie esigenze.
+FidoCadJ should not be thought of as a tool meant uniquely for the
+electronics design. It can be used for any type of 2D drawing and
+in many situations, provided that specific libraries are available.
 
-Non bisogna credere che FidoCadJ sia uno strumento dedicato solo all'elettronica. Preparando librerie specifiche, diventa possibile creare quasi ogni tipo di disegno bidimensionale e può essere utile in molte situazioni.
-
-Il vantaggio di un programma libero è quello di essere a disposizione di una comunità. Per questo, è molto importante che gli utilizzatori si facciano sentire (se non altro per capire se il progetto merita di essere continuato, ed in che direzione). Non esitate quindi a contattarmi (\href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}, ma non mandate allegati di nessun tipo!).
-
+The advantages of a free program is that it is at the disposition
+of the community. For this reason the feedback from the users is very
+important (at least to understand if the project is worth to be developed
+further, and in which direction). To contact me, you can write an email
+(\href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}, but do
+not send me any attachment!).
 
 \appendix
 
-\myChapter{Estensioni specifiche per piattaforma}
-\label{specifics}
+\myChapter{Platform-specific extensions} \label{specifics} 
+
+
 \section{MacOSX}
-Una delle critiche più diffuse alle prime versioni di FidoCadJ da parte degli utilizzatori Macintosh (come me, del resto) consiste nella cattiva integrazione del programma sotto MacOSX. A partire dalla versione 0.21.1, FidoCadJ fa degli sforzi specifici per integrarsi all'interno dell'aspetto e del funzionamento delle applicazioni native.
-Per questa ragione, alcuni dettagli del funzionamento del programma sono leggermente diversi quando FidoCadJ si rende conto di essere eseguito su una piattaforma Apple:
+
+One of the most frequent criticisms raised against the early versions
+of FidoCadJ from Macintosh users (like me, by the way) was the poor
+integration of the program under MacOSX. Starting from version 0.21.1,
+FidoCadJ is making specific efforts to comply better with the look
+and the philosophy of Mac's native applications. For this reason,
+some details in the program are slightly different when FidoCadJ is
+run on an Apple platform: 
 \begin{itemize}
-\item FidoCadJ utilizza di default il look and feel Quaqua \footnote{\href{http://www.randelshofer.ch/quaqua/}{http://www.randelshofer.ch/quaqua/}}\index{Quaqua} quando lo si utilizza a partire dell'applicazione completa (FidoCadJ.app\index{FidoCadJ.app} e non il file fidocadj.jar\index{fidocadj.jar}). Dato che Quaqua potrebbe rallentare le prestazioni su macchine non recentissime, vi è la possibilità di disattivarlo attraverso le impostazioni del menu Preferenze.
-\item La barra dei menu è mostrata al suo posto, ovvero nella parte alta dello schermo.
-\item Le voci ``Preferenze'' e ``Informazioni su FidoCadJ'' si trovano al loro posto, ovvero all'interno del menu FidoCadJ.
-\item Il programma dichiara al sistema operativo la sua disponibilità ad aprire file di tipo \lstinline!.fcd! Ad essi viene pure associata un'icona che richiama il simbolo del programma e che dovrebbe essere abbastanza evocativa.
+\item by default FidoCadJ uses the Quaqua%
+\footnote{\href{http://www.randelshofer.ch/quaqua/}{http://www.randelshofer.ch/quaqua/}%
+}\index{Quaqua} look and feel when the complete application (FidoCadJ.app\index{FidoCadJ.app}
+instead of fidocadj.jar\index{fidocadj.jar}) is run . Since Quaqua
+may slow down the performance on not so recent machines, it is possible
+to disable it through the settings of the Preferences menu
+\item The menu bar is shown at its place, that is the top of the screen
+\item The menu items {}``Preferences'' and {}``About FidoCadJ'' are
+at their place, which is under the FidoCadJ menu. 
+\item The program tells the operating system that it can open \lstinline!.fcd!
+files; These are associated to a specific icon, which should be sufficiently
+evocative.
 \end{itemize}
 
 \section{Linux}
-Non sono state attualmente implementate estensioni dedicate esclusivamente a questa piattaforma.
+
+At the moment there are no extensions dedicated to this platform.
+
 
 \section{Windows}
-Non sono state attualmente implementate estensioni dedicate esclusivamente a questa piattaforma.
 
-\myChapter{Installazione di FidoCadJ}
-\label{installazione}
+At the moment there are no extensions dedicated to this platform.
 
-\section{Come scaricare ed eseguire FidoCadJ con MacOSX}
-FidoCadJ può funzionare con una versione di MacOSX superiore o eguale alla 10.3.9 (Panther). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.4 di Java, che Apple fornisce con il suo sistema operativo.
-
-Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: \href{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}, aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
-
-Per disinstallare FidoCadJ, sarà sufficiente prelevare \lstinline!FidoCadJ.app! dalla cartella \lstinline!Applicazioni! e spostarlo nel cestino.
-
-\section{Come scaricare ed eseguire FidoCadJ su un sistema Linux}
-\label{installazione_linux}
-\textsl{di Roby IZ1CYN}\\
+\myChapter{FidoCadJ installation} \label{installazione}
 
 
-Presupposto: avere installato il JRE\index{JRE} 6 di Sun\index{Sun} e/o OpenJDK\index{OpenJDK} 6 JRE\index{JRE} (o versioni precedenti compatibili con le specifiche del programma).
-Nel paragrafo \ref{inst_testo} descriveremo come installare il programma adoperando esclusivamente comandi da terminare. Nel paragrafo \ref{inst_grafica}, ci baseremo invece sull'interazione tramite un sistema grafico.
+\section{How to download and execute FidoCadJ under MacOSX}
+
+FidoCadJ can run under a MacOSX version equal to or greater than 10.3.9
+(Panther). The reason is simple: FidoCadJ requires at least version
+1.4 of Java, which Apple supplies with their operating system.
+
+Although it is possible to use the file \lstinline!fidocad.jar! like
+with other operating systems, it is preferable to use the specific
+application under MacOSX. Everything is dealt with as in native applications:
+it is sufficient to download the disk image containing the program
+from the url: \href{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg},
+open it and move \lstinline!FidoCadJ.app! into the folder \lstinline!Applications!
+from which it will then be available.
+
+To uninstall FidoCadJ, it is sufficient to delete the file \lstinline!FidoCadJ.app!
+from the \lstinline!Applications! folder by moving it into the trash.
 
 
-\subsection{Su qualunque sistema, da terminale}
-\label{inst_testo}
-Scarichiamo il programma utilizzando il comando \lstinline!wget!:
+\section{How to download and execute FidoCadJ in a Linux system}
 
-\lstset{language=plain,
-	basicstyle=\tiny\ttfamily}
+\label{installazione_linux} \textsl{by Roby IZ1CYN}\\
 
+
+Prerequisite: JRE\index{JRE} 6 from Sun\index{Sun} and/or OpenJDK\index{OpenJDK}
+6 JRE\index{JRE} (o previous versions compatible with the program's
+specifications) must be installed. In paragraph \ref{inst_testo}
+the installation of the program using only commands from a terminal
+will be described. In paragraph \ref{inst_grafica}, the interaction
+with a graphical environment will be used instead.
+
+
+\subsection{Using any platform, from terminal}
+
+\label{inst_testo} Download the program using the \lstinline!wget! command:
+
+
+%\lstset{language=plain,
+%	basicstyle=\tiny\ttfamily}
+	
 \begin{lstlisting}
 $ wget http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
 --23:51:22--  http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
            => `fidocadj.jar'
-Risoluzione di davbucci.chez-alice.fr in corso... 212.27.63.127
-Connessione a davbucci.chez-alice.fr|212.27.63.127:80... connesso.
-HTTP richiesta inviata, aspetto la risposta... 200 OK
-Lunghezza: 276,694 (270K) [application/x-java-archive]
+Resolution of davbucci.chez-alice.fr is being done... 212.27.63.127
+Connection to davbucci.chez-alice.fr|212.27.63.127:80... connected.
+HTTP request sent, waiting for answer... 200 OK
+Length: 276,694 (270K) [application/x-java-archive]
 
 100%[====================================>] 276,694       71.75K/s    ETA 00:00
 
-23:51:26 (71.59 KB/s) - "fidocadj.jar" salvato          [276694/276694]
+23:51:26 (71.59 KB/s) - "fidocadj.jar" saved          [276694/276694]
 \end{lstlisting}
 \lstset{
 	basicstyle=\small\ttfamily}
 
-Creiamo una directory (prima diventiamo root\index{root} con \lstinline!su! o \lstinline!sudo -s!)
-
+Let's create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
 
 \begin{lstlisting}
 # mkdir /usr/bin/fidocadj
 \end{lstlisting}
 
-\dots e ci spostiamo il file scaricato (sostituite \lstinline!<user>! con l'utente che ha scaricato il file):
+\dots and we can move there the downloaded file (substitute \lstinline!<user>! with the user name of the account where the file has been downloaded):
 
 \begin{lstlisting}
 # mv /home/<user>/fidocadj.jar /usr/bin/fidocadj
 \end{lstlisting}
 
-Rendiamo il file eseguibile:
+Let's make the file an executable
 
 \begin{lstlisting}
 # chmod +x /usr/bin/fidocadj/fidocadj.jar
 \end{lstlisting}
 
-Non dimentichiamo di tornare utenti normali!
+And we must not forget to come back to be normal users:
 
 \begin{lstlisting}
 # exit
 \end{lstlisting}
 
-Ed ora possiamo eseguire il programma:
+And now, we can execute the program:
 
 \begin{lstlisting}
 $ /usr/bin/fidocadj/fidocadj.jar
 \end{lstlisting}
 %
 
-\subsection{Su un sistema grafico}
+\subsection{On a graphical system}
 \label{inst_grafica}
-Nell'esempio è una Ubuntu\index{Ubuntu} 8.04, ma per versioni precedenti o successive, o altri sistemi, non cambiano i concetti:
+In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not change so much for older or newer versions:
 
 \begin{itemize}
-\item {Scarichiamo il file dal browser, o con Gwget, o simili)}
+\item {Let's download the file from the browser, or with Gwget or similar tools.}
 
-\item {Lanciamo il nostro File Manager (Nautilus, Konqueror, ecc.) come root (se non c'è un comando apposito nel menu basta lanciarlo da terminale con \lstinline!sudo nautilus!), creiamo la directory \lstinline!/usr/bin/fidocadj! e spostiamoci il file appena scaricato (sarà in \lstinline!/home/<user>/!)}
+\item {We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the directory \lstinline!/usr/bin/fidocadj! and move there the file we just downloaded (it will be somewhere in \lstinline!/home/<user>/!)}
 
 \begin{figure}
 \centering
 \includegraphics[width=.8\textwidth]{permessi}
-\caption{La finestra di impostazione dei permessi, con la distribuzione Ubuntu\index{Ubuntu} 8.04.}
+\caption{The setting of file rights, under Ubuntu\index{Ubuntu} 8.04.}
 \label{fig_permessi}
 \end{figure}
 
-\item {Click destro sul file, nella finestra selezioniamo il tab ``Permessi'', aggiungiamo un segno di spunta a fianco della dicitura ``Consentire l'esecuzione del file come programma'', come mostrato nella figura~\ref{fig_permessi}}
+\item {Let's do right click on the file, from the window we select the tab ``rights'', we add the check mark in front of the ``Allow the execution of the file as a program'', as shown in the figure~\ref{fig_permessi}}
 
 \begin{figure}
 \centering
 \includegraphics[width=.8\textwidth]{java6}
-\caption{Impostare l'esecuzione con la macchina virtuale Java nella distribuzione Ubuntu\index{Ubuntu} 8.04.}
+\caption{Set the execution with the Java virtual machine, under Ubuntu\index{Ubuntu} 8.04.}
 \label{fig_java6}
 \end{figure}
 
-\item {Selezioniamo la scheda ``Apri con'' e scegliamo ``OpenJDK Java 6 Runtime'' oppure ``Sun Java 6 Runtime'', come visibile nella figura~\ref{fig_java6}.}
+\item {We can select the tab ``Open as'' and select ``OpenJDK Java 6 Runtime'' or ``Sun Java 6 Runtime'', as it can be seen in figure~\ref{fig_java6}.}
 
-\item {Click su ``Chiudi'', e siamo pronti ad eseguire FidoCadJ: un doppio click sull'eseguibile, oppure lo aggiungiamo al menu; il comando da inserire è semplicemente \lstinline!/usr/bin/fidocadj/fidocadj.jar!.}
+\item {Let's click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/bin/fidocadj/fidocadj.jar!.}
 \end{itemize}
 
 
@@ -1081,11 +1646,10 @@ Nell'esempio è una Ubuntu\index{Ubuntu} 8.04, ma per versioni precedenti o succe
 \thispagestyle{empty}
 \mbox{ }
 \vfill
-Questo manuale è stato redatto utilizzando \textsc{pdf}\LaTeX\ sotto MacOSX, adottando la classe \href{http://www.ctan.org/tex-archive/macros/latex/contrib/classicthesis/}{classicthesis}.
-I listati sono stati composti utilizzando il pacchetto \href{http://www.ctan.org/tex-archive/macros/latex/contrib/listings/}{listings}. Il pacchetto \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} è stato utilizzato per la figura~\ref{fig_schema}. I pacchetti utilizzati sono disponibili nell'archivio CTAN.
+This manual has been written using \textsc{pdf}\LaTeX\ under MacOSX, with the \href{http://www.ctan.org/tex-archive/macros/latex/contrib/classicthesis/}{classicthesis} class.
+Listings have been composed by using the  \href{http://www.ctan.org/tex-archive/macros/latex/contrib/listings/}{listings} packet. The \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} packet has been used for the figure~\ref{fig_schema}. All those packets are available on the CTAN archive.
 
-Il lavoro è composto con il font \emph{Palatino}, di Hermann Zapf. 
-%Il font a larghezza fissa è il \emph{Bera Mono}, originariamente sviluppato da 
-%Bitstream, Inc. come ``Bitstream Vera''.
+This work has been composed with the \emph{Palatino} font, by Hermann Zapf. 
+
+
 \end{document}
-

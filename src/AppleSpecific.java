@@ -2,6 +2,9 @@ import javax.swing.*;
 
 import com.apple.eawt.*;
 
+import globals.*;
+import dialogs.*;
+
 class AppleSpecific implements ApplicationListener{
 
 	private FidoFrame f;

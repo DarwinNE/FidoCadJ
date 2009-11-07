@@ -1,0 +1,40 @@
+\BOOKMARK [1][-]{Frontespizio.1}{Frontespizio}{}
+\BOOKMARK [1][-]{Licenza.1}{Licenza}{}
+\BOOKMARK [1][-]{Riassunto.1}{Riassunto}{}
+\BOOKMARK [1][-]{Ringraziamenti.1}{Ringraziamenti}{}
+\BOOKMARK [1][-]{Licenza FidoCadJ.1}{Licenza FidoCadJ}{}
+\BOOKMARK [1][-]{Indice.1}{Indice}{}
+\BOOKMARK [1][-]{Elenco delle figure.1}{Elenco delle figure}{}
+\BOOKMARK [1][-]{Elenco delle tabelle.1}{Elenco delle tabelle}{}
+\BOOKMARK [0][]{chapter.1}{1 Introduzione}{}
+\BOOKMARK [1][-]{section.1.1}{1.1 La filosofia di FidoCadJ}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{1.2 Storia del programma}{chapter.1}
+\BOOKMARK [0][]{chapter.2}{2 Il disegno con FidoCadJ}{}
+\BOOKMARK [1][-]{section.2.1}{2.1 Gli strumenti di disegno}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{2.2 Disegnamo un semplice schema elettrico}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{2.3 I layer}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{2.4 La griglia}{chapter.2}
+\BOOKMARK [1][-]{section.2.5}{2.5 Disegnamo un semplice circuito stampato}{chapter.2}
+\BOOKMARK [1][-]{section.2.6}{2.6 Esportazione}{chapter.2}
+\BOOKMARK [1][-]{section.2.7}{2.7 Opzioni linea di comando}{chapter.2}
+\BOOKMARK [1][-]{section.2.8}{2.8 Gestione librerie}{chapter.2}
+\BOOKMARK [0][]{chapter.3}{3 Il formato disegni, macro e librerie FidoCadJ}{}
+\BOOKMARK [1][-]{section.3.1}{3.1 Descrizione dell'intestazione}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{3.2 Il sistema di coordinate}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{3.3 Primitive di disegno}{chapter.3}
+\BOOKMARK [1][-]{section.3.4}{3.4 Estensioni di FidoCadJ}{chapter.3}
+\BOOKMARK [1][-]{section.3.5}{3.5 Tolleranza agli errori sintattici}{chapter.3}
+\BOOKMARK [1][-]{section.3.6}{3.6 Il formato delle librerie}{chapter.3}
+\BOOKMARK [1][-]{section.3.7}{3.7 Librerie standard}{chapter.3}
+\BOOKMARK [0][]{chapter.4}{4 Conclusioni}{}
+\BOOKMARK [0][]{appendix.A}{A Informazioni specifiche per piattaforma}{}
+\BOOKMARK [1][-]{section.A.1}{A.1 MacOSX}{appendix.A}
+\BOOKMARK [2][-]{subsection.A.1.1}{A.1.1 Estensioni}{section.A.1}
+\BOOKMARK [2][-]{subsection.A.1.2}{A.1.2 Come scaricare ed eseguire FidoCadJ con MacOSX}{section.A.1}
+\BOOKMARK [1][-]{section.A.2}{A.2 Linux}{appendix.A}
+\BOOKMARK [2][-]{subsection.A.2.1}{A.2.1 Estensioni}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.2}{A.2.2 Come scaricare ed eseguire FidoCadJ su un sistema Linux}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.3}{A.2.3 Su qualunque sistema, da terminale}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.4}{A.2.4 Su un sistema grafico}{section.A.2}
+\BOOKMARK [1][-]{section.A.3}{A.3 Windows}{appendix.A}
+\BOOKMARK [0][]{dummy.1}{Indice analitico}{}
