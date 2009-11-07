@@ -1,0 +1,4 @@
+#!/bin/bash
+./createjar
+cp ./jar/fidocadj.jar ./mac/FidoCadJ.app/Contents/Resources/Java
+

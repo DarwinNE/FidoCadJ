@@ -1,0 +1,220 @@
+\begin{theindex}
+
+  \item +, \hyperpage{21}
+
+  \indexspace
+
+  \item A4, \hyperpage{14}
+  \item asterisco, \hyperpage{21}
+  \item autoplacer, \hyperpage{11}
+  \item autorouter, \hyperpage{11}
+
+  \indexspace
+
+  \item B\'ezier, \hyperpage{5}, \hyperpage{20}, \hyperpage{23}
+  \item barra degli strumenti, \hyperpage{7}
+  \item barra dei comandi, \hyperpage{3}
+  \item BE, \hyperpage{23}
+  \item bromografo, \hyperpage{13}
+
+  \indexspace
+
+  \item CadSoft, \hyperpage{17}
+  \item circuito, \hyperpage{21}
+  \item circuito stampato, \hyperpage{10, 11}, \hyperpage{13, 14}
+    \subitem footprint, \hyperpage{3}
+    \subitem PCB, \hyperpage{19}
+    \subitem SMD, \hyperpage{19}
+  \item Cocoa, \hyperpage{2}
+  \item codice, \hyperpage{9, 10}
+  \item colore, \hyperpage{10}
+  \item compressione lossy, \hyperpage{17}
+  \item connessione, \hyperpage{5}, \hyperpage{20}, \hyperpage{23}
+  \item Courier, \hyperpage{21, 22}
+
+  \indexspace
+
+  \item dimensioni dei caratteri, \hyperpage{13}
+  \item disegno vettoriale, \hyperpage{3}
+
+  \indexspace
+
+  \item Eagle, \hyperpage{v}, \hyperpage{17}
+  \item ellisse, \hyperpage{5}, \hyperpage{20}, \hyperpage{22}
+  \item EP, \hyperpage{22}
+  \item EPS, \hyperpage{1}, \hyperpage{17}
+  \item esportazione, \hyperpage{15}
+  \item estensione FidoCadJ, \hyperpage{9}, \hyperpage{24}
+  \item EV, \hyperpage{22}
+
+  \indexspace
+
+  \item FCJ, \hyperpage{24}
+  \item FidoCad, \hyperpage{1}, \hyperpage{3}, \hyperpage{9}, 
+		\hyperpage{19}, \hyperpage{21, 22}, \hyperpage{24, 25}
+  \item FidoCadJ, \hyperpage{19}
+  \item FidoCadJ.app, \hyperpage{28}
+  \item fidocadj.jar, \hyperpage{28}
+  \item FIDOLIB, \hyperpage{25}
+  \item FidoReadJ, \hyperpage{1, 2}
+  \item formato bitmap, \hyperpage{15}
+  \item formato vettoriale, \hyperpage{15}
+  \item forum, \hyperpage{9}
+  \item francese, \hyperpage{11}
+
+  \indexspace
+
+  \item griglia, \hyperpage{10}
+  \item GTK+, \hyperpage{16}
+
+  \indexspace
+
+  \item incrocio piste, \hyperpage{11}
+  \item inglese, \hyperpage{11}
+  \item Inkscape, \hyperpage{17}
+  \item interprete, \hyperpage{2}
+  \item intestazione, \hyperpage{19}, \hyperpage{25}
+  \item it.hobby.elettronica, \hyperpage{v}, \hyperpage{2}
+  \item it.hobby.fai-da-te, \hyperpage{2}
+  \item italiano, \hyperpage{11}
+
+  \indexspace
+
+  \item jar, \hyperpage{16}
+  \item Java, \hyperpage{1, 2}, \hyperpage{16}
+  \item JPG, \hyperpage{17}
+  \item JRE, \hyperpage{16}, \hyperpage{29}
+
+  \indexspace
+
+  \item \LaTeX, \hyperpage{17}
+  \item layer, \hyperpage{10}, \hyperpage{12}, \hyperpage{25}
+  \item LI, \hyperpage{20}, \hyperpage{23, 24}
+  \item libreria, \hyperpage{1}, \hyperpage{18}
+    \subitem libreria standard, \hyperpage{18}
+  \item libreria PCB, \hyperpage{26}
+  \item libreria standard, \hyperpage{7}, \hyperpage{25}
+  \item linea, \hyperpage{5}, \hyperpage{19, 20}
+  \item linea di comando, \hyperpage{16}
+  \item Linux, \hyperpage{1}, \hyperpage{16}
+  \item linux, \hyperpage{v}
+  \item look \& feel, \hyperpage{16}
+  \item Lorenzo Lutti, \hyperpage{1}, \hyperpage{21}
+  \item lunghezza massima testo, \hyperpage{22}
+
+  \indexspace
+
+  \item Macintosh, \hyperpage{4}, \hyperpage{16}
+  \item MacOSX, \hyperpage{v}, \hyperpage{2--4}, \hyperpage{18}
+  \item macro, \hyperpage{1}, \hyperpage{3}, \hyperpage{7}, 
+		\hyperpage{20}, \hyperpage{24, 25}
+  \item MC, \hyperpage{24, 25}
+  \item Metal, \hyperpage{3, 4}
+  \item Microsoft, \hyperpage{16}
+  \item Motif, \hyperpage{16}
+
+  \indexspace
+
+  \item nazionalizzazione, \hyperpage{11}
+  \item newsgroup, \hyperpage{v}, \hyperpage{1}, \hyperpage{9}
+  \item numero massimo di vertici, \hyperpage{22}
+
+  \indexspace
+
+  \item obsoleta, \hyperpage{21}
+  \item OpenJDK, \hyperpage{29}
+
+  \indexspace
+
+  \item PA, \hyperpage{23}
+  \item parametri, \hyperpage{20}
+  \item parentesi quadre, \hyperpage{25}
+  \item PCB, \hyperpage{v}
+  \item PCB line, \hyperpage{12}
+  \item PDF, \hyperpage{1}, \hyperpage{17}
+  \item \textsc{pdf}\LaTeX, \hyperpage{17}
+  \item PGF, \hyperpage{17}
+  \item piazzola c. s., \hyperpage{5}
+  \item piazzola per c. s., \hyperpage{20}, \hyperpage{23}
+  \item pista c. s., \hyperpage{5}
+  \item pista per c. s., \hyperpage{20}, \hyperpage{24}
+  \item PL, \hyperpage{24}
+  \item PNG, \hyperpage{17}
+  \item poligono, \hyperpage{5}, \hyperpage{11--13}, \hyperpage{19}, 
+		\hyperpage{22}
+  \item posta elettronica, \hyperpage{9}
+  \item Postscript, \hyperpage{17}
+  \item PP, \hyperpage{22}
+  \item primitiva, \hyperpage{2, 3}, \hyperpage{20}
+  \item programmazione ad oggetti, \hyperpage{2}
+  \item prompt MS-DOS, \hyperpage{16}
+  \item punto di controllo, \hyperpage{7}
+  \item PV, \hyperpage{22}
+
+  \indexspace
+
+  \item Quaqua, \hyperpage{28}
+
+  \indexspace
+
+  \item resistore, \hyperpage{8}
+  \item rettangolo, \hyperpage{5}, \hyperpage{11}, \hyperpage{19}, 
+		\hyperpage{21}
+  \item ricerca in librerie, \hyperpage{3}
+  \item ricorsione, \hyperpage{25}
+  \item risoluzione, \hyperpage{10}
+  \item root, \hyperpage{29}
+  \item RP, \hyperpage{21}
+  \item RV, \hyperpage{21}
+
+  \indexspace
+
+  \item SA, \hyperpage{23}
+  \item Safari, \hyperpage{17}
+  \item saldature, \hyperpage{10}
+  \item schema elettrico, \hyperpage{19}
+  \item schemi elettrici, \hyperpage{10}
+  \item SCR, \hyperpage{17}
+  \item segmento, \hyperpage{20}
+  \item selezione, \hyperpage{5, 6}, \hyperpage{11}
+  \item serigrafia, \hyperpage{10, 11}
+  \item sfera di cristallo, \hyperpage{25}
+  \item sistema di coordinate, \hyperpage{19}
+  \item specchiatura scritte, \hyperpage{12}
+  \item sposta, \hyperpage{5}
+  \item stampa, \hyperpage{13}
+  \item stile del testo, \hyperpage{21}
+  \item stira e ammira, \hyperpage{13}
+  \item Sun, \hyperpage{3}, \hyperpage{16}, \hyperpage{29}
+  \item SVG, \hyperpage{17}
+
+  \indexspace
+
+  \item TE, \hyperpage{21}
+  \item terminale, \hyperpage{16}
+  \item testo, \hyperpage{5}, \hyperpage{9}, \hyperpage{19}
+    \subitem ruotato, \hyperpage{21}
+    \subitem specchiato, \hyperpage{21}
+  \item testo avanzato, \hyperpage{21}
+  \item testo semplice, \hyperpage{21}
+  \item tolleranza agli errori, \hyperpage{25}
+  \item transistor, \hyperpage{7}
+  \item trasferibili R41, \hyperpage{11, 12}
+  \item TY, \hyperpage{21}
+
+  \indexspace
+
+  \item Ubuntu, \hyperpage{29, 30}
+  \item unit\`a logica, \hyperpage{10}, \hyperpage{21}
+  \item Unix, \hyperpage{16}
+
+  \indexspace
+
+  \item Windows, \hyperpage{1}, \hyperpage{16}
+  \item WInE, \hyperpage{1}
+
+  \indexspace
+
+  \item zoom, \hyperpage{5}, \hyperpage{21}
+
+\end{theindex}

@@ -1,0 +1,28 @@
+\select@language {english}
+\deactivateaddvspace 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1}{\ignorespaces A typical FidoCadJ session running under MacOSX Tiger. Appendix~\ref {specifics} describes the peculiarities of the version specific for Macintosh.}}{4}{figure.2.1}
+\contentsline {figure}{\numberline {2}{\ignorespaces FidoCadJ with the Look and Feel Metal.}}{4}{figure.2.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Dialog for the text's parameters in a FidoCadJ drawing.}}{4}{figure.2.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces The reference schematic: a current mirror made with NPN transistors.}}{6}{figure.2.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces We start by drawing a couple of transistors.}}{6}{figure.2.5}
+\contentsline {figure}{\numberline {6}{\ignorespaces Select and mirror with \unhbox \voidb@x \setbox \@tempboxa \hbox {\color@begingroup \kern \fboxsep {S}\kern \fboxsep \endgraf \endgroup }\@tempdima \fboxrule \advance \@tempdima \fboxsep \advance \@tempdima \dp \@tempboxa \hbox {\lower \@tempdima \hbox {\vbox {\hrule height\fboxrule \hbox {\vrule width\fboxrule \relax \vbox {\vskip \fboxsep \box \@tempboxa \vskip \fboxsep }\relax \vrule width\fboxrule }\hrule height\fboxrule }}} the transistor on the left.}}{7}{figure.2.6}
+\contentsline {figure}{\numberline {7}{\ignorespaces We are too close to the top edge of the sheet: let's select the whole drawing and move it toward the centre.}}{7}{figure.2.7}
+\contentsline {figure}{\numberline {8}{\ignorespaces The circuit almost completed.}}{8}{figure.2.8}
+\contentsline {figure}{\numberline {9}{\ignorespaces The final circuit.}}{8}{figure.2.9}
+\contentsline {figure}{\numberline {10}{\ignorespaces A very simple amplifier stage using an NPN transistor connected in a common emitter configuration.}}{10}{figure.2.10}
+\contentsline {figure}{\numberline {11}{\ignorespaces The most important devices are placed on the board.}}{11}{figure.2.11}
+\contentsline {figure}{\numberline {12}{\ignorespaces Added the power supply connections using polygonal lines.}}{12}{figure.2.12}
+\contentsline {figure}{\numberline {13}{\ignorespaces Added the remaining connections PCB tracks.}}{12}{figure.2.13}
+\contentsline {figure}{\numberline {14}{\ignorespaces The PCB almost completed.}}{13}{figure.2.14}
+\contentsline {figure}{\numberline {15}{\ignorespaces The job completed with the silk-screen.}}{13}{figure.2.15}
+\contentsline {figure}{\numberline {16}{\ignorespaces The PCB, as it appears when printed (mirrored) on a ISO-UNI A4 sheet.}}{14}{figure.2.16}
+\contentsline {figure}{\numberline {17}{\ignorespaces The appearance of the program under MacOSX, using the Motif look \& feel.}}{17}{figure.2.17}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {18}{\ignorespaces An example of Courier font, used in FidoCadJ.}}{21}{figure.3.18}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {19}{\ignorespaces The setting of file rights, under Ubuntu 8.04.}}{28}{figure.B.19}
+\contentsline {figure}{\numberline {20}{\ignorespaces Set the execution with the Java virtual machine, under Ubuntu 8.04.}}{29}{figure.B.20}
