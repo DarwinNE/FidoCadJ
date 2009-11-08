@@ -98,7 +98,7 @@ public class DialogAbout extends JDialog implements ComponentListener
 		Container contentPane=getContentPane();
 		contentPane.setLayout(bgl);
 
-  		URL url=ToolbarTools.class.getResource(
+  		URL url=DialogAbout.class.getResource(
   			"program_icons/icona_fidocadj_128x128.png");
   		JLabel icon=new JLabel("");
   		constraints.weightx=100;
@@ -110,7 +110,7 @@ public class DialogAbout extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.CENTER;
 		constraints.insets=new Insets(10,20,0,20);
 
-        icon.setIcon(new ImageIcon(url));
+		if (url != null) icon.setIcon(new ImageIcon(url));
         contentPane.add(icon, constraints);	
 		
 		
