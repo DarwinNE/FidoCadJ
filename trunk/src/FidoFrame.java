@@ -226,7 +226,7 @@ public class FidoFrame extends JFrame implements
         	   
         	*/
 			try {
-        		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.	WindowsLookAndFeel");
+        		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		    } catch (Exception E) {}
 		   	Globals.quaquaActive=false;
 		   	
@@ -309,13 +309,14 @@ public class FidoFrame extends JFrame implements
 		++Globals.openWindows;
 
 
-		URL url=ToolbarTools.class.getResource(
+		URL url=DialogAbout.class.getResource(
   			"program_icons/icona_fidocadj_128x128.png");
   		
 		// Set icon
-    	Image icon = Toolkit.getDefaultToolkit().getImage(url);
-    	setIconImage(icon);
-        	
+		if (url != null) {
+    		Image icon = Toolkit.getDefaultToolkit().getImage(url);
+    		setIconImage(icon);
+        }
         
         // Apparently, this line allows a better Cocoa-like integration
         // under Leopard.
