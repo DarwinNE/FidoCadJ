@@ -288,7 +288,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 					   cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
 					   cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
 					   isFilled,
-					   getLayer()); 
+					   getLayer(),
+					   dashStyle); 
 	}
 
 }

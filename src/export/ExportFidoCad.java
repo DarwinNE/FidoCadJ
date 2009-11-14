@@ -162,7 +162,7 @@ public class ExportFidoCad implements ExportInterface {
 		
 	}
 	
-	/** Called when exporting a B@zier primitive.
+	/** Called when exporting a Bézier primitive.
 	
 		@param x1 the x position of the first point of the trace
 		@param y1 the y position of the first point of the trace
@@ -173,12 +173,27 @@ public class ExportFidoCad implements ExportInterface {
 		@param x4 the x position of the fourth point of the trace
 		@param y4 the y position of the fourth point of the trace
 		@param layer the layer that should be used
+		
+				// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
 		int x3, int y3,
 		int x4, int y4,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -223,10 +238,25 @@ public class ExportFidoCad implements ExportInterface {
 		@param y2 the y position of the second point of the segment
 		
 		@param layer the layer that should be used
+		
+		// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportLine (int x1, int y1,
 		int x2, int y2,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -263,6 +293,7 @@ public class ExportFidoCad implements ExportInterface {
 	}
 	
 	
+
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
 		@param x1 the x position of the first corner
@@ -272,9 +303,11 @@ public class ExportFidoCad implements ExportInterface {
 		@param isFilled it is true if the oval should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -403,17 +436,18 @@ public class ExportFidoCad implements ExportInterface {
 				
 	
 	}
-	
 	/**	Called when exporting a Polygon primitive
 	
 		@param vertices array containing the position of each vertex
 		@param nVertices number of vertices
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -454,9 +488,11 @@ public class ExportFidoCad implements ExportInterface {
 		@param isFilled it is true if the rectangle should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		

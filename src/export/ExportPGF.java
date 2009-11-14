@@ -5,6 +5,7 @@ import java.util.*;
 import java.io.*;
 import globals.*;
 import layers.*;
+import primitives.*;
 
 /** Export in a LaTeX drawing using the pgf (Portable Graphic File) packet.
 	The file should be compatible with at least the 0.65 version of the
@@ -51,7 +52,7 @@ import layers.*;
 
     
     @author Davide Bucci
-    @version 1.0, July 2008
+    @version 1.1, November 2009
 */
 
 public class ExportPGF implements ExportInterface {
@@ -63,9 +64,13 @@ public class ExportPGF implements ExportInterface {
 	private int numberPath;
 	private Color actualColor;
 	private double lineWidth;
+	private int actualDash;
 	
 	static final int NODE_SIZE = 1;
 	static final double l_width=0.33;
+	
+	static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
+		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
 	
 	/** Constructor
 	
@@ -171,7 +176,7 @@ public class ExportPGF implements ExportInterface {
 		
 		/*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR, 
 			MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
-			HANDLED
+			HANDLED at ALL!
 		*/
 		
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");
@@ -196,22 +201,43 @@ public class ExportPGF implements ExportInterface {
 		@param x4 the x position of the fourth point of the trace
 		@param y4 the y position of the fourth point of the trace
 		@param layer the layer that should be used
+		
+				// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
 		int x3, int y3,
 		int x4, int y4,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException	
 	{ 		
 		registerColor(layer);
+		registerDash(dashStyle);
 
-		
 		out.write("\\pgfmoveto{\\pgfxy("+x1+","+y1+")} \n"+
 			"\\pgfcurveto{\\pgfxy("+x2+","+y2+")}{\\pgfxy("+x3+","+y3+
 			")}{\\pgfxy("+x4+","+y4+")}\n"+
 			"\\pgfstroke\n");
 	
+		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+			arrowHalfWidth, arrowStyle);
+		if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
+			arrowHalfWidth, arrowStyle);
+			
+
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -238,19 +264,107 @@ public class ExportPGF implements ExportInterface {
 		@param y2 the y position of the second point of the segment
 		
 		@param layer the layer that should be used
+		
+		// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportLine (int x1, int y1,
 		int x2, int y2,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException
 	{ 
 		registerColor(layer);
-
+		registerDash(dashStyle);
 		
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
 			x2+","+y2+")}\n"); 
-
+		
+		
+		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+			arrowHalfWidth, arrowStyle);
+		if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
+			arrowHalfWidth, arrowStyle);
 	}
+
+	private void exportArrow(int x, int y, int xc, int yc, int l, int h, 
+		int style)
+		throws IOException
+	{
+		double s;
+		double alpha;
+		double x0;
+		double y0;
+		double x1;
+		double y1;
+		double x2;
+		double y2;
+		
+		// At first we need the angle giving the direction of the arrow
+		// a little bit of trigonometry :-)
+		
+		if (x!=xc)
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		else
+			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+		
+		alpha += (x-xc>0)?0:Math.PI;
+		
+		
+	
+		// Then, we calculate the points for the polygon
+		x0 = x - l*Math.cos(alpha);
+		y0 = y - l*Math.sin(alpha);
+		
+		x1 = x0 - h*Math.sin(alpha);
+		y1 = y0 + h*Math.cos(alpha);
+		
+		x2 = x0 + h*Math.sin(alpha);
+		y2 = y0 - h*Math.cos(alpha);
+		
+		// Arrows are always done with dash 0
+		registerDash(0);
+			
+     	out.write("\\pgfmoveto{\\pgfxy("+x+","+	y+")}\n");
+      	out.write("\\pgflineto{\\pgfxy("+x1+","+y1+")}\n");
+      	out.write("\\pgflineto{\\pgfxy("+x2+","+y2+")}\n");
+      	
+		
+		out.write("\\pgfclosepath \n");
+
+        if ((style & Arrow.flagEmpty) == 0)
+			out.write("\\pgffill \n");
+ 		else
+			out.write("\\pgfqstroke \n");
+ 			
+ 		if ((style & Arrow.flagLimiter) != 0) {
+ 			double x3;
+			double y3;
+			double x4;
+			double y4;
+			x3 = x - h*Math.sin(alpha);
+			y3 = y + h*Math.cos(alpha);
+		
+			x4 = x + h*Math.sin(alpha);
+			y4 = y - h*Math.cos(alpha);
+			out.write("\\pgfline{\\pgfxy("+x3+","+y3+")}{\\pgfxy("+
+				x4+","+y4+")}\n"); 
+ 		}
+ 		
+	}		
+		
+		
 	
 	/** Called when exporting a Macro call.
 		This function can just return false, to indicate that the macro should 
@@ -276,6 +390,7 @@ public class ExportPGF implements ExportInterface {
 	}
 	
 	
+
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
 		@param x1 the x position of the first corner
@@ -285,12 +400,15 @@ public class ExportPGF implements ExportInterface {
 		@param isFilled it is true if the oval should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		registerColor(layer);
+		registerDash(dashStyle);
 
 		out.write("\\pgfellipse["+(isFilled?"fillstroke":"stroke")+
 			"]{\\pgfxy("+(x1+x2)/2.0+","+(y1+y2)/2.0+")}{\\pgfxy("+
@@ -399,13 +517,16 @@ public class ExportPGF implements ExportInterface {
 		@param nVertices number of vertices
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		registerColor(layer);
+		registerDash(dashStyle);
 
 		String fill_pattern="";
 		int i;
@@ -435,13 +556,17 @@ public class ExportPGF implements ExportInterface {
 		@param isFilled it is true if the rectangle should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		
 		registerColor(layer);
+		registerDash(dashStyle);
+
 		out.write("\\pgfmoveto{\\pgfxy("+x1+","+y1+")}\n");
 		out.write("\\pgflineto{\\pgfxy("+x2+","+y1+")}\n");
 		out.write("\\pgflineto{\\pgfxy("+x2+","+y2+")}\n");
@@ -465,6 +590,19 @@ public class ExportPGF implements ExportInterface {
 		if(actualColor!=c) {
 			actualColor=c;
 			out.write("\\color{layer"+layer+"}\n");
+		}
+	}
+	
+	private void registerDash(int dashStyle)
+		throws IOException
+	{
+		if(actualDash!=dashStyle) {
+			actualDash=dashStyle;
+			if(dashStyle==0) 
+				out.write("\\pgfsetdash{}{0pt}\n");
+			else
+				out.write("\\pgfsetdash{"+dash[dashStyle]+"}{0pt}\n");
+
 		}
 	}
 
