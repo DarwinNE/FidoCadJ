@@ -242,7 +242,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 			coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), l, h, 
 			arrowStyle);
 		
-		if (arrowStart) Arrow.drawArrow(g, 		
+		if (arrowEnd) Arrow.drawArrow(g, 		
  			coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
 			coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
 			coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
@@ -365,6 +365,8 @@ public class PrimitiveBezier extends GraphicPrimitive
 					   cs.mapY(virtualPoint[2].x,virtualPoint[2].y),
 					   cs.mapX(virtualPoint[3].x,virtualPoint[3].y),
 					   cs.mapY(virtualPoint[3].x,virtualPoint[3].y),
-					   getLayer()); 
+					   getLayer(),
+					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
+					   arrowHalfWidth, dashStyle); 
 	}
 }

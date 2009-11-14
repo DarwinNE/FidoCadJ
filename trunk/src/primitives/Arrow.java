@@ -32,10 +32,10 @@ import java.awt.geom.*;
    
 */
 
-class Arrow {
+public class Arrow {
 
-	static final int flagLimiter = 0x01;
-	static final int flagEmpty = 0x02;
+	public static final int flagLimiter = 0x01;
+	public static final int flagEmpty = 0x02;
 	
 
 	static void drawArrow(Graphics2D g, int x, int y, int xc, 

@@ -49,7 +49,7 @@ Version   Date           Author       Remarks
 2.3     November 2008   D. Bucci    library becomes a TreeMap
 2.4		December 2008	D. Bucci	FCJ extensions
 2.5		June 2009		D. Bucci 	Capitalize the first letters                                     
-2.6		October 2009 	D. Bucci	New FCJ extensions
+2.6		November 2009 	D. Bucci	New FCJ extensions
 
 
 
@@ -1247,17 +1247,20 @@ public class ParseSchem
                         	g.parseTokens(old_tokens, old_j+1);
                         	g.setSelected(selectNew);
                         	primitiveVector.add(g);
+                        	hasFCJ=false;
                         } else if (old_tokens[0].equals("LI")) {
 		                    g=new PrimitiveLine();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
                 	        primitiveVector.add(g);
+                        	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("BE")) {
 		                    g=new PrimitiveBezier();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
                 	        primitiveVector.add(g);
+                        	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("RP")||
                         	old_tokens[0].equals("RV")) {
@@ -1265,6 +1268,7 @@ public class ParseSchem
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
                 	        primitiveVector.add(g);
+                        	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("EP")||
                         	old_tokens[0].equals("EV")) {
@@ -1272,6 +1276,7 @@ public class ParseSchem
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
                 	        primitiveVector.add(g);
+                        	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("PP")||
                				old_tokens[0].equals("PV")) {
@@ -1279,6 +1284,7 @@ public class ParseSchem
            	    			g.parseTokens(old_tokens, old_j+1);
                 			g.setSelected(selectNew);
                 			primitiveVector.add(g);
+                        	hasFCJ=false;
                      
             			}
                 	}

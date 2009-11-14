@@ -6,6 +6,7 @@ import java.io.*;
 import java.text.*;
 import globals.*;
 import layers.*;
+import primitives.*;
 
 /** 
 
@@ -57,10 +58,14 @@ public class ExportPDF implements ExportInterface {
 	private int ysize;
 	private Color actualColor;
 	private double actualWidth;
+	private int actualDash;
 	
 	
 	static final int NODE_SIZE = 1;
 	static final double l_width=.33;
+	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
+		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
+
 	
 	/** Constructor
 	
@@ -366,7 +371,7 @@ public class ExportPDF implements ExportInterface {
 		
 	}
 	
-	/** Called when exporting a B@zier primitive.
+	/** Called when exporting a Bézier primitive.
 	
 		@param x1 the x position of the first point of the trace
 		@param y1 the y position of the first point of the trace
@@ -377,21 +382,41 @@ public class ExportPDF implements ExportInterface {
 		@param x4 the x position of the fourth point of the trace
 		@param y4 the y position of the fourth point of the trace
 		@param layer the layer that should be used
+		
+				// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
 		int x3, int y3,
 		int x4, int y4,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		checkColorAndWidth(c, l_width);
-
+		registerDash(dashStyle);
 				  
 		outt.write(""+x1+" "+y1+" m \n");
 		outt.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" c S\n");
+		
+		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+			arrowHalfWidth, arrowStyle);
+		if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
+			arrowHalfWidth, arrowStyle);
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -424,20 +449,41 @@ public class ExportPDF implements ExportInterface {
 		@param y2 the y position of the second point of the segment
 		
 		@param layer the layer that should be used
+		
+		// from 0.22.1
+		
+		@param arrowStart specify if an arrow is present at the first point
+		@param arrowEnd specify if an arrow is present at the second point
+		@param arrowLength total lenght of arrows (if present)
+		@param arrowHalfWidth half width of arrows (if present)
+		@param dashStyle dashing style
+		
 	*/
 	public void exportLine (int x1, int y1,
 		int x2, int y2,
-		int layer) 
+		int layer,
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
 		checkColorAndWidth(c, l_width);
+		registerDash(dashStyle);
 
 				  
 		outt.write("  "+x1+" "+y1+" m "+
 			x2+" "+y2+" l S\n");
+		
+		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+			arrowHalfWidth, arrowStyle);
+		if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
+			arrowHalfWidth, arrowStyle);
 		
 	}
 	
@@ -463,7 +509,7 @@ public class ExportPDF implements ExportInterface {
 		return false; 
 	}
 	
-	
+
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
 		@param x1 the x position of the first corner
@@ -473,14 +519,17 @@ public class ExportPDF implements ExportInterface {
 		@param isFilled it is true if the oval should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		checkColorAndWidth(c, l_width);
+		registerDash(dashStyle);
 
 	
 		ellipse(x1,y1, x2, y2, isFilled);
@@ -580,10 +629,12 @@ public class ExportPDF implements ExportInterface {
 		@param nVertices number of vertices
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -594,6 +645,7 @@ public class ExportPDF implements ExportInterface {
 			return;
 		
 		checkColorAndWidth(c, l_width);
+		registerDash(dashStyle);
 		
 		
 			
@@ -602,7 +654,6 @@ public class ExportPDF implements ExportInterface {
 		for (int i=1; i<nVertices; ++i) 
 			outt.write("  "+vertices[i].x+" "+vertices[i].y+" l\n");
 		
-		//outt.write("closepath\n");
 		if(isFilled) {
 			outt.write("  f*\n");	
 		} else {
@@ -621,9 +672,11 @@ public class ExportPDF implements ExportInterface {
 		@param isFilled it is true if the rectangle should be filled
 		
 		@param layer the layer that should be used
+		@param dashStyle dashing style
+
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer) 
+		boolean isFilled, int layer, int dashStyle)
 		throws IOException
 	{ 
 		
@@ -631,6 +684,7 @@ public class ExportPDF implements ExportInterface {
 		Color c=l.getColor();
 		
 		checkColorAndWidth(c, l_width);
+		registerDash(dashStyle);
 
 		
 		outt.write("  "+x1+" "+y1+" m\n");
@@ -747,7 +801,7 @@ public class ExportPDF implements ExportInterface {
 		int ch = 2;
 		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
 	}
-	
+
 	private void checkColorAndWidth(Color c, double wl)
 		throws IOException
 	{
@@ -765,4 +819,81 @@ public class ExportPDF implements ExportInterface {
 			actualWidth = wl;
 		}
 	}
+
+	private void registerDash(int dashStyle)
+		throws IOException
+	{
+		if(actualDash!=dashStyle) {
+			actualDash=dashStyle;
+			if(dashStyle==0) 
+				outt.write("[] 0 d\n");
+			else
+				outt.write(""+dash[dashStyle]+" 0 d\n");
+
+		}
+	}
+	
+	private void exportArrow(int x, int y, int xc, int yc, int l, int h, 
+		int style)
+		throws IOException
+	{
+		double s;
+		double alpha;
+		double x0;
+		double y0;
+		double x1;
+		double y1;
+		double x2;
+		double y2;
+		
+		// At first we need the angle giving the direction of the arrow
+		// a little bit of trigonometry :-)
+		
+		if (x!=xc)
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		else
+			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+		
+		alpha += (x-xc>0)?0:Math.PI;
+		
+		
+	
+		// Then, we calculate the points for the polygon
+		x0 = x - l*Math.cos(alpha);
+		y0 = y - l*Math.sin(alpha);
+		
+		x1 = x0 - h*Math.sin(alpha);
+		y1 = y0 + h*Math.cos(alpha);
+		
+		x2 = x0 + h*Math.sin(alpha);
+		y2 = y0 - h*Math.cos(alpha);
+		
+		// Arrows are always done with dash 0
+		registerDash(0);
+
+			
+     	outt.write(""+roundTo(x)+" "+	roundTo(y)+" m\n");
+      	outt.write(""+roundTo(x1)+" "+roundTo(y1)+" l\n");
+      	outt.write(""+roundTo(x2)+" "+roundTo(y2)+" l\n");
+      	
+        if ((style & Arrow.flagEmpty) == 0)
+			outt.write("  f*\n");
+ 		else
+			outt.write("  s\n");
+ 			
+ 		if ((style & Arrow.flagLimiter) != 0) {
+ 			double x3;
+			double y3;
+			double x4;
+			double y4;
+			x3 = x - h*Math.sin(alpha);
+			y3 = y + h*Math.cos(alpha);
+		
+			x4 = x + h*Math.sin(alpha);
+			y4 = y - h*Math.cos(alpha);
+			outt.write(""+roundTo(x3)+" "+roundTo(y3)+" m\n"+
+				roundTo(x4)+" "+roundTo(y4)+" l s\n"); 
+ 		}
+ 		
+	}	
 }

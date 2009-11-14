@@ -63,7 +63,7 @@ public class Globals
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.22.1 beta";     	// version
+    public static final String version = "0.22.1 gamma";     	// version
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
     
     public static final int dashNumber = 5;
