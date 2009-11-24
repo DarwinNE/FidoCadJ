@@ -32,6 +32,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 
 	String macroName;
 	String macroDesc;
+	String macroFont;
 	
 	String name;
 	String value;
@@ -55,15 +56,15 @@ public class PrimitiveMacro extends GraphicPrimitive
 		drawOnlyLayer=-1;
 		name="";
 		value="";
+		macroFont="Courier New";
 		
-		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
 		
 	}
 	
-	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key)
+	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, String macroF)
 		throws IOException
 	{
 		super();
@@ -99,6 +100,29 @@ public class PrimitiveMacro extends GraphicPrimitive
  					
 	}
 	
+	/** Set the font to be used for name and value
+	
+		@param f the font name
+		
+	*/
+	
+	public void setMacroFont(String f)
+	{
+		macroFont = f;
+	}
+	
+	
+	/** Get the font used for name and value
+	
+		@returns the font name
+		
+	*/
+	
+	public String getMacroFont()
+	{
+		return macroFont;
+	}
+	
 	/** Writes the macro name and value fields
 	
 	*/
@@ -114,7 +138,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			return;
  		
  		// At first, write the name and the value fields in the given positions
- 		Font f = new Font("Courier",Font.PLAIN,
+ 		Font f = new Font(macroFont,Font.PLAIN,
  				(int)( text_size*12*coordSys.getYMagnitude()/7+.5));
 		
 	   	g.setFont(f);
@@ -248,7 +272,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  		int xb=coordSys.mapX(x3,y3);
  		int yb=coordSys.mapY(x3,y3);
  		
-		Font f = new Font("Courier",Font.PLAIN,12);
+		Font f = new Font(macroFont,Font.PLAIN,12);
 		
 	   	g.setFont(f);
 		FontMetrics fm = g.getFontMetrics(f);

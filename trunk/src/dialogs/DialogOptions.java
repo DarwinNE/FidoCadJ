@@ -31,7 +31,8 @@ Version   Date           Author       Remarks
 1.5     January 2009        D. Bucci    FCJ extensions
 1.6		February 2009		D. Bucci	Tabbed view
 										Quaqua options
-1.7		June 2009			D. Bucci 	Capitalize the first letters                                     
+1.7		June 2009			D. Bucci 	Capitalize the first letters 
+1.8		November 2009		D. Bucci	Select macro font
 
                                      
     Written by Davide Bucci, February 2009, davbucci at tiscali dot it
@@ -71,6 +72,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public int pcbpadwidth_i;
   	public int pcbpadheight_i;
   	public int pcbpadintw_i;
+  	public String macroFont;
   	
   	
  	private JFrame parent;
@@ -91,6 +93,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JTextField pcbpadheight;
 	private JTextField pcbpadintw;
 	private JCheckBox quaquaActive_CB;
+	private JComboBox comboFont;
 	
 	/** Standard constructor
 	
@@ -109,6 +112,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param es the current save using FidoCadJ extensions state
 	@param ec the current copy using FidoCadJ extensions state
 	@param qq the current Quaqua state
+	@param mf the current Macro font
 	
 	
 	*/
@@ -116,7 +120,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	public DialogOptions (JFrame pa, double z, boolean p, boolean a,
   						  int gs, String libDir, boolean tt, boolean sit,
   						  int plw, int pw, int ph, int piw, boolean es, 
-  						  boolean ec, boolean qq, boolean ex)
+  						  boolean ec, boolean qq, boolean ex, String mf)
   	{
   		super(pa, Globals.messages.getString("Cir_opt_t"), true);
   		addComponentListener(this);	
@@ -133,6 +137,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   		extFCJ_c=ec;
   		quaquaActive=qq;
   		extStrict=ex;
+  		macroFont = mf;
   		
   		pcblinewidth_i = plw;
   		pcbpadwidth_i = pw;
@@ -206,6 +211,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 				extFCJ_c =extFCJ_c_CB.isSelected();
 				quaquaActive=quaquaActive_CB.isSelected();
 				extStrict = extStrict_CB.isSelected();
+				macroFont = (String)comboFont.getSelectedItem();
  				
 				
 				try{
@@ -450,7 +456,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridy=1;
 		constraints.gridwidth=2;
 		constraints.gridheight=1;
-		//contentPane.add(profile_CB, constraints);		// Add profile cb		
+		drawingOptPanel.add(profile_CB, constraints);		// Add profile cb		
 		
 		JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
 		constraints.weightx=100;
@@ -556,6 +562,37 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.WEST;
 		drawingOptPanel.add(pcbpadintw, constraints);		// Add pcbline width tf
+		
+		JLabel macroFontlbl=new JLabel(Globals.messages.getString(
+			"macrofont"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=9;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		drawingOptPanel.add(macroFontlbl, constraints);// Add pcbpad int w label
+
+		// Get all installed font families
+		GraphicsEnvironment gE;  
+
+		gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		String[] s = gE.getAvailableFontFamilyNames();  
+		comboFont=new JComboBox();
+      	
+    	for (int i = 0; i < s.length; ++i) {
+      		comboFont.addItem(s[i]);
+      		if (s[i].equals(macroFont))
+      			comboFont.setSelectedIndex(i);
+     	}
+		constraints.gridx=1;
+		constraints.gridy=9;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		drawingOptPanel.add(comboFont, constraints);	// Add primitive font combo
+		
 		
 		return drawingOptPanel;
 	

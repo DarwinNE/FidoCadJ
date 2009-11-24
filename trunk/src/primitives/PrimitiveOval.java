@@ -95,15 +95,20 @@ public class PrimitiveOval extends GraphicPrimitive
  			
  		Stroke oldStroke;
 			
+ 		float w = (float)(Globals.lineWidthCircles*coordSys.getXMagnitude());
+
 				
-		BasicStroke dashed = new BasicStroke(1.0f, 
+		BasicStroke dashed = new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
                                          
 		oldStroke=g.getStroke();                                 
- 		if (dashStyle>0) g.setStroke(dashed);
-		
+		if (dashStyle>0) 
+			g.setStroke(dashed);
+		else 
+			g.setStroke(new BasicStroke(w));		
+  		
         
  		if (isFilled)
  			g.fillOval(xa,ya,(xb-xa),(yb-ya));

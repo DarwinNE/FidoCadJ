@@ -50,6 +50,7 @@ Version   Date           Author       Remarks
 2.4		December 2008	D. Bucci	FCJ extensions
 2.5		June 2009		D. Bucci 	Capitalize the first letters                                     
 2.6		November 2009 	D. Bucci	New FCJ extensions
+									Macro font selection
 
 
 
@@ -91,8 +92,10 @@ public class ParseSchem
     MapCoordinates cs;
     private Map library;
     private boolean firstDrag;
-    BufferedImage bufferedImage; // Useful for grid calculation
-    double oldZoom;
+    private BufferedImage bufferedImage; // Useful for grid calculation
+    private double oldZoom;
+    
+    private String macroFont;
     
     private int oldpx;
     private int oldpy;
@@ -129,8 +132,8 @@ public class ParseSchem
         drawOnlyPads=false;
         drawOnlyLayer=-1;
         cl=null;
+        macroFont = "Courier New";
         
-        ////////////////////////  ERRORE DI INCAPSULAMENTO
         cs.xCenter=0;
         cs.yCenter=0;
         cs.setXMagnitude(4.0);	// OK
@@ -458,6 +461,8 @@ public class ParseSchem
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
         
+        int maxLayer=-1;
+        
         if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
         	G.fillOval(cs.mapX(100, 100)-4,cs.mapY(100, 100)-4, 8, 8);
@@ -490,7 +495,12 @@ public class ParseSchem
         				g.draw(G, cs, layerV);  
         				
         			}
+        			
+        			if (g.getLayer()>maxLayer) 
+        				maxLayer = g.getLayer();
         		}
+        		if (j>=maxLayer)
+        			break;
        		}
         }
         
@@ -647,7 +657,7 @@ public class ParseSchem
         
     }
     
-    /** Select all selected primitives.
+    /** Delete all selected primitives.
         
     */
     public void deleteAllSelected()
@@ -661,6 +671,38 @@ public class ParseSchem
         }
        	saveUndoState();
         
+    }
+    
+        
+    /** Set the font of all macros.
+        @param f the font name
+    */
+    public void setMacroFont(String f)
+    {
+        int i;
+        for (i=0; i<primitiveVector.size(); ++i){
+            if((GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
+            	((PrimitiveMacro)primitiveVector.elementAt(i)).setMacroFont(f);
+            }
+        }
+        macroFont=f;
+        
+    }
+    
+    
+    /** Get the font of all macros.
+        @returns the font name
+    */
+    public String getMacroFont()
+    {
+        int i;/*
+        for (i=0; i<primitiveVector.size(); ++i){
+            if((GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
+            	return ((PrimitiveMacro)primitiveVector.elementAt(i)).getMacroFont();
+            }
+        }*/
+        
+        return macroFont;
     }
     
     /** Copy in the system clipboard all selected primitives.
@@ -990,7 +1032,6 @@ public class ParseSchem
         	// Test if we are anyway dragging an entire primitive
         	if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE){
         		if (hasMoved) saveUndoState();
-        		//System.out.println("pippo");
 
         	}
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
@@ -1032,6 +1073,7 @@ public class ParseSchem
             	int ya = cs.mapY(oldpx, oldpy);
         		int xb = opx;
         		int yb = opy;
+        		g.setStroke(new BasicStroke(1));
         
         		if(!firstDrag) {
         			if(!Globals.doNotUseXOR) 
@@ -1058,6 +1100,7 @@ public class ParseSchem
         		firstDrag=false;
         		if(Globals.doNotUseXOR) 
         			g.setColor(Color.green);
+
         		g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
             }
