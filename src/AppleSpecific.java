@@ -7,18 +7,17 @@ import dialogs.*;
 
 class AppleSpecific implements ApplicationListener{
 
-	private FidoFrame f;
+	//private FidoFrame f;
 
-	public void answerFinder(FidoFrame g) {
+	public void answerFinder() {
 		Application app = new Application();
 		app.setEnabledPreferencesMenu(true);
 		app.getApplication().addApplicationListener(this);
-		f=g;
 	}
-
+	
 	public void handleAbout(ApplicationEvent evt) 
 	{
-		DialogAbout d=new DialogAbout(f);
+		DialogAbout d=new DialogAbout(Globals.activeWindow);
 		d.setVisible(true);
 		evt.setHandled(true);
 
@@ -30,12 +29,12 @@ class AppleSpecific implements ApplicationListener{
     
     public void handleOpenFile(ApplicationEvent evt) {
     	String file = evt.getFilename();
-    	f.Load(file);
+    	((FidoFrame)Globals.activeWindow).Load(file);
     }
     
     public void handlePreferences(ApplicationEvent evt) 
 	{	
-		f.showPrefs();
+		((FidoFrame)Globals.activeWindow).showPrefs();
 	}
 	
 	public void handlePrintFile(ApplicationEvent evt) 

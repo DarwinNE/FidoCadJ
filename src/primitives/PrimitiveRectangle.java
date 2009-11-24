@@ -84,29 +84,43 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		/* in the rectangle primitive, the first two virtual points represent
 		   the two corners of the segment */
  		
- 		int xa=Math.min(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y));
- 		int ya=Math.min(coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y));
- 		int xb=Math.max(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y));
- 		int yb=Math.max(coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y));
- 			
+		int x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
+ 		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
+ 		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
+ 		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+
+ 		int xa, ya, xb, yb;
+ 		
+ 		if (x1>x2) {
+ 			xa=x2;
+ 			xb=x1;
+ 		} else {
+ 			xa=x1;
+ 			xb=x2;
+ 		}
+ 		if (y1>y2) {
+ 			ya=y2;
+ 			yb=y1;
+ 		} else {
+ 			ya=y1;
+ 			yb=y2;
+ 		}
+ 				
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  				return;
  			
  		Stroke oldStroke;
 			
-				
-		BasicStroke dashed = new BasicStroke(1.0f, 
+ 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+		            
+		oldStroke=g.getStroke();                                 
+		if (dashStyle>0) 
+			g.setStroke(new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f);
-                                         
-		oldStroke=g.getStroke();                                 
- 		if (dashStyle>0) g.setStroke(dashed);
-		
+                                         10.0f, Globals.dash[dashStyle], 0.0f));
+		else 
+			g.setStroke(new BasicStroke(w));		
         
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 

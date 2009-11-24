@@ -219,15 +219,21 @@ public class PrimitiveBezier extends GraphicPrimitive
 			coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 			
 		Stroke oldStroke;
-			
+		
+ 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+
 				
-		BasicStroke dashed = new BasicStroke(1.0f, 
+		BasicStroke dashed = new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
                                          
 		oldStroke=g.getStroke();
-		if (dashStyle>0) g.setStroke(dashed);
+		if (dashStyle>0) 
+			g.setStroke(dashed);
+		else 
+			g.setStroke(new BasicStroke(w));
+			
 		g.draw(shape1);
  		g.setStroke(oldStroke);				 
  		

@@ -215,47 +215,64 @@ public class PrimitiveLine extends GraphicPrimitive
  		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
  		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+
+ 		int xa, ya, xb, yb;
  		
- 		int xa=Math.min(x1, x2);
- 		int ya=Math.min(y1, y2);
- 		int xb=Math.max(x1, x2);
- 		int yb=Math.max(y1, y2);
+ 		if (x1>x2) {
+ 			xa=x2;
+ 			xb=x1;
+ 		} else {
+ 			xa=x1;
+ 			xb=x2;
+ 		}
+ 		if (y1>y2) {
+ 			ya=y2;
+ 			yb=y1;
+ 		} else {
+ 			ya=y1;
+ 			yb=y2;
+ 		}
+ 		
  			
  		// Exit if the primitive is offscreen. This is a simplification, but
  		// ensures that the primitive is correctly drawn when it is 
  		// partially visible.
- 		coordSys.trackPoint(xa,ya);
- 		coordSys.trackPoint(xb,yb);
+/* 		coordSys.trackPoint(xa,ya);
+ 		coordSys.trackPoint(xb,yb);*/
  		
+ 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  		
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
+
+		//Stroke oldStroke;
 		
 		if(dashStyle>0) {
-			Stroke oldStroke;
 				
-			BasicStroke dashed = new BasicStroke(1.0f, 
+			BasicStroke dashed = new BasicStroke(w, 
                                           BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
                                           10.0f, Globals.dash[dashStyle], 0.0f);
                                          
-			oldStroke=g.getStroke();
 			g.setStroke(dashed);
 			g.drawLine(x1, y1, x2, y2);
-		    g.setStroke(oldStroke);
 
 		} else {
+			BasicStroke dashed = new BasicStroke(w);
+                                         
+			g.setStroke(dashed);
 			g.drawLine(x1, y1, x2, y2);
+
 		}
 		
 		
+		if (arrowStart | arrowEnd) {
+			int h=coordSys.mapX(arrowHalfWidth,arrowHalfWidth)-coordSys.mapX(0,0);
+			int l=coordSys.mapX(arrowLength,arrowLength)-coordSys.mapX(0,0);
 		
-		int h=coordSys.mapX(arrowHalfWidth,arrowHalfWidth)-coordSys.mapX(0,0);
-		int l=coordSys.mapX(arrowLength,arrowLength)-coordSys.mapX(0,0);
-		
-		if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
-		if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
-
+			if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
+			if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
+		}
  		return;
  	}
 	

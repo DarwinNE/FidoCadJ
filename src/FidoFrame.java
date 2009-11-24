@@ -98,7 +98,8 @@ public class FidoFrame extends JFrame implements
 											Printable,
 											DropTargetListener,
 											ZoomToFitListener,
-											HasChangedListener
+											HasChangedListener,
+											WindowFocusListener
 {
     private CircuitPanel CC;
     private JScrollPane SC;
@@ -282,7 +283,7 @@ public class FidoFrame extends JFrame implements
 		// program under a non-Apple platform.
 		if(Globals.weAreOnAMac) {
 			AppleSpecific a=new AppleSpecific();
-			a.answerFinder(popFrame);
+			a.answerFinder();
 		}
         
 		// See if there is a filename to open
@@ -683,7 +684,8 @@ public class FidoFrame extends JFrame implements
         }
         
         //pack();
-
+        addWindowFocusListener(this);
+		Globals.activeWindow=this;
         
        
     }
@@ -1411,7 +1413,8 @@ public class FidoFrame extends JFrame implements
             extFCJ_s,
             extFCJ_c,
             Globals.quaquaActive,
-            CC.getStrict());
+            CC.getStrict(),
+            CC.P.getMacroFont());
                     
         options.setVisible(true);
         CC.profileTime=options.profileTime;
@@ -1428,7 +1431,8 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_sizex(options.pcbpadwidth_i);
         CC.setPCB_pad_sizey(options.pcbpadheight_i);
 		CC.setPCB_pad_drill(options.pcbpadintw_i);
-
+		CC.P.setMacroFont(options.macroFont);
+		
 		extFCJ_s = options.extFCJ_s;
 		extFCJ_c = options.extFCJ_c;
         CC.setStrict(options.extStrict);
@@ -1478,4 +1482,13 @@ public class FidoFrame extends JFrame implements
 	   		(CC.P.getModified()?" *":""));
 	}
 	
+	public void windowGainedFocus(WindowEvent e) 
+	{
+		Globals.activeWindow = this;
+	}
+	
+	public void windowLostFocus(WindowEvent e) 
+	{
+	
+	}
 }

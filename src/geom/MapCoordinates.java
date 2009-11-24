@@ -70,8 +70,14 @@ public class MapCoordinates
     public boolean isMacro;
     public boolean snapActive;
     
+    
     public static final double MIN_MAGNITUDE=0.25;
     public static final double MAX_MAGNITUDE=100.0;
+
+    private double vx;
+    private int ivx;
+    private double vy;
+	private int ivy;
 
     
     private int xMin;
@@ -99,7 +105,7 @@ public class MapCoordinates
     /** Set the snapping state (used in the unmapping functions)
     	@param s the wanted state.
     */
-    public void setSnap(boolean s)
+    public final void setSnap(boolean s)
     {
     	snapActive=s;
     }
@@ -107,7 +113,7 @@ public class MapCoordinates
     /** Get the snapping state (used in the unmapping functions)
     	@return the current snapping state.
     */
-    public boolean getSnap()
+    public final boolean getSnap()
     {
     	return snapActive;
     }
@@ -115,7 +121,7 @@ public class MapCoordinates
     /**	Set the X grid step
     	@param xg the X grid step
     */
-    public void setXGridStep(int xg)
+    public final void setXGridStep(int xg)
     {
     	if (xg>0) 
     		xGridStep=xg;
@@ -124,7 +130,7 @@ public class MapCoordinates
     /**	Set the Y grid step
     	@param yg the Y grid step
     */
-    public void setYGridStep(int yg)
+    public final void setYGridStep(int yg)
     {
     	if (yg>0) 
     		yGridStep=yg;
@@ -134,7 +140,7 @@ public class MapCoordinates
     /**	Get the X grid step
     	@return the X grid step used
     */
-    public int getXGridStep()
+    public final int getXGridStep()
     {	
     	return xGridStep;
 
@@ -142,7 +148,7 @@ public class MapCoordinates
     /**	Get the Y grid step
     	@return the Y grid step used
     */
-    public int getYGridStep()
+    public final int getYGridStep()
     {	
     	return yGridStep;
 
@@ -151,7 +157,7 @@ public class MapCoordinates
     	@return the X magnification factor
     
     */
-    public double getXMagnitude()
+    public final double getXMagnitude()
     {
         return xMagnitude;
     }
@@ -161,7 +167,7 @@ public class MapCoordinates
     	@return the Y magnification factor
     
     */
-    public double getYMagnitude()
+    public final double getYMagnitude()
     {
         return yMagnitude;
     }
@@ -171,7 +177,7 @@ public class MapCoordinates
     	@param xm the X magnification factor
     
     */
-    public void setXMagnitude(double xm)
+    public final void setXMagnitude(double xm)
     {
     	if (Math.abs(xm)<MIN_MAGNITUDE)
     		xm=MIN_MAGNITUDE;
@@ -187,7 +193,7 @@ public class MapCoordinates
     	@param ym the Y magnification factor
     
     */
-    public void setYMagnitude(double ym)
+    public final void setYMagnitude(double ym)
     {
     	if (Math.abs(ym)<MIN_MAGNITUDE)
     		ym=MIN_MAGNITUDE;
@@ -203,7 +209,7 @@ public class MapCoordinates
     	@param ym the Y magnification factor
     
     */
-    public void setMagnitudes(double xm, double ym)
+    public final void setMagnitudes(double xm, double ym)
     {
         
         setXMagnitude(xm);
@@ -214,7 +220,7 @@ public class MapCoordinates
     	@return the maximum tracked X coordinate
     
     */
-    public int getXMax()
+    public final int getXMax()
     {
         return xMax;
     }
@@ -222,7 +228,7 @@ public class MapCoordinates
     	@return the maximum tracked Y coordinate
     
     */
-    public int getYMax()
+    public final int getYMax()
     {
         return yMax;
     }
@@ -230,7 +236,7 @@ public class MapCoordinates
     	@return the minimum tracked X coordinate
     
     */
-    public int getXMin()
+    public final int getXMin()
     {
         return xMin;
     }
@@ -238,24 +244,25 @@ public class MapCoordinates
     	@return the minimum tracked Y coordinate
     
     */
-    public int getYMin()
+    public final int getYMin()
     {
         return yMin;
     }
     
     /** Reset the minimum and maximum X/Y pixel coordinates tracked. */
-    public void resetMinMax()
+    public final void resetMinMax()
     {
         xMin=yMin=Integer.MAX_VALUE;
         xMax=yMax=Integer.MIN_VALUE;
     }
     
+    
+    
     /** Map the xc,yc coordinate given in the X pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public int mapX(int xc,int yc){
-        double vx;
+    public final int mapX(int xc,int yc){
         
         if(isMacro){
             xc-=100;
@@ -306,7 +313,7 @@ public class MapCoordinates
             }
         }   
         
-        int ivx=(int)(vx+.5);   /* The integer cast cuts decimals to the lowest 
+        ivx=(int)(vx+.5);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         
         if(ivx<xMin)
@@ -322,8 +329,7 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public int mapY(int xc,int yc){
-        double vy;
+    public final int mapY(int xc,int yc){
         
         if(isMacro){
             xc-=100;
@@ -349,7 +355,7 @@ public class MapCoordinates
         
         }
         
-        int ivy=(int)(vy+.5);   /* The integer cast cuts decimals to the lowest 
+        ivy=(int)(vy+.5);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         
         if(ivy<yMin)
@@ -366,7 +372,7 @@ public class MapCoordinates
         @param xp the X coordinate of the point being tracked.
         @param yp the Y coordinate of the point being tracked.
     */
-    public void trackPoint(int xp, int yp)
+    public final void trackPoint(int xp, int yp)
     {
         if(yp<yMin)
             yMin=yp;
@@ -388,13 +394,13 @@ public class MapCoordinates
         @param xp the X coordinate of the point being tracked.
         @param yp the Y coordinate of the point being tracked.
     */
-    public void trackPoint(Graphics d, int xp, int yp)
+ /*   public final void trackPoint(Graphics d, int xp, int yp)
     {
         trackPoint(xp,yp);
         d.drawLine(xp-3,yp,xp+3,yp);
         d.drawLine(xp,yp-3,xp,yp+3);
     }
-    
+    */
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
         @param X the horizontal coordinate in the screen coordinate system.

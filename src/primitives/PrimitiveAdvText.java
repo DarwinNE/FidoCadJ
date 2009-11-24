@@ -22,6 +22,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	private int siy;
 	private int sty;
 	private int o;
+	private String fontName;
+
 	
 	/* Text style patterns */
 	static final int TEXT_BOLD=1;
@@ -29,8 +31,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	static final int TEXT_MIRRORED=4;
 	
 	// A text is defined by one point.
-
-	
 	static final int N_POINTS=1;
 	
 	
@@ -52,6 +52,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		siy=4;
 		o=0;
 		txt="";
+		fontName = "Courier New";
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
@@ -105,7 +106,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
  		   1 typographical point is 1/72 of an inch.
  		*/
  			
- 		Font f=new Font("Courier",((sty & 
+ 		Font f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
  				(int)(six*12*coordSys.getYMagnitude()/7+.5));
  					
@@ -202,7 +203,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
  		   1 typographical point is 1/72 of an inch.
  		*/
  			
- 		Font f=new Font("Courier",((sty & 
+ 		Font f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
  				(int)(six*12*coordSys.getYMagnitude()/7+.5));
  			 
@@ -355,12 +356,12 @@ public class PrimitiveAdvText extends GraphicPrimitive
  			int j=8;
 			StringBuffer txtb=new StringBuffer();
       		
- 			/* Apparently, last versions of Fidocad gives the font in this 
- 			   place: just ignore it!
- 			   
- 			if(!tokens[8].equals("*"))
- 				System.out.println("TY: I need a * at the end of parameters\n");
- 			*/
+      		if(tokens[8].equals("*")) {
+      			fontName = "Courier New";
+      		} else {
+      			fontName = tokens[8].replaceAll("\\+\\+"," ");
+      		}
+  
  			
  			/* siy is the font horizontal size in mils (1/1000 of an inch).
  			   1 typographical point is 1/72 of an inch.
@@ -433,7 +434,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 
     	int orientation=o;
  			
- 		Font f=new Font("Courier",((sty & 
+ 		Font f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
  				(int)(six*12/7+.5));
  					
@@ -546,6 +547,10 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		pd.parameter=new Boolean((sty & TEXT_BOLD)!=0);
 		pd.description="Boldface";
 		v.add(pd);
+		pd = new ParameterDescription();
+		pd.parameter=new Font(fontName,Font.PLAIN,12);
+		pd.description="Font:";
+		v.add(pd);
 
 
 		return v;
@@ -625,6 +630,13 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				sty&sty & (~TEXT_BOLD);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
+		
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Font)
+			fontName = ((Font)pd.parameter).getFamily();
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
+		
 	}
 	
 	/** Rotate the primitive. Here we just rotate 90° by 90°
@@ -668,8 +680,24 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	*/
 	public String toString(boolean extensions)
 	{
+		String subsFont;
+		
+		if (fontName.equals("Courier New")) {
+			subsFont = "*";
+		} else {
+			StringBuffer s=new StringBuffer("");
+    		
+    		for (int i=0; i<fontName.length(); ++i) {
+    		if(fontName.charAt(i)!=' ') 
+    			s.append(fontName.charAt(i));
+    		else
+    			s.append("++");
+    		}
+			subsFont=s.toString();
+		}
+		
 		String s= "TY "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+siy+" "
-			+six+" "+o+" "+sty+" "+getLayer()+" * "+txt+"\n";
+			+six+" "+o+" "+sty+" "+getLayer()+" "+subsFont+" "+txt+"\n";
 	
 		return s;
 	}

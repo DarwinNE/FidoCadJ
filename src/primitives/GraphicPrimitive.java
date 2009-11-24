@@ -161,7 +161,7 @@ public abstract class GraphicPrimitive
 	/** Get the layer of the current primitive.
 		@return the layer number.
 	*/
-	public int getLayer()
+	public final int getLayer()
 	{
 		return layer;
 	}
@@ -203,21 +203,19 @@ public abstract class GraphicPrimitive
 				being used.
 		
 	*/
-	protected boolean selectLayer(Graphics2D g, Vector layerV)
+	protected final boolean selectLayer(Graphics2D g, Vector layerV)
 	{
-		int l;
 		if (layer<0 || layer>=layerV.size())
-			l=0;
-		else
-			l=layer;
+			layer=0;
 	
-		if (((LayerDesc)layerV.get(l)).getVisible()==false)
+		if (((LayerDesc)layerV.get(layer)).getVisible()==false)
 			return false;
 			
 		if(selectedState)
 			g.setColor(Color.green);
 		else
-			g.setColor(((LayerDesc)layerV.get(l)).getColor());
+			g.setColor(((LayerDesc)layerV.get(layer)).getColor());
+			
 		return true;
 	}
 	

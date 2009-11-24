@@ -149,8 +149,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         evidenceRect = new Rectangle(0,0,-1,-1);
 
-        
-        //circ=new StringBuffer();
+       
         setOpaque(true);
         runs = 0;
         average = 0;
@@ -864,7 +863,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             try {
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), sc.unmapXsnap(x),
-                    sc.unmapYsnap(y),macroKey));
+                    sc.unmapYsnap(y),macroKey, P.getMacroFont()));
             } catch (IOException G) {
                 System.out.println(G);
             }
@@ -1315,7 +1314,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     	if(Globals.doNotUseXOR) 
         	g.setColor(Color.green);
-        
+
+   		g2.setStroke(new BasicStroke(1));
+
         g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,	
         	evidenceRect.height);
   

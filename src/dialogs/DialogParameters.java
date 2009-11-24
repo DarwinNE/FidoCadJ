@@ -21,7 +21,7 @@ Version   Date           	Author       Remarks
 1.2		June 2009			D. Bucci 	Capitalize the first letters                                     
 
                                      
-    Written by Davide Bucci, June 2008, davbucci at tiscali dot it
+    Written by Davide Bucci, June 2009, davbucci at tiscali dot it
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -58,6 +58,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 	private int cc;
 	private boolean extStrict;	// Strict compatibility
 	
+	private JComboBox jco[];
+	private int co;
+	
 	private Vector v;
 	
   	
@@ -80,6 +83,7 @@ public class DialogParameters extends JDialog implements ComponentListener
   		
   		jtf=new JTextField[MAX_ELEMENTS];
   		jcb=new JCheckBox[MAX_ELEMENTS];
+  		jco=new JComboBox[MAX_ELEMENTS];
   		
   		active = false;
   		addComponentListener(this);	
@@ -100,6 +104,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 		
 		tc=0;
 		cc=0;
+		co=0;
 		
 		for (ycount=0;ycount<v.size();++ycount) {
 			pd = (ParameterDescription)v.elementAt(ycount);
@@ -205,8 +210,29 @@ public class DialogParameters extends JDialog implements ComponentListener
 				jtf[tc].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jtf[tc++], constraints);
 			
+			} else if(pd.parameter instanceof Font) {
+				GraphicsEnvironment gE;  
+				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				String[] s = gE.getAvailableFontFamilyNames();  
+				jco[co]=new JComboBox();
+      			//System.out.println("%"+((Font)pd.parameter).getFamily()+"%");
+
+    			for (int i = 0; i < s.length; ++i) {
+      				jco[co].addItem(s[i]);
+      				if (s[i].equals(((Font)pd.parameter).getFamily()))
+      					jco[co].setSelectedIndex(i);
+     			}
+				constraints.weightx=100;
+				constraints.weighty=100;
+				constraints.gridx=2;
+				constraints.gridy=ycount;
+				constraints.gridwidth=2;
+				constraints.gridheight=1;	
+				constraints.insets=new Insets(top,0,0,20);
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				jco[co].setEnabled(!(pd.isExtension && extStrict));
+				contentPane.add(jco[co++], constraints);
 			}
-		
 		}
 		
 	
@@ -241,6 +267,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 					ParameterDescription pd;
 					tc=0;
 					cc=0;
+					co=0;
 					
 					for (ycount=0;ycount<v.size();++ycount) {
 						pd = (ParameterDescription)v.elementAt(ycount);
@@ -257,8 +284,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 						} else if(pd.parameter instanceof Integer) {
 							pd.parameter=new Integer(Integer.parseInt(
 								jtf[tc++].getText()));
-						}	
-					}
+						} else if(pd.parameter instanceof Font) {
+		      				pd.parameter=new Font((String)jco[co++].getSelectedItem(), Font.PLAIN, 12);
+      					}
+     				}
 				} catch (NumberFormatException E) 
 				{
 					JOptionPane.showMessageDialog(null,
