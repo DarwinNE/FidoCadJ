@@ -47,6 +47,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		return N_POINTS;
 	}
 	
+	/** Constructor
+	
+		@param lib the library to be inherited
+		@param l the list of layers
+	*/
 	public PrimitiveMacro(Map lib, Vector l)
 	{
 		super();
@@ -97,6 +102,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  		}
  		macroDesc = macro.description;
  		macroName = key;
+ 		macroFont = macroF;
  					
 	}
 	

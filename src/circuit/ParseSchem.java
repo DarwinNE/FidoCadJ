@@ -680,28 +680,22 @@ public class ParseSchem
     public void setMacroFont(String f)
     {
         int i;
+        macroFont=f;
+
         for (i=0; i<primitiveVector.size(); ++i){
             if((GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
             	((PrimitiveMacro)primitiveVector.elementAt(i)).setMacroFont(f);
             }
         }
-        macroFont=f;
         
     }
     
     
     /** Get the font of all macros.
-        @returns the font name
+        @return the font name
     */
     public String getMacroFont()
-    {
-        int i;/*
-        for (i=0; i<primitiveVector.size(); ++i){
-            if((GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
-            	return ((PrimitiveMacro)primitiveVector.elementAt(i)).getMacroFont();
-            }
-        }*/
-        
+    {        
         return macroFont;
     }
     

@@ -520,7 +520,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		}
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(getLayer());
+		pd.parameter=new LayerInfo(getLayer());
 		pd.description="Layer:";
 		v.add(pd);
 		
@@ -589,8 +589,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		pd = (ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
-		if (pd.parameter instanceof Integer)
-			setLayer(((Integer)pd.parameter).intValue());
+		if (pd.parameter instanceof LayerInfo)
+			setLayer(((LayerInfo)pd.parameter).getLayer());
 		else
 		 	System.out.println("Warning: unexpected parameter!");		
 		pd=(ParameterDescription)v.get(i);

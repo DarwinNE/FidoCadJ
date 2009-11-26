@@ -1422,7 +1422,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         GraphicPrimitive gp=P.getFirstSelectedPrimitive();
         if (gp!=null) {
             Vector v=gp.getControls();
-            DialogParameters dp = new DialogParameters(null,v, extStrict);
+            DialogParameters dp = new DialogParameters(null,v, extStrict, 
+            	P.getLayers());
             dp.setVisible(true);
             if(dp.active) {
                 gp.setControls(dp.getCharacteristics());

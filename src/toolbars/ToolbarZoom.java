@@ -50,7 +50,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private double oldzoom;
     private ChangeZoomListener notifyZoomChangeListener;
     private ZoomToFitListener actualZoomToFitListener;
-    
+     
     private JComboBox layerSel;
     private ChangeSelectedLayer changeLayerListener;
     
