@@ -61,7 +61,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 	private JComboBox jco[];
 	private int co;
 	
+	
 	private Vector v;
+	
+	private Vector layers;
 	
   	
   	/** Programmatically build a dialog frame containing the appropriate
@@ -73,11 +76,12 @@ public class DialogParameters extends JDialog implements ComponentListener
   			user.
   	
   	*/
-  	public DialogParameters (JFrame parent, Vector vec, boolean strict)
+  	public DialogParameters (JFrame parent, Vector vec, boolean strict, Vector l)
   	{
   		super(parent, Globals.messages.getString("Param_opt"), true);
   		
   		v=vec;
+  		layers = l;
   		
   		int ycount=0;
   		
@@ -232,6 +236,24 @@ public class DialogParameters extends JDialog implements ComponentListener
 				constraints.fill = GridBagConstraints.HORIZONTAL;
 				jco[co].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jco[co++], constraints);
+			} else if(pd.parameter instanceof LayerInfo) {
+				GraphicsEnvironment gE;  
+				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				jco[co]=new JComboBox(layers);
+				jco[co].setSelectedIndex(((LayerInfo)pd.parameter).layer);
+   				jco[co].setRenderer( new LayerCellRenderer());
+
+				constraints.weightx=100;
+				constraints.weighty=100;
+				constraints.gridx=2;
+				constraints.gridy=ycount;
+				constraints.gridwidth=2;
+				constraints.gridheight=1;	
+				constraints.insets=new Insets(top,0,0,20);
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				jco[co].setEnabled(!(pd.isExtension && extStrict));
+				contentPane.add(jco[co++], constraints);
+
 			}
 		}
 		
@@ -286,7 +308,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 								jtf[tc++].getText()));
 						} else if(pd.parameter instanceof Font) {
 		      				pd.parameter=new Font((String)jco[co++].getSelectedItem(), Font.PLAIN, 12);
-      					}
+      					} else if(pd.parameter instanceof LayerInfo) {
+		      				pd.parameter=new LayerInfo(jco[co++].getSelectedIndex());
+		      			}
      				}
 				} catch (NumberFormatException E) 
 				{

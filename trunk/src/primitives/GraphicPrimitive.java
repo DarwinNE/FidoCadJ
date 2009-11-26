@@ -334,7 +334,7 @@ public abstract class GraphicPrimitive
 		}
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(layer);
+		pd.parameter=new LayerInfo(layer);
 		pd.description="Layer:";
 		v.add(pd);
 		
@@ -368,8 +368,8 @@ public abstract class GraphicPrimitive
 		}
 		pd = (ParameterDescription)v.get(i);
 		// Check, just for sure...
-		if (pd.parameter instanceof Integer)
-			layer=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof LayerInfo)
+			layer=((LayerInfo)pd.parameter).getLayer();
 		else
 		 	System.out.println("Warning: unexpected parameter!");
 	}
