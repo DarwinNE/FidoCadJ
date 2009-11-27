@@ -267,8 +267,8 @@ public class PrimitiveLine extends GraphicPrimitive
 		
 		
 		if (arrowStart | arrowEnd) {
-			int h=coordSys.mapX(arrowHalfWidth,arrowHalfWidth)-coordSys.mapX(0,0);
-			int l=coordSys.mapX(arrowLength,arrowLength)-coordSys.mapX(0,0);
+			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
+			int l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
 		
 			if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
 			if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);

@@ -99,8 +99,8 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		int x1=virtualPoint[0].x;
  		int y1=virtualPoint[0].y;
  		
- 		int rrx=Math.abs(coordSys.mapX(x1,y1)-coordSys.mapX(x1+rx,y1+ry));
- 		int rry=Math.abs(coordSys.mapY(x1,y1)-coordSys.mapY(x1+rx,y1+ry));
+ 		int rrx=Math.abs(coordSys.mapXi(x1,y1, false)-coordSys.mapXi(x1+rx,y1+ry, false));
+ 		int rry=Math.abs(coordSys.mapYi(x1,y1, false)-coordSys.mapYi(x1+rx,y1+ry, false));
  			
  		
  		int xa=coordSys.mapX(x1,y1);
@@ -113,11 +113,11 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		if(!g.hitClip(xa-rrx/2,ya-rry/2, rrx, rry))
  			return;
  		
- 		int rox=Math.abs(xa-coordSys.mapX(x1+5,y1+5));
- 		int roy=Math.abs(ya-coordSys.mapY(x1+5,y1+5));
+ 		int rox=Math.abs(xa-coordSys.mapXi(x1+5,y1+5, false));
+ 		int roy=Math.abs(ya-coordSys.mapYi(x1+5,y1+5, false));
  		
- 		int rix=Math.abs(xa-coordSys.mapX(x1+ri,y1+ri));
- 		int riy=Math.abs(ya-coordSys.mapY(x1+ri,y1+ri));
+ 		int rix=Math.abs(xa-coordSys.mapXi(x1+ri,y1+ri, false));
+ 		int riy=Math.abs(ya-coordSys.mapYi(x1+ri,y1+ri, false));
  		
  		if (!drawOnlyPads) {
  			switch(sty) {

@@ -24,6 +24,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private boolean drawOnlyPads;
 	private int drawOnlyLayer;
 	private boolean alreadyExported;
+	private ParseSchem macro;
+
 	
 	// Text sizes
 	private int h,th, w1, w2;
@@ -62,11 +64,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 		name="";
 		value="";
 		macroFont="Courier New";
+		macro=new ParseSchem();
 		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
-		
+		macroStore(layers);
 	}
 	
 	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, String macroF)
@@ -76,7 +79,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		library=lib;
 		layers=l;
 		key=key.toLowerCase();
-
+		macro=new ParseSchem();
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -103,6 +106,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macroDesc = macro.description;
  		macroName = key;
  		macroFont = macroF;
+ 		
+ 		macroStore(layers);
  					
 	}
 	
@@ -204,37 +209,36 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroCoord.mirror=m ^ coordSys.mirror;
  		macroCoord.isMacro=true;
  		 		 			
- 		ParseSchem macro=new ParseSchem();
  		macro.setMapCoordinates(macroCoord);
- 		
- 		macro.setLibrary(library); 			// Inherit the library
+
+		if(getSelected())
+ 			macro.selectAll();
+
+		macro.setDrawOnlyLayer(drawOnlyLayer);
+
+ 		macro.setDrawOnlyPads(drawOnlyPads);
+ 		macro.draw(g);
+		
+		coordSys.trackPoint(macroCoord.getXMax(),macroCoord.getYMax());	
+	}
+	
+	private void macroStore(Vector layerV)
+	{
+	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
  		
  		//macroDesc=(String)library.get(macroName);
  		
- 		macro.setDrawOnlyLayer(drawOnlyLayer);
  		
- 		if (macroDesc==null)
- 			System.out.println("Unrecognized macro "+
- 			        "WARNING this can be a programming problem...");
- 		else {
+ 		if (macroDesc!=null) {
  			try {
  				macro.parseString(new StringBuffer(macroDesc)); 
  				// Recursive call	
  			} catch(IOException e) {
                 	System.out.println("Error: "+e); 
             }
- 			// Propagate selection state
- 			if(getSelected())
- 				macro.selectAll();
- 			
- 			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.draw(g);
-		}
-		
-		coordSys.trackPoint(macroCoord.getXMax(),macroCoord.getYMax());	
+ 		}
 	}
-	
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -333,6 +337,12 @@ public class PrimitiveMacro extends GraphicPrimitive
  	
 		
 	}
+	
+	public int getMaxLayer()
+    {
+    	return macro.getMaxLayer();
+    }
+	
 	public void setValue(String[] tokens, int N)
 		throws IOException
 	{
@@ -413,6 +423,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 				throw G;
  			}
  			macroDesc = macro.description;
+ 			macroStore(layers);
  				
  				
  		} else {
@@ -536,7 +547,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			
  		
  		if (macroDesc==null)
- 			System.out.println("Unrecognized macro "+
+ 			System.out.println("1-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
  			try {
@@ -775,7 +786,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macro.setLayers(layers);	// Inherit the layers
  		
  		if (macroDesc==null)
- 			System.out.println("Unrecognized macro "+
+ 			System.out.println("2-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
  			macro.parseString(new StringBuffer(macroDesc)); // Recursive call	
