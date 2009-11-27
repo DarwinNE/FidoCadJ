@@ -211,21 +211,21 @@ public class ExportGraphic
     	
     	// Verify that the image size is correct
     	
-		if (P.getMapCoordinates().getXMax()>0 && 
-			P.getMapCoordinates().getYMax()>0){
-			
-			if(countMin) {
-				width=m.getXMax()-
-					m.getXMin();
-				height=m.getYMax()-
-					m.getYMin();
-			} else {
-				width=m.getXMax();
-				height=m.getYMax();
-			}
+    	if(countMin) {
+			width=m.getXMax()-
+				m.getXMin();
+			height=m.getYMax()-
+				m.getYMin();
 		} else {
+			width=m.getXMax();
+			height=m.getYMax();
+		}
+
+			
+		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
 							   "sized image");
+							   
 			width=100;
 			height=100;
 		}
@@ -251,12 +251,18 @@ public class ExportGraphic
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
+		int ox=P.getMapCoordinates().getXCenter();
+		int oy=P.getMapCoordinates().getYCenter();
+		
 		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
 		MapCoordinates m=P.getMapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
+       	m.setXCenter(0);
+       	m.setYCenter(0);
+       	
        	//P.setMapCoordinates(m);
        	
 		//System.out.println("unitperpixel: "+unitperpixel);
@@ -266,9 +272,10 @@ public class ExportGraphic
         // Graphics context no longer needed so dispose it
         g2d.dispose();
     	
+    
     	// Verify that the image size is correct
-		if (P.getMapCoordinates().getXMax()>0 && 
-			P.getMapCoordinates().getYMax()>0){
+		if (P.getMapCoordinates().getXMax() >= P.getMapCoordinates().getXMin() && 
+			P.getMapCoordinates().getYMax() >= P.getMapCoordinates().getYMin()){
 			originx=P.getMapCoordinates().getXMin();
 			originy=P.getMapCoordinates().getYMin();
 		} else {
@@ -278,7 +285,9 @@ public class ExportGraphic
 			originy=0;
 		}
         P.getMapCoordinates().setMagnitudes(oxz, oyz);
-
+        P.getMapCoordinates().setXCenter(ox);
+        P.getMapCoordinates().setYCenter(oy);
+		
 		return new Point(originx, originy);
     }
     

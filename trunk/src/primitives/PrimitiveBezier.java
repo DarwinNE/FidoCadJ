@@ -235,10 +235,13 @@ public class PrimitiveBezier extends GraphicPrimitive
 			g.setStroke(new BasicStroke(w));
 			
 		g.draw(shape1);
- 		g.setStroke(oldStroke);				 
+ 		//g.setStroke(oldStroke);				 
  		
- 		int h=coordSys.mapX(arrowHalfWidth,arrowHalfWidth)-coordSys.mapX(0,0);
-		int l=coordSys.mapX(arrowLength,arrowLength)-coordSys.mapX(0,0);
+ 		
+ 		int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+ 			coordSys.mapXi(0,0, false);
+		int l=coordSys.mapXi(arrowLength,arrowLength,false)-
+			coordSys.mapXi(0,0, false);
 		
  		
  		if (arrowStart) Arrow.drawArrow(g, 		

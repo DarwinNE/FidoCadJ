@@ -111,6 +111,8 @@ public class ParseSchem
     private int opy;
     
     private boolean hasMoved;
+    
+    private int maxLayer;
    
    // A drawing modification flag. If true, there are unsaved changes
     private boolean isModified;
@@ -449,6 +451,11 @@ public class ParseSchem
         return s;
     }
     
+    public int getMaxLayer()
+    {
+    	return maxLayer;
+    }
+    
     /** Draw all primitives.
         @param G the graphic context to be used.
     */
@@ -461,7 +468,7 @@ public class ParseSchem
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
         
-        int maxLayer=-1;
+   		maxLayer=-1;
         
         if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
@@ -470,7 +477,9 @@ public class ParseSchem
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i=0; i<primitiveVector.size(); ++i){
         		g=(GraphicPrimitive)primitiveVector.elementAt(i);
-        		
+       			if (g.getLayer()>maxLayer) 
+    				maxLayer = g.getLayer();
+    
         		if(g.getLayer()==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
         			g.draw(G, cs, layerV);  
@@ -483,21 +492,27 @@ public class ParseSchem
        		return;
        	} else if (!drawOnlyPads) {
         	cs.resetMinMax();
+
         	for(j=0;j<layerV.size(); ++j) {
+
         		for (i=0; i<primitiveVector.size(); ++i){
-        		
         			g=(GraphicPrimitive)primitiveVector.elementAt(i);
+    
+    				if (g.getLayer()>maxLayer) 
+        					maxLayer = g.getLayer();
+        			
+        		
         			if(g.getLayer()==j && !(g instanceof PrimitiveMacro)){
         				g.draw(G, cs, layerV);  
-        				
+	
         			} else if(g instanceof PrimitiveMacro) {
         				((PrimitiveMacro)g).setDrawOnlyLayer(j);
         				g.draw(G, cs, layerV);  
-        				
+
+        				if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
+        					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
         			}
         			
-        			if (g.getLayer()>maxLayer) 
-        				maxLayer = g.getLayer();
         		}
         		if (j>=maxLayer)
         			break;

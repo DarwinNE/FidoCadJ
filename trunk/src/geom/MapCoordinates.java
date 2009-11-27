@@ -15,7 +15,8 @@ Version   Date           Author       Remarks
                                      	Internal resolution increased
 1.2.1   January 2008    	D. Bucci    More flexible coordinate tracking                               
 1.3     May 2008        	D. Bucci    Grid snapping
-1.4		June 2009			D. Bucci 	Capitalize the first letters                                     
+1.4		June 2009			D. Bucci 	Capitalize the first letters      
+1.5		November 2009		D. Bucci 	Added a toString method for testing
 
                                
     Written by Davide Bucci, March-December 2007, davbucci at tiscali dot it
@@ -204,6 +205,45 @@ public class MapCoordinates
         yMagnitude=ym;
     }
     
+        /**	Get the X magnification factor
+    	@return the X magnification factor
+    
+    */
+    public final int getXCenter()
+    {
+        return xCenter;
+    }
+    
+    
+    /**	Get the Y magnification factor
+    	@return the Y magnification factor
+    
+    */
+    public final int getYCenter()
+    {
+        return yCenter;
+    }
+    
+    
+    /**	Set the X magnification factor
+    	@param xm the X magnification factor
+    
+    */
+    public final void setXCenter(int xm)
+    {
+        xCenter=xm;
+    }
+    
+    
+    /**	Set the Y magnification factor
+    	@param ym the Y magnification factor
+    
+    */
+    public final void setYCenter(int ym)
+    {
+        yCenter=ym;
+    }
+    
     /**	Set both X and Y magnification factors
     	@param xm the X magnification factor
     	@param ym the Y magnification factor
@@ -262,7 +302,13 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public final int mapX(int xc,int yc){
+    public final int mapX(int xc,int yc)
+    {
+    	return mapXi(xc, yc, true);
+    
+    }
+    public final int mapXi(int xc,int yc, boolean track)
+    {
         
         if(isMacro){
             xc-=100;
@@ -315,12 +361,13 @@ public class MapCoordinates
         
         ivx=(int)(vx+.5);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
-        
-        if(ivx<xMin)
-            xMin=ivx;
-        if(vx>xMax)
-            xMax=ivx;
-        
+        if(track) {
+        	if(ivx<xMin)
+            	xMin=ivx;
+        	if(vx>xMax)
+            	xMax=ivx;
+       	}
+       	
         return ivx;
     }
 
@@ -329,7 +376,12 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public final int mapY(int xc,int yc){
+    public final int mapY(int xc,int yc)
+    {
+    	return mapYi(xc, yc,true);
+    }
+    public final int mapYi(int xc,int yc, boolean track)
+    {
         
         if(isMacro){
             xc-=100;
@@ -357,13 +409,13 @@ public class MapCoordinates
         
         ivy=(int)(vy+.5);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
-        
-        if(ivy<yMin)
-            yMin=ivy;
+        if(track) {
+        	if(ivy<yMin)
+            	yMin=ivy;
             
-        if(ivy>yMax)
-            yMax=ivy;
-    
+        	if(ivy>yMax)
+            	yMax=ivy;
+    	}
         return ivy;
     }
     
@@ -387,20 +439,7 @@ public class MapCoordinates
             xMax=xp;
         
     }
-    /** Add a point in the min/max tracking system. The point should be 
-        specified in the SCREEN coordinates. Draw a cross in the specified
-        point.
-        
-        @param xp the X coordinate of the point being tracked.
-        @param yp the Y coordinate of the point being tracked.
-    */
- /*   public final void trackPoint(Graphics d, int xp, int yp)
-    {
-        trackPoint(xp,yp);
-        d.drawLine(xp-3,yp,xp+3,yp);
-        d.drawLine(xp,yp-3,xp,yp+3);
-    }
-    */
+    
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
         @param X the horizontal coordinate in the screen coordinate system.
@@ -456,6 +495,31 @@ public class MapCoordinates
         	yc*=yGridStep;
         }
         return yc;
+    }
+    
+    public String toString()
+    {
+    	String s=new String();
+        s+="[xCenter="+ xCenter;
+    	s+="|yCenter="+ yCenter;
+	    s+="|xMagnitude="+xMagnitude;
+	    s+="|yMagnitude="+yMagnitude;
+	    s+="|orientation="+orientation;
+	    s+="|mirror="+ mirror;
+	    s+="|isMacro="+isMacro;
+	    s+="|snapActive="+snapActive;
+    
+      
+    
+	    s+="|xMin="+ xMin;
+	    s+="|xMax="+xMax;
+	    s+="|yMin="+yMin;
+	    s+="|yMax="+yMax;
+    
+	    s+="|xGridStep="+xGridStep;
+	    s+="|yGridStep="+ yGridStep+"]";
+    
+    	return s;
     }
     
 }

@@ -146,6 +146,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         P=new ParseSchem();
         isGridVisible=true;
         zoomListener=null;
+        antiAlias = true;
         
         evidenceRect = new Rectangle(0,0,-1,-1);
 

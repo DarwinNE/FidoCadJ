@@ -108,6 +108,7 @@ public class MacroTree extends JPanel
 			implemented in a later moment.
 			
 			Addendum June 2009: let's try!
+			November 2009: this solution seems to be rather effective :-)
 		*/
 		
 		search.putClientProperty("Quaqua.TextField.style","search");
@@ -159,7 +160,7 @@ public class MacroTree extends JPanel
         if (node.isLeaf()) {
         	try {
             	MacroDesc macro = (MacroDesc)nodeInfo;
-            	previewPanel.P.setMapCoordinates(new MapCoordinates());
+            	//previewPanel.P.setMapCoordinates(new MapCoordinates());
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 

@@ -84,8 +84,8 @@ public class PrimitivePCBLine extends GraphicPrimitive
  		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
  		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
- 		int wi_pix=Math.abs(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y)
-		    -coordSys.mapX(virtualPoint[0].x+width,virtualPoint[0].y+width));
+ 		int wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,virtualPoint[0].y, false)
+		    -coordSys.mapXi(virtualPoint[0].x+width,virtualPoint[0].y+width, false));
 			
  		int xa=Math.min(x1, x2)-wi_pix/2;
  		int ya=Math.min(y1, y2)-wi_pix/2;
