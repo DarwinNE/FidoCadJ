@@ -106,6 +106,10 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		int xa=coordSys.mapX(x1,y1);
  		int ya=coordSys.mapY(x1,y1);
  			
+ 		coordSys.trackPoint(x1-rrx,y1-rry);
+ 		coordSys.trackPoint(x1+rrx,y1+rry);
+
+ 		
  		// Exit if the primitive is offscreen. This is a simplification, but
  		// ensures that the primitive is correctly drawn when it is 
  		// partially visible.
@@ -124,19 +128,19 @@ public class PrimitivePCBPad extends GraphicPrimitive
  			case 1:
  				/* Rectangular pad */
  				g.fillRect(xa-rrx/2,
- 					   ya-rry/2,rrx,rry);
+ 				    ya-rry/2,rrx,rry);
  				break;
  			case 2:
  				/* Rounded corner rectangular pad */
  				g.fillRoundRect(xa-rrx/2,
- 					   ya-rry/2,rrx,rry,rox,roy);
+ 				    ya-rry/2,rrx,rry,rox,roy);
  				break;
  			case 0:
  			default:
  				/* Oval Pad */ 
 			
  				g.fillOval(xa-rrx/2,
- 					   ya-rry/2,rrx,rry);
+ 				    ya-rry/2,rrx,rry);
  			
  			}
  		} else {
@@ -187,7 +191,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 
  			
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("PA: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}

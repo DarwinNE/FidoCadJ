@@ -327,7 +327,7 @@ public class PrimitiveLine extends GraphicPrimitive
  			
  			
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("LI: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}
