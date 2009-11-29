@@ -152,7 +152,7 @@ public class MacroTree extends JPanel
     */
     public void valueChanged(TreeSelectionEvent e) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                           tree.getLastSelectedPathComponent();
+            tree.getLastSelectedPathComponent();
 
         if (node == null) return;
 
@@ -160,19 +160,22 @@ public class MacroTree extends JPanel
         if (node.isLeaf()) {
         	try {
             	MacroDesc macro = (MacroDesc)nodeInfo;
+            	//System.out.println(macro.description);
             	//previewPanel.P.setMapCoordinates(new MapCoordinates());
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
-    				previewPanel.getSize().height, previewPanel.getSize().width, 
+    				previewPanel.getSize().width, previewPanel.getSize().height, 
     				true);
     			previewPanel.P.setMapCoordinates(m);
-            
+				//System.out.println(m);
+				
             	repaint();
             	if (selectionListener!=null)
 					selectionListener.setSelectionState(CircuitPanel.MACRO,
 						macro.key);
             } catch (Exception E) {
+            	//System.out.println(E);
             	// We get an exception if we click on the base node in an empty
             	// library list.
             	// In such cases, it is OK just to ignore the action.

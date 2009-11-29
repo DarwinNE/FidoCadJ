@@ -1562,7 +1562,7 @@ public class ParseSchem
                      
             } else if (old_tokens[0].equals("EP")||
                	old_tokens[0].equals("EV")) {
-		        g=new PrimitiveRectangle();
+		        g=new PrimitiveOval();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
                 primitiveVector.add(g);

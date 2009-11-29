@@ -159,7 +159,7 @@ public class PrimitiveOval extends GraphicPrimitive
 					dashStyle=0;
  			}
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("EV/EP: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}

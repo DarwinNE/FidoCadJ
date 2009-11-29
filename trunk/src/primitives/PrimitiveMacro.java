@@ -25,19 +25,20 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private int drawOnlyLayer;
 	private boolean alreadyExported;
 	private ParseSchem macro;
-
+	private MapCoordinates macroCoord;
+	private boolean selected;
 	
 	// Text sizes
 	private int h,th, w1, w2;
 	private int t_h,t_th, t_w1, t_w2;
 	static final int text_size=3;
 
-	String macroName;
-	String macroDesc;
-	String macroFont;
+	private String macroName;
+	private String macroDesc;
+	private String macroFont;
 	
-	String name;
-	String value;
+	private String name;
+	private String value;
 
 	
 	/** Gets the number of control points used.
@@ -65,6 +66,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		value="";
 		macroFont="Courier New";
 		macro=new ParseSchem();
+		macroCoord=new MapCoordinates();
+
 		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
@@ -80,6 +83,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		layers=l;
 		key=key.toLowerCase();
 		macro=new ParseSchem();
+		macroCoord=new MapCoordinates();
+
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -193,11 +198,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		   
 		int x1=virtualPoint[0].x;
  		int y1=virtualPoint[0].y;
-		
+ 		
+ 		
 		
 		// Then create and parse the macro
-		MapCoordinates macroCoord=new MapCoordinates();
- 		
  		
  			
  		macroCoord.setXMagnitude(coordSys.getXMagnitude());
@@ -211,8 +215,13 @@ public class PrimitiveMacro extends GraphicPrimitive
  		 		 			
  		macro.setMapCoordinates(macroCoord);
 
-		if(getSelected())
+		if(getSelected()) {
  			macro.selectAll();
+ 			selected = true;
+		} else if (selected) {
+			macro.deselectAll();
+			selected = false;
+		}
 
 		macro.setDrawOnlyLayer(drawOnlyLayer);
 
@@ -330,7 +339,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  					
 			
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		} 
@@ -358,6 +367,11 @@ public class PrimitiveMacro extends GraphicPrimitive
  			virtualPoint[2].x=Integer.parseInt(tokens[1]);
  			virtualPoint[2].y=Integer.parseInt(tokens[2]);
  			
+			if(tokens[8].equals("*")) {
+      			macroFont = "Courier New";
+      		} else {
+      			macroFont = tokens[8].replaceAll("\\+\\+"," ");
+      		} 			
  		 					
       		while(j<N-1){
       			txtb.append(tokens[++j]);
@@ -427,7 +441,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  				
  				
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("MC: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}
@@ -600,16 +614,31 @@ public class PrimitiveMacro extends GraphicPrimitive
 			
 		String s="MC "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+o+" "
 				+mirror+" "+macroName+"\n";
-				
+		
+		String subsFont;
+		
+		if (macroFont.equals("Courier New")) {
+			subsFont = "*";
+		} else {
+			StringBuffer s1=new StringBuffer("");
+    		
+    		for (int i=0; i<macroFont.length(); ++i) {
+    		if(macroFont.charAt(i)!=' ') 
+    			s1.append(macroFont.charAt(i));
+    		else
+    			s1.append("++");
+    		}
+			subsFont=s1.toString();
+		}
 		
 		if (!name.equals("") || !value.equals("")) {
 			if(extensions) s+="FCJ\n";
 			s+="TY "+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
 				text_size*4/3+" "+text_size+" "+"0"+" "+"0"+" "+getLayer()
-				+" * "+name+"\n";
+				+" "+subsFont+" "+name+"\n";
 			s+="TY "+virtualPoint[2].x+" "+virtualPoint[2].y+" "+
 				text_size*4/3+" "+text_size+" "+"0"+" "+"0"+" "+getLayer()
-				+" * "+value+"\n";
+				+" "+subsFont+" "+value+"\n";
 		}
 		
 		return s;
@@ -801,7 +830,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  				exp.exportAdvText (cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
 					cs.mapY(virtualPoint[1].x,virtualPoint[1].y), text_size, 
 					(int)( text_size*12/7+.5),
-					"Courier", 
+					macroFont, 
 					false,
 					false,
 					false,
@@ -809,7 +838,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 				exp.exportAdvText (cs.mapX(virtualPoint[2].x,virtualPoint[2].y),
 					cs.mapY(virtualPoint[2].x,virtualPoint[2].y), text_size, 
 					(int)( text_size*12/7+.5),
-					"Courier", 
+					macroFont, 
 					false,
 					false,
 					false,

@@ -235,29 +235,30 @@ public class PrimitiveBezier extends GraphicPrimitive
 			g.setStroke(new BasicStroke(w));
 			
 		g.draw(shape1);
- 		//g.setStroke(oldStroke);				 
+ 		g.setStroke(oldStroke);				 
  		
  		
- 		int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
- 			coordSys.mapXi(0,0, false);
-		int l=coordSys.mapXi(arrowLength,arrowLength,false)-
-			coordSys.mapXi(0,0, false);
-		
  		
- 		if (arrowStart) Arrow.drawArrow(g, 		
- 			coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-			coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
-			coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
-			coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), l, h, 
-			arrowStyle);
+		if (arrowStart | arrowEnd) {
+			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+ 				coordSys.mapXi(0,0, false);
+			int l=coordSys.mapXi(arrowLength,arrowLength,false)-
+				coordSys.mapXi(0,0, false);
+	
+ 			if (arrowStart) Arrow.drawArrow(g, 		
+ 				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+				coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+				coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
+				coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), l, h, 
+				arrowStyle);
 		
-		if (arrowEnd) Arrow.drawArrow(g, 		
- 			coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
-			coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
-			coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
-			coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y), l, h, 
-			arrowStyle);
-		
+			if (arrowEnd) Arrow.drawArrow(g, 		
+ 				coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+				coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
+				coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
+				coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y), l, h, 
+				arrowStyle);
+		}
  	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive

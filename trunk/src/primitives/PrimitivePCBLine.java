@@ -151,7 +151,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 
  			
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("PL: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}

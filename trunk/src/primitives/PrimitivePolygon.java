@@ -203,7 +203,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 			
  			
  		} else {
- 			IOException E=new IOException("Invalid primitive:"+
+ 			IOException E=new IOException("PP/PV: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}
