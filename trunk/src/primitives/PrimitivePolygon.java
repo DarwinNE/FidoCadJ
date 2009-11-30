@@ -228,7 +228,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 		v.add(pd);
 
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(dashStyle);
+		pd.parameter=new DashInfo(dashStyle);
 		pd.description="Dash style";
 		pd.isExtension = true;
 		v.add(pd);
@@ -260,8 +260,8 @@ public class PrimitivePolygon extends GraphicPrimitive
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Integer)
-			dashStyle=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof DashInfo)
+			dashStyle=((DashInfo)pd.parameter).style;
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		

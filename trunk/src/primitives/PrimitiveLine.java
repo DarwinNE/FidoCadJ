@@ -112,14 +112,14 @@ public class PrimitiveLine extends GraphicPrimitive
 
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(arrowStyle);
+		pd.parameter=new ArrowInfo(arrowStyle);
 		pd.description="Arrow style";
 		pd.isExtension = true;
 
 		v.add(pd);
 
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(dashStyle);
+		pd.parameter=new DashInfo(dashStyle);
 		pd.description="Dash style";
 		pd.isExtension = true;
 
@@ -146,36 +146,36 @@ public class PrimitiveLine extends GraphicPrimitive
 		if (pd.parameter instanceof Boolean)
 			arrowStart=((Boolean)pd.parameter).booleanValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 1-unexpected parameter!"+pd);
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			arrowEnd=((Boolean)pd.parameter).booleanValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 2-unexpected parameter!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Integer)
 			arrowLength=((Integer)pd.parameter).intValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 3-unexpected parameter!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Integer)
 			arrowHalfWidth=((Integer)pd.parameter).intValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 4-unexpected parameter!"+pd);
 
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Integer)
-			arrowStyle=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof ArrowInfo)
+			arrowStyle=((ArrowInfo)pd.parameter).style;
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 5-unexpected parameter!"+pd);
 		
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Integer)
-			dashStyle=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof DashInfo)
+			dashStyle=((DashInfo)pd.parameter).style;
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: 6-unexpected parameter!"+pd);
 		 	
 		// Parameters validation and correction
 		if(dashStyle>=Globals.dashNumber)
