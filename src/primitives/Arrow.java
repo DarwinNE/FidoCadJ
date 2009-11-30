@@ -38,7 +38,7 @@ public class Arrow {
 	public static final int flagEmpty = 0x02;
 	
 
-	static void drawArrow(Graphics2D g, int x, int y, int xc, 
+	public static void drawArrow(Graphics2D g, int x, int y, int xc, 
 		int yc, int l, int h, int style)
 	{
 		double s;

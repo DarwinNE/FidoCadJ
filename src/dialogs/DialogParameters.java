@@ -18,7 +18,8 @@ import dialogs.*;
 Version   Date           	Author       Remarks
 ------------------------------------------------------------------------------
 1.0     June 2008      		D. Bucci  	First working version
-1.2		June 2009			D. Bucci 	Capitalize the first letters                                     
+1.2		June 2009			D. Bucci 	Capitalize the first letters 
+1.3		December 2009		D. Bucci	A few new type of fields
 
                                      
     Written by Davide Bucci, June 2009, davbucci at tiscali dot it
@@ -254,6 +255,52 @@ public class DialogParameters extends JDialog implements ComponentListener
 				jco[co].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jco[co++], constraints);
 
+			}else if(pd.parameter instanceof ArrowInfo) {
+				GraphicsEnvironment gE;  
+				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				jco[co]=new JComboBox();
+				jco[co].addItem(new ArrowInfo(0));
+				jco[co].addItem(new ArrowInfo(1));
+				jco[co].addItem(new ArrowInfo(2));
+				jco[co].addItem(new ArrowInfo(3));
+				
+				jco[co].setSelectedIndex(((ArrowInfo)pd.parameter).style);
+   				jco[co].setRenderer( new ArrowCellRenderer());
+
+				constraints.weightx=100;
+				constraints.weighty=100;
+				constraints.gridx=2;
+				constraints.gridy=ycount;
+				constraints.gridwidth=2;
+				constraints.gridheight=1;	
+				constraints.insets=new Insets(top,0,0,20);
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				jco[co].setEnabled(!(pd.isExtension && extStrict));
+				contentPane.add(jco[co++], constraints);
+
+			} else if(pd.parameter instanceof DashInfo) {
+				GraphicsEnvironment gE;  
+				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				jco[co]=new JComboBox();
+				
+				for(int k=0; k<Globals.dashNumber; ++k) {
+					jco[co].addItem(new DashInfo(k));
+				}
+				
+				jco[co].setSelectedIndex(((DashInfo)pd.parameter).style);
+   				jco[co].setRenderer( new DashCellRenderer());
+
+				constraints.weightx=100;
+				constraints.weighty=100;
+				constraints.gridx=2;
+				constraints.gridy=ycount;
+				constraints.gridwidth=2;
+				constraints.gridheight=1;	
+				constraints.insets=new Insets(top,0,0,20);
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				jco[co].setEnabled(!(pd.isExtension && extStrict));
+				contentPane.add(jco[co++], constraints);
+
 			}
 		}
 		
@@ -310,6 +357,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 		      				pd.parameter=new Font((String)jco[co++].getSelectedItem(), Font.PLAIN, 12);
       					} else if(pd.parameter instanceof LayerInfo) {
 		      				pd.parameter=new LayerInfo(jco[co++].getSelectedIndex());
+		      			} else if(pd.parameter instanceof ArrowInfo) {
+		      				pd.parameter=new ArrowInfo(jco[co++].getSelectedIndex());
+		      			} else if(pd.parameter instanceof DashInfo) {
+		      				pd.parameter=new DashInfo(jco[co++].getSelectedIndex());
 		      			}
      				}
 				} catch (NumberFormatException E) 

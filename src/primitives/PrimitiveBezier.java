@@ -122,13 +122,13 @@ public class PrimitiveBezier extends GraphicPrimitive
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(arrowStyle);
+		pd.parameter=new ArrowInfo(arrowStyle);
 		pd.description="Arrow style";
 		pd.isExtension = true;
 		v.add(pd);
 
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(dashStyle);
+		pd.parameter=new DashInfo(dashStyle);
 		pd.description="Dash style";
 		pd.isExtension = true;
 		v.add(pd);
@@ -174,14 +174,14 @@ public class PrimitiveBezier extends GraphicPrimitive
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Integer)
-			arrowStyle=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof ArrowInfo)
+			arrowStyle=((ArrowInfo)pd.parameter).style;
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Integer)
-			dashStyle=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof DashInfo)
+			dashStyle=((DashInfo)pd.parameter).style;
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		

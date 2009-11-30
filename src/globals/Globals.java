@@ -72,11 +72,11 @@ public class Globals
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.22.1 epsilon";     	// version
+    public static final String version = "0.22.1 zeta";     	// version
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
     
     public static final int dashNumber = 5;
-    public static final float dash[][] = {{10.0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
+    public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
     
  	   
