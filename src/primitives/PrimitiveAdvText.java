@@ -219,6 +219,11 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		   
 		   February 20, 2009: I noticed this is in fact a bug on JRE < 1.5 
 		   
+		   For this:
+		   http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=274886&atid=1167997
+		   I am now checking if the text is "" before printing it.
+		   
+		   
 		*/
 	
     	
@@ -236,8 +241,12 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		FontMetrics fm = g.getFontMetrics(f);
     	int h = fm.getAscent();
     	int th = h+fm.getDescent();
-   		int w = fm.stringWidth(txt);
+    	
+   		int w = 0;
 
+		if(!txt.equals(""))
+			w = fm.stringWidth(txt);
+		
  		double xyfactor=1;
  		AffineTransform stretching = new AffineTransform();
 
@@ -273,6 +282,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				
 
     			//if(g.hitClip(-xa,(int)(ya/xyfactor),w,th))
+				if (!txt.equals(""))
 					g.drawString(txt,xa,(int)((ya)/xyfactor)+h); 
     		}
     		
@@ -314,7 +324,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
     			at.scale(-1,xyfactor);
     			g.setTransform(at);
 				
-				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h)){
+				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h) && !txt.equals("")){
 					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
 					
 				}

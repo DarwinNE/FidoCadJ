@@ -170,7 +170,12 @@ public class PrimitiveMacro extends GraphicPrimitive
    		t_w1=coordSys.unmapXnosnap(w1)-coordSys.unmapXnosnap(0);
    		t_w2=coordSys.unmapXnosnap(w2)-coordSys.unmapXnosnap(0);
    		
-    	g.drawString(name,coordSys.mapX(x2,y2),coordSys.mapY(x2,y2)+h);	
+   		/* The if's have been added thanks to this segnalation:
+   		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
+   		*/
+   		if (!name.equals(""))
+    		g.drawString(name,coordSys.mapX(x2,y2),coordSys.mapY(x2,y2)+h);	
+    	if (!value.equals(""))
     	g.drawString(value,coordSys.mapX(x3,y3),coordSys.mapY(x3,y3)+h);
     	
     	coordSys.trackPoint(coordSys.mapX(x2,y2),coordSys.mapY(x2,y2));
@@ -203,15 +208,18 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		// Then create and parse the macro
  		
- 			
+ 		//macroCoord = (MapCoordinates)coordSys.clone();
+ 		
  		macroCoord.setXMagnitude(coordSys.getXMagnitude());
 		macroCoord.setYMagnitude(coordSys.getYMagnitude());
-
+		
+ 		
  		macroCoord.xCenter = coordSys.mapX(x1,y1);
  		macroCoord.yCenter= coordSys.mapY(x1,y1);
 		macroCoord.orientation=(o+coordSys.orientation)%4;
 		macroCoord.mirror=m ^ coordSys.mirror;
  		macroCoord.isMacro=true;
+ 		macroCoord.resetMinMax();
  		 		 			
  		macro.setMapCoordinates(macroCoord);
 
@@ -228,7 +236,11 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macro.setDrawOnlyPads(drawOnlyPads);
  		macro.draw(g);
 		
-		coordSys.trackPoint(macroCoord.getXMax(),macroCoord.getYMax());	
+		if (macroCoord.getXMax()>macroCoord.getXMin() && 
+			macroCoord.getYMax()>macroCoord.getYMin()) {
+			coordSys.trackPoint(macroCoord.getXMax(),macroCoord.getYMax());
+			coordSys.trackPoint(macroCoord.getXMin(),macroCoord.getYMin());	
+		}
 	}
 	
 	private void macroStore(Vector layerV)

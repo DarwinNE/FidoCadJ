@@ -1,6 +1,6 @@
 #!/bin/bash
 cd bin
-jar cvfm fidocadj.jar ../Manifest.txt *.class *.properties toolbars/icons16/*.* toolbars/icons32/*.* program_icons/*.* circuit/*.class clipboard/*.class dialogs/*.class dialogs/program_icons/*.* export/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class toolbars/*.class undo/*.class
+jar cvfm fidocadj.jar ../Manifest.txt *.class *.properties toolbars/icons16/*.* toolbars/icons32/*.* program_icons/*.* circuit/*.class clipboard/*.class dialogs/*.class dialogs/program_icons/*.* export/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class toolbars/*.class undo/*.class lib/*.*
 jar i fidocadj.jar
 mv fidocadj.jar ../jar
 cd ..

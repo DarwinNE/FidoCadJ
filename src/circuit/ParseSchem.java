@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.*;
 import java.awt.geom.*;
 import java.awt.datatransfer.*;
+import java.net.*;
 
 import globals.*;
 import layers.*;
@@ -230,6 +231,25 @@ public class ParseSchem
            
     }
     
+    /** Try to load all libraries ("*.fcl") files in the given directory.
+    
+    	FCDstdlib.fcl if exists will be considered as standard library.
+    	
+    	@param s the directory in which the libraries should be present.
+    */
+    public void loadLibraryInJar(URL s, String prefix)
+    {
+       	try {
+       		readLibraryBufferedReader(new BufferedReader(new 
+       			InputStreamReader(s.openStream())), prefix);
+				
+           
+        } catch (IOException E) {
+          	System.out.println("Problems reading library: "+s.toString());
+        }
+           
+    }
+    
     /** Read the library contained in a string 
         @param S the string containing the Fidocad library
     */
@@ -313,25 +333,33 @@ public class ParseSchem
     public void readLibraryFile(String openFileName)
     	throws IOException
     {
-       
-        String macroName="";
+       	FileReader input = new FileReader(openFileName);
+        BufferedReader bufRead = new BufferedReader(input);
+        String prefix="";
+
+        prefix = Globals.getFileNameOnly(openFileName);
+       	if (prefix.equals("FCDstdlib"))
+       		prefix="";
+       		
+        readLibraryBufferedReader(bufRead, prefix);
+
+		bufRead.close();
+    }
+
+	public void readLibraryBufferedReader(BufferedReader bufRead, String prefix)
+		throws IOException
+	{
+	        String macroName="";
         String longName="";
         String categoryName="";
         String libraryName="";
        
-        String prefix="";
        
-       	prefix = Globals.getFileNameOnly(openFileName);
-       	if (prefix.equals("FCDstdlib"))
-       		prefix="";
-       		
+       	
        	
         int i;
         
-        System.out.println("opening: "+openFileName);
-        
-        FileReader input = new FileReader(openFileName);
-        BufferedReader bufRead = new BufferedReader(input);
+      
                 
         StringBuffer txt= new StringBuffer();    
         String line="";
@@ -397,10 +425,8 @@ public class ParseSchem
                     
         } 
         
-        bufRead.close();
-
-    }
-
+	}
+	
     
     /** Obtain the description of the current coordinate mapping.
         @return the current coordinate mapping.
@@ -469,10 +495,12 @@ public class ParseSchem
         // logical coordinates.
         
    		maxLayer=-1;
-        
+   		
+   		//System.out.println(cs.toString());
+   		
         if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
-        	G.fillOval(cs.mapX(100, 100)-4,cs.mapY(100, 100)-4, 8, 8);
+        	G.fillOval(cs.mapXi(100, 100, false)-4,cs.mapYi(100, 100, false)-4, 8, 8);
         }
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i=0; i<primitiveVector.size(); ++i){
@@ -539,6 +567,7 @@ public class ParseSchem
             	}
         	}
         }
+        
         
     }
     

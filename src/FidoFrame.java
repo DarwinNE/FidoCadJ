@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.print.attribute.*;
+import javax.print.attribute.standard.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.dnd.*;
@@ -34,6 +36,7 @@ Version   Date           Author       Remarks
 2.1		July 2008		    D. Bucci	A few nice enhancements
 2.2		February 2009		D. Bucci	Aquified 
 2.2.1	October 2009		D. Bucci	Force Win L&F when run on Windows
+2.2.3	December 2009		D. Bucci	Print as landscape possible
 
 jar cvfm fidoreadj.jar Manifest.txt *.class *.properties
 
@@ -42,7 +45,6 @@ TODO
 ----------------------------------
     - horizontal scroll of the circuit                  (i, ***)    a Java bug?
     - implement the layer dialog as a non-modal frame   (i, ***)    bof...
-    - landscape/portrait printing                       (i, **)     Buggy! n.v.
     - choose resolution in the print dialog             (d, **)		useful?
     - problems in image export size						(i, **) 	DONE?
     
@@ -61,8 +63,9 @@ TODO
     (*****)   1 month of work
     
 
-Probably, it would be a very good idea to implement the editor with a model/vista/controller paradigm. Anyway, it would be a lot of code rearranging
-work...
+Probably, it would be a very good idea to implement the editor with a 
+model/vista/controller paradigm. Anyway, it would be a lot of code rearranging
+work... I will do it for my NEXT vectorial drawing program :-D
     
     
     
@@ -355,16 +358,22 @@ public class FidoFrame extends JFrame implements
         CC.P.loadLibraryDirectory(libDirectory);
         
         if (!(new File(Globals.createCompleteFileName(
+        	libDirectory,"IHRAM.FCL"))).exists()) {
+   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+        
+        } else
+        	System.out.println("IHRAM library got from external file");
+        if (!(new File(Globals.createCompleteFileName(
         	libDirectory,"FCDstdlib.fcl"))).exists()) {
-        	CC.P.readLibraryString(FCDstdlib.standardLibrary,"");
+   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+
         } else 
         	System.out.println("Standard library got from external file");
         if (!(new File(Globals.createCompleteFileName(
         	libDirectory,"PCB.fcl"))).exists()) {
-        	CC.P.readLibraryString(PCBstdlib.PCBstdlibA,"PCB");
-        	CC.P.readLibraryString(PCBstdlib.PCBstdlibB,"PCB");
-        	CC.P.readLibraryString(PCBstdlib.PCBstdlibC,"PCB");
-        	CC.P.readLibraryString(PCBstdlib.PCBstdlibD,"PCB");
+
+   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+
 		} else
         	System.out.println("Standard PCB library got from external file");
 
@@ -752,7 +761,15 @@ public class FidoFrame extends JFrame implements
                     boolean ok = job.printDialog();
                     if (ok) {
                         try {
-                            job.print();
+                        
+     					    PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        					if (!printLandscape) {
+            					aset.add(OrientationRequested.PORTRAIT);
+        					} else {
+            					aset.add(OrientationRequested.LANDSCAPE);
+        					}
+    
+                            job.print(aset);
                         } catch (PrinterException ex) {
                         /* The job did not successfully complete */
                             JOptionPane.showMessageDialog(this,
@@ -1014,7 +1031,6 @@ public class FidoFrame extends JFrame implements
                                                    PrinterException 
     {
 		int npages = 0;
-
                 
         double xscale = 1.0/16; // Set 1152 logical units for an inch
         double yscale = 1.0/16; // as the standard resolution is 72
@@ -1022,50 +1038,59 @@ public class FidoFrame extends JFrame implements
                
         Graphics2D g2d = (Graphics2D)g;
         
+
+        
         /* User (0,0) is typically outside the imageable area, so we must
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
          
         if (printMirror) {
-        
-            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
+        	g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
                 pf.getImageableY());
             g2d.scale(-xscale,yscale); 
             
-        }
-        else{
-            g2d.translate(pf.getImageableX(), pf.getImageableY());
-            if (printLandscape) {
-
-                g2d.translate(pf.getImageableX(), 
-                    pf.getImageableY()+pf.getImageableHeight());
-                g2d.rotate(-Math.PI/2.0);   
-
-            } 
-            g2d.scale(xscale,yscale); 
-        }
+        } else {
+           	g2d.translate(pf.getImageableX(), pf.getImageableY());
+   			g2d.scale(xscale,yscale); 
+        }	
         
        
         double om=CC.P.getMapCoordinates().getXMagnitude();
-        
+        int printerWidth = ((int)pf.getImageableWidth()*16);
+
         if (printFitToPage) {
+        	CC.P.getMapCoordinates().setMagnitudes(1,1);
+  		    CC.P.getMapCoordinates().setMagnitudes(1,1);
+  		    CC.P.getMapCoordinates().setXCenter(0);
+  		    CC.P.getMapCoordinates().setYCenter(0);
+  		    
+  		    zoom=ExportGraphic.calculateZoomToFit(CC.P, 
+            	(int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
+                	true).getXMagnitude();
             
-            zoom=ExportGraphic.calculateZoomToFit(CC.P, 
-                (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                true).getXMagnitude();
-                        
+            /*
+            Dimension D = ExportGraphic.getImageSize(CC.P,1,true); 
+			double zoomx = pf.getImageableWidth()*16/D.width;
+			double zoomy = pf.getImageableHeight()*16/D.height;
+			
+			zoom = (zoomx<zoomy)?zoomx:zoomy;*/
         }
-        
-               
+         
         MapCoordinates m=CC.P.getMapCoordinates();
         
         m.setMagnitudes(zoom, zoom);
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
-        int printerWidth = ((int)pf.getImageableWidth()*16);
-        
-        npages = (int)Math.floor((imageWidth/printerWidth));
-        
+   
+ 
+        npages = (int)Math.floor(((imageWidth-1)/printerWidth));
+/*
+   		System.out.println("Page: "+page);
+   		System.out.println("ImageWidth: "+imageWidth);
+   		System.out.println("PrinterWidth: "+printerWidth);
+   		System.out.println("Zoom: "+zoom);
+ 		System.out.println("Npages: "+npages);
+*/        
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
 			g2d.translate(-(printerWidth*page),0);
@@ -1081,7 +1106,7 @@ public class FidoFrame extends JFrame implements
         // Now we perform our rendering 
         CC.P.draw(g2d);
         
-        m.xCenter = 0;
+        //m.xCenter = 0;
         CC.P.getMapCoordinates().setMagnitudes(om,om);
         
         /* tell the caller that this page is part of the printed document */
@@ -1464,8 +1489,8 @@ public class FidoFrame extends JFrame implements
 		double oldz=CC.P.getMapCoordinates().getXMagnitude();
 		
 		double z = ExportGraphic.calculateZoomToFit(CC.P,
-        	SC.getViewport().getExtentSize().width,
-            SC.getViewport().getExtentSize().height,
+        	SC.getViewport().getExtentSize().width-35,
+            SC.getViewport().getExtentSize().height-35,
             false).getXMagnitude();
             
         CC.P.getMapCoordinates().setMagnitudes(z, z);
