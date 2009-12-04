@@ -130,7 +130,7 @@ public class DialogPrint extends JDialog implements ComponentListener
 		constraints.gridwidth=2;
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.WEST;
-		//contentPane.add(landscape_CB, constraints);		// Add landscape cb
+		contentPane.add(landscape_CB, constraints);		// Add landscape cb
 		
 		
 		

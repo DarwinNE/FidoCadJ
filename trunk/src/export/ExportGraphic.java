@@ -195,14 +195,19 @@ public class ExportGraphic
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
-		BufferedImage bufferedImage = new BufferedImage(100, 100, 
+		BufferedImage bufferedImage = new BufferedImage(1, 1, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
 		MapCoordinates m=P.getMapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
-       	
+       	//m.setXCenter(0);
+       	//m.setYCenter(0);
+       	m.resetMinMax();
+       	P.setMapCoordinates(m);
 		//System.out.println("unitperpixel: "+unitperpixel);
+        
+        
         Graphics2D g2d = bufferedImage.createGraphics();
 
         P.draw(g2d);
@@ -221,6 +226,7 @@ public class ExportGraphic
 			height=m.getYMax();
 		}
 
+       	//System.out.println(m.toString());
 			
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
@@ -302,7 +308,7 @@ public class ExportGraphic
     				boolean forceCalc)
     {
  		// Here we calculate the zoom to fit parameters
-		double Z=P.getMapCoordinates().getXMagnitude();
+		double oldZoom=P.getMapCoordinates().getXMagnitude();
 		double maxsizex;
 		double maxsizey;
 		Point org=new Point(0,0);
@@ -322,8 +328,8 @@ public class ExportGraphic
 			org.x=(int)(P.getMapCoordinates().getXMin()/Z);
 			org.y=(int)(P.getMapCoordinates().getYMin()/Z);
 			*/
-			maxsizex=P.getMapCoordinates().getXMax()/Z;
-			maxsizey=P.getMapCoordinates().getYMax()/Z;
+			maxsizex=P.getMapCoordinates().getXMax()/oldZoom;
+			maxsizey=P.getMapCoordinates().getYMax()/oldZoom;
 		} else {
 			Dimension D = getImageSize(P,1,true); 
 			maxsizex=D.width;
@@ -332,10 +338,15 @@ public class ExportGraphic
 			org=getImageOrigin(P,1);
 
 		}
-
-
+/*
 		double zoomx=.98/((maxsizex+10)/(double)sizex);
 		double zoomy=.98/((maxsizey+10)/(double)sizey);
+*/	
+
+	
+		double zoomx=1/((maxsizex)/(double)sizex);
+		double zoomy=1/((maxsizey)/(double)sizey);
+		//System.out.println("zoomx: "+zoomx+", "+zoomy);
 				
 		
 		double z=(zoomx>zoomy)?zoomy:zoomx;
@@ -343,9 +354,14 @@ public class ExportGraphic
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		
+		//System.out.println("recalc z: "+z);
+			
+		
 		newZoom.setMagnitudes(z,z);
 		newZoom.xCenter=-(int)(org.x*z);
 		newZoom.yCenter=-(int)(org.y*z);
+		
+		P.getMapCoordinates().setMagnitudes(oldZoom, oldZoom);
 		
 		return newZoom;
 	}
