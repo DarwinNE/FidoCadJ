@@ -112,9 +112,10 @@ public class PrimitiveOval extends GraphicPrimitive
         
  		if (isFilled)
  			g.fillOval(xa,ya,(xb-xa),(yb-ya));
- 		else
- 			g.drawOval(xa,ya,(xb-xa),(yb-ya));
- 			
+ 		else {
+			if(xb!=xa || yb!=ya)
+	 			g.drawOval(xa,ya,(xb-xa),(yb-ya));
+ 		}
 	    g.setStroke(oldStroke);
  		
  		coordSys.trackPoint(xa,ya);

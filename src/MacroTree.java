@@ -166,7 +166,7 @@ public class MacroTree extends JPanel
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
     				previewPanel.getSize().width, previewPanel.getSize().height, 
-    				true);
+    				true,true);
     			previewPanel.P.setMapCoordinates(m);
 				//System.out.println(m);
 				

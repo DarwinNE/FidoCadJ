@@ -302,10 +302,12 @@ public class ExportGraphic
     	
     	@param sizex the width of the area to be used for calculations.
     	@param sizey the height of the area to be used for calculations.
+    	@param countMin specify if the absolute or relative size should be
+    		taken into account
     
     */
     public static MapCoordinates calculateZoomToFit(ParseSchem P, int sizex, int sizey, 
-    				boolean forceCalc)
+    				boolean forceCalc, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
 		double oldZoom=P.getMapCoordinates().getXMagnitude();
@@ -331,11 +333,15 @@ public class ExportGraphic
 			maxsizex=P.getMapCoordinates().getXMax()/oldZoom;
 			maxsizey=P.getMapCoordinates().getYMax()/oldZoom;
 		} else {
-			Dimension D = getImageSize(P,1,true); 
+			Dimension D = getImageSize(P,1,countMin); 
 			maxsizex=D.width;
 			maxsizey=D.height;
 			//System.out.println("recalc: "+maxsizex+", "+maxsizey);
-			org=getImageOrigin(P,1);
+			
+			
+			if (countMin) 
+				org=getImageOrigin(P,1);
+			
 
 		}
 /*
@@ -363,6 +369,7 @@ public class ExportGraphic
 		
 		P.getMapCoordinates().setMagnitudes(oldZoom, oldZoom);
 		
+		//System.out.println(newZoom.toString());
 		return newZoom;
 	}
     

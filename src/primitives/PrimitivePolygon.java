@@ -138,11 +138,13 @@ public class PrimitivePolygon extends GraphicPrimitive
 			g.setStroke(dashed);
 		else 
 			g.setStroke(new BasicStroke(w));		
-        if (isFilled)
+        if (isFilled) {
+        	g.drawPolygon(p);
  			g.fillPolygon(p);	
- 		else
+ 		} else {
  			g.drawPolygon(p);
-
+		}
+		
 	    g.setStroke(oldStroke);
 
  		

@@ -1037,7 +1037,7 @@ public class FidoFrame extends JFrame implements
         double zoom = 5.76;     // act in a 1152 dpi resolution as 1:1
                
         Graphics2D g2d = (Graphics2D)g;
-        
+        MapCoordinates zoomm=new MapCoordinates();
 
         
         /* User (0,0) is typically outside the imageable area, so we must
@@ -1064,9 +1064,9 @@ public class FidoFrame extends JFrame implements
   		    CC.P.getMapCoordinates().setXCenter(0);
   		    CC.P.getMapCoordinates().setYCenter(0);
   		    
-  		    zoom=ExportGraphic.calculateZoomToFit(CC.P, 
+  		    zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
             	(int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                	true).getXMagnitude();
+                	true,false);
             
             /*
             Dimension D = ExportGraphic.getImageSize(CC.P,1,true); 
@@ -1074,14 +1074,18 @@ public class FidoFrame extends JFrame implements
 			double zoomy = pf.getImageableHeight()*16/D.height;
 			
 			zoom = (zoomx<zoomy)?zoomx:zoomy;*/
+			zoom=zoomm.getXMagnitude();
         }
          
         MapCoordinates m=CC.P.getMapCoordinates();
         
         m.setMagnitudes(zoom, zoom);
+        /*m.setXCenter(zoomm.getXCenter());
+        m.setYCenter(zoomm.getYCenter());*/
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
-   
+            /*-
+   			ExportGraphic.getImageOrigin(CC.P, zoom).x;*/
  
         npages = (int)Math.floor(((imageWidth-1)/printerWidth));
 /*
@@ -1298,7 +1302,7 @@ public class FidoFrame extends JFrame implements
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
         	SC.getViewport().getExtentSize().width,
         	SC.getViewport().getExtentSize().height,
-            true);
+            true,false);
         MapCoordinates mi=CC.P.getMapCoordinates();
         double Z=Math.round(m.getXMagnitude()*100)/100;
                         
@@ -1488,12 +1492,17 @@ public class FidoFrame extends JFrame implements
 	{
 		double oldz=CC.P.getMapCoordinates().getXMagnitude();
 		
-		double z = ExportGraphic.calculateZoomToFit(CC.P,
+		MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
         	SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
-            false).getXMagnitude();
+            false,false);
             
+        double z=m.getXMagnitude();
+        
         CC.P.getMapCoordinates().setMagnitudes(z, z);
+       /* CC.P.getMapCoordinates().setXCenter(m.getXCenter());
+        CC.P.getMapCoordinates().setYCenter(m.getYCenter());
+        */
         
         if (oldz!=z) CC.repaint();
 

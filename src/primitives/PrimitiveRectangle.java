@@ -127,7 +127,9 @@ public class PrimitiveRectangle extends GraphicPrimitive
  			// Java api is to skip the rightmost and bottom pixels 
  			g.fillRect(xa,ya,(xb-xa)+1,(yb-ya)+1);
  		} else {
- 			g.drawRect(xa,ya,(xb-xa),(yb-ya));			
+ 			//System.out.println ("xa="+xa+" ya="+ya+" w="+(xb-xa)+" h="+(yb-ya));
+ 			if(xb!=xa || yb!=ya)
+ 				g.drawRect(xa,ya,(xb-xa),(yb-ya));			
 		}
 	    g.setStroke(oldStroke);
 
