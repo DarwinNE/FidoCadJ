@@ -607,6 +607,8 @@ public class ParseSchem
     	double x;
     	double y;
     	
+    	double m=1.0;
+    	
     	// Calculate the minimum common integer multiple of the dot 
     	// spacement and calculate the image size.
     	
@@ -617,26 +619,50 @@ public class ParseSchem
     		}
     	}
     	
-    	double ddx=Math.abs(cs.mapX(dx,0)-cs.mapX(0,0));
-    	double ddy=Math.abs(cs.mapY(0,dy)-cs.mapY(0,0));
+    	double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+    	double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+    	int d=1;
     	
-		
-		
-		
-		
-		
+    	if (ddx>50 || ddy>50) {
+    		d=2;
+    	} else if (ddx<3 || ddy <3) {
+    		dx=5*cs.getXGridStep();
+    		dy=5*cs.getYGridStep();
+    		ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+    		ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+    	
+    	}
+				
 		int width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));
 		if (width<=0) width=1;
-		
-		
+				
 		int height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
         if (height<=0) height=1;
+        
+        if (width>1000 || height>1000) {
+        	//System.out.println("traditional grid");
+        	G.setColor(Color.white);
+        	G.fillRect(xmin,ymin,xmax,ymax);
+        	G.setColor(Color.gray);
+        	for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
+        		for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
+        		   	G.fillRect(cs.mapXi((int)x,(int)y, false),cs.mapYi((int)x,
+        		   		(int)y, false),d,d);
+				}
+			}
+			
+			return;
+        }
 		
 		if(oldZoom!=z) {
-        	// Create a buffered image in which to draw
-        	bufferedImage = new BufferedImage(width, height, 
+			try {
+        		// Create a buffered image in which to draw
+        		bufferedImage = new BufferedImage(width, height, 
         								  BufferedImage.TYPE_INT_RGB);
-    
+    		} catch (java.lang.OutOfMemoryError E) {
+    			System.out.println("Out of memory error when painting grid");
+    			return;
+    		}
     	
         	// Create a graphics contents on the buffered image
         	Graphics2D g2d = bufferedImage.createGraphics();
@@ -647,7 +673,7 @@ public class ParseSchem
         	for (x=0; x<=cs.unmapXsnap(width); x+=dx) {
         		for (y=0; y<=cs.unmapYsnap(height); y+=dy) {
         		   	g2d.fillRect(cs.mapX((int)x,(int)y),cs.mapY((int)x,
-        		   		(int)y),1,1);
+        		   		(int)y),d,d);
 				}
 			}
 			oldZoom=z;
@@ -999,6 +1025,8 @@ public class ParseSchem
         firstDrag=true;
         
         int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
+        if (sptol<2) sptol=2; 
+        
         
         for (i=0; i<primitiveVector.size(); ++i){
             gp=(GraphicPrimitive)primitiveVector.elementAt(i);

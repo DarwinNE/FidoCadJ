@@ -584,15 +584,18 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
                 
             
-        
+        	int toll= sc.unmapXnosnap(x+SEL_TOLERANCE)-
+                              sc.unmapXnosnap(x);
+            
+            if (toll<2) toll=2;
+            
+                             
             if(Globals.useMetaForMultipleSelection) {
                 P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
-                              sc.unmapXnosnap(x+SEL_TOLERANCE)-
-                              sc.unmapXnosnap(x),evt.isMetaDown());
+                            toll ,evt.isMetaDown());
             } else {
                 P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
-                              sc.unmapXnosnap(x+SEL_TOLERANCE)-
-                              sc.unmapXnosnap(x),evt.isControlDown());
+                            toll,evt.isControlDown());
             }
                 
            
@@ -862,6 +865,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 				break;
         	}
             try {
+            	P.deselectAll();
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), sc.unmapXsnap(x),
                     sc.unmapYsnap(y),macroKey, P.getMacroFont()));
