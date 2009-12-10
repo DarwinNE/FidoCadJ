@@ -65,6 +65,9 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean extFCJ_s;
   	public boolean extFCJ_c;
   	public boolean extStrict;
+  	public boolean split_n_s;
+  	public boolean split_n_c;
+
   	public boolean quaquaActive;
   	public String libDirectory;
   	
@@ -83,6 +86,9 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JCheckBox extFCJ_c_CB;
 	private JCheckBox extFCJ_s_CB;
 	private JCheckBox extStrict_CB;
+	private JCheckBox split_n_s_CB;
+	private JCheckBox split_n_c_CB;
+
 	private JComboBox zoom;  	
 	private JTextField gridWidth;
 	private JTextField libD;
@@ -113,6 +119,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param ec the current copy using FidoCadJ extensions state
 	@param qq the current Quaqua state
 	@param mf the current Macro font
+	@param sn split non standard macros during save
+	@param sc split non standard macros during copy
 	
 	
 	*/
@@ -120,7 +128,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 	public DialogOptions (JFrame pa, double z, boolean p, boolean a,
   						  int gs, String libDir, boolean tt, boolean sit,
   						  int plw, int pw, int ph, int piw, boolean es, 
-  						  boolean ec, boolean qq, boolean ex, String mf)
+  						  boolean ec, boolean qq, boolean ex, String mf,
+  						  boolean sn, boolean sc)
   	{
   		super(pa, Globals.messages.getString("Cir_opt_t"), true);
   		addComponentListener(this);	
@@ -138,6 +147,8 @@ public class DialogOptions extends JDialog implements ComponentListener
   		quaquaActive=qq;
   		extStrict=ex;
   		macroFont = mf;
+  		split_n_s = sn;
+  		split_n_c = sc;
   		
   		pcblinewidth_i = plw;
   		pcbpadwidth_i = pw;
@@ -212,7 +223,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 				quaquaActive=quaquaActive_CB.isSelected();
 				extStrict = extStrict_CB.isSelected();
 				macroFont = (String)comboFont.getSelectedItem();
- 				
+				split_n_s = split_n_s_CB.isSelected(); 				
+				split_n_c = split_n_c_CB.isSelected(); 				
 				
 				try{
 					ng=Integer.parseInt(gridWidth.getText().trim());
@@ -653,7 +665,26 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.WEST;
 		extensionsPanel.add(extFCJ_c_CB, constraints);		// FCJ extensions while
 														// copying
-														
+		
+		split_n_s_CB=new JCheckBox(Globals.messages.getString("split_nonstandard"));
+		split_n_s_CB.setSelected(split_n_s);
+		split_n_s_CB.setOpaque(false);
+		constraints.gridx=0;
+		constraints.gridy=3;
+		constraints.gridwidth=2;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		extensionsPanel.add(split_n_s_CB, constraints);
+		
+		split_n_c_CB=new JCheckBox(Globals.messages.getString("split_nonstandard_copy"));
+		split_n_c_CB.setSelected(split_n_c);
+		split_n_c_CB.setOpaque(false);
+		constraints.gridx=0;
+		constraints.gridy=4;
+		constraints.gridwidth=2;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		extensionsPanel.add(split_n_c_CB, constraints);
 		/**********************************************************************
 		  END of FidoCadJ extensions
 		 **********************************************************************/

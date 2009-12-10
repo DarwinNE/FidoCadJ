@@ -48,10 +48,11 @@ public class PrimitivePolygon extends GraphicPrimitive
 		
 		@param f specifies if the polygon should be filled 
 		@param layer the layer to be used.
+		@param dashSt the dash style
 		
 	*/
 	
-	public PrimitivePolygon(boolean f, int layer)
+	public PrimitivePolygon(boolean f, int layer, int dashSt)
 	{
 		super();
 		virtualPoint = new Point[N_POINTS];
@@ -60,6 +61,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 			
 		nPoints=0;
 		isFilled=f;
+		dashStyle=dashSt;
 		
 		
 		setLayer(layer);
@@ -126,6 +128,7 @@ public class PrimitivePolygon extends GraphicPrimitive
         Stroke oldStroke;
 		
  		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 		if (w<D_MIN) w=D_MIN;
 
 				
 		BasicStroke dashed = new BasicStroke(w, 

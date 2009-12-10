@@ -64,13 +64,15 @@ public class ExportGraphic
 		@param unitperpixel the number of unit for each graphic pixel.
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
+		@param ext activate FidoCadJ extensions when exporting
 	*/
 	public static void export(File file, 
 						ParseSchem P, 
 						String format,
 						double unitperpixel,
 						boolean antiAlias,
-						boolean blackWhite)
+						boolean blackWhite,
+						boolean ext)
 	throws IOException
 	{
 			
@@ -159,6 +161,10 @@ public class ExportGraphic
     		P.exportDrawing(ef, true);
     	} else if(format.equals("scr")) {
     		ExportEagle ef = new ExportEagle(file);
+    		P.exportDrawing(ef, true);
+    	} else if(format.equals("fcd")) {
+    		ExportFidoCad ef = new ExportFidoCad(file);
+    		ef.setExtensions(ext);
     		P.exportDrawing(ef, true);
     	} else {
     		IOException E=new IOException(

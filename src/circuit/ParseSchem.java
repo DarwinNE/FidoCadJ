@@ -771,8 +771,9 @@ public class ParseSchem
     
     /** Copy in the system clipboard all selected primitives.
         @param extensions specify if FCJ extensions should be applied
+        @param splitNonStandard specify if non standard macros should be split
     */
-    public void copySelected(boolean extensions)
+    public void copySelected(boolean extensions, boolean splitNonStandard)
     {
         int i;
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
@@ -782,6 +783,59 @@ public class ParseSchem
                 s.append(((GraphicPrimitive)primitiveVector.elementAt(i
                 	)).toString(extensions));
         }
+        
+        /*  If we have to split non standard macros, we need to work on a 
+        	temporary file, since the splitting works on the basis of the 
+        	export technique.        
+        */
+        
+        // SCHIFIO... tutto questo non è molto efficiente né elegante
+        
+        if (splitNonStandard) {
+			ParseSchem Q=new ParseSchem();
+			Q.setLibrary(library); 			// Inherit the library
+ 			Q.setLayers(layerV);	// Inherit the layers
+ 			
+ 			// from the obtained string, obtain the new Q object which will
+ 			// be exported and then loaded into the clipboard.
+ 			
+ 			try {
+ 				Q.parseString(new StringBuffer(s)); 
+ 				File temp= File.createTempFile("copy", ".fcd");
+ 				temp.deleteOnExit();
+ 				
+ 				ExportGraphic.export(temp,  Q, "fcd", 1,true,false, 
+ 					splitNonStandard);
+ 				
+ 				FileReader input = new FileReader(temp);
+        		BufferedReader bufRead = new BufferedReader(input);
+                
+        		StringBuffer txt;    
+        		String line="";
+                        
+        		txt = new StringBuffer(bufRead.readLine());
+                        
+        		txt.append("\n");
+                        
+        		while (line != null){
+            		line =bufRead.readLine();
+            		txt.append(line);
+            		txt.append("\n");
+        		}
+            
+        		bufRead.close();
+ 				
+ 				s = txt;
+ 			} catch(IOException e) {
+                	System.out.println("Error: "+e); 
+            }
+ 		
+
+		}
+        
+        
+        
+        
         // get the system clipboard
 		Clipboard systemClipboard =Toolkit.getDefaultToolkit()
 			.getSystemClipboard();

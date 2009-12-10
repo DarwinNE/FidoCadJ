@@ -31,14 +31,18 @@ public class PrimitiveLine extends GraphicPrimitive
 	/** Standard constructors
 	*/
 	
-	public PrimitiveLine(int x1, int y1, int x2, int y2, int layer)
+	public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
+						boolean arrowS, boolean arrowE,
+						int arrowSt, int arrowLe, int arrowWi, int dashSt)
 	{
 		super();
 		
-		arrowLength = 3;
-		arrowHalfWidth = 1;
-		arrowStart = false;
-		arrowEnd = false;
+		arrowLength = arrowLe;
+		arrowHalfWidth = arrowWi;
+		arrowStart = arrowS;
+		arrowEnd = arrowE;
+		arrowStyle=arrowSt;
+		dashStyle = dashSt;
 		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
@@ -241,6 +245,7 @@ public class PrimitiveLine extends GraphicPrimitive
  		coordSys.trackPoint(xb,yb);*/
  		
  		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 		if (w<D_MIN) w=D_MIN;
  		
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
