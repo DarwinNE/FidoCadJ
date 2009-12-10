@@ -64,12 +64,13 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		@param y the y position of the control point of the text
 		@param sx the x size of the font
 		@param sy the y size of the font
+		@param fn font name
 		@param or the orientation of the text
 		@param st the style of the text
 		@param t the text to be used
 		@param l the layer to be used
 	*/
-	public PrimitiveAdvText(int x, int y, int sx, int sy, int or, int st,
+	public PrimitiveAdvText(int x, int y, int sx, int sy, String fn, int or, int st,
 							String t, int l)
 	{
 		this();
@@ -78,6 +79,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		siy=sy;
 		sty=st;
 		txt=t;
+		fontName=fn;
 		setLayer(l);
 	}
 

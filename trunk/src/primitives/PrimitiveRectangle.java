@@ -52,7 +52,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	*/
 	
 	public PrimitiveRectangle(int x1, int y1, int x2, int y2, boolean f, 
-							  int layer)
+							  int layer, int dashSt)
 	{
 		super();
 		virtualPoint = new Point[N_POINTS];
@@ -64,6 +64,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		virtualPoint[1].x=x2;
 		virtualPoint[1].y=y2;
 		isFilled=f;
+		dashStyle=dashSt;
 		
 		
 		setLayer(layer);
@@ -112,7 +113,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
  		Stroke oldStroke;
 			
  		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-		            
+		if (w<D_MIN) w=D_MIN;
+
 		oldStroke=g.getStroke();                                 
 		if (dashStyle>0) 
 			g.setStroke(new BasicStroke(w, 

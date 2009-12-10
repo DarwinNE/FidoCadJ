@@ -75,7 +75,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroStore(layers);
 	}
 	
-	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, String macroF)
+	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, 
+		 String na, int xa, int ya, String va, int xv, int yv, String macroF)
 		throws IOException
 	{
 		super();
@@ -93,12 +94,18 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		virtualPoint[0].x=x;
 		virtualPoint[0].y=y;
+		virtualPoint[1].x=xa;
+		virtualPoint[1].y=ya;
+		virtualPoint[2].x=xv;
+		virtualPoint[2].y=yv;
+		
+		/*
 		virtualPoint[1].x=x+10;
 		virtualPoint[1].y=y+5;
 		virtualPoint[2].x=x+10;
-		virtualPoint[2].y=y+10;
-		name="";
-		value="";
+		virtualPoint[2].y=y+10;*/
+		name=na;
+		value=va;
 		
 		MacroDesc macro=(MacroDesc)library.get(key);
  			
@@ -795,11 +802,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		// Call the macro interface, to see if the macro should be expanded
 		if (exp.exportMacro(virtualPoint[0].x, virtualPoint[0].y, 
 			m, o*90, macroName, macroDesc, name, virtualPoint[1].x, 
-			virtualPoint[1].y, value, virtualPoint[2].x, virtualPoint[2].y)) {
+			virtualPoint[1].y, value, virtualPoint[2].x, virtualPoint[2].y, 
+			macroFont, library)) {
 			alreadyExported = true;
 			return;
 		}
-		
 		/* in the macro primitive, the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
 		   
@@ -839,22 +846,25 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macro.exportDrawing(exp, false);
  			
  			if(drawOnlyLayer==getLayer()) {
- 				exp.exportAdvText (cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
-					cs.mapY(virtualPoint[1].x,virtualPoint[1].y), text_size, 
-					(int)( text_size*12/7+.5),
-					macroFont, 
-					false,
-					false,
-					false,
-					0, getLayer(), name);
-				exp.exportAdvText (cs.mapX(virtualPoint[2].x,virtualPoint[2].y),
-					cs.mapY(virtualPoint[2].x,virtualPoint[2].y), text_size, 
-					(int)( text_size*12/7+.5),
-					macroFont, 
-					false,
-					false,
-					false,
-					0, getLayer(), value);
+ 				if(!name.equals(""))
+ 					exp.exportAdvText (cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
+						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), text_size, 
+						(int)( text_size*12/7+.5),
+						macroFont, 
+						false,
+						false,
+						false,
+						0, getLayer(), name);
+				
+				if(!value.equals(""))
+					exp.exportAdvText (cs.mapX(virtualPoint[2].x,virtualPoint[2].y),
+						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), text_size, 
+						(int)( text_size*12/7+.5),
+						macroFont, 
+						false,
+						false,
+						false,
+						0, getLayer(), value);
 			}
 		}
 		

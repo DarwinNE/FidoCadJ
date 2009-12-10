@@ -53,6 +53,9 @@ public abstract class GraphicPrimitive
 	// Indicates wether the primitive is selected or not
 	private boolean selectedState;
 	
+	// Minimum width size of a line in pixel
+	protected static final float D_MIN = 0.5f; 
+	
 	// The layer
 	private int layer;
 	

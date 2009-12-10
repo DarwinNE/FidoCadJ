@@ -122,6 +122,12 @@ public class FidoFrame extends JFrame implements
     private boolean printFitToPage;
     private boolean printLandscape;
     
+    private boolean splitNonStandardMacro_s;	// split non standard macro
+    											// when saving
+    private boolean splitNonStandardMacro_c;	// split non standard macro
+    											// when copying
+    
+    
     //private boolean extStrict; 	// Strict FidoCad compatibility
     private boolean extFCJ_s;	// Use FidoCadJ extensions while saving
     private boolean extFCJ_c;	// Use FidoCadJ extensions while copying
@@ -340,8 +346,10 @@ public class FidoFrame extends JFrame implements
         
         extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
         extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
-        
-               
+
+        splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
+        splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
+   
         
         exportFileName=new String();
         exportFormat=new String();
@@ -928,7 +936,7 @@ public class FidoFrame extends JFrame implements
                     try {
                         ExportGraphic.export(new File(exportFileName),  CC.P, 
                             exportFormat, exportUnitPerPixel, 
-                            export.getAntiAlias(),exportBlackWhite);
+                            export.getAntiAlias(),exportBlackWhite,extFCJ_s);
                         JOptionPane.showMessageDialog(this,
                             Globals.messages.getString("Export_completed"));
 
@@ -947,10 +955,10 @@ public class FidoFrame extends JFrame implements
         	}
         
         	if (arg.equals(Globals.messages.getString("Copy"))) {
-        		CC.P.copySelected(extFCJ_c);	
+        		CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);	
       		}
             if (arg.equals(Globals.messages.getString("Cut"))) {
-        		CC.P.copySelected(extFCJ_c);	
+        		CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);	
         		CC.P.deleteAllSelected();
         		repaint();
       		}
@@ -1391,21 +1399,31 @@ public class FidoFrame extends JFrame implements
     void Save()
     {
     	try {
-           	// Create file 
-   			FileWriter fstream = new FileWriter(openFileName);
-       		BufferedWriter output = new BufferedWriter(fstream);
-    		output.write("[FIDOCAD]\n");
-    		output.write(CC.getCirc(extFCJ_s).toString());
-    		output.close();
-            CC.P.setModified(false);
-
-    				
-                   
-        } catch (IOException fnfex) {
-            JOptionPane.showMessageDialog(this,
-            Globals.messages.getString("Save_error")+fnfex);
-        }
+    		if (splitNonStandardMacro_s) {
+    			/*  In fact, splitting the nonstandard macro when saving a file
+    				is indeed an export operation. This ease the job, since
+    				while exporting in a vectorial graphic format one has 
+    				indeed to split macros.
+    			*/
+                ExportGraphic.export(new File(openFileName),  CC.P, 
+                    "fcd", 1,true,false, extFCJ_s);
+       	     	CC.P.setModified(false);
+   	
+    		} else {
+    	  		// Create file 
+	   			FileWriter fstream = new FileWriter(openFileName);
+   	    		BufferedWriter output = new BufferedWriter(fstream);
+   		 		output.write("[FIDOCAD]\n");
+   	 			output.write(CC.getCirc(extFCJ_s).toString());
+    			output.close();
+       	     	CC.P.setModified(false);
+			
+        	}
     
+    	} catch (IOException fnfex) {
+           	JOptionPane.showMessageDialog(this,
+           	Globals.messages.getString("Save_error")+fnfex);
+        }
     }
     
     /** Load the given file
@@ -1443,7 +1461,9 @@ public class FidoFrame extends JFrame implements
             extFCJ_c,
             Globals.quaquaActive,
             CC.getStrict(),
-            CC.P.getMacroFont());
+            CC.P.getMacroFont(),
+            splitNonStandardMacro_s,
+            splitNonStandardMacro_c);
                     
         options.setVisible(true);
         CC.profileTime=options.profileTime;
@@ -1464,6 +1484,9 @@ public class FidoFrame extends JFrame implements
 		
 		extFCJ_s = options.extFCJ_s;
 		extFCJ_c = options.extFCJ_c;
+		splitNonStandardMacro_s = options.split_n_s;
+		splitNonStandardMacro_c = options.split_n_c;
+
         CC.setStrict(options.extStrict);
 
 		Globals.quaquaActive=options.quaquaActive;
@@ -1480,7 +1503,14 @@ public class FidoFrame extends JFrame implements
     		(Globals.quaquaActive?"true":"false"));
     	prefs.put("FCJ_EXT_STRICT",
     		(CC.getStrict()?"true":"false"));
+    		
+    	prefs.put("SPLIT_N_MACRO_SAVE",
+    		(splitNonStandardMacro_s?"true":"false"));
+    	
     
+    	prefs.put("SPLIT_N_MACRO_COPY",
+    		(splitNonStandardMacro_c?"true":"false"));
+    	
      
         repaint();
     }

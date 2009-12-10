@@ -298,10 +298,19 @@ public class ExportSVG implements ExportInterface {
 		@param orientation the macro orientation in degrees
 		@param macroName the macro name
 		@param macroDesc the macro description, in the FidoCad format
+		@param name the shown name
+		@param xn coordinate of the shown name
+		@param yn coordinate of the shown name
+		@param value the shown value
+		@param xv coordinate of the shown value
+		@param yv coordinate of the shown value
+		@param font the used font
+		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
-		String name, int xn, int yn, String value, int xv, int yv)
+		String name, int xn, int yn, String value, int xv, int yv, String font,
+		Map m)
 		throws IOException
 	{
 		// The macro will be expanded into primitives.

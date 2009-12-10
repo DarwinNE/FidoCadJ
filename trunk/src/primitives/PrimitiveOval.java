@@ -50,7 +50,8 @@ public class PrimitiveOval extends GraphicPrimitive
 		
 	*/
 	
-	public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer)
+	public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer, 
+		int dashSt)
 	{
 		super();
 		virtualPoint = new Point[N_POINTS];
@@ -62,7 +63,7 @@ public class PrimitiveOval extends GraphicPrimitive
 		virtualPoint[1].x=x2;
 		virtualPoint[1].y=y2;
 		isFilled=f;
-		
+		dashStyle =dashSt;
 		
 		setLayer(layer);
 		
@@ -96,6 +97,7 @@ public class PrimitiveOval extends GraphicPrimitive
  		Stroke oldStroke;
 			
  		float w = (float)(Globals.lineWidthCircles*coordSys.getXMagnitude());
+ 		if (w<D_MIN) w=D_MIN;
 
 				
 		BasicStroke dashed = new BasicStroke(w, 

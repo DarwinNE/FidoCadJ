@@ -615,7 +615,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             else
                 z=z*2.0/3.0;
             
-            if(z>10) z=10;
+            if(z>20) z=20;
             if(z<.25) z=.25;
             
             z=Math.round(z*100.0)/100.0;
@@ -686,7 +686,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                                          ypoly[1],
                                                          xpoly[2],
                                                          ypoly[2],
-                                                         currentLayer));
+                                                         currentLayer,
+                                                         false,
+                                         				false,
+                                         				0,3,2,0));
                         
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
@@ -702,7 +705,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         	}
             P.addPrimitive(new PrimitiveAdvText(sc.unmapXsnap(x),
                                         sc.unmapYsnap(y), 
-                                        3,4,0,0,
+                                        3,4,"Courier new",0,0,
                                         "String", currentLayer));
                     
             repaint();
@@ -731,7 +734,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          ypoly[3],
                                          xpoly[4],
                                          ypoly[4],
-                                         currentLayer));
+                                         currentLayer,
+                                         false,
+                                         false,
+                                         0,3,2,0));
         
                 clickNumber = 0;
                 repaint();
@@ -752,7 +758,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if (evt.getClickCount() >= 2) {
          
                 PrimitivePolygon poly=new PrimitivePolygon(isFilled,
-                                         currentLayer);
+                                         currentLayer,0);
                 for(i=1; i<=clickNumber; ++i) 
                     poly.addPoint(xpoly[i],ypoly[i]);
         
@@ -792,7 +798,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer));
+                                         currentLayer,0));
         
         
                 clickNumber = 0;
@@ -819,7 +825,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer));
+                                         currentLayer,0));
                 clickNumber = 0;
                 repaint();
               
@@ -868,7 +874,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	P.deselectAll();
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), sc.unmapXsnap(x),
-                    sc.unmapYsnap(y),macroKey, P.getMacroFont()));
+                    sc.unmapYsnap(y),macroKey,"", sc.unmapXsnap(x)+10,
+                    sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
+                    sc.unmapYsnap(y)+10,
+                    P.getMacroFont()));
+                    
             } catch (IOException G) {
                 System.out.println(G);
             }
