@@ -18,6 +18,8 @@ public class PrimitivePolygon extends GraphicPrimitive
 	private int nPoints;
 	private boolean isFilled;
 	private int dashStyle;
+	private Polygon p;
+ 
 
 	// A polygon can be defined up to 100 points
 
@@ -38,6 +40,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 		super();
 		isFilled=false;
 		nPoints=0;
+		p = new Polygon();
 		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
@@ -55,6 +58,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 	public PrimitivePolygon(boolean f, int layer, int dashSt)
 	{
 		super();
+		p = new Polygon();
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
@@ -65,7 +69,6 @@ public class PrimitivePolygon extends GraphicPrimitive
 		
 		
 		setLayer(layer);
-		
 	}
 	
 	/** Add a point at the current polygon
@@ -78,6 +81,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 			return;
 		virtualPoint[nPoints].x=x;
 		virtualPoint[nPoints++].y=y;
+
 	}
 	
 	/** To speedup polygon drawing when dragging, always draw an empty polygon.
@@ -91,18 +95,23 @@ public class PrimitivePolygon extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
-		Polygon p = new Polygon();
-      		
-     	int j;
-        		
-     	for(j=0;j<nPoints;++j)
-      		p.addPoint(coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y),
-      				   coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y));
-      				
-   
+
+   		createPolygon(coordSys);
         g.drawPolygon(p);
  			
  		
+	}
+	
+	public final void createPolygon(MapCoordinates coordSys)
+	{
+     		
+     	int j;
+        
+        p.reset();
+     	for(j=0;j<nPoints;++j)
+      		p.addPoint(coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y),
+      				   coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y));
+ 
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -116,15 +125,10 @@ public class PrimitivePolygon extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
-		Polygon p = new Polygon();
-      		
-     	int j;
-        		
-     	for(j=0;j<nPoints;++j)
-      		p.addPoint(coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y),
-      				   coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y));
-      				
+    
+    	createPolygon(coordSys);
    
+ 
         Stroke oldStroke;
 		
  		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
@@ -212,7 +216,7 @@ public class PrimitivePolygon extends GraphicPrimitive
  										  " programming error?");
 			throw E;
  		}
-		
+	
 		
 	}
 	
@@ -293,12 +297,16 @@ public class PrimitivePolygon extends GraphicPrimitive
         double[] yp=new double[N_POINTS];
         
         int k;
-        int distance=Integer.MAX_VALUE;
                 
         for(k=0;k<nPoints;++k){
         	xp[k]=virtualPoint[k].x;
             yp[k]=virtualPoint[k].y;
-        }           
+        }     
+        
+        
+        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        	(py-yp[0])*(py-yp[0]));
+        
         if(GeometricDistances.pointInPolygon(nPoints,xp,yp, px,py))
           	distance=0;
             	

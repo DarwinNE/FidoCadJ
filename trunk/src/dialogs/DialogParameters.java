@@ -43,10 +43,12 @@ public class DialogParameters extends JDialog implements ComponentListener
 {
   	private static final int MIN_WIDTH=350;
   	private static final int MIN_HEIGHT=300;
+  	private static final int MAX=20;
+
   	
   	// Maximum number of user interface elements of the same type present
   	// in the dialog window.
-  	private static final int MAX_ELEMENTS=20;
+  	private static final int MAX_ELEMENTS=100;
   	
 	public boolean active; // true if the user selected Ok
 	
@@ -112,6 +114,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 		co=0;
 		
 		for (ycount=0;ycount<v.size();++ycount) {
+			if (ycount>MAX)
+				break;
+				
 			pd = (ParameterDescription)v.elementAt(ycount);
 			
 			
@@ -339,6 +344,8 @@ public class DialogParameters extends JDialog implements ComponentListener
 					co=0;
 					
 					for (ycount=0;ycount<v.size();++ycount) {
+						if (ycount>MAX)
+							break;
 						pd = (ParameterDescription)v.elementAt(ycount);
 			
 						if(pd.parameter instanceof Point) {

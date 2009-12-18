@@ -111,7 +111,6 @@ public class FidoFrame extends JFrame implements
     private ToolbarZoom toolZoom;
     
  
-
     // Export default properties
     private String exportFileName;
     private String exportFormat;
@@ -134,7 +133,6 @@ public class FidoFrame extends JFrame implements
         
         
     // Open/save default properties
-    private String openFileName;
     private String openFileDirectory;
 
     
@@ -350,17 +348,17 @@ public class FidoFrame extends JFrame implements
         splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
         splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
    
+        CC=new CircuitPanel(true);
         
         exportFileName=new String();
         exportFormat=new String();
         exportBlackWhite=false;
-        openFileName = new String();
+        CC.P.openFileName = new String();
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;
         
         
-        CC=new CircuitPanel(true);
         dt = new DropTarget(CC, this);
                
         CC.P.loadLibraryDirectory(libDirectory);
@@ -572,6 +570,16 @@ public class FidoFrame extends JFrame implements
             JMenuItem(Globals.messages.getString("SelectAll"));
         editSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
         	Globals.shortcutKey));
+ 
+ 		JMenuItem editRotate = new 
+            JMenuItem(Globals.messages.getString("Rotate"));
+        editRotate.setAccelerator(KeyStroke.getKeyStroke("R"));
+        
+        JMenuItem editMirror = new 
+            JMenuItem(Globals.messages.getString("Mirror_E"));
+        editMirror.setAccelerator(KeyStroke.getKeyStroke("S"));
+ 
+ 
 
 		
 		editUndo.addActionListener((ActionListener)this);
@@ -580,6 +588,8 @@ public class FidoFrame extends JFrame implements
 		editCopy.addActionListener((ActionListener)this);
 		editPaste.addActionListener((ActionListener)this);
 		editSelectAll.addActionListener((ActionListener)this);
+		editMirror.addActionListener((ActionListener)this);
+		editRotate.addActionListener((ActionListener)this);
 		
 		editMenu.add(editUndo);
 		editMenu.add(editRedo);
@@ -591,8 +601,14 @@ public class FidoFrame extends JFrame implements
         editMenu.add(clipboardCircuit);
 
 		editMenu.addSeparator();
-		
+
+	
 		editMenu.add(editSelectAll);
+		editMenu.addSeparator();
+		editMenu.add(editRotate);
+		editMenu.add(editMirror);
+		
+
 	
 		menuBar.add(editMenu);
 		
@@ -797,7 +813,7 @@ public class FidoFrame extends JFrame implements
             if (arg.equals(Globals.messages.getString("Save"))) {
             	
             	
-                if(openFileName.equals(""))
+                if(CC.P.openFileName.equals(""))
                 	SaveWithName();
                 else 
                 	Save();
@@ -816,7 +832,7 @@ public class FidoFrame extends JFrame implements
                 	CC.setCirc(new StringBuffer(""));
 	                CC.P.saveUndoState();
                 } catch (IOException E) {}
-                openFileName="";
+                CC.P.openFileName="";
                 repaint();*/
            	}
            	if (arg.equals(Globals.messages.getString("Undo"))) {
@@ -901,7 +917,7 @@ public class FidoFrame extends JFrame implements
                     	} else {
                     		popFrame=this;
                     	}
-            			popFrame.openFileName= Globals.createCompleteFileName(
+            			popFrame.CC.P.openFileName= Globals.createCompleteFileName(
                 			din, 			fin);
                 		prefs.put("OPEN_DIR", din);  
                 		popFrame.openFileDirectory=din;
@@ -962,7 +978,15 @@ public class FidoFrame extends JFrame implements
         		CC.P.deleteAllSelected();
         		repaint();
       		}
-            
+            if (arg.equals(Globals.messages.getString("Mirror_E"))) {
+        		CC.P.mirrorAllSelected();
+        		repaint();
+      		}
+      		
+            if (arg.equals(Globals.messages.getString("Rotate"))) {
+        		CC.P.rotateAllSelected();
+        		repaint();
+      		}
             if (arg.equals(Globals.messages.getString("Macro_origin"))) {
         		CC.P.setMacroOriginVisible(optionMacroOrigin.isSelected());	
         		repaint();
@@ -1174,7 +1198,7 @@ public class FidoFrame extends JFrame implements
                     }
     				
     				// Only the first file of the list will be opened
-    				popFrame.openFileName=((File)(list.get(0))).getAbsolutePath();
+    				popFrame.CC.P.openFileName=((File)(list.get(0))).getAbsolutePath();
     				popFrame.openFile();
     				// If we made it this far, everything worked.
    					dtde.dropComplete(true);
@@ -1235,16 +1259,16 @@ public class FidoFrame extends JFrame implements
                     			popFrame=this;
                     		}
 
-            				popFrame.openFileName = 
+            				popFrame.CC.P.openFileName = 
             					line.toString().substring(k+7);
             				
             				// Deprecated! it should indicate encoding. But
             				// WE WANT the encoding using being the same of the
             				// host system.
             				
-            				popFrame.openFileName = 
+            				popFrame.CC.P.openFileName = 
             					java.net.URLDecoder.decode(
-            					popFrame.openFileName);
+            					popFrame.CC.P.openFileName);
             			                  		
             				popFrame.openFile();
                         	popFrame.CC.P.saveUndoState();
@@ -1277,7 +1301,7 @@ public class FidoFrame extends JFrame implements
     public void openFile() 
     	throws IOException
     {
-    	FileReader input = new FileReader(openFileName);
+    	FileReader input = new FileReader(CC.P.openFileName);
         BufferedReader bufRead = new BufferedReader(input);
                 
         StringBuffer txt= new StringBuffer();    
@@ -1380,10 +1404,10 @@ public class FidoFrame extends JFrame implements
                 
                 
         if(fin!= null) {
-           	openFileName= Globals.createCompleteFileName(
+           	CC.P.openFileName= Globals.createCompleteFileName(
            		din,
            		fin);
-          	openFileName = Globals.checkExtension(openFileName, 
+          	CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
                		Globals.DEFAULT_EXTENSION);
             prefs.put("OPEN_DIR", din);   
     			openFileDirectory=din;
@@ -1405,13 +1429,13 @@ public class FidoFrame extends JFrame implements
     				while exporting in a vectorial graphic format one has 
     				indeed to split macros.
     			*/
-                ExportGraphic.export(new File(openFileName),  CC.P, 
+                ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
                     "fcd", 1,true,false, extFCJ_s);
        	     	CC.P.setModified(false);
    	
     		} else {
     	  		// Create file 
-	   			FileWriter fstream = new FileWriter(openFileName);
+	   			FileWriter fstream = new FileWriter(CC.P.openFileName);
    	    		BufferedWriter output = new BufferedWriter(fstream);
    		 		output.write("[FIDOCAD]\n");
    	 			output.write(CC.getCirc(extFCJ_s).toString());
@@ -1431,7 +1455,7 @@ public class FidoFrame extends JFrame implements
     */
     void Load(String s)
     {
-    	openFileName= s;
+    	CC.P.openFileName= s;
                
         try {
             openFile();
@@ -1542,7 +1566,7 @@ public class FidoFrame extends JFrame implements
 	public void somethingHasChanged()
 	{
     	setTitle("FidoCadJ "+Globals.version+" "+ 
-	   		Globals.prettifyPath(openFileName,45)+ 
+	   		Globals.prettifyPath(CC.P.openFileName,45)+ 
 	   		(CC.P.getModified()?" *":""));
 	}
 	

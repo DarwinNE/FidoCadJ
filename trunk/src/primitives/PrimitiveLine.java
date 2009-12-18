@@ -236,21 +236,15 @@ public class PrimitiveLine extends GraphicPrimitive
  			ya=y1;
  			yb=y2;
  		}
+		
  		
- 			
- 		// Exit if the primitive is offscreen. This is a simplification, but
- 		// ensures that the primitive is correctly drawn when it is 
- 		// partially visible.
-/* 		coordSys.trackPoint(xa,ya);
- 		coordSys.trackPoint(xb,yb);*/
- 		
- 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
- 		if (w<D_MIN) w=D_MIN;
  		
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
 
-		//Stroke oldStroke;
+ 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 		if (w<D_MIN) w=D_MIN;
+
 		
 		if(dashStyle>0) {
 				

@@ -276,10 +276,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 	public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-	
+	/*
 		if(!selectLayer(g,layerV))
 			return;
- 		
+ 	*/	
 	
 		drawMacroContents(g, coordSys, layerV);
 		drawText(g, coordSys, layerV);
@@ -467,6 +467,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 	}
 	
+	public final boolean getNeedHoles()
+	{
+		return macro.getNeedHoles();
+	}
 	
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
@@ -511,11 +515,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroCoord.mirror=m;
  		macroCoord.isMacro=true;
  			
- 		ParseSchem macro=new ParseSchem();
+ 		//ParseSchem macro=new ParseSchem();
  		macro.setMapCoordinates(macroCoord);
  		
- 		macro.setLibrary(library); 	// Inherit the library
- 		macro.setLayers(layers);	// Inherit the layers
+ 		//macro.setLibrary(library); 	// Inherit the library
+ 		//macro.setLayers(layers);	// Inherit the layers
  		
  		int vx=px-x1+100;
  		int vy= py-y1+100;
@@ -583,15 +587,28 @@ public class PrimitiveMacro extends GraphicPrimitive
  			System.out.println("1-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
- 			try {
- 				macro.parseString(new StringBuffer(macroDesc)); 
- 					// Recursive call	
- 			} catch(IOException e) {
-               	System.out.println("Error: "+e); 
-            }
+
  			return Math.min(macro.distancePrimitive(vx, vy), dt);
 		}
 		return Integer.MAX_VALUE;
+	}
+	
+	/**	Select the primitive if one of its virtual point is in the specified
+		rectangular region (given in logical coordinates).
+        @param px the x coordinate of the top left point.
+        @param py the y coordinate of the top left point.
+        @param w the width of the region
+        @param h the height of the region
+        @return true if at least a primitive has been selected
+    */
+    public boolean selectRect(int px, int py, int w, int h)
+	{
+		// Here is a trick: if there is at least one active layer, 
+		// distancePrimitive will return a value less than the maximum.
+		if (macro.distancePrimitive(0, 0)<Integer.MAX_VALUE) 
+			return super.selectRect(px, py, w, h);
+		else
+			return false;
 	}
 	
 	/** Rotate the primitive. For a macro, it is different than for the other

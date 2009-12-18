@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.text.*;
+import javax.swing.*;
+
 import globals.*;
 import layers.*;
 import primitives.*;
@@ -39,6 +41,7 @@ public class ExportPDF implements ExportInterface {
 	private FileWriter fstreamt;
 	private BufferedWriter out;
 	private BufferedWriter outt;
+	private boolean fontWarning;
 	
 	private String head;
 	private String b1;
@@ -50,6 +53,14 @@ public class ExportPDF implements ExportInterface {
 	private String b7;
 	private String b8;
 	private String b9;
+	private String b10;
+	private String b11;
+	private String b12;
+	private String b13;
+	private String b14;
+	private String b15;
+	
+	
 	
 	
 	private Vector layerV;
@@ -104,7 +115,7 @@ public class ExportPDF implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
-	    
+	    fontWarning=false;
 	    // To track the block sizes, we will first write it in a temporary file
 	    
 	    outt = new BufferedWriter(fstreamt);
@@ -131,22 +142,6 @@ public class ExportPDF implements ExportInterface {
 				(int)(totalSize.height/res_mult+1)+" ]\n"+
 				"  >> endobj\n";
 				
-		b6=	"6 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F1\n" +
-				"    /BaseFont /Courier\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
-				"  >> endobj\n";
-		b7="7 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F2\n" +
-				"    /BaseFont /Courier-Bold\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
-				"  >> endobj\n";
-				
-		out.write(head+b5+b6+b7);
 
 
 		
@@ -178,6 +173,69 @@ public class ExportPDF implements ExportInterface {
 		outt.close();
 		
 		long filelength=temp.length();
+
+
+		b6=	"6 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F1\n" +
+				"    /BaseFont /Courier\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b7="7 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F2\n" +
+				"    /BaseFont /Courier-Bold\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+
+		b9=	"9 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F3\n" +
+				"    /BaseFont /Times-Roman\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b10="10 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F4\n" +
+				"    /BaseFont /Times-Bold\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b11="11 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F5\n" +
+				"    /BaseFont /Helvetica\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b12="12 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F6\n" +
+				"    /BaseFont /Helvetica-Bold\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b13="13 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F7\n" +
+				"    /BaseFont /Symbol\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+		b14="14 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F8\n" +
+				"    /BaseFont /Symbol\n" + 
+				"    /Encoding /MacRomanEncoding\n" +
+				"  >> endobj\n";
+
+				
+		out.write(head+b5+b6+b7);
+
 		
 		b8="8 0 obj\n" +
 				"  <<\n" +
@@ -211,6 +269,12 @@ public class ExportPDF implements ExportInterface {
 				"  /Font <<\n"+
 				"  /F1 6 0 R\n"+
 				"  /F2 7 0 R\n"+
+				"  /F3 9 0 R\n"+
+				"  /F4 10 0 R\n"+
+				"  /F5 11 0 R\n"+
+				"  /F6 12 0 R\n"+
+				"  /F7 13 0 R\n"+
+				"  /F8 14 0 R\n"+
 				">>\n"+
 				"/ProcSet 2 0 R\n"+
 				">>\n"+
@@ -241,11 +305,14 @@ public class ExportPDF implements ExportInterface {
 				"endobj\n";
 		
 		out.write(b8e+b4 + b2 + b1 +b3);
+
+		out.write(b9+b10+b11+b12+b13+b14);
+
 		
 		// order: header, 5, 6, 7, 8, file, 8e, 4, 2, 1, 3 
 		
 		out.write("xref \n"+
-				  "0 9\n"+
+				  "0 15\n"+
 				  "0000000000 65535 f \n"+			// header
 				  
 				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
@@ -272,22 +339,58 @@ public class ExportPDF implements ExportInterface {
 				  " 00000 n \n"+ 		// 7
 				  
 				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length())+ 
-				  " 00000 n \n"); 		// 8
+				  " 00000 n \n"+ 		// 8
+				  
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length())+  " 00000 n \n"+ 		// 9
+				  
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length()+b9.length())+  " 00000 n \n"+ 		// 10
+				  
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length())+
+				  	" 00000 n \n"+ 		// 11
 				  
 				  
-		
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
+				  	b11.length())+" 00000 n \n"+ 		// 12
+				  
+				  
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
+				  	b11.length()+b12.length())+" 00000 n \n"+ 		// 13
+				  
+				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
+				  	b8.length()+ filelength + b8e.length()+b4.length()+
+				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
+				  	b11.length()+b12.length()+b13.length())+" 00000 n \n"); 		// 14
+				  
+				  
+				  
 		out.write("trailer\n"+
 				"<<\n"+
-				"  /Size 9\n"+
+				"  /Size 15\n"+
 				"  /Root 3 0 R\n"+
 				"  /Info 1 0 R\n"+
 				">>\n"+
 				"startxref\n"+
 				(head.length()+b5.length()+b6.length()+b7.length()+
 				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length())+"\n"+
+				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
+				  	b11.length()+b12.length()+b13.length()+b14.length())+"\n"+
 				"%%EOF");
 		out.close();
+		
+		if (fontWarning) {
+			JOptionPane.showMessageDialog(null,
+				Globals.messages.getString("PDF_Font_error"));
+		}	
     
 	}
 
@@ -321,13 +424,37 @@ public class ExportPDF implements ExportInterface {
 		checkColorAndWidth(c, l_width);
         
    		outt.write("BT\n");
+   		
 
-		if(isBold)
-			outt.write("/F2"+" "+sizey+" Tf\n");       
-		else
-			outt.write("/F1"+" "+sizey+" Tf\n");       
-		
-
+		if(fontname.equals("Courier") || fontname.equals("Courier New")) {
+			if(isBold)
+				outt.write("/F2"+" "+sizey+" Tf\n");       
+			else
+				outt.write("/F1"+" "+sizey+" Tf\n");       
+		} else if(fontname.equals("Times") || 
+			fontname.equals("Times New Roman") ||
+			fontname.equals("Times Roman")) {
+			if(isBold)
+				outt.write("/F4"+" "+sizey+" Tf\n");       
+			else
+				outt.write("/F3"+" "+sizey+" Tf\n");       
+		      
+		} else if(fontname.equals("Helvetica") || 
+			fontname.equals("Arial")) {
+			if(isBold)
+				outt.write("/F6"+" "+sizey+" Tf\n");       
+			else
+				outt.write("/F5"+" "+sizey+" Tf\n");       
+	      
+		} else if(fontname.equals("Symbol")) {
+			if(isBold)
+				outt.write("/F8"+" "+sizey+" Tf\n");       
+			else
+				outt.write("/F7"+" "+sizey+" Tf\n");       
+		} else {
+			fontWarning = true;
+			outt.write("/F4"+" "+sizey+" Tf\n");
+		}
 
 		outt.write("q\n");
 		

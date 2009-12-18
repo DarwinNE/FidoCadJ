@@ -2,11 +2,11 @@
 \deactivateaddvspace 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1}{\ignorespaces Riassunto dei comandi di disegno disponibili in FidoCadJ. Il tasto mostrato nella colonna pi\`u a sinistra permette di selezionare rapidamente l'operazione da tastiera. Un click destro in una delle modalit\`a di inserimento delle primitive permette di passare direttamente nella finestra di modifica delle propriet\`a.}}{5}{table.2.1}
-\contentsline {table}{\numberline {2}{\ignorespaces Lista dei formati di esportazione disponibili con FidoCadJ.}}{17}{table.2.2}
+\contentsline {table}{\numberline {1}{\ignorespaces Riassunto dei comandi di disegno disponibili in FidoCadJ. Il tasto mostrato nella colonna pi\`u a sinistra permette di selezionare rapidamente l'operazione da tastiera. Un click destro in una delle modalit\`a di inserimento delle primitive permette di passare direttamente nella finestra di modifica delle propriet\`a.}}{6}{table.2.1}
+\contentsline {table}{\numberline {2}{\ignorespaces Lista dei formati di esportazione disponibili con FidoCadJ.}}{19}{table.2.2}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3}{\ignorespaces Presenza delle frecce sulle estremit\`a di un segmento o di una curva di B\'ezier, a seconda del codice $a$.}}{20}{table.3.3}
-\contentsline {table}{\numberline {4}{\ignorespaces Stile delle frecce, a seconda del codice $b$.}}{20}{table.3.4}
-\contentsline {table}{\numberline {5}{\ignorespaces Funzione dei bit nello stile del testo.}}{22}{table.3.5}
+\contentsline {table}{\numberline {3}{\ignorespaces Presenza delle frecce sulle estremit\`a di un segmento o di una curva di B\'ezier, a seconda del codice $a$.}}{23}{table.3.3}
+\contentsline {table}{\numberline {4}{\ignorespaces Stile delle frecce, a seconda del codice $b$.}}{23}{table.3.4}
+\contentsline {table}{\numberline {5}{\ignorespaces Funzione dei bit nello stile del testo.}}{25}{table.3.5}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
