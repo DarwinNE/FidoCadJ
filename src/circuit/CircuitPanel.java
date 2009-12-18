@@ -94,6 +94,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
     
     private Rectangle evidenceRect;
+    private Rectangle oldEvidenceRect;
     
       
     public static final int MARGIN=20;     // Margin size in pixel when calculating
@@ -149,7 +150,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         antiAlias = true;
         
         evidenceRect = new Rectangle(0,0,-1,-1);
-
+        oldEvidenceRect = null;
        
         setOpaque(true);
         runs = 0;
@@ -320,6 +321,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 }
             });
 
+/*			replicated in menus
+
             final String rotation = "rotation";
         
             getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -351,7 +354,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
                 }
             });
-        
+        */
             final String delete = "delete"; 
         
             getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -632,7 +635,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         	}
         	
             P.addPrimitive(new PrimitiveConnection(sc.unmapXsnap(x),
-                                        sc.unmapYsnap(y), currentLayer));
+                                        sc.unmapYsnap(y), currentLayer), true);
                     
             repaint();
             break;
@@ -649,7 +652,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                   PCB_pad_sizey,                                                                                                                
                                   PCB_pad_drill,
                                   PCB_pad_style,
-                                  currentLayer));
+                                  currentLayer), true);
                     
                     
             repaint();
@@ -689,7 +692,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                                          currentLayer,
                                                          false,
                                          				false,
-                                         				0,3,2,0));
+                                         				0,3,2,0), true);
                         
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
@@ -706,7 +709,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             P.addPrimitive(new PrimitiveAdvText(sc.unmapXsnap(x),
                                         sc.unmapYsnap(y), 
                                         3,4,"Courier new",0,0,
-                                        "String", currentLayer));
+                                        "String", currentLayer), true);
                     
             repaint();
             break;
@@ -737,7 +740,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          currentLayer,
                                          false,
                                          false,
-                                         0,3,2,0));
+                                         0,3,2,0), true);
         
                 clickNumber = 0;
                 repaint();
@@ -762,7 +765,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 for(i=1; i<=clickNumber; ++i) 
                     poly.addPoint(xpoly[i],ypoly[i]);
         
-                P.addPrimitive(poly);
+                P.addPrimitive(poly, true);
                 clickNumber = 0;
                 repaint();
                 break;
@@ -798,7 +801,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0));
+                                         currentLayer,0), true);
         
         
                 clickNumber = 0;
@@ -825,7 +828,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0));
+                                         currentLayer,0), true);
                 clickNumber = 0;
                 repaint();
               
@@ -856,7 +859,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          PCB_thickness,
-                                         currentLayer));
+                                         currentLayer), true);
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
                 ypoly[1] = ypoly[2];
@@ -877,7 +880,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     sc.unmapYsnap(y),macroKey,"", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
-                    P.getMacroFont()));
+                    P.getMacroFont()), true);
                     
             } catch (IOException G) {
                 System.out.println(G);
@@ -1286,6 +1289,22 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     	
     }
     
+    public void setOldEvidence(int lx, int ly, int w, int h)
+    {
+    	oldEvidenceRect=new Rectangle();
+    	oldEvidenceRect.x=lx;
+    	oldEvidenceRect.y=ly;
+    	oldEvidenceRect.height=h;
+    	oldEvidenceRect.width=w;
+    	
+    }
+    
+    public void resetOldEvidence()
+    {	
+    	oldEvidenceRect = null;
+    	
+    }
+    
 
     /** Repaint the panel */
     public void paintComponent(Graphics g) 
@@ -1311,6 +1330,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_DITHER_DISABLE);
          }
      
+        Rectangle r = g.getClipBounds();
+        //oldEvidenceRect=null;
+        if(oldEvidenceRect!=null) {
+			g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1,	
+        		oldEvidenceRect.height+1);
+		} 
+
         // Draw all the primitives
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
@@ -1319,8 +1345,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                               getHeight());
         }
         g.setColor(Color.black);
+        
 
         P.draw(g2);
+        g.setClip(r);
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         

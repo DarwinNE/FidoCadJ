@@ -21,7 +21,7 @@ public class UndoManager {
 	public void undoReset()
 	{
 		undoBuffer.removeAllElements();
-		undoPush("");
+		undoPush(new UndoState());
 		pointer=1;
 		isRedoable=false;
 	}

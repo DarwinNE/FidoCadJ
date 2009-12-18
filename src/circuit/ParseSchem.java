@@ -83,6 +83,8 @@ public class ParseSchem
     static final int MAX_TOKENS=100;
     static final boolean useWindowsLineFeed=false;
     
+	public String openFileName;
+
     private boolean drawOnlyPads;
     private int drawOnlyLayer;
     
@@ -95,6 +97,7 @@ public class ParseSchem
     private boolean firstDrag;
     private BufferedImage bufferedImage; // Useful for grid calculation
     private double oldZoom;
+    private boolean needHoles;
     
     private String macroFont;
     
@@ -446,14 +449,29 @@ public class ParseSchem
     }
     /** Add a graphic primitive.
         @param p the primitive to be added.
+        @param save save the undo state.
     
     */
-    public void addPrimitive(GraphicPrimitive p)
+    public void addPrimitive(GraphicPrimitive p, boolean save)
     {   
-        primitiveVector.add(p);
-    	saveUndoState();
+    	// Make sure the layers are ordered. This increases the drawing speed
+    	GraphicPrimitive g;
+    	int i;
+    	
+  		for (i=0; i<primitiveVector.size(); ++i){
+    	
+        	g=(GraphicPrimitive)primitiveVector.elementAt(i);
+			
+        	if(g.getLayer()>p.getLayer()) {
+				break;
+        	}
+        }	
+        
+        primitiveVector.add(i,p);
+        if (save) saveUndoState();
 
     }
+    
     
     /** Get the Fidocad text file.
     
@@ -490,6 +508,7 @@ public class ParseSchem
         int i;
         int j;
         GraphicPrimitive g;
+        needHoles=drawOnlyPads;
         
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
@@ -505,17 +524,30 @@ public class ParseSchem
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i=0; i<primitiveVector.size(); ++i){
         		g=(GraphicPrimitive)primitiveVector.elementAt(i);
-       			if (g.getLayer()>maxLayer) 
-    				maxLayer = g.getLayer();
     
+   				if (g.getLayer()>maxLayer) 
+   					maxLayer = g.getLayer();
+        		
+// this should improve the redrawing speed. But I do not dare uncommenting it...
+				if (g.getLayer()>drawOnlyLayer)
+					break;
+			
         		if(g.getLayer()==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
-        			g.draw(G, cs, layerV);  
+        			g.draw(G, cs, layerV);      		
         			
         		} else if(g instanceof PrimitiveMacro) {
         			((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
-        			g.draw(G, cs, layerV);  
+        			g.draw(G, cs, layerV);
+					needHoles=((PrimitiveMacro)g).getNeedHoles();
+					if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
+        					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
+
         		}
+
+       			if(g instanceof PrimitivePCBPad)
+       				needHoles=true;
+
        		}
        		return;
        	} else if (!drawOnlyPads) {
@@ -528,21 +560,30 @@ public class ParseSchem
     
     				if (g.getLayer()>maxLayer) 
         					maxLayer = g.getLayer();
+// this should improve the redrawing speed. But I do not dare uncommenting it...
+
+					if (j>1 && g.getLayer()>j)
+						break;
         			
         		
         			if(g.getLayer()==j && !(g instanceof PrimitiveMacro)){
         				g.draw(G, cs, layerV);  
-	
         			} else if(g instanceof PrimitiveMacro) {
         				((PrimitiveMacro)g).setDrawOnlyLayer(j);
         				g.draw(G, cs, layerV);  
+        				
+						if(((PrimitiveMacro)g).getNeedHoles())
+							needHoles=true;
 
         				if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
         					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
         			}
+        			if(g instanceof PrimitivePCBPad)
+        				needHoles=true;
+        			
         			
         		}
-        		if (j>=maxLayer)
+        		if (j>maxLayer)
         			break;
        		}
         }
@@ -551,8 +592,8 @@ public class ParseSchem
         
         // Draw in a second time only the PCB pads, in order to ensure that the
         // drills are always open.
-        
-        if(true) {
+      //needHoles=true;
+        if(needHoles) {
         	for (i=0; i<primitiveVector.size(); ++i){
             	if ((g=(GraphicPrimitive)primitiveVector.elementAt(i)) 
             		instanceof PrimitivePCBPad) {
@@ -880,6 +921,43 @@ public class ParseSchem
         return null;
     }
     
+    /** Calculates the minimum distance between the given point and
+    	a set of primitive. Every coordinate is logical.
+    	
+    	@param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+    	@return the distance in logical units.
+    */
+    public int distancePrimitive(int px, int py)
+    {
+        int i;
+        int distance;
+        int mindistance=Integer.MAX_VALUE;
+        int isel=0;
+        int layer=0;
+        
+        for (i=0; i<primitiveVector.size(); ++i){
+            distance=((GraphicPrimitive)
+                       primitiveVector.elementAt(i)).getDistanceToPoint(px,py);
+                       
+            layer= ((GraphicPrimitive)
+                       primitiveVector.elementAt(i)).getLayer();
+                       
+            if(((LayerDesc)layerV.get(layer)).getVisible() &&
+            	distance<=mindistance) {
+                
+                isel=i;
+                mindistance=distance;
+                
+            }
+        }
+        
+        return mindistance;
+        
+        
+    }
+    
+    
     /** Select primitives close to the given point. Every parameter is given in
         logical coordinates.
         @param px the x coordinate of the given point.
@@ -904,7 +982,8 @@ public class ParseSchem
         	layer= ((GraphicPrimitive)
                        primitiveVector.elementAt(i)).getLayer();
                        
-            if(((LayerDesc)layerV.get(layer)).getVisible()) {
+            if(((LayerDesc)layerV.get(layer)).getVisible() ||
+            	(GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
             	distance=((GraphicPrimitive)
                        primitiveVector.elementAt(i)).getDistanceToPoint(px,py);
             
@@ -1037,7 +1116,8 @@ public class ParseSchem
             layer= ((GraphicPrimitive)
                        primitiveVector.elementAt(i)).getLayer();
                        
-            if(((LayerDesc)layerV.get(layer)).getVisible()) {
+            if(((LayerDesc)layerV.get(layer)).getVisible() ||
+            	(GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
             	if(gp.selectRect(px,py,w,h))
             		s=true;
                 
@@ -1086,7 +1166,8 @@ public class ParseSchem
             gp=(GraphicPrimitive)primitiveVector.elementAt(i);
       		layer= gp.getLayer();
                        
-            if(!((LayerDesc)layerV.get(layer)).getVisible())
+            if(!((LayerDesc)layerV.get(layer)).getVisible() &&
+            	!(gp instanceof PrimitiveMacro))
             	continue;
             
             if(gp.getSelected()){
@@ -1140,6 +1221,7 @@ public class ParseSchem
     {
         // Check if we are effectively dragging something...
         if(handleBeingDragged<0){
+        	P.resetOldEvidence();
         	if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){
         		P.setEvidenceRect(0,0,-1,-1);
         		int xa=Math.min(oldpx, cs.unmapXnosnap(px));
@@ -1189,11 +1271,12 @@ public class ParseSchem
             if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION) {
             	
     	
-            	int xa = cs.mapX(oldpx, oldpy);
-            	int ya = cs.mapY(oldpx, oldpy);
+            	int xa = cs.mapXi(oldpx, oldpy, false);
+            	int ya = cs.mapYi(oldpx, oldpy, false);
         		int xb = opx;
         		int yb = opy;
         		g.setStroke(new BasicStroke(1));
+        		
         
         		if(!firstDrag) {
         			if(!Globals.doNotUseXOR) 
@@ -1201,18 +1284,24 @@ public class ParseSchem
         				g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
         			else{
+        				P.setOldEvidence(Math.min(xa,xb), Math.min(ya,yb), 
+        					   Math.abs(xb-xa), Math.abs(yb-ya));
         				xb=px;
 						yb=py;
 						opx=px;
 						opy=py;
+						
         				P.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
         				P.repaint();
+        				//P.resetOldEvidence();
+        				
         				return;
         				        				
         			}
         		}
-
+				P.setOldEvidence(Math.min(xa,xb), Math.min(ya,yb), 
+        					   Math.abs(xb-xa), Math.abs(yb-ya));
 				xb=px;
 				yb=py;
 				opx=px;
@@ -1309,36 +1398,7 @@ public class ParseSchem
     
 
     
-    /** Calculates the minimum distance between the given point and
-    	a set of primitive. Every coordinate is logical.
-    	
-    	@param px the x coordinate of the given point.
-        @param py the y coordinate of the given point.
-    	@return the distance in logical units.
-    */
-    public int distancePrimitive(int px, int py)
-    {
-        int i;
-        int distance;
-        int mindistance=Integer.MAX_VALUE;
-        int isel=0;
-        
-        for (i=0; i<primitiveVector.size(); ++i){
-            distance=((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getDistanceToPoint(px,py);
-                        
-            if (distance<=mindistance) {
-                isel=i;
-                mindistance=distance;
-                
-            }
-        }
-        
-        return mindistance;
-        
-        
-    }
-    
+
     
     
     /** Parse the circuit contained in the StringBuffer specified.
@@ -1409,20 +1469,20 @@ public class ParseSchem
                 			g=new PrimitiveMacro(library,layerV);
                         	g.parseTokens(old_tokens, old_j+1);
                         	g.setSelected(selectNew);
-                        	primitiveVector.add(g);
+                        	addPrimitive(g,false);
                         	hasFCJ=false;
                         } else if (old_tokens[0].equals("LI")) {
 		                    g=new PrimitiveLine();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                         	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("BE")) {
 		                    g=new PrimitiveBezier();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                         	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("RP")||
@@ -1430,7 +1490,7 @@ public class ParseSchem
 		                    g=new PrimitiveRectangle();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                         	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("EP")||
@@ -1438,7 +1498,7 @@ public class ParseSchem
 		                    g=new PrimitiveOval();
            	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                         	hasFCJ=false;
                      
                         } else if (old_tokens[0].equals("PP")||
@@ -1446,7 +1506,7 @@ public class ParseSchem
 		       				g=new PrimitivePolygon();
            	    			g.parseTokens(old_tokens, old_j+1);
                 			g.setSelected(selectNew);
-                			primitiveVector.add(g);
+                			addPrimitive(g,false);
                         	hasFCJ=false;
                      
             			}
@@ -1466,7 +1526,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                      
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
 		                    g=new PrimitiveBezier();
@@ -1477,7 +1537,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                      
                         } else if (hasFCJ && (old_tokens[0].equals("RV")||
                         	old_tokens[0].equals("RP"))) {
@@ -1489,7 +1549,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                     	} else if (hasFCJ && (old_tokens[0].equals("EV")||
                         	old_tokens[0].equals("EP"))) {
 		                    g=new PrimitiveOval();
@@ -1500,7 +1560,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                     	} else if (hasFCJ && (old_tokens[0].equals("PV")||
                         	old_tokens[0].equals("PP"))) {
 		                    g=new PrimitivePolygon();
@@ -1511,7 +1571,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        primitiveVector.add(g);
+                	        addPrimitive(g,false);
                     	}
                     	hasFCJ=false;
                     }if(tokens[0].equals("LI")) {
@@ -1549,7 +1609,7 @@ public class ParseSchem
                         g=new PrimitiveAdvText();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        primitiveVector.add(g);
+                        addPrimitive(g,false);
                     } else if(tokens[0].equals("TY")) {
                         hasFCJ=false;
                         
@@ -1569,13 +1629,13 @@ public class ParseSchem
                         	((PrimitiveMacro)g).setValue(value,vv+1);
 
                         	g.setSelected(selectNew);
-                        	primitiveVector.add(g);
+                        	addPrimitive(g, false);
                         	macro_counter=0;
                         } else {
                         	g=new PrimitiveAdvText();
                         	g.parseTokens(tokens, j+1);
                         	g.setSelected(selectNew);
-                       	 	primitiveVector.add(g);
+                       	 	addPrimitive(g,false);
                        	 }
                     } else if(tokens[0].equals("PL")) {
                     	hasFCJ=false;
@@ -1583,21 +1643,21 @@ public class ParseSchem
                         g=new PrimitivePCBLine();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        primitiveVector.add(g);
+                        addPrimitive(g,false);
                     } else if(tokens[0].equals("PA")) {
                     	hasFCJ=false;
                     	macro_counter=0;
                         g=new PrimitivePCBPad();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        primitiveVector.add(g);
+                        addPrimitive(g,false);
                     } else if(tokens[0].equals("SA")) {
                         hasFCJ=false;
                     	macro_counter=0;
                         g=new PrimitiveConnection();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        primitiveVector.add(g);
+                        addPrimitive(g,false);
                     }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
                     	macro_counter=0;
     
@@ -1652,38 +1712,38 @@ public class ParseSchem
         		g=new PrimitiveMacro(library,layerV);
                	g.parseTokens(old_tokens, old_j+1);
                	g.setSelected(selectNew);
-               	primitiveVector.add(g);
+               addPrimitive(g,false);
             } else if (old_tokens[0].equals("LI")) {
 		        g=new PrimitiveLine();
                 g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                primitiveVector.add(g);
+                addPrimitive(g,false);
                      
             } else if (old_tokens[0].equals("BE")) {
 		        g=new PrimitiveBezier();
            	    g.parseTokens(old_tokens, old_j+1);
             	g.setSelected(selectNew);
-                primitiveVector.add(g);     
+                addPrimitive(g,false);  
             } else if (old_tokens[0].equals("RP")||
                	old_tokens[0].equals("RV")) {
 		        g=new PrimitiveRectangle();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                primitiveVector.add(g);
+                addPrimitive(g,false);
                      
             } else if (old_tokens[0].equals("EP")||
                	old_tokens[0].equals("EV")) {
 		        g=new PrimitiveOval();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                primitiveVector.add(g);
+                addPrimitive(g,false);
                      
             } else if (old_tokens[0].equals("PP")||
                	old_tokens[0].equals("PV")) {
 		        g=new PrimitivePolygon();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                primitiveVector.add(g);
+                addPrimitive(g,false);
                      
             }
         }
@@ -1798,8 +1858,12 @@ public class ParseSchem
     public void undo()
     {
     	try {
-    		StringBuffer s=new StringBuffer((String)um.undoPop());
+    		UndoState r = (UndoState)um.undoPop();
+    		StringBuffer s=new StringBuffer(r.text);
     		parseString(s);
+    		isModified = r.isModified;
+    		openFileName = r.fileName;
+    	
     		if(cl!=null) cl.somethingHasChanged();
     		
     	} catch (Exception E) 
@@ -1814,8 +1878,13 @@ public class ParseSchem
     public void redo()
     {
     	try {
-			StringBuffer s=new StringBuffer((String)um.undoRedo());
+    	
+    		UndoState r = (UndoState)um.undoRedo();
+    		StringBuffer s=new StringBuffer(r.text);
     		parseString(s);
+    		isModified = r.isModified;
+    		openFileName = r.fileName;
+    	
     		if(cl!=null) cl.somethingHasChanged();
     		
     	} catch (Exception E) 
@@ -1831,7 +1900,12 @@ public class ParseSchem
     */
     public void saveUndoState()
     {
-       	um.undoPush(getText(true).toString());
+    	UndoState s = new UndoState();
+    	s.text=getText(true).toString();
+    	s.isModified=isModified;
+    	s.fileName=openFileName;
+    	
+    	um.undoPush(s);
        	isModified = true;
        	if(cl!=null) cl.somethingHasChanged();
 
@@ -1871,6 +1945,11 @@ public class ParseSchem
 	public boolean isEmpty()
 	{
 		return primitiveVector.size()==0;
+	}
+	
+	public final boolean getNeedHoles()
+	{
+		return needHoles;
 	}
 }
 

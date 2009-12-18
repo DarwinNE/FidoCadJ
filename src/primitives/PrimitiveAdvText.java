@@ -182,7 +182,13 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-	
+		if(txt.equals(""))
+			return;
+		if(!selectLayer(g,layerV))
+			return;
+			
+		
+		
 		// Here we probably need a code cleanup for readability
 	 	AffineTransform ats;
 	 	AffineTransform at;
@@ -190,9 +196,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
  		ats=(AffineTransform)g.getTransform().clone();
 	 	at=(AffineTransform)g.getTransform().clone();
 
-		if(!selectLayer(g,layerV))
-			return;
-			
+		
 		boolean mirror=false;
  		
  		/* in the simple text primitive, the the virtual point represents
@@ -246,8 +250,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
     	
    		int w = 0;
 
-		if(!txt.equals(""))
-			w = fm.stringWidth(txt);
+		w = fm.stringWidth(txt);
 		
  		double xyfactor=1;
  		AffineTransform stretching = new AffineTransform();
@@ -719,7 +722,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	{
 		exp.exportAdvText (cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 			cs.mapY(virtualPoint[0].x,virtualPoint[0].y), six, siy,
-			"Courier", 
+			fontName, 
 			(sty & TEXT_BOLD)!=0,
 			(sty & TEXT_MIRRORED)!=0,
 			false,
