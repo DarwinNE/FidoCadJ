@@ -1333,8 +1333,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Rectangle r = g.getClipBounds();
         //oldEvidenceRect=null;
         if(oldEvidenceRect!=null) {
-			g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1,	
-        		oldEvidenceRect.height+1);
+        // this gives problems under Windows!
+/*			g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1,	
+        		oldEvidenceRect.height+1);*/
 		} 
 
         // Draw all the primitives
