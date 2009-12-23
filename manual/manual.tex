@@ -716,7 +716,7 @@ Il celebre formato vettoriale Portable Document Format, di Adobe. Vedi il testo 
 
 C'è una cosa però da dire sull'esportazione \textsc{pdf} fatta da FidoCadJ. Il programma non può includere font all'interno del file creato. Questo vuole dire che verranno esportati in maniera identica all'originale solo i disegni che utilizzano alcuni fra i font\index{font} standard tipo 1 a 14 punti:
 \begin{itemize}
-\item{Courier\index{Courier}: Font con grazie a spaziatura fissa. Vengono convertiti automaticamente in Courier anche le scritte effettuate in Courier New.}
+\item{Courier\index{Courier}: Font con grazie a spaziatura fissa. Vengono convertiti automaticamente in Courier anche le scritte effettuate in Courier New\index{Courier~New}.}
 \item{Times\index{Times}: Font con grazie a spaziatura proporzionale. Vengono convertiti in Times anche le scritte in Times New Roman\index{Times~New~Roman} o Times Roman\index{Times~Roman}.}
 \item{Helvetica\index{Helvetica}: Font senza grazie a spaziatura proporzionale. Vengono convertite anche le scritte fatte in Arial\index{Arial}.}
 \item{Symbol\index{Symbol}: contiene simboli vari.}
@@ -964,7 +964,7 @@ dove $t\in [0,1]$ è un parametro.
 
 
 
-\textbf{Estensione FidoCadJ}: a partire dalla versione 0.23 di FidoCadJ, \lstinline!LI!\index{LI} può essere seguito nella riga successiva da un'estensione:
+\textbf{Estensione FidoCadJ}: a partire dalla versione 0.23 di FidoCadJ, \lstinline!BE!\index{BE} può essere seguito nella riga successiva da un'estensione:
 \begin{lstlisting} 
 FCJ a b c d e 
 \end{lstlisting}
@@ -1015,8 +1015,8 @@ TY 50 35 4 3 0 0 0 * R1
 TY 50 40 4 3 0 0 0 * 47k
 \end{lstlisting}
 
-\textbf{Estensione FidoCadJ}: a partire dalla versione 0.23 di FidoCadJ, \lstinline!LI!\index{LI} può essere seguito nella riga successiva da un'estensione:
-La presenza del comando \lstinline!FCJ! indica che la definizione della macro non è terminata, ma che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Attualmente, solo le coordinate dei due comandi \lstinline!TY! sono utilizzate.
+\textbf{Estensione FidoCadJ}: a partire dalla versione 0.21 di FidoCadJ, \lstinline!MC!\index{MC} può essere seguito nella riga successiva da un'estensione \lstinline!FCJ!.
+La presenza del comando \lstinline!FCJ! indica che la definizione della macro non è terminata, ma che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Attualmente, solo le coordinate ed i font dei due comandi \lstinline!TY! sono utilizzate.
 
 Questo modo di procedere ha il vantaggio che se un file contenente un'estensione di questo tipo viene letto da FidoCad\index{FidoCad}, quest'ultimo ignorerà le linee contenenti  \lstinline!FCJ! (emettendo un messaggio di errore), ma il disegno ottenuto sarà in qualche modo simile a quello che appare su FidoCadJ (vedere il paragrafo~\ref{FCJ_extension}).
 
@@ -1099,9 +1099,9 @@ Per questa ragione, alcuni dettagli del funzionamento del programma sono leggerm
 \item Il programma dichiara al sistema operativo la sua disponibilità ad aprire file di tipo \lstinline!.fcd! Ad essi viene pure associata un'icona che richiama il simbolo del programma e che dovrebbe essere abbastanza evocativa.
 \end{itemize}
 \subsection{Come scaricare ed eseguire FidoCadJ con MacOSX}
-FidoCadJ può funzionare con una versione di MacOSX superiore o eguale alla 10.3.9 (Panther). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.4 di Java, che Apple fornisce con il suo sistema operativo.
+FidoCadJ può funzionare con una versione di MacOSX\index{MacOSX} superiore o eguale alla 10.3.9 (Panther\index{Panther}). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.4 di Java, che Apple fornisce con il suo sistema operativo.
 
-Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: \href{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}, aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
+Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: \href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}, aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
 
 Per disinstallare FidoCadJ, sarà sufficiente prelevare \lstinline!FidoCadJ.app! dalla cartella \lstinline!Applicazioni! e spostarlo nel cestino.
 
@@ -1116,7 +1116,7 @@ Non sono state attualmente implementate estensioni dedicate esclusivamente a que
 
 
 Presupposto: avere installato il JRE\index{JRE} 6 di Sun\index{Sun} e/o OpenJDK\index{OpenJDK} 6 JRE\index{JRE} (o versioni precedenti compatibili con le specifiche del programma).
-Nel paragrafo \ref{inst_testo} descriveremo come installare il programma adoperando esclusivamente comandi da terminare. Nel paragrafo \ref{inst_grafica}, ci baseremo invece sull'interazione tramite un sistema grafico.
+Nel paragrafo \ref{inst_testo} descriveremo come installare il programma adoperando esclusivamente comandi da terminale. Nel paragrafo \ref{inst_grafica}, ci baseremo invece sull'interazione tramite un sistema grafico.
 
 
 \subsection{Su qualunque sistema, da terminale}

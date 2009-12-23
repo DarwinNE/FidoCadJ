@@ -34,199 +34,235 @@
 \indexentry{programmation \`a objets|hyperpage}{2}
 \indexentry{Java|hyperpage}{2}
 \indexentry{FidoReadJ|hyperpage}{2}
-\indexentry{dessin vectoriel|hyperpage}{3}
-\indexentry{MacOSX|hyperpage}{3}
-\indexentry{Metal|hyperpage}{3}
-\indexentry{Sun|hyperpage}{3}
-\indexentry{\'el\'ement|hyperpage}{3}
-\indexentry{barre des commandes|hyperpage}{3}
-\indexentry{\'el\'ement de dessin|hyperpage}{3}
-\indexentry{barre des commandes|hyperpage}{3}
-\indexentry{macro|hyperpage}{3}
-\indexentry{FidoCad|hyperpage}{3}
-\indexentry{circuit imprim\'e!empreintes|hyperpage}{3}
-\indexentry{recherche dans les librairies|hyperpage}{3}
-\indexentry{s\'election|hyperpage}{3}
+\indexentry{dessin vectoriel|hyperpage}{4}
 \indexentry{MacOSX|hyperpage}{4}
-\indexentry{Macintosh|hyperpage}{4}
 \indexentry{Metal|hyperpage}{4}
-\indexentry{selection|hyperpage}{5}
-\indexentry{zoom|hyperpage}{5}
-\indexentry{bouge|hyperpage}{5}
-\indexentry{ligne|hyperpage}{5}
-\indexentry{texte|hyperpage}{5}
-\indexentry{B\'ezier|hyperpage}{5}
-\indexentry{polygone|hyperpage}{5}
-\indexentry{ellipse|hyperpage}{5}
-\indexentry{rectangle|hyperpage}{5}
-\indexentry{connexion|hyperpage}{5}
-\indexentry{piste c. i.|hyperpage}{5}
-\indexentry{pastille c. i.|hyperpage}{5}
-\indexentry{transistor|hyperpage}{6}
-\indexentry{librairie standard|hyperpage}{6}
-\indexentry{macro|hyperpage}{6}
-\indexentry{barre des outils|hyperpage}{8}
-\indexentry{r\'esistance|hyperpage}{8}
-\indexentry{Texte|hyperpage}{8}
-\indexentry{FidoCadJ|hyperpage}{8}
-\indexentry{FidoCad|hyperpage}{8}
-\indexentry{code|hyperpage}{10}
-\indexentry{groupe de discussion|hyperpage}{10}
-\indexentry{courrier \'electronique|hyperpage}{10}
-\indexentry{forum|hyperpage}{10}
-\indexentry{code|hyperpage}{10}
-\indexentry{couches|hyperpage}{10}
-\indexentry{circuit imprim\'e|hyperpage}{10}
-\indexentry{sch\'emas \'electriques|hyperpage}{10}
-\indexentry{soudures|hyperpage}{10}
-\indexentry{s\'erigraphie|hyperpage}{10}
-\indexentry{couleur|hyperpage}{10}
-\indexentry{unit\'e logique|hyperpage}{11}
-\indexentry{grille|hyperpage}{11}
-\indexentry{transf\'erables R41|hyperpage}{11}
+\indexentry{Sun|hyperpage}{4}
+\indexentry{\'el\'ement|hyperpage}{4}
+\indexentry{barre des commandes|hyperpage}{4}
+\indexentry{\'el\'ement de dessin|hyperpage}{4}
+\indexentry{barre des commandes|hyperpage}{4}
+\indexentry{macro|hyperpage}{4}
+\indexentry{FidoCad|hyperpage}{4}
+\indexentry{circuit imprim\'e!empreintes|hyperpage}{4}
+\indexentry{recherche dans les librairies|hyperpage}{4}
+\indexentry{s\'election|hyperpage}{4}
+\indexentry{MacOSX|hyperpage}{5}
+\indexentry{Macintosh|hyperpage}{5}
+\indexentry{Metal|hyperpage}{5}
+\indexentry{selection|hyperpage}{6}
+\indexentry{zoom|hyperpage}{6}
+\indexentry{bouge|hyperpage}{6}
+\indexentry{ligne|hyperpage}{6}
+\indexentry{texte|hyperpage}{6}
+\indexentry{B\'ezier|hyperpage}{6}
+\indexentry{polygone|hyperpage}{6}
+\indexentry{ellipse|hyperpage}{6}
+\indexentry{rectangle|hyperpage}{6}
+\indexentry{connexion|hyperpage}{6}
+\indexentry{piste c. i.|hyperpage}{6}
+\indexentry{pastille c. i.|hyperpage}{6}
+\indexentry{transistor|hyperpage}{7}
+\indexentry{librairie standard|hyperpage}{7}
+\indexentry{macro|hyperpage}{7}
+\indexentry{barre des outils|hyperpage}{9}
+\indexentry{r\'esistance|hyperpage}{9}
+\indexentry{Texte|hyperpage}{9}
+\indexentry{FidoCadJ|hyperpage}{9}
+\indexentry{FidoCad|hyperpage}{9}
+\indexentry{code|hyperpage}{11}
+\indexentry{groupe de discussion|hyperpage}{11}
+\indexentry{courrier \'electronique|hyperpage}{11}
+\indexentry{forum|hyperpage}{11}
+\indexentry{code|hyperpage}{11}
+\indexentry{couches|hyperpage}{11}
 \indexentry{circuit imprim\'e|hyperpage}{11}
-\indexentry{placeur automatique|hyperpage}{11}
-\indexentry{routeur automatique|hyperpage}{11}
-\indexentry{croiser les connexions|hyperpage}{11}
+\indexentry{sch\'emas \'electriques|hyperpage}{11}
+\indexentry{soudures|hyperpage}{11}
 \indexentry{s\'erigraphie|hyperpage}{11}
-\indexentry{rectangle|hyperpage}{12}
-\indexentry{polygone|hyperpage}{12}
-\indexentry{couche|hyperpage}{12}
+\indexentry{couleur|hyperpage}{11}
+\indexentry{unit\'e logique|hyperpage}{12}
+\indexentry{grille|hyperpage}{12}
+\indexentry{transf\'erables R41|hyperpage}{12}
+\indexentry{circuit imprim\'e|hyperpage}{12}
+\indexentry{placeur automatique|hyperpage}{12}
+\indexentry{routeur automatique|hyperpage}{12}
+\indexentry{croiser les connexions|hyperpage}{12}
+\indexentry{s\'erigraphie|hyperpage}{12}
+\indexentry{rectangle|hyperpage}{13}
 \indexentry{polygone|hyperpage}{13}
-\indexentry{polygones|hyperpage}{13}
-\indexentry{piste c. i.|hyperpage}{13}
-\indexentry{transf\'erables Letraset|hyperpage}{13}
-\indexentry{\'ecrire en miroir|hyperpage}{13}
-\indexentry{circuit imprim\'e|hyperpage}{14}
-\indexentry{tailles des caract\`eres|hyperpage}{14}
-\indexentry{impression|hyperpage}{14}
-\indexentry{photo incision|hyperpage}{14}
-\indexentry{transfert direct du toner|hyperpage}{14}
+\indexentry{couche|hyperpage}{13}
+\indexentry{polygone|hyperpage}{14}
+\indexentry{polygones|hyperpage}{14}
+\indexentry{piste c. i.|hyperpage}{14}
+\indexentry{transf\'erables Letraset|hyperpage}{14}
+\indexentry{\'ecrire en miroir|hyperpage}{14}
 \indexentry{circuit imprim\'e|hyperpage}{15}
-\indexentry{A4|hyperpage}{15}
-\indexentry{exportation|hyperpage}{16}
-\indexentry{format vectoriel|hyperpage}{16}
-\indexentry{format \`a matrice de points|hyperpage}{16}
-\indexentry{jar|hyperpage}{16}
-\indexentry{Java|hyperpage}{16}
-\indexentry{Sun|hyperpage}{16}
-\indexentry{JRE|hyperpage}{16}
-\indexentry{SDK|hyperpage}{16}
-\indexentry{Macintosh|hyperpage}{16}
-\indexentry{JPG|hyperpage}{17}
-\indexentry{compression avec pertes|hyperpage}{17}
-\indexentry{PNG|hyperpage}{17}
-\indexentry{SVG|hyperpage}{17}
-\indexentry{Safari|hyperpage}{17}
-\indexentry{Inkscape|hyperpage}{17}
-\indexentry{EPS|hyperpage}{17}
-\indexentry{Postscript|hyperpage}{17}
-\indexentry{pdfLaTeX@\textsc{pdf}\LaTeX|hyperpage}{17}
-\indexentry{PGF|hyperpage}{17}
-\indexentry{LaTeX@\LaTeX|hyperpage}{17}
-\indexentry{LaTeX@\LaTeX|hyperpage}{17}
-\indexentry{SCR|hyperpage}{17}
-\indexentry{CadSoft|hyperpage}{17}
-\indexentry{Eagle|hyperpage}{17}
-\indexentry{PDF|hyperpage}{17}
-\indexentry{MacOSX|hyperpage}{18}
-\indexentry{terminal|hyperpage}{18}
-\indexentry{Unix|hyperpage}{18}
-\indexentry{MS-DOS prompt|hyperpage}{18}
-\indexentry{Windows|hyperpage}{18}
-\indexentry{ligne de commande|hyperpage}{18}
-\indexentry{Unix|hyperpage}{18}
-\indexentry{Java|hyperpage}{18}
-\indexentry{look \& feel|hyperpage}{18}
-\indexentry{Windows|hyperpage}{18}
-\indexentry{Windows|hyperpage}{18}
-\indexentry{Microsoft|hyperpage}{18}
-\indexentry{Linux|hyperpage}{18}
-\indexentry{GTK+|hyperpage}{18}
-\indexentry{Motif|hyperpage}{18}
-\indexentry{librairie|hyperpage}{19}
-\indexentry{FidoCad|hyperpage}{20}
-\indexentry{FidoCad|hyperpage}{20}
-\indexentry{en-t\^ete|hyperpage}{20}
-\indexentry{syst\`eme de coordonn\'ees|hyperpage}{20}
-\indexentry{circuit imprim\'e!SMD|hyperpage}{20}
-\indexentry{FidoCad|hyperpage}{20}
-\indexentry{circuit imprim\'e!PCB|hyperpage}{20}
-\indexentry{sch\'ema \'electrique|hyperpage}{20}
-\indexentry{ligne|hyperpage}{20}
-\indexentry{rectangle|hyperpage}{20}
-\indexentry{texte|hyperpage}{20}
-\indexentry{polygone|hyperpage}{20}
-\indexentry{ellipse|hyperpage}{20}
-\indexentry{B\'ezier|hyperpage}{20}
-\indexentry{connexion|hyperpage}{20}
-\indexentry{pastille pour c. i.|hyperpage}{20}
-\indexentry{piste per c. i.|hyperpage}{21}
-\indexentry{macro|hyperpage}{21}
-\indexentry{\'el\'ement|hyperpage}{21}
-\indexentry{param\`etres|hyperpage}{21}
-\indexentry{ligne|hyperpage}{21}
-\indexentry{LI|hyperpage}{21}
-\indexentry{segment|hyperpage}{21}
-\indexentry{rectangle|hyperpage}{21}
-\indexentry{RP|hyperpage}{21}
-\indexentry{RV|hyperpage}{21}
-\indexentry{texte simple|hyperpage}{21}
-\indexentry{FidoCad|hyperpage}{21}
-\indexentry{obsol\`ete|hyperpage}{21}
-\indexentry{Lorenzo Lutti|hyperpage}{21}
-\indexentry{FidoCad|hyperpage}{21}
-\indexentry{TY|hyperpage}{21}
-\indexentry{TE|hyperpage}{21}
-\indexentry{circuit|hyperpage}{21}
-\indexentry{texte avanc\'e|hyperpage}{21}
-\indexentry{texte simple|hyperpage}{21}
-\indexentry{TY|hyperpage}{21}
-\indexentry{texte pivot\'e|hyperpage}{21}
-\indexentry{texte en miroir|hyperpage}{21}
-\indexentry{unit\'es logiques|hyperpage}{22}
-\indexentry{style du texte|hyperpage}{22}
-\indexentry{\'etoile|hyperpage}{22}
-\indexentry{Courier|hyperpage}{22}
-\indexentry{+|hyperpage}{22}
-\indexentry{Courier|hyperpage}{22}
+\indexentry{tailles des caract\`eres|hyperpage}{15}
+\indexentry{impression|hyperpage}{15}
+\indexentry{photo incision|hyperpage}{15}
+\indexentry{transfert direct du toner|hyperpage}{15}
+\indexentry{circuit imprim\'e|hyperpage}{16}
+\indexentry{A4|hyperpage}{16}
+\indexentry{GIC|hyperpage}{17}
+\indexentry{fl\`eche|hyperpage}{17}
+\indexentry{B\'ezier|hyperpage}{17}
+\indexentry{trait interrompu|hyperpage}{17}
+\indexentry{B\'ezier|hyperpage}{17}
+\indexentry{fl\`eche|hyperpage}{17}
+\indexentry{trait|hyperpage}{17}
+\indexentry{FidoCad|hyperpage}{18}
+\indexentry{FidoCad|hyperpage}{18}
+\indexentry{exportation|hyperpage}{18}
+\indexentry{format vectoriel|hyperpage}{18}
+\indexentry{format \`a matrice de points|hyperpage}{18}
+\indexentry{polices|hyperpage}{19}
+\indexentry{Courier|hyperpage}{19}
+\indexentry{Courier~New|hyperpage}{19}
+\indexentry{Times|hyperpage}{19}
+\indexentry{Times~New~Roman|hyperpage}{19}
+\indexentry{Times~Roman|hyperpage}{19}
+\indexentry{Helvetica|hyperpage}{19}
+\indexentry{Arial|hyperpage}{19}
+\indexentry{Symbol|hyperpage}{19}
+\indexentry{polices|hyperpage}{19}
+\indexentry{jar|hyperpage}{19}
+\indexentry{Java|hyperpage}{19}
+\indexentry{Sun|hyperpage}{19}
+\indexentry{JRE|hyperpage}{19}
+\indexentry{SDK|hyperpage}{19}
+\indexentry{terminal|hyperpage}{19}
+\indexentry{Unix|hyperpage}{19}
+\indexentry{MS-DOS prompt|hyperpage}{19}
+\indexentry{Windows|hyperpage}{19}
+\indexentry{ligne de commande|hyperpage}{19}
+\indexentry{Unix|hyperpage}{19}
+\indexentry{Java|hyperpage}{19}
+\indexentry{look \& feel|hyperpage}{19}
+\indexentry{Linux|hyperpage}{19}
+\indexentry{GTK+|hyperpage}{19}
+\indexentry{Macintosh|hyperpage}{19}
+\indexentry{JPG|hyperpage}{20}
+\indexentry{compression avec pertes|hyperpage}{20}
+\indexentry{PNG|hyperpage}{20}
+\indexentry{SVG|hyperpage}{20}
+\indexentry{Safari|hyperpage}{20}
+\indexentry{Inkscape|hyperpage}{20}
+\indexentry{EPS|hyperpage}{20}
+\indexentry{Postscript|hyperpage}{20}
+\indexentry{pdfLaTeX@\textsc{pdf}\LaTeX|hyperpage}{20}
+\indexentry{PGF|hyperpage}{20}
+\indexentry{LaTeX@\LaTeX|hyperpage}{20}
+\indexentry{LaTeX@\LaTeX|hyperpage}{20}
+\indexentry{SCR|hyperpage}{20}
+\indexentry{CadSoft|hyperpage}{20}
+\indexentry{Eagle|hyperpage}{20}
+\indexentry{PDF|hyperpage}{20}
+\indexentry{polices|hyperpage}{20}
+\indexentry{MacOSX|hyperpage}{21}
+\indexentry{Motif|hyperpage}{21}
+\indexentry{librairie|hyperpage}{21}
 \indexentry{FidoCad|hyperpage}{22}
-\indexentry{longueur maximale du texte|hyperpage}{22}
+\indexentry{FidoCad|hyperpage}{22}
+\indexentry{en-t\^ete|hyperpage}{22}
+\indexentry{syst\`eme de coordonn\'ees|hyperpage}{22}
+\indexentry{circuit imprim\'e!SMD|hyperpage}{22}
+\indexentry{FidoCad|hyperpage}{22}
+\indexentry{circuit imprim\'e!PCB|hyperpage}{22}
+\indexentry{sch\'ema \'electrique|hyperpage}{22}
+\indexentry{ligne|hyperpage}{22}
+\indexentry{rectangle|hyperpage}{22}
+\indexentry{texte|hyperpage}{22}
 \indexentry{polygone|hyperpage}{22}
-\indexentry{PP|hyperpage}{22}
-\indexentry{PV|hyperpage}{22}
-\indexentry{nombre maximum de sommets|hyperpage}{22}
-\indexentry{ellipse|hyperpage}{23}
-\indexentry{EP|hyperpage}{23}
-\indexentry{EV|hyperpage}{23}
-\indexentry{B\'ezier|hyperpage}{23}
-\indexentry{BE|hyperpage}{23}
-\indexentry{B\'ezier|hyperpage}{23}
-\indexentry{connexion|hyperpage}{23}
-\indexentry{SA|hyperpage}{23}
-\indexentry{pastille pour c. i.|hyperpage}{23}
-\indexentry{PA|hyperpage}{23}
-\indexentry{piste pour c. i.|hyperpage}{24}
-\indexentry{PL|hyperpage}{24}
-\indexentry{macro|hyperpage}{24}
-\indexentry{MC|hyperpage}{24}
-\indexentry{estensions FidoCadJ|hyperpage}{24}
-\indexentry{FCJ|hyperpage}{24}
+\indexentry{ellipse|hyperpage}{22}
+\indexentry{B\'ezier|hyperpage}{22}
+\indexentry{connexion|hyperpage}{22}
+\indexentry{pastille pour c. i.|hyperpage}{22}
+\indexentry{piste per c. i.|hyperpage}{23}
+\indexentry{macro|hyperpage}{23}
+\indexentry{\'el\'ement|hyperpage}{23}
+\indexentry{param\`etres|hyperpage}{23}
+\indexentry{ligne|hyperpage}{23}
+\indexentry{LI|hyperpage}{23}
+\indexentry{segment|hyperpage}{23}
+\indexentry{LI|hyperpage}{23}
+\indexentry{rectangle|hyperpage}{23}
+\indexentry{RP|hyperpage}{23}
+\indexentry{RV|hyperpage}{23}
+\indexentry{RP|hyperpage}{24}
+\indexentry{RV|hyperpage}{24}
+\indexentry{texte simple|hyperpage}{24}
 \indexentry{FidoCad|hyperpage}{24}
-\indexentry{FCJ|hyperpage}{24}
+\indexentry{obsol\`ete|hyperpage}{24}
+\indexentry{Lorenzo Lutti|hyperpage}{24}
 \indexentry{FidoCad|hyperpage}{24}
-\indexentry{tol\'erance aux fautes|hyperpage}{25}
-\indexentry{boule de cristal USB|hyperpage}{25}
-\indexentry{FidoCad|hyperpage}{25}
-\indexentry{couche|hyperpage}{25}
-\indexentry{crochets|hyperpage}{25}
-\indexentry{FIDOLIB|hyperpage}{25}
-\indexentry{en t\^ete|hyperpage}{25}
-\indexentry{MC|hyperpage}{25}
-\indexentry{r\'ecursion|hyperpage}{25}
-\indexentry{FidoCad|hyperpage}{25}
-\indexentry{librairie standard|hyperpage}{25}
-\indexentry{librairie PCB|hyperpage}{25}
-\indexentry{Quaqua|hyperpage}{28}
-\indexentry{FidoCadJ.app|hyperpage}{28}
-\indexentry{fidocadj.jar|hyperpage}{28}
+\indexentry{TY|hyperpage}{24}
+\indexentry{TE|hyperpage}{24}
+\indexentry{circuit|hyperpage}{24}
+\indexentry{texte avanc\'e|hyperpage}{24}
+\indexentry{texte simple|hyperpage}{24}
+\indexentry{TY|hyperpage}{24}
+\indexentry{texte pivot\'e|hyperpage}{24}
+\indexentry{texte en miroir|hyperpage}{24}
+\indexentry{unit\'es logiques|hyperpage}{24}
+\indexentry{style du texte|hyperpage}{24}
+\indexentry{\'etoile|hyperpage}{24}
+\indexentry{Courier~New|hyperpage}{24}
+\indexentry{+|hyperpage}{24}
+\indexentry{longueur maximale du texte|hyperpage}{25}
+\indexentry{polygone|hyperpage}{25}
+\indexentry{PP|hyperpage}{25}
+\indexentry{PV|hyperpage}{25}
+\indexentry{nombre maximum de sommets|hyperpage}{25}
+\indexentry{PP|hyperpage}{25}
+\indexentry{PV|hyperpage}{25}
+\indexentry{ellipse|hyperpage}{25}
+\indexentry{EP|hyperpage}{25}
+\indexentry{EV|hyperpage}{25}
+\indexentry{EP|hyperpage}{25}
+\indexentry{EV|hyperpage}{25}
+\indexentry{B\'ezier|hyperpage}{25}
+\indexentry{BE|hyperpage}{25}
+\indexentry{B\'ezier|hyperpage}{25}
+\indexentry{BE|hyperpage}{26}
+\indexentry{connexion|hyperpage}{26}
+\indexentry{SA|hyperpage}{26}
+\indexentry{pastille pour c. i.|hyperpage}{26}
+\indexentry{PA|hyperpage}{26}
+\indexentry{piste pour c. i.|hyperpage}{26}
+\indexentry{PL|hyperpage}{26}
+\indexentry{macro|hyperpage}{26}
+\indexentry{MC|hyperpage}{26}
+\indexentry{MC|hyperpage}{27}
+\indexentry{FidoCad|hyperpage}{27}
+\indexentry{extension FidoCadJ|hyperpage}{27}
+\indexentry{FCJ|hyperpage}{27}
+\indexentry{extensions FidoCadJ|hyperpage}{27}
+\indexentry{FidoCad|hyperpage}{27}
+\indexentry{FidoCad|hyperpage}{27}
+\indexentry{tol\'erance aux fautes|hyperpage}{27}
+\indexentry{boule de cristal USB|hyperpage}{27}
+\indexentry{FidoCad|hyperpage}{28}
+\indexentry{couche|hyperpage}{28}
+\indexentry{crochets|hyperpage}{28}
+\indexentry{FIDOLIB|hyperpage}{28}
+\indexentry{en t\^ete|hyperpage}{28}
+\indexentry{MC|hyperpage}{29}
+\indexentry{r\'ecursion|hyperpage}{29}
+\indexentry{FidoCad|hyperpage}{29}
+\indexentry{librairie standard|hyperpage}{29}
+\indexentry{librairie PCB|hyperpage}{29}
+\indexentry{Quaqua|hyperpage}{31}
+\indexentry{FidoCadJ.app|hyperpage}{31}
+\indexentry{fidocadj.jar|hyperpage}{31}
+\indexentry{MacOSX|hyperpage}{31}
+\indexentry{Panther|hyperpage}{31}
+\indexentry{Linux|hyperpage}{32}
+\indexentry{JRE|hyperpage}{32}
+\indexentry{Sun|hyperpage}{32}
+\indexentry{OpenJDK|hyperpage}{32}
+\indexentry{JRE|hyperpage}{32}
+\indexentry{super-utilisateur|hyperpage}{32}
+\indexentry{Ubuntu|hyperpage}{33}
+\indexentry{Ubuntu|hyperpage}{33}
+\indexentry{Ubuntu|hyperpage}{33}
