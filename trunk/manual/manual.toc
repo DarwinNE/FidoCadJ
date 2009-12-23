@@ -29,7 +29,7 @@
 \contentsline {subsubsection}{Pista per circuito stampato}{26}{lstnumber.-20.1}
 \contentsline {subsubsection}{Chiamata di una macro}{27}{lstnumber.-21.1}
 \contentsline {section}{\numberline {3.4}Estensioni di FidoCadJ}{27}{section.3.4}
-\contentsline {section}{\numberline {3.5}Tolleranza agli errori sintattici}{27}{section.3.5}
+\contentsline {section}{\numberline {3.5}Tolleranza agli errori sintattici}{28}{section.3.5}
 \contentsline {section}{\numberline {3.6}Il formato delle librerie}{28}{section.3.6}
 \contentsline {section}{\numberline {3.7}Librerie standard}{29}{section.3.7}
 \contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Conclusioni}}{30}{chapter.4}

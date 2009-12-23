@@ -16,7 +16,7 @@
 		\hyperpage{25}
   \item barra degli strumenti, \hyperpage{8}
   \item barra dei comandi, \hyperpage{4}
-  \item BE, \hyperpage{25}
+  \item BE, \hyperpage{25, 26}
   \item bromografo, \hyperpage{14}
 
   \indexspace
@@ -34,6 +34,7 @@
   \item connessione, \hyperpage{6}, \hyperpage{23}, \hyperpage{26}
   \item Courier, \hyperpage{18}
   \item Courier New, \hyperpage{24}
+  \item Courier~New, \hyperpage{18}
 
   \indexspace
 
@@ -101,7 +102,7 @@
 
   \item \LaTeX, \hyperpage{19}
   \item layer, \hyperpage{11}, \hyperpage{13}, \hyperpage{28}
-  \item LI, \hyperpage{23}, \hyperpage{26, 27}
+  \item LI, \hyperpage{23}
   \item libreria, \hyperpage{1}, \hyperpage{20}
     \subitem libreria standard, \hyperpage{20}
   \item libreria PCB, \hyperpage{29}
@@ -118,9 +119,9 @@
 
   \item Macintosh, \hyperpage{5}, \hyperpage{20}
   \item MacOSX, \hyperpage{v}, \hyperpage{2}, \hyperpage{4, 5}, 
-		\hyperpage{21}
+		\hyperpage{21}, \hyperpage{31}
   \item macro, \hyperpage{1}, \hyperpage{4}, \hyperpage{8}, 
-		\hyperpage{23}, \hyperpage{27, 28}
+		\hyperpage{23}, \hyperpage{27}, \hyperpage{29}
   \item MC, \hyperpage{27}, \hyperpage{29}
   \item Metal, \hyperpage{4, 5}
   \item Motif, \hyperpage{20}
@@ -139,6 +140,7 @@
   \indexspace
 
   \item PA, \hyperpage{26}
+  \item Panther, \hyperpage{31}
   \item parametri, \hyperpage{23}
   \item parentesi quadre, \hyperpage{28}
   \item PCB, \hyperpage{v}
@@ -211,9 +213,9 @@
   \item testo avanzato, \hyperpage{24}
   \item testo semplice, \hyperpage{24}
   \item Times, \hyperpage{18}
-  \item Times New Roman, \hyperpage{18}
-  \item Times Roman, \hyperpage{18}
-  \item tolleranza agli errori, \hyperpage{27}
+  \item Times~New~Roman, \hyperpage{18}
+  \item Times~Roman, \hyperpage{18}
+  \item tolleranza agli errori, \hyperpage{28}
   \item transistor, \hyperpage{8}
   \item trasferibili R41, \hyperpage{12, 13}
   \item tratteggio, \hyperpage{16}

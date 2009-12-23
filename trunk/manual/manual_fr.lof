@@ -2,25 +2,29 @@
 \deactivateaddvspace 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Une session de travail typique de FidoCadJ sous MacOSX Tiger. Le logiciel est localis\'e en langue fran\c caise. Dans l'appendice~\ref {specifics}, nous allons d\'ecrire les particularit\'es de la version sp\'ecifique pour Macintosh.}}{4}{figure.2.1}
-\contentsline {figure}{\numberline {2}{\ignorespaces Comment se pr\'esente FidoCadJ avec le <<look and feel>> Metal.}}{4}{figure.2.2}
-\contentsline {figure}{\numberline {3}{\ignorespaces La possibilit\'e de recherche \`a l'int\'erieur des librairies charg\'ees.}}{4}{figure.2.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces La fen\^etre des param\`etres du texte en FidoCadJ}}{6}{figure.2.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Voici notre objectif: un miroir de courant r\'ealis\'e avec des transistors NPN.}}{6}{figure.2.5}
-\contentsline {figure}{\numberline {6}{\ignorespaces Commen\c cons \`a positionner les deux transistors.}}{7}{figure.2.6}
-\contentsline {figure}{\numberline {7}{\ignorespaces Nous pouvons s\'electionner le transistor sur la gauche et le retourner avec \unhbox \voidb@x \setbox \@tempboxa \hbox {\color@begingroup \kern \fboxsep {S}\kern \fboxsep \endgraf \endgroup }\@tempdima \fboxrule \advance \@tempdima \fboxsep \advance \@tempdima \dp \@tempboxa \hbox {\lower \@tempdima \hbox {\vbox {\hrule height\fboxrule \hbox {\vrule width\fboxrule \relax \vbox {\vskip \fboxsep \box \@tempboxa \vskip \fboxsep }\relax \vrule width\fboxrule }\hrule height\fboxrule }}}.}}{7}{figure.2.7}
-\contentsline {figure}{\numberline {8}{\ignorespaces Nous sommes trop en haut: nous pouvons tous s\'electionner et d\'eplacer ver le bas de la fen\^etre.}}{8}{figure.2.8}
-\contentsline {figure}{\numberline {9}{\ignorespaces Le circuit, presque termin\'e.}}{9}{figure.2.9}
-\contentsline {figure}{\numberline {10}{\ignorespaces Voici le circuit termin\'e, dans toute sa splendeur.}}{9}{figure.2.10}
-\contentsline {figure}{\numberline {11}{\ignorespaces Un tr\`es simple \'etage amplificateur \`a \'emetteur commun.}}{12}{figure.2.11}
-\contentsline {figure}{\numberline {12}{\ignorespaces Les composants sont plac\'es sur la plaquette.}}{12}{figure.2.12}
-\contentsline {figure}{\numberline {13}{\ignorespaces Nous avons rajout\'e les r\'egions de masse et d'alimentation positive \`a l'aide de deux polygones.}}{13}{figure.2.13}
-\contentsline {figure}{\numberline {14}{\ignorespaces Nous avons rajout\'e les connexions de masse et l'alimentation positive, \`a l'aide de deux polygones.}}{13}{figure.2.14}
-\contentsline {figure}{\numberline {15}{\ignorespaces Vioci le circuit imprim\'e, presque termin\'e.}}{14}{figure.2.15}
-\contentsline {figure}{\numberline {16}{\ignorespaces Le travail termin\'e, avec toutes les s\'erigraphies.}}{14}{figure.2.16}
-\contentsline {figure}{\numberline {17}{\ignorespaces Le circuit imprim\'e, tel qu'il appara\IeC {\^\i }t imprim\'e en miroir sur une page en format ISO-UNI A4.}}{15}{figure.2.17}
-\contentsline {figure}{\numberline {18}{\ignorespaces L'aspect de FidoCadJ sous MacOSX, en utilisant le <<look and feel>> Motif.}}{18}{figure.2.18}
+\contentsline {figure}{\numberline {1}{\ignorespaces Une session de travail typique de FidoCadJ sous MacOSX Tiger. Le logiciel est localis\'e en langue fran\c caise. Dans l'appendice~\ref {specifics}, nous allons d\'ecrire les particularit\'es de la version sp\'ecifique pour Macintosh.}}{5}{figure.2.1}
+\contentsline {figure}{\numberline {2}{\ignorespaces Comment se pr\'esente FidoCadJ avec le <<look and feel>> Metal.}}{5}{figure.2.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces La possibilit\'e de recherche \`a l'int\'erieur des librairies charg\'ees.}}{5}{figure.2.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces La fen\^etre des param\`etres du texte en FidoCadJ}}{7}{figure.2.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Voici notre objectif: un miroir de courant r\'ealis\'e avec des transistors NPN.}}{7}{figure.2.5}
+\contentsline {figure}{\numberline {6}{\ignorespaces Commen\c cons \`a positionner les deux transistors.}}{8}{figure.2.6}
+\contentsline {figure}{\numberline {7}{\ignorespaces Nous pouvons s\'electionner le transistor sur la gauche et le retourner avec \unhbox \voidb@x \setbox \@tempboxa \hbox {\color@begingroup \kern \fboxsep {S}\kern \fboxsep \endgraf \endgroup }\@tempdima \fboxrule \advance \@tempdima \fboxsep \advance \@tempdima \dp \@tempboxa \hbox {\lower \@tempdima \hbox {\vbox {\hrule height\fboxrule \hbox {\vrule width\fboxrule \relax \vbox {\vskip \fboxsep \box \@tempboxa \vskip \fboxsep }\relax \vrule width\fboxrule }\hrule height\fboxrule }}}.}}{8}{figure.2.7}
+\contentsline {figure}{\numberline {8}{\ignorespaces Nous sommes trop en haut: nous pouvons tous s\'electionner et d\'eplacer ver le bas de la fen\^etre.}}{9}{figure.2.8}
+\contentsline {figure}{\numberline {9}{\ignorespaces Le circuit, presque termin\'e.}}{10}{figure.2.9}
+\contentsline {figure}{\numberline {10}{\ignorespaces Voici le circuit termin\'e, dans toute sa splendeur.}}{10}{figure.2.10}
+\contentsline {figure}{\numberline {11}{\ignorespaces Un tr\`es simple \'etage amplificateur \`a \'emetteur commun.}}{13}{figure.2.11}
+\contentsline {figure}{\numberline {12}{\ignorespaces Les composants sont plac\'es sur la plaquette.}}{13}{figure.2.12}
+\contentsline {figure}{\numberline {13}{\ignorespaces Nous avons rajout\'e les r\'egions de masse et d'alimentation positive \`a l'aide de deux polygones.}}{14}{figure.2.13}
+\contentsline {figure}{\numberline {14}{\ignorespaces Nous avons rajout\'e les connexions de masse et l'alimentation positive, \`a l'aide de deux polygones.}}{14}{figure.2.14}
+\contentsline {figure}{\numberline {15}{\ignorespaces Vioci le circuit imprim\'e, presque termin\'e.}}{15}{figure.2.15}
+\contentsline {figure}{\numberline {16}{\ignorespaces Le travail termin\'e, avec toutes les s\'erigraphies.}}{15}{figure.2.16}
+\contentsline {figure}{\numberline {17}{\ignorespaces Le circuit imprim\'e, tel qu'il appara\IeC {\^\i }t imprim\'e en miroir sur une page en format ISO-UNI A4.}}{16}{figure.2.17}
+\contentsline {figure}{\numberline {18}{\ignorespaces Un sch\'ema \'electrique d'un GIC dans lequel on a utilis\'e quelques extensions de FidoCadJ.}}{17}{figure.2.18}
+\contentsline {figure}{\numberline {19}{\ignorespaces La fen\^etre des param\`etres d'un trac\'e de B\'ezier, dans un dessin FidoCadJ.}}{18}{figure.2.19}
+\contentsline {figure}{\numberline {20}{\ignorespaces L'aspect de FidoCadJ sous MacOSX, en utilisant le <<look and feel>> Motif.}}{21}{figure.2.20}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {19}{\ignorespaces Un exemple de la police Courier, utilis\'ee par FidoCadJ.}}{22}{figure.3.19}
+\contentsline {figure}{\numberline {21}{\ignorespaces La figure~\ref {fig_gyrator} comme appara\IeC {\^\i }trait si montr\'ee avec FidoCad.}}{28}{figure.3.21}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {22}{\ignorespaces La fen\^etre de gestion des permissions, dans la distribution Ubuntu 8.04.}}{33}{figure.A.22}
+\contentsline {figure}{\numberline {23}{\ignorespaces Selectionner l'execution de la machine virtuelle Java, dans la distribution Ubuntu 8.04.}}{33}{figure.A.23}
