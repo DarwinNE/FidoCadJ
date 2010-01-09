@@ -83,12 +83,13 @@ public class PrimitivePolygon extends GraphicPrimitive
 		virtualPoint[nPoints++].y=y;
 
 	}
-	
+
+/*	
 	/** To speedup polygon drawing when dragging, always draw an empty polygon.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
-	*/
+	*
 	public void drawFast(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
@@ -101,7 +102,7 @@ public class PrimitivePolygon extends GraphicPrimitive
  			
  		
 	}
-	
+*/	
 	public final void createPolygon(MapCoordinates coordSys)
 	{
      		

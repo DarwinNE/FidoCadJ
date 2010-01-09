@@ -187,6 +187,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
                 selection);
             
+            
             getActionMap().put(selection, new AbstractAction() {
                 public void actionPerformed(ActionEvent ignored) {
                     setSelectionState(SELECTION,"");
@@ -409,6 +410,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         	scrollGestureSelectionListener.setSelectionState(s, macro);
         
         clickNumber=0;
+       	successiveMove=false;
+		repaint();
         
         macroKey=macro;
     }
@@ -869,6 +872,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             break;  
         case MACRO:
+        	successiveMove=false;
         	if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
         		selectAndSetProperties(x,y);
 				break;
@@ -881,6 +885,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
                     P.getMacroFont()), true);
+                successiveMove=false;
                     
             } catch (IOException G) {
                 System.out.println(G);
@@ -899,7 +904,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         int xa=evt.getX();
         int ya=evt.getY();
-        
+ 
+ 		/*	Important note: the technique used here is always the XOR 
+ 		    combination as a toggle.
+		
+ 		*/
+ 
         // This transformation/antitrasformation is useful to take care
         // of the snapping
         MapCoordinates cs=P.getMapCoordinates();
@@ -912,12 +922,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         if(x==oldx && y==oldy)
             return;
-        
-        if (clickNumber == 0)
-            return;
 
         Graphics g = getGraphics();
         
+        Graphics2D g2d = (Graphics2D)g;
+
         //Globals.doNotUseXOR
         if(false && successiveMove)
         	paintComponent(g);
@@ -931,8 +940,74 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         	g.setColor(Color.green);
         
         
-        Graphics2D g2d = (Graphics2D)g;
+		/*  MACRO ***********************************************************
+            
+                #       #
+                 #	   #
+                #########
+               ## ##### ##
+              #############
+             ###############
+             # ########### #
+             # #         # #
+                #### ####
+        */
+        if (actionSelected == MACRO) {
 
+            if(successiveMove) {
+            	// Globals.doNotUseXOR
+            	if(!false) {
+		            try {
+        	    		PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
+            	        P.getLayers(), cs.unmapXsnap(oldx),
+                    	cs.unmapYsnap(oldy),macroKey,"", cs.unmapXsnap(oldx)+10,
+                	    cs.unmapYsnap(oldy)+5, "", cs.unmapXsnap(oldx)+10,
+                	    cs.unmapYsnap(oldy)+10,
+                	    P.getMacroFont());
+        				//paintComponent(g);
+        			    n.setDrawOnlyLayer(-1);
+	           		    n.drawFast(g2d, cs, P.getLayers());
+
+            		} catch (IOException E) {
+            			// Here we do not do nothing.
+            		}
+            	}
+            }
+
+            try {
+            	PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
+                    P.getLayers(), cs.unmapXsnap(x),
+                    cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
+                    cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
+                    cs.unmapYsnap(y)+10,
+                    P.getMacroFont());
+        		//paintComponent(g);
+        			    n.setDrawOnlyLayer(-1);
+
+		            n.drawFast(g2d, cs, P.getLayers());
+	            successiveMove=true;
+
+            } catch (IOException E) {
+            	// Here we do not do nothing.
+            }
+            
+            
+		/*        	g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
+               Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
+               Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
+               Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));*/
+       	}    
+
+        
+        if (clickNumber == 0) {
+         	g.dispose();   
+         	oldx=x;
+       		oldy=y;
+        	return;
+		}
+        
+        
+        
 
         
         /*  LINE **************************************************************
@@ -1147,6 +1222,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));
        	}    
 
+
        	oldx=x;
        	oldy=y;
        	g.dispose();
@@ -1256,6 +1332,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         z=Math.round(z*100.0)/100.0;
         P.getMapCoordinates().setMagnitudes(z,z);
+      	successiveMove=false;
+
         repaint();
     }
     

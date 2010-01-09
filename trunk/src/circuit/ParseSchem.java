@@ -99,6 +99,8 @@ public class ParseSchem
     private double oldZoom;
     private boolean needHoles;
     
+    private boolean fastTest;
+    
     private String macroFont;
     
     private int oldpx;
@@ -505,6 +507,20 @@ public class ParseSchem
     */
     public void draw(Graphics2D G)
     {
+    	draw_p(G, false);
+    }
+    
+    
+    /** Draw (fast but inaccurate) all primitives.
+        @param G the graphic context to be used.
+    */
+    public void drawFast(Graphics2D G)
+    {
+    	draw_p(G, true);
+    }
+    
+    private void draw_p(Graphics2D G, boolean isFast)
+    {
         int i;
         int j;
         GraphicPrimitive g;
@@ -528,17 +544,23 @@ public class ParseSchem
    				if (g.getLayer()>maxLayer) 
    					maxLayer = g.getLayer();
         		
-// this should improve the redrawing speed. But I do not dare uncommenting it...
+// this should improve the redrawing speed.
 				if (g.getLayer()>drawOnlyLayer)
 					break;
 			
         		if(g.getLayer()==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
-        			g.draw(G, cs, layerV);      		
+        			if (isFast) 
+        				g.drawFast(G, cs, layerV);
+        			else
+        				g.draw(G, cs, layerV);      		
         			
         		} else if(g instanceof PrimitiveMacro) {
         			((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
-        			g.draw(G, cs, layerV);
+        			if (isFast) 
+        				g.drawFast(G, cs, layerV);
+        			else
+        				g.draw(G, cs, layerV);    
 					needHoles=((PrimitiveMacro)g).getNeedHoles();
 					if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
         					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
@@ -560,17 +582,24 @@ public class ParseSchem
     
     				if (g.getLayer()>maxLayer) 
         					maxLayer = g.getLayer();
-// this should improve the redrawing speed. But I do not dare uncommenting it...
+// this should improve the redrawing speed. 
 
 					if (j>1 && g.getLayer()>j)
 						break;
         			
         		
         			if(g.getLayer()==j && !(g instanceof PrimitiveMacro)){
-        				g.draw(G, cs, layerV);  
+        				if (isFast) 
+        				g.drawFast(G, cs, layerV);
+        			else
+        				g.draw(G, cs, layerV);    
         			} else if(g instanceof PrimitiveMacro) {
         				((PrimitiveMacro)g).setDrawOnlyLayer(j);
-        				g.draw(G, cs, layerV);  
+        			
+        				if (isFast) 
+        					g.drawFast(G, cs, layerV);
+        				else
+        					g.draw(G, cs, layerV);    
         				
 						if(((PrimitiveMacro)g).getNeedHoles())
 							needHoles=true;
@@ -598,12 +627,22 @@ public class ParseSchem
             	if ((g=(GraphicPrimitive)primitiveVector.elementAt(i)) 
             		instanceof PrimitivePCBPad) {
 					((PrimitivePCBPad)g).setDrawOnlyPads(true);
-            		((PrimitivePCBPad)g).draw(G, cs, layerV);
+					
+					if(isFast) {
+            			((PrimitivePCBPad)g).drawFast(G, cs, layerV);
+            		} else {
+            			((PrimitivePCBPad)g).draw(G, cs, layerV);
+            		}
             		((PrimitivePCBPad)g).setDrawOnlyPads(false);
             	} else if (g instanceof PrimitiveMacro) { 
             		// Uhm... not beautiful
             		((PrimitiveMacro)g).setDrawOnlyPads(true);
-            		((PrimitiveMacro)g).draw(G, cs, layerV);
+
+					if(isFast) {
+            			((PrimitiveMacro)g).drawFast(G, cs, layerV);
+            		} else {
+            			((PrimitiveMacro)g).draw(G, cs, layerV);
+            		}
             		((PrimitiveMacro)g).setDrawOnlyPads(false);
             	}
         	}

@@ -27,7 +27,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private ParseSchem macro;
 	private MapCoordinates macroCoord;
 	private boolean selected;
-	
+
 	// Text sizes
 	private int h,th, w1, w2;
 	private int t_h,t_th, t_w1, t_w2;
@@ -123,6 +123,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  					
 	}
 	
+		
+	
 	/** Set the font to be used for name and value
 	
 		@param f the font name
@@ -203,7 +205,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	*/
 	private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  Vector layerV, boolean isFast)
 	{
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
@@ -241,7 +243,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macro.setDrawOnlyLayer(drawOnlyLayer);
 
  		macro.setDrawOnlyPads(drawOnlyPads);
- 		macro.draw(g);
+ 		
+		if (isFast) 
+ 			macro.drawFast(g);
+		else
+			macro.draw(g);
 		
 		if (macroCoord.getXMax()>macroCoord.getXMin() && 
 			macroCoord.getYMax()>macroCoord.getYMin()) {
@@ -276,12 +282,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-	/*
-		if(!selectLayer(g,layerV))
-			return;
- 	*/	
-	
-		drawMacroContents(g, coordSys, layerV);
+		drawMacroContents(g, coordSys, layerV, false);
 		drawText(g, coordSys, layerV);
 		
 		
@@ -299,7 +300,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	public void drawFast(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-		drawMacroContents(g, coordSys, layerV);
+		drawMacroContents(g, coordSys, layerV, true);
 		
 		int x2=virtualPoint[1].x;
  		int y2=virtualPoint[1].y;
