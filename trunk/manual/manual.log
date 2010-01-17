@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.8.11)  23 DEC 2009 14:50
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.4.13)  17 JAN 2010 22:01
 entering extended mode
 **manual
 (./manual.tex
@@ -929,7 +929,7 @@ cadj_fase4.png>] <images/fidocadj_fase5.png, id=472, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase5.png Graphic file (type png)
 
 <use images/fidocadj_fase5.png>
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 472.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 473.
 
 
 (/opt/local/share/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -959,31 +959,35 @@ File: images/amplificateur_phase4.png Graphic file (type png)
 <images/amplificateur_complet.png, id=562, 835.12pt x 475.7775pt>
 File: images/amplificateur_complet.png Graphic file (type png)
 
-<use images/amplificateur_complet.png> [14 <./images/amplificateur_phase3.png> 
-<./images/amplificateur_phase4.png>]
+<use images/amplificateur_complet.png>
+Underfull \vbox (badness 6477) has occurred while \output is active []
+
+ [14 <./images/amplificateur_phase3.png> <./images/amplificateur_phase4.png>]
 <images/amplificateur_impression.pdf, id=569, 597.23125pt x 845.1575pt>
 File: images/amplificateur_impression.pdf Graphic file (type pdf)
 
 <use images/amplificateur_impression.pdf> [15 <./images/amplificateur_complet.p
-ng>] <images/gyrator.pdf, id=605, 75.28125pt x 39.14626pt>
+ng>] [16 <./images/amplificateur_impression.pdf>]
+<images/gyrator.pdf, id=639, 75.28125pt x 39.14626pt>
 File: images/gyrator.pdf Graphic file (type pdf)
-
-<use images/gyrator.pdf>
-<images/parametri_bezier.png, id=606, 459.7175pt x 385.44pt>
+ <use images/gyrator.pdf>
+<images/parametri_bezier.png, id=640, 459.7175pt x 385.44pt>
 File: images/parametri_bezier.png Graphic file (type png)
 
-<use images/parametri_bezier.png> [16 <./images/amplificateur_impression.pdf>]
-[17 <./images/gyrator.pdf> <./images/parametri_bezier.png>] [18] [19]
+<use images/parametri_bezier.png>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17 <./images/gyrator.pdf> <./images/parametri_bezier.png>] [18] [19]
 <images/fidocadj_motif.png, id=666, 1041.8925pt x 589.20125pt>
 File: images/fidocadj_motif.png Graphic file (type png)
 
-<use images/fidocadj_motif.png> [20] [21 <./images/fidocadj_motif.png>]
+<use images/fidocadj_motif.png> [20 <./images/fidocadj_motif.png>] [21]
 Capitolo 3.
 [22
 
 ]
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <10> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 811.
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 812.
  [23] [24] [25] [26]
 <images/gyrator_n.pdf, id=756, 75.28125pt x 39.14626pt>
 File: images/gyrator_n.pdf Graphic file (type pdf)
@@ -999,15 +1003,15 @@ Capitolo 4.
 ]
 Appendice A.
 
-Overfull \hbox (123.1197pt too wide) in paragraph at lines 1104--1105
-\^^@ pro-gram-ma al-l'in-di-riz-zo: [][]http://sourceforge.net/projects/fidocad
-j/files/FidoCadJ.dmg/download[][],
+Overfull \hbox (20.25316pt too wide) in paragraph at lines 1108--1109
+[][][]\^^@ http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download
+[][] 
  []
 
 [31
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1115--1116
+Underfull \hbox (badness 10000) in paragraph at lines 1121--1122
 
  []
 
@@ -1030,13 +1034,13 @@ File: images/java6.png Graphic file (type png)
 Here is how much of TeX's memory you used:
  11372 strings out of 94500
  160006 string characters out of 1174973
- 336541 words of memory out of 1000000
+ 325541 words of memory out of 1000000
  13798 multiletter control sequences out of 10000+50000
  67927 words of font info for 207 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
  49i,15n,79p,1348b,1928s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 1111 PDF objects out of 300000
+ 1116 PDF objects out of 300000
  281 named destinations out of 131072
  26120 words of extra memory for PDF output out of 65536
  </var/tmp/texfonts/pk/ljfour/jknappen/ec/ectt0800.375pk></op
@@ -1072,4 +1076,4 @@ exmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts
 /type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/
 fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pf
 b> </var/tmp/texfonts/pk/ljfour/jknappen/ec/ecsx2488.600pk>
-Output written on manual.pdf (46 pages, 2193043 bytes).
+Output written on manual.pdf (46 pages, 2194854 bytes).

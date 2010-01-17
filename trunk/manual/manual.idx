@@ -38,6 +38,7 @@
 \indexentry{Java|hyperpage}{2}
 \indexentry{programmazione ad oggetti|hyperpage}{2}
 \indexentry{Java|hyperpage}{2}
+\indexentry{SourceForge|hyperpage}{2}
 \indexentry{FidoReadJ|hyperpage}{2}
 \indexentry{disegno vettoriale|hyperpage}{4}
 \indexentry{MacOSX|hyperpage}{4}
@@ -98,18 +99,18 @@
 \indexentry{serigrafia|hyperpage}{12}
 \indexentry{rettangolo|hyperpage}{12}
 \indexentry{poligono|hyperpage}{12}
-\indexentry{selezione|hyperpage}{12}
 \indexentry{nazionalizzazione|hyperpage}{12}
 \indexentry{italiano|hyperpage}{12}
 \indexentry{francese|hyperpage}{12}
 \indexentry{inglese|hyperpage}{12}
 \indexentry{poligono|hyperpage}{13}
+\indexentry{selezione|hyperpage}{13}
 \indexentry{layer|hyperpage}{13}
 \indexentry{PCB line|hyperpage}{13}
 \indexentry{trasferibili R41|hyperpage}{13}
-\indexentry{specchiatura scritte|hyperpage}{13}
 \indexentry{poligono|hyperpage}{14}
 \indexentry{circuito stampato|hyperpage}{14}
+\indexentry{specchiatura scritte|hyperpage}{14}
 \indexentry{dimensioni dei caratteri|hyperpage}{14}
 \indexentry{stampa|hyperpage}{14}
 \indexentry{bromografo|hyperpage}{14}
@@ -120,10 +121,10 @@
 \indexentry{tratteggio|hyperpage}{16}
 \indexentry{GIC|hyperpage}{16}
 \indexentry{B\'ezier|hyperpage}{16}
-\indexentry{freccia|hyperpage}{16}
-\indexentry{tratteggio|hyperpage}{16}
-\indexentry{FidoCad|hyperpage}{18}
-\indexentry{FidoCad|hyperpage}{18}
+\indexentry{freccia|hyperpage}{17}
+\indexentry{tratteggio|hyperpage}{17}
+\indexentry{FidoCad|hyperpage}{17}
+\indexentry{FidoCad|hyperpage}{17}
 \indexentry{esportazione|hyperpage}{18}
 \indexentry{formato vettoriale|hyperpage}{18}
 \indexentry{formato bitmap|hyperpage}{18}
@@ -137,6 +138,11 @@
 \indexentry{Arial|hyperpage}{18}
 \indexentry{Symbol|hyperpage}{18}
 \indexentry{font|hyperpage}{18}
+\indexentry{jar|hyperpage}{18}
+\indexentry{Java|hyperpage}{18}
+\indexentry{Sun|hyperpage}{18}
+\indexentry{JRE|hyperpage}{18}
+\indexentry{Macintosh|hyperpage}{18}
 \indexentry{JPG|hyperpage}{19}
 \indexentry{compressione lossy|hyperpage}{19}
 \indexentry{PNG|hyperpage}{19}
@@ -155,10 +161,7 @@
 \indexentry{Eagle|hyperpage}{19}
 \indexentry{PDF|hyperpage}{19}
 \indexentry{font|hyperpage}{19}
-\indexentry{jar|hyperpage}{20}
-\indexentry{Java|hyperpage}{20}
-\indexentry{Sun|hyperpage}{20}
-\indexentry{JRE|hyperpage}{20}
+\indexentry{MacOSX|hyperpage}{20}
 \indexentry{terminale|hyperpage}{20}
 \indexentry{Unix|hyperpage}{20}
 \indexentry{prompt MS-DOS|hyperpage}{20}
@@ -171,9 +174,8 @@
 \indexentry{GTK+|hyperpage}{20}
 \indexentry{Motif|hyperpage}{20}
 \indexentry{libreria|hyperpage}{20}
-\indexentry{libreria!libreria standard|hyperpage}{20}
-\indexentry{Macintosh|hyperpage}{20}
-\indexentry{MacOSX|hyperpage}{21}
+\indexentry{libreria!libreria standard|hyperpage}{21}
+\indexentry{libreria IHRaM|hyperpage}{21}
 \indexentry{FidoCad|hyperpage}{21}
 \indexentry{FidoCad|hyperpage}{22}
 \indexentry{FidoCadJ|hyperpage}{22}

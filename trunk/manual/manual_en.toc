@@ -9,36 +9,36 @@
 \contentsline {section}{\numberline {2.3}The layers}{9}{section.2.3}
 \contentsline {section}{\numberline {2.4}The grid}{10}{section.2.4}
 \contentsline {section}{\numberline {2.5}A simple PCB}{10}{section.2.5}
-\contentsline {section}{\numberline {2.6}Exporting}{15}{section.2.6}
-\contentsline {section}{\numberline {2.7}Command line options}{15}{section.2.7}
-\contentsline {section}{\numberline {2.8}Libraries management}{17}{section.2.8}
-\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Drawing format, macros and FidoCad libraries}}{19}{chapter.3}
-\contentsline {section}{\numberline {3.1}Header description}{19}{section.3.1}
-\contentsline {section}{\numberline {3.2}Coordinates system}{19}{section.3.2}
-\contentsline {section}{\numberline {3.3}Drawing primitives}{19}{section.3.3}
-\contentsline {subsubsection}{Line}{20}{section.3.3}
-\contentsline {subsubsection}{Filled or empty rectangle}{20}{lstnumber.-8.1}
-\contentsline {subsubsection}{Simple text (obsolete)}{20}{lstnumber.-9.2}
-\contentsline {subsubsection}{Advanced Text}{20}{lstnumber.-10.1}
-\contentsline {subsubsection}{Empty or filled polyline}{21}{table.3.3}
-\contentsline {subsubsection}{Filled or Empty ellipse}{22}{lstnumber.-12.2}
-\contentsline {subsubsection}{Curva di B\'ezier}{22}{lstnumber.-13.2}
-\contentsline {subsubsection}{Electrical junction}{22}{equation.3.1}
-\contentsline {subsubsection}{PCB pad}{22}{lstnumber.-15.1}
-\contentsline {subsubsection}{PCB track}{23}{lstnumber.-16.1}
-\contentsline {subsubsection}{Macro call}{23}{lstnumber.-17.1}
-\contentsline {section}{\numberline {3.4}FidoCadJ extensions}{23}{section.3.4}
-\contentsline {section}{\numberline {3.5}Syntax errors tolerance}{23}{section.3.5}
-\contentsline {section}{\numberline {3.6}Libraries format}{24}{section.3.6}
-\contentsline {section}{\numberline {3.7}Standard Libraries}{24}{section.3.7}
-\contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Conclusion}}{25}{chapter.4}
-\contentsline {chapter}{\numberline {A}\spacedlowsmallcaps {Platform-specific extensions}}{26}{appendix.A}
-\contentsline {section}{\numberline {A.1}MacOSX}{26}{section.A.1}
-\contentsline {section}{\numberline {A.2}Linux}{26}{section.A.2}
-\contentsline {section}{\numberline {A.3}Windows}{26}{section.A.3}
-\contentsline {chapter}{\numberline {B}\spacedlowsmallcaps {FidoCadJ installation}}{27}{appendix.B}
-\contentsline {section}{\numberline {B.1}How to download and execute FidoCadJ under MacOSX}{27}{section.B.1}
-\contentsline {section}{\numberline {B.2}How to download and execute FidoCadJ in a Linux system}{27}{section.B.2}
-\contentsline {subsection}{\numberline {B.2.1}Using any platform, from terminal}{27}{subsection.B.2.1}
-\contentsline {subsection}{\numberline {B.2.2}On a graphical system}{28}{subsection.B.2.2}
-\contentsline {chapter}{\spacedlowsmallcaps {Index}}{29}{dummy.1}
+\contentsline {section}{\numberline {2.6}Arrow and stroke styles}{15}{section.2.6}
+\contentsline {section}{\numberline {2.7}Exporting}{17}{section.2.7}
+\contentsline {section}{\numberline {2.8}Command line options}{17}{section.2.8}
+\contentsline {section}{\numberline {2.9}Libraries management}{19}{section.2.9}
+\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Drawing format, macros and FidoCad libraries}}{21}{chapter.3}
+\contentsline {section}{\numberline {3.1}Header description}{21}{section.3.1}
+\contentsline {section}{\numberline {3.2}Coordinates system}{21}{section.3.2}
+\contentsline {section}{\numberline {3.3}Drawing primitives}{21}{section.3.3}
+\contentsline {subsubsection}{Line}{22}{section.3.3}
+\contentsline {subsubsection}{Filled or empty rectangle}{22}{table.3.4}
+\contentsline {subsubsection}{Simple text (obsolete)}{23}{lstnumber.-10.1}
+\contentsline {subsubsection}{Advanced Text}{23}{lstnumber.-11.1}
+\contentsline {subsubsection}{Empty or filled polyline}{24}{table.3.5}
+\contentsline {subsubsection}{Filled or Empty ellipse}{24}{lstnumber.-14.1}
+\contentsline {subsubsection}{B\'ezier curve}{24}{lstnumber.-16.1}
+\contentsline {subsubsection}{Electrical junction}{25}{lstnumber.-18.1}
+\contentsline {subsubsection}{PCB pad}{25}{lstnumber.-19.1}
+\contentsline {subsubsection}{PCB track}{25}{lstnumber.-20.1}
+\contentsline {subsubsection}{Macro call}{26}{lstnumber.-21.1}
+\contentsline {section}{\numberline {3.4}FidoCadJ extensions}{26}{section.3.4}
+\contentsline {section}{\numberline {3.5}Syntax errors tolerance}{27}{section.3.5}
+\contentsline {section}{\numberline {3.6}Libraries format}{27}{section.3.6}
+\contentsline {section}{\numberline {3.7}Standard Libraries}{28}{section.3.7}
+\contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Conclusion}}{29}{chapter.4}
+\contentsline {chapter}{\numberline {A}\spacedlowsmallcaps {Platform-specific information}}{30}{appendix.A}
+\contentsline {section}{\numberline {A.1}MacOSX}{30}{section.A.1}
+\contentsline {subsection}{\numberline {A.1.1}How to download and execute FidoCadJ under MacOSX}{30}{subsection.A.1.1}
+\contentsline {section}{\numberline {A.2}Linux}{30}{section.A.2}
+\contentsline {section}{\numberline {A.3}How to download and execute FidoCadJ in a Linux system}{30}{section.A.3}
+\contentsline {subsection}{\numberline {A.3.1}Using any platform, from terminal}{31}{subsection.A.3.1}
+\contentsline {subsection}{\numberline {A.3.2}On a graphical system}{31}{subsection.A.3.2}
+\contentsline {section}{\numberline {A.4}Windows}{32}{section.A.4}
+\contentsline {chapter}{\spacedlowsmallcaps {Index}}{32}{dummy.1}

@@ -11,7 +11,7 @@
 \contentsline {section}{\numberline {2.5}Disegnamo un semplice circuito stampato}{11}{section.2.5}
 \contentsline {section}{\numberline {2.6}Frecce e stili di tratto}{16}{section.2.6}
 \contentsline {section}{\numberline {2.7}Esportazione}{18}{section.2.7}
-\contentsline {section}{\numberline {2.8}Opzioni linea di comando}{20}{section.2.8}
+\contentsline {section}{\numberline {2.8}Opzioni linea di comando}{18}{section.2.8}
 \contentsline {section}{\numberline {2.9}Gestione librerie}{20}{section.2.9}
 \contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Il formato disegni, macro e librerie FidoCadJ}}{22}{chapter.3}
 \contentsline {section}{\numberline {3.1}Descrizione dell'intestazione}{22}{section.3.1}
