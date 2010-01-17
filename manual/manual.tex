@@ -56,7 +56,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23 \\ il manuale dell'utente} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.1 \\ il manuale dell'utente} 
 
 
 \author{Davide Bucci\\[3em]
@@ -123,7 +123,7 @@ Molte persone hanno utilizzato il programma (o una delle sue versioni preliminar
 \pdfbookmark[1]{Licenza FidoCadJ}{Licenza FidoCadJ}
 
  
-Copyright \copyright\ 2007-2009  Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2010  Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
         
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -208,7 +208,7 @@ illimitate, intendo fare in modo che FidoCadJ NON sia un programma di
 pessima qualità ed è per questo che ogni commento sull'usabilità del 
 programma e su eventuali problemi individuati sarà quanto mai benvenuto.
 
-A partire da novembre 2009, ho aperto un progetto FidoCadJ su SourceForge.
+A partire da novembre 2009, ho aperto un progetto FidoCadJ su SourceForge\index{SourceForge}.
 Da questa pagina si possono scaricare gli eseguibili ed i manuali di 
 FidoCadJ. Si può anche partecipare attivamente allo sviluppo del 
 programma, scaricandosi il codice sorgente, eventualmente utilizzando 
@@ -425,7 +425,8 @@ Per capire come va usato il programma, procederemo a disegnare un semplicissimo 
 \end{figure}
 Per iniziare, lanciamo quindi il programma oppure, se è già in esecuzione, creiamo un nuovo disegno dal menu ``File/Nuovo disegno''.
 
-Iniziamo quindi ad introdurre nel disegno i simboli dei due transistor\index{transistor}, che sono un po' il cuore del nostro schema. Per fare questo, dovremmo utilizzare le macro a disposizione nella libreria standard\index{libreria standard}, che è caricata per default e si trova sulla destra del programma. La macro che ci serve è chiamata ``NPN senza schermo'' e si trova nella categoria ``Diodi e transistor'', all'interno della ``Libreria standard''. Facendo click per selezionare la macro\index{macro} desiderata, è poi possibile introdurla dove si vuole all'interno del disegno, facendo click una seconda volta nella posizione voluta. A questo punto, dovremmo trovarci davanti una situazione simile a quella mostrata nella figura~\ref{fig_fidocadj_fase1}.
+Iniziamo quindi ad introdurre nel disegno i simboli dei due transistor\index{transistor}, che sono un po' il cuore del nostro schema. Per fare questo, dovremmo utilizzare le macro a disposizione nella libreria standard\index{libreria standard}, che è caricata per default e si trova sulla destra del programma. La macro che ci serve è chiamata ``NPN senza schermo'' e si trova nella categoria ``Diodi e transistor'', all'interno della ``Libreria standard''. Facendo click per selezionare la macro\index{macro} desiderata, è poi possibile introdurla dove si vuole all'interno del disegno (il programma mostra un'anteprima), facendo click una seconda volta nella posizione voluta.
+A questo punto, dovremmo trovarci davanti una situazione simile a quella mostrata nella figura~\ref{fig_fidocadj_fase1}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_fase1}
@@ -763,7 +764,7 @@ Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella 
 
 
 \section{Gestione librerie}
-Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} A partire dalla versione 0.23, grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 2.1 direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCad e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
+Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} A partire dalla versione 0.23, grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 2.1\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCad e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
 
 Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto solo all'avvio, quindi per far prendere in conto delle modifiche, il programma va riavviato.
 
@@ -968,7 +969,7 @@ dove $t\in [0,1]$ è un parametro.
 \begin{lstlisting} 
 FCJ a b c d e 
 \end{lstlisting}
-dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi del segmento (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio.
+dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio.
 
 \subsubsection{Connessione elettrica}
 La primitiva connessione elettrica\index{connessione} è semplicemente un circoletto pieno di dimensione costante e va utilizzata per rappresentare una connessione in uno schema elettrico. È identificata dal comando \lstinline!SA!\index{SA} e richiede unicamente le coordinate ed il layer:
@@ -1006,6 +1007,8 @@ MC x1 y1 o m n
 \end{lstlisting}
 La macro viene disegnata nel punto $(x_1, y_1)$, l'orientazione è definito dal valore di $o$ (moltiplicato per 90°) e se $m$ è uguale a 1, la macro viene specchiata. L'ultimo parametro, $n$ è il nome della macro all'interno di una libreria, specificata come libreria.codice.
 
+
+\textbf{Estensione FidoCadJ}: a partire dalla versione 0.21 di FidoCadJ, \lstinline!MC!\index{MC} può essere seguito nella riga successiva da un'estensione \lstinline!FCJ!.
 L'utilizzo è il seguente:
 \begin{lstlisting} 
 [FIDOCAD]
@@ -1014,8 +1017,6 @@ FCJ
 TY 50 35 4 3 0 0 0 * R1
 TY 50 40 4 3 0 0 0 * 47k
 \end{lstlisting}
-
-\textbf{Estensione FidoCadJ}: a partire dalla versione 0.21 di FidoCadJ, \lstinline!MC!\index{MC} può essere seguito nella riga successiva da un'estensione \lstinline!FCJ!.
 La presenza del comando \lstinline!FCJ! indica che la definizione della macro non è terminata, ma che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Attualmente, solo le coordinate ed i font dei due comandi \lstinline!TY! sono utilizzate.
 
 Questo modo di procedere ha il vantaggio che se un file contenente un'estensione di questo tipo viene letto da FidoCad\index{FidoCad}, quest'ultimo ignorerà le linee contenenti  \lstinline!FCJ! (emettendo un messaggio di errore), ma il disegno ottenuto sarà in qualche modo simile a quello che appare su FidoCadJ (vedere il paragrafo~\ref{FCJ_extension}).
@@ -1098,10 +1099,15 @@ Per questa ragione, alcuni dettagli del funzionamento del programma sono leggerm
 \item Le voci ``Preferenze'' e ``Informazioni su FidoCadJ'' si trovano al loro posto, ovvero all'interno del menu FidoCadJ.
 \item Il programma dichiara al sistema operativo la sua disponibilità ad aprire file di tipo \lstinline!.fcd! Ad essi viene pure associata un'icona che richiama il simbolo del programma e che dovrebbe essere abbastanza evocativa.
 \end{itemize}
+
 \subsection{Come scaricare ed eseguire FidoCadJ con MacOSX}
 FidoCadJ può funzionare con una versione di MacOSX\index{MacOSX} superiore o eguale alla 10.3.9 (Panther\index{Panther}). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.4 di Java, che Apple fornisce con il suo sistema operativo.
 
-Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: \href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}, aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
+Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: 
+
+\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}
+
+aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
 
 Per disinstallare FidoCadJ, sarà sufficiente prelevare \lstinline!FidoCadJ.app! dalla cartella \lstinline!Applicazioni! e spostarlo nel cestino.
 

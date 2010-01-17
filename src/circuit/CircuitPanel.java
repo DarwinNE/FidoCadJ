@@ -1321,6 +1321,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public void mouseExited(MouseEvent evt)
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if(successiveMove) {
+        	successiveMove = false;
+        	repaint();
+        }
     }
     
     /** The zoom listener

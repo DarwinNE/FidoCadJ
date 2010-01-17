@@ -52,7 +52,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.22 \\ the user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.1 \\ the user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -126,12 +126,15 @@ tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
 for their tests under MacOSX.
 
 I would like to thank ``F. Bertolazzi'' who has given very useful
-advice about the usability of this software. He also assembled the
+advices about the usability of this software. He also assembled the
 CadSoft Eagle\index{Eagle} compatibility library, useful to export
 FidoCadJ drawings under Eagle. Many thanks to ``Celsius'', who tested
 the software functionalities for PCB realization, as well as its libraries.
 Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
-aspect on the Apple Macintosh, from the 0.21.1 version.
+aspect on the Apple Macintosh, from the 0.21.1 version. I would like to thank 
+Roby IZ1CYN for the useful discussions about librairies and to have written 
+section~\ref{installazione_linux} of this manual, about the Linux\index{Linux} 
+installation.
 
 This manual has been translated to English by ``Pasu''. I would like to thank 
 him for his work.
@@ -141,7 +144,7 @@ him for his work.
 
 \pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
 
-Copyright \copyright\ 2007-2009 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2010 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -223,6 +226,8 @@ Another file format useful for electronic schematics is the CadSoft
 Eagle script\index{CadSoft Eagle}, which is available from version
 0.21 of FidoCadJ. In this way, a schematics drawn with FidoCadJ can
 be exported to Eagle.
+The appendix~\ref{specifics} briefly describes how to install FidoCadJ under 
+the most diffused operating systems.
 
 
 \section{History of this software}
@@ -288,6 +293,22 @@ Without aiming for perfection and knowing my programming skills limitations,
 my intent is to make sure that FidoCadJ will NOT be another poor quality
 application. For this reason any bug report or comment on the program's
 usability will be more than welcome.
+
+Since november 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. 
+From this page, you can download all executables, manuals as well as the source
+code. You can actively participate to FidoCadJ development working on the 
+source code using Subversion (SVN), or the SVN browser provided by SourceForge:
+
+ \href{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/}{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/} 
+
+If you want to help me with FidoCadJ, do not worry: you do not need to be an
+expert Java programmer. You can for example translate the user interface or the 
+manuals in a new language, check carefully the existing manuals for inconsistencies and
+errors. You can also work on the standard library\dots
+On SourceForge\index{SourceForge}, you can participate to the forums, write a 
+program review as well as suggest improvements or give a bug report.
+
+
 
 \myChapter{Drawing with FidoCadJ}
 
@@ -421,6 +442,15 @@ an element from the library we only need to select it from the list
 an click on the drawing. FidoCad\index{FidoCad} libraries include
 all standard symbols used in electrical schematics\index{electrical schematic} and a wide selection of footprints\index{PCB!footprint} for drawing PCBs.
 
+From version 0.22, you can do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}) 
+By typing up and down keys, you can navigate through the results found.
+
+\begin{figure}
+\centering
+\includegraphics[width=.4\textwidth]{ricerca}
+\caption{The quick search function in the installed libraries.}
+\label{fig_ricerca}
+\end{figure}
 %
 \begin{figure}
 \centering \includegraphics[width=0.7\textwidth,]{param_testo} 
@@ -466,7 +496,7 @@ found on the right-hand side of the screen. The macro that we will
 use is called {}``NPN senza schermo'' and is included in the {}``Diodi
 e transistor'' category of the {}``Libreria standard''. By clicking
 on the element's name to select the desired macro\index{macro}, it
-will then be possible to place it anywhere in the drawing, by clicking
+will then be possible to place it anywhere in the drawing (FidoCadJ shows a preview), by clicking
 a second time on the desired location. We should now be at the stage
 similar to the one shown in figure ~\ref{fig_fidocadj_fase1}.
 
@@ -773,14 +803,15 @@ primitive\index{PCB line}. I chose a track thickness of 10 unità
 
 We realize that we need a few connectors: one for the input, one for
 the output and one for the power supply. We can use the footprint
-designed for a polyester capacitor. \graffito{Pay attention to the
-track widths: something that looks like a motor-way on the screen will
-probably be a track so thin that will detach from the board during
-the soldering.} It will probably have the right dimensions. Let's
+designed for a polyester capacitor.  It will probably have the right dimensions. Let's
 not forget that FidoCadJ is thought as a replacement for the transfers\index{R41 transfers}\dots
 
 We can also place a ``$+$'' and a ``$-$'' on the copper layer and
-place a ceramic capacitor in parallel with the power supply. Let us
+place a ceramic capacitor in parallel with the power supply. \graffito{Be carefult with the
+track widths: something that looks like a motor-way on the screen will
+probably be a track so thin that will detach from the board during
+the soldering.}
+Let us
 put the writing on the top side as well. To write on the copper layer,
 after selecting the proper layer it will also be necessary to mirror
 all the writings\index{writings mirroring}. This is easily done within
@@ -849,8 +880,8 @@ a standard ISO-UNI A4\index{A4}), as we can see in Figure~\ref{fig_amplificateur
 
 
 For information, below is the code generated for the PCB of the example
-above (pay attention to the long lines!):
-\begin{lstlisting} 
+above (be careful with long lines!):
+\begin{lstlisting}
 [FIDOCAD]
 TY 320 10 18 11 0 4 1 * Darwin Ampli Esempio 08 
 TY 85 240 12 8 0 5 1 * + 
@@ -891,6 +922,27 @@ TY 230 55 12 8 0 0 3 * R2
 TY 100 55 12 8 0 0 3 * R1 
 RV 30 5 320 255 3
 \end{lstlisting} 
+
+\section{Arrow and stroke styles}
+Starting from FidoCadJ version 0.23, the software allows to draw automatically arrows heads\index{arrows} at the beginning and at the end of lines and Bézier curves.
+FidoCadJ allows you to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
+
+A few stroke styles\index{stroke styles} are now available for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
+There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gyrator}
+\caption{An electrical drawing (an Antoniou's GIC) in which some FidoCadJ extensions have been used.}
+\label{fig_gyrator}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=.7\textwidth]{parametri_bezier}
+\caption{The parameter window of the Bézier curve shown used in the schematics of figure~\ref{fig_gyrator}}
+\label{fig_parametri_bezier}
+\end{figure}
+The possibility of chosing a dashing style and putting arrowheads was not comprised in the original FidoCad format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCad\index{FidoCad} per Windows.
+When you do chose to use a FidoCadJ extension, you need to know what you are doing. If you need to have a complete FidoCad compatibility, you can activate the option ``Strict FidoCad compatibility'' in the ``FidoCadJ extensions'' tab of the ``FidoCadJ preferences'' window. In this way, the program will not allow you to introduce graphical elements which would give compatibility problems with FidoCad. If you need more details about the compatibility of the new graphical elements with FidoCad\index{FidoCad}, have a look at section~\ref{FCJ_extension}.
 
 
 \section{Exporting}
@@ -1008,15 +1060,15 @@ FidoCadJ will be run and it will try to open the file \lstinline!~/FidoCadJ/test
 Another interesting option, although a feature due to Java\index{Java}
 more than FidoCadJ, is the possibility to modify the look of the application
 (in the jargon of Java called look \& feel\index{look  feel@look \& feel}).
-This can be done for example to better integrate the program within
-a Windows environment\index{Windows}, in which case the command line
-to be used would be the following:\graffito{Java sometimes requires
-the writing of not so brief commands!} 
-\begin{lstlisting} 
-java -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel -jar fidocadj.jar 
-\end{lstlisting} 
-For license reasons, the Windows\index{Windows}
-look and feel is available only on Microsoft\index{Microsoft} systems.
+%This can be done for example to better integrate the program within
+%a Windows environment\index{Windows}, in which case the command line
+%to be used would be the following:\graffito{Java sometimes requires
+%the writing of not so brief commands!} 
+%\begin{lstlisting} 
+%java -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel -jar fidocadj.jar 
+%\end{lstlisting} 
+%For license reasons, the Windows\index{Windows}
+%look and feel is available only on Microsoft\index{Microsoft} systems.
 You can choose the look\&feel that you like without modifying a single
 line of code. Here is something that Linux\index{Linux} users appreciate,
 the GTK+\index{GTK+} look: 
@@ -1059,6 +1111,14 @@ files management.%
 libraries and loaded together with the standard library. This is done
 at start time, which means that any modification will take effect
 when the application is restarted.
+From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 2.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
+Exactly as it happens for the other libraries embedded in FidoCadJ, if there is a file called \lstinline!IHRAM.FCL! in the current library search path, this one will be loaded at the place
+of the version embedded in the program.
+
+Other files with \lstinline!.fcl! extension in the library search path will be considered as libraries and FidoCadJ will try to load them when it is starting. This is done only once, so if you need to add or remove libraries in the directory you use for them, remember to restart FidoCadJ.
+
+From version 0.23, FidoCadJ allows to split non standard macros (as the original FidoCad\index{FidoCad} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro which does not belong to the standard FidoCad\index{FidoCad} libraries is expanded into its graphic primitives. The reader thus does not need to have the very same libraries you have installed in your system to read your post.
+To activate this behaviour, you have to activate ``Split non standard macros'' in the ``FidoCadJ extensions'' tab of the ``Preferences'' window. You can choose if you want to do that when saving files or when doing a copy/paste of parts of the drawing.
 
 \myChapter{Drawing format, macros and FidoCad libraries} \label{chap_formato}
 
@@ -1067,7 +1127,7 @@ FidoCad and, as a consequence, by FidoCadJ to store a drawing. It
 is a simple text format which has the advantage of being very compact
 and efficient. Since the format has never been described in detail
 in a document, I will try to summarize all that I learnt about it.
-
+Since I added a few extensions which are only available on FidoCadJ, I will try to describe them here as well.
 
 \section{Header description}
 
@@ -1098,9 +1158,7 @@ of operation: PCB\emph{\index{PCB}} and electrical
 schematic\index{electrical schematic}. In FidoCadJ this difference
 has been blurred and appears only at the moment of printing the drawing.
 It would therefore be advisable to set the program to resize an electrical
-schematic to make better use of the size of the page otherwise it
-will print something the size of a postage stamp.
-
+schematic to make better use of the size of the page, otherwise the printed result will have the size of a postage stamp.
 
 \section{Drawing primitives}
 
@@ -1136,9 +1194,47 @@ LI x1 y1 x2 y2 l
 \end{lstlisting} 
 the points $(x_{1},y_{1})$ and
 $(x_{2},y_{2})$ represent respectively the initial and final coordinates,
-while $l$ is the layer, characterized by a whole number between 0
+while $l$ is the layer, characterized by an integer number between 0
 and 15.
 
+\textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23, \lstinline!LI!\index{LI} can be followed in the next line by an extension:
+\begin{lstlisting} 
+FCJ a b c d e 
+\end{lstlisting}
+where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the segment (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Paramenters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
+
+\begin{table}
+\centering
+
+\begin{tabular}{ccp{.7\textwidth}}
+\toprule
+$a$	& Arrow head \\
+\midrule
+0	& none \\
+1	& at the start side\\
+2	& at the end side\\
+3	& both sides\\
+\bottomrule
+\end{tabular}
+\caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or Bézier primitive.}
+\label{tab_frecce_estremita}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{ccp{.7\textwidth}}
+\toprule
+$b$	& Arrow head style \\
+\midrule
+0	& filled standard arrow head \\
+1	& filled standard arrow head with quota line \\
+2	& empty arrow head\\
+3	& empty arrow head with quota line\\
+\bottomrule
+\end{tabular}
+\caption{Meaning of the $b$ parameter for the arrow head style.}
+\label{tab_frecce_stile}
+\end{table}
 
 \subsubsection{Filled or empty rectangle}
 
@@ -1152,6 +1248,12 @@ RV x1 y1 x2 y2 l
 \end{lstlisting} the points $(x_{1},y_{1})$
 and $(x_{2},y_{2})$ represent the two vertices and $l$ is the layer,
 characterized by a whole number between 0 and 15.
+
+\textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23,  \lstinline!RP!\index{RP} and \lstinline!RV!\index{RV} can be followed in the next line by an extension:
+\begin{lstlisting} 
+FCJ e 
+\end{lstlisting}
+where $e$ is an integer giving the dashing style.
 
 
 \subsubsection{Simple text (obsolete)}
@@ -1200,27 +1302,16 @@ $a$, expressed in sexagesimal degrees, while the value of $s$ determines
 the text style\index{text!style}, following table~\ref{tab_stile_testo}.
 The layer is given by the usual term $l$, and $f$ indicates the
 font to be used, or it can be an asterisk\index{asterisk}, to indicate
-the use of the standard Courier font\index{Courier}, of which an
-example is shown in Figure~\ref{fig_courier_sample}. If the font
+the use of the standard Courier New font\index{Courier New} If the font
 name contains spaces these must be replaced with the symbol +\index{+}.
-At the moment the only font supported by FidoCadJ is the Courier\index{Courier},
-a constant width font which is also the default font adopted by FidoCad\index{FidoCad}.
 
 %
-\begin{figure}
-\centering \includegraphics[width=0.4\textwidth]{courier_sample} 
-
-\caption{An example of Courier font, used in FidoCadJ.}
-
-
-\label{fig_courier_sample} 
-\end{figure}
 
 
 %
 \begin{table}
 \centering \begin{tabular}{llp{0.7\textwidth}}
-\toprule Bit  & Peso  & Funzione \tabularnewline
+\toprule Bit  & Weight  & Behavior \tabularnewline
 \midrule 0  & 1  & text in bold\tabularnewline
 2  & 4  & mirrored text\tabularnewline
 \bottomrule  &  & \tabularnewline
@@ -1256,6 +1347,12 @@ thus vary depending on the number of vertices used. The maximum number
 of vertices\index{maximum number of vertices} available has been
 arbitrarily fixed at 20, to avoid very long command lines.
 
+\textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23,  \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV} can be followed in the next line by an extension:
+\begin{lstlisting} 
+FCJ e 
+\end{lstlisting}
+where $e$ is an integer giving the dashing style.
+
 
 \subsubsection{Filled or Empty ellipse}
 
@@ -1272,7 +1369,14 @@ vertex on the diagonal, $(x_{2},y_{2})$ is the second vertex, and
 $l$ is the layer, identified by a whole number between 0 and 15.
 
 
-\subsubsection{Curva di Bézier}
+\textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23,  \lstinline!EP!\index{EP} and \lstinline!EV!\index{EV} can be followed in the next line by an extension:
+\begin{lstlisting} 
+FCJ e 
+\end{lstlisting}
+where $e$ is an integer giving the dashing style.
+
+
+\subsubsection{Bézier curve}
 
 A Bézier\index{Bézier} curve segment, in its cubic variant, is identified
 by four vertices, which are thus required by its associated command
@@ -1288,6 +1392,12 @@ Given the four points defined above, the curve segment is computed
 through the expression \begin{equation}
 B(t)=(1-t)^{3}P_{1}+3t(1-t)^{2}P_{2}+3t^{2}(1-t)P_{3}+t^{3}P_{4},\end{equation}
 where $t\in[0,1]$ is a parameter.
+
+\textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23, \lstinline!BE!\index{BE} can be followed in the next line by an extension:
+\begin{lstlisting} 
+FCJ a b c d e 
+\end{lstlisting}
+where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the curve (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Paramenters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
 
 
 \subsubsection{Electrical junction}
@@ -1354,10 +1464,7 @@ as the reference, and the orientation is defined by the value of $o$
 is mirrored. the last parameter, $n$, is the macro's name within
 the library, specified as \emph{library.code}.
 
-
-\section{FidoCadJ extensions}
-
-\label{FCJ_extension} Starting from version 0.21, FidoCadJ introduced
+\textbf{FidoCadJ extension}: Starting from version 0.21, FidoCadJ introduced
 some extensions\index{FidoCadJ extension} to the original FidoCad
 format, which are identified by the command \lstinline!FCJ!\index{FCJ}.
 For the moment, the only one that has been implemented is a feature
@@ -1379,13 +1486,23 @@ of the commands \lstinline!TY! are in use.
 This has the advantage that if a file containing such an extension
 is read by FidoCad\index{FidoCad}, this will ignore the lines containing
 \lstinline!FCJ! (returning an error message), but the drawing obtained
-will be identical to the one produced by FidoCadJ.
+will be identical to the one produced by FidoCadJ (see section~\ref{FCJ_extension}).
 
-FidoCadJ can be configured in order to avoid the command \lstinline!FCJ!\index{FCJ}
-when saving a file, or during cut/paste operations. In this case,
-we will obtain an output perfectly compatible with FidoCad\index{FidoCad},
-at the price of losing the logical association between a macro, its
-name and its value.
+\section{FidoCadJ extensions}
+\label{FCJ_extension}
+Since version 0.21, FidoCadJ has started to introduce a few refinements over the original FidoCad forma\index{FidoCadJ extension}. The FidoCadJ extensions are represented in the code by the command \lstinline!FCJ!\index{FCJ}. This command is not used alone, but means that FidoCadJ needs to specify additional information on what it is specified in the previous line.
+
+FidoCadJ allows to activate a ``strict FidoCad compatibility mode'', in which all extensions are disabled. This way, FidoCadJ will be perfectly compatible with the original FidoCad\index{FidoCad}.
+FidoCad for Windows is unable to understand the additional informations carried by the \lstinline!FCJ!\index{FCJ} command. When reading with the original FidoCad a FidoCadJ drawing containing some extension, the program will prompt a few errors and will give a result which is different from the original FidoCadJ drawing.
+The results will depend on what extension has been used: a dashed line will be rendered as continuos, the arrow heads will be not drawn. The text associated to the name and the value of a macro will instead be perfectly rendered.
+
+Figure~\ref{fig_gyrator_n} shows what can be obtained using FidoCad\index{FidoCad} to read the FidoCadJ file which describes~\ref{fig_gyrator}. After ignoring the FidoCad errors, there are some details missing (the dashing and the arrow), but the overall drawing is still understandable.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gyrator_n}
+\caption{Figura~\ref{fig_gyrator} as it would appear under FidoCad for Windows.}
+\label{fig_gyrator_n}
+\end{figure}
 
 
 \section{Syntax errors tolerance}
@@ -1464,14 +1581,14 @@ with the standard libraries.
 \myChapter{Conclusion} We have seen in this manual how to use FidoCadJ
 to draw an electrical schematic or a simple PCB. At this stage the
 reader should possess all the elements necessary to use FidoCadJ effectively
-for their needs.
+for his needs.
 
-FidoCadJ should not be thought of as a tool meant uniquely for the
+FidoCadJ should not be considered uniquely for the
 electronics design. It can be used for any type of 2D drawing and
 in many situations, provided that specific libraries are available.
 
-The advantages of a free program is that it is at the disposition
-of the community. For this reason the feedback from the users is very
+The advantages of a free program is that it is completely open
+to its user community. For this reason, your feedback is very
 important (at least to understand if the project is worth to be developed
 further, and in which direction). To contact me, you can write an email
 (\href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}, but do
@@ -1479,7 +1596,7 @@ not send me any attachment!).
 
 \appendix
 
-\myChapter{Platform-specific extensions} \label{specifics} 
+\myChapter{Platform-specific information} \label{specifics} 
 
 
 \section{MacOSX}
@@ -1506,38 +1623,22 @@ files; These are associated to a specific icon, which should be sufficiently
 evocative.
 \end{itemize}
 
+\subsection{How to download and execute FidoCadJ under MacOSX}
+FidoCadJ can work with a MacOSX\index{MacOSX} version more recent than 10.3.9 (Panther\index{Panther}).
+The reason is that under the hood FidoCadJ needs at least the 1.4 version of Java, which Apple provides with this operating system.
+
+Even if you can use directly the Java archive \lstinline!fidocad.jar! as you would do under other operating systems, under MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
+
+\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}
+
+You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
+
+
 \section{Linux}
 
-At the moment there are no extensions dedicated to this platform.
-
-
-\section{Windows}
-
-At the moment there are no extensions dedicated to this platform.
-
-\myChapter{FidoCadJ installation} \label{installazione}
-
-
-\section{How to download and execute FidoCadJ under MacOSX}
-
-FidoCadJ can run under a MacOSX version equal to or greater than 10.3.9
-(Panther). The reason is simple: FidoCadJ requires at least version
-1.4 of Java, which Apple supplies with their operating system.
-
-Although it is possible to use the file \lstinline!fidocad.jar! like
-with other operating systems, it is preferable to use the specific
-application under MacOSX. Everything is dealt with as in native applications:
-it is sufficient to download the disk image containing the program
-from the url: \href{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg}{http://davbucci.chez-alice.fr/elettronica/fidocadj/FidoCadJ.dmg},
-open it and move \lstinline!FidoCadJ.app! into the folder \lstinline!Applications!
-from which it will then be available.
-
-To uninstall FidoCadJ, it is sufficient to delete the file \lstinline!FidoCadJ.app!
-from the \lstinline!Applications! folder by moving it into the trash.
-
+At the moment, there are no extensions dedicated to this platform.
 
 \section{How to download and execute FidoCadJ in a Linux system}
-
 \label{installazione_linux} \textsl{by Roby IZ1CYN}\\
 
 
@@ -1633,6 +1734,11 @@ In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not cha
 
 \item {Let's click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/bin/fidocadj/fidocadj.jar!.}
 \end{itemize}
+
+
+\section{Windows}
+Since version 0.23, when FidoCadJ recognizes a Windows platform, it will try to use the native Look and Feel.
+
 
 
 \manualmark 
