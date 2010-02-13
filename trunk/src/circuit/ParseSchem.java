@@ -544,7 +544,7 @@ public class ParseSchem
    				if (g.getLayer()>maxLayer) 
    					maxLayer = g.getLayer();
         		
-// this should improve the redrawing speed.
+				// this should improve the redrawing speed.
 				if (g.getLayer()>drawOnlyLayer)
 					break;
 			
@@ -582,7 +582,7 @@ public class ParseSchem
     
     				if (g.getLayer()>maxLayer) 
         					maxLayer = g.getLayer();
-// this should improve the redrawing speed. 
+					// this should improve the redrawing speed. 
 
 					if (j>1 && g.getLayer()>j)
 						break;
@@ -609,7 +609,6 @@ public class ParseSchem
         			}
         			if(g instanceof PrimitivePCBPad)
         				needHoles=true;
-        			
         			
         		}
         		if (j>maxLayer)
@@ -1484,7 +1483,7 @@ public class ParseSchem
         	state machine.
         */
         int k;      
-        char c;
+        char c='\n';
         int len;
 
         
@@ -1495,13 +1494,17 @@ public class ParseSchem
         for(i=0; i<len;++i){
             c=s.charAt(i);
             if(c=='\n' || c=='\r'|| i==len-1) { //The string finished
-                if(i==len-1 && c!='\n'){
+                if(i==len-1 && c!='\n' && c!=' '){
                     token.append(c);
                 }
                 ++lineNum;
                 tokens[j]=token.toString();
                 if (token.length()==0)  // Avoids trailing spaces
                     j--;
+                
+             /*   System.out.println("Reading...");
+                for(int l=0; l<j+1; ++l)
+                    System.out.println("l="+l+"  "+tokens[l]);*/
                 try{
                 	if(hasFCJ && !tokens[0].equals("FCJ")) {
                 		if (old_tokens[0].equals("MC")) {
@@ -1746,6 +1749,8 @@ public class ParseSchem
             }
             
         }
+        
+        
         if(hasFCJ && !tokens[0].equals("FCJ")) {
         	if (old_tokens[0].equals("MC")) {
         		g=new PrimitiveMacro(library,layerV);

@@ -2,11 +2,11 @@
 \deactivateaddvspace 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1}{\ignorespaces R\'esum\'e des commandes de dessin disponibles avec FidoCadJ. La touche montr\'ee dans la colonne la plus \`a gauche permet de s\'electionner rapidement depuis le clavier l'op\'eration d\'esir\'ee. Un click avec la touche droite dans la modalit\'e d'insertion des \'el\'ements permet d'afficher la fen\^etre de modification des propri\'et\'es.}}{6}{table.2.1}
+\contentsline {table}{\numberline {1}{\ignorespaces R\'esum\'e des commandes de dessin disponibles avec FidoCadJ. La touche montr\'ee dans la colonne la plus \`a gauche permet de s\'electionner rapidement depuis le clavier l'op\'eration d\'esir\'ee. Un clic avec le bouton droit dans la modalit\'e d'insertion des \'el\'ements permet d'afficher la fen\^etre de modification des propri\'et\'es.}}{6}{table.2.1}
 \contentsline {table}{\numberline {2}{\ignorespaces Liste des formats d'exportation disponibles avec FidoCadJ.}}{20}{table.2.2}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3}{\ignorespaces Pr\'esence des fl\`eches aux extr\^emes d'un segment ou d'un trac\'e de B\'ezier, selon la valeur du code $a$.}}{23}{table.3.3}
-\contentsline {table}{\numberline {4}{\ignorespaces Style des fl\`eches, selon la valur du code $b$.}}{23}{table.3.4}
+\contentsline {table}{\numberline {3}{\ignorespaces Pr\'esence des fl\`eches aux extr\'emit\'es d'un segment ou d'un trac\'e de B\'ezier, selon la valeur du code $a$.}}{23}{table.3.3}
+\contentsline {table}{\numberline {4}{\ignorespaces Style des fl\`eches, selon la valeur du code $b$.}}{23}{table.3.4}
 \contentsline {table}{\numberline {5}{\ignorespaces Fonctions des bits dans le style du texte.}}{24}{table.3.5}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

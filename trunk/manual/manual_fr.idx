@@ -31,7 +31,7 @@
 \indexentry{Cocoa|hyperpage}{2}
 \indexentry{MacOSX|hyperpage}{2}
 \indexentry{Java|hyperpage}{2}
-\indexentry{programmation \`a objets|hyperpage}{2}
+\indexentry{programmation orient\'ee objets|hyperpage}{2}
 \indexentry{Java|hyperpage}{2}
 \indexentry{FidoReadJ|hyperpage}{2}
 \indexentry{dessin vectoriel|hyperpage}{4}
@@ -45,7 +45,7 @@
 \indexentry{macro|hyperpage}{4}
 \indexentry{FidoCad|hyperpage}{4}
 \indexentry{circuit imprim\'e!empreintes|hyperpage}{4}
-\indexentry{recherche dans les librairies|hyperpage}{4}
+\indexentry{recherche dans les biblioth\`eques|hyperpage}{4}
 \indexentry{s\'election|hyperpage}{4}
 \indexentry{MacOSX|hyperpage}{5}
 \indexentry{Macintosh|hyperpage}{5}
@@ -63,7 +63,7 @@
 \indexentry{piste c. i.|hyperpage}{6}
 \indexentry{pastille c. i.|hyperpage}{6}
 \indexentry{transistor|hyperpage}{7}
-\indexentry{librairie standard|hyperpage}{7}
+\indexentry{biblioth\`eque standard|hyperpage}{7}
 \indexentry{macro|hyperpage}{7}
 \indexentry{barre des outils|hyperpage}{9}
 \indexentry{r\'esistance|hyperpage}{9}
@@ -83,7 +83,7 @@
 \indexentry{couleur|hyperpage}{11}
 \indexentry{unit\'e logique|hyperpage}{12}
 \indexentry{grille|hyperpage}{12}
-\indexentry{transf\'erables R41|hyperpage}{12}
+\indexentry{transferts R41|hyperpage}{12}
 \indexentry{circuit imprim\'e|hyperpage}{12}
 \indexentry{placeur automatique|hyperpage}{12}
 \indexentry{routeur automatique|hyperpage}{12}
@@ -95,7 +95,7 @@
 \indexentry{polygone|hyperpage}{14}
 \indexentry{polygones|hyperpage}{14}
 \indexentry{piste c. i.|hyperpage}{14}
-\indexentry{transf\'erables Letraset|hyperpage}{14}
+\indexentry{transferts Letraset|hyperpage}{14}
 \indexentry{\'ecrire en miroir|hyperpage}{14}
 \indexentry{circuit imprim\'e|hyperpage}{15}
 \indexentry{tailles des caract\`eres|hyperpage}{15}
@@ -161,7 +161,7 @@
 \indexentry{polices|hyperpage}{20}
 \indexentry{MacOSX|hyperpage}{21}
 \indexentry{Motif|hyperpage}{21}
-\indexentry{librairie|hyperpage}{21}
+\indexentry{biblioth\`eque|hyperpage}{21}
 \indexentry{FidoCad|hyperpage}{22}
 \indexentry{FidoCad|hyperpage}{22}
 \indexentry{en-t\^ete|hyperpage}{22}
@@ -177,8 +177,8 @@
 \indexentry{ellipse|hyperpage}{22}
 \indexentry{B\'ezier|hyperpage}{22}
 \indexentry{connexion|hyperpage}{22}
-\indexentry{pastille pour c. i.|hyperpage}{22}
-\indexentry{piste per c. i.|hyperpage}{23}
+\indexentry{pastille de c. i.|hyperpage}{23}
+\indexentry{piste de c. i.|hyperpage}{23}
 \indexentry{macro|hyperpage}{23}
 \indexentry{\'el\'ement|hyperpage}{23}
 \indexentry{param\`etres|hyperpage}{23}
@@ -209,7 +209,7 @@
 \indexentry{\'etoile|hyperpage}{24}
 \indexentry{Courier~New|hyperpage}{24}
 \indexentry{+|hyperpage}{24}
-\indexentry{longueur maximale du texte|hyperpage}{25}
+\indexentry{longueur maximale du texte|hyperpage}{24}
 \indexentry{polygone|hyperpage}{25}
 \indexentry{PP|hyperpage}{25}
 \indexentry{PV|hyperpage}{25}
@@ -224,12 +224,12 @@
 \indexentry{B\'ezier|hyperpage}{25}
 \indexentry{BE|hyperpage}{25}
 \indexentry{B\'ezier|hyperpage}{25}
-\indexentry{BE|hyperpage}{26}
+\indexentry{BE|hyperpage}{25}
 \indexentry{connexion|hyperpage}{26}
 \indexentry{SA|hyperpage}{26}
-\indexentry{pastille pour c. i.|hyperpage}{26}
+\indexentry{pastille de c. i.|hyperpage}{26}
 \indexentry{PA|hyperpage}{26}
-\indexentry{piste pour c. i.|hyperpage}{26}
+\indexentry{piste de c. i.|hyperpage}{26}
 \indexentry{PL|hyperpage}{26}
 \indexentry{macro|hyperpage}{26}
 \indexentry{MC|hyperpage}{26}
@@ -242,16 +242,16 @@
 \indexentry{FidoCad|hyperpage}{27}
 \indexentry{tol\'erance aux fautes|hyperpage}{27}
 \indexentry{boule de cristal USB|hyperpage}{27}
-\indexentry{FidoCad|hyperpage}{28}
-\indexentry{couche|hyperpage}{28}
+\indexentry{FidoCad|hyperpage}{27}
+\indexentry{couche|hyperpage}{27}
 \indexentry{crochets|hyperpage}{28}
 \indexentry{FIDOLIB|hyperpage}{28}
 \indexentry{en t\^ete|hyperpage}{28}
-\indexentry{MC|hyperpage}{29}
-\indexentry{r\'ecursion|hyperpage}{29}
-\indexentry{FidoCad|hyperpage}{29}
-\indexentry{librairie standard|hyperpage}{29}
-\indexentry{librairie PCB|hyperpage}{29}
+\indexentry{MC|hyperpage}{28}
+\indexentry{r\'ecursion|hyperpage}{28}
+\indexentry{FidoCad|hyperpage}{28}
+\indexentry{biblioth\`eque standard|hyperpage}{28}
+\indexentry{biblioth\`eque PCB|hyperpage}{29}
 \indexentry{Quaqua|hyperpage}{31}
 \indexentry{FidoCadJ.app|hyperpage}{31}
 \indexentry{fidocadj.jar|hyperpage}{31}

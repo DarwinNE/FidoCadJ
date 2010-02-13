@@ -13,30 +13,30 @@
 \BOOKMARK [0][]{chapter.2}{2 Le dessin avec FidoCadJ}{}
 \BOOKMARK [1][-]{section.2.1}{2.1 Les instruments de dessin}{chapter.2}
 \BOOKMARK [1][-]{section.2.2}{2.2 Dessinons un simple sch\351ma \351lectrique}{chapter.2}
-\BOOKMARK [1][-]{section.2.3}{2.3 Les couches \(layer\)}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{2.3 Les couches \(layers\)}{chapter.2}
 \BOOKMARK [1][-]{section.2.4}{2.4 La grille}{chapter.2}
 \BOOKMARK [1][-]{section.2.5}{2.5 Dessiner un simple circuit imprim\351}{chapter.2}
-\BOOKMARK [1][-]{section.2.6}{2.6 Frecce e stili di tratto}{chapter.2}
+\BOOKMARK [1][-]{section.2.6}{2.6 Fl\350ches et styles de trait}{chapter.2}
 \BOOKMARK [1][-]{section.2.7}{2.7 Exportation}{chapter.2}
 \BOOKMARK [1][-]{section.2.8}{2.8 Options de la ligne de commande}{chapter.2}
-\BOOKMARK [1][-]{section.2.9}{2.9 Gestion des librairies}{chapter.2}
-\BOOKMARK [0][]{chapter.3}{3 Le format des dessins, des macros et des librairies FidoCad}{}
+\BOOKMARK [1][-]{section.2.9}{2.9 Gestion des biblioth\350ques}{chapter.2}
+\BOOKMARK [0][]{chapter.3}{3 Le format des dessins, des macros et des biblioth\350ques FidoCad}{}
 \BOOKMARK [1][-]{section.3.1}{3.1 Description de l'en-t\352te}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{3.2 Le syst\350me de coordonn\351es}{chapter.3}
 \BOOKMARK [1][-]{section.3.3}{3.3 \311l\351ments de dessin}{chapter.3}
 \BOOKMARK [1][-]{section.3.4}{3.4 Extensions de FidoCadJ}{chapter.3}
 \BOOKMARK [1][-]{section.3.5}{3.5 Tol\351rance aux erreurs de syntaxe}{chapter.3}
-\BOOKMARK [1][-]{section.3.6}{3.6 Le format des librairies}{chapter.3}
-\BOOKMARK [1][-]{section.3.7}{3.7 Librairies standard}{chapter.3}
+\BOOKMARK [1][-]{section.3.6}{3.6 Le format des biblioth\350ques}{chapter.3}
+\BOOKMARK [1][-]{section.3.7}{3.7 Biblioth\350ques standard}{chapter.3}
 \BOOKMARK [0][]{chapter.4}{4 Conclusion}{}
 \BOOKMARK [0][]{appendix.A}{A Extensions sp\351cifiques aux syst\350mes d'exploitation}{}
 \BOOKMARK [1][-]{section.A.1}{A.1 MacOSX}{appendix.A}
 \BOOKMARK [2][-]{subsection.A.1.1}{A.1.1 Extensions}{section.A.1}
 \BOOKMARK [2][-]{subsection.A.1.2}{A.1.2 Comment t\351l\351charger et ex\351cuter FidoCadJ sous MacOSX}{section.A.1}
 \BOOKMARK [1][-]{section.A.2}{A.2 Linux}{appendix.A}
-\BOOKMARK [2][-]{subsection.A.2.1}{A.2.1 Estensions}{section.A.2}
-\BOOKMARK [2][-]{subsection.A.2.2}{A.2.2 Comment t\351l\351charger et executer FidoCadJ sous un syst\350me Linux}{section.A.2}
-\BOOKMARK [2][-]{subsection.A.2.3}{A.2.3 Sur n'importe quel syst\350me, depuis l'invite des commandes}{section.A.2}
-\BOOKMARK [2][-]{subsection.A.2.4}{A.2.4 Sur un syst\350me graphique}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.1}{A.2.1 Extensions}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.2}{A.2.2 Comment t\351l\351charger et ex\351cuter FidoCadJ sous un syst\350me Linux}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.3}{A.2.3 Sous n'importe quel syst\350me, depuis l'invite de commande}{section.A.2}
+\BOOKMARK [2][-]{subsection.A.2.4}{A.2.4 Sous un syst\350me graphique}{section.A.2}
 \BOOKMARK [1][-]{section.A.3}{A.3 Windows}{appendix.A}
 \BOOKMARK [0][]{dummy.1}{Index}{}

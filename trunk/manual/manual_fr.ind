@@ -17,7 +17,10 @@
 		\hyperpage{25}
   \item barre des commandes, \hyperpage{4}
   \item barre des outils, \hyperpage{9}
-  \item BE, \hyperpage{25, 26}
+  \item BE, \hyperpage{25}
+  \item biblioth\`eque, \hyperpage{21}
+  \item biblioth\`eque PCB, \hyperpage{29}
+  \item biblioth\`eque standard, \hyperpage{7}, \hyperpage{28}
   \item bouge, \hyperpage{6}
   \item boule de cristal USB, \hyperpage{27}
 
@@ -34,7 +37,7 @@
   \item code, \hyperpage{11}
   \item compression avec pertes, \hyperpage{20}
   \item connexion, \hyperpage{6}, \hyperpage{22}, \hyperpage{26}
-  \item couche, \hyperpage{13}, \hyperpage{28}
+  \item couche, \hyperpage{13}, \hyperpage{27}
   \item couches, \hyperpage{11}
   \item couleur, \hyperpage{11}
   \item Courier, \hyperpage{19}
@@ -65,7 +68,7 @@
   \item FCJ, \hyperpage{27}
   \item FidoCad, \hyperpage{1, 2}, \hyperpage{4}, \hyperpage{9}, 
 		\hyperpage{18}, \hyperpage{22}, \hyperpage{24}, 
-		\hyperpage{27--29}
+		\hyperpage{27, 28}
   \item FidoCadJ, \hyperpage{9}
   \item FidoCadJ.app, \hyperpage{31}
   \item fidocadj.jar, \hyperpage{31}
@@ -106,13 +109,10 @@
 
   \item \LaTeX, \hyperpage{20}
   \item LI, \hyperpage{23}
-  \item librairie, \hyperpage{21}
-  \item librairie PCB, \hyperpage{29}
-  \item librairie standard, \hyperpage{7}, \hyperpage{29}
   \item ligne, \hyperpage{6}, \hyperpage{22, 23}
   \item ligne de commande, \hyperpage{19}
   \item Linux, \hyperpage{1}, \hyperpage{19}, \hyperpage{32}
-  \item longueur maximale du texte, \hyperpage{25}
+  \item longueur maximale du texte, \hyperpage{24}
   \item look \& feel, \hyperpage{19}
   \item Lorenzo Lutti, \hyperpage{1}, \hyperpage{24}
 
@@ -123,7 +123,7 @@
 		\hyperpage{31}
   \item macro, \hyperpage{1}, \hyperpage{4}, \hyperpage{7}, 
 		\hyperpage{23}, \hyperpage{26}
-  \item MC, \hyperpage{26, 27}, \hyperpage{29}
+  \item MC, \hyperpage{26--28}
   \item Metal, \hyperpage{4, 5}
   \item Motif, \hyperpage{21}
   \item MS-DOS prompt, \hyperpage{19}
@@ -144,14 +144,13 @@
   \item Panther, \hyperpage{31}
   \item param\`etres, \hyperpage{23}
   \item pastille c. i., \hyperpage{6}
-  \item pastille pour c. i., \hyperpage{22}, \hyperpage{26}
+  \item pastille de c. i., \hyperpage{23}, \hyperpage{26}
   \item PDF, \hyperpage{1}, \hyperpage{20}
   \item \textsc{pdf}\LaTeX, \hyperpage{20}
   \item PGF, \hyperpage{20}
   \item photo incision, \hyperpage{15}
   \item piste c. i., \hyperpage{6}, \hyperpage{14}
-  \item piste per c. i., \hyperpage{23}
-  \item piste pour c. i., \hyperpage{26}
+  \item piste de c. i., \hyperpage{23}, \hyperpage{26}
   \item PL, \hyperpage{26}
   \item placeur automatique, \hyperpage{12}
   \item PNG, \hyperpage{20}
@@ -161,7 +160,7 @@
   \item polygones, \hyperpage{14}
   \item Postscript, \hyperpage{20}
   \item PP, \hyperpage{25}
-  \item programmation \`a objets, \hyperpage{2}
+  \item programmation orient\'ee objets, \hyperpage{2}
   \item PV, \hyperpage{25}
 
   \indexspace
@@ -170,9 +169,9 @@
 
   \indexspace
 
-  \item r\'ecursion, \hyperpage{29}
+  \item r\'ecursion, \hyperpage{28}
   \item r\'esistance, \hyperpage{9}
-  \item recherche dans les librairies, \hyperpage{4}
+  \item recherche dans les biblioth\`eques, \hyperpage{4}
   \item rectangle, \hyperpage{6}, \hyperpage{13}, \hyperpage{22, 23}
   \item routeur automatique, \hyperpage{12}
   \item RP, \hyperpage{23, 24}
@@ -215,9 +214,9 @@
   \item tol\'erance aux fautes, \hyperpage{27}
   \item trait, \hyperpage{17}
   \item trait interrompu, \hyperpage{17}
-  \item transf\'erables Letraset, \hyperpage{14}
-  \item transf\'erables R41, \hyperpage{12}
   \item transfert direct du toner, \hyperpage{15}
+  \item transferts Letraset, \hyperpage{14}
+  \item transferts R41, \hyperpage{12}
   \item transistor, \hyperpage{7}
   \item TY, \hyperpage{24}
 

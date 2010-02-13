@@ -166,6 +166,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         ypoly = new int[NPOLY];
         
         
+        
         if (isEditable) {
             addMouseListener(this);
         
@@ -605,7 +606,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
                 
            
-            repaint();
+           // repaint();
             break;
         
         case ZOOM:      //////// TO IMPROVE: should center the viewport
@@ -722,7 +723,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         		clickNumber == 0) {
         		selectAndSetProperties(x,y);
 				break;
-        	}
+        	} else if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
+                clickNumber = 0;
+                repaint();
+                break;
+            }
             ++ clickNumber;
             if(clickNumber<=2) successiveMove=false;
                     
@@ -1074,7 +1079,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                cs.mapY(xpoly[1],ypoly[1]),
                x,y);
     
-                 
             g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1]))-wi_pix,
                Math.min(y,cs.mapY(xpoly[1],ypoly[1]))-wi_pix,
                Math.abs(x-cs.mapX(xpoly[1],ypoly[1]))+wi_pix,
@@ -1216,7 +1220,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ellipse(g,cs.mapX(xpoly[1],ypoly[1]),
                  cs.mapY(xpoly[1],ypoly[1]),
                   x, y);
-        	g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
+            g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
                Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
                Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
                Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));
@@ -1337,7 +1341,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         z=Math.round(z*100.0)/100.0;
         P.getMapCoordinates().setMagnitudes(z,z);
       	successiveMove=false;
-
+      	
+		//revalidate();
         repaint();
     }
     
@@ -1391,7 +1396,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     /** Repaint the panel */
     public void paintComponent(Graphics g) 
     {
-
+		//super.paintComponent(g);
         MyTimer mt;
         mt = new MyTimer();
         
@@ -1401,7 +1406,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (antiAlias) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
              RenderingHints.VALUE_ANTIALIAS_ON);
         else {
-          // Faster graphic 
+          // Faster graphic (??? true???)
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
             g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
@@ -1414,10 +1419,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
      
         Rectangle r = g.getClipBounds();
         //oldEvidenceRect=null;
-        if(oldEvidenceRect!=null) {
-        // this gives problems under Windows!
-/*			g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1,	
-        		oldEvidenceRect.height+1);*/
+        if(oldEvidenceRect!=null && Globals.weAreOnAMac) {
+        // this gives problems under Windows
+        // but it can be WAY faster under MacOSX!
+			g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1,	
+        		oldEvidenceRect.height+1);
 		} 
 
         // Draw all the primitives
@@ -1467,9 +1473,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
                 +MARGIN,
                 P.getMapCoordinates().getYMax()+MARGIN));
+                
             revalidate();
         }
-
     
     }
  
@@ -1581,7 +1587,5 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 		return extStrict;
 	}
 
-    
-
- 
 }
+

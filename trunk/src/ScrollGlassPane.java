@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
+import globals.*;
+
 
 
 
@@ -99,6 +101,13 @@ public class ScrollGlassPane extends JPanel implements ActionListener, MouseInpu
 			
 			gfx.setColor(Color.gray);
 			gfx.drawOval(x+2, y+2, getIconWidth()-5, getIconHeight()-5);
+			
+			// It seems that on some systems other than on MacOSX, the 
+			// background of the icon is always painted in black.
+			if (!Globals.weAreOnAMac) {
+				gfx.setColor(Color.white);
+				gfx.fillRect(x, y, getIconWidth(), getIconHeight());
+			}
 			
 			gfx.setColor(Color.black);
 			gfx.fillOval(x+((getIconWidth()-1)/2)-3, y+((getIconHeight()-1)/2)-3, 6, 6);
