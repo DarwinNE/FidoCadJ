@@ -6,14 +6,14 @@
 \contentsline {chapter}{\numberline {2}\spacedlowsmallcaps {Le dessin avec FidoCadJ}}{4}{chapter.2}
 \contentsline {section}{\numberline {2.1}Les instruments de dessin}{4}{section.2.1}
 \contentsline {section}{\numberline {2.2}Dessinons un simple sch\'ema \'electrique}{7}{section.2.2}
-\contentsline {section}{\numberline {2.3}Les couches (layer)}{11}{section.2.3}
+\contentsline {section}{\numberline {2.3}Les couches (layers)}{11}{section.2.3}
 \contentsline {section}{\numberline {2.4}La grille}{12}{section.2.4}
 \contentsline {section}{\numberline {2.5}Dessiner un simple circuit imprim\'e}{12}{section.2.5}
-\contentsline {section}{\numberline {2.6}Frecce e stili di tratto}{17}{section.2.6}
+\contentsline {section}{\numberline {2.6}Fl\`eches et styles de trait}{17}{section.2.6}
 \contentsline {section}{\numberline {2.7}Exportation}{18}{section.2.7}
 \contentsline {section}{\numberline {2.8}Options de la ligne de commande}{19}{section.2.8}
-\contentsline {section}{\numberline {2.9}Gestion des librairies}{21}{section.2.9}
-\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Le format des dessins, des macros et des librairies FidoCad}}{22}{chapter.3}
+\contentsline {section}{\numberline {2.9}Gestion des biblioth\`eques}{21}{section.2.9}
+\contentsline {chapter}{\numberline {3}\spacedlowsmallcaps {Le format des dessins, des macros et des biblioth\`eques FidoCad}}{22}{chapter.3}
 \contentsline {section}{\numberline {3.1}Description de l'en-t\^ete}{22}{section.3.1}
 \contentsline {section}{\numberline {3.2}Le syst\`eme de coordonn\'ees}{22}{section.3.2}
 \contentsline {section}{\numberline {3.3}\'El\'ements de dessin}{22}{section.3.3}
@@ -25,22 +25,22 @@
 \contentsline {subsubsection}{Ellipse pleine ou vide}{25}{lstnumber.-14.1}
 \contentsline {subsubsection}{Courbe de B\'ezier}{25}{lstnumber.-16.1}
 \contentsline {subsubsection}{Connexion \'electrique}{26}{lstnumber.-18.1}
-\contentsline {subsubsection}{Pastille pour circuit imprim\'e}{26}{lstnumber.-19.1}
-\contentsline {subsubsection}{Piste pour circuit imprim\'e}{26}{lstnumber.-20.1}
+\contentsline {subsubsection}{Pastille de circuit imprim\'e}{26}{lstnumber.-19.1}
+\contentsline {subsubsection}{Piste de circuit imprim\'e}{26}{lstnumber.-20.1}
 \contentsline {subsubsection}{Macro}{26}{lstnumber.-21.1}
 \contentsline {section}{\numberline {3.4}Extensions de FidoCadJ}{27}{section.3.4}
 \contentsline {section}{\numberline {3.5}Tol\'erance aux erreurs de syntaxe}{27}{section.3.5}
-\contentsline {section}{\numberline {3.6}Le format des librairies}{28}{section.3.6}
-\contentsline {section}{\numberline {3.7}Librairies standard}{29}{section.3.7}
+\contentsline {section}{\numberline {3.6}Le format des biblioth\`eques}{28}{section.3.6}
+\contentsline {section}{\numberline {3.7}Biblioth\`eques standard}{28}{section.3.7}
 \contentsline {chapter}{\numberline {4}\spacedlowsmallcaps {Conclusion}}{30}{chapter.4}
 \contentsline {chapter}{\numberline {A}\spacedlowsmallcaps {Extensions sp\'ecifiques aux syst\`emes d'exploitation}}{31}{appendix.A}
 \contentsline {section}{\numberline {A.1}MacOSX}{31}{section.A.1}
 \contentsline {subsection}{\numberline {A.1.1}Extensions}{31}{subsection.A.1.1}
 \contentsline {subsection}{\numberline {A.1.2}Comment t\'el\'echarger et ex\'ecuter FidoCadJ sous MacOSX}{31}{subsection.A.1.2}
 \contentsline {section}{\numberline {A.2}Linux}{32}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Estensions}{32}{subsection.A.2.1}
-\contentsline {subsection}{\numberline {A.2.2}Comment t\'el\'echarger et executer FidoCadJ sous un syst\`eme Linux}{32}{subsection.A.2.2}
-\contentsline {subsection}{\numberline {A.2.3}Sur n'importe quel syst\`eme, depuis l'invite des commandes}{32}{subsection.A.2.3}
-\contentsline {subsection}{\numberline {A.2.4}Sur un syst\`eme graphique}{33}{subsection.A.2.4}
+\contentsline {subsection}{\numberline {A.2.1}Extensions}{32}{subsection.A.2.1}
+\contentsline {subsection}{\numberline {A.2.2}Comment t\'el\'echarger et ex\'ecuter FidoCadJ sous un syst\`eme Linux}{32}{subsection.A.2.2}
+\contentsline {subsection}{\numberline {A.2.3}Sous n'importe quel syst\`eme, depuis l'invite de commande}{32}{subsection.A.2.3}
+\contentsline {subsection}{\numberline {A.2.4}Sous un syst\`eme graphique}{33}{subsection.A.2.4}
 \contentsline {section}{\numberline {A.3}Windows}{34}{section.A.3}
 \contentsline {chapter}{\spacedlowsmallcaps {Index}}{34}{dummy.1}

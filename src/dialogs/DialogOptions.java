@@ -468,7 +468,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridy=1;
 		constraints.gridwidth=2;
 		constraints.gridheight=1;
-		//drawingOptPanel.add(profile_CB, constraints);		// Add profile cb		
+		if(Globals.isBeta)
+			drawingOptPanel.add(profile_CB, constraints);	// Add profiler cb		
 		
 		JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
 		constraints.weightx=100;

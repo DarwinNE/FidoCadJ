@@ -80,8 +80,15 @@ public class PrimitiveConnection extends GraphicPrimitive
 		int x1=virtualPoint[0].x;
  		int y1=virtualPoint[0].y;
  		
+ 		
  		int nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 			coordSys.mapX(1,1))*NODE_SIZE);
+ 			coordSys.mapX(10,10))*NODE_SIZE/10.0);
+ 		
+ 		// a little boost for small zooms :-)
+ 		if (nn<2) {
+ 			nn=(int)(Math.abs(coordSys.mapX(0,0)-
+ 			coordSys.mapX(20,20))*NODE_SIZE/12);
+ 		}
  		
  		if(!g.hitClip(coordSys.mapX(x1,y1) - nn/2, 
  				   coordSys.mapY(x1,y1) - nn/2,

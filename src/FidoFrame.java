@@ -45,8 +45,6 @@ TODO
 ----------------------------------
     - horizontal scroll of the circuit                  (i, ***)    a Java bug?
     - implement the layer dialog as a non-modal frame   (i, ***)    bof...
-    - choose resolution in the print dialog             (d, **)		useful?
-    - problems in image export size						(i, **) 	DONE?
     
 
     
@@ -386,6 +384,17 @@ public class FidoFrame extends JFrame implements
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
 
+        RulerPanel vertRuler = new RulerPanel(
+        	SwingConstants.VERTICAL, 20, 20, 5,
+        	CC.P.getMapCoordinates());
+        
+        RulerPanel horRuler = new RulerPanel(
+        	SwingConstants.HORIZONTAL, 20, 20, 5,
+        	CC.P.getMapCoordinates());
+        	
+        //SC.setRowHeaderView(vertRuler);
+        //SC.setColumnHeaderView(horRuler);
+        
 		
 		sgr = new ScrollGestureRecognizer();
 		CC.addScrollGestureSelectionListener(sgr);
@@ -1579,4 +1588,81 @@ public class FidoFrame extends JFrame implements
 	{
 	
 	}
+}
+
+class RulerPanel extends JPanel implements SwingConstants
+{
+	private int dir;
+	private int increment;
+	private MapCoordinates sc;
+	
+	public RulerPanel(int direction, int width, int height, int incr,
+		MapCoordinates m)
+	{
+		increment=incr;
+		sc = m;
+		dir = direction;
+		setPreferredSize(new Dimension(width, height));
+	}
+
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		
+		//g.setClip(null);
+		Rectangle d = g.getClipBounds();
+		//Dimension d = getPreferredSize();
+		g.setColor(Color.white);
+        g.fillRect(d.x, d.y, d.width, d.height);
+		
+
+		g.setColor(Color.black);
+
+		if (dir==HORIZONTAL) {
+			int x=0;
+			
+			//System.out.println("Horz "+sc.unmapXnosnap(sc.getXMax()));
+
+			for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=increment) {
+					
+				g.drawLine(sc.mapXi(x,0,false), 
+							sc.mapYi(x,0,false),
+							sc.mapXi(x,0,false),
+							sc.mapYi(x,0,false)+ d.height*4/10);
+				
+			}
+			
+			for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=5*increment) {
+					
+				g.drawLine(sc.mapXi(x,0,false), 
+							sc.mapYi(x,0,false),
+							sc.mapXi(x,0,false),
+							sc.mapYi(x,0,false)+ d.height*6/10);
+				
+			}
+			for (x=0; x<sc.getXMax();x+=10*increment) {
+				g.drawString(""+x,sc.mapXi(x,0,false), d.height); 
+
+				g.drawLine(sc.mapXi(x,0,false), 
+							sc.mapYi(x,0,false),
+							sc.mapXi(x,0,false),
+							sc.mapYi(x,0,false)+ d.height);
+				
+			}
+			
+		} else {
+			int y=0;
+			int inc=(sc.mapYi(increment, increment, false)-sc.mapYi(0, 0, false));
+			for (y=0; y<d.height;y+=inc) {
+				g.drawLine(0, y, d.width*4/10, y);
+			}
+		
+			for (y=0; y<d.height;y+=5*inc) {
+				g.drawLine(0, y, d.width*8/10, y);
+			}
+		}
+		
+	}
+	
+
 }
