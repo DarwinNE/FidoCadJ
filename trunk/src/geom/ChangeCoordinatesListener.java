@@ -27,4 +27,6 @@ package geom;
 
 public interface ChangeCoordinatesListener {
 	public void changeCoordinates(int x, int y);
+    public void changeInfos(String s);
+
 }

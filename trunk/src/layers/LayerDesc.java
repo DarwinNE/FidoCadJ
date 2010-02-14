@@ -77,7 +77,7 @@ public class LayerDesc
   		
   		@return the color to be used
   	*/
-  	public Color getColor()
+  	final public Color getColor()
   	{
   		return layerColor;
   	}
@@ -87,7 +87,7 @@ public class LayerDesc
   		
   		@return a boolean value indicating if the layer should be drawn
   	*/
-  	public boolean getVisible()
+  	final public boolean getVisible()
   	{
   		return isVisible;
   	}
@@ -107,7 +107,7 @@ public class LayerDesc
   		
   		@param s the layer description
   	*/
-  	public void setDescription(String s)
+  	final public void setDescription(String s)
   	{
   		LayerDescription=s;
   	}
@@ -116,7 +116,7 @@ public class LayerDesc
   		
   		@param s the layer visibility.
   	*/
-  	public void setVisible(boolean v)
+  	final public void setVisible(boolean v)
   	{
   		isVisible=v;
   	}
@@ -125,7 +125,7 @@ public class LayerDesc
   		
   		@param s the layer color
   	*/
-  	public void setColor(Color c)
+  	final public void setColor(Color c)
   	{
   		layerColor=c;
   	}

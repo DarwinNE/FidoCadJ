@@ -41,6 +41,8 @@ public class PrimitiveBezier extends GraphicPrimitive
 	{
 		super();
 		
+		r = new Rectangle();
+		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
@@ -198,12 +200,18 @@ public class PrimitiveBezier extends GraphicPrimitive
 		if(dashStyle<0)
 			dashStyle=0;
 	}
+	
+	private Shape shape1;
+	private Stroke oldStroke;
+	private float w;
+	private Rectangle r;
+		
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -215,7 +223,7 @@ public class PrimitiveBezier extends GraphicPrimitive
  		
  		
  			
- 		Shape shape1 = new CubicCurve2D.Float(
+ 		shape1 = new CubicCurve2D.Float(
  			coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
 			coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
 			coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
@@ -225,20 +233,22 @@ public class PrimitiveBezier extends GraphicPrimitive
 			coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
 			coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 			
-		Stroke oldStroke;
-		
- 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+	/* booh? it slows down the execution!
+		r=g.getClipBounds(r);
+		if(!shape1.intersects(r.x, r.y, r.width, r.height))
+			return;
+	*/	
+ 		
+ 		w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  		if (w<D_MIN) w=D_MIN;
 
-				
-		BasicStroke dashed = new BasicStroke(w, 
-                                         BasicStroke.CAP_BUTT, 
-                                         BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f);
-                                         
+	                                
 		oldStroke=g.getStroke();
 		if (dashStyle>0) 
-			g.setStroke(dashed);
+			g.setStroke(new BasicStroke(w, 
+                            	BasicStroke.CAP_BUTT, 
+                                BasicStroke.JOIN_MITER, 
+                                10.0f, Globals.dash[dashStyle], 0.0f));
 		else 
 			g.setStroke(new BasicStroke(w));
 			
@@ -247,7 +257,7 @@ public class PrimitiveBezier extends GraphicPrimitive
  		
  		
  		
-		if (arrowStart | arrowEnd) {
+		if (arrowStart || arrowEnd) {
 			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
  				coordSys.mapXi(0,0, false);
 			int l=coordSys.mapXi(arrowLength,arrowLength,false)-

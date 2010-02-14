@@ -56,6 +56,8 @@ public abstract class GraphicPrimitive
 	// Minimum width size of a line in pixel
 	protected static final float D_MIN = 0.5f; 
 	
+	protected boolean changed;
+	
 	// The layer
 	private int layer;
 	
@@ -70,7 +72,15 @@ public abstract class GraphicPrimitive
 	{
 		selectedState=false;
 		layer=0;
+        changed=true;
+
 	}
+	
+    public final void setChanged(boolean c)
+    {
+    	changed=c;
+    }
+
 	
 	/** Get the first control point of the primitive
 	
@@ -95,6 +105,7 @@ public abstract class GraphicPrimitive
 			virtualPoint[a].x+=dx;	
 			virtualPoint[a].y+=dy;	
 		}
+		changed=true;	
 	}
 	
 	/** Mirror the primitive. Adapted from Lorenzo Lutti's original code.
@@ -112,6 +123,7 @@ public abstract class GraphicPrimitive
 			xtmp = virtualPoint[a].x;			
 			virtualPoint[a].x = 2*xPos - xtmp;
 		}
+		changed=true;	
 	}
 	
 	/** Rotate the primitive. Adapted from Lorenzo Lutti's original code.
@@ -144,19 +156,22 @@ public abstract class GraphicPrimitive
 				virtualPoint[b].y = pt.y - (ptTmp.x-pt.x);
 			}
 		}
+		
+		changed=true;	
 	}
 	
 	
 	/** Set the primitive as selected. 
 		@param s the new state*/
-	public void setSelected(boolean s)
+	final public void setSelected(boolean s)
 	{
 		selectedState=s;
+		//changed=true;	
 	};
 	
 	/** Get the selection state of the primitive.
 		@return true if the primitive is selected, false otherwise. */
-	public boolean getSelected()
+	final public boolean getSelected()
 	{
 		return selectedState;
 	}
@@ -184,22 +199,25 @@ public abstract class GraphicPrimitive
 			layer=0;
 		else
 			layer=l;
+		changed=true;	
 	}
  	
 	/** Set the layer of the current primitive. A quick check is done.
 		@param l the desired layer. 
 	*/
-	public void setLayer(int l)
+	final public void setLayer(int l)
 	{
 		if (l<0 || l>=MAX_LAYERS)
 			layer=0;
 		else
 			layer=l;
+		//changed=true;	
 	}
 	
+	private LayerDesc l;
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
-		select the corrisponding color.
+		select the corrisponding color. This is a speed sensitive context.
 		
 		@param g the graphic context used for the drawing.
 		@param layerV a LayerDesc vector with the descriptions of the layers
@@ -208,16 +226,17 @@ public abstract class GraphicPrimitive
 	*/
 	protected final boolean selectLayer(Graphics2D g, Vector layerV)
 	{
-		if (layer<0 || layer>=layerV.size())
-			layer=0;
+	//	if (layer<0 || layer>=layerV.size())
+	//		layer=0;
 	
-		if (((LayerDesc)layerV.get(layer)).getVisible()==false)
+		l= (LayerDesc)layerV.get(layer);
+		if (l.getVisible()==false)
 			return false;
 			
 		if(selectedState)
 			g.setColor(Color.green);
 		else
-			g.setColor(((LayerDesc)layerV.get(layer)).getColor());
+			g.setColor(l.getColor());
 			
 		return true;
 	}
@@ -358,7 +377,7 @@ public abstract class GraphicPrimitive
 	{
 		int i;
 		ParameterDescription pd;
-		
+		changed=true;	
 		for (i=0;i<getControlPointNumber();++i) {
 			pd = (ParameterDescription)v.get(i);
 			

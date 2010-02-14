@@ -68,12 +68,18 @@ public class PrimitiveOval extends GraphicPrimitive
 		setLayer(layer);
 		
 	}
+	
+	private int xa, ya, xb, yb;
+	private int x1, x2, y1, y2;
+	private Stroke stroke;
+	private float w;
+
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -82,46 +88,53 @@ public class PrimitiveOval extends GraphicPrimitive
 		/* in the oval primitive, the first two virtual points represent
 		   the two corners of the segment */
  		
- 		int xa=Math.min(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y));
- 		int ya=Math.min(coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y));
- 		int xb=Math.max(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y));
- 		int yb=Math.max(coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
- 		             coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y));
- 		
- 		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
- 				return;
- 			
- 		Stroke oldStroke;
-			
- 		float w = (float)(Globals.lineWidthCircles*coordSys.getXMagnitude());
- 		if (w<D_MIN) w=D_MIN;
+ 		if(changed || stroke==null) {
+ 			changed=false;
+			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
+ 			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
+ 			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
+ 			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 
-				
-		BasicStroke dashed = new BasicStroke(w, 
+
+ 			if (x1>x2) {
+ 				xa=x2;
+ 				xb=x1;
+ 			} else {
+ 				xa=x1;
+ 				xb=x2;
+ 			}
+ 			if (y1>y2) {
+ 				ya=y2;
+ 				yb=y1;
+ 			} else {
+ 				ya=y1;
+ 				yb=y2;
+ 			}
+ 			coordSys.trackPoint(xa,ya);
+ 			coordSys.trackPoint(xb,yb);			
+ 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+			if (w<D_MIN) w=D_MIN;
+
+			if (dashStyle>0) 
+				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
-                                         
-		oldStroke=g.getStroke();                                 
-		if (dashStyle>0) 
-			g.setStroke(dashed);
-		else 
-			g.setStroke(new BasicStroke(w));		
-  		
-        
+			else 
+				stroke=new BasicStroke(w);		
+		}
+		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
+ 				return;
+		g.setStroke(stroke);		
+ 
  		if (isFilled)
  			g.fillOval(xa,ya,(xb-xa),(yb-ya));
  		else {
 			if(xb!=xa || yb!=ya)
 	 			g.drawOval(xa,ya,(xb-xa),(yb-ya));
  		}
-	    g.setStroke(oldStroke);
- 		
- 		coordSys.trackPoint(xa,ya);
- 		coordSys.trackPoint(xb,yb);
+		
+
  		return;
  	}
 	

@@ -329,7 +329,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
     			at.scale(-1,xyfactor);
     			g.setTransform(at);
 				
-				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h) && !txt.equals("")){
+				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h) && txt.length()!=0){
 					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
 					
 				}

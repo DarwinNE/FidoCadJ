@@ -115,37 +115,37 @@ public class PrimitivePolygon extends GraphicPrimitive
  
 	}
 	
+	private Stroke stroke;
+	private float w;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
 			return;
-    
-    	createPolygon(coordSys);
+    	
+    	if(changed || stroke==null) {
+    		changed=false;
+    		createPolygon(coordSys);
    
- 
-        Stroke oldStroke;
-		
- 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
- 		if (w<D_MIN) w=D_MIN;
+ 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 			if (w<D_MIN) w=D_MIN;
 
-				
-		BasicStroke dashed = new BasicStroke(w, 
+			if (dashStyle>0) 
+				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
-                                         
-		oldStroke=g.getStroke();
-		if (dashStyle>0) 
-			g.setStroke(dashed);
-		else 
-			g.setStroke(new BasicStroke(w));		
+			else 
+				stroke=new BasicStroke(w);
+		}
+		
+		g.setStroke(stroke);
         if (isFilled) {
         	g.drawPolygon(p);
  			g.fillPolygon(p);	
@@ -153,7 +153,7 @@ public class PrimitivePolygon extends GraphicPrimitive
  			g.drawPolygon(p);
 		}
 		
-	    g.setStroke(oldStroke);
+	    //g.setStroke(oldStroke);
 
  		
 	}

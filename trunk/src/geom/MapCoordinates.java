@@ -89,6 +89,7 @@ public class MapCoordinates
     private int xGridStep;
     private int yGridStep;
     
+    
     /** Standard constructor */
     public MapCoordinates()
     {   
@@ -110,6 +111,7 @@ public class MapCoordinates
     {
     	snapActive=s;
     }
+    
     
     /** Get the snapping state (used in the unmapping functions)
     	@return the current snapping state.
@@ -211,7 +213,7 @@ public class MapCoordinates
     */
     public final int getXCenter()
     {
-        return xCenter;
+        return (int)xCenter;
     }
     
     
@@ -221,7 +223,7 @@ public class MapCoordinates
     */
     public final int getYCenter()
     {
-        return yCenter;
+        return (int)yCenter;
     }
     
     
@@ -242,6 +244,15 @@ public class MapCoordinates
     public final void setYCenter(int ym)
     {
         yCenter=ym;
+    }
+    
+    /**	Get the orientation
+    	@return ym the Y magnification factor
+    
+    */
+    public final int getOrientation()
+    {
+        return orientation;
     }
     
     /**	Set both X and Y magnification factors
@@ -305,61 +316,64 @@ public class MapCoordinates
     public final int mapX(int xc,int yc)
     {
     	return mapXi(xc, yc, true);
-    
+ 
     }
     public final int mapXi(int xc,int yc, boolean track)
     {
-        
+        // The orientation data is not used outside a macro
         if(isMacro){
             xc-=100;
             yc-=100;
-        }
+               
+        	if(mirror) {
+            	switch(orientation){
+                	case 0:
+                	    vx=-xc*xMagnitude;
+             	       	break;
+                	case 1:
+                    	vx=yc*yMagnitude;
+                    	break;
+                
+                	case 2:
+                    	vx=xc*xMagnitude;
+                    	break;
+                
+                	case 3:
+                    	vx=-yc*yMagnitude;
+                    	break;
+    
+                	default:
+                	    vx=-xc*xMagnitude;
+             	       	break;
+            	}
+        	} else {
+            	switch(orientation){
+            	    case 0:
+            	        vx=xc*xMagnitude;
+                	    break;
+                	case 1:
+                	    vx=-yc*yMagnitude;
+               		    break;
+                
+                	case 2:
+                	    vx=-xc*xMagnitude;
+                	    break;
+                
+            	    case 3:
+            	        vx=yc*yMagnitude;
+            	        break;
+    
+            	    default:
+            	        vx=xc*xMagnitude;
+                	    break;
+    
+            	}
+        	}   
         
-        if(mirror) {
-            switch(orientation){
-                case 1:
-                    vx=yc*yMagnitude+xCenter;
-                    break;
-                
-                case 2:
-                    vx=xc*xMagnitude+xCenter;
-                    break;
-                
-                case 3:
-                    vx=-yc*yMagnitude+xCenter;
-                    break;
-    
-                case 0:
-                    vx=-xc*xMagnitude+xCenter;
-                    break;
-    
-                default:
-                    vx=0;
-            }
         } else {
-            switch(orientation){
-                case 1:
-                    vx=-yc*yMagnitude+xCenter;
-                    break;
-                
-                case 2:
-                    vx=-xc*xMagnitude+xCenter;
-                    break;
-                
-                case 3:
-                    vx=yc*yMagnitude+xCenter;
-                    break;
-    
-                case 0:
-                    vx=xc*xMagnitude+xCenter;
-                    break;
-    
-                default:
-                    vx= 0;
-            }
-        }   
-        
-        ivx=(int)(vx+.5);   /* The integer cast cuts decimals to the lowest 
+        	vx=xc*xMagnitude;
+        }
+        ivx=(int)(vx+.5)+xCenter;   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivx<xMin)
@@ -378,7 +392,8 @@ public class MapCoordinates
     */
     public final int mapY(int xc,int yc)
     {
-    	return mapYi(xc, yc,true);
+		return mapYi(xc, yc, true);        
+
     }
     public final int mapYi(int xc,int yc, boolean track)
     {
@@ -386,28 +401,33 @@ public class MapCoordinates
         if(isMacro){
             xc-=100;
             yc-=100;
+        	      
+        	switch(orientation){
+        	
+            	case 0:
+                	vy=yc*yMagnitude;
+        			break;
+        			
+            	case 1:
+                	vy=xc*xMagnitude;
+                	break;
+            
+            	case 2:
+                	vy=-yc*yMagnitude;
+                	break;
+            
+            	case 3:
+                	vy=-xc*xMagnitude;
+                	break;
+                default:
+                	vy=0;
+                	
+        	}
+        } else {
+        	vy=yc*yMagnitude;
         }
         
-        
-        switch(orientation){
-            case 1:
-                vy=xc*xMagnitude+yCenter;
-                break;
-            
-            case 2:
-                vy=-yc*yMagnitude+yCenter;
-                break;
-            
-            case 3:
-                vy=-xc*xMagnitude+yCenter;
-                break;
-                        
-            default:
-                vy=yc*yMagnitude+yCenter;
-        
-        }
-        
-        ivy=(int)(vy+.5);   /* The integer cast cuts decimals to the lowest 
+        ivy=(int)(vy+.5)+yCenter;   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivy<yMin)

@@ -62,12 +62,13 @@ public class PrimitiveConnection extends GraphicPrimitive
 		
 	}
 	
+	private int x1, y1, nn;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -77,11 +78,11 @@ public class PrimitiveConnection extends GraphicPrimitive
 		
 		/* in the PCB pad primitive, the the virtual points represent
 		   the position of the pad to be drawn. */
-		int x1=virtualPoint[0].x;
- 		int y1=virtualPoint[0].y;
+		x1=virtualPoint[0].x;
+ 		y1=virtualPoint[0].y;
  		
  		
- 		int nn=(int)(Math.abs(coordSys.mapX(0,0)-
+ 		nn=(int)(Math.abs(coordSys.mapX(0,0)-
  			coordSys.mapX(10,10))*NODE_SIZE/10.0);
  		
  		// a little boost for small zooms :-)

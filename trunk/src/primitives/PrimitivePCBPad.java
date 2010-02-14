@@ -83,32 +83,47 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		
 	}
 
+	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
+	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
 			return;
-		/* in the PCB pad primitive, the the virtual points represent
-		   the position of the pad to be drawn. */
-		int x1=virtualPoint[0].x;
- 		int y1=virtualPoint[0].y;
- 		
- 		int rrx=Math.abs(coordSys.mapXi(x1,y1, false)-coordSys.mapXi(x1+rx,y1+ry, false));
- 		int rry=Math.abs(coordSys.mapYi(x1,y1, false)-coordSys.mapYi(x1+rx,y1+ry, false));
- 			
- 		
- 		int xa=coordSys.mapX(x1,y1);
- 		int ya=coordSys.mapY(x1,y1);
- 			
- 		coordSys.trackPoint(x1-rrx,y1-rry);
- 		coordSys.trackPoint(x1+rrx,y1+rry);
 
+		if(changed) {
+			changed=false;
+		
+			/* in the PCB pad primitive, the the virtual points represent
+		   the position of the pad to be drawn. */
+			x1=virtualPoint[0].x;
+ 			y1=virtualPoint[0].y;
+ 		
+ 			rrx=Math.abs(coordSys.mapXi(x1,y1, false)-coordSys.mapXi(x1+rx,y1+ry, false));
+ 			rry=Math.abs(coordSys.mapYi(x1,y1, false)-coordSys.mapYi(x1+rx,y1+ry, false));
+ 			
+ 		
+ 			xa=coordSys.mapX(x1,y1);
+ 			ya=coordSys.mapY(x1,y1);
+ 			
+ 			coordSys.trackPoint(x1-rrx,y1-rry);
+ 			coordSys.trackPoint(x1+rrx,y1+rry);
+
+ 		
+ 		
+ 		
+ 			rox=Math.abs(xa-coordSys.mapXi(x1+5,y1+5, false));
+ 			roy=Math.abs(ya-coordSys.mapYi(x1+5,y1+5, false));
+ 		
+ 			rix=Math.abs(xa-coordSys.mapXi(x1+ri,y1+ri, false));
+ 			riy=Math.abs(ya-coordSys.mapYi(x1+ri,y1+ri, false));
+ 		}
  		
  		// Exit if the primitive is offscreen. This is a simplification, but
  		// ensures that the primitive is correctly drawn when it is 
@@ -116,13 +131,6 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		
  		if(!g.hitClip(xa-rrx/2,ya-rry/2, rrx, rry))
  			return;
- 		
- 		int rox=Math.abs(xa-coordSys.mapXi(x1+5,y1+5, false));
- 		int roy=Math.abs(ya-coordSys.mapYi(x1+5,y1+5, false));
- 		
- 		int rix=Math.abs(xa-coordSys.mapXi(x1+ri,y1+ri, false));
- 		int riy=Math.abs(ya-coordSys.mapYi(x1+ri,y1+ri, false));
- 		
  		if (!drawOnlyPads) {
  			switch(sty) {
  			case 1:
@@ -138,18 +146,16 @@ public class PrimitivePCBPad extends GraphicPrimitive
  			case 0:
  			default:
  				/* Oval Pad */ 
-			
+		
  				g.fillOval(xa-rrx/2,
  				    ya-rry/2,rrx,rry);
  			
  			}
  		} else {
       			
- 			Color tc=g.getColor();
  			g.setColor(Color.white); /* Drill */
  			g.fillOval(xa-rix/2,
  				   ya-riy/2,rix,riy);
- 			g.setColor(tc);
  		}
  		
 	}
