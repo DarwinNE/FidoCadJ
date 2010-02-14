@@ -198,13 +198,17 @@ public class PrimitiveLine extends GraphicPrimitive
 		
 	*/
 	
-
+	private int xa, ya, xb, yb;
+	private int x1, y1,x2,y2; 	
+	private int h,l;
+	private float w;
+	private BasicStroke stroke;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -215,59 +219,58 @@ public class PrimitiveLine extends GraphicPrimitive
 		/* in the line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
 
-		int x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
- 		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
- 		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
- 		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+		if(changed || stroke==null) {
+			changed=false;
+			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
+ 			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
+ 			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
+ 			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+ 			if (x1>x2) {
+ 				xa=x2;
+ 				xb=x1;
+ 			} else {
+ 				xa=x1;
+ 				xb=x2;
+ 			}
+ 			if (y1>y2) {
+ 				ya=y2;
+ 				yb=y1;
+ 			} else {
+ 				ya=y1;
+ 				yb=y2;
+ 			}
+ 			
+			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 			if (w<D_MIN) w=D_MIN;
+ 			
+ 			if(dashStyle>0) {
+				stroke=new BasicStroke(w, BasicStroke.CAP_BUTT, 
+                                          BasicStroke.JOIN_MITER, 
+                                          10.0f, Globals.dash[dashStyle], 0.0f);
 
- 		int xa, ya, xb, yb;
+			} else {
+    			stroke =new BasicStroke(w);
+
+			}
+			
+		}
  		
- 		if (x1>x2) {
- 			xa=x2;
- 			xb=x1;
- 		} else {
- 			xa=x1;
- 			xb=x2;
- 		}
- 		if (y1>y2) {
- 			ya=y2;
- 			yb=y1;
- 		} else {
- 			ya=y1;
- 			yb=y2;
- 		}
+
 		
  		
  		
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
 
- 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
- 		if (w<D_MIN) w=D_MIN;
+ 
+		g.setStroke(stroke);
+		g.drawLine(x1, y1, x2, y2);
 
 		
-		if(dashStyle>0) {
-				
-			BasicStroke dashed = new BasicStroke(w, 
-                                          BasicStroke.CAP_BUTT, 
-                                          BasicStroke.JOIN_MITER, 
-                                          10.0f, Globals.dash[dashStyle], 0.0f);
-                                         
-			g.setStroke(dashed);
-			g.drawLine(x1, y1, x2, y2);
-
-		} else {
-			BasicStroke dashed = new BasicStroke(w);
-                                         
-			g.setStroke(dashed);
-			g.drawLine(x1, y1, x2, y2);
-
-		}
 		
-		
-		if (arrowStart | arrowEnd) {
-			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
-			int l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
+		if (arrowStart || arrowEnd) {
+			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
+			l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
 		
 			if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
 			if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);

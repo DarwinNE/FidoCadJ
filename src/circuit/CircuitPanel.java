@@ -77,6 +77,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public boolean profileTime;
     private Color backgroundColor;
     private double average;
+    private double record;
     private double runs;
     
     private int oldx;
@@ -148,6 +149,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         isGridVisible=true;
         zoomListener=null;
         antiAlias = true;
+        record = 1e100;
         
         evidenceRect = new Rectangle(0,0,-1,-1);
         oldEvidenceRect = null;
@@ -563,6 +565,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             clickNumber=NPOLY-1;
             
         selected.setLength(0);
+      	coordinatesListener.changeInfos("");
+
               
         switch(actionSelected) {
         case NONE:
@@ -1040,6 +1044,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                cs.mapY(xpoly[1],ypoly[1]),
                x,y);
                
+               
+            if (coordinatesListener!=null){
+            	double w = Math.sqrt((xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))*
+            				(xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
+            				(ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
+            				(ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
+            	coordinatesListener.changeInfos(
+            		Globals.messages.getString("length")+roundTo(w,2));
+            	
+            }	
         /*    g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
                Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
                Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
@@ -1083,7 +1097,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                Math.min(y,cs.mapY(xpoly[1],ypoly[1]))-wi_pix,
                Math.abs(x-cs.mapX(xpoly[1],ypoly[1]))+wi_pix,
                Math.abs(y-cs.mapY(xpoly[1],ypoly[1]))+wi_pix);
-               
+            
+            if (coordinatesListener!=null){
+            	double w = Math.sqrt((xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))*
+            				(xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
+            				(ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
+            				(ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
+            	coordinatesListener.changeInfos(
+            		Globals.messages.getString("length")+roundTo(w,2));
+            	
+            }               
             g2d.setStroke(ss);
         }
         /*  BEZIER ************************************************************
@@ -1460,12 +1483,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 elapsed+" ms" ,0,50);
             ++runs;
             average += elapsed;
+            if(elapsed<record) {
+            	record=elapsed;
+            }
             System.out.println("Time elapsed: "+
                 elapsed+
                 " averaging "+
                 average/runs+
                 "ms in "+runs+
-                " redraws");
+                " redraws; record: "+record+" ms");
         }
         
         if (P.getMapCoordinates().getXMax()>0 && 
@@ -1586,6 +1612,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
 		return extStrict;
 	}
-
+	private String roundTo(double n, int ch)
+	{
+		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
+	}
 }
 

@@ -45,6 +45,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private JToggleButton showGrid;
     private JToggleButton snapGrid;
     private JLabel coords;
+    private JLabel infos;
     private ChangeGridState changeListener;
     private boolean flagModify;
     private double oldzoom;
@@ -83,6 +84,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         snapGrid=new JToggleButton(Globals.messages.getString("SnapToGrid"));
     
         coords = new JLabel("");
+        infos = new JLabel("");
+
         setBorderPainted(false);
                 layerSel = new JComboBox(layers);
         layerSel.setToolTipText(
@@ -126,7 +129,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         add(snapGrid);
         add(layerSel);
         add(Box.createGlue());
+        add(infos);
         add(coords);
+        infos.setPreferredSize(new Dimension (150,28));
+        infos.setMinimumSize(new Dimension (50,18));
+        infos.setMaximumSize(new Dimension (150,38));
+        
         coords.setPreferredSize(new Dimension (300,28));
         coords.setMinimumSize(new Dimension (300,18));
         coords.setMaximumSize(new Dimension (300,38));
@@ -262,4 +270,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     	coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)"); 
     }
     
+    /** Change the infos
+    
+    	@param s the string to be shown
+    
+    */
+    public void changeInfos(String s)
+    {
+    	infos.setText(s); 
+    }
 }

@@ -28,9 +28,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private MapCoordinates macroCoord;
 	private boolean selected;
 
-	// Text sizes
-	private int h,th, w1, w2;
-	private int t_h,t_th, t_w1, t_w2;
+	
 	static final int text_size=3;
 
 	private String macroName;
@@ -134,6 +132,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	public void setMacroFont(String f)
 	{
 		macroFont = f;
+		changed=true;	
 	}
 	
 	
@@ -148,90 +147,115 @@ public class PrimitiveMacro extends GraphicPrimitive
 		return macroFont;
 	}
 	
+	private int z;
+	private int xa, ya, xb, yb;
+	// Text sizes
+	private int h,th, w1, w2;
+	private int t_h,t_th, t_w1, t_w2;
+	
+	
 	/** Writes the macro name and value fields
 	
 	*/
-	private void drawText(Graphics2D g, MapCoordinates coordSys,
+	final private void drawText(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-		int x2=virtualPoint[1].x;
- 		int y2=virtualPoint[1].y;
- 		int x3=virtualPoint[2].x;
- 		int y3=virtualPoint[2].y;
- 		
+		if (value.length()==0 && name.length()==0)
+			return;
+			
  		if(drawOnlyLayer!=getLayer())
  			return;
+    
  		
- 		// At first, write the name and the value fields in the given positions
- 		Font f = new Font(macroFont,Font.PLAIN,
+ 		if(changed) {
+ 			changed=false;
+			x2=virtualPoint[1].x;
+ 			y2=virtualPoint[1].y;
+ 			x3=virtualPoint[2].x;
+ 			y3=virtualPoint[2].y;
+ 		
+ 			xa=coordSys.mapX(x2,y2);
+ 			ya=coordSys.mapY(x2,y2);
+ 			xb=coordSys.mapX(x3,y3);
+ 			yb=coordSys.mapY(x3,y3);
+
+ 			// At first, write the name and the value fields in the given positions
+ 			f = new Font(macroFont,Font.PLAIN,
  				(int)( text_size*12*coordSys.getYMagnitude()/7+.5));
+ 			g.setFont(f);
+	   		fm = g.getFontMetrics(f);
+    		h = fm.getAscent();
+    		th = h+fm.getDescent();
+   			w1 = fm.stringWidth(name);
+   			w2 = fm.stringWidth(value);
+   		
+   			z = coordSys.unmapYnosnap(0);
+   			t_h=coordSys.unmapYnosnap(h)-z;
+   			t_th=coordSys.unmapYnosnap(th)-z;
+   			t_w1=coordSys.unmapXnosnap(w1)-z;
+   			t_w2=coordSys.unmapXnosnap(w2)-z;
+
+		}
 		
-	   	g.setFont(f);
-	   	FontMetrics fm = g.getFontMetrics(f);
+	   	
     	
-    	h = fm.getAscent();
-    	th = h+fm.getDescent();
-   		w1 = fm.stringWidth(name);
-   		w2 = fm.stringWidth(value);
-   		
-   		t_h=coordSys.unmapYnosnap(h)-coordSys.unmapYnosnap(0);
-   		t_th=coordSys.unmapYnosnap(th)-coordSys.unmapYnosnap(0);
-   		t_w1=coordSys.unmapXnosnap(w1)-coordSys.unmapXnosnap(0);
-   		t_w2=coordSys.unmapXnosnap(w2)-coordSys.unmapXnosnap(0);
-   		
+
    		/* The if's have been added thanks to this segnalation:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
    		*/
-   		if (!name.equals(""))
-    		g.drawString(name,coordSys.mapX(x2,y2),coordSys.mapY(x2,y2)+h);	
-    	if (!value.equals(""))
-    	g.drawString(value,coordSys.mapX(x3,y3),coordSys.mapY(x3,y3)+h);
-    	
-    	coordSys.trackPoint(coordSys.mapX(x2,y2),coordSys.mapY(x2,y2));
-    	coordSys.trackPoint(coordSys.mapX(x3,y3),coordSys.mapY(x3,y3));
-    	
-		coordSys.trackPoint(coordSys.mapX(x2,y2)+t_w1,coordSys.mapY(x2,y2));
-    	coordSys.trackPoint(coordSys.mapX(x3,y3)+t_w2,coordSys.mapY(x3,y3));
-    	
-  		coordSys.trackPoint(coordSys.mapX(x2,y2)+t_w1,
-  			coordSys.mapY(x2,y2)+t_th);
-    	coordSys.trackPoint(coordSys.mapX(x3,y3)+t_w2,
-    		coordSys.mapY(x3,y3)+t_th);
+   		if (name.length()!=0) {
+    		g.drawString(name,xa,ya+h);
+    		
+    		coordSys.trackPoint(xa,ya);
+	  		coordSys.trackPoint(xa+t_w1,ya+t_th);
+
+    	}
+    	if (value.length()!=0) {
+    		g.drawString(value,xb,yb+h);
+	    	coordSys.trackPoint(xb,yb);
+
+    		coordSys.trackPoint(xb+t_w2, yb+t_th);
   		
-		
+    	}
+    	
+		//coordSys.trackPoint(xa+t_w1,ya);
+    	//coordSys.trackPoint(xb+t_w2,yb);
+    	
 	}
 	
+	int x1, y1;
 	/**	Draw the macro contents
 	
 	*/
-	private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
+	final private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV, boolean isFast)
 	{
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
-		   
-		int x1=virtualPoint[0].x;
- 		int y1=virtualPoint[0].y;
+		
+		if(true) {
+		
+			x1=virtualPoint[0].x;
+ 			y1=virtualPoint[0].y;
  		
+ 		
+			// Then create and parse the macro
  		
 		
-		// Then create and parse the macro
- 		
- 		//macroCoord = (MapCoordinates)coordSys.clone();
- 		
- 		macroCoord.setXMagnitude(coordSys.getXMagnitude());
-		macroCoord.setYMagnitude(coordSys.getYMagnitude());
+ 			macroCoord.setXMagnitude(coordSys.getXMagnitude());
+			macroCoord.setYMagnitude(coordSys.getYMagnitude());
 		
  		
- 		macroCoord.xCenter = coordSys.mapX(x1,y1);
- 		macroCoord.yCenter= coordSys.mapY(x1,y1);
-		macroCoord.orientation=(o+coordSys.orientation)%4;
-		macroCoord.mirror=m ^ coordSys.mirror;
- 		macroCoord.isMacro=true;
- 		macroCoord.resetMinMax();
+ 			macroCoord.xCenter = coordSys.mapX(x1,y1);
+ 			macroCoord.yCenter= coordSys.mapY(x1,y1);
+			macroCoord.orientation=(o+coordSys.orientation)%4;
+			macroCoord.mirror=m ^ coordSys.mirror;
+ 			macroCoord.isMacro=true;
+ 			macroCoord.resetMinMax();
  		 		 			
- 		macro.setMapCoordinates(macroCoord);
-
+ 			macro.setMapCoordinates(macroCoord);
+		}
+		
 		if(getSelected()) {
  			macro.selectAll();
  			selected = true;
@@ -241,7 +265,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 		}
 
 		macro.setDrawOnlyLayer(drawOnlyLayer);
-
  		macro.setDrawOnlyPads(drawOnlyPads);
  		
 		if (isFast) 
@@ -260,7 +283,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{
 	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
- 		
+ 		changed=true;	
  		//macroDesc=(String)library.get(macroName);
  		
  		
@@ -279,7 +302,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 		drawMacroContents(g, coordSys, layerV, false);
@@ -287,6 +310,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		
  	}
+ 	
+ 	private int x2,y2,x3,y3;
+ 	private Font f;
+ 	private FontMetrics fm;
  	
  	/** Draw the graphic primitive on the given graphic context.
 		Normally, this method calls the usual draw method. Of course, if for a 
@@ -297,24 +324,24 @@ public class PrimitiveMacro extends GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerDesc the layer description.
 	*/
-	public void drawFast(Graphics2D g, MapCoordinates coordSys,
+	final public void drawFast(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 		drawMacroContents(g, coordSys, layerV, true);
 		
-		int x2=virtualPoint[1].x;
- 		int y2=virtualPoint[1].y;
- 		int x3=virtualPoint[2].x;
- 		int y3=virtualPoint[2].y;
- 		int xa=coordSys.mapX(x2,y2);
- 		int ya=coordSys.mapY(x2,y2);
- 		int xb=coordSys.mapX(x3,y3);
- 		int yb=coordSys.mapY(x3,y3);
+		x2=virtualPoint[1].x;
+ 		y2=virtualPoint[1].y;
+ 		x3=virtualPoint[2].x;
+ 		y3=virtualPoint[2].y;
+ 		xa=coordSys.mapX(x2,y2);
+ 		ya=coordSys.mapY(x2,y2);
+ 		xb=coordSys.mapX(x3,y3);
+ 		yb=coordSys.mapY(x3,y3);
  		
-		Font f = new Font(macroFont,Font.PLAIN,12);
+		f = new Font(macroFont,Font.PLAIN,12);
 		
 	   	g.setFont(f);
-		FontMetrics fm = g.getFontMetrics(f);
+		fm = g.getFontMetrics(f);
     	
    		
 		g.drawRect(Math.min(xa, xa+w1),ya,Math.abs(w1),th);
@@ -323,12 +350,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 	}
 	
 								  
- 	public void setDrawOnlyPads(boolean pd)
+ 	final public void setDrawOnlyPads(boolean pd)
  	{
  		drawOnlyPads=pd;
  	}
 	
-	public void setDrawOnlyLayer(int la)
+	final public void setDrawOnlyLayer(int la)
  	{
  		drawOnlyLayer=la;
  	}
@@ -339,7 +366,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{
 		StringBuffer txtb=new StringBuffer();
 		int j=8;
-		
+		changed=true;	
 		if (tokens[0].equals("TY")) {	// Text (advanced)
  			if (N<9) {
  				IOException E=new IOException("bad arguments on TY");
@@ -377,7 +404,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{
 		StringBuffer txtb=new StringBuffer();
 		int j=8;
-		
+		changed=true;	
 		if (tokens[0].equals("TY")) {	// Text (advanced)
  			if (N<9) {
  				IOException E=new IOException("bad arguments on TY");
@@ -424,7 +451,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		throws IOException
 	{
 		// assert it is the correct primitive
-		
+		changed=true;	
 		if (tokens[0].equals("MC")) {	// Line
  			if (N<6) {
  				IOException E=new IOException("bad arguments on MC");
@@ -627,7 +654,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 			o=++o%4;
 		else
 			o=(o+3)%4;
-			
+		changed=true;
 	}
 	
 	/** Mirror the primitive. For a macro, it is different than for the other
@@ -745,7 +772,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		int i=0;		
 		ParameterDescription pd;
 		
-		
+		changed=true;	
 		
 		pd=(ParameterDescription)v.get(i);
 		++i;

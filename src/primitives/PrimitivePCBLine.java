@@ -67,12 +67,18 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		setLayer(layer);
 		
 	}
+	
+	private int xa, ya, xb, yb;
+	private int x1, y1,x2,y2; 		
+	private int wi_pix;
+	private Stroke stroke;
+	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -80,43 +86,55 @@ public class PrimitivePCBLine extends GraphicPrimitive
 			return;
 		/* in the PCB line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
-		int x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
- 		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
- 		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
- 		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
- 		int wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,virtualPoint[0].y, false)
+		   
+		if(changed || stroke==null) {
+			changed=false;
+			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
+ 			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
+ 			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
+ 			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+ 			wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,virtualPoint[0].y, false)
 		    -coordSys.mapXi(virtualPoint[0].x+width,virtualPoint[0].y+width, false));
-			
- 		int xa=Math.min(x1, x2)-wi_pix/2;
- 		int ya=Math.min(y1, y2)-wi_pix/2;
- 		int xb=Math.max(x1, x2)+wi_pix/2;
- 		int yb=Math.max(y1, y2)+wi_pix/2;
- 			
- 		// Exit if the primitive is offscreen. This is a simplification, but
- 		// ensures that the primitive is correctly drawn when it is 
- 		// partially visible.
- 		coordSys.trackPoint(xa,ya);
- 		coordSys.trackPoint(xb,yb);
- 		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
- 			return;
 		
-		// Calculate line width in pixels
+ 			if (x1>x2) {
+ 				xa=x2;
+ 				xb=x1;
+ 			} else {
+ 				xa=x1;
+ 				xb=x2;
+ 			}
+ 			if (y1>y2) {
+ 				ya=y2;
+ 				yb=y1;
+ 			} else {
+ 				ya=y1;
+ 				yb=y2;
+ 			}
+ 			xa=Math.min(x1, x2)-wi_pix/2;
+ 			ya=Math.min(y1, y2)-wi_pix/2;
+ 			xb=Math.max(x1, x2)+wi_pix/2;
+ 			yb=Math.max(y1, y2)+wi_pix/2;
  			
-		
- 			
- 			
-		Stroke ss=g.getStroke();
- 			
-		BasicStroke UseStroke= new BasicStroke(wi_pix,
+ 			coordSys.trackPoint(xa,ya);
+ 			coordSys.trackPoint(xb,yb);
+
+   			stroke =new BasicStroke(wi_pix,
 				java.awt.BasicStroke.CAP_ROUND,
 				java.awt.BasicStroke.JOIN_ROUND);
 			
-		g.setStroke(UseStroke);
+		}
+ 		   
+		// Exit if the primitive is offscreen. This is a simplification, but
+ 		// ensures that the primitive is correctly drawn when it is 
+ 		// partially visible.
+ 				
+ 		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+ 			return;
+		
+		g.setStroke(stroke);
 		g.drawLine(x1, y1, x2, y2);
                           
-		g.setStroke(ss);
- 		
- 		
+		
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive

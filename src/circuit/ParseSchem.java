@@ -126,7 +126,9 @@ public class ParseSchem
     private HasChangedListener cl;
     
     private boolean hasFCJOriginVisible;
-    
+
+
+	
     public ParseSchem()
     {
         tokens=new String[MAX_TOKENS];
@@ -437,7 +439,7 @@ public class ParseSchem
         @return the current coordinate mapping.
     
     */
-    public MapCoordinates getMapCoordinates()
+    final public MapCoordinates getMapCoordinates()
     {
         return cs;
     }
@@ -445,7 +447,7 @@ public class ParseSchem
     /**	Set the current coordinate mapping.
     	@param m the new coordinate mapping to be used.
     */
-    public void setMapCoordinates(MapCoordinates m)
+    final public void setMapCoordinates(MapCoordinates m)
     {
         cs=m;
     }
@@ -497,7 +499,7 @@ public class ParseSchem
         return s;
     }
     
-    public int getMaxLayer()
+    final public int getMaxLayer()
     {
     	return maxLayer;
     }
@@ -505,7 +507,7 @@ public class ParseSchem
     /** Draw all primitives.
         @param G the graphic context to be used.
     */
-    public void draw(Graphics2D G)
+    final public void draw(Graphics2D G)
     {
     	draw_p(G, false);
     }
@@ -514,16 +516,31 @@ public class ParseSchem
     /** Draw (fast but inaccurate) all primitives.
         @param G the graphic context to be used.
     */
-    public void drawFast(Graphics2D G)
+    final public void drawFast(Graphics2D G)
     {
     	draw_p(G, true);
     }
     
-    private void draw_p(Graphics2D G, boolean isFast)
+    private double oZ, oX, oY, oO;
+    final private void draw_p(Graphics2D G, boolean isFast)
     {
-        int i;
-        int j;
-        GraphicPrimitive g;
+		GraphicPrimitive gg;
+		int i_index;
+    	int j_index;
+    	
+    	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
+    	   oO!=cs.getOrientation()) {
+    		oZ=cs.getXMagnitude();
+    		oX=cs.getXCenter();
+    		oY=cs.getYCenter();
+    		oO=cs.getOrientation();
+    		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+    			gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
+    			gg.setChanged(true);
+    		}
+    	}
+    	
+
         needHoles=drawOnlyPads;
         
         // If it is needed, at first, show the macro origin (100, 100) in
@@ -531,43 +548,41 @@ public class ParseSchem
         
    		maxLayer=-1;
    		
-   		//System.out.println(cs.toString());
-   		
-        if (hasFCJOriginVisible) {
+   		if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
         	G.fillOval(cs.mapXi(100, 100, false)-4,cs.mapYi(100, 100, false)-4, 8, 8);
         }
         if(drawOnlyLayer>=0 && !drawOnlyPads){
-        	for (i=0; i<primitiveVector.size(); ++i){
-        		g=(GraphicPrimitive)primitiveVector.elementAt(i);
+        	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+        		gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
     
-   				if (g.getLayer()>maxLayer) 
-   					maxLayer = g.getLayer();
+   				if (gg.getLayer()>maxLayer) 
+   					maxLayer = gg.getLayer();
         		
 				// this should improve the redrawing speed.
-				if (g.getLayer()>drawOnlyLayer)
+				if (gg.getLayer()>drawOnlyLayer)
 					break;
 			
-        		if(g.getLayer()==drawOnlyLayer && 
-        			!(g instanceof PrimitiveMacro)) {
+        		if(gg.getLayer()==drawOnlyLayer && 
+        			!(gg instanceof PrimitiveMacro)) {
         			if (isFast) 
-        				g.drawFast(G, cs, layerV);
+        				gg.drawFast(G, cs, layerV);
         			else
-        				g.draw(G, cs, layerV);      		
+        				gg.draw(G, cs, layerV);      		
         			
-        		} else if(g instanceof PrimitiveMacro) {
-        			((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
+        		} else if(gg instanceof PrimitiveMacro) {
+        			((PrimitiveMacro)gg).setDrawOnlyLayer(drawOnlyLayer);
         			if (isFast) 
-        				g.drawFast(G, cs, layerV);
+        				gg.drawFast(G, cs, layerV);
         			else
-        				g.draw(G, cs, layerV);    
-					needHoles=((PrimitiveMacro)g).getNeedHoles();
-					if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
-        					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
+        				gg.draw(G, cs, layerV);    
+					needHoles=((PrimitiveMacro)gg).getNeedHoles();
+					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
+        					maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
 
         		}
 
-       			if(g instanceof PrimitivePCBPad)
+       			if(gg instanceof PrimitivePCBPad)
        				needHoles=true;
 
        		}
@@ -575,43 +590,42 @@ public class ParseSchem
        	} else if (!drawOnlyPads) {
         	cs.resetMinMax();
 
-        	for(j=0;j<layerV.size(); ++j) {
+        	for(j_index=0;j_index<layerV.size(); ++j_index) {
 
-        		for (i=0; i<primitiveVector.size(); ++i){
-        			g=(GraphicPrimitive)primitiveVector.elementAt(i);
+        		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+        			gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
     
-    				if (g.getLayer()>maxLayer) 
-        					maxLayer = g.getLayer();
+    				if (gg.getLayer()>maxLayer) 
+        					maxLayer = gg.getLayer();
 					// this should improve the redrawing speed. 
 
-					if (j>1 && g.getLayer()>j)
+					if (j_index>1 && gg.getLayer()>j_index)
 						break;
         			
         		
-        			if(g.getLayer()==j && !(g instanceof PrimitiveMacro)){
+        			if(gg.getLayer()==j_index && !(gg instanceof PrimitiveMacro)){
         				if (isFast) 
-        				g.drawFast(G, cs, layerV);
-        			else
-        				g.draw(G, cs, layerV);    
-        			} else if(g instanceof PrimitiveMacro) {
-        				((PrimitiveMacro)g).setDrawOnlyLayer(j);
-        			
-        				if (isFast) 
-        					g.drawFast(G, cs, layerV);
+        					gg.drawFast(G, cs, layerV);
         				else
-        					g.draw(G, cs, layerV);    
+        					gg.draw(G, cs, layerV);    
+        			} else if(gg instanceof PrimitiveMacro) {
+        				((PrimitiveMacro)gg).setDrawOnlyLayer(j_index);
+        				if (isFast) 
+        					gg.drawFast(G, cs, layerV);
+        				else
+        					gg.draw(G, cs, layerV);    
         				
-						if(((PrimitiveMacro)g).getNeedHoles())
+						if(((PrimitiveMacro)gg).getNeedHoles())
 							needHoles=true;
+       					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
+       						maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
 
-        				if (((PrimitiveMacro)g).getMaxLayer()>maxLayer) 
-        					maxLayer = ((PrimitiveMacro)g).getMaxLayer();
-        			}
-        			if(g instanceof PrimitivePCBPad)
-        				needHoles=true;
+       				}
+       				if(gg instanceof PrimitivePCBPad)
+       					needHoles=true;
         			
         		}
-        		if (j>maxLayer)
+        		if (j_index>maxLayer)
         			break;
        		}
         }
@@ -620,29 +634,28 @@ public class ParseSchem
         
         // Draw in a second time only the PCB pads, in order to ensure that the
         // drills are always open.
-      //needHoles=true;
         if(needHoles) {
-        	for (i=0; i<primitiveVector.size(); ++i){
-            	if ((g=(GraphicPrimitive)primitiveVector.elementAt(i)) 
+        	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+            	if ((gg=(GraphicPrimitive)primitiveVector.elementAt(i_index)) 
             		instanceof PrimitivePCBPad) {
-					((PrimitivePCBPad)g).setDrawOnlyPads(true);
+					((PrimitivePCBPad)gg).setDrawOnlyPads(true);
 					
 					if(isFast) {
-            			((PrimitivePCBPad)g).drawFast(G, cs, layerV);
+            			((PrimitivePCBPad)gg).drawFast(G, cs, layerV);
             		} else {
-            			((PrimitivePCBPad)g).draw(G, cs, layerV);
+            			((PrimitivePCBPad)gg).draw(G, cs, layerV);
             		}
-            		((PrimitivePCBPad)g).setDrawOnlyPads(false);
-            	} else if (g instanceof PrimitiveMacro) { 
+            		((PrimitivePCBPad)gg).setDrawOnlyPads(false);
+            	} else if (gg instanceof PrimitiveMacro) { 
             		// Uhm... not beautiful
-            		((PrimitiveMacro)g).setDrawOnlyPads(true);
+            		((PrimitiveMacro)gg).setDrawOnlyPads(true);
 
 					if(isFast) {
-            			((PrimitiveMacro)g).drawFast(G, cs, layerV);
+            			((PrimitiveMacro)gg).drawFast(G, cs, layerV);
             		} else {
-            			((PrimitiveMacro)g).draw(G, cs, layerV);
+            			((PrimitiveMacro)gg).draw(G, cs, layerV);
             		}
-            		((PrimitiveMacro)g).setDrawOnlyPads(false);
+            		((PrimitiveMacro)gg).setDrawOnlyPads(false);
             	}
         	}
         }
@@ -1369,7 +1382,7 @@ public class ParseSchem
         // Here we adjust the new positions...
         primBeingDragged.virtualPoint[handleBeingDragged].x=cs.unmapXsnap(px);
         primBeingDragged.virtualPoint[handleBeingDragged].y=cs.unmapYsnap(py);
-        
+        primBeingDragged.setChanged(true);
         
 
         // Here we show the new place of the primitive.
@@ -1414,6 +1427,8 @@ public class ParseSchem
     			if (primBeingDragged instanceof PrimitiveMacro) {
         			((PrimitiveMacro)primBeingDragged).setDrawOnlyLayer(-1);
 				}
+		        primBeingDragged.setChanged(true);
+
                 if(!firstDrag){
                 	if(!Globals.doNotUseXOR) 		
                 		primBeingDragged.drawFast(g,cs,layerV);

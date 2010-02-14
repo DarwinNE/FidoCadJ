@@ -70,12 +70,18 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		setLayer(layer);
 		
 	}
+	
+	private int xa, ya, xb, yb;
+	private int x1, y1,x2,y2; 		
+	private Stroke stroke;
+	private float w;
+
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -84,57 +90,55 @@ public class PrimitiveRectangle extends GraphicPrimitive
 			
 		/* in the rectangle primitive, the first two virtual points represent
 		   the two corners of the segment */
- 		
-		int x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
- 		int y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
- 		int x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
- 		int y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+		   
+ 		if(changed || stroke==null) {
+ 			changed=false;
+			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
+ 			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
+ 			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
+ 			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 
- 		int xa, ya, xb, yb;
  		
- 		if (x1>x2) {
- 			xa=x2;
- 			xb=x1;
- 		} else {
- 			xa=x1;
- 			xb=x2;
- 		}
- 		if (y1>y2) {
- 			ya=y2;
- 			yb=y1;
- 		} else {
- 			ya=y1;
- 			yb=y2;
- 		}
- 				
- 		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
- 				return;
- 			
- 		Stroke oldStroke;
-			
- 		float w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-		if (w<D_MIN) w=D_MIN;
+ 			if (x1>x2) {
+ 				xa=x2;
+ 				xb=x1;
+ 			} else {
+ 				xa=x1;
+ 				xb=x2;
+ 			}
+ 			if (y1>y2) {
+ 				ya=y2;
+ 				yb=y1;
+ 			} else {
+ 				ya=y1;
+ 				yb=y2;
+ 			}
+ 						
+ 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+			if (w<D_MIN) w=D_MIN;
 
-		oldStroke=g.getStroke();                                 
-		if (dashStyle>0) 
-			g.setStroke(new BasicStroke(w, 
+			if (dashStyle>0) 
+				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f));
-		else 
-			g.setStroke(new BasicStroke(w));		
-        
+                                         10.0f, Globals.dash[dashStyle], 0.0f);
+			else 
+				stroke=new BasicStroke(w);		
+		}
+		
+		g.setStroke(stroke);
+		
+        if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+ 				return;
+ 			
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 
  			// Java api is to skip the rightmost and bottom pixels 
  			g.fillRect(xa,ya,(xb-xa)+1,(yb-ya)+1);
  		} else {
- 			//System.out.println ("xa="+xa+" ya="+ya+" w="+(xb-xa)+" h="+(yb-ya));
  			if(xb!=xa || yb!=ya)
  				g.drawRect(xa,ya,(xb-xa),(yb-ya));			
 		}
-	    g.setStroke(oldStroke);
-
  	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
