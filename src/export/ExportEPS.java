@@ -37,7 +37,7 @@ public class ExportEPS implements ExportInterface {
 	private File fileExp;
 	private FileWriter fstream;
 	private BufferedWriter out;
-	private Vector layerV;
+	private ArrayList layerV;
 	private int numberPath;
 	private int xsize;
 	private int ysize;
@@ -79,7 +79,7 @@ public class ExportEPS implements ExportInterface {
 		@param grid the grid size
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
 		throws IOException
 	{ 
 		

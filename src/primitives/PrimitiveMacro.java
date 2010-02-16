@@ -18,7 +18,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	static final int N_POINTS=3;
 	//private Map<String, String> library;
 	private Map library;
-	private Vector layers;
+	private ArrayList layers;
 	private int o;
 	private boolean m; 
 	private boolean drawOnlyPads;
@@ -53,7 +53,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		@param lib the library to be inherited
 		@param l the list of layers
 	*/
-	public PrimitiveMacro(Map lib, Vector l)
+	public PrimitiveMacro(Map lib, ArrayList l)
 	{
 		super();
 		library=lib;
@@ -73,7 +73,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroStore(layers);
 	}
 	
-	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, 
+	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF)
 		throws IOException
 	{
@@ -158,7 +158,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	*/
 	final private void drawText(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 		if (value.length()==0 && name.length()==0)
 			return;
@@ -197,8 +197,9 @@ public class PrimitiveMacro extends GraphicPrimitive
 
 		}
 		
+	   	if (t_th<3)
+	   		return;
 	   	
-    	
 
    		/* The if's have been added thanks to this segnalation:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
@@ -228,7 +229,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	*/
 	final private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV, boolean isFast)
+							  ArrayList layerV, boolean isFast)
 	{
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
@@ -279,7 +280,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		}
 	}
 	
-	private void macroStore(Vector layerV)
+	private void macroStore(ArrayList layerV)
 	{
 	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
@@ -303,7 +304,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 		drawMacroContents(g, coordSys, layerV, false);
 		drawText(g, coordSys, layerV);
@@ -322,10 +323,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
-		@param layerDesc the layer description.
+		@param ArrayList the layer description.
 	*/
 	final public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 		drawMacroContents(g, coordSys, layerV, true);
 		

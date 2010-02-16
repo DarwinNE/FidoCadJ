@@ -62,43 +62,45 @@ public class PrimitiveConnection extends GraphicPrimitive
 		
 	}
 	
-	private int x1, y1, nn;
+	private int x1, y1, nn, xa, ya;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
 			return;
 		
-		
-		/* in the PCB pad primitive, the the virtual points represent
-		   the position of the pad to be drawn. */
-		x1=virtualPoint[0].x;
- 		y1=virtualPoint[0].y;
+		if (changed) {
+			changed=false;
+			/* in the PCB pad primitive, the the virtual points represent
+		   	the position of the pad to be drawn. */
+			x1=virtualPoint[0].x;
+ 			y1=virtualPoint[0].y;
+ 			
  		
- 		
- 		nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 			coordSys.mapX(10,10))*NODE_SIZE/10.0);
- 		
- 		// a little boost for small zooms :-)
- 		if (nn<2) {
  			nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 			coordSys.mapX(20,20))*NODE_SIZE/12);
+ 				coordSys.mapX(10,10))*NODE_SIZE/10.0);
+ 		
+ 			// a little boost for small zooms :-)
+ 			if (nn<2) {
+ 				nn=(int)(Math.abs(coordSys.mapX(0,0)-
+ 					coordSys.mapX(20,20))*NODE_SIZE/12);
+ 			}
+ 			
+ 			xa=coordSys.mapX(x1,y1)- nn/2;
+ 			ya=coordSys.mapY(x1,y1)- nn/2;
+ 			
  		}
  		
- 		if(!g.hitClip(coordSys.mapX(x1,y1) - nn/2, 
- 				   coordSys.mapY(x1,y1) - nn/2,
- 				   nn, nn))
+ 		if(!g.hitClip(xa , ya , nn, nn))
  			return;
  		
- 		g.fillOval(coordSys.mapX(x1,y1) - nn/2, 
- 				   coordSys.mapY(x1,y1) - nn/2,
- 				   nn, nn);
+ 		g.fillOval(xa, ya, nn, nn);
 		
  		
 	}
@@ -116,7 +118,8 @@ public class PrimitiveConnection extends GraphicPrimitive
 	public void parseTokens(String[] tokens, int N)
 		throws IOException
 	{
-		
+		changed=true;
+
 		if (tokens[0].equals("SA")) {	// Connection
  			
  			if (N<3)  {

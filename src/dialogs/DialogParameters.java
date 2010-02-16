@@ -67,7 +67,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 	
 	private Vector v;
 	
-	private Vector layers;
+	private ArrayList layers;
 	
   	
   	/** Programmatically build a dialog frame containing the appropriate
@@ -79,7 +79,7 @@ public class DialogParameters extends JDialog implements ComponentListener
   			user.
   	
   	*/
-  	public DialogParameters (JFrame parent, Vector vec, boolean strict, Vector l)
+  	public DialogParameters (JFrame parent, Vector vec, boolean strict, ArrayList l)
   	{
   		super(parent, Globals.messages.getString("Param_opt"), true);
   		
@@ -245,7 +245,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 			} else if(pd.parameter instanceof LayerInfo) {
 				GraphicsEnvironment gE;  
 				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				jco[co]=new JComboBox(layers);
+				jco[co]=new JComboBox(new Vector(layers));
 				jco[co].setSelectedIndex(((LayerInfo)pd.parameter).layer);
    				jco[co].setRenderer( new LayerCellRenderer());
 

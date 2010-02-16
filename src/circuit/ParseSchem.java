@@ -52,10 +52,10 @@ Version   Date           Author       Remarks
 2.5		June 2009		D. Bucci 	Capitalize the first letters                                     
 2.6		November 2009 	D. Bucci	New FCJ extensions
 									Macro font selection
+2.7		February 2010	D. Bucci	General optimization
 
 
-
-   Written by Davide Bucci, March 2007 - June 2009, davbucci at tiscali dot it
+   Written by Davide Bucci, March 2007 - Feb 2010, davbucci at tiscali dot it
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
@@ -75,7 +75,7 @@ Version   Date           Author       Remarks
    Main parsing class 
     
     @author Davide Bucci
-    @version 2.5, June 2009
+    @version 2.7, February 2010
 */
 
 public class ParseSchem
@@ -90,8 +90,8 @@ public class ParseSchem
     
     private String[] tokens;
     private int lineNum;
-    Vector primitiveVector;
-    Vector layerV;
+    ArrayList primitiveVector;
+    ArrayList layerV;
     MapCoordinates cs;
     private Map library;
     private boolean firstDrag;
@@ -132,9 +132,9 @@ public class ParseSchem
     public ParseSchem()
     {
         tokens=new String[MAX_TOKENS];
-        primitiveVector=new Vector(100);
+        primitiveVector=new ArrayList(100);
         cs=new MapCoordinates();
-        layerV=new Vector(16);
+        layerV=new ArrayList(16);
         library=new TreeMap();
         firstDrag=false;
         um=new UndoManager(MAX_UNDO);
@@ -158,7 +158,7 @@ public class ParseSchem
     
     */
 
-    public Vector getLayers()
+    public ArrayList getLayers()
     {
         return layerV;
     }
@@ -168,7 +168,7 @@ public class ParseSchem
     	@param v a vector of LayerDesc describing layers.
     
     */
-    public void setLayers(Vector v)
+    public void setLayers(ArrayList v)
     {
         layerV=v;
     }
@@ -464,7 +464,7 @@ public class ParseSchem
     	
   		for (i=0; i<primitiveVector.size(); ++i){
     	
-        	g=(GraphicPrimitive)primitiveVector.elementAt(i);
+        	g=(GraphicPrimitive)primitiveVector.get(i);
 			
         	if(g.getLayer()>p.getLayer()) {
 				break;
@@ -490,7 +490,7 @@ public class ParseSchem
         
         for (i=0; i<primitiveVector.size(); ++i){
             s.append(new StringBuffer(
-                ((GraphicPrimitive)primitiveVector.elementAt(i)).toString(
+                ((GraphicPrimitive)primitiveVector.get(i)).toString(
                 	extensions)));
             if(useWindowsLineFeed) 
             	s.append("\r");
@@ -535,7 +535,7 @@ public class ParseSchem
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
     		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-    			gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
+    			gg=(GraphicPrimitive)primitiveVector.get(i_index);
     			gg.setChanged(true);
     		}
     	}
@@ -554,12 +554,13 @@ public class ParseSchem
         }
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-        		gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
+        		gg=(GraphicPrimitive)primitiveVector.get(i_index);
     
    				if (gg.getLayer()>maxLayer) 
    					maxLayer = gg.getLayer();
         		
-				// this should improve the redrawing speed.
+				// This should improve the redrawing speed.
+				// The layers are kept ordered
 				if (gg.getLayer()>drawOnlyLayer)
 					break;
 			
@@ -593,7 +594,7 @@ public class ParseSchem
         	for(j_index=0;j_index<layerV.size(); ++j_index) {
 
         		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-        			gg=(GraphicPrimitive)primitiveVector.elementAt(i_index);
+        			gg=(GraphicPrimitive)primitiveVector.get(i_index);
     
     				if (gg.getLayer()>maxLayer) 
         					maxLayer = gg.getLayer();
@@ -636,7 +637,7 @@ public class ParseSchem
         // drills are always open.
         if(needHoles) {
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-            	if ((gg=(GraphicPrimitive)primitiveVector.elementAt(i_index)) 
+            	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)) 
             		instanceof PrimitivePCBPad) {
 					((PrimitivePCBPad)gg).setDrawOnlyPads(true);
 					
@@ -786,8 +787,8 @@ public class ParseSchem
     {
         int i;
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected())
-                ((GraphicPrimitive)primitiveVector.elementAt(i)).drawHandles(G,
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
+                ((GraphicPrimitive)primitiveVector.get(i)).drawHandles(G,
                    cs);
         }
         
@@ -801,7 +802,7 @@ public class ParseSchem
     {
         int i;
         for (i=0; i<primitiveVector.size(); ++i){
-            ((GraphicPrimitive)primitiveVector.elementAt(i)).setSelected(false);
+            ((GraphicPrimitive)primitiveVector.get(i)).setSelected(false);
         }
         
     }
@@ -814,7 +815,7 @@ public class ParseSchem
     {
         int i;
         for (i=0; i<primitiveVector.size(); ++i){
-            ((GraphicPrimitive)primitiveVector.elementAt(i)).setSelected(true);
+            ((GraphicPrimitive)primitiveVector.get(i)).setSelected(true);
         }
         
     }
@@ -827,9 +828,9 @@ public class ParseSchem
         int i;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected())
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
                 primitiveVector.remove((GraphicPrimitive)
-                                        primitiveVector.elementAt(i--));
+                                        primitiveVector.get(i--));
         }
        	saveUndoState();
         
@@ -845,8 +846,8 @@ public class ParseSchem
         macroFont=f;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if((GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
-            	((PrimitiveMacro)primitiveVector.elementAt(i)).setMacroFont(f);
+            if((GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
+            	((PrimitiveMacro)primitiveVector.get(i)).setMacroFont(f);
             }
         }
         
@@ -871,8 +872,8 @@ public class ParseSchem
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
         
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected())
-                s.append(((GraphicPrimitive)primitiveVector.elementAt(i
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
+                s.append(((GraphicPrimitive)primitiveVector.get(i
                 	)).toString(extensions));
         }
         
@@ -965,7 +966,7 @@ public class ParseSchem
     	int i;
     	GraphicPrimitive gp;
         for (i=0; i<primitiveVector.size(); ++i){
-        	gp=(GraphicPrimitive)primitiveVector.elementAt(i);
+        	gp=(GraphicPrimitive)primitiveVector.get(i);
         	if (gp.getSelected())
         		return gp;
         }
@@ -989,10 +990,10 @@ public class ParseSchem
         
         for (i=0; i<primitiveVector.size(); ++i){
             distance=((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getDistanceToPoint(px,py);
+                       primitiveVector.get(i)).getDistanceToPoint(px,py);
                        
             layer= ((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getLayer();
+                       primitiveVector.get(i)).getLayer();
                        
             if(((LayerDesc)layerV.get(layer)).getVisible() &&
             	distance<=mindistance) {
@@ -1031,12 +1032,12 @@ public class ParseSchem
         for (i=0; i<primitiveVector.size(); ++i){
         
         	layer= ((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getLayer();
+                       primitiveVector.get(i)).getLayer();
                        
             if(((LayerDesc)layerV.get(layer)).getVisible() ||
-            	(GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
+            	(GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
             	distance=((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getDistanceToPoint(px,py);
+                       primitiveVector.get(i)).getDistanceToPoint(px,py);
             
             	if (distance<=mindistance) {
              	   isel=i;
@@ -1047,7 +1048,7 @@ public class ParseSchem
         }
     
     	if (mindistance<tolerance){
-        	gp=((GraphicPrimitive)primitiveVector.elementAt(isel));
+        	gp=((GraphicPrimitive)primitiveVector.get(isel));
         	if(!toggle) {
         		gp.setSelected(true);
         	} else {
@@ -1073,19 +1074,19 @@ public class ParseSchem
 		boolean firstPrimitive=true;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected()) {
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected()) {
             
             	// The rotation point is given by the first primitive
             	if(firstPrimitive){ 
-            		ix=((GraphicPrimitive)primitiveVector.elementAt(i
+            		ix=((GraphicPrimitive)primitiveVector.get(i
                			)).getFirstPoint().x;
-               		iy=((GraphicPrimitive)primitiveVector.elementAt(i
+               		iy=((GraphicPrimitive)primitiveVector.get(i
                			)).getFirstPoint().y;
                	}
                	
                	firstPrimitive=false;
             
-               ((GraphicPrimitive)primitiveVector.elementAt(i
+               ((GraphicPrimitive)primitiveVector.get(i
                			)).rotatePrimitive(false, ix, iy);
             }
         }
@@ -1104,8 +1105,8 @@ public class ParseSchem
         int i;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected())
-               ((GraphicPrimitive)primitiveVector.elementAt(i
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
+               ((GraphicPrimitive)primitiveVector.get(i
                			)).movePrimitive(dx, dy);
         }
        	saveUndoState();
@@ -1122,11 +1123,11 @@ public class ParseSchem
         boolean firstPrimitive=true;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.elementAt(i)).getSelected()) {
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected()) {
 
             	// The rotation point is given by the first primitive
             	if(firstPrimitive){ 
-            		ix=((GraphicPrimitive)primitiveVector.elementAt(i
+            		ix=((GraphicPrimitive)primitiveVector.get(i
                			)).getFirstPoint().x;
                	}
                	
@@ -1134,7 +1135,7 @@ public class ParseSchem
 
 
 
-               ((GraphicPrimitive)primitiveVector.elementAt(i
+               ((GraphicPrimitive)primitiveVector.get(i
                			)).mirrorPrimitive(ix);
 
 			}
@@ -1162,13 +1163,13 @@ public class ParseSchem
         boolean s=false;
         
         for (i=0; i<primitiveVector.size(); ++i){
-            gp=((GraphicPrimitive) primitiveVector.elementAt(i));
+            gp=((GraphicPrimitive) primitiveVector.get(i));
             
             layer= ((GraphicPrimitive)
-                       primitiveVector.elementAt(i)).getLayer();
+                       primitiveVector.get(i)).getLayer();
                        
             if(((LayerDesc)layerV.get(layer)).getVisible() ||
-            	(GraphicPrimitive)primitiveVector.elementAt(i) instanceof PrimitiveMacro) {
+            	(GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
             	if(gp.selectRect(px,py,w,h))
             		s=true;
                 
@@ -1214,7 +1215,7 @@ public class ParseSchem
         
         
         for (i=0; i<primitiveVector.size(); ++i){
-            gp=(GraphicPrimitive)primitiveVector.elementAt(i);
+            gp=(GraphicPrimitive)primitiveVector.get(i);
       		layer= gp.getLayer();
                        
             if(!((LayerDesc)layerV.get(layer)).getVisible() &&
@@ -1240,7 +1241,7 @@ public class ParseSchem
         // Verify if the whole primitive should be drag
         if (mindistance<sptol && handleBeingDragged<0){
             
-            primBeingDragged=(GraphicPrimitive)primitiveVector.elementAt(isel);
+            primBeingDragged=(GraphicPrimitive)primitiveVector.get(isel);
             if (!multiple && !primBeingDragged.getSelected())
                 deselectAll();
             if(!multiple) {
@@ -1419,7 +1420,7 @@ public class ParseSchem
 
         // Here we adjust the new positions for all selected elements...
         for (int i=0; i<primitiveVector.size(); ++i){               
-            primBeingDragged=(GraphicPrimitive)primitiveVector.elementAt(i);
+            primBeingDragged=(GraphicPrimitive)primitiveVector.get(i);
             if(primBeingDragged.getSelected()) {
             
             	// This code is needed to ensure that all layer are printed
@@ -1449,10 +1450,6 @@ public class ParseSchem
   
     }   
     
-
-    
-
-    
     
     /** Parse the circuit contained in the StringBuffer specified.
     	This function resets the primitive database and then parses the circuit.
@@ -1464,7 +1461,7 @@ public class ParseSchem
     public void parseString(StringBuffer s) 
     	throws IOException
     {
-        primitiveVector=new Vector();
+        primitiveVector.clear();
 		addString(s, false);
     }
     
@@ -1808,6 +1805,8 @@ public class ParseSchem
         }
     }
     
+
+    
     /**	Export the file using the given interface
     
     @param exp the selected exporting interface
@@ -1844,7 +1843,7 @@ public class ParseSchem
         
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i=0; i<primitiveVector.size(); ++i){
-        		g=(GraphicPrimitive)primitiveVector.elementAt(i);
+        		g=(GraphicPrimitive)primitiveVector.get(i);
         		l=g.getLayer();
         		if(l==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
@@ -1863,7 +1862,7 @@ public class ParseSchem
         	for(j=0;j<layerV.size(); ++j) {
         		for (i=0; i<primitiveVector.size(); ++i){
         		
-        			g=(GraphicPrimitive)primitiveVector.elementAt(i);
+        			g=(GraphicPrimitive)primitiveVector.get(i);
         			l=g.getLayer();
         			if(l==j && !(g instanceof PrimitiveMacro)){
         				if(((LayerDesc)(layerV.get(l))).getVisible())
@@ -1888,7 +1887,7 @@ public class ParseSchem
         // drills are always open.
         
         for (i=0; i<primitiveVector.size(); ++i){
-            if ((g=(GraphicPrimitive)primitiveVector.elementAt(i)) instanceof 
+            if ((g=(GraphicPrimitive)primitiveVector.get(i)) instanceof 
             	PrimitivePCBPad) {
 				((PrimitivePCBPad)g).setDrawOnlyPads(true);
 				l=g.getLayer();
@@ -1952,8 +1951,7 @@ public class ParseSchem
     	
     }
     
-    
-    
+        
     /** Save the undo state
     
     */
@@ -1989,11 +1987,18 @@ public class ParseSchem
 
     }
     
+    /** Set the listener of the state change
+    	@param l the new listener
+    */
     public void setHasChangedListener (HasChangedListener l)
     {
 		cl = l;
 	}
 	
+	/** Set the visibility of the macro origin
+	
+		@param s the visibility state
+	*/
 	public void setMacroOriginVisible(boolean s)
 	{
 		hasFCJOriginVisible = s;

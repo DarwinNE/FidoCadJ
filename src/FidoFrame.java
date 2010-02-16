@@ -403,7 +403,7 @@ public class FidoFrame extends JFrame implements
 		
         SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
-        Vector LayerDesc=new Vector();
+        ArrayList LayerDesc=new ArrayList();
         
         CC.profileTime=false;
         CC.antiAlias=true;
@@ -778,10 +778,10 @@ public class FidoFrame extends JFrame implements
                 exportBlackWhite= dp.getBW();
                 
 		
-				Vector ol=CC.P.getLayers();
+				ArrayList ol=CC.P.getLayers();
                 if (dp.shouldPrint()) {
                 	if(exportBlackWhite) {
-						Vector v=new Vector();
+						ArrayList v=new ArrayList();
 						for (int i=0; i<16;++i)
 							v.add(new LayerDesc(Color.black, 
 								((LayerDesc)ol.get(i)).getVisible(),

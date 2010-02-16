@@ -87,7 +87,7 @@ public class ExportGraphic
 		int height=d.height+20;
 		
 		
-		Vector ol=P.getLayers();
+		ArrayList ol=P.getLayers();
 
 		
 		BufferedImage bufferedImage;
@@ -98,7 +98,7 @@ public class ExportGraphic
 		// in which all layers will be exported and drawn.
 		// Clearly, the choosen color will be black.
 		if(blackWhite) {
-			Vector v=new Vector();
+			ArrayList v=new ArrayList();
 			for (int i=0; i<16;++i)
 				v.add(new LayerDesc(Color.black, 
 					((LayerDesc)ol.get(i)).getVisible(),
