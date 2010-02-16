@@ -209,12 +209,11 @@ public class PrimitiveLine extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
 			return;
- 		
 	
 		/* in the line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
@@ -254,15 +253,11 @@ public class PrimitiveLine extends GraphicPrimitive
 			}
 			
 		}
- 		
 
-		
- 		
  		
  		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
 
- 
 		g.setStroke(stroke);
 		g.drawLine(x1, y1, x2, y2);
 
@@ -293,6 +288,7 @@ public class PrimitiveLine extends GraphicPrimitive
 	{
 		// assert it is the correct primitive
 		int i;
+		changed=true;
 
 		
 		if (tokens[0].equals("LI")) {	// Line

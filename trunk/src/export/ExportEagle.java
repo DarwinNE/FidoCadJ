@@ -35,7 +35,7 @@ public class ExportEagle implements ExportInterface {
 	private File fileExp;
 	private FileWriter fstream;
 	private BufferedWriter out;
-	private Vector layerV;
+	private ArrayList layerV;
 	private int numberPath;
 	private Dimension dim;
 	private int oldtextsize;
@@ -77,7 +77,7 @@ public class ExportEagle implements ExportInterface {
 		@param grid the grid size
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
 		throws IOException
 	{ 
 		

@@ -63,7 +63,7 @@ public class ExportPDF implements ExportInterface {
 	
 	
 	
-	private Vector layerV;
+	private ArrayList layerV;
 	private int numberPath;
 	private int xsize;
 	private int ysize;
@@ -107,7 +107,7 @@ public class ExportPDF implements ExportInterface {
 		@param grid the grid size
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
 		throws IOException
 	{ 
 		

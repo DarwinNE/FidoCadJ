@@ -82,7 +82,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -154,6 +154,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	public void parseTokens(String[] tokens, int N)
 		throws IOException
 	{
+		changed=true;
+
 		// assert it is the correct primitive
 		if (tokens[0].equals("RV")||tokens[0].equals("RP")) {	// Oval
  			if (N<5) {

@@ -52,7 +52,7 @@ public class DialogLayer extends JDialog implements ComponentListener
   	private static final int MIN_WIDTH=400;
   	private static final int MIN_HEIGHT=350;
 
-	private Vector layers;
+	private ArrayList layers;
 	private JList layerList;
   	
   	public void componentResized(ComponentEvent e) 
@@ -89,7 +89,7 @@ public class DialogLayer extends JDialog implements ComponentListener
   		@param parent the dialog parent
   		@param l a LayerDesc vector containing the layers' attributes 
   	*/
-  	public DialogLayer (JFrame parent, Vector l)
+  	public DialogLayer (JFrame parent, ArrayList l)
   	{
   		super(parent,Globals.messages.getString("Layer_editor"), true);
         DialogUtil.center(this, .40,.40,400,350);
@@ -104,7 +104,7 @@ public class DialogLayer extends JDialog implements ComponentListener
 		Container contentPane=getContentPane();
 		contentPane.setLayout(bgl);
 				
-		layerList = new JList(layers);
+		layerList = new JList(new Vector(layers));
 		JScrollPane sl=new JScrollPane(layerList);
 		
 		layerList.setCellRenderer( new LayerCellRenderer());

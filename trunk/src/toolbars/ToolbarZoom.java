@@ -58,7 +58,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     /** Standard constructor
     
     */
-    public ToolbarZoom (Vector layers) 
+    public ToolbarZoom (ArrayList layers) 
     {
         zoom = new JComboBox();
         zoom.addItem("25%");
@@ -87,7 +87,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         infos = new JLabel("");
 
         setBorderPainted(false);
-                layerSel = new JComboBox(layers);
+                layerSel = new JComboBox(new Vector(layers));
         layerSel.setToolTipText(
         	Globals.messages.getString("tooltip_layerSel"));
    		layerSel.setRenderer( new LayerCellRenderer());

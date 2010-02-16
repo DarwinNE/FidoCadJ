@@ -224,7 +224,7 @@ public abstract class GraphicPrimitive
 				being used.
 		
 	*/
-	protected final boolean selectLayer(Graphics2D g, Vector layerV)
+	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
 	//	if (layer<0 || layer>=layerV.size())
 	//		layer=0;
@@ -328,7 +328,7 @@ public abstract class GraphicPrimitive
 		@param LayerDesc the layer description.
 	*/
 	public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  Vector LayerDesc)
+							  ArrayList LayerDesc)
 	{
 		draw(g, coordSys, LayerDesc);
 	}
@@ -402,7 +402,7 @@ public abstract class GraphicPrimitive
 		@param LayerDesc the layer description.
 	*/
 	public abstract void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector LayerDesc);
+							  ArrayList LayerDesc);
 	
 	/**	Parse a token array and store the graphic data for a given primitive
 		Obviously, that routine should be called *after* having recognized

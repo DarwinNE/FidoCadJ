@@ -202,7 +202,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 	}
 	
 	private Shape shape1;
-	private Stroke oldStroke;
+	private Stroke stroke;
 	private float w;
 	private Rectangle r;
 		
@@ -212,7 +212,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -222,38 +222,39 @@ public class PrimitiveBezier extends GraphicPrimitive
 		   the control point of the shape */
  		
  		
- 			
- 		shape1 = new CubicCurve2D.Float(
- 			coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-			coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
-			coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
-			coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y),
-			coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
-			coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y),
-			coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
-			coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+ 		if (changed) {
+ 			changed=false;
+ 			shape1 = new CubicCurve2D.Float(
+ 				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+				coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+				coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
+				coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y),
+				coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
+				coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y),
+				coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+				coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 			
-	/* booh? it slows down the execution!
-		r=g.getClipBounds(r);
-		if(!shape1.intersects(r.x, r.y, r.width, r.height))
-			return;
-	*/	
+		/* booh? it slows down the execution!
+			r=g.getClipBounds(r);
+			if(!shape1.intersects(r.x, r.y, r.width, r.height))
+				return;
+		*/	
  		
- 		w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
- 		if (w<D_MIN) w=D_MIN;
+ 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+ 			if (w<D_MIN) w=D_MIN;
 
 	                                
-		oldStroke=g.getStroke();
-		if (dashStyle>0) 
-			g.setStroke(new BasicStroke(w, 
+			if (dashStyle>0) 
+				stroke=new BasicStroke(w, 
                             	BasicStroke.CAP_BUTT, 
                                 BasicStroke.JOIN_MITER, 
-                                10.0f, Globals.dash[dashStyle], 0.0f));
-		else 
-			g.setStroke(new BasicStroke(w));
-			
+                                10.0f, Globals.dash[dashStyle], 0.0f);
+			else 
+				stroke=new BasicStroke(w);
+		}
+		g.setStroke(stroke);
 		g.draw(shape1);
- 		g.setStroke(oldStroke);				 
+ 						 
  		
  		
  		
@@ -292,6 +293,8 @@ public class PrimitiveBezier extends GraphicPrimitive
 	public void parseTokens(String[] tokens, int N)
 		throws IOException
 	{
+		changed=true;
+
 		// assert it is the correct primitive
 		if (tokens[0].equals("BE")) {	// Bézier
  			if (N<9) {

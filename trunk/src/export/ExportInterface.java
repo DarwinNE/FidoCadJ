@@ -63,7 +63,7 @@ public interface ExportInterface {
 		@param grid the grid size
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
 		throws IOException;
 	
 	/** Called at the end of the export phase.

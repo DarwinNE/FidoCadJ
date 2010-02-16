@@ -57,6 +57,9 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
 		
+		changed=true;
+
+		
 	}
 	
 	/** Complete constructor.
@@ -81,6 +84,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		txt=t;
 		fontName=fn;
 		setLayer(l);
+		changed=true;
+
 	}
 
 	/** Fast version of draw: plot only the contours.
@@ -89,7 +94,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
 		if(!selectLayer(g,layerV))
 			return;
@@ -174,168 +179,168 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		
 	}
 	
+	
+	private	AffineTransform at;
+	private AffineTransform stretching;
+	private AffineTransform ats;
+	private Font f;
+	private boolean mirror;
+	private int orientation;
+	private AffineTransform mm;
+	private FontMetrics fm;
+	private int h, th, w, hh, ww;
+	private int x1, y1, xa, ya;
+	private double xyfactor, si, co;
+	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
 	public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+							  ArrayList layerV)
 	{
-		if(txt.equals(""))
+		if(txt.length()==0)
 			return;
+			
 		if(!selectLayer(g,layerV))
 			return;
 			
 		
-		
-		// Here we probably need a code cleanup for readability
-	 	AffineTransform ats;
-	 	AffineTransform at;
-
- 		ats=(AffineTransform)g.getTransform().clone();
-	 	at=(AffineTransform)g.getTransform().clone();
-
-		
-		boolean mirror=false;
+		if(changed) {
+ 			changed=false;
+			mirror=false;
  		
- 		/* in the simple text primitive, the the virtual point represents
-		   the position of the text to be drawn. */
-		int x1=virtualPoint[0].x;
- 		int y1=virtualPoint[0].y;
- 		int xa=coordSys.mapX(x1,y1);
- 		int ya=coordSys.mapY(x1,y1);
- 		/* siy is the font horizontal size in mils (1/1000 of an inch).
- 		   1 typographical point is 1/72 of an inch.
- 		*/
+ 			/* in the simple text primitive, the the virtual point represents
+		   	the position of the text to be drawn. */
+			x1=virtualPoint[0].x;
+ 			y1=virtualPoint[0].y;
+ 			xa=coordSys.mapX(x1,y1);
+ 			ya=coordSys.mapY(x1,y1);
+ 			/* siy is the font horizontal size in mils (1/1000 of an inch).
+ 		   	1 typographical point is 1/72 of an inch.
+ 			*/
  			
- 		Font f=new Font(fontName,((sty & 
+ 			f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
  				(int)(six*12*coordSys.getYMagnitude()/7+.5));
  			 
+			/* At first, I tried to use an affine transform on the font, without
+		   	pratically touching the graphic context. This technique worked well,
+		   	but I noticed it produced bugs on the case of a jar packed on a 
+		   	MacOSX application bundle.
+		   	I therefore choose (from v. 0.20.2) to use only graphic context
+		   	transforms. What a pity!
+		   
+		   	February 20, 2009: I noticed this is in fact a bug on JRE < 1.5 
+		   
+		   	For this:
+		   	http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=274886&atid=1167997
+		   	I am now checking if the text is "" before printing it.
+			*/
+	    	
+    		orientation=o;
+    	
+    		if((sty & TEXT_MIRRORED)!=0){
+    	 		mirror=true;
+    	 		orientation=-orientation;
+    		}
+    		if (six==0 || siy==0) {
+    			siy=10;
+    			six=7;
+    		}
+    	
+			fm = g.getFontMetrics(f);
+    		h = fm.getAscent();
+    		th = h+fm.getDescent();
+    		w = fm.stringWidth(txt);
 		
-	   	g.setFont(f);
-        
-		/* At first, I tried to use an affine transform on the font, without
-		   pratically touching the graphic context. This technique worked well,
-		   but I noticed it produced bugs on the case of a jar packed on a 
-		   MacOSX application bundle.
-		   I therefore choose (from v. 0.20.2) to use only graphic context
-		   transforms. What a pity!
-		   
-		   February 20, 2009: I noticed this is in fact a bug on JRE < 1.5 
-		   
-		   For this:
-		   http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=274886&atid=1167997
-		   I am now checking if the text is "" before printing it.
-		   
-		   
-		*/
-	
-    	
-    	int orientation=o;
-    	
-    	if((sty & TEXT_MIRRORED)!=0){
-    	 	mirror=true;
-    	 	orientation=-orientation;
-    	}
-    	if (six==0 || siy==0) {
-    		siy=10;
-    		six=7;
-    	}
-    	
-		FontMetrics fm = g.getFontMetrics(f);
-    	int h = fm.getAscent();
-    	int th = h+fm.getDescent();
-    	
-   		int w = 0;
-
-		w = fm.stringWidth(txt);
-		
- 		double xyfactor=1;
- 		AffineTransform stretching = new AffineTransform();
+ 			xyfactor=1.0;
+ 			stretching = new AffineTransform();
 
  		
- 		if(siy/six != 10/7){
+ 			if(siy/six != 10/7){
     			// Create a transformation for the font. 
-			xyfactor=(double)siy/(double)six*22.0/40.0; 	
-   		}
+				xyfactor=(double)siy/(double)six*22.0/40.0; 	
+   			}
  				
-    	if(orientation!=0){
-    		double si=Math.sin(Math.toRadians(-orientation));
-			double co=Math.cos(Math.toRadians(-orientation));
+    		if(orientation!=0){
+    			si=Math.sin(Math.toRadians(-orientation));
+				co=Math.cos(Math.toRadians(-orientation));
     		
+    			if(mirror) {
+    				stretching.scale(1,xyfactor);
+				
+    			} else {
+    				stretching.scale(1,xyfactor);
+				}
+    		
+				hh=(int)(w*si+th*co);
+				ww=(int)(w*co-th*si);
+							
+   				coordSys.trackPoint(xa,ya);
+  				coordSys.trackPoint(xa+ww,ya+th);
+   				coordSys.trackPoint(xa,ya+hh);
+   				coordSys.trackPoint(xa+ww,ya+hh+th);
+    			
+			} else {
+  				if (!mirror){
+  					coordSys.trackPoint(xa+w,ya);
+					coordSys.trackPoint(xa,ya+(int)(h/xyfactor));
+					stretching.scale(1,xyfactor);
+				} else {
+					coordSys.trackPoint(xa-w,ya);
+					coordSys.trackPoint(xa,ya+(int)(th/xyfactor));
+				}
+			}
+		}
+
+		if(th<3)
+			return;
+   		g.setFont(f);
+		at=(AffineTransform)g.getTransform().clone();
+
+		ats=(AffineTransform)g.getTransform().clone();
+ 		
+		if(orientation!=0){
     		if(mirror) {
-    			AffineTransform mm = new AffineTransform(); 
-    			mm.scale(-1,1);
-    			at.concatenate(mm);
-    			stretching.scale(1,xyfactor);
+    		    at.concatenate(mm);
 				at.rotate(Math.toRadians(orientation),-xa, ya);
 				at.concatenate(stretching);
-				g.setTransform(at);
-    			
+   				g.setTransform(at);
 
-    			//if(g.hitClip(-xa,(int)(ya/xyfactor),w,th))
-					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
-					
+    			g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
+
     		} else {
-    			stretching.scale(1,xyfactor);
 				at.rotate(Math.toRadians(-orientation),xa,ya);
-
 				at.concatenate(stretching);
-				g.setTransform(at);
-				
-
-    			//if(g.hitClip(-xa,(int)(ya/xyfactor),w,th))
-				if (!txt.equals(""))
-					g.drawString(txt,xa,(int)((ya)/xyfactor)+h); 
+   				g.setTransform(at);
+				g.drawString(txt,xa,(int)((ya)/xyfactor)+h); 
     		}
-    		
-			int hh=(int)(w*si+th*co);
-			int ww=(int)(w*co-th*si);
-			
-			/* 	This coordinate handling can be improved. It does not work
-				in cases such as the following one:
-					
-					[FIDOCAD]
-					TY 782 316 12 9 200 1 3 * test segmenti display 
-					[FIDOCAD]
-					TY 315 225 18 8 90 0 4 * R11 
-
-			*/
-				
-   			coordSys.trackPoint(xa,ya);
+    /*		coordSys.trackPoint(xa,ya);
   			coordSys.trackPoint(xa+ww,ya+th);
    			coordSys.trackPoint(xa,ya+hh);
    			coordSys.trackPoint(xa+ww,ya+hh+th);
-    			
+    			*/
 		} else {
-  			if (!mirror){
-  				coordSys.trackPoint(xa+w,ya);
-				coordSys.trackPoint(xa,ya+(int)(h/xyfactor));
-				
-				stretching.scale(1,xyfactor);
+			if (!mirror){
+	/*			coordSys.trackPoint(xa+w,ya);
+				coordSys.trackPoint(xa,ya+(int)(h/xyfactor));*/
 				at.concatenate(stretching);
 				g.setTransform(at);
-
 				if(g.hitClip(xa,(int)(ya/xyfactor), w, th)){
 					g.drawString(txt,xa,(int)((ya)/xyfactor)+h);	
 				}
 			} else {
-				//at=g.getTransform();
-				coordSys.trackPoint(xa-w,ya);
-				coordSys.trackPoint(xa,ya+(int)(th/xyfactor));
-				
-    			at.scale(-1,xyfactor);
-    			g.setTransform(at);
-				
-				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h) && txt.length()!=0){
+	/*			coordSys.trackPoint(xa-w,ya);
+				coordSys.trackPoint(xa,ya+(int)(th/xyfactor));*/
+   				at.scale(-1,xyfactor);
+				g.setTransform(at);
+				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h)){
 					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
-					
 				}
 			}
 		}
-		
 		g.setTransform(ats);
 	}
 	
@@ -353,6 +358,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		throws IOException
 	{
 		// assert it is the correct primitive
+		changed=true;
 
  		if (tokens[0].equals("TY")) {	// Text (advanced)
  			if (N<9) {
@@ -581,6 +587,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	public void setControls(Vector v)
 	{
 		int i=0;
+		changed=true;
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -686,6 +693,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	{
 		super.mirrorPrimitive(xPos);
 		sty ^= TEXT_MIRRORED;
+		changed=true;
+
 	}
 	
 
