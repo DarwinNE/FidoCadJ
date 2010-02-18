@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.4.13)  13 FEB 2010 15:35
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.4.13)  18 FEB 2010 23:08
 entering extended mode
 **manual_fr
 (./manual_fr.tex
@@ -67,14 +67,22 @@ Package typearea Info: These are the values describing the layout:
 ) (/opt/local/share/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2004/11/20 v3.8d The Babel package
 
-(/opt/local/share/texmf-dist/tex/generic/babel/frenchb.ldf
-Language: french 2004/04/02 v1.6f French support from the babel system
+(/opt/local/share/texmf-dist/tex/generic/babel/english.ldf
+Language: english 2004/06/14 v3.3o English support from the babel system
 
 (/opt/local/share/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2004/11/20 v3.8d Babel common definitions
 \babel@savecnt=\count89
 \U@D=\dimen103
 )
+\l@british = a dialect from \language\l@english 
+\l@UKenglish = a dialect from \language\l@english 
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+)
+(/opt/local/share/texmf-dist/tex/generic/babel/frenchb.ldf
+Language: french 2004/04/02 v1.6f French support from the babel system
 Package babel Info: Making : an active character on input line 219.
 Package babel Info: Making ; an active character on input line 220.
 Package babel Info: Making ! an active character on input line 221.
@@ -637,14 +645,14 @@ Package: pgf 2004/10/08 ver 0.65
 (/opt/local/share/texmf-dist/tex/latex/base/makeidx.sty
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 49.
-Package hyperref Info: Option `linktocpage' set `true' on input line 49.
-Package hyperref Info: Option `breaklinks' set `true' on input line 49.
-Package hyperref Info: Option `pageanchor' set `true' on input line 49.
-Package hyperref Info: Option `plainpages' set `false' on input line 49.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 49.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 49.
-Package hyperref Info: Option `hypertexnames' set `true' on input line 49.
+Package hyperref Info: Option `colorlinks' set `true' on input line 56.
+Package hyperref Info: Option `linktocpage' set `true' on input line 56.
+Package hyperref Info: Option `breaklinks' set `true' on input line 56.
+Package hyperref Info: Option `pageanchor' set `true' on input line 56.
+Package hyperref Info: Option `plainpages' set `false' on input line 56.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 56.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 56.
+Package hyperref Info: Option `hypertexnames' set `true' on input line 56.
 \@indexfile=\write4
 \openout4 = `manual_fr.idx'.
 
@@ -653,32 +661,32 @@ Writing index file manual_fr.idx
 (./manual_fr.aux)
 \openout1 = `manual_fr.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for T1/lmr/m/n on input line 65.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 65.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for T1/lmr/m/n on input line 72.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 72.
  (/opt/local/share/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2003/07/22 v1.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 65.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 72.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 72.
 
 (/opt/local/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Try loading font information for T1+pplj on input line 65.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
+LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Try loading font information for T1+pplj on input line 72.
 
 (/opt/local/share/texmf-dist/tex/latex/psnfss/t1pplj.fd
 File: t1pplj.fd 2004/09/06 font definitions for T1/pplj.
@@ -689,9 +697,9 @@ File: mt-ppl.cfg 2005/01/11 v1.4 microtype config. file: Palatino (RS)
 
 Package frenchb.ldf Warning: The definition of \@makecaption has been changed,
 (frenchb.ldf)                frenchb will NOT customize it;
-(frenchb.ldf)                reported on input line 65.
+(frenchb.ldf)                reported on input line 72.
 
-LaTeX Info: Redefining \dots on input line 65.
+LaTeX Info: Redefining \dots on input line 72.
 (/opt/local/share/texmf-dist/tex/latex/ms/ragged2e.sty
 Package: ragged2e 2003/03/25 v2.04 ragged2e Package (MS)
 
@@ -714,16 +722,16 @@ LaTeX Info: Redefining \selectfont on input line 125.
 \RaggedRightParindent=\skip116
 \JustifyingParindent=\skip117
 )
-Package caption Info: listings package v1.2 (or newer) detected on input line 6
-5.
-Package hyperref Info: Link coloring ON on input line 65.
+Package caption Info: listings package v1.2 (or newer) detected on input line 7
+2.
+Package hyperref Info: Link coloring ON on input line 72.
 
 (/opt/local/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2003/12/03 v2.21 Cross-referencing by name of section
 \c@section@level=\count137
 )
-LaTeX Info: Redefining \ref on input line 65.
-LaTeX Info: Redefining \pageref on input line 65.
+LaTeX Info: Redefining \ref on input line 72.
+LaTeX Info: Redefining \pageref on input line 72.
  (./manual_fr.out)
 (./manual_fr.out)
 \openout3 = `manual_fr.out'.
@@ -762,26 +770,26 @@ loading : Context Support Macros / PDF (2004.03.26)
 \MPnumerator=\count147
 \everyMPtoPDFconversion=\toks34
 )
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 70.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 77.
  (/opt/local/share/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+zeur on input line 70.
+LaTeX Font Info:    Try loading font information for U+zeur on input line 77.
 
 (/opt/local/share/texmf-dist/tex/latex/eulervm/uzeur.fd
 File: uzeur.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Try loading font information for U+zeus on input line 70.
+LaTeX Font Info:    Try loading font information for U+zeus on input line 77.
 
 (/opt/local/share/texmf-dist/tex/latex/eulervm/uzeus.fd
 File: uzeus.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Try loading font information for U+zeuex on input line 70.
+LaTeX Font Info:    Try loading font information for U+zeuex on input line 77.
 
 (/opt/local/share/texmf-dist/tex/latex/eulervm/uzeuex.fd
 File: uzeuex.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Try loading font information for OT1+zplm on input line 70.
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 77.
 
 
 (/opt/local/share/texmf-dist/tex/latex/psnfss/ot1zplm.fd
@@ -805,58 +813,46 @@ _fidocadj_a.png>] [2
 ] [6
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+pplj on input line 126
+LaTeX Font Info:    Try loading font information for TS1+pplj on input line 137
 .
 
 (/opt/local/share/texmf-dist/tex/latex/psnfss/ts1pplj.fd
 File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
 ) [7
 
-] (./manual_fr.toc
-Overfull \hbox (30.95036pt too wide) in paragraph at lines 16--16
- [][] []\^^@ l e f o r -m a t d e s d e s -s i n s , d e s m a -c r o s e t d e
- s b i -b l i o -t h è q u e s 
- []
-
-
-Overfull \hbox (33.28679pt too wide) in paragraph at lines 36--36
- [][] []\^^@ e x -t e n -s i o n s s p é -c i -f i q u e s a u x s y s -t è m e
- s d ' e x -p l o i -t a -t i o n  []  
- []
-
-)
+] (./manual_fr.toc)
 \tf@toc=\write6
 \openout6 = `manual_fr.toc'.
 
- [8
+[8
 
 ] (./manual_fr.lof
-Overfull \hbox (12.02379pt too wide) in paragraph at lines 8--8
- [][] []\^^@ La fe-nêtre des pa-ra-mètres du texte en Fi-do-CadJ []  
+Overfull \hbox (14.72379pt too wide) in paragraph at lines 22--22
+ [][] []\^^@ La fe-nêtre des pa-ra-mètres du texte en Fi-do-CadJ. []  
  []
 
 
-Overfull \hbox (14.7039pt too wide) in paragraph at lines 10--10
+Overfull \hbox (14.4539pt too wide) in paragraph at lines 24--24
  [][] []\^^@ Commençons à po-si-tion-ner les deux tran-sis-tors. []  
  []
 
 
-Overfull \hbox (0.29529pt too wide) in paragraph at lines 11--11
+Overfull \hbox (0.29529pt too wide) in paragraph at lines 25--25
  [][] []\^^@ Nous pou-vons sé-lec-tion-ner le tran-sis-tor de gauche 
  []
 
 
-Overfull \hbox (13.96985pt too wide) in paragraph at lines 14--14
+Overfull \hbox (13.96985pt too wide) in paragraph at lines 28--28
  [][] []\^^@ Voici le cir-cuit ter-miné, dans toute sa splen-deur. []  
  []
 
 
-Overfull \hbox (8.24092pt too wide) in paragraph at lines 17--17
+Overfull \hbox (8.24092pt too wide) in paragraph at lines 31--31
  \^^@ men-ta-tion po-si-tive à l'aide de deux po-ly-gones. []  
  []
 
 
-Overfull \hbox (8.4866pt too wide) in paragraph at lines 20--20
+Overfull \hbox (8.4866pt too wide) in paragraph at lines 34--34
  [][] []\^^@ Le tra-vail ter-miné, avec toutes les sé-ri-gra-phies. []  
  []
 
@@ -877,86 +873,90 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [10]
 Chapitre 1.
 LaTeX Font Info:    Font shape `T1/pplj/m/sl' in size <10> not available
-(Font)              Font shape `T1/pplj/m/it' tried instead on input line 178.
+(Font)              Font shape `T1/pplj/m/it' tried instead on input line 190.
 LaTeX Font Info:    Font shape `T1/pplj/m/sl' in size <8> not available
-(Font)              Font shape `T1/pplj/m/it' tried instead on input line 178.
+(Font)              Font shape `T1/pplj/m/it' tried instead on input line 190.
 [1
 
 ] [2] [3]
 Chapitre 2.
-<images/fidocadj_macosx_fr.png, id=403, 1059.96pt x 794.97pt>
+<images/fidocadj_macosx_fr.png, id=409, 1059.96pt x 794.97pt>
 File: images/fidocadj_macosx_fr.png Graphic file (type png)
 
 <use images/fidocadj_macosx_fr.png>
-<images/fidocadj_metal.png, id=404, 1085.05376pt x 621.32124pt>
+<images/fidocadj_metal.png, id=410, 1085.05376pt x 621.32124pt>
 File: images/fidocadj_metal.png Graphic file (type png)
 
 <use images/fidocadj_metal.png>
-<images/icons/arrow.png, id=405, 32.12pt x 32.12pt>
+<images/icons/arrow.png, id=411, 32.12pt x 32.12pt>
 File: images/icons/arrow.png Graphic file (type png)
 
 <use images/icons/arrow.png>
-<images/icons/magnifier.png, id=406, 32.12pt x 32.12pt>
+<images/icons/magnifier.png, id=412, 32.12pt x 32.12pt>
 File: images/icons/magnifier.png Graphic file (type png)
 
 <use images/icons/magnifier.png>
-<images/icons/move.png, id=407, 32.12pt x 32.12pt>
+<images/icons/move.png, id=413, 32.12pt x 32.12pt>
 File: images/icons/move.png Graphic file (type png)
  <use images/icons/move.png>
-<images/icons/line.png, id=408, 32.12pt x 32.12pt>
+<images/icons/line.png, id=414, 32.12pt x 32.12pt>
 File: images/icons/line.png Graphic file (type png)
  <use images/icons/line.png>
-<images/icons/text.png, id=409, 32.12pt x 32.12pt>
+<images/icons/text.png, id=415, 32.12pt x 32.12pt>
 File: images/icons/text.png Graphic file (type png)
  <use images/icons/text.png>
-<images/icons/bezier.png, id=410, 32.12pt x 32.12pt>
+<images/icons/bezier.png, id=416, 32.12pt x 32.12pt>
 File: images/icons/bezier.png Graphic file (type png)
 
 <use images/icons/bezier.png>
-<images/icons/polygon.png, id=411, 32.12pt x 32.12pt>
+<images/icons/polygon.png, id=417, 32.12pt x 32.12pt>
 File: images/icons/polygon.png Graphic file (type png)
 
 <use images/icons/polygon.png>
-<images/icons/ellipse.png, id=412, 32.12pt x 32.12pt>
+<images/icons/ellipse.png, id=418, 32.12pt x 32.12pt>
 File: images/icons/ellipse.png Graphic file (type png)
 
 <use images/icons/ellipse.png>
-<images/icons/rectangle.png, id=413, 32.12pt x 32.12pt>
+<images/icons/rectangle.png, id=419, 32.12pt x 32.12pt>
 File: images/icons/rectangle.png Graphic file (type png)
 
 <use images/icons/rectangle.png>
-<images/icons/connection.png, id=414, 32.12pt x 32.12pt>
+<images/icons/connection.png, id=420, 32.12pt x 32.12pt>
 File: images/icons/connection.png Graphic file (type png)
 
 <use images/icons/connection.png>
-<images/icons/pcbline.png, id=415, 32.12pt x 32.12pt>
+<images/icons/pcbline.png, id=421, 32.12pt x 32.12pt>
 File: images/icons/pcbline.png Graphic file (type png)
 
 <use images/icons/pcbline.png>
-<images/icons/pcbpad.png, id=416, 32.12pt x 32.12pt>
+<images/icons/pcbpad.png, id=422, 32.12pt x 32.12pt>
 File: images/icons/pcbpad.png Graphic file (type png)
 
 <use images/icons/pcbpad.png>
-Overfull \hbox (84.86899pt too wide) in paragraph at lines 232--362
- [][] 
+Overfull \hbox (38.73503pt too wide) in paragraph at lines 244--370
+[][]
  []
 
-<images/ricerca.png, id=417, 239.89626pt x 239.89626pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 244--370
+
+ []
+
+<images/ricerca.png, id=423, 239.89626pt x 239.89626pt>
 File: images/ricerca.png Graphic file (type png)
 
 <use images/ricerca.png>
-<images/param_testo.png, id=418, 455.7025pt x 304.13625pt>
+<images/param_testo.png, id=424, 455.7025pt x 304.13625pt>
 File: images/param_testo.png Graphic file (type png)
 
-<use images/param_testo.png> [4
+<use images/param_testo.png> (./images/schema.pgf) [4
 
 ] [5 <./images/fidocadj_macosx_fr.png> <./images/fidocadj_metal.png> <./images/
 ricerca.png>] [6 <./images/icons/arrow.png> <./images/icons/magnifier.png> <./i
 mages/icons/move.png> <./images/icons/line.png> <./images/icons/text.png> <./im
 ages/icons/bezier.png> <./images/icons/polygon.png> <./images/icons/ellipse.png
 > <./images/icons/rectangle.png> <./images/icons/connection.png> <./images/icon
-s/pcbline.png> <./images/icons/pcbpad.png>]
-(./images/schema.pgf)
+s/pcbline.png> <./images/icons/pcbpad.png> <./images/param_testo.png>]
 <images/fidocadj_fase1.png, id=453, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase1.png Graphic file (type png)
 
@@ -964,130 +964,111 @@ File: images/fidocadj_fase1.png Graphic file (type png)
 <images/fidocadj_fase2.png, id=454, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase2.png Graphic file (type png)
 
-<use images/fidocadj_fase2.png> [7 <./images/param_testo.png>] [8 <./images/fid
-ocadj_fase1.png> <./images/fidocadj_fase2.png>]
-<images/fidocadj_fase3.png, id=466, 1084.05pt x 620.3175pt>
+<use images/fidocadj_fase2.png>
+Underfull \vbox (badness 1888) has occurred while \output is active []
+
+ [7 <./images/fidocadj_fase1.png>]
+<images/fidocadj_fase3.png, id=462, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase3.png Graphic file (type png)
 
 <use images/fidocadj_fase3.png>
-<images/fidocadj_fase4.png, id=467, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase4.png, id=463, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase4.png Graphic file (type png)
 
-<use images/fidocadj_fase4.png>
-<images/fidocadj_fase5.png, id=468, 1084.05pt x 620.3175pt>
+<use images/fidocadj_fase4.png> [8 <./images/fidocadj_fase2.png> <./images/fido
+cadj_fase3.png>] <images/fidocadj_fase5.png, id=469, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase5.png Graphic file (type png)
 
-<use images/fidocadj_fase5.png> [9 <./images/fidocadj_fase3.png>] [10 <./images
-/fidocadj_fase4.png> <./images/fidocadj_fase5.png>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 442.
+<use images/fidocadj_fase5.png> [9 <./images/fidocadj_fase4.png> <./images/fido
+cadj_fase5.png>]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 450.
 
-
-(/opt/local/share/texmf-dist/tex/latex/base/t1cmtt.fd
+ (/opt/local/share/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-) [11] [12]
-<images/amplificateur.pdf, id=533, 117.43875pt x 93.34875pt>
+)
+[10] <images/amplificateur.pdf, id=521, 117.43875pt x 93.34875pt>
 File: images/amplificateur.pdf Graphic file (type pdf)
 
-<use images/amplificateur.pdf>
-<images/amplificateur_phase1.png, id=534, 1084.05pt x 620.3175pt>
+<use images/amplificateur.pdf> [11]
+<images/amplificateur_phase1.png, id=530, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase1.png Graphic file (type png)
 
-<use images/amplificateur_phase1.png> [13 <./images/amplificateur.pdf> <./image
+<use images/amplificateur_phase1.png> [12 <./images/amplificateur.pdf> <./image
 s/amplificateur_phase1.png>]
-<images/amplificateur_phase2.png, id=560, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase2.png, id=562, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase2.png Graphic file (type png)
 
 <use images/amplificateur_phase2.png>
-<images/amplificateur_phase3.png, id=561, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase3.png, id=563, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase3.png Graphic file (type png)
 
-<use images/amplificateur_phase3.png> [14 <./images/amplificateur_phase2.png> <
+<use images/amplificateur_phase3.png> [13 <./images/amplificateur_phase2.png> <
 ./images/amplificateur_phase3.png>]
-<images/amplificateur_phase4.png, id=570, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase4.png, id=572, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase4.png Graphic file (type png)
 
 <use images/amplificateur_phase4.png>
-<images/amplificateur_complet.png, id=571, 835.12pt x 475.7775pt>
+<images/amplificateur_complet.png, id=573, 835.12pt x 475.7775pt>
 File: images/amplificateur_complet.png Graphic file (type png)
 
-<use images/amplificateur_complet.png> [15 <./images/amplificateur_phase4.png> 
+<use images/amplificateur_complet.png> [14 <./images/amplificateur_phase4.png> 
 <./images/amplificateur_complet.png>]
-<images/amplificateur_impression.pdf, id=579, 597.23125pt x 845.1575pt>
+<images/amplificateur_impression.pdf, id=580, 597.23125pt x 845.1575pt>
 File: images/amplificateur_impression.pdf Graphic file (type pdf)
 
-<use images/amplificateur_impression.pdf> [16 <./images/amplificateur_impressio
-n.pdf>] <images/gyrator.pdf, id=625, 75.28125pt x 39.14626pt>
+<use images/amplificateur_impression.pdf> [15 <./images/amplificateur_impressio
+n.pdf>] <images/gyrator.pdf, id=628, 75.28125pt x 39.14626pt>
 File: images/gyrator.pdf Graphic file (type pdf)
 
 <use images/gyrator.pdf>
-<images/parametri_bezier.png, id=626, 459.7175pt x 385.44pt>
+<images/parametri_bezier.png, id=629, 459.7175pt x 385.44pt>
 File: images/parametri_bezier.png Graphic file (type png)
 
-<use images/parametri_bezier.png> [17 <./images/gyrator.pdf>] [18 <./images/par
-ametri_bezier.png>] [19] [20]
-<images/fidocadj_motif.png, id=680, 1041.8925pt x 589.20125pt>
+<use images/parametri_bezier.png> [16 <./images/gyrator.pdf>] [17 <./images/par
+ametri_bezier.png>] [18] [19]
+<images/fidocadj_motif.png, id=683, 1041.8925pt x 589.20125pt>
 File: images/fidocadj_motif.png Graphic file (type png)
 
-<use images/fidocadj_motif.png> [21 <./images/fidocadj_motif.png>]
+<use images/fidocadj_motif.png> [20 <./images/fidocadj_motif.png>]
 Chapitre 3.
-[22
+[21
 
 ]
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <10> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 799.
- [23]
-Overfull \hbox (19.22572pt too wide) has occurred while \output is active
-|\T1/pplj/m/n/9 3. \T1/pplj/m/sc/9 l e f o r -m a t d e s d e s -s i n s , d e 
-s m a -c r o s e t d e s b i -b l i o -t h è q u e s f i -d o -c a d 
- []
-
-[24] [25]
-Overfull \hbox (19.22572pt too wide) has occurred while \output is active
-|\T1/pplj/m/n/9 3. \T1/pplj/m/sc/9 l e f o r -m a t d e s d e s -s i n s , d e 
-s m a -c r o s e t d e s b i -b l i o -t h è q u e s f i -d o -c a d 
- []
-
-[26] <images/gyrator_n.pdf, id=759, 75.28125pt x 39.14626pt>
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 807.
+ [22] [23] [24] [25]
+<images/gyrator_n.pdf, id=764, 75.28125pt x 39.14626pt>
 File: images/gyrator_n.pdf Graphic file (type pdf)
 
-<use images/gyrator_n.pdf> [27]
-Overfull \hbox (19.22572pt too wide) has occurred while \output is active
-|\T1/pplj/m/n/9 3. \T1/pplj/m/sc/9 l e f o r -m a t d e s d e s -s i n s , d e 
-s m a -c r o s e t d e s b i -b l i o -t h è q u e s f i -d o -c a d 
- []
+<use images/gyrator_n.pdf> [26]
+Underfull \vbox (badness 1107) has occurred while \output is active []
 
-[28 <./images/gyrator_n.pdf>] [29]
+ [27 <./images/gyrator_n.pdf>] [28]
 Chapitre 4.
-[30
+[29
 
 ]
 Annexe A.
 
-Overfull \hbox (12.46315pt too wide) in paragraph at lines 1097--1101
-[][]\^^@ http ://-sour-ce-forge.net/projects/fidocadj/files/FidoCadJ.dmg/downlo
-ad[][] 
- []
-
-
 Underfull \vbox (badness 2197) has occurred while \output is active []
 
- [31
+ [30
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1108--1109
+Underfull \hbox (badness 10000) in paragraph at lines 1117--1118
 
  []
 
-[32] <images/permessi.png, id=841, 725.71124pt x 496.85625pt>
+[31] <images/permessi.png, id=846, 725.71124pt x 496.85625pt>
 File: images/permessi.png Graphic file (type png)
 
-<use images/permessi.png> <images/java6.png, id=842, 719.68875pt x 493.845pt>
+<use images/permessi.png> <images/java6.png, id=847, 719.68875pt x 493.845pt>
 File: images/java6.png Graphic file (type png)
 
 <use images/java6.png>
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [33 <./images/permessi.png> <./images/java6.png>] (./manual_fr.ind [34] [35
+ [32 <./images/permessi.png> <./images/java6.png>] (./manual_fr.ind [33] [34
 
 
 
@@ -1096,51 +1077,54 @@ Overfull \hbox (2.14937pt too wide) in paragraph at lines 174--175
 []\^^@ recherche dans les bi-blio-thèques,
  []
 
-[36]) [37
+[35]) [36
 
 
-] (./manual_fr.aux) ) 
+] [37] (./manual_fr.aux) ) 
 Here is how much of TeX's memory you used:
- 11582 strings out of 94500
- 162728 string characters out of 1174973
- 315878 words of memory out of 1000000
- 13989 multiletter control sequences out of 10000+50000
- 68587 words of font info for 220 fonts, out of 500000 for 2000
+ 11638 strings out of 94500
+ 163383 string characters out of 1174973
+ 329409 words of memory out of 1000000
+ 14002 multiletter control sequences out of 10000+50000
+ 75381 words of font info for 253 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 49i,15n,79p,945b,1946s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 49i,15n,79p,950b,1860s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 1098 PDF objects out of 300000
+ 1111 PDF objects out of 300000
  284 named destinations out of 131072
- 25616 words of extra memory for PDF output out of 65536
-</opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmsy10
-.pfb>{/opt/local/share/texmf-dist/fonts/enc/dvips/psnfss/8r.enc}</opt/local/sha
-re/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></opt/local/share/texmf-dist/
-fonts/type1/bluesky/euler/eurm7.pfb></opt/local/share/texmf-dist/fonts/type1/pu
-blic/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/euf
-m10.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt
-/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/te
-xmf-dist/fonts/type1/bluesky/latex/lcircle1.pfb> </var/tmp/texfonts/pk/ljfour/j
-knappen/ec/ectt0900.600pk></opt/local/share/texmf-dist/fonts/type1/public/fpl/f
-plrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></
-opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share
-/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fon
-ts/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/publ
-ic/fpl/fplrij8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri
-8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/lo
-cal/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf
--dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/ty
-pe1/bluesky/euler/eurb10.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/e
-uler/eurm10.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb
-></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/sh
-are/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist
-/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/u
-rw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/up
-lr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt
-/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/t
-exmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/font
-s/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/pal
-atino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.p
-fb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/
-share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb> </var/tmp/texfonts/pk/ljf
-our/jknappen/ec/ecsx2488.600pk>
-Output written on manual_fr.pdf (47 pages, 2275518 bytes).
+ 27152 words of extra memory for PDF output out of 65536
+{/opt/local/share/texmf-dist/fonts/enc/dvips/psnfss/8
+r.enc}</opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/l
+ocal/share/texmf-dist/fonts/type1/bluesky/cm/cmsy10.pfb></opt/local/share/texmf
+-dist/fonts/type1/urw/palatino/uplb8a.pfb></opt/local/share/texmf-dist/fonts/ty
+pe1/bluesky/euler/eurm7.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palati
+no/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb>
+</opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eufm10.pfb></opt/local/s
+hare/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist
+/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/ur
+w/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplr
+c8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/latex/lcircle1.pfb> </
+var/tmp/texfonts/pk/ljfour/jknappen/ec/ectt0900.600pk></opt/local/share/texmf-d
+ist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1
+/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino
+/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrij8a.pfb><
+/opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/local/sh
+are/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/
+fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw
+/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eur
+b10.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eurm10.pfb></opt
+/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/local/share/
+texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fon
+ts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/public
+/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.p
+fb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local
+/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-d
+ist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type
+1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino
+/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb><
+/opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/shar
+e/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/f
+onts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/pub
+lic/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8
+a.pfb> </var/tmp/texfonts/pk/ljfour/jknappen/ec/ecsx2488.600pk>
+Output written on manual_fr.pdf (47 pages, 2305093 bytes).

@@ -1,0 +1,7 @@
+#!/bin/bash
+# cd bin
+# Testing with my old 1.4.2 JRE
+#/System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Commands/java -classpath "./bin:./jar:./jar/quaqua.jar:./jar/"  FidoFrame
+java  -server -javaagent:/Users/davidebucci/SWProjects/Java/jip-src-1.1.1/profile/profile.jar -Dprofile.properties=/Users/davidebucci/SWProjects/Java/jip-src-1.1.1/profile/profile.properties -classpath "./bin:./jar:./jar/quaqua.jar:./jar/"  FidoFrame
+# cd ..
+

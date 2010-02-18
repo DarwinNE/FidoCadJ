@@ -222,7 +222,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		   the control point of the shape */
  		
  		
- 		if (changed) {
+ 		if (changed||stroke==null) {
  			changed=false;
  			shape1 = new CubicCurve2D.Float(
  				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),

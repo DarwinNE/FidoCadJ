@@ -197,7 +197,8 @@ public class ExportGraphic
 		// Unfortunately, to get the image size, we need to redraw it.	
 		// I do not like it, even if here we do not are in a speed sensitive
 		// context!
-				
+		
+		P.setChanged(true);
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
@@ -259,7 +260,8 @@ public class ExportGraphic
 		// Unfortunately, to get the image size, we need to redraw it.	
 		// I do not like it, even if here we do not are in a speed sensitive
 		// context!
-				
+		
+		P.setChanged(true);		
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
@@ -320,7 +322,8 @@ public class ExportGraphic
 		double maxsizex;
 		double maxsizey;
 		Point org=new Point(0,0);
-
+		
+		P.setChanged(true);
 		MapCoordinates newZoom=new MapCoordinates();
 	
 		// If the size is invalid (for example because it's the first time
