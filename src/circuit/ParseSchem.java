@@ -84,6 +84,8 @@ public class ParseSchem
     static final boolean useWindowsLineFeed=false;
     
 	public String openFileName;
+	
+	private boolean changed;
 
     private boolean drawOnlyPads;
     private int drawOnlyLayer;
@@ -150,6 +152,7 @@ public class ParseSchem
         cs.setXMagnitude(4.0);	// OK
         cs.orientation=0;
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
+        changed=true;
     }
     
     /** Get the layer description vector
@@ -171,6 +174,7 @@ public class ParseSchem
     public void setLayers(ArrayList v)
     {
         layerV=v;
+        changed=true;
     }
     
     /**	Get the current library
@@ -189,6 +193,7 @@ public class ParseSchem
     public void setLibrary(Map l)
     {
         library=l;
+        changed=true;
     }
     
     
@@ -462,17 +467,19 @@ public class ParseSchem
     	GraphicPrimitive g;
     	int i;
     	
-  		for (i=0; i<primitiveVector.size(); ++i){
+  		for (i=0;i<primitiveVector.size();++i){
     	
         	g=(GraphicPrimitive)primitiveVector.get(i);
 			
-        	if(g.getLayer()>p.getLayer()) {
+        	if(g.getLayer()>=p.getLayer()) {
+        		++i;
 				break;
         	}
         }	
         
         primitiveVector.add(i,p);
         if (save) saveUndoState();
+        changed=true;
 
     }
     
@@ -529,11 +536,13 @@ public class ParseSchem
     	int j_index;
     	
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
-    	   oO!=cs.getOrientation()) {
+    	   oO!=cs.getOrientation() || changed) {
     		oZ=cs.getXMagnitude();
     		oX=cs.getXCenter();
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
+    		changed=false;
+    		
     		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
     			gg=(GraphicPrimitive)primitiveVector.get(i_index);
     			gg.setChanged(true);
@@ -850,7 +859,7 @@ public class ParseSchem
             	((PrimitiveMacro)primitiveVector.get(i)).setMacroFont(f);
             }
         }
-        
+        changed=true;
     }
     
     
@@ -1481,10 +1490,10 @@ public class ParseSchem
         boolean hasFCJ=false; // the last primitive has FCJ extensions
         StringBuffer token=new StringBuffer(); 
         GraphicPrimitive g;
-        String[] old_tokens=new String[MAX_TOKENS];;
-        String[] name=new String[MAX_TOKENS];;
-        String[] value=new String[MAX_TOKENS];;
-
+        String[] old_tokens=new String[MAX_TOKENS];
+        String[] name=new String[MAX_TOKENS];
+        String[] value=new String[MAX_TOKENS];
+		
 		int vn=0, vv=0;
         int old_j=0;
         int macro_counter=0;
@@ -1514,9 +1523,6 @@ public class ParseSchem
                 if (token.length()==0)  // Avoids trailing spaces
                     j--;
                 
-             /*   System.out.println("Reading...");
-                for(int l=0; l<j+1; ++l)
-                    System.out.println("l="+l+"  "+tokens[l]);*/
                 try{
                 	if(hasFCJ && !tokens[0].equals("FCJ")) {
                 		if (old_tokens[0].equals("MC")) {
@@ -1762,7 +1768,7 @@ public class ParseSchem
             
         }
         
-        
+        try{
         if(hasFCJ && !tokens[0].equals("FCJ")) {
         	if (old_tokens[0].equals("MC")) {
         		g=new PrimitiveMacro(library,layerV);
@@ -1803,6 +1809,14 @@ public class ParseSchem
                      
             }
         }
+        } catch(IOException E) {
+            System.out.println("Error encountered: "+E.toString());
+            System.out.println("string parsing line: "+lineNum);
+        } catch(NumberFormatException F) {
+            System.out.println("I could not read a number at line: "
+                                     +lineNum);
+        }
+        
     }
     
 
@@ -1876,12 +1890,7 @@ public class ParseSchem
         			}
         		}
        		}
-       		
-       		
-        
         }
-        
-        
         
         // Draw in a second time only the PCB pads, in order to ensure that the
         // drills are always open.
@@ -2014,6 +2023,11 @@ public class ParseSchem
 	public final boolean getNeedHoles()
 	{
 		return needHoles;
+	}
+	
+	public final void setChanged(boolean c)
+	{
+		changed=c;
 	}
 }
 

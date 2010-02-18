@@ -20,6 +20,8 @@ import circuit.*;
 import geom.*;
 import clipboard.*;
 import toolbars.*;
+import timer.*;
+
 
 
 
@@ -308,6 +310,9 @@ public class FidoFrame extends JFrame implements
     {
         
         super("FidoCadJ "+Globals.version);
+        
+        
+        
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
         	javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
@@ -359,7 +364,12 @@ public class FidoFrame extends JFrame implements
         
         dt = new DropTarget(CC, this);
                
+       MyTimer mt;
+        mt = new MyTimer();
+        
         CC.P.loadLibraryDirectory(libDirectory);
+        
+        
         
         if (!(new File(Globals.createCompleteFileName(
         	libDirectory,"IHRAM.FCL"))).exists()) {
@@ -380,7 +390,12 @@ public class FidoFrame extends JFrame implements
 
 		} else
         	System.out.println("Standard PCB library got from external file");
-
+		if(true) {
+            double elapsed=mt.getElapsed();
+            
+            System.out.println("Library load time elapsed: " + elapsed+" ms");
+            
+        }
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
 

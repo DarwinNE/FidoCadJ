@@ -15,7 +15,7 @@ ShowCmd=3
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
-MaxPos.y=-26
+MaxPos.y=-23
 NormalPos.left=0
 NormalPos.top=0
 NormalPos.right=704
@@ -24,15 +24,15 @@ Class=CLatexEdit
 Document=ClassicThesis.tex
 
 [Frame0_Row0]
-cyCur=317
+cyCur=410
 cyMin=10
 
 [Frame0_Col0]
-cxCur=997
+cxCur=1006
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=45
-Cursor.column=50
-TopSubLine=38
+Cursor.row=76
+Cursor.column=11
+TopSubLine=70
 

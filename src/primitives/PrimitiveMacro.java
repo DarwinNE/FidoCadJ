@@ -65,7 +65,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroFont="Courier New";
 		macro=new ParseSchem();
 		macroCoord=new MapCoordinates();
-
+		changed=true;
 		
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
@@ -83,7 +83,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		key=key.toLowerCase();
 		macro=new ParseSchem();
 		macroCoord=new MapCoordinates();
-
+		changed=true;
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -182,7 +182,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			// At first, write the name and the value fields in the given positions
  			f = new Font(macroFont,Font.PLAIN,
  				(int)( text_size*12*coordSys.getYMagnitude()/7+.5));
- 			g.setFont(f);
+ 			
 	   		fm = g.getFontMetrics(f);
     		h = fm.getAscent();
     		th = h+fm.getDescent();
@@ -196,10 +196,8 @@ public class PrimitiveMacro extends GraphicPrimitive
    			t_w2=coordSys.unmapXnosnap(w2)-z;
 
 		}
-		
-	   	if (t_th<3)
-	   		return;
-	   	
+	   		
+	   	g.setFont(f);
 
    		/* The if's have been added thanks to this segnalation:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
@@ -666,6 +664,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{
 		super.mirrorPrimitive(xpos);
 		m ^= true;
+		changed=true;
 	}
 	
 	/** Obtain a string command descripion of the primitive.

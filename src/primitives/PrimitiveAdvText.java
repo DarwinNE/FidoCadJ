@@ -269,6 +269,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				co=Math.cos(Math.toRadians(-orientation));
     		
     			if(mirror) {
+    				mm = new AffineTransform(); 
+    				mm.scale(-1,1);
     				stretching.scale(1,xyfactor);
 				
     			} else {
@@ -295,11 +297,9 @@ public class PrimitiveAdvText extends GraphicPrimitive
 			}
 		}
 
-		if(th<3)
-			return;
+		
    		g.setFont(f);
 		at=(AffineTransform)g.getTransform().clone();
-
 		ats=(AffineTransform)g.getTransform().clone();
  		
 		if(orientation!=0){

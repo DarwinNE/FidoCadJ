@@ -1474,7 +1474,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
         g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,	
         	evidenceRect.height);
-  
+
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
