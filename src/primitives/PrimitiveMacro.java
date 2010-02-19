@@ -188,15 +188,17 @@ public class PrimitiveMacro extends GraphicPrimitive
     		th = h+fm.getDescent();
    			w1 = fm.stringWidth(name);
    			w2 = fm.stringWidth(value);
-   		
-   			z = coordSys.unmapYnosnap(0);
-   			t_h=coordSys.unmapYnosnap(h)-z;
-   			t_th=coordSys.unmapYnosnap(th)-z;
-   			t_w1=coordSys.unmapXnosnap(w1)-z;
-   			t_w2=coordSys.unmapXnosnap(w2)-z;
+
+    		coordSys.trackPoint(xa,ya);
+	  		coordSys.trackPoint(xa+w1,ya+th);
+	    	coordSys.trackPoint(xb,yb);
+    		coordSys.trackPoint(xb+w2, yb+th);
 
 		}
 	   		
+	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
+ 			return;
+ 				
 	   	g.setFont(f);
 
    		/* The if's have been added thanks to this segnalation:
@@ -204,17 +206,9 @@ public class PrimitiveMacro extends GraphicPrimitive
    		*/
    		if (name.length()!=0) {
     		g.drawString(name,xa,ya+h);
-    		
-    		coordSys.trackPoint(xa,ya);
-	  		coordSys.trackPoint(xa+t_w1,ya+t_th);
-
     	}
     	if (value.length()!=0) {
     		g.drawString(value,xb,yb+h);
-	    	coordSys.trackPoint(xb,yb);
-
-    		coordSys.trackPoint(xb+t_w2, yb+t_th);
-  		
     	}
     	
 		//coordSys.trackPoint(xa+t_w1,ya);
@@ -237,14 +231,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 			x1=virtualPoint[0].x;
  			y1=virtualPoint[0].y;
  		
- 		
-			// Then create and parse the macro
- 		
-		
+ 				
  			macroCoord.setXMagnitude(coordSys.getXMagnitude());
 			macroCoord.setYMagnitude(coordSys.getYMagnitude());
-		
- 		
+		 		
  			macroCoord.xCenter = coordSys.mapX(x1,y1);
  			macroCoord.yCenter= coordSys.mapY(x1,y1);
 			macroCoord.orientation=(o+coordSys.orientation)%4;

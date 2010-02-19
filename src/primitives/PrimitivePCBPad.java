@@ -114,9 +114,6 @@ public class PrimitivePCBPad extends GraphicPrimitive
  			
  			coordSys.trackPoint(x1-rrx,y1-rry);
  			coordSys.trackPoint(x1+rrx,y1+rry);
-
- 		
- 		
  		
  			rox=Math.abs(xa-coordSys.mapXi(x1+5,y1+5, false));
  			roy=Math.abs(ya-coordSys.mapYi(x1+5,y1+5, false));

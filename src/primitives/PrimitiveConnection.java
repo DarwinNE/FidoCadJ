@@ -97,7 +97,7 @@ public class PrimitiveConnection extends GraphicPrimitive
  			
  		}
  		
- 		if(!g.hitClip(xa , ya , nn, nn))
+ 		if(!g.hitClip(xa, ya, nn, nn))
  			return;
  		
  		g.fillOval(xa, ya, nn, nn);
