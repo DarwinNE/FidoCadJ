@@ -126,10 +126,11 @@ public class PrimitiveRectangle extends GraphicPrimitive
 				stroke=new BasicStroke(w);		
 		}
 		
-		g.setStroke(stroke);
 		
         if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
- 				return;
+ 			return;
+
+		g.setStroke(stroke);
  			
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 

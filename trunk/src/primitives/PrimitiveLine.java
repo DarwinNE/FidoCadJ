@@ -260,7 +260,6 @@ public class PrimitiveLine extends GraphicPrimitive
 
 		g.setStroke(stroke);
 		g.drawLine(x1, y1, x2, y2);
-
 		
 		
 		if (arrowStart || arrowEnd) {

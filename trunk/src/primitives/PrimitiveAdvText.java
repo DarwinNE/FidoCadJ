@@ -197,7 +197,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(Graphics2D g, MapCoordinates coordSys,
+	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
 		if(txt.length()==0)
@@ -317,24 +317,15 @@ public class PrimitiveAdvText extends GraphicPrimitive
    				g.setTransform(at);
 				g.drawString(txt,xa,(int)((ya)/xyfactor)+h); 
     		}
-    /*		coordSys.trackPoint(xa,ya);
-  			coordSys.trackPoint(xa+ww,ya+th);
-   			coordSys.trackPoint(xa,ya+hh);
-   			coordSys.trackPoint(xa+ww,ya+hh+th);
-    			*/
-		} else {
+  	} else {
 			if (!mirror){
-	/*			coordSys.trackPoint(xa+w,ya);
-				coordSys.trackPoint(xa,ya+(int)(h/xyfactor));*/
 				at.concatenate(stretching);
 				g.setTransform(at);
 				if(g.hitClip(xa,(int)(ya/xyfactor), w, th)){
 					g.drawString(txt,xa,(int)((ya)/xyfactor)+h);	
 				}
 			} else {
-	/*			coordSys.trackPoint(xa-w,ya);
-				coordSys.trackPoint(xa,ya+(int)(th/xyfactor));*/
-   				at.scale(-1,xyfactor);
+				at.scale(-1,xyfactor);
 				g.setTransform(at);
 				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h)){
 					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 

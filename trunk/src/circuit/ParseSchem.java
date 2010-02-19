@@ -534,6 +534,7 @@ public class ParseSchem
 		GraphicPrimitive gg;
 		int i_index;
     	int j_index;
+    	boolean reset=false;
     	
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
     	   oO!=cs.getOrientation() || changed) {
@@ -542,11 +543,8 @@ public class ParseSchem
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
     		changed=false;
+    		reset=true;
     		
-    		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-    			gg=(GraphicPrimitive)primitiveVector.get(i_index);
-    			gg.setChanged(true);
-    		}
     	}
     	
 
@@ -564,7 +562,7 @@ public class ParseSchem
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         		gg=(GraphicPrimitive)primitiveVector.get(i_index);
-    
+			    
    				if (gg.getLayer()>maxLayer) 
    					maxLayer = gg.getLayer();
         		
@@ -572,7 +570,9 @@ public class ParseSchem
 				// The layers are kept ordered
 				if (gg.getLayer()>drawOnlyLayer)
 					break;
-			
+				
+				if(reset) gg.setChanged(true);
+				
         		if(gg.getLayer()==drawOnlyLayer && 
         			!(gg instanceof PrimitiveMacro)) {
         			if (isFast) 
@@ -607,11 +607,12 @@ public class ParseSchem
     
     				if (gg.getLayer()>maxLayer) 
         					maxLayer = gg.getLayer();
-					// this should improve the redrawing speed. 
+					// Layers are ordered. This improves the redrawing speed. 
 
 					if (j_index>1 && gg.getLayer()>j_index)
 						break;
-        			
+        		
+					if(reset) gg.setChanged(true);	
         		
         			if(gg.getLayer()==j_index && !(gg instanceof PrimitiveMacro)){
         				if (isFast) 
@@ -672,6 +673,13 @@ public class ParseSchem
         
         
     }
+    
+    /** Specify that the drawing process should only draw holes of the pcb
+    	pad
+    	
+    	@param pd it is true if only holes should be drawn
+    
+    */
     
     public void setDrawOnlyPads(boolean pd)
  	{

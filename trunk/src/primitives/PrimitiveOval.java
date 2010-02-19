@@ -124,7 +124,7 @@ public class PrimitiveOval extends GraphicPrimitive
 				stroke=new BasicStroke(w);		
 		}
 		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
- 				return;
+ 			return;
 		g.setStroke(stroke);		
  
  		if (isFilled)

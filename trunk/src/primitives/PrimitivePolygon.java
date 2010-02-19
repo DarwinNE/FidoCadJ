@@ -84,35 +84,41 @@ public class PrimitivePolygon extends GraphicPrimitive
 
 	}
 
-/*	
-	/** To speedup polygon drawing when dragging, always draw an empty polygon.
-		@param g the graphic context in which the primitive should be drawn.
-		@param coordSys the graphic coordinates system to be applied.
-		@param layerV the layer description.
-	*
-	public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
-	{
-	
-		if(!selectLayer(g,layerV))
-			return;
 
-   		createPolygon(coordSys);
-        g.drawPolygon(p);
- 			
- 		
-	}
-*/	
+	private int xmin, ymin;
+	private int width, height;
+	
 	public final void createPolygon(MapCoordinates coordSys)
 	{
      		
      	int j;
+        xmin = Integer.MAX_VALUE;
+        ymin = Integer.MAX_VALUE;
+        
+        int xmax = -Integer.MAX_VALUE;
+        int ymax = -Integer.MAX_VALUE;
+        
+        int x, y;
         
         p.reset();
-     	for(j=0;j<nPoints;++j)
-      		p.addPoint(coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y),
-      				   coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y));
- 
+     	for(j=0;j<nPoints;++j) {
+     		x = coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y);
+     		y = coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y);
+      		p.addPoint(x,y);
+      		
+      		if (x<xmin) 
+      			xmin=x;
+      		if (x>xmax)
+      			xmax=x;
+      			
+      		if(y<ymin)
+      			ymin=y;
+      		if(y>ymax)
+      			ymax=y;
+      
+ 		}
+ 		width = xmax-xmin;
+ 		height = ymax-ymin;
 	}
 	
 	private Stroke stroke;
@@ -145,6 +151,9 @@ public class PrimitivePolygon extends GraphicPrimitive
 				stroke=new BasicStroke(w);
 		}
 		
+		if(!g.hitClip(xmin,ymin, width, height))
+ 			return;
+ 				
 		g.setStroke(stroke);
         if (isFilled) {
         	g.drawPolygon(p);
@@ -153,8 +162,6 @@ public class PrimitivePolygon extends GraphicPrimitive
  			g.drawPolygon(p);
 		}
 		
-	    //g.setStroke(oldStroke);
-
  		
 	}
 	
