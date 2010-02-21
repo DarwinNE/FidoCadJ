@@ -675,17 +675,6 @@ public class FidoFrame extends JFrame implements
 
         menuBar.add(circuitMenu);
         
- /*       JMenu windowsMenu=new JMenu(Globals.messages.getString("Window"));
-        JMenuItem windowNew = new 
-        	JMenuItem(Globals.messages.getString("New"));
-        //fileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-        //	Globals.shortcutKey));
-        windowsMenu.add(windowNew);
-        windowNew.addActionListener((ActionListener)this);
-
-        
-        menuBar.add(windowsMenu);
-*/
 
         JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new 

@@ -549,10 +549,18 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
 
     /** Called when the mouse is clicked inside the control
-    
+    	0.23.2: the Java click event is a bit too much restrictive. The mouse
+    	need to be hold still during the click. This is apparently a problem for
+    	a number of user. I have thus decided to use the mouse release event
+    	instead of the complete click.
     */
     public void mouseClicked(MouseEvent evt)
     {
+
+    }
+
+	private void handleClick(MouseEvent evt)
+	{
         int x = evt.getX();
         int y = evt.getY();
         requestFocusInWindow(); 
@@ -903,8 +911,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             repaint();
             break;
         }    
-    }
-    
+    }    
+        
+        
+        
+        
     
     /** Handle the mouse movements when editing a graphic primitive.
     
@@ -1255,6 +1266,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
        	g.dispose();
     }
     
+    private int rulerStartX;
+    private int rulerStartY;
+    private int rulerEndX;
+    private int rulerEndY;
+    private boolean ruler;
+    
     /** Mouse interface: dragging operations.
     
     */
@@ -1263,16 +1280,23 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int px=evt.getX();
         int py=evt.getY();
         
+        ruler=false;
 
         boolean multiple=evt.isControlDown();
         
         if(Globals.useMetaForMultipleSelection)
             multiple=evt.isMetaDown();
             
-        if(actionSelected == SELECTION) 
+        if(actionSelected == SELECTION &&
+        	(evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) { 
             P.dragHandleStart(px, py, SEL_TOLERANCE,multiple);
-        
-       
+        } else if(actionSelected == SELECTION){	// Right click during selection
+        	rulerStartX = px;
+        	rulerStartY = py;
+        	rulerEndX=px;
+        	rulerEndY=py;
+        	ruler = true;
+        }
         
         //Globals.actualG.dispose();
 
@@ -1283,6 +1307,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int py=evt.getY();
         Graphics g = getGraphics();
         Graphics2D g2d = (Graphics2D)g;
+        
+        
+      	if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
+      		repaint();
+      		rulerEndX=px;
+        	rulerEndY=py;
+      		return;
+      	}
         
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
@@ -1301,8 +1333,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         int px=evt.getX();
         int py=evt.getY();
-        //Globals.actualG=(Graphics2D)getGraphics();
-        //Globals.actualMap=P.getMapCoordinates();
         
         boolean multiple=evt.isControlDown();
         
@@ -1313,8 +1343,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             P.dragHandleEnd(this,px, py, multiple);
             repaint();
+        } else {
+        	handleClick(evt);
         }
-        //Globals.actualG.dispose();
     }
 
     public void mouseEntered(MouseEvent evt)
@@ -1475,6 +1506,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,	
         	evidenceRect.height);
 
+		if (ruler)	
+			drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
+
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
@@ -1505,6 +1539,105 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     }
  
+ 
+ 	private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
+ 	{
+ 		double length;
+ 		MapCoordinates cs=P.getMapCoordinates();
+ 		
+ 		int xa = cs.unmapXnosnap(sx);
+ 		int ya = cs.unmapYnosnap(sy);
+ 		
+ 		int xb = cs.unmapXnosnap(ex);
+ 		int yb = cs.unmapYnosnap(ey);
+ 		
+ 		int x1, y1, x2, y2;
+ 		double x, y;
+ 		
+ 		length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
+ 		
+ 		
+ 		g.drawLine(sx, sy, ex, ey);
+ 		
+		int tot=(int)length;
+		
+		// A little bit of trigonometry :-)
+		
+		double alpha;
+		if (sx!=ex)
+			alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
+		else
+			alpha = Math.PI/2.0+((ey-sy<0)?0:Math.PI);
+		
+		alpha += (ex-sx>0)?0:Math.PI;
+		
+		double l = 5.0;
+		
+		if (cs.getXMagnitude()<1.0) {
+			l=10;
+		} else if(cs.getXMagnitude() > 5) {
+			l=1;
+		} else {
+			l=5;
+		}
+		
+		
+		double ll=0.0;
+		double ld=5.0;
+		int m = 5;
+		int j=0;
+		
+		double dex = sx + (length*Math.cos(alpha)*cs.getXMagnitude());
+		double dey = sy + (length*Math.sin(alpha)*cs.getYMagnitude());
+		
+		alpha += Math.PI/2.0;
+		
+		
+		
+		boolean debut=true;
+		
+ 		for(double i=0; i<=length; i+=l) {
+ 			if (j++==m || debut) {
+ 				j=1;
+ 				ll=2*ld;
+ 				debut=false;
+ 			} else {
+ 				ll=ld;
+ 			}
+ 			x = (dex*i)/length+((double)sx*(length-i))/length;
+ 			y = (dey*i)/length+((double)sy*(length-i))/length;
+ 			
+ 			x1 = (int)(x - ll*Math.cos(alpha));
+ 			x2 = (int)(x + ll*Math.cos(alpha));
+ 			y1 = (int)(y - ll*Math.sin(alpha));
+ 			y2 = (int)(y + ll*Math.sin(alpha));
+ 			
+ 			g.drawLine(x1, y1, x2, y2);
+
+ 		}
+ 		
+ 		Font f=new Font("Helvetica",Font.PLAIN,10);
+ 		g.setFont(f);
+ 		String t1 = roundTo(length,2);
+ 		String t2 = roundTo(length*.127,2)+" mm";
+ 		
+ 		FontMetrics fm = g.getFontMetrics(f);
+    	int h = fm.getAscent();
+    	int th = h+fm.getDescent();
+ 		
+ 		g.setColor(Color.white);
+ 		g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
+ 			fm.stringWidth(t2))+1, 24);
+ 		
+ 		g.setColor(Color.green);
+		g.drawRect(ex+9, ey-1, Math.max(fm.stringWidth(t1),
+ 			fm.stringWidth(t2))+2, 25);
+ 		g.setColor(Color.green.darker().darker());
+ 		g.drawString(t1, ex+10, ey+10);
+ 		g.drawString(t2, ex+10, ey+20);
+ 		
+ 	}
+ 	
  	
     public void setPCB_pad_sizex(int s)
     {

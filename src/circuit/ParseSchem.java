@@ -876,6 +876,14 @@ public class ParseSchem
     */
     public String getMacroFont()
     {        
+        for (int i=0; i<primitiveVector.size(); ++i){
+            if((GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
+            	//System.out.println(((PrimitiveMacro)primitiveVector.get(i)).getMacroFont());
+            	return ((PrimitiveMacro)primitiveVector.get(i)).getMacroFont();
+            }
+        }
+
+
         return macroFont;
     }
     

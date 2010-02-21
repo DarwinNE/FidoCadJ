@@ -585,7 +585,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridwidth=1;
 		constraints.gridheight=1;	
 		constraints.anchor=GridBagConstraints.EAST;
-		drawingOptPanel.add(macroFontlbl, constraints);// Add pcbpad int w label
+		drawingOptPanel.add(macroFontlbl, constraints);// Macro font selection
 
 		// Get all installed font families
 		GraphicsEnvironment gE;  
@@ -594,6 +594,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		String[] s = gE.getAvailableFontFamilyNames();  
 		comboFont=new JComboBox();
       	
+      	//System.out.println(macroFont);
     	for (int i = 0; i < s.length; ++i) {
       		comboFont.addItem(s[i]);
       		if (s[i].equals(macroFont))
