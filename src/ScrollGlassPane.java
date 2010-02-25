@@ -99,8 +99,6 @@ public class ScrollGlassPane extends JPanel implements ActionListener, MouseInpu
 			gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			
-			gfx.setColor(Color.gray);
-			gfx.drawOval(x+2, y+2, getIconWidth()-5, getIconHeight()-5);
 			
 			// It seems that on some systems other than on MacOSX, the 
 			// background of the icon is always painted in black.
@@ -108,6 +106,9 @@ public class ScrollGlassPane extends JPanel implements ActionListener, MouseInpu
 				gfx.setColor(Color.white);
 				gfx.fillRect(x, y, getIconWidth(), getIconHeight());
 			}
+			
+			gfx.setColor(Color.gray);
+			gfx.drawOval(x+2, y+2, getIconWidth()-5, getIconHeight()-5);
 			
 			gfx.setColor(Color.black);
 			gfx.fillOval(x+((getIconWidth()-1)/2)-3, y+((getIconHeight()-1)/2)-3, 6, 6);

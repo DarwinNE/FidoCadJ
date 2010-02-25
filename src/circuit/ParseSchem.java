@@ -464,7 +464,7 @@ public class ParseSchem
     public void addPrimitive(GraphicPrimitive p, boolean save)
     {   
     	// Make sure the layers are ordered. This increases the drawing speed
-    	GraphicPrimitive g;
+    	/*GraphicPrimitive g;
     	int i;
     	
   		for (i=0;i<primitiveVector.size();++i){
@@ -476,8 +476,8 @@ public class ParseSchem
 				break;
         	}
         }	
-        
-        primitiveVector.add(i,p);
+        */
+        primitiveVector.add(p);
         if (save) saveUndoState();
         changed=true;
 
@@ -534,7 +534,9 @@ public class ParseSchem
 		GraphicPrimitive gg;
 		int i_index;
     	int j_index;
-    	boolean reset=false;
+    	boolean needSorting=false;
+    	
+    	//changed=true;
     	
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
     	   oO!=cs.getOrientation() || changed) {
@@ -543,10 +545,33 @@ public class ParseSchem
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
     		changed=false;
-    		reset=true;
+    		GraphicPrimitive g;
+    		
+    		// Here we force for a global refresh of graphic data at the 
+    		// primitive level. We check also that every layer is ordered.
+    		// If not, we sort. 
+    		
+    		for (i_index=0; i_index<primitiveVector.size(); ++i_index) {
+    			((GraphicPrimitive)primitiveVector.get(i_index)).setChanged(true);
+    			
+    			if (i_index<primitiveVector.size()-1) {
+    				g=(GraphicPrimitive)primitiveVector.get(i_index);
+            		gg=(GraphicPrimitive)primitiveVector.get(i_index+1);
+    		
+    				if(gg.getLayer()<g.getLayer()) {
+    					needSorting=true;
+    					break;
+    				}
+    			}
+    		}
+    		
+    		if (!drawOnlyPads) 
+        		cs.resetMinMax();
     		
     	}
     	
+    	if(needSorting)
+    		sortPrimitiveLayers();
 
         needHoles=drawOnlyPads;
         
@@ -571,9 +596,7 @@ public class ParseSchem
 				if (gg.getLayer()>drawOnlyLayer)
 					break;
 				
-				if(reset) gg.setChanged(true);
-				
-        		if(gg.getLayer()==drawOnlyLayer && 
+				if(gg.getLayer()==drawOnlyLayer && 
         			!(gg instanceof PrimitiveMacro)) {
         			if (isFast) 
         				gg.drawFast(G, cs, layerV);
@@ -598,8 +621,7 @@ public class ParseSchem
        		}
        		return;
        	} else if (!drawOnlyPads) {
-        	cs.resetMinMax();
-
+        	
         	for(j_index=0;j_index<layerV.size(); ++j_index) {
 
         		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
@@ -612,8 +634,7 @@ public class ParseSchem
 					if (j_index>1 && gg.getLayer()>j_index)
 						break;
         		
-					if(reset) gg.setChanged(true);	
-        		
+				
         			if(gg.getLayer()==j_index && !(gg instanceof PrimitiveMacro)){
         				if (isFast) 
         					gg.drawFast(G, cs, layerV);
@@ -1291,8 +1312,7 @@ public class ParseSchem
         @param px the (screen) x coordinate of the pointer
         @param py the (screen) y coordinate of the pointer
         @param multiple specifies whether multiple selection is active
-    
-    
+       
     */
     public void dragHandleEnd(CircuitPanel P, int px, int py, boolean multiple)
     {
@@ -1833,8 +1853,34 @@ public class ParseSchem
                                      +lineNum);
         }
         
+        sortPrimitiveLayers();
+        
     }
     
+    
+    public void sortPrimitiveLayers()
+    {
+    	int i;
+    	GraphicPrimitive t,g,gg;
+    	boolean cont=true;
+    	
+    	// Probably the worst method: bubble sort!!!
+    	do {
+    		cont=false;
+    		for (i=0; i<primitiveVector.size()-1; ++i){
+            	g=(GraphicPrimitive)primitiveVector.get(i);
+            	gg=(GraphicPrimitive)primitiveVector.get(i+1);
+    		
+    			if(gg.getLayer()<g.getLayer()){
+    				primitiveVector.set(i, gg);
+    				primitiveVector.set(i+1, g);
+    				
+    				cont=true;
+    			}
+    		}
+    	} while (cont);
+    		
+    }
 
     
     /**	Export the file using the given interface
@@ -2041,6 +2087,12 @@ public class ParseSchem
 		return needHoles;
 	}
 	
+	/** Set the modified state of the class.
+	
+		@param c if true, force a deep recalculation of all primitive 
+			parameters at the first redraw.
+	
+	*/
 	public final void setChanged(boolean c)
 	{
 		changed=c;

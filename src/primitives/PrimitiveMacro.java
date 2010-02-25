@@ -10,6 +10,7 @@ import geom.*;
 import circuit.*;
 import dialogs.*;
 import export.*;
+import globals.*;
 
 
 public class PrimitiveMacro extends GraphicPrimitive
@@ -195,16 +196,22 @@ public class PrimitiveMacro extends GraphicPrimitive
     		coordSys.trackPoint(xb+w2, yb+th);
 
 		}
-	   		
+	   	
+	   	// This is useful and faster for small zooms
+	   	
+	   	if(th<Globals.textSizeLimit) {
+	   		g.drawLine(xa,ya, xa+w1-1,ya);
+	   		return;
+	   	}
 	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
  			return;
  				
 	   	g.setFont(f);
 
-   		/* The if's have been added thanks to this segnalation:
+   		/* The if's have been added thanks to this information:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
    		*/
-   		if (name.length()!=0) {
+  		if (name.length()!=0) {
     		g.drawString(name,xa,ya+h);
     	}
     	if (value.length()!=0) {

@@ -10,7 +10,7 @@ import java.awt.image.*;
 import geom.*;
 import dialogs.*;
 import export.*;
-
+import globals.*;
 
 
 
@@ -189,7 +189,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	private AffineTransform mm;
 	private FontMetrics fm;
 	private int h, th, w, hh, ww;
-	private int x1, y1, xa, ya;
+	private int x1, y1, xa, ya, qq;
 	private double xyfactor, si, co;
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -254,7 +254,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
     		h = fm.getAscent();
     		th = h+fm.getDescent();
     		w = fm.stringWidth(txt);
-		
+    				
  			xyfactor=1.0;
  			stretching = new AffineTransform();
 
@@ -295,12 +295,14 @@ public class PrimitiveAdvText extends GraphicPrimitive
 					coordSys.trackPoint(xa,ya+(int)(th/xyfactor));
 				}
 			}
+    		qq=(int)(ya/xyfactor);
 		}
 
 		
-   		g.setFont(f);
-		at=(AffineTransform)g.getTransform().clone();
+	   	
+   		at=(AffineTransform)g.getTransform().clone();
 		ats=(AffineTransform)g.getTransform().clone();
+ 		
  		
 		if(orientation!=0){
     		if(mirror) {
@@ -308,27 +310,37 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				at.rotate(Math.toRadians(orientation),-xa, ya);
 				at.concatenate(stretching);
    				g.setTransform(at);
-
-    			g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
+				g.setFont(f);
+    			g.drawString(txt,-xa,qq+h); 
 
     		} else {
 				at.rotate(Math.toRadians(-orientation),xa,ya);
 				at.concatenate(stretching);
    				g.setTransform(at);
-				g.drawString(txt,xa,(int)((ya)/xyfactor)+h); 
+   				g.setFont(f);
+				g.drawString(txt,xa,qq+h); 
     		}
-  	} else {
+  		} else {
 			if (!mirror){
 				at.concatenate(stretching);
 				g.setTransform(at);
-				if(g.hitClip(xa,(int)(ya/xyfactor), w, th)){
-					g.drawString(txt,xa,(int)((ya)/xyfactor)+h);	
+				
+				if(g.hitClip(xa,qq, w, th)){
+					if(th<Globals.textSizeLimit) {
+						g.drawLine(xa,qq,xa+w,qq);
+						g.setTransform(ats);
+	   					return;
+	    			} else {
+	    				g.setFont(f);
+						g.drawString(txt,xa,qq+h);
+					}
 				}
 			} else {
 				at.scale(-1,xyfactor);
 				g.setTransform(at);
-				if(g.hitClip(-xa,(int)(ya/xyfactor),w,h)){
-					g.drawString(txt,-xa,(int)((ya)/xyfactor)+h); 
+				if(g.hitClip(-xa,qq,w,h)){
+					g.setFont(f);
+					g.drawString(txt,-xa,qq+h); 
 				}
 			}
 		}

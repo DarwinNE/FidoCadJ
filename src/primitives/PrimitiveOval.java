@@ -123,6 +123,9 @@ public class PrimitiveOval extends GraphicPrimitive
 			else 
 				stroke=new BasicStroke(w);		
 		}
+		if (xb==xa && yb==ya)
+			return;
+			
 		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
  			return;
 		g.setStroke(stroke);		
@@ -130,8 +133,7 @@ public class PrimitiveOval extends GraphicPrimitive
  		if (isFilled)
  			g.fillOval(xa,ya,(xb-xa),(yb-ya));
  		else {
-			if(xb!=xa || yb!=ya)
-	 			g.drawOval(xa,ya,(xb-xa),(yb-ya));
+			g.drawOval(xa,ya,(xb-xa),(yb-ya));
  		}
 		
 
