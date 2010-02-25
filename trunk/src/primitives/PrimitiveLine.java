@@ -203,6 +203,8 @@ public class PrimitiveLine extends GraphicPrimitive
 	private int h,l;
 	private float w;
 	private BasicStroke stroke;
+	private int length2;
+	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
@@ -212,8 +214,6 @@ public class PrimitiveLine extends GraphicPrimitive
 							  ArrayList layerV)
 	{
 	
-		if(!selectLayer(g,layerV))
-			return;
 	
 		/* in the line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
@@ -242,6 +242,7 @@ public class PrimitiveLine extends GraphicPrimitive
 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
  			
+ 			length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
  			if(dashStyle>0) {
 				stroke=new BasicStroke(w, BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
@@ -254,20 +255,23 @@ public class PrimitiveLine extends GraphicPrimitive
 			
 		}
 
- 		
- 		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
- 			return;
-
-		g.setStroke(stroke);
-		g.drawLine(x1, y1, x2, y2);
+		
+		if(length2>2) {
+			if(!selectLayer(g,layerV))
+				return;
+			if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+ 				return;
+			g.setStroke(stroke);
+			g.drawLine(x1, y1, x2, y2);
 		
 		
-		if (arrowStart || arrowEnd) {
-			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
-			l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
+			if (arrowStart || arrowEnd) {
+				h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
+				l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
 		
-			if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
-			if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
+				if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
+				if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
+			}
 		}
  		return;
  	}

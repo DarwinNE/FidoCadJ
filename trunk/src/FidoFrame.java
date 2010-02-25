@@ -153,13 +153,16 @@ public class FidoFrame extends JFrame implements
     private int xvalue;
     private int yvalue;
     
+    static private Locale currentLocale;
+    
+    
     private ScrollGestureRecognizer sgr;
     
     /** The main method. Shows an instance of the FidoFrame */
     public static void main(String[] args)
     {
  
- 		Locale currentLocale = Locale.getDefault();
+ 		currentLocale = Locale.getDefault();
  		
  		// The following code has changed from version 0.20.1.
  		// This way, it should tolerate systems in which resource file for the
@@ -379,8 +382,11 @@ public class FidoFrame extends JFrame implements
         	System.out.println("IHRAM library got from external file");
         if (!(new File(Globals.createCompleteFileName(
         	libDirectory,"FCDstdlib.fcl"))).exists()) {
-   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-
+        	
+        	if(currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage()))
+        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+			else
+				CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
         } else 
         	System.out.println("Standard library got from external file");
         if (!(new File(Globals.createCompleteFileName(

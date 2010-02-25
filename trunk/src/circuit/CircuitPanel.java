@@ -556,7 +556,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void mouseClicked(MouseEvent evt)
     {
-
+              
+        if(actionSelected==SELECTION) {
+            // Double click shows the Parameters dialog.
+            if(evt.getClickCount() >= 2) 
+				setPropertiesForPrimitive();
+            
+        }    
+        
+    
     }
 
 	private void handleClick(MouseEvent evt)
@@ -1310,9 +1318,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         
       	if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
-      		repaint();
       		rulerEndX=px;
         	rulerEndY=py;
+        	repaint();
       		return;
       	}
         
@@ -1472,7 +1480,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
          }
      
         Rectangle r = g.getClipBounds();
-        //oldEvidenceRect=null;
         if(oldEvidenceRect!=null && Globals.weAreOnAMac) {
         // this gives problems under Windows
         // but it can be WAY faster under MacOSX!
@@ -1506,9 +1513,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,	
         	evidenceRect.height);
 
-		if (ruler)	
+		if (ruler) {	
 			drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
-
+			oldEvidenceRect=null;
+		}
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
@@ -1531,9 +1539,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (P.getMapCoordinates().getXMax()>0 && 
             P.getMapCoordinates().getYMax()>0){
             setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
-                +MARGIN,
-                P.getMapCoordinates().getYMax()+MARGIN));
-                
+                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+            
+            //System.out.println(""+getPreferredSize());
+            
             revalidate();
         }
     

@@ -226,11 +226,8 @@ public abstract class GraphicPrimitive
 	*/
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
-	//	if (layer<0 || layer>=layerV.size())
-	//		layer=0;
-	
 		l= (LayerDesc)layerV.get(layer);
-		if (l.getVisible()==false)
+		if (!l.getVisible())
 			return false;
 			
 		if(selectedState)

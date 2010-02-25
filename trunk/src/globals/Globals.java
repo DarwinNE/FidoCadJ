@@ -72,7 +72,7 @@ public class Globals
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.23.2 gamma";    	// version
+    public static final String version = "0.23.2 delta";    	// version
     public static final boolean isBeta = true;		// is it a beta version?
     
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
@@ -81,7 +81,8 @@ public class Globals
     public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
     
- 	   
+    // Minimum height in pixel of a text to be drawn.
+    public static final int textSizeLimit = 4;
  
 
     /**	Adjust a long string in order to cope with space limitations.
