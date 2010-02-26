@@ -372,28 +372,30 @@ public class FidoFrame extends JFrame implements
         
         CC.P.loadLibraryDirectory(libDirectory);
         
+        boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
         
-        
-        if (!(new File(Globals.createCompleteFileName(
-        	libDirectory,"IHRAM.FCL"))).exists()) {
-   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-        
+        if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
+        	if(englishLibraries)
+   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+   	        else
+        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+   	        
         } else
         	System.out.println("IHRAM library got from external file");
-        if (!(new File(Globals.createCompleteFileName(
-        	libDirectory,"FCDstdlib.fcl"))).exists()) {
+        if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
         	
-        	if(currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage()))
-        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+        	if(englishLibraries)
+        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
 			else
-				CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+				CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
         } else 
         	System.out.println("Standard library got from external file");
-        if (!(new File(Globals.createCompleteFileName(
-        	libDirectory,"PCB.fcl"))).exists()) {
-
-   	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
-
+        if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
+			if(englishLibraries)
+   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+   	        else
+   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+   	       
 		} else
         	System.out.println("Standard PCB library got from external file");
 		if(true) {

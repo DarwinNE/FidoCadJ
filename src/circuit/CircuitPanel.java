@@ -935,7 +935,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
  
  		/*	Important note: the technique used here is always the XOR 
  		    combination as a toggle.
-		
  		*/
  
         // This transformation/antitrasformation is useful to take care
@@ -1296,7 +1295,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             multiple=evt.isMetaDown();
             
         if(actionSelected == SELECTION &&
-        	(evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) { 
+        	(evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
+        	!evt.isShiftDown()) { 
             P.dragHandleStart(px, py, SEL_TOLERANCE,multiple);
         } else if(actionSelected == SELECTION){	// Right click during selection
         	rulerStartX = px;
@@ -1317,7 +1317,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Graphics2D g2d = (Graphics2D)g;
         
         
-      	if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
+      	if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 || evt.isShiftDown()) {
       		rulerEndX=px;
         	rulerEndY=py;
         	repaint();
