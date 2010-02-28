@@ -250,6 +250,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.resetMinMax();
  		 		 			
  			macro.setMapCoordinates(macroCoord);
+ 			if (changed)	
+ 				macro.setChanged(true);
 		}
 		
 		if(getSelected()) {
