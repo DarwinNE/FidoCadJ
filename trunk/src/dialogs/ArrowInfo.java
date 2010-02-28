@@ -2,7 +2,10 @@ package dialogs;
 
 import primitives.*;
 
-/** 
+/** This class contains information about the arrow style. It is useful 
+	for the automatic generation of the properties dialog.
+
+
 	@author Davide Bucci
 	@version 1.0 November 2009
 	

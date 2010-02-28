@@ -8,7 +8,8 @@ import java.awt.geom.*;
 
 
 /**
-    Arrow class: draw an arrow of the given size, style and direction
+    Arrow class: draws an arrow of the given size, style and direction.
+    This is a static class.
     
     @author Davide Bucci
     @version 1.0, October 2009
@@ -34,10 +35,25 @@ import java.awt.geom.*;
 
 public class Arrow {
 
+	/** A few constants in order to define the arrow style.
+	
+	*/
 	public static final int flagLimiter = 0x01;
 	public static final int flagEmpty = 0x02;
 	
 
+	/** Draw an arrow at the given position.
+	
+	@param g the graphic context to be used
+	@param x the x coordinate of the arrow point
+	@param y the y coordinate of the arrow point
+	@param xc the x coordinate of the direction point
+	@param yc the y coordinate of the direction point
+	@param l the length of the arrow
+	@param h the half width of the arrow
+	@param style the arrow style
+	
+	*/
 	public static void drawArrow(Graphics2D g, int x, int y, int xc, 
 		int yc, int l, int h, int style)
 	{

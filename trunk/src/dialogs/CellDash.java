@@ -8,8 +8,8 @@ import java.util.*;
 import primitives.*;
 import globals.*;
 
-/** The class CellArrow is a simple panel showing the arrow characteristics. 
-	To be used with ArrowCellRenderer
+/** The class CellArrow is a simple panel showing the dash style characteristics. 
+	To be used with ArrowCellRenderer.
 
 	@author Davide Bucci
 	@version 1.0 December 2009
