@@ -5,16 +5,28 @@ import com.apple.eawt.*;
 import globals.*;
 import dialogs.*;
 
+
+/** The class AppleSpecific implements a few mechanism for interacting with
+	the MacOSX operating system. This class will only be used if the program 
+	detects it is being run on a MacOSX operating system.
+
+
+*/
+
 class AppleSpecific implements ApplicationListener{
 
-	//private FidoFrame f;
-
+	/** Create an application listener able to respond to a few Finder events
+	
+	*/
 	public void answerFinder() {
 		Application app = new Application();
 		app.setEnabledPreferencesMenu(true);
 		app.getApplication().addApplicationListener(this);
 	}
 	
+	/** Respond to an user clicking on an About menu.
+	
+	*/
 	public void handleAbout(ApplicationEvent evt) 
 	{
 		DialogAbout d=new DialogAbout(Globals.activeWindow);
@@ -26,12 +38,17 @@ class AppleSpecific implements ApplicationListener{
     public void handleOpenApplication(ApplicationEvent evt) 
     {
     }
-    
+    /** Respond to an user double clicking on a FCD file
+	
+	*/
     public void handleOpenFile(ApplicationEvent evt) {
     	String file = evt.getFilename();
     	((FidoFrame)Globals.activeWindow).Load(file);
     }
     
+    /** Respond to an user clicking on the Preferences menu.
+	
+	*/
     public void handlePreferences(ApplicationEvent evt) 
 	{	
 		((FidoFrame)Globals.activeWindow).showPrefs();
@@ -41,6 +58,9 @@ class AppleSpecific implements ApplicationListener{
 	{
 	}
 	
+	/** Ask for confirmation when quitting.
+	
+	*/
 	public void handleQuit(ApplicationEvent evt) 
 	{
 		boolean ca = false;

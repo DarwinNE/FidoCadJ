@@ -8,7 +8,7 @@ import java.util.*;
 import primitives.*;
 
 /** The class CellArrow is a simple panel showing the arrow characteristics. 
-	To be used with ArrowCellRenderer
+	To be used with ArrowCellRenderer.
 
 	@author Davide Bucci
 	@version 1.0 December 2009
