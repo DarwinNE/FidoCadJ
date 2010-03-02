@@ -15,6 +15,9 @@ import toolbars.*;
 /** 
 
 <pre>
+Shows a rather standard "About" dialog. Nothing more exotic than showing the 
+nice icon of the program, its name as well as three lines of description.
+
    ****************************************************************************
    Version History 
 
