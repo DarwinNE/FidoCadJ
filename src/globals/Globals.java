@@ -72,8 +72,8 @@ public class Globals
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.23.2 epsilon";    	// version
-    public static final boolean isBeta = true;		// is it a beta version?
+    public static final String version = "0.23.2";    	// version
+    public static final boolean isBeta = false;		// is it a beta version?
     
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
     

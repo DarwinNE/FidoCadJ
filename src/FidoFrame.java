@@ -401,7 +401,8 @@ public class FidoFrame extends JFrame implements
 		if(true) {
             double elapsed=mt.getElapsed();
             
-            System.out.println("Library load time elapsed: " + elapsed+" ms");
+            if (Globals.isBeta) 
+            	System.out.println("Library load time elapsed: " + elapsed+" ms");
             
         }
         CC.setPreferredSize(new Dimension(1000,1000));
