@@ -116,7 +116,7 @@ public class LayerDesc
   	
   	/** This method allows to set the layer visibility.
   		
-  		@param s the layer visibility.
+  		@param v the layer visibility.
   	*/
   	final public void setVisible(boolean v)
   	{
@@ -125,7 +125,7 @@ public class LayerDesc
   	
   	/** This method allows to set the layer color.
   		
-  		@param s the layer color
+  		@param c the layer color
   	*/
   	final public void setColor(Color c)
   	{

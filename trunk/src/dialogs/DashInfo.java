@@ -3,13 +3,13 @@ package dialogs;
 import primitives.*;
 
 /** This class contains some settings about the actual dashing style. It is used
-	in the automatic primitive characteristics dialog.
-	
-	@author Davide Bucci
-	@version 1.0 November 2009
-	
-	<pre>
-	This file is part of FidoCadJ.
+    in the automatic primitive characteristics dialog.
+    
+    @author Davide Bucci
+    @version 1.0 November 2009
+    
+    <pre>
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,17 +24,17 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009 by Davide Bucci
+    Copyright 2009 by Davide Bucci
 </pre>
-	
-	*/
+    
+    */
 public class DashInfo 
 {
-	public int style;
-	
-	public DashInfo(int i)
-	{ style=i; }
-	
-	public int getStyle()
-	{ return style; }
+    public int style;
+    
+    public DashInfo(int i)
+    { style=i; }
+    
+    public int getStyle()
+    { return style; }
 }

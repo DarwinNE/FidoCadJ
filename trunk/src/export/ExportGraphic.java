@@ -61,7 +61,6 @@ public class ExportGraphic
 		
 		@param file the file name of the graphic file which will be created.
 		@param P the parsing schematics class which should be used (libraries).
-		@param circ the StringBuffer containing the circuit to be traced.
 		@param format the graphic format which should be used {png|jpg}.
 		@param unitperpixel the number of unit for each graphic pixel.
 		@param antiAlias specify whether the anti alias option should be on.

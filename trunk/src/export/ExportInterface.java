@@ -59,8 +59,7 @@ public interface ExportInterface {
 			
 		@param totalSize the size of the image. Useful to calculate for example
 		the	bounding box.
-		@param layerV a LayerDesc vector describing the attributes of each 
-		layer.
+		@param la a vector describing the attributes of each layer.
 		@param grid the grid size
 	*/
 	
