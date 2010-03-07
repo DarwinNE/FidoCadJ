@@ -1430,6 +1430,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         backgroundColor=sfondo;
     }
     
+    
+    /** Activate and sets an evidence rectangle which will be put on screen
+     	at the next redraw. All sizes are given in pixel.
+     	
+     	@param lx	the x coordinate of the left top corner
+     	@param ly	the y coordinate of the left top corner
+     	@param w	the width of the rectangle
+     	@param h	the height of the rectangle
+    
+    */
     public void setEvidenceRect(int lx, int ly, int w, int h)
     {
         evidenceRect.x=lx;
@@ -1438,7 +1448,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         evidenceRect.width=w;
         
     }
+    /** Sets the old evidence rectangle which has been put on screen.
+    	All sizes are given in pixel.
+     	
+     	@param lx	the x coordinate of the left top corner
+     	@param ly	the y coordinate of the left top corner
+     	@param w	the width of the rectangle
+     	@param h	the height of the rectangle
     
+    */
     public void setOldEvidence(int lx, int ly, int w, int h)
     {
         oldEvidenceRect=new Rectangle();
@@ -1449,6 +1467,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     }
     
+    /** Resets the old evidence rectangle which has been put on screen. */
     public void resetOldEvidence()
     {   
         oldEvidenceRect = null;
@@ -1469,7 +1488,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (antiAlias) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
              RenderingHints.VALUE_ANTIALIAS_ON);
         else {
-          // Faster graphic (??? true???)
+          // Faster graphic (??? true??? I do not think so on modern systems)
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
             g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
@@ -1503,9 +1522,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         
-        // Draw the handles of all selected primitives
+        // Draw the handles of all selected primitives.
         P.drawSelectedHandles(g2);
     
+		// If an evidence rectangle is active, draw it.
+
         if(Globals.doNotUseXOR) 
             g.setColor(Color.green);
 
@@ -1514,6 +1535,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
             evidenceRect.height);
 
+		// If a ruler is active, draw it.
         if (ruler) {    
             drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
             oldEvidenceRect=null;
@@ -1542,13 +1564,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
                 +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
             
-            //System.out.println(""+getPreferredSize());
-            
             revalidate();
         }
     
     }
- 
  
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
@@ -1648,50 +1667,85 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     }
     
-    
+    /** Sets the default PCB pad size x.
+    	@param s	the wanted size in logical units.
+    */
     public void setPCB_pad_sizex(int s)
     {
         PCB_pad_sizex=s;
     }
-    
+    /** Gets the default PCB pad size x.
+    	@return 	the x size in logical units.
+    */
     public int getPCB_pad_sizex()
     {
         return PCB_pad_sizex;
     }
-    
+    /** Sets the default PCB pad size y.
+    	@param s	the wanted size in logical units.
+    */
+
     public void setPCB_pad_sizey(int s)
     {
         PCB_pad_sizey=s;
     }
+    
+    /** Gets the default PCB pad size y.
+    	@return 	the size in logical units.
+    */
     
     public int getPCB_pad_sizey()
     {
         return PCB_pad_sizey;
     }
     
+    /** Sets the default PCB pad style.
+    	@param s	the style.
+    */
     public void setPCB_pad_style(int s)
     {
         PCB_pad_style=s;  
     }
+    
+    /** Gets the default PCB pad style.
+    	@return 	the style.
+    */
+    
     public int getPCB_pad_style()
     {
         return PCB_pad_style;  
     }
     
+    
+    /** Sets the default PCB pad drill size.
+    	@param s	the wanted drill size, in logical units.
+    */
     public void setPCB_pad_drill(int s)
     {
         PCB_pad_drill=s;
     }
+    
+    /** Gets the default PCB pad drill size.
+    	@return 	the drill size, in logical units.
+    */
     
     public int getPCB_pad_drill()
     {
         return PCB_pad_drill;
     }
     
+    /** Sets the default PCB track thickness.
+    	@param s the wanted thickness in logical units.
+    */
+    
     public void setPCB_thickness(int s)
     {
         PCB_thickness=s;
     }
+    
+    /** Gets the default PCB track thickness.
+    	@return 	the track thickness in logical units.
+    */
     
     public int getPCB_thickness()
     {
@@ -1746,15 +1800,29 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         setPropertiesForPrimitive();
     }
     
+    /** Specifies whether FidoCadJ should strictly comply with the FidoCad
+    	format (and limitations).
+    	
+    	@param v the compliance mode.
+    
+    */
     public void setStrict (boolean v)
     {
         extStrict = v;
     }
     
+    
+    /** Checks if FidoCadJ should strictly comply with the FidoCad
+    	format (and limitations).
+    	
+    	@return the compliance mode.
+    
+    */
     public boolean getStrict ()
     {
         return extStrict;
     }
+    
     private String roundTo(double n, int ch)
     {
         return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
