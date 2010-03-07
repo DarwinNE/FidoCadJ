@@ -10,26 +10,31 @@ import layers.*;
 import primitives.*;
 
 /** 
+	Export towards FidoCad (!)
+	No pun intended :-) This is useful because we can split macros very easily.
+	
+<pre>
+	This file is part of FidoCadJ.
 
-   Written by Davide Bucci, davbucci at tiscali dot it
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   </pre>
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+	Copyright 2008-2009 by Davide Bucci
+</pre>
 
     
     @author Davide Bucci
-    @version 1.0, June 2008
+    @version 1.1, November 2009
 */
 
 public class ExportFidoCad implements ExportInterface {

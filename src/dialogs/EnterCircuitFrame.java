@@ -19,28 +19,29 @@ Version   Date           Author       Remarks
 1.2		February 2009		D. Bucci	Add margins to respect Apple HIG
 1.3		June 2009			D. Bucci 	Capitalize the first letters                                     
 
-   Written by Davide Bucci, December 2007, davbucci at tiscali dot it
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+	This file is part of FidoCadJ.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+	Copyright 2007-2009 by Davide Bucci
 </pre>
 
 
     A dialog useful to past the Fidocad code.
 
     @author Davide Bucci
-    @version 1.2, February 2009
+    @version 1.3, June 2009
     
 
 */
