@@ -53,29 +53,30 @@ Version   Date           Author       Remarks
 2.6		November 2009 	D. Bucci	New FCJ extensions
 									Macro font selection
 2.7		February 2010	D. Bucci	General optimization
+2.8		March 2010		D. Bucci	Optimization and improvements 
 
+	This file is part of FidoCadJ.
 
-   Written by Davide Bucci, March 2007 - Feb 2010, davbucci at tiscali dot it
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
+	Copyright 2007-2010 by Davide Bucci
 </pre>
 
    Main parsing class 
     
     @author Davide Bucci
-    @version 2.7, February 2010
+    @version 2.8, March 2010
 */
 
 public class ParseSchem
