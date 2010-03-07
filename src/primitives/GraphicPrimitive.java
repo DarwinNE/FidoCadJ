@@ -411,8 +411,7 @@ public abstract class GraphicPrimitive
 		@param tokens the tokens to be processed. tokens[0] should be the
 		command of the actual primitive.
 		@param N the number of tokens present in the array
-		@param extra1 a first extra parameter
-		@param extra2 a second extra parameter
+		
 	*/
 	public abstract void parseTokens(String[] tokens, int N)
 		throws IOException;

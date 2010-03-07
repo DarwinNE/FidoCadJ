@@ -164,7 +164,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	/** Get the font used for name and value
 	
-		@returns the font name
+		@return the font name
 		
 	*/
 	
@@ -321,6 +321,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
+	
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
@@ -345,7 +346,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
-		@param ArrayList the layer description.
+		@param layerV the layer description.
 	*/
 	final public void drawFast(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)

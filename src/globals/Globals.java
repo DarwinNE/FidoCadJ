@@ -159,7 +159,7 @@ public class Globals
     }
     
     /** Get the file name, without extensions
-    	@param p the file name with path and extension to be processed
+    	@param s the file name with path and extension to be processed
     */
     public static String getFileNameOnly(String s)
     {
@@ -204,7 +204,7 @@ public class Globals
     	
     	@param p the input string, eventually containing the characters to be
     		changed.
-    	@param an hash table <char, String> in which each character to be 
+    	@param bc an hash table <char, String> in which each character to be 
     		changed is associated with its code, or escape sequence.
     	@return the string with the characters changed.	
     	

@@ -14,7 +14,7 @@ import primitives.*;
 	@version 1.0 December 2009
 	
 <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -15,7 +15,7 @@ import java.awt.geom.*;
     @version 1.0, October 2009
  
    <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009-2010 by Davide Bucci
+    Copyright 2009-2010 by Davide Bucci
    </pre>
    
 */

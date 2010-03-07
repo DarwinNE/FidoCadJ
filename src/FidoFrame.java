@@ -35,11 +35,11 @@ Version   Date           Author       Remarks
 -------------------------------------------------------------------------------
 1.0     January 2008        D. Bucci    First working version
 2.0     May 2008            D. Bucci    Editing possibilities
-2.1		July 2008		    D. Bucci	A few nice enhancements
-2.2		February 2009		D. Bucci	Aquified 
-2.2.1	October 2009		D. Bucci	Force Win L&F when run on Windows
-2.2.3	December 2009		D. Bucci	Print as landscape possible
-2.3		March 2010			D. Bucci	Several improvements
+2.1     July 2008           D. Bucci    A few nice enhancements
+2.2     February 2009       D. Bucci    Aquified 
+2.2.1   October 2009        D. Bucci    Force Win L&F when run on Windows
+2.2.3   December 2009       D. Bucci    Print as landscape possible
+2.3     March 2010          D. Bucci    Several improvements
 
 jar cvfm fidoreadj.jar Manifest.txt *.class *.properties
 
@@ -70,7 +70,7 @@ work... I will do it for my NEXT vectorial drawing program :-D
     
     
     
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ work... I will do it for my NEXT vectorial drawing program :-D
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+    Copyright 2008-2010 by Davide Bucci
 </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -96,13 +96,13 @@ work... I will do it for my NEXT vectorial drawing program :-D
 */
 
 public class FidoFrame extends JFrame implements 
-											MenuListener, 
-											ActionListener,
-											Printable,
-											DropTargetListener,
-											ZoomToFitListener,
-											HasChangedListener,
-											WindowFocusListener
+                                            MenuListener, 
+                                            ActionListener,
+                                            Printable,
+                                            DropTargetListener,
+                                            ZoomToFitListener,
+                                            HasChangedListener,
+                                            WindowFocusListener
 {
     private CircuitPanel CC;
     private JScrollPane SC;
@@ -121,15 +121,15 @@ public class FidoFrame extends JFrame implements
     private boolean printFitToPage;
     private boolean printLandscape;
     
-    private boolean splitNonStandardMacro_s;	// split non standard macro
-    											// when saving
-    private boolean splitNonStandardMacro_c;	// split non standard macro
-    											// when copying
+    private boolean splitNonStandardMacro_s;    // split non standard macro
+                                                // when saving
+    private boolean splitNonStandardMacro_c;    // split non standard macro
+                                                // when copying
     
     
-    //private boolean extStrict; 	// Strict FidoCad compatibility
-    private boolean extFCJ_s;	// Use FidoCadJ extensions while saving
-    private boolean extFCJ_c;	// Use FidoCadJ extensions while copying
+    //private boolean extStrict;    // Strict FidoCad compatibility
+    private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
+    private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
         
         
     // Open/save default properties
@@ -142,7 +142,7 @@ public class FidoFrame extends JFrame implements
     
     // Toolbar properties
     private boolean textToolbar;
-  	private boolean smallIconsToolbar;
+    private boolean smallIconsToolbar;
     
     
     // Drag and drop target
@@ -162,96 +162,96 @@ public class FidoFrame extends JFrame implements
     public static void main(String[] args)
     {
  
- 		currentLocale = Locale.getDefault();
- 		
- 		// The following code has changed from version 0.20.1.
- 		// This way, it should tolerate systems in which resource file for the
- 		// current locale is not available. The English interface will be shown.
- 		
+        currentLocale = Locale.getDefault();
+        
+        // The following code has changed from version 0.20.1.
+        // This way, it should tolerate systems in which resource file for the
+        // current locale is not available. The English interface will be shown.
+        
         try {
-        	// Try to load the program with the current locale
-        	Globals.messages = ResourceBundle.getBundle("MessagesBundle", 
+            // Try to load the program with the current locale
+            Globals.messages = ResourceBundle.getBundle("MessagesBundle", 
                 currentLocale);
             
         } catch(MissingResourceException mre) {
             try {
-            	// If it does not work, try to use the standard English
-            	Globals.messages = ResourceBundle.getBundle("MessagesBundle",
-            		new Locale("en", "US"));
-            	System.out.println("No locale available, sorry... interface will be in English");
+                // If it does not work, try to use the standard English
+                Globals.messages = ResourceBundle.getBundle("MessagesBundle",
+                    new Locale("en", "US"));
+                System.out.println("No locale available, sorry... interface will be in English");
             } catch(MissingResourceException mre1) {
-            	// Give up!!!
-            	JOptionPane.showMessageDialog(null,
+                // Give up!!!
+                JOptionPane.showMessageDialog(null,
                     "Unable to find language localization files: " + mre1);
-            	System.exit(1);
+                System.exit(1);
             }
-      	}        
+        }        
              
             
-       	
-       	/*******************************************************************
-        	PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
+        
+        /*******************************************************************
+            PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
         *******************************************************************/
         
-       	
-       	if (System.getProperty("os.name").startsWith("Mac")) {
-       		
-      		
-       		Globals g=new Globals();
         
-        	Preferences prefs_static = 
-        		Preferences.userNodeForPackage(g.getClass());
-        	
-        	Globals.quaquaActive = prefs_static.get("QUAQUA", 
-        		"true").equals("true");
+        if (System.getProperty("os.name").startsWith("Mac")) {
+            
+            
+            Globals g=new Globals();
         
-       		Globals.weAreOnAMac =true;
+            Preferences prefs_static = 
+                Preferences.userNodeForPackage(g.getClass());
+            
+            Globals.quaquaActive = prefs_static.get("QUAQUA", 
+                "true").equals("true");
         
-       		// These settings allows to obtain menus on the right place
-			System.setProperty("com.apple.macos.useScreenMenuBar","true");
-			// This is for JVM < 1.5 It won't harm on higher versions.
-        	System.setProperty("apple.laf.useScreenMenuBar","true"); 
-   	        try { 
-       	        
-       	        //Globals.quaquaActive=true;
-	            //System.setProperty("Quaqua.Debug.showVisualBounds","true");
+            Globals.weAreOnAMac =true;
+        
+            // These settings allows to obtain menus on the right place
+            System.setProperty("com.apple.macos.useScreenMenuBar","true");
+            // This is for JVM < 1.5 It won't harm on higher versions.
+            System.setProperty("apple.laf.useScreenMenuBar","true"); 
+            try { 
+                
+                //Globals.quaquaActive=true;
+                //System.setProperty("Quaqua.Debug.showVisualBounds","true");
                 //System.setProperty("Quaqua.Debug.showClipBounds","true");
-    	        if(Globals.quaquaActive) { 
-    	        	UIManager.setLookAndFeel(
-        	    		"ch.randelshofer.quaqua.QuaquaLookAndFeel");
-            	
-              		System.out.println("Quaqua look and feel active");
-              	}
-              	
-         		// set UI manager properties here that affect Quaqua
-        	} catch (Exception e) {
-         		// Quaqua is not active. Just continue!
-         	
-         		System.out.println("The Quaqua look and feel is not available");
-				System.out.println("I will continue with the basic Apple l&f");
-			}
+                if(Globals.quaquaActive) { 
+                    UIManager.setLookAndFeel(
+                        "ch.randelshofer.quaqua.QuaquaLookAndFeel");
+                
+                    System.out.println("Quaqua look and feel active");
+                }
+                
+                // set UI manager properties here that affect Quaqua
+            } catch (Exception e) {
+                // Quaqua is not active. Just continue!
+            
+                System.out.println("The Quaqua look and feel is not available");
+                System.out.println("I will continue with the basic Apple l&f");
+            }
         } else if (System.getProperty("os.name").startsWith("Win")) {
-        	/* If the host system is a window system, select the Windows
-        	   look and feel. This is a way to encourage people to use 
-        	   FidoCadJ even on a Windows system, forgotting about Java.
-        	   
-        	*/
-			try {
-        		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		    } catch (Exception E) {}
-		   	Globals.quaquaActive=false;
-		   	
+            /* If the host system is a window system, select the Windows
+               look and feel. This is a way to encourage people to use 
+               FidoCadJ even on a Windows system, forgotting about Java.
+               
+            */
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (Exception E) {}
+            Globals.quaquaActive=false;
+            
         
-		} else {
-        	Globals.quaquaActive=false;
+        } else {
+            Globals.quaquaActive=false;
         }
         
- 		
- 		// Un-comment to try to use the Metal LAF
         
-	/*
+        // Un-comment to try to use the Metal LAF
+        
+    /*
         try {
-        	UIManager.setLookAndFeel(
+            UIManager.setLookAndFeel(
             UIManager.getCrossPlatformLookAndFeelClassName());
             Globals.weAreOnAMac =false;
         } catch (Exception E) {}
@@ -267,43 +267,43 @@ public class FidoFrame extends JFrame implements
         Globals.useMetaForMultipleSelection=false;
         
         if (System.getProperty("os.name").startsWith("Mac")) {
-        	// From what I know, only Mac users expect to use the Command (meta)
-        	// key for shortcuts, while others will use Control.
-        	Globals.shortcutKey=InputEvent.META_MASK;
-        	Globals.useMetaForMultipleSelection=true;
-			
-        	
-        	
-        	// Standard dialogs are vastly better on MacOSX than the Swing ones
-   	        Globals.useNativeFileDialogs=true;
+            // From what I know, only Mac users expect to use the Command (meta)
+            // key for shortcuts, while others will use Control.
+            Globals.shortcutKey=InputEvent.META_MASK;
+            Globals.useMetaForMultipleSelection=true;
+            
+            
+            
+            // Standard dialogs are vastly better on MacOSX than the Swing ones
+            Globals.useNativeFileDialogs=true;
 
         } else {
-        	Globals.shortcutKey=InputEvent.CTRL_MASK;
+            Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
         
         /*******************************************************************
-        				END OF THE PLATFORM SELECTION CODE
+                        END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
         
         // Here we create the main window object
         
         FidoFrame popFrame=new FidoFrame();
-		
-		// Probably, you need to strip this code if you need to compile the
-		// program under a non-Apple platform.
-		if(Globals.weAreOnAMac) {
-			AppleSpecific a=new AppleSpecific();
-			a.answerFinder();
-		}
         
-		// See if there is a filename to open
-		if (args.length>=1) {
-			popFrame.Load(args[0]);
-		}
+        // Probably, you need to strip this code if you need to compile the
+        // program under a non-Apple platform.
+        if(Globals.weAreOnAMac) {
+            AppleSpecific a=new AppleSpecific();
+            a.answerFinder();
+        }
+        
+        // See if there is a filename to open
+        if (args.length>=1) {
+            popFrame.Load(args[0]);
+        }
         popFrame.setVisible(true);
 
-		
-		
+        
+        
       
     }
     
@@ -318,23 +318,23 @@ public class FidoFrame extends JFrame implements
         
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
-        	javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
+            javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
 
-		++Globals.openWindows;
+        ++Globals.openWindows;
 
 
-		URL url=DialogAbout.class.getResource(
-  			"program_icons/icona_fidocadj_128x128.png");
-  		
-		// Set icon
-		if (url != null) {
-    		Image icon = Toolkit.getDefaultToolkit().getImage(url);
-    		setIconImage(icon);
+        URL url=DialogAbout.class.getResource(
+            "program_icons/icona_fidocadj_128x128.png");
+        
+        // Set icon
+        if (url != null) {
+            Image icon = Toolkit.getDefaultToolkit().getImage(url);
+            setIconImage(icon);
         }
         
         // Apparently, this line allows a better Cocoa-like integration
         // under Leopard.
-	    this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+        this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
         
         
         Container contentPane=getContentPane();
@@ -345,7 +345,7 @@ public class FidoFrame extends JFrame implements
         libDirectory = prefs.get("DIR_LIBS", "");
         openFileDirectory = prefs.get("OPEN_DIR", "");
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
-        	"true").equals("true");
+            "true").equals("true");
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
         
         extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
@@ -375,56 +375,56 @@ public class FidoFrame extends JFrame implements
         boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
         
         if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
-        	if(englishLibraries)
-   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-   	        else
-        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-   	        
+            if(englishLibraries)
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+            else
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+            
         } else
-        	System.out.println("IHRAM library got from external file");
+            System.out.println("IHRAM library got from external file");
         if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
-        	
-        	if(englishLibraries)
-        		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-			else
-				CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+            
+            if(englishLibraries)
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+            else
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
         } else 
-        	System.out.println("Standard library got from external file");
+            System.out.println("Standard library got from external file");
         if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
-			if(englishLibraries)
-   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
-   	        else
-   	        	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
-   	       
-		} else
-        	System.out.println("Standard PCB library got from external file");
-		if(true) {
+            if(englishLibraries)
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+            else
+                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+           
+        } else
+            System.out.println("Standard PCB library got from external file");
+        if(true) {
             double elapsed=mt.getElapsed();
             
             if (Globals.isBeta) 
-            	System.out.println("Library load time elapsed: " + elapsed+" ms");
+                System.out.println("Library load time elapsed: " + elapsed+" ms");
             
         }
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
 
         RulerPanel vertRuler = new RulerPanel(
-        	SwingConstants.VERTICAL, 20, 20, 5,
-        	CC.P.getMapCoordinates());
+            SwingConstants.VERTICAL, 20, 20, 5,
+            CC.P.getMapCoordinates());
         
         RulerPanel horRuler = new RulerPanel(
-        	SwingConstants.HORIZONTAL, 20, 20, 5,
-        	CC.P.getMapCoordinates());
-        	
+            SwingConstants.HORIZONTAL, 20, 20, 5,
+            CC.P.getMapCoordinates());
+            
         //SC.setRowHeaderView(vertRuler);
         //SC.setColumnHeaderView(horRuler);
         
-		
-		sgr = new ScrollGestureRecognizer();
-		CC.addScrollGestureSelectionListener(sgr);
+        
+        sgr = new ScrollGestureRecognizer();
+        CC.addScrollGestureSelectionListener(sgr);
         sgr.getInstance();
 
-		
+        
         SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
         ArrayList LayerDesc=new ArrayList();
@@ -490,7 +490,7 @@ public class FidoFrame extends JFrame implements
         b.add(toolZoom);
         
         MacroTree macroLib = new MacroTree(CC.P.getLibrary(),
-        	CC.P.getLayers());
+            CC.P.getLayers());
         macroLib.setSelectionListener(CC);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         
@@ -500,7 +500,7 @@ public class FidoFrame extends JFrame implements
        
         splitPane.setTopComponent(SC);
         splitPane.setBottomComponent(macroLib);
-		splitPane.setResizeWeight(.9);
+        splitPane.setResizeWeight(.9);
 
         contentPane.add(b,"North");
         contentPane.add(splitPane,"Center");
@@ -514,25 +514,25 @@ public class FidoFrame extends JFrame implements
         setJMenuBar(menuBar);
         
 
-		// The initial state is the selection one.
-		
+        // The initial state is the selection one.
+        
         CC.setSelectionState(CircuitPanel.SELECTION, "");
 
         JMenu fileMenu=new JMenu(Globals.messages.getString("File"));
         JMenuItem fileNew = new JMenuItem(Globals.messages.getString("New"));
         fileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         JMenuItem fileOpen = new JMenuItem(Globals.messages.getString("Open"));
         fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         JMenuItem fileSave = new 
             JMenuItem(Globals.messages.getString("Save"));
         fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         JMenuItem fileSaveName = new 
             JMenuItem(Globals.messages.getString("SaveName"));
         fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-        	Globals.shortcutKey | InputEvent.SHIFT_MASK));
+            Globals.shortcutKey | InputEvent.SHIFT_MASK));
             
         JMenuItem fileExport = new 
             JMenuItem(Globals.messages.getString("Export"));
@@ -542,7 +542,7 @@ public class FidoFrame extends JFrame implements
             JMenuItem(Globals.messages.getString("Close"));
         
         fileClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         
         fileMenu.add(fileNew);
         fileMenu.add(fileOpen);
@@ -556,12 +556,12 @@ public class FidoFrame extends JFrame implements
         fileMenu.add(fileClose);
         
 
-		fileNew.addActionListener((ActionListener)this);
+        fileNew.addActionListener((ActionListener)this);
         fileOpen.addActionListener((ActionListener)this);
         fileExport.addActionListener((ActionListener)this);
         filePrint.addActionListener((ActionListener)this);
-		fileClose.addActionListener((ActionListener)this);
-	
+        fileClose.addActionListener((ActionListener)this);
+    
         fileSave.addActionListener((ActionListener)this);
         fileSaveName.addActionListener((ActionListener)this);
 
@@ -573,38 +573,38 @@ public class FidoFrame extends JFrame implements
         JMenuItem editUndo = new 
             JMenuItem(Globals.messages.getString("Undo"));
         editUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         //editUndo.setEnabled(false);
         JMenuItem editRedo = new 
             JMenuItem(Globals.messages.getString("Redo"));
         editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-        	Globals.shortcutKey | InputEvent.SHIFT_MASK));
+            Globals.shortcutKey | InputEvent.SHIFT_MASK));
         //editRedo.setEnabled(false);
         JMenuItem editCut = new 
             JMenuItem(Globals.messages.getString("Cut"));
         editCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-        	Globals.shortcutKey));
-        	
+            Globals.shortcutKey));
+            
         JMenuItem editCopy = new 
             JMenuItem(Globals.messages.getString("Copy"));
-		editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-        	Globals.shortcutKey));
-		
-		
-		JMenuItem editPaste = new 
+        editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+            Globals.shortcutKey));
+        
+        
+        JMenuItem editPaste = new 
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
         JMenuItem clipboardCircuit = new 
             JMenuItem(Globals.messages.getString("DefineClipboard"));
-		
+        
             
         JMenuItem editSelectAll = new 
             JMenuItem(Globals.messages.getString("SelectAll"));
         editSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-        	Globals.shortcutKey));
+            Globals.shortcutKey));
  
- 		JMenuItem editRotate = new 
+        JMenuItem editRotate = new 
             JMenuItem(Globals.messages.getString("Rotate"));
         editRotate.setAccelerator(KeyStroke.getKeyStroke("R"));
         
@@ -614,38 +614,38 @@ public class FidoFrame extends JFrame implements
  
  
 
-		
-		editUndo.addActionListener((ActionListener)this);
-		editRedo.addActionListener((ActionListener)this);
-		editCut.addActionListener((ActionListener)this);
-		editCopy.addActionListener((ActionListener)this);
-		editPaste.addActionListener((ActionListener)this);
-		editSelectAll.addActionListener((ActionListener)this);
-		editMirror.addActionListener((ActionListener)this);
-		editRotate.addActionListener((ActionListener)this);
-		
-		editMenu.add(editUndo);
-		editMenu.add(editRedo);
-		editMenu.addSeparator();
-		
-		editMenu.add(editCut);
-		editMenu.add(editCopy);
-		editMenu.add(editPaste);
+        
+        editUndo.addActionListener((ActionListener)this);
+        editRedo.addActionListener((ActionListener)this);
+        editCut.addActionListener((ActionListener)this);
+        editCopy.addActionListener((ActionListener)this);
+        editPaste.addActionListener((ActionListener)this);
+        editSelectAll.addActionListener((ActionListener)this);
+        editMirror.addActionListener((ActionListener)this);
+        editRotate.addActionListener((ActionListener)this);
+        
+        editMenu.add(editUndo);
+        editMenu.add(editRedo);
+        editMenu.addSeparator();
+        
+        editMenu.add(editCut);
+        editMenu.add(editCopy);
+        editMenu.add(editPaste);
         editMenu.add(clipboardCircuit);
 
-		editMenu.addSeparator();
+        editMenu.addSeparator();
 
-	
-		editMenu.add(editSelectAll);
-		editMenu.addSeparator();
-		editMenu.add(editRotate);
-		editMenu.add(editMirror);
-		
+    
+        editMenu.add(editSelectAll);
+        editMenu.addSeparator();
+        editMenu.add(editRotate);
+        editMenu.add(editMirror);
+        
 
-	
-		menuBar.add(editMenu);
-		
-		JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
+    
+        menuBar.add(editMenu);
+        
+        JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
         JMenuItem layerOptions = new 
             JMenuItem(Globals.messages.getString("Layer_opt"));
         JMenuItem optionCircuit = new 
@@ -658,9 +658,9 @@ public class FidoFrame extends JFrame implements
         // This needs the AppleSpecific extensions to be active.
         
         if(!Globals.weAreOnAMac) 
-        	viewMenu.add(optionCircuit);
+            viewMenu.add(optionCircuit);
 
-		optionMacroOrigin = new 
+        optionMacroOrigin = new 
             JCheckBoxMenuItem(Globals.messages.getString("Macro_origin"));
         viewMenu.add(optionMacroOrigin);
         
@@ -695,11 +695,11 @@ public class FidoFrame extends JFrame implements
         // This needs the AppleSpecific extensions to be active.
         
         if(!Globals.weAreOnAMac)
-        	menuBar.add(about);
+            menuBar.add(about);
         aboutMenu.addActionListener((ActionListener)this);
 
 
-		CC.P.setHasChangedListener(this);
+        CC.P.setHasChangedListener(this);
         
         
         if (true){
@@ -715,24 +715,24 @@ public class FidoFrame extends JFrame implements
             {
                 public void windowClosing(WindowEvent e)
                 {
-      	            if (CC.P.getModified()) {
-      	            	if(JOptionPane.showConfirmDialog(null, 
-							Globals.messages.getString("Warning_unsaved"),
-							Globals.messages.getString("Warning"),
-							JOptionPane.OK_CANCEL_OPTION, 
-							JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
-						{
-							return;	
-						}
-					}
-					
-					setVisible(false);
-					dispose();
+                    if (CC.P.getModified()) {
+                        if(JOptionPane.showConfirmDialog(null, 
+                            Globals.messages.getString("Warning_unsaved"),
+                            Globals.messages.getString("Warning"),
+                            JOptionPane.OK_CANCEL_OPTION, 
+                            JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
+                        {
+                            return; 
+                        }
+                    }
+                    
+                    setVisible(false);
+                    dispose();
 
-                	--Globals.openWindows;
+                    --Globals.openWindows;
                     
                     if (Globals.openWindows<1)
-                    	System.exit(0);
+                        System.exit(0);
                 }
             });
 
@@ -740,7 +740,7 @@ public class FidoFrame extends JFrame implements
         
         //pack();
         addWindowFocusListener(this);
-		Globals.activeWindow=this;
+        Globals.activeWindow=this;
         
        
     }
@@ -761,11 +761,11 @@ public class FidoFrame extends JFrame implements
                 circuitDialog.setVisible(true);
                 
                 try {
-                	CC.setCirc(new StringBuffer(circuitDialog.stringCircuit));
-                	CC.P.saveUndoState();
-                	repaint();
+                    CC.setCirc(new StringBuffer(circuitDialog.stringCircuit));
+                    CC.P.saveUndoState();
+                    repaint();
                 } catch(IOException e) {
-                	System.out.println("Error: "+e); 
+                    System.out.println("Error: "+e); 
                 }
             }
             
@@ -790,30 +790,30 @@ public class FidoFrame extends JFrame implements
                 printLandscape = dp.getLandscape();
                 exportBlackWhite= dp.getBW();
                 
-		
-				ArrayList ol=CC.P.getLayers();
+        
+                ArrayList ol=CC.P.getLayers();
                 if (dp.shouldPrint()) {
-                	if(exportBlackWhite) {
-						ArrayList v=new ArrayList();
-						for (int i=0; i<16;++i)
-							v.add(new LayerDesc(Color.black, 
-								((LayerDesc)ol.get(i)).getVisible(),
-								"B/W"));
-			
-						CC.P.setLayers(v);
-					}
+                    if(exportBlackWhite) {
+                        ArrayList v=new ArrayList();
+                        for (int i=0; i<16;++i)
+                            v.add(new LayerDesc(Color.black, 
+                                ((LayerDesc)ol.get(i)).getVisible(),
+                                "B/W"));
+            
+                        CC.P.setLayers(v);
+                    }
                     PrinterJob job = PrinterJob.getPrinterJob();
                     job.setPrintable(this);
                     boolean ok = job.printDialog();
                     if (ok) {
                         try {
                         
-     					    PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-        					if (!printLandscape) {
-            					aset.add(OrientationRequested.PORTRAIT);
-        					} else {
-            					aset.add(OrientationRequested.LANDSCAPE);
-        					}
+                            PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                            if (!printLandscape) {
+                                aset.add(OrientationRequested.PORTRAIT);
+                            } else {
+                                aset.add(OrientationRequested.LANDSCAPE);
+                            }
     
                             job.print(aset);
                         } catch (PrinterException ex) {
@@ -828,121 +828,121 @@ public class FidoFrame extends JFrame implements
             }
            
             if (arg.equals(Globals.messages.getString("SaveName"))) {
-            	SaveWithName();
+                SaveWithName();
 
                 
             }  
             if (arg.equals(Globals.messages.getString("Save"))) {
-            	
-            	
+                
+                
                 if(CC.P.openFileName.equals(""))
-                	SaveWithName();
+                    SaveWithName();
                 else 
-                	Save();
+                    Save();
                  
                 
             }
-            	
+                
             if (arg.equals(Globals.messages.getString("New"))) {
-            	FidoFrame popFrame=new FidoFrame();
-            	
-        		popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(), 		
-        			popFrame.getHeight());
-        		popFrame.setVisible(true);
-            	
-            	/*try {
-                	CC.setCirc(new StringBuffer(""));
-	                CC.P.saveUndoState();
+                FidoFrame popFrame=new FidoFrame();
+                
+                popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
+                    popFrame.getHeight());
+                popFrame.setVisible(true);
+                
+                /*try {
+                    CC.setCirc(new StringBuffer(""));
+                    CC.P.saveUndoState();
                 } catch (IOException E) {}
                 CC.P.openFileName="";
                 repaint();*/
-           	}
-           	if (arg.equals(Globals.messages.getString("Undo"))) {
+            }
+            if (arg.equals(Globals.messages.getString("Undo"))) {
                 CC.P.undo();
                 repaint();
-           	}
-           	if (arg.equals(Globals.messages.getString("Redo"))) {
+            }
+            if (arg.equals(Globals.messages.getString("Redo"))) {
                 CC.P.redo();
                 repaint();
-           	}
-           	
-           	if (arg.equals(Globals.messages.getString("About_menu"))) {
-           		DialogAbout d=new DialogAbout(this);
-				d.setVisible(true);
-           	}
+            }
+            
+            if (arg.equals(Globals.messages.getString("About_menu"))) {
+                DialogAbout d=new DialogAbout(this);
+                d.setVisible(true);
+            }
             if (arg.equals(Globals.messages.getString("Open"))) {
             
-            	String fin;
-            	String din;
-            	
-            	if(Globals.useNativeFileDialogs) {
-            	
-            		// File chooser provided by the host system.
-            		// Vastly better on MacOSX
-            		
-            		FileDialog fd = new FileDialog(this, 
-                    	Globals.messages.getString("Open"));
-                	fd.setDirectory(openFileDirectory);
-                	fd.setFilenameFilter(new FilenameFilter(){
-    					public boolean accept(File dir, String name)
-    					{
-      						return (name.toLowerCase().endsWith(".fcd"));
-    					}
- 					});
-                	
-                	fd.setVisible(true);
-                	fin=fd.getFile();
-                	din=fd.getDirectory();
+                String fin;
+                String din;
+                
+                if(Globals.useNativeFileDialogs) {
+                
+                    // File chooser provided by the host system.
+                    // Vastly better on MacOSX
+                    
+                    FileDialog fd = new FileDialog(this, 
+                        Globals.messages.getString("Open"));
+                    fd.setDirectory(openFileDirectory);
+                    fd.setFilenameFilter(new FilenameFilter(){
+                        public boolean accept(File dir, String name)
+                        {
+                            return (name.toLowerCase().endsWith(".fcd"));
+                        }
+                    });
+                    
+                    fd.setVisible(true);
+                    fin=fd.getFile();
+                    din=fd.getDirectory();
                 } else {
-                	// File chooser provided by Swing.
-            		// Better on Linux
-                	
-                	JFileChooser fc = new JFileChooser();
-                	fc.setCurrentDirectory(new File(openFileDirectory));
-                	fc.setDialogTitle(Globals.messages.getString("Open"));
-                	fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
-    					public boolean accept(File f)
-    					{
-      						return (f.getName().toLowerCase().endsWith(".fcd")||
-      							f.isDirectory());
-    					}
-    					public String getDescription()
-    					{
-    						return "FidoCadJ (.fcd)";
-    					}
- 					});
-                	
-                	if(fc.showOpenDialog(this)!=JFileChooser.APPROVE_OPTION)
-                		return;
-                		              	
-                	
-                	fin=fc.getSelectedFile().getName();
-                	din=fc.getSelectedFile().getParentFile().getPath();
+                    // File chooser provided by Swing.
+                    // Better on Linux
+                    
+                    JFileChooser fc = new JFileChooser();
+                    fc.setCurrentDirectory(new File(openFileDirectory));
+                    fc.setDialogTitle(Globals.messages.getString("Open"));
+                    fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
+                        public boolean accept(File f)
+                        {
+                            return (f.getName().toLowerCase().endsWith(".fcd")||
+                                f.isDirectory());
+                        }
+                        public String getDescription()
+                        {
+                            return "FidoCadJ (.fcd)";
+                        }
+                    });
+                    
+                    if(fc.showOpenDialog(this)!=JFileChooser.APPROVE_OPTION)
+                        return;
+                                        
+                    
+                    fin=fc.getSelectedFile().getName();
+                    din=fc.getSelectedFile().getParentFile().getPath();
                 
                 }
                 
                 
                     
                 if(fin!= null) {
-                	
+                    
                     // An open file action has been performed.
                     // Reads the file, line by line and stores it in memory
                     try {
-                    	FidoFrame popFrame;
-                    	if(CC.P.getModified() || !CC.P.isEmpty()) {
-                    		popFrame=new FidoFrame();
-                    		popFrame.setBounds(getX()+30, getY()+30, 	
-        					popFrame.getWidth(), 		
-        					popFrame.getHeight());
-	        				popFrame.setVisible(true);
-            	
-                    	} else {
-                    		popFrame=this;
-                    	}
-            			popFrame.CC.P.openFileName= Globals.createCompleteFileName(
-                			din, 			fin);
-                		prefs.put("OPEN_DIR", din);  
-                		popFrame.openFileDirectory=din;
+                        FidoFrame popFrame;
+                        if(CC.P.getModified() || !CC.P.isEmpty()) {
+                            popFrame=new FidoFrame();
+                            popFrame.setBounds(getX()+30, getY()+30,    
+                            popFrame.getWidth(),        
+                            popFrame.getHeight());
+                            popFrame.setVisible(true);
+                
+                        } else {
+                            popFrame=this;
+                        }
+                        popFrame.CC.P.openFileName= Globals.createCompleteFileName(
+                            din,            fin);
+                        prefs.put("OPEN_DIR", din);  
+                        popFrame.openFileDirectory=din;
                         popFrame.openFile();
                         popFrame.CC.P.saveUndoState();
                         popFrame.CC.P.setModified(false);
@@ -954,7 +954,7 @@ public class FidoFrame extends JFrame implements
                 }
                 
             }
-           	if (arg.equals(Globals.messages.getString("Export"))) {
+            if (arg.equals(Globals.messages.getString("Export"))) {
                 
                 DialogExport export=new DialogExport(this);
                 export.setAntiAlias(true);
@@ -970,7 +970,7 @@ public class FidoFrame extends JFrame implements
                     exportUnitPerPixel=export.getUnitPerPixel();
                     exportBlackWhite=export.getBlackWhite();
                     exportFileName = Globals.checkExtension(exportFileName, 
-                    	exportFormat);
+                        exportFormat);
                     try {
                         ExportGraphic.export(new File(exportFileName),  CC.P, 
                             exportFormat, exportUnitPerPixel, 
@@ -988,84 +988,84 @@ public class FidoFrame extends JFrame implements
                 }
             }
             if (arg.equals(Globals.messages.getString("SelectAll"))) {
-        		CC.P.selectAll();	
-        		repaint();
-        	}
+                CC.P.selectAll();   
+                repaint();
+            }
         
-        	if (arg.equals(Globals.messages.getString("Copy"))) {
-        		CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);	
-      		}
+            if (arg.equals(Globals.messages.getString("Copy"))) {
+                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);   
+            }
             if (arg.equals(Globals.messages.getString("Cut"))) {
-        		CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);	
-        		CC.P.deleteAllSelected();
-        		repaint();
-      		}
+                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);   
+                CC.P.deleteAllSelected();
+                repaint();
+            }
             if (arg.equals(Globals.messages.getString("Mirror_E"))) {
-        		CC.P.mirrorAllSelected();
-        		repaint();
-      		}
-      		
+                CC.P.mirrorAllSelected();
+                repaint();
+            }
+            
             if (arg.equals(Globals.messages.getString("Rotate"))) {
-        		CC.P.rotateAllSelected();
-        		repaint();
-      		}
+                CC.P.rotateAllSelected();
+                repaint();
+            }
             if (arg.equals(Globals.messages.getString("Macro_origin"))) {
-        		CC.P.setMacroOriginVisible(optionMacroOrigin.isSelected());	
-        		repaint();
-      		}
+                CC.P.setMacroOriginVisible(optionMacroOrigin.isSelected()); 
+                repaint();
+            }
             
             if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
                 TextTransfer textTransfer = new TextTransfer();
                 try {
-                	FidoFrame popFrame;
+                    FidoFrame popFrame;
                     if(CC.P.getModified()) {
-                    	popFrame=new FidoFrame();
-                    	popFrame.setBounds(getX()+30, getY()+30, 	
-        				popFrame.getWidth(), 		
-        				popFrame.getHeight());
-	        			popFrame.setVisible(true);
-            	   	} else {
-                   		popFrame=this;
-                   	}
-                	popFrame.CC.setCirc(new 
-                    	StringBuffer(textTransfer.getClipboardContents()));
+                        popFrame=new FidoFrame();
+                        popFrame.setBounds(getX()+30, getY()+30,    
+                        popFrame.getWidth(),        
+                        popFrame.getHeight());
+                        popFrame.setVisible(true);
+                    } else {
+                        popFrame=this;
+                    }
+                    popFrame.CC.setCirc(new 
+                        StringBuffer(textTransfer.getClipboardContents()));
                 } catch(IOException e) {
-                	System.out.println("Error: "+e); 
+                    System.out.println("Error: "+e); 
                 }
                 
                 
                 repaint();
             }
             
-        	if (arg.equals(Globals.messages.getString("Paste"))) {
-        		CC.P.paste();	
-        		repaint();
-        	}
-        	
-        	if (arg.equals(Globals.messages.getString("Close"))) {
-        	    if (CC.P.getModified()) {
-      	         	if(JOptionPane.showConfirmDialog(null, 
-						Globals.messages.getString("Warning_unsaved"),
-						Globals.messages.getString("Warning"),
-						JOptionPane.OK_CANCEL_OPTION, 
-						JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
-					{
-						return;	
-					}
-				}
-					
-				setVisible(false);
-				dispose();
+            if (arg.equals(Globals.messages.getString("Paste"))) {
+                CC.P.paste();   
+                repaint();
+            }
+            
+            if (arg.equals(Globals.messages.getString("Close"))) {
+                if (CC.P.getModified()) {
+                    if(JOptionPane.showConfirmDialog(null, 
+                        Globals.messages.getString("Warning_unsaved"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.OK_CANCEL_OPTION, 
+                        JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
+                    {
+                        return; 
+                    }
+                }
+                    
+                setVisible(false);
+                dispose();
 
-               	--Globals.openWindows;
+                --Globals.openWindows;
                     
                 if (Globals.openWindows<1)
-                   	System.exit(0);
+                    System.exit(0);
             }
         
         }
              
-	   	
+        
     }
     
     
@@ -1084,7 +1084,7 @@ public class FidoFrame extends JFrame implements
     public int print(Graphics g, PageFormat pf, int page) throws
                                                    PrinterException 
     {
-		int npages = 0;
+        int npages = 0;
                 
         double xscale = 1.0/16; // Set 1152 logical units for an inch
         double yscale = 1.0/16; // as the standard resolution is 72
@@ -1099,36 +1099,36 @@ public class FidoFrame extends JFrame implements
          */
          
         if (printMirror) {
-        	g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
+            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
                 pf.getImageableY());
             g2d.scale(-xscale,yscale); 
             
         } else {
-           	g2d.translate(pf.getImageableX(), pf.getImageableY());
-   			g2d.scale(xscale,yscale); 
-        }	
+            g2d.translate(pf.getImageableX(), pf.getImageableY());
+            g2d.scale(xscale,yscale); 
+        }   
         
        
         double om=CC.P.getMapCoordinates().getXMagnitude();
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
         if (printFitToPage) {
-        	CC.P.getMapCoordinates().setMagnitudes(1,1);
-  		    CC.P.getMapCoordinates().setMagnitudes(1,1);
-  		    CC.P.getMapCoordinates().setXCenter(0);
-  		    CC.P.getMapCoordinates().setYCenter(0);
-  		    
-  		    zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
-            	(int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                	true,false);
+            CC.P.getMapCoordinates().setMagnitudes(1,1);
+            CC.P.getMapCoordinates().setMagnitudes(1,1);
+            CC.P.getMapCoordinates().setXCenter(0);
+            CC.P.getMapCoordinates().setYCenter(0);
+            
+            zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
+                (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
+                    true,false);
             
             /*
             Dimension D = ExportGraphic.getImageSize(CC.P,1,true); 
-			double zoomx = pf.getImageableWidth()*16/D.width;
-			double zoomy = pf.getImageableHeight()*16/D.height;
-			
-			zoom = (zoomx<zoomy)?zoomx:zoomy;*/
-			zoom=zoomm.getXMagnitude();
+            double zoomx = pf.getImageableWidth()*16/D.width;
+            double zoomy = pf.getImageableHeight()*16/D.height;
+            
+            zoom = (zoomx<zoomy)?zoomx:zoomy;*/
+            zoom=zoomm.getXMagnitude();
         }
          
         MapCoordinates m=CC.P.getMapCoordinates();
@@ -1139,24 +1139,24 @@ public class FidoFrame extends JFrame implements
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
             /*-
-   			ExportGraphic.getImageOrigin(CC.P, zoom).x;*/
+            ExportGraphic.getImageOrigin(CC.P, zoom).x;*/
  
         npages = (int)Math.floor(((imageWidth-1)/printerWidth));
 /*
-   		System.out.println("Page: "+page);
-   		System.out.println("ImageWidth: "+imageWidth);
-   		System.out.println("PrinterWidth: "+printerWidth);
-   		System.out.println("Zoom: "+zoom);
- 		System.out.println("Npages: "+npages);
+        System.out.println("Page: "+page);
+        System.out.println("ImageWidth: "+imageWidth);
+        System.out.println("PrinterWidth: "+printerWidth);
+        System.out.println("Zoom: "+zoom);
+        System.out.println("Npages: "+npages);
 */        
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
-			g2d.translate(-(printerWidth*page),0);
+            g2d.translate(-(printerWidth*page),0);
         }
         
         if(page>npages) {
-        	CC.P.getMapCoordinates().setMagnitudes(om,om);
-        	return NO_SUCH_PAGE;
+            CC.P.getMapCoordinates().setMagnitudes(om,om);
+            return NO_SUCH_PAGE;
         }
 
         CC.P.setMapCoordinates(m);
@@ -1172,8 +1172,8 @@ public class FidoFrame extends JFrame implements
     }
     
     /*  This implementation of the DropTargetListener interface is heavily 
-    	inspired on the example given here:
-    	http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
+        inspired on the example given here:
+        http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
     
     */
     
@@ -1181,139 +1181,139 @@ public class FidoFrame extends JFrame implements
     {
     }
 
-  	public void dragExit(DropTargetEvent dte) 
-  	{
+    public void dragExit(DropTargetEvent dte) 
+    {
     }
 
-  	public void dragOver(DropTargetDragEvent dtde) 
-  	{
+    public void dragOver(DropTargetDragEvent dtde) 
+    {
     }
 
-  	public void dropActionChanged(DropTargetDragEvent dtde) 
-  	{
+    public void dropActionChanged(DropTargetDragEvent dtde) 
+    {
     }
 
-  	public void drop(DropTargetDropEvent dtde) 
-  	{
-    	try {
-	      	Transferable tr = dtde.getTransferable();
-      		DataFlavor[] flavors = tr.getTransferDataFlavors();
-      		for (int i = 0; i < flavors.length; i++) {
- 				if (flavors[i].isFlavorJavaFileListType()) {
-    				// Great!  Accept copy drops...
-    				dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+    public void drop(DropTargetDropEvent dtde) 
+    {
+        try {
+            Transferable tr = dtde.getTransferable();
+            DataFlavor[] flavors = tr.getTransferDataFlavors();
+            for (int i = 0; i < flavors.length; i++) {
+                if (flavors[i].isFlavorJavaFileListType()) {
+                    // Great!  Accept copy drops...
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
     
-    				// And add the list of file names to our text area
-    				java.util.List list = 
-    					(java.util.List)tr.getTransferData(flavors[i]);
-    				
-    				FidoFrame popFrame;
-    				
-    				if(CC.P.getModified()) {
-                    	popFrame=new FidoFrame();
-                    	popFrame.setBounds(getX()+30, getY()+30, 	
-        				popFrame.getWidth(), 		
-        				popFrame.getHeight());
-	        			popFrame.setVisible(true);
+                    // And add the list of file names to our text area
+                    java.util.List list = 
+                        (java.util.List)tr.getTransferData(flavors[i]);
+                    
+                    FidoFrame popFrame;
+                    
+                    if(CC.P.getModified()) {
+                        popFrame=new FidoFrame();
+                        popFrame.setBounds(getX()+30, getY()+30,    
+                        popFrame.getWidth(),        
+                        popFrame.getHeight());
+                        popFrame.setVisible(true);
                     } else {
-                    	popFrame=this;
+                        popFrame=this;
                     }
-    				
-    				// Only the first file of the list will be opened
-    				popFrame.CC.P.openFileName=((File)(list.get(0))).getAbsolutePath();
-    				popFrame.openFile();
-    				// If we made it this far, everything worked.
-   					dtde.dropComplete(true);
-    				return;
-  				}
-  				// Ok, is it another Java object?
-  				else if (flavors[i].isFlavorSerializedObjectType()) {
-    				dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-    				Object o = tr.getTransferData(flavors[i]);
-    				// If there is a valid FidoCad code, try to draw it.
-    				FidoFrame popFrame;
-    				
-    				if(CC.P.getModified()) {
-                    	popFrame=new FidoFrame();
-                    	popFrame.setBounds(getX()+30, getY()+30, 	
-        				popFrame.getWidth(), 		
-        				popFrame.getHeight());
-	        			popFrame.setVisible(true);
+                    
+                    // Only the first file of the list will be opened
+                    popFrame.CC.P.openFileName=((File)(list.get(0))).getAbsolutePath();
+                    popFrame.openFile();
+                    // If we made it this far, everything worked.
+                    dtde.dropComplete(true);
+                    return;
+                }
+                // Ok, is it another Java object?
+                else if (flavors[i].isFlavorSerializedObjectType()) {
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+                    Object o = tr.getTransferData(flavors[i]);
+                    // If there is a valid FidoCad code, try to draw it.
+                    FidoFrame popFrame;
+                    
+                    if(CC.P.getModified()) {
+                        popFrame=new FidoFrame();
+                        popFrame.setBounds(getX()+30, getY()+30,    
+                        popFrame.getWidth(),        
+                        popFrame.getHeight());
+                        popFrame.setVisible(true);
                     } else {
-                    	popFrame=this;
+                        popFrame=this;
                     }
-            		
-        			popFrame.CC.setCirc(new StringBuffer(o.toString()));
+                    
+                    popFrame.CC.setCirc(new StringBuffer(o.toString()));
                     popFrame.CC.P.saveUndoState();
                     popFrame.CC.P.setModified(false);
 
-    				dtde.dropComplete(true);
-    				popFrame.CC.repaint();
-    				return;
-  				}
-  				// How about an input stream? In some Linux flawors, it contains
-  				// the file name, with a few substitutions.
-  				
-  				else if (flavors[i].isRepresentationClassInputStream()) {
-    				dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-    				//System.out.println("Successful text drop.\n\n");
-    				BufferedReader in=new BufferedReader(new InputStreamReader(
-                 	 (InputStream)tr.getTransferData(flavors[i])));
-      				
-     				
-      				String line="";
+                    dtde.dropComplete(true);
+                    popFrame.CC.repaint();
+                    return;
+                }
+                // How about an input stream? In some Linux flawors, it contains
+                // the file name, with a few substitutions.
+                
+                else if (flavors[i].isRepresentationClassInputStream()) {
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+                    //System.out.println("Successful text drop.\n\n");
+                    BufferedReader in=new BufferedReader(new InputStreamReader(
+                     (InputStream)tr.getTransferData(flavors[i])));
+                    
+                    
+                    String line="";
                     int k;
                   
                         
-        			while (line != null){
-            			line = in.readLine();
-            			if ((k=line.toString().indexOf("file://"))>=0) {
-            			    FidoFrame popFrame;
-							
-							if(CC.P.getModified()) {
-                    			popFrame=new FidoFrame();
-                    			popFrame.setBounds(getX()+30, getY()+30, 	
-        						popFrame.getWidth(), 		
-        						popFrame.getHeight());
-	        					popFrame.setVisible(true);
-            	
-                    		} else {
-                    			popFrame=this;
-                    		}
+                    while (line != null){
+                        line = in.readLine();
+                        if ((k=line.toString().indexOf("file://"))>=0) {
+                            FidoFrame popFrame;
+                            
+                            if(CC.P.getModified()) {
+                                popFrame=new FidoFrame();
+                                popFrame.setBounds(getX()+30, getY()+30,    
+                                popFrame.getWidth(),        
+                                popFrame.getHeight());
+                                popFrame.setVisible(true);
+                
+                            } else {
+                                popFrame=this;
+                            }
 
-            				popFrame.CC.P.openFileName = 
-            					line.toString().substring(k+7);
-            				
-            				// Deprecated! it should indicate encoding. But
-            				// WE WANT the encoding using being the same of the
-            				// host system.
-            				
-            				popFrame.CC.P.openFileName = 
-            					java.net.URLDecoder.decode(
-            					popFrame.CC.P.openFileName);
-            			                  		
-            				popFrame.openFile();
-                        	popFrame.CC.P.saveUndoState();
-                        	popFrame.CC.P.setModified(false);
+                            popFrame.CC.P.openFileName = 
+                                line.toString().substring(k+7);
+                            
+                            // Deprecated! it should indicate encoding. But
+                            // WE WANT the encoding using being the same of the
+                            // host system.
+                            
+                            popFrame.CC.P.openFileName = 
+                                java.net.URLDecoder.decode(
+                                popFrame.CC.P.openFileName);
+                                                
+                            popFrame.openFile();
+                            popFrame.CC.P.saveUndoState();
+                            popFrame.CC.P.setModified(false);
                         
-    						break;
-            			}
-        			}
+                            break;
+                        }
+                    }
             
-            		CC.repaint();
-      				
-    				dtde.dropComplete(true);
-    				return;
-  				}
-      		}
-      		// Hmm, the user must not have dropped a file list
-      		System.out.println("Drop failed: " + dtde);
-      		dtde.rejectDrop();
-    	} catch (Exception e) {
-      		e.printStackTrace();
-      		dtde.rejectDrop();
-    	}
-  	}
+                    CC.repaint();
+                    
+                    dtde.dropComplete(true);
+                    return;
+                }
+            }
+            // Hmm, the user must not have dropped a file list
+            System.out.println("Drop failed: " + dtde);
+            dtde.rejectDrop();
+        } catch (Exception e) {
+            e.printStackTrace();
+            dtde.rejectDrop();
+        }
+    }
     
     /** Open the current file
     
@@ -1321,9 +1321,9 @@ public class FidoFrame extends JFrame implements
     */
     
     public void openFile() 
-    	throws IOException
+        throws IOException
     {
-    	FileReader input = new FileReader(CC.P.openFileName);
+        FileReader input = new FileReader(CC.P.openFileName);
         BufferedReader bufRead = new BufferedReader(input);
                 
         StringBuffer txt= new StringBuffer();    
@@ -1354,8 +1354,8 @@ public class FidoFrame extends JFrame implements
         // scombinato...
                         
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
-        	SC.getViewport().getExtentSize().width,
-        	SC.getViewport().getExtentSize().height,
+            SC.getViewport().getExtentSize().width,
+            SC.getViewport().getExtentSize().height,
             true,false);
         MapCoordinates mi=CC.P.getMapCoordinates();
         double Z=Math.round(m.getXMagnitude()*100)/100;
@@ -1378,61 +1378,61 @@ public class FidoFrame extends JFrame implements
         String din;
         
         
-            	
+                
         if(Globals.useNativeFileDialogs) {
-            	
-        	// File chooser provided by the host system.
-        	// Vastly better on MacOSX
-            		
-        	FileDialog fd = new FileDialog(this, 
-               	Globals.messages.getString("SaveName"),
-               	FileDialog.SAVE);
+                
+            // File chooser provided by the host system.
+            // Vastly better on MacOSX
+                    
+            FileDialog fd = new FileDialog(this, 
+                Globals.messages.getString("SaveName"),
+                FileDialog.SAVE);
             fd.setDirectory(openFileDirectory);
             fd.setFilenameFilter(new FilenameFilter(){
-    			public boolean accept(File dir, String name)
-    			{
-      				return (name.toLowerCase().endsWith(".fcd"));
-    			}
- 			});
+                public boolean accept(File dir, String name)
+                {
+                    return (name.toLowerCase().endsWith(".fcd"));
+                }
+            });
             fd.setVisible(true);
             fin=fd.getFile();
             din=fd.getDirectory();
         } else {
-           	// File chooser provided by Swing.
-        	// Better on Linux
-                	
-           	JFileChooser fc = new JFileChooser();
-           	fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
-    			public boolean accept(File f)
-    			{
-      				return (f.getName().toLowerCase().endsWith(".fcd") ||
-      					f.isDirectory());
-    			}
-    			public String getDescription()
-    			{
-    				return "FidoCadJ (.fcd)";
-    			}
- 			});
-           	fc.setCurrentDirectory(new File(openFileDirectory));
-           	fc.setDialogTitle(Globals.messages.getString("SaveName"));
-           	if(fc.showSaveDialog(this)!=JFileChooser.APPROVE_OPTION)
-           		return;
-                		              	
-                	
-           	fin=fc.getSelectedFile().getName();
-           	din=fc.getSelectedFile().getParentFile().getPath();
+            // File chooser provided by Swing.
+            // Better on Linux
+                    
+            JFileChooser fc = new JFileChooser();
+            fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
+                public boolean accept(File f)
+                {
+                    return (f.getName().toLowerCase().endsWith(".fcd") ||
+                        f.isDirectory());
+                }
+                public String getDescription()
+                {
+                    return "FidoCadJ (.fcd)";
+                }
+            });
+            fc.setCurrentDirectory(new File(openFileDirectory));
+            fc.setDialogTitle(Globals.messages.getString("SaveName"));
+            if(fc.showSaveDialog(this)!=JFileChooser.APPROVE_OPTION)
+                return;
+                                        
+                    
+            fin=fc.getSelectedFile().getName();
+            din=fc.getSelectedFile().getParentFile().getPath();
                 
         }
                 
                 
         if(fin!= null) {
-           	CC.P.openFileName= Globals.createCompleteFileName(
-           		din,
-           		fin);
-          	CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
-               		Globals.DEFAULT_EXTENSION);
+            CC.P.openFileName= Globals.createCompleteFileName(
+                din,
+                fin);
+            CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
+                    Globals.DEFAULT_EXTENSION);
             prefs.put("OPEN_DIR", din);   
-    			openFileDirectory=din;
+                openFileDirectory=din;
             
             Save();
 
@@ -1444,31 +1444,31 @@ public class FidoFrame extends JFrame implements
     */
     void Save()
     {
-    	try {
-    		if (splitNonStandardMacro_s) {
-    			/*  In fact, splitting the nonstandard macro when saving a file
-    				is indeed an export operation. This ease the job, since
-    				while exporting in a vectorial graphic format one has 
-    				indeed to split macros.
-    			*/
+        try {
+            if (splitNonStandardMacro_s) {
+                /*  In fact, splitting the nonstandard macro when saving a file
+                    is indeed an export operation. This ease the job, since
+                    while exporting in a vectorial graphic format one has 
+                    indeed to split macros.
+                */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
                     "fcd", 1,true,false, extFCJ_s);
-       	     	CC.P.setModified(false);
-   	
-    		} else {
-    	  		// Create file 
-	   			FileWriter fstream = new FileWriter(CC.P.openFileName);
-   	    		BufferedWriter output = new BufferedWriter(fstream);
-   		 		output.write("[FIDOCAD]\n");
-   	 			output.write(CC.getCirc(extFCJ_s).toString());
-    			output.close();
-       	     	CC.P.setModified(false);
-			
-        	}
+                CC.P.setModified(false);
     
-    	} catch (IOException fnfex) {
-           	JOptionPane.showMessageDialog(this,
-           	Globals.messages.getString("Save_error")+fnfex);
+            } else {
+                // Create file 
+                FileWriter fstream = new FileWriter(CC.P.openFileName);
+                BufferedWriter output = new BufferedWriter(fstream);
+                output.write("[FIDOCAD]\n");
+                output.write(CC.getCirc(extFCJ_s).toString());
+                output.close();
+                CC.P.setModified(false);
+            
+            }
+    
+        } catch (IOException fnfex) {
+            JOptionPane.showMessageDialog(this,
+            Globals.messages.getString("Save_error")+fnfex);
         }
     }
     
@@ -1477,7 +1477,7 @@ public class FidoFrame extends JFrame implements
     */
     void Load(String s)
     {
-    	CC.P.openFileName= s;
+        CC.P.openFileName= s;
                
         try {
             openFile();
@@ -1487,12 +1487,12 @@ public class FidoFrame extends JFrame implements
         }
     }
     
-    /**	Show the FidoCadJ preferences panel
+    /** Show the FidoCadJ preferences panel
     
     */
     void showPrefs()
     {
-    	DialogOptions options=new DialogOptions(this,
+        DialogOptions options=new DialogOptions(this,
             CC.P.getMapCoordinates().getXMagnitude(),
             CC.profileTime,CC.antiAlias,
             CC.P.getMapCoordinates().getXGridStep(),
@@ -1502,7 +1502,7 @@ public class FidoFrame extends JFrame implements
             CC.getPCB_thickness(),
             CC.getPCB_pad_sizex(),
             CC.getPCB_pad_sizey(),
-	        CC.getPCB_pad_drill(),
+            CC.getPCB_pad_drill(),
             extFCJ_s,
             extFCJ_c,
             Globals.quaquaActive,
@@ -1525,51 +1525,51 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_thickness(options.pcblinewidth_i);
         CC.setPCB_pad_sizex(options.pcbpadwidth_i);
         CC.setPCB_pad_sizey(options.pcbpadheight_i);
-		CC.setPCB_pad_drill(options.pcbpadintw_i);
-		CC.P.setMacroFont(options.macroFont);
-		
-		extFCJ_s = options.extFCJ_s;
-		extFCJ_c = options.extFCJ_c;
-		splitNonStandardMacro_s = options.split_n_s;
-		splitNonStandardMacro_c = options.split_n_c;
+        CC.setPCB_pad_drill(options.pcbpadintw_i);
+        CC.P.setMacroFont(options.macroFont);
+        
+        extFCJ_s = options.extFCJ_s;
+        extFCJ_c = options.extFCJ_c;
+        splitNonStandardMacro_s = options.split_n_s;
+        splitNonStandardMacro_c = options.split_n_c;
 
         CC.setStrict(options.extStrict);
 
-		Globals.quaquaActive=options.quaquaActive;
-  	
+        Globals.quaquaActive=options.quaquaActive;
+    
         libDirectory=options.libDirectory;
         prefs.put("DIR_LIBS", libDirectory);                       
-    	prefs.put("SMALL_ICON_TOOLBAR", 
-    		(smallIconsToolbar?"true":"false"));
-        	
-    	prefs.put("TEXT_TOOLBAR",
-    		(textToolbar?"true":"false"));
+        prefs.put("SMALL_ICON_TOOLBAR", 
+            (smallIconsToolbar?"true":"false"));
+            
+        prefs.put("TEXT_TOOLBAR",
+            (textToolbar?"true":"false"));
      
-    	prefs.put("QUAQUA",
-    		(Globals.quaquaActive?"true":"false"));
-    	prefs.put("FCJ_EXT_STRICT",
-    		(CC.getStrict()?"true":"false"));
-    		
-    	prefs.put("SPLIT_N_MACRO_SAVE",
-    		(splitNonStandardMacro_s?"true":"false"));
-    	
+        prefs.put("QUAQUA",
+            (Globals.quaquaActive?"true":"false"));
+        prefs.put("FCJ_EXT_STRICT",
+            (CC.getStrict()?"true":"false"));
+            
+        prefs.put("SPLIT_N_MACRO_SAVE",
+            (splitNonStandardMacro_s?"true":"false"));
+        
     
-    	prefs.put("SPLIT_N_MACRO_COPY",
-    		(splitNonStandardMacro_c?"true":"false"));
-    	
+        prefs.put("SPLIT_N_MACRO_COPY",
+            (splitNonStandardMacro_c?"true":"false"));
+        
      
         repaint();
     }
     
     /** Set the current zoom to fit
-	
-	*/
-	public void zoomToFit()
-	{
-		double oldz=CC.P.getMapCoordinates().getXMagnitude();
-		
-		MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
-        	SC.getViewport().getExtentSize().width-35,
+    
+    */
+    public void zoomToFit()
+    {
+        double oldz=CC.P.getMapCoordinates().getXMagnitude();
+        
+        MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
+            SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
             false,false);
             
@@ -1582,100 +1582,100 @@ public class FidoFrame extends JFrame implements
         
         if (oldz!=z) CC.repaint();
 
-	}
-	
-	
-	public void somethingHasChanged()
-	{
-    	setTitle("FidoCadJ "+Globals.version+" "+ 
-	   		Globals.prettifyPath(CC.P.openFileName,45)+ 
-	   		(CC.P.getModified()?" *":""));
-	}
-	
-	public void windowGainedFocus(WindowEvent e) 
-	{
-		Globals.activeWindow = this;
-	}
-	
-	public void windowLostFocus(WindowEvent e) 
-	{
-	
-	}
+    }
+    
+    
+    public void somethingHasChanged()
+    {
+        setTitle("FidoCadJ "+Globals.version+" "+ 
+            Globals.prettifyPath(CC.P.openFileName,45)+ 
+            (CC.P.getModified()?" *":""));
+    }
+    
+    public void windowGainedFocus(WindowEvent e) 
+    {
+        Globals.activeWindow = this;
+    }
+    
+    public void windowLostFocus(WindowEvent e) 
+    {
+    
+    }
 }
 
 class RulerPanel extends JPanel implements SwingConstants
 {
-	private int dir;
-	private int increment;
-	private MapCoordinates sc;
-	
-	public RulerPanel(int direction, int width, int height, int incr,
-		MapCoordinates m)
-	{
-		increment=incr;
-		sc = m;
-		dir = direction;
-		setPreferredSize(new Dimension(width, height));
-	}
+    private int dir;
+    private int increment;
+    private MapCoordinates sc;
+    
+    public RulerPanel(int direction, int width, int height, int incr,
+        MapCoordinates m)
+    {
+        increment=incr;
+        sc = m;
+        dir = direction;
+        setPreferredSize(new Dimension(width, height));
+    }
 
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		
-		//g.setClip(null);
-		Rectangle d = g.getClipBounds();
-		//Dimension d = getPreferredSize();
-		g.setColor(Color.white);
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        
+        //g.setClip(null);
+        Rectangle d = g.getClipBounds();
+        //Dimension d = getPreferredSize();
+        g.setColor(Color.white);
         g.fillRect(d.x, d.y, d.width, d.height);
-		
+        
 
-		g.setColor(Color.black);
+        g.setColor(Color.black);
 
-		if (dir==HORIZONTAL) {
-			int x=0;
-			
-			//System.out.println("Horz "+sc.unmapXnosnap(sc.getXMax()));
+        if (dir==HORIZONTAL) {
+            int x=0;
+            
+            //System.out.println("Horz "+sc.unmapXnosnap(sc.getXMax()));
 
-			for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=increment) {
-					
-				g.drawLine(sc.mapXi(x,0,false), 
-							sc.mapYi(x,0,false),
-							sc.mapXi(x,0,false),
-							sc.mapYi(x,0,false)+ d.height*4/10);
-				
-			}
-			
-			for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=5*increment) {
-					
-				g.drawLine(sc.mapXi(x,0,false), 
-							sc.mapYi(x,0,false),
-							sc.mapXi(x,0,false),
-							sc.mapYi(x,0,false)+ d.height*6/10);
-				
-			}
-			for (x=0; x<sc.getXMax();x+=10*increment) {
-				g.drawString(""+x,sc.mapXi(x,0,false), d.height); 
+            for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=increment) {
+                    
+                g.drawLine(sc.mapXi(x,0,false), 
+                            sc.mapYi(x,0,false),
+                            sc.mapXi(x,0,false),
+                            sc.mapYi(x,0,false)+ d.height*4/10);
+                
+            }
+            
+            for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=5*increment) {
+                    
+                g.drawLine(sc.mapXi(x,0,false), 
+                            sc.mapYi(x,0,false),
+                            sc.mapXi(x,0,false),
+                            sc.mapYi(x,0,false)+ d.height*6/10);
+                
+            }
+            for (x=0; x<sc.getXMax();x+=10*increment) {
+                g.drawString(""+x,sc.mapXi(x,0,false), d.height); 
 
-				g.drawLine(sc.mapXi(x,0,false), 
-							sc.mapYi(x,0,false),
-							sc.mapXi(x,0,false),
-							sc.mapYi(x,0,false)+ d.height);
-				
-			}
-			
-		} else {
-			int y=0;
-			int inc=(sc.mapYi(increment, increment, false)-sc.mapYi(0, 0, false));
-			for (y=0; y<d.height;y+=inc) {
-				g.drawLine(0, y, d.width*4/10, y);
-			}
-		
-			for (y=0; y<d.height;y+=5*inc) {
-				g.drawLine(0, y, d.width*8/10, y);
-			}
-		}
-		
-	}
-	
+                g.drawLine(sc.mapXi(x,0,false), 
+                            sc.mapYi(x,0,false),
+                            sc.mapXi(x,0,false),
+                            sc.mapYi(x,0,false)+ d.height);
+                
+            }
+            
+        } else {
+            int y=0;
+            int inc=(sc.mapYi(increment, increment, false)-sc.mapYi(0, 0, false));
+            for (y=0; y<d.height;y+=inc) {
+                g.drawLine(0, y, d.width*4/10, y);
+            }
+        
+            for (y=0; y<d.height;y+=5*inc) {
+                g.drawLine(0, y, d.width*8/10, y);
+            }
+        }
+        
+    }
+    
 
 }

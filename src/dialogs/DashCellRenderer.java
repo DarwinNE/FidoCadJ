@@ -8,11 +8,11 @@ import primitives.*;
 
 /** The class ArrowCellRenderer is used in the arrow list.
 
-	@author Davide Bucci
-	@version 1.0 December 2009
-	
-	<pre>
-	This file is part of FidoCadJ.
+    @author Davide Bucci
+    @version 1.0 December 2009
+    
+    <pre>
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,22 +27,22 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009 by Davide Bucci
+    Copyright 2009 by Davide Bucci
 </pre>
-	
-	*/
+    
+    */
 public class DashCellRenderer implements ListCellRenderer 
 {
-	/** Method required for the ListCellRenderer interface; it draws
-		a layer element in the cell and adds its event listeners */
-	public Component getListCellRendererComponent(final JList list, 
-		final Object value, final int index, final boolean isSelected, 
-		final boolean cellHasFocus)
-	{
-		final DashInfo arrow=(DashInfo) value;
-		
-		return new CellDash(arrow, list, isSelected);
-		
-	}
-	
+    /** Method required for the ListCellRenderer interface; it draws
+        a layer element in the cell and adds its event listeners */
+    public Component getListCellRendererComponent(final JList list, 
+        final Object value, final int index, final boolean isSelected, 
+        final boolean cellHasFocus)
+    {
+        final DashInfo arrow=(DashInfo) value;
+        
+        return new CellDash(arrow, list, isSelected);
+        
+    }
+    
 }
