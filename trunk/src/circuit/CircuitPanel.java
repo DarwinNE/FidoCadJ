@@ -35,28 +35,29 @@ Version   Date           Author       Remarks
     
   
 
-   Written by Davide Bucci, Dec. 2007-Jan. 2008, davbucci at tiscali dot it
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+	This file is part of FidoCadJ.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+	Copyright 2007-2010 by Davide Bucci
 </pre>
    The circuit panel will contain the whole drawing.
     This class is able to perform its profiling, which is in particular
     the measurement of the time needed to draw the circuit.
     
     @author Davide Bucci
-    @version 1.2, January 2008
+    @version 2.5, March 2010
 */
 public class CircuitPanel extends JPanel implements MouseMotionListener,
                                              MouseListener,
