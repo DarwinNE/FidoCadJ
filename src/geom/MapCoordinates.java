@@ -19,20 +19,23 @@ Version   Date           Author       Remarks
 1.5		November 2009		D. Bucci 	Added a toString method for testing
 
                                
-    Written by Davide Bucci, March-December 2007, davbucci at tiscali dot it
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version. 
+	This file is part of FidoCadJ.
 
-    This program is distributed in the hope that it will be useful,
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+	Copyright 2007-2009 by Davide Bucci
+</pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
     used in Fidocad schematics (in mils?) with the corrisponding pixel position
@@ -42,7 +45,8 @@ Version   Date           Author       Remarks
     
     The logical Fidocad resolution is 5 mils. Thus, for the following 
     resolutions, we obtain:
-    
+
+<pre>    
     Resolution              units/pixel         x/y magnitude
     ---------------------------------------------------------
     72  pixels/inch         2.7778              0.36000
@@ -55,7 +59,7 @@ Version   Date           Author       Remarks
 
 
     @author D. Bucci
-    @version 1.2.1, January 2008
+    @version 1.5, November 2009
 */
 
 

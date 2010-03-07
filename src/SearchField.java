@@ -17,7 +17,6 @@ import javax.swing.border.*;
 //
 // TODO: add a menu of recent searches.
 // TODO: make recent searches persistent.
-// TODO: use rounded corners, at least on Mac OS X.
 //
 
 
