@@ -927,7 +927,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     
     /** Handle the mouse movements when editing a graphic primitive.
-    
+    	This procedure is important since it is used to show interactively 
+    	to the user which element is being modified.
     */
     public void mouseMoved(MouseEvent evt)
     {
