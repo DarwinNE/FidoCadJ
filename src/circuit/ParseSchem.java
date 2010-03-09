@@ -1526,7 +1526,7 @@ public class ParseSchem
         int j; // token counter within the string
         boolean hasFCJ=false; // the last primitive has FCJ extensions
         StringBuffer token=new StringBuffer(); 
-        GraphicPrimitive g;
+        GraphicPrimitive g = new PrimitiveLine();
         String[] old_tokens=new String[MAX_TOKENS];
         String[] name=new String[MAX_TOKENS];
         String[] value=new String[MAX_TOKENS];
@@ -1562,55 +1562,10 @@ public class ParseSchem
                 
                 try{
                 	if(hasFCJ && !tokens[0].equals("FCJ")) {
-                		if (old_tokens[0].equals("MC")) {
-                			g=new PrimitiveMacro(library,layerV);
-                        	g.parseTokens(old_tokens, old_j+1);
-                        	g.setSelected(selectNew);
-                        	addPrimitive(g,false);
-                        	hasFCJ=false;
-                        } else if (old_tokens[0].equals("LI")) {
-		                    g=new PrimitiveLine();
-           	                g.parseTokens(old_tokens, old_j+1);
-            	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
-                        	hasFCJ=false;
-                     
-                        } else if (old_tokens[0].equals("BE")) {
-		                    g=new PrimitiveBezier();
-           	                g.parseTokens(old_tokens, old_j+1);
-            	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
-                        	hasFCJ=false;
-                     
-                        } else if (old_tokens[0].equals("RP")||
-                        	old_tokens[0].equals("RV")) {
-		                    g=new PrimitiveRectangle();
-           	                g.parseTokens(old_tokens, old_j+1);
-            	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
-                        	hasFCJ=false;
-                     
-                        } else if (old_tokens[0].equals("EP")||
-                        	old_tokens[0].equals("EV")) {
-		                    g=new PrimitiveOval();
-           	                g.parseTokens(old_tokens, old_j+1);
-            	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
-                        	hasFCJ=false;
-                     
-                        } else if (old_tokens[0].equals("PP")||
-               				old_tokens[0].equals("PV")) {
-		       				g=new PrimitivePolygon();
-           	    			g.parseTokens(old_tokens, old_j+1);
-                			g.setSelected(selectNew);
-                			addPrimitive(g,false);
-                        	hasFCJ=false;
-                     
-            			}
+                		hasFCJ = registerPrimitivesWithFCJ(hasFCJ, tokens, g, 
+                			old_tokens, old_j, selectNew);
                 	}
                 	
-                	
-                
                     if(tokens[0].equals("FCJ")) {	// FidoCadJ extension!
                     	if(hasFCJ && old_tokens[0].equals("MC")) {
                     		macro_counter=2;
@@ -1806,46 +1761,8 @@ public class ParseSchem
         }
         
         try{
-        if(hasFCJ && !tokens[0].equals("FCJ")) {
-        	if (old_tokens[0].equals("MC")) {
-        		g=new PrimitiveMacro(library,layerV);
-               	g.parseTokens(old_tokens, old_j+1);
-               	g.setSelected(selectNew);
-               addPrimitive(g,false);
-            } else if (old_tokens[0].equals("LI")) {
-		        g=new PrimitiveLine();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false);
-                     
-            } else if (old_tokens[0].equals("BE")) {
-		        g=new PrimitiveBezier();
-           	    g.parseTokens(old_tokens, old_j+1);
-            	g.setSelected(selectNew);
-                addPrimitive(g,false);  
-            } else if (old_tokens[0].equals("RP")||
-               	old_tokens[0].equals("RV")) {
-		        g=new PrimitiveRectangle();
-           	    g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false);
-                     
-            } else if (old_tokens[0].equals("EP")||
-               	old_tokens[0].equals("EV")) {
-		        g=new PrimitiveOval();
-           	    g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false);
-                     
-            } else if (old_tokens[0].equals("PP")||
-               	old_tokens[0].equals("PV")) {
-		        g=new PrimitivePolygon();
-           	    g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false);
-                     
-            }
-        }
+        	registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
+        		selectNew);
         } catch(IOException E) {
             System.out.println("Error encountered: "+E.toString());
             System.out.println("string parsing line: "+lineNum);
@@ -1858,14 +1775,71 @@ public class ParseSchem
         
     }
     
+    private boolean registerPrimitivesWithFCJ(boolean hasFCJ, String[] tokens,
+    	GraphicPrimitive g, String[] old_tokens, int old_j, boolean selectNew)
+    	throws IOException
+    {
+    	if(hasFCJ && !tokens[0].equals("FCJ")) {
+        	if (old_tokens[0].equals("MC")) {
+        		g=new PrimitiveMacro(library,layerV);
+               	g.parseTokens(old_tokens, old_j+1);
+               	g.setSelected(selectNew);
+                addPrimitive(g,false);
+                hasFCJ=false;
+            } else if (old_tokens[0].equals("LI")) {
+		        g=new PrimitiveLine();
+                g.parseTokens(old_tokens, old_j+1);
+                g.setSelected(selectNew);
+                addPrimitive(g,false);
+                hasFCJ=false;     
+            } else if (old_tokens[0].equals("BE")) {
+		        g=new PrimitiveBezier();
+           	    g.parseTokens(old_tokens, old_j+1);
+            	g.setSelected(selectNew);
+                addPrimitive(g,false); 
+                hasFCJ=false;
+            } else if (old_tokens[0].equals("RP")||
+               	old_tokens[0].equals("RV")) {
+		        g=new PrimitiveRectangle();
+           	    g.parseTokens(old_tokens, old_j+1);
+                g.setSelected(selectNew);
+                addPrimitive(g,false);
+                hasFCJ=false;
+            } else if (old_tokens[0].equals("EP")||
+               	old_tokens[0].equals("EV")) {
+		        g=new PrimitiveOval();
+           	    g.parseTokens(old_tokens, old_j+1);
+                g.setSelected(selectNew);
+                addPrimitive(g,false);
+                hasFCJ=false;
+            } else if (old_tokens[0].equals("PP")||
+               	old_tokens[0].equals("PV")) {
+		        g=new PrimitivePolygon();
+           	    g.parseTokens(old_tokens, old_j+1);
+                g.setSelected(selectNew);
+                addPrimitive(g,false);
+                hasFCJ=false;
+            }
+        }
+        
+        return hasFCJ;
+    }
     
+   
+    /** Performs a bubble sort of the primitives on the basis of their layer.
+    	The sorting metod adopted is the bubble sort. By the practical point
+    	of view, this seems to be rather good even for large drawings. This is
+    	because the primitive list is always more or less already ordered.
+    	If you want to optimize the program and are searching for a bottleneck,
+    	chances are that it is not here...
+    */
     public void sortPrimitiveLayers()
     {
     	int i;
     	GraphicPrimitive t,g,gg;
     	boolean cont=true;
     	
-    	// Probably the worst method: bubble sort!!!
+    	// Bubble sort!!!
     	do {
     		cont=false;
     		for (i=0; i<primitiveVector.size()-1; ++i){
