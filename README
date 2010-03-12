@@ -1,0 +1,122 @@
+README file for FidoCadJ
+
+Copyright 2010 Davide Bucci
+
+1 - Introduction
+----------------
+
+FidoCadJ is a very easy to use editor, with a library of electrical symbols and 
+footprints (through hole and SMD). Drawings can be exported in several of 
+graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it is very 
+simple and hence limited, it can be still considered an Electronic design 
+automation (EDA) software. FidoCadJ is inspired from FidoCad (without "J"), 
+which was a vector graphic editor useful for electrical schematics and printed 
+circuit boards. It uses a file format containing only 7-bit ASCII text, very 
+compact and suited for copy and pasting from/into newsgroups and forum messages. 
+This determined its success among the italian Usenet community, from late '90s, 
+as it is quite versatile for simple mechanical drawings as well. FidoCadJ is 
+internationalized and its interface and manuals are available in english, french 
+and italian.
+
+First, a few useful sites about FidoCadJ:
+http://tinyurl.com/yavewp2
+http://sourceforge.net/projects/fidocadj/
+
+
+2 - Files contained in this source distribution
+-----------------------------------------------
+
+In the following table you can find a description of the trunk directory of the
+FidoCadJ program.
+
+File                        Comments
+-------------------------------------------------------------------------------
+Manifest.txt                Manifest to be used for fidocadj.jar
+Manifest_applet.txt         Manifest to be used for fidoreadj.jar
+README                      This file
+bin/                        Contains all compiled classes and runtime resources         
+busy being born/            Contains screenshots of old versions of FidoCadJ
+clean                       erases all compiled classes
+cleanall                    do a clean, erases fidocadj.jar, Javadocs
+compile                     compile FidoCadJ
+count                       do a wc on all Java source files                    
+createdoc                   run Javadoc on all source files
+createjar                   prepare fidocadj.jar
+doc                         contains all Javadoc produced HTML files
+gpl-3.0.txt                 the GNU public licence v. 3
+icons                       contains all icons (made with Gimp)
+jar                         contains fidocadj.jar as well as Quaqua
+lib                         contains the standard libraries
+mac                         contains some MacOSX specific files
+manual                      the LaTeX manuals
+profile                     launch a profiler (jip)
+rebuild                     do a clean and then runs FidoCadJ
+run                         run FidoCadJ
+src                         contains all the Java source files
+
+
+3 - Instruction on how to compile and run FidoCadJ
+--------------------------------------------------
+
+Ok, you just downloaded from SourceForge the archive containing the source 
+files of FidoCadJ. Good :-)
+FidoCadJ is a pure Java project, but for many reasons I prefer using a good
+text editor as well as a few command line script in order to compile and run 
+the code on which I am working.
+For this reason, you find in the trunk directory (see section 2 of this file)
+several scripts which will be useful for you.
+The instructions on how to compile depend on the operating system.
+
+  3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
+
+If you have MacOSX, you just open up a terminal window, go into the 
+fidocadj/trunk directory and type:
+
+./rebuild
+
+And FidoCadJ should be automatically compiled and run.
+
+  3.2 Compile and run the sources from another operating system
+
+If you type the ./rebuild command directly as described in section 3.1, you
+will probably stumble in a lot of errors. The Java compiler is complaining that
+there are some Apple-stuff related classes which are not found.
+You need to edit a little the following file:
+
+fidocadj/trunk/src/FidoFrame.java
+
+You should search the following lines (around line 290 and something):
+
+        // Probably, you need to strip this code if you need to compile the
+        // program under a non-Apple platform.
+
+        if(Globals.weAreOnAMac) {
+            AppleSpecific a=new AppleSpecific();
+            a.answerFinder();
+        }
+
+You should comment the code block as follows:
+
+        // Probably, you need to strip this code if you need to compile the
+        // program under a non-Apple platform.
+
+/*      if(Globals.weAreOnAMac) {
+            AppleSpecific a=new AppleSpecific();
+            a.answerFinder();
+        }		*/
+        
+And everything should compile fine.
+
+
+4 - Help wanted!
+----------------
+
+I am seeking for people interested in participating to the FidoCadJ project.
+If you spot a typo (I am not a native English speakers), or an error in the 
+manual or in the program, any correction is welcomed. I will be very happy to 
+know what do you think about FidoCadJ. I am also searching for help: if you
+know Java and you want to work on the source code you will be welcomed.
+If you do not know Java, you can participate by improving the manuals or 
+translating the interface, or just can give an advice. 
+Feel free to contact me at davbucciNOPE@tiscali.it, in the SourceForge forums 
+(the address is valid without the nope part, but no attachments, please). 
