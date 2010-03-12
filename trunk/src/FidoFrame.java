@@ -291,6 +291,7 @@ public class FidoFrame extends JFrame implements
         
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.
+        
         if(Globals.weAreOnAMac) {
             AppleSpecific a=new AppleSpecific();
             a.answerFinder();
