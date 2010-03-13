@@ -1,22 +1,26 @@
 README file for FidoCadJ
 
-Copyright 2010 Davide Bucci
+Copyright 2010 
+
+by Davide Bucci
+
 
 1 - Introduction
 ----------------
 
-FidoCadJ is a very easy to use editor, with a library of electrical symbols and 
-footprints (through hole and SMD). Drawings can be exported in several of 
-graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it is very 
-simple and hence limited, it can be still considered an Electronic design 
-automation (EDA) software. FidoCadJ is inspired from FidoCad (without "J"), 
-which was a vector graphic editor useful for electrical schematics and printed 
-circuit boards. It uses a file format containing only 7-bit ASCII text, very 
-compact and suited for copy and pasting from/into newsgroups and forum messages. 
-This determined its success among the italian Usenet community, from late '90s, 
-as it is quite versatile for simple mechanical drawings as well. FidoCadJ is 
-internationalized and its interface and manuals are available in english, french 
-and italian.
+FidoCadJ is a very easy to use editor, with a library of electrical symbols 
+and footprints (through hole and SMD). Drawings can be exported in several 
+of graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it is 
+very simple and hence limited, it can be still considered an Electronic 
+design automation (EDA) software. FidoCadJ is inspired from FidoCad 
+(without "J"), which was a vector graphic editor useful for electrical 
+schematics and printed circuit boards. It uses a file format containing 
+only 7-bit ASCII text, very compact and suited for copy and pasting 
+from/into newsgroups and forum messages. 
+This determined its success among the italian Usenet community, from late 
+'90s, as it is quite versatile for simple mechanical drawings as well. 
+FidoCadJ is internationalized and its interface and manuals are available 
+in english, french and italian.
 
 First, a few useful sites about FidoCadJ:
 http://tinyurl.com/yavewp2
@@ -26,15 +30,15 @@ http://sourceforge.net/projects/fidocadj/
 2 - Files contained in this source distribution
 -----------------------------------------------
 
-In the following table you can find a description of the trunk directory of the
-FidoCadJ program.
+In the following table you can find a description of the trunk directory of 
+the FidoCadJ program.
 
 File                        Comments
--------------------------------------------------------------------------------
+----------------------------------------------------------------------------
 Manifest.txt                Manifest to be used for fidocadj.jar
 Manifest_applet.txt         Manifest to be used for fidoreadj.jar
 README                      This file
-bin/                        Contains all compiled classes and runtime resources         
+bin/                        Contains all compiled classes and resources         
 busy being born/            Contains screenshots of old versions of FidoCadJ
 clean                       erases all compiled classes
 cleanall                    do a clean, erases fidocadj.jar, Javadocs
@@ -63,8 +67,8 @@ files of FidoCadJ. Good :-)
 FidoCadJ is a pure Java project, but for many reasons I prefer using a good
 text editor as well as a few command line script in order to compile and run 
 the code on which I am working.
-For this reason, you find in the trunk directory (see section 2 of this file)
-several scripts which will be useful for you.
+For this reason, you find in the trunk directory (see section 2 of this 
+file) several scripts which will be useful for you.
 The instructions on how to compile depend on the operating system.
 
   3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
@@ -79,8 +83,8 @@ And FidoCadJ should be automatically compiled and run.
   3.2 Compile and run the sources from another operating system
 
 If you type the ./rebuild command directly as described in section 3.1, you
-will probably stumble in a lot of errors. The Java compiler is complaining that
-there are some Apple-stuff related classes which are not found.
+will probably stumble in a lot of errors. The Java compiler is complaining 
+that there are some Apple-stuff related classes which are not found.
 You need to edit a little the following file:
 
 fidocadj/trunk/src/FidoFrame.java
@@ -113,10 +117,26 @@ And everything should compile fine.
 
 I am seeking for people interested in participating to the FidoCadJ project.
 If you spot a typo (I am not a native English speakers), or an error in the 
-manual or in the program, any correction is welcomed. I will be very happy to 
-know what do you think about FidoCadJ. I am also searching for help: if you
-know Java and you want to work on the source code you will be welcomed.
+manual or in the program, any correction is welcomed. I will be very happy 
+to know what do you think about FidoCadJ. I am also searching for help: if 
+you know Java and you want to work on the source code you will be welcomed.
 If you do not know Java, you can participate by improving the manuals or 
 translating the interface, or just can give an advice. 
-Feel free to contact me at davbucciNOPE@tiscali.it, in the SourceForge forums 
-(the address is valid without the nope part, but no attachments, please). 
+Feel free to contact me at davbucciNOPE@tiscali.it, in the SourceForge 
+forums (the address is valid without the nope part, but no attachments, 
+please). 
+
+
+5 - I found a bug...
+--------------------
+
+Every program contains bugs and FidoCadJ is not an exception. Even if all 
+the people involved in the development of FidoCadJ pays a lot of attention
+at each release, some details could just go unnoticed.
+If you ar familiar with the SourceForge interface, do not hesitate to
+fill a bug report at the following address:
+
+http://sourceforge.net/tracker/?group_id=274886&atid=1167996
+
+If you feel unconfortable with the SourceForge system, please drop a few 
+lines to davbucciNOPE@tiscali.it
