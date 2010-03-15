@@ -3,3 +3,27 @@
 rm bin/*.class
 rm doc/*.*
 rm jar/fidocadj.jar
+rm doc/circuit/*.* 
+rm doc/clipboard/*.* 
+rm doc/dialogs/*.*
+rm doc/export/*.*
+rm doc/geom/*.*
+rm doc/globals/*.* 
+rm doc/layers/*.*
+rm doc/primitives/*.* 
+rm doc/timer/*.*
+rm doc/toolbars/*.*
+rm doc/undo/*.*
+
+rm bin/circuit/*.class
+rm bin/clipboard/*.class
+rm bin/dialogs/*.class
+rm bin/export/*.class
+rm bin/geom/*.class
+rm bin/globals/*.class
+rm bin/layers/*.class
+rm bin/primitives/*.class
+rm bin/timer/*.class
+rm bin/toolbars/*.class
+rm bin/undo/*.class
+
