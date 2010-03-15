@@ -19,12 +19,13 @@
 \contentsline {figure}{\numberline {15}{\ignorespaces The PCB almost completed.}}{13}{figure.2.15}
 \contentsline {figure}{\numberline {16}{\ignorespaces The job completed with the silk-screen.}}{13}{figure.2.16}
 \contentsline {figure}{\numberline {17}{\ignorespaces The PCB, as it appears when printed (mirrored) on a ISO-UNI A4 sheet.}}{14}{figure.2.17}
-\contentsline {figure}{\numberline {18}{\ignorespaces An electrical drawing (an Antoniou's GIC) in which some FidoCadJ extensions have been used.}}{16}{figure.2.18}
-\contentsline {figure}{\numberline {19}{\ignorespaces The parameter window of the B\'ezier curve shown used in the schematics of figure~\ref {fig_gyrator}}}{16}{figure.2.19}
-\contentsline {figure}{\numberline {20}{\ignorespaces The appearance of the program under MacOSX, using the Motif look \& feel.}}{19}{figure.2.20}
+\contentsline {figure}{\numberline {18}{\ignorespaces Left click and drag to activate the FidoCadJ ruler.}}{15}{figure.2.18}
+\contentsline {figure}{\numberline {19}{\ignorespaces An electrical drawing (an Antoniou's GIC) in which some FidoCadJ extensions have been used.}}{16}{figure.2.19}
+\contentsline {figure}{\numberline {20}{\ignorespaces The parameter window of the B\'ezier curve shown used in the schematics of figure~\ref {fig_gyrator}}}{16}{figure.2.20}
+\contentsline {figure}{\numberline {21}{\ignorespaces The appearance of the program under MacOSX, using the Motif look \& feel.}}{19}{figure.2.21}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {21}{\ignorespaces Figura~\ref {fig_gyrator} as it would appear under FidoCad for Windows.}}{27}{figure.3.21}
+\contentsline {figure}{\numberline {22}{\ignorespaces Figure~\ref {fig_gyrator} as it would appear under FidoCad for Windows.}}{27}{figure.3.22}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {22}{\ignorespaces The setting of file rights, under Ubuntu 8.04.}}{32}{figure.A.22}
-\contentsline {figure}{\numberline {23}{\ignorespaces Set the execution with the Java virtual machine, under Ubuntu 8.04.}}{32}{figure.A.23}
+\contentsline {figure}{\numberline {23}{\ignorespaces The setting of file rights, under Ubuntu 8.04.}}{32}{figure.A.23}
+\contentsline {figure}{\numberline {24}{\ignorespaces Set the execution with the Java virtual machine, under Ubuntu 8.04.}}{32}{figure.A.24}

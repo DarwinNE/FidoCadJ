@@ -7,8 +7,8 @@
 
   \item A4, \hyperpage{14}
   \item advanced text, \hyperpage{23}
-  \item arrow styles, \hyperpage{15}
-  \item arrows, \hyperpage{15}
+  \item arrow styles, \hyperpage{16}
+  \item arrows, \hyperpage{16}
   \item asterisk, \hyperpage{23}
   \item autoplacer, \hyperpage{10}
   \item autorouter, \hyperpage{10}
@@ -39,7 +39,7 @@
 
   \indexspace
 
-  \item dashing styles, \hyperpage{15}
+  \item dashing styles, \hyperpage{16}
 
   \indexspace
 
@@ -58,9 +58,8 @@
   \indexspace
 
   \item FCJ, \hyperpage{26}
-  \item FidoCad, \hyperpage{1--3}, \hyperpage{8}, \hyperpage{15}, 
-		\hyperpage{19}, \hyperpage{21}, \hyperpage{23}, 
-		\hyperpage{26--28}
+  \item FidoCad, \hyperpage{1--3}, \hyperpage{8}, \hyperpage{17}, 
+		\hyperpage{20, 21}, \hyperpage{23}, \hyperpage{26--28}
   \item FidoCadJ extension, \hyperpage{8}, \hyperpage{26}
   \item FidoCadJ.app, \hyperpage{30}
   \item fidocadj.jar, \hyperpage{30}
@@ -71,9 +70,9 @@
 
   \indexspace
 
-  \item GIG, \hyperpage{15}
+  \item GIG, \hyperpage{16}
   \item grid, \hyperpage{10}
-  \item GTK+, \hyperpage{17}
+  \item GTK+, \hyperpage{19}
 
   \indexspace
 
@@ -104,10 +103,10 @@
     \subitem standard library, \hyperpage{19}
   \item line, \hyperpage{5}, \hyperpage{22}
   \item linea, \hyperpage{21}
-  \item Linux, \hyperpage{v}, \hyperpage{17}
+  \item Linux, \hyperpage{v}, \hyperpage{19}
   \item logic unit, \hyperpage{10}
-  \item logical unit, \hyperpage{23}
-  \item look \& feel, \hyperpage{17}
+  \item logical unit, \hyperpage{15}, \hyperpage{23}
+  \item look \& feel, \hyperpage{19}
   \item Lorenzo Lutti, \hyperpage{1}, \hyperpage{23}
   \item lossy compression, \hyperpage{18}
 
@@ -121,7 +120,7 @@
   \item maximum number of vertices, \hyperpage{24}
   \item MC, \hyperpage{26}, \hyperpage{28}
   \item Metal, \hyperpage{3, 4}
-  \item Motif, \hyperpage{17}
+  \item Motif, \hyperpage{19}
   \item move, \hyperpage{5}
   \item MS-DOS prompt, \hyperpage{17}
 
@@ -178,6 +177,7 @@
   \item resistor, \hyperpage{7}
   \item resolution, \hyperpage{10}
   \item RP, \hyperpage{22, 23}
+  \item ruler, \hyperpage{15}
   \item RV, \hyperpage{22, 23}
 
   \indexspace
@@ -194,7 +194,7 @@
   \item SourceForge, \hyperpage{2}
   \item square brackets, \hyperpage{27}
   \item standard library, \hyperpage{6}, \hyperpage{28}
-  \item stroke styles, \hyperpage{15}
+  \item stroke styles, \hyperpage{16}
   \item Sun, \hyperpage{3}, \hyperpage{17}, \hyperpage{31}
   \item superuser, \hyperpage{31}
   \item SVG, \hyperpage{18}

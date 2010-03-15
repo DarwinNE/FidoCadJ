@@ -52,7 +52,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.1 \\ the user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ the user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -132,7 +132,7 @@ FidoCadJ drawings under Eagle. Many thanks to ``Celsius'', who tested
 the software functionalities for PCB realization, as well as its libraries.
 Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
 aspect on the Apple Macintosh, from the 0.21.1 version. I would like to thank 
-Roby IZ1CYN for the useful discussions about librairies and to have written 
+Roby IZ1CYN for the useful discussions about libraries and to have written 
 section~\ref{installazione_linux} of this manual, about the Linux\index{Linux} 
 installation.
 
@@ -493,8 +493,8 @@ the two transistors\index{transistor}, around which our schematic
 is built. To do so, we will need the macros contained in the standard
 library\index{standard library}, which is loaded by default and is
 found on the right-hand side of the screen. The macro that we will
-use is called {}``NPN senza schermo'' and is included in the {}``Diodi
-e transistor'' category of the {}``Libreria standard''. By clicking
+use is called {}``NPN transistor'' and is included in the {}``Diodes
+and transistors'' category of the {}``Standard library''. By clicking
 on the element's name to select the desired macro\index{macro}, it
 will then be possible to place it anywhere in the drawing (FidoCadJ shows a preview), by clicking
 a second time on the desired location. We should now be at the stage
@@ -531,7 +531,7 @@ one shown in figure~\ref{fig_fidocadj_fase2}.
 
 
 By using the tool {}``Line'' from the toolbar\index{toolbar}, we
-will be able to make a few electrical connections, until we will realise
+will be able to make a few electrical connections, until we will realize
 that we started our drawing to close to the edges of the drawing area.
 The issue can be easily fixed by selecting the whole drawing: in {}``Select''
 mode, we can click on the upper left corner of the drawing and, holding
@@ -556,9 +556,8 @@ drawing and move it toward the centre.}
 
 
 We can then continue placing the other parts of the circuit, in particular
-a resistor\index{resistor} (Libreria standard/Componenti discreti/Resistore)
-and the label for the positive power supply (Libreria standard/Simbologia
-di base/Terminale +). We will need to rotate the latter in order to
+a resistor\index{resistor} (Standard Library/Discrete devices/Resistor)
+and the label for the positive power supply (Standard Library/Basic symbols/Terminal +). We will need to rotate the latter in order to
 place in the desired position. Again, we can select it and press \keyevidence{R}
 until we will obtain the desired result. We should now have a screen
 similar to the one in figure~\ref{fig_fidocadj_fase4}.
@@ -576,8 +575,7 @@ similar to the one in figure~\ref{fig_fidocadj_fase4}.
 
 To complete the schematic we only need to add the text strings and
 the arrow to indicate the direction of the current. For the latter
-there is a macro called {}``Freccia'', contained in {}``Libreria
-standard/Simbologia di base''. To place the text, we can press the
+there is a macro called {}``Arrow'', contained in {}``Standard library/Basic symbols''. To place the text, we can press the
 button {}``Text''\index{text} from the toolbar e click in the drawing
 area on the desired position. As the default text {}``String'' will
 be introduced, we will need to modify its characteristics by double-clicking
@@ -739,10 +737,9 @@ a common emitter configuration.}
 
 The first thing I would suggest to do is to place all the components
 as best as possible. In our example these would be the transistor
-(from the library {}``PCB footprints/Semiconduttori 3 terminali/TO92''),
-the resistors ({}``PCB footprints/Resistori/Resistore 1/4 W 0,4 i''),
-and the electrolytic capacitors ({}``PCB footprints/Condensatori
-elettrolitici/Vert. diam. 5 passo 2,5''). In order to delimitate
+(from the library {}``PCB footprints/3 terminals semiconductors/TO92''),
+the resistors ({}``PCB footprints/Resistors/Resistor 1/4 W 0,4 i''),
+and the electrolytic capacitors ({}``PCB footprints/Electrolytic capacitor/Vert. diam. 5 mm 2.5 mm pitch''). In order to delimitate
 the board, it may be useful to place an empty rectangle on the silk-screen
 layer (layer No.~3). To do so we can use the \emph{rectangle} primitive\index{rectangle}
 making sure that we selected the appropriate layer first. We should
@@ -807,7 +804,7 @@ designed for a polyester capacitor.  It will probably have the right dimensions.
 not forget that FidoCadJ is thought as a replacement for the transfers\index{R41 transfers}\dots
 
 We can also place a ``$+$'' and a ``$-$'' on the copper layer and
-place a ceramic capacitor in parallel with the power supply. \graffito{Be carefult with the
+place a ceramic capacitor in parallel with the power supply. \graffito{Be careful with the
 track widths: something that looks like a motor-way on the screen will
 probably be a track so thin that will detach from the board during
 the soldering.}
@@ -923,8 +920,17 @@ TY 100 55 12 8 0 0 3 * R1
 RV 30 5 320 255 3
 \end{lstlisting} 
 
+\section{Using the ruler}\index{ruler}
+When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a card. FidoCadJ offers (from version 0.23.2) a ruler feature which allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not used in your operating system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
+\begin{figure}
+\includegraphics[width=\textwidth]{fidocadj_righello}
+\caption{Left click and drag to activate the FidoCadJ ruler.}
+\label{fig_fidocadj_righello}
+\end{figure}
+The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
+
 \section{Arrow and stroke styles}
-Starting from FidoCadJ version 0.23, the software allows to draw automatically arrows heads\index{arrows} at the beginning and at the end of lines and Bézier curves.
+Starting from FidoCadJ version 0.23, the software allows to draw arrow heads\index{arrows} at the beginning and at the end of lines and Bézier curves.
 FidoCadJ allows you to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
 
 A few stroke styles\index{stroke styles} are now available for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
@@ -1500,7 +1506,7 @@ Figure~\ref{fig_gyrator_n} shows what can be obtained using FidoCad\index{FidoCa
 
 \begin{figure}
 \includegraphics[width=\textwidth]{gyrator_n}
-\caption{Figura~\ref{fig_gyrator} as it would appear under FidoCad for Windows.}
+\caption{Figure~\ref{fig_gyrator} as it would appear under FidoCad for Windows.}
 \label{fig_gyrator_n}
 \end{figure}
 
@@ -1612,7 +1618,7 @@ run on an Apple platform:
 \item by default FidoCadJ uses the Quaqua%
 \footnote{\href{http://www.randelshofer.ch/quaqua/}{http://www.randelshofer.ch/quaqua/}%
 }\index{Quaqua} look and feel when the complete application (FidoCadJ.app\index{FidoCadJ.app}
-instead of fidocadj.jar\index{fidocadj.jar}) is run . Since Quaqua
+instead of fidocadj.jar\index{fidocadj.jar}) is run. Since Quaqua
 may slow down the performance on not so recent machines, it is possible
 to disable it through the settings of the Preferences menu
 \item The menu bar is shown at its place, that is the top of the screen

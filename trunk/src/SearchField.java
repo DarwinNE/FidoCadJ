@@ -11,6 +11,7 @@ import javax.swing.border.*;
  * to clear the currently-entered text.
  * 
  * @author Elliott Hughes
+ * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 
 
@@ -28,14 +29,7 @@ public class SearchField extends JTextField {
     private boolean sendsNotificationForEachKeystroke = false;
     private boolean showingPlaceholderText = false;
     private boolean armed = false;
-	
-/*	protected void paintComponent(Graphics g) {  
-	    g.setColor(getBackground());
-	    g.fillRect(0,0,getWidth(), getHeight());  
-   	    super.paintComponent(g);  
 
-	}  
- */   
 
     public SearchField(String placeholderText) {
         super(15);
