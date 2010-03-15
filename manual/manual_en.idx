@@ -111,13 +111,15 @@
 \indexentry{Press&Peel@Press\&Peel|hyperpage}{13}
 \indexentry{PCB|hyperpage}{14}
 \indexentry{A4|hyperpage}{14}
-\indexentry{arrows|hyperpage}{15}
-\indexentry{stroke styles|hyperpage}{15}
-\indexentry{GIG|hyperpage}{15}
-\indexentry{arrow styles|hyperpage}{15}
-\indexentry{dashing styles|hyperpage}{15}
-\indexentry{FidoCad|hyperpage}{15}
-\indexentry{FidoCad|hyperpage}{15}
+\indexentry{ruler|hyperpage}{15}
+\indexentry{logical unit|hyperpage}{15}
+\indexentry{arrows|hyperpage}{16}
+\indexentry{stroke styles|hyperpage}{16}
+\indexentry{GIG|hyperpage}{16}
+\indexentry{arrow styles|hyperpage}{16}
+\indexentry{dashing styles|hyperpage}{16}
+\indexentry{FidoCad|hyperpage}{17}
+\indexentry{FidoCad|hyperpage}{17}
 \indexentry{exportation|hyperpage}{17}
 \indexentry{vectorial format|hyperpage}{17}
 \indexentry{bitmap format|hyperpage}{17}
@@ -132,10 +134,6 @@
 \indexentry{command line|hyperpage}{17}
 \indexentry{Unix|hyperpage}{17}
 \indexentry{Java|hyperpage}{17}
-\indexentry{look  feel@look \& feel|hyperpage}{17}
-\indexentry{Linux|hyperpage}{17}
-\indexentry{GTK+|hyperpage}{17}
-\indexentry{Motif|hyperpage}{17}
 \indexentry{Macintosh|hyperpage}{17}
 \indexentry{JPG|hyperpage}{18}
 \indexentry{lossy compression|hyperpage}{18}
@@ -154,11 +152,15 @@
 \indexentry{CadSoft|hyperpage}{18}
 \indexentry{Eagle|hyperpage}{18}
 \indexentry{MacOSX|hyperpage}{19}
+\indexentry{look  feel@look \& feel|hyperpage}{19}
+\indexentry{Linux|hyperpage}{19}
+\indexentry{GTK+|hyperpage}{19}
+\indexentry{Motif|hyperpage}{19}
 \indexentry{library|hyperpage}{19}
 \indexentry{library!standard library|hyperpage}{19}
 \indexentry{IHRaM library|hyperpage}{19}
-\indexentry{FidoCad|hyperpage}{19}
-\indexentry{FidoCad|hyperpage}{19}
+\indexentry{FidoCad|hyperpage}{20}
+\indexentry{FidoCad|hyperpage}{20}
 \indexentry{FidoCad|hyperpage}{21}
 \indexentry{FidoCad|hyperpage}{21}
 \indexentry{header|hyperpage}{21}

@@ -16,10 +16,11 @@
 \BOOKMARK [1][-]{section.2.3}{2.3 The layers}{chapter.2}
 \BOOKMARK [1][-]{section.2.4}{2.4 The grid}{chapter.2}
 \BOOKMARK [1][-]{section.2.5}{2.5 A simple PCB}{chapter.2}
-\BOOKMARK [1][-]{section.2.6}{2.6 Arrow and stroke styles}{chapter.2}
-\BOOKMARK [1][-]{section.2.7}{2.7 Exporting}{chapter.2}
-\BOOKMARK [1][-]{section.2.8}{2.8 Command line options}{chapter.2}
-\BOOKMARK [1][-]{section.2.9}{2.9 Libraries management}{chapter.2}
+\BOOKMARK [1][-]{section.2.6}{2.6 Using the ruler}{chapter.2}
+\BOOKMARK [1][-]{section.2.7}{2.7 Arrow and stroke styles}{chapter.2}
+\BOOKMARK [1][-]{section.2.8}{2.8 Exporting}{chapter.2}
+\BOOKMARK [1][-]{section.2.9}{2.9 Command line options}{chapter.2}
+\BOOKMARK [1][-]{section.2.10}{2.10 Libraries management}{chapter.2}
 \BOOKMARK [0][]{chapter.3}{3 Drawing format, macros and FidoCad libraries}{}
 \BOOKMARK [1][-]{section.3.1}{3.1 Header description}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{3.2 Coordinates system}{chapter.3}

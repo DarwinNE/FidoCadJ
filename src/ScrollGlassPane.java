@@ -13,9 +13,15 @@ import globals.*;
 http://jroller.com/pago/entry/improving_jscrollpane_with_mouse_based
 http://www.jroller.com/santhosh/entry/enhanced_scrolling_in_swing
 
+
+@author Santhosh Kumar T - santhosh@in.fiorano.com 
+
+
+Autorization requested and obtained.
+
 */
 
-// @author Santhosh Kumar T - santhosh@in.fiorano.com 
+
 public class ScrollGlassPane extends JPanel implements ActionListener, MouseInputListener, SwingConstants{ 
        private static final Image img = MouseScrollIcon.iconToImage(new MouseScrollIcon()); 
     

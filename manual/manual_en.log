@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.4.13)  17 JAN 2010 22:04
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2006.4.13)  15 MAR 2010 21:38
 entering extended mode
 **manual_en
 (./manual_en.tex
@@ -769,7 +769,7 @@ LaTeX Font Info:    Try loading font information for OT1+zplm on input line 70.
 (/opt/local/share/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
-<images/icona_fidocadj_a.png, id=166, 513.92pt x 513.92pt>
+<images/icona_fidocadj_a.png, id=170, 513.92pt x 513.92pt>
 File: images/icona_fidocadj_a.png Graphic file (type png)
 
 <use images/icona_fidocadj_a.png> [1
@@ -800,7 +800,7 @@ File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
 ) [6
 
 ] (./manual_en.toc
-Overfull \hbox (13.0095pt too wide) in paragraph at lines 16--16
+Overfull \hbox (13.0095pt too wide) in paragraph at lines 17--17
  [][] []\^^@ d r a w -i n g f o r -m a t , m a c r o s a n d f i -d o -c a d l 
 i -b r a r i e s  []  
  []
@@ -822,7 +822,12 @@ Overfull \hbox (6.5595pt too wide) in paragraph at lines 18--18
  []
 
 
-Overfull \hbox (20.93283pt too wide) in paragraph at lines 22--22
+Overfull \hbox (18.95186pt too wide) in paragraph at lines 22--22
+ [][] []\^^@ Left click and drag to ac-ti-vate the Fi-do-CadJ ruler. []  
+ []
+
+
+Overfull \hbox (20.93283pt too wide) in paragraph at lines 23--23
  \^^@ which some Fi-do-CadJ ex-ten-sions have been used. []  
  []
 
@@ -830,13 +835,17 @@ Overfull \hbox (20.93283pt too wide) in paragraph at lines 22--22
 \tf@lof=\write7
 \openout7 = `manual_en.lof'.
 
- (./manual_en.lot [8
+ (./manual_en.lot
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8
 
 ])
 \tf@lot=\write8
 \openout8 = `manual_en.lot'.
 
- [9]
+
+[9]
 Chapter 1.
 LaTeX Font Info:    Font shape `T1/pplj/m/sl' in size <10> not available
 (Font)              Font shape `T1/pplj/m/it' tried instead on input line 243.
@@ -846,56 +855,56 @@ LaTeX Font Info:    Font shape `T1/pplj/m/sl' in size <8> not available
 
 ] [2]
 Chapter 2.
-<images/fidocadj_macosx.png, id=381, 1445.4pt x 903.375pt>
+<images/fidocadj_macosx.png, id=388, 1445.4pt x 903.375pt>
 File: images/fidocadj_macosx.png Graphic file (type png)
 
 <use images/fidocadj_macosx.png>
-<images/fidocadj_metal.png, id=382, 1085.05376pt x 621.32124pt>
+<images/fidocadj_metal.png, id=389, 1085.05376pt x 621.32124pt>
 File: images/fidocadj_metal.png Graphic file (type png)
 
 <use images/fidocadj_metal.png>
-<images/icons/arrow.png, id=383, 32.12pt x 32.12pt>
+<images/icons/arrow.png, id=390, 32.12pt x 32.12pt>
 File: images/icons/arrow.png Graphic file (type png)
 
 <use images/icons/arrow.png>
-<images/icons/magnifier.png, id=384, 32.12pt x 32.12pt>
+<images/icons/magnifier.png, id=391, 32.12pt x 32.12pt>
 File: images/icons/magnifier.png Graphic file (type png)
 
 <use images/icons/magnifier.png>
-<images/icons/move.png, id=385, 32.12pt x 32.12pt>
+<images/icons/move.png, id=392, 32.12pt x 32.12pt>
 File: images/icons/move.png Graphic file (type png)
  <use images/icons/move.png>
-<images/icons/line.png, id=386, 32.12pt x 32.12pt>
+<images/icons/line.png, id=393, 32.12pt x 32.12pt>
 File: images/icons/line.png Graphic file (type png)
  <use images/icons/line.png>
-<images/icons/text.png, id=387, 32.12pt x 32.12pt>
+<images/icons/text.png, id=394, 32.12pt x 32.12pt>
 File: images/icons/text.png Graphic file (type png)
  <use images/icons/text.png>
-<images/icons/bezier.png, id=388, 32.12pt x 32.12pt>
+<images/icons/bezier.png, id=395, 32.12pt x 32.12pt>
 File: images/icons/bezier.png Graphic file (type png)
 
 <use images/icons/bezier.png>
-<images/icons/polygon.png, id=389, 32.12pt x 32.12pt>
+<images/icons/polygon.png, id=396, 32.12pt x 32.12pt>
 File: images/icons/polygon.png Graphic file (type png)
 
 <use images/icons/polygon.png>
-<images/icons/ellipse.png, id=390, 32.12pt x 32.12pt>
+<images/icons/ellipse.png, id=397, 32.12pt x 32.12pt>
 File: images/icons/ellipse.png Graphic file (type png)
 
 <use images/icons/ellipse.png>
-<images/icons/rectangle.png, id=391, 32.12pt x 32.12pt>
+<images/icons/rectangle.png, id=398, 32.12pt x 32.12pt>
 File: images/icons/rectangle.png Graphic file (type png)
 
 <use images/icons/rectangle.png>
-<images/icons/connection.png, id=392, 32.12pt x 32.12pt>
+<images/icons/connection.png, id=399, 32.12pt x 32.12pt>
 File: images/icons/connection.png Graphic file (type png)
 
 <use images/icons/connection.png>
-<images/icons/pcbline.png, id=393, 32.12pt x 32.12pt>
+<images/icons/pcbline.png, id=400, 32.12pt x 32.12pt>
 File: images/icons/pcbline.png Graphic file (type png)
 
 <use images/icons/pcbline.png>
-<images/icons/pcbpad.png, id=394, 32.12pt x 32.12pt>
+<images/icons/pcbpad.png, id=401, 32.12pt x 32.12pt>
 File: images/icons/pcbpad.png Graphic file (type png)
 
 <use images/icons/pcbpad.png>
@@ -903,11 +912,11 @@ Overfull \hbox (88.20898pt too wide) in paragraph at lines 386--428
  [][] 
  []
 
-<images/ricerca.png, id=395, 239.89626pt x 239.89626pt>
+<images/ricerca.png, id=402, 239.89626pt x 239.89626pt>
 File: images/ricerca.png Graphic file (type png)
 
 <use images/ricerca.png>
-<images/param_testo.png, id=396, 455.7025pt x 304.13625pt>
+<images/param_testo.png, id=403, 455.7025pt x 304.13625pt>
 File: images/param_testo.png Graphic file (type png)
 
 <use images/param_testo.png> [3
@@ -919,93 +928,95 @@ s/icons/bezier.png> <./images/icons/polygon.png> <./images/icons/ellipse.png> <
 ./images/icons/rectangle.png> <./images/icons/connection.png> <./images/icons/p
 cbline.png> <./images/icons/pcbpad.png> <./images/param_testo.png>] (./images/s
 chema.pgf)
-<images/fidocadj_fase1.png, id=420, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase1.png, id=427, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase1.png Graphic file (type png)
 
 <use images/fidocadj_fase1.png>
-<images/fidocadj_fase2.png, id=421, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase2.png, id=428, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase2.png Graphic file (type png)
 
 <use images/fidocadj_fase2.png> [6 <./images/fidocadj_fase1.png>]
-<images/fidocadj_fase3.png, id=428, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase3.png, id=435, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase3.png Graphic file (type png)
 
 <use images/fidocadj_fase3.png>
-<images/fidocadj_fase4.png, id=429, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase4.png, id=436, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase4.png Graphic file (type png)
 
 <use images/fidocadj_fase4.png>
 Underfull \vbox (badness 5302) has occurred while \output is active []
 
  [7 <./images/fidocadj_fase2.png> <./images/fidocadj_fase3.png>]
-<images/fidocadj_fase5.png, id=439, 1084.05pt x 620.3175pt>
+<images/fidocadj_fase5.png, id=446, 1084.05pt x 620.3175pt>
 File: images/fidocadj_fase5.png Graphic file (type png)
 
 <use images/fidocadj_fase5.png> [8 <./images/fidocadj_fase4.png> <./images/fido
 cadj_fase5.png>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 612.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 610.
 
  (/opt/local/share/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-[9] <images/amplificateur.pdf, id=487, 117.43875pt x 93.34875pt>
+[9] <images/amplificateur.pdf, id=497, 117.43875pt x 93.34875pt>
 File: images/amplificateur.pdf Graphic file (type pdf)
 
 <use images/amplificateur.pdf>
-<images/amplificateur_phase1.png, id=488, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase1.png, id=498, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase1.png Graphic file (type png)
 
 <use images/amplificateur_phase1.png> [10] [11 <./images/amplificateur.pdf> <./
 images/amplificateur_phase1.png>]
-<images/amplificateur_phase2.png, id=526, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase2.png, id=533, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase2.png Graphic file (type png)
 
 <use images/amplificateur_phase2.png>
-<images/amplificateur_phase3.png, id=527, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase3.png, id=534, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase3.png Graphic file (type png)
 
 <use images/amplificateur_phase3.png> [12 <./images/amplificateur_phase2.png> <
 ./images/amplificateur_phase3.png>]
-<images/amplificateur_phase4.png, id=542, 1084.05pt x 620.3175pt>
+<images/amplificateur_phase4.png, id=549, 1084.05pt x 620.3175pt>
 File: images/amplificateur_phase4.png Graphic file (type png)
 
 <use images/amplificateur_phase4.png>
-<images/amplificateur_complet.png, id=543, 835.12pt x 475.7775pt>
+<images/amplificateur_complet.png, id=550, 835.12pt x 475.7775pt>
 File: images/amplificateur_complet.png Graphic file (type png)
 
 <use images/amplificateur_complet.png>
 Underfull \vbox (badness 4378) has occurred while \output is active []
 
  [13 <./images/amplificateur_phase4.png> <./images/amplificateur_complet.png>]
-<images/amplificateur_impression.pdf, id=553, 597.23125pt x 845.1575pt>
+<images/amplificateur_impression.pdf, id=560, 597.23125pt x 845.1575pt>
 File: images/amplificateur_impression.pdf Graphic file (type pdf)
 
 <use images/amplificateur_impression.pdf> [14 <./images/amplificateur_impressio
-n.pdf>] <images/gyrator.pdf, id=598, 75.28125pt x 39.14626pt>
-File: images/gyrator.pdf Graphic file (type pdf)
+n.pdf>] <images/fidocadj_righello.png, id=605, 1084.05pt x 620.3175pt>
+File: images/fidocadj_righello.png Graphic file (type png)
 
-<use images/gyrator.pdf>
-<images/parametri_bezier.png, id=599, 459.7175pt x 385.44pt>
-File: images/parametri_bezier.png Graphic file (type png)
-
-<use images/parametri_bezier.png>
+<use images/fidocadj_righello.png>
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [15]
-[16 <./images/gyrator.pdf> <./images/parametri_bezier.png>]
-<images/fidocadj_motif.png, id=637, 1041.8925pt x 589.20125pt>
+ [15 <./images/fidocadj_righello.png>]
+<images/gyrator.pdf, id=632, 75.28125pt x 39.14626pt>
+File: images/gyrator.pdf Graphic file (type pdf)
+ <use images/gyrator.pdf>
+<images/parametri_bezier.png, id=633, 459.7175pt x 385.44pt>
+File: images/parametri_bezier.png Graphic file (type png)
+
+<use images/parametri_bezier.png> [16 <./images/gyrator.pdf> <./images/parametr
+i_bezier.png>] [17] [18]
+<images/fidocadj_motif.png, id=666, 1041.8925pt x 589.20125pt>
 File: images/fidocadj_motif.png Graphic file (type png)
 
-<use images/fidocadj_motif.png> [17] [18] [19 <./images/fidocadj_motif.png>]
-[20]
+<use images/fidocadj_motif.png> [19 <./images/fidocadj_motif.png>] [20]
 Chapter 3.
 [21
 
 ]
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <10> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 1200.
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 1206.
  [22] [23] [24] [25]
-<images/gyrator_n.pdf, id=747, 75.28125pt x 39.14626pt>
+<images/gyrator_n.pdf, id=753, 75.28125pt x 39.14626pt>
 File: images/gyrator_n.pdf Graphic file (type pdf)
 
 <use images/gyrator_n.pdf> [26] [27 <./images/gyrator_n.pdf>] [28]
@@ -1015,29 +1026,29 @@ Chapter 4.
 ]
 Appendix A.
 
-Overfull \hbox (20.25316pt too wide) in paragraph at lines 1632--1633
+Overfull \hbox (20.25316pt too wide) in paragraph at lines 1638--1639
 [][][]\^^@ http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download
 [][] 
  []
 
 
-Overfull \hbox (12.15385pt too wide) in paragraph at lines 1641--1641
+Overfull \hbox (12.15385pt too wide) in paragraph at lines 1647--1647
  |[]\^^@ h o w t o d o w n -l o a d a n d e x -e -c u t e f i -d o -c a d j i n
  a l i n u x s y s -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1642--1643
+Underfull \hbox (badness 10000) in paragraph at lines 1648--1649
 
  []
 
 [30
 
-] <images/permessi.png, id=803, 725.71124pt x 496.85625pt>
+] <images/permessi.png, id=809, 725.71124pt x 496.85625pt>
 File: images/permessi.png Graphic file (type png)
 
 <use images/permessi.png> [31]
-<images/java6.png, id=832, 719.68875pt x 493.845pt>
+<images/java6.png, id=838, 719.68875pt x 493.845pt>
 File: images/java6.png Graphic file (type png)
  <use images/java6.png>
 (./manual_en.ind [32 <./images/permessi.png> <./images/java6.png>] [33
@@ -1050,49 +1061,48 @@ File: images/java6.png Graphic file (type png)
 
 ] (./manual_en.aux) ) 
 Here is how much of TeX's memory you used:
- 11284 strings out of 94500
- 158390 string characters out of 1174973
- 317273 words of memory out of 1000000
- 13711 multiletter control sequences out of 10000+50000
- 69437 words of font info for 213 fonts, out of 500000 for 2000
+ 11288 strings out of 94500
+ 158557 string characters out of 1174973
+ 316273 words of memory out of 1000000
+ 13717 multiletter control sequences out of 10000+50000
+ 69151 words of font info for 209 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
  49i,15n,79p,613b,1872s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 1086 PDF objects out of 300000
- 277 named destinations out of 131072
- 26880 words of extra memory for PDF output out of 65536
+ 1094 PDF objects out of 300000
+ 279 named destinations out of 131072
+ 26893 words of extra memory for PDF output out of 65536
 {/opt/local/share/texmf-dist/fonts/enc/dvips/psnfss/8r.enc
 }</opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/sh
 are/texmf-dist/fonts/type1/bluesky/cm/cmsy10.pfb></opt/local/share/texmf-dist/f
 onts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/
 palatino/uplb8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eurm
-7.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb> </var/tm
-p/texfonts/pk/ljfour/jknappen/ec/ecit0900.600pk></opt/local/share/texmf-dist/fo
-nts/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/pub
-lic/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eufm
-10.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/
-local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/local/share/t
-exmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts
-/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/pa
-latino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/latex/lcirc
-le1.pfb> </var/tmp/texfonts/pk/ljfour/jknappen/ec/ectt0900.600pk></opt/local/sh
-are/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/
-fonts/type1/public/fpl/fplrij8a.pfb></opt/local/share/texmf-dist/fonts/type1/ur
-w/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplr
-c8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt
-/local/share/texmf-dist/fonts/type1/bluesky/euler/eurb10.pfb></opt/local/share/
-texmf-dist/fonts/type1/bluesky/euler/eurm10.pfb></opt/local/share/texmf-dist/fo
-nts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/p
-alatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.
-pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/loca
-l/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-
-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/typ
-e1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatin
-o/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><
-/opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/sha
-re/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/
-fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw
-/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8
-a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb> </var/t
-mp/texfonts/pk/ljfour/jknappen/ec/ecsx2488.600pk>
-Output written on manual_en.pdf (44 pages, 2176377 bytes).
+7.pfb> </var/tmp/texfonts/pk/ljfour/jknappen/ec/ecit0900.600pk></opt/local/shar
+e/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/
+fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/blu
+esky/euler/eufm10.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/upl
+ri8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></op
+t/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/t
+exmf-dist/fonts/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fon
+ts/type1/bluesky/latex/lcircle1.pfb> </var/tmp/texfonts/pk/ljfour/jknappen/ec/e
+ctt0900.600pk></opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb><
+/opt/local/share/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/shar
+e/texmf-dist/fonts/type1/public/fpl/fplrij8a.pfb></opt/local/share/texmf-dist/f
+onts/type1/urw/palatino/uplri8a.pfb></opt/local/share/texmf-dist/fonts/type1/pu
+blic/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr
+i8a.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/euler/eurb10.pfb></opt
+/local/share/texmf-dist/fonts/type1/bluesky/euler/eurm10.pfb></opt/local/share/
+texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/font
+s/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/public
+/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.p
+fb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local
+/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-d
+ist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type
+1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino
+/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></
+opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></opt/local/shar
+e/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fo
+nts/type1/urw/palatino/uplr8a.pfb></opt/local/share/texmf-dist/fonts/type1/publ
+ic/fpl/fplrc8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/palatino/uplr8a
+.pfb> </var/tmp/texfonts/pk/ljfour/jknappen/ec/ecsx2488.600pk>
+Output written on manual_en.pdf (44 pages, 2258070 bytes).
