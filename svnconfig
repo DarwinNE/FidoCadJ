@@ -1,0 +1,4 @@
+#!/bin/sh
+
+svn propset svn:ignore -F exclude_from_svn.txt .
+
