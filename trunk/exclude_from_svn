@@ -1,0 +1,38 @@
+#!/bin/sh
+svn propset svn:exclude *.* doc
+svn propset svn:exclude *.* doc/circuit/*.*
+svn propset svn:exclude *.* doc/clipboard/*.*
+svn propset svn:exclude *.* doc/dialogs/*.*
+svn propset svn:exclude *.* doc/export/*.*
+svn propset svn:exclude *.* doc/geom/*.*
+svn propset svn:exclude *.* doc/globals/*.*
+svn propset svn:exclude *.* doc/layers/*.*
+svn propset svn:exclude *.* doc/primitives/*.*
+svn propset svn:exclude *.* doc/timer/*.*
+svn propset svn:exclude *.* doc/toolbars/*.*
+svn propset svn:exclude *.* doc/undo/*.*
+
+svn propset svn:exclude *.class bin
+svn propset svn:exclude *.class bin/timer
+svn propset svn:exclude *.class bin/export
+svn propset svn:exclude *.class bin/dialogs
+svn propset svn:exclude *.class bin/globals
+svn propset svn:exclude *.class bin/toolbars
+svn propset svn:exclude *.class bin/geom
+svn propset svn:exclude *.class bin/primitives
+svn propset svn:exclude *.class bin/layers
+svn propset svn:exclude *.class bin/clipboard
+svn propset svn:exclude *.class bin/circuit
+svn propset svn:exclude *.class bin/undo
+
+svn propset svn:exclude *.toc manual
+svn propset svn:exclude *.pdf manual
+svn propset svn:exclude *.lof manual
+svn propset svn:exclude *.log manual
+svn propset svn:exclude *.bbl manual
+svn propset svn:exclude *.blg manual
+svn propset svn:exclude *.idx manual
+svn propset svn:exclude *.out manual
+svn propset svn:exclude *.ind manual
+svn propset svn:exclude *.aux manual
+
