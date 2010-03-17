@@ -4,7 +4,7 @@ Copyright 2010
 
 by Davide Bucci
 
-
+----------------
 1 - Introduction
 ----------------
 
@@ -26,7 +26,7 @@ First, a few useful sites about FidoCadJ:
 http://tinyurl.com/yavewp2
 http://sourceforge.net/projects/fidocadj/
 
-
+-----------------------------------------------
 2 - Files contained in this source distribution
 -----------------------------------------------
 
@@ -48,17 +48,18 @@ createdoc                   run Javadoc on all source files
 createjar                   prepare fidocadj.jar
 doc                         contains all Javadoc produced HTML files
 gpl-3.0.txt                 the GNU public licence v. 3
-icons                       contains all icons (made with Gimp)
-jar                         contains fidocadj.jar as well as Quaqua
-lib                         contains the standard libraries
-mac                         contains some MacOSX specific files
-manual                      the LaTeX manuals
+icons/                      contains all icons (made with Gimp)
+jar/                        contains fidocadj.jar as well as Quaqua
+lib/                        contains the standard libraries
+mac/                        contains some MacOSX specific files
+manual/                     the LaTeX manuals
 profile                     launch a profiler (jip)
 rebuild                     do a clean and then runs FidoCadJ
 run                         run FidoCadJ
 src                         contains all the Java source files
+exclude_from_svn			excludes all binary generated files from svn
 
-
+--------------------------------------------------
 3 - Instruction on how to compile and run FidoCadJ
 --------------------------------------------------
 
@@ -71,7 +72,8 @@ For this reason, you find in the trunk directory (see section 2 of this
 file) several scripts which will be useful for you.
 The instructions on how to compile depend on the operating system.
 
-  3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
+3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
+------------------------------------------------------------------------
 
 If you have MacOSX, you just open up a terminal window, go into the 
 fidocadj/trunk directory and type:
@@ -80,7 +82,8 @@ fidocadj/trunk directory and type:
 
 And FidoCadJ should be automatically compiled and run.
 
-  3.2 Compile and run the sources from another operating system
+3.2 Compile and run the sources from another operating system
+--------------------------------------------------------------
 
 If you type the ./rebuild command directly as described in section 3.1, you
 will probably stumble in a lot of errors. The Java compiler is complaining 
@@ -111,7 +114,7 @@ You should comment the code block as follows:
         
 And everything should compile fine.
 
-
+----------------
 4 - Help wanted!
 ----------------
 
@@ -122,11 +125,11 @@ to know what do you think about FidoCadJ. I am also searching for help: if
 you know Java and you want to work on the source code you will be welcomed.
 If you do not know Java, you can participate by improving the manuals or 
 translating the interface, or just can give an advice. 
-Feel free to contact me at davbucciNOPE@tiscali.it, in the SourceForge 
-forums (the address is valid without the nope part, but no attachments, 
-please). 
+Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
+forums (the email address is valid without the nope part, but no 
+attachments, please). 
 
-
+--------------------
 5 - I found a bug...
 --------------------
 

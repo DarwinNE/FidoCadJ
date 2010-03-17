@@ -14,6 +14,7 @@ svn delete --force doc/primitives/*.*
 svn delete --force doc/timer/*.*
 svn delete --force doc/toolbars/*.*
 svn delete --force doc/undo/*.*
+svn delete --force doc/package-list
 
 svn delete --force bin/circuit/*.class
 svn delete --force bin/clipboard/*.class
