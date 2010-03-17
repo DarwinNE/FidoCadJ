@@ -1,5 +1,6 @@
 #!/bin/sh
 svn propset svn:ignore *.* doc
+svn propset svn:ignore package-list doc
 svn propset svn:ignore *.* doc/circuit
 svn propset svn:ignore *.* doc/clipboard
 svn propset svn:ignore *.* doc/dialogs
