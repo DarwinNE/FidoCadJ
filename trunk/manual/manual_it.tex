@@ -56,7 +56,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.1 \\ il manuale dell'utente} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ il manuale dell'utente} 
 
 
 \author{Davide Bucci\\[3em]
@@ -638,6 +638,16 @@ TY 230 55 12 8 0 0 3 * R2
 TY 100 55 12 8 0 0 3 * R1 
 RV 30 5 320 255 3
 \end{lstlisting} 
+
+\section{Usiamo un righello}\index{righello}
+Durante il disegno di un circuito stampato, è spesso utile misurare con precisione distanze all'interno del proprio progetto. Per esempio, si può voler controllare la larghezza di una pista, la distanza tra due zone ramate o la dimensione totale di una piastra. FidoCadJ offre (a partire dalla versione 0.23.2) la possibilità di piazzare arbitrariamente un righello nella zona di lavoro per facilitare queste cose. Basta fare click con il tasto destro del mouse e trascinare per vedere apparire un righello, come mostrato in figura~\ref{fig_fidocadj_righello}. 
+Se l'operazione di click destro e trascinamento è scomoda con il vostro sistema, si può alternativamente fare click con il tasto sinistro e trascinare, mantenendo però premuto il tasto \keyevidence{Shift}.
+\begin{figure}
+\includegraphics[width=\textwidth]{fidocadj_righello}
+\caption{Fare click destro e trascinare per vedere apparire un righello.}
+\label{fig_fidocadj_righello}
+\end{figure}
+La lunghezza totale misurata da FidoCadJ è mostrata in unità logiche\index{unità logiche} ed anche in millimetri. Questo è utile quando il disegno viene stampato in scala 1:1, com'è il caso per i circuiti stampati.
 
 \section{Frecce e stili di tratto}
 A partire dalla versione 0.23 di FidoCadJ, delle possibilità sono state aggiunte per quanto riguarda la possibilità di aggiungere delle frecce\index{freccia} alle estremità dei segmenti e delle curve di Bézier.
