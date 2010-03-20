@@ -139,7 +139,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
 
     /** Standard constructor
-        @param isEditable indicates wheter the panel should be responsible
+        @param isEditable indicates whether the panel should be responsible
                to keyboard and mouse inputs.
                
     */
@@ -175,7 +175,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
             addMouseMotionListener(this);
             setFocusable(true);
-            //requestFocusInWindow(); 
             
             /******************************************************************
                 Begin of key shortcut definition
@@ -326,40 +325,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 }
             });
 
-/*          replicated in menus
 
-            final String rotation = "rotation";
-        
-            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke('r'), rotation);
-            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke('R'), rotation);
-            
-            getActionMap().put(rotation, new AbstractAction() {
-                public void actionPerformed(ActionEvent ignored) {
-                    P.rotateAllSelected();
-                    repaint();
-        
-                }
-            });
-            
-            final String mirror = "mirror";
-        
-            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke('s'), mirror);
-            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke('S'), mirror);   
-             
-            
-            getActionMap().put(mirror, new AbstractAction() {
-                public void actionPerformed(ActionEvent ignored) {
-                    //System.out.println(mirror);
-                    P.mirrorAllSelected();
-                    repaint();
-        
-                }
-            });
-        */
             final String delete = "delete"; 
         
             getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -1308,7 +1274,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ruler = true;
         }
         
-        //Globals.actualG.dispose();
 
     }
     public void mouseDragged(MouseEvent evt)

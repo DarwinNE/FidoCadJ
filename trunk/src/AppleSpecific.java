@@ -9,6 +9,11 @@ import dialogs.*;
 /** The class AppleSpecific implements a few mechanism for interacting with
 	the MacOSX operating system. This class will only be used if the program 
 	detects it is being run on a MacOSX operating system.
+	This can be a problem when the program is not compiled on a MacOSX 
+	operating system, since the com.apple.eawt package is made available 
+	only under this platform. You should thus remove each reference to the
+	AppleSpecific class in the code when compiling under an alternative
+	system. See the README file.
 
 	This file is part of FidoCadJ.
 
