@@ -1535,6 +1535,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     }
  
+ 	/** Draws a ruler to ease measuring distances.
+ 	
+ 	*/
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
         double length;
@@ -1549,6 +1552,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int x1, y1, x2, y2;
         double x, y;
         
+        // Calculates the ruler length.
         length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
         
         
@@ -1591,6 +1595,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         boolean debut=true;
         
+        // Draw the ticks.
+        
         for(double i=0; i<=length; i+=l) {
             if (j++==m || debut) {
                 j=1;
@@ -1613,13 +1619,17 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         Font f=new Font("Helvetica",Font.PLAIN,10);
         g.setFont(f);
+        
         String t1 = roundTo(length,2);
+        
+        // Remember that one FidoCadJ logical unit is 127 microns.
         String t2 = roundTo(length*.127,2)+" mm";
         
         FontMetrics fm = g.getFontMetrics(f);
         int h = fm.getAscent();
         int th = h+fm.getDescent();
         
+        // Draw the box at the end, with the measurement results.
         g.setColor(Color.white);
         g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
             fm.stringWidth(t2))+1, 24);
