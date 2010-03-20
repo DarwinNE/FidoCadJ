@@ -1115,9 +1115,9 @@ FidoCadJ può funzionare con una versione di MacOSX\index{MacOSX} superiore o egu
 
 Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: 
 
-\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}
-
-aprire l'immagine disco e spostare \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
+{\small
+\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}}\\
+aprite l'immagine disco e spostate \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
 
 Per disinstallare FidoCadJ, sarà sufficiente prelevare \lstinline!FidoCadJ.app! dalla cartella \lstinline!Applicazioni! e spostarlo nel cestino.
 
@@ -1143,23 +1143,37 @@ Scarichiamo il programma utilizzando il comando \lstinline!wget!:
 	basicstyle=\tiny\ttfamily}
 
 \begin{lstlisting}
-$ wget http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
---23:51:22--  http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
+$ wget http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+--00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+           => `fidocadj.jar?use_mirror=garr'
+Risoluzione di downloads.sourceforge.net in corso... 216.34.181.59
+Connessione a downloads.sourceforge.net|216.34.181.59:80... connesso.
+HTTP richiesta inviata, aspetto la risposta... 302 Found
+Posizione: http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar [segue]
+--00:48:24--  http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
            => `fidocadj.jar'
-Risoluzione di davbucci.chez-alice.fr in corso... 212.27.63.127
-Connessione a davbucci.chez-alice.fr|212.27.63.127:80... connesso.
+Risoluzione di garr.dl.sourceforge.net in corso... 193.206.140.34
+Connessione a garr.dl.sourceforge.net|193.206.140.34:80... connesso.
 HTTP richiesta inviata, aspetto la risposta... 200 OK
-Lunghezza: 276,694 (270K) [application/x-java-archive]
+Lunghezza: 343,207 (335K) [application/java-archive]
 
-100%[====================================>] 276,694       71.75K/s    ETA 00:00
+100%[====================================>] 343,207      422.48K/s             
 
-23:51:26 (71.59 KB/s) - "fidocadj.jar" salvato          [276694/276694]
+00:48:30 (420.55 KB/s) - "fidocadj.jar" salvato [343207/343207]
+$
 \end{lstlisting}
 \lstset{
 	basicstyle=\small\ttfamily}
 
-Creiamo una directory (prima diventiamo root\index{root} con \lstinline!su! o \lstinline!sudo -s!)
+In alternativa, o in caso di problemi, è ovviamente possibile scaricare il file con qualunque browser dall'indirizzo:
 
+
+\href{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}
+
+e salvarlo nella propria \lstinline!/home/!
+
+
+Creiamo una directory (prima diventiamo root\index{root} con \lstinline!su! o \lstinline!sudo -s!):
 
 \begin{lstlisting}
 # mkdir /usr/bin/fidocadj
@@ -1187,6 +1201,7 @@ Ed ora possiamo eseguire il programma:
 
 \begin{lstlisting}
 $ /usr/bin/fidocadj/fidocadj.jar
+$
 \end{lstlisting}
 %
 
@@ -1224,10 +1239,6 @@ Nell'esempio è una Ubuntu\index{Ubuntu} 8.04, ma per versioni precedenti o succe
 
 \section{Windows}
 A partire dalla versione 0.23, se FidoCadJ viene fatto girare su una piattaforma Windows, viene utilizzato di default il Look and Feel ``Windows''.
-
-
-
-
 
 \manualmark 
 \markboth{\spacedlowsmallcaps{\indexname}}% 
