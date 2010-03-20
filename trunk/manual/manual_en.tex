@@ -1635,8 +1635,8 @@ The reason is that under the hood FidoCadJ needs at least the 1.4 version of Jav
 
 Even if you can use directly the Java archive \lstinline!fidocad.jar! as you would do under other operating systems, under MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
-\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}
-
+{\small
+\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}}\\
 You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
 
 
@@ -1665,20 +1665,35 @@ with a graphical environment will be used instead.
 %	basicstyle=\tiny\ttfamily}
 	
 \begin{lstlisting}
-$ wget http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
---23:51:22--  http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
+$ wget http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+--00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+           => `fidocadj.jar?use_mirror=garr'
+Resolution of downloads.sourceforge.net is being done... 216.34.181.59
+Connection to downloads.sourceforge.net|216.34.181.59:80... connected.
+HTTP request sent, waiting for answer... 302 Found
+URL: http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
+--00:48:24--  http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
            => `fidocadj.jar'
-Resolution of davbucci.chez-alice.fr is being done... 212.27.63.127
-Connection to davbucci.chez-alice.fr|212.27.63.127:80... connected.
+Resolution of garr.dl.sourceforge.net is being done... 193.206.140.34
+Connection to garr.dl.sourceforge.net|193.206.140.34:80... connected.
 HTTP request sent, waiting for answer... 200 OK
-Length: 276,694 (270K) [application/x-java-archive]
+Length: 343,207 (335K) [application/java-archive]
 
-100%[====================================>] 276,694       71.75K/s    ETA 00:00
+100%[====================================>] 343,207      422.48K/s             
 
-23:51:26 (71.59 KB/s) - "fidocadj.jar" saved          [276694/276694]
+00:48:30 (420.55 KB/s) - "fidocadj.jar" saved [343207/343207]
+$
 \end{lstlisting}
 \lstset{
 	basicstyle=\small\ttfamily}
+
+Alternatively, or if you are experiencing problems, you can download the file from any browser from the following URL:
+
+\href{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}
+
+and save the file in your \lstinline!/home/! directory.
+	
+
 
 Let's create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
 

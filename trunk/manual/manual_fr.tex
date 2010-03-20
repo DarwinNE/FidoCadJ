@@ -59,7 +59,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.1 \\ le manuel de l'utilisateur} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ le manuel de l'utilisateur} 
 
 
 \author{Davide Bucci\\[3em]
@@ -125,7 +125,7 @@ Je remercie F. Bertolazzi pour m'avoir motivé à faire en sorte que le logiciel s
 \pdfbookmark[1]{Note pour la version française du logiciel}{Note pour la version française du logiciel}
 
 FidoCadJ est un logiciel qui est né au sein d'une communauté italienne d'utilisateurs. Cependant, j'habite la France depuis un certain nombre d'années et j'ai choisi de faire un effort pour traduire le logiciel en français. 
-Comme mon temps libre est limité, vous pouvez constater que tout n'a pas été traduit complètement. Par exemple, les figures de ce manuel se réfèrent en grande partie à la version italienne. Plus urgent, la bibliothèque standard utilise plusieurs fois des descriptions en italien pour les symboles qu'il contient.
+Comme mon temps libre est limité, vous pouvez constater que tout n'a pas été traduit complètement. Par exemple, les figures de ce manuel se réfèrent en grande partie à la version italienne. Plus urgent, la bibliothèque standard utilise plusieurs fois des descriptions en italien ou en anglais pour les symboles qu'il contient.
 
 Je lance donc un appel à la communauté francophone: si vous repérez une erreur de traduction dans ce manuel ou si vous voulez participer à cette aventure, n'hésitez pas à me contacter. Je serai très heureux de recevoir de l'aide, afin que FidoCadJ commence à se diffuser aussi en France.
 
@@ -627,9 +627,20 @@ TY 220 200 12 8 0 0 3 * R3
 TY 230 55 12 8 0 0 3 * R2 
 TY 100 55 12 8 0 0 3 * R1 
 RV 30 5 320 255 3
-\end{lstlisting} 
+\end{lstlisting}
+
+\section{Utilisation d'une règle}\index{ruler}
+Pendant le dessin d'un circuit imprimé, il est souvent utile d'effectuer des mesures de distance. Par exemple, on peut vouloir vérifier l'épaisseur d'une piste, la distance entre deux régions cuivrées, ou la dimension totale d'une carte. FidoCadJ offre depuis la version 0.23.2 la possibilité de positionner arbitrairement une règle dans le dessin. Il suffit en modalité sélection de cliquer avec la touche droite de la souris et bouger le pointeur en maintenant appuyé la touche. FidoCadJ tracera une règle verte, comme montré figure~~\ref{fig_fidocadj_righello}. 
+Si cette opération avec la souris n'est pas pratique sous votre système d'exploitation, vous pouvez alternativement faire click gauche et déplacer, mais en gardant appuyée la touche \keyevidence{Shift} du clavier.
+\begin{figure}
+\includegraphics[width=\textwidth]{fidocadj_righello}
+\caption{Cliquer droit et déplacer en modalité sélection le pointeur pour montrer une règle.}
+\label{fig_fidocadj_righello}
+\end{figure}
+La longueur totale de la règle est montrée dans les unités logiques de FidoCadJ \index{unités logiques} et en millimètres. Cela est utile lorsque le dessin sera imprimé à l'échelle 1:1, comme c'est le cas pour les circuits imprimés.
+
 \section{Flèches et styles de trait}
-À partir de la version 0.23 de FidoCadJ, j'ai implémenté des possibilités en matière de dessin. Vous pouvez maintenant doter de flèches\index{flèche} les extrémités des segments et des courbes de Bézier\index{Bézier}.
+À partir de la version 0.23 de FidoCadJ, j'ai rajouté des possibilités en matière de dessin. Vous pouvez maintenant doter de flèches\index{flèche} les extrémités des segments et des courbes de Bézier\index{Bézier}.
 FidoCadJ offre maintenant la possibilité de choisir de quel côté les dessiner, ainsi que avec quel style parmi ceux disponibles. J'ai rajouté aussi des styles de trait interrompu\index{trait interrompu}, pour faciliter le dessin de schémas techniques. La figure~\ref{fig_gyrator} montre un exemple dans lequel on a dessiné un étage analogique (un GIC) à l'intérieur d'un rectangle avec trait interrompu et avec une flèche au bout d'un tracé de Bézier\index{Bézier}.
 En faisant double clic sur cet élément, la fenêtre des paramètres obtenue est visible figure~\ref{fig_parametri_bezier}. 
 
@@ -1127,20 +1138,33 @@ Téléchargeons le logiciel en utilisant la commande \lstinline!wget!:
 %\lstset{language=plain,basicstyle=\tiny\ttfamily}
 
 \begin{lstlisting}
-$ wget http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
---23:51:22--  http://davbucci.chez-alice.fr/elettronica/fidocadj/fidocadj.jar
+$ wget http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+--00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+           => `fidocadj.jar?use_mirror=garr'
+Resolution of downloads.sourceforge.net is being done... 216.34.181.59
+Connection to downloads.sourceforge.net|216.34.181.59:80... connected.
+HTTP request sent, waiting for answer... 302 Found
+URL: http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
+--00:48:24--  http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
            => `fidocadj.jar'
-Risoluzione di davbucci.chez-alice.fr in corso... 212.27.63.127
-Connessione a davbucci.chez-alice.fr|212.27.63.127:80... connesso.
-HTTP richiesta inviata, aspetto la risposta... 200 OK
-Lunghezza: 276,694 (270K) [application/x-java-archive]
+Resolution of garr.dl.sourceforge.net in corso... 193.206.140.34
+Connection to garr.dl.sourceforge.net|193.206.140.34:80... connesso.
+HTTP request sent, waiting for answer... 200 OK
+Length: 343,207 (335K) [application/java-archive]
 
-100%[====================================>] 276,694       71.75K/s    ETA 00:00
+100%[====================================>] 343,207      422.48K/s             
 
-23:51:26 (71.59 KB/s) - "fidocadj.jar" salvato          [276694/276694]
+00:48:30 (420.55 KB/s) - "fidocadj.jar" saved [343207/343207]
+$
 \end{lstlisting}
 \lstset{
 	basicstyle=\small\ttfamily}
+
+Ou, en cas de problèmes, télécharger le fichier d'après l'adresse suivante:
+
+\href{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}
+
+pour ensuite le sauvegarder dans son répertoire \lstinline!/home/!.
 
 Créons un répertoire (mais tout d'abord devenons super-utilisateur\index{super-utilisateur} avec la commande \lstinline!su! ou \lstinline!sudo -s!)
 
