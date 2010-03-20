@@ -26,14 +26,5 @@ svn propset svn:ignore *.class bin/clipboard
 svn propset svn:ignore *.class bin/circuit
 svn propset svn:ignore *.class bin/undo
 
-svn propset svn:ignore *.toc manual
-svn propset svn:ignore *.pdf manual
-svn propset svn:ignore *.lof manual
-svn propset svn:ignore *.log manual
-svn propset svn:ignore *.bbl manual
-svn propset svn:ignore *.blg manual
-svn propset svn:ignore *.idx manual
-svn propset svn:ignore *.out manual
-svn propset svn:ignore *.ind manual
-svn propset svn:ignore *.aux manual
+svn propset svn:ignore -F manual/svn_ignore_list.txt manual
 
