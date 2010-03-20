@@ -6,8 +6,9 @@ import java.awt.event.*;
 import circuit.*;
 import toolbars.*;
 
-// @author Santhosh Kumar T - santhosh@in.fiorano.com 
-   
+/** @author Santhosh Kumar T - santhosh@in.fiorano.com 
+   	Used in FidoCadJ with the author's permission.
+*/ 
 public class ScrollGestureRecognizer implements AWTEventListener,
 	ChangeSelectionListener
 { 

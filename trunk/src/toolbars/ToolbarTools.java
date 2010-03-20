@@ -241,19 +241,7 @@ public class ToolbarTools extends JToolBar
 		
 		// MacOSX Quaqua style settings
 		
-/*		selection.putClientProperty("Quaqua.Button.style","toggleWest");
-		zoom.putClientProperty("Quaqua.Button.style","toggleCenter");
-		hand.putClientProperty("Quaqua.Button.style","toggleCenter");
-		line.putClientProperty("Quaqua.Button.style","toggleCenter");
-		advtext.putClientProperty("Quaqua.Button.style","toggleCenter");
-		bezier.putClientProperty("Quaqua.Button.style","toggleCenter");
-		polygon.putClientProperty("Quaqua.Button.style","toggleCenter");
-		ellipse.putClientProperty("Quaqua.Button.style","toggleCenter");
-		rectangle.putClientProperty("Quaqua.Button.style","toggleCenter");
-		connection.putClientProperty("Quaqua.Button.style","toggleCenter");
-		pcbline.putClientProperty("Quaqua.Button.style","toggleCenter");
-		pcbpad.putClientProperty("Quaqua.Button.style","toggleEast");
-*/	
+
 		selection.putClientProperty("Quaqua.Button.style","toolBarTab");
 		zoom.putClientProperty("Quaqua.Button.style","toolBarTab");
 		hand.putClientProperty("Quaqua.Button.style","toolBarTab");
@@ -271,7 +259,13 @@ public class ToolbarTools extends JToolBar
     }
     
     
-    
+	/**	Get the current selection state. Required for implementing the
+    	ChangeSelectionListener interface.
+	
+		@return the actual selection state (see the CircuitPanel class for the
+		definition of the constants used here).
+	
+	*/
     public int getSelectionState()
     {
    	 	if(selection.isSelected())
@@ -301,7 +295,13 @@ public class ToolbarTools extends JToolBar
      	
      	return CircuitPanel.NONE;
     }
-    
+    /**	Set the current selection state. Required for implementing the
+    	ChangeSelectionListener interface
+	
+		@param s the selection state (see the CircuitPanel class for the
+		definition of the constants used here).
+		@param m not used here (useful when playing with macros).
+	*/
     public void setSelectionState(int s, String m)
     {
     	selection.setSelected(false);
@@ -385,7 +385,9 @@ public class ToolbarTools extends JToolBar
     	selectionListener=c;
     }
     
-    
+    /** Implements the ActionListener interface.
+    	@param evt the current event to be treated.
+    */
     public void actionPerformed(ActionEvent evt)
     {
         String s = evt.getActionCommand();
