@@ -57,7 +57,10 @@ public class DialogAbout extends JDialog implements ComponentListener
     
     private boolean export;     // Indicates that the export should be done
   
-  
+  	/**	Required for the implementation of the ComponentListener interface.
+  		In this case, prevents from resizing the dialog in a size which is
+  		too small.
+  	*/
     public void componentResized(ComponentEvent e) 
     {
         int width = getWidth();
@@ -89,6 +92,7 @@ public class DialogAbout extends JDialog implements ComponentListener
   
 
     /** Standard constructor: it needs the parent frame.
+    
         @param parent the dialog's parent
     */
     public DialogAbout (JFrame parent)
