@@ -229,8 +229,6 @@ public class GeometricDistances {
     	
 		l=4.0*dx*dx/w/w+4.0*dy*dy/h/h;
 
-		// SCHIFIOOOOOOO *************************************************
-
 		// I had to divide by 2 to compensate the loss of precision in certain
 		// cases. Maybe, this is due to the integer conversion when using
 		// the integer routine?

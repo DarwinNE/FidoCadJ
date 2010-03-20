@@ -926,10 +926,9 @@ public class ParseSchem
         
         /*  If we have to split non standard macros, we need to work on a 
         	temporary file, since the splitting works on the basis of the 
-        	export technique.        
+        	export technique.       
+        	The temporary file will then be loaded in the clipboard.
         */
-        
-        // SCHIFIO... tutto questo non è molto efficiente né elegante
         
         if (splitNonStandard) {
 			ParseSchem Q=new ParseSchem();
