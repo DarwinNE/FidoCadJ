@@ -101,12 +101,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     
     	// MacOSX Quaqua informations
-    	/*
-    	zoomFit.putClientProperty("Quaqua.Button.style","placard");
-    	showGrid.putClientProperty("Quaqua.Button.style","placard");
-    	snapGrid.putClientProperty("Quaqua.Button.style","placard");
-    	*/
-    	
     	zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
 		showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
     	snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");
