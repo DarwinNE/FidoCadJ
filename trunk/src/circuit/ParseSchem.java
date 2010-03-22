@@ -53,7 +53,7 @@ Version   Date           Author       Remarks
 2.6		November 2009 	D. Bucci	New FCJ extensions
 									Macro font selection
 2.7		February 2010	D. Bucci	General optimization
-2.8		March 2010		D. Bucci	Optimization and improvements 
+2.8		March 2010		D. Bucci	Optimization and improvements
 
 	This file is part of FidoCadJ.
 
@@ -81,7 +81,9 @@ Version   Date           Author       Remarks
 
 public class ParseSchem
 {   
+	// This is the maximum number of tokens which will be considered in a line
     static final int MAX_TOKENS=100;
+  
     static final boolean useWindowsLineFeed=false;
     
 	public String openFileName;
@@ -131,7 +133,11 @@ public class ParseSchem
     private boolean hasFCJOriginVisible;
 
 
+	/** The standard constructor. Not so much interesting, apart for the
+		fact that it allocates memory of a few internal objects and reset all
+		state flags.
 	
+	*/
     public ParseSchem()
     {
         tokens=new String[MAX_TOKENS];
@@ -209,16 +215,12 @@ public class ParseSchem
         String[] files;  // The names of the files in the directory.
         File dir = new File(s);
         
-        
-        
         files = dir.list(new FilenameFilter()
         { 
         	public boolean accept(File dir, String name)
         	{
         		return name.toLowerCase().endsWith(".fcl");
         	}
-        	
-        
         });
         
         if((!dir.exists()) || files==null) {
@@ -235,8 +237,6 @@ public class ParseSchem
             f = new File(dir, files[i]);
             try {
             	readLibraryFile(f.getPath());
-            
-            	//System.out.println("loaded library: "+f.getName());
             } catch (IOException E) {
             	System.out.println("Problems reading library: "+f.getName());
             }
@@ -244,19 +244,15 @@ public class ParseSchem
            
     }
     
-    /** Try to load all libraries ("*.fcl") files in the given directory.
-    
-    	FCDstdlib.fcl if exists will be considered as standard library.
-    	
-    	@param s the directory in which the libraries should be present.
+    /** Read all librairies contained in the given URL at the given prefix.
+    	This is particularly useful to read librairies shipped in a jar 
+    	file.
     */
     public void loadLibraryInJar(URL s, String prefix)
     {
        	try {
        		readLibraryBufferedReader(new BufferedReader(new 
        			InputStreamReader(s.openStream())), prefix);
-				
-           
         } catch (IOException E) {
           	System.out.println("Problems reading library: "+s.toString());
         }
@@ -359,39 +355,40 @@ public class ParseSchem
 		bufRead.close();
     }
 
+	/** Read a library provided by a buffered reader. Adds all the macro keys
+		in memory, with the given prefix.
+		@param bufRead The buffered reader prepared with the stream containing
+			the library we want to read.
+		@param prefix The prefix which should be added to the macro key when 
+			using a non standard macro.
+	*/
 	public void readLibraryBufferedReader(BufferedReader bufRead, String prefix)
 		throws IOException
 	{
-	        String macroName="";
+	    String macroName="";
         String longName="";
         String categoryName="";
         String libraryName="";
-       
-       
-       	
-       	
         int i;
-        
-      
-                
         StringBuffer txt= new StringBuffer();    
         String line="";
-             
-       
         
         while(true) {
-            
+        	// Read and process line by line.
             line = bufRead.readLine();
             
             if(line==null)
             	break; 
-            	
-            line=line.trim();       // Avoid trailing spaces
             
-            if (line.length()<=1)	// Avoid processing shorter lines 
+            // Avoid trailing spaces
+            line=line.trim();       
+            
+            // Avoid processing shorter lines
+            if (line.length()<=1)	 
                 continue;
                 
-            if(line.charAt(0)=='{') { // A category
+            // A category
+            if(line.charAt(0)=='{') { 
             	categoryName="";
                 for(i=1; line.charAt(i)!='}' &&
                          i<line.length(); ++i){
@@ -400,7 +397,8 @@ public class ParseSchem
                 continue;
             }
                 
-            if(line.charAt(0)=='[') { // A macro
+            // A macro
+            if(line.charAt(0)=='[') { 
                 macroName="";
             		
                 longName="";
@@ -430,6 +428,13 @@ public class ParseSchem
             
            
             if(!macroName.equals("")){
+            	// Add the macro name.
+            	// NOTE: in FidoCad, the macro prefix is somewhat case 
+            	// insensitive, since it indicates a file name and in 
+            	// Windows all file names are case insensitive. Under
+            	// other operating systems, we need to be waaay much
+            	// careful, hence we convert the macro name to lower case.
+            	
    	      		macroName=macroName.toLowerCase();
                 library.put(macroName, new MacroDesc(macroName,longName,
                 ((MacroDesc)library.get(macroName)).description+"\n"+line,
@@ -464,20 +469,9 @@ public class ParseSchem
     */
     public void addPrimitive(GraphicPrimitive p, boolean save)
     {   
-    	// Make sure the layers are ordered. This increases the drawing speed
-    	/*GraphicPrimitive g;
-    	int i;
-    	
-  		for (i=0;i<primitiveVector.size();++i){
-    	
-        	g=(GraphicPrimitive)primitiveVector.get(i);
-			
-        	if(g.getLayer()>=p.getLayer()) {
-        		++i;
-				break;
-        	}
-        }	
-        */
+    	// The primitive database MUST be ordered. The idea is that we insert
+    	// primitives without ordering them and then we call a sorter.
+    	    	
         primitiveVector.add(p);
         if (save) saveUndoState();
         changed=true;
@@ -507,6 +501,12 @@ public class ParseSchem
         return s;
     }
     
+    
+    /** Get the maximum layer which contains something. This value is updated
+    	after a redraw. This is tracked for efficiency reasons.
+    	
+    	@return the maximum layer number.
+    */
     final public int getMaxLayer()
     {
     	return maxLayer;
@@ -530,12 +530,18 @@ public class ParseSchem
     }
     
     
+    private double oZ, oX, oY, oO;
+
     /** Draw (either in a fast and inaccurate way or not) the current drawing.
     	This code is rather critical. Do not touch it unless you know very
     	precisely what to do.
-    
+		
+		@param G the graphic context in which the drawing should be drawn.
+		@param isFast if true, select a fast but inaccurate drawing mode. This 
+			is particularly useful when using the XOR toggle since this mode
+			specificately avoids text or other element which for one reason or
+			another are not compatible with this technique.
     */
-    private double oZ, oX, oY, oO;
     final private void draw_p(Graphics2D G, boolean isFast)
     {
 		GraphicPrimitive gg;
@@ -545,7 +551,6 @@ public class ParseSchem
     	
     	
     	// At first, we check if the current view has changed. 
-    	
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
     	   oO!=cs.getOrientation() || changed) {
     		oZ=cs.getXMagnitude();
@@ -1112,6 +1117,10 @@ public class ParseSchem
         int layer;
         GraphicPrimitive gp;
         
+        /*	The search method is very simple: we compute the distance of the
+        	given point from each primitive and we retain the minimum value, if
+        	it is less than a given tolerance.   
+        */
         for (i=0; i<primitiveVector.size(); ++i){
         
         	layer= ((GraphicPrimitive)
@@ -1129,7 +1138,8 @@ public class ParseSchem
            		}
            	}
         }
-    
+        
+    	// Check if we found something!
     	if (mindistance<tolerance){
         	gp=((GraphicPrimitive)primitiveVector.get(isel));
         	if(!toggle) {
@@ -1965,7 +1975,7 @@ public class ParseSchem
        		}
         }
         
-        // Draw in a second time only the PCB pads, in order to ensure that the
+        // Export in a second time only the PCB pads, in order to ensure that the
         // drills are always open.
         
         for (i=0; i<primitiveVector.size(); ++i){
