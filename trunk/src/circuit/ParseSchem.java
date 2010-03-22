@@ -529,6 +529,12 @@ public class ParseSchem
     	draw_p(G, true);
     }
     
+    
+    /** Draw (either in a fast and inaccurate way or not) the current drawing.
+    	This code is rather critical. Do not touch it unless you know very
+    	precisely what to do.
+    
+    */
     private double oZ, oX, oY, oO;
     final private void draw_p(Graphics2D G, boolean isFast)
     {
@@ -537,7 +543,8 @@ public class ParseSchem
     	int j_index;
     	boolean needSorting=false;
     	
-    	//changed=true;
+    	
+    	// At first, we check if the current view has changed. 
     	
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
     	   oO!=cs.getOrientation() || changed) {
@@ -565,26 +572,31 @@ public class ParseSchem
     				}
     			}
     		}
-    		
+	    	if(needSorting)
+    			sortPrimitiveLayers();
+
     		if (!drawOnlyPads) 
         		cs.resetMinMax();
     		
     	}
     	
-    	if(needSorting)
-    		sortPrimitiveLayers();
 
         needHoles=drawOnlyPads;
-        
+        maxLayer=-1;
+   		
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
         
-   		maxLayer=-1;
    		
    		if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
         	G.fillOval(cs.mapXi(100, 100, false)-4,cs.mapYi(100, 100, false)-4, 8, 8);
         }
+        
+        /* First possibility: we need to draw only one layer (for example 
+           in a macro). This is indicated by the fact that drawOnlyLayer
+           is non negative.
+        */
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         		gg=(GraphicPrimitive)primitiveVector.get(i_index);
@@ -592,11 +604,17 @@ public class ParseSchem
    				if (gg.getLayer()>maxLayer) 
    					maxLayer = gg.getLayer();
         		
-				// This should improve the redrawing speed.
-				// The layers are kept ordered
+				/* This improves the redrawing speed.
+				   The layers are kept ordered, and this means that if the
+				   next primitive exceeds the layer being processed, we have
+				   finished with this layer.
+				  
+				*/
 				if (gg.getLayer()>drawOnlyLayer)
 					break;
 				
+				// We found a primitive on the layer being processed which
+				// needs to be printed.
 				if(gg.getLayer()==drawOnlyLayer && 
         			!(gg instanceof PrimitiveMacro)) {
         			if (isFast) 
@@ -605,11 +623,16 @@ public class ParseSchem
         				gg.draw(G, cs, layerV);      		
         			
         		} else if(gg instanceof PrimitiveMacro) {
+        			// We need to process a PrimitiveMacro, since it can
+        			// contain graphic elements on the layer being processed.
         			((PrimitiveMacro)gg).setDrawOnlyLayer(drawOnlyLayer);
         			if (isFast) 
         				gg.drawFast(G, cs, layerV);
         			else
-        				gg.draw(G, cs, layerV);    
+        				gg.draw(G, cs, layerV);
+        				
+        			// Needing holes means that the macro contains at least one
+        			// PCBpad primitive.
 					needHoles=((PrimitiveMacro)gg).getNeedHoles();
 					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
         					maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
@@ -622,7 +645,7 @@ public class ParseSchem
        		}
        		return;
        	} else if (!drawOnlyPads) {
-        	
+        	// If we want to draw all layers, we need to process with order.
         	for(j_index=0;j_index<layerV.size(); ++j_index) {
 
         		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
@@ -630,12 +653,13 @@ public class ParseSchem
     
     				if (gg.getLayer()>maxLayer) 
         					maxLayer = gg.getLayer();
+        					
 					// Layers are ordered. This improves the redrawing speed. 
-
 					if (j_index>1 && gg.getLayer()>j_index)
 						break;
         		
-				
+					// Process a particular primitive if it is in the layer
+					// being processed.
         			if(gg.getLayer()==j_index && !(gg instanceof PrimitiveMacro)){
         				if (isFast) 
         					gg.drawFast(G, cs, layerV);
@@ -662,7 +686,6 @@ public class ParseSchem
         			break;
        		}
         }
-        
         
         
         // Draw in a second time only the PCB pads, in order to ensure that the
@@ -741,9 +764,14 @@ public class ParseSchem
     	
     	double m=1.0;
     	
-    	// Calculate the minimum common integer multiple of the dot 
-    	// spacement and calculate the image size.
-    	
+    	/*  It turns out that drawing the grid in an efficient way is not a 
+    		trivial problem. What it is done here is that the program tries
+    		to calculate the minimum common integer multiple of the dot 
+    	    spacement to calculate the size of an image in order to be an 
+    	    integer.
+    	    The pattern filling (which is fast) is then used to replicate the
+    	    image (very fast!) over the working surface.
+    	*/
     	for (double l=1; l<105; ++l) {
     		if (Math.abs(l*z-Math.round(l*z))<toll) {
     			mul=(int)l;
@@ -755,6 +783,8 @@ public class ParseSchem
     	double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
     	int d=1;
     	
+    	// This code applies a correction: draws bigger points if the pitch
+    	// is very big, or draw much less points if it is too dense.
     	if (ddx>50 || ddy>50) {
     		d=2;
     	} else if (ddx<3 || ddy <3) {
@@ -770,9 +800,13 @@ public class ParseSchem
 				
 		int height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
         if (height<=0) height=1;
-        
+		
+		/* Nowadays computers have generally a lot of memory, but this is not 
+		   a good reason to waste it. If it turns out that the image size is 
+		   utterly impratical, use the standard dot by dot grid construction.
+		   This should happen rarely, only for particular zoom sizes.
+		*/
         if (width>1000 || height>1000) {
-        	//System.out.println("traditional grid");
         	G.setColor(Color.white);
         	G.fillRect(xmin,ymin,xmax,ymax);
         	G.setColor(Color.gray);
@@ -786,6 +820,7 @@ public class ParseSchem
 			return;
         }
 		
+		// Fabricate a new image only if necessary, to save time.	
 		if(oldZoom!=z) {
 			try {
         		// Create a buffered image in which to draw
@@ -801,7 +836,8 @@ public class ParseSchem
         	g2d.setColor(Color.white);
         	g2d.fillRect(0,0,width,height);
         	g2d.setColor(Color.gray);
-        
+        	
+        	// Prepare the image with the grid.
         	for (x=0; x<=cs.unmapXsnap(width); x+=dx) {
         		for (y=0; y<=cs.unmapYsnap(height); y+=dy) {
         		   	g2d.fillRect(cs.mapX((int)x,(int)y),cs.mapY((int)x,
@@ -814,6 +850,7 @@ public class ParseSchem
 		Rectangle anchor = new Rectangle(width, height);
 
 		TexturePaint tp= new TexturePaint(bufferedImage, anchor);
+		// Textured paint :-)
     	G.setPaint(tp);
     	G.fillRect(0, 0, xmax, ymax);
     	
@@ -939,7 +976,7 @@ public class ParseSchem
  			// be exported and then loaded into the clipboard.
  			
  			try {
- 				Q.parseString(new StringBuffer(s)); 
+ 				Q.parseString(s); 
  				File temp= File.createTempFile("copy", ".fcd");
  				temp.deleteOnExit();
  				
