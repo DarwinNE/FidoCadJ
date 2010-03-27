@@ -389,7 +389,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     }
     
     
-    /** ChangeSelectionListener interface implementation */    
+    /** ChangeSelectionListener interface implementation 
+    	@param s the selection state
+    	@param macro the macro key (if applies)
+    */    
     public void setSelectionState(int s, String macro)
     {
         if (selectionListener!=null && s!=actionSelected)
