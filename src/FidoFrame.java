@@ -315,12 +315,13 @@ public class FidoFrame extends JFrame implements
         
         super("FidoCadJ "+Globals.version);
         
-        
-        
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
             javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
 
+		// We need to keep track of the number of open windows. If the last
+		// one is closed, we exit from the program.
+		
         ++Globals.openWindows;
 
 
@@ -334,7 +335,8 @@ public class FidoFrame extends JFrame implements
         }
         
         // Apparently, this line allows a better Cocoa-like integration
-        // under Leopard.
+        // under Leopard. Is it overridden by the use of the Quaqua L&F?
+        
         this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
         
         
@@ -367,11 +369,20 @@ public class FidoFrame extends JFrame implements
         
         
         dt = new DropTarget(CC, this);
-               
-       MyTimer mt;
+         
+        // I wanted to measure the library loading time, in order to ensure
+        // that it is reasonably fast (it is, on any reasonable hardware).
+        // A measurement is done only if Globals.isBeta is true.
+        
+        MyTimer mt;
         mt = new MyTimer();
         
         CC.P.loadLibraryDirectory(libDirectory);
+        
+        // Check if we are using the english libraries. Basically, since the 
+        // only other language available other than english is italian, I
+        // suppose that people are less uncomfortable with the current Internet
+        // standard...
         
         boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
         
@@ -435,6 +446,11 @@ public class FidoFrame extends JFrame implements
         CC.P.setLayers(LayerDesc);
         CC.setFocusable(true);
         SC.setFocusable(true);
+        
+        // Create the layer vector. Basically, this is a rather standard
+        // attribution in which only the first layers are attributed to
+        // something which is circuit-related.
+        // I followed merely the FidoCad tradition.
         
         LayerDesc.add(new LayerDesc(Color.black, true, 
             Globals.messages.getString("Circuit_l")));
@@ -779,6 +795,7 @@ public class FidoFrame extends JFrame implements
                 repaint();
                 
             }
+
             if (arg.equals(Globals.messages.getString("Print"))) {
                 DialogPrint dp=new DialogPrint(this);
                 dp.setMirror(printMirror);
@@ -850,13 +867,7 @@ public class FidoFrame extends JFrame implements
                 popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
                     popFrame.getHeight());
                 popFrame.setVisible(true);
-                
-                /*try {
-                    CC.setCirc(new StringBuffer(""));
-                    CC.P.saveUndoState();
-                } catch (IOException E) {}
-                CC.P.openFileName="";
-                repaint();*/
+
             }
             if (arg.equals(Globals.messages.getString("Undo"))) {
                 CC.P.undo();
@@ -1123,12 +1134,7 @@ public class FidoFrame extends JFrame implements
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
                     true,false);
             
-            /*
-            Dimension D = ExportGraphic.getImageSize(CC.P,1,true); 
-            double zoomx = pf.getImageableWidth()*16/D.width;
-            double zoomy = pf.getImageableHeight()*16/D.height;
-            
-            zoom = (zoomx<zoomy)?zoomx:zoomy;*/
+
             zoom=zoomm.getXMagnitude();
         }
          
@@ -1143,13 +1149,7 @@ public class FidoFrame extends JFrame implements
             ExportGraphic.getImageOrigin(CC.P, zoom).x;*/
  
         npages = (int)Math.floor(((imageWidth-1)/printerWidth));
-/*
-        System.out.println("Page: "+page);
-        System.out.println("ImageWidth: "+imageWidth);
-        System.out.println("PrinterWidth: "+printerWidth);
-        System.out.println("Zoom: "+zoom);
-        System.out.println("Npages: "+npages);
-*/        
+ 
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
             g2d.translate(-(printerWidth*page),0);
@@ -1172,7 +1172,7 @@ public class FidoFrame extends JFrame implements
         return PAGE_EXISTS;
     }
     
-    /*  This implementation of the DropTargetListener interface is heavily 
+    /**  This implementation of the DropTargetListener interface is heavily 
         inspired on the example given here:
         http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
     
@@ -1194,6 +1194,13 @@ public class FidoFrame extends JFrame implements
     {
     }
 
+	/** This routine is called when a drag and drop of an useful file is done
+		on an open instance of FidoCadJ. The difficulty is that depending on
+		the operating system flavour, the files are handled differently. 
+		For that reason, we check a few things and we need to differenciate
+		several cases.
+	
+	*/
     public void drop(DropTargetDropEvent dtde) 
     {
         try {
@@ -1256,8 +1263,9 @@ public class FidoFrame extends JFrame implements
                 // the file name, with a few substitutions.
                 
                 else if (flavors[i].isRepresentationClassInputStream()) {
-                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                    //System.out.println("Successful text drop.\n\n");
+             		// Everything seem to be ok here, so we proceed in handling
+             		// the file
+             		dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
                     BufferedReader in=new BufferedReader(new InputStreamReader(
                      (InputStream)tr.getTransferData(flavors[i])));
                     
@@ -1292,7 +1300,9 @@ public class FidoFrame extends JFrame implements
                             popFrame.CC.P.openFileName = 
                                 java.net.URLDecoder.decode(
                                 popFrame.CC.P.openFileName);
-                                                
+                            
+                            // After we set the current file name, we just open
+                            // it.
                             popFrame.openFile();
                             popFrame.CC.P.saveUndoState();
                             popFrame.CC.P.setModified(false);
@@ -1369,7 +1379,10 @@ public class FidoFrame extends JFrame implements
         repaint();
     }  
     
-    /** Show the file dialog and save with the specified name
+    /** Show the file dialog and save with a new name name.
+    	This routine makes use of the standard dialogs (either the Swing or the
+    	native one, depending on the host operating system), in order to let 
+    	the user choose a new name for the file to be saved.
     
     */
     
@@ -1414,6 +1427,9 @@ public class FidoFrame extends JFrame implements
                     return "FidoCadJ (.fcd)";
                 }
             });
+            
+            // Set the current working directory as well as the file name.
+            
             fc.setCurrentDirectory(new File(openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("SaveName"));
             if(fc.showSaveDialog(this)!=JFileChooser.APPROVE_OPTION)
@@ -1434,6 +1450,8 @@ public class FidoFrame extends JFrame implements
                     Globals.DEFAULT_EXTENSION);
             prefs.put("OPEN_DIR", din);   
                 openFileDirectory=din;
+            
+            // Here everything is ready for saving the current drawing.
             
             Save();
 
@@ -1474,7 +1492,7 @@ public class FidoFrame extends JFrame implements
     }
     
     /** Load the given file
-    
+		@param s the name of the file to be loaded.    
     */
     void Load(String s)
     {
@@ -1577,9 +1595,6 @@ public class FidoFrame extends JFrame implements
         double z=m.getXMagnitude();
         
         CC.P.getMapCoordinates().setMagnitudes(z, z);
-       /* CC.P.getMapCoordinates().setXCenter(m.getXCenter());
-        CC.P.getMapCoordinates().setYCenter(m.getYCenter());
-        */
         
         if (oldz!=z) CC.repaint();
 
@@ -1603,6 +1618,7 @@ public class FidoFrame extends JFrame implements
     
     }
 }
+
 
 class RulerPanel extends JPanel implements SwingConstants
 {
@@ -1634,9 +1650,7 @@ class RulerPanel extends JPanel implements SwingConstants
 
         if (dir==HORIZONTAL) {
             int x=0;
-            
-            //System.out.println("Horz "+sc.unmapXnosnap(sc.getXMax()));
-
+  
             for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=increment) {
                     
                 g.drawLine(sc.mapXi(x,0,false), 
