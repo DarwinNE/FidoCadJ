@@ -3,7 +3,12 @@ cd bin
 jar cvfm fidocadj.jar ../Manifest.txt *.class *.properties toolbars/icons16/*.* toolbars/icons32/*.* program_icons/*.* circuit/*.class clipboard/*.class dialogs/*.class dialogs/program_icons/*.* export/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class toolbars/*.class undo/*.class lib/*.*
 jar i fidocadj.jar
 mv fidocadj.jar ../jar
+
+jar cvfm fidoreadj_applet.jar ../Manifest_applet.txt *.class toolbars/*.class circuit/*.class clipboard/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class undo/*.class lib/*.*
+
+jar i fidoreadj_applet.jar
+mv fidoreadj_applet.jar ../jar
 cd ..
 
-#jar cvfm fidocadj_applet.jar Manifest_applet.txt bin/CircuitPanel.class bin/FCDstdlib.class bin/FidoReadApplet.class bin/MyTimer.class bin/globals.class bin/ParseSchem.class bin/mapCoordinates.class bin/sortLayer.class bin/layerDesc.class
+
 

@@ -439,11 +439,9 @@ public class FidoFrame extends JFrame implements
         
         SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
-        ArrayList LayerDesc=new ArrayList();
         
         CC.profileTime=false;
         CC.antiAlias=true;
-        CC.P.setLayers(LayerDesc);
         CC.setFocusable(true);
         SC.setFocusable(true);
         
@@ -451,6 +449,7 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
         // I followed merely the FidoCad tradition.
+        ArrayList LayerDesc=new ArrayList();
         
         LayerDesc.add(new LayerDesc(Color.black, true, 
             Globals.messages.getString("Circuit_l")));
@@ -484,6 +483,7 @@ public class FidoFrame extends JFrame implements
             Globals.messages.getString("Other_11")));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
             Globals.messages.getString("Other_12")));
+        CC.P.setLayers(LayerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
         toolZoom = new ToolbarZoom(LayerDesc);
