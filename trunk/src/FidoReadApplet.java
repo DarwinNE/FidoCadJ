@@ -12,21 +12,10 @@ import layers.*;
 
 /** FidoReadApplet.java v.2.0
 
+This is the main file for the FidoCadJ reader applet.
+
 <pre>
    ****************************************************************************
-   Version History 
-   1.3		D. Bucci	june 2008		Last version before FidoCadJ
-   2.0		D. Bucci	march 30, 2010	Upgraded to up to date FidoCadJ version
-
- * Command to compile:
- ---------------------
-javac -source 1.4 -target 1.4 *.java 
-
- * Command to assemble jar file:
- -------------------------------
-jar cvfm fidoreadj_applet.jar Manifest_applet.txt CircuitPanel.class FCDstdlib.class FidoReadApplet.class MyTimer.class globals.class ParseSchem.class mapCoordinates.class sortLayer.class layerDesc.class globals.class 
-
-
 
 Version   Date           Author       Remarks
 ------------------------------------------------------------------------------
@@ -38,6 +27,7 @@ Version   Date           Author       Remarks
 1.2		January 2008	D. Bucci	Improved speed
 									Supports layer
 1.3		February 2008	D. Bucci	Use a scroll pane		
+2.0		march 30, 2010	D. Bucci 	Upgraded to up to date FidoCadJ version
                                      
     This file is part of FidoCadJ.
 
@@ -54,10 +44,11 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright march 2007- february 2008 by Davide Bucci
+    Copyright march 2007- march 2010 by Davide Bucci
 </pre>
 
-</pre>
+@author Davide Bucci
+@version 2.0
 */
 
 
