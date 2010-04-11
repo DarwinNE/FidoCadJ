@@ -297,19 +297,65 @@ public class FidoFrame extends JFrame implements
             a.answerFinder();
         }
         
-        // See if there is a filename to open
+        // See if there is a filename to open or an option to take into 
+        // account
+
+       	String loadFile="";
+        
         if (args.length>=1) {
-            popFrame.Load(args[0]);
+        	int i;
+        	boolean loaded=false;
+        	boolean nextLib=false;
+        	
+        	for(i=0; i<args.length; ++i) {
+        		if (args[i].startsWith("-")) {
+        			// It is an option
+        			if (args[i].startsWith("-d")) {
+        				// -d indicates that the following argument is the path
+        				// of the library directory. The previous library 
+        				// directory will be ignored.
+        				nextLib=true;
+        			}
+        		} else {
+        			// We should process now the arguments of the different 
+        			// options (if it applies).
+        			if (nextLib) {
+        				// This is -d: read the new library directory
+        				popFrame.libDirectory = args[i];
+        				System.out.println("Changed the library directory: "+args[i]);
+        			
+        			} else {
+        				if (loaded) {
+        					System.out.println("Only one file can be specified in the command line");
+        				}
+        				// We can not load the file now, since popFrame has
+        				// not been initialized yet.
+        				loadFile=args[i];
+        				loaded=true;
+        			}
+        			nextLib=false;
+        		}
+        	}
+        
+            
         }
+        popFrame.init();
+        // If a file should be loaded, load it now, since popFrame has been
+        // created and initialized.
+        if(!loadFile.equals(""))
+			popFrame.Load(loadFile);
+
         popFrame.setVisible(true);
 
-        
-        
-      
     }
     
     /** The standard constructor: create the frame elements and set up all
-        variables */
+        variables. Note that the constructor itself is not sufficient for
+        using the frame. You need to call the init procedure after you have
+        set the configuration variables available for FidoFrame.
+        
+        
+    */
     public FidoFrame ()
     {
         
@@ -338,14 +384,14 @@ public class FidoFrame extends JFrame implements
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
         
         this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-        
-        
-        Container contentPane=getContentPane();
-        
+                
         Globals g=new Globals();
         
         prefs = Preferences.userNodeForPackage(g.getClass());
-        libDirectory = prefs.get("DIR_LIBS", "");
+
+       	libDirectory = prefs.get("DIR_LIBS", "");
+        	
+        	
         openFileDirectory = prefs.get("OPEN_DIR", "");
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
             "true").equals("true");
@@ -357,25 +403,37 @@ public class FidoFrame extends JFrame implements
         splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
         splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
    
-        CC=new CircuitPanel(true);
         
         exportFileName=new String();
         exportFormat=new String();
         exportBlackWhite=false;
-        CC.P.openFileName = new String();
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;
         
+
         
-        dt = new DropTarget(CC, this);
-         
+       
+    }
+    
+    /** Perform some initialization tasks: in particular, it reads the library
+    	directory and it creates the user interface.
+    
+    */
+    public void init()
+    {
         // I wanted to measure the library loading time, in order to ensure
         // that it is reasonably fast (it is, on any reasonable hardware).
         // A measurement is done only if Globals.isBeta is true.
         
         MyTimer mt;
         mt = new MyTimer();
+        Container contentPane=getContentPane();
+
+        CC=new CircuitPanel(true);
+        CC.P.openFileName = new String();
+        
+        dt = new DropTarget(CC, this);
         
         CC.P.loadLibraryDirectory(libDirectory);
         
@@ -416,7 +474,9 @@ public class FidoFrame extends JFrame implements
             if (Globals.isBeta) 
                 System.out.println("Library load time elapsed: " + elapsed+" ms");
             
-        }
+        }    
+        
+
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
 
@@ -759,7 +819,6 @@ public class FidoFrame extends JFrame implements
         addWindowFocusListener(this);
         Globals.activeWindow=this;
         
-       
     }
     
     /** The action listener. Recognize menu events and behaves consequently.
@@ -863,6 +922,7 @@ public class FidoFrame extends JFrame implements
                 
             if (arg.equals(Globals.messages.getString("New"))) {
                 FidoFrame popFrame=new FidoFrame();
+                popFrame.init();
                 
                 popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
                     popFrame.getHeight());
@@ -943,6 +1003,7 @@ public class FidoFrame extends JFrame implements
                         FidoFrame popFrame;
                         if(CC.P.getModified() || !CC.P.isEmpty()) {
                             popFrame=new FidoFrame();
+                            popFrame.init();
                             popFrame.setBounds(getX()+30, getY()+30,    
                             popFrame.getWidth(),        
                             popFrame.getHeight());
@@ -1032,6 +1093,7 @@ public class FidoFrame extends JFrame implements
                     FidoFrame popFrame;
                     if(CC.P.getModified()) {
                         popFrame=new FidoFrame();
+                        popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
                         popFrame.getHeight());
@@ -1219,6 +1281,7 @@ public class FidoFrame extends JFrame implements
                     
                     if(CC.P.getModified()) {
                         popFrame=new FidoFrame();
+                        popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
                         popFrame.getHeight());
@@ -1243,6 +1306,7 @@ public class FidoFrame extends JFrame implements
                     
                     if(CC.P.getModified()) {
                         popFrame=new FidoFrame();
+                        popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
                         popFrame.getHeight());
@@ -1281,6 +1345,7 @@ public class FidoFrame extends JFrame implements
                             
                             if(CC.P.getModified()) {
                                 popFrame=new FidoFrame();
+                                popFrame.init();
                                 popFrame.setBounds(getX()+30, getY()+30,    
                                 popFrame.getWidth(),        
                                 popFrame.getHeight());
