@@ -70,6 +70,11 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean extStrict;
   	public boolean split_n_s;
   	public boolean split_n_c;
+  	
+  	public double stroke_size_straight_i;
+	public double stroke_size_oval_i;
+	
+	public double connectionSize_i;
 
   	public boolean quaquaActive;
   	public String libDirectory;
@@ -101,6 +106,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JTextField pcbpadwidth;
 	private JTextField pcbpadheight;
 	private JTextField pcbpadintw;
+	private JTextField connectionSize;
+	
+	private JTextField stroke_size_straight;
+	private JTextField stroke_size_oval;
+	
 	private JCheckBox quaquaActive_CB;
 	private JComboBox comboFont;
 	
@@ -132,7 +142,8 @@ public class DialogOptions extends JDialog implements ComponentListener
   						  int gs, String libDir, boolean tt, boolean sit,
   						  int plw, int pw, int ph, int piw, boolean es, 
   						  boolean ec, boolean qq, boolean ex, String mf,
-  						  boolean sn, boolean sc)
+  						  boolean sn, boolean sc, double sssi, double ssoi,
+  						  double ccs)
   	{
   		super(pa, Globals.messages.getString("Cir_opt_t"), true);
   		addComponentListener(this);	
@@ -157,8 +168,13 @@ public class DialogOptions extends JDialog implements ComponentListener
   		pcbpadwidth_i = pw;
   		pcbpadheight_i = ph;
   		pcbpadintw_i = piw;
+  		connectionSize_i=ccs;
   		
-  		setSize(600,400);
+		stroke_size_straight_i =sssi;
+		stroke_size_oval_i=ssoi;
+
+  		
+  		setSize(600,500);
 
 		GridBagConstraints constraints=new GridBagConstraints();
 		Container contentPane=getContentPane();
@@ -175,8 +191,13 @@ public class DialogOptions extends JDialog implements ComponentListener
 		
 		tabsPane.addTab(Globals.messages.getString("Drawing"),
 			createDrawingOptPanel());
+
+		tabsPane.addTab(Globals.messages.getString("PCBsizes"),
+			createPCBsizePanel());
+
 		
-		tabsPane.addTab(Globals.messages.getString("FidoCad"), createExtensionsPanel());
+		tabsPane.addTab(Globals.messages.getString("FidoCad"), 
+			createExtensionsPanel());
 		
 		constraints.gridx=0;
 		constraints.gridy=0;
@@ -244,7 +265,15 @@ public class DialogOptions extends JDialog implements ComponentListener
   					
   					pcbpadintw_i=Integer.parseInt(
   						pcbpadintw.getText().trim());
-  	
+					
+					stroke_size_straight_i=Double.parseDouble(
+  						stroke_size_straight.getText().trim());
+					
+					stroke_size_oval_i=Double.parseDouble(
+  						stroke_size_oval.getText().trim());
+					
+					connectionSize_i=Double.parseDouble(
+  						connectionSize.getText().trim());
 				} catch (NumberFormatException E) 
 				{
 					// ng will remain equal to -1, which is invalid	 
@@ -450,20 +479,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.weighty=100;
 		
 		
-		
-		antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_al"));
-		antiAlias_CB.setSelected(antiAlias);
-		antiAlias_CB.setOpaque(false);
-		constraints.gridx=1;
-		constraints.gridy=10;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		constraints.insets=new Insets(6,6,6,40);
-
-		drawingOptPanel.add(antiAlias_CB, constraints);		// Add antialias cb
-		
-		
+	
 		profile_CB=new JCheckBox(Globals.messages.getString("Profile"));
 		profile_CB.setOpaque(false);
 		profile_CB.setSelected(profileTime);
@@ -496,95 +512,82 @@ public class DialogOptions extends JDialog implements ComponentListener
 
 		drawingOptPanel.add(gridWidth, constraints);		// Add grid width tf
 		
+
 		/**********************************************************************
-		  PCB line and pad default sizes
+		  Stroke sizes
+		 **********************************************************************/
+		JLabel connectionSizelbl=new JLabel(Globals.messages.getString(
+			"connection_size"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=8;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		drawingOptPanel.add(connectionSizelbl, constraints);
+		
+		connectionSize=new JTextField(10);
+		connectionSize.setText(""+connectionSize_i);
+		constraints.gridx=1;
+		constraints.gridy=8;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		drawingOptPanel.add(connectionSize, constraints);		
+		
+		
+		JLabel stroke_size_strlbl=new JLabel(Globals.messages.getString(
+			"stroke_size_straight"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=9;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		drawingOptPanel.add(stroke_size_strlbl, constraints);
+		
+		stroke_size_straight=new JTextField(10);
+		stroke_size_straight.setText(""+stroke_size_straight_i);
+		constraints.gridx=1;
+		constraints.gridy=9;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		drawingOptPanel.add(stroke_size_straight, constraints);		
+		
+		JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
+			"stroke_size_oval"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=10;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		drawingOptPanel.add(stroke_size_ovlbl, constraints);
+		
+		stroke_size_oval=new JTextField(10);
+		stroke_size_oval.setText(""+stroke_size_oval_i);
+		constraints.gridx=1;
+		constraints.gridy=10;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		drawingOptPanel.add(stroke_size_oval, constraints);		
+		
+		/**********************************************************************
+		  Macro font
 		 **********************************************************************/
 		
-		JLabel pcblinelbl=new JLabel(Globals.messages.getString(
-			"pcbline_width"));
-		constraints.gridx=0;
-		constraints.gridy=4;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.EAST;
-		drawingOptPanel.add(pcblinelbl, constraints);			// Add pcbline label
-		
-		pcblinewidth=new JTextField(10);
-		pcblinewidth.setText(""+pcblinewidth_i);
-		constraints.gridx=1;
-		constraints.gridy=4;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		drawingOptPanel.add(pcblinewidth, constraints);		// Add pcbline width tf
-		
-		JLabel pcbpadwidthlbl=new JLabel(Globals.messages.getString(
-			"pcbpad_width"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=5;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
-
-		drawingOptPanel.add(pcbpadwidthlbl, constraints); // Add pcbpad width label
-		
-		pcbpadwidth=new JTextField(10);
-		pcbpadwidth.setText(""+pcbpadwidth_i);
-		constraints.gridx=1;
-		constraints.gridy=5;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		drawingOptPanel.add(pcbpadwidth, constraints);		// Add pcbpad width tf
-		
-		JLabel pcbpadheightlbl=new JLabel(Globals.messages.getString(
-			"pcbpad_height"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=7;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
-		drawingOptPanel.add(pcbpadheightlbl, constraints);	// Add pcbline label
-		
-		pcbpadheight=new JTextField(10);
-		pcbpadheight.setText(""+pcbpadheight_i);
-		constraints.gridx=1;
-		constraints.gridy=7;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		drawingOptPanel.add(pcbpadheight, constraints);		// Add pcbline height tf
-		
-		JLabel pcbpadintwlbl=new JLabel(Globals.messages.getString(
-			"pcbpad_intw"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=8;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
-		drawingOptPanel.add(pcbpadintwlbl, constraints);// Add pcbpad int w label
-		
-		pcbpadintw=new JTextField(10);
-		pcbpadintw.setText(""+pcbpadintw_i);
-		constraints.gridx=1;
-		constraints.gridy=8;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		drawingOptPanel.add(pcbpadintw, constraints);		// Add pcbline width tf
 		
 		JLabel macroFontlbl=new JLabel(Globals.messages.getString(
 			"macrofont"));
 		constraints.weightx=100;
 		constraints.weighty=100;
 		constraints.gridx=0;
-		constraints.gridy=9;
+		constraints.gridy=11;
 		constraints.gridwidth=1;
 		constraints.gridheight=1;	
 		constraints.anchor=GridBagConstraints.EAST;
@@ -604,22 +607,129 @@ public class DialogOptions extends JDialog implements ComponentListener
       			comboFont.setSelectedIndex(i);
      	}
 		constraints.gridx=1;
-		constraints.gridy=9;
+		constraints.gridy=11;
 		constraints.gridwidth=1;
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.WEST;
 		drawingOptPanel.add(comboFont, constraints);	// Add primitive font combo
 		
 		
+		antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_al"));
+		antiAlias_CB.setSelected(antiAlias);
+		antiAlias_CB.setOpaque(false);
+		constraints.gridx=1;
+		constraints.gridy=12;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		constraints.insets=new Insets(6,6,6,40);
+
+		drawingOptPanel.add(antiAlias_CB, constraints);		// Add antialias cb		
+		
 		return drawingOptPanel;
 	
 		
 		/**********************************************************************
-		  END of PCB line and pad default sizes
+		  END of drawingOptPanel
 		 **********************************************************************/
 		 
 	}
+	private JPanel createPCBsizePanel()
+	{
+		/**********************************************************************
+		  PCB line and pad default sizes
+		 **********************************************************************/
+		JPanel pcbSizePanel = new JPanel();
+    	
 	
+		GridBagConstraints constraints=new GridBagConstraints();
+		pcbSizePanel.setLayout(new GridBagLayout());
+		pcbSizePanel.setOpaque(false);
+		
+		constraints.weightx=100;
+		constraints.weighty=100;
+		
+		JLabel pcblinelbl=new JLabel(Globals.messages.getString(
+			"pcbline_width"));
+		constraints.gridx=0;
+		constraints.gridy=0;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.EAST;
+		pcbSizePanel.add(pcblinelbl, constraints);			// Add pcbline label
+		
+		pcblinewidth=new JTextField(10);
+		pcblinewidth.setText(""+pcblinewidth_i);
+		constraints.gridx=1;
+		constraints.gridy=0;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		pcbSizePanel.add(pcblinewidth, constraints);		// Add pcbline width tf
+		
+		JLabel pcbpadwidthlbl=new JLabel(Globals.messages.getString(
+			"pcbpad_width"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=1;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+
+		pcbSizePanel.add(pcbpadwidthlbl, constraints); // Add pcbpad width label
+		
+		pcbpadwidth=new JTextField(10);
+		pcbpadwidth.setText(""+pcbpadwidth_i);
+		constraints.gridx=1;
+		constraints.gridy=1;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		pcbSizePanel.add(pcbpadwidth, constraints);		// Add pcbpad width tf
+		
+		JLabel pcbpadheightlbl=new JLabel(Globals.messages.getString(
+			"pcbpad_height"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=2;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		pcbSizePanel.add(pcbpadheightlbl, constraints);	// Add pcbline label
+		
+		pcbpadheight=new JTextField(10);
+		pcbpadheight.setText(""+pcbpadheight_i);
+		constraints.gridx=1;
+		constraints.gridy=2;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		pcbSizePanel.add(pcbpadheight, constraints);		// Add pcbline height tf
+		
+		JLabel pcbpadintwlbl=new JLabel(Globals.messages.getString(
+			"pcbpad_intw"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=3;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		pcbSizePanel.add(pcbpadintwlbl, constraints);// Add pcbpad int w label
+		
+		pcbpadintw=new JTextField(10);
+		pcbpadintw.setText(""+pcbpadintw_i);
+		constraints.gridx=1;
+		constraints.gridy=3;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		pcbSizePanel.add(pcbpadintw, constraints);		// Add pcbline width tf
+		
+		return pcbSizePanel;
+	}
 	private JPanel createExtensionsPanel()
 	{
 		/**********************************************************************
