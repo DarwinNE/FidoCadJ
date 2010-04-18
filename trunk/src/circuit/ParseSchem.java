@@ -1428,8 +1428,21 @@ public class ParseSchem
         				g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
         			else{
-        				P.setOldEvidence(Math.min(xa,xb), Math.min(ya,yb), 
-        					   Math.abs(xb-xa), Math.abs(yb-ya));
+        				
+        				int a,b,c,d;
+        				boolean flip=false;
+        				
+        				a = Math.min(xa,xb);
+        				b = Math.min(ya,yb);
+        				c = Math.abs(xb-xa);
+        				d = Math.abs(yb-ya);
+        				P.setOldEvidence(a,b,c,d);
+        				if(opx>xa && px<xa)
+        					flip=true;
+        				if(opy>ya && py<ya)
+        					flip=true;
+        				
+        				
         				xb=px;
 						yb=py;
 						opx=px;
@@ -1437,8 +1450,19 @@ public class ParseSchem
 						
         				P.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
-        				P.repaint();
-        				//P.resetOldEvidence();
+        				
+        				
+        				a=Math.min(a, Math.min(xa,xb));
+        				b=Math.min(b, Math.min(ya,yb));
+        				c=Math.max(c, Math.abs(xb-xa));
+        				d=Math.max(d, Math.abs(yb-ya));
+        				
+        				
+        				if (!flip) 
+        					P.repaint(a,b,c+10,d+10);
+        				else	
+        					P.repaint();
+        				P.resetOldEvidence();
         				
         				return;
         				        				

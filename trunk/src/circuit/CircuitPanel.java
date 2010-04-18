@@ -1468,7 +1468,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     /** Repaint the panel */
     public void paintComponent(Graphics g) 
     {
-        //super.paintComponent(g);
+        super.paintComponent(g);
         MyTimer mt;
         mt = new MyTimer();
         
@@ -1489,13 +1489,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_DITHER_DISABLE);
          }
      
-        Rectangle r = g.getClipBounds();
+/*        Rectangle r = g.getClipBounds();
         if(oldEvidenceRect!=null && Globals.weAreOnAMac) {
         // this gives problems under Windows
         // but it can be WAY faster under MacOSX!
             g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1, 
                 oldEvidenceRect.height+1);
-        } 
+        } */
 
         // Draw all the primitives
         g.setColor(backgroundColor);
@@ -1508,7 +1508,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
 
         P.draw(g2);
-        g.setClip(r);
+        //g.setClip(r);
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         
@@ -1522,14 +1522,17 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
         g2.setStroke(new BasicStroke(1));
 
-        g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
-            evidenceRect.height);
+        if(evidenceRect!=null)
+        	g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
+            	evidenceRect.height);
 
         // If a ruler is active, draw it.
         if (ruler) {    
             drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
             oldEvidenceRect=null;
         }
+        //g2.drawString("Test version: 2", 0,100);
+                
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
@@ -1827,5 +1830,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
     }
+    
+
 }
 

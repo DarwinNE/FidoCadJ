@@ -9,4 +9,7 @@ javac  -g -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoFrame
 # compile FidoReadJ applet
 javac  -g -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoReadApplet.java -d bin
 
+# compile FidoCadJ applet
+javac  -g -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoCadApplet.java -d bin
+
 

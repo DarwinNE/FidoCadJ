@@ -55,22 +55,27 @@ Version   Date           Author       Remarks
 public class FidoReadApplet extends JApplet
 {
 	CircuitPanel CC;
-	Color sfondo;
+	Color backgroundColor;
     JScrollPane SC;
 
 
 	public void init()
 	{
-		
-		sfondo=Color.white;
-		CC=new CircuitPanel(sfondo);
+		backgroundColor=Color.white;
+		CC=new CircuitPanel(backgroundColor);
         SC= new JScrollPane((Component)CC);
 		SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
+
+    	CC.profileTime=false;
+		CC.antiAlias=true;
+		
+        // Reads the standar libraries
         CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/IHRAM.FCL"), "ihram");
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/FCDstdlib.fcl"), "");
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/PCB_en.fcl"), "pcb");
 	
+		// Create the layer array
 		ArrayList LayerDesc=new ArrayList();
         
         LayerDesc.add(new LayerDesc(Color.black, true,""));
@@ -94,14 +99,12 @@ public class FidoReadApplet extends JApplet
 		Container contentPane;
 		contentPane=getContentPane();
   			
-		getRootPane().setOpaque(true);
-		getLayeredPane().setOpaque(true);
-		((JComponent)getContentPane()).setOpaque(true);
+		//getRootPane().setOpaque(true);
+		//getLayeredPane().setOpaque(true);
+		//((JComponent)getContentPane()).setOpaque(true);
 		
         contentPane.add(SC,"Center");
 
-    	CC.profileTime=false;
-		CC.antiAlias=true;
 	}
 	
 	public void trace(String c, int zoom)
@@ -113,7 +116,10 @@ public class FidoReadApplet extends JApplet
 			JOptionPane.showMessageDialog(this,
 				"Too much consecutive errors. Bad format?");
 		}
-		CC.repaint();
+		repaint();
+		getToolkit().sync();
+
+		
 	}
 	
 	public void setAntiAlias(boolean aa)
@@ -130,56 +136,60 @@ public class FidoReadApplet extends JApplet
 	{
 		switch(color){
 			case 0:
-				sfondo=Color.black;
+				backgroundColor=Color.black;
 				break;
 			case 1:
-				sfondo=Color.blue;
+				backgroundColor=Color.blue;
 				break;
 			case 2:
-				sfondo=Color.green;
+				backgroundColor=Color.green;
 				break;
 			case 3:
-				sfondo=Color.cyan.darker();
+				backgroundColor=Color.cyan.darker();
 				break;
 			case 4:
-				sfondo=Color.red;
+				backgroundColor=Color.red;
 				break;
 			case 5:
-				sfondo=Color.magenta;
+				backgroundColor=Color.magenta;
 				break;
 			case 6:
-				sfondo=Color.orange;
+				backgroundColor=Color.orange;
 				break;
 			case 7:
-				sfondo=Color.lightGray;
+				backgroundColor=Color.lightGray;
 				break;
 			case 8:
-				sfondo=Color.gray;
+				backgroundColor=Color.gray;
 				break;
 			case 9:
-				sfondo=new Color(128,128,255);
+				backgroundColor=new Color(128,128,255);
 				break;
 			case 10:
-				sfondo=new Color(128,255,128);
+				backgroundColor=new Color(128,255,128);
 				break;
 			case 11:
-				sfondo=new Color(128,255,255);
+				backgroundColor=new Color(128,255,255);
 				break;
 			case 12:
-				sfondo=new Color(255,128,128);
+				backgroundColor=new Color(255,128,128);
 				break;
 			case 13:
-				sfondo=Color.pink;
+				backgroundColor=Color.pink;
 				break;
 			case 14:
-				sfondo=Color.yellow;
+				backgroundColor=Color.yellow;
 				break;
 			case 15:
-				sfondo=Color.white;
+			default:
+				backgroundColor=Color.white;
 				break;		
 		}
-		CC.setBackground(sfondo);
+		CC.setBackground(backgroundColor);
 	}
-	public void update(Graphics g){paint(g);} 
+/*	public void update(Graphics g){
+		SC.repaint();
+		CC.revalidate();
+	} */
 
 }

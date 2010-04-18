@@ -29,7 +29,7 @@ public class SearchField extends JTextField {
     private boolean sendsNotificationForEachKeystroke = false;
     private boolean showingPlaceholderText = false;
     private boolean armed = false;
-
+    
 
     public SearchField(String placeholderText) {
         super(15);
@@ -47,8 +47,10 @@ public class SearchField extends JTextField {
     
 
     private void initBorder() {
+          
         setBorder(new CompoundBorder(getBorder(),CANCEL_BORDER));
-  
+        //getBorder().setOpaque(true);
+        //getContentPane().setOpaque(true);
         MouseInputListener mouseInputListener = new CancelListener();
         addMouseListener(mouseInputListener);
         addMouseMotionListener(mouseInputListener);
@@ -106,7 +108,7 @@ public class SearchField extends JTextField {
         }
 
         public void paintBorder(Component c, Graphics oldGraphics, int x, int y, int width, int height) {
-
+			super.paintBorder(c, oldGraphics, x, y, width, height);
             SearchField field = (SearchField) c;
             Graphics2D g = (Graphics2D) oldGraphics;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -269,4 +271,7 @@ public class SearchField extends JTextField {
             }
         }
     }
+
+
+
 }

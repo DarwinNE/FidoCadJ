@@ -101,6 +101,7 @@ public class MacroTree extends JPanel
 		search = new SearchField();
 		search.getDocument().addDocumentListener(this);
 		search.addKeyListener(this);
+		//search.setOpaque(true);
 		
 		Box topbox = Box.createVerticalBox();
 		
