@@ -153,7 +153,8 @@ public class FidoFrame extends JFrame implements
     private int xvalue;
     private int yvalue;
     
-    static private Locale currentLocale;
+    static public Locale currentLocale;
+    static boolean runsAsApplication;
     
     
     private ScrollGestureRecognizer sgr;
@@ -287,7 +288,7 @@ public class FidoFrame extends JFrame implements
         
         // Here we create the main window object
         
-        FidoFrame popFrame=new FidoFrame();
+        FidoFrame popFrame=new FidoFrame(true);
         
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.
@@ -356,10 +357,17 @@ public class FidoFrame extends JFrame implements
         
         
     */
-    public FidoFrame ()
+    public FidoFrame (boolean appl)
     {
-        
+        	
         super("FidoCadJ "+Globals.version);
+		runsAsApplication = appl;
+
+        // Apparently, this line allows a better Cocoa-like integration
+        // under Leopard. Is it overridden by the use of the Quaqua L&F?
+        
+        getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+
         
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
@@ -380,29 +388,41 @@ public class FidoFrame extends JFrame implements
             setIconImage(icon);
         }
         
-        // Apparently, this line allows a better Cocoa-like integration
-        // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        
-        this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
                 
         Globals g=new Globals();
         
-        prefs = Preferences.userNodeForPackage(g.getClass());
+        if (runsAsApplication) {
+        	prefs = Preferences.userNodeForPackage(g.getClass());
 
-       	libDirectory = prefs.get("DIR_LIBS", "");
+       		libDirectory = prefs.get("DIR_LIBS", "");
         	
         	
-        openFileDirectory = prefs.get("OPEN_DIR", "");
-        smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
-            "true").equals("true");
-        textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
+        	openFileDirectory = prefs.get("OPEN_DIR", "");
+        	smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
+            	"true").equals("true");
+        	textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
         
-        extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
-        extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
+        	extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
+        	extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
 
-        splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
-        splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
-   
+        	splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
+        	splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
+       
+        } else {
+        	libDirectory = "";
+        	
+        	
+        	openFileDirectory = "";
+        	smallIconsToolbar = true;
+        	textToolbar = true;
+        
+        	extFCJ_s = true;
+        	extFCJ_c = true;
+
+        	splitNonStandardMacro_s= false;
+        	splitNonStandardMacro_c= false;
+        }
+        
         
         exportFileName=new String();
         exportFormat=new String();
@@ -422,6 +442,8 @@ public class FidoFrame extends JFrame implements
     */
     public void init()
     {
+
+
         // I wanted to measure the library loading time, in order to ensure
         // that it is reasonably fast (it is, on any reasonable hardware).
         // A measurement is done only if Globals.isBeta is true.
@@ -429,14 +451,25 @@ public class FidoFrame extends JFrame implements
         MyTimer mt;
         mt = new MyTimer();
         Container contentPane=getContentPane();
-
+        
+		//getRootPane().setOpaque(true);
+		//getLayeredPane().setOpaque(true);
+		((JComponent)getContentPane()).setOpaque(true);
+		
         CC=new CircuitPanel(true);
         CC.P.openFileName = new String();
         
         dt = new DropTarget(CC, this);
         
-        CC.P.loadLibraryDirectory(libDirectory);
-        
+        // If FidoCadJ runs as a standalone application, we must read the 
+        // content of the current library directory.
+        // at the same time, we see if we should maintain a strict FidoCad
+        // compatibility.
+        if (runsAsApplication)  {
+        	CC.P.loadLibraryDirectory(libDirectory);
+        	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
+       
+        }
         // Check if we are using the english libraries. Basically, since the 
         // only other language available other than english is italian, I
         // suppose that people are less uncomfortable with the current Internet
@@ -444,37 +477,50 @@ public class FidoFrame extends JFrame implements
         
         boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
         
-        if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
-            if(englishLibraries)
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-            else
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+        if(runsAsApplication) {
+        	if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
+        	    if(englishLibraries)
+        	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+        	    else
+        	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
             
-        } else
-            System.out.println("IHRAM library got from external file");
-        if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
+        	} else
+        	    System.out.println("IHRAM library got from external file");
+       	 	if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
             
-            if(englishLibraries)
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-            else
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-        } else 
-            System.out.println("Standard library got from external file");
-        if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
-            if(englishLibraries)
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
-            else
-                CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+       	    	 if(englishLibraries)
+             		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+            	else
+                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+        	} else 
+            	System.out.println("Standard library got from external file");
+        	if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
+            	if(englishLibraries)
+                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+            	else
+                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
            
-        } else
-            System.out.println("Standard PCB library got from external file");
-        if(true) {
-            double elapsed=mt.getElapsed();
+        	} else
+            	System.out.println("Standard PCB library got from external file");
+        	if(true) {
+            	double elapsed=mt.getElapsed();
             
-            if (Globals.isBeta) 
-                System.out.println("Library load time elapsed: " + elapsed+" ms");
+            	if (Globals.isBeta) 
+                	System.out.println("Library load time elapsed: " + elapsed+" ms");
             
-        }    
+        	} 
+        } else {
+        	if(englishLibraries) {
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+        	} else {
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+ 
+        	}
+        }
         
 
         CC.setPreferredSize(new Dimension(1000,1000));
@@ -492,10 +538,11 @@ public class FidoFrame extends JFrame implements
         //SC.setColumnHeaderView(horRuler);
         
         
-        sgr = new ScrollGestureRecognizer();
-        CC.addScrollGestureSelectionListener(sgr);
-        sgr.getInstance();
-
+        if (runsAsApplication) {
+        	sgr = new ScrollGestureRecognizer();
+        	CC.addScrollGestureSelectionListener(sgr);
+        	sgr.getInstance();
+		}
         
         SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
@@ -561,10 +608,15 @@ public class FidoFrame extends JFrame implements
 
         Box b=Box.createVerticalBox();
         
+        toolBar.putClientProperty("Quaqua.Button.style","title");
+        toolZoom.putClientProperty("Quaqua.Button.style","title");
+        
         
         b.add(toolBar);
 
         b.add(toolZoom);
+        
+
         
         MacroTree macroLib = new MacroTree(CC.P.getLibrary(),
             CC.P.getLayers());
@@ -573,8 +625,7 @@ public class FidoFrame extends JFrame implements
         
         Dimension windowSize = getSize();
         CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
-        CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
-       
+        
         splitPane.setTopComponent(SC);
         splitPane.setBottomComponent(macroLib);
         splitPane.setResizeWeight(.9);
@@ -809,7 +860,8 @@ public class FidoFrame extends JFrame implements
                     --Globals.openWindows;
                     
                     if (Globals.openWindows<1)
-                        System.exit(0);
+                        if (runsAsApplication) 
+                        	System.exit(0);
                 }
             });
 
@@ -921,7 +973,7 @@ public class FidoFrame extends JFrame implements
             }
                 
             if (arg.equals(Globals.messages.getString("New"))) {
-                FidoFrame popFrame=new FidoFrame();
+                FidoFrame popFrame=new FidoFrame(runsAsApplication);
                 popFrame.init();
                 
                 popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
@@ -1002,7 +1054,7 @@ public class FidoFrame extends JFrame implements
                     try {
                         FidoFrame popFrame;
                         if(CC.P.getModified() || !CC.P.isEmpty()) {
-                            popFrame=new FidoFrame();
+                            popFrame=new FidoFrame(runsAsApplication);;
                             popFrame.init();
                             popFrame.setBounds(getX()+30, getY()+30,    
                             popFrame.getWidth(),        
@@ -1014,7 +1066,8 @@ public class FidoFrame extends JFrame implements
                         }
                         popFrame.CC.P.openFileName= Globals.createCompleteFileName(
                             din,            fin);
-                        prefs.put("OPEN_DIR", din);  
+                        if (runsAsApplication)
+                        	prefs.put("OPEN_DIR", din);  
                         popFrame.openFileDirectory=din;
                         popFrame.openFile();
                         popFrame.CC.P.saveUndoState();
@@ -1092,7 +1145,7 @@ public class FidoFrame extends JFrame implements
                 try {
                     FidoFrame popFrame;
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame();
+                        popFrame=new FidoFrame(runsAsApplication);;
                         popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
@@ -1280,7 +1333,7 @@ public class FidoFrame extends JFrame implements
                     FidoFrame popFrame;
                     
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame();
+                        popFrame=new FidoFrame(runsAsApplication);;
                         popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
@@ -1305,7 +1358,7 @@ public class FidoFrame extends JFrame implements
                     FidoFrame popFrame;
                     
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame();
+                        popFrame=new FidoFrame(runsAsApplication);;
                         popFrame.init();
                         popFrame.setBounds(getX()+30, getY()+30,    
                         popFrame.getWidth(),        
@@ -1344,7 +1397,7 @@ public class FidoFrame extends JFrame implements
                             FidoFrame popFrame;
                             
                             if(CC.P.getModified()) {
-                                popFrame=new FidoFrame();
+                                popFrame=new FidoFrame(runsAsApplication);;
                                 popFrame.init();
                                 popFrame.setBounds(getX()+30, getY()+30,    
                                 popFrame.getWidth(),        
@@ -1513,8 +1566,10 @@ public class FidoFrame extends JFrame implements
                 fin);
             CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
                     Globals.DEFAULT_EXTENSION);
-            prefs.put("OPEN_DIR", din);   
-                openFileDirectory=din;
+            if (runsAsApplication)
+            	prefs.put("OPEN_DIR", din);   
+            
+            openFileDirectory=din;
             
             // Here everything is ready for saving the current drawing.
             
@@ -1622,25 +1677,27 @@ public class FidoFrame extends JFrame implements
         Globals.quaquaActive=options.quaquaActive;
     
         libDirectory=options.libDirectory;
-        prefs.put("DIR_LIBS", libDirectory);                       
-        prefs.put("SMALL_ICON_TOOLBAR", 
-            (smallIconsToolbar?"true":"false"));
+        
+        if (runsAsApplication) {
+       	 	prefs.put("DIR_LIBS", libDirectory);                       
+        	prefs.put("SMALL_ICON_TOOLBAR", 
+            	(smallIconsToolbar?"true":"false"));
             
-        prefs.put("TEXT_TOOLBAR",
-            (textToolbar?"true":"false"));
+        	prefs.put("TEXT_TOOLBAR",
+            	(textToolbar?"true":"false"));
      
-        prefs.put("QUAQUA",
-            (Globals.quaquaActive?"true":"false"));
-        prefs.put("FCJ_EXT_STRICT",
-            (CC.getStrict()?"true":"false"));
+        	prefs.put("QUAQUA",
+            	(Globals.quaquaActive?"true":"false"));
+        	prefs.put("FCJ_EXT_STRICT",
+            	(CC.getStrict()?"true":"false"));
             
-        prefs.put("SPLIT_N_MACRO_SAVE",
-            (splitNonStandardMacro_s?"true":"false"));
+        	prefs.put("SPLIT_N_MACRO_SAVE",
+            	(splitNonStandardMacro_s?"true":"false"));
         
     
-        prefs.put("SPLIT_N_MACRO_COPY",
-            (splitNonStandardMacro_c?"true":"false"));
-        
+        	prefs.put("SPLIT_N_MACRO_COPY",
+            	(splitNonStandardMacro_c?"true":"false"));
+        }
      
         repaint();
     }
