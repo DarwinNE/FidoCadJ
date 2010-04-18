@@ -407,7 +407,11 @@ public class FidoFrame extends JFrame implements
 
         	splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
         	splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
-       
+
+       	 	Globals.lineWidth=Double.parseDouble(prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
+			Globals.lineWidthCircles=Double.parseDouble(prefs.get("STROKE_SIZE_OVAL", "0.35"));		
+			Globals.diameterConnection=Double.parseDouble(prefs.get("CONNECTION_SIZE", "2.0"));		
+			
         } else {
         	libDirectory = "";
         	
@@ -1648,7 +1652,10 @@ public class FidoFrame extends JFrame implements
             CC.getStrict(),
             CC.P.getMacroFont(),
             splitNonStandardMacro_s,
-            splitNonStandardMacro_c);
+            splitNonStandardMacro_c,
+            Globals.lineWidth,
+            Globals.lineWidthCircles,
+            Globals.diameterConnection);
                     
         options.setVisible(true);
         CC.profileTime=options.profileTime;
@@ -1678,8 +1685,17 @@ public class FidoFrame extends JFrame implements
     
         libDirectory=options.libDirectory;
         
+        Globals.lineWidth = options.stroke_size_straight_i;
+        Globals.lineWidthCircles = options.stroke_size_oval_i;
+        Globals.diameterConnection = options.connectionSize_i;
+       
+        
         if (runsAsApplication) {
-       	 	prefs.put("DIR_LIBS", libDirectory);                       
+       	 	prefs.put("DIR_LIBS", libDirectory);
+       	 	prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
+       	 	prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
+       	 	prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
+       	 	
         	prefs.put("SMALL_ICON_TOOLBAR", 
             	(smallIconsToolbar?"true":"false"));
             
@@ -1694,7 +1710,6 @@ public class FidoFrame extends JFrame implements
         	prefs.put("SPLIT_N_MACRO_SAVE",
             	(splitNonStandardMacro_s?"true":"false"));
         
-    
         	prefs.put("SPLIT_N_MACRO_COPY",
             	(splitNonStandardMacro_c?"true":"false"));
         }

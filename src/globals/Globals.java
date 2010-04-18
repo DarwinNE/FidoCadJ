@@ -67,11 +67,13 @@ public class Globals
  
     
     // Line width expressed in FidoCadJ coordinates 
-    public static final double lineWidth = 0.25;  
+    public static double lineWidth = 0.5;  
   	
     // Line width expressed in FidoCadJ coordinates (ovals)
-    public static final double lineWidthCircles = 0.15;  
+    public static double lineWidthCircles = 0.35;  
   															
+    // Connection size in FidoCadJ coordinates (diameter)
+    public static double diameterConnection = 1.5;  
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode

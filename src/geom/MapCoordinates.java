@@ -332,52 +332,52 @@ public class MapCoordinates
         	if(mirror) {
             	switch(orientation){
                 	case 0:
-                	    vx=-xc*xMagnitude;
+                	    vx=-(double)xc*xMagnitude;
              	       	break;
                 	case 1:
-                    	vx=yc*yMagnitude;
+                    	vx=(double)yc*yMagnitude;
                     	break;
                 
                 	case 2:
-                    	vx=xc*xMagnitude;
+                    	vx=(double)xc*xMagnitude;
                     	break;
                 
                 	case 3:
-                    	vx=-yc*yMagnitude;
+                    	vx=-(double)yc*yMagnitude;
                     	break;
     
                 	default:
-                	    vx=-xc*xMagnitude;
+                	    vx=-(double)xc*xMagnitude;
              	       	break;
             	}
         	} else {
             	switch(orientation){
             	    case 0:
-            	        vx=xc*xMagnitude;
+            	        vx=(double)xc*xMagnitude;
                 	    break;
                 	case 1:
-                	    vx=-yc*yMagnitude;
+                	    vx=-(double)yc*yMagnitude;
                		    break;
                 
                 	case 2:
-                	    vx=-xc*xMagnitude;
+                	    vx=-(double)xc*xMagnitude;
                 	    break;
                 
             	    case 3:
-            	        vx=yc*yMagnitude;
+            	        vx=(double)yc*yMagnitude;
             	        break;
     
             	    default:
-            	        vx=xc*xMagnitude;
+            	        vx=(double)xc*xMagnitude;
                 	    break;
     
             	}
         	}   
         
         } else {
-        	vx=xc*xMagnitude;
+        	vx=(double)xc*xMagnitude;
         }
-        ivx=(int)(vx+.5)+xCenter;   /* The integer cast cuts decimals to the lowest 
+        ivx=(int)(vx+0.5)+xCenter;   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivx<xMin)
@@ -409,26 +409,26 @@ public class MapCoordinates
         	switch(orientation){
         	
             	case 0:
-                	vy=yc*yMagnitude;
+                	vy=(double)yc*yMagnitude;
         			break;
         			
             	case 1:
-                	vy=xc*xMagnitude;
+                	vy=(double)xc*xMagnitude;
                 	break;
             
             	case 2:
-                	vy=-yc*yMagnitude;
+                	vy=-(double)yc*yMagnitude;
                 	break;
             
             	case 3:
-                	vy=-xc*xMagnitude;
+                	vy=-(double)xc*xMagnitude;
                 	break;
                 default:
                 	vy=0;
                 	
         	}
         } else {
-        	vy=yc*yMagnitude;
+        	vy=(double)yc*yMagnitude;
         }
         
         ivy=(int)(vy+.5)+yCenter;   /* The integer cast cuts decimals to the lowest 

@@ -8,6 +8,7 @@ import java.awt.geom.*;
 
 import geom.*;
 import export.*;
+import globals.*;
 
 
 /** Class to handle the Connection primitive.
@@ -37,8 +38,7 @@ import export.*;
 public class PrimitiveConnection extends GraphicPrimitive
 {
 
-	static final double NODE_SIZE=1.5;
-	
+
 	// A connection is defined by one points.
 
 	static final int N_POINTS=1;
@@ -107,12 +107,12 @@ public class PrimitiveConnection extends GraphicPrimitive
  			
  		
  			nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 				coordSys.mapX(10,10))*NODE_SIZE/10.0);
+ 				coordSys.mapX(10,10))*Globals.diameterConnection/10.0);
  		
  			// a little boost for small zooms :-)
  			if (nn<2) {
  				nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 					coordSys.mapX(20,20))*NODE_SIZE/12);
+ 					coordSys.mapX(20,20))*Globals.diameterConnection/12);
  			}
  			
  			xa=coordSys.mapX(x1,y1)- nn/2;
