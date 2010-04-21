@@ -110,6 +110,7 @@ public interface ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
 		
 	*/
 	public void exportBezier (int x1, int y1,
@@ -122,7 +123,8 @@ public interface ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException;
 	
 	/** Called when exporting a Connection primitive.
@@ -132,7 +134,7 @@ public interface ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer)
+	public void exportConnection (int x, int y, int layer, double size)
 		throws IOException;
 		
 	/** Called when exporting a Line primitive.
@@ -151,6 +153,8 @@ public interface ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
 	public void exportLine (int x1, int y1,
@@ -161,7 +165,8 @@ public interface ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException;
 		
 	
@@ -202,10 +207,12 @@ public interface ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 		
 	/** Called when exporting a PCBLine primitive.
@@ -243,11 +250,13 @@ public interface ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 		
 	/** Called when exporting a Rectangle primitive.
@@ -260,10 +269,12 @@ public interface ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 
 }

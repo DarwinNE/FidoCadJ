@@ -48,10 +48,10 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.1, November 2009
+    @version 1.2, April 2010
 */
 
 public class ExportPGF implements ExportInterface {
@@ -65,8 +65,8 @@ public class ExportPGF implements ExportInterface {
 	private double lineWidth;
 	private int actualDash;
 	
-	static final int NODE_SIZE = 1;
-	static final double l_width=0.33;
+	//static final int NODE_SIZE = 1;
+	//static final double strokeWidth=0.33;
 	
 	static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
 		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
@@ -120,7 +120,6 @@ public class ExportPGF implements ExportInterface {
 			", export filter by Davide Bucci\n");
 		out.write("\\pgfsetxvec{\\pgfpoint{1pt}{0pt}}\n");
 		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{1pt}}\n");
-		out.write("\\pgfsetlinewidth{"+l_width+"pt}\n");
 		out.write("\\pgfsetroundjoin \n");
 		out.write("\\pgftranslateto{\\pgfxy(0,"+he+")}\n");
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");
@@ -168,7 +167,7 @@ public class ExportPGF implements ExportInterface {
 		int orientation, int layer, String text) 
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, -1.0);
 
 		
 		String path;
@@ -208,6 +207,8 @@ public class ExportPGF implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
 	public void exportBezier (int x1, int y1,
@@ -220,10 +221,11 @@ public class ExportPGF implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException	
 	{ 		
-		registerColor(layer);
+		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 
 		out.write("\\pgfmoveto{\\pgfxy("+x1+","+y1+")} \n"+
@@ -246,12 +248,12 @@ public class ExportPGF implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer) 
+	public void exportConnection (int x, int y, int layer, double node_size) 
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, .33);
 
-		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+NODE_SIZE+"pt}");
+		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+node_size+"}");
 	
 	}
 		
@@ -271,7 +273,8 @@ public class ExportPGF implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
-		
+		@param strokeWidth the width of the pen to be used when drawing
+
 	*/
 	public void exportLine (int x1, int y1,
 		int x2, int y2,
@@ -281,10 +284,11 @@ public class ExportPGF implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, -1);
 		registerDash(dashStyle);
 		
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
@@ -409,13 +413,15 @@ public class ExportPGF implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 
 		out.write("\\pgfellipse["+(isFilled?"fillstroke":"stroke")+
@@ -438,14 +444,14 @@ public class ExportPGF implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, -1);
 
 		
-		out.write("\\pgfsetlinewidth{"+width+"pt}\n");
+		out.write("\\pgfsetlinewidth{"+width+"}\n");
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
 			x2+","+y2+")}\n");
 		
-		out.write("\\pgfsetlinewidth{"+l_width+"pt}\n");
+		out.write("\\pgfsetlinewidth{"+0.33+"}\n");
 	
 		out.write("\\pgfellipse[fill"+
 			"]{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
@@ -477,7 +483,7 @@ public class ExportPGF implements ExportInterface {
 		
 		// At first, draw the pad...
 		if(!onlyHole) {
-			registerColor(layer);
+			registerColorSize(layer, .33);
 			switch (style) {
 				default:
 				case 0: // Oval pad
@@ -526,14 +532,16 @@ public class ExportPGF implements ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		registerColor(layer);
+		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 
 		String fill_pattern="";
@@ -565,14 +573,16 @@ public class ExportPGF implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		
-		registerColor(layer);
+		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 
 		out.write("\\pgfmoveto{\\pgfxy("+x1+","+y1+")}\n");
@@ -590,7 +600,15 @@ public class ExportPGF implements ExportInterface {
 		
 	}
 
-	private void registerColor(int layer)
+	private double actualWidth;
+	
+	/** Check if there has been a change in the actual color and stroke width.
+		if yes, change accordingly.
+		@param layer the layer number (used for the color specification)
+		@param strokeWidth (nothing is specified if non positive)
+	
+	*/
+	private void registerColorSize(int layer, double strokeWidth)
 		throws IOException
 	{
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -599,6 +617,11 @@ public class ExportPGF implements ExportInterface {
 			actualColor=c;
 			out.write("\\color{layer"+layer+"}\n");
 		}
+		if (strokeWidth > 0 && actualWidth!=strokeWidth) {
+			out.write("\\pgfsetlinewidth{"+strokeWidth+"}\n");
+			actualWidth = strokeWidth;
+		}
+		
 	}
 	
 	private void registerDash(int dashStyle)

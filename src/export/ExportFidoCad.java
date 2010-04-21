@@ -184,7 +184,8 @@ public class ExportFidoCad implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException	
 	{ 
 		out.write((new PrimitiveBezier(x1,y1,x2,y2,x3,y3,x4,y4,layer,arrowStart,
@@ -200,7 +201,7 @@ public class ExportFidoCad implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer) 
+	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
 		out.write((new PrimitiveConnection(x,y,layer)).toString(extensions));
@@ -232,7 +233,8 @@ public class ExportFidoCad implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
 		out.write((new PrimitiveLine(x1,y1,x2,y2,layer,arrowStart,
@@ -295,7 +297,7 @@ public class ExportFidoCad implements ExportInterface {
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		out.write((new PrimitiveOval(x1, y1, x2, y2, isFilled, 
@@ -353,7 +355,7 @@ public class ExportFidoCad implements ExportInterface {
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		
@@ -379,7 +381,7 @@ public class ExportFidoCad implements ExportInterface {
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		out.write((new PrimitiveRectangle(x1, y1, x2, y2, isFilled, 

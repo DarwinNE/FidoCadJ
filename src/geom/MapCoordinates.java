@@ -326,8 +326,8 @@ public class MapCoordinates
     {
         // The orientation data is not used outside a macro
         if(isMacro){
-            xc-=100;
-            yc-=100;
+            xc-=100.0;
+            yc-=100.0;
                
         	if(mirror) {
             	switch(orientation){
@@ -377,7 +377,7 @@ public class MapCoordinates
         } else {
         	vx=(double)xc*xMagnitude;
         }
-        ivx=(int)(vx+0.5)+xCenter;   /* The integer cast cuts decimals to the lowest 
+        ivx=(int)(vx+0.5+xCenter);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivx<xMin)
@@ -403,8 +403,8 @@ public class MapCoordinates
     {
         
         if(isMacro){
-            xc-=100;
-            yc-=100;
+            xc-=100.0;
+            yc-=100.0;
         	      
         	switch(orientation){
         	
@@ -431,7 +431,7 @@ public class MapCoordinates
         	vy=(double)yc*yMagnitude;
         }
         
-        ivy=(int)(vy+.5)+yCenter;   /* The integer cast cuts decimals to the lowest 
+        ivy=(int)(vy+.5+yCenter);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivy<yMin)

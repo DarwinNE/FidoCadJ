@@ -28,12 +28,12 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
    </pre>
 
     
     @author Davide Bucci
-    @version 1.2, January 2009
+    @version 1.3, April 2010
 */
 
 public class ExportEagle implements ExportInterface {
@@ -178,6 +178,8 @@ public class ExportEagle implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
@@ -189,7 +191,8 @@ public class ExportEagle implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -207,7 +210,7 @@ public class ExportEagle implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer) 
+	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -233,6 +236,8 @@ public class ExportEagle implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
 	public void exportLine (int x1, int y1,
@@ -243,7 +248,8 @@ public class ExportEagle implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -312,10 +318,12 @@ public class ExportEagle implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -399,11 +407,13 @@ public class ExportEagle implements ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -445,10 +455,12 @@ public class ExportEagle implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		

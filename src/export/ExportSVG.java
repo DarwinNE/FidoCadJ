@@ -26,12 +26,12 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
 </pre>
 
     
     @author Davide Bucci
-    @version 1.1, November 2009
+    @version 1.2, April 2010
 */
 
 public class ExportSVG implements ExportInterface {
@@ -43,8 +43,8 @@ public class ExportSVG implements ExportInterface {
 	private int numberPath;
 	private int actualDash;
 	
-	static final int NODE_SIZE = 1;
-	static final double l_width=0.33;
+	//static final int NODE_SIZE = 1;
+	//static final double strokeWidth=0.33;
 	static final String dash[]={"2.5,5", "1.25,1.25",
 		"0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
 	
@@ -206,7 +206,8 @@ public class ExportSVG implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -214,12 +215,12 @@ public class ExportSVG implements ExportInterface {
 		
 		out.write("<path d=\"M "+x1+","+y1+" C "+
 				  x2+ ","+y2+" "+x3+","+y3+" "+x4+","+y4+"\" ");
-		checkColorAndWidth(c, l_width,"fill=\"none\"", dashStyle);
+		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
 		
 		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
-			arrowHalfWidth, arrowStyle,c);
+			arrowHalfWidth, arrowStyle,c, strokeWidth);
 		if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
-			arrowHalfWidth, arrowStyle,c);
+			arrowHalfWidth, arrowStyle,c, strokeWidth);
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -229,17 +230,18 @@ public class ExportSVG implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer) 
+	public void exportConnection (int x, int y, int layer, double node_size) 
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
+		double strokeWidth = 0.33;
 		
 		out.write("<circle cx=\""+x+"\" cy=\""+y+"\""+
-			" r=\""+NODE_SIZE+"\" style=\"stroke:#"+
+			" r=\""+node_size+"\" style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
-				  convertToHex2(c.getBlue())+";stroke-width:"+l_width+
+				  convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
 				  "\" fill=\"#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
@@ -273,7 +275,8 @@ public class ExportSVG implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -281,12 +284,12 @@ public class ExportSVG implements ExportInterface {
 		
 		out.write("<line x1=\""+x1+"\" y1=\""+y1+"\" x2=\""+
 			x2+"\" y2=\""+y2+"\" ");
-		checkColorAndWidth(c, l_width,"fill=\"none\"", dashStyle);
+		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
 		
 		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
-			arrowHalfWidth, arrowStyle, c);
+			arrowHalfWidth, arrowStyle, c, strokeWidth);
 		if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
-			arrowHalfWidth, arrowStyle, c);
+			arrowHalfWidth, arrowStyle, c, strokeWidth);
 		
 	}
 	
@@ -335,7 +338,7 @@ public class ExportSVG implements ExportInterface {
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -358,7 +361,7 @@ public class ExportSVG implements ExportInterface {
 				  (y1+y2)/2.0+
 				  "\" rx=\""+Math.abs(x2-x1)/2.0+"\" ry=\""+
 				  Math.abs(y2-y1)/2.0+"\" ");
-		checkColorAndWidth(c, l_width,fill_pattern, dashStyle);
+		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
 	}
 		
 	/** Called when exporting a PCBLine primitive.
@@ -409,6 +412,8 @@ public class ExportSVG implements ExportInterface {
 		double xdd;
 		double ydd;
 		
+		double strokeWidth=0.33;
+		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
@@ -422,7 +427,7 @@ public class ExportSVG implements ExportInterface {
 				  		"\" style=\"stroke:#"+
 				  		convertToHex2(c.getRed())+
 					  	convertToHex2(c.getGreen())+
-					  	convertToHex2(c.getBlue())+";stroke-width:"+l_width+
+					  	convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
 					  	"\" fill=\"#"+
 					  	convertToHex2(c.getRed())+
 					  	convertToHex2(c.getGreen())+
@@ -439,7 +444,7 @@ public class ExportSVG implements ExportInterface {
 					  		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+
-					  		";stroke-width:"+l_width+"\" fill=\"#"+
+					  		";stroke-width:"+strokeWidth+"\" fill=\"#"+
 					 		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+"\"/>\n");
@@ -455,7 +460,7 @@ public class ExportSVG implements ExportInterface {
 					  		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+
-					  		";stroke-width:"+l_width+"\" fill=\"#"+
+					  		";stroke-width:"+strokeWidth+"\" fill=\"#"+
 					 		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+"\"/>\n");
@@ -464,7 +469,7 @@ public class ExportSVG implements ExportInterface {
 		}
 		// ... then, drill the hole!
 		out.write("<circle cx=\""+x+"\" cy=\""+y+"\""+
-			" r=\""+indiam/2.0+"\" style=\"stroke:white;stroke-width:"+l_width+
+			" r=\""+indiam/2.0+"\" style=\"stroke:white;stroke-width:"+strokeWidth+
 				  	"\" fill=\"white\"/>\n");
 		
 	}
@@ -480,7 +485,7 @@ public class ExportSVG implements ExportInterface {
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -505,7 +510,7 @@ public class ExportSVG implements ExportInterface {
 		
 		}
 		out.write("\" ");
-		checkColorAndWidth(c, l_width,fill_pattern, dashStyle);
+		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
 
 		
 	}
@@ -523,7 +528,7 @@ public class ExportSVG implements ExportInterface {
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		
@@ -546,7 +551,7 @@ public class ExportSVG implements ExportInterface {
 				  "\" rx=\"0\" ry=\"0\" "+
 				  "width=\""+Math.abs(x2-x1)+"\" height=\""+
 				  Math.abs(y2-y1)+"\" ");
-		checkColorAndWidth(c, l_width,fill_pattern, dashStyle);
+		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
 	
 	}
 	
@@ -561,21 +566,43 @@ public class ExportSVG implements ExportInterface {
 			
 		return s;
 	}
+
+	private Color oc;
+	private double owl;
+	private String ofp;
+	private int ods;
+
 	
+	/** This routine ensures that the following items will be drawn with the
+		correct stroke pattern and color.
+	
+	*/
 	private void checkColorAndWidth(Color c, double wl, String fill_pattern,
 		int dashStyle)
 		throws IOException
 	{
-		out.write("style=\"stroke:#"+
+		
+		// Write only if necessary, to save space. 
+		
+		if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
+			out.write("style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
 				  convertToHex2(c.getBlue()));
 		
-		if (dashStyle>0)
-			out.write(";stroke-dasharray: "+dash[dashStyle]);
+			if (dashStyle>0)
+				out.write(";stroke-dasharray: "+dash[dashStyle]);
 		
-		out.write(";stroke-width:"+l_width+
-			  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
+			out.write(";stroke-width:"+wl+
+				  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
+		
+			// Saving old values.
+			oc=c;
+			owl=wl;
+			ofp=fill_pattern;
+			ods=dashStyle;
+		
+		}
 	}
 	private String roundTo(double n)
 	{
@@ -584,7 +611,7 @@ public class ExportSVG implements ExportInterface {
 	}
 	
 	private void exportArrow(int x, int y, int xc, int yc, int l, int h, 
-		int style, Color c)
+		int style, Color c, double strokeWidth)
 		throws IOException
 	{
 		double s;
@@ -632,7 +659,7 @@ public class ExportSVG implements ExportInterface {
  		else
 			fill_pattern="fill=\"none\"";
  
-		checkColorAndWidth(c, l_width,fill_pattern,0);
+		checkColorAndWidth(c, strokeWidth,fill_pattern,0);
 
  		if ((style & Arrow.flagLimiter) != 0) {
  			double x3;
@@ -646,7 +673,7 @@ public class ExportSVG implements ExportInterface {
 			y4 = y - h*Math.cos(alpha);
 			out.write("<line x1=\""+x3+"\" y1=\""+y3+"\" x2=\""+
 				x4+"\" y2=\""+y4+"\" ");
-			checkColorAndWidth(c, l_width,"fill=\"none\"", 0);
+			checkColorAndWidth(c, strokeWidth,"fill=\"none\"", 0);
  		}
  		
 	}	

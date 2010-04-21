@@ -382,7 +382,8 @@ public class PrimitivePolygon extends GraphicPrimitive
 			vertices[i].y=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 		}
 		
-		exp.exportPolygon(vertices, nPoints, isFilled, getLayer(), dashStyle);
+		exp.exportPolygon(vertices, nPoints, isFilled, getLayer(), dashStyle,
+			Globals.lineWidth);
 		
 	}
 }

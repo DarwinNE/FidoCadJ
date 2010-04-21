@@ -7,6 +7,9 @@ import java.awt.image.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import java.lang.*; 
+
+
 import globals.*;
 import layers.*;
 
@@ -70,23 +73,107 @@ public class ExportGraphic
 	public static void export(File file, 
 						ParseSchem P, 
 						String format,
-						double unitperpixel,
+						double unitPerPixel,
 						boolean antiAlias,
 						boolean blackWhite,
 						boolean ext)
 	throws IOException
 	{
-			
+		exportSizeP( file, 
+						 P, 
+						 format,
+						 0,
+						 0,
+						 unitPerPixel,
+						 false,
+						 antiAlias,
+						 blackWhite,
+						 ext);
+	}	
+	
+	/** Exports the circuit contained in circ using the specified parsing 
+		class.
+		
+		@param file the file name of the graphic file which will be created.
+		@param P the parsing schematics class which should be used (libraries).
+		@param format the graphic format which should be used {png|jpg}.
+		@param width the image width in pixels (raster images only)
+		@param heith the image heigth in pixels (raster images only)
+		@param antiAlias specify whether the anti alias option should be on.
+		@param blackWhite specify that the export should be done in B/W.
+		@param ext activate FidoCadJ extensions when exporting
+	*/
+	public static void exportSize(File file, 
+						ParseSchem P, 
+						String format,
+						int width,
+						int height,
+						boolean antiAlias,
+						boolean blackWhite,
+						boolean ext)
+	throws IOException
+	{
+		exportSizeP( file, 
+						 P, 
+						 format,
+						 width,
+						 height,
+						 1,
+						 true,
+						 antiAlias,
+						 blackWhite,
+						 ext);
+	}
+	
+	/** Exports the circuit contained in circ using the specified parsing 
+		class.
+		
+		@param file the file name of the graphic file which will be created.
+		@param P the parsing schematics class which should be used (libraries).
+		@param format the graphic format which should be used {png|jpg}.
+		@param unitperpixel the number of unit for each graphic pixel.
+		@param width the image width in pixels (raster images only)
+		@param heith the image heigth in pixels (raster images only)
+		@param setSize if true, calculate resolution from size. If false, it 
+			does the opposite strategy.
+		@param antiAlias specify whether the anti alias option should be on.
+		@param blackWhite specify that the export should be done in B/W.
+		@param ext activate FidoCadJ extensions when exporting
+	*/
+	private static void exportSizeP(File file, 
+						ParseSchem P, 
+						String format,
+						int width,
+						int height,
+						double unitPerPixel,
+						boolean setSize,
+						boolean antiAlias,
+						boolean blackWhite,
+						boolean ext)
+	throws IOException
+	{
+
 		// obtain drawing size
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
-		Dimension d = getImageSize(P, unitperpixel,false);
+		if (setSize) {
+			Dimension d = getImageSize(P, 1,false);
 		
-			
-		int width=d.width+20;
-		int height=d.height+20;
+			d.width+=20;
+			d.height+=20;
+   	 		//System.out.println(d);
+
+			unitPerPixel = Math.min(width/(double)d.width, height/(double)d.height);
 		
+			P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);		
+		} else {
+			Dimension d = getImageSize(P, unitPerPixel,false);
+		
+			width=d.width+20;
+			height=d.height+20;
+		
+		}
 		
 		ArrayList ol=P.getLayers();
 
@@ -109,7 +196,7 @@ public class ExportGraphic
 		}
         
         
-        P.getMapCoordinates().setMagnitudes(unitperpixel, unitperpixel);
+        P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);
 	   	
        	
                     
@@ -169,7 +256,7 @@ public class ExportGraphic
     		P.exportDrawing(ef, true);
     	} else {
     		IOException E=new IOException(
-    			Globals.messages.getString("Wrong_file_format"));
+    			"Wrong file format");
     		throw E;
     	}
     	
@@ -203,7 +290,7 @@ public class ExportGraphic
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
-		BufferedImage bufferedImage = new BufferedImage(1, 1, 
+		BufferedImage bufferedImage = new BufferedImage(10, 10, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
@@ -213,10 +300,12 @@ public class ExportGraphic
        	//m.setYCenter(0);
        	m.resetMinMax();
        	P.setMapCoordinates(m);
-		//System.out.println("unitperpixel: "+unitperpixel);
+		System.out.println("unitperpixel: "+unitperpixel);
         
         
         Graphics2D g2d = bufferedImage.createGraphics();
+       	// force an in deep recalculation
+       	P.setChanged(true);
 
         P.draw(g2d);
         // Graphics context no longer needed so dispose it

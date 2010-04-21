@@ -598,6 +598,7 @@ public class ParseSchem
         	G.fillOval(cs.mapXi(100, 100, false)-4,cs.mapYi(100, 100, false)-4, 8, 8);
         }
         
+       
         /* First possibility: we need to draw only one layer (for example 
            in a macro). This is indicated by the fact that drawOnlyLayer
            is non negative.
@@ -2132,7 +2133,10 @@ public class ParseSchem
 		return needHoles;
 	}
 	
-	/** Set the modified state of the class.
+	/** Set the change state of the class. This is different from being 
+		"modified", since modifies implies that the current drawing has not
+		been saved yet. Changed just means that we want to  recalculate
+		everything in deep during the first redraw.
 	
 		@param c if true, force a deep recalculation of all primitive 
 			parameters at the first redraw.
