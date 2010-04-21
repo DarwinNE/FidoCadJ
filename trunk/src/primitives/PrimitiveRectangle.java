@@ -329,6 +329,9 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		
 		return cmd;
 	}
+	
+	/** Export the rectangle
+	*/
 	public void export(ExportInterface exp, MapCoordinates cs)
 		throws IOException	
 	{
@@ -338,7 +341,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 					   cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
 					   isFilled,
 					   getLayer(),
-					   dashStyle); 
+					   dashStyle,
+					   Globals.lineWidth); 
 	}
 
 }

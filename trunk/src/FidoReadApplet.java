@@ -70,12 +70,28 @@ public class FidoReadApplet extends JApplet
     	CC.profileTime=false;
 		CC.antiAlias=true;
 		
-        // Reads the standar libraries
+        // Reads the standard libraries
         CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/IHRAM.FCL"), "ihram");
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/FCDstdlib.fcl"), "");
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/PCB_en.fcl"), "pcb");
 	
-		// Create the layer array
+		ArrayList layerDesc=CreateLayersNoDescription();
+        CC.P.setLayers(layerDesc);
+
+		Container contentPane;
+		contentPane=getContentPane();
+  			
+		//getRootPane().setOpaque(true);
+		//getLayeredPane().setOpaque(true);
+		//((JComponent)getContentPane()).setOpaque(true);
+		
+        contentPane.add(SC,"Center");
+
+	}
+	
+	public static ArrayList CreateLayersNoDescription()
+	{
+			// Create the layer array
 		ArrayList LayerDesc=new ArrayList();
         
         LayerDesc.add(new LayerDesc(Color.black, true,""));
@@ -94,17 +110,8 @@ public class FidoReadApplet extends JApplet
         LayerDesc.add(new LayerDesc(Color.orange, true,""));
         LayerDesc.add(new LayerDesc(Color.orange, true,""));
         LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        CC.P.setLayers(LayerDesc);
-
-		Container contentPane;
-		contentPane=getContentPane();
-  			
-		//getRootPane().setOpaque(true);
-		//getLayeredPane().setOpaque(true);
-		//((JComponent)getContentPane()).setOpaque(true);
-		
-        contentPane.add(SC,"Center");
-
+        
+        return LayerDesc;
 	}
 	
 	public void trace(String c, int zoom)

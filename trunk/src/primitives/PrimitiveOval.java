@@ -330,7 +330,8 @@ public class PrimitiveOval extends GraphicPrimitive
 					   cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
 					   isFilled,
 					   getLayer(),
-					   dashStyle); 
+					   dashStyle,
+					   Globals.lineWidth); 
 	}
 
 }

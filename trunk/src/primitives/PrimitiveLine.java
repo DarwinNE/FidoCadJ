@@ -408,6 +408,7 @@ public class PrimitiveLine extends GraphicPrimitive
 					   cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
 					   cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
 					   getLayer(),
-					   arrowStart, arrowEnd, arrowStyle, arrowLength, arrowHalfWidth, dashStyle); 
+					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
+					   arrowHalfWidth, dashStyle, Globals.lineWidth); 
 	}
 }

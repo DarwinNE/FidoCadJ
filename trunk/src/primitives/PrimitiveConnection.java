@@ -199,6 +199,7 @@ public class PrimitiveConnection extends GraphicPrimitive
 		throws IOException
 	{
 		exp.exportConnection(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
-					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y), getLayer()); 
+					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y), getLayer(),
+					   Globals.diameterConnection); 
 	}
 }

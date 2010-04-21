@@ -1,2 +1,2 @@
-Main-Class: FidoFrame
+Main-Class: FidoMain
 

@@ -28,10 +28,10 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.1, November 2009
+    @version 1.2, April 2010
 */
 
 public class ExportEPS implements ExportInterface {
@@ -48,10 +48,9 @@ public class ExportEPS implements ExportInterface {
 	private int actualDash;
 	
 	
-	
-	static final int NODE_SIZE = 1;
-	static final double l_width=.33;
+	// Number of digits to be used when representing coordinates
 	static final int PREC = 3;
+	// Dash patterns
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 	
@@ -239,6 +238,8 @@ public class ExportEPS implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
 	public void exportBezier (int x1, int y1,
@@ -251,12 +252,13 @@ public class ExportEPS implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 				  
 		out.write(""+x1+" "+y1+" moveto \n");
@@ -275,18 +277,18 @@ public class ExportEPS implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer) 
+	public void exportConnection (int x, int y, int layer, double node_size) 
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, 0.33);
 
 
 		out.write("newpath\n");
 		out.write(""+x+" "+y+" "+
-			NODE_SIZE/2.0+ " " + NODE_SIZE/2.0+ 
+			node_size/2.0+ " " + node_size/2.0+ 
 			" 0 360 ellipse\n");
 		out.write("fill\n");	
 	}
@@ -307,6 +309,8 @@ public class ExportEPS implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
 	public void exportLine (int x1, int y1,
@@ -317,12 +321,13 @@ public class ExportEPS implements ExportInterface {
 		int arrowStyle, 
 		int arrowLength, 
 		int arrowHalfWidth, 
-		int dashStyle)
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
 
@@ -447,16 +452,18 @@ public class ExportEPS implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
 
@@ -493,8 +500,6 @@ public class ExportEPS implements ExportInterface {
 		out.write(""+x1+" "+y1+" moveto "+
 			x2+" "+y2+" lineto stroke\n");
 		
-		//out.write(""+l_width+" setlinewidth\n");
-
 	}
 		
 	
@@ -520,7 +525,7 @@ public class ExportEPS implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, 0.33);
 
 		
 		// At first, draw the pad...
@@ -577,11 +582,13 @@ public class ExportEPS implements ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -591,7 +598,7 @@ public class ExportEPS implements ExportInterface {
 		if (nVertices<1)
 			return;
 		
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
 
@@ -623,17 +630,19 @@ public class ExportEPS implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle)
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 	
-		checkColorAndWidth(c, l_width);
+		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
 		

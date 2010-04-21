@@ -421,6 +421,6 @@ public class PrimitiveBezier extends GraphicPrimitive
 					   cs.mapY(virtualPoint[3].x,virtualPoint[3].y),
 					   getLayer(),
 					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
-					   arrowHalfWidth, dashStyle); 
+					   arrowHalfWidth, dashStyle,Globals.lineWidth); 
 	}
 }

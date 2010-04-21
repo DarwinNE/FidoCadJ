@@ -41,8 +41,6 @@ Version   Date           Author       Remarks
 2.2.3   December 2009       D. Bucci    Print as landscape possible
 2.3     March 2010          D. Bucci    Several improvements
 
-jar cvfm fidoreadj.jar Manifest.txt *.class *.properties
-
 
 TODO
 ----------------------------------
@@ -137,7 +135,7 @@ public class FidoFrame extends JFrame implements
 
     
     // Libraries properties
-    private String libDirectory;
+    public String libDirectory;
     private Preferences prefs;
     
     // Toolbar properties
@@ -159,10 +157,20 @@ public class FidoFrame extends JFrame implements
     
     private ScrollGestureRecognizer sgr;
     
-    /** The main method. Shows an instance of the FidoFrame */
-    public static void main(String[] args)
+
+    
+    /** The standard constructor: create the frame elements and set up all
+        variables. Note that the constructor itself is not sufficient for
+        using the frame. You need to call the init procedure after you have
+        set the configuration variables available for FidoFrame.
+        
+        
+    */
+    public FidoFrame (boolean appl)
     {
- 
+        	
+        super("FidoCadJ "+Globals.version);
+		runsAsApplication = appl;
         currentLocale = Locale.getDefault();
         
         // The following code has changed from version 0.20.1.
@@ -188,81 +196,13 @@ public class FidoFrame extends JFrame implements
             }
         }        
              
-            
-        
-        /*******************************************************************
-            PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
-        *******************************************************************/
-        
-        
-        if (System.getProperty("os.name").startsWith("Mac")) {
-            
-            
-            Globals g=new Globals();
-        
-            Preferences prefs_static = 
-                Preferences.userNodeForPackage(g.getClass());
-            
-            Globals.quaquaActive = prefs_static.get("QUAQUA", 
-                "true").equals("true");
-        
-            Globals.weAreOnAMac =true;
-        
-            // These settings allows to obtain menus on the right place
-            System.setProperty("com.apple.macos.useScreenMenuBar","true");
-            // This is for JVM < 1.5 It won't harm on higher versions.
-            System.setProperty("apple.laf.useScreenMenuBar","true"); 
-            try { 
-                
-                //Globals.quaquaActive=true;
-                //System.setProperty("Quaqua.Debug.showVisualBounds","true");
-                //System.setProperty("Quaqua.Debug.showClipBounds","true");
-                if(Globals.quaquaActive) { 
-                    UIManager.setLookAndFeel(
-                        "ch.randelshofer.quaqua.QuaquaLookAndFeel");
-                
-                    System.out.println("Quaqua look and feel active");
-                }
-                
-                // set UI manager properties here that affect Quaqua
-            } catch (Exception e) {
-                // Quaqua is not active. Just continue!
-            
-                System.out.println("The Quaqua look and feel is not available");
-                System.out.println("I will continue with the basic Apple l&f");
-            }
-        } else if (System.getProperty("os.name").startsWith("Win")) {
-            /* If the host system is a window system, select the Windows
-               look and feel. This is a way to encourage people to use 
-               FidoCadJ even on a Windows system, forgotting about Java.
-               
-            */
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (Exception E) {}
-            Globals.quaquaActive=false;
-            
-        
-        } else {
-            Globals.quaquaActive=false;
-        }
-        
-        
-        // Un-comment to try to use the Metal LAF
-        
-    /*
-        try {
-            UIManager.setLookAndFeel(
-            UIManager.getCrossPlatformLookAndFeelClassName());
-            Globals.weAreOnAMac =false;
-        } catch (Exception E) {}
-        */
-        
-        
-        /*******************************************************************/
 
+        // Apparently, this line allows a better Cocoa-like integration
+        // under Leopard. Is it overridden by the use of the Quaqua L&F?
+        // No! It is actually need to make all the window movable when clicking
+        // in the toolbar.
         
-        
+        getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
 
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
@@ -282,92 +222,6 @@ public class FidoFrame extends JFrame implements
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
         
-        /*******************************************************************
-                        END OF THE PLATFORM SELECTION CODE
-        *******************************************************************/
-        
-        // Here we create the main window object
-        
-        FidoFrame popFrame=new FidoFrame(true);
-        
-        // Probably, you need to strip this code if you need to compile the
-        // program under a non-Apple platform.
-        
-        if(Globals.weAreOnAMac) {
-            AppleSpecific a=new AppleSpecific();
-            a.answerFinder();
-        }
-        
-        // See if there is a filename to open or an option to take into 
-        // account
-
-       	String loadFile="";
-        
-        if (args.length>=1) {
-        	int i;
-        	boolean loaded=false;
-        	boolean nextLib=false;
-        	
-        	for(i=0; i<args.length; ++i) {
-        		if (args[i].startsWith("-")) {
-        			// It is an option
-        			if (args[i].startsWith("-d")) {
-        				// -d indicates that the following argument is the path
-        				// of the library directory. The previous library 
-        				// directory will be ignored.
-        				nextLib=true;
-        			}
-        		} else {
-        			// We should process now the arguments of the different 
-        			// options (if it applies).
-        			if (nextLib) {
-        				// This is -d: read the new library directory
-        				popFrame.libDirectory = args[i];
-        				System.out.println("Changed the library directory: "+args[i]);
-        			
-        			} else {
-        				if (loaded) {
-        					System.out.println("Only one file can be specified in the command line");
-        				}
-        				// We can not load the file now, since popFrame has
-        				// not been initialized yet.
-        				loadFile=args[i];
-        				loaded=true;
-        			}
-        			nextLib=false;
-        		}
-        	}
-        
-            
-        }
-        popFrame.init();
-        // If a file should be loaded, load it now, since popFrame has been
-        // created and initialized.
-        if(!loadFile.equals(""))
-			popFrame.Load(loadFile);
-
-        popFrame.setVisible(true);
-
-    }
-    
-    /** The standard constructor: create the frame elements and set up all
-        variables. Note that the constructor itself is not sufficient for
-        using the frame. You need to call the init procedure after you have
-        set the configuration variables available for FidoFrame.
-        
-        
-    */
-    public FidoFrame (boolean appl)
-    {
-        	
-        super("FidoCadJ "+Globals.version);
-		runsAsApplication = appl;
-
-        // Apparently, this line allows a better Cocoa-like integration
-        // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        
-        getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
-
         
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
