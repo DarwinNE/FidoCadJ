@@ -225,16 +225,21 @@ public class ExportGraphic
         		ImageIO.write(bufferedImage, format, file);
         		// Graphics context no longer needed so dispose it
         		g2d.dispose();
-        	} catch (java.lang.OutOfMemoryError E)
-        	{
-        		IOException D=new IOException(
-    				Globals.messages.getString("Eport_Memory_Error"));
+        	} catch (java.lang.OutOfMemoryError E) {
+        		IOException D=new IOException("Memory Error");
     			MapCoordinates m=P.getMapCoordinates();
        			m.setMagnitudes(oxz, oyz);
        			P.setMapCoordinates(m);
        			P.setLayers(ol);
     			throw D;
-        	}
+        	} catch (Exception E) {
+        		IOException D=new IOException("Size error"+E);
+    			MapCoordinates m=P.getMapCoordinates();
+       			m.setMagnitudes(oxz, oyz);
+       			P.setMapCoordinates(m);
+       			P.setLayers(ol);
+    			throw D;
+			}
     	} else if(format.equals("svg")) {
     		ExportSVG es = new ExportSVG(file);
     		P.exportDrawing(es, true);
@@ -300,7 +305,7 @@ public class ExportGraphic
        	//m.setYCenter(0);
        	m.resetMinMax();
        	P.setMapCoordinates(m);
-		System.out.println("unitperpixel: "+unitperpixel);
+		//System.out.println("unitperpixel: "+unitperpixel);
         
         
         Graphics2D g2d = bufferedImage.createGraphics();

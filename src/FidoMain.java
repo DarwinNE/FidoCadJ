@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.prefs.*;
 import java.io.*;
 import java.util.*;
+import java.awt.*;
 
 import globals.*;
 import circuit.*;
@@ -60,7 +61,10 @@ class FidoMain {
         int totx=0, toty=0;
         String exportFormat="";
         String outputFile="";
-        				
+        boolean headlessMode = false;
+        boolean resolutionBasedExport = false;	
+        boolean printSize=false;
+        double resolution=1;
         
         
         if (args.length>=1) {
@@ -93,11 +97,21 @@ class FidoMain {
         				// and the file name to be used.
         				
         				try {
-        					convertFile=true;
-        					totx=Integer.parseInt(args[++i]);
-        					toty=Integer.parseInt(args[++i]);
+        					if (args[++i].startsWith("r")) {
+        						resolution = Double.parseDouble(args[i].substring(1));
+        						resolutionBasedExport = true;
+        						if (resolution<=0) {
+        							System.err.println("Resolution should be a positive real number");
+        							System.exit(1);
+        						}
+        					} else {
+        						totx=Integer.parseInt(args[i]);
+        						toty=Integer.parseInt(args[++i]);
+        					}
         					exportFormat=args[++i];
         					outputFile=args[++i];
+        					convertFile=true;
+        					headlessMode = true;
         					
         				} catch (Exception E)
         				{
@@ -110,6 +124,9 @@ class FidoMain {
         			} else if (args[i].startsWith("-h")) {
         				showCommandLineHelp();
         				System.exit(0);
+        			} else if (args[i].startsWith("-s")) {
+        				headlessMode = true;
+        				printSize=true;
         			} else {
         				System.err.println("Unrecognized option: "+args[i]);
         				showCommandLineHelp();
@@ -139,12 +156,12 @@ class FidoMain {
             
         }
            
-        if(convertFile) {
+        if(headlessMode) {
         	// Creates a circuit object
         	ParseSchem P = new ParseSchem();
         	
         	if(loadFile.equals("")) {
-        		System.err.println("You should specify a FidoCad file to convert");
+        		System.err.println("You should specify a FidoCad file to read");
         		System.exit(1);
         	}
         	
@@ -178,14 +195,7 @@ class FidoMain {
       			// Here txt contains the new circuit: parse it!
 
       			P.parseString(new StringBuffer(txt.toString()));       
-       	 	
-                ExportGraphic.exportSize(new File(outputFile),  P, 
-                    exportFormat, totx, toty, 
-                    true,false,true);
-                System.out.println("Export completed");
-
-            } catch(IOException ioe) {
-                System.err.println("Export error: "+ioe);
+	 	
             } catch(IllegalArgumentException iae) {
                 System.err.println("Illegal filename");
             } catch(Exception e) {
@@ -194,6 +204,27 @@ class FidoMain {
             
 
         
+               
+        	if (convertFile) {
+        		try {
+        			if (resolutionBasedExport) {
+        				ExportGraphic.export(new File(outputFile),  P, 
+                    		exportFormat, resolution,true,false,true);
+        			} else {
+                		ExportGraphic.exportSize(new File(outputFile),  P, 
+                    		exportFormat, totx, toty, 
+                    		true,false,true);
+                	}
+                	System.out.println("Export completed");
+            	} catch(IOException ioe) {
+                	System.err.println("Export error: "+ioe);
+                }
+            }
+            
+            if (printSize) {
+            	Dimension d = ExportGraphic.getImageSize(P,1, false);
+				System.out.println(""+d.width+" "+d.height);	
+            }
         }
         
         if (!commandLineOnly) {
@@ -317,15 +348,23 @@ class FidoMain {
     		    		 
     		" -c     Convert the given file to a graphical format.\n"+
     		"        Usage: -d sx sy [eps|pdf|svg|png|jpg|fcd|sch] outfile\n"+
-    		"        If you use this command line option, you *must* specify a FidoCad file to convert.\n\n"+
+    		"        If you use this command line option, you *must* specify a FidoCad file to convert.\n"+
+    		"        An alternative is to specify the resolution in pixels per logical unit by\n"+
+    		"        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.\n\n"+
+    		
+    		" -s     Print the size in logical coordinates of the specified file.\n\n"+
     		
     		" -h     Print this help. and exit.\n\n"+
     		
-    		" [file] This is the optional (except if you use the -d option) FidoCad file to load at\n"+
+    		" [file] This is the optional (except if you use the -d or -s options) FidoCad file to load at\n"+
     		"        startup time.\n\n"+
     		
     		"Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.\n"+
-    		"java -jar fidocadj.jar -n -c 800 600 png out.png test.fcd\n\n";
+    		"java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd\n\n"+
+    		"Example: load and convert a FidoCad drawing to a png file without using the GUI.\n"+
+    		"         Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
+    		"java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n";
+    		
     	System.out.println(help);
     }
 
