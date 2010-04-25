@@ -84,8 +84,8 @@ public class ExportSVG implements ExportInterface {
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
 	    	    
-	    int wi=totalSize.width;
-	    int he=totalSize.height;
+	    int wi=totalSize.width+10;
+	    int he=totalSize.height+10;
 	    
 	    // A dumb, basic header of the SVG file
 	    
@@ -215,6 +215,7 @@ public class ExportSVG implements ExportInterface {
 		
 		out.write("<path d=\"M "+x1+","+y1+" C "+
 				  x2+ ","+y2+" "+x3+","+y3+" "+x4+","+y4+"\" ");
+				  
 		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
 		
 		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
@@ -238,7 +239,7 @@ public class ExportSVG implements ExportInterface {
 		double strokeWidth = 0.33;
 		
 		out.write("<circle cx=\""+x+"\" cy=\""+y+"\""+
-			" r=\""+node_size+"\" style=\"stroke:#"+
+			" r=\""+(node_size/2.0)+"\" style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
 				  convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
@@ -285,7 +286,7 @@ public class ExportSVG implements ExportInterface {
 		out.write("<line x1=\""+x1+"\" y1=\""+y1+"\" x2=\""+
 			x2+"\" y2=\""+y2+"\" ");
 		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
-		
+
 		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
 			arrowHalfWidth, arrowStyle, c, strokeWidth);
 		if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
@@ -312,12 +313,13 @@ public class ExportSVG implements ExportInterface {
 		@param xv coordinate of the shown value
 		@param yv coordinate of the shown value
 		@param font the used font
+		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		Map m)
+		int fontSize, Map m)
 		throws IOException
 	{
 		// The macro will be expanded into primitives.
@@ -583,8 +585,10 @@ public class ExportSVG implements ExportInterface {
 	{
 		
 		// Write only if necessary, to save space. 
+		// It does not work...
 		
-		if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
+		//if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
+		if(true) {
 			out.write("style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
@@ -592,7 +596,7 @@ public class ExportSVG implements ExportInterface {
 		
 			if (dashStyle>0)
 				out.write(";stroke-dasharray: "+dash[dashStyle]);
-		
+
 			out.write(";stroke-width:"+wl+
 				  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
 		
@@ -602,6 +606,8 @@ public class ExportSVG implements ExportInterface {
 			ofp=fill_pattern;
 			ods=dashStyle;
 		
+		} else {
+			out.write("/>\n");
 		}
 	}
 	private String roundTo(double n)

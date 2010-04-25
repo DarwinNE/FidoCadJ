@@ -66,8 +66,8 @@ Version   Date           Author       Remarks
 public class MapCoordinates
 {
 	// Every member should be made private sooner or later...
-    public int xCenter;
-    public int yCenter;
+    public double xCenter;
+    public double yCenter;
     private double xMagnitude;
     private double yMagnitude;
     public int orientation;
@@ -215,9 +215,9 @@ public class MapCoordinates
     	@return the X magnification factor
     
     */
-    public final int getXCenter()
+    public final double getXCenter()
     {
-        return (int)xCenter;
+        return xCenter;
     }
     
     
@@ -225,17 +225,17 @@ public class MapCoordinates
     	@return the Y magnification factor
     
     */
-    public final int getYCenter()
+    public final double getYCenter()
     {
-        return (int)yCenter;
+        return yCenter;
     }
     
     
-    /**	Set the X magnification factor
-    	@param xm the X magnification factor
+    /**	Set the X center in pixel
+    	@param xm the X center in pixel
     
     */
-    public final void setXCenter(int xm)
+    public final void setXCenter(double xm)
     {
         xCenter=xm;
     }
@@ -245,7 +245,7 @@ public class MapCoordinates
     	@param ym the Y magnification factor
     
     */
-    public final void setYCenter(int ym)
+    public final void setYCenter(double ym)
     {
         yCenter=ym;
     }
@@ -326,49 +326,49 @@ public class MapCoordinates
     {
         // The orientation data is not used outside a macro
         if(isMacro){
-            xc-=100.0;
-            yc-=100.0;
+            xc-=100;
+            yc-=100;
                
         	if(mirror) {
             	switch(orientation){
                 	case 0:
-                	    vx=-(double)xc*xMagnitude;
+                	    vx=-((double)xc)*xMagnitude;
              	       	break;
                 	case 1:
-                    	vx=(double)yc*yMagnitude;
+                    	vx=((double)yc)*yMagnitude;
                     	break;
                 
                 	case 2:
-                    	vx=(double)xc*xMagnitude;
+                    	vx=((double)xc)*xMagnitude;
                     	break;
                 
                 	case 3:
-                    	vx=-(double)yc*yMagnitude;
+                    	vx=-((double)yc)*yMagnitude;
                     	break;
     
                 	default:
-                	    vx=-(double)xc*xMagnitude;
+                	    vx=-((double)xc)*xMagnitude;
              	       	break;
             	}
         	} else {
             	switch(orientation){
             	    case 0:
-            	        vx=(double)xc*xMagnitude;
+            	        vx=((double)xc)*xMagnitude;
                 	    break;
                 	case 1:
-                	    vx=-(double)yc*yMagnitude;
+                	    vx=-((double)yc)*yMagnitude;
                		    break;
                 
                 	case 2:
-                	    vx=-(double)xc*xMagnitude;
+                	    vx=-((double)xc)*xMagnitude;
                 	    break;
                 
             	    case 3:
-            	        vx=(double)yc*yMagnitude;
+            	        vx=((double)yc)*yMagnitude;
             	        break;
     
             	    default:
-            	        vx=(double)xc*xMagnitude;
+            	        vx=((double)xc)*xMagnitude;
                 	    break;
     
             	}
@@ -377,8 +377,11 @@ public class MapCoordinates
         } else {
         	vx=(double)xc*xMagnitude;
         }
-        ivx=(int)(vx+0.5+xCenter);   /* The integer cast cuts decimals to the lowest 
+        
+        ivx=(int)Math.round(vx+xCenter);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
+        
+
         if(track) {
         	if(ivx<xMin)
             	xMin=ivx;
@@ -431,7 +434,7 @@ public class MapCoordinates
         	vy=(double)yc*yMagnitude;
         }
         
-        ivy=(int)(vy+.5+yCenter);   /* The integer cast cuts decimals to the lowest 
+        ivy=(int)Math.round(vy+yCenter);   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
         	if(ivy<yMin)

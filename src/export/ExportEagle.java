@@ -280,12 +280,13 @@ public class ExportEagle implements ExportInterface {
 		@param xv coordinate of the shown value
 		@param yv coordinate of the shown value
 		@param font the used font
+		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		Map m)
+		int fontSize, Map m)
 		throws IOException
 	{
 		String mirror ="";

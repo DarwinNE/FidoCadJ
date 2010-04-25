@@ -183,6 +183,12 @@ public class ExportEPS implements ExportInterface {
 		if(isBold)
 			bold="-Bold";
         
+        // It seems that Postscript fonts can not handle spaces. So I substitute
+        // every space with a "-" sign.
+        
+        Map substFont = new HashMap();
+		substFont.put(" ","-");
+		fontname=Globals.substituteBizarreChars(fontname, substFont);
 		out.write("/"+fontname+bold+" findfont\n"+
 			sizey+" scalefont\n"+
 			"setfont\n");       
@@ -203,8 +209,11 @@ public class ExportEPS implements ExportInterface {
 		// ratio.
 		
 		out.write("  "+(sizex/22.0/sizey*40.0)+" 1 scale\n");
-		out.write("  "+c.getRed()/255.0+" "+c.getGreen()/255.0+ " "
-			+c.getBlue()/255.0+	" setrgbcolor\n");
+		
+		checkColorAndWidth(c, 0.33);
+
+		//out.write("  "+c.getRed()/255.0+" "+c.getGreen()/255.0+ " "
+		//	+c.getBlue()/255.0+	" setrgbcolor\n");
 		
 		Map subst = new HashMap();
 		subst.put("(","\\050");
@@ -428,12 +437,13 @@ public class ExportEPS implements ExportInterface {
 		@param xv coordinate of the shown value
 		@param yv coordinate of the shown value
 		@param font the used font
+		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		Map m)
+		int fontSize, Map m)
 		throws IOException
 	{
 		// The macro will be expanded into primitives.
@@ -565,7 +575,9 @@ public class ExportEPS implements ExportInterface {
 		}		
 			// ... then, drill the hole!
 		
-		out.write("1 1 1 setrgbcolor\n");
+		//out.write("1 1 1 setrgbcolor\n");
+		checkColorAndWidth(Color.white, 0.33);
+
 		out.write("newpath\n");
 		out.write(""+x+" "+y+" "+
 					indiam/2.0+ " " +indiam/2.0+ 
