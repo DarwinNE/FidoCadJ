@@ -360,8 +360,8 @@ public class ExportGraphic
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
-		int ox=P.getMapCoordinates().getXCenter();
-		int oy=P.getMapCoordinates().getYCenter();
+		double ox=P.getMapCoordinates().getXCenter();
+		double oy=P.getMapCoordinates().getYCenter();
 		
 		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);

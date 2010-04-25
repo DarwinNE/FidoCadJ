@@ -1,6 +1,6 @@
 README file for FidoCadJ
 
-Copyright 2010 
+Copyright 2007-2010 
 
 by Davide Bucci
 
@@ -58,6 +58,7 @@ rebuild                     do a clean and then runs FidoCadJ
 run                         run FidoCadJ
 src                         contains all the Java source files
 exclude_from_svn			excludes all binary generated files from svn
+sign.sh                     creates the signature for the applet
 
 --------------------------------------------------
 3 - Instruction on how to compile and run FidoCadJ
@@ -90,9 +91,9 @@ will probably stumble in a lot of errors. The Java compiler is complaining
 that there are some Apple-stuff related classes which are not found.
 You need to edit a little the following file:
 
-fidocadj/trunk/src/FidoFrame.java
+fidocadj/trunk/src/FidoMain.java
 
-You should search the following lines (around line 290 and something):
+You should search the following lines (around line 306 and something):
 
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.

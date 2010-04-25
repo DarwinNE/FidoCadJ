@@ -326,6 +326,9 @@ public class FidoFrame extends JFrame implements
         if (runsAsApplication)  {
         	CC.P.loadLibraryDirectory(libDirectory);
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
+        	CC.P.setMacroFont(prefs.get("MACRO_FONT", "Courier New"), 
+        		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
+       
        
         }
         // Check if we are using the english libraries. Basically, since the 
@@ -407,8 +410,7 @@ public class FidoFrame extends JFrame implements
         
         CC.profileTime=false;
         CC.antiAlias=true;
-        CC.setFocusable(true);
-        SC.setFocusable(true);
+
         
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
@@ -687,7 +689,8 @@ public class FidoFrame extends JFrame implements
 
         CC.P.setHasChangedListener(this);
         
-        
+        CC.setFocusable(true);
+        SC.setFocusable(true);     
         if (true){
             /*  Add a window listener to close the application when the frame is
                 closed. This behaviour is platform dependent, for example a 
@@ -1509,7 +1512,8 @@ public class FidoFrame extends JFrame implements
             splitNonStandardMacro_c,
             Globals.lineWidth,
             Globals.lineWidthCircles,
-            Globals.diameterConnection);
+            Globals.diameterConnection,
+            CC.P.getMacroFontSize());
                     
         options.setVisible(true);
         CC.profileTime=options.profileTime;
@@ -1526,7 +1530,7 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_sizex(options.pcbpadwidth_i);
         CC.setPCB_pad_sizey(options.pcbpadheight_i);
         CC.setPCB_pad_drill(options.pcbpadintw_i);
-        CC.P.setMacroFont(options.macroFont);
+        CC.P.setMacroFont(options.macroFont,options.macroSize_i);
         
         extFCJ_s = options.extFCJ_s;
         extFCJ_c = options.extFCJ_c;
@@ -1546,6 +1550,9 @@ public class FidoFrame extends JFrame implements
         
         if (runsAsApplication) {
        	 	prefs.put("DIR_LIBS", libDirectory);
+       	 	prefs.put("MACRO_FONT", CC.P.getMacroFont());
+       	 	prefs.put("MACRO_SIZE", ""+CC.P.getMacroFontSize());
+       	 	
        	 	prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
        	 	prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
        	 	prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);

@@ -107,6 +107,7 @@ public class ParseSchem
     private boolean fastTest;
     
     private String macroFont;
+    private int macroFontSize;
     
     private int oldpx;
     private int oldpy;
@@ -922,14 +923,15 @@ public class ParseSchem
     /** Set the font of all macros.
         @param f the font name
     */
-    public void setMacroFont(String f)
+    public void setMacroFont(String f, int size)
     {
         int i;
         macroFont=f;
+        macroFontSize = size;
 
         for (i=0; i<primitiveVector.size(); ++i){
             if((GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
-            	((PrimitiveMacro)primitiveVector.get(i)).setMacroFont(f);
+            	((PrimitiveMacro)primitiveVector.get(i)).setMacroFont(f, size);
             }
         }
         changed=true;
@@ -950,6 +952,21 @@ public class ParseSchem
 
 
         return macroFont;
+    }
+    
+    /** Get the size of the font used for all macros.
+        @return the font name
+    */
+    public int getMacroFontSize()
+    {        
+        for (int i=0; i<primitiveVector.size(); ++i){
+            if((GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
+            	return ((PrimitiveMacro)primitiveVector.get(i)).getMacroFontSize();
+            }
+        }
+
+
+        return macroFontSize;
     }
     
     /** Copy in the system clipboard all selected primitives.

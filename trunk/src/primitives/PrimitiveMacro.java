@@ -55,8 +55,9 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private boolean selected;
 
 	
-	static final int text_size=3;
+	//static final int text_size=3;
 
+	private int macroFontSize;
 	private String macroName;
 	private String macroDesc;
 	private String macroFont;
@@ -86,6 +87,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		layers=l;
 		drawOnlyPads=false;
 		drawOnlyLayer=-1;
+		macroFontSize = 3;
 		name="";
 		value="";
 		macroFont="Courier New";
@@ -100,7 +102,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	}
 	
 	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
-		 String na, int xa, int ya, String va, int xv, int yv, String macroF)
+		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS)
 		throws IOException
 	{
 		super();
@@ -110,6 +112,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macro=new ParseSchem();
 		macroCoord=new MapCoordinates();
 		changed=true;
+		macroFontSize = macroS;
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -155,9 +158,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 	*/
 	
-	public void setMacroFont(String f)
+	public void setMacroFont(String f, int size)
 	{
 		macroFont = f;
+		macroFontSize = size;
+		
 		changed=true;	
 	}
 	
@@ -171,6 +176,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 	public String getMacroFont()
 	{
 		return macroFont;
+	}
+	
+	public int getMacroFontSize()
+	{
+		return macroFontSize;
 	}
 	
 	private int z;
@@ -207,7 +217,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 
  			// At first, write the name and the value fields in the given positions
  			f = new Font(macroFont,Font.PLAIN,
- 				(int)( text_size*12*coordSys.getYMagnitude()/7+.5));
+ 				(int)( macroFontSize*12*coordSys.getYMagnitude()/7+.5));
  			
 	   		fm = g.getFontMetrics(f);
     		h = fm.getAscent();
@@ -267,8 +277,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.setXMagnitude(coordSys.getXMagnitude());
 			macroCoord.setYMagnitude(coordSys.getYMagnitude());
 		 		
- 			macroCoord.xCenter = coordSys.mapX(x1,y1);
- 			macroCoord.yCenter= coordSys.mapY(x1,y1);
+ 			macroCoord.xCenter = coordSys.getXMagnitude()*x1+coordSys.getXCenter();
+ 			macroCoord.yCenter = coordSys.getYMagnitude()*y1+coordSys.getYCenter();
 			macroCoord.orientation=(o+coordSys.orientation)%4;
 			macroCoord.mirror=m ^ coordSys.mirror;
  			macroCoord.isMacro=true;
@@ -723,10 +733,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		if (!name.equals("") || !value.equals("")) {
 			if(extensions) s+="FCJ\n";
 			s+="TY "+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
-				text_size*4/3+" "+text_size+" "+"0"+" "+"0"+" "+getLayer()
+				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "+getLayer()
 				+" "+subsFont+" "+name+"\n";
 			s+="TY "+virtualPoint[2].x+" "+virtualPoint[2].y+" "+
-				text_size*4/3+" "+text_size+" "+"0"+" "+"0"+" "+getLayer()
+				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "+getLayer()
 				+" "+subsFont+" "+value+"\n";
 		}
 		
@@ -873,7 +883,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		if (exp.exportMacro(virtualPoint[0].x, virtualPoint[0].y, 
 			m, o*90, macroName, macroDesc, name, virtualPoint[1].x, 
 			virtualPoint[1].y, value, virtualPoint[2].x, virtualPoint[2].y, 
-			macroFont, library)) {
+			macroFont, macroFontSize,library)) {
 			alreadyExported = true;
 			return;
 		}
@@ -918,8 +928,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  			if(drawOnlyLayer==getLayer()) {
  				if(!name.equals(""))
  					exp.exportAdvText (cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
-						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), text_size, 
-						(int)( text_size*12/7+.5),
+						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), macroFontSize, 
+						(int)( macroFontSize*12/7+.5),
 						macroFont, 
 						false,
 						false,
@@ -928,8 +938,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 				
 				if(!value.equals(""))
 					exp.exportAdvText (cs.mapX(virtualPoint[2].x,virtualPoint[2].y),
-						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), text_size, 
-						(int)( text_size*12/7+.5),
+						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), macroFontSize, 
+						(int)( macroFontSize*12/7+.5),
 						macroFont, 
 						false,
 						false,

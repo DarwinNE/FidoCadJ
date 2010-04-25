@@ -84,6 +84,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public int pcbpadheight_i;
   	public int pcbpadintw_i;
   	public String macroFont;
+  	public int macroSize_i;
   	
   	
  	private JFrame parent;
@@ -107,6 +108,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JTextField pcbpadheight;
 	private JTextField pcbpadintw;
 	private JTextField connectionSize;
+	private JTextField macroSize;
 	
 	private JTextField stroke_size_straight;
 	private JTextField stroke_size_oval;
@@ -143,7 +145,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   						  int plw, int pw, int ph, int piw, boolean es, 
   						  boolean ec, boolean qq, boolean ex, String mf,
   						  boolean sn, boolean sc, double sssi, double ssoi,
-  						  double ccs)
+  						  double ccs, int ms)
   	{
   		super(pa, Globals.messages.getString("Cir_opt_t"), true);
   		addComponentListener(this);	
@@ -169,6 +171,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   		pcbpadheight_i = ph;
   		pcbpadintw_i = piw;
   		connectionSize_i=ccs;
+  		macroSize_i = ms;
   		
 		stroke_size_straight_i =sssi;
 		stroke_size_oval_i=ssoi;
@@ -274,6 +277,9 @@ public class DialogOptions extends JDialog implements ComponentListener
 					
 					connectionSize_i=Double.parseDouble(
   						connectionSize.getText().trim());
+  					
+  					macroSize_i=Integer.parseInt(macroSize.getText().trim());
+  						
 				} catch (NumberFormatException E) 
 				{
 					// ng will remain equal to -1, which is invalid	 
@@ -613,12 +619,33 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.WEST;
 		drawingOptPanel.add(comboFont, constraints);	// Add primitive font combo
 		
+		JLabel macroSizelbl=new JLabel(Globals.messages.getString(
+			"macroSize"));
+		constraints.weightx=100;
+		constraints.weighty=100;
+		constraints.gridx=0;
+		constraints.gridy=12;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;	
+		constraints.anchor=GridBagConstraints.EAST;
+		drawingOptPanel.add(macroSizelbl, constraints);
+		
+		macroSize=new JTextField(10);
+		macroSize.setText(""+macroSize_i);
+		constraints.gridx=1;
+		constraints.gridy=12;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.anchor=GridBagConstraints.WEST;
+		drawingOptPanel.add(macroSize, constraints);				
+		
+		
 		
 		antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_al"));
 		antiAlias_CB.setSelected(antiAlias);
 		antiAlias_CB.setOpaque(false);
 		constraints.gridx=1;
-		constraints.gridy=12;
+		constraints.gridy=13;
 		constraints.gridwidth=1;
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.WEST;
