@@ -102,6 +102,8 @@ public class Arrow {
  		else
  			g.drawPolygon(p);
  			
+ 		// Check if we need to draw the limiter or not
+ 		// This is a small line useful for quotes.
  		if ((style & flagLimiter) != 0) {
  			double x3;
 			double y3;

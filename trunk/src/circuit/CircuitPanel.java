@@ -558,6 +558,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     }
 
+	/** Here we analyze and handle the mouse click. The behaviour is 
+		different depending on which selection state we are.
+	
+	*/
     private void handleClick(MouseEvent evt)
     {
         int x = evt.getX();
@@ -601,13 +605,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     P.deselectAll();
             }
                 
+            // Calculate a reasonable tolerance. If it is too small, we ensure
+            // that it is rounded up to 2.
             
             int toll= sc.unmapXnosnap(x+SEL_TOLERANCE)-
                               sc.unmapXnosnap(x);
             
             if (toll<2) toll=2;
             
-                             
+            // Select primitives if needed.                
             if(Globals.useMetaForMultipleSelection) {
                 P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
                             toll ,evt.isMetaDown());
@@ -634,6 +640,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             else
                 z=z*2.0/3.0;
             
+            // Checking that reasonable limits are not exceeded.
             if(z>20) z=20;
             if(z<.25) z=.25;
             
@@ -650,6 +657,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             
+            // Add a connection primitive at the given point.
             P.addPrimitive(new PrimitiveConnection(sc.unmapXsnap(x),
                                         sc.unmapYsnap(y), currentLayer), true);
                     
@@ -662,6 +670,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
+            // Add a PCB pad primitive at the given point
             P.addPrimitive(new PrimitivePCBPad(sc.unmapXsnap(x),
                                   sc.unmapYsnap(y), 
                                   PCB_pad_sizex,
@@ -679,7 +688,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
-            
+         
             ++ clickNumber;
             if (evt.getClickCount() >= 2) {
                 clickNumber = 0;
@@ -701,6 +710,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             xpoly[clickNumber] = sc.unmapXsnap(x);
             ypoly[clickNumber] = sc.unmapYsnap(y);
             if (clickNumber == 2) {
+            	// Here we know the two points needed for creating
+            	// the line. The object is thus added to the database.
                 P.addPrimitive(new PrimitiveLine(xpoly[1],
                                                          ypoly[1],
                                                          xpoly[2],
