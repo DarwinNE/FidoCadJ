@@ -488,9 +488,7 @@ public class ParseSchem
     public StringBuffer getText(boolean extensions)
     {
         int i;
-        StringBuffer s=new StringBuffer();
-        
-        
+        StringBuffer s=RegisterConfiguration(extensions);	
         for (i=0; i<primitiveVector.size(); ++i){
             s.append(new StringBuffer(
                 ((GraphicPrimitive)primitiveVector.get(i)).toString(
@@ -502,6 +500,25 @@ public class ParseSchem
         return s;
     }
     
+    /** If it is needed, provides all the configurations settings at
+    	the beginning of the FidoCadJ file.
+    	@param extensions it is true when FidoCadJ should export using 
+    	    its extensions.
+    
+    */
+    private StringBuffer RegisterConfiguration(boolean extensions)
+    {
+    	StringBuffer s = new StringBuffer();
+        // Here is the beginning of the output. We can eventually provide
+        // some hints about the configuration of the software (if needed).
+        if(extensions && Globals.diameterConnectionDefault !=
+        	Globals.diameterConnection) {
+        	
+        	s.append("FJC C "+Globals.diameterConnection+"\n");
+        }
+        
+        return s;
+    }
     
     /** Get the maximum layer which contains something. This value is updated
     	after a redraw. This is tracked for efficiency reasons.
@@ -977,6 +994,8 @@ public class ParseSchem
     {
         int i;
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
+        
+        s.append(RegisterConfiguration(extensions));
         
         for (i=0; i<primitiveVector.size(); ++i){
             if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
@@ -1618,6 +1637,7 @@ public class ParseSchem
         String[] old_tokens=new String[MAX_TOKENS];
         String[] name=new String[MAX_TOKENS];
         String[] value=new String[MAX_TOKENS];
+        double newConnectionSize = -1.0;
 		
 		int vn=0, vv=0;
         int old_j=0;
@@ -1714,7 +1734,16 @@ public class ParseSchem
                 	        addPrimitive(g,false);
                     	}
                     	hasFCJ=false;
-                    }if(tokens[0].equals("LI")) {
+                    } else if(tokens[0].equals("FJC")) {
+                    	// FidoCadJ Configuration
+                    	if(tokens[1].equals("C")) {
+                    		// Connection size
+                   			newConnectionSize = 
+                   				Double.parseDouble(tokens[2]);
+                    	
+                    	}
+                    	
+                    } else if(tokens[0].equals("LI")) {
                         // Save the tokenized line.
                         // We cannot create the macro until we parse the 
                         // following line (which can be FCJ)
@@ -1848,6 +1877,7 @@ public class ParseSchem
             
         }
         
+       
         try{
         	registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
         		selectNew);
@@ -1859,6 +1889,11 @@ public class ParseSchem
                                      +lineNum);
         }
         
+        // If the schematics has some configuration informations, we need
+        // to set them up.
+        if (newConnectionSize>0) {
+        	Globals.diameterConnection=newConnectionSize;
+        }
         sortPrimitiveLayers();
         
     }

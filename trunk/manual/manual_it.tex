@@ -56,7 +56,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ il manuale dell'utente} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.3 \\ il manuale dell'utente} 
 
 
 \author{Davide Bucci\\[3em]
@@ -116,6 +116,8 @@ Questo documento è il manuale utente di FidoCadJ. Dopo una breve presentazione d
 \pdfbookmark[1]{Ringraziamenti}{Ringraziamenti}
 
 Molte persone hanno utilizzato il programma (o una delle sue versioni preliminari) e mi hanno fatto avere le loro impressioni. Ringrazio quindi i frequentatori del newsgroup\index{newsgroup} it.hobby.elettronica\index{it.hobby.elettronica} per i loro consigli. Il programma è stato pazientemente testato sotto Linux da  Stefano Martini, che è stato un infaticabile scovatore di bug. Inoltre, ringrazio, Olaf Marzocchi ed Emanuele Baggetta per i test funzionali sotto MacOSX\index{MacOSX}. Ringrazio F. Bertolazzi di non darmi tregua fino a che FidoCadJ non sarà un minimo decente e di aver lavorato per la libreria CadSoft Eagle\index{Eagle}, utile per esportare i file verso questo programma.  Ringrazio Celsius per le prove effettuate su FidoCadJ e sulla libreria PCB\index{PCB} ed Andrea D'Amore per i consigli su come migliorare l'aspetto del programma su Apple Macintosh, a partire dalla versione 0.21.1. Un grazie particolare a Roby IZ1CYN per le discussioni sulle librerie e per aver scritto il paragrafo \ref{installazione_linux} di questo manuale, relativo all'installazione sotto Linux\index{linux} di FidoCadJ. Un grazie anche a Pasu, che si è preso la briga di tradurre in inglese tutto questo manuale e che ha corretto diversi refusi che avevo fatto traducendo l'interfaccia di FidoCadJ in questa lingua. Gli utenti Macintosh possono contare sul buon aspetto di FidoCadJ grazie al look and feel Quaqua\index{Quaqua}, frutto del lavoro di Werner Randelshofer. Werner ha anche fornito molti consigli sull'organizzazione dell'interfaccia utente di FidoCadJ: grazie!
+
+Nell'aprile 2010, FidoCadJ è stato integrato all'interno del sito \href{www.electroportal.it}{www.electroportal.it}. Ringrazio l'admin ed il webmaster e tanti utilizzatori per avermi fornito degli ottimi spunti per adattare FidoCadJ a girare in batch per convertire gli schemi sul loro server: è stata aperta una via molto interessante e promettente.
 
 
 \chapter*{FidoCadJ License}
@@ -747,6 +749,64 @@ java -jar fidocadj.jar ~/FidoCadJ/test.fcd
 \end{lstlisting}
 
 FidoCadJ verrà avviato e cercherà di aprire il file \lstinline!~/FidoCadJ/test.fcd! (sempreché questi esista).
+Esistono però altre cose interessanti che FidoCadJ può fare. L'opzione  \lstinline!-h! mostra un elenco delle possibilità a disposizione dell'utente:
+\lstset{language=plain,
+	basicstyle=\tiny\ttfamily}
+
+\begin{lstlisting}
+[davidebucci@Darwin]$ java -jar fidocadj.jar -h
+
+This is FidoCadJ, version 0.23.3 epsilon.
+By Davide Bucci, 2007-2010.
+
+Use: java -jar fidocadj.jar [-options] [file] 
+where options include:
+
+ -n     Does not start the graphical user interface
+
+ -d     Set the extern library directory
+        Usage: -d dir
+        where 'dir' is the directory you want to specify.
+
+ -c     Convert the given file to a graphical format.
+        Usage: -d sx sy [eps|pdf|svg|png|jpg|fcd|sch] outfile
+        If you use this command line option, you *must* specify a FidoCad file to convert.
+        An alternative is to specify the resolution in pixels per logical unit by
+        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.
+
+ -s     Print the size in logical coordinates of the specified file.
+
+ -h     Print this help. and exit.
+
+ [file] This is the optional (except if you use the -d or -s options) FidoCad file to load at
+        startup time.
+
+Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.
+java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+
+Example: load and convert a FidoCad drawing to a png file without using the GUI.
+         Each FidoCadJ logical unit will be converted in 2 pixels on the image.
+java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+
+
+[davidebucci@Darwin]$ 
+\end{lstlisting}
+L'opzione più semplice è \lstinline!-n! (meno enne), con cui il programma\dots non fa nulla, ovvero non fa partire un'interfaccia utente e non fa di sua sponte niente di interessante.
+Ovviamente, l'opzione \lstinline!-n! non serve a molto da sola, ma è interessante combinata con altre che vedremo tra un poco.
+
+L'opzione \lstinline!-d! permette di specificare una directory dove pescare delle librerie aggiuntive e, da ultima, l'opzione \lstinline!-c! permette di convertire un file FidoCad in un formato grafico a scelta fra quelli disponibili. Si tratta quindi dell'opzione che ci interessa maggiormente, soprattutto se utilizzata congiuntamente all'opzione \lstinline!-n!, che evita al programma di far partire un'interfaccia utente grafica.
+Prendiamo l'esempio riportato nell'help:
+
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c 800 600 png out.png test.fcd
+\end{lstlisting}
+
+Il programma viene lanciato senza che l'interfaccia grafica venga mai attivata, esportando in png il file test.fcd. Il file prodotto sarà \lstinline!out.png! ed avrà una dimensione di 800 per 600 pixel.
+
+C'è una versione alternativa dell'opzione \lstinline!-c! che permette di specificare in quanti pixel dev'essere convertita una unità logica. Dato che FidoCadJ non tratta con mezze unità, scegliere un paio di pixel per unità è un modo sicuro per cui gli schemi saranno sempre leggibili (anche se in alcuni casi un po' troppo piccoli). Fattori di conversione non interi sono possibili.
+
+Per conoscere la dimensione in unità logiche di uno schema, basta usare l'opzione \lstinline!-s!. Bisogna ricordarsi però che FidoCadJ inserisce un margine di 20 pixel rispetto alle dimensioni calcolate a partire dalla risoluzione in pixel per unità logiche e la dimensione del disegno in unità logiche.
+
 
 Un'altra possibilità interessante, sebbene a stretto rigore sia più una caratteristica di Java\index{Java} che di FidoCadJ, è la possibilità di modificare l'aspetto del programma (che in gergo Java si chiama look \& feel\index{look \& feel}).
 
@@ -770,6 +830,8 @@ java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fido
 \label{fig_fidocadj_motif}
 \end{figure}
 Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella stessa directory in cui si trova il file \lstinline!fidocad.jar! e scrivendo tutto di seguito sulla stessa riga.
+\lstset{language=FIDOCAD,
+	basicstyle=\tiny\ttfamily}
 
 
 \section{Gestione librerie}

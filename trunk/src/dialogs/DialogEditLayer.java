@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.colorchooser.*;
 
+
 import globals.*;
 import layers.*;
 
@@ -58,11 +59,14 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     
     private static final int MIN_WIDTH=500;
     private static final int MIN_HEIGHT=450;
+    static final int ALPHA_MIN = 0;
+	static final int ALPHA_MAX = 100;
     
     private JButton color;  
     private JColorChooser tcc;
     private JCheckBox visibility;
     private JTextField description;
+    private JSlider opacity;
     private boolean active;             // true if the user selected ok
 
     public void componentResized(ComponentEvent e) 
@@ -113,27 +117,8 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         GridBagConstraints constraints=new GridBagConstraints();
         contentPane.setLayout(bgl);
         constraints.insets.right=30;
-/*
-        JLabel empty=new JLabel("  ");
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=0;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        contentPane.add(empty, constraints);            // Add "   " label
 
-        
-        JLabel empty1=new JLabel("  ");
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=3;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        contentPane.add(empty1, constraints);           // Add "   " label
-        */
-        
+       
         tcc = new JColorChooser(l.getColor());
         
         constraints.weightx=100;
@@ -155,7 +140,6 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.gridwidth=1;
         constraints.gridheight=1;   
         constraints.insets=new Insets(0,20,0,0);
-        constraints.anchor=GridBagConstraints.WEST;
         constraints.anchor=GridBagConstraints.EAST;     
         contentPane.add(descrLabel, constraints);
         
@@ -171,13 +155,49 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.WEST;     
         contentPane.add(description, constraints);
+
+
+        JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
+		constraints.weightx=100;
+        constraints.weighty=0;
+        constraints.gridx=1;
+        constraints.gridy=3;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;   
+        constraints.fill=GridBagConstraints.NONE;
+        constraints.anchor=GridBagConstraints.EAST;
+        contentPane.add(opacityLbl, constraints);
+        
+        
+        opacity = new JSlider(JSlider.HORIZONTAL,
+                                      ALPHA_MIN, ALPHA_MAX, 
+                                      Math.round(l.getAlpha()*100.0f));
+		//opacity.addChangeListener(this);
+
+
+
+		//Turn on labels at major tick marks.
+		opacity.setMajorTickSpacing(10);
+		opacity.setMinorTickSpacing(1);
+		opacity.setPaintTicks(true);
+		opacity.setPaintLabels(true);
+
+		constraints.weightx=100;
+        constraints.weighty=0;
+        constraints.gridx=2;
+        constraints.gridy=3;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;   
+        constraints.fill=GridBagConstraints.HORIZONTAL;
+        constraints.anchor=GridBagConstraints.WEST;
+        contentPane.add(opacity, constraints);
         
         visibility=new JCheckBox(Globals.messages.getString("IsVisible"));
         visibility.setSelected(l.getVisible());
         constraints.weightx=100;
         constraints.weighty=0;
         constraints.gridx=2;
-        constraints.gridy=3;
+        constraints.gridy=4;
         constraints.gridwidth=1;
         constraints.gridheight=1;   
         constraints.anchor=GridBagConstraints.WEST;
@@ -194,7 +214,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.weightx=100;
         constraints.weighty=0;
         constraints.gridx=0;
-        constraints.gridy=4;
+        constraints.gridy=5;
         constraints.gridwidth=3;
         constraints.gridheight=1;   
         constraints.insets=new Insets(0,20,20,20);
@@ -249,6 +269,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         l.setVisible(visibility.isSelected());
         l.setDescription(description.getText());
         l.setColor(tcc.getColor());
+        l.setAlpha(opacity.getValue()/100.0f);
         
         return l;
     }

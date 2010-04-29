@@ -94,22 +94,22 @@ public class FidoReadApplet extends JApplet
 			// Create the layer array
 		ArrayList LayerDesc=new ArrayList();
         
-        LayerDesc.add(new LayerDesc(Color.black, true,""));
-        LayerDesc.add(new LayerDesc(new Color(0,0,128),true,""));
-        LayerDesc.add(new LayerDesc(Color.red, true,""));
-        LayerDesc.add(new LayerDesc(new Color(0,128,128), true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
-        LayerDesc.add(new LayerDesc(Color.orange, true,""));
+        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(new Color(0,0,128),true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.red, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(new Color(0,128,128), true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
+        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
         
         return LayerDesc;
 	}

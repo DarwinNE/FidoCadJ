@@ -419,37 +419,37 @@ public class FidoFrame extends JFrame implements
         ArrayList LayerDesc=new ArrayList();
         
         LayerDesc.add(new LayerDesc(Color.black, true, 
-            Globals.messages.getString("Circuit_l")));
+            Globals.messages.getString("Circuit_l"),1.0f));
         LayerDesc.add(new LayerDesc(new Color(0,0,128),true, 
-            Globals.messages.getString("Bottom_copper")));
+            Globals.messages.getString("Bottom_copper"),1.0f));
         LayerDesc.add(new LayerDesc(Color.red, true, 
-            Globals.messages.getString("Top_copper")));
+            Globals.messages.getString("Top_copper"),0.5f));
         LayerDesc.add(new LayerDesc(new Color(0,128,128), true, 
-            Globals.messages.getString("Silkscreen")));
+            Globals.messages.getString("Silkscreen"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_1")));
+            Globals.messages.getString("Other_1"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_2")));
+            Globals.messages.getString("Other_2"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_3")));
+            Globals.messages.getString("Other_3"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_4")));
+            Globals.messages.getString("Other_4"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_5")));
+            Globals.messages.getString("Other_5"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_6")));
+            Globals.messages.getString("Other_6"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_7")));
+            Globals.messages.getString("Other_7"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_8")));
+            Globals.messages.getString("Other_8"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_9")));
+            Globals.messages.getString("Other_9"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_10")));
-        LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_11")));
-        LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_12")));
+            Globals.messages.getString("Other_10"),1.0f));
+        LayerDesc.add(new LayerDesc(Color.black, true, 
+            Globals.messages.getString("Other_11"),1.0f));
+        LayerDesc.add(new LayerDesc(Color.black, true, 
+            Globals.messages.getString("Other_12"),1.0f));
         CC.P.setLayers(LayerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
@@ -788,7 +788,7 @@ public class FidoFrame extends JFrame implements
                         for (int i=0; i<16;++i)
                             v.add(new LayerDesc(Color.black, 
                                 ((LayerDesc)ol.get(i)).getVisible(),
-                                "B/W"));
+                                "B/W",1.0f));
             
                         CC.P.setLayers(v);
                     }
