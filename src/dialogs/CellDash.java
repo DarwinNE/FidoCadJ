@@ -51,7 +51,9 @@ public class CellDash extends JPanel
     
     public void paintComponent(Graphics g)
     {
-        
+    	
+    	// Show the dashing styles in a list.
+    	
         g.setColor(isSelected ? list.getSelectionBackground(): 
                                 list.getBackground());
                                 

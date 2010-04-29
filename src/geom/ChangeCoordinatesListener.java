@@ -28,7 +28,15 @@ package geom;
 */
 
 public interface ChangeCoordinatesListener {
+	/** Callback when the coordinates are changed.
+		@param x the x coordinate of the mouse pointer
+		@param y the y coordinate of the mouse pointer
+	*/
 	public void changeCoordinates(int x, int y);
+	
+	/** Callback useful when some infos are to be shown.
+	
+	*/
     public void changeInfos(String s);
 
 }
