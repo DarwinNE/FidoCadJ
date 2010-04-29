@@ -31,14 +31,14 @@ Version   Date           	Author      Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
 
 	</pre>
 
    The class layerDesc provides a complete description of each layer.
 
 	@author Davide Bucci
-	@version 1.1 June 2009
+	@version 1.2 April 2010
 	
 	*/
 	
@@ -47,6 +47,7 @@ public class LayerDesc
   	private Color layerColor;
   	private boolean isVisible;
   	private String LayerDescription;
+  	private float alpha;
   	
   	/** Standard constructor: obtain a visible layer with a black color and no 
   		description.
@@ -67,11 +68,12 @@ public class LayerDesc
   		@param d the layer description
   	*/
   	
-  	public LayerDesc(Color c, boolean v, String d)
+  	public LayerDesc(Color c, boolean v, String d, float a)
   	{
   		layerColor=c;
   		isVisible=v;
   		LayerDescription=d;
+  		alpha = a;
   	
   	}
   	/** This method allows to obtain the color in which this layer should be
@@ -82,6 +84,16 @@ public class LayerDesc
   	final public Color getColor()
   	{
   		return layerColor;
+  	}
+
+  	/** This method allows to obtain the alpha channel of the current layer.
+  		
+  		@return the alpha blend 
+  	*/
+  	
+  	final public float getAlpha()
+  	{
+  		return alpha;
   	}
   	
   	
@@ -130,5 +142,14 @@ public class LayerDesc
   	final public void setColor(Color c)
   	{
   		layerColor=c;
+  	}
+  	
+  	 /** This method allows to set the alpha blend.
+  		
+  		@param a the alpha blend
+  	*/
+  	final public void setAlpha(float a)
+  	{
+  		alpha=a;
   	}
 }

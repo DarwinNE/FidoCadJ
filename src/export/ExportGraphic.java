@@ -190,7 +190,7 @@ public class ExportGraphic
 			for (int i=0; i<16;++i)
 				v.add(new LayerDesc(Color.black, 
 					((LayerDesc)ol.get(i)).getVisible(),
-					"B/W"));
+					"B/W",1.0f));
 			
 			P.setLayers(v);
 		}

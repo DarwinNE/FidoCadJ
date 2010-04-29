@@ -230,12 +230,16 @@ public abstract class GraphicPrimitive
 		l= (LayerDesc)layerV.get(layer);
 		if (!l.getVisible())
 			return false;
+		float alpha=1.0f;
 			
-		if(selectedState)
+		if(selectedState) {
 			g.setColor(Color.green);
-		else
+		} else {
 			g.setColor(l.getColor());
-			
+			alpha=l.getAlpha();
+		}	
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
 		return true;
 	}
 	

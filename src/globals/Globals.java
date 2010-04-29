@@ -73,11 +73,14 @@ public class Globals
     public static double lineWidthCircles = 0.35;  
   															
     // Connection size in FidoCadJ coordinates (diameter)
-    public static double diameterConnection = 1.5;  
+    
+    public static final double diameterConnectionDefault = 2.0;
+    public static double diameterConnection = diameterConnectionDefault; 
+    
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.23.3 epsilon";    	// version
+    public static final String version = "0.23.3 zeta";    	// version
     public static final boolean isBeta = true;		// is it a beta version?
     
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
