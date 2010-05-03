@@ -270,6 +270,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         l.setDescription(description.getText());
         l.setColor(tcc.getColor());
         l.setAlpha(opacity.getValue()/100.0f);
+        l.setModified(true);
         
         return l;
     }

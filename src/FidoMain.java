@@ -166,9 +166,12 @@ class FidoMain {
         	}
         	
             // Reads the standard libraries
+            /*
         	P.loadLibraryInJar(FidoMain.class.getResource("lib/IHRAM.FCL"), "ihram");
  			P.loadLibraryInJar(FidoMain.class.getResource("lib/FCDstdlib.fcl"), "");
  			P.loadLibraryInJar(FidoMain.class.getResource("lib/PCB_en.fcl"), "pcb");
+        	*/
+        	readLibraries(P, false, libDirectory);
         	
         	StringBuffer txt=new StringBuffer();    
 
@@ -331,7 +334,10 @@ class FidoMain {
 		}
     }
     
+    /** Print a short summary of each option available for launching
+    	FidoCadJ.
     
+    */
     static private void  showCommandLineHelp()
     {
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
@@ -368,4 +374,50 @@ class FidoMain {
     	System.out.println(help);
     }
 
+	/** Read the libraries, eventually by inspecting the directory specified
+		by the user. There are three standard directories: IHRAM.FCL, 
+		FCDstdlib.fcl and PCB.fcl. If those files are found in the external 
+		directory specified, the internal version is not loaded. Other files
+		on the external directory are loaded.
+		
+		@param P the parsing class in which the libraries should be loaded
+		@param englishLibraries a flag to specify if the internal libraries 
+			should be loaded in English or in Italian.
+		@param libDirectory the path of the external directory.
+		
+	
+	*/
+	public static void readLibraries(ParseSchem P, boolean englishLibraries, String libDirectory)
+	{
+	    if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
+            if(englishLibraries)
+                P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+            else
+                P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+           
+        } else
+            System.out.println("IHRAM library got from external file");
+       	
+       	if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
+           
+       	  	if(englishLibraries)
+           		P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+           	else
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+        } else 
+           	System.out.println("Standard library got from external file");
+        
+        if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
+           	if(englishLibraries)
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+           	else
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+          
+        } else
+           	System.out.println("Standard PCB library got from external file");
+            
+        
+	}
+	
+	
 }

@@ -46,6 +46,7 @@ public class LayerDesc
 {
   	private Color layerColor;
   	private boolean isVisible;
+  	private boolean isModified;
   	private String LayerDescription;
   	private float alpha;
   	
@@ -105,6 +106,16 @@ public class LayerDesc
   	{
   		return isVisible;
   	}
+
+  	/** This method returns true if this layer has been modified
+  		
+  		@return a boolean value indicating that the layer has been modified
+  	*/
+  	final public boolean getModified()
+  	{
+  		return isModified;
+  	}
+
   	
   	/** This method allows to obtain the color in which this layer should be
   		drawn.
@@ -135,6 +146,15 @@ public class LayerDesc
   		isVisible=v;
   	}
   	
+   	/** This method allows to indicate that the layer has been modified.
+  		
+  		@param true if the layer should be considered as modified
+  	*/
+  	final public void setModified(boolean v)
+  	{
+  		isModified=v;
+  	}
+  
   	/** This method allows to set the layer color.
   		
   		@param c the layer color
