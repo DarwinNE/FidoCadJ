@@ -339,49 +339,18 @@ public class FidoFrame extends JFrame implements
         boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
         
         if(runsAsApplication) {
-        	if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
-        	    if(englishLibraries)
-        	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-        	    else
-        	        CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-            
-        	} else
-        	    System.out.println("IHRAM library got from external file");
-       	 	if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
-            
-       	    	 if(englishLibraries)
-             		CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-            	else
-                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-        	} else 
-            	System.out.println("Standard library got from external file");
-        	if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
-            	if(englishLibraries)
-                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
-            	else
-                	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
-           
-        	} else
-            	System.out.println("Standard PCB library got from external file");
-        	if(true) {
-            	double elapsed=mt.getElapsed();
-            
-            	if (Globals.isBeta) 
-                	System.out.println("Library load time elapsed: " + elapsed+" ms");
-            
-        	} 
+    		FidoMain.readLibraries(CC.P, englishLibraries, libDirectory);    	
         } else {
         	if(englishLibraries) {
         	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
         	} else {
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
- 
-        	}
-        }
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+      		}
+ 		}
         
 
         CC.setPreferredSize(new Dimension(1000,1000));
@@ -423,7 +392,7 @@ public class FidoFrame extends JFrame implements
         LayerDesc.add(new LayerDesc(new Color(0,0,128),true, 
             Globals.messages.getString("Bottom_copper"),1.0f));
         LayerDesc.add(new LayerDesc(Color.red, true, 
-            Globals.messages.getString("Top_copper"),0.5f));
+            Globals.messages.getString("Top_copper"),1.0f));
         LayerDesc.add(new LayerDesc(new Color(0,128,128), true, 
             Globals.messages.getString("Silkscreen"),1.0f));
         LayerDesc.add(new LayerDesc(Color.orange, true, 

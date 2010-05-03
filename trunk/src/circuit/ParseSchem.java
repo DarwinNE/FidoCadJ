@@ -517,6 +517,19 @@ public class ParseSchem
         	s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
+        if(extensions) {
+        	for(int i=0; i<layerV.size();++i) {
+        		LayerDesc l = (LayerDesc)layerV.get(i);
+        		
+        		if (l.getModified()) {
+        			int rgb=l.getColor().getRGB();
+        			float alpha=l.getAlpha();
+        			s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
+        		}
+        	}
+        
+        }
+        
         return s;
     }
     
@@ -1736,11 +1749,25 @@ public class ParseSchem
                     	hasFCJ=false;
                     } else if(tokens[0].equals("FJC")) {
                     	// FidoCadJ Configuration
+                    
                     	if(tokens[1].equals("C")) {
                     		// Connection size
                    			newConnectionSize = 
                    				Double.parseDouble(tokens[2]);
                     	
+                    	} else if(tokens[1].equals("L")) {
+                    		// Layer configuration
+                    		int layerNum = Integer.parseInt(tokens[2]);
+                    		if (layerNum>=0&&layerNum<layerV.size()){
+                    			int rgb=Integer.parseInt(tokens[3]);
+                    			float alpha=Float.parseFloat(tokens[4]);
+                    			LayerDesc l=(LayerDesc)(layerV.get(layerNum));
+                    			l.setColor(new Color(rgb));
+                    			l.setAlpha(alpha);
+                    			l.setModified(true);
+                    				
+                    		}
+                    			
                     	}
                     	
                     } else if(tokens[0].equals("LI")) {
