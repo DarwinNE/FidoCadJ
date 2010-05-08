@@ -66,8 +66,8 @@ Version   Date           Author       Remarks
 public class MapCoordinates
 {
 	// Every member should be made private sooner or later...
-    public double xCenter;
-    public double yCenter;
+    private double xCenter;
+    private double yCenter;
     private double xMagnitude;
     private double yMagnitude;
     public int orientation;
@@ -97,8 +97,8 @@ public class MapCoordinates
     /** Standard constructor */
     public MapCoordinates()
     {   
-        xCenter=0;
-        yCenter=0;
+        xCenter=0.0;
+        yCenter=0.0;
         xMagnitude=1.0;
         yMagnitude=1.0;
         orientation=0;
@@ -415,8 +415,8 @@ public class MapCoordinates
     {
         
         if(isMacro){
-            xc-=100.0;
-            yc-=100.0;
+            xc-=100;
+            yc-=100;
         	      
         	switch(orientation){
         	

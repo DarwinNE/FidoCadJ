@@ -468,8 +468,8 @@ public class ExportGraphic
 			
 		
 		newZoom.setMagnitudes(z,z);
-		newZoom.xCenter=-(int)(org.x*z);
-		newZoom.yCenter=-(int)(org.y*z);
+		newZoom.setXCenter(-(org.x*z));
+		newZoom.setYCenter(-(org.y*z));
 		
 		P.getMapCoordinates().setMagnitudes(oldZoom, oldZoom);
 		

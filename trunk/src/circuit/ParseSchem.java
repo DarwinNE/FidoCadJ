@@ -156,8 +156,8 @@ public class ParseSchem
         
         // Setup the standard view settings:
         // top left corner, 400% zoom. 
-        cs.xCenter=0;
-        cs.yCenter=0;
+        cs.setXCenter(0.0);
+        cs.setYCenter(0.0);
         cs.setXMagnitude(4.0);	
         cs.setXMagnitude(4.0);	
         cs.setOrientation(0);
@@ -2028,8 +2028,8 @@ public class ParseSchem
     	mp.setXMagnitude(1);
 		mp.setYMagnitude(1);
 
- 		mp.xCenter = cs.xCenter;
- 		mp.yCenter= cs.yCenter;
+ 		mp.setXCenter(cs.getXCenter());
+ 		mp.setYCenter(cs.getYCenter());
 		mp.orientation=cs.orientation;
 		mp.mirror=cs.mirror;
  		mp.isMacro=cs.isMacro;
