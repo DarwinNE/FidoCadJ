@@ -101,8 +101,28 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroStore(layers);
 	}
 	
+	/** Constructor
+	
+		@param lib the library to be inherited
+		@param l the list of layers
+		@param x the x coordinate of the control point of the macro
+		@param y the y coordinate of the control point of the macro
+		@param key the key to be used to uniquely identify the macro (it will 
+			be converted to lowercase)
+		@param na the name to be shown
+		@param xa the x coordinate of the name of the macro
+		@param ya the y coordinate of the name of the macro
+		@param va the value to be shown
+		@param xv the x coordinate of the value of the macro
+		@param yv the y coordinate of the value of the macro
+		@param macroF the font to be used for the name and the value of the 
+			macro
+		@param macroS the size of the font
+		@param o the macro orientation
+	*/	
 	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
-		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS)
+		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS,
+		 int oo)
 		throws IOException
 	{
 		super();
@@ -113,6 +133,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroCoord=new MapCoordinates();
 		changed=true;
 		macroFontSize = macroS;
+		
+		o=oo;
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -896,8 +918,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		MapCoordinates macroCoord=new MapCoordinates();
  			
  			
- 		macroCoord.setXMagnitude(1);
-		macroCoord.setYMagnitude(1);
+ 		macroCoord.setXMagnitude(1.0);
+		macroCoord.setYMagnitude(1.0);
 
  		macroCoord.xCenter = cs.mapX(x1,y1);
  		macroCoord.yCenter= cs.mapY(x1,y1);

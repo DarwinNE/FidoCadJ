@@ -913,7 +913,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
                     P.getMacroFont(),
-                    P.getMacroFontSize()), true);
+                    P.getMacroFontSize(), 0), true);
                 successiveMove=false;
                     
             } catch (IOException G) {
@@ -996,7 +996,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         	cs.unmapYsnap(oldy)+5, "", cs.unmapXsnap(oldx)+10,
                         	cs.unmapYsnap(oldy)+10,
                        	 	P.getMacroFont(),
-                    		P.getMacroFontSize());
+                    		P.getMacroFontSize(), 0);
                         //paintComponent(g);
                         n.setDrawOnlyLayer(-1);
                         n.drawFast(g2d, cs, P.getLayers());
@@ -1014,7 +1014,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
                     P.getMacroFont(),
-                    P.getMacroFontSize());
+                    P.getMacroFontSize(), 0);
                 //paintComponent(g);
                         n.setDrawOnlyLayer(-1);
 
