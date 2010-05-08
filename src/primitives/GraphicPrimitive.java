@@ -237,8 +237,9 @@ public abstract class GraphicPrimitive
 		} else {
 			g.setColor(l.getColor());
 			alpha=l.getAlpha();
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		}	
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		
 
 		return true;
 	}

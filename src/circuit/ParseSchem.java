@@ -154,11 +154,13 @@ public class ParseSchem
         cl=null;
         macroFont = "Courier New";
         
+        // Setup the standard view settings:
+        // top left corner, 400% zoom. 
         cs.xCenter=0;
         cs.yCenter=0;
-        cs.setXMagnitude(4.0);	// OK
-        cs.setXMagnitude(4.0);	// OK
-        cs.orientation=0;
+        cs.setXMagnitude(4.0);	
+        cs.setXMagnitude(4.0);	
+        cs.setOrientation(0);
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         changed=true;
     }

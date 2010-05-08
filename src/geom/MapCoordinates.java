@@ -251,14 +251,23 @@ public class MapCoordinates
     }
     
     /**	Get the orientation
-    	@return ym the Y magnification factor
+    	@return the orientation
     
     */
     public final int getOrientation()
     {
         return orientation;
     }
+
+    /**	Set the orientation
+    	@param o the wanted orientation
     
+    */
+    public final void setOrientation(int o)
+    {
+        orientation = o;
+    }
+       
     /**	Set both X and Y magnification factors
     	@param xm the X magnification factor
     	@param ym the Y magnification factor
