@@ -960,16 +960,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Graphics2D g2d = (Graphics2D)g;
 
         //Globals.doNotUseXOR
-        if(false && successiveMove)
-            paintComponent(g);
-            
-        
-        //Globals.doNotUseXOR
         if (!false) g.setXORMode(editingColor);
-        
-        //Globals.doNotUseXOR
-        if(false) 
-            g.setColor(Color.green);
         
         
         /*  MACRO ***********************************************************
@@ -997,7 +988,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         	cs.unmapYsnap(oldy)+10,
                        	 	P.getMacroFont(),
                     		P.getMacroFontSize(), 0);
-                        //paintComponent(g);
                         n.setDrawOnlyLayer(-1);
                         n.drawFast(g2d, cs, P.getLayers());
 
@@ -1015,21 +1005,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     cs.unmapYsnap(y)+10,
                     P.getMacroFont(),
                     P.getMacroFontSize(), 0);
-                //paintComponent(g);
-                        n.setDrawOnlyLayer(-1);
+                n.setDrawOnlyLayer(-1);
 
-                    n.drawFast(g2d, cs, P.getLayers());
+                n.drawFast(g2d, cs, P.getLayers());
                 successiveMove=true;
 
             } catch (IOException E) {
                 // Here we do not do nothing.
             }
-            
-            
-        /*          g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
-               Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
-               Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
-               Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));*/
+
+           
         }    
 
         

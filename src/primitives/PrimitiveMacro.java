@@ -42,7 +42,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 {
 
 	static final int N_POINTS=3;
-	//private Map<String, String> library;
 	private Map library;
 	private ArrayList layers;
 	private int o;
@@ -53,9 +52,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private ParseSchem macro;
 	private MapCoordinates macroCoord;
 	private boolean selected;
-
-	
-	//static final int text_size=3;
 
 	private int macroFontSize;
 	private String macroName;
@@ -118,7 +114,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		@param macroF the font to be used for the name and the value of the 
 			macro
 		@param macroS the size of the font
-		@param o the macro orientation
+		@param oo the macro orientation
 	*/	
 	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS,
@@ -200,6 +196,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		return macroFont;
 	}
 	
+	/** Get the size of the macro font.
+		@return the size of the macro font.
+	
+	*/
 	public int getMacroFontSize()
 	{
 		return macroFontSize;
@@ -299,8 +299,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.setXMagnitude(coordSys.getXMagnitude());
 			macroCoord.setYMagnitude(coordSys.getYMagnitude());
 		 		
- 			macroCoord.xCenter = coordSys.getXMagnitude()*x1+coordSys.getXCenter();
- 			macroCoord.yCenter = coordSys.getYMagnitude()*y1+coordSys.getYCenter();
+ 			macroCoord.setXCenter(coordSys.mapX(x1,y1));
+ 			macroCoord.setYCenter(coordSys.mapY(x1,y1));
 			macroCoord.orientation=(o+coordSys.orientation)%4;
 			macroCoord.mirror=m ^ coordSys.mirror;
  			macroCoord.isMacro=true;
@@ -334,6 +334,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		}
 	}
 	
+	/** Parse and store the tokenized version of the macro.
+		@layerV the array containing the layer description to be inherited.
+	
+	*/
 	private void macroStore(ArrayList layerV)
 	{
 	 	macro.setLibrary(library); 			// Inherit the library
@@ -405,11 +409,22 @@ public class PrimitiveMacro extends GraphicPrimitive
 
 	}
 	
+	/** Set the Draw Only Pads mode.
+	
+		@param pd the wanted value
+	
+	*/
 								  
  	final public void setDrawOnlyPads(boolean pd)
  	{
  		drawOnlyPads=pd;
  	}
+	
+	/** Set the Draw Only Layer mode.
+	
+		@param la the layer that should be drawn.
+	
+	*/
 	
 	final public void setDrawOnlyLayer(int la)
  	{
@@ -593,8 +608,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.setXMagnitude(1.0);
  		macroCoord.setYMagnitude(1.0);
  			
- 		macroCoord.xCenter = 0;
- 		macroCoord.yCenter= 0;
+ 		macroCoord.setXCenter(0.0);
+ 		macroCoord.setYCenter(0.0);
 		macroCoord.orientation=o%4;
 		macroCoord.mirror=m;
  		macroCoord.isMacro=true;
@@ -886,8 +901,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	/** Ensure that the next time the macro is exported, it will be done.
 		Macro that are not expanded during exportation does not need to be
-		replicated thru the layers. For this reason, there is an inibition system which is activated. Calling this method resets the inibition
-		flag.
+		replicated thru the layers. For this reason, there is an inibition system which is activated. Calling this method resets the inibition flag.
 	*/
 	public void resetExport()
 	{
@@ -921,8 +935,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.setXMagnitude(1.0);
 		macroCoord.setYMagnitude(1.0);
 
- 		macroCoord.xCenter = cs.mapX(x1,y1);
- 		macroCoord.yCenter= cs.mapY(x1,y1);
+ 		macroCoord.setXCenter(cs.mapX(x1,y1));
+ 		macroCoord.setYCenter(cs.mapY(x1,y1));
 		macroCoord.orientation=(o+cs.orientation)%4;
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;
