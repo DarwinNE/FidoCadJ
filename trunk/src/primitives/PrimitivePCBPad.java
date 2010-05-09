@@ -152,6 +152,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		
  		if(!g.hitClip(xa-rrx/2,ya-rry/2, rrx, rry))
  			return;
+ 			
  		if (!drawOnlyPads) {
  			switch(sty) {
  			case 1:
@@ -175,8 +176,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		} else {
       			
  			g.setColor(Color.white); /* Drill */
- 			g.fillOval(xa-rix/2,
- 				   ya-riy/2,rix,riy);
+ 			g.fillOval(xa-rix/2, ya-riy/2,rix,riy);
  		}
  		
 	}

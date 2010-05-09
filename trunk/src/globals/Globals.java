@@ -67,10 +67,12 @@ public class Globals
  
     
     // Line width expressed in FidoCadJ coordinates 
-    public static double lineWidth = 0.5;  
+    public static final double lineWidthDefault = 0.5;  
+    public static double lineWidth = lineWidthDefault;  
   	
     // Line width expressed in FidoCadJ coordinates (ovals)
-    public static double lineWidthCircles = 0.35;  
+    public static final double lineWidthCirclesDefault = 0.35;
+    public static double lineWidthCircles = lineWidthCirclesDefault;  
   															
     // Connection size in FidoCadJ coordinates (diameter)
     
@@ -80,7 +82,7 @@ public class Globals
   								
     
     public static final boolean doNotUseXOR = true;  // Avoid XOR paint mode
-    public static final String version = "0.23.3 zeta";    	// version
+    public static final String version = "0.23.3";    	// version
     public static final boolean isBeta = true;		// is it a beta version?
     
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
@@ -89,7 +91,7 @@ public class Globals
     public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
     
-    // Minimum height in pixel of a text to be drawn.
+    // Minimum height in pixels of a text to be drawn.
     public static final int textSizeLimit = 4;
  
 

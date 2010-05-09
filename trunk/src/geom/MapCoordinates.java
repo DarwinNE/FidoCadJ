@@ -1,7 +1,7 @@
 package geom;
 import java.awt.*;
 
-/** MapCoordinates.java v.1.4
+/** MapCoordinates.java
 
 <pre>
    ****************************************************************************
@@ -17,7 +17,10 @@ Version   Date           Author       Remarks
 1.3     May 2008        	D. Bucci    Grid snapping
 1.4		June 2009			D. Bucci 	Capitalize the first letters      
 1.5		November 2009		D. Bucci 	Added a toString method for testing
+1.6		May 2010			D. Bucci	Tweaked a little. Double prec. calc.
 
+    @author D. Bucci
+    @version 1.6, May 2010 
                                
 	This file is part of FidoCadJ.
 
@@ -58,8 +61,7 @@ Version   Date           Author       Remarks
 </pre>
 
 
-    @author D. Bucci
-    @version 1.5, November 2009
+
 */
 
 
@@ -322,7 +324,8 @@ public class MapCoordinates
     
     
     
-    /** Map the xc,yc coordinate given in the X pixel coordinate.
+    /** Map the xc,yc coordinate given in the X pixel coordinate. The tracking
+    	is active
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
@@ -331,7 +334,35 @@ public class MapCoordinates
     	return mapXi(xc, yc, true);
  
     }
+    
+    /** Map the xc,yc coordinate given in the X pixel coordinate.
+        @param xc the horizontal coordinate in the drawing coordinate system.
+        @param yc the vertical coordinate in the drawing coordinate system.
+        @param track specifies if the tracking should be active or not
+    */
     public final int mapXi(int xc,int yc, boolean track)
+    {
+
+        ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals to the lowest 
+                                   integer. We need to round correctly; */
+        
+
+        if(track) {
+        	if(ivx<xMin)
+            	xMin=ivx;
+        	if(vx>xMax)
+            	xMax=ivx;
+       	}
+       	
+        return ivx;
+    }
+   
+   	/** Map the xc,yc coordinate given in the X pixel coordinate. The results
+   		are given as double precision. Tracking is not active.
+        @param xc the horizontal coordinate in the drawing coordinate system.
+        @param yc the vertical coordinate in the drawing coordinate system.
+    */
+    public final double mapXr(int xc,int yc)
     {
         // The orientation data is not used outside a macro
         if(isMacro){
@@ -387,22 +418,13 @@ public class MapCoordinates
         	vx=(double)xc*xMagnitude;
         }
         
-        ivx=(int)Math.round(vx+xCenter);   /* The integer cast cuts decimals to the lowest 
-                                   integer. We need to round correctly; */
-        
+        return vx+xCenter;  
 
-        if(track) {
-        	if(ivx<xMin)
-            	xMin=ivx;
-        	if(vx>xMax)
-            	xMax=ivx;
-       	}
-       	
-        return ivx;
     }
 
 
-    /** Map the xc,yc coordinate given in the Y pixel coordinate.
+    /** Map the xc,yc coordinate given in the Y pixel coordinate. The tracking
+    	is active.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
@@ -411,7 +433,32 @@ public class MapCoordinates
 		return mapYi(xc, yc, true);        
 
     }
+    /** Map the xc,yc coordinate given in the Y pixel coordinate. 
+        @param xc the horizontal coordinate in the drawing coordinate system.
+        @param yc the vertical coordinate in the drawing coordinate system.
+        @param track specify if the point should be tracked
+    */
     public final int mapYi(int xc,int yc, boolean track)
+    {
+
+        
+        ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals to the lowest 
+                                   integer. We need to round correctly; */
+        if(track) {
+        	if(ivy<yMin)
+            	yMin=ivy;
+            
+        	if(ivy>yMax)
+            	yMax=ivy;
+    	}
+        return ivy;
+    }
+   	/** Map the xc,yc coordinate given in the Y pixel coordinate. The results
+   		are given as double precision. Tracking is not active.
+        @param xc the horizontal coordinate in the drawing coordinate system.
+        @param yc the vertical coordinate in the drawing coordinate system.
+    */       
+    public final double mapYr(int xc,int yc)
     {
         
         if(isMacro){
@@ -443,18 +490,8 @@ public class MapCoordinates
         	vy=(double)yc*yMagnitude;
         }
         
-        ivy=(int)Math.round(vy+yCenter);   /* The integer cast cuts decimals to the lowest 
-                                   integer. We need to round correctly; */
-        if(track) {
-        	if(ivy<yMin)
-            	yMin=ivy;
-            
-        	if(ivy>yMax)
-            	yMax=ivy;
-    	}
-        return ivy;
+        return vy+yCenter;   
     }
-    
     /** Add a point in the min/max tracking system. The point should be 
         specified in the SCREEN coordinates.
         @param xp the X coordinate of the point being tracked.
@@ -533,6 +570,10 @@ public class MapCoordinates
         return yc;
     }
     
+    /** Create a string containing all possibly interesting info about the 
+    	internal state of this class.
+    
+    */
     public String toString()
     {
     	String s=new String();

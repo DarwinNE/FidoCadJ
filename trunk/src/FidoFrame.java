@@ -757,7 +757,7 @@ public class FidoFrame extends JFrame implements
                         for (int i=0; i<16;++i)
                             v.add(new LayerDesc(Color.black, 
                                 ((LayerDesc)ol.get(i)).getVisible(),
-                                "B/W",1.0f));
+                                "B/W",((LayerDesc)ol.get(i)).getAlpha()));
             
                         CC.P.setLayers(v);
                     }
