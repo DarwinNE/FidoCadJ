@@ -531,7 +531,16 @@ public class ParseSchem
         	}
         
         }
-        
+        if(extensions && Globals.lineWidth !=
+        	Globals.lineWidthDefault) {
+        	
+        	s.append("FJC A "+Globals.lineWidth+"\n");
+        }
+        if(extensions && Globals.lineWidthCircles !=
+        	Globals.lineWidthCirclesDefault) {
+        	
+        	s.append("FJC B "+Globals.lineWidthCircles+"\n");
+        }
         return s;
     }
     
@@ -1653,6 +1662,8 @@ public class ParseSchem
         String[] name=new String[MAX_TOKENS];
         String[] value=new String[MAX_TOKENS];
         double newConnectionSize = -1.0;
+		double newLineWidth = -1.0;
+		double newLineWidthCircles = -1.0;
 		
 		int vn=0, vv=0;
         int old_j=0;
@@ -1770,6 +1781,16 @@ public class ParseSchem
                     				
                     		}
                     			
+                    	} if(tokens[1].equals("A")) {
+                    		// Connection size
+                   			newLineWidth = 
+                   				Double.parseDouble(tokens[2]);
+                    	
+                    	} if(tokens[1].equals("B")) {
+                    		// Connection size
+                   			newLineWidthCircles = 
+                   				Double.parseDouble(tokens[2]);
+                    	
                     	}
                     	
                     } else if(tokens[0].equals("LI")) {
@@ -1922,6 +1943,13 @@ public class ParseSchem
         // to set them up.
         if (newConnectionSize>0) {
         	Globals.diameterConnection=newConnectionSize;
+        }
+        if (newLineWidth>0) {
+        	Globals.lineWidth = newLineWidth;
+        }
+        
+        if (newLineWidthCircles>0) {
+        	Globals.lineWidthCircles = newLineWidthCircles;
         }
         sortPrimitiveLayers();
         

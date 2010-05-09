@@ -13,6 +13,7 @@ import dialogs.*;
 import primitives.*;
 import timer.*;
 import toolbars.*;
+import layers.*;
 
 /** 
 
@@ -976,20 +977,27 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 #### ####
         */
         if (actionSelected == MACRO) {
-
+        
+        	// Create a fictionous Array List without making use of alpha 
+        	// channels and colours.
+        	
+        	ArrayList ll=new ArrayList();
+        	for(int i=0; i<16;++i) 
+           		ll.add(new LayerDesc(Color.black, true,"",1.0f));
+ 
             if(successiveMove) {
                 // Globals.doNotUseXOR
                 if(!false) {
                     try {
                         PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
-                        	P.getLayers(), cs.unmapXsnap(oldx),
+                        	ll, cs.unmapXsnap(oldx),
                         	cs.unmapYsnap(oldy),macroKey,"", cs.unmapXsnap(oldx)+10,
                         	cs.unmapYsnap(oldy)+5, "", cs.unmapXsnap(oldx)+10,
                         	cs.unmapYsnap(oldy)+10,
                        	 	P.getMacroFont(),
                     		P.getMacroFontSize(), 0);
                         n.setDrawOnlyLayer(-1);
-                        n.drawFast(g2d, cs, P.getLayers());
+                        n.drawFast(g2d, cs, ll);
 
                     } catch (IOException E) {
                         // Here we do not do nothing.
@@ -999,7 +1007,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
             try {
                 PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
-                    P.getLayers(), cs.unmapXsnap(x),
+                    ll, cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
@@ -1007,7 +1015,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     P.getMacroFontSize(), 0);
                 n.setDrawOnlyLayer(-1);
 
-                n.drawFast(g2d, cs, P.getLayers());
+                n.drawFast(g2d, cs, ll);
                 successiveMove=true;
 
             } catch (IOException E) {
@@ -1339,8 +1347,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             multiple=evt.isMetaDown();
         
         if(actionSelected==SELECTION) {
-            
-            P.dragHandleEnd(this,px, py, multiple);
+            if(rulerStartX!=px || rulerStartY!=py)
+            	P.dragHandleEnd(this,px, py, multiple);
+            else {
+            	ruler=false;
+            	handleClick(evt);
+            }
             repaint();
         } else {
             handleClick(evt);
@@ -1489,13 +1501,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_DITHER_DISABLE);
          }
      
-/*        Rectangle r = g.getClipBounds();
-        if(oldEvidenceRect!=null && Globals.weAreOnAMac) {
-        // this gives problems under Windows
-        // but it can be WAY faster under MacOSX!
-            g.setClip(oldEvidenceRect.x,oldEvidenceRect.y, oldEvidenceRect.width+1, 
-                oldEvidenceRect.height+1);
-        } */
 
         // Draw all the primitives
         g.setColor(backgroundColor);
@@ -1531,7 +1536,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
             oldEvidenceRect=null;
         }
-        //g2.drawString("Test version: 2", 0,100);
                 
         if(profileTime) {
             double elapsed=mt.getElapsed();

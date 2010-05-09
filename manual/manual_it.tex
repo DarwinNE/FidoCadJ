@@ -17,7 +17,7 @@
 \usepackage{listings} 
 \usepackage{makeidx}
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,%
+	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,%
 		[FIDOCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
@@ -791,6 +791,8 @@ java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
 
 [davidebucci@Darwin]$ 
 \end{lstlisting}
+\lstset{language=FIDOCAD,
+	basicstyle=\small\ttfamily}
 L'opzione più semplice è \lstinline!-n! (meno enne), con cui il programma\dots non fa nulla, ovvero non fa partire un'interfaccia utente e non fa di sua sponte niente di interessante.
 Ovviamente, l'opzione \lstinline!-n! non serve a molto da sola, ma è interessante combinata con altre che vedremo tra un poco.
 
@@ -831,7 +833,7 @@ java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fido
 \end{figure}
 Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella stessa directory in cui si trova il file \lstinline!fidocad.jar! e scrivendo tutto di seguito sulla stessa riga.
 \lstset{language=FIDOCAD,
-	basicstyle=\tiny\ttfamily}
+	basicstyle=\small\ttfamily}
 
 
 \section{Gestione librerie}
@@ -1106,6 +1108,29 @@ La figura~\ref{fig_gyrator_n} dovrebbe riassumere quello che si ottiene fornendo
 \caption{La figura~\ref{fig_gyrator} come probabilmente apparirebbe se letta con FidoCad.}
 \label{fig_gyrator_n}
 \end{figure}
+
+A differenza del FidoCad originale, FidoCadJ permette di salvare un certo numero di informazioni relative alla configurazione del programma. Il comando utilizzato è \lstinline!FJC!\index{FJC} ed è solitamente emesso verso l'inizio del file. I casi trattati sono descritti nei prossimi paragrafi.
+\subsection{Configurazione dei layer}
+La configurazione dei layer è fatta attraverso il comando  \lstinline!FJC L!\index{FJC L}. Vengono salvaguardate delle informazioni solamente se il layer è stato modificato rispetto alla configurazione standard di FidoCadJ.
+\begin{lstlisting} 
+FJC L n xxxx yy
+\end{lstlisting}
+ dove $n$ rappresenta il numero del layer (da 0 a 15), $xxxx$ è un intero a 32 bit contenente le informazioni sul colore RGB. La componente rossa è contenuta nei bit 16-23, quella verde nei bit 8-15 ed il blu nei bit 0-7.
+Il valore, decimale, a singola precisione, $yy$ rappresenta la trasparenza del layer, compresa fra 0,0 (completamente trasparente) e 1,0 (completamente opaco).  
+\subsection{Configurazione connessione elettrica}
+La dimensione del bollino utilizzato per indicare una connessione elettrica può essere modificata dal programma. Quando le estensioni FidoCadJ sono attive, il valore scelto viene salvato nel file con il comando  \lstinline!FJC C!\index{FJC C} nel modo seguente:
+\begin{lstlisting} 
+FJC C aaaa
+\end{lstlisting}
+dove $aaaa$ è un valore decimale, a doppia precisione, rappresentante la taglia del bollino in unità logiche.
+\subsection{Configurazione larghezza tratto}
+La larghezza del pennino usato per il disegno degli schemi elettrici può essere modificata. Il programma fa differenza fra il tratto dei segmenti (primitiva \lstinline!LI!) e delle linee curve (primitive \lstinline!EV! e \lstinline!BE!). Il primo è modificato dal comando \lstinline!FJC A!\index{FJC A}, mentre il secondo dal comando \lstinline!FJC B!\index{FJC B}.
+\begin{lstlisting} 
+FJC A aaaa
+FJC B bbbb
+\end{lstlisting}
+dove $aaaa$ e $bbbb$ sono costanti decimali, a doppia precisione, rappresentanto la larghezza del tratto (in unità logiche) da utilizzare rispettivamente per il disegno dei segmenti e delle linee curve. La larghezza di default è fissata internamente a 0,5 unità logiche. 
+
 
 \section{Tolleranza agli errori sintattici}
 FidoCadJ è progettato per tollerare eventuali errori\index{tolleranza agli errori} o comandi malformati che vengano forniti al programma. Ovviamente, a meno che non abbiate una sfera di cristallo\index{sfera di cristallo} collegata come periferica USB, il programma non potrà correggere gli errori e si limiterà a saltare (ed eliminare) tutte le linee che li contengono.

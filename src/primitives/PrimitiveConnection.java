@@ -85,7 +85,8 @@ public class PrimitiveConnection extends GraphicPrimitive
 		
 	}
 	
-	private int x1, y1, nn, xa, ya;
+	private int x1, y1, xa, ya, ni;
+	private double nn;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
@@ -106,24 +107,27 @@ public class PrimitiveConnection extends GraphicPrimitive
  			y1=virtualPoint[0].y;
  			
  		
- 			nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 				coordSys.mapX(10,10))*Globals.diameterConnection/10.0);
+ 			nn=Math.abs(coordSys.mapXr(0,0)-
+ 				coordSys.mapXr(10,10))*Globals.diameterConnection/10.0;
  		
  			// a little boost for small zooms :-)
  			if (nn<2) {
  				nn=(int)(Math.abs(coordSys.mapX(0,0)-
  					coordSys.mapX(20,20))*Globals.diameterConnection/12);
  			}
+	
+ 			xa=(int)Math.round(coordSys.mapXr(x1,y1)- nn/2.0);
+ 			ya=(int)Math.round(coordSys.mapYr(x1,y1)- nn/2.0);
  			
- 			xa=coordSys.mapX(x1,y1)- nn/2;
- 			ya=coordSys.mapY(x1,y1)- nn/2;
+ 			coordSys.trackPoint(xa,ya);
+ 			ni=(int)Math.round(nn);
  			
  		}
  		
- 		if(!g.hitClip(xa, ya, nn, nn))
+ 		if(!g.hitClip(xa, ya, ni, ni))
  			return;
  		
- 		g.fillOval(xa, ya, nn, nn);
+ 		g.fillOval(xa, ya, ni, ni);
 		
  		
 	}

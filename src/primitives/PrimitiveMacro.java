@@ -299,8 +299,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.setXMagnitude(coordSys.getXMagnitude());
 			macroCoord.setYMagnitude(coordSys.getYMagnitude());
 		 		
- 			macroCoord.setXCenter(coordSys.mapX(x1,y1));
- 			macroCoord.setYCenter(coordSys.mapY(x1,y1));
+ 			macroCoord.setXCenter(coordSys.mapXr(x1,y1));
+ 			macroCoord.setYCenter(coordSys.mapYr(x1,y1));
 			macroCoord.orientation=(o+coordSys.orientation)%4;
 			macroCoord.mirror=m ^ coordSys.mirror;
  			macroCoord.isMacro=true;
@@ -935,8 +935,8 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.setXMagnitude(1.0);
 		macroCoord.setYMagnitude(1.0);
 
- 		macroCoord.setXCenter(cs.mapX(x1,y1));
- 		macroCoord.setYCenter(cs.mapY(x1,y1));
+ 		macroCoord.setXCenter(cs.mapXr(x1,y1));
+ 		macroCoord.setYCenter(cs.mapYr(x1,y1));
 		macroCoord.orientation=(o+cs.orientation)%4;
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;

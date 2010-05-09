@@ -64,6 +64,7 @@ public abstract class GraphicPrimitive
 	
 	// Array containing the points defining the primitive
 	public Point[] virtualPoint;
+
 	
 	/* At first, non abstract methods */
 	
@@ -227,17 +228,21 @@ public abstract class GraphicPrimitive
 	*/
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
-		l= (LayerDesc)layerV.get(layer);
+		if (layer<layerV.size()) 
+			l= (LayerDesc)layerV.get(layer);
+		else
+			l= (LayerDesc)layerV.get(0);
+			
 		if (!l.getVisible())
 			return false;
-		float alpha=1.0f;
-			
+							
 		if(selectedState) {
 			g.setColor(Color.green);
 		} else {
 			g.setColor(l.getColor());
-			alpha=l.getAlpha();
-			//g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			float alpha=l.getAlpha();
+			if (alpha<1.0)
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 		}	
 		
 
@@ -297,7 +302,7 @@ public abstract class GraphicPrimitive
  		
  		return NO_DRAG;
 	}
-	
+
 	/**	Select the primitive if one of its virtual point is in the specified
 		rectangular region (given in logical coordinates).
         @param px the x coordinate of the top left point.
