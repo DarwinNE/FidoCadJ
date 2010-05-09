@@ -75,7 +75,6 @@ public class Globals
     public static double lineWidthCircles = lineWidthCirclesDefault;  
   															
     // Connection size in FidoCadJ coordinates (diameter)
-    
     public static final double diameterConnectionDefault = 2.0;
     public static double diameterConnection = diameterConnectionDefault; 
     
