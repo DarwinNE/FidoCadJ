@@ -17,7 +17,7 @@
 \usepackage{listings} 
 \usepackage{makeidx}
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,%
+	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,%
 		[FIDOCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
@@ -52,7 +52,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ the user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.3 \\ the user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -138,9 +138,11 @@ installation.
 Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, from Werner Randelshofer. 
 Werner has given several useful advices about FidoCadJ's user interface: thanks!
 
-This manual has been translated to English by ``Pasu''. I would like to thank 
-him for his work.
+This manual has been translated to English by ``Pasu''. I would like to thank him for his work. 
+Macintosh users can enjoy a nice integration of FidoCadJ in their favourite operating system thanks to the work of Werner Randelshofer. Werner has also contributed with a lot of useful advices to the user interface of  FidoCadJ: many thanks!
 
+In April 2010, FidoCadJ has been integrated in the Italian web site \href{www.electroportal.it}{www.electroportal.it}. It silently runs on the server and it is used to automagically convert drawings posted by users of the forum.
+I would like to express my gratitude to the admin and webmaster and to all other users of this site as they gave me a lot of very useful ideas about batch controlling FidoCadJ.
 
 \chapter*{FidoCadJ License}
 
@@ -242,7 +244,7 @@ I do not use Windows since a few years ago, it was almost impossible
 for me to look at them and I wanted to try to do something to solve
 this problem. \graffito{By the way, I think that it is better to
 work at a solution rather claim that an operating system different
-from Windows lacks in software}.
+from Windows lacks in software}
 
 The first thing I did was to study the file format used by FidoCad\index{FidoCad}
 and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ},
@@ -1065,6 +1067,63 @@ java -jar fidocadj.jar ~/FidoCadJ/test.fcd
 FidoCadJ will be run and it will try to open the file \lstinline!~/FidoCadJ/test.fcd!
 (provided that this exists).
 
+There are some other interesting things FidoCadJ can do.
+Option \lstinline!-h! shows a listing of the FidoCadJ options:
+\lstset{basicstyle=\tiny\ttfamily}
+	 	 
+\begin{lstlisting}
+[davidebucci@Darwin]$ java -jar fidocadj.jar -h
+	 	 
+This is FidoCadJ, version 0.23.3 epsilon.
+By Davide Bucci, 2007-2010.
+	 	 
+Use: java -jar fidocadj.jar [-options] [file]
+where options include:
+	 	 
+  -n     Does not start the graphical user interface
+	 	 
+  -d     Set the extern library directory
+         Usage: -d dir
+         where 'dir' is the directory you want to specify.
+	 	 
+  -c     Convert the given file to a graphical format.
+         Usage: -d sx sy [eps|pdf|svg|png|jpg|fcd|sch] outfile
+         If you use this command line option, you must specify a FidoCad file to convert.
+         An alternative is to specify the resolution in pixels per logical unit by
+         preceding it by the letter 'r' (without spaces), instead of giving sx and sy.
+	 	 
+  -s     Print the size in logical coordinates of the specified file.
+ 
+  -h     Print this help. and exit.
+	 	 
+  [file] This is the optional (except if you use the -d or -s options) FidoCad file to load at
+         startup time.
+	 	 
+Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.
+	 java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+	 	 
+Example: load and convert a FidoCad drawing to a png file without using the GUI.
+          Each FidoCadJ logical unit will be converted in 2 pixels on the image.
+	 	 java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+	 	 
+[davidebucci@Darwin]$
+\end{lstlisting}
+\lstset{language=FIDOCAD,
+    basicstyle=\small\ttfamily}
+    
+The most simple option is \lstinline!-n!, with which the software\dots does nothing, i.e. it does not activate the GUI and just exits. Obviously, this option is not so much useful alone, but it will be precious when using in combination with other functionalities we will describe in a minute.
+Option \lstinline!-d! allows to specify the directory where FidoCadJ will seek for libraries to be loaded at startup. Option \lstinline!-c! allows to make FidoCadJ convert a FidoCad file (which must be specified) into an image in a vector or raster format. This can be very useful, as FidoCadJ can be used as a converter in a non interactive way (along with the \lstinline!-n! option)
+
+We can thus have a look at the example given in the help:
+	 	
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c 800 600 png out.png test.fcd
+\end{lstlisting}
+
+FidoCadJ will run without activating the GUI and will export in the png\index{PNG} format the file \lstinline!test.fcd!. The output file will be called \lstinline!out.png! and will have a 800x600 pixel size.
+There is an alternative version of the  \lstinline!-c! option, which will allow to specify how many pixels should be used to convert one logical unit. Since FidoCadJ does not deal with half units (they are all specified by integers), by choosing, let's say, two pixels per logical unit ensures that schematics will be always understandable (even if probably a little bit small). You can use non integer conversion factors.
+To know the total size (in logical units) of a schematic, you can use the \lstinline!-s! option. Remember anyway that, during the exports, FidoCadJ adds always a 20 pixel margin to the dimensions extracted from the circuit.
+
 Another interesting option, although a feature due to Java\index{Java}
 more than FidoCadJ, is the possibility to modify the look of the application
 (in the jargon of Java called look \& feel\index{look  feel@look \& feel}).
@@ -1102,6 +1161,8 @@ Obviously, the commands listed above are meant to be sent from a terminal,
 making sure that the current directory contains the file \lstinline!fidocad.jar!
 and writing everything on the same line.
 
+\lstset{language=FIDOCAD,
+ basicstyle=\small\ttfamily}
 
 \section{Libraries management}
 
@@ -1209,7 +1270,7 @@ and 15.
 \begin{lstlisting} 
 FCJ a b c d e 
 \end{lstlisting}
-where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the segment (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Paramenters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
+where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the segment (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Parameters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
 
 \begin{table}
 \centering
@@ -1299,7 +1360,7 @@ and $y$ and the font used. Due to the quantity of information to
 provide, the resulting command string is quite complex: 
 \begin{lstlisting}
 TY x1 y1 sy sx a s l f £text to be written 
-\end{lstlisting}. 
+\end{lstlisting}
 The point $(x_{1},y_{1})$ is where the string ``text to be written''
 will be positioned. The value of $s_{y}$ and $s_{x}$ indicates the
 horizontal and vertical dimensions of the text in logical units\index{logical unit}.
@@ -1405,7 +1466,7 @@ where $t\in[0,1]$ is a parameter.
 \begin{lstlisting} 
 FCJ a b c d e 
 \end{lstlisting}
-where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the curve (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Paramenters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
+where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the curve (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Parameters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style.
 
 
 \subsubsection{Electrical junction}
@@ -1512,6 +1573,31 @@ Figure~\ref{fig_gyrator_n} shows what can be obtained using FidoCad\index{FidoCa
 \label{fig_gyrator_n}
 \end{figure}
 
+An important difference from the original FidoCad\index{FidoCad} is that FidoCadJ allows to save a certain number of configuration hints in the output files. The command which is used for that is \lstinline!FJC!\index{FJC} and it should normally be placed at the very beginning of the file. The next paragraphs will describe the cases which are treated.
+
+ \subsection{Layer setup}
+ The layer setup is specified with the command \lstinline!FJC L!\index{FJC L}. FidoCadJ saves data only if the corresponding layer has been modified from its default state. The syntax is as follows:
+ \begin{lstlisting}
+ FJC L n xxxx yy
+\end{lstlisting}
+where $n$ represents the layer number (ranging from 0 to 15), $xxxx$ is a 32 bit integer containing settings about the RGB color to be used. The red component is contained in bits 16-23, the green one in bits 8-15 and the blue one in bits 0-7.
+The value $yy$ is a single precision floating point constant which gives the layer transparency, comprised between 0.0 (completely transparent) and 1.0 (completely opaque).
+
+\subsection{Electrical connection setup}
+The size of the black circle used to indicate an electrical connection can be modified by the user.
+When the FidoCadJ extensions are active, the selected value is saved in the file with the \lstinline!FJC C!\index{FJC C} command as follows:
+\begin{lstlisting}
+FJC C aaaa
+\end{lstlisting}
+where $aaaa$ is a double precision floating point value (positive) which gives the diameter of the electrical connection, in FidoCadJ logical units.
+
+ \subsection{Stroke width}
+ The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ makes difference between the width of the pen used for segments (\lstinline!LI! command) and curved lines (commands \lstinline!EV! and \lstinline!BE!). The first case is represented by the command \lstinline!FJC A!\index{FJC A}, where the second is specified by the command \lstinline!FJC B!\index{FJC B}. They both require a double precision constant.
+\begin{lstlisting}
+FJC A aaaa
+FJC B bbbb
+\end{lstlisting}
+Where $aaaa$ and $bbbb$ represent the stroke width (in logical units), to be used respectively for the drawing of the segments and curved lines. The default width is internally defined equal to 0.5 logical units.
 
 \section{Syntax errors tolerance}
 
