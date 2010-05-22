@@ -22,7 +22,7 @@
 \usepackage{makeidx}
 
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,%
+	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC%
 		[FIDOCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
@@ -59,7 +59,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.2 \\ le manuel de l'utilisateur} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.3 \\ le manuel de l'utilisateur} 
 
 
 \author{Davide Bucci\\[3em]
@@ -121,6 +121,9 @@ Ce logiciel a été testé sous Linux grâce la patience de Stefano Martini, qui a é
 
 Je remercie F. Bertolazzi pour m'avoir motivé à faire en sorte que le logiciel soit utilisable et qui a preparé avec patience la bibliothèque CadSoft Eagle permettant l'exportation vers ce logiciel. Je remercie Celsius, qui a testé le fonctionnement du logiciel pour la réalisation de circuits imprimés et les bibliothèques, ainsi qu'Andrea D'Amore, pour ses conseils pour améliorer l'apparence du logiciel sous Apple Macintosh, à partir de la version 0.21.1. Un merci à Roby IZ1CYN, qui a écrit le paragraphe~\ref{installazione_linux} de ce manuel. Je remercie aussi Pasu, qui a traduit tout ce manuel en anglais, pour favoriser la diffusion de ce logiciel. Il m'a aussi aidé à trouver plusieurs fautes dans la version anglaise de l'interface. 
 Les utilisateurs Macintosh peuvent compter sur l'interface de FidoCadJ qui s'intègre bien dans leur système grâce au \textit{look and feel} Quaqua\index{Quaqua}, fruit du travail de Werner Randelshofer. Werner a aussi fourni des bons conseils sur l'optimisation de l'interface de FidoCadJ: merci!
+En avril 2010, FidoCadJ a été intégré à l'intérieur du forum du portail \href{www.electroportal.it}{www.electroportal.it}. 
+Je remercie l'administrateur le webmaster et les utilisateurs de ce site, qui m'ont fourni beaucoup de très bonnes idées pour adapter FidoCadJ à tourner silencieusement sur le serveur du site, afin de convertir les dessins de façon automatique. Une voie très prometteuse a été ouverte!
+
 Un sincère merci à Geo Cherchetout, qui a relu très en détail la version française de ce manuel en corrigeant mes \og  italianismes\fg  et mes nombreuses fautes de frappe.
 
 \chapter*{Note pour la version française du logiciel}
@@ -744,6 +747,63 @@ java -jar fidocadj.jar ~/FidoCadJ/test.fcd
 \end{lstlisting}
 FidoCadJ sera démarré et essayera d'ouvrir le fichier \lstinline!~/FidoCadJ/test.fcd! (à condition que ce dernier existe!).
 
+FidoCadJ peut faire d'autres choses intéressantes. L'option \lstinline!-h! montre une liste des possibilités ouvertes à l'utilisateur:
+\lstset{basicstyle=\tiny\ttfamily}
+	 	 
+\begin{lstlisting}
+[davidebucci@Darwin]$ java -jar fidocadj.jar -h
+
+This is FidoCadJ, version 0.23.3.
+By Davide Bucci, 2007-2010.
+
+Use: java -jar fidocadj.jar [-options] [file] 
+where options include:
+
+ -n     Does not start the graphical user interface
+
+ -d     Set the extern library directory
+        Usage: -d dir
+        where 'dir' is the directory you want to specify.
+
+ -c     Convert the given file to a graphical format.
+        Usage: -d sx sy [eps|pdf|svg|png|jpg|fcd|sch] outfile
+        If you use this command line option, you must specify a FidoCad file to convert.
+        An alternative is to specify the resolution in pixels per logical unit by
+        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.
+
+ -s     Print the size in logical coordinates of the specified file.
+
+ -h     Print this help. and exit.
+
+ [file] This is the optional (except if you use the -d or -s options) FidoCad file to load at
+        startup time.
+
+Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.
+java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+
+Example: load and convert a FidoCad drawing to a png file without using the GUI.
+         Each FidoCadJ logical unit will be converted in 2 pixels on the image.
+java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+
+
+[davidebucci@Darwin]$ 
+\end{lstlisting}
+\lstset{language=FIDOCAD,
+    basicstyle=\small\ttfamily}
+
+L'option la plus simple est \lstinline!-n!, avec laquelle le logiciel\dots ne fait rien, c'est à dire ne fait pas demarrer l'interface utilisateur graphique et redonne tout de suite la main à l'utilisateur. Bien évidamment, cette option n'est pas très utile toute seule, mais ouvre des possibilités intéressantes en combinaison avec les autres options disponibles.
+	 	 
+L'option \lstinline!-d! permet de spécifier un répertoire où FidoCadJ ira chercher les bibliothèques optionnelles. L'option \lstinline!-c! permet à l'utilisateur de réaliser une conversion d'un fichier FidoCadJ dans un format graphique, parmi ceux disponibles. Il s'agit donc de l'option probablement la plus intéressante, surtout avec l'option \lstinline!-n!, qui permet de contrôler la conversion sans utiliser l'interface graphique.
+Voyons par exemple le premier cas décrit dans le message d'aide du logiciel:
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c 800 600 png out.png test.fcd
+\end{lstlisting}
+
+FidoCadJ est fait démarrer, sans que l'interface graphique soit activée, en exportant en format png le fichier 
+\lstinline!test.fcd!. Le fichier produit sera \lstinline!out.png! et aura une dimension totale de 800 par 600 pixel. Il y a une version alternative de l'option \lstinline!-c!, qui permet de spécifier en combien de pixels une unité logique FidoCadJ doit être convertie. Comme FidoCadJ n'utilise pas des coordonnées fractionnaire, choisir deux ou trois pixels par unité permet d'être sûr que les schémas et les dessins convertis seront toujours compréhensibles. On peut d'ailleurs utiliser des facteurs de conversion non entiers.
+	 	 
+Pour connaître la dimension en unités logiques d'un schéma, il suffit d'utiliser l'option \lstinline!-s!. Il faut se rappeler que FidoCadJ insère un marge de 20 pixels par rapport aux dimensions calculées à partir de la résolution en pixel par unités logiques et l'effective dimension en pixel du dessin converti.
+	 	 
 Une autre possibilité intéressante, même si en toute rigueur cette caractéristique est plus propre à Java\index{Java} qu'à FidoCadJ lui même, est qu'il est possible de modifier l'apparence du logiciel en changeant ce qu'on appelle en jargon Java le \textit{look and feel}\index{look \& feel}). 
 
 %Ceci peut être utile par exemple pour intégrer plus le logiciel à l'intérieur d'un environnement Windows\index{Windows}. Dans ce cas, la ligne de commande à utiliser est la suivante:\graffito{Il faut reconnaître que parfois Java n'est pas très synthétique.}
@@ -765,6 +825,9 @@ java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fido
 \label{fig_fidocadj_motif}
 \end{figure}
 Il est clair que les commandes que l'on vient de voir doivent être utilisées depuis l'invite de commande, une fois que l'on se trouve dans le même répertoire où l'on a placé le fichier \lstinline!fidocad.jar!, en écrivant tout sur la même ligne.
+
+\lstset{language=FIDOCAD,
+basicstyle=\small\ttfamily}
 
 \section{Gestion des bibliothèques}
 FidoCadJ permet de spécifier un répertoire à l'intérieur duquel on trouve des fichiers de bibliothèque\index{bibliothèque} (avec l'extension \lstinline!.fcl!) qui seront chargés à chaque démarrage du logiciel.
@@ -1046,6 +1109,30 @@ Le résultat dépendra du contexte: une ligne dessinée à trait interrompu sera ren
 \label{fig_gyrator_n}
 \end{figure}
 
+\'A différence de FidoCad, FidoCadJ permet de sauvegarder un certain nombre d'informations relatives à la configuration du logiciel directement à l'intérieur des dessins produits. La commande utilisée est \lstinline!FJC!\index{FJC} et est normalement émise vers le début du fichier. Les possibilités sont traitées dans les paragraphes qui suivent.
+
+\subsection{Configuration des couches}
+La configuration des couches est faite à travers la commande \lstinline!FJC L!\index{FJC L}. On sauvegarde des informations seulement si la couche a été modifiée par rapport à sa configuration standard.
+\begin{lstlisting}
+FJC L n xxxx yy
+\end{lstlisting}
+où $n$ représente le numéro de la couche à utiliser (entre 0 et 15), $xxxx$ est un entier à 32 bits contenant les informations sur la couleur RGB. La composante rouge est contenue dans les bits 16-23, la composante verte dans les bits 8-15 et celle bleu dans les bits 0-7.
+La valeur $yy$, décimale à précision simple, représente la transparence de la couche, comprise entre 0,0 (parfaitement transparent) et 1,0 (parfaitement opaque).
+
+\subsection{Configuration connexion électrique}
+La dimension du petit rond qui est utilisé pour indiquer une connexion électrique peut être modifiée dans FidoCadJ. Pendant que les extensions FidoCadJ sont actives, la valeur choisie est sauvegardée dans le fichier avec la commande \lstinline!FJC C!\index{FJC C} comme il suit:
+\begin{lstlisting}
+FJC C aaaa
+\end{lstlisting}
+où $aaaa$ est une valeur décimale, à précision double, qui représente la taille du rond en unités logiques.
+
+\subsection{Configuration largeur du trait}
+La largeur du trait qui est utilisé pour le dessin des schémas électriques peut être modifiée. FidoCadJ différencie parmi le trait utilisé pour les segments (primitive \lstinline!LI!) et les courbes (primitives \lstinline!EV! e \lstinline!BE!). Le premier cas est traité par la commande \lstinline!FJC A!\index{FJC A}, tandis que le deuxième est spécifié par la commande \lstinline!FJC B!\index{FJC B}:
+\begin{lstlisting}
+FJC A aaaa
+FJC B bbbb
+\end{lstlisting}
+où $aaaa$ et $bbbb$ sont des constantes décimales, à précision double, qui représentent respectivement la largeur du trait (en unités logiques) à utiliser pour le dessins des segments et des courbes. La valeur par défaut de FidoCadJ est fixée à 0,5 unités logiques.
 
 \section{Tolérance aux erreurs de syntaxe}
 FidoCadJ a été écrit pour être particulièrement tolérant aux erreurs\index{tolérance aux fautes} et aux commandes incomplètes. Clairement, à moins que vous ayez une boule de cristal USB\index{boule de cristal USB}, le logiciel ne pourra pas corriger les erreurs et il se limitera à sauter les lignes qui posent problème ou sont incomplètes.
