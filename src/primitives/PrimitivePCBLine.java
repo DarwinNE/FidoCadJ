@@ -96,6 +96,8 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	private int x1, y1,x2,y2; 		
 	private int wi_pix;
 	private Stroke stroke;
+	private int xbpap1, ybpap1;
+
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -145,6 +147,8 @@ public class PrimitivePCBLine extends GraphicPrimitive
    			stroke =new BasicStroke(wi_pix,
 				java.awt.BasicStroke.CAP_ROUND,
 				java.awt.BasicStroke.JOIN_ROUND);
+			xbpap1=(xb-xa)+1;
+			ybpap1=(yb-ya)+1;
 			
 		}
  		   
@@ -152,12 +156,13 @@ public class PrimitivePCBLine extends GraphicPrimitive
  		// ensures that the primitive is correctly drawn when it is 
  		// partially visible.
  				
- 		if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+ 		if(!g.hitClip(xa,ya, xbpap1,ybpap1))
  			return;
 		
-		g.setStroke(stroke);
+		if(!stroke.equals(g.getStroke())) 
+			g.setStroke(stroke);		
+		
 		g.drawLine(x1, y1, x2, y2);
-                          
 		
 	}
 	

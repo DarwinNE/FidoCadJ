@@ -228,6 +228,7 @@ public class PrimitiveLine extends GraphicPrimitive
 	private float w;
 	private BasicStroke stroke;
 	private int length2;
+	private int xbpap1, ybpap1;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -238,7 +239,8 @@ public class PrimitiveLine extends GraphicPrimitive
 							  ArrayList layerV)
 	{
 	
-	
+		if(!selectLayer(g,layerV))
+			return;
 		/* in the line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
 
@@ -262,7 +264,9 @@ public class PrimitiveLine extends GraphicPrimitive
  				ya=y1;
  				yb=y2;
  			}
- 			
+ 			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
+ 			l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
+
 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
  			
@@ -276,23 +280,21 @@ public class PrimitiveLine extends GraphicPrimitive
     			stroke =new BasicStroke(w);
 
 			}
-			
+			xbpap1=(xb-xa)+1;
+			ybpap1=(yb-ya)+1;
 		}
 
 		
 		if(length2>2) {
-			if(!selectLayer(g,layerV))
-				return;
-			if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+			if(!g.hitClip(xa,ya, xbpap1,ybpap1))
  				return;
-			g.setStroke(stroke);
+			
+			if(!stroke.equals(g.getStroke())) 
+				g.setStroke(stroke);			
+				
 			g.drawLine(x1, y1, x2, y2);
 		
-		
-			if (arrowStart || arrowEnd) {
-				h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
-				l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
-		
+			if (arrowStart || arrowEnd) {	
 				if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
 				if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
 			}

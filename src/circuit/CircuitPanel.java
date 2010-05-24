@@ -151,7 +151,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         zoomListener=null;
         antiAlias = true;
         record = 1e100;
-        
         evidenceRect = new Rectangle(0,0,-1,-1);
         oldEvidenceRect = null;
        
@@ -1486,7 +1485,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         
         Graphics2D g2 = (Graphics2D)g; 
-    
+    	g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
+                RenderingHints.VALUE_RENDER_SPEED);
+        g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
+                RenderingHints.VALUE_COLOR_RENDER_SPEED);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
+                RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         if (antiAlias) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
              RenderingHints.VALUE_ANTIALIAS_ON);
         else {
@@ -1513,7 +1517,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
 
         P.draw(g2);
-        //g.setClip(r);
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         
@@ -1537,6 +1540,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             oldEvidenceRect=null;
         }
                 
+       
+        if (P.getMapCoordinates().getXMax()>0 && 
+            P.getMapCoordinates().getYMax()>0){
+            setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
+                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+            
+            revalidate();
+        }
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
@@ -1554,16 +1565,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 average/runs+
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
-        }
-        
-        if (P.getMapCoordinates().getXMax()>0 && 
-            P.getMapCoordinates().getYMax()>0){
-            setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
-                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
-            
-            revalidate();
-        }
-    
+        }    
     }
  
     /** Draws a ruler to ease measuring distances.
@@ -1789,6 +1791,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             dp.setVisible(true);
             if(dp.active) {
                 gp.setControls(dp.getCharacteristics());
+                P.setChanged(true);
                 P.saveUndoState();
                 repaint();
             }

@@ -177,8 +177,10 @@ public class PrimitivePolygon extends GraphicPrimitive
 		
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
- 				
-		g.setStroke(stroke);
+
+ 		if(!stroke.equals(g.getStroke())) 
+			g.setStroke(stroke);		
+
         if (isFilled) {
         	g.drawPolygon(p);
  			g.fillPolygon(p);	

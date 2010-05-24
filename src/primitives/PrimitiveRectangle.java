@@ -154,8 +154,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
         if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
 
-		g.setStroke(stroke);
- 			
+		if(!stroke.equals(g.getStroke())) 
+			g.setStroke(stroke); 			
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 
  			// Java api is to skip the rightmost and bottom pixels 
