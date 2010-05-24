@@ -275,7 +275,9 @@ public class PrimitiveBezier extends GraphicPrimitive
 			else 
 				stroke=new BasicStroke(w);
 		}
-		g.setStroke(stroke);
+		if(!stroke.equals(g.getStroke())) 
+			g.setStroke(stroke);
+		
 		g.draw(shape1);
  						 
  		

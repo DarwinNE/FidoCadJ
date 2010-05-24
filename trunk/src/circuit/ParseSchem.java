@@ -100,8 +100,6 @@ public class ParseSchem
     MapCoordinates cs;
     private Map library;
     private boolean firstDrag;
-    private BufferedImage bufferedImage; // Useful for grid calculation
-    private double oldZoom;
     private boolean needHoles;
     
     private boolean fastTest;
@@ -790,6 +788,11 @@ public class ParseSchem
  		drawOnlyLayer=la;
  	}
  	
+ 	
+ 	private BufferedImage bufferedImage; // Useful for grid calculation
+    private double oldZoom;
+    private TexturePaint tp;
+ 	
     /** Draw the grid in the given graphic context
         @param G the graphic context to be used
         @param xmin the x (screen) coordinate of the upper left corner
@@ -812,68 +815,71 @@ public class ParseSchem
     	
     	double m=1.0;
     	
-    	/*  It turns out that drawing the grid in an efficient way is not a 
-    		trivial problem. What it is done here is that the program tries
-    		to calculate the minimum common integer multiple of the dot 
-    	    spacement to calculate the size of an image in order to be an 
-    	    integer.
-    	    The pattern filling (which is fast) is then used to replicate the
-    	    image (very fast!) over the working surface.
-    	*/
-    	for (double l=1; l<105; ++l) {
-    		if (Math.abs(l*z-Math.round(l*z))<toll) {
-    			mul=(int)l;
-    			break;
-    		}
-    	}
-    	
-    	double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
-    	double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-    	int d=1;
-    	
-    	// This code applies a correction: draws bigger points if the pitch
-    	// is very big, or draw much less points if it is too dense.
-    	if (ddx>50 || ddy>50) {
-    		d=2;
-    	} else if (ddx<3 || ddy <3) {
-    		dx=5*cs.getXGridStep();
-    		dy=5*cs.getYGridStep();
-    		ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
-    		ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-    	
-    	}
-				
-		int width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));
-		if (width<=0) width=1;
-				
-		int height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
-        if (height<=0) height=1;
-		
-		/* Nowadays computers have generally a lot of memory, but this is not 
-		   a good reason to waste it. If it turns out that the image size is 
-		   utterly impratical, use the standard dot by dot grid construction.
-		   This should happen rarely, only for particular zoom sizes.
-		*/
-        if (width>1000 || height>1000) {
-        	G.setColor(Color.white);
-        	G.fillRect(xmin,ymin,xmax,ymax);
-        	G.setColor(Color.gray);
-        	for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
-        		for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
-        		   	G.fillRect(cs.mapXi((int)x,(int)y, false),cs.mapYi((int)x,
-        		   		(int)y, false),d,d);
-				}
-			}
-			
-			return;
-        }
-		
+
 		// Fabricate a new image only if necessary, to save time.	
-		if(oldZoom!=z) {
+		if(oldZoom!=z || bufferedImage == null || tp==null) {
+    		/*  	It turns out that drawing the grid in an efficient way is not a 
+    			trivial problem. What it is done here is that the program tries
+    			to calculate the minimum common integer multiple of the dot 
+    	    	spacement to calculate the size of an image in order to be an 
+    	    	integer.
+    	    	The pattern filling (which is fast) is then used to replicate the
+    	    	image (very fast!) over the working surface.
+    		*/
+    		for (double l=1; l<105; ++l) {
+    			if (Math.abs(l*z-Math.round(l*z))<toll) {
+    				mul=(int)l;
+    				break;
+    			}
+    		}
+    		tp = null;
+    		double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+    		double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+    		int d=1;
+    	
+    		// This code applies a correction: draws bigger points if the pitch
+    		// is very big, or draw much less points if it is too dense.
+    		if (ddx>50 || ddy>50) {
+    			d=2;
+    		} else if (ddx<3 || ddy <3) {
+    			dx=5*cs.getXGridStep();
+    			dy=5*cs.getYGridStep();
+    			ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+    			ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+    	
+    		}
+				
+			int width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));
+			if (width<=0) width=1;
+				
+			int height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
+        	if (height<=0) height=1;
+		
+			/* Nowadays computers have generally a lot of memory, but this is not 
+			   a good reason to waste it. If it turns out that the image size is 
+			   utterly impratical, use the standard dot by dot grid construction.
+			   This should happen rarely, only for particular zoom sizes.
+			*/
+    	    if (width>1000 || height>1000) {
+    	    	G.setColor(Color.white);
+    	    	G.fillRect(xmin,ymin,xmax,ymax);
+    	    	G.setColor(Color.gray);
+    	    	for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
+    	    		for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
+        		   		G.fillRect(cs.mapXi((int)x,(int)y, false),cs.mapYi((int)x,
+        		   			(int)y, false),d,d);
+					}
+				}
+			
+				return;
+        	}
+		
+
+
 			try {
         		// Create a buffered image in which to draw
         		bufferedImage = new BufferedImage(width, height, 
-        								  BufferedImage.TYPE_INT_RGB);
+        								  BufferedImage.TYPE_INT_ARGB);
     		} catch (java.lang.OutOfMemoryError E) {
     			System.out.println("Out of memory error when painting grid");
     			return;
@@ -893,11 +899,11 @@ public class ParseSchem
 				}
 			}
 			oldZoom=z;
+			Rectangle anchor = new Rectangle(width, height);
+
+			tp = new TexturePaint(bufferedImage, anchor);
 		}
 		
-		Rectangle anchor = new Rectangle(width, height);
-
-		TexturePaint tp= new TexturePaint(bufferedImage, anchor);
 		// Textured paint :-)
     	G.setPaint(tp);
     	G.fillRect(0, 0, xmax, ymax);
