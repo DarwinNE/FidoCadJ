@@ -113,6 +113,8 @@ public class GeometricDistances {
 	{
 		return (int)GeometricDistances.pointToSegment((double)xa,(double)ya,
 					(double)xb,(double)yb, (double)x,(double)y);
+
+	
 	}
 
 	/** Tells if a point lies inside a polygon, using the alternance rule
@@ -378,6 +380,8 @@ public class GeometricDistances {
 								 int x4, int y4,
 								 int px,  int py)
 	{
+		int distance=Integer.MAX_VALUE;
+
 		double b03, b13, b23, b33;
 		double umu;
 		double u;
@@ -385,8 +389,7 @@ public class GeometricDistances {
 		int i=0;
 		double[] x=new double[MAX_BEZIER_SEGMENTS+1];
 		double[] y=new double[MAX_BEZIER_SEGMENTS+1];
-		int distance=Integer.MAX_VALUE;
-		double limit=1/(double)MAX_BEZIER_SEGMENTS;
+		double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
 
 		// (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
 		

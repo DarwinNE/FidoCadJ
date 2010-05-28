@@ -76,7 +76,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public boolean profileTime;
     private Color backgroundColor;
     private double average;
-    private double record;
+    private double record;			// Record time for the redrawing
+    private double record_c;		// Record time for mouse down handle event
+    								// in selection
+    private double record_d;		// Record time for click up event
+    								// in selection
+   
+
     private double runs;
     
     private int oldx;
@@ -151,6 +157,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         zoomListener=null;
         antiAlias = true;
         record = 1e100;
+        record_c = record;
+        record_d = record;
         evidenceRect = new Rectangle(0,0,-1,-1);
         oldEvidenceRect = null;
        
@@ -564,6 +572,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 	*/
     private void handleClick(MouseEvent evt)
     {
+    	            
         int x = evt.getX();
         int y = evt.getY();
         requestFocusInWindow(); 
@@ -593,7 +602,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             
-            
             if(Globals.useMetaForMultipleSelection) {
                     // I do not know if a Windows user would approve the key
                     // used for multiple selections...
@@ -622,7 +630,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                             toll,evt.isControlDown());
             }
                 
-           
+            
            
            // repaint();
             break;
@@ -923,6 +931,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             repaint();
             break;
         }    
+        
+
     }    
         
         
@@ -1283,6 +1293,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void mousePressed(MouseEvent evt)
     {
+    	MyTimer mt = new MyTimer();
+		
         int px=evt.getX();
         int py=evt.getY();
         
@@ -1305,11 +1317,20 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ruler = true;
         }
         
+        if(profileTime) {
+            double elapsed=mt.getElapsed();
+            if(elapsed<record_c) {
+                record_c=elapsed;
+            }
+            System.out.println("MP: Time elapsed: "+elapsed+
+               	"; record: "+record_c+" ms");
+        }    
 
     }
     public void mouseDragged(MouseEvent evt)
     {
-        int px=evt.getX();
+		MyTimer mt = new MyTimer();
+		int px=evt.getX();
         int py=evt.getY();
         Graphics g = getGraphics();
         Graphics2D g2d = (Graphics2D)g;
@@ -1333,10 +1354,19 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(!Globals.doNotUseXOR) g2d.setXORMode(editingColor);
         
         P.dragHandleDrag(this, g2d, px, py);
+        if(profileTime) {
+            double elapsed=mt.getElapsed();
+            if(elapsed<record_d) {
+                record_d=elapsed;
+            }
+            System.out.println("MD: Time elapsed: "+elapsed+
+               	"; record: "+record_d+" ms");
+        }    
         
     }
     public void mouseReleased(MouseEvent evt)
     {
+    	MyTimer mt = new MyTimer();
         int px=evt.getX();
         int py=evt.getY();
         
@@ -1356,6 +1386,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         } else {
             handleClick(evt);
         }
+        
+        if(profileTime) {
+            double elapsed=mt.getElapsed();
+            if(elapsed<record_d) {
+                record_d=elapsed;
+            }
+            System.out.println("MR: Time elapsed: "+elapsed+
+               	"; record: "+record_d+" ms");
+        }    
     }
 
     public void mouseEntered(MouseEvent evt)
@@ -1559,7 +1598,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if(elapsed<record) {
                 record=elapsed;
             }
-            System.out.println("Time elapsed: "+
+            System.out.println("R: Time elapsed: "+
                 elapsed+
                 " averaging "+
                 average/runs+

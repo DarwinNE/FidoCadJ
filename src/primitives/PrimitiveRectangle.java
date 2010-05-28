@@ -112,8 +112,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		if(!selectLayer(g,layerV))
 			return;
 			
-		/* in the rectangle primitive, the first two virtual points represent
-		   the two corners of the segment */
+		// in the rectangle primitive, the first two virtual points represent
+		//   the two corners of the segment 
 		   
  		if(changed || stroke==null) {
  			changed=false;

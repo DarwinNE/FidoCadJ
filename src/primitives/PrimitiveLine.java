@@ -238,11 +238,11 @@ public class PrimitiveLine extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-	
+		
 		if(!selectLayer(g,layerV))
 			return;
-		/* in the line primitive, the first two virtual points represent
-		   the beginning and the end of the segment to be drawn. */
+		// in the line primitive, the first two virtual points represent
+		//   the beginning and the end of the segment to be drawn. 
 
 		if(changed || stroke==null) {
 			changed=false;

@@ -217,6 +217,9 @@ public abstract class GraphicPrimitive
 	}
 	
 	private LayerDesc l;
+	private float alpha;
+	private static float oldalpha=1.0f;
+	
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
 		select the corrisponding color. This is a speed sensitive context.
@@ -228,11 +231,14 @@ public abstract class GraphicPrimitive
 	*/
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
-		if (layer<layerV.size()) 
+		
+		
+		try {
 			l= (LayerDesc)layerV.get(layer);
-		else
+		} catch (IndexOutOfBoundsException E)	{ 
 			l= (LayerDesc)layerV.get(0);
-			
+		}
+		
 		if (!l.getVisible())
 			return false;
 							
@@ -240,11 +246,16 @@ public abstract class GraphicPrimitive
 			g.setColor(Color.green);
 		} else {
 			g.setColor(l.getColor());
-			float alpha=l.getAlpha();
-			if (alpha<1.0)
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			alpha=l.getAlpha();
+			//if (alpha<1.0) {
+			//	g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			//} else {
+				if(oldalpha!=alpha) {
+					g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				}
+			//}
 		}	
-		
+		oldalpha = alpha;
 
 		return true;
 	}
@@ -402,6 +413,16 @@ public abstract class GraphicPrimitive
 			layer=((LayerInfo)pd.parameter).getLayer();
 		else
 		 	System.out.println("Warning: unexpected parameter!");
+	}
+	
+	public boolean needsHoles()
+	{	
+		return false;
+	}
+	
+	public void setDrawOnlyPads(boolean t)
+	{
+	
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
