@@ -108,8 +108,8 @@ public class PrimitiveOval extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
-		/* in the oval primitive, the first two virtual points represent
-		   the two corners of the segment */
+		// in the oval primitive, the first two virtual points represent
+		//   the two corners of the segment 
  		
  		if(changed || stroke==null) {
  			changed=false;

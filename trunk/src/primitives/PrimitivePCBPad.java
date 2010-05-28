@@ -107,6 +107,12 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		
 	}
 
+	public final boolean needsHoles()
+	{	
+		return true;
+	}
+
+
 	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
 	
 	/** Draw the graphic primitive on the given graphic context.

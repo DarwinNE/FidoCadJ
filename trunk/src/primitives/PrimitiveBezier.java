@@ -241,8 +241,8 @@ public class PrimitiveBezier extends GraphicPrimitive
 		if(!selectLayer(g,layerV))
 			return;
 			
-		/* in the Bézier primitive, the four virtual points represent
-		   the control point of the shape */
+		// in the Bézier primitive, the four virtual points represent
+		//   the control points of the shape 
  		
  		
  		if (changed||stroke==null) {

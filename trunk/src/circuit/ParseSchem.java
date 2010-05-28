@@ -17,6 +17,8 @@ import geom.*;
 import clipboard.*;
 import export.*;
 import undo.*;
+import timer.*;
+
 
 /** ParseSchem.java v.2.5
 
@@ -588,6 +590,8 @@ public class ParseSchem
 		int i_index;
     	int j_index;
     	boolean needSorting=false;
+    	boolean macro = false;
+    	int la;    	    	
     	
     	
     	// At first, we check if the current view has changed. 
@@ -627,7 +631,7 @@ public class ParseSchem
     	
 
         needHoles=drawOnlyPads;
-        maxLayer=-1;
+        maxLayer=0;
    		
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
@@ -644,31 +648,34 @@ public class ParseSchem
            is non negative.
         */
         if(drawOnlyLayer>=0 && !drawOnlyPads){
+        	
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         		gg=(GraphicPrimitive)primitiveVector.get(i_index);
-			    
-   				if (gg.getLayer()>maxLayer) 
+			    la = gg.getLayer();
+   				if (la >maxLayer) 
    					maxLayer = gg.getLayer();
-        		
+    			    
 				/* This improves the redrawing speed.
 				   The layers are kept ordered, and this means that if the
 				   next primitive exceeds the layer being processed, we have
 				   finished with this layer.
 				  
 				*/
-				if (gg.getLayer()>drawOnlyLayer)
+				if (la>drawOnlyLayer)
 					break;
 				
 				// We found a primitive on the layer being processed which
 				// needs to be printed.
-				if(gg.getLayer()==drawOnlyLayer && 
-        			!(gg instanceof PrimitiveMacro)) {
+				
+				macro = gg instanceof PrimitiveMacro;
+				
+				if(la==drawOnlyLayer && !macro) {
         			if (isFast) 
         				gg.drawFast(G, cs, layerV);
         			else
         				gg.draw(G, cs, layerV);      		
         			
-        		} else if(gg instanceof PrimitiveMacro) {
+        		} else if(macro) {
         			// We need to process a PrimitiveMacro, since it can
         			// contain graphic elements on the layer being processed.
         			((PrimitiveMacro)gg).setDrawOnlyLayer(drawOnlyLayer);
@@ -679,52 +686,55 @@ public class ParseSchem
         				
         			// Needing holes means that the macro contains at least one
         			// PCBpad primitive.
-					needHoles=((PrimitiveMacro)gg).getNeedHoles();
+					needHoles=gg.needsHoles();
 					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
-        					maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
+        				maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
 
         		}
 
-       			if(gg instanceof PrimitivePCBPad)
+       			if(gg.needsHoles())
        				needHoles=true;
 
        		}
        		return;
        	} else if (!drawOnlyPads) {
         	// If we want to draw all layers, we need to process with order.
-        	for(j_index=0;j_index<layerV.size(); ++j_index) {
+        	for(j_index=0;j_index<=maxLayer; ++j_index) {
 
+				// Here we process all the primitives, one by one!
         		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         			gg=(GraphicPrimitive)primitiveVector.get(i_index);
-    
-    				if (gg.getLayer()>maxLayer) 
-        					maxLayer = gg.getLayer();
+    				la  = gg.getLayer();
+    				if (la>maxLayer) 
+        				maxLayer = gg.getLayer();
         					
 					// Layers are ordered. This improves the redrawing speed. 
-					if (j_index>1 && gg.getLayer()>j_index)
+					if (j_index>1 && la>j_index)
 						break;
         		
 					// Process a particular primitive if it is in the layer
 					// being processed.
-        			if(gg.getLayer()==j_index && !(gg instanceof PrimitiveMacro)){
+					macro = gg instanceof PrimitiveMacro;
+        			if(la==j_index && !macro){
         				if (isFast) 
         					gg.drawFast(G, cs, layerV);
         				else
         					gg.draw(G, cs, layerV);    
-        			} else if(gg instanceof PrimitiveMacro) {
+        			} else if(macro) {
         				((PrimitiveMacro)gg).setDrawOnlyLayer(j_index);
         				if (isFast) 
         					gg.drawFast(G, cs, layerV);
         				else
         					gg.draw(G, cs, layerV);    
         				
-						if(((PrimitiveMacro)gg).getNeedHoles())
+						if(gg.needsHoles())
 							needHoles=true;
+							
        					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
        						maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
 
        				}
-       				if(gg instanceof PrimitivePCBPad)
+       				if(gg.needsHoles())
        					needHoles=true;
         			
         		}
@@ -738,27 +748,16 @@ public class ParseSchem
         // drills are always open.
         if(needHoles) {
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-            	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)) 
-            		instanceof PrimitivePCBPad) {
-					((PrimitivePCBPad)gg).setDrawOnlyPads(true);
+            	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
+					gg.setDrawOnlyPads(true);
 					
 					if(isFast) {
-            			((PrimitivePCBPad)gg).drawFast(G, cs, layerV);
+            			gg.drawFast(G, cs, layerV);
             		} else {
-            			((PrimitivePCBPad)gg).draw(G, cs, layerV);
+            			gg.draw(G, cs, layerV);
             		}
-            		((PrimitivePCBPad)gg).setDrawOnlyPads(false);
-            	} else if (gg instanceof PrimitiveMacro) { 
-            		// Uhm... not beautiful
-            		((PrimitiveMacro)gg).setDrawOnlyPads(true);
-
-					if(isFast) {
-            			((PrimitiveMacro)gg).drawFast(G, cs, layerV);
-            		} else {
-            			((PrimitiveMacro)gg).draw(G, cs, layerV);
-            		}
-            		((PrimitiveMacro)gg).setDrawOnlyPads(false);
-            	}
+            		gg.setDrawOnlyPads(false);
+            	} 
         	}
         }
         
@@ -1357,7 +1356,7 @@ public class ParseSchem
         int i;
         int isel=0;
         int mindistance=Integer.MAX_VALUE;
-        int distance;
+        int distance=mindistance;
         int layer;
         
         hasMoved=false;
@@ -1373,19 +1372,23 @@ public class ParseSchem
         int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
         if (sptol<2) sptol=2; 
         
+        // Search for the closest primitive to the given point
+        // Performs a cycle through all primitives and check their 
+        // distance.
         
         for (i=0; i<primitiveVector.size(); ++i){
             gp=(GraphicPrimitive)primitiveVector.get(i);
       		layer= gp.getLayer();
                        
+            // Does not allow for selecting an invisible primitive
             if(!((LayerDesc)layerV.get(layer)).getVisible() &&
             	!(gp instanceof PrimitiveMacro))
             	continue;
             
             if(gp.getSelected()){
+                // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
                 
-                // Verify if the pointer is on a handle
                 if(handleBeingDragged!=GraphicPrimitive.NO_DRAG){
                     primBeingDragged=gp;
                     

@@ -226,8 +226,7 @@ public class PrimitiveMacro extends GraphicPrimitive
     
  		
  		if(changed) {
- 			changed=false;
-			x2=virtualPoint[1].x;
+ 			x2=virtualPoint[1].x;
  			y2=virtualPoint[1].y;
  			x3=virtualPoint[2].x;
  			y3=virtualPoint[2].y;
@@ -290,8 +289,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
 		
-		if(true) {
-		
+		if(changed) {
+			changed = false;
 			x1=virtualPoint[0].x;
  			y1=virtualPoint[0].y;
  		
@@ -307,8 +306,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.resetMinMax();
  		 		 			
  			macro.setMapCoordinates(macroCoord);
- 			if (changed)	
- 				macro.setChanged(true);
+			macro.setChanged(true);
 		}
 		
 		if(getSelected()) {
@@ -365,9 +363,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-		drawMacroContents(g, coordSys, layerV, false);
 		drawText(g, coordSys, layerV);
-		
+		drawMacroContents(g, coordSys, layerV, false);
 		
  	}
  	
@@ -566,8 +563,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 	}
 	
-	public final boolean getNeedHoles()
-	{
+	public final boolean needsHoles()
+	{	
 		return macro.getNeedHoles();
 	}
 	
@@ -598,28 +595,27 @@ public class PrimitiveMacro extends GraphicPrimitive
    		        
         
 	    if(GeometricDistances.pointInRectangle(xa,ya,t_w1,t_th,px,py))
-	       	dt=0;
+	       	return 0;
 	    if(GeometricDistances.pointInRectangle(xb,yb,t_w2,t_th,px,py))
-	       	dt=0;
+	       	return 0;
 	        	
 	
- 		MapCoordinates macroCoord=new MapCoordinates();
+ 		MapCoordinates mc=new MapCoordinates();
  			
- 		macroCoord.setXMagnitude(1.0);
- 		macroCoord.setYMagnitude(1.0);
+ 		mc.setXMagnitude(1.0);
+ 		mc.setYMagnitude(1.0);
  			
- 		macroCoord.setXCenter(0.0);
- 		macroCoord.setYCenter(0.0);
-		macroCoord.orientation=o%4;
-		macroCoord.mirror=m;
- 		macroCoord.isMacro=true;
- 			
- 		//ParseSchem macro=new ParseSchem();
- 		macro.setMapCoordinates(macroCoord);
+ 		mc.setXCenter(0.0);
+ 		mc.setYCenter(0.0);
+		mc.orientation=o%4;
+		mc.mirror=m;
+ 		mc.isMacro=true;
+	
+ 		MapCoordinates omc = macro.getMapCoordinates();
  		
- 		//macro.setLibrary(library); 	// Inherit the library
- 		//macro.setLayers(layers);	// Inherit the layers
+ 		macro.setMapCoordinates(mc);
  		
+	
  		int vx=px-x1+100;
  		int vy= py-y1+100;
  		
@@ -680,7 +676,7 @@ public class PrimitiveMacro extends GraphicPrimitive
             }
         }   
         
- 			
+ 		macro.setMapCoordinates(omc);	
  		
  		if (macroDesc==null)
  			System.out.println("1-Unrecognized macro "+
