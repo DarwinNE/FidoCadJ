@@ -56,15 +56,14 @@ public abstract class GraphicPrimitive
 	
 	// Minimum width size of a line in pixel
 	protected static final float D_MIN = 0.5f; 
-	
-	protected boolean changed;
-	
+		
 	// The layer
 	private int layer;
-	
+		
 	// Array containing the points defining the primitive
 	public Point[] virtualPoint;
 
+	protected boolean changed;
 	
 	/* At first, non abstract methods */
 	
@@ -78,6 +77,10 @@ public abstract class GraphicPrimitive
 
 	}
 	
+	/** Specifies that the current primitive has been modified or not. 
+		If it is true, during the redraw all parameters should be calulated
+		from scratch. 
+	*/
     public final void setChanged(boolean c)
     {
     	changed=c;
@@ -162,6 +165,20 @@ public abstract class GraphicPrimitive
 		changed=true;	
 	}
 	
+ 	public void setDrawOnlyLayer (int i)
+ 	{
+ 	
+ 	}	
+ 	
+ 	public boolean containsLayer(int l)
+ 	{
+ 		return l==layer;
+ 	}
+ 	
+ 	public int getMaxLayer()
+ 	{
+ 		return layer;
+ 	}
 	
 	/** Set the primitive as selected. 
 		@param s the new state*/
@@ -186,6 +203,10 @@ public abstract class GraphicPrimitive
 		return layer;
 	}
 	
+	/** Parses the current string and interpret it as a layer indication.
+		If this is correct, the layer is saved in the current primitive.
+	
+	*/
 	public void parseLayer(String token)
  	{
  		int l;
@@ -197,6 +218,7 @@ public abstract class GraphicPrimitive
 			l=0;
 		}
 		
+		// We do check if everything is OK.
 		if (layer<0 || layer>=MAX_LAYERS)
 			layer=0;
 		else
@@ -232,28 +254,38 @@ public abstract class GraphicPrimitive
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
 		
+		// At first, we try to get the current layer. If there is a problem,
+		// the layer 0 should always be present.
 		
-		try {
+		if (layer < layerV.size())
 			l= (LayerDesc)layerV.get(layer);
-		} catch (IndexOutOfBoundsException E)	{ 
+		else
 			l= (LayerDesc)layerV.get(0);
-		}
+		
+		// If the layer is not visible, we just exit, returning false. This
+		// will made the caller not to draw the graphical element.
 		
 		if (!l.getVisible())
 			return false;
 							
+		// The color for selected primitives is green.
+		
 		if(selectedState) {
 			g.setColor(Color.green);
+			if(oldalpha!=alpha) {
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			}
 		} else {
 			g.setColor(l.getColor());
 			alpha=l.getAlpha();
-			//if (alpha<1.0) {
-			//	g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-			//} else {
-				if(oldalpha!=alpha) {
-					g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-				}
-			//}
+			// Here we use a trick for handling the alpha channel. This avoids
+			// that the alpha is set when it is unnecessary. This is somewhat
+			// incompatible with the XOR technique, which is still used in some 
+			// cases. 
+			
+			if(oldalpha!=alpha || alpha<1.0) {
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			}
 		}	
 		oldalpha = alpha;
 
@@ -415,11 +447,24 @@ public abstract class GraphicPrimitive
 		 	System.out.println("Warning: unexpected parameter!");
 	}
 	
+	/** This function should be redefined if the graphic primitive needs holes.
+		This implies that the redraw strategy should include a final pass 
+		to be sure that the holes are drawn correctly.
+	
+	*/
 	public boolean needsHoles()
 	{	
 		return false;
 	}
 	
+	
+	/** Specify whether during the drawing phase the primitive should draw 
+		only the pads. This is useful only for the PrimitiveMacro and
+		PrimitivePCBPad subclasses.
+		
+		@param t the wanted state.
+	
+	*/
 	public void setDrawOnlyPads(boolean t)
 	{
 	

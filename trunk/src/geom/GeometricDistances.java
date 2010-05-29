@@ -21,12 +21,12 @@ package geom;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008 by Davide Bucci
+	Copyright 2008-2010 by Davide Bucci
 </pre>	
 
     
     @author Davide Bucci
-    @version 1.1, June 2008
+    @version 1.2, May 2010
 */
 
 public class GeometricDistances {
@@ -65,6 +65,11 @@ public class GeometricDistances {
 	
 	}
 	
+	private static	double dx;
+	private static	double dy;
+	private static	double t;
+	
+	
 	/** Calculate the euclidean distance between a point and a segment.
 	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
 	    	    
@@ -79,10 +84,7 @@ public class GeometricDistances {
 								 double xb, double yb,
 								 double x, double y )
 	{
-		double dx;
-		double dy;
-		double t;
-		
+	
 		
 		dx=xb-xa;
 		dy=yb-ya;
@@ -107,13 +109,51 @@ public class GeometricDistances {
 		return Math.sqrt(dx*dx+dy*dy);
 	
 	}
+	
+	private static	int idx;
+	private static	int idy;
+	private static	int it;
+	/** Calculate the euclidean distance between a point and a segment.
+	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
+	    This is a version which does all calculations in fixed point with
+	    three digits and it should be faster than the double precision version
+	    on some platforms.
+	    
+	    @param xa the X coordinate of the starting point of the segment
+	    @param ya the Y coordinate of the starting point of the segment
+	    @param xb the X coordinate of the ending point of the segment
+	    @param yb the Y coordinate of the ending point of the segment
+	    @param x the X coordinate of the point
+	    @param y the Y coordinate of the point
+	*/
 	public static int pointToSegment(int xa, int ya,
 							  int xb, int yb,
 							  int x, int y)
 	{
-		return (int)GeometricDistances.pointToSegment((double)xa,(double)ya,
-					(double)xb,(double)yb, (double)x,(double)y);
 
+		if (xb==xa && yb==ya) {
+			idx=x-xa;
+			idy=y-yb;
+			return (int)Math.sqrt(idx*idx+idy*idy);
+		}
+		idx=xb-xa;
+		idy=yb-ya;
+		
+		// This is an integer, fixed point implementation. We suppose to make
+		// calculations with three decimals.
+		
+		it=(1000*((x-xa)*idx+(y-ya)*idy))/(idx*idx+idy*idy);
+		if (it<0) {
+			idx=x-xa;
+			idy=y-ya;
+		} else if (it>1000){
+			idx=x-xb;
+			idy=y-yb;
+		} else {
+			idx=x-(xa+it*idx/1000);
+			idy=y-(ya+it*idy/1000);
+		}
+		return (int)Math.sqrt(idx*idx+idy*idy);
 	
 	}
 
@@ -347,8 +387,12 @@ public class GeometricDistances {
 	public static int pointToRectangle(int ex,int ey,int w,
 								  int h, int px,int py) 
 	{
-		return (int)pointToRectangle((double) ex,(double) ey,(double) w,
-								   (double) h, (double) px,(double) py); 
+		int d1=pointToSegment(ex,ey,ex+w,ey,px,py);
+		int d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
+		int d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
+		int d4=pointToSegment(ex,ey+h,ex,ey,px,py);
+		
+		return Math.min(Math.min(d1,d2),Math.min(d3,d4));
 	}
 
 
@@ -387,8 +431,8 @@ public class GeometricDistances {
 		double u;
 		int j;
 		int i=0;
-		double[] x=new double[MAX_BEZIER_SEGMENTS+1];
-		double[] y=new double[MAX_BEZIER_SEGMENTS+1];
+		int[] x=new int[MAX_BEZIER_SEGMENTS+1];
+		int[] y=new int[MAX_BEZIER_SEGMENTS+1];
 		double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
 
 		// (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
@@ -422,10 +466,11 @@ public class GeometricDistances {
 		// obtained segments.
 		
 		for(j=0;j<MAX_BEZIER_SEGMENTS;++j) {
-			distance=(int)Math.min(distance, pointToSegment(x[j], y[j], 
+			distance=Math.min(distance, pointToSegment(x[j], y[j], 
 												x[j+1], y[j+1],px, py));
 		}
 		return distance;
 	}
 
 }
+

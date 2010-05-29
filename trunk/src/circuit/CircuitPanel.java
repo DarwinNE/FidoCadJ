@@ -632,7 +632,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 
             
            
-           // repaint();
+            // repaint();
             break;
         
         case ZOOM:      //////// TO IMPROVE: should center the viewport
@@ -1820,6 +1820,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     }
     
+    /** Shows a dialog which allows the user modify the parameters of a given
+    	primitive.
+    
+    */
     private void setPropertiesForPrimitive()
     {
         GraphicPrimitive gp=P.getFirstSelectedPrimitive();
@@ -1831,6 +1835,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if(dp.active) {
                 gp.setControls(dp.getCharacteristics());
                 P.setChanged(true);
+                
+                // We need to check and sort the layers, since the user can
+                // change the layer associated to a given primitive thanks to
+                // the dialog window which has been shown.
+                
+                P.sortPrimitiveLayers();
                 P.saveUndoState();
                 repaint();
             }

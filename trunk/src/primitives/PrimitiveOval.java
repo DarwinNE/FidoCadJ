@@ -146,8 +146,8 @@ public class PrimitiveOval extends GraphicPrimitive
 			else 
 				stroke=new BasicStroke(w);		
 		}
-		if (xb==xa && yb==ya)
-			return;
+	/*	if (xb==xa && yb==ya)
+			return;*/
 			
 		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
  			return;

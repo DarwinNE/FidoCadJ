@@ -114,6 +114,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 
 
 	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
+	private int rrx2, rry2, rix2, riy2;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -137,7 +138,8 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		
  			rrx=Math.abs(coordSys.mapXi(x1,y1, false)-coordSys.mapXi(x1+rx,y1+ry, false));
  			rry=Math.abs(coordSys.mapYi(x1,y1, false)-coordSys.mapYi(x1+rx,y1+ry, false));
- 			
+ 			rrx2 = rrx/2;
+ 			rry2 = rry/2;
  		
  			xa=coordSys.mapX(x1,y1);
  			ya=coordSys.mapY(x1,y1);
@@ -150,39 +152,39 @@ public class PrimitivePCBPad extends GraphicPrimitive
  		
  			rix=Math.abs(xa-coordSys.mapXi(x1+ri,y1+ri, false));
  			riy=Math.abs(ya-coordSys.mapYi(x1+ri,y1+ri, false));
+ 			
+ 			rix2 = rix/2;
+ 			riy2 = riy/2;
  		}
  		
  		// Exit if the primitive is offscreen. This is a simplification, but
  		// ensures that the primitive is correctly drawn when it is 
  		// partially visible.
  		
- 		if(!g.hitClip(xa-rrx/2,ya-rry/2, rrx, rry))
+ 		if(!g.hitClip(xa-rrx2,ya-rry2, rrx, rry))
  			return;
  			
  		if (!drawOnlyPads) {
  			switch(sty) {
  			case 1:
- 				/* Rectangular pad */
- 				g.fillRect(xa-rrx/2,
- 				    ya-rry/2,rrx,rry);
+ 				// Rectangular pad 
+ 				g.fillRect(xa-rrx2, ya-rry2,rrx,rry);
  				break;
  			case 2:
- 				/* Rounded corner rectangular pad */
- 				g.fillRoundRect(xa-rrx/2,
- 				    ya-rry/2,rrx,rry,rox,roy);
+ 				// Rounded corner rectangular pad 
+ 				g.fillRoundRect(xa-rrx2, ya-rry2,rrx,rry,rox,roy);
  				break;
  			case 0:
  			default:
- 				/* Oval Pad */ 
+ 				// Oval Pad 
 		
- 				g.fillOval(xa-rrx/2,
- 				    ya-rry/2,rrx,rry);
+ 				g.fillOval(xa-rrx2, ya-rry2,rrx,rry);
  			
  			}
  		} else {
       			
- 			g.setColor(Color.white); /* Drill */
- 			g.fillOval(xa-rix/2, ya-riy/2,rix,riy);
+ 			g.setColor(Color.white); // Drill the hole
+ 			g.fillOval(xa-rix2, ya-riy2,rix,riy);
  		}
  		
 	}
