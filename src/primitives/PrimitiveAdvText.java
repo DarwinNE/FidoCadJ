@@ -332,14 +332,17 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				at.rotate(Math.toRadians(orientation),-xa, ya);
 				at.concatenate(stretching);
    				g.setTransform(at);
-				g.setFont(f);
+				if(!g.getFont().equals(f))
+	   				g.setFont(f);
+
     			g.drawString(txt,-xa,qq+h); 
 
     		} else {
 				at.rotate(Math.toRadians(-orientation),xa,ya);
 				at.concatenate(stretching);
    				g.setTransform(at);
-   				g.setFont(f);
+   				if(!g.getFont().equals(f))
+	   				g.setFont(f);
 				g.drawString(txt,xa,qq+h); 
     		}
   		} else {
@@ -353,7 +356,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 						g.setTransform(ats);
 	   					return;
 	    			} else {
-	    				g.setFont(f);
+	    				if(!g.getFont().equals(f))
+	   						g.setFont(f);
 						g.drawString(txt,xa,qq+h);
 					}
 				}
@@ -361,7 +365,9 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				at.scale(-1,xyfactor);
 				g.setTransform(at);
 				if(g.hitClip(-xa,qq,w,h)){
-					g.setFont(f);
+					if(!g.getFont().equals(f))
+	   					g.setFont(f);
+
 					g.drawString(txt,-xa,qq+h); 
 				}
 			}

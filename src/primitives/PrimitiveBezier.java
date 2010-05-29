@@ -228,6 +228,10 @@ public class PrimitiveBezier extends GraphicPrimitive
 	private Stroke stroke;
 	private float w;
 	private Rectangle r;
+	
+	private int xmin, ymin;
+	private int width, height;
+
 		
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -245,7 +249,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		//   the control points of the shape 
  		
  		
- 		if (changed||stroke==null) {
+ 		if (changed) {
  			changed=false;
  			shape1 = new CubicCurve2D.Float(
  				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
@@ -257,11 +261,12 @@ public class PrimitiveBezier extends GraphicPrimitive
 				coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
 				coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 			
-		/* booh? it slows down the execution!
-			r=g.getClipBounds(r);
-			if(!shape1.intersects(r.x, r.y, r.width, r.height))
-				return;
-		*/	
+			Rectangle r = shape1.getBounds();
+			
+			xmin = r.x;
+			ymin = r.y;
+			width  = r.width;
+			height = r.height;
  		
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
@@ -275,13 +280,16 @@ public class PrimitiveBezier extends GraphicPrimitive
 			else 
 				stroke=new BasicStroke(w);
 		}
+		
+		if(!g.hitClip(xmin,ymin, width, height))
+ 			return;
+
+		
 		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);
 		
 		g.draw(shape1);
- 						 
- 		
- 		
+ 			
  		
 		if (arrowStart || arrowEnd) {
 			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-

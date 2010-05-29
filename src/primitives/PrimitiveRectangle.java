@@ -115,7 +115,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		// in the rectangle primitive, the first two virtual points represent
 		//   the two corners of the segment 
 		   
- 		if(changed || stroke==null) {
+ 		if(changed) {
  			changed=false;
 			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);

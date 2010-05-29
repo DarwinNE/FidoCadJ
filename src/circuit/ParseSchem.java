@@ -96,6 +96,7 @@ public class ParseSchem
     private int drawOnlyLayer;
     
     private String[] tokens;
+    private boolean[] layersUsed;
     private int lineNum;
     ArrayList primitiveVector;
     ArrayList layerV;
@@ -153,6 +154,7 @@ public class ParseSchem
         drawOnlyLayer=-1;
         cl=null;
         macroFont = "Courier New";
+		layersUsed = new boolean[16];
         
         // Setup the standard view settings:
         // top left corner, 400% zoom. 
@@ -477,9 +479,16 @@ public class ParseSchem
     	    	
         primitiveVector.add(p);
         if (save) saveUndoState();
+        layersUsed[p.getLayer()] = true;
+
         changed=true;
 
     }
+    
+ 	public boolean containsLayer(int l)
+ 	{
+ 		return layersUsed[l];
+ 	}    
     
     
     /** Get the Fidocad text file.
@@ -592,6 +601,7 @@ public class ParseSchem
     	boolean needSorting=false;
     	boolean macro = false;
     	int la;    	    	
+    	boolean has_to_change = false;
     	
     	
     	// At first, we check if the current view has changed. 
@@ -602,27 +612,10 @@ public class ParseSchem
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
     		changed=false;
-    		GraphicPrimitive g;
     		
     		// Here we force for a global refresh of graphic data at the 
-    		// primitive level. We check also that every layer is ordered.
-    		// If not, we sort. 
-    		
-    		for (i_index=0; i_index<primitiveVector.size(); ++i_index) {
-    			((GraphicPrimitive)primitiveVector.get(i_index)).setChanged(true);
-    			
-    			if (i_index<primitiveVector.size()-1) {
-    				g=(GraphicPrimitive)primitiveVector.get(i_index);
-            		gg=(GraphicPrimitive)primitiveVector.get(i_index+1);
-    		
-    				if(gg.getLayer()<g.getLayer()) {
-    					needSorting=true;
-    					break;
-    				}
-    			}
-    		}
-	    	if(needSorting)
-    			sortPrimitiveLayers();
+    		// primitive level. 
+    		has_to_change = true;
 
     		if (!drawOnlyPads) 
         		cs.resetMinMax();
@@ -651,9 +644,12 @@ public class ParseSchem
         	
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         		gg=(GraphicPrimitive)primitiveVector.get(i_index);
+        		if(has_to_change)
+        			gg.setChanged(true);
+			    
 			    la = gg.getLayer();
-   				if (la >maxLayer) 
-   					maxLayer = gg.getLayer();
+        		if (gg.getMaxLayer()>maxLayer) 
+        				maxLayer = gg.getMaxLayer();
     			    
 				/* This improves the redrawing speed.
 				   The layers are kept ordered, and this means that if the
@@ -664,34 +660,15 @@ public class ParseSchem
 				if (la>drawOnlyLayer)
 					break;
 				
-				// We found a primitive on the layer being processed which
-				// needs to be printed.
-				
-				macro = gg instanceof PrimitiveMacro;
-				
-				if(la==drawOnlyLayer && !macro) {
+				gg.setDrawOnlyLayer(drawOnlyLayer);
+				if(gg.containsLayer(la)) {
         			if (isFast) 
         				gg.drawFast(G, cs, layerV);
         			else
         				gg.draw(G, cs, layerV);      		
-        			
-        		} else if(macro) {
-        			// We need to process a PrimitiveMacro, since it can
-        			// contain graphic elements on the layer being processed.
-        			((PrimitiveMacro)gg).setDrawOnlyLayer(drawOnlyLayer);
-        			if (isFast) 
-        				gg.drawFast(G, cs, layerV);
-        			else
-        				gg.draw(G, cs, layerV);
-        				
-        			// Needing holes means that the macro contains at least one
-        			// PCBpad primitive.
-					needHoles=gg.needsHoles();
-					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
-        				maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
-
+ 			
         		}
-
+       			
        			if(gg.needsHoles())
        				needHoles=true;
 
@@ -699,44 +676,38 @@ public class ParseSchem
        		return;
        	} else if (!drawOnlyPads) {
         	// If we want to draw all layers, we need to process with order.
+        	
         	for(j_index=0;j_index<=maxLayer; ++j_index) {
 
 				// Here we process all the primitives, one by one!
         		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         			gg=(GraphicPrimitive)primitiveVector.get(i_index);
-    				la  = gg.getLayer();
-    				if (la>maxLayer) 
-        				maxLayer = gg.getLayer();
-        					
+        			if(has_to_change)
+        				gg.setChanged(true);
+			    
+  				
+        			if (gg.getMaxLayer()>maxLayer) 
+  						maxLayer = gg.getMaxLayer();
+        			
 					// Layers are ordered. This improves the redrawing speed. 
-					if (j_index>1 && la>j_index)
+					if (j_index>0 && gg.getLayer()>j_index) {
 						break;
-        		
+					}
+        			
+        			gg.setDrawOnlyLayer(j_index);
 					// Process a particular primitive if it is in the layer
 					// being processed.
-					macro = gg instanceof PrimitiveMacro;
-        			if(la==j_index && !macro){
+					
+        			if(gg.containsLayer(j_index)){
         				if (isFast) 
         					gg.drawFast(G, cs, layerV);
         				else
         					gg.draw(G, cs, layerV);    
-        			} else if(macro) {
-        				((PrimitiveMacro)gg).setDrawOnlyLayer(j_index);
-        				if (isFast) 
-        					gg.drawFast(G, cs, layerV);
-        				else
-        					gg.draw(G, cs, layerV);    
-        				
-						if(gg.needsHoles())
-							needHoles=true;
-							
-       					if (((PrimitiveMacro)gg).getMaxLayer()>maxLayer) 
-       						maxLayer = ((PrimitiveMacro)gg).getMaxLayer();
-
-       				}
+        			} 
+       				
        				if(gg.needsHoles())
        					needHoles=true;
-        			
+
         		}
         		if (j_index>maxLayer)
         			break;
@@ -750,7 +721,7 @@ public class ParseSchem
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
             	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
 					gg.setDrawOnlyPads(true);
-					
+				
 					if(isFast) {
             			gg.drawFast(G, cs, layerV);
             		} else {
@@ -1141,20 +1112,19 @@ public class ParseSchem
         int mindistance=Integer.MAX_VALUE;
         int isel=0;
         int layer=0;
+        GraphicPrimitive gg;
         
         for (i=0; i<primitiveVector.size(); ++i){
-            distance=((GraphicPrimitive)
-                       primitiveVector.get(i)).getDistanceToPoint(px,py);
-                       
-            layer= ((GraphicPrimitive)
-                       primitiveVector.get(i)).getLayer();
+        	gg =(GraphicPrimitive)primitiveVector.get(i);
+        	
+            distance=gg.getDistanceToPoint(px,py);                     
+            layer= gg.getLayer();
                        
             if(((LayerDesc)layerV.get(layer)).getVisible() &&
             	distance<=mindistance) {
                 
                 isel=i;
-                mindistance=distance;
-                
+                mindistance=distance;              
             }
         }
         
@@ -1321,6 +1291,11 @@ public class ParseSchem
         int layer;
         boolean s=false;
         
+        // Avoid processing a trivial case.
+        if(w<1 || h <1)
+        	return false;
+        
+        // Process every primitive, if the corresponding layer is visible.
         for (i=0; i<primitiveVector.size(); ++i){
             gp=((GraphicPrimitive) primitiveVector.get(i));
             
@@ -1677,6 +1652,8 @@ public class ParseSchem
 		int vn=0, vv=0;
         int old_j=0;
         int macro_counter=0;
+        
+        token.ensureCapacity(256);
 
         /* 	This code is not very easy to read. If more extension of the
         	original FidoCad format (performed with the FCJ tag) are to be 

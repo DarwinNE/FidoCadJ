@@ -159,7 +159,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 		if(!selectLayer(g,layerV))
 			return;
     	
-    	if(changed || stroke==null) {
+    	if(changed) {
     		changed=false;
     		createPolygon(coordSys);
    
@@ -168,9 +168,9 @@ public class PrimitivePolygon extends GraphicPrimitive
 
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
-                                         BasicStroke.CAP_BUTT, 
-                                         BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f);
+                                BasicStroke.CAP_BUTT, 
+                                BasicStroke.JOIN_MITER, 
+                                10.0f, Globals.dash[dashStyle], 0.0f);
 			else 
 				stroke=new BasicStroke(w);
 		}

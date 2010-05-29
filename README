@@ -84,7 +84,7 @@ fidocadj/trunk directory and type:
 And FidoCadJ should be automatically compiled and run.
 
 3.2 Compile and run the sources from another operating system
---------------------------------------------------------------
+-------------------------------------------------------------
 
 If you type the ./rebuild command directly as described in section 3.1, you
 will probably stumble in a lot of errors. The Java compiler is complaining 
@@ -128,7 +128,72 @@ If you do not know Java, you can participate by improving the manuals or
 translating the interface, or just can give an advice. 
 Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
 forums (the email address is valid without the nope part, but no 
-attachments, please). 
+attachments, please). It is probably better to open a discussion in the 
+SourceForge forums, in order that the work can eventually be shared and
+organized between all developers.
+
+4.1 "I want to translate FidoCadJ in my language"
+-------------------------------------------------
+
+FidoCadJ is written in such a way that translating its interface is 
+particularly easy and does not need to have programming abilities.
+If you have downloaded the source file repository, you should find the 
+resource files in the trunk/bin directory.
+A language resource file has the name MessagesBundle_xx_YY.properties, where
+xx and YY are respectively the code for the language and the country 
+to which the translation is targeted.
+If you have a look at the beginning of the file 
+trunk/bin/MessagesBundle_en_US.properties, you should read something as 
+follow:
+
+File = File
+New = New
+Open = Open file
+Save = Save
+SaveName = Save as...
+Export = Export
+Print = Print
+Close = Close
+
+...
+
+The resources string are organized in the form key = value. For example, here 
+is the head of the corresponding file for the interface in French,
+
+File = Fichier
+New = Nouveau dessin
+Open = Ouvre un fichier
+Save = Enregistrer
+SaveName = Enregistrer sous un autre nom
+Export = Exporter
+Print = Impression
+Close = Fermer
+
+...
+
+That is all. If you want to translate FidoCadJ in your language, you just have
+to translate line by line the values in a language resource file, name it 
+accordingly to your locale and place it in the trunk/bin directory.
+Pay attention that sometimes there are spaces at the end of the value 
+strings which need to be kept in place.
+
+4.2 I would like to participate to the coding activity
+------------------------------------------------------
+
+This is very nice from you. We will be happy for that. You can manifest 
+yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
+your skills and basically what you would like to do. We will discuss a little
+in order to see if we can find an intersecton with FidoCadJ development 
+strategy. The idea is to keep work a little bit organized and know who does
+what.
+
+Once you decide what you want to do, you can run the Javadoc utility in order
+to get a HTML description of all classes used in FidoCadJ. You will find that
+useful to understand the underpinnings of the program. To do that, you can
+run the trunk/createdoc sh script, if you are in a Unix system.
+
+Then comes the hard work... We can help you! Please come to the SourceForge
+forums dedicated to FidoCadJ!
 
 --------------------
 5 - I found a bug...
@@ -144,3 +209,22 @@ http://sourceforge.net/tracker/?group_id=274886&atid=1167996
 
 If you feel unconfortable with the SourceForge system, please drop a few 
 lines to davbucciNOPE@tiscali.it
+
+-------------
+6 - Licensing
+-------------
+
+FidoCadJ is distributed with the GPL v. 3 license:
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
