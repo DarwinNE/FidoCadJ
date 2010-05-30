@@ -20,7 +20,7 @@ import undo.*;
 import timer.*;
 
 
-/** ParseSchem.java v.2.5
+/**
 
 <pre>
    A FIDOCAD schematics draw class.
@@ -56,6 +56,7 @@ Version   Date           Author       Remarks
 									Macro font selection
 2.7		February 2010	D. Bucci	General optimization
 2.8		March 2010		D. Bucci	Optimization and improvements
+2.9		May 2010		D. Bucci	Optimized, code cleaned
 
 	This file is part of FidoCadJ.
 
@@ -78,62 +79,116 @@ Version   Date           Author       Remarks
    Main parsing class 
     
     @author Davide Bucci
-    @version 2.8, March 2010
+    @version 2.9, May 2010
 */
 
 public class ParseSchem
 {   
+	// ********** CONFIGURATION **********
+	
 	// This is the maximum number of tokens which will be considered in a line
     static final int MAX_TOKENS=100;
   
+  	// True if FidoCadJ should use Windows style line feeds (appending \r
+  	// to the text generated).
     static final boolean useWindowsLineFeed=false;
     
+    // Name of the last file opened
 	public String openFileName;
 	
+	
+	// ************* DRAWING *************
+	
+	// True if the drawing characteristics have been modified. This implies
+	// that during the first redraw a in-depth calculation of all coordinates
+	// will be done. For performance reasons, this is indeed done only when
+	// necessary.
 	private boolean changed;
 
+	// True if only pads should be drawn.
     private boolean drawOnlyPads;
+    
+    // Positive if during the redraw step only a particular layer should be
+    // drawn
     private int drawOnlyLayer;
-    
-    private String[] tokens;
-    private boolean[] layersUsed;
-    private int lineNum;
-    ArrayList primitiveVector;
-    ArrayList layerV;
-    MapCoordinates cs;
-    private Map library;
-    private boolean firstDrag;
-    private boolean needHoles;
-    
-    private boolean fastTest;
-    
+
+	// Font and size to be used for the text associated to the macros.
     private String macroFont;
     private int macroFontSize;
+	
+	// Array used to determine which layer is used in the drawing.
+    private boolean[] layersUsed;	
+
+	// Higher priority layer used in the drawing.
+	private int maxLayer;
+   
+    // True if the drawing needs holes. This implies that the redrawing
+    // step must include a cycle at the end to draw all holes.
+    private boolean needHoles;
+
+	// True if during redraw, the macro origin (100,100) should be represented.    
+    private boolean hasFCJOriginVisible;
+
+   
+	// ******** DRAG & INTERFACE *********
     
-    private int oldpx;
-    private int oldpy;
+    // True if we are at the beginning of a dragging operation.
+    private boolean firstDrag;
     
-    private UndoManager um;
-    private final int MAX_UNDO=100;
-    
+    // The graphic primitive being treated.
     private GraphicPrimitive primBeingDragged;
+	// The handle of the active graphic primitive being treated.
     private int handleBeingDragged;
    
-    // Old cursor position for handle drag
+    // Old cursor position for handle drag.
     private int opx;
     private int opy;
     
+    // Other old cursor position for handle drag...
+    private int oldpx;
+    private int oldpy;
+    
+    // True if the primitive has moved.
     private boolean hasMoved;
     
-    private int maxLayer;
+        
+	// ******* PRIMITIVE DATABASE ********
+    
+    // Array of tokens being processed.
+    private String[] tokens;
+    // Actual line number. This is useful to indicate errors.
+    private int lineNum;
+    
+    // ArrayList containing all primitives in the drawing.
+    ArrayList primitiveVector;
+    // ArrayList containing all layers used in the drawing.
+    ArrayList layerV;
+    
+    // Coordinate system to be used.
+    MapCoordinates cs;
+    
+    // Library of macros loaded.
+    private Map library;
    
-   // A drawing modification flag. If true, there are unsaved changes
+ 
+    
+    // ************ UNDO *************
+    
+    // Undo manager
+    private UndoManager um;
+    
+    // Maximum number of levels to be retained for undo operations.
+    private final int MAX_UNDO=100;
+            
+    // A drawing modification flag. If true, there are unsaved changes
     private boolean isModified;
+    
+    
+    // ********** LISTENERS **********
     
     private HasChangedListener cl;
     
-    private boolean hasFCJOriginVisible;
-
+    
 
 	/** The standard constructor. Not so much interesting, apart for the
 		fact that it allocates memory of a few internal objects and reset all
@@ -479,19 +534,28 @@ public class ParseSchem
     	    	
         primitiveVector.add(p);
         if (save) saveUndoState();
-        layersUsed[p.getLayer()] = true;
+        
+        if (p.getLayer()<16)
+        	layersUsed[p.getLayer()] = true;
 
         changed=true;
 
     }
     
+    /** Returns true if the specified layer is contained in the schematic
+    	being drawn. The analysis is done when the schematics is created, so
+    	the results of this method are ready before the redraw step.
+    	
+    	@return true if the specified layer is contained in the drawing.
+    
+    */
  	public boolean containsLayer(int l)
  	{
  		return layersUsed[l];
  	}    
     
     
-    /** Get the Fidocad text file.
+    /** Get the FidoCad text file.
     
     	@param extensions specify if FCJ extensions should be used
         @return the sketch in the text Fidocad format
@@ -522,12 +586,16 @@ public class ParseSchem
     	StringBuffer s = new StringBuffer();
         // Here is the beginning of the output. We can eventually provide
         // some hints about the configuration of the software (if needed).
+        
+        // We start by checking if the diameter of the electrical connection
+        // should be written.
         if(extensions && Globals.diameterConnectionDefault !=
         	Globals.diameterConnection) {
         	
         	s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
+        // Check if the layers should be indicated       
         if(extensions) {
         	for(int i=0; i<layerV.size();++i) {
         		LayerDesc l = (LayerDesc)layerV.get(i);
@@ -540,6 +608,8 @@ public class ParseSchem
         	}
         
         }
+        
+        // Check if the line widths should be indicated 
         if(extensions && Globals.lineWidth !=
         	Globals.lineWidthDefault) {
         	
@@ -648,15 +718,16 @@ public class ParseSchem
         			gg.setChanged(true);
 			    
 			    la = gg.getLayer();
+        		
+        		// We track for the maximum layer which is reached.
         		if (gg.getMaxLayer()>maxLayer) 
-        				maxLayer = gg.getMaxLayer();
+        			maxLayer = gg.getMaxLayer();
     			    
-				/* This improves the redrawing speed.
-				   The layers are kept ordered, and this means that if the
-				   next primitive exceeds the layer being processed, we have
-				   finished with this layer.
-				  
-				*/
+				// This improves the redrawing speed.
+				// The layers are kept ordered, and this means that if the
+				// next primitive exceeds the layer being processed, we have
+				// finished with this layer.
+				 
 				if (la>drawOnlyLayer)
 					break;
 				
@@ -709,6 +780,7 @@ public class ParseSchem
        					needHoles=true;
 
         		}
+        		// This improves the redraw speed, since layers are ordered.
         		if (j_index>maxLayer)
         			break;
        		}
@@ -719,6 +791,10 @@ public class ParseSchem
         // drills are always open.
         if(needHoles) {
         	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+        		
+        		// We will process only primitive which require holes (pads
+        		// as well as macros containing pads).
+        		
             	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
 					gg.setDrawOnlyPads(true);
 				
@@ -1302,7 +1378,7 @@ public class ParseSchem
             layer= ((GraphicPrimitive)
                        primitiveVector.get(i)).getLayer();
                        
-            if(((LayerDesc)layerV.get(layer)).getVisible() ||
+            if(layer>=layerV.size() || ((LayerDesc)layerV.get(layer)).getVisible() ||
             	(GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
             	if(gp.selectRect(px,py,w,h))
             		s=true;
@@ -1356,10 +1432,11 @@ public class ParseSchem
       		layer= gp.getLayer();
                        
             // Does not allow for selecting an invisible primitive
-            if(!((LayerDesc)layerV.get(layer)).getVisible() &&
-            	!(gp instanceof PrimitiveMacro))
-            	continue;
-            
+            if(layer<layerV.size()) {
+            	if(!((LayerDesc)layerV.get(layer)).getVisible() &&
+            		!(gp instanceof PrimitiveMacro))
+            		continue;
+            } 
             if(gp.getSelected()){
                 // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
@@ -2181,16 +2258,16 @@ public class ParseSchem
     }
     
     
-    /** Determine if the drawing has been modified
-    	@return the state
+    /** Determine if the drawing has been modified.
+    	@return the state.
     */
     public boolean getModified ()
     {
        	return isModified;
     }
 
-    /** Set the drawing modified state
-    	@param s the new state to be set
+    /** Set the drawing modified state.
+    	@param s the new state to be set.
     */
     public void setModified (boolean s)
     {
@@ -2199,8 +2276,8 @@ public class ParseSchem
 
     }
     
-    /** Set the listener of the state change
-    	@param l the new listener
+    /** Set the listener of the state change.
+    	@param l the new listener.
     */
     public void setHasChangedListener (HasChangedListener l)
     {
@@ -2217,12 +2294,19 @@ public class ParseSchem
 	}
 	
 	/** Returns true if there is no drawing in memory
+		@return true if the drawing is empty.
 	*/
 	public boolean isEmpty()
 	{
 		return primitiveVector.size()==0;
 	}
 	
+	/** Returns true if there is the need of drawing holes in the actual
+		drawing.
+		
+		@return true if holes are needed.
+	
+	*/
 	public final boolean getNeedHoles()
 	{
 		return needHoles;

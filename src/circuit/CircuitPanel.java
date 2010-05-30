@@ -64,66 +64,97 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                              ChangeSelectionListener
 { 
 
+	// *********** DRAWING ***********
+
+
     // This parsing object is used for normal graphic objects.
     // Maybe, should it be kept private?
     public ParseSchem P;
     
-
-    static final int SEL_TOLERANCE = 10; // Tolerance in pixel to select an 
-                                        // object
+	// Default filled state of polygons, rectangles and ovals when they are
+	// created
     public boolean isFilled;
-    public boolean antiAlias;  // Anti alias flag
-    public boolean profileTime;
-    private Color backgroundColor;
-    private double average;
-    private double record;			// Record time for the redrawing
-    private double record_c;		// Record time for mouse down handle event
-    								// in selection
-    private double record_d;		// Record time for click up event
-    								// in selection
-   
-
-    private double runs;
     
-    private int oldx;
-    private int oldy;
-    private boolean successiveMove;
-    
+    // Use anti alias in drawings 
+    public boolean antiAlias;  
+	
+	// Draw the grid
     private boolean isGridVisible;
     
+    // Default sizes for PCB elements
     private int PCB_pad_sizex;
     private int PCB_pad_sizey;
     private int PCB_pad_style;  
     private int PCB_pad_drill;
     private int PCB_thickness;
-    private boolean extStrict;  // Strict FidoCad compatibility
 
-    
+	// Default background color
+    private Color backgroundColor;
+
+	// Position of the rectangle used for the selection
     private Rectangle evidenceRect;
     private Rectangle oldEvidenceRect;
-    
-      
-    public static final int MARGIN=20;     // Margin size in pixel when calculating
-                                    // component size.
 
-    static final Color editingColor=Color.magenta;   
-                                    // Color of elements during editing
+	// Margin size in pixels when calculating component sizes.
+	public static final int MARGIN=20;     
+                                    
+	// Color of elements during editing
+    static final Color editingColor=Color.magenta;                                
+
+	// Font to be used to draw the ruler
+	private static final String rulerFont = "Lucida Sans Regular";
+    
+
+	// ********** PROFILING **********
+
+	// Specify that the profiling mode should be activated.
+    public boolean profileTime;		
+    private double average;
+    
+    // Record time for the redrawing.
+    private double record;			
+   
+	// Number of times the redraw has occourred.
+    private double runs;
+    
+    // Record time for mouse down handle event in selection.
+    private double record_c;		
+    
+    // Record time for click up event in selection.
+    private double record_d;		
+    				
+   
+	// ********** INTERFACE **********
+    
+    private int oldx;
+    private int oldy;
+
+    private boolean successiveMove;
+    
+    private boolean extStrict;  // Strict FidoCad compatibility
+    
+    // Nuber of clicks done when entering an object.
     private int clickNumber;
     
-    public static final int NPOLY=20;     // Maximum number of polygon vertices
-    private int[] xpoly;
+    // Maximum number of polygon vertices
+    public static final int NPOLY=20;
+    
+    // Array used to keep track of polygon insertion
+    private int[] xpoly;	
     private int[] ypoly;
     private StringBuffer selected;
     
-    private ChangeZoomListener zoomListener;
-    private ChangeSelectionListener selectionListener;
-    private ChangeSelectionListener scrollGestureSelectionListener;
-    private ChangeCoordinatesListener coordinatesListener;
+    // Tolerance in pixel to select an object
+    static final int SEL_TOLERANCE = 10; 
   
+  	// Current layer for editing.
     private int currentLayer;
 
-    int actionSelected;                 // editing action being done
-    String macroKey;                    // used when entering a macro
+	// editing action being done
+    int actionSelected;      
+    
+    // used when entering a macro
+    String macroKey;                    
 
     // Selection states
     public static final int NONE = 0;
@@ -141,6 +172,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public static final int PCB_PAD = 12;
     public static final int MACRO = 13;
     
+	// ********** LISTENERS **********
+
+    private ChangeZoomListener zoomListener;
+    private ChangeSelectionListener selectionListener;
+    private ChangeSelectionListener scrollGestureSelectionListener;
+    private ChangeCoordinatesListener coordinatesListener;
 
 
     /** Standard constructor
@@ -1335,13 +1372,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Graphics g = getGraphics();
         Graphics2D g2d = (Graphics2D)g;
         
-        
+        // Handle the ruler.
         if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 || evt.isShiftDown()) {
             rulerEndX=px;
             rulerEndY=py;
             repaint();
             return;
         }
+        
+        // Configure the graphic context for speed and disable anti aliasing
+        // since it is not compatible with the XOR technique
         
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
@@ -1354,6 +1394,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(!Globals.doNotUseXOR) g2d.setXORMode(editingColor);
         
         P.dragHandleDrag(this, g2d, px, py);
+        
+        // A little profiling if necessary. I noticed that time needed for 
+        // handling clicks is not negligible in large drawings, hence the
+        // need of controlling it.
+        
         if(profileTime) {
             double elapsed=mt.getElapsed();
             if(elapsed<record_d) {
@@ -1399,7 +1444,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
     public void mouseEntered(MouseEvent evt)
     {
-        // Define the current cursor, depending on the action being done.
+        // Define the icon used for the mouse cursor, depending on the current
+        // action.
+        
         switch(actionSelected) {
             case NONE:
             case SELECTION:
@@ -1530,6 +1577,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_COLOR_RENDER_SPEED);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
                 RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+                
+        // Activate anti-aliasing when necessary.
+        
         if (antiAlias) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
              RenderingHints.VALUE_ANTIALIAS_ON);
         else {
@@ -1545,17 +1595,22 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
          }
      
 
-        // Draw all the primitives
+        // Draw all the primitives.
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
         if(isGridVisible){  
             P.drawGrid(g2,0,0,getWidth(),
                               getHeight());
         }
+        
+        // The standard color is black.
         g.setColor(Color.black);
         
 
+        // Perform the drawing operation.
         P.draw(g2);
+        
+        
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         
@@ -1587,6 +1642,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             revalidate();
         }
+        
+        // Since the redraw speed is a capital parameter which determines the
+        // perceived speed, we monitor it very carefully if the program
+        // profiling is active.
+        
         if(profileTime) {
             double elapsed=mt.getElapsed();
             g2.drawString("Version: "+
@@ -1689,7 +1749,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
         }
         
-        Font f=new Font("Helvetica",Font.PLAIN,10);
+        Font f=new Font(rulerFont,Font.PLAIN,10);
         g.setFont(f);
         
         String t1 = roundTo(length,2);
