@@ -165,16 +165,35 @@ public abstract class GraphicPrimitive
 		changed=true;	
 	}
 	
+	/** Specifies that only the given layer should be drawn. 
+		This is in practice useful only for macros, since they have an
+		internal layer structure.
+		
+		@param i the layer to be used.
+	
+	*/
  	public void setDrawOnlyLayer (int i)
  	{
  	
  	}	
  	
+ 	/** Returns true if the primitive contains the specified layer.
+ 		@return true or false, if the specified layer is contained in the
+ 			primitive.
+ 	*/
  	public boolean containsLayer(int l)
  	{
  		return l==layer;
  	}
  	
+ 	/** Obtains the maximum layer which is contained by this primitive. It 
+ 		should redefined for macros, since they can contain more than one 
+ 		layer. The standard implementation returns the layer of the
+ 		primitive, since this is the only one which is used.
+ 		
+ 		@return the maximum value of the layer contained in the primitive.
+ 	
+ 	*/
  	public int getMaxLayer()
  	{
  		return layer;
@@ -312,6 +331,8 @@ public abstract class GraphicPrimitive
  							HANDLE_WIDTH,HANDLE_WIDTH))
  				continue;
  			
+ 			// A handle is a small red rectangle
+ 			
 	 		g.fillRect(xa-HANDLE_WIDTH/2,ya-HANDLE_WIDTH/2,
  							HANDLE_WIDTH,HANDLE_WIDTH);
  		}	
@@ -334,7 +355,9 @@ public abstract class GraphicPrimitive
 			xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
  			ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
-
+			// Recognize if we have clicked on a handle. Basically, we check
+			// if the point lies inside the rectangle given by the handle.
+			
  			if(GeometricDistances.pointInRectangle(xa-HANDLE_WIDTH/2,
  							ya-HANDLE_WIDTH/2,
  							HANDLE_WIDTH,HANDLE_WIDTH,px,py))
