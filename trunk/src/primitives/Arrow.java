@@ -70,11 +70,17 @@ public class Arrow {
 		
 		// At first we need the angle giving the direction of the arrow
 		// a little bit of trigonometry :-)
+		// The idea is that the arrow head should be oriented in the direction
+		// specified by the second point.
 		
 		if (x!=xc)
 			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 		else
 			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+		
+		
+		// Alpha is the angle of the arrow, against an horizontal line with
+		// the trigonometric convention (anti clockwise is positive).
 		
 		alpha += (x-xc>0)?0:Math.PI;
 		
@@ -90,6 +96,8 @@ public class Arrow {
 		x2 = x0 + h*Math.sin(alpha);
 		y2 = y0 - h*Math.cos(alpha);
 		
+		// The arrow head is traced using a polygon. Here we create the
+		// object and populate it with the calculated coordinates.
 		Polygon p = new Polygon();
       		
      	p.addPoint((int)(x+0.5),(int)(y+0.5));

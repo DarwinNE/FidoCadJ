@@ -55,7 +55,9 @@ class AppleSpecific implements ApplicationListener{
 		evt.setHandled(true);
 
 	}
-    
+    /** Respond to an user opening te application.
+	
+	*/
     public void handleOpenApplication(ApplicationEvent evt) 
     {
     }
@@ -75,6 +77,8 @@ class AppleSpecific implements ApplicationListener{
 		((FidoFrame)Globals.activeWindow).showPrefs();
 	}
 	
+	/** Respond to an user wanting to print a particular file.
+	*/
 	public void handlePrintFile(ApplicationEvent evt) 
 	{
 	}
