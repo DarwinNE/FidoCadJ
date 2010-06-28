@@ -151,10 +151,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     private int currentLayer;
 
 	// editing action being done
-    int actionSelected;      
+    private int actionSelected;      
     
     // used when entering a macro
-    String macroKey;                    
+    private String macroKey;                    
+
+	// The primitive being edited
+	private GraphicPrimitive primEdit;
 
     // Selection states
     public static final int NONE = 0;
@@ -198,6 +201,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         record_d = record;
         evidenceRect = new Rectangle(0,0,-1,-1);
         oldEvidenceRect = null;
+        primEdit = null;
        
         setOpaque(true);
         runs = 0;
@@ -613,6 +617,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int x = evt.getX();
         int y = evt.getY();
         requestFocusInWindow(); 
+        primEdit=null;
         
         String cmd;
         int i;
@@ -626,10 +631,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
               
         switch(actionSelected) {
-        case NONE:
+        // No action: ignore
+        case NONE:	
             clickNumber = 0;
             break;
                     
+        // Selection state
         case SELECTION:
             clickNumber = 0;
             
@@ -672,7 +679,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             // repaint();
             break;
         
-        case ZOOM:      //////// TO IMPROVE: should center the viewport
+        // Zoom state
+        case ZOOM:      
+        //////// TO IMPROVE: should center the viewport
             sc.unmapXsnap(x);
             sc.unmapYsnap(y);
             
@@ -696,6 +705,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             break;
         
+        // Put a connection (easy: just one click is needed)
         case CONNECTION:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==1) {
                 selectAndSetProperties(x,y);
@@ -709,7 +719,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             repaint();
             break;
                     
-               
+        // Put a PCB pad (easy: just one click is needed)       
         case PCB_PAD:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==1) {
                 selectAndSetProperties(x,y);
@@ -727,6 +737,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     
             repaint();
             break;     
+         
+        // Add a line: two clicks needed
         case LINE:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
@@ -773,6 +785,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                               
             }
             break; 
+            
+        // Add a text line: just one click is needed
         case TEXT:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
                 selectAndSetProperties(x,y);
@@ -785,7 +799,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     
             repaint();
             break;
-                    
+        
+        // Add a Bézier polygonal curve: we need four clicks.
         case BEZIER:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
@@ -823,7 +838,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
               
             }
             break;   
-            
+        
+        // Insert a polygon: continue until double click.
         case POLYGON:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
@@ -853,6 +869,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ypoly[clickNumber] = sc.unmapYsnap(y);
             break;   
             
+        // Enter an ellipse: two clicks needed
         case ELLIPSE:
         
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
@@ -885,7 +902,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
               
             }
             break;   
-            
+        
+        // Enter a rectangle: two clicks needed
         case RECTANGLE:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
@@ -912,7 +930,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if (clickNumber>=2) clickNumber = 0;
             break;   
             
-               
+        // Insert a PCB line: two clicks needed.      
         case PCB_LINE:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
@@ -944,6 +962,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             
             break;  
+            
+        // Enter a macro: just one click is needed.
         case MACRO:
             successiveMove=false;
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
@@ -999,9 +1019,18 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 P.getMapCoordinates().unmapXsnap(xa),
                 P.getMapCoordinates().unmapYsnap(ya));
         
+        // If no action is needed, exit immediately.
         if(x==oldx && y==oldy)
             return;
 
+
+		// This code follows an old convention and is not optimally handled in
+		// modern graphic environments. In the development of FidoCadJ, I am
+		// progressively switching from primitives directly drawn from here, 
+		// to a cleaner solution in which all the drawing is done exclusively
+		// in the paintComponent event. Te result is double buffered and is
+		// much less prone to flickering.
+		
         Graphics g = getGraphics();
         
         Graphics2D g2d = (Graphics2D)g;
@@ -1009,6 +1038,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         //Globals.doNotUseXOR
         if (!false) g.setXORMode(editingColor);
         
+        // This is the newer code: if primEdit is different from null, it will
+        // be drawn in the paintComponent event
+        primEdit = null;
         
         /*  MACRO ***********************************************************
             
@@ -1023,52 +1055,21 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 #### ####
         */
         if (actionSelected == MACRO) {
-        
-        	// Create a fictionous Array List without making use of alpha 
-        	// channels and colours.
-        	
-        	ArrayList ll=new ArrayList();
-        	for(int i=0; i<16;++i) 
-           		ll.add(new LayerDesc(Color.black, true,"",1.0f));
- 
-            if(successiveMove) {
-                // Globals.doNotUseXOR
-                if(!false) {
-                    try {
-                        PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
-                        	ll, cs.unmapXsnap(oldx),
-                        	cs.unmapYsnap(oldy),macroKey,"", cs.unmapXsnap(oldx)+10,
-                        	cs.unmapYsnap(oldy)+5, "", cs.unmapXsnap(oldx)+10,
-                        	cs.unmapYsnap(oldy)+10,
-                       	 	P.getMacroFont(),
-                    		P.getMacroFontSize(), 0);
-                        n.setDrawOnlyLayer(-1);
-                        n.drawFast(g2d, cs, ll);
-
-                    } catch (IOException E) {
-                        // Here we do not do nothing.
-                    }
-                }
-            }
-
             try {
                 PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
-                    ll, cs.unmapXsnap(x),
+                    createEditingLayerArray(), cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
                     P.getMacroFont(),
                     P.getMacroFontSize(), 0);
                 n.setDrawOnlyLayer(-1);
-
-                n.drawFast(g2d, cs, ll);
-                successiveMove=true;
+				primEdit = n;
+                repaint();
 
             } catch (IOException E) {
                 // Here we do not do nothing.
             }
-
-           
         }    
 
         
@@ -1261,21 +1262,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
        */
         if (actionSelected == RECTANGLE) {
-            // Globals.doNotUseXOR
-            if(!false             && successiveMove) {
-                rectangle(g,cs.mapX(xpoly[1],ypoly[1]),
-                    cs.mapY(xpoly[1],ypoly[1]),
-                    oldx,
-                    oldy);
-            }          
-            successiveMove=true;
-            rectangle(g,cs.mapX(xpoly[1],ypoly[1]),
-               cs.mapY(xpoly[1],ypoly[1]),
-               x, y);
-            g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
-               Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
-               Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
-               Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));
+              
+            primEdit = new PrimitiveRectangle(xpoly[1], 
+            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
+            	false,	0, 0);
+             
+            repaint();
         }
         /*  ELLIPSE ***********************************************************
             
@@ -1627,6 +1619,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(evidenceRect!=null)
         	g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
             	evidenceRect.height);
+		
+		// If there is a primitive or a macro being edited, draws it.
+		drawPrimEdit(g2);
+
 
         // If a ruler is active, draw it.
         if (ruler) {    
@@ -1665,6 +1661,32 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
         }    
+    }
+    
+    /** Draws the current editing primitive.
+    
+    */
+    private void drawPrimEdit(Graphics2D g2)
+    {
+    	if(primEdit!=null) {
+    		
+			primEdit.draw(g2,P.getMapCoordinates(), createEditingLayerArray());
+		}
+    }
+    
+   	/**  Create a fictionous Array List without making use of alpha 
+         channels and colours.
+         
+         @return an ArrayList composed by 16 opaque layers in green.
+    */
+   	private ArrayList createEditingLayerArray()
+    {
+          	
+       	ArrayList ll=new ArrayList();
+       	for(int i=0; i<16;++i) 
+       		ll.add(new LayerDesc(Color.green, true,"",1.0f));
+       		
+       	return ll;
     }
  
     /** Draws a ruler to ease measuring distances.

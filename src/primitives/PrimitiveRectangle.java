@@ -63,6 +63,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
+		changed=true;
 		
 	}
 	/** Create a rectangle defined by two points
@@ -89,7 +90,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		virtualPoint[1].y=y2;
 		isFilled=f;
 		dashStyle=dashSt;
-		
+		changed = true;
 		
 		setLayer(layer);
 		
