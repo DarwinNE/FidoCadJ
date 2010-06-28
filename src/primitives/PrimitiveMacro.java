@@ -285,7 +285,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	*/
 	final private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV, boolean isFast)
+							  ArrayList layerV)
 	{
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
@@ -321,10 +321,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macro.setDrawOnlyLayer(drawOnlyLayer);
  		macro.setDrawOnlyPads(drawOnlyPads);
  		
-		if (isFast) 
- 			macro.drawFast(g);
-		else
-			macro.draw(g);
+		macro.draw(g);
 		
 		if (macroCoord.getXMax()>macroCoord.getXMin() && 
 			macroCoord.getYMax()>macroCoord.getYMin()) {
@@ -365,7 +362,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 							  ArrayList layerV)
 	{
 		drawText(g, coordSys, layerV);
-		drawMacroContents(g, coordSys, layerV, false);
+		drawMacroContents(g, coordSys, layerV);
 		
  	}
  	
@@ -373,39 +370,6 @@ public class PrimitiveMacro extends GraphicPrimitive
  	private Font f;
  	private FontMetrics fm;
  	
- 	/** Draw the graphic primitive on the given graphic context.
-		Normally, this method calls the usual draw method. Of course, if for a 
-		given primitive (text for example) the drawing operations are too much
-		slow, this method should be overridden in the derived class.
-		
-		@param g the graphic context in which the primitive should be drawn.
-		@param coordSys the graphic coordinates system to be applied.
-		@param layerV the layer description.
-	*/
-	final public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
-	{
-		drawMacroContents(g, coordSys, layerV, true);
-		
-		x2=virtualPoint[1].x;
- 		y2=virtualPoint[1].y;
- 		x3=virtualPoint[2].x;
- 		y3=virtualPoint[2].y;
- 		xa=coordSys.mapX(x2,y2);
- 		ya=coordSys.mapY(x2,y2);
- 		xb=coordSys.mapX(x3,y3);
- 		yb=coordSys.mapY(x3,y3);
- 		
-		f = new Font(macroFont,Font.PLAIN,12);
-		
-	   	g.setFont(f);
-		fm = g.getFontMetrics(f);
-    	
-   		
-		g.drawRect(Math.min(xa, xa+w1),ya,Math.abs(w1),th);
-		g.drawRect(Math.min(xb, xb+w2),yb,Math.abs(w2),th);
-
-	}
 	
 	/** Set the Draw Only Pads mode.
 	

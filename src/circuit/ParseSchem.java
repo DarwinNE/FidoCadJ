@@ -633,37 +633,18 @@ public class ParseSchem
     	return maxLayer;
     }
     
-    /** Draw all primitives.
-        @param G the graphic context to be used.
-    */
-    final public void draw(Graphics2D G)
-    {
-    	draw_p(G, false);
-    }
-    
-    
-    /** Draw (fast but inaccurate) all primitives.
-        @param G the graphic context to be used.
-    */
-    final public void drawFast(Graphics2D G)
-    {
-    	draw_p(G, true);
-    }
-    
+
     
     private double oZ, oX, oY, oO;
 
-    /** Draw (either in a fast and inaccurate way or not) the current drawing.
+    /** Draw the current drawing.
     	This code is rather critical. Do not touch it unless you know very
     	precisely what to do.
 		
 		@param G the graphic context in which the drawing should be drawn.
-		@param isFast if true, select a fast but inaccurate drawing mode. This 
-			is particularly useful when using the XOR toggle since this mode
-			specificately avoids text or other element which for one reason or
-			another are not compatible with this technique.
+		
     */
-    final private void draw_p(Graphics2D G, boolean isFast)
+    final public void draw(Graphics2D G)
     {
 		GraphicPrimitive gg;
 		int i_index;
@@ -733,10 +714,7 @@ public class ParseSchem
 				
 				gg.setDrawOnlyLayer(drawOnlyLayer);
 				if(gg.containsLayer(la)) {
-        			if (isFast) 
-        				gg.drawFast(G, cs, layerV);
-        			else
-        				gg.draw(G, cs, layerV);      		
+        			gg.draw(G, cs, layerV);      		
  			
         		}
        			
@@ -770,10 +748,7 @@ public class ParseSchem
 					// being processed.
 					
         			if(gg.containsLayer(j_index)){
-        				if (isFast) 
-        					gg.drawFast(G, cs, layerV);
-        				else
-        					gg.draw(G, cs, layerV);    
+        				gg.draw(G, cs, layerV);    
         			} 
        				
        				if(gg.needsHoles())
@@ -797,12 +772,7 @@ public class ParseSchem
         		
             	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
 					gg.setDrawOnlyPads(true);
-				
-					if(isFast) {
-            			gg.drawFast(G, cs, layerV);
-            		} else {
-            			gg.draw(G, cs, layerV);
-            		}
+					gg.draw(G, cs, layerV);
             		gg.setDrawOnlyPads(false);
             	} 
         	}
@@ -1609,12 +1579,8 @@ public class ParseSchem
         }
         
         
-        // In the XOR mode, here we delete the previous position.
         if(!firstDrag) {
-        	if(!Globals.doNotUseXOR) 
-        		primBeingDragged.drawFast(g,cs,layerV);
-        	else
-       			P.repaint();
+        	P.repaint();
        	}
         firstDrag=false;
 
@@ -1626,7 +1592,7 @@ public class ParseSchem
 
         // Here we show the new place of the primitive.
 
-        if(!Globals.doNotUseXOR) primBeingDragged.drawFast(g,cs,layerV);
+        //primBeingDragged.draw(g,cs,layerV);
 
     }
     
@@ -1669,10 +1635,7 @@ public class ParseSchem
 		        primBeingDragged.setChanged(true);
 
                 if(!firstDrag){
-                	if(!Globals.doNotUseXOR) 		
-                		primBeingDragged.drawFast(g,cs,layerV);
-                	else
-                		P.repaint();
+                	P.repaint();
                 }
                 for(int j=0; j<primBeingDragged.getControlPointNumber();++j){
                     
@@ -1680,8 +1643,8 @@ public class ParseSchem
                     primBeingDragged.virtualPoint[j].y+=dy;
                     // Here we show the new place of the primitive.
                 }
-                if(!Globals.doNotUseXOR)
-                	primBeingDragged.drawFast(g,cs,layerV);
+                //if(!Globals.doNotUseXOR)
+                //	primBeingDragged.drawFast(g,cs,layerV);
                 
             }
         }

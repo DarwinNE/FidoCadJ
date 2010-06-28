@@ -393,20 +393,6 @@ public abstract class GraphicPrimitive
 		return false;
 	}
 	
-	/** Draw the graphic primitive on the given graphic context.
-		Normally, this method calls the usual draw method. Of course, if for a 
-		given primitive (text for example) the drawing operations are too much
-		slow, this method should be overridden in the derived class.
-		
-		@param g the graphic context in which the primitive should be drawn.
-		@param coordSys the graphic coordinates system to be applied.
-		@param LayerDesc the layer description.
-	*/
-	public void drawFast(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList LayerDesc)
-	{
-		draw(g, coordSys, LayerDesc);
-	}
 	
 	/**	Get the control parameters of the given primitive. Each 
 		primitive should probably overload this version. We give here a very 
