@@ -1143,7 +1143,6 @@ public class ParseSchem
     */
     public void paste()
     {
-        int i;
         TextTransfer textTransfer = new TextTransfer();
 		
 		deselectAll();
@@ -1156,6 +1155,7 @@ public class ParseSchem
         moveAllSelected(cs.getXGridStep(), cs.getYGridStep());
         
     	saveUndoState();
+        setChanged(true);
         
     }
     

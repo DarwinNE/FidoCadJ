@@ -253,7 +253,7 @@ public class ExportPGF implements ExportInterface {
 	{ 
 		registerColorSize(layer, .33);
 
-		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+node_size+"}");
+		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{\\pgfxy("+node_size+",0)}");
 	
 	}
 		
@@ -619,7 +619,7 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\color{layer"+layer+"}\n");
 		}
 		if (strokeWidth > 0 && actualWidth!=strokeWidth) {
-			out.write("\\pgfsetlinewidth{"+strokeWidth+"}\n");
+			out.write("\\pgfsetlinewidth{\\pgfxy(0,"+strokeWidth+")}\n");
 			actualWidth = strokeWidth;
 		}
 		
