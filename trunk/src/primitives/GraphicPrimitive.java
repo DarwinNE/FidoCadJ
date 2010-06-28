@@ -292,7 +292,8 @@ public abstract class GraphicPrimitive
 		if(selectedState) {
 			g.setColor(Color.green);
 			if(oldalpha!=alpha) {
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+				oldalpha = 1.0f;
 			}
 		} else {
 			g.setColor(l.getColor());
