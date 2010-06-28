@@ -1286,23 +1286,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if(evt.isControlDown()) {
                 y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
             }
-            
-            // Globals.doNotUseXOR
-            if(!false             && successiveMove) {
-                ellipse(g,cs.mapX(xpoly[1],ypoly[1]),
-                   cs.mapY(xpoly[1],ypoly[1]),
-                   oldx,
-                   oldy);
-            }
-            
-            successiveMove=true;
-            ellipse(g,cs.mapX(xpoly[1],ypoly[1]),
-                 cs.mapY(xpoly[1],ypoly[1]),
-                  x, y);
-            g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
-               Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
-               Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
-               Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));
+               
+			primEdit = new PrimitiveOval(xpoly[1], 
+            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
+            	false,	0, 0);
+             
+            repaint();
+
         }    
 
 
