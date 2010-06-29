@@ -535,9 +535,16 @@ public class ParseSchem
         primitiveVector.add(p);
         if (save) saveUndoState();
         
-        if (p.getLayer()<16)
-        	layersUsed[p.getLayer()] = true;
-
+        // Since the primitive can be a macro, we need to test each possible 
+        // layer.
+        
+        for (int i=0; i<16; ++i) {
+        	if(p.containsLayer(i)) {
+        		layersUsed[i] = true;
+        		if (i>maxLayer)
+        			maxLayer = i;
+        	}
+		}
         changed=true;
 
     }
@@ -649,33 +656,34 @@ public class ParseSchem
 		GraphicPrimitive gg;
 		int i_index;
     	int j_index;
-    	boolean needSorting=false;
-    	boolean macro = false;
     	int la;    	    	
-    	boolean has_to_change = false;
-    	
+ 	
     	
     	// At first, we check if the current view has changed. 
-    	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() ||
-    	   oO!=cs.getOrientation() || changed) {
+    	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() 
+    		|| oO!=cs.getOrientation() || changed) {
     		oZ=cs.getXMagnitude();
     		oX=cs.getXCenter();
     		oY=cs.getYCenter();
     		oO=cs.getOrientation();
-    		changed=false;
+    		changed = false;
     		
     		// Here we force for a global refresh of graphic data at the 
     		// primitive level. 
-    		has_to_change = true;
-
+			
+			for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+				((GraphicPrimitive)primitiveVector.get(i_index)).setChanged(
+					true);
+			}
+			
     		if (!drawOnlyPads) 
         		cs.resetMinMax();
-    		
+        	
+     		
     	}
     	
 
         needHoles=drawOnlyPads;
-        maxLayer=0;
    		
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
@@ -693,73 +701,28 @@ public class ParseSchem
         */
         if(drawOnlyLayer>=0 && !drawOnlyPads){
         	
-        	for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-        		gg=(GraphicPrimitive)primitiveVector.get(i_index);
-        		if(has_to_change)
-        			gg.setChanged(true);
-			    
-			    la = gg.getLayer();
-        		
-        		// We track for the maximum layer which is reached.
-        		if (gg.getMaxLayer()>maxLayer) 
-        			maxLayer = gg.getMaxLayer();
-    			    
-				// This improves the redrawing speed.
-				// The layers are kept ordered, and this means that if the
-				// next primitive exceeds the layer being processed, we have
-				// finished with this layer.
-				 
-				if (la>drawOnlyLayer)
-					break;
-				
-				gg.setDrawOnlyLayer(drawOnlyLayer);
-				if(gg.containsLayer(la)) {
-        			gg.draw(G, cs, layerV);      		
- 			
-        		}
-       			
-       			if(gg.needsHoles())
-       				needHoles=true;
-
-       		}
+        	// At first, we check if the layer is effectively used in the
+        	// drawing. If not, we exit directly.
+        	
+        	if(!layersUsed[drawOnlyLayer])
+				return;
+			
+			drawPrimitives(drawOnlyLayer, G);
+			
        		return;
        	} else if (!drawOnlyPads) {
         	// If we want to draw all layers, we need to process with order.
         	
         	for(j_index=0;j_index<=maxLayer; ++j_index) {
-
-				// Here we process all the primitives, one by one!
-        		for (i_index=0; i_index<primitiveVector.size(); ++i_index){
-        			gg=(GraphicPrimitive)primitiveVector.get(i_index);
-        			if(has_to_change)
-        				gg.setChanged(true);
-			    
-  				
-        			if (gg.getMaxLayer()>maxLayer) 
-  						maxLayer = gg.getMaxLayer();
-        			
-					// Layers are ordered. This improves the redrawing speed. 
-					if (j_index>0 && gg.getLayer()>j_index) {
-						break;
-					}
-        			
-        			gg.setDrawOnlyLayer(j_index);
-					// Process a particular primitive if it is in the layer
-					// being processed.
-					
-        			if(gg.containsLayer(j_index)){
-        				gg.draw(G, cs, layerV);    
-        			} 
-       				
-       				if(gg.needsHoles())
-       					needHoles=true;
-
-        		}
-        		// This improves the redraw speed, since layers are ordered.
-        		if (j_index>maxLayer)
-        			break;
+				
+				if(!layersUsed[j_index])
+					continue;
+				
+				drawPrimitives(j_index, G);
+        		
        		}
-        }
+       		
+       	}
         
         
         // Draw in a second time only the PCB pads, in order to ensure that the
@@ -771,6 +734,7 @@ public class ParseSchem
         		// as well as macros containing pads).
         		
             	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
+            	
 					gg.setDrawOnlyPads(true);
 					gg.draw(G, cs, layerV);
             		gg.setDrawOnlyPads(false);
@@ -778,6 +742,42 @@ public class ParseSchem
         	}
         }
         
+        
+    }
+    
+    /** Draws all the primitives and macros contained in the specified layer.
+    	@param j_index the layer to be considered
+    	@param G the graphic context in which to draw
+    
+    */
+    private void drawPrimitives(int j_index, Graphics2D G)
+    {
+    	GraphicPrimitive gg;
+    	int i_index;
+    	int la;
+    	
+    	// Here we process all the primitives, one by one!
+        for (i_index=0; i_index<primitiveVector.size(); ++i_index){
+        	gg=(GraphicPrimitive)primitiveVector.get(i_index);
+        	la = gg.getLayer();
+        		
+        	// Layers are ordered. This improves the redrawing speed. 
+			if (j_index>0 && la>j_index) {
+				break;
+			}
+        			
+			// Process a particular primitive if it is in the layer
+			// being processed.
+					
+        	if(gg.containsLayer(j_index)) {
+        		gg.setDrawOnlyLayer(j_index);
+        		gg.draw(G, cs, layerV);    
+        	}
+        			
+       		if(gg.needsHoles())
+       			needHoles=true;
+
+        }
         
     }
     
@@ -2045,19 +2045,45 @@ public class ParseSchem
     	GraphicPrimitive t,g,gg;
     	boolean cont=true;
     	
+    	maxLayer = 0;
+    	
+    	// Since for sorting we need to analyze all the primitives in the 
+    	// database, this is a good place to calculate which layers are
+    	// used. We thus start by resetting the array.
+    	
+    	for (int l=0; l<16; ++l) {
+        	layersUsed[l] = false;
+        	
+        	for (i=0; i<primitiveVector.size(); ++i){
+            	g=(GraphicPrimitive)primitiveVector.get(i);
+            	
+            	if (g.containsLayer(l))
+            		layersUsed[l]=true;
+            		
+            	// We keep track of the maximum layer number used in the 
+            	// drawing.
+        		if (g.getLayer()>maxLayer)
+    					maxLayer = g.getLayer();
+    			
+    		}
+		}
+    	
     	// Bubble sort!!!
     	do {
     		cont=false;
     		for (i=0; i<primitiveVector.size()-1; ++i){
             	g=(GraphicPrimitive)primitiveVector.get(i);
             	gg=(GraphicPrimitive)primitiveVector.get(i+1);
-    		
+            	
+            	
+    			
     			if(gg.getLayer()<g.getLayer()){
     				primitiveVector.set(i, gg);
     				primitiveVector.set(i+1, g);
     				
     				cont=true;
-    			}
+    			} 
+    			
     		}
     	} while (cont);
     		

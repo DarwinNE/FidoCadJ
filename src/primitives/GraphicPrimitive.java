@@ -81,7 +81,7 @@ public abstract class GraphicPrimitive
 		If it is true, during the redraw all parameters should be calulated
 		from scratch. 
 	*/
-    public final void setChanged(boolean c)
+    public void setChanged(boolean c)
     {
     	changed=c;
     }
