@@ -1066,6 +1066,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 n.setDrawOnlyLayer(-1);
 				primEdit = n;
                 repaint();
+                successiveMove = true;
 
             } catch (IOException E) {
                 // Here we do not do nothing.
@@ -1266,8 +1267,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             primEdit = new PrimitiveRectangle(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
             	false,	0, 0);
-             
+            
             repaint();
+            successiveMove = true;
         }
         /*  ELLIPSE ***********************************************************
             
@@ -1292,7 +1294,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	false,	0, 0);
              
             repaint();
-
+			successiveMove = true;
         }    
 
 
@@ -1459,6 +1461,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if(successiveMove) {
             successiveMove = false;
+            primEdit = null;
             repaint();
         }
     }

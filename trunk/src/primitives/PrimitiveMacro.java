@@ -330,6 +330,16 @@ public class PrimitiveMacro extends GraphicPrimitive
 		}
 	}
 	
+	/** Specifies that the current primitive has been modified or not. 
+		If it is true, during the redraw all parameters should be calulated
+		from scratch. 
+	*/
+    public void setChanged(boolean c)
+    {
+    	super.setChanged(c);
+    	macro.setChanged(c);
+    }
+	
 	/** Parse and store the tokenized version of the macro.
 		@layerV the array containing the layer description to be inherited.
 	
