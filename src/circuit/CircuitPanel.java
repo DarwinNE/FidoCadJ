@@ -1095,22 +1095,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                          ++
                         
         */
-        if (actionSelected == LINE ||
-            (actionSelected == POLYGON && clickNumber>1)) {
-    
-            if(successiveMove) {
-                // Globals.doNotUseXOR
-                if(!false)
-                    g.drawLine(cs.mapX(xpoly[1],ypoly[1]),
-                        cs.mapY(xpoly[1],ypoly[1]), oldx, oldy);
-            }
-              
-            successiveMove=true;
-            g.drawLine(cs.mapX(xpoly[1],ypoly[1]),
-               cs.mapY(xpoly[1],ypoly[1]),
-               x,y);
-               
-               
+        if (actionSelected == LINE) {
+     
+     		primEdit = new PrimitiveLine(xpoly[1], 
+            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
+            	false, false, 0, 3, 2, 0);
+            
+            repaint();
+            successiveMove = true;  
+                   
             if (coordinatesListener!=null){
                 double w = Math.sqrt((xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))*
                             (xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
@@ -1120,11 +1113,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     Globals.messages.getString("length")+roundTo(w,2));
                 
             }   
-        /*    g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1])),
-               Math.min(y,cs.mapY(xpoly[1],ypoly[1])),
-               Math.abs(x-cs.mapX(xpoly[1],ypoly[1])),
-               Math.abs(y-cs.mapY(xpoly[1],ypoly[1])));
-    */
+        
+
         }
         /*  PCBLINE ***********************************************************
             
@@ -1137,43 +1127,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
         */
         if (actionSelected == PCB_LINE) {
-            Stroke ss=g2d.getStroke();
-            int wi_pix=Math.abs(cs.mapX(0,0)-
-                        cs.mapX(PCB_thickness,PCB_thickness));
-
-            BasicStroke UseStroke= new BasicStroke(wi_pix,
-                java.awt.BasicStroke.CAP_ROUND,
-                java.awt.BasicStroke.JOIN_ROUND);
-        
-            g2d.setStroke(UseStroke);
-    
-            // Globals.doNotUseXOR
-            if(!false && successiveMove) {
-                g.drawLine(cs.mapX(xpoly[1],ypoly[1]),
-                    cs.mapY(xpoly[1],ypoly[1]),
-                    oldx,
-                    oldy);
-            }          
-            successiveMove=true;
-            g.drawLine(cs.mapX(xpoly[1],ypoly[1]),
-               cs.mapY(xpoly[1],ypoly[1]),
-               x,y);
-    
-            g.setClip(Math.min(x,cs.mapX(xpoly[1],ypoly[1]))-wi_pix,
-               Math.min(y,cs.mapY(xpoly[1],ypoly[1]))-wi_pix,
-               Math.abs(x-cs.mapX(xpoly[1],ypoly[1]))+wi_pix,
-               Math.abs(y-cs.mapY(xpoly[1],ypoly[1]))+wi_pix);
+            primEdit = new PrimitivePCBLine(xpoly[1], 
+            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
+            	PCB_thickness, 0);
             
-            if (coordinatesListener!=null){
-                double w = Math.sqrt((xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))*
-                            (xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
-                            (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
-                            (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
-                coordinatesListener.changeInfos(
-                    Globals.messages.getString("length")+roundTo(w,2));
-                
-            }               
-            g2d.setStroke(ss);
+            repaint();
+            successiveMove = true;        	
+        
         }
         /*  BEZIER ************************************************************
             
@@ -1186,28 +1146,19 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
         */
         if (actionSelected == BEZIER) {
-    
-            // Globals.doNotUseXOR
-            if(!false             && successiveMove) {
-                g.drawLine(cs.mapX(xpoly[clickNumber],
-                       ypoly[clickNumber]),
-                   cs.mapY(xpoly[clickNumber],
-                   ypoly[clickNumber]),
-                   oldx,
-                   oldy);
-            } else {
-                for(int i=2; i<=clickNumber; ++i) 
-                    g.drawLine(cs.mapX(xpoly[i-1], ypoly[i-1]),
-                        cs.mapY(xpoly[i-1], ypoly[i-1]),
-                        cs.mapX(xpoly[i], ypoly[i]),
-                        cs.mapY(xpoly[i], ypoly[i]));
-            }
-            successiveMove=true;           
-            g.drawLine(cs.mapX(xpoly[clickNumber],
-                  ypoly[clickNumber]),
-                  cs.mapY(xpoly[clickNumber],
-                  ypoly[clickNumber]),
-                  x,y);
+        	// Since we do not know how to fabricate a cubic curve with less
+        	// than four points, we use a polygon instead.
+        	
+            primEdit = new PrimitivePolygon(false, 0, 0);
+            
+			for(int i=1; i<=clickNumber; ++i)
+ 				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
+ 			
+ 			
+ 			((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), cs.unmapYsnap(y));
+
+ 			repaint();
+            successiveMove = true;
     
         }
         /*  POLYGON ***********************************************************
@@ -1221,36 +1172,17 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
         */
         if (actionSelected == POLYGON) {
-    
-            // Globals.doNotUseXOR
-            if(!false             && successiveMove) {
-                g.drawLine(cs.mapX(xpoly[clickNumber],
-                   ypoly[clickNumber]),
-                  cs.mapY(xpoly[clickNumber],
-                  ypoly[clickNumber]),
-                  oldx,
-                  oldy);
-            } else {
-                for(int i=2; i<=clickNumber; ++i) 
-                    g.drawLine(cs.mapX(xpoly[i-1], ypoly[i-1]),
-                        cs.mapY(xpoly[i-1], ypoly[i-1]),
-                        cs.mapX(xpoly[i], ypoly[i]),
-                        cs.mapY(xpoly[i], ypoly[i]));
-            }
-            successiveMove=true;          
+            primEdit = new PrimitivePolygon(false, 0, 0);
             
-            
-            g.drawLine(cs.mapX(xpoly[clickNumber],
-               ypoly[clickNumber]),
-               cs.mapY(xpoly[clickNumber],
-               ypoly[clickNumber]),
-               x,y);
-         /*   g.setClip(Math.min(x,cs.mapX(xpoly[clickNumber],
-                ypoly[clickNumber])),
-               Math.min(y,cs.mapY(xpoly[clickNumber],ypoly[clickNumber])),
-               Math.abs(x-cs.mapX(xpoly[clickNumber],ypoly[clickNumber])),
-               Math.abs(y-cs.mapY(xpoly[clickNumber],ypoly[clickNumber])));
-    */
+			for(int i=1; i<=clickNumber; ++i)
+ 				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
+ 			
+ 			
+ 			((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), cs.unmapYsnap(y));
+
+ 			repaint();
+            successiveMove = true;
+
         }
         /*  RECTANGLE *********************************************************
             
@@ -1263,7 +1195,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
        */
         if (actionSelected == RECTANGLE) {
-              
             primEdit = new PrimitiveRectangle(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
             	false,	0, 0);
@@ -1375,7 +1306,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_DITHERING, 
                 RenderingHints.VALUE_DITHER_DISABLE);
-        if(!Globals.doNotUseXOR) g2d.setXORMode(editingColor);
         
         P.dragHandleDrag(this, g2d, px, py);
         
@@ -1604,8 +1534,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
         // If an evidence rectangle is active, draw it.
 
-        if(Globals.doNotUseXOR) 
-            g.setColor(Color.green);
+        
+        g.setColor(Color.green);
 
         g2.setStroke(new BasicStroke(1));
 

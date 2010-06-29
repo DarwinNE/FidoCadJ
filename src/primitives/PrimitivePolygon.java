@@ -105,6 +105,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 			return;
 		virtualPoint[nPoints].x=x;
 		virtualPoint[nPoints++].y=y;
+		changed = true;
 
 	}
 

@@ -691,7 +691,8 @@ public class ParseSchem
    		
    		if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
-        	G.fillOval(cs.mapXi(100, 100, false)-4,cs.mapYi(100, 100, false)-4, 8, 8);
+        	G.fillOval(cs.mapXi(100, 100, false)-4,
+        		cs.mapYi(100, 100, false)-4, 8, 8);
         }
         
        
@@ -834,14 +835,14 @@ public class ParseSchem
 
 		// Fabricate a new image only if necessary, to save time.	
 		if(oldZoom!=z || bufferedImage == null || tp==null) {
-    		/*  	It turns out that drawing the grid in an efficient way is not a 
-    			trivial problem. What it is done here is that the program tries
-    			to calculate the minimum common integer multiple of the dot 
-    	    	spacement to calculate the size of an image in order to be an 
-    	    	integer.
-    	    	The pattern filling (which is fast) is then used to replicate the
-    	    	image (very fast!) over the working surface.
-    		*/
+    		// It turns out that drawing the grid in an efficient way is not a 
+    		// trivial problem. What it is done here is that the program tries
+    		// to calculate the minimum common integer multiple of the dot 
+    	    // espacement to calculate the size of an image in order to be an 
+    	    // integer.
+    	    // The pattern filling (which is fast) is then used to replicate the
+    	    // image (very fast!) over the working surface.
+    		
     		for (double l=1; l<105; ++l) {
     			if (Math.abs(l*z-Math.round(l*z))<toll) {
     				mul=(int)l;
@@ -1515,50 +1516,44 @@ public class ParseSchem
         		
         
         		if(!firstDrag) {
-        			if(!Globals.doNotUseXOR) 
-        			    // In the XOR mode, here we delete the previous draw
-        				g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
-        					   Math.abs(xb-xa), Math.abs(yb-ya));
-        			else{
+        			int a,b,c,d;
+        			boolean flip=false;
         				
-        				int a,b,c,d;
-        				boolean flip=false;
-        				
-        				a = Math.min(xa,xb);
-        				b = Math.min(ya,yb);
-        				c = Math.abs(xb-xa);
-        				d = Math.abs(yb-ya);
-        				P.setOldEvidence(a,b,c,d);
-        				if(opx>xa && px<xa)
-        					flip=true;
-        				if(opy>ya && py<ya)
-        					flip=true;
-        				
-        				
-        				xb=px;
-						yb=py;
-						opx=px;
-						opy=py;
-						
-        				P.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
-        					   Math.abs(xb-xa), Math.abs(yb-ya));
-        				
-        				
-        				a=Math.min(a, Math.min(xa,xb));
-        				b=Math.min(b, Math.min(ya,yb));
-        				c=Math.max(c, Math.abs(xb-xa));
-        				d=Math.max(d, Math.abs(yb-ya));
+        			a = Math.min(xa,xb);
+        			b = Math.min(ya,yb);
+        			c = Math.abs(xb-xa);
+        			d = Math.abs(yb-ya);
+        			P.setOldEvidence(a,b,c,d);
+        			if(opx>xa && px<xa)
+        				flip=true;
+        			if(opy>ya && py<ya)
+        				flip=true;
+        			
+        			
+        			xb=px;
+					yb=py;
+					opx=px;
+					opy=py;
+					
+        			P.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
+        				   Math.abs(xb-xa), Math.abs(yb-ya));
+        			
+        			
+        			a=Math.min(a, Math.min(xa,xb));
+        			b=Math.min(b, Math.min(ya,yb));
+        			c=Math.max(c, Math.abs(xb-xa));
+        			d=Math.max(d, Math.abs(yb-ya));
         				
         				
-        				if (!flip) 
-        					P.repaint(a,b,c+10,d+10);
-        				else	
-        					P.repaint();
-        				P.resetOldEvidence();
-        				
-        				return;
+        			if (!flip) 
+        				P.repaint(a,b,c+10,d+10);
+        			else	
+        				P.repaint();
+        			P.resetOldEvidence();
+        			
+        			return;
         				        				
-        			}
+        			
         		}
 				P.setOldEvidence(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
@@ -1567,8 +1562,7 @@ public class ParseSchem
 				opx=px;
 				opy=py;
         		firstDrag=false;
-        		if(Globals.doNotUseXOR) 
-        			g.setColor(Color.green);
+        		g.setColor(Color.green);
 
         		g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
