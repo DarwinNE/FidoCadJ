@@ -431,6 +431,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 if(clickNumber>0){
                     successiveMove = false;
                     clickNumber = 0;
+                    primEdit = null;
                     repaint();
                 }
             }
@@ -1132,7 +1133,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	PCB_thickness, 0);
             
             repaint();
-            successiveMove = true;        	
+            successiveMove = true;    
+            if (coordinatesListener!=null){
+                double w = Math.sqrt((xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))*
+                            (xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
+                            (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
+                            (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
+                coordinatesListener.changeInfos(
+                    Globals.messages.getString("length")+roundTo(w,2));
+                
+            }   
         
         }
         /*  BEZIER ************************************************************
