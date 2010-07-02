@@ -126,12 +126,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
    
 	// ********** INTERFACE **********
     
+    // Track the old mouse coordinates. This is useful during editing
+    // See mouseMoved method
     private int oldx;
     private int oldy;
 
+	// Track wether an editing action is being made.
     private boolean successiveMove;
     
-    private boolean extStrict;  // Strict FidoCad compatibility
+    // Strict FidoCad compatibility
+    private boolean extStrict;  
     
     // Nuber of clicks done when entering an object.
     private int clickNumber;
@@ -142,8 +146,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Array used to keep track of polygon insertion
     private int[] xpoly;	
     private int[] ypoly;
-    private StringBuffer selected;
     
+  
     // Tolerance in pixel to select an object
     static final int SEL_TOLERANCE = 10; 
   
@@ -211,7 +215,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         PCB_pad_sizex=5;
         PCB_pad_sizey=5;
         PCB_pad_drill=2;
-        selected=new StringBuffer();
         
         xpoly = new int[NPOLY];
         ypoly = new int[NPOLY];
@@ -228,6 +231,32 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         }
     }
     
+    /**	Register an action involving the editing
+    	@param actionString the action name to be associated to this action
+    	@param key the key to be used. It will be associated either in
+    		lower case as well as in upper case.
+    	@state the wanted state to be used (see definitions INTERFACE)
+    
+    */
+    private void registerAction(String actionString, char key, final int state)
+    {
+        
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)), 
+            actionString);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)), 
+            actionString);
+        
+        getActionMap().put(actionString, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored) {
+                setSelectionState(state,"");
+                repaint();
+            }
+        });    
+            
+    }
+    
     /** Register a certain number of keyboard actions with an associated 
         meaning:
     <pre>
@@ -241,162 +270,25 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         [C]                 Connection
         [I]                 PCB track
         [Z]                 PCB pad
+        [ESC]				Exit from current editing action
+        [DEL] or [BACKSPC]	Delete the selected objects
     </pre>
     */
     public void registerActiveKeys() 
     {
-            
-        
-        final String selection = "selection";
-        
-        // A or space activates the selection 
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('a'), selection);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('A'), selection);
-            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-        .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
-            selection);
-            
-            
-        getActionMap().put(selection, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(SELECTION,"");
-                repaint();
-            }
-        });
-    
-        final String line = "line";
-        
-        // L activates the line primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('l'), line);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('L'), line);
-        
-        getActionMap().put(line, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(LINE,"");
-                repaint();
-            }
-        });
-            final String text= "text";
-        
-        // T activates the text primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('t'), text);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('T'), text);
-        
-        getActionMap().put(text, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(TEXT,"");
-                repaint();
-            }
-        });
-    
-        final String bezier = "bezier";
-        // B activates the Bézier primitive
-        
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('b'), bezier);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('B'), bezier);
-        
-        getActionMap().put(bezier, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(BEZIER,"");
-                repaint();
-            }
-        });
-            final String polygon = "polygon";
-        // P activates the polygon primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('p'), polygon);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('P'), polygon);
-        
-        getActionMap().put(polygon, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(POLYGON,"");
-                repaint();
-            }
-        });
-        
-        
-        final String ellipse = "ellipse";
-            
-        // E activates the ellipse primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('e'), ellipse);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('E'), ellipse);
-        
-        getActionMap().put(ellipse, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(ELLIPSE,"");
-                repaint();
-            }
-        });
-        
-        final String rectangle = "rectangle";
-        
-        // R activates the rectangle primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('g'), rectangle);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('G'), rectangle);
-        
-        getActionMap().put(rectangle, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(RECTANGLE,"");
-                repaint();
-            }
-        });
-        
-        final String connection = "connection";
-        
-        // C activates the connection primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke('c'), connection);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('C'), connection);
-            
-        getActionMap().put(connection, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(CONNECTION,"");
-                repaint();
-            }
-        });
-        final String pcbline = "pcbline";
-        
-        // I activates the PCB line primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('i'), pcbline);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('I'), pcbline);
-        
-        
-        getActionMap().put(pcbline, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(PCB_LINE,"");
-                repaint();
-            }
-        });
-        final String pcbpad = "pcbpad";
-    
-        // Z activates the PCB pad primitive
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('z'), pcbpad);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke('Z'), pcbpad);
-        
-        getActionMap().put(pcbpad, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                setSelectionState(PCB_PAD,"");
-                repaint();
-            }
-        });
+        registerAction("selection", 'a', SELECTION);
+   		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        	.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
+            "selection");
+        registerAction("line", 'l', LINE);
+        registerAction("text", 't', TEXT);
+        registerAction("bezier", 'b', BEZIER);
+        registerAction("polygon", 'p', POLYGON);
+        registerAction("ellipse", 'e', ELLIPSE);
+        registerAction("rectangle", 'g', RECTANGLE);
+        registerAction("connection", 'c', CONNECTION);
+        registerAction("pcbline", 'i', PCB_LINE);
+        registerAction("pcbpad", 'z', PCB_PAD);
 
         final String delete = "delete"; 
     
@@ -404,22 +296,17 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke("DELETE"), delete);
     
-        getActionMap().put(delete, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
-                P.deleteAllSelected();
-                repaint();
-            }
-        });
-    
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
-    
+            
         getActionMap().put(delete, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
                 P.deleteAllSelected();
                 repaint();
             }
         });
+    
+    
         final String escape = "escape";
         
         // Escape: clear everything
@@ -429,6 +316,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         getActionMap().put(escape, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
                 if(clickNumber>0){
+                	// Here we need to clear the variables which are used 
+                	// during the primitive introduction and editing.
+                	// see mouseMoved method for details.
+                	
                     successiveMove = false;
                     clickNumber = 0;
                     primEdit = null;
@@ -627,7 +518,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
             
-        selected.setLength(0);
         coordinatesListener.changeInfos("");
 
               
