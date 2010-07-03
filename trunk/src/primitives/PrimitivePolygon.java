@@ -344,7 +344,7 @@ public class PrimitivePolygon extends GraphicPrimitive
         	(py-yp[0])*(py-yp[0]));
         
         if(GeometricDistances.pointInPolygon(nPoints,xp,yp, px,py))
-          	distance=0;
+          	distance=1;
             	
         return distance;
 	}

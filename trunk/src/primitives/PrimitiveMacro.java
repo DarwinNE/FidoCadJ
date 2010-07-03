@@ -86,7 +86,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroFontSize = 3;
 		name="";
 		value="";
-		macroFont="Courier New";
+		macroFont=Globals.defaultTextFont;
 		macro=new ParseSchem();
 		macroCoord=new MapCoordinates();
 		changed=true;
@@ -458,7 +458,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			virtualPoint[2].y=Integer.parseInt(tokens[2]);
  			
 			if(tokens[8].equals("*")) {
-      			macroFont = "Courier New";
+      			macroFont = Globals.defaultTextFont;
       		} else {
       			macroFont = tokens[8].replaceAll("\\+\\+"," ");
       		} 			
@@ -724,7 +724,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		String subsFont;
 		
-		if (macroFont.equals("Courier New")) {
+		if (macroFont.equals(Globals.defaultTextFont)) {
 			subsFont = "*";
 		} else {
 			StringBuffer s1=new StringBuffer("");
