@@ -26,10 +26,12 @@ package geom;
 
     
     @author Davide Bucci
-    @version 1.2, May 2010
+    @version 1.3, July 2010
 */
 
 public class GeometricDistances {
+
+	public static final int MIN_DISTANCE = 100;
 
 	// Number of segments evaluated when calculatin the distance between a 
 	// point and a Bézier curve.
@@ -46,8 +48,10 @@ public class GeometricDistances {
 	public static double pointToPoint(double xa, double ya,
 								 double xb, double yb)
 	{
-		return Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
-	
+		if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE)
+			return Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
+		else
+			return MIN_DISTANCE;
 	}
 	
 	
@@ -61,14 +65,17 @@ public class GeometricDistances {
 	public static int pointToPoint(int xa, int ya,
 						 	int xb, int yb)
 	{
-		return (int)Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
+		if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE)
+			return (int)Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
+		else
+			return MIN_DISTANCE;
 	
 	}
 	
-	private static	double dx;
-	private static	double dy;
-	private static	double t;
-	
+	private static double dx;
+	private static double dy;
+	private static double t;
+	private static double xmin, ymin, xmax, ymax;
 	
 	/** Calculate the euclidean distance between a point and a segment.
 	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
@@ -85,6 +92,24 @@ public class GeometricDistances {
 								 double x, double y )
 	{
 	
+		// Shortcuts
+		if(xa>xb) {
+			xmin = xb; xmax = xa;
+		} else {
+			xmin = xa; xmax = xb;
+		}
+		
+		if(x<xmin-MIN_DISTANCE || x>xmax+MIN_DISTANCE)
+			return MIN_DISTANCE;
+		
+		if(ya>yb) {
+			ymin = yb; ymax = ya;
+		} else {
+			ymin = ya; ymax = yb;
+		}
+		
+		if(y<ymin-MIN_DISTANCE || y>ymax+MIN_DISTANCE)
+		   return MIN_DISTANCE;
 		
 		dx=xb-xa;
 		dy=yb-ya;
@@ -99,7 +124,7 @@ public class GeometricDistances {
 		if (t<0) {
 			dx=x-xa;
 			dy=y-ya;
-		} else if (t>1){
+		} else if (t>1.0){
 			dx=x-xb;
 			dy=y-yb;
 		} else {
@@ -113,6 +138,8 @@ public class GeometricDistances {
 	private static	int idx;
 	private static	int idy;
 	private static	int it;
+	private static  int ixmin, ixmax, iymin, iymax;
+	
 	/** Calculate the euclidean distance between a point and a segment.
 	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
 	    This is a version which does all calculations in fixed point with
@@ -130,12 +157,32 @@ public class GeometricDistances {
 							  int xb, int yb,
 							  int x, int y)
 	{
+		// Shortcuts
+
+		if(xa>xb) {
+			ixmin = xb; ixmax = xa;
+		} else {
+			ixmin = xa; ixmax = xb;
+		}
+		if(x<ixmin-MIN_DISTANCE || x>ixmax+MIN_DISTANCE)
+		   return MIN_DISTANCE;
+	
+		if(ya>yb) {
+			iymin = yb; iymax = ya;
+		} else {
+			iymin = ya; iymax = yb;
+		}		
+		
+		if(y<iymin-MIN_DISTANCE || y>iymax+MIN_DISTANCE)
+		   return MIN_DISTANCE;
 
 		if (xb==xa && yb==ya) {
 			idx=x-xa;
 			idy=y-yb;
 			return (int)Math.sqrt(idx*idx+idy*idy);
 		}
+		
+		
 		idx=xb-xa;
 		idy=yb-ya;
 		
@@ -154,8 +201,12 @@ public class GeometricDistances {
 			idy=y-(ya+it*idy/1000);
 		}
 		return (int)Math.sqrt(idx*idx+idy*idy);
+		
 	
 	}
+	
+	private static int i, j;
+    private static 	boolean c;
 
 	/** Tells if a point lies inside a polygon, using the alternance rule
 		adapted from a snippet by Randolph Franklin, in Paul Bourke pages:
@@ -171,8 +222,7 @@ public class GeometricDistances {
 	public static boolean pointInPolygon(int npol, 
 			double[] xp, double[] yp, double x, double y)
     {
-      	int i, j;
-      	boolean c = false;
+      	c = false;
       	
       	for (i = 0,j = npol-1; i < npol; j=i++) {
       		if ((((yp[i] <= y) && (y < yp[j])) ||
@@ -197,13 +247,12 @@ public class GeometricDistances {
 								  double h,double px,double py) 
 	{
     	//Determine and normalize quadrant.
-    	double dx = Math.abs(px-(ex+w/2));
-    	double dy = Math.abs(py-(ey+h/2));
-    	double l;
-	
+    	dx = Math.abs(px-(ex+w/2.0));
+    	dy = Math.abs(py-(ey+h/2.0));
+    	
 		
     	//Shortcut
-    	if( dx > w/2 || dy > h/2 ) {
+    	if( dx > w/2.0 || dy > h/2.0 ) {
      	 	return false;
    		 }
 
@@ -211,9 +260,7 @@ public class GeometricDistances {
     	// The multiplication by four is mandatory as the principal axis of an 
     	// ellipse are the half of the width and the height.
     	
-		l=4*dx*dx/w/w+4*dy*dy/h/h;
-		
-    	return l<1;
+    	return (4.0*dx*dx/w/w+4.0*dy*dy/h/h)<1.0;
   	}  
   	/** Tells if a point lies inside an ellipse (integer version)
 		
@@ -231,6 +278,27 @@ public class GeometricDistances {
 	{
 		return pointInEllipse((double) ex,(double) ey,(double) w,
 							  (double) h,(double) px,(double) py); 
+							  
+/*		// On my iMac G5 the integer code is SLOWER than the double precision
+		// calculations.
+
+		//Determine and normalize quadrant.
+    	idx = Math.abs(px-(ex+w/2));
+    	idy = Math.abs(py-(ey+h/2));
+    	
+		
+    	//Shortcut
+    	if( idx > w/2 || idy > h/2 ) {
+     	 	return false;
+   		 }
+
+    	// Calculate the semi-latus rectum of the ellipse at the given point
+    	// The multiplication by four is mandatory as the principal axis of an 
+    	// ellipse are the half of the width and the height.
+    	// Integer calculation with three digit accuracy.
+    	
+    	return (4000*idx*idx/w/w+4000*dy*dy/h/h)<1000;
+*/
 	}
 	
 	/** Give the distance between the given point and the ellipse path. The
@@ -314,10 +382,10 @@ public class GeometricDistances {
 	public static boolean pointInRectangle(double ex,double ey,double w,
 								  double h,double px,double py) 
 	{
-		if((ex<=px)&&(px<ex+w) && (ey<=py)&&(py<ey+h))
-			return true;
-		else
-			return false;
+	if((ex>px)||(px>ex+w) || (ey>py)||(py>ey+h))
+		return false;
+	else
+		return true;
 	}
 	
 	/** Tells if a point lies inside a rectangle, integer version
@@ -334,20 +402,11 @@ public class GeometricDistances {
 	public static boolean pointInRectangle(int ex,int ey,int w,
 								  int h, int px,int py) 
 	{
-/*		globals.actualG.drawRect(globals.actualMap.mapX(ex,ey),
-			globals.actualMap.mapY(ex,ey),
-			w*(int)globals.actualMap.getXMagnitude(),
-			h*(int)globals.actualMap.getYMagnitude());
-		globals.actualG.drawRect(globals.actualMap.mapX(px,py),
-			globals.actualMap.mapY(px,py),
-			1,
-			1);*/
-		
-		
-		if((ex<=px)&&(px<ex+w) && (ey<=py)&&(py<ey+h))
-			return true;
-		else
+		if((ex>px)||(px>ex+w) || (ey>py)||(py>ey+h))
 			return false;
+		else
+			return true;
+		
 	}
 	
 	
@@ -365,6 +424,7 @@ public class GeometricDistances {
 	public static double pointToRectangle(double ex,double ey,double w,
 								   double h, double px,double py) 
 	{
+		
 		double d1=pointToSegment(ex,ey,ex+w,ey,px,py);
 		double d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
 		double d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
@@ -387,12 +447,19 @@ public class GeometricDistances {
 	public static int pointToRectangle(int ex,int ey,int w,
 								  int h, int px,int py) 
 	{
+		if ( pointInRectangle(ex-1, ey-1, w+2, h+2, px, py) &&
+			!pointInRectangle(ex+1, ey+1, w-2, h-2, px, py)) 
+			return 1;
+		else
+			return Integer.MAX_VALUE;
+		/*
 		int d1=pointToSegment(ex,ey,ex+w,ey,px,py);
 		int d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
 		int d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
 		int d4=pointToSegment(ex,ey+h,ex,ey,px,py);
 		
 		return Math.min(Math.min(d1,d2),Math.min(d3,d4));
+		*/
 	}
 
 
@@ -400,7 +467,7 @@ public class GeometricDistances {
 	    a Bézier curve. The curve is divided into MAX_BEZIER_SEGMENTS 
 	    linear pieces and the distance is calculated with each piece.
 	    The given distance is the minimum distance found for all pieces.
-	    Freely inspired from the original Fidocad method.
+	    Freely inspired from the original Fidocad code.
 	    
 	    @param x1 x coordinate of the first control point of the Bézier curve.
 	    @param y1 y coordinate of the first control point of the Bézier curve.

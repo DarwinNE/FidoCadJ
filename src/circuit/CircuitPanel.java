@@ -364,7 +364,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     /***********************************************************************/
     
     /** Define the listener to be called when the zoom is changed
-    
         @param c the new zoom listener
     
     */
@@ -373,7 +372,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         zoomListener=c;
     }
     /** Define the listener to be called when the selected action is changed
-    
         @param c the new selection listener
     
     */
@@ -384,7 +382,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     /** Define the listener to be called when the selected action is changed
         (this is explicitly done for the ScrollGestureSelection)
-        
         @param c the new selection listener
     
     */
@@ -397,7 +394,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
     /** Define the listener to be called when the coordinates of the mouse 
         cursor are changed
-    
         @param c the new coordinates listener
     
     */
@@ -550,7 +546,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 
             // Calculate a reasonable tolerance. If it is too small, we ensure
             // that it is rounded up to 2.
-            
             int toll= sc.unmapXnosnap(x+SEL_TOLERANCE)-
                               sc.unmapXnosnap(x);
             
@@ -565,9 +560,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                             toll,evt.isControlDown());
             }
                 
-            
-           
-            // repaint();
             break;
         
         // Zoom state
@@ -605,7 +597,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             // Add a connection primitive at the given point.
             P.addPrimitive(new PrimitiveConnection(sc.unmapXsnap(x),
-                                        sc.unmapYsnap(y), currentLayer), true);
+                                        sc.unmapYsnap(y), currentLayer), true,true);
                     
             repaint();
             break;
@@ -623,9 +615,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                   PCB_pad_sizey,                                                                                                                
                                   PCB_pad_drill,
                                   PCB_pad_style,
-                                  currentLayer), true);
-                    
-                    
+                                  currentLayer), true,true);
             repaint();
             break;     
          
@@ -667,7 +657,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                                          currentLayer,
                                                          false,
                                                         false,
-                                                        0,3,2,0), true);
+                                                        0,3,2,0), true,true);
                         
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
@@ -685,8 +675,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             P.addPrimitive(new PrimitiveAdvText(sc.unmapXsnap(x),
                                         sc.unmapYsnap(y), 
-                                        3,4,"Courier new",0,0,
-                                        "String", currentLayer), true);
+                                        3,4,Globals.defaultTextFont,0,0,
+                                        "String", currentLayer), true, true);
                     
             repaint();
             break;
@@ -722,11 +712,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          currentLayer,
                                          false,
                                          false,
-                                         0,3,2,0), true);
+                                         0,3,2,0), true,true);
         
                 clickNumber = 0;
                 repaint();
-              
             }
             break;   
         
@@ -738,8 +727,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }      
             
-            
-            
             // a polygon definition is ended with a double click
             if (evt.getClickCount() >= 2) {
          
@@ -748,7 +735,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 for(i=1; i<=clickNumber; ++i) 
                     poly.addPoint(xpoly[i],ypoly[i]);
         
-                P.addPrimitive(poly, true);
+                P.addPrimitive(poly, true,true);
                 clickNumber = 0;
                 repaint();
                 break;
@@ -785,7 +772,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0), true);
+                                         currentLayer,0), true,true);
         
         
                 clickNumber = 0;
@@ -813,7 +800,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0), true);
+                                         currentLayer,0), true, true);
                 clickNumber = 0;
                 repaint();
               
@@ -844,12 +831,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          PCB_thickness,
-                                         currentLayer), true);
+                                         currentLayer), true,true);
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
                 ypoly[1] = ypoly[2];
-                repaint();
-              
+                repaint();  
             }
             
             break;  
@@ -869,7 +855,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
                     P.getMacroFont(),
-                    P.getMacroFontSize(), 0), true);
+                    P.getMacroFontSize(), 0), true,true);
                 successiveMove=false;
                     
             } catch (IOException G) {
@@ -882,10 +868,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
 
     }    
-        
-        
-        
-        
     
     /** Handle the mouse movements when editing a graphic primitive.
         This procedure is important since it is used to show interactively 
@@ -971,11 +953,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             oldy=y;
             return;
         }
-        
-        
-        
-
-        
+                
         /*  LINE **************************************************************
                 
                ++
@@ -1223,6 +1201,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         }    
         
     }
+    
+    /** Mouse release event
+    */
     public void mouseReleased(MouseEvent evt)
     {
     	MyTimer mt = new MyTimer();
@@ -1234,6 +1215,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(Globals.useMetaForMultipleSelection)
             multiple=evt.isMetaDown();
         
+        // If we are in the selection state, either we are ending the editing
+        // of an element (and thus the dragging of a handle) or we are 
+        // making a click.
+        
         if(actionSelected==SELECTION) {
             if(rulerStartX!=px || rulerStartY!=py)
             	P.dragHandleEnd(this,px, py, multiple);
@@ -1241,10 +1226,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	ruler=false;
             	handleClick(evt);
             }
-            repaint();
+           	repaint();
         } else {
             handleClick(evt);
         }
+        
+        // Having an idea of the release time is useful for the optimization
+        // of the click event handling. The most time-consuming operation 
+        // which is done in this phase is finding the closest component to 
+        // the mouse pointer and eventually selecting it.
         
         if(profileTime) {
             double elapsed=mt.getElapsed();
@@ -1500,13 +1490,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
    	/**  Create a fictionous Array List without making use of alpha 
          channels and colours.
          
-         @return an ArrayList composed by 16 opaque layers in green.
+         @return an ArrayList composed by Globals.MAX_LAYERS opaque layers in green.
     */
    	private ArrayList createEditingLayerArray()
     {
           	
        	ArrayList ll=new ArrayList();
-       	for(int i=0; i<16;++i) 
+       	for(int i=0; i<Globals.MAX_LAYERS;++i) 
        		ll.add(new LayerDesc(Color.green, true,"",1.0f));
        		
        	return ll;

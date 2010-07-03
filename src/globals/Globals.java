@@ -85,6 +85,9 @@ public class Globals
     
     public static final String DEFAULT_EXTENSION = "fcd";	// Extension
     
+    // The default font
+    public static final String defaultTextFont = "Courier New";
+    
     public static final int dashNumber = 5;
     public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
@@ -92,6 +95,9 @@ public class Globals
     // Minimum height in pixels of a text to be drawn.
     public static final int textSizeLimit = 4;
  
+ 	// Number of layers to be treated
+	public static final int MAX_LAYERS=16;
+	
 
     /**	Adjust a long string in order to cope with space limitations.
     	Tipically, it will be used to show long paths in the window caption.

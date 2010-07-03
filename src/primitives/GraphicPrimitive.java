@@ -8,6 +8,7 @@ import layers.*;
 import dialogs.*;
 import geom.*;
 import export.*;
+import globals.*;
 /*
 	GraphicPrimitive is an abstract class implementing the basic behaviour
 	of a graphic primitive, which should be derived from it.
@@ -48,9 +49,6 @@ public abstract class GraphicPrimitive
 	// Maximum number of tokens
 	private static final int MAX_TOKENS=120;
 	
-	// Number of layers to be treated
-	private static final int MAX_LAYERS=16;
-	
 	// Indicates wether the primitive is selected or not
 	private boolean selectedState;
 	
@@ -80,6 +78,7 @@ public abstract class GraphicPrimitive
 	/** Specifies that the current primitive has been modified or not. 
 		If it is true, during the redraw all parameters should be calulated
 		from scratch. 
+		@param c the wanted changed state.
 	*/
     public void setChanged(boolean c)
     {
@@ -88,7 +87,7 @@ public abstract class GraphicPrimitive
 
 	
 	/** Get the first control point of the primitive
-	
+		@return the coordinates of the first control point of the object.
 	*/
 	public Point getFirstPoint()
 	{
@@ -224,7 +223,7 @@ public abstract class GraphicPrimitive
 	
 	/** Parses the current string and interpret it as a layer indication.
 		If this is correct, the layer is saved in the current primitive.
-	
+		@param token the token which corresponds to the layer.
 	*/
 	public void parseLayer(String token)
  	{
@@ -238,7 +237,7 @@ public abstract class GraphicPrimitive
 		}
 		
 		// We do check if everything is OK.
-		if (layer<0 || layer>=MAX_LAYERS)
+		if (layer<0 || layer>=Globals.MAX_LAYERS)
 			layer=0;
 		else
 			layer=l;
@@ -250,16 +249,18 @@ public abstract class GraphicPrimitive
 	*/
 	final public void setLayer(int l)
 	{
-		if (l<0 || l>=MAX_LAYERS)
+		if (l<0 || l>=Globals.MAX_LAYERS)
 			layer=0;
 		else
 			layer=l;
-		//changed=true;	
+		changed=true;	
 	}
 	
 	private LayerDesc l;
 	private float alpha;
 	private static float oldalpha=1.0f;
+	private static int old_layer=-1;
+	private boolean ret;
 	
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
@@ -268,10 +269,15 @@ public abstract class GraphicPrimitive
 		@param g the graphic context used for the drawing.
 		@param layerV a LayerDesc vector with the descriptions of the layers
 				being used.
-		
 	*/
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
+		// We check if everything has already been calculated. In this case,
+		// if there nothing to do, exit immediately, thus gaining some speed.
+		
+		if(layer == old_layer && !changed)
+			return ret;
+		old_layer = layer;
 		
 		// At first, we try to get the current layer. If there is a problem,
 		// the layer 0 should always be present.
@@ -284,30 +290,31 @@ public abstract class GraphicPrimitive
 		// If the layer is not visible, we just exit, returning false. This
 		// will made the caller not to draw the graphical element.
 		
-		if (!l.getVisible())
+		if (!l.getVisible()) {
+			ret = false;
 			return false;
-							
+		} else
+			ret = true;
+			
 		// The color for selected primitives is green.
 		
 		if(selectedState) {
 			g.setColor(Color.green);
 			if(oldalpha!=alpha) {
 				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-				oldalpha = 1.0f;
+		//		oldalpha = 1.0f;
 			}
 		} else {
 			g.setColor(l.getColor());
 			alpha=l.getAlpha();
 			// Here we use a trick for handling the alpha channel. This avoids
-			// that the alpha is set when it is unnecessary. This is somewhat
-			// incompatible with the XOR technique, which is still used in some 
-			// cases. 
+			// that the alpha is set when it is unnecessary. 
 			
-			if(oldalpha!=alpha || alpha<1.0) {
+			//if(oldalpha!=alpha || alpha<1.0) {
 				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-			}
+			//}
 		}	
-		oldalpha = alpha;
+		//oldalpha = alpha;
 
 		return true;
 	}
@@ -315,7 +322,6 @@ public abstract class GraphicPrimitive
 	/**	Draw the handles for the current primitive.
 		@param g the graphic context to be used.
 		@param cs the coordinate mapping used.
-	
 	*/
 	public void drawHandles(Graphics2D g, MapCoordinates cs)
 	{
@@ -400,8 +406,7 @@ public abstract class GraphicPrimitive
 		
 		@return a vector of ParameterDescription containing each control
 				parameter.
-				The first parameters should always be the virtual points.
-				
+				The first parameters should always be the virtual points.	
 	*/
 	public Vector getControls()
 	{
@@ -473,11 +478,9 @@ public abstract class GraphicPrimitive
 		PrimitivePCBPad subclasses.
 		
 		@param t the wanted state.
-	
 	*/
 	public void setDrawOnlyPads(boolean t)
 	{
-	
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -515,16 +518,13 @@ public abstract class GraphicPrimitive
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public abstract int getControlPointNumber();
 	
 	/** Obtain a string command descripion of the primitive.
 		@param extensions produce a string eventually containing FidoCadJ
 			extensions over the original FidoCad format.
 		@return the FIDOCAD command line.
-		
 	*/
-	
 	public abstract String toString(boolean extensions);
 	
 	/**	Each graphic primitive should call the appropriate exporting method
@@ -532,9 +532,7 @@ public abstract class GraphicPrimitive
 		
 		@param exp the export interface that should be used
 		@param cs the actual coordinate mapping
-	
 	*/
-	
 	public abstract void export(ExportInterface exp, MapCoordinates cs)
 		throws IOException;
 }

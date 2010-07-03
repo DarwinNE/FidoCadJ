@@ -200,7 +200,7 @@ public class ParseSchem
         tokens=new String[MAX_TOKENS];
         primitiveVector=new ArrayList(100);
         cs=new MapCoordinates();
-        layerV=new ArrayList(16);
+        layerV=new ArrayList(Globals.MAX_LAYERS);
         library=new TreeMap();
         firstDrag=false;
         um=new UndoManager(MAX_UNDO);
@@ -209,7 +209,7 @@ public class ParseSchem
         drawOnlyLayer=-1;
         cl=null;
         macroFont = "Courier New";
-		layersUsed = new boolean[16];
+		layersUsed = new boolean[Globals.MAX_LAYERS];
         
         // Setup the standard view settings:
         // top left corner, 400% zoom. 
@@ -525,9 +525,10 @@ public class ParseSchem
     /** Add a graphic primitive.
         @param p the primitive to be added.
         @param save save the undo state.
+        @param sort if true, sort the primitive layers
     
     */
-    public void addPrimitive(GraphicPrimitive p, boolean save)
+    public void addPrimitive(GraphicPrimitive p, boolean save, boolean sort)
     {   
     	// The primitive database MUST be ordered. The idea is that we insert
     	// primitives without ordering them and then we call a sorter.
@@ -538,13 +539,16 @@ public class ParseSchem
         // Since the primitive can be a macro, we need to test each possible 
         // layer.
         
-        for (int i=0; i<16; ++i) {
+        for (int i=0; i<Globals.MAX_LAYERS; ++i) {
         	if(p.containsLayer(i)) {
         		layersUsed[i] = true;
         		if (i>maxLayer)
         			maxLayer = i;
         	}
 		}
+		if (sort)
+			sortPrimitiveLayers();
+			
         changed=true;
 
     }
@@ -1732,7 +1736,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
+                	        addPrimitive(g,false,false);
                      
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
 		                    g=new PrimitiveBezier();
@@ -1743,7 +1747,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
+                	        addPrimitive(g,false,false);
                      
                         } else if (hasFCJ && (old_tokens[0].equals("RV")||
                         	old_tokens[0].equals("RP"))) {
@@ -1755,7 +1759,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
+                	        addPrimitive(g,false,false);
                     	} else if (hasFCJ && (old_tokens[0].equals("EV")||
                         	old_tokens[0].equals("EP"))) {
 		                    g=new PrimitiveOval();
@@ -1766,7 +1770,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
+                	        addPrimitive(g,false,false);
                     	} else if (hasFCJ && (old_tokens[0].equals("PV")||
                         	old_tokens[0].equals("PP"))) {
 		                    g=new PrimitivePolygon();
@@ -1777,7 +1781,7 @@ public class ParseSchem
                         	old_j+=j+1;
         	                g.parseTokens(old_tokens, old_j+1);
             	            g.setSelected(selectNew);
-                	        addPrimitive(g,false);
+                	        addPrimitive(g,false,false);
                     	}
                     	hasFCJ=false;
                     } else if(tokens[0].equals("FJC")) {
@@ -1848,7 +1852,7 @@ public class ParseSchem
                         g=new PrimitiveAdvText();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false);
+                        addPrimitive(g,false,false);
                     } else if(tokens[0].equals("TY")) {
                         hasFCJ=false;
                         
@@ -1868,13 +1872,13 @@ public class ParseSchem
                         	((PrimitiveMacro)g).setValue(value,vv+1);
 
                         	g.setSelected(selectNew);
-                        	addPrimitive(g, false);
+                        	addPrimitive(g, false,false);
                         	macro_counter=0;
                         } else {
                         	g=new PrimitiveAdvText();
                         	g.parseTokens(tokens, j+1);
                         	g.setSelected(selectNew);
-                       	 	addPrimitive(g,false);
+                       	 	addPrimitive(g,false,false);
                        	 }
                     } else if(tokens[0].equals("PL")) {
                     	hasFCJ=false;
@@ -1882,21 +1886,21 @@ public class ParseSchem
                         g=new PrimitivePCBLine();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false);
+                        addPrimitive(g,false,false);
                     } else if(tokens[0].equals("PA")) {
                     	hasFCJ=false;
                     	macro_counter=0;
                         g=new PrimitivePCBPad();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false);
+                        addPrimitive(g,false,false);
                     } else if(tokens[0].equals("SA")) {
                         hasFCJ=false;
                     	macro_counter=0;
                         g=new PrimitiveConnection();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false);
+                        addPrimitive(g,false,false);
                     }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
                     	macro_counter=0;
     
@@ -1984,40 +1988,40 @@ public class ParseSchem
         		g=new PrimitiveMacro(library,layerV);
                	g.parseTokens(old_tokens, old_j+1);
                	g.setSelected(selectNew);
-                addPrimitive(g,false);
+                addPrimitive(g,false,false);
                 hasFCJ=false;
             } else if (old_tokens[0].equals("LI")) {
 		        g=new PrimitiveLine();
                 g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                addPrimitive(g,false);
+                addPrimitive(g,false,false);
                 hasFCJ=false;     
             } else if (old_tokens[0].equals("BE")) {
 		        g=new PrimitiveBezier();
            	    g.parseTokens(old_tokens, old_j+1);
             	g.setSelected(selectNew);
-                addPrimitive(g,false); 
+                addPrimitive(g,false,false); 
                 hasFCJ=false;
             } else if (old_tokens[0].equals("RP")||
                	old_tokens[0].equals("RV")) {
 		        g=new PrimitiveRectangle();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                addPrimitive(g,false);
+                addPrimitive(g,false,false);
                 hasFCJ=false;
             } else if (old_tokens[0].equals("EP")||
                	old_tokens[0].equals("EV")) {
 		        g=new PrimitiveOval();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                addPrimitive(g,false);
+                addPrimitive(g,false,false);
                 hasFCJ=false;
             } else if (old_tokens[0].equals("PP")||
                	old_tokens[0].equals("PV")) {
 		        g=new PrimitivePolygon();
            	    g.parseTokens(old_tokens, old_j+1);
                 g.setSelected(selectNew);
-                addPrimitive(g,false);
+                addPrimitive(g,false,false);
                 hasFCJ=false;
             }
         }
@@ -2027,25 +2031,24 @@ public class ParseSchem
     
    
     /** Performs a bubble sort of the primitives on the basis of their layer.
-    	The sorting metod adopted is the bubble sort. By the practical point
+    	The sorting metod adopted is the Shell sort. By the practical point
     	of view, this seems to be rather good even for large drawings. This is
     	because the primitive list is always more or less already ordered.
-    	If you want to optimize the program and are searching for a bottleneck,
-    	chances are that it is not here...
+    	
     */
     public void sortPrimitiveLayers()
     {
     	int i;
     	GraphicPrimitive t,g,gg;
     	boolean cont=true;
-    	
+    	//MyTimer mt=new MyTimer();
     	maxLayer = 0;
     	
     	// Since for sorting we need to analyze all the primitives in the 
     	// database, this is a good place to calculate which layers are
     	// used. We thus start by resetting the array.
     	
-    	for (int l=0; l<16; ++l) {
+    	for (int l=0; l<Globals.MAX_LAYERS; ++l) {
         	layersUsed[l] = false;
         	
         	for (i=0; i<primitiveVector.size(); ++i){
@@ -2062,25 +2065,31 @@ public class ParseSchem
     		}
 		}
     	
-    	// Bubble sort!!!
-    	do {
-    		cont=false;
-    		for (i=0; i<primitiveVector.size()-1; ++i){
-            	g=(GraphicPrimitive)primitiveVector.get(i);
-            	gg=(GraphicPrimitive)primitiveVector.get(i+1);
-            	
-            	
-    			
-    			if(gg.getLayer()<g.getLayer()){
-    				primitiveVector.set(i, gg);
-    				primitiveVector.set(i+1, g);
-    				
-    				cont=true;
-    			} 
-    			
-    		}
-    	} while (cont);
-    		
+    	// Indexes
+    	int j,k,l;
+    	// Swap temporary variable
+    	GraphicPrimitive s;
+    	
+    	// Shell sort. This is a farly standard implementation
+		for(l = primitiveVector.size()/2; l>0; l/=2) {
+			for(j = l; j< primitiveVector.size(); ++j) {
+				for(i=j-l; i>=0; i-=l) {
+					if(((GraphicPrimitive)primitiveVector.get(i+l)).getLayer()>=
+					  ((GraphicPrimitive)primitiveVector.get(i)).getLayer())
+						break;
+					else {
+						// Swap
+						s = (GraphicPrimitive)primitiveVector.get(i);
+						primitiveVector.set(i,primitiveVector.get(i+l));
+						primitiveVector.set(i+l, s);
+					}
+				}
+			}
+		}
+	
+		//double elapsed=mt.getElapsed();
+        //System.out.println("sort: Time elapsed: "+elapsed+" ms");
+    	
     }
 
     
