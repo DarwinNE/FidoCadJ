@@ -45,7 +45,10 @@ Version   Date           	Author      Remarks
 public class LayerDesc 
 {
   	private Color layerColor;
-  	private boolean isVisible;
+  	
+  	// isVisible is true if the layer should be drawn.
+  	
+  	public boolean isVisible;
   	private boolean isModified;
   	private String LayerDescription;
   	private float alpha;

@@ -198,7 +198,7 @@ public class ParseSchem
     public ParseSchem()
     {
         tokens=new String[MAX_TOKENS];
-        primitiveVector=new ArrayList(100);
+        primitiveVector=new ArrayList(25);
         cs=new MapCoordinates();
         layerV=new ArrayList(Globals.MAX_LAYERS);
         library=new TreeMap();
@@ -263,6 +263,12 @@ public class ParseSchem
         changed=true;
     }
     
+    /** Resets the current library.
+    */
+    public void resetLibrary()
+    {
+    	setLibrary(new TreeMap());
+    }
     
     /** Try to load all libraries ("*.fcl") files in the given directory.
     
@@ -661,8 +667,7 @@ public class ParseSchem
 		int i_index;
     	int j_index;
     	int la;    	    	
- 	
-    	
+   	
     	// At first, we check if the current view has changed. 
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() 
     		|| oO!=cs.getOrientation() || changed) {
@@ -682,23 +687,19 @@ public class ParseSchem
 			
     		if (!drawOnlyPads) 
         		cs.resetMinMax();
-        	
-     		
+    		
     	}
     	
-
         needHoles=drawOnlyPads;
    		
         // If it is needed, at first, show the macro origin (100, 100) in
         // logical coordinates.
-        
-   		
+
    		if (hasFCJOriginVisible) {
         	G.setColor(Color.red);
         	G.fillOval(cs.mapXi(100, 100, false)-4,
         		cs.mapYi(100, 100, false)-4, 8, 8);
         }
-        
        
         /* First possibility: we need to draw only one layer (for example 
            in a macro). This is indicated by the fact that drawOnlyLayer
@@ -717,14 +718,12 @@ public class ParseSchem
        		return;
        	} else if (!drawOnlyPads) {
         	// If we want to draw all layers, we need to process with order.
-        	
         	for(j_index=0;j_index<=maxLayer; ++j_index) {
 				
 				if(!layersUsed[j_index])
 					continue;
-				
 				drawPrimitives(j_index, G);
-        		
+     		
        		}
        		
        	}
@@ -1165,23 +1164,21 @@ public class ParseSchem
         int layer=0;
         GraphicPrimitive gg;
         
+        // Check the minimum distance by searching among all
+        // primitives
         for (i=0; i<primitiveVector.size(); ++i){
         	gg =(GraphicPrimitive)primitiveVector.get(i);
-        	
-            distance=gg.getDistanceToPoint(px,py);                     
-            layer= gg.getLayer();
-                       
-            if(((LayerDesc)layerV.get(layer)).getVisible() &&
-            	distance<=mindistance) {
-                
-                isel=i;
-                mindistance=distance;              
+            distance=gg.getDistanceToPoint(px,py);
+            if(distance<=mindistance) {
+            	layer= gg.getLayer();
+              	if(((LayerDesc)layerV.get(layer)).isVisible) {
+                	isel=i;
+                	mindistance=distance;              
+                }
             }
         }
         
         return mindistance;
-        
-        
     }
     
     
@@ -1239,12 +1236,9 @@ public class ParseSchem
     	} else {
         return false;
         }
-     
-    
     }    
     
-    /** Rotate all selected primitives.
-        
+    /** Rotate all selected primitives. 
     */
     public void rotateAllSelected()
     {
@@ -1359,11 +1353,7 @@ public class ParseSchem
             		s=true;
                 
            	}
-            
-            
         }
-            
-        
         return s;
     }
     
@@ -1392,7 +1382,6 @@ public class ParseSchem
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);
         
-        
         firstDrag=true;
         
         int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
@@ -1408,11 +1397,11 @@ public class ParseSchem
                        
             // Does not allow for selecting an invisible primitive
             if(layer<layerV.size()) {
-            	if(!((LayerDesc)layerV.get(layer)).getVisible() &&
+            	if(!((LayerDesc)layerV.get(layer)).isVisible &&
             		!(gp instanceof PrimitiveMacro))
             		continue;
             } 
-            if(gp.getSelected()){
+            if(gp.selectedState){
                 // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
                 
@@ -1541,14 +1530,12 @@ public class ParseSchem
 					
         			P.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
         				   Math.abs(xb-xa), Math.abs(yb-ya));
-        			
-        			
+
         			a=Math.min(a, Math.min(xa,xb));
         			b=Math.min(b, Math.min(ya,yb));
         			c=Math.max(c, Math.abs(xb-xa));
         			d=Math.max(d, Math.abs(yb-ya));
-        				
-        				
+
         			if (!flip) 
         				P.repaint(a,b,c+10,d+10);
         			else	
@@ -1556,8 +1543,6 @@ public class ParseSchem
         			P.resetOldEvidence();
         			
         			return;
-        				        				
-        			
         		}
 				P.setOldEvidence(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
@@ -1571,8 +1556,6 @@ public class ParseSchem
         		g.drawRect(Math.min(xa,xb), Math.min(ya,yb), 
         					   Math.abs(xb-xa), Math.abs(yb-ya));
             }
-            	
-            
             return;
         }
         
@@ -1586,12 +1569,6 @@ public class ParseSchem
         primBeingDragged.virtualPoint[handleBeingDragged].x=cs.unmapXsnap(px);
         primBeingDragged.virtualPoint[handleBeingDragged].y=cs.unmapYsnap(py);
         primBeingDragged.setChanged(true);
-        
-
-        // Here we show the new place of the primitive.
-
-        //primBeingDragged.draw(g,cs,layerV);
-
     }
     
     /** Drag all the selected primitives during a drag operation. 
@@ -1607,7 +1584,6 @@ public class ParseSchem
         // Check if we are effectively dragging the whole primitive...
         if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE)
             return;
-    
         
         firstDrag=false;
         
@@ -1641,21 +1617,15 @@ public class ParseSchem
                     primBeingDragged.virtualPoint[j].y+=dy;
                     // Here we show the new place of the primitive.
                 }
-                //if(!Globals.doNotUseXOR)
-                //	primBeingDragged.drawFast(g,cs,layerV);
-                
+
             }
         }
-  
     }   
-    
     
     /** Parse the circuit contained in the StringBuffer specified.
     	This function resets the primitive database and then parses the circuit.
     	
     	@param s the string containing the circuit
-    	
-    
     */
     public void parseString(StringBuffer s) 
     	throws IOException
@@ -1669,9 +1639,7 @@ public class ParseSchem
     	
     	@param s the string containing the circuit
     	@param selectNew specify that the added primitives should be selected.
-    
     */
-    
     public void addString(StringBuffer s, boolean selectNew) 
     	throws IOException
     {
@@ -1702,7 +1670,6 @@ public class ParseSchem
         char c='\n';
         int len;
 
-        
         lineNum=1;
         j=0;    // A fairy simple tokenizer
         token.setLength(0);
@@ -1922,9 +1889,7 @@ public class ParseSchem
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
-     
                     }
-                    
                 } catch(IOException E) {
                     System.out.println("Error encountered: "+E.toString());
                     System.out.println("string parsing line: "+lineNum);
@@ -1932,9 +1897,6 @@ public class ParseSchem
                     System.out.println("I could not read a number at line: "
                                        +lineNum);
                 }
-                
-                
-                
                 j=0;
                 token.setLength(0);
             } else if (c==' '){ // Ready for next token
@@ -1948,9 +1910,7 @@ public class ParseSchem
             } else {
                 token.append(c);
             }
-            
         }
-        
        
         try{
         	registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,

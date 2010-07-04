@@ -61,6 +61,7 @@ public class MacroTree extends JPanel
 {
     private CircuitPanel previewPanel;
     private JTree tree;
+    private JSplitPane splitPane;
   	private DefaultMutableTreeNode top; 
     private SearchField search;
     private Collection library;
@@ -70,9 +71,13 @@ public class MacroTree extends JPanel
     
     private int[] start;
 
-
-    public MacroTree(Map lib, ArrayList layers) {
-        super(new GridLayout(1,0));
+	public MacroTree()
+	{
+		super(new GridLayout(1,0));
+	
+	}
+    public void updateLibraries(Map lib, ArrayList layers) {
+        
 		library=lib.values();
         //Create the nodes.
         top = new DefaultMutableTreeNode("Fidocad");
@@ -118,9 +123,13 @@ public class MacroTree extends JPanel
 		topbox.add(search);
 		topbox.add(treeView);
 		
-		
+		// If the routine has already been called at least once, we need to
+		// eliminate the previous splitPane which is memorized in this panel.
+        if(splitPane != null) 
+        	remove (splitPane);
+        
         //Add the scroll panes to a split pane.
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setTopComponent(topbox);
         splitPane.setBottomComponent(previewPanel);
 

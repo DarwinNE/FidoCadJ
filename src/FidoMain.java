@@ -7,6 +7,8 @@ import java.awt.*;
 import globals.*;
 import circuit.*;
 import export.*;
+import timer.*;
+
 
 /** FidoMain.java 
 
@@ -47,7 +49,7 @@ class FidoMain {
     /** The main method. Shows an instance of the FidoFrame */
     public static void main(String[] args)
     {
- 
+ 		// MyTimer mt = new MyTimer();
 
         // See if there is a filename to open or an option to take into 
         // account
@@ -204,9 +206,6 @@ class FidoMain {
             } catch(Exception e) {
             	System.err.println("Unable to export: "+e);
             }
-            
-
-        
                
         	if (convertFile) {
         		try {
@@ -229,13 +228,12 @@ class FidoMain {
 				System.out.println(""+d.width+" "+d.height);	
             }
         }
-        
+        // System.out.println("Command line handling elapsed time: "+mt.getElapsed()+"ms");
+
         if (!commandLineOnly) {
 	        /*******************************************************************
 	            PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
 	        *******************************************************************/
-        
-        
 	        if (System.getProperty("os.name").startsWith("Mac")) {
             
             
@@ -287,7 +285,8 @@ class FidoMain {
         	} else {
             	Globals.quaquaActive=false;
         	}
-        
+        	// System.out.println("L&F selection elapsed time: "+mt.getElapsed()+"ms");
+
         
         	// Un-comment to try to use the Metal LAF
         
@@ -298,14 +297,10 @@ class FidoMain {
             	Globals.weAreOnAMac =false;
         	} catch (Exception E) {}
         	*/
-        
-        
-	        /*******************************************************************
+            /*******************************************************************
     	                    END OF THE PLATFORM SELECTION CODE
         	*******************************************************************/
         
-       
-
 	        // Probably, you need to strip this code if you need to compile the
     	    // program under a non-Apple platform.
         
@@ -324,19 +319,36 @@ class FidoMain {
 				popFrame.libDirectory = libDirectory;
 
         	}
+
         	popFrame.init();
+   			//System.out.println("frame inited elapsed time: "+mt.getElapsed()+"ms");
+
+			// We begin by showing immediately the window. This improves the
+			// perception of speed given to the user, since the libraries 
+			// are not yet loaded
+        	popFrame.setVisible(true);
+   			// System.out.println("main window shown elapsed time: "+mt.getElapsed()+"ms");
+
+			// We load the libraries (this does not take so long in modern
+			// systems).
+			popFrame.loadLibraries();
+
+			// We force a global validation of the window size, by including 
+			// this time the tree containing the various libraries and the
+			// macros.
+        	popFrame.setVisible(true);
+
         	// If a file should be loaded, load it now, since popFrame has been
         	// created and initialized.
         	if(!loadFile.equals(""))
 				popFrame.Load(loadFile);
 
-        	popFrame.setVisible(true);
 		}
+		// System.out.println("main routine elapsed time: "+mt.getElapsed()+"ms");
     }
     
     /** Print a short summary of each option available for launching
     	FidoCadJ.
-    
     */
     static private void  showCommandLineHelp()
     {
@@ -389,12 +401,12 @@ class FidoMain {
 	*/
 	public static void readLibraries(ParseSchem P, boolean englishLibraries, String libDirectory)
 	{
+		P.loadLibraryDirectory(libDirectory);
 	    if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
             if(englishLibraries)
                 P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
             else
                 P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-           
         } else
             System.out.println("IHRAM library got from external file");
        	
@@ -412,12 +424,7 @@ class FidoMain {
                	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
            	else
                	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
-          
         } else
            	System.out.println("Standard PCB library got from external file");
-            
-        
 	}
-	
-	
 }
