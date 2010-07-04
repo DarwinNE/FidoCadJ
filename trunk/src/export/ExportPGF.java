@@ -576,7 +576,6 @@ public class ExportPGF implements ExportInterface {
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
 
-
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -590,7 +589,6 @@ public class ExportPGF implements ExportInterface {
 		out.write("\\pgflineto{\\pgfxy("+x2+","+y1+")}\n");
 		out.write("\\pgflineto{\\pgfxy("+x2+","+y2+")}\n");
 		out.write("\\pgflineto{\\pgfxy("+x1+","+y2+")}\n");
-		
 		
 		out.write("\\pgfclosepath \n");
 		if(isFilled)

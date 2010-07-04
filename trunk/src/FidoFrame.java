@@ -119,6 +119,8 @@ public class FidoFrame extends JFrame implements
     private boolean printFitToPage;
     private boolean printLandscape;
     
+    private MacroTree macroLib;
+    
     private boolean splitNonStandardMacro_s;    // split non standard macro
                                                 // when saving
     private boolean splitNonStandardMacro_c;    // split non standard macro
@@ -290,12 +292,36 @@ public class FidoFrame extends JFrame implements
         exportBlackWhite=false;
         printMirror = false;
         printFitToPage = false;
-        printLandscape = false;
-        
-
-        
-       
+        printLandscape = false;    
     }
+    
+    public void loadLibraries()
+    {
+    	// Check if we are using the english libraries. Basically, since the 
+        // only other language available other than english is italian, I
+        // suppose that people are less uncomfortable with the current Internet
+        // standard...
+        
+        boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
+        // Container contentPane=getContentPane();
+        
+        CC.P.resetLibrary();
+        
+        if(runsAsApplication) {
+    		FidoMain.readLibraries(CC.P, englishLibraries, libDirectory);
+        } else {
+        	if(englishLibraries) {
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+        	} else {
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+      		}
+ 		}
+ 		macroLib.updateLibraries(CC.P.getLibrary(), CC.P.getLayers());
+ 	}
     
     /** Perform some initialization tasks: in particular, it reads the library
     	directory and it creates the user interface.
@@ -303,7 +329,6 @@ public class FidoFrame extends JFrame implements
     */
     public void init()
     {
-
 
         // I wanted to measure the library loading time, in order to ensure
         // that it is reasonably fast (it is, on any reasonable hardware).
@@ -313,8 +338,6 @@ public class FidoFrame extends JFrame implements
         mt = new MyTimer();
         Container contentPane=getContentPane();
         
-		//getRootPane().setOpaque(true);
-		//getLayeredPane().setOpaque(true);
 		((JComponent)getContentPane()).setOpaque(true);
 		
         CC=new CircuitPanel(true);
@@ -327,35 +350,14 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-        	CC.P.loadLibraryDirectory(libDirectory);
+        	
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
         	CC.P.setMacroFont(prefs.get("MACRO_FONT", "Courier New"), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
        
        
         }
-        // Check if we are using the english libraries. Basically, since the 
-        // only other language available other than english is italian, I
-        // suppose that people are less uncomfortable with the current Internet
-        // standard...
         
-        boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
-        
-        if(runsAsApplication) {
-    		FidoMain.readLibraries(CC.P, englishLibraries, libDirectory);    	
-        } else {
-        	if(englishLibraries) {
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
-        	} else {
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
-      		}
- 		}
-        
-
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
 
@@ -448,22 +450,6 @@ public class FidoFrame extends JFrame implements
 
         b.add(toolZoom);
         
-
-        
-        MacroTree macroLib = new MacroTree(CC.P.getLibrary(),
-            CC.P.getLayers());
-        macroLib.setSelectionListener(CC);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        
-        Dimension windowSize = getSize();
-        CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
-        
-        splitPane.setTopComponent(SC);
-        splitPane.setBottomComponent(macroLib);
-        splitPane.setResizeWeight(.9);
-
-        contentPane.add(b,"North");
-        contentPane.add(splitPane,"Center");
  
         toolZoom.setFloatable(false);
         toolZoom.setRollover(false);
@@ -572,9 +558,6 @@ public class FidoFrame extends JFrame implements
             JMenuItem(Globals.messages.getString("Mirror_E"));
         editMirror.setAccelerator(KeyStroke.getKeyStroke("S"));
  
- 
-
-        
         editUndo.addActionListener((ActionListener)this);
         editRedo.addActionListener((ActionListener)this);
         editCut.addActionListener((ActionListener)this);
@@ -601,8 +584,6 @@ public class FidoFrame extends JFrame implements
         editMenu.add(editRotate);
         editMenu.add(editMirror);
         
-
-    
         menuBar.add(editMenu);
         
         JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
@@ -634,22 +615,24 @@ public class FidoFrame extends JFrame implements
         JMenuItem defineCircuit = new 
             JMenuItem(Globals.messages.getString("Define"));
         
-        
-        
         circuitMenu.add(defineCircuit);
 
-        defineCircuit.addActionListener((ActionListener)this);
+        JMenuItem updateLibraries = new 
+            JMenuItem(Globals.messages.getString("LibraryUpdate"));
+        
+        circuitMenu.add(updateLibraries);
+        updateLibraries.addActionListener((ActionListener)this);
         clipboardCircuit.addActionListener((ActionListener)this);
 
-
         menuBar.add(circuitMenu);
-        
 
         JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new 
             JMenuItem(Globals.messages.getString("About_menu"));
         about.add(aboutMenu);
         
+        contentPane.add(b,"North");
+
         // On a MacOSX system, this menu is associated to preferences menu
         // in the application menu. We do not need to show it in bar.
         // This needs the AppleSpecific extensions to be active.
@@ -657,7 +640,21 @@ public class FidoFrame extends JFrame implements
         if(!Globals.weAreOnAMac)
             menuBar.add(about);
         aboutMenu.addActionListener((ActionListener)this);
+		
+		macroLib = new MacroTree();
+		macroLib.setSelectionListener(CC);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        
+        Dimension windowSize = getSize();
+        CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
+        
+        splitPane.setTopComponent(SC);
+        macroLib.setPreferredSize(new Dimension(450,200));
+        splitPane.setBottomComponent(macroLib);
+        splitPane.setResizeWeight(.8);
+        
 
+        contentPane.add(splitPane,"Center");
 
         CC.P.setHasChangedListener(this);
         
@@ -728,6 +725,11 @@ public class FidoFrame extends JFrame implements
                 } catch(IOException e) {
                     System.out.println("Error: "+e); 
                 }
+            }
+            
+            if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
+           		loadLibraries();
+           		show();
             }
             
             if (arg.equals(Globals.messages.getString("Circ_opt"))) {
@@ -1464,6 +1466,8 @@ public class FidoFrame extends JFrame implements
     */
     void showPrefs()
     {
+    	String oldDirectory = libDirectory;
+    	
         DialogOptions options=new DialogOptions(this,
             CC.P.getMapCoordinates().getXMagnitude(),
             CC.profileTime,CC.antiAlias,
@@ -1546,7 +1550,11 @@ public class FidoFrame extends JFrame implements
         	prefs.put("SPLIT_N_MACRO_COPY",
             	(splitNonStandardMacro_c?"true":"false"));
         }
-     
+     	if(!libDirectory.equals(oldDirectory)) {
+     		loadLibraries();
+           	show();
+     	}
+     	
         repaint();
     }
     

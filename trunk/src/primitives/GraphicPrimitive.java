@@ -50,7 +50,7 @@ public abstract class GraphicPrimitive
 	private static final int MAX_TOKENS=120;
 	
 	// Indicates wether the primitive is selected or not
-	private boolean selectedState;
+	public boolean selectedState;
 	
 	// Minimum width size of a line in pixel
 	protected static final float D_MIN = 0.5f; 
@@ -290,7 +290,7 @@ public abstract class GraphicPrimitive
 		// If the layer is not visible, we just exit, returning false. This
 		// will made the caller not to draw the graphical element.
 		
-		if (!l.getVisible()) {
+		if (!l.isVisible) {
 			ret = false;
 			return false;
 		} else
