@@ -260,7 +260,8 @@ public abstract class GraphicPrimitive
 	private float alpha;
 	private static float oldalpha=1.0f;
 	private static int old_layer=-1;
-	private boolean ret;
+	private static boolean ret;
+	private static boolean old_selected;
 	
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
@@ -275,48 +276,53 @@ public abstract class GraphicPrimitive
 		// We check if everything has already been calculated. In this case,
 		// if there nothing to do, exit immediately, thus gaining some speed.
 		
-		if(layer == old_layer && !changed)
-			return ret;
-		old_layer = layer;
+		if(layer != old_layer || changed || selectedState || 	
+			old_selected !=selectedState) {
+			
+			old_layer = layer;
+			old_selected = selectedState;
 		
-		// At first, we try to get the current layer. If there is a problem,
-		// the layer 0 should always be present.
+			// At first, we try to get the current layer. If there is a problem,
+			// the layer 0 should always be present.
 		
-		if (layer < layerV.size())
-			l= (LayerDesc)layerV.get(layer);
-		else
-			l= (LayerDesc)layerV.get(0);
+			if (layer < layerV.size())
+				l= (LayerDesc)layerV.get(layer);
+			else
+				l= (LayerDesc)layerV.get(0);
 		
-		// If the layer is not visible, we just exit, returning false. This
-		// will made the caller not to draw the graphical element.
+			// If the layer is not visible, we just exit, returning false. This
+			// will made the caller not to draw the graphical element.
 		
-		if (!l.isVisible) {
-			ret = false;
-			return false;
-		} else
+			if (!l.isVisible) {
+				ret = false;
+				return false;
+			}
+			
 			ret = true;
 			
-		// The color for selected primitives is green.
+			// The color for selected primitives is green.
 		
-		if(selectedState) {
-			g.setColor(Color.green);
-			if(oldalpha!=alpha) {
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-		//		oldalpha = 1.0f;
-			}
-		} else {
-			g.setColor(l.getColor());
-			alpha=l.getAlpha();
-			// Here we use a trick for handling the alpha channel. This avoids
-			// that the alpha is set when it is unnecessary. 
+			if(selectedState) {
+				g.setColor(Color.green);
+				if(oldalpha!=alpha) {
+					g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+				}
+			} else {
+				g.setColor(l.getColor());
+				alpha=l.getAlpha();
+				// Here we use a trick for handling the alpha channel. This avoids
+				// that the alpha is set when it is unnecessary. 
 			
-			//if(oldalpha!=alpha || alpha<1.0) {
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-			//}
-		}	
-		//oldalpha = alpha;
+				//if(oldalpha!=alpha || alpha<1.0) {
+					g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				//}
+			}	
+			//oldalpha = alpha;
 
-		return true;
+			return true;
+		} else {
+			return ret;
+		}
 	}
 	
 	/**	Draw the handles for the current primitive.

@@ -156,7 +156,6 @@ public class PrimitivePolygon extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-	
 		if(!selectLayer(g,layerV))
 			return;
     	
@@ -182,14 +181,21 @@ public class PrimitivePolygon extends GraphicPrimitive
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
-        if (isFilled) {
-        	g.drawPolygon(p);
- 			g.fillPolygon(p);	
- 		} else {
- 			g.drawPolygon(p);
-		}
-		
+        if (isFilled) 
+ 			g.fillPolygon(p);
+ 			
+ 		//g.drawPolygon(p);
+ 		// It seems that under MacOSX, drawing a polygon by cycling with
+ 		// the lines is much more efficient than the drawPolygon method.
+ 		// Probably, a further investigation is needed to determine if
+ 		// this situation is the same with more recent Java runtimes
+ 		// (mine is 1.5.something on an iMac G5 at 2 GHz).
  		
+ 		for(int i=0; i<nPoints-1; ++i) {
+ 			g.drawLine(p.xpoints[i],p.ypoints[i], p.xpoints[i+1],p.ypoints[i+1]);
+ 		}
+ 		g.drawLine(p.xpoints[nPoints-1],p.ypoints[nPoints-1], p.xpoints[0],p.ypoints[0]);
+			
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive

@@ -1210,7 +1210,7 @@ public class ParseSchem
         	layer= ((GraphicPrimitive)
                        primitiveVector.get(i)).getLayer();
                        
-            if(((LayerDesc)layerV.get(layer)).getVisible() ||
+            if(((LayerDesc)layerV.get(layer)).isVisible ||
             	(GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
             	distance=((GraphicPrimitive)
                        primitiveVector.get(i)).getDistanceToPoint(px,py);
@@ -1347,7 +1347,7 @@ public class ParseSchem
             layer= ((GraphicPrimitive)
                        primitiveVector.get(i)).getLayer();
                        
-            if(layer>=layerV.size() || ((LayerDesc)layerV.get(layer)).getVisible() ||
+            if(layer>=layerV.size() || ((LayerDesc)layerV.get(layer)).isVisible ||
             	(GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
             	if(gp.selectRect(px,py,w,h))
             		s=true;
@@ -2093,12 +2093,12 @@ public class ParseSchem
         		l=g.getLayer();
         		if(l==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
-        			if(((LayerDesc)(layerV.get(l))).getVisible())
+        			if(((LayerDesc)(layerV.get(l))).isVisible)
             			g.export(exp, mp);
         			
         		}else if(g instanceof PrimitiveMacro) {
         			((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
-        			if(((LayerDesc)(layerV.get(l))).getVisible())
+        			if(((LayerDesc)(layerV.get(l))).isVisible)
             			g.export(exp, mp); 
         		}
        		}
@@ -2111,12 +2111,12 @@ public class ParseSchem
         			g=(GraphicPrimitive)primitiveVector.get(i);
         			l=g.getLayer();
         			if(l==j && !(g instanceof PrimitiveMacro)){
-        				if(((LayerDesc)(layerV.get(l))).getVisible())
+        				if(((LayerDesc)(layerV.get(l))).isVisible)
             				g.export(exp, mp);
         				
         			} else if(g instanceof PrimitiveMacro) {
         				((PrimitiveMacro)g).setDrawOnlyLayer(j);
-        				if(((LayerDesc)(layerV.get(l))).getVisible())
+        				if(((LayerDesc)(layerV.get(l))).isVisible)
             				g.export(exp, mp);
         				
         			}
@@ -2132,13 +2132,13 @@ public class ParseSchem
             	PrimitivePCBPad) {
 				((PrimitivePCBPad)g).setDrawOnlyPads(true);
 				l=g.getLayer();
-				if(((LayerDesc)(layerV.get(l))).getVisible())
+				if(((LayerDesc)(layerV.get(l))).isVisible)
             		g.export(exp, mp);
             	((PrimitivePCBPad)g).setDrawOnlyPads(false);
             } else if (g instanceof PrimitiveMacro) { // Uhm... not beautiful
             	((PrimitiveMacro)g).setDrawOnlyPads(true);
             	l=g.getLayer();
-				if(((LayerDesc)(layerV.get(l))).getVisible())
+				if(((LayerDesc)(layerV.get(l))).isVisible)
             		g.export(exp, mp);
             	((PrimitiveMacro)g).setDrawOnlyPads(false);
             	((PrimitiveMacro)g).resetExport();
