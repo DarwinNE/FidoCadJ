@@ -352,7 +352,7 @@ public class FidoFrame extends JFrame implements
         if (runsAsApplication)  {
         	
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
-        	CC.P.setMacroFont(prefs.get("MACRO_FONT", "Courier New"), 
+        	CC.P.setMacroFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
        
        
@@ -808,13 +808,7 @@ public class FidoFrame extends JFrame implements
             }
                 
             if (arg.equals(Globals.messages.getString("New"))) {
-                FidoFrame popFrame=new FidoFrame(runsAsApplication);
-                popFrame.init();
-                
-                popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
-                    popFrame.getHeight());
-                popFrame.setVisible(true);
-
+                createNewInstance();
             }
             if (arg.equals(Globals.messages.getString("Undo"))) {
                 CC.P.undo();
@@ -1041,6 +1035,21 @@ public class FidoFrame extends JFrame implements
     {
     }
     
+    /**	Create a new instance of the window.
+    
+    */
+    public void createNewInstance()
+    {
+    	FidoFrame popFrame=new FidoFrame(runsAsApplication);
+        popFrame.init();
+                
+        popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
+    	    popFrame.getHeight());
+    
+    	popFrame.loadLibraries();
+        popFrame.setVisible(true);
+
+	}
 
       /** The print interface */
     public int print(Graphics g, PageFormat pf, int page) throws
