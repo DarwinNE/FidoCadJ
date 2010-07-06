@@ -125,17 +125,13 @@ public class FidoFrame extends JFrame implements
                                                 // when saving
     private boolean splitNonStandardMacro_c;    // split non standard macro
                                                 // when copying
-    
-    
-    //private boolean extStrict;    // Strict FidoCad compatibility
+   
     private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
     private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
-        
         
     // Open/save default properties
     private String openFileDirectory;
 
-    
     // Libraries properties
     public String libDirectory;
     private Preferences prefs;
@@ -165,8 +161,6 @@ public class FidoFrame extends JFrame implements
         variables. Note that the constructor itself is not sufficient for
         using the frame. You need to call the init procedure after you have
         set the configuration variables available for FidoFrame.
-        
-        
     */
     public FidoFrame (boolean appl)
     {
@@ -218,15 +212,12 @@ public class FidoFrame extends JFrame implements
             Globals.shortcutKey=InputEvent.META_MASK;
             Globals.useMetaForMultipleSelection=true;
             
-            
-            
             // Standard dialogs are vastly better on MacOSX than the Swing ones
             Globals.useNativeFileDialogs=true;
 
         } else {
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
-        
         
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
@@ -237,7 +228,6 @@ public class FidoFrame extends JFrame implements
 		
         ++Globals.openWindows;
 
-
         URL url=DialogAbout.class.getResource(
             "program_icons/icona_fidocadj_128x128.png");
         
@@ -246,7 +236,6 @@ public class FidoFrame extends JFrame implements
             Image icon = Toolkit.getDefaultToolkit().getImage(url);
             setIconImage(icon);
         }
-        
                 
         Globals g=new Globals();
         
@@ -254,7 +243,6 @@ public class FidoFrame extends JFrame implements
         	prefs = Preferences.userNodeForPackage(g.getClass());
 
        		libDirectory = prefs.get("DIR_LIBS", "");
-        	
         	
         	openFileDirectory = prefs.get("OPEN_DIR", "");
         	smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
@@ -285,7 +273,6 @@ public class FidoFrame extends JFrame implements
         	splitNonStandardMacro_s= false;
         	splitNonStandardMacro_c= false;
         }
-        
         
         exportFileName=new String();
         exportFormat=new String();
@@ -329,7 +316,6 @@ public class FidoFrame extends JFrame implements
     */
     public void init()
     {
-
         // I wanted to measure the library loading time, in order to ensure
         // that it is reasonably fast (it is, on any reasonable hardware).
         // A measurement is done only if Globals.isBeta is true.
@@ -354,8 +340,6 @@ public class FidoFrame extends JFrame implements
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
         	CC.P.setMacroFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
-       
-       
         }
         
         CC.setPreferredSize(new Dimension(1000,1000));
@@ -371,8 +355,6 @@ public class FidoFrame extends JFrame implements
             
         //SC.setRowHeaderView(vertRuler);
         //SC.setColumnHeaderView(horRuler);
-        
-        
         if (runsAsApplication) {
         	sgr = new ScrollGestureRecognizer();
         	CC.addScrollGestureSelectionListener(sgr);
@@ -385,7 +367,6 @@ public class FidoFrame extends JFrame implements
         CC.profileTime=false;
         CC.antiAlias=true;
 
-        
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
@@ -445,20 +426,16 @@ public class FidoFrame extends JFrame implements
         toolBar.putClientProperty("Quaqua.Button.style","title");
         toolZoom.putClientProperty("Quaqua.Button.style","title");
         
-        
         b.add(toolBar);
 
         b.add(toolZoom);
         
- 
-        toolZoom.setFloatable(false);
+ 		toolZoom.setFloatable(false);
         toolZoom.setRollover(false);
-
 
         // Menu creation
         JMenuBar menuBar=new JMenuBar();
         setJMenuBar(menuBar);
-        
 
         // The initial state is the selection one.
         
@@ -500,7 +477,6 @@ public class FidoFrame extends JFrame implements
         fileMenu.add(filePrint);
         fileMenu.addSeparator();
         fileMenu.add(fileClose);
-        
 
         fileNew.addActionListener((ActionListener)this);
         fileOpen.addActionListener((ActionListener)this);
@@ -510,7 +486,6 @@ public class FidoFrame extends JFrame implements
     
         fileSave.addActionListener((ActionListener)this);
         fileSaveName.addActionListener((ActionListener)this);
-
     
         menuBar.add(fileMenu);
         
@@ -536,14 +511,12 @@ public class FidoFrame extends JFrame implements
         editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
             Globals.shortcutKey));
         
-        
         JMenuItem editPaste = new 
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
             Globals.shortcutKey));
         JMenuItem clipboardCircuit = new 
             JMenuItem(Globals.messages.getString("DefineClipboard"));
-        
             
         JMenuItem editSelectAll = new 
             JMenuItem(Globals.messages.getString("SelectAll"));
@@ -577,7 +550,6 @@ public class FidoFrame extends JFrame implements
         editMenu.add(clipboardCircuit);
 
         editMenu.addSeparator();
-
     
         editMenu.add(editSelectAll);
         editMenu.addSeparator();
@@ -652,7 +624,6 @@ public class FidoFrame extends JFrame implements
         macroLib.setPreferredSize(new Dimension(450,200));
         splitPane.setBottomComponent(macroLib);
         splitPane.setResizeWeight(.8);
-        
 
         contentPane.add(splitPane,"Center");
 
@@ -739,7 +710,6 @@ public class FidoFrame extends JFrame implements
                 DialogLayer layerDialog=new DialogLayer(this,CC.P.getLayers());
                 layerDialog.setVisible(true);
                 repaint();
-                
             }
 
             if (arg.equals(Globals.messages.getString("Print"))) {
@@ -753,7 +723,6 @@ public class FidoFrame extends JFrame implements
                 printFitToPage = dp.getFit();
                 printLandscape = dp.getLandscape();
                 exportBlackWhite= dp.getBW();
-                
         
                 ArrayList ol=CC.P.getLayers();
                 if (dp.shouldPrint()) {
@@ -793,17 +762,12 @@ public class FidoFrame extends JFrame implements
            
             if (arg.equals(Globals.messages.getString("SaveName"))) {
                 SaveWithName();
-
-                
             }  
             if (arg.equals(Globals.messages.getString("Save"))) {
-                
-                
                 if(CC.P.openFileName.equals(""))
                     SaveWithName();
                 else 
                     Save();
-                 
                 
             }
                 
@@ -867,15 +831,12 @@ public class FidoFrame extends JFrame implements
                     
                     if(fc.showOpenDialog(this)!=JFileChooser.APPROVE_OPTION)
                         return;
-                                        
                     
                     fin=fc.getSelectedFile().getName();
                     din=fc.getSelectedFile().getParentFile().getPath();
                 
                 }
                 
-                
-                    
                 if(fin!= null) {
                     
                     // An open file action has been performed.
@@ -883,18 +844,24 @@ public class FidoFrame extends JFrame implements
                     try {
                         FidoFrame popFrame;
                         if(CC.P.getModified() || !CC.P.isEmpty()) {
+                        	// Here we create a new window in order to display
+                        	// the file.
+                        	
                             popFrame=new FidoFrame(runsAsApplication);;
                             popFrame.init();
                             popFrame.setBounds(getX()+30, getY()+30,    
                             popFrame.getWidth(),        
                             popFrame.getHeight());
                             popFrame.setVisible(true);
-                
+                            popFrame.loadLibraries();
                         } else {
+                            // Here we do not create the new window and we 
+                            // reuse the current one to load and display the 
+                            // file to be loaded
                             popFrame=this;
                         }
-                        popFrame.CC.P.openFileName= Globals.createCompleteFileName(
-                            din,            fin);
+                        popFrame.CC.P.openFileName= 
+                        	Globals.createCompleteFileName(din, fin);
                         if (runsAsApplication)
                         	prefs.put("OPEN_DIR", din);  
                         popFrame.openFileDirectory=din;
@@ -989,7 +956,6 @@ public class FidoFrame extends JFrame implements
                     System.out.println("Error: "+e); 
                 }
                 
-                
                 repaint();
             }
             
@@ -1018,19 +984,23 @@ public class FidoFrame extends JFrame implements
                 if (Globals.openWindows<1)
                     System.exit(0);
             }
-        
         }
-             
-        
     }
     
-    
+    /** The menuSelected method, useful for the MenuListener interface.
+    */
     public void menuSelected(MenuEvent evt)
     {
     }
+    
+    /** The menuDeselected method, useful for the MenuListener interface.
+    */
     public void menuDeselected(MenuEvent evt)
     {
     }
+    
+    /** The menuCanceled method, useful for the MenuListener interface.
+    */
     public void menuCanceled(MenuEvent evt)
     {
     }
@@ -1051,7 +1021,7 @@ public class FidoFrame extends JFrame implements
 
 	}
 
-      /** The print interface */
+      /** The printing interface */
     public int print(Graphics g, PageFormat pf, int page) throws
                                                    PrinterException 
     {
@@ -1064,7 +1034,6 @@ public class FidoFrame extends JFrame implements
         Graphics2D g2d = (Graphics2D)g;
         MapCoordinates zoomm=new MapCoordinates();
 
-        
         /* User (0,0) is typically outside the imageable area, so we must
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
@@ -1078,11 +1047,11 @@ public class FidoFrame extends JFrame implements
             g2d.translate(pf.getImageableX(), pf.getImageableY());
             g2d.scale(xscale,yscale); 
         }   
-        
        
         double om=CC.P.getMapCoordinates().getXMagnitude();
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
+		// Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
             CC.P.getMapCoordinates().setMagnitudes(1,1);
             CC.P.getMapCoordinates().setMagnitudes(1,1);
@@ -1114,6 +1083,7 @@ public class FidoFrame extends JFrame implements
             g2d.translate(-(printerWidth*page),0);
         }
         
+        // Check if printing is finished.
         if(page>npages) {
             CC.P.getMapCoordinates().setMagnitudes(om,om);
             return NO_SUCH_PAGE;
@@ -1320,12 +1290,7 @@ public class FidoFrame extends JFrame implements
         
         // Calculate the zoom to fit.
         CC.P.getMapCoordinates().setMagnitudes(1,1);
-                        
-                        
-        /* SCHIFIO *******************************************/
-        // Se si usa direttamente m, sembra che tutto sia
-        // scombinato...
-                        
+ 
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
             SC.getViewport().getExtentSize().width,
             SC.getViewport().getExtentSize().height,
@@ -1352,13 +1317,12 @@ public class FidoFrame extends JFrame implements
     {
         String fin;
         String din;
-        
-        
-                
+                       
         if(Globals.useNativeFileDialogs) {
                 
             // File chooser provided by the host system.
-            // Vastly better on MacOSX
+            // Vastly better on MacOSX, but probably not such on other
+            // operating systems.
                     
             FileDialog fd = new FileDialog(this, 
                 Globals.messages.getString("SaveName"),
@@ -1405,9 +1369,8 @@ public class FidoFrame extends JFrame implements
                 
                 
         if(fin!= null) {
-            CC.P.openFileName= Globals.createCompleteFileName(
-                din,
-                fin);
+            CC.P.openFileName= 
+            	Globals.createCompleteFileName(din, fin);
             CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
                     Globals.DEFAULT_EXTENSION);
             if (runsAsApplication)
@@ -1418,7 +1381,6 @@ public class FidoFrame extends JFrame implements
             // Here everything is ready for saving the current drawing.
             
             Save();
-
         }
     }
     
@@ -1477,6 +1439,11 @@ public class FidoFrame extends JFrame implements
     {
     	String oldDirectory = libDirectory;
     	
+    	// At first, we create the preference panel. This kind of code is 
+    	// probably not very easy to read and reutilize. This is probably
+    	// justified, since the preference panel is after all very specific
+    	// to the particular program to which it is referred, i.e. in this
+    	// case FidoCadJ...
         DialogOptions options=new DialogOptions(this,
             CC.P.getMapCoordinates().getXMagnitude(),
             CC.profileTime,CC.antiAlias,
@@ -1500,6 +1467,9 @@ public class FidoFrame extends JFrame implements
             Globals.diameterConnection,
             CC.P.getMacroFontSize());
                     
+        // The panel is now made visible. Its properties will be updated only 
+        // if the user clicks on "Ok".
+        
         options.setVisible(true);
         CC.profileTime=options.profileTime;
         CC.antiAlias=options.antiAlias;
@@ -1532,6 +1502,11 @@ public class FidoFrame extends JFrame implements
         Globals.lineWidthCircles = options.stroke_size_oval_i;
         Globals.diameterConnection = options.connectionSize_i;
        
+        // We know that this code will be useful only when FidoCadJ will run as
+        // a standalone application. If it is used as an applet, this would
+        // cause the application crash when the applet security model is active.
+        // In this way, we can still use FidoCadJ as an applet, even with the 
+        // very restrictive security model applied by default to applets.
         
         if (runsAsApplication) {
        	 	prefs.put("DIR_LIBS", libDirectory);
@@ -1587,26 +1562,53 @@ public class FidoFrame extends JFrame implements
 
     }
     
-    
+    /** We notify the user that something has changed by putting an asterisk
+     	in the file name.
+    */
     public void somethingHasChanged()
     {
-        setTitle("FidoCadJ "+Globals.version+" "+ 
+            
+        if (Globals.weAreOnAMac) {
+			
+			// Apparently, this does not work as expected in MacOSX 10.4 Tiger.
+			// We thus leave also the classic Window-based asterisk when
+			// the file has been modified.
+			
+			getRootPane().putClientProperty("Window.documentModified", 
+				new Boolean(CC.P.getModified()));
+					
+			setTitle("FidoCadJ "+Globals.version+" "+ 
             Globals.prettifyPath(CC.P.openFileName,45)+ 
             (CC.P.getModified()?" *":""));
-    }
+		} else {
+			setTitle("FidoCadJ "+Globals.version+" "+ 
+            Globals.prettifyPath(CC.P.openFileName,45)+ 
+            (CC.P.getModified()?" *":""));
+        
+		}
+		
+	}
     
+    /** The current window has gained focus
+    */
     public void windowGainedFocus(WindowEvent e) 
     {
         Globals.activeWindow = this;
     }
     
+    /** The current window has lost focus
+    */
     public void windowLostFocus(WindowEvent e) 
     {
     
     }
 }
 
+/** This class (currently not used) implements a sliding ruler which could be
+	possibly used in conjunction with the scroll panel used for the wiewing 
+	area.
 
+*/
 class RulerPanel extends JPanel implements SwingConstants
 {
     private int dir;
@@ -1631,8 +1633,6 @@ class RulerPanel extends JPanel implements SwingConstants
         //Dimension d = getPreferredSize();
         g.setColor(Color.white);
         g.fillRect(d.x, d.y, d.width, d.height);
-        
-
         g.setColor(Color.black);
 
         if (dir==HORIZONTAL) {
@@ -1644,7 +1644,6 @@ class RulerPanel extends JPanel implements SwingConstants
                             sc.mapYi(x,0,false),
                             sc.mapXi(x,0,false),
                             sc.mapYi(x,0,false)+ d.height*4/10);
-                
             }
             
             for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=5*increment) {
@@ -1678,6 +1677,4 @@ class RulerPanel extends JPanel implements SwingConstants
         }
         
     }
-    
-
 }
