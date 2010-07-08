@@ -126,10 +126,12 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         
 		
         b.add(Box.createGlue());
-        b.add(ok);
-        b.add(cancel);
-        b.add(Box.createHorizontalStrut(20));
-        
+		b.add(cancel);
+		b.add(Box.createHorizontalStrut(10));
+		ok.setPreferredSize(cancel.getPreferredSize());
+		b.add(ok);
+		b.add(Box.createHorizontalStrut(20));
+
         constraints.gridx=0;
 		constraints.gridy=1;
 		constraints.weighty=0;

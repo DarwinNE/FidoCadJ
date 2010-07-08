@@ -130,9 +130,10 @@ public class DialogLayer extends JDialog implements ComponentListener
         Box b=Box.createHorizontalBox();
         b.add(edit);
         b.add(Box.createHorizontalGlue());
-        b.add(ok);
-        b.add(cancel);
-        //b.add(Box.createHorizontalStrut(20));
+		b.add(cancel);
+		b.add(Box.createHorizontalStrut(10));
+		ok.setPreferredSize(cancel.getPreferredSize());
+		b.add(ok);
         constraints.weightx=100;
         constraints.weighty=0;
         constraints.gridx=0;
