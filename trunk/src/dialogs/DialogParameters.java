@@ -326,7 +326,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 		Box b=Box.createHorizontalBox();
 		b.add(Box.createHorizontalGlue());
 		b.add(cancel);
-		b.add(Box.createHorizontalStrut(10));
+		b.add(Box.createHorizontalStrut(12));
 		ok.setPreferredSize(cancel.getPreferredSize());
 		b.add(ok);
 		contentPane.add(b, constraints);			// Add cancel button	
