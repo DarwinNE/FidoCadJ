@@ -795,6 +795,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             xpoly[clickNumber] = sc.unmapXsnap(x);
             ypoly[clickNumber] = sc.unmapYsnap(y);
             if (clickNumber == 2) {
+                // The second click ends the rectangle introduction.
+                // We thus create the primitive and store it.
                 P.addPrimitive(new PrimitiveRectangle(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
@@ -826,12 +828,18 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             xpoly[clickNumber] = sc.unmapXsnap(x);
             ypoly[clickNumber] = sc.unmapYsnap(y);
             if (clickNumber == 2) {
+            	// Here is the end of the PCB line introduction: we create the
+            	// primitive.
                 P.addPrimitive(new PrimitivePCBLine(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
                                          PCB_thickness,
                                          currentLayer), true,true);
+                // We then make sort that a new PCB line will be beginning
+                // exactly at the same coordinates at which the previous one 
+                // was stopped.
+                
                 clickNumber = 1;
                 xpoly[1] = xpoly[2];
                 ypoly[1] = ypoly[2];
@@ -848,6 +856,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             try {
+            	// Here we add a macro. There is a remote risk that the macro
+            	// we are inserting contains an error. This is not something
+            	// which would happen frequently, since if the macro is in the
+            	// library this means it is available, but we need to use
+            	// the block try anyway.
+            	
                 P.deselectAll();
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), sc.unmapXsnap(x),
@@ -859,6 +873,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 successiveMove=false;
                     
             } catch (IOException G) {
+            	// A simple error message on the console will be enough
                 System.out.println(G);
             }
                     

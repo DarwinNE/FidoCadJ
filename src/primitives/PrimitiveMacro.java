@@ -527,8 +527,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 				throw G;
  			}
  			macroDesc = macro.description;
- 			macroStore(layers);
- 				
+ 			macroStore(layers);	
  				
  		} else {
  			IOException E=new IOException("MC: Invalid primitive:"+tokens[0]+

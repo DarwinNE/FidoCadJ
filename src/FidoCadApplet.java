@@ -42,11 +42,8 @@ Version   Date           Author       Remarks
 @version 2.0
 */
 
-
 public class FidoCadApplet extends JApplet implements ActionListener
 {
-
-
 	public void init()
 	{
         // Here we create the main window object
@@ -56,6 +53,9 @@ public class FidoCadApplet extends JApplet implements ActionListener
         
         popFrame=new FidoFrame(false);
         
+        // FidoCadJ will try to determine the current locale configuration
+        // in order to load the corresponding resource file and show an 
+        // interface in the same language as the host operating system.
         
         FidoFrame.currentLocale = Locale.getDefault();
         
