@@ -423,6 +423,9 @@ public class FidoFrame extends JFrame implements
 
         Box b=Box.createVerticalBox();
         
+        // In MacOSX with Aqua, make sort that those buttons have a nice
+        // rounded shape and appear like native components.
+        
         toolBar.putClientProperty("Quaqua.Button.style","title");
         toolZoom.putClientProperty("Quaqua.Button.style","title");
         
@@ -593,6 +596,7 @@ public class FidoFrame extends JFrame implements
             JMenuItem(Globals.messages.getString("LibraryUpdate"));
         
         circuitMenu.add(updateLibraries);
+      	defineCircuit.addActionListener((ActionListener)this);
         updateLibraries.addActionListener((ActionListener)this);
         clipboardCircuit.addActionListener((ActionListener)this);
 
@@ -638,7 +642,7 @@ public class FidoFrame extends JFrame implements
                 There would anyway the need to customize the menu bar, in order 
                 to allow the user to open a new FidoFrame, when it has been
                 closed once. The easiest solution to implement is therefore to
-                make the application close when the user closes the frame. 
+                make the application close when the user closes the last frame. 
             */
             addWindowListener(new WindowAdapter()
             {

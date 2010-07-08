@@ -544,14 +544,14 @@ public class ParseSchem
         
         // Since the primitive can be a macro, we need to test each possible 
         // layer.
-        
+        /*
         for (int i=0; i<Globals.MAX_LAYERS; ++i) {
         	if(p.containsLayer(i)) {
         		layersUsed[i] = true;
         		if (i>maxLayer)
         			maxLayer = i;
         	}
-		}
+		}*/
 		if (sort)
 			sortPrimitiveLayers();
 			
@@ -718,7 +718,7 @@ public class ParseSchem
        		return;
        	} else if (!drawOnlyPads) {
         	// If we want to draw all layers, we need to process with order.
-        	for(j_index=0;j_index<=maxLayer; ++j_index) {
+        	for(j_index=0;j_index<Globals.MAX_LAYERS; ++j_index) {
 				
 				if(!layersUsed[j_index])
 					continue;
@@ -727,8 +727,6 @@ public class ParseSchem
        		}
        		
        	}
-        
-        
         // Draw in a second time only the PCB pads, in order to ensure that the
         // drills are always open.
         if(needHoles) {
@@ -738,7 +736,6 @@ public class ParseSchem
         		// as well as macros containing pads).
         		
             	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
-            	
 					gg.setDrawOnlyPads(true);
 					gg.draw(G, cs, layerV);
             		gg.setDrawOnlyPads(false);
@@ -758,17 +755,15 @@ public class ParseSchem
     {
     	GraphicPrimitive gg;
     	int i_index;
-    	int la;
     	
     	// Here we process all the primitives, one by one!
         for (i_index=0; i_index<primitiveVector.size(); ++i_index){
         	gg=(GraphicPrimitive)primitiveVector.get(i_index);
-        	la = gg.getLayer();
         		
         	// Layers are ordered. This improves the redrawing speed. 
-			if (j_index>0 && la>j_index) {
+			if (j_index>0 && gg.layer>j_index) {
 				break;
-			}
+			} 
         			
 			// Process a particular primitive if it is in the layer
 			// being processed.
@@ -782,7 +777,6 @@ public class ParseSchem
        			needHoles=true;
 
         }
-        
     }
     
     /** Specify that the drawing process should only draw holes of the pcb
@@ -1658,6 +1652,7 @@ public class ParseSchem
 		int vn=0, vv=0;
         int old_j=0;
         int macro_counter=0;
+        int l;
         
         token.ensureCapacity(256);
 
@@ -1697,7 +1692,7 @@ public class ParseSchem
                     	} else if (hasFCJ && old_tokens[0].equals("LI")) {
 		                    g=new PrimitiveLine();
 		                    
-		                    for(int l=0; l<j+1; ++l)
+		                    for(l=0; l<j+1; ++l)
                         		old_tokens[l+old_j+1]=tokens[l];
                         	
                         	old_j+=j+1;
@@ -1708,7 +1703,7 @@ public class ParseSchem
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
 		                    g=new PrimitiveBezier();
 		                    
-		                    for(int l=0; l<j+1; ++l)
+		                    for(l=0; l<j+1; ++l)
                         		old_tokens[l+old_j+1]=tokens[l];
                         	
                         	old_j+=j+1;
@@ -1720,7 +1715,7 @@ public class ParseSchem
                         	old_tokens[0].equals("RP"))) {
 		                    g=new PrimitiveRectangle();
 		                    
-		                    for(int l=0; l<j+1; ++l)
+		                    for(l=0; l<j+1; ++l)
                         		old_tokens[l+old_j+1]=tokens[l];
                         	
                         	old_j+=j+1;
@@ -1731,7 +1726,7 @@ public class ParseSchem
                         	old_tokens[0].equals("EP"))) {
 		                    g=new PrimitiveOval();
 		                    
-		                    for(int l=0; l<j+1; ++l)
+		                    for(l=0; l<j+1; ++l)
                         		old_tokens[l+old_j+1]=tokens[l];
                         	
                         	old_j+=j+1;
@@ -1742,7 +1737,7 @@ public class ParseSchem
                         	old_tokens[0].equals("PP"))) {
 		                    g=new PrimitivePolygon();
 		                    
-		                    for(int l=0; l<j+1; ++l)
+		                    for(l=0; l<j+1; ++l)
                         		old_tokens[l+old_j+1]=tokens[l];
                         	
                         	old_j+=j+1;
@@ -1765,10 +1760,10 @@ public class ParseSchem
                     		if (layerNum>=0&&layerNum<layerV.size()){
                     			int rgb=Integer.parseInt(tokens[3]);
                     			float alpha=Float.parseFloat(tokens[4]);
-                    			LayerDesc l=(LayerDesc)(layerV.get(layerNum));
-                    			l.setColor(new Color(rgb));
-                    			l.setAlpha(alpha);
-                    			l.setModified(true);
+                    			LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                    			ll.setColor(new Color(rgb));
+                    			ll.setAlpha(alpha);
+                    			ll.setModified(true);
                     				
                     		}
                     			
@@ -1790,7 +1785,7 @@ public class ParseSchem
                         // following line (which can be FCJ)
                     	macro_counter=0;
     
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
@@ -1798,7 +1793,7 @@ public class ParseSchem
                     } else if(tokens[0].equals("BE")) {
                         macro_counter=0;
     
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
@@ -1807,7 +1802,7 @@ public class ParseSchem
                         // We cannot create the macro until we parse the 
                         // following line (which can be FCJ)
                     	macro_counter=0;
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
@@ -1825,12 +1820,11 @@ public class ParseSchem
                         
                         if(macro_counter==2) {
                         	macro_counter--;
-                        	for(int l=0; l<j+1;++l)
+                        	for(l=0; l<j+1;++l)
                         	   	name[l]=tokens[l];
-                        	vn=j;  	
-                        	 
+                        	vn=j;  	                        	 
                         } else if(macro_counter==1) {
-                        	for(int l=0; l<j+1;++l)
+                        	for(l=0; l<j+1;++l)
                         	   	value[l]=tokens[l];
                         	vv=j;   	
                         	g=new PrimitiveMacro(library,layerV);
@@ -1870,22 +1864,21 @@ public class ParseSchem
                         addPrimitive(g,false,false);
                     }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
                     	macro_counter=0;
-    
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
                 } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
                         macro_counter=0;
     
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
                     } else if(tokens[0].equals("PV")||tokens[0].equals("PP")) {
                         macro_counter=0;
     
-                        for(int l=0; l<j+1; ++l)
+                        for(l=0; l<j+1; ++l)
                         	old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
@@ -1990,7 +1983,7 @@ public class ParseSchem
     }
     
    
-    /** Performs a bubble sort of the primitives on the basis of their layer.
+    /** Performs a sort of the primitives on the basis of their layer.
     	The sorting metod adopted is the Shell sort. By the practical point
     	of view, this seems to be rather good even for large drawings. This is
     	because the primitive list is always more or less already ordered.
@@ -2004,26 +1997,6 @@ public class ParseSchem
     	//MyTimer mt=new MyTimer();
     	maxLayer = 0;
     	
-    	// Since for sorting we need to analyze all the primitives in the 
-    	// database, this is a good place to calculate which layers are
-    	// used. We thus start by resetting the array.
-    	
-    	for (int l=0; l<Globals.MAX_LAYERS; ++l) {
-        	layersUsed[l] = false;
-        	
-        	for (i=0; i<primitiveVector.size(); ++i){
-            	g=(GraphicPrimitive)primitiveVector.get(i);
-            	
-            	if (g.containsLayer(l))
-            		layersUsed[l]=true;
-            		
-            	// We keep track of the maximum layer number used in the 
-            	// drawing.
-        		if (g.getLayer()>maxLayer)
-    					maxLayer = g.getLayer();
-    			
-    		}
-		}
     	
     	// Indexes
     	int j,k,l;
@@ -2034,8 +2007,8 @@ public class ParseSchem
 		for(l = primitiveVector.size()/2; l>0; l/=2) {
 			for(j = l; j< primitiveVector.size(); ++j) {
 				for(i=j-l; i>=0; i-=l) {
-					if(((GraphicPrimitive)primitiveVector.get(i+l)).getLayer()>=
-					  ((GraphicPrimitive)primitiveVector.get(i)).getLayer())
+					if(((GraphicPrimitive)primitiveVector.get(i+l)).layer>=
+					  ((GraphicPrimitive)primitiveVector.get(i)).layer)
 						break;
 					else {
 						// Swap
@@ -2047,6 +2020,32 @@ public class ParseSchem
 			}
 		}
 	
+		// Since for sorting we need to analyze all the primitives in the 
+    	// database, this is a good place to calculate which layers are
+    	// used. We thus start by resetting the array.
+    	maxLayer = -1;
+    	
+    	for (l=0; l<Globals.MAX_LAYERS; ++l) {
+        	layersUsed[l] = false;
+        	
+        	for (i=0; i<primitiveVector.size(); ++i){
+            	g=(GraphicPrimitive)primitiveVector.get(i);
+            	
+            	// Layers are ordered now.
+            	// if(g.layer>l)
+            	//	break;
+            	
+            	if (g.containsLayer(l))
+            		layersUsed[l]=true;
+            		
+            	// We keep track of the maximum layer number used in the 
+            	// drawing.
+        		if (g.layer>maxLayer)
+    					maxLayer = g.layer;
+    			
+    		}
+		}
+		
 		//double elapsed=mt.getElapsed();
         //System.out.println("sort: Time elapsed: "+elapsed+" ms");
     	
