@@ -382,7 +382,7 @@ public class DialogExport extends JDialog implements ComponentListener
         constraints.gridy=4;
         constraints.gridwidth=1;
         constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,6);
+        constraints.insets=new Insets(0,0,0,12);
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(fileName, constraints);
