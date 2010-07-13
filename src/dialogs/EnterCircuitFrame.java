@@ -166,6 +166,17 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             }
         });
         
+        // Here is an action in which the dialog is closed
+
+        AbstractAction cancelAction = new AbstractAction ()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                setVisible(false);
+            }
+        };
+        DialogUtil.addCancelEscape (this, cancelAction);
+        
     }
   
 

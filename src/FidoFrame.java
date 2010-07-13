@@ -462,8 +462,17 @@ public class FidoFrame extends JFrame implements
             
         JMenuItem fileExport = new 
             JMenuItem(Globals.messages.getString("Export"));
+        
+        fileExport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+            Globals.shortcutKey));
+        
+        
         JMenuItem filePrint = new 
             JMenuItem(Globals.messages.getString("Print"));
+            
+        filePrint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+            Globals.shortcutKey));
+            
         JMenuItem fileClose = new 
             JMenuItem(Globals.messages.getString("Close"));
         
@@ -564,8 +573,13 @@ public class FidoFrame extends JFrame implements
         JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
         JMenuItem layerOptions = new 
             JMenuItem(Globals.messages.getString("Layer_opt"));
+            
+        layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+            Globals.shortcutKey));
+            
         JMenuItem optionCircuit = new 
             JMenuItem(Globals.messages.getString("Circ_opt"));
+		
 
         viewMenu.add(layerOptions);
         
@@ -578,6 +592,10 @@ public class FidoFrame extends JFrame implements
 
         optionMacroOrigin = new 
             JCheckBoxMenuItem(Globals.messages.getString("Macro_origin"));
+            
+		optionMacroOrigin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
+            Globals.shortcutKey));
+
         viewMenu.add(optionMacroOrigin);
         
         optionMacroOrigin.addActionListener((ActionListener)this);
@@ -590,11 +608,17 @@ public class FidoFrame extends JFrame implements
         JMenuItem defineCircuit = new 
             JMenuItem(Globals.messages.getString("Define"));
         
+        defineCircuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+            Globals.shortcutKey));
+            
         circuitMenu.add(defineCircuit);
 
         JMenuItem updateLibraries = new 
             JMenuItem(Globals.messages.getString("LibraryUpdate"));
         
+        updateLibraries.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
+            Globals.shortcutKey));
+            
         circuitMenu.add(updateLibraries);
       	defineCircuit.addActionListener((ActionListener)this);
         updateLibraries.addActionListener((ActionListener)this);
