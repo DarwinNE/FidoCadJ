@@ -125,7 +125,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.weighty=100;
         constraints.gridx=0;
         constraints.gridy=0;
-        constraints.gridwidth=2;
+        constraints.gridwidth=3;
         constraints.gridheight=1;   
         constraints.insets=new Insets(20,20,6,20);
         constraints.anchor=GridBagConstraints.CENTER;
@@ -151,7 +151,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,20);
+        constraints.insets=new Insets(0,0,0,120);
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.WEST;     
         contentPane.add(description, constraints);
@@ -164,6 +164,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;   
+        constraints.insets=new Insets(0,0,0,20);
         constraints.fill=GridBagConstraints.NONE;
         constraints.anchor=GridBagConstraints.EAST;
         contentPane.add(opacityLbl, constraints);
@@ -177,7 +178,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 
 
 		//Turn on labels at major tick marks.
-		opacity.setMajorTickSpacing(10);
+		opacity.setMajorTickSpacing(20);
 		opacity.setMinorTickSpacing(1);
 		opacity.setPaintTicks(true);
 		opacity.setPaintLabels(true);
@@ -188,6 +189,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;   
+        constraints.insets=new Insets(0,0,0,120);
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(opacity, constraints);
@@ -199,7 +201,8 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.gridx=2;
         constraints.gridy=4;
         constraints.gridwidth=1;
-        constraints.gridheight=1;   
+        constraints.gridheight=1;
+        constraints.insets=new Insets(0,0,20,120);
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(visibility, constraints);
         
