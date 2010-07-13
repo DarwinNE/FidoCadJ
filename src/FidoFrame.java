@@ -853,7 +853,7 @@ public class FidoFrame extends JFrame implements
                         	
                             popFrame=new FidoFrame(runsAsApplication);;
                             popFrame.init();
-                            popFrame.setBounds(getX()+30, getY()+30,    
+                            popFrame.setBounds(getX()+20, getY()+20,    
                             popFrame.getWidth(),        
                             popFrame.getHeight());
                             popFrame.setVisible(true);
@@ -1568,18 +1568,26 @@ public class FidoFrame extends JFrame implements
     
     /** We notify the user that something has changed by putting an asterisk
      	in the file name.
+     	We also show here in the titlebar the (eventually stretched) file name
+     	of the drawing being modified or shown.
     */
     public void somethingHasChanged()
     {
-            
+        
         if (Globals.weAreOnAMac) {
 			
 			// Apparently, this does not work as expected in MacOSX 10.4 Tiger.
+			// Probably, those are MacOSX >= 10.5 Leopard features.
 			// We thus leave also the classic Window-based asterisk when
 			// the file has been modified.
 			
 			getRootPane().putClientProperty("Window.documentModified", 
 				new Boolean(CC.P.getModified()));
+				
+			// On MacOSX >= 10.5, associate an icon and a file proxy to the
+			// title bar.
+			getRootPane( ).putClientProperty( "Window.documentFile", 
+				new File(CC.P.openFileName));
 					
 			setTitle("FidoCadJ "+Globals.version+" "+ 
             Globals.prettifyPath(CC.P.openFileName,45)+ 
