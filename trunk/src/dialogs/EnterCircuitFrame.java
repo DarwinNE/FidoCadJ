@@ -97,6 +97,13 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         super(parent, Globals.messages.getString("Enter_code"), true);
         addComponentListener(this); 
 		
+  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+  		// as a document modal sheet
+  		
+  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+				Boolean.TRUE);
+				
+				
 		GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();
         contentPane.setLayout(new GridBagLayout());

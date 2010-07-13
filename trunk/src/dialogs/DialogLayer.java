@@ -101,6 +101,13 @@ public class DialogLayer extends JDialog implements ComponentListener
         layers=l;
         
         
+  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+  		// as a document modal sheet
+  		
+  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+				Boolean.TRUE);
+				
+				
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();

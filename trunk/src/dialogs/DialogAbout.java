@@ -49,10 +49,10 @@ Version   Date           Author       Remarks
     
 */
     
-public class DialogAbout extends JDialog implements ComponentListener 
+public class DialogAbout extends JFrame implements ComponentListener 
 {
-    private static final int MIN_WIDTH=400;
-    private static final int MIN_HEIGHT=350;
+    private static final int MIN_WIDTH=300;
+    private static final int MIN_HEIGHT=250;
     
     
     private boolean export;     // Indicates that the export should be done
@@ -97,9 +97,10 @@ public class DialogAbout extends JDialog implements ComponentListener
     */
     public DialogAbout (JFrame parent)
     {
-        super(parent,"", true);
-        DialogUtil.center(this, .35,.40,350,300);
-
+        // super(parent,"", true);
+        super("");
+        DialogUtil.center(this, .30,.35,350,300);
+		setResizable(false);
         addComponentListener(this); 
         
         
