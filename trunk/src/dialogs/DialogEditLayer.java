@@ -123,7 +123,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=1;
+        constraints.gridx=0;
         constraints.gridy=0;
         constraints.gridwidth=2;
         constraints.gridheight=1;   
