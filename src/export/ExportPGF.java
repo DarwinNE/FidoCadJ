@@ -110,8 +110,8 @@ public class ExportPGF implements ExportInterface {
 	    LayerDesc l;
 	    Color c;
 	    	    
-	    int wi=totalSize.width*2;
-	    int he=totalSize.height*2;
+	    int wi=totalSize.width;
+	    int he=totalSize.height;
 	    
 	    // A basic header of the PGF file
 	    
@@ -119,9 +119,9 @@ public class ExportPGF implements ExportInterface {
 	    // a FidoCadJ unit equals to 2 LaTeX points. This should be
 	    // enough for most schematics have a reasonable size in the page.
 	    
-    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+wi+"pt}{"+he+"pt}\n"+
-			"% Created by FidoCadJ ver. "+Globals.version+
-			", export filter by Davide Bucci\n");
+    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi*2)+"pt}{"+(he*2)+"pt}\n"
+    		+"% Created by FidoCadJ ver. "+Globals.version
+			+", export filter by Davide Bucci\n");
 		out.write("\\pgfsetxvec{\\pgfpoint{2pt}{0pt}}\n");
 		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{2pt}}\n");
 		out.write("\\pgfsetroundjoin \n");
