@@ -1488,7 +1488,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 average/runs+
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
-        }    
+        }   
+        
     }
     
     /** Draws the current editing primitive.
