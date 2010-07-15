@@ -57,7 +57,6 @@ public class DialogLayer extends JDialog implements ComponentListener
     private ArrayList layers;
     public JList layerList;
     
-    
     public void componentResized(ComponentEvent e) 
     {
         int width = getWidth();
@@ -86,8 +85,6 @@ public class DialogLayer extends JDialog implements ComponentListener
     {
     }
     
-    
-    
     /** Standard constructor.
         @param parent the dialog parent
         @param l a LayerDesc vector containing the layers' attributes 
@@ -98,17 +95,13 @@ public class DialogLayer extends JDialog implements ComponentListener
         DialogUtil.center(this, .40,.40,400,350);
 
         addComponentListener(this); 
-
         layers=l;
-        
         
   		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
   		// as a document modal sheet
   		
   		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
 				Boolean.TRUE);
-				
-				
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();
@@ -126,7 +119,6 @@ public class DialogLayer extends JDialog implements ComponentListener
         constraints.gridheight=1;   
         constraints.fill = GridBagConstraints.BOTH;
         constraints.insets=new Insets(20,20,6,20);
-
         
         contentPane.add(sl, constraints);
         
@@ -134,7 +126,7 @@ public class DialogLayer extends JDialog implements ComponentListener
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
         JButton edit = new JButton(Globals.messages.getString("Edit"));
         
-    
+    	// Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(edit);
         b.add(Box.createHorizontalGlue());

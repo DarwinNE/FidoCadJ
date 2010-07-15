@@ -455,8 +455,10 @@ public class DialogExport extends JDialog implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
         constraints.insets=new Insets(20,20,20,20);
-
-        Box b=Box.createHorizontalBox();
+        
+        
+    	// Put the OK and Cancel buttons and make them active.
+		Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
 		b.add(cancel);
 		b.add(Box.createHorizontalStrut(12));

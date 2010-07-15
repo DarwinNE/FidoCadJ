@@ -11,9 +11,7 @@ import java.net.*;
 import globals.*;
 import toolbars.*;
 
-
 /** 
-
 <pre>
 Shows a rather standard "About" dialog. Nothing more exotic than showing the 
 nice icon of the program, its name as well as three lines of description.
@@ -24,7 +22,6 @@ nice icon of the program, its name as well as three lines of description.
 Version   Date           Author       Remarks
 ------------------------------------------------------------------------------
 1.0     February 2009       D. Bucci     First working version
-                                 
 
 <pre>
     This file is part of FidoCadJ.
@@ -89,8 +86,6 @@ public class DialogAbout extends JFrame implements ComponentListener
     {
     }
     
-  
-
     /** Standard constructor: it needs the parent frame.
     
         @param parent the dialog's parent
@@ -103,7 +98,9 @@ public class DialogAbout extends JFrame implements ComponentListener
 		setResizable(false);
         addComponentListener(this); 
         
-        
+ 		// Shows the icon of the program and then three lines read from the
+ 		// resources which describe the software and give the credits.
+ 		
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();
@@ -164,10 +161,5 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
 
         contentPane.add(programDescription2, constraints);
-
-
-        
     }
-  
-
 }

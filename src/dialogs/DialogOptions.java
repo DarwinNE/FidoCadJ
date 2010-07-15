@@ -1,6 +1,5 @@
 package dialogs;
 
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -9,7 +8,6 @@ import java.io.*;
 
 import globals.*;
 import dialogs.*;
-
 
 /** DialogOptions.java v.1.8
 
@@ -85,11 +83,9 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public int pcbpadintw_i;
   	public String macroFont;
   	public int macroSize_i;
-  	
-  	
+
  	private JFrame parent;
 
-  	
 	private JCheckBox antiAlias_CB;
 	private JCheckBox profile_CB;
 	private JCheckBox extFCJ_c_CB;
@@ -137,7 +133,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param sn split non standard macros during save
 	@param sc split non standard macros during copy
 	
-	
 	*/
 	
 	public DialogOptions (JFrame pa, double z, boolean p, boolean a,
@@ -176,7 +171,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		stroke_size_straight_i =sssi;
 		stroke_size_oval_i=ssoi;
 
-  		
   		setSize(600,500);
 
 		GridBagConstraints constraints=new GridBagConstraints();
@@ -186,19 +180,16 @@ public class DialogOptions extends JDialog implements ComponentListener
 			
 		JTabbedPane tabsPane = new JTabbedPane();
 		
-
-
+		// Creates four panes and then populate them.
 		tabsPane.addTab(Globals.messages.getString("Restart"), 
 			createRestartPane());
 
-		
 		tabsPane.addTab(Globals.messages.getString("Drawing"),
 			createDrawingOptPanel());
 
 		tabsPane.addTab(Globals.messages.getString("PCBsizes"),
 			createPCBsizePanel());
 
-		
 		tabsPane.addTab(Globals.messages.getString("FidoCad"), 
 			createExtensionsPanel());
 		
@@ -207,14 +198,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridwidth=3;
 		constraints.gridheight=1;
 		constraints.insets=new Insets(6,20,6,20);
-		//constraints.anchor=GridBagConstraints.EAST;
 		
 		contentPane.add(tabsPane, constraints);
 		
-		
-		
-		
-		
+    	// Put the OK and Cancel buttons and make them active.
+
 		JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
 		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 	
@@ -232,8 +220,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		ok.setPreferredSize(cancel.getPreferredSize());
 		b.add(ok);
 		contentPane.add(b, constraints);			// Add cancel button	
-		
-		
 		
 		ok.addActionListener(new ActionListener()
 		{
@@ -293,7 +279,6 @@ public class DialogOptions extends JDialog implements ComponentListener
                         "",
                         JOptionPane.INFORMATION_MESSAGE);
                         
-                        
 				setVisible(false);
 			}
 		});
@@ -319,8 +304,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		getRootPane().setDefaultButton(ok);
   	}
   
-	
-	
   	public void componentResized(ComponentEvent e) 
   	{
      	int width = getWidth();
@@ -349,6 +332,7 @@ public class DialogOptions extends JDialog implements ComponentListener
     {
     }
     
+    // Creates the panel dedicated to the startup options of FidoCadJ.
     private JPanel createRestartPane()
     {
 		JPanel restartOptionPanel=new JPanel();
@@ -356,8 +340,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		restartOptionPanel.setLayout(new GridBagLayout());
 		GridBagConstraints constraints=new GridBagConstraints();
 		restartOptionPanel.setOpaque(false);
-		
-		
 		
 		JLabel liblbl=new JLabel(Globals.messages.getString("lib_dir"));
 		constraints.weightx=100;
@@ -371,13 +353,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.insets=new Insets(20,40,6,0);
 		restartOptionPanel.add(liblbl, constraints);			// Add lib dir label
 
-		
 		libD=new JTextField(10);
 		libD.setText(libDirectory);
 		constraints.gridx=0;
 		constraints.gridy=1;
 		constraints.insets=new Insets(6,40,6,0);
-
 
 		restartOptionPanel.add(libD,constraints);		// Add lib dir tf
 		
@@ -392,8 +372,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		{
 			public void actionPerformed(ActionEvent evt)
 			{
-			
-        		String din;
+				String din;
             	
         		if(Globals.useNativeFileDialogs) {
             		FileDialog fd = new FileDialog(parent, 
@@ -440,8 +419,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridy=3;
 		constraints.insets=new Insets(6,40,6,0);
 
-
-
 		restartOptionPanel.add(textToolbar_CB, constraints);		// Add text in tb cb	
 		
 		quaquaActive_CB=new 
@@ -464,15 +441,12 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridy=5;
 		constraints.insets=new Insets(6,40,20,0);
 
-
-	
 		restartOptionPanel.add(smallIconsToolbar_CB, constraints);		// Add small icons
-		
-		
 		
 		return restartOptionPanel;
 	}
-    
+
+    // Creates the panel dedicated to the drawing options of FidoCadJ.    
     private JPanel createDrawingOptPanel()
     {
     	JPanel drawingOptPanel = new JPanel();
@@ -485,8 +459,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.weightx=100;
 		constraints.weighty=100;
 		
-		
-	
 		profile_CB=new JCheckBox(Globals.messages.getString("Profile"));
 		profile_CB.setOpaque(false);
 		profile_CB.setSelected(profileTime);
@@ -519,7 +491,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 
 		drawingOptPanel.add(gridWidth, constraints);		// Add grid width tf
 		
-
 		/**********************************************************************
 		  Stroke sizes
 		 **********************************************************************/
@@ -588,7 +559,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		  Macro font
 		 **********************************************************************/
 		
-		
 		JLabel macroFontlbl=new JLabel(Globals.messages.getString(
 			"macrofont"));
 		constraints.weightx=100;
@@ -640,8 +610,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.WEST;
 		drawingOptPanel.add(macroSize, constraints);				
 		
-		
-		
 		antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_al"));
 		antiAlias_CB.setSelected(antiAlias);
 		antiAlias_CB.setOpaque(false);
@@ -662,6 +630,10 @@ public class DialogOptions extends JDialog implements ComponentListener
 		 **********************************************************************/
 		 
 	}
+	
+	
+    // Creates the panel dedicated to the default PCB track and pad sizes 
+    // options of FidoCadJ.
 	private JPanel createPCBsizePanel()
 	{
 		/**********************************************************************
@@ -758,6 +730,9 @@ public class DialogOptions extends JDialog implements ComponentListener
 		
 		return pcbSizePanel;
 	}
+	
+    // Creates the panel dedicated to the extensions introduced by FidoCadJ on
+    // the original FidoCad file format.
 	private JPanel createExtensionsPanel()
 	{
 		/**********************************************************************
@@ -795,7 +770,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridheight=1;
 		constraints.insets=new Insets(6,40,6,40);
 		constraints.anchor=GridBagConstraints.WEST;
-		extensionsPanel.add(extFCJ_s_CB, constraints);		// FCJ extensions while
+		extensionsPanel.add(extFCJ_s_CB, constraints);	// FCJ extensions while
 														// saving
 		
 		extFCJ_c_CB=new JCheckBox(Globals.messages.getString("extFCJ_c"));
@@ -806,7 +781,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.gridwidth=2;
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.WEST;
-		extensionsPanel.add(extFCJ_c_CB, constraints);		// FCJ extensions while
+		extensionsPanel.add(extFCJ_c_CB, constraints);	// FCJ extensions while
 														// copying
 		
 		split_n_s_CB=new JCheckBox(Globals.messages.getString("split_nonstandard"));
@@ -831,11 +806,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		/**********************************************************************
 		  END of FidoCadJ extensions
 		 **********************************************************************/
-		 
 		return extensionsPanel;
 	}
     
-  	
-
-
 }
