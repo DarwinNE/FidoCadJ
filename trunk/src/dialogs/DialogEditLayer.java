@@ -27,7 +27,6 @@ Version   Date           Author       Remarks
 1.2     June 2008           D. Bucci    Better resizing, OK/Cancel actions
 1.3     June 2009           D. Bucci    Capitalize the first letters                                     
 
-
 <pre>
     This file is part of FidoCadJ.
 
@@ -97,8 +96,6 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     {
     }
     
-    
-
     /** Standard constructor.
         @param parent the dialog parent
         @param l a LayerDesc containing the layer's attributes 
@@ -173,9 +170,6 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         opacity = new JSlider(JSlider.HORIZONTAL,
                                       ALPHA_MIN, ALPHA_MAX, 
                                       Math.round(l.getAlpha()*100.0f));
-		//opacity.addChangeListener(this);
-
-
 
 		//Turn on labels at major tick marks.
 		opacity.setMajorTickSpacing(20);
@@ -209,6 +203,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
     
+    	// Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
 		b.add(cancel);
@@ -224,8 +219,6 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(b, constraints);
-        
-        
         
         ok.addActionListener(new ActionListener()
         {

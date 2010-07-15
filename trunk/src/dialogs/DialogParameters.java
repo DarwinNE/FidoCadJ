@@ -8,9 +8,12 @@ import java.util.*;
 import globals.*;
 import dialogs.*;
 
-
 /** Allows to create a generic dialog, capable of displaying and let the user
 	modify the parameters of a graphic primitive.
+	The idea is that the dialog  uses a ParameterDescripion vector which
+	contains all the elements, their description as well as the type.
+	Depending on the contents of the array, the window will be created 
+	automagically.
 
 <pre>
    ****************************************************************************
@@ -47,7 +50,6 @@ public class DialogParameters extends JDialog implements ComponentListener
   	private static final int MIN_WIDTH=350;
   	private static final int MIN_HEIGHT=300;
   	private static final int MAX=20;
-
   	
   	// Maximum number of user interface elements of the same type present
   	// in the dialog window.
@@ -67,12 +69,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 	private JComboBox jco[];
 	private int co;
 	
-	
 	private Vector v;
 	
 	private ArrayList layers;
 	
-  	
   	/** Programmatically build a dialog frame containing the appropriate
   		elements, in order to let the user modify the characteristics of a 
   		graphic primitive.
@@ -99,7 +99,6 @@ public class DialogParameters extends JDialog implements ComponentListener
   		addComponentListener(this);	
   		setSize(400,300);
       			
-		
 		GridBagLayout bgl=new GridBagLayout();
 		GridBagConstraints constraints=new GridBagConstraints();
 		Container contentPane=getContentPane();
@@ -311,8 +310,8 @@ public class DialogParameters extends JDialog implements ComponentListener
 
 			}
 		}
-		
 	
+		// Put the OK and Cancel buttons and make them active.
 		JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
 		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 	
@@ -331,15 +330,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 		b.add(ok);
 		contentPane.add(b, constraints);			// Add cancel button	
 		
-		
-		
 		ok.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent evt)
 			{
-				
-				
-
 				try{
 					int ycount;
 					ParameterDescription pd;

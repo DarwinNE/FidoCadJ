@@ -82,10 +82,6 @@ public class FidoCadApplet extends JApplet implements ActionListener
             }
         }        
              
-            
-        
-
-        
 
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
@@ -95,8 +91,6 @@ public class FidoCadApplet extends JApplet implements ActionListener
             // key for shortcuts, while others will use Control.
             Globals.shortcutKey=InputEvent.META_MASK;
             Globals.useMetaForMultipleSelection=true;
-            
-            
             
             // Standard dialogs are vastly better on MacOSX than the Swing ones
             Globals.useNativeFileDialogs=true;
@@ -109,12 +103,8 @@ public class FidoCadApplet extends JApplet implements ActionListener
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
         
-
-        
         popFrame.init();
-        
-        //popFrame.setVisible(true);
-	}
+    }
 	
 
 	public void actionPerformed(ActionEvent evt)

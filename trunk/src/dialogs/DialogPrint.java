@@ -85,9 +85,7 @@ public class DialogPrint extends JDialog implements ComponentListener
 		Container contentPane=getContentPane();
 		contentPane.setLayout(bgl);
 
-  				
 		constraints.insets.right=30;
-
 		
 		JLabel empty=new JLabel("  ");
 		constraints.weightx=100;
@@ -139,8 +137,7 @@ public class DialogPrint extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.WEST;
 		contentPane.add(landscape_CB, constraints);		// Add landscape cb
 		
-		
-		
+		// Put the OK and Cancel buttons and make them active.
 		JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
 		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 	
@@ -156,8 +153,6 @@ public class DialogPrint extends JDialog implements ComponentListener
 		ok.setPreferredSize(cancel.getPreferredSize());
 		b.add(ok);
 		contentPane.add(b, constraints);			// Add cancel button	
-		
-		
 		
 		ok.addActionListener(new ActionListener()
 		{
