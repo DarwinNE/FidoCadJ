@@ -124,7 +124,7 @@ public class ExportPGF implements ExportInterface {
 			+", export filter by Davide Bucci\n");
 		out.write("\\pgfsetxvec{\\pgfpoint{2pt}{0pt}}\n");
 		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{2pt}}\n");
-		out.write("\\pgfsetroundjoin \n");
+		out.write("\\pgfsetroundjoin \n\\pgfsetroundcap\n");
 		out.write("\\pgftranslateto{\\pgfxy(0,"+he+")}\n");
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");
 		out.write("% Layer color definitions\n");
@@ -449,21 +449,18 @@ public class ExportPGF implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		registerColorSize(layer, -1);
+		registerColorSize(layer, width);
 
-		
-		out.write("\\pgfsetlinewidth{"+width+"}\n");
+
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
 			x2+","+y2+")}\n");
-		
-		out.write("\\pgfsetlinewidth{"+0.33+"}\n");
 	
-		out.write("\\pgfellipse[fill"+
+		/*out.write("\\pgfellipse[fill"+
 			"]{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
-			width/2.0+",0)}{\\pgfxy(0,"+width/2.0+")}\n");
+			width/2.0+",0)}{\\pgfxy(0,"+width+"pt)}\n");
 		out.write("\\pgfellipse[fill"+
 			"]{\\pgfxy("+x2+","+y2+")}{\\pgfxy("+
-			width/2.0+",0)}{\\pgfxy(0,"+width/2.0+")}\n");
+			width/2.0+",0)}{\\pgfxy(0,"+width+"pt)}\n");*/
 	}
 		
 	
