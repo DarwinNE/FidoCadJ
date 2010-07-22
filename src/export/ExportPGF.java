@@ -292,7 +292,7 @@ public class ExportPGF implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{ 
-		registerColorSize(layer, -1);
+		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 		
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
@@ -401,7 +401,6 @@ public class ExportPGF implements ExportInterface {
 		int fontSize, Map m)
 		throws IOException
 	{
-		//out.write("% macro: "+macroName+"\n");
 		// The macro will be expanded into primitives.
 		return false; 
 	}
