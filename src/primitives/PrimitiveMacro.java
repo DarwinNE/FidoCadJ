@@ -221,6 +221,9 @@ public class PrimitiveMacro extends GraphicPrimitive
 	final private void drawText(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
+		if(!selectLayer(g,layerV))
+			return;
+			
 		if (value.length()==0 && name.length()==0)
 			return;
 			
@@ -248,7 +251,17 @@ public class PrimitiveMacro extends GraphicPrimitive
     		th = h+fm.getDescent();
    			w1 = fm.stringWidth(name);
    			w2 = fm.stringWidth(value);
-
+   			
+   			// Calculates the size of the text in logical units. This is 
+   			// useful for calculating wether the user has clicked inside a 
+   			// text line (see getDistanceToPoint)
+   			
+   			t_w1 = (int)(w1/coordSys.getXMagnitude());
+   			t_w2 = (int)(w2/coordSys.getYMagnitude());
+   			t_th = (int)(th/coordSys.getYMagnitude());
+   			   			
+   			// Track the points for calculating the drawing size
+   			
     		coordSys.trackPoint(xa,ya);
 	  		coordSys.trackPoint(xa+w1,ya+th);
 	    	coordSys.trackPoint(xb,yb);
@@ -566,7 +579,6 @@ public class PrimitiveMacro extends GraphicPrimitive
         int xb=virtualPoint[2].x;
         int yb=virtualPoint[2].y;
         
-   		        
         
 	    if(GeometricDistances.pointInRectangle(xa,ya,t_w1,t_th,px,py))
 	       	return 0;
