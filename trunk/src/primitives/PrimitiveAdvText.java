@@ -48,7 +48,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	
 	private boolean recalcSize;
 
-	
 	/* Text style patterns */
 	static final int TEXT_BOLD=1;
 	static final int TEXT_ROTATE=2;
@@ -56,8 +55,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	
 	// A text is defined by one point.
 	static final int N_POINTS=1;
-	
-	
+		
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
@@ -111,11 +109,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		setLayer(l);
 		changed=true;
 		recalcSize=true;
-
 	}
 
-	
-	
 	private	AffineTransform at;
 	private AffineTransform stretching;
 	private AffineTransform ats;
@@ -304,7 +299,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	{
 		// assert it is the correct primitive
 		changed=true;
-
+		recalcSize = true;
+		
  		if (tokens[0].equals("TY")) {	// Text (advanced)
  			if (N<9) {
  				IOException E=new IOException("bad arguments on TY");
@@ -375,11 +371,11 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	}
 	
 	private static BufferedImage sizeCalculationImage;
-	private static int xaSCI;
-	private static int yaSCI;
-	private static int orientationSCI;
-	private static int hSCI, thSCI, wSCI;
-	private static double[] xpSCI, ypSCI;
+	private int xaSCI;
+	private int yaSCI;
+	private int orientationSCI;
+	private int hSCI, thSCI, wSCI;
+	private double[] xpSCI, ypSCI;
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
@@ -401,7 +397,8 @@ public class PrimitiveAdvText extends GraphicPrimitive
  			// graphical appearance of the text should be recalculated.
  			
  			recalcSize = false;
-        	sizeCalculationImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        	sizeCalculationImage = new BufferedImage(1, 1, 
+        		BufferedImage.TYPE_INT_RGB);
      
          	// Create a graphics contents on the buffered image
          	Graphics2D gSCI = sizeCalculationImage.createGraphics();
@@ -455,13 +452,10 @@ public class PrimitiveAdvText extends GraphicPrimitive
             }
         }
 
-       		
        	if(orientationSCI!=0){	
        		if(GeometricDistances.pointInPolygon(4,xpSCI,ypSCI, px,py))
           		return 0;
-    		
 		} else {
-
 			if(GeometricDistances.pointInRectangle(Math.min(xaSCI, 
 				xaSCI+wSCI),yaSCI,Math.abs(wSCI),thSCI,px,py))
 	           	return 0;
@@ -539,6 +533,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	{
 		int i=0;
 		changed=true;
+		recalcSize = true;
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -645,7 +640,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		super.mirrorPrimitive(xPos);
 		sty ^= TEXT_MIRRORED;
 		changed=true;
-
+		recalcSize = true;
 	}
 	
 	/** Obtain a string command descripion of the primitive.
