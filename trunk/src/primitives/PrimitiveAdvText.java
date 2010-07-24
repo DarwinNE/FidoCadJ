@@ -440,7 +440,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
  				xpSCI=new double[4];
         		ypSCI=new double[4];
                         
-        
         		xpSCI[0]=xaSCI;
             	ypSCI[0]=yaSCI;
             	xpSCI[1]=(int)(xaSCI+thSCI*si);

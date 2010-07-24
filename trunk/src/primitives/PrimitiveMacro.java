@@ -210,8 +210,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	private int z;
 	private int xa, ya, xb, yb;
-	// Text sizes
+	// Text sizes in pixels
 	private int h,th, w1, w2;
+	
+	// Text sizes in logical units.
 	private int t_h,t_th, t_w1, t_w2;
 	
 	
@@ -266,18 +268,24 @@ public class PrimitiveMacro extends GraphicPrimitive
 	  		coordSys.trackPoint(xa+w1,ya+th);
 	    	coordSys.trackPoint(xb,yb);
     		coordSys.trackPoint(xb+w2, yb+th);
-
 		}
 	   	
-	   	// This is useful and faster for small zooms
+	   	// If there is no need to draw the text, just exit.
 	   	
 	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
  			return;
 	   	
+	   	// This is useful and faster for small zooms
+	   	
 	   	if(th<Globals.textSizeLimit) {
 	   		g.drawLine(xa,ya, xa+w1-1,ya);
 	   		return;
-	   	} 		
+	   	} 
+	   	
+	   	// Check if there is the need to change the current font. Apparently, 
+	   	// on some systems (I have seen this on MacOSX), setting up the font 
+	   	// takes a surprisingly amount of time.
+	   	
  		if(!g.getFont().equals(f))
 	   		g.setFont(f);
 
@@ -526,11 +534,18 @@ public class PrimitiveMacro extends GraphicPrimitive
  			m=(Integer.parseInt(tokens[4])==1);  // mirror
  			macroName=tokens[5];
  			
+ 			// This is useful when a filename contains spaces. However, it does
+ 			// not work when there are two or more consecutive spaces.
+ 			
  			for (int i=6; i<N; ++i) 
  				macroName+=" "+tokens[i];
  			
+ 			// The macro key recognition is made case insensitive by converting
+ 			// internally all keys to lower case. 
+ 			
       		macroName=macroName.toLowerCase();
 
+			// Let's see if the macro is recognized and store it.
  			MacroDesc macro=(MacroDesc)library.get(macroName);
  			
  			if (macro==null){
@@ -550,6 +565,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 	}
 	
+	/** Check if the macro contains elements which need to draw holes.
+		@return true if the macro contains elements requiring holes, false 
+			otherwise.
+	
+	*/
 	public final boolean needsHoles()
 	{	
 		return macro.getNeedHoles();
@@ -572,40 +592,22 @@ public class PrimitiveMacro extends GraphicPrimitive
  		int y1=virtualPoint[0].y;
  		int dt=Integer.MAX_VALUE;
 
-		// Calculate the distance with text objects
-
-		int xa=virtualPoint[1].x;
-        int ya=virtualPoint[1].y;
-        int xb=virtualPoint[2].x;
-        int yb=virtualPoint[2].y;
+        // Here we check if the given point lies inside the text areas
         
-        
-	    if(GeometricDistances.pointInRectangle(xa,ya,t_w1,t_th,px,py))
+	    if(GeometricDistances.pointInRectangle(virtualPoint[1].x,
+	    	virtualPoint[1].y,t_w1,t_th,px,py))
 	       	return 0;
-	    if(GeometricDistances.pointInRectangle(xb,yb,t_w2,t_th,px,py))
+	    if(GeometricDistances.pointInRectangle(virtualPoint[2].x,
+	    	virtualPoint[2].y,t_w2,t_th,px,py))
 	       	return 0;
 	        	
-	
- 		MapCoordinates mc=new MapCoordinates();
- 			
- 		mc.setXMagnitude(1.0);
- 		mc.setYMagnitude(1.0);
- 			
- 		mc.setXCenter(0.0);
- 		mc.setYCenter(0.0);
-		mc.orientation=o%4;
-		mc.mirror=m;
- 		mc.isMacro=true;
-	
- 		MapCoordinates omc = macro.getMapCoordinates();
- 		
- 		macro.setMapCoordinates(mc);
- 		
-	
+		// If not, we need to see more throughly about the inners of the macro
+
  		int vx=px-x1+100;
  		int vy= py-y1+100;
  		
-
+		// This is a sort of inelegant code: we need to translate the position
+		// given in the macro's coordinate system.
  		
  		if(m) {
             switch(o){
@@ -661,8 +663,6 @@ public class PrimitiveMacro extends GraphicPrimitive
                     vy= 0;
             }
         }   
-        
- 		macro.setMapCoordinates(omc);	
  		
  		if (macroDesc==null)
  			System.out.println("1-Unrecognized macro "+
@@ -735,6 +735,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 		String subsFont;
 		
+		// Check if the font is default and in this case, just put an asterisk.
 		if (macroFont.equals(Globals.defaultTextFont)) {
 			subsFont = "*";
 		} else {
@@ -749,6 +750,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 			subsFont=s1.toString();
 		}
 		
+		// Write down the extensions only if needed
 		if (!name.equals("") || !value.equals("")) {
 			if(extensions) s+="FCJ\n";
 			s+="TY "+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
@@ -763,7 +765,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		
 	}
 	
-		/**	Get the control parameters of the given primitive.
+	/**	Get the control parameters of the given primitive.
 	
 		@return a vector of ParameterDescription containing each control
 				parameter.
@@ -890,6 +892,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 		alreadyExported=false;
 	}
 	
+	/**	Each graphic primitive should call the appropriate exporting method
+		of the export interface specified.
+		
+		@param exp the export interface that should be used
+		@param cs the actual coordinate mapping
+	*/
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
@@ -898,6 +906,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 			return;
 			
 		// Call the macro interface, to see if the macro should be expanded
+		
 		if (exp.exportMacro(virtualPoint[0].x, virtualPoint[0].y, 
 			m, o*90, macroName, macroDesc, name, virtualPoint[1].x, 
 			virtualPoint[1].y, value, virtualPoint[2].x, virtualPoint[2].y, 
@@ -927,7 +936,6 @@ public class PrimitiveMacro extends GraphicPrimitive
  		macro.setMapCoordinates(macroCoord);
  		macro.setDrawOnlyLayer(drawOnlyLayer);
 
- 		
  		macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layers);	// Inherit the layers
  		
@@ -935,18 +943,21 @@ public class PrimitiveMacro extends GraphicPrimitive
  			System.out.println("2-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
- 			macro.parseString(new StringBuffer(macroDesc)); // Recursive call	
+ 			// Recursive call
+ 			macro.parseString(new StringBuffer(macroDesc)); 	
  			// Propagate selection state
  			if(getSelected())
  				macro.selectAll();
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
  			macro.exportDrawing(exp, false);
- 			
+			// Export the text associated to the name and value of the macro 			
  			if(drawOnlyLayer==getLayer()) {
  				if(!name.equals(""))
- 					exp.exportAdvText (cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
-						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), macroFontSize, 
+ 					exp.exportAdvText (cs.mapX(virtualPoint[1].x,
+ 						virtualPoint[1].y),
+						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), 
+						macroFontSize, 
 						(int)( macroFontSize*12/7+.5),
 						macroFont, 
 						false,
@@ -955,8 +966,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 						0, getLayer(), name);
 				
 				if(!value.equals(""))
-					exp.exportAdvText (cs.mapX(virtualPoint[2].x,virtualPoint[2].y),
-						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), macroFontSize, 
+					exp.exportAdvText (cs.mapX(virtualPoint[2].x,
+						virtualPoint[2].y),
+						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), 
+						macroFontSize, 
 						(int)( macroFontSize*12/7+.5),
 						macroFont, 
 						false,

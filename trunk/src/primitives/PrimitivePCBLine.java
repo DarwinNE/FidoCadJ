@@ -71,9 +71,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		@param y2 the end y coordinate (logical unit).
 		@param w specifies the line width. 
 		@param layer the layer to be used.
-		
 	*/
-	
 	public PrimitivePCBLine(int x1, int y1, int x2, int y2, int w, int layer)
 	{
 		super();
@@ -87,9 +85,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		virtualPoint[1].y=y2;
 		width=w;
 		
-		
 		setLayer(layer);
-		
 	}
 	
 	private int xa, ya, xb, yb;
@@ -97,7 +93,6 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	private int wi_pix;
 	private Stroke stroke;
 	private int xbpap1, ybpap1;
-
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -122,20 +117,6 @@ public class PrimitivePCBLine extends GraphicPrimitive
  			wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,virtualPoint[0].y, false)
 		    -coordSys.mapXi(virtualPoint[0].x+width,virtualPoint[0].y+width, false));
 		
- 			if (x1>x2) {
- 				xa=x2;
- 				xb=x1;
- 			} else {
- 				xa=x1;
- 				xb=x2;
- 			}
- 			if (y1>y2) {
- 				ya=y2;
- 				yb=y1;
- 			} else {
- 				ya=y1;
- 				yb=y2;
- 			}
  			xa=Math.min(x1, x2)-wi_pix/2;
  			ya=Math.min(y1, y2)-wi_pix/2;
  			xb=Math.max(x1, x2)+wi_pix/2;

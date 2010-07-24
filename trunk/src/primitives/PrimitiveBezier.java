@@ -261,6 +261,8 @@ public class PrimitiveBezier extends GraphicPrimitive
 				coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
 				coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 			
+			// Calculating the bounds of this curve is useful since we can 
+			// check if it is visible and thus choose wether draw it or not.
 			Rectangle r = shape1.getBounds();
 			
 			xmin = r.x;
@@ -268,10 +270,14 @@ public class PrimitiveBezier extends GraphicPrimitive
 			width  = r.width;
 			height = r.height;
  		
+ 			// Calculating stroke width
+ 			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
 
-	                                
+			// Check if there is a dash to be used for the stroke and 
+			// create a new stroke.
+			
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
                             	BasicStroke.CAP_BUTT, 
@@ -281,15 +287,22 @@ public class PrimitiveBezier extends GraphicPrimitive
 				stroke=new BasicStroke(w);
 		}
 		
+		// If the curve is not visible, exit immediately
+		
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
-
+		
+		// This allows to save time on some systems where setting up a new 
+		// stroke style takes some time.
 		
 		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);
 		
+		// Draw the curve
+		
 		g.draw(shape1);
- 			
+ 		
+ 		// Check if there are arrows to be drawn and eventually draw them.
  		
 		if (arrowStart || arrowEnd) {
 			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
@@ -334,6 +347,7 @@ public class PrimitiveBezier extends GraphicPrimitive
  				IOException E=new IOException("bad arguments on BE");
 				throw E;
  			}
+ 			// Parse the coordinates of all points of the Bézier curve
  			virtualPoint[0].x=Integer.parseInt(tokens[1]);
  			virtualPoint[0].y=Integer.parseInt(tokens[2]);
  			virtualPoint[1].x=Integer.parseInt(tokens[3]);
