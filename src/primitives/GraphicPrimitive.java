@@ -260,9 +260,6 @@ public abstract class GraphicPrimitive
 	private float alpha;
 	private static float oldalpha=1.0f;
 	private int old_layer=-1;
-	// private static boolean ret;
-	// private static boolean old_selected;
-	
 	
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
@@ -275,8 +272,11 @@ public abstract class GraphicPrimitive
 	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
 	{
 		// At first, we see if we need to retrieve the current layer.
+		// It is important to check also the changed flag, since if not we 
+		// would now show changes apported to the layer being drawn when it is
+		// modified.
 		
-		if(old_layer != layer) {
+		if(old_layer != layer || changed) {
 			if (layer<layerV.size())
 				l= (LayerDesc)layerV.get(layer);
 			else
@@ -305,9 +305,7 @@ public abstract class GraphicPrimitive
 				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			}
 		}	
-			
 		return true;
-		
 	}
 	
 	/**	Draw the handles for the current primitive.
@@ -462,7 +460,6 @@ public abstract class GraphicPrimitive
 	{	
 		return false;
 	}
-	
 	
 	/** Specify whether during the drawing phase the primitive should draw 
 		only the pads. This is useful only for the PrimitiveMacro and

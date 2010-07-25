@@ -737,6 +737,12 @@ public class FidoFrame extends JFrame implements
             if (arg.equals(Globals.messages.getString("Layer_opt"))) {
                 DialogLayer layerDialog=new DialogLayer(this,CC.P.getLayers());
                 layerDialog.setVisible(true);
+                
+                // It is important that we force a complete recalculation of 
+                // all details in the drawing, otherwise the buffered setup
+                // will not be resposive to the changes in the layer editing.
+                
+                CC.P.setChanged(true);
                 repaint();
             }
 

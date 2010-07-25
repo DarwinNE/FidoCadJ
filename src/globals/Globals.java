@@ -219,9 +219,7 @@ public class Globals
     		changed is associated with its code, or escape sequence.
     	@return the string with the characters changed.	
     	
-    
     */
-    
     public static String substituteBizarreChars(String p, Map bc)
     {
     	StringBuffer s=new StringBuffer("");
@@ -234,6 +232,4 @@ public class Globals
     	
     	return s.toString();
     }
-    
-    
 }
