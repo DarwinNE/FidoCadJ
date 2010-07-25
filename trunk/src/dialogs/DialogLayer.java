@@ -194,8 +194,7 @@ public class DialogLayer extends JDialog implements ComponentListener
                 (LayerDesc) layers.get(layerList.getSelectedIndex()));
             del.setVisible(true);
         	if (del.getActive()){
-                layers.set(layerList.getSelectedIndex(),
-                    del.getLayer());
+                del.acceptLayer();
                 repaint();
             }
         } else {

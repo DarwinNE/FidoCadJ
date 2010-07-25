@@ -67,6 +67,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     private JTextField description;
     private JSlider opacity;
     private boolean active;             // true if the user selected ok
+	private LayerDesc ll;
 
     public void componentResized(ComponentEvent e) 
     {
@@ -105,6 +106,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         super(parent, Globals.messages.getString("Layer_options")+
             l.getDescription(), true);
         
+        ll = l;
         addComponentListener(this);
         active=false;
         
@@ -257,19 +259,19 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     
     /** Get the layer description as specified in the layer edit dialog
     
-        @return the layer object with the specified characteristics.
-    
+   
     */
-    public LayerDesc getLayer()
+    public void acceptLayer()
     {
-        LayerDesc l=new LayerDesc();
-        l.setVisible(visibility.isSelected());
-        l.setDescription(description.getText());
-        l.setColor(tcc.getColor());
-        l.setAlpha(opacity.getValue()/100.0f);
-        l.setModified(true);
-        
-        return l;
+    	// It is important that here we use exactly the same layer which has
+    	// been specified at the beginning. In this way, every reference to 
+    	// that layer will be modified.
+    	
+        ll.setVisible(visibility.isSelected());
+        ll.setDescription(description.getText());
+        ll.setColor(tcc.getColor());
+        ll.setAlpha(opacity.getValue()/100.0f);
+        ll.setModified(true);
     }
     
     /** Determine if the user selected the Ok button.

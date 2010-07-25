@@ -37,9 +37,7 @@ public class CellLayer extends JPanel
     private JList list;
     private boolean isSelected;
     private LayerDesc layer;
-    
-    
-    
+       
     CellLayer(LayerDesc la, JList l, boolean is)
     {
         layer=la;
@@ -49,6 +47,12 @@ public class CellLayer extends JPanel
         setPreferredSize(new Dimension(150,18));
     }
     
+    /** Here we draw the layer description. A coloured box followed by the
+    	name of the layer. We need to take care if the element is selected
+    	or not. In this case, we change accordingly the background of the part
+    	where we are writing the layer name.
+    
+    */
     public void paintComponent(Graphics g)
     {
         g.setColor(isSelected ? list.getSelectionBackground(): 
@@ -67,6 +71,5 @@ public class CellLayer extends JPanel
         g.drawString(layer.getDescription(), 5*getHeight()/4, 
             (int)(3.8*getHeight()/5));
     }
-    
     
 }

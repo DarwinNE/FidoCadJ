@@ -60,6 +60,9 @@ public class PrimitiveBezier extends GraphicPrimitive
 		return N_POINTS;
 	}
 	
+	/** Standard constructor. It creates an empty shape.
+	
+	*/
 	public PrimitiveBezier()
 	{
 		super();
@@ -102,10 +105,15 @@ public class PrimitiveBezier extends GraphicPrimitive
 		arrowStyle =arrowSt;
 		dashStyle=dashSt;
 		
+		r = new Rectangle();
+		
 		virtualPoint = new Point[N_POINTS];
+		
+		// Create the array containing the points
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
 			
+		// Store the coordinates of the points 
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
 		virtualPoint[1].x=x2;
@@ -115,7 +123,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		virtualPoint[3].x=x4;
 		virtualPoint[3].y=y4;
 		
-		
+		// Store the layer
 		setLayer(layer);
 		
 	}
@@ -251,6 +259,9 @@ public class PrimitiveBezier extends GraphicPrimitive
  		
  		if (changed) {
  			changed=false;
+ 			
+ 			// Create the Bézier curve, which in the Java library is called a 
+ 			// cubic curve (and indeed it is!)
  			shape1 = new CubicCurve2D.Float(
  				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
 				coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
@@ -382,12 +393,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 			throw E;
  		}
 		
-				
-		
 	}
-	
-	
-
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
