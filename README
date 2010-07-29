@@ -115,6 +115,30 @@ You should comment the code block as follows:
         
 And everything should compile fine.
 
+3.3 Coding conventions
+----------------------
+
+The following coding conventions have been applied for the FidoCadJ source 
+code:
+
+- tab set to 4 spaces
+- blocks delimited by curly braces are indented as follows:
+
+    for(i=0; i<10; ++i) {   // starting brace here
+        // indented code (4 spaces)
+        System.out.println("I counted up to "+i);
+    }	// close brace here at the same level of the 'if'
+	
+- methods are indented as follows
+    void dummy (int i, int j) 
+    {   // put the starting brace here
+        System.out.println("Indent code");
+    }   // put the closing brace here
+
+- the class names are always capitalized, and so does methods
+- an instance of the class does have its first letter in lower case
+- each public class or method should be documented with Javadoc syntax
+
 ----------------
 4 - Help wanted!
 ----------------
