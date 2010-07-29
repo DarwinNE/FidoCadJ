@@ -1710,27 +1710,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         return PCB_thickness;
     }
-    
-    private void rectangle(Graphics g, int x1, int y1, int x2, int y2)
-    {
-        g.drawLine(x1, y1, x1, y2);
-        g.drawLine(x1, y2, x2, y2);
-        g.drawLine(x2, y2, x2, y1);
-        g.drawLine(x2, y1, x1, y1);
-        
-    }
-    
-    private void ellipse(Graphics g, int x1, int y1, int x2, int y2)
-    {
-        int xa=Math.min(x1,x2);
-        int ya=Math.min(y1,y2);
-        int xb=Math.max(x1,x2);
-        int yb=Math.max(y1,y2);
-        
-        g.drawOval(xa,ya,(xb-xa),(yb-ya));
-        
-    }
-    
+     
     /** Shows a dialog which allows the user modify the parameters of a given
     	primitive.
     
@@ -1758,6 +1738,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         }
     }
     
+    /** Select the closest object to the given point (in logical coordinates)
+    	and pop up a dialog for the editing of its properties
+    	
+    	@param x the x logical coordinate of the point used for the selection
+    	@param y the y logical coordinate of the point used for the selection
+    
+    */
     private void selectAndSetProperties(int x, int y)
     {
         MapCoordinates sc=P.getMapCoordinates();
@@ -1793,6 +1780,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         return extStrict;
     }
     
+    /** Round the specified number to the specified number of decimal digits.
+    
+    	@param n the number to be represented
+ 		@param ch the number of decimal digits to be retained
+ 		@return a string containing the result
+    
+    */
     private String roundTo(double n, int ch)
     {
         return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));

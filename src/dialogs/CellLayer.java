@@ -37,7 +37,15 @@ public class CellLayer extends JPanel
     private JList list;
     private boolean isSelected;
     private LayerDesc layer;
-       
+    
+    /** Constructor. The user should provide the list in which the element is 
+    	used, information about the layer as well as the selection 
+    	state
+    
+    	@param la the layer to be used
+    	@param l the JList in which the element is used
+    	@param is the selection state which will be used for the background
+    */
     CellLayer(LayerDesc la, JList l, boolean is)
     {
         layer=la;
