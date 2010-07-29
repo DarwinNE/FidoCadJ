@@ -39,7 +39,14 @@ public class CellArrow extends JPanel
 	private JList list;
 
 	
-	
+	/** Constructor. The user should provide the list in which the element is 
+    	used, information about the arrow style as well as the selection 
+    	state
+    
+    	@param la the arrow style to be used
+    	@param l the JList in which the element is used
+    	@param is the selection state which will be used for the background
+    */
 	CellArrow(ArrowInfo la,JList l, boolean is)
 	{
 		arrow=la;

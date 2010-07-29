@@ -49,20 +49,30 @@ Version   Date           Author       Remarks
 public class Globals 
 {
 
-    public static ResourceBundle messages;             // message bundle
-    public static int shortcutKey;		// shortcut key to be used:
-    							// META (Command) for Mac
-    							// CTRL elsewhere
-    							
+	// message bundle
+    public static ResourceBundle messages;
+    
+    // shortcut key to be used:
+    public static int shortcutKey;		
+   	// META (Command) for Macintoshes
+    // CTRL elsewhere
+    
+    // This may be interesting on Macintoshes
     public static boolean useMetaForMultipleSelection;
-   	public static boolean useNativeFileDialogs; 	// Native file dialogs are 
-   								// far better on MacOSX than Linux
+    
+    // Native file dialogs are far better on MacOSX than Linux
+   	public static boolean useNativeFileDialogs; 	
    								
-   	public static boolean weAreOnAMac; // We are on a Mac!!!
-   	public static boolean quaquaActive; // Quaqua is a better Mac L&F
+   	// We are on a Mac!!!
+   	public static boolean weAreOnAMac; 
+   	
+   	// Quaqua is a better Mac L&F
+   	public static boolean quaquaActive; 
     
-    
+    // Track the total number of FidoCadJ open windows
     public static int openWindows;
+    
+    // A pointer to the active window
     public static JFrame activeWindow;
  
     
@@ -79,11 +89,13 @@ public class Globals
     public static double diameterConnection = diameterConnectionDefault; 
     
   								
+    // Version. This is shown in the main window title bar
+    public static final String version = "0.23.4 beta";
+    // Is it a beta version?
+    public static final boolean isBeta = true;		
     
-    public static final String version = "0.23.4 alpha";    	// version
-    public static final boolean isBeta = true;		// is it a beta version?
-    
-    public static final String DEFAULT_EXTENSION = "fcd";	// Extension
+    // The default file extension
+    public static final String DEFAULT_EXTENSION = "fcd";	
     
     // The default font
     public static final String defaultTextFont = "Courier New";
