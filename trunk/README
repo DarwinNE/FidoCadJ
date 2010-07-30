@@ -57,7 +57,7 @@ profile                     launch a profiler (jip)
 rebuild                     do a clean and then runs FidoCadJ
 run                         run FidoCadJ
 src                         contains all the Java source files
-exclude_from_svn			excludes all binary generated files from svn
+exclude_from_svn            excludes all binary generated files from svn
 sign.sh                     creates the signature for the applet
 
 --------------------------------------------------
@@ -93,7 +93,7 @@ You need to edit a little the following file:
 
 fidocadj/trunk/src/FidoMain.java
 
-You should search the following lines (around line 306 and something):
+You should search the following lines (around line 304 and something):
 
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.
@@ -129,7 +129,8 @@ code:
         System.out.println("I counted up to "+i);
     }	// close brace here at the same level of the 'if'
 	
-- methods are indented as follows
+- methods are indented as follows:
+
     void dummy (int i, int j) 
     {   // put the starting brace here
         System.out.println("Indent code");
@@ -137,7 +138,7 @@ code:
 
 - the class names are always capitalized, and so does methods
 - an instance of the class does have its first letter in lower case
-- each public class or method should be documented with Javadoc syntax
+- each public class and method should be documented with Javadoc syntax
 
 ----------------
 4 - Help wanted!
