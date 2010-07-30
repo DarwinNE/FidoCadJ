@@ -111,6 +111,9 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		recalcSize=true;
 	}
 
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private	AffineTransform at;
 	private AffineTransform stretching;
 	private AffineTransform ats;

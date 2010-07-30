@@ -66,6 +66,7 @@ public class PrimitiveConnection extends GraphicPrimitive
 	/** Create a connection in the given point.
 		@param x the x coordinate (logical unit) of the connection.
 		@param y the y coordinate (logical unit) of the connection.
+		@param layer the layer to be used.
 		
 	*/
 	
@@ -85,6 +86,10 @@ public class PrimitiveConnection extends GraphicPrimitive
 		
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int x1, y1, xa, ya, ni;
 	private double nn;
 	/** Draw the graphic primitive on the given graphic context.

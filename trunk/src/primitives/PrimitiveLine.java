@@ -52,9 +52,18 @@ public class PrimitiveLine extends GraphicPrimitive
 	
 	private int dashStyle;
 
-	/** Standard constructors
+	/** Constructor
+		@param x1		the x coordinate of the start point of the line
+		@param y1		the y coordinate of the start point of the line
+		@param x2		the x coordinate of the end point of the line
+		@param y2		the y coordinate of the end point of the line
+		@param layer	the layer to be used
+		@param arrowS	true if there is an arrow at the beginning of the line
+		@param arrowE	true if there is an arrow at the end of the line 
+		@param arrowSt	style of the arrow
+		@param arrowLe	length of the arrow
+		@param arrowWi	width of the arrow
 	*/
-	
 	public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
 						boolean arrowS, boolean arrowE,
 						int arrowSt, int arrowLe, int arrowWi, int dashSt)
@@ -222,6 +231,10 @@ public class PrimitiveLine extends GraphicPrimitive
 		
 	*/
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int xa, ya, xb, yb;
 	private int x1, y1,x2,y2; 	
 	private int h,l;
@@ -284,16 +297,20 @@ public class PrimitiveLine extends GraphicPrimitive
 			ybpap1=(yb-ya)+1;
 		}
 
-		
+		// This is a trick. We skip drawing the line if it is too short.
 		if(length2>2) {
 			if(!g.hitClip(xa,ya, xbpap1,ybpap1))
  				return;
 			
+			
+			// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
+			// setting the stroke takes a lot of time!
 			if(!stroke.equals(g.getStroke())) 
 				g.setStroke(stroke);			
 				
 			g.drawLine(x1, y1, x2, y2);
 		
+			// Eventually, we draw the arrows at the extremes.
 			if (arrowStart || arrowEnd) {	
 				if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
 				if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);

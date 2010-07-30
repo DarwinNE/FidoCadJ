@@ -53,6 +53,8 @@ public class PrimitiveOval extends GraphicPrimitive
 		return N_POINTS;
 	}
 	
+	/** Standard constructor.
+	*/
 	public PrimitiveOval()
 	{
 		super();
@@ -63,13 +65,14 @@ public class PrimitiveOval extends GraphicPrimitive
 			virtualPoint[i]=new Point();
 		
 	}
-	/** Create an oval defined by two points
+	/** Create an oval defined by two points.
 		@param x1 the start x coordinate (logical unit).
 		@param y1 the start y coordinate (logical unit).
 		@param x2 the end x coordinate (logical unit).
 		@param y2 the end y coordinate (logical unit).
-		@param f specifies if the ellipse should be filled 
+		@param f specifies if the ellipse should be filled. 
 		@param layer the layer to be used.
+		@param dashSt the style of the dashing to be used.
 		
 	*/
 	
@@ -92,6 +95,10 @@ public class PrimitiveOval extends GraphicPrimitive
 		
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int xa, ya, xb, yb;
 	private int x1, x2, y1, y2;
 	private Stroke stroke;
@@ -118,7 +125,7 @@ public class PrimitiveOval extends GraphicPrimitive
  			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 
-
+			// Sort the coordinates
  			if (x1>x2) {
  				xa=x2;
  				xb=x1;
@@ -152,6 +159,8 @@ public class PrimitiveOval extends GraphicPrimitive
 		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
  			return;
  		
+		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
+		// setting the stroke takes a lot of time!
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);
 				
