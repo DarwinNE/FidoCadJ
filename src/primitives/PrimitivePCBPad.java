@@ -112,7 +112,10 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		return true;
 	}
 
-
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
 	private int rrx2, rry2, rix2, riy2;
 	

@@ -208,6 +208,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		return macroFontSize;
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int z;
 	private int xa, ya, xb, yb;
 	// Text sizes in pixels

@@ -146,6 +146,10 @@ public class PrimitivePolygon extends GraphicPrimitive
  		height = ymax-ymin;
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private Stroke stroke;
 	private float w;
 	/** Draw the graphic primitive on the given graphic context.
@@ -178,6 +182,8 @@ public class PrimitivePolygon extends GraphicPrimitive
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
 
+		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
+		// setting the stroke takes a lot of time!
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 

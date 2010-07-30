@@ -232,6 +232,10 @@ public class PrimitiveBezier extends GraphicPrimitive
 			dashStyle=0;
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private Shape shape1;
 	private Stroke stroke;
 	private float w;

@@ -54,6 +54,8 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		return N_POINTS;
 	}
 	
+	/** Standard constructor.
+	*/
 	public PrimitivePCBLine()
 	{
 		super();
@@ -88,6 +90,9 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		setLayer(layer);
 	}
 	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int xa, ya, xb, yb;
 	private int x1, y1,x2,y2; 		
 	private int wi_pix;

@@ -49,12 +49,13 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
 	}
 	
+	/** Standard constructor.
+	*/
 	public PrimitiveRectangle()
 	{
 		super();
@@ -96,6 +97,10 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		
 	}
 	
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
 	private int xa, ya, xb, yb;
 	private int x1, y1,x2,y2; 		
 	private Stroke stroke;
@@ -123,7 +128,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
  			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 
- 		
+ 			// Sort the coordinates.
  			if (x1>x2) {
  				xa=x2;
  				xb=x1;
@@ -138,10 +143,12 @@ public class PrimitiveRectangle extends GraphicPrimitive
  				ya=y1;
  				yb=y2;
  			}
- 						
+ 			// Calculate the stroke width
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
 			if (w<D_MIN) w=D_MIN;
 
+			// Check if we need to create a dashed stroke and fabricate the
+			// stroke style with the good characteristics
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
@@ -151,12 +158,15 @@ public class PrimitiveRectangle extends GraphicPrimitive
 				stroke=new BasicStroke(w);		
 		}
 		
-		
+		// If we do not need to perform the drawing, exit immediately		
         if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
  			return;
 
+		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
+		// setting the stroke takes a lot of time!
 		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke); 			
+			
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 
  			// Java api is to skip the rightmost and bottom pixels 
