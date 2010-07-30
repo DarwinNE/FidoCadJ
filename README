@@ -139,6 +139,7 @@ code:
 - the class names are always capitalized, and so does methods
 - an instance of the class does have its first letter in lower case
 - each public class and method should be documented with Javadoc syntax
+- no lines longer than 80 characters
 
 ----------------
 4 - Help wanted!

@@ -309,15 +309,12 @@ class FidoMain {
             	a.answerFinder();
         	}
 
-
             // Here we create the main window object
         
 	        FidoFrame popFrame=new FidoFrame(true);
-
         
         	if (!libDirectory.equals("")) {
 				popFrame.libDirectory = libDirectory;
-
         	}
 
         	popFrame.init();
@@ -396,8 +393,7 @@ class FidoMain {
 		@param englishLibraries a flag to specify if the internal libraries 
 			should be loaded in English or in Italian.
 		@param libDirectory the path of the external directory.
-		
-	
+
 	*/
 	public static void readLibraries(ParseSchem P, boolean englishLibraries, String libDirectory)
 	{
