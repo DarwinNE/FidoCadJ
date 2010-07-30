@@ -58,7 +58,9 @@ public class FidoReadApplet extends JApplet
 	Color backgroundColor;
     JScrollPane SC;
 
-
+	/** Init the applet
+	
+	*/
 	public void init()
 	{
 		backgroundColor=Color.white;
@@ -71,24 +73,25 @@ public class FidoReadApplet extends JApplet
 		CC.antiAlias=true;
 		
         // Reads the standard libraries
-        CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/IHRAM.FCL"), "ihram");
- 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/FCDstdlib.fcl"), "");
- 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource("lib/PCB_en.fcl"), "pcb");
+        CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+        	"lib/IHRAM.FCL"), "ihram");
+ 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+ 			"lib/FCDstdlib.fcl"), "");
+ 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+ 			"lib/PCB_en.fcl"), "pcb");
 	
 		ArrayList layerDesc=CreateLayersNoDescription();
         CC.P.setLayers(layerDesc);
 
 		Container contentPane;
 		contentPane=getContentPane();
-  			
-		//getRootPane().setOpaque(true);
-		//getLayeredPane().setOpaque(true);
-		//((JComponent)getContentPane()).setOpaque(true);
 		
         contentPane.add(SC,"Center");
-
 	}
 	
+	/** Create the array containing the layers (without their description)
+	
+	*/
 	public static ArrayList CreateLayersNoDescription()
 	{
 			// Create the layer array
@@ -114,6 +117,11 @@ public class FidoReadApplet extends JApplet
         return LayerDesc;
 	}
 	
+	/** Draw the schematic
+	
+		@param c the string containing the circuit to be drawn
+		@param zoom the wanted zoom (pixels per logical unit).
+	*/
 	public void trace(String c, int zoom)
 	{
 		CC.P.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
@@ -125,20 +133,28 @@ public class FidoReadApplet extends JApplet
 		}
 		repaint();
 		getToolkit().sync();
-
-		
 	}
 	
+	/** Set or reset the anti aliasing option
+	
+	*/
 	public void setAntiAlias(boolean aa)
 	{
 		CC.antiAlias=aa;
 	}
 
+	/** Set the profiler
+	
+	*/
 	public void setProfileTime(boolean pp)
 	{	
 		CC.profileTime=pp;
 	}
 	
+	/** Set the background color.
+		@param the color code (see the old MS-DOS color codes).
+	
+	*/
 	public void backColor(int color)
 	{
 		switch(color){
