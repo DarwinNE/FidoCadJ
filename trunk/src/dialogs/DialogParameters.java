@@ -91,6 +91,10 @@ public class DialogParameters extends JDialog implements ComponentListener
   		
   		int ycount=0;
   		
+  		// We create dynamically all the needed elements.
+  		// For this reason, we work on arrays of the potentially useful Swing
+  		// objects.
+  		
   		jtf=new JTextField[MAX_ELEMENTS];
   		jcb=new JCheckBox[MAX_ELEMENTS];
   		jco=new JComboBox[MAX_ELEMENTS];
@@ -115,6 +119,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 		cc=0;
 		co=0;
 		
+		// We process all parameter passed. Depending on its type, a 
+		// corresponding interface element will be created.
+		// A symmetrical operation is done when validating parameters.
+		
 		for (ycount=0;ycount<v.size();++ycount) {
 			if (ycount>MAX)
 				break;
@@ -122,7 +130,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 			pd = (ParameterDescription)v.elementAt(ycount);
 			
 			
-				
+			// We do not need to store label objects, since we do not need
+			// to retrieve data from them.
+			
 			lab=new JLabel(pd.description);
 			constraints.weightx=100;
 			constraints.weighty=100;
@@ -130,10 +140,14 @@ public class DialogParameters extends JDialog implements ComponentListener
 			constraints.gridy=ycount;
 			constraints.gridwidth=1;
 			constraints.gridheight=1;
+			
+			// The first element needs a little bit more space at the top.
 			if(ycount==0) 
 				top=10;
 			else
 				top=0;
+			
+			// Here we configure the grid layout
 			
 			constraints.insets=new Insets(top,20,0,6);
 			
@@ -149,6 +163,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 			constraints.insets=new Insets(top,0,0,0);
  			constraints.fill = GridBagConstraints.HORIZONTAL;
 
+			// Now, depending on the type of parameter we create interface
+			// elements and we populate the dialog.
+			
 			if(pd.parameter instanceof Point) {
 				jtf[tc]=new JTextField(10);
 				jtf[tc].setText(""+((Point)(pd.parameter)).x);
@@ -341,6 +358,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 					cc=0;
 					co=0;
 					
+					// Here we read all the contents of the interface and we
+					// update the contents of the parameter description array.
+					
 					for (ycount=0;ycount<v.size();++ycount) {
 						if (ycount>MAX)
 							break;
@@ -370,6 +390,10 @@ public class DialogParameters extends JDialog implements ComponentListener
      				}
 				} catch (NumberFormatException E) 
 				{
+					// Error detected. Probably, the user has entered an 
+					// invalid string when FidoCadJ was expecting a numerical
+					// input.
+					
 					JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("Format_invalid"),
                         "",

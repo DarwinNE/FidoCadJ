@@ -36,7 +36,7 @@ Version   Date           Author       Remarks
 1.0     January 2008        D. Bucci    First working version
 2.0     May 2008            D. Bucci    Editing possibilities
 2.1     July 2008           D. Bucci    A few nice enhancements
-2.2     February 2009       D. Bucci    Aquified 
+2.2     February 2009       D. Bucci    Aquafied 
 2.2.1   October 2009        D. Bucci    Force Win L&F when run on Windows
 2.2.3   December 2009       D. Bucci    Print as landscape possible
 2.3     March 2010          D. Bucci    Several improvements
@@ -186,7 +186,8 @@ public class FidoFrame extends JFrame implements
                 // If it does not work, try to use the standard English
                 Globals.messages = ResourceBundle.getBundle("MessagesBundle",
                     new Locale("en", "US"));
-                System.out.println("No locale available, sorry... interface will be in English");
+                System.out.println("No locale available, sorry... "+
+                	"interface will be in English");
             } catch(MissingResourceException mre1) {
                 // Give up!!!
                 JOptionPane.showMessageDialog(null,
@@ -201,7 +202,8 @@ public class FidoFrame extends JFrame implements
         // No! It is actually need to make all the window movable when clicking
         // in the toolbar.
         
-        getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE);
+        getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
+        	Boolean.TRUE);
 
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
@@ -242,6 +244,8 @@ public class FidoFrame extends JFrame implements
         if (runsAsApplication) {
         	prefs = Preferences.userNodeForPackage(g.getClass());
 
+			// Read some startup preferences about the configuration of
+			// the program.
        		libDirectory = prefs.get("DIR_LIBS", "");
         	
         	openFileDirectory = prefs.get("OPEN_DIR", "");
@@ -252,16 +256,23 @@ public class FidoFrame extends JFrame implements
         	extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
         	extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
 
-        	splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", "false").equals("true");
-        	splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", "false").equals("true");
+        	splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", 
+        		"false").equals("true");
+        	splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", 
+        		"false").equals("true");
 
-       	 	Globals.lineWidth=Double.parseDouble(prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
-			Globals.lineWidthCircles=Double.parseDouble(prefs.get("STROKE_SIZE_OVAL", "0.35"));		
-			Globals.diameterConnection=Double.parseDouble(prefs.get("CONNECTION_SIZE", "2.0"));		
+       	 	Globals.lineWidth=Double.parseDouble(
+       	 		prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
+			Globals.lineWidthCircles=Double.parseDouble(
+				prefs.get("STROKE_SIZE_OVAL", "0.35"));		
+			Globals.diameterConnection=Double.parseDouble(
+				prefs.get("CONNECTION_SIZE", "2.0"));		
 			
         } else {
+        
+        	// If we can not access to the preferences, we inizialize those
+        	// configuration variables with default values.
         	libDirectory = "";
-        	
         	
         	openFileDirectory = "";
         	smallIconsToolbar = true;
@@ -289,22 +300,36 @@ public class FidoFrame extends JFrame implements
         // suppose that people are less uncomfortable with the current Internet
         // standard...
         
-        boolean englishLibraries = !currentLocale.getLanguage().equals(new Locale("it", "", "").getLanguage());
-        // Container contentPane=getContentPane();
+        boolean englishLibraries = !currentLocale.getLanguage().equals(new 
+        	Locale("it", "", "").getLanguage());
         
+        // This is useful if this is not the first time that libraries are 
+        // being loaded.
         CC.P.resetLibrary();
         
         if(runsAsApplication) {
     		FidoMain.readLibraries(CC.P, englishLibraries, libDirectory);
         } else {
+        	// This code is useful when FidoCadJ is used whithout having access
+        	// to the user file system, for example because it is run as an
+        	// applet. In this case, the only accesses will be internal to
+        	// the jar file in order to respect security restrictions.
         	if(englishLibraries) {
-        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+        		// Read the english version of the libraries
+        	    CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+        	    	"lib/IHRAM_en.FCL"), "ihram");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/FCDstdlib_en.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/PCB_en.fcl"), "pcb");
         	} else {
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
-            	CC.P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+        		// Read the italian version of the libraries
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/IHRAM.FCL"), "ihram");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/FCDstdlib.fcl"), "");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/PCB.fcl"), "pcb");
       		}
  		}
  		macroLib.updateLibraries(CC.P.getLibrary(), CC.P.getLayers());
@@ -661,7 +686,7 @@ public class FidoFrame extends JFrame implements
         SC.setFocusable(true);     
         if (true){
             /*  Add a window listener to close the application when the frame is
-                closed. This behaviour is platform dependent, for example a 
+                closed. This behavior is platform dependent, for example a 
                 Macintosh application can be made run without a visible frame.
                 There would anyway the need to customize the menu bar, in order 
                 to allow the user to open a new FidoFrame, when it has been
@@ -740,7 +765,7 @@ public class FidoFrame extends JFrame implements
                 
                 // It is important that we force a complete recalculation of 
                 // all details in the drawing, otherwise the buffered setup
-                // will not be resposive to the changes in the layer editing.
+                // will not be responsive to the changes in the layer editing.
                 
                 CC.P.setChanged(true);
                 repaint();
@@ -753,6 +778,8 @@ public class FidoFrame extends JFrame implements
                 dp.setBW(exportBlackWhite);
                 dp.setLandscape(printLandscape);
                 dp.setVisible(true);
+                
+                // Get some information about the printing options.
                 printMirror = dp.getMirror();
                 printFitToPage = dp.getFit();
                 printLandscape = dp.getLandscape();
@@ -762,7 +789,12 @@ public class FidoFrame extends JFrame implements
                 if (dp.shouldPrint()) {
                     if(exportBlackWhite) {
                         ArrayList v=new ArrayList();
-                        for (int i=0; i<16;++i)
+                        
+                        // Here we create an alternative array of layers in 
+                        // which all colors are pitch black. This may be
+                        // useful for PCB's.
+                        
+                        for (int i=0; i<Globals.MAX_LAYERS;++i)
                             v.add(new LayerDesc(Color.black, 
                                 ((LayerDesc)ol.get(i)).getVisible(),
                                 "B/W",((LayerDesc)ol.get(i)).getAlpha()));
@@ -775,7 +807,10 @@ public class FidoFrame extends JFrame implements
                     if (ok) {
                         try {
                         
-                            PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                            PrintRequestAttributeSet aset = new 
+                            	HashPrintRequestAttributeSet();
+                            
+                            // Set the correct printing orientation.
                             if (!printLandscape) {
                                 aset.add(OrientationRequested.PORTRAIT);
                             } else {
@@ -1159,8 +1194,8 @@ public class FidoFrame extends JFrame implements
 
 	/** This routine is called when a drag and drop of an useful file is done
 		on an open instance of FidoCadJ. The difficulty is that depending on
-		the operating system flavour, the files are handled differently. 
-		For that reason, we check a few things and we need to differenciate
+		the operating system flavor, the files are handled differently. 
+		For that reason, we check a few things and we need to differentiate
 		several cases.
 	
 	*/
@@ -1294,9 +1329,7 @@ public class FidoFrame extends JFrame implements
     
     /** Open the current file
     
-    
     */
-    
     public void openFile() 
         throws IOException
     {
@@ -1334,6 +1367,7 @@ public class FidoFrame extends JFrame implements
                         
         mi.setMagnitudes(Z,Z);
         CC.P.setMapCoordinates(mi);
+        
         CC.P.saveUndoState();
         CC.P.setModified(false);
 
@@ -1344,9 +1378,7 @@ public class FidoFrame extends JFrame implements
     	This routine makes use of the standard dialogs (either the Swing or the
     	native one, depending on the host operating system), in order to let 
     	the user choose a new name for the file to be saved.
-    
     */
-    
     void SaveWithName()
     {
         String fin;
@@ -1400,8 +1432,7 @@ public class FidoFrame extends JFrame implements
             din=fc.getSelectedFile().getParentFile().getPath();
                 
         }
-                
-                
+                 
         if(fin!= null) {
             CC.P.openFileName= 
             	Globals.createCompleteFileName(din, fin);
@@ -1603,7 +1634,6 @@ public class FidoFrame extends JFrame implements
     */
     public void somethingHasChanged()
     {
-        
         if (Globals.weAreOnAMac) {
 			
 			// Apparently, this does not work as expected in MacOSX 10.4 Tiger.
@@ -1642,12 +1672,11 @@ public class FidoFrame extends JFrame implements
     */
     public void windowLostFocus(WindowEvent e) 
     {
-    
     }
 }
 
 /** This class (currently not used) implements a sliding ruler which could be
-	possibly used in conjunction with the scroll panel used for the wiewing 
+	possibly used in conjunction with the scroll panel used for the viewing 
 	area.
 
 */
