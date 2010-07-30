@@ -408,18 +408,22 @@ public class DialogExport extends JDialog implements ComponentListener
         {
             public void actionPerformed(ActionEvent evt)
             {
-
+				// Open the browser in order to let the user select the file
+				// name on which export
                 
                 if(Globals.useNativeFileDialogs) {
+                
+                	// Native file dialog
                     FileDialog fd = new FileDialog(parent, 
                     Globals.messages.getString("Select_file_export"),
                                                FileDialog.SAVE);
                     String filen;
                 
+                	// Set defaults and make visible.
                     fd.setDirectory(new File(fileName.getText()).getPath());
                     fd.setVisible(true);
                 
-                        
+                    // The user has selected a file.
                     if(fd.getFile() != null) {
                         filen=Globals.createCompleteFileName(
                             fd.getDirectory(),
@@ -428,6 +432,7 @@ public class DialogExport extends JDialog implements ComponentListener
                     }
             
                 } else {
+                	// Swing file dialog
                     JFileChooser fc = new JFileChooser(
                         new File(fileName.getText()).getPath());
                     int r = fc.showSaveDialog(null);

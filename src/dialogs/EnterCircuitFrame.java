@@ -52,6 +52,8 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 
     private JTextArea textArea;
     
+    /** Impose a minimum size for this dialog.
+    */
     public void componentResized(ComponentEvent e) 
     {
         int width = getWidth();

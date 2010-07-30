@@ -30,11 +30,18 @@ import primitives.*;
     */
 public class DashInfo 
 {
+	// Here we store the dash style
     public int style;
     
+    /** Creator.
+    	@param l the style to be stored
+    */
     public DashInfo(int i)
     { style=i; }
     
+    /** Retrieve the style.
+    	@return the style.
+    */
     public int getStyle()
     { return style; }
 }

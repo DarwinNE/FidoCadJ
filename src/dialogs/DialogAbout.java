@@ -48,6 +48,7 @@ Version   Date           Author       Remarks
     
 public class DialogAbout extends JFrame implements ComponentListener 
 {
+	// The minimu size in pixels.
     private static final int MIN_WIDTH=300;
     private static final int MIN_HEIGHT=250;
     
