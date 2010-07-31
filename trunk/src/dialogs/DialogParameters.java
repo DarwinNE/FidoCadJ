@@ -16,16 +16,7 @@ import dialogs.*;
 	automagically.
 
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           	Author       Remarks
-------------------------------------------------------------------------------
-1.0     June 2008      		D. Bucci  	First working version
-1.2		June 2009			D. Bucci 	Capitalize the first letters 
-1.3		December 2009		D. Bucci	A few new type of fields
-
-                                     
+   
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -128,7 +119,6 @@ public class DialogParameters extends JDialog implements ComponentListener
 				break;
 				
 			pd = (ParameterDescription)v.elementAt(ycount);
-			
 			
 			// We do not need to store label objects, since we do not need
 			// to retrieve data from them.
@@ -324,10 +314,8 @@ public class DialogParameters extends JDialog implements ComponentListener
 				constraints.fill = GridBagConstraints.HORIZONTAL;
 				jco[co].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jco[co++], constraints);
-
 			}
 		}
-	
 		// Put the OK and Cancel buttons and make them active.
 		JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
 		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -430,9 +418,7 @@ public class DialogParameters extends JDialog implements ComponentListener
   
   	/** Get a ParameterDescription vector describing the characteristics 
   		modified by the user.
-  		
   		@return a ParameterDescription vector describing each parameter.
-  	
   	*/
   	public Vector getCharacteristics()
   	{
@@ -465,5 +451,4 @@ public class DialogParameters extends JDialog implements ComponentListener
     public void componentHidden(ComponentEvent e) 
     {
     }
-
 }

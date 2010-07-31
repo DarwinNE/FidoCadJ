@@ -172,8 +172,7 @@ public class MacroTree extends JPanel
         if (node.isLeaf()) {
         	try {
             	MacroDesc macro = (MacroDesc)nodeInfo;
-            	//System.out.println(macro.description);
-            	//previewPanel.P.setMapCoordinates(new MapCoordinates());
+            	
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
@@ -198,7 +197,6 @@ public class MacroTree extends JPanel
 
   
 	/**	Create the library tree.
-	
 		@param top the top node
 	*/
     
@@ -208,7 +206,6 @@ public class MacroTree extends JPanel
 
         Iterator it = library.iterator();
         
-        	
 		Map categories = new HashMap();
 		Map libraries = new HashMap();
         DefaultMutableTreeNode library_i = null;
@@ -247,20 +244,11 @@ public class MacroTree extends JPanel
         			
         			libraries.put(val.library,library_i);
         		}
-        		
-        		
-        		//library.add(category);
-        		
-        		
-        		
         		category.add(macro);
         		categories.put(val.category+
         	    	"]"+val.library,category);
         	}
-        	
-        	
    		}
-
     }
     
     public void insertUpdate(DocumentEvent e)
@@ -302,32 +290,35 @@ public class MacroTree extends JPanel
     {  	
     }
     
+    /** Perform a search in the nodes of the macro tree
     
+    */
     private void searchAndSelect(String what, int[] start, boolean forward)
     {
-    	// Perform a search in the nodes of the macro tree
+    	
        	TreePath path=null;
        	
+       	if (what.trim().equals(""))
+       		return;
+       	
        	if(start[0]==0) {
+       		// collapse all rows of the tree and clear the selection
        		int r = tree.getRowCount() - 1;
    			while (r >= 1) {
       			tree.collapseRow(r);
       			--r;
       		}
-      		tree.clearSelection();
-      		
-      		
+      		tree.clearSelection();	
       	}
       	
-       	
-       	if (what.trim().equals(""))
-       		return;
-       	
+       	// Performs the search.
        	DefaultMutableTreeNode nn=searchNode(what, start, forward);
        	if (nn==null) {
-       		
+       		// Nothing found. Just exit quietly.
        		return ;
        	}
+       	
+       	// Something has been found. Expand and select the element.
         path=new TreePath(nn.getPath());
 		tree.scrollPathToVisible(path);
 		tree.setSelectionPath (path);
@@ -336,7 +327,8 @@ public class MacroTree extends JPanel
 
 
 	/** 
-	 * Inspired from: http://www.javareference.com/jrexamples/viewexample.jsp?id=99
+	 * Inspired from: 
+	 * http://www.javareference.com/jrexamples/viewexample.jsp?id=99
      * This method takes the node string and 
      * traverses the tree till it finds the node 
      * matching the string. If the match is found  
@@ -408,10 +400,8 @@ public class MacroTree extends JPanel
                 	return oldnode;
                 }
         	}
-        }
-		         
+        }        
         // Node not found
         return null; 
     } 
-	
 }

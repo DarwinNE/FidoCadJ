@@ -32,7 +32,11 @@ public class MacroDesc {
 	public String library;
 	
 	/** Standard constructor. Give the macro's name, description and cathegory 
-		
+		@param ke the key to be used
+		@param na the name of the macro
+		@param de the description of the macro (the list of commands)
+		@param cat the category of the macro
+		@param lib the library name
 	*/
 	public MacroDesc(String ke, String na, String de, String cat, String lib)
 	{

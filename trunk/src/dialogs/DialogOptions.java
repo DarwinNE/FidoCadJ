@@ -9,29 +9,11 @@ import java.io.*;
 import globals.*;
 import dialogs.*;
 
-/** DialogOptions.java v.1.8
-
-	The dialogOptions class implements a modal dialog, which allows the user to 
+/** The dialogOptions class implements a modal dialog, which allows the user to 
 	choose which circuit drawing options (size, anti aliasing, profiling) should
 	be activated.
 
   <pre>
-
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007		D. Bucci    First working version
-1.1		January 2008		D. Bucci	Internationalized
-1.2  	May 2008			D. Bucci	Grid handling
-1.3		July 2008			D. Bucci	Library dir selection
-1.4	    August 2008		    D. Bucci	Icon size and text 
-1.5     January 2009        D. Bucci    FCJ extensions
-1.6		February 2009		D. Bucci	Tabbed view
-										Quaqua options
-1.7		June 2009			D. Bucci 	Capitalize the first letters 
-1.8		November 2009		D. Bucci	Select macro font
 
                                      
 	This file is part of FidoCadJ.

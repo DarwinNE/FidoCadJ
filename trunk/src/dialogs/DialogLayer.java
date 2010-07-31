@@ -8,23 +8,11 @@ import java.util.*;
 import globals.*;
 import layers.*;
 
-/** dialogLayer.java v.1.1
-
-   List and choose the layer to be edited.
-   The class dialogLayer allows to choose which layers should be displayed,
+/** List and choose the layer to be edited.
+    The class dialogLayer allows to choose which layers should be displayed,
     on which color and characteristics.
 
-   
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007       D. Bucci    First working version
-1.1     January 2008        D. Bucci    Internazionalized version
-1.2     June 2009           D. Bucci    Capitalize the first letters                                     
-
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -42,21 +30,22 @@ Version   Date           Author       Remarks
 
     Copyright 2007-2009 by Davide Bucci
 </pre>
-
-    
     @author Davide Bucci
-    @version 1.2 June 2009
     
-    */
+*/
     
 public class DialogLayer extends JDialog implements ComponentListener 
 {
+	// Miniumum size for the window.
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
     private ArrayList layers;
     public JList layerList;
     
+    /** Ensure that the dialog does not have a size smaller than the limits
+    	specified above.
+    */
     public void componentResized(ComponentEvent e) 
     {
         int width = getWidth();

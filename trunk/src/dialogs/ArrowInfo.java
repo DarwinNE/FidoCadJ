@@ -7,7 +7,6 @@ import primitives.*;
 
 
     @author Davide Bucci
-    @version 1.0 November 2009
     
     This file is part of FidoCadJ.
 

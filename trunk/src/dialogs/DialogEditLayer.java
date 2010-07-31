@@ -12,20 +12,8 @@ import javax.swing.colorchooser.*;
 import globals.*;
 import layers.*;
 
-/** DialogEditLayer.java v.1.3
-
-    The class dialogEditLayer allows to choose the style, visibility and
+/** The class dialogEditLayer allows to choose the style, visibility and
     description of the current layer.
-
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007       D. Bucci    First working version
-1.1     January 2008        D. Bucci    Internationalized
-1.2     June 2008           D. Bucci    Better resizing, OK/Cancel actions
-1.3     June 2009           D. Bucci    Capitalize the first letters                                     
 
 <pre>
     This file is part of FidoCadJ.
@@ -48,9 +36,7 @@ Version   Date           Author       Remarks
     
 
     @author Davide Bucci
-    @version 1.3 June 2009
-    
-    */
+*/
     
 public class DialogEditLayer extends JDialog implements ComponentListener
 {
@@ -116,9 +102,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         GridBagConstraints constraints=new GridBagConstraints();
         contentPane.setLayout(bgl);
         constraints.insets.right=30;
-
-       
-        tcc = new JColorChooser(l.getColor());
+	    tcc = new JColorChooser(l.getColor());
         
         constraints.weightx=100;
         constraints.weighty=100;
@@ -154,9 +138,8 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.WEST;     
         contentPane.add(description, constraints);
-
-
-        JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
+		
+		JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
 		constraints.weightx=100;
         constraints.weighty=0;
         constraints.gridx=1;
@@ -254,12 +237,9 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 
         pack();
         DialogUtil.center(this);
-
-    }
+	}
     
     /** Get the layer description as specified in the layer edit dialog
-    
-   
     */
     public void acceptLayer()
     {
@@ -275,7 +255,6 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     }
     
     /** Determine if the user selected the Ok button.
-    
         @return true if the user has quit the dialog box with the Ok button.
     */
     
@@ -283,6 +262,4 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     {
         return active;
     }
-    
- 
 }

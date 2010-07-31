@@ -10,25 +10,11 @@ import javax.imageio.*;
 import globals.*;
 
 
-/** DialogPrint.java v.1.3
-
-   Choose file format, size and options of the graphic exporting.
-   The class dialogPrint implements a modal dialog to select printing options.
+/** Choose file format, size and options of the graphic exporting.
+    The class dialogPrint implements a modal dialog to select printing options.
 	
 
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     February 2008		D. Bucci    First working version
-1.1		June 2008		    D. Bucci	A few more options
-1.2	    July 2008			D. Bucci	idem.
-1.3		June 2009			D. Bucci 	Capitalize the first letters                                     
-
-                                 
-
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -45,10 +31,9 @@ Version   Date           Author       Remarks
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 	Copyright 2007-2009 by Davide Bucci
-	
+</pre>
+
 	@author Davide Bucci
-	@version 1.3 June 2009
-	
 */
 	
 public class DialogPrint extends JDialog implements ComponentListener 
@@ -62,10 +47,7 @@ public class DialogPrint extends JDialog implements ComponentListener
 	private JCheckBox landscape_CB;
   	
   	private boolean export;		// Indicates that the export should be done
-  
-  
-  
-	/** Standard constructor: it needs the parent frame.
+  	/** Standard constructor: it needs the parent frame.
   		@param parent the dialog's parent
   	*/
   	public DialogPrint (JFrame parent)
@@ -211,18 +193,24 @@ public class DialogPrint extends JDialog implements ComponentListener
     {
     }
   	
-  
+  	/** Check if the drawing should be mirrored.
+  		@return true wether the mirroring should be done.
+  	*/
   	public boolean getMirror()
   	{
   		return mirror_CB.isSelected();
   	}
   	
-  	
+  	/** Check if the drawing should be fit to the page
+  		@return true wether the fitting should be done.
+  	*/
   	public boolean getFit()
   	{
   		return fit_CB.isSelected();
   	}
-  	
+  	/** Check if the page orientation should be landscape
+  		@return true wether the orientation is landscape.
+  	*/
   	public boolean getLandscape()
   	{
   		return landscape_CB.isSelected();
@@ -256,13 +244,10 @@ public class DialogPrint extends JDialog implements ComponentListener
   
   	/** Indicates that the printing should be done: the user selected the "ok"
   		button 
-  		
   		@return a boolean value which indicates if the printing should be done
   	*/
   	public boolean shouldPrint()
   	{
  		return export;
   	}  
-
-
 }

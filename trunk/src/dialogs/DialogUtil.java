@@ -7,19 +7,9 @@ import javax.swing.*;
 import globals.*;
 
 
-/* dialogUtil.java v.1.1
+/* 	Some routines useful with dialog windows.
 
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007		D. Bucci     First working version
-									 	part of code is based on a 
-									 	DrLaszloJamf post on the Sun Development
-									 	Network forum.
-1.1		June 2009			D. Bucci 	Capitalize the first letters                                     
-									 
+<pre>
 
 	This file is part of FidoCadJ.
 
@@ -37,6 +27,7 @@ Version   Date           Author       Remarks
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 	Copyright 2007-2009 by Davide Bucci
+</pre>
 */
 
 public class DialogUtil {

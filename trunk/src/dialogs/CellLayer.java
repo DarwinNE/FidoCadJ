@@ -11,7 +11,6 @@ import layers.*;
     and the description of each layer. To be used with LayerCellRenderer
 
     @author Davide Bucci
-    @version 1.0 December 2007
     
     <pre>
         This file is part of FidoCadJ.

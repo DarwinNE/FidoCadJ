@@ -10,20 +10,8 @@ import javax.imageio.*;
 import globals.*;
 
 
-/** DialogExport.java v.1.2
+/** Choose file format, size and options of the graphic exporting.
 
-   Choose file format, size and options of the graphic exporting.
-
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007       D. Bucci    First working version
-1.1     January 2008        D. Bucci    Internazionalized version
-1.2     June 2009           D. Bucci    Capitalize the first letters                                     
-
-                                     
 
 <pre>
     This file is part of FidoCadJ.

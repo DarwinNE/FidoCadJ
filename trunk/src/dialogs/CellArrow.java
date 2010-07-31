@@ -11,7 +11,6 @@ import primitives.*;
 	To be used with ArrowCellRenderer.
 
 	@author Davide Bucci
-	@version 1.0 December 2009
 	
 <pre>
     This file is part of FidoCadJ.
