@@ -51,7 +51,7 @@ import primitives.*;
 	Copyright 2008-2010 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.2, April 2010
+    @version 1.3, July 2010
 */
 
 public class ExportPGF implements ExportInterface {

@@ -12,7 +12,6 @@ import java.awt.geom.*;
     This is a static class.
     
     @author Davide Bucci
-    @version 1.0, October 2009
  
    <pre>
     This file is part of FidoCadJ.

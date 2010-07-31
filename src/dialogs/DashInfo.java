@@ -6,7 +6,6 @@ import primitives.*;
     in the automatic primitive characteristics dialog.
     
     @author Davide Bucci
-    @version 1.0 November 2009
     
     <pre>
     This file is part of FidoCadJ.

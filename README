@@ -140,6 +140,7 @@ code:
 - an instance of the class does have its first letter in lower case
 - each public class and method should be documented with Javadoc syntax
 - no lines longer than 80 characters
+- commits should not break the build
 
 ----------------
 4 - Help wanted!
@@ -209,9 +210,10 @@ strings which need to be kept in place.
 This is very nice from you. We will be happy for that. You can manifest 
 yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
-in order to see if we can find an intersecton with FidoCadJ development 
-strategy. The idea is to keep work a little bit organized and know who does
-what.
+in order to see if we can find an intersecton between what you can do with 
+the FidoCadJ development strategy. The idea is to keep work a little bit 
+organized and know who does what. Have a peek to section 3.3 of this readme 
+file to see what coding style should be applied to the source code.
 
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get a HTML description of all classes used in FidoCadJ. You will find that

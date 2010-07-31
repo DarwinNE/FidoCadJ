@@ -16,12 +16,6 @@ import toolbars.*;
 Shows a rather standard "About" dialog. Nothing more exotic than showing the 
 nice icon of the program, its name as well as three lines of description.
 
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     February 2009       D. Bucci     First working version
 
 <pre>
     This file is part of FidoCadJ.
@@ -42,7 +36,6 @@ Version   Date           Author       Remarks
     Copyright 2007-2009 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.0 
     
 */
     

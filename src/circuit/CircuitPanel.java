@@ -15,23 +15,9 @@ import timer.*;
 import toolbars.*;
 import layers.*;
 
-/** 
-
-    Circuit panel: draw the circuit inside this panel. This is one of the most 
+/** Circuit panel: draw the circuit inside this panel. This is one of the most 
     important components, as it is responsible of all editing actions.
-
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     March 2007          D. Bucci     First working version
-1.1     December 2007       D. Bucci
-1.2     January 2008        D. Bucci     Internationalized
-2.0     May 2008            D. Bucci     Editing possibilities
-2.5     March 2010          D. Bucci
-
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -54,7 +40,6 @@ Version   Date           Author       Remarks
     the measurement of the time needed to draw the circuit.
     
     @author Davide Bucci
-    @version 2.5, March 2010
 */
 public class CircuitPanel extends JPanel implements MouseMotionListener,
                                              MouseListener,
@@ -1713,7 +1698,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
      
     /** Shows a dialog which allows the user modify the parameters of a given
     	primitive.
-    
     */
     private void setPropertiesForPrimitive()
     {
