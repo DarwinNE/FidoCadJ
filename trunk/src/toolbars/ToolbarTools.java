@@ -71,8 +71,9 @@ public class ToolbarTools extends JToolBar
     public ToolbarTools (boolean showText, boolean smallIcons) {
         
         String base;
-        setOpaque(false);
         
+        putClientProperty("Quaqua.ToolBar.style", "title");
+
         if(smallIcons)
         	base="icons16/";
         else
@@ -222,8 +223,20 @@ public class ToolbarTools extends JToolBar
         connection.addActionListener(this);
         pcbline.addActionListener(this);
         pcbpad.addActionListener(this);
-
-	
+        
+		selection.putClientProperty("Quaqua.Button.style","toolBarTab");
+		zoom.putClientProperty("Quaqua.Button.style","toolBarTab");
+		hand.putClientProperty("Quaqua.Button.style","toolBarTab");
+		line.putClientProperty("Quaqua.Button.style","toolBarTab");
+		advtext.putClientProperty("Quaqua.Button.style","toolBarTab");
+		bezier.putClientProperty("Quaqua.Button.style","toolBarTab");
+		polygon.putClientProperty("Quaqua.Button.style","toolBarTab");
+		ellipse.putClientProperty("Quaqua.Button.style","toolBarTab");
+		rectangle.putClientProperty("Quaqua.Button.style","toolBarTab");
+		connection.putClientProperty("Quaqua.Button.style","toolBarTab");
+		pcbline.putClientProperty("Quaqua.Button.style","toolBarTab");
+		pcbpad.putClientProperty("Quaqua.Button.style","toolBarTab");
+			
         add(selection);
         add(zoom);
         add(hand);
@@ -237,23 +250,9 @@ public class ToolbarTools extends JToolBar
         add(pcbline);
         add(pcbpad);
      	
-        add(Box.createGlue());
-		
-		// MacOSX Quaqua style settings
-		
+        add(Box.createGlue());		
 
-		selection.putClientProperty("Quaqua.Button.style","toolBarTab");
-		zoom.putClientProperty("Quaqua.Button.style","toolBarTab");
-		hand.putClientProperty("Quaqua.Button.style","toolBarTab");
-		line.putClientProperty("Quaqua.Button.style","toolBarTab");
-		advtext.putClientProperty("Quaqua.Button.style","toolBarTab");
-		bezier.putClientProperty("Quaqua.Button.style","toolBarTab");
-		polygon.putClientProperty("Quaqua.Button.style","toolBarTab");
-		ellipse.putClientProperty("Quaqua.Button.style","toolBarTab");
-		rectangle.putClientProperty("Quaqua.Button.style","toolBarTab");
-		connection.putClientProperty("Quaqua.Button.style","toolBarTab");
-		pcbline.putClientProperty("Quaqua.Button.style","toolBarTab");
-		pcbpad.putClientProperty("Quaqua.Button.style","toolBarTab");
+		
         setFloatable(false);
         setRollover(true);
     }

@@ -195,9 +195,8 @@ public class FidoFrame extends JFrame implements
                 System.exit(1);
             }
         }        
-             
-
-        // Apparently, this line allows a better Cocoa-like integration
+        
+        // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
         // No! It is actually need to make all the window movable when clicking
         // in the toolbar.
@@ -349,7 +348,7 @@ public class FidoFrame extends JFrame implements
         mt = new MyTimer();
         Container contentPane=getContentPane();
         
-		((JComponent)getContentPane()).setOpaque(true);
+		//((JComponent)getContentPane()).setOpaque(true);
 		
         CC=new CircuitPanel(true);
         CC.P.openFileName = new String();
@@ -451,8 +450,8 @@ public class FidoFrame extends JFrame implements
         // In MacOSX with Aqua, make sort that those buttons have a nice
         // rounded shape and appear like native components.
         
-        toolBar.putClientProperty("Quaqua.Button.style","title");
-        toolZoom.putClientProperty("Quaqua.Button.style","title");
+        //toolBar.putClientProperty("Quaqua.Button.style","title");
+        //toolZoom.putClientProperty("Quaqua.Button.style","title");
         
         b.add(toolBar);
 
@@ -683,7 +682,9 @@ public class FidoFrame extends JFrame implements
         CC.P.setHasChangedListener(this);
         
         CC.setFocusable(true);
-        SC.setFocusable(true);     
+        SC.setFocusable(true);   
+        
+        
         if (true){
             /*  Add a window listener to close the application when the frame is
                 closed. This behavior is platform dependent, for example a 
@@ -724,6 +725,12 @@ public class FidoFrame extends JFrame implements
         //pack();
         addWindowFocusListener(this);
         Globals.activeWindow=this;
+        
+        // This is WAY too invasive!!!
+        
+        //getRootPane().putClientProperty("apple.awt.draggableWindowBackground", 	
+        //	Boolean.TRUE);
+
         
     }
     
@@ -1637,7 +1644,7 @@ public class FidoFrame extends JFrame implements
         if (Globals.weAreOnAMac) {
 			
 			// Apparently, this does not work as expected in MacOSX 10.4 Tiger.
-			// Probably, those are MacOSX >= 10.5 Leopard features.
+			// Those are MacOSX >= 10.5 Leopard features.
 			// We thus leave also the classic Window-based asterisk when
 			// the file has been modified.
 			
