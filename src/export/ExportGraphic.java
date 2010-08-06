@@ -16,23 +16,13 @@ import layers.*;
 import geom.*;
 import circuit.*;
 
-/** ExportGraphic.java v.1.4
+/** ExportGraphic.java
 
 	Handle graphic export of a Fidocad file
 	This class should be used to export the circuit under different graphic
 	formats.
 	
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007	D. Bucci    First working version: format PNG
-1.1 	January 2008	D. Bucci	Internazionalized version
-1.2		June 2008 		D. Bucci	A few improvements
-1.3 	July 2008	    D. Bucci	A few more graphic formats
-1.4		January 2009	D. Bucci    Bug fixes
 
 	This file is part of FidoCadJ.
 
@@ -49,7 +39,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2010 by Davide Bucci
 </pre>   
   
 	@author Davide Bucci
@@ -159,7 +149,6 @@ public class ExportGraphic
 		
 		if (setSize) {
 			Dimension d = getImageSize(P, 1,false);
-		
 			d.width+=20;
 			d.height+=20;
    	 		//System.out.println(d);
@@ -288,10 +277,9 @@ public class ExportGraphic
     	int width;
 		int height;
 		// Unfortunately, to get the image size, we need to redraw it.	
-		// I do not like it, even if here we do not are in a speed sensitive
+		// I do not like it, even if here we are not in a speed sensitive
 		// context!
 		
-		P.setChanged(true);
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
 		
@@ -301,13 +289,9 @@ public class ExportGraphic
         // Create a graphics contents on the buffered image
 		MapCoordinates m=P.getMapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
-       	//m.setXCenter(0);
-       	//m.setYCenter(0);
        	m.resetMinMax();
        	P.setMapCoordinates(m);
-		//System.out.println("unitperpixel: "+unitperpixel);
-        
-        
+       	
         Graphics2D g2d = bufferedImage.createGraphics();
        	// force an in deep recalculation
        	P.setChanged(true);
@@ -328,7 +312,7 @@ public class ExportGraphic
 			height=m.getYMax();
 		}
 
-       	//System.out.println(m.toString());
+       	// System.out.println("width: "+width+ " height:"+height);
 			
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
@@ -353,7 +337,7 @@ public class ExportGraphic
     	int originx;
 		int originy;
 		// Unfortunately, to get the image size, we need to redraw it.	
-		// I do not like it, even if here we do not are in a speed sensitive
+		// I do not like it, even if here we are not in a speed sensitive
 		// context!
 		
 		P.setChanged(true);		
