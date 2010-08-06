@@ -4,24 +4,8 @@ import java.awt.*;
 /** MapCoordinates.java
 
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     March 2007      	D. Bucci    First working version
-1.1     December 2007   	D. Bucci    Slight optimization
-1.2     December 2007   	D. Bucci    Track the min/max coordinates in pixel
-                                     	Internal resolution increased
-1.2.1   January 2008    	D. Bucci    More flexible coordinate tracking                               
-1.3     May 2008        	D. Bucci    Grid snapping
-1.4		June 2009			D. Bucci 	Capitalize the first letters      
-1.5		November 2009		D. Bucci 	Added a toString method for testing
-1.6		May 2010			D. Bucci	Tweaked a little. Double prec. calc.
-
-    @author D. Bucci
-    @version 1.6, May 2010 
-                               
+    @author D. Bucci                               
+	
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -37,7 +21,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2010 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -332,7 +316,6 @@ public class MapCoordinates
     public final int mapX(int xc,int yc)
     {
     	return mapXi(xc, yc, true);
- 
     }
     
     /** Map the xc,yc coordinate given in the X pixel coordinate.
@@ -350,7 +333,7 @@ public class MapCoordinates
         if(track) {
         	if(ivx<xMin)
             	xMin=ivx;
-        	if(vx>xMax)
+        	if(ivx>xMax)
             	xMax=ivx;
        	}
        	
