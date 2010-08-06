@@ -7,8 +7,6 @@ import java.awt.image.*;
 import globals.*;
 
 
-
-
 /** Based on snippets on:
 http://jroller.com/pago/entry/improving_jscrollpane_with_mouse_based
 http://www.jroller.com/santhosh/entry/enhanced_scrolling_in_swing

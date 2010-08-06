@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
+import globals.*;
+
 
 /**
  * A text field for search/filter interfaces. The extra functionality includes
@@ -25,7 +27,6 @@ public class SearchField extends JTextField {
 
     private static final Border CANCEL_BORDER = new CancelBorder();
    
-
     private boolean sendsNotificationForEachKeystroke = false;
     private boolean showingPlaceholderText = false;
     private boolean armed = false;
@@ -33,6 +34,11 @@ public class SearchField extends JTextField {
 
     public SearchField(String placeholderText) {
         super(15);
+               
+        // putClientProperty("JTextField.variant", "search");
+		// putClientProperty("JTextField.Search.Prompt", placeholderText);
+   		putClientProperty("Quaqua.TextField.style","search");
+
         addFocusListener(new PlaceholderText(placeholderText));
         initBorder();
         initKeyListener();
@@ -44,13 +50,41 @@ public class SearchField extends JTextField {
         this("Search");
     }
 
-    
+    /** We need to override the paintComponent method. For some reason, 
+    	on MacOSX systems the background is not painted when the text field
+    	is rounded and appears like a standard search text field. This is 
+    	quite embarassing when using an unified toolbar style like in Leopard
+    	and Snow Leopard. For this reason, here we paint the background if 
+    	needed.
+    */
+    public void paintComponent(Graphics g)
+    {
+    	if(Globals.weAreOnAMac) {
+    	
+    		// This is useful only on Macintosh, since the text field shown is
+    		// rounded.
+    		Rectangle r = getBounds();
+    	
+    		int x = r.x+4;
+    		int y = r.y+4;
+    		int width = r.width-8;
+    		int height = r.height-8;
+      		g.setColor(getBackground());
+      		g.fillOval(x,y, height, height);
+      		g.fillOval(x+width-height,y, height, height);
+      		g.fillRect(x+height/2,y,width-height, height);
+      	}
+      	// Once the new background is drawn, we can proceed with the rest of
+      	// the component.
+		super.paintComponent(g);
+	}
 
     private void initBorder() {
           
         setBorder(new CompoundBorder(getBorder(),CANCEL_BORDER));
         //getBorder().setOpaque(true);
         //getContentPane().setOpaque(true);
+
         MouseInputListener mouseInputListener = new CancelListener();
         addMouseListener(mouseInputListener);
         addMouseMotionListener(mouseInputListener);
@@ -108,7 +142,6 @@ public class SearchField extends JTextField {
         }
 
         public void paintBorder(Component c, Graphics oldGraphics, int x, int y, int width, int height) {
-			super.paintBorder(c, oldGraphics, x, y, width, height);
             SearchField field = (SearchField) c;
             Graphics2D g = (Graphics2D) oldGraphics;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -117,7 +150,10 @@ public class SearchField extends JTextField {
             final int lensX = x;
             final int lensY = y;
             final int lensL = 12;
-      
+            
+           
+  			super.paintBorder(c, oldGraphics, x, y, width, height);
+
 			g.setColor(Color.GRAY);
 
 	

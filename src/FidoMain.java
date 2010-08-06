@@ -251,6 +251,11 @@ class FidoMain {
     	        System.setProperty("com.apple.macos.useScreenMenuBar","true");
         	    // This is for JVM < 1.5 It won't harm on higher versions.
             	System.setProperty("apple.laf.useScreenMenuBar","true"); 
+            	// This is for having the good application name in the menu
+            	System.setProperty(
+            		"com.apple.mrj.application.apple.menu.about.name", 
+            		"FidoCadJ");
+
 	            try { 
              
     	            //Globals.quaquaActive=true;

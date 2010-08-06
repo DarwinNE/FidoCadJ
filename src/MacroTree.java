@@ -119,7 +119,6 @@ public class MacroTree extends JPanel
 			November 2009: this solution seems to be rather effective :-)
 		*/
 		
-		search.putClientProperty("Quaqua.TextField.style","search");
 		topbox.add(search);
 		topbox.add(treeView);
 		

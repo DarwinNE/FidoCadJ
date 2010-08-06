@@ -80,8 +80,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.setMaximumSize(new Dimension (80,38));
         zoom.setMinimumSize(new Dimension (80,18));
 
-        setOpaque(false);
-
         zoom.setFocusable(false);
         
         zoomFit=new JButton(Globals.messages.getString("Zoom_fit"));
@@ -101,10 +99,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     
     	// MacOSX Quaqua informations
+    	putClientProperty("Quaqua.ToolBar.style", "title");
     	zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
 		showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
     	snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");
-    	    
+    	
         zoom.addActionListener(this);
         zoomFit.addActionListener(this);
         showGrid.addActionListener(this);

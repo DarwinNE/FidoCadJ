@@ -658,6 +658,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
+            if (evt.getClickCount() >= 2) {
+                selectAndSetProperties(x,y);
+                break;
+            }
             P.addPrimitive(new PrimitiveAdvText(sc.unmapXsnap(x),
                                         sc.unmapYsnap(y), 
                                         3,4,Globals.defaultTextFont,0,0,
