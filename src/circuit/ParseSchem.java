@@ -79,7 +79,6 @@ Version   Date           Author       Remarks
    Main parsing class 
     
     @author Davide Bucci
-    @version 2.9, May 2010
 */
 
 public class ParseSchem
@@ -1376,6 +1375,7 @@ public class ParseSchem
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);
         
+
         firstDrag=true;
         
         int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));

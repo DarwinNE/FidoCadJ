@@ -164,11 +164,20 @@ public class FidoFrame extends JFrame implements
     */
     public FidoFrame (boolean appl)
     {
-        	
         super("FidoCadJ "+Globals.version);
 		runsAsApplication = appl;
         currentLocale = Locale.getDefault();
+
+
+        // Those lines allow a better Cocoa-like integration
+        // under Leopard. Is it overridden by the use of the Quaqua L&F?
+        // No! It is actually need to make all the window movable when clicking
+        // in the toolbar.
         
+        getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
+        	Boolean.TRUE);
+
+        	
         // Uncomment to force FidoCadJ to use a certain locale
         //currentLocale = new Locale("fr", "FR");
         
@@ -196,13 +205,7 @@ public class FidoFrame extends JFrame implements
             }
         }        
         
-        // Those lines allow a better Cocoa-like integration
-        // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        // No! It is actually need to make all the window movable when clicking
-        // in the toolbar.
-        
-        getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
-        	Boolean.TRUE);
+
 
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
@@ -999,12 +1002,19 @@ public class FidoFrame extends JFrame implements
                 repaint();
             }
             if (arg.equals(Globals.messages.getString("Mirror_E"))) {
-                CC.P.mirrorAllSelected();
+                if(!CC.isEnteringMacro())
+                	CC.P.mirrorAllSelected();
+                else
+                	CC.mirrorMacro();               
                 repaint();
             }
             
             if (arg.equals(Globals.messages.getString("Rotate"))) {
-                CC.P.rotateAllSelected();
+                
+                if(!CC.isEnteringMacro())
+                	CC.P.rotateAllSelected();
+                else
+                	CC.rotateMacro();
                 repaint();
             }
             if (arg.equals(Globals.messages.getString("Macro_origin"))) {
