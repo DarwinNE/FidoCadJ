@@ -66,6 +66,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     public ToolbarZoom (ArrayList layers) 
     {
+    	putClientProperty("Quaqua.ToolBar.style", "title");
+
         zoom = new JComboBox();
         zoom.addItem("25%");
         zoom.addItem("50%");
@@ -99,7 +101,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     
     	// MacOSX Quaqua informations
-    	putClientProperty("Quaqua.ToolBar.style", "title");
     	zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
 		showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
     	snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");

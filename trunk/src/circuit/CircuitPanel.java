@@ -314,6 +314,37 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         });
     }
     
+    /** Determine wether the current primitive being added is a macro.
+    
+    */
+    public boolean isEnteringMacro()
+    {
+    	return ((primEdit !=null) && (primEdit instanceof PrimitiveMacro));
+    }
+    
+    /** Rotate the macro being edited around its first control point
+    
+    */
+    public void rotateMacro()
+    {
+    	if(primEdit instanceof PrimitiveMacro) {
+    		primEdit.rotatePrimitive(false, 
+    			primEdit.getFirstPoint().x, primEdit.getFirstPoint().y);
+    	}
+    	
+    }
+    
+    /** Mirror the macro being edited around the x coordinate of the first 
+    	control point.
+    
+    */
+    public void mirrorMacro()
+    {
+    	if(primEdit instanceof PrimitiveMacro) {
+    		primEdit.mirrorPrimitive(primEdit.getFirstPoint().x);
+    	}
+    	
+    }
     
     /** ChangeSelectionListener interface implementation 
     	@param s the selection state
@@ -490,7 +521,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int x = evt.getX();
         int y = evt.getY();
         requestFocusInWindow(); 
-        primEdit=null;
         
         String cmd;
         int i;
@@ -500,7 +530,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             clickNumber=NPOLY-1;
             
         coordinatesListener.changeInfos("");
-
+	
+		// We need to differentiate this case since when we are entering a
+		// macro, primEdit contains some useful hints about the orientation
+		// and the mirroring
+		if (actionSelected !=MACRO) 
+        	primEdit = null;
+        
               
         switch(actionSelected) {
         // No action: ignore
@@ -518,17 +554,20 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             
+            boolean toggle = false;
+            
             if(Globals.useMetaForMultipleSelection) {
-                    // I do not know if a Windows user would approve the key
-                    // used for multiple selections...
-                if(!evt.isMetaDown()) 
-                    P.deselectAll();
+                toggle = evt.isMetaDown();
             } else {
-                    // Indeed, they not! (F. Bertolazzi, from 0.20.4)
-                if(!evt.isControlDown()) 
-                    P.deselectAll();
+                toggle = evt.isControlDown();
             }
-                
+            
+            // Deselect primitives if needed.       
+
+            if(!toggle) 
+            	P.deselectAll();
+            
+    
             // Calculate a reasonable tolerance. If it is too small, we ensure
             // that it is rounded up to 2.
             int toll= sc.unmapXnosnap(x+SEL_TOLERANCE)-
@@ -536,15 +575,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             if (toll<2) toll=2;
             
-            // Select primitives if needed.                
-            if(Globals.useMetaForMultipleSelection) {
-                P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
-                            toll ,evt.isMetaDown());
-            } else {
-                P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
-                            toll,evt.isControlDown());
-            }
-                
+            
+            
+             P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
+             	toll, toggle);
             break;
         
         // Zoom state
@@ -852,13 +886,23 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	// the block try anyway.
             	
                 P.deselectAll();
+                
+                int orientation = 0;
+                boolean mirror = false;
+            	
+            	if (primEdit instanceof PrimitiveMacro)  {
+            		orientation = ((PrimitiveMacro)primEdit).getOrientation();
+					mirror = ((PrimitiveMacro)primEdit).isMirrored();
+            	}
+                
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), sc.unmapXsnap(x),
                     sc.unmapYsnap(y),macroKey,"", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
                     P.getMacroFont(),
-                    P.getMacroFontSize(), 0), true,true);
+                    P.getMacroFontSize(), orientation, mirror), true,true);
+                primEdit=null;
                 successiveMove=false;
                     
             } catch (IOException G) {
@@ -917,7 +961,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         // This is the newer code: if primEdit is different from null, it will
         // be drawn in the paintComponent event
-        primEdit = null;
+        // We need to differentiate this case since when we are entering a
+		// macro, primEdit contains some useful hints about the orientation
+		// and the mirroring
+        if (actionSelected !=MACRO) 
+        	primEdit = null;
         
         /*  MACRO ***********************************************************
             
@@ -933,13 +981,21 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         */
         if (actionSelected == MACRO) {
             try {
-                PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
+                int orientation = 0;
+                boolean mirror = false;
+            	
+            	if (primEdit instanceof PrimitiveMacro)  {
+            		orientation = ((PrimitiveMacro)primEdit).getOrientation();
+					mirror = ((PrimitiveMacro)primEdit).isMirrored();
+            	}
+            	
+            	PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
                     createEditingLayerArray(), cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
                     P.getMacroFont(),
-                    P.getMacroFontSize(), 0);
+                    P.getMacroFontSize(), orientation, mirror);
                 n.setDrawOnlyLayer(-1);
 				primEdit = n;
                 repaint();
@@ -1133,7 +1189,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         int py=evt.getY();
         
         ruler=false;
-
+		rulerStartX = px;
+        rulerStartY = py;
+        rulerEndX=px;
+        rulerEndY=py;
         boolean multiple=evt.isControlDown();
         
         if(Globals.useMetaForMultipleSelection)
@@ -1144,10 +1203,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             !evt.isShiftDown()) { 
             P.dragHandleStart(px, py, SEL_TOLERANCE,multiple);
         } else if(actionSelected == SELECTION){ // Right click during selection
-            rulerStartX = px;
-            rulerStartY = py;
-            rulerEndX=px;
-            rulerEndY=py;
+            
             ruler = true;
         }
         
@@ -1180,6 +1236,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         // Configure the graphic context for speed and disable anti aliasing
         // since it is not compatible with the XOR technique
         
+        /*
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
@@ -1188,6 +1245,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_DITHERING, 
                 RenderingHints.VALUE_DITHER_DISABLE);
+        */
         
         P.dragHandleDrag(this, g2d, px, py);
         

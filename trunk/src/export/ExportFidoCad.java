@@ -274,9 +274,8 @@ public class ExportFidoCad implements ExportInterface {
 		// name contains a dot
 		
 		if(macroName.indexOf(".")<0) {
-			//System.out.println("orientation: "+orientation);
 			out.write((new PrimitiveMacro(m, layerV, x, y, macroName, 
-		    name, xn, yn, value, xv, yv, font, fontSize, orientation/90)).toString(extensions));
+		    name, xn, yn, value, xv, yv, font, fontSize, orientation/90, isMirrored)).toString(extensions));
 			return true;
 		} 
 		// The macro will be expanded into primitives.

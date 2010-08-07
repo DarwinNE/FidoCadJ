@@ -115,10 +115,11 @@ public class PrimitiveMacro extends GraphicPrimitive
 			macro
 		@param macroS the size of the font
 		@param oo the macro orientation
+		@param mm the macro mirroring
 	*/	
 	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS,
-		 int oo)
+		 int oo, boolean mm)
 		throws IOException
 	{
 		super();
@@ -130,6 +131,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		changed=true;
 		macroFontSize = macroS;
 		o=oo;
+		m=mm;
 		
 		// A segment is defined by two points.
 		virtualPoint = new Point[N_POINTS];
@@ -143,11 +145,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 		virtualPoint[2].x=xv;
 		virtualPoint[2].y=yv;
 		
-		/*
-		virtualPoint[1].x=x+10;
-		virtualPoint[1].y=y+5;
-		virtualPoint[2].x=x+10;
-		virtualPoint[2].y=y+10;*/
 		name=na;
 		value=va;
 		
@@ -696,6 +693,23 @@ public class PrimitiveMacro extends GraphicPrimitive
 			return false;
 	}
 	
+	/** Get the macro orientation
+		@return the orientation. 
+	*/
+	public int getOrientation()
+	{
+		return o;
+	}
+	
+	/** Determine wether the macro is mirrored or not
+		@return true if the macro is mirrored
+	
+	*/
+	public boolean isMirrored()
+	{
+		return m;
+	}
+	
 	/** Rotate the primitive. For a macro, it is different than for the other
 		primitive, since we need to rotate its coordinate system.
 		@param bCounterClockWise specify if the rotation should be done 
@@ -713,6 +727,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 			o=(o+3)%4;
 		changed=true;
 	}
+	
 	
 	/** Mirror the primitive. For a macro, it is different than for the other
 		primitive, since we just need to toggle the mirror flag.
