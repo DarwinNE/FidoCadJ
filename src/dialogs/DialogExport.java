@@ -379,6 +379,7 @@ public class DialogExport extends JDialog implements ComponentListener
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(fileName, constraints);
+        fileName.setEditable(false);
         
         JButton browse=new JButton(Globals.messages.getString("Browse"));
         constraints.weightx=0;
@@ -427,15 +428,7 @@ public class DialogExport extends JDialog implements ComponentListener
                     if (r == JFileChooser.APPROVE_OPTION) {
                         fileName.setText(fc.getSelectedFile().toString());
                     }   
-                
-                }
-                
-                        
-                
-            
-                
-                
-                
+                } 
             }
         });
         
@@ -458,9 +451,7 @@ public class DialogExport extends JDialog implements ComponentListener
 		ok.setPreferredSize(cancel.getPreferredSize());
 		b.add(ok);
         contentPane.add(b, constraints);            // Add cancel button    
-        
-        
-        
+
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
@@ -469,18 +460,13 @@ public class DialogExport extends JDialog implements ComponentListener
                 
                 if(fileName.getText().trim().equals("")){
                     export=false;
-                    setVisible(false);
-                }
-                    
-                
-                if((new File(fileName.getText())).exists())
-                    selection = JOptionPane.showConfirmDialog(null, 
-                        Globals.messages.getString("Warning_overwrite"),
+                    JOptionPane.showMessageDialog(null,
+						Globals.messages.getString("Warning_noname"),
                         Globals.messages.getString("Warning"),
-                        JOptionPane.OK_CANCEL_OPTION, 
-                        JOptionPane.WARNING_MESSAGE);
-                else
-                    selection=JOptionPane.OK_OPTION;
+    					JOptionPane.WARNING_MESSAGE);
+					return;
+                }
+                selection=JOptionPane.OK_OPTION;
                     
                 if (selection==JOptionPane.OK_OPTION) {
                     export=true;

@@ -970,8 +970,30 @@ public class FidoFrame extends JFrame implements
                     exportFormat=export.getFormat();
                     exportUnitPerPixel=export.getUnitPerPixel();
                     exportBlackWhite=export.getBlackWhite();
-                    exportFileName = Globals.checkExtension(exportFileName, 
-                        exportFormat);
+                    int selection;
+                    
+                    if(!Globals.checkExtension(exportFileName, exportFormat)) {
+                    	selection = JOptionPane.showConfirmDialog(null, 
+                        Globals.messages.getString("Warning_extension"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.OK_CANCEL_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
+                		
+                   		if(selection==JOptionPane.OK_OPTION) 
+                   			exportFileName = Globals.adjustExtension(
+                   				exportFileName, exportFormat);
+                    }
+                    if(new File(exportFileName).exists()) {
+                    	selection = JOptionPane.showConfirmDialog(null, 
+                        Globals.messages.getString("Warning_overwrite"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.OK_CANCEL_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
+                        if(selection!=JOptionPane.OK_OPTION)
+                        	return;
+                    }
+                	
+                	
                     try {
                         ExportGraphic.export(new File(exportFileName),  CC.P, 
                             exportFormat, exportUnitPerPixel, 
@@ -1453,7 +1475,7 @@ public class FidoFrame extends JFrame implements
         if(fin!= null) {
             CC.P.openFileName= 
             	Globals.createCompleteFileName(din, fin);
-            CC.P.openFileName = Globals.checkExtension(CC.P.openFileName, 
+            CC.P.openFileName = Globals.adjustExtension(CC.P.openFileName, 
                     Globals.DEFAULT_EXTENSION);
             if (runsAsApplication)
             	prefs.put("OPEN_DIR", din);   
