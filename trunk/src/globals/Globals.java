@@ -90,7 +90,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.4 beta";
+    public static final String version = "0.23.4 gamma";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -132,9 +132,8 @@ public class Globals
     	return R;
     	
     }
-    
     /** Check if an extension is present in a file name and, if it is not the
-    	case, add the specified extension.
+    	case, add or adjust it in order to obtain the specified extension.
     	If the string contains " somewhere, this character is removed and the
     	extension is not added. In this way, if the user wants to avoid the
     	automatic extension add, he should put the file name between "'s
@@ -144,7 +143,65 @@ public class Globals
     		contain one. This extension should NOT contain the dot.
     	@return the absolutely gorgeous file name, completed with an extension
     */
-    public static String checkExtension(String p, String ext)
+    public static boolean checkExtension(String p, String ext)
+    {
+    	int i;
+    	String s="";
+    	
+    	// Check if we have a " somewhere
+    	// Not particularly fast here, but the code is easy to read and we are
+    	// not in a speed sensitive context...
+    	boolean skip=false;
+    	
+    	for (i=0; i<p.length(); ++i) {
+    		if(p.charAt(i)!='"') 
+    			s += p.charAt(i);
+    		else
+    			skip=true;
+    	}
+    	
+    	if (skip)
+    		return true;
+    		
+    	// We need to check only the file name and not the entire path.
+    	// So we begin our research only after the last file separation
+    	    	
+    	int start=s.lastIndexOf(System.getProperty("file.separator"));
+    	int search=s.lastIndexOf(".");
+    	
+    	// If the separator has not been found, start is negative.
+    	if(start<0) start=0;
+    	
+    	
+    	// Search if there is a dot (separation of the extension)
+    	if (search>start && search>=0) {
+    		// There is already an extension.
+    		// We do not need to add anything but instead we need to check if
+    		// the extension is correct.
+    		String extension = s.substring(search+1);
+    		System.out.println(extension);
+    		if(!extension.equals(ext)) {
+    			return false;
+    		}
+    		
+    	} else {
+    		return false;
+    	}	
+    	return true;
+    }
+    
+    /** Check if an extension is present in a file name and, if it is not the
+    	case, add or adjust it in order to obtain the specified extension.
+    	If the string contains " somewhere, this character is removed and the
+    	extension is not added. In this way, if the user wants to avoid the
+    	automatic extension add, he should put the file name between "'s
+    	
+    	@param p the file name
+    	@param ext the extension that should be added if the file name does not
+    		contain one. This extension should NOT contain the dot.
+    	@return the absolutely gorgeous file name, completed with an extension
+    */
+    public static String adjustExtension(String p, String ext)
     {
     	int i;
     	String s="";
@@ -175,10 +232,18 @@ public class Globals
     	
     	
     	// Search if there is a dot (separation of the extension)
-    	if (search>start && search>=0)
-    		return s;		// We do not need to add anything
-    	else
-    		return s+"."+ext;
+    	if (search>start && search>=0) {
+    		// There is already an extension.
+    		// We do not need to add anything but instead we need to check if
+    		// the extension is correct.
+    		s = s.substring(0, search)+"."+ext;
+    		
+    	} else {
+    		s+="."+ext;
+    	}	
+    	
+    	System.out.println(s);
+    	return s;
     }
     
     /** Get the file name, without extensions

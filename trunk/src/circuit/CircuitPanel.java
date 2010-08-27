@@ -644,7 +644,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 clickNumber == 0) {
                 selectAndSetProperties(x,y);
                 break;
-            }
+            } 
          
             ++ clickNumber;
             if (evt.getClickCount() >= 2) {
@@ -652,21 +652,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             
-            /* changed in 0.20.5
-            // A right click exits the line introduction and activates the
-            // selection state.
-            if( (evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
-                clickNumber = 0;
-                repaint();
-                setSelectionState(SELECTION,"");
-                break;
-            }*/
             successiveMove=false;
             // clickNumber == 0 means that no line is being drawn
                     
             xpoly[clickNumber] = sc.unmapXsnap(x);
             ypoly[clickNumber] = sc.unmapYsnap(y);
-            if (clickNumber == 2) {
+            if (clickNumber == 2 || (evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0) {
             	// Here we know the two points needed for creating
             	// the line. The object is thus added to the database.
                 P.addPrimitive(new PrimitiveLine(xpoly[1],
@@ -678,9 +669,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                                         false,
                                                         0,3,2,0), true,true);
                         
-                clickNumber = 1;
-                xpoly[1] = xpoly[2];
-                ypoly[1] = ypoly[2];
+                if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) {
+               	 	clickNumber = 1;
+                	xpoly[1] = xpoly[2];
+                	ypoly[1] = ypoly[2];
+                } else
+                	clickNumber = 0;
                 repaint();
                               
             }
@@ -966,6 +960,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 		// and the mirroring
         if (actionSelected !=MACRO) 
         	primEdit = null;
+        else if(primEdit!=null) {
+        	// This prevents that the R and S keys are sent to the search field
+        	// if it has the focus (this happens when the user has found 
+        	// something in the libraries with it).
+  	    	requestFocusInWindow();
+        }
         
         /*  MACRO ***********************************************************
             
@@ -1322,7 +1322,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 
             case ZOOM:
             case HAND:
-                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 break;
             case LINE:
             case TEXT:
