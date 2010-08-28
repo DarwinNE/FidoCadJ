@@ -369,8 +369,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 					fd.setVisible(true);
 					System.setProperty("apple.awt.fileDialogForDirectories", 
 						"false");
-
-					din=(new File(fd.getDirectory(),fd.getFile())).getPath();
+					if(fd.getDirectory()!= null && fd.getFile() != null) 
+						din=(new File(fd.getDirectory(),fd.getFile())).
+							getPath();
+					else
+						din = "";
         	
         		} else {
            			JFileChooser fc = new JFileChooser(

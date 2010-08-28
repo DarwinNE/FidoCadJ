@@ -308,7 +308,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	        if(GeometricDistances.pointInRectangle(xa,ya,(xb-xa),(yb-ya),px,py))
 	          	return 1;
    	     else
-   		     	return Integer.MAX_VALUE;
+   		     	return 1000;
    		}
    		
    		return GeometricDistances.pointToRectangle(xa,ya,(xb-xa),
