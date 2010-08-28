@@ -179,7 +179,7 @@ public class FidoFrame extends JFrame implements
 
         	
         // Uncomment to force FidoCadJ to use a specified locale
-        currentLocale = new Locale("fr", "FR");
+        // currentLocale = new Locale("fr", "FR");
         
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the

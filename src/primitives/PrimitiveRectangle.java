@@ -42,8 +42,17 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	
 	// A rectangle is defined by two points.
 	static final int N_POINTS=2;
+	// The state: filled or not.
 	private boolean isFilled;
+	// The dashing style. 
 	private int dashStyle;
+	
+	// This is the value which is given for the distance calculation when the
+	// user clicks inside the rectangle:
+	static final int DISTANCE_IN = 1;
+	
+	// This is the value given instead when the clicks is done outside:
+	static final int DISTANCE_OUT = 1000;
 	
 	
 	/** Gets the number of control points used.
@@ -306,9 +315,9 @@ public class PrimitiveRectangle extends GraphicPrimitive
             
         if(isFilled) {
 	        if(GeometricDistances.pointInRectangle(xa,ya,(xb-xa),(yb-ya),px,py))
-	          	return 1;
+	          	return DISTANCE_IN;
    	     else
-   		     	return 1000;
+   		     	return DISTANCE_OUT;
    		}
    		
    		return GeometricDistances.pointToRectangle(xa,ya,(xb-xa),

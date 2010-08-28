@@ -536,9 +536,6 @@ public class ExportPGF implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
-	
 	*/
 	public void exportPolygon(Point[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -549,7 +546,6 @@ public class ExportPGF implements ExportInterface {
 
 		String fill_pattern="";
 		int i;
-		
 		
 		out.write("\\pgfmoveto{\\pgfxy("+vertices[0].x+","+
 			vertices[0].y+")}\n");
@@ -577,13 +573,11 @@ public class ExportPGF implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		
 		registerColorSize(layer, strokeWidth);
 		registerDash(dashStyle);
 
@@ -597,8 +591,6 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\pgffill \n");
 		else
 			out.write("\\pgfqstroke \n");
-		
-		
 	}
 
 	private double actualWidth;
@@ -622,9 +614,11 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\pgfsetlinewidth{"+strokeWidth*mult+"pt}\n");
 			actualWidth = strokeWidth;
 		}
-		
 	}
-	
+	/** Check if there has been a change in the actual dash style if yes, 
+		change accordingly.
+		@param dashStyle the wanted dashing style
+	*/
 	private void registerDash(int dashStyle)
 		throws IOException
 	{
@@ -634,7 +628,6 @@ public class ExportPGF implements ExportInterface {
 				out.write("\\pgfsetdash{}{0pt}\n");
 			else
 				out.write("\\pgfsetdash{"+dash[dashStyle]+"}{0pt}\n");
-
 		}
 	}
 
