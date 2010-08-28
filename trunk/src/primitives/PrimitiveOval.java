@@ -299,7 +299,7 @@ public class PrimitiveOval extends GraphicPrimitive
         	if(GeometricDistances.pointInEllipse(xa,ya,(xb-xa),(yb-ya),px,py))
           		return 0;
           	else
-          		return Integer.MAX_VALUE;
+          		return 1000;
         } else
         	return GeometricDistances.pointToEllipse(xa,ya,
         		(xb-xa),(yb-ya),px,py);

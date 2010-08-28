@@ -687,6 +687,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{
 		// Here is a trick: if there is at least one active layer, 
 		// distancePrimitive will return a value less than the maximum.
+				
 		if (macro.distancePrimitive(0, 0)<Integer.MAX_VALUE) 
 			return super.selectRect(px, py, w, h);
 		else

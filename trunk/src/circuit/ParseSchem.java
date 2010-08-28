@@ -579,7 +579,7 @@ public class ParseSchem
     public StringBuffer getText(boolean extensions)
     {
         int i;
-        StringBuffer s=RegisterConfiguration(extensions);	
+        StringBuffer s=registerConfiguration(extensions);	
         for (i=0; i<primitiveVector.size(); ++i){
             s.append(new StringBuffer(
                 ((GraphicPrimitive)primitiveVector.get(i)).toString(
@@ -597,7 +597,7 @@ public class ParseSchem
     	    its extensions.
     
     */
-    private StringBuffer RegisterConfiguration(boolean extensions)
+    private StringBuffer registerConfiguration(boolean extensions)
     {
     	StringBuffer s = new StringBuffer();
         // Here is the beginning of the output. We can eventually provide
@@ -1038,7 +1038,7 @@ public class ParseSchem
         int i;
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
         
-        s.append(RegisterConfiguration(extensions));
+        s.append(registerConfiguration(extensions));
         
         for (i=0; i<primitiveVector.size(); ++i){
             if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
@@ -1153,7 +1153,6 @@ public class ParseSchem
         int i;
         int distance;
         int mindistance=Integer.MAX_VALUE;
-        int isel=0;
         int layer=0;
         GraphicPrimitive gg;
         
@@ -1164,10 +1163,8 @@ public class ParseSchem
             distance=gg.getDistanceToPoint(px,py);
             if(distance<=mindistance) {
             	layer= gg.getLayer();
-              	if(((LayerDesc)layerV.get(layer)).isVisible) {
-                	isel=i;
+              	if(((LayerDesc)layerV.get(layer)).isVisible)
                 	mindistance=distance;              
-                }
             }
         }
         
