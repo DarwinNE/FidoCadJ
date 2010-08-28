@@ -6,21 +6,11 @@ import java.awt.event.*;
 import globals.*;
 import dialogs.*;
 
-/** EnterCircuitFrame.java v.1.1
-
-   ****************************************************************************
-   Version History 
-
-<pre>
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     December 2007       D. Bucci    First working version
-1.1     January 2008        D. Bucci    Minimum windows size
-1.2		February 2009		D. Bucci	Add margins to respect Apple HIG
-1.3		June 2009			D. Bucci 	Capitalize the first letters                                     
+/** EnterCircuitFrame.java 
 
 	This file is part of FidoCadJ.
 
+<pre>
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -41,7 +31,6 @@ Version   Date           Author       Remarks
     A dialog useful to past the Fidocad code.
 
     @author Davide Bucci
-    @version 1.3, June 2009
     
 
 */

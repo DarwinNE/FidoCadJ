@@ -226,16 +226,23 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     private void registerAction(String actionString, char key, final int state)
     {
         
+        // We need to make this indipendent to the case. So we start by
+        // registering the action for the upper case
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)), 
             actionString);
+        // And then we repeat the operation for the lower case
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)), 
             actionString);
         
         getActionMap().put(actionString, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
+            	// We now set the new editing state
                 setSelectionState(state,"");
+                // If we are entering or modifying a primitive or a macro,
+                // we should be sure it disappears when the state changes
+                primEdit = null;
                 repaint();
             }
         });    

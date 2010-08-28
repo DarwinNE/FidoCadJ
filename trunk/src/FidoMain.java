@@ -100,10 +100,12 @@ class FidoMain {
         				
         				try {
         					if (args[++i].startsWith("r")) {
-        						resolution = Double.parseDouble(args[i].substring(1));
+        						resolution = Double.parseDouble(
+        							args[i].substring(1));
         						resolutionBasedExport = true;
         						if (resolution<=0) {
-        							System.err.println("Resolution should be a positive real number");
+        							System.err.println("Resolution should be"+
+        								"a positive real number");
         							System.exit(1);
         						}
         					} else {
@@ -117,7 +119,8 @@ class FidoMain {
         					
         				} catch (Exception E)
         				{
-        					System.err.println("Unable to read the parameters given to -c");
+        					System.err.println("Unable to read the parameters"+
+        						"given to -c");
         					System.exit(1);
         				}
         				
@@ -140,11 +143,13 @@ class FidoMain {
         			if (nextLib) {
         				// This is -d: read the new library directory
         				libDirectory= args[i];
-        				System.out.println("Changed the library directory: "+args[i]);
+        				System.out.println("Changed the library directory: "
+        					+args[i]);
         			
         			} else {
         				if (loaded) {
-        					System.err.println("Only one file can be specified in the command line");
+        					System.err.println("Only one file can be"+
+        						"specified in the command line");
         				}
         				// We can not load the file now, since popFrame has
         				// not been initialized yet.
@@ -168,11 +173,7 @@ class FidoMain {
         	}
         	
             // Reads the standard libraries
-            /*
-        	P.loadLibraryInJar(FidoMain.class.getResource("lib/IHRAM.FCL"), "ihram");
- 			P.loadLibraryInJar(FidoMain.class.getResource("lib/FCDstdlib.fcl"), "");
- 			P.loadLibraryInJar(FidoMain.class.getResource("lib/PCB_en.fcl"), "pcb");
-        	*/
+            
         	readLibraries(P, false, libDirectory);
         	
         	StringBuffer txt=new StringBuffer();    
@@ -228,7 +229,6 @@ class FidoMain {
 				System.out.println(""+d.width+" "+d.height);	
             }
         }
-        // System.out.println("Command line handling elapsed time: "+mt.getElapsed()+"ms");
 
         if (!commandLineOnly) {
 	        /*******************************************************************
@@ -272,8 +272,10 @@ class FidoMain {
 	            } catch (Exception e) {
 	                // Quaqua is not active. Just continue!
             
-    	            System.out.println("The Quaqua look and feel is not available");
-        	        System.out.println("I will continue with the basic Apple l&f");
+    	            System.out.println(
+    	            	"The Quaqua look and feel is not available");
+        	        System.out.println(
+        	        	"I will continue with the basic Apple l&f");
 	            }
 	        } else if (System.getProperty("os.name").startsWith("Win")) {
 	            /* If the host system is a window system, select the Windows
@@ -282,7 +284,8 @@ class FidoMain {
                
             	*/
 	            try {
-	                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+	                UIManager.setLookAndFeel(
+	                	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
  	            } catch (Exception E) {}
             	Globals.quaquaActive=false;
             
@@ -290,7 +293,6 @@ class FidoMain {
         	} else {
             	Globals.quaquaActive=false;
         	}
-        	// System.out.println("L&F selection elapsed time: "+mt.getElapsed()+"ms");
 
         
         	// Un-comment to try to use the Metal LAF
@@ -323,13 +325,11 @@ class FidoMain {
         	}
 
         	popFrame.init();
-   			//System.out.println("frame inited elapsed time: "+mt.getElapsed()+"ms");
 
 			// We begin by showing immediately the window. This improves the
 			// perception of speed given to the user, since the libraries 
 			// are not yet loaded
         	popFrame.setVisible(true);
-   			// System.out.println("main window shown elapsed time: "+mt.getElapsed()+"ms");
 
 			// We load the libraries (this does not take so long in modern
 			// systems).
@@ -346,7 +346,6 @@ class FidoMain {
 				popFrame.Load(loadFile);
 
 		}
-		// System.out.println("main routine elapsed time: "+mt.getElapsed()+"ms");
     }
     
     /** Print a short summary of each option available for launching

@@ -15,11 +15,7 @@ import globals.*;
 This is the main file for the FidoCadJ reader applet.
 
 <pre>
-   ****************************************************************************
 
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-   
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -39,7 +35,6 @@ Version   Date           Author       Remarks
 </pre>
 
 @author Davide Bucci
-@version 2.0
 */
 
 public class FidoCadApplet extends JApplet implements ActionListener

@@ -13,7 +13,6 @@ import globals.*;
 /** Choose file format, size and options of the graphic exporting.
     The class dialogPrint implements a modal dialog to select printing options.
 	
-
 <pre>
 	This file is part of FidoCadJ.
 
@@ -220,23 +219,36 @@ public class DialogPrint extends JDialog implements ComponentListener
   		return bw_CB.isSelected();
   	}
   	
-  	
+  	/** Set the mirror attribute
+  		@param m true if the printout should be done in mirroring mode.
+  	*/
   	public void setMirror(boolean m)
   	{
   		mirror_CB.setSelected(m);
   	}
-  	
-  	
+
+  	/** Set the resize to fit option
+  		@param m true if the drawing should be stretched in order to fit the 
+  			page.
+  	*/
   	public void setFit(boolean f)
   	{
   		fit_CB.setSelected(f);
   	}
   	
+  	/** Set the landscape mode
+  		@param m true if the output should be in landscape mode. It will be
+  			in portrait orientation otherwise.
+  	*/
   	public void setLandscape(boolean l)
   	{
   		landscape_CB.setSelected(l);
   	}	
   	
+  	/** Print in black and white
+  		@param l if true, print in black and white, if false respect the colors
+  			associated to the layers.
+  	*/
   	public void setBW(boolean l)
   	{
   		bw_CB.setSelected(l);
