@@ -15,23 +15,11 @@ import export.*;
 import geom.*;
 import toolbars.*;
 
-/* macroTree.java v.1.3
+/* macroTree.java
 	
 	Show in a tree the macros available in the loaded libraries.
 
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           	Author      Remarks
-------------------------------------------------------------------------------
-1.0     June 2008			D. Bucci    First working version
-1.1		July 2008			D. Bucci	A few bugs corrected
-1.2		February 2009		D. Bucci	
-1.3		June 2009			D. Bucci 	Capitalize the first letters   
-										Search possibilities
-
-
 
 	This file is part of FidoCadJ.
 

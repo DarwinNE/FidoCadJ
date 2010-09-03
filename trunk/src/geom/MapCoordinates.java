@@ -92,6 +92,7 @@ public class MapCoordinates
         yGridStep=5;
         isMacro=false;
         snapActive=true;
+        resetMinMax();
     }
     
     /** Set the snapping state (used in the unmapping functions)
@@ -502,10 +503,7 @@ public class MapCoordinates
     */
     public int unmapXnosnap(int X){
         int xc;
-        //X=-xc*xMagnitude+xCenter;
         xc=(int)((X-xCenter)/xMagnitude);
-        
-        
         return xc;
     }
 
@@ -516,7 +514,6 @@ public class MapCoordinates
     */
     public int unmapYnosnap(int Y){
         int yc;
-        //Y=yc*yMagnitude+yCenter;
         yc=(int)((Y-yCenter)/yMagnitude);
         return yc;
     }
@@ -527,7 +524,6 @@ public class MapCoordinates
     */
     public int unmapXsnap(int X){
         int xc;
-        //X=-xc*xMagnitude+xCenter;
         xc=(int)((X-xCenter)/xMagnitude);
         // perform the snapping.
         if(snapActive) {
@@ -544,7 +540,6 @@ public class MapCoordinates
     */
     public int unmapYsnap(int Y){
         int yc;
-        //Y=yc*yMagnitude+yCenter;
         yc=(int)((Y-yCenter)/yMagnitude);
         if(snapActive) {
         	yc=(int)((double)yc/yGridStep+.5);
@@ -554,8 +549,7 @@ public class MapCoordinates
     }
     
     /** Create a string containing all possibly interesting info about the 
-    	internal state of this class.
-    
+    	internal state of this class.    
     */
     public String toString()
     {
@@ -569,8 +563,6 @@ public class MapCoordinates
 	    s+="|isMacro="+isMacro;
 	    s+="|snapActive="+snapActive;
     
-      
-    
 	    s+="|xMin="+ xMin;
 	    s+="|xMax="+xMax;
 	    s+="|yMin="+yMin;
@@ -581,5 +573,4 @@ public class MapCoordinates
     
     	return s;
     }
-    
 }
