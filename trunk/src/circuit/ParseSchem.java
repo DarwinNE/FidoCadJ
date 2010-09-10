@@ -317,7 +317,7 @@ public class ParseSchem
     {
        	try {
        		readLibraryBufferedReader(new BufferedReader(new 
-       			InputStreamReader(s.openStream())), prefix);
+       			InputStreamReader(s.openStream(), Globals.encoding)), prefix);
         } catch (IOException E) {
           	System.out.println("Problems reading library: "+s.toString());
         }
@@ -407,7 +407,9 @@ public class ParseSchem
     public void readLibraryFile(String openFileName)
     	throws IOException
     {
-       	FileReader input = new FileReader(openFileName);
+       	InputStreamReader input = new InputStreamReader(new 
+       		FileInputStream(openFileName), Globals.encoding);
+       	
         BufferedReader bufRead = new BufferedReader(input);
         String prefix="";
 
@@ -1068,8 +1070,9 @@ public class ParseSchem
  				ExportGraphic.export(temp,  Q, "fcd", 1,true,false, 
  					splitNonStandard);
  				
- 				FileReader input = new FileReader(temp);
-        		BufferedReader bufRead = new BufferedReader(input);
+ 				FileInputStream input = new FileInputStream(temp);
+        		BufferedReader bufRead = new BufferedReader(
+        			new InputStreamReader(input, Globals.encoding));
                 
         		StringBuffer txt;    
         		String line="";
