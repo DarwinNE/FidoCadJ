@@ -110,6 +110,8 @@ public class Globals
  	// Number of layers to be treated
 	public static final int MAX_LAYERS=16;
 	
+	// The encoding to be used by FidoCadJ
+	public static final String encoding = "UTF8";
 
     /**	Adjust a long string in order to cope with space limitations.
     	Tipically, it will be used to show long paths in the window caption.

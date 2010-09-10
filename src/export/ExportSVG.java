@@ -37,7 +37,7 @@ import primitives.*;
 public class ExportSVG implements ExportInterface {
 
 	private File fileExp;
-	private FileWriter fstream;
+	private OutputStreamWriter fstream;
 	private BufferedWriter out;
 	private ArrayList layerV;
 	private int numberPath;
@@ -58,7 +58,8 @@ public class ExportSVG implements ExportInterface {
 	{
 		fileExp=f;
 		
-		fstream = new FileWriter(fileExp);
+		fstream = new OutputStreamWriter(new FileOutputStream(f), 
+			Globals.encoding);
     
 		
 	}
@@ -89,7 +90,7 @@ public class ExportSVG implements ExportInterface {
 	    
 	    // A dumb, basic header of the SVG file
 	    
-    	out.write("<?xml version=\"1.0\" encoding=\"iso-8859-1\" " + 			
+    	out.write("<?xml version=\"1.0\" encoding=\""+Globals.encoding+"\" " + 			
 			"standalone=\"no\"?> \n<!DOCTYPE svg PUBLIC"+
 			" \"-//W3C//Dtd SVG 1.1//EN\" " + "\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
 			"<svg width=\""+wi+"\" height=\""+he+"\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +

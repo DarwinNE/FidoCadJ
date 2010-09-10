@@ -40,8 +40,8 @@ public class ExportPDF implements ExportInterface {
 
 	private File fileExp;
 	private File temp;
-	private FileWriter fstream;
-	private FileWriter fstreamt;
+	private OutputStreamWriter fstream;
+	private OutputStreamWriter fstreamt;
 	private BufferedWriter out;
 	private BufferedWriter outt;
 	private boolean fontWarning;
@@ -88,12 +88,15 @@ public class ExportPDF implements ExportInterface {
 	public ExportPDF (File f) throws IOException
 	{
 		fileExp=f;
-		
-		fstream = new FileWriter(fileExp);
+
+		fstream =  new OutputStreamWriter(new FileOutputStream(fileExp), 
+			"8859_1");
 		
     	temp = File.createTempFile("real",".howto");
 		temp.deleteOnExit();
-		fstreamt = new FileWriter(temp);
+
+		fstreamt =  new OutputStreamWriter(new FileOutputStream(temp), 
+			"8859_1");
 
 	}
 	
@@ -116,6 +119,7 @@ public class ExportPDF implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
+	    
 	    fontWarning=false;
 	    // To track the block sizes, we will first write it in a temporary file
 	    
@@ -181,14 +185,14 @@ public class ExportPDF implements ExportInterface {
 				"    /Subtype /Type1\n" +
 				"    /Name /F1\n" +
 				"    /BaseFont /Courier\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b7="7 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F2\n" +
 				"    /BaseFont /Courier-Bold\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 
 		b9=	"9 0 obj\n" +
@@ -196,42 +200,42 @@ public class ExportPDF implements ExportInterface {
 				"    /Subtype /Type1\n" +
 				"    /Name /F3\n" +
 				"    /BaseFont /Times-Roman\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b10="10 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F4\n" +
 				"    /BaseFont /Times-Bold\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b11="11 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F5\n" +
 				"    /BaseFont /Helvetica\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b12="12 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F6\n" +
 				"    /BaseFont /Helvetica-Bold\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b13="13 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F7\n" +
 				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 		b14="14 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
 				"    /Name /F8\n" +
 				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /MacRomanEncoding\n" +
+				"    /Encoding /WinAnsiEncoding\n" +
 				"  >> endobj\n";
 
 				

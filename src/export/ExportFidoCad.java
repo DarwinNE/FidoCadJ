@@ -40,7 +40,7 @@ import primitives.*;
 public class ExportFidoCad implements ExportInterface {
 
 	private File fileExp;
-	private FileWriter fstream;
+	private OutputStreamWriter fstream;
 	private BufferedWriter out;
 	private ArrayList layerV;
 	private int numberPath;
@@ -64,9 +64,12 @@ public class ExportFidoCad implements ExportInterface {
 	{
 		fileExp=f;
 		
-		fstream = new FileWriter(fileExp);
 		extensions = true;
-    
+		fileExp=f;
+		
+		fstream = new OutputStreamWriter(new FileOutputStream(f), 
+			Globals.encoding);
+        
 		
 	}
 	

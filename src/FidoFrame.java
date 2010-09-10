@@ -1372,8 +1372,11 @@ public class FidoFrame extends JFrame implements
     public void openFile() 
         throws IOException
     {
-        FileReader input = new FileReader(CC.P.openFileName);
-        BufferedReader bufRead = new BufferedReader(input);
+        
+        BufferedReader bufRead = new BufferedReader(
+        	new InputStreamReader(new FileInputStream(CC.P.openFileName), 
+        	Globals.encoding));
+        
                 
         StringBuffer txt= new StringBuffer();    
         String line="";
@@ -1506,8 +1509,10 @@ public class FidoFrame extends JFrame implements
     
             } else {
                 // Create file 
-                FileWriter fstream = new FileWriter(CC.P.openFileName);
-                BufferedWriter output = new BufferedWriter(fstream);
+                BufferedWriter output = new BufferedWriter(new 
+                	OutputStreamWriter(new FileOutputStream(CC.P.openFileName), 
+                	Globals.encoding));
+                
                 output.write("[FIDOCAD]\n");
                 output.write(CC.getCirc(extFCJ_s).toString());
                 output.close();
