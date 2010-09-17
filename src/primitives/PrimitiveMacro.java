@@ -60,6 +60,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 	
 	private String name;
 	private String value;
+	private boolean exportInvisible;
+	
+	public void setExportInvisible(boolean s)
+	{
+		exportInvisible = s;
+	}
 
 	
 	/** Gets the number of control points used.
@@ -970,7 +976,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  				macro.selectAll();
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.exportDrawing(exp, false);
+ 			macro.exportDrawing(exp, false, exportInvisible);
 			// Export the text associated to the name and value of the macro 			
  			if(drawOnlyLayer==getLayer()) {
  				if(!name.equals(""))

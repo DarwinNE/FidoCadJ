@@ -599,7 +599,7 @@ public class ParseSchem
     	    its extensions.
     
     */
-    private StringBuffer registerConfiguration(boolean extensions)
+    public StringBuffer registerConfiguration(boolean extensions)
     {
     	StringBuffer s = new StringBuffer();
         // Here is the beginning of the output. We can eventually provide
@@ -2056,8 +2056,11 @@ public class ParseSchem
     
     @param exp the selected exporting interface
     @param header specify if an header and a tail should be written or not
+    @param exportInvisible specify that the primitives on invisible layers
+    	should be exported
     */
-    public void exportDrawing(ExportInterface exp, boolean header)
+    public void exportDrawing(ExportInterface exp, boolean header, 
+    	boolean exportInvisible)
     	throws IOException
     {
     	
@@ -2092,12 +2095,15 @@ public class ParseSchem
         		l=g.getLayer();
         		if(l==drawOnlyLayer && 
         			!(g instanceof PrimitiveMacro)) {
-        			if(((LayerDesc)(layerV.get(l))).isVisible)
+        			if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             			g.export(exp, mp);
         			
         		}else if(g instanceof PrimitiveMacro) {
-        			((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
-        			if(((LayerDesc)(layerV.get(l))).isVisible)
+ 
+ 					((PrimitiveMacro)g).setDrawOnlyLayer(drawOnlyLayer);
+        			((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+ 
+        			if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             			g.export(exp, mp); 
         		}
        		}
@@ -2108,14 +2114,18 @@ public class ParseSchem
         		for (i=0; i<primitiveVector.size(); ++i){
         		
         			g=(GraphicPrimitive)primitiveVector.get(i);
-        			l=g.getLayer();
+        			l=g.getLayer();    		
+
         			if(l==j && !(g instanceof PrimitiveMacro)){
-        				if(((LayerDesc)(layerV.get(l))).isVisible)
+        				if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             				g.export(exp, mp);
         				
         			} else if(g instanceof PrimitiveMacro) {
+
         				((PrimitiveMacro)g).setDrawOnlyLayer(j);
-        				if(((LayerDesc)(layerV.get(l))).isVisible)
+		        		((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+	
+        				if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             				g.export(exp, mp);
         				
         			}
@@ -2131,13 +2141,16 @@ public class ParseSchem
             	PrimitivePCBPad) {
 				((PrimitivePCBPad)g).setDrawOnlyPads(true);
 				l=g.getLayer();
-				if(((LayerDesc)(layerV.get(l))).isVisible)
+	
+				if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             		g.export(exp, mp);
             	((PrimitivePCBPad)g).setDrawOnlyPads(false);
             } else if (g instanceof PrimitiveMacro) { // Uhm... not beautiful
+	       		((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+            
             	((PrimitiveMacro)g).setDrawOnlyPads(true);
             	l=g.getLayer();
-				if(((LayerDesc)(layerV.get(l))).isVisible)
+				if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
             		g.export(exp, mp);
             	((PrimitiveMacro)g).setDrawOnlyPads(false);
             	((PrimitiveMacro)g).resetExport();

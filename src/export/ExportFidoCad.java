@@ -6,6 +6,7 @@ import java.io.*;
 import java.text.*;
 import globals.*;
 import layers.*;
+import circuit.*;
 
 import primitives.*;
 
@@ -105,6 +106,10 @@ public class ExportFidoCad implements ExportInterface {
 	    int he=totalSize.height;
 	    
 		out.write("[FIDOCAD]\n");
+		ParseSchem P = new ParseSchem();
+		P.setLayers(la);
+		
+		out.write(new String(P.registerConfiguration(extensions)));
 			
 		
 		

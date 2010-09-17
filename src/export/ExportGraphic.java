@@ -231,23 +231,23 @@ public class ExportGraphic
 			}
     	} else if(format.equals("svg")) {
     		ExportSVG es = new ExportSVG(file);
-    		P.exportDrawing(es, true);
+    		P.exportDrawing(es, true, false);
     	} else if(format.equals("eps")) {
     		ExportEPS ep = new ExportEPS(file);
-    		P.exportDrawing(ep, true);
+    		P.exportDrawing(ep, true, false);
     	} else if(format.equals("pgf")) {
     		ExportPGF ef = new ExportPGF(file);
-    		P.exportDrawing(ef, true);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("pdf")) {
     		ExportPDF ef = new ExportPDF(file);
-    		P.exportDrawing(ef, true);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("scr")) {
     		ExportEagle ef = new ExportEagle(file);
-    		P.exportDrawing(ef, true);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("fcd")) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true);
+    		P.exportDrawing(ef, true, true);
     	} else {
     		IOException E=new IOException(
     			"Wrong file format");
