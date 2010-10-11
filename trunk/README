@@ -8,11 +8,11 @@ by Davide Bucci
 1 - Introduction
 ----------------
 
-FidoCadJ is a very easy to use editor, with a library of electrical symbols 
-and footprints (through hole and SMD). Drawings can be exported in several 
-of graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it is 
-very simple and hence limited, it can be still considered an Electronic 
-design automation (EDA) software. FidoCadJ is inspired from FidoCad 
+FidoCadJ is a very easy to use editor, with a vast library of electrical 
+symbols and footprints (through hole and SMD). Drawings can be exported in 
+several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it 
+is very simple and somewhat limited, FidoCadJ can be very useful as an
+Electronic  design automation (EDA) software. FidoCadJ is inspired from FidoCad 
 (without "J"), which was a vector graphic editor useful for electrical 
 schematics and printed circuit boards. It uses a file format containing 
 only 7-bit ASCII text, very compact and suited for copy and pasting 
@@ -60,18 +60,20 @@ src                         contains all the Java source files
 exclude_from_svn            excludes all binary generated files from svn
 sign.sh                     creates the signature for the applet
 
---------------------------------------------------
-3 - Instruction on how to compile and run FidoCadJ
---------------------------------------------------
+-----------------------------------------------------
+3 - Instructions about compiling and running FidoCadJ
+-----------------------------------------------------
 
-Ok, you just downloaded from SourceForge the archive containing the source 
-files of FidoCadJ. Good :-)
-FidoCadJ is a pure Java project, but for many reasons I prefer using a good
+Ok, you just chechout from SourceForge SVN the FidoCadJ source files. Good :-)
+FidoCadJ is a pure Java project, and for many reasons I prefer using a good
 text editor as well as a few command line script in order to compile and run 
 the code on which I am working.
 For this reason, you find in the trunk directory (see section 2 of this 
-file) several scripts which will be useful for you.
-The instructions on how to compile depend on the operating system.
+file) several scripts which will be useful for you, expecially if you are
+working in an Unix-like environment.
+If you prefer using some kind of IDE such as Eclipse, you may try, but I
+do not provide assistance about it and I will always refer to the scripts
+I wrote.
 
 3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
 ------------------------------------------------------------------------
@@ -137,6 +139,7 @@ code:
     }   // put the closing brace here
 
 - the class names are always capitalized, and so does methods
+- variables are never capitalized
 - an instance of the class does have its first letter in lower case
 - each public class and method should be documented with Javadoc syntax
 - no lines longer than 80 characters
@@ -149,10 +152,10 @@ code:
 I am seeking for people interested in participating to the FidoCadJ project.
 If you spot a typo (I am not a native English speakers), or an error in the 
 manual or in the program, any correction is welcomed. I will be very happy 
-to know what do you think about FidoCadJ. I am also searching for help: if 
-you know Java and you want to work on the source code you will be welcomed.
-If you do not know Java, you can participate by improving the manuals or 
-translating the interface, or just can give an advice. 
+to know what do you think about FidoCadJ. I would be glad to receive some 
+help: if you know Java and you want to work on the source code you will be 
+welcome.
+If your Java coding is not fluent, you can participate to the project by improving the manuals or translating the interface, or just giving an advice. 
 Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
 forums (the email address is valid without the nope part, but no 
 attachments, please). It is probably better to open a discussion in the 
@@ -163,9 +166,9 @@ organized between all developers.
 -------------------------------------------------
 
 FidoCadJ is written in such a way that translating its interface is 
-particularly easy and does not need to have programming abilities.
+particularly easy and does not need any programming skills.
 If you have downloaded the source file repository, you should find the 
-resource files in the trunk/bin directory.
+interface resource files in the trunk/bin directory.
 A language resource file has the name MessagesBundle_xx_YY.properties, where
 xx and YY are respectively the code for the language and the country 
 to which the translation is targeted.
@@ -185,7 +188,8 @@ Close = Close
 ...
 
 The resources string are organized in the form key = value. For example, here 
-is the head of the corresponding file for the interface in French,
+is the head of the corresponding file for the interface in French, in the file
+trunk/bin/MessagesBundle_fr_FR.properties
 
 File = Fichier
 New = Nouveau dessin
@@ -202,7 +206,8 @@ That is all. If you want to translate FidoCadJ in your language, you just have
 to translate line by line the values in a language resource file, name it 
 accordingly to your locale and place it in the trunk/bin directory.
 Pay attention that sometimes there are spaces at the end of the value 
-strings which need to be kept in place.
+strings which need to be kept in place. You may be careful about always 
+providing complete files, since if a resource is missing, FidoCadJ can abort. 
 
 4.2 I would like to participate to the coding activity
 ------------------------------------------------------
@@ -211,9 +216,14 @@ This is very nice from you. We will be happy for that. You can manifest
 yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
 in order to see if we can find an intersecton between what you can do with 
-the FidoCadJ development strategy. The idea is to keep work a little bit 
-organized and know who does what. Have a peek to section 3.3 of this readme 
-file to see what coding style should be applied to the source code.
+the FidoCadJ development strategy. The idea is to keep the work a little bit 
+organized and to know who does what. Have a peek to section 3.3 of this readme 
+file to see what coding style should be applied to the sources.
+Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
+for, you can download with SVN the source files and play *as you want* with
+them. But keep in mind that if you want your contributions be included in the
+FidoCadJ main stream, you MUST keep in tuch with us in the SF forums and you
+must discuss about what are you willing to do. 
 
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get a HTML description of all classes used in FidoCadJ. You will find that
@@ -222,6 +232,51 @@ run the trunk/createdoc sh script, if you are in a Unix system.
 
 Then comes the hard work... We can help you! Please come to the SourceForge
 forums dedicated to FidoCadJ!
+
+4.3 Things to do
+----------------
+
+-------------------------------------------------------------------------------
+Review on SourceForge or OhLoh      It is important that the users and 
+                                    developers of FidoCadJ understand what is 
+                                    good and what is bad in their favourite 
+                                    software. Do not be shy to review FidoCadJ 
+                                    on SourceForge or OhLoh!
+-------------------------------------------------------------------------------
+Translate user interface            Everything is done on FidoCadJ to make it 
+                                    easy to translate its interface in any 
+                                    language. You can significatively 
+                                    contribute to the spread of FidoCadJ in 
+                                    your country!
+-------------------------------------------------------------------------------
+Translate manual                    This is an hard work, but it will be very 
+                                    welcomed by the users of your country.
+-------------------------------------------------------------------------------
+YouTube video tutorial              I will put on the FidoCadJ's page a link to 
+                                    the best video tutorials about FidoCadJ on 
+                                    YouTube. Why don't you try?
+-------------------------------------------------------------------------------
+Report bugs                         Use the bug and artifact tracking system of
+                                    SourceForge or drop me an email.
+-------------------------------------------------------------------------------
+Export in Gerber format             Exporting in graphical vector formats is 
+                                    easy with FidoCadJ. If you want to add a 
+                                    file format you just need to know it and 
+                                    implement a Java interface. Gerber is 
+                                    highly requested by people working on PCBs.
+-------------------------------------------------------------------------------
+Export in WMF/EMF formats           WMF/EMF are widely used in Windows and they 
+                                    may be useful for including drawings in 
+                                    vector format in Microsoft Word or Power 
+                                    Point.
+-------------------------------------------------------------------------------
+Windows installer                   FidoCadJ does not come with a standard 
+                                    Windows installer. Can you prepare one?
+-------------------------------------------------------------------------------
+Linux packaging                     FidoCadJ could be distributed as a deb or a 
+                                    RPM package. Can you prepare one?
+-------------------------------------------------------------------------------
+
 
 --------------------
 5 - I found a bug...
