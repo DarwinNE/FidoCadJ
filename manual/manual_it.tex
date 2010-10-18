@@ -57,7 +57,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.3 \\ il manuale dell'utente} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.4 \\ il manuale dell'utente} 
 
 
 \author{Davide Bucci\\[3em]
@@ -180,13 +180,13 @@ Quando alcuni anni fa ho iniziato ad affacciarmi al mondo dei newsgroup\index{ne
 
 La prima cosa che ho fatto è stata quindi di studiarmi in dettaglio il formato utilizzato dal FidoCad\index{FidoCad} e scrivere un'applet Java\index{Java} chiamata FidoReadJ\index{FidoReadJ}, capace di interpretarlo e mostrare il risultato all'interno di una pagina Web.
 Ho fatto un po' di reverse engineering, ho poi cercato informazioni un po' dappertutto per capire quali fossero le possibilità e le limitazioni del formato ed infine mi sono scaricato e studiato i sorgenti in C++ (peraltro molto ben fatti e commentati) del FidoCad originale.
-Questo avveniva più o meno verso marzo 2007. Qualche mese più tardi, l'applet era pubblicata sul sito ed era stata ampiamente testata da una parte della comunità gravitante attorno al gruppo it.hobby.elettronica\index{it.hobby.elettronica} e it.hobby.fai-da-te\index{it.hobby.fai-da-te}.\footnote{FidoReadJ\index{FidoReadJ} è sempre disponibile, anche se non aggiornatissima, all'indirizzo:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.}
+Questo avveniva più o meno verso marzo 2007. Qualche mese più tardi, l'applet era pubblicata sul sito ed era stata ampiamente testata da una parte della comunità gravitante attorno al gruppo it.hobby.elettronica\index{it.hobby.elettronica} e it.hobby.fai-da-te\index{it.hobby.fai-da-te}.\footnote{FidoReadJ\index{FidoReadJ} è sempre disponibile all'indirizzo:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.}
 
 Disponendo di un interprete\index{interprete}\graffito{In realtà, era un pallino che avevo da un pezzo. Il primo tentativo che ho fatto di scrivere un CAD 2D risale al 1993.} del formato, il lavoro restante per arrivare ad un editor completo è stato quello di mettere a punto la gestione dell'interfaccia utilizzatore e delle varie primitive\index{primitiva}. Il grosso del lavoro si è protratto in varie fasi da gennaio a luglio 2008. FidoCadJ non è quindi un porting di FidoCad per Windows, ma piuttosto una riscrittura totale del programma. A partire dalla versione 0.21 (pubblicata nel gennaio 2009), FidoCadJ propone delle estensioni\index{estensioni} rispetto al formato FidoCad originale. Molta attenzione è stata fatta per mantenere comunque una compatibilità all'indietro, anche se a partire dalla versione 0.23 di fine dicembre 2009 sono state introdotte delle estensioni per cui è impossibile mantenere una compatibilità con FidoCad\index{FidoCad}. Per la prima volta, FidoCadJ fa cose che FidoCad non può fare.
 
 La mia scelta di Java\index{Java} è motivata dal fatto che ho cambiato troppe 
 architetture e sistemi operativi negli ultimi anni (per ragioni che 
-non sto qui ad elencare) ed ho scelto uno strumento che non mi leghi ad 
+non sto qui ad elencare) ed ho scelto uno strumento che non mi legasse ad 
 una particolare architettura per il futuro. Inoltre, è un linguaggio 
 che conoscevo già, rispetto ad altre soluzioni multipiattaforma. 
 Lo sforzo di imparare il framework Cocoa\index{Cocoa} sarebbe probabilmente 
@@ -222,8 +222,11 @@ Per darmi una mano con FidoCadJ non occorre essere dei programmatori
 esperti: se volete, potete tradurre il programma in una lingua 
 straniera, rileggere con attenzione i manuali per trovare 
 inconsistenze o errori, curare la coerenza (e la traduzione) della 
-libreria standard\dots
-Potete anche partecipare ai forum, scrivere una recensione del programma, suggerire miglioramenti e segnalare bug.
+libreria standard\dots\
+Del tempo libero che dedico a FidoCadJ, solo una metà circa è dedicata al lavoro del codice. Il resto è costituito dalle risposte alle domande degli utenti e dal lavoro sulla documentazione.
+Se vi va, potete anche partecipare al forum di FidoCadJ, scrivere una recensione del programma, suggerire miglioramenti e segnalare bug. Il punto da cui partire è la pagina SourceForge:
+
+ \href{http://sourceforge.net/projects/fidocadj/}{http://sourceforge.net/projects/fidocadj/} 
 
 
 \myChapter{Il disegno con FidoCadJ}
@@ -275,10 +278,10 @@ o
  \textsc{Seleziona}\index{selezione}
 &
 Selezione di uno o più elementi grafici. 
-Premere \keyevidence{Control} (\keyevidence{Command} solo sotto MacOSX) per effettuare selezioni multiple o deselezionare un solo elemento. 
+Premere \keyevidence{Control} (\keyevidence{Command} con MacOSX) per fare selezioni multiple o deselezionare un solo elemento. 
 Fare click e trascinare per selezionare più elementi in un'area. 
-Premere \keyevidence{R} per ruotare gli elementi selezionati. 
-Premere \keyevidence{S} per specchiare gli elementi selezionati. 
+Premere \keyevidence{R} per ruotare la selezione. 
+Premere \keyevidence{S} per specchiare la selezione. 
 Fare doppio click su un elemento per modificarne le proprietà. 
 \\
 
@@ -308,7 +311,7 @@ Cliccare nel disegno e spostare il mouse per fare scorrere il disegno.
 }
 \textsc{Linea}\index{linea}
 &
-Introduce una linea o una serie di linee. Premere \keyevidence{Esc} o fare doppio click con il pulsante sinistro del mouse per terminare l'introduzione.%\footnote{Nelle versioni di Fidocad precedenti alla 0.20.5, fare click con il pulsante destro faceva passare alla modalità ``Seleziona''}
+Introduce una linea o una serie di linee. Premere \keyevidence{Esc}, fare click destro  o doppio click sinistro per terminare l'introduzione.
 \\
 
 \keyevidence{T}
@@ -318,7 +321,7 @@ Introduce una linea o una serie di linee. Premere \keyevidence{Esc} o fare doppi
 }
 \textsc{Testo}\index{testo}
 &
-Introduce una stringa di testo.
+Introduce una riga di testo.
 \\
 
 \keyevidence{B}
@@ -376,7 +379,7 @@ Disegna una connessione elettrica in uno schema.
 \raisebox{-.2em}{%
 \includegraphics[width=1em]{icons/pcbline}%
 }
-\textsc{Pista C. S.}\index{pista c. s.}
+\textsc{Pista}\index{pista c. s.}
 &
 Disegna una pista di circuito stampato. La larghezza di default può essere modificata nella finestra ``Vista/Opzioni''.
 \\
@@ -386,7 +389,7 @@ Disegna una pista di circuito stampato. La larghezza di default può essere modif
 \raisebox{-.2em}{%
 \includegraphics[width=1em]{icons/pcbpad}%
 }
-\textsc{Piazzola C. S.}\index{piazzola c. s.}
+\textsc{Piazzola}\index{piazzola c. s.}
 &
 Disegna una piazzola per circuito stampato. Le dimensioni di default possono essere modificate nella finestra ``Vista/Opzioni''.
 \\
@@ -436,7 +439,8 @@ A questo punto, dovremmo trovarci davanti una situazione simile a quella mostrat
 \label{fig_fidocadj_fase1}
 \end{figure}
 
-Una cosa che si nota subito è che il transistor bipolare sulla sinistra non è orientato correttamente. Basta fare click su ``Seleziona'', nella barra degli strumenti, selezionare il transistor (apparirà verde, con tre punti di controllo\index{punto di controllo} identificati da dei quadratini rossi) e poi premere \keyevidence{S} per specchiarlo. Otterremo quindi il risultato visibile in figura~\ref{fig_fidocadj_fase2}.
+Una cosa che si nota subito è che il transistor bipolare sulla sinistra non è orientato correttamente. Basta fare click su ``Seleziona'', nella barra degli strumenti, selezionare il transistor (apparirà verde, con tre punti di controllo\index{punto di controllo} identificati da dei quadratini rossi) e poi premere \keyevidence{S} per specchiarlo. Un'altra  possibilità è quella di premere il tasto \keyevidence{S} prima di introdurre il transistor nel disegno, quando questo è già stato selezionato nella lista dei simboli.
+Otterremo quindi il risultato visibile in figura~\ref{fig_fidocadj_fase2}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_fase2}
@@ -757,7 +761,7 @@ Esistono però altre cose interessanti che FidoCadJ può fare. L'opzione  \lstinli
 \begin{lstlisting}
 [davidebucci@Darwin]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.23.3 epsilon.
+This is FidoCadJ, version 0.23.4.
 By Davide Bucci, 2007-2010.
 
 Use: java -jar fidocadj.jar [-options] [file] 
@@ -794,7 +798,7 @@ java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
 \end{lstlisting}
 \lstset{language=FIDOCAD,
 	basicstyle=\small\ttfamily}
-L'opzione più semplice è \lstinline!-n! (meno enne), con cui il programma\dots non fa nulla, ovvero non fa partire un'interfaccia utente e non fa di sua sponte niente di interessante.
+L'opzione più semplice è \lstinline!-n! (meno enne), con cui il programma\dots\ non fa nulla, ovvero non fa partire un'interfaccia utente e non fa di sua sponte niente di interessante.
 Ovviamente, l'opzione \lstinline!-n! non serve a molto da sola, ma è interessante combinata con altre che vedremo tra un poco.
 
 L'opzione \lstinline!-d! permette di specificare una directory dove pescare delle librerie aggiuntive e, da ultima, l'opzione \lstinline!-c! permette di convertire un file FidoCad in un formato grafico a scelta fra quelli disponibili. Si tratta quindi dell'opzione che ci interessa maggiormente, soprattutto se utilizzata congiuntamente all'opzione \lstinline!-n!, che evita al programma di far partire un'interfaccia utente grafica.
@@ -838,16 +842,16 @@ Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella 
 
 
 \section{Gestione librerie}
-Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} A partire dalla versione 0.23, grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 2.1\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCad e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
+Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} A partire dalla versione 0.23.4, grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 3.0\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCad e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
 
-Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto solo all'avvio, quindi per far prendere in conto delle modifiche, il programma va riavviato.
+Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto all'avvio o quando l'utente configura FidoCadJ per leggere le librerie aggiuntive in un'altra directory. Si può forzare il programma a rileggere le librerie attraverso l'opzione ``Aggiorna librerie'' del menu ``Circuito''.
 
 Dalla versione 0.23, FidoCadJ permette (come del resto il FidoCad\index{FidoCad} originale) di suddividere le macro non standard\graffito{FidoCad aveva l'opzione ``Splitta le macro non standard''. FidoCadJ può fare esattamente lo stesso, ma in italiano.}, per permettere anche a chi non avesse la libreria in questione installata di vedere lo stesso il disegno. Per attivare quest'opzione, basta andare nelle preferenze del programma ed attivare la voce corrispondente nel tab ``Estensioni di FidoCadJ'', a seconda che si voglia suddividere le macro durante un salvataggio di un file, oppure durante il copia/incolla. Quest'ultima possibilità può essere utile per esempio quando si mostrano i disegni su un forum o su un gruppo di discussione riportandovi il codice.
 
 \myChapter{Il formato disegni, macro e librerie FidoCadJ}
 \label{chap_formato}
 
-In questo capitolo, sarà descritto in dettaglio il formato utilizzato da FidoCad\index{FidoCad} e di conseguenza da FidoCadJ\index{FidoCadJ} per memorizzare i disegni. Si tratta di un semplice formato testuale che ha il pregio di essere molto compatto ed efficiente. Dato che il formato non è mai stato descritto dettagliatamente in un documento esaustivo, cerco qui di riassumere tutto quello che ho imparato durante lo studio che ho compiuto. Nel corso dello sviluppo di FidoCadJ, mi sono trovato a dover aggiungere dei dettagli al formato originale. Descriverò qui anche le mie aggiunte.
+In questo capitolo, sarà descritto in dettaglio il formato utilizzato da FidoCad\index{FidoCad} e di conseguenza da FidoCadJ\index{FidoCadJ} per memorizzare i disegni. Si tratta di un semplice formato testuale che ha il pregio di essere molto compatto ed efficiente. Dato che il formato non è mai stato descritto dettagliatamente in un documento esaustivo, cerco qui di riassumere tutto quello che ho imparato durante lo studio che ho compiuto. Nel corso dello sviluppo di FidoCadJ, mi sono trovato a dover aggiungere dei dettagli al formato originale. Descriverò qui anche le mie aggiunte. Prima di cominciare, ricordo che a partire dalla versione 0.23.4, FidoCadJ utilizza unicamente l'encoding UTF-8 su tutte le piattaforme.
 
 \section{Descrizione dell'intestazione}
 Tutti i file contenenti un disegno in formato FidoCad\index{FidoCad} devono iniziare con il tag \lstinline![FIDOCAD]!. Un programma può quindi riconoscere la presenza di comandi FidoCad riconoscendo quindi questo tag. A questo proposito, FidoCadJ è più tollerante del FidoCad\index{FidoCad} originale e riconosce ed interpreta correttamente un file privo dell'intestazione standard\index{intestazione}. Anche comandi frammisti a testo vengono comunque riconosciuti ed interpretati correttamente, a meno che il numero di righe consecutive non corrette non superi un valore fissato internamente al programma (intorno al centinaio). Ciò evita che FidoCadJ macini inutilmente per diversi minuti per esempio tentando di aprire un file binario di grandi dimensioni.
@@ -991,8 +995,6 @@ Testo specchiato
 
 La lunghezza massima del testo\index{lunghezza massima testo} è di una ottantina di parole. Il conto è fatto in parole e non in caratteri perché nella struttura interna del programma le parole vengono contate separatamente al momento di interpretare la linea.
 
-
-
 \subsubsection{Poligono pieno o vuoto}
 Un poligono\index{poligono} pieno o vuoto è indicato rispettivamente dai comandi \lstinline!PP!\index{PP} e \lstinline!PV!\index{PV}, seguiti dalle coordinate dei vertici che definiscono il poligono e dal layer.
 \begin{lstlisting} 
@@ -1100,8 +1102,8 @@ Questo modo di procedere ha il vantaggio che se un file contenente un'estensione
 A partire dalla versione 0.21, FidoCadJ ha introdotto delle estensioni\index{estensione FidoCadJ} al formato FidoCad originale, che nel codice sono identificate dal comando \lstinline!FCJ!\index{FCJ}. 
 La presenza di un comando \lstinline!FCJ!\index{FCJ} indica in generale che il comando precedente non è terminato, ma che ulteriori informazioni restano da prendere in conto.
 
-FidoCadJ dispone di una modalità ``compatibilità con FidoCad'' all'interno della quale verranno disabilitate le estensioni, di modo da risultare perfettamente compatibile con il FidoCad originale.
-In caso contrario, FidoCad\index{FidoCad} leggerà ancora (fornendo un messaggio di errore) i file prodotti da FidoCadJ, ma le informazioni addizionali di cui fa uso FidoCadJ non saranno prese in conto nei disegni.
+FidoCadJ dispone di una modalità ``compatibilità con FidoCad'' all'interno della quale verranno disabilitate le estensioni, di modo da risultare compatibile con il FidoCad originale. 
+In caso contrario, FidoCad\index{FidoCad} leggerà ancora (fornendo un messaggio di errore) i file prodotti da FidoCadJ, ma le informazioni addizionali di cui fa uso FidoCadJ non saranno prese in conto nei disegni. Una seconda difficoltà è che FidoCadJ utilizza sempre ed in ogni caso l'encoding dei caratteri UTF-8. Questo costituisce purtroppo una fonte d'incompatibilità con FidoCad, basato sul vecchio sistema CP-1252. Alcune lettere accentate potranno non visualizzarsi correttamente nei file scambiati fra i due programmi.
 Il risultato dipenderà dal contesto: una riga tratteggiata apparirà continua, le frecce eventualmente presenti non saranno disegnate. Il testo associato al nome ed al valore di una macro sarà invece mostrato correttamente.
 La figura~\ref{fig_gyrator_n} dovrebbe riassumere quello che si ottiene fornendo a FidoCad il codice usato per disegnare la figura~\ref{fig_gyrator}. FidoCad protesterà un po' per via dei comandi che non comprenderà, mancano dei dettagli (il tratteggio e la freccia), ma in linea di massima il disegno è ancora utilizzabile.
 \begin{figure}
@@ -1131,7 +1133,6 @@ FJC A aaaa
 FJC B bbbb
 \end{lstlisting}
 dove $aaaa$ e $bbbb$ sono costanti decimali, a doppia precisione, rappresentanto la larghezza del tratto (in unità logiche) da utilizzare rispettivamente per il disegno dei segmenti e delle linee curve. La larghezza di default è fissata internamente a 0,5 unità logiche. 
-
 
 \section{Tolleranza agli errori sintattici}
 FidoCadJ è progettato per tollerare eventuali errori\index{tolleranza agli errori} o comandi malformati che vengano forniti al programma. Ovviamente, a meno che non abbiate una sfera di cristallo\index{sfera di cristallo} collegata come periferica USB, il programma non potrà correggere gli errori e si limiterà a saltare (ed eliminare) tutte le linee che li contengono.
@@ -1163,8 +1164,6 @@ La prima linea indica fra parentesi quadre\index{parentesi quadre} il nome della
 Ogni macro è formata da un'intestazione\index{intestazione} (fra parentesi quadre) ed una sequenza di comandi. L'intestazione è composta dal codice (che DEVE essere unico all'interno della libreria) e dalla descrizione. Il codice sarà utilizzato all'interno del codice FidoCad, mentre la descrizione serve solo all'utente per capire di che macro\index{macro} si tratta. I comandi non sono altro che dei disegni FidoCad, attorno al punto (100,100), utilizzato come origine. Questo punto sarà poi quello che verrà rimappato nel momento in cui la macro verrà introdotta. La macro verrà poi richiamata con la primitiva MC\index{MC}, con il codice ``libreria.macro''.
 
 Nulla impedisce di richiamare una macro all'interno di un'altra macro. Quello che bisogna evitare, ovviamente, è la ricorsione\index{ricorsione}, ovvero di scrivere una macro che richiama sé stessa.
-
-
 
 \section{Librerie standard}
 FidoCadJ contiene al suo interno alcune librerie tradizionalmente fornite con FidoCad\index{FidoCad}. In particolare, si tratta della libreria standard\index{libreria standard} e della libreria dedicata ai simboli per i circuiti stampati (PCB)\index{libreria PCB}.
