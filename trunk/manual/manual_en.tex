@@ -52,7 +52,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.3 \\ the user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.23.4 \\ the user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -120,15 +120,15 @@ A number of people used this software from its first versions and
 helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
 newsgroup\index{newsgroup} participants for their very fruitful discussions.
 
-This software has been very carefully tested under Linux thanks to
+This software has been very carefully tested on Linux thanks to
 Stefano Martini's patience. He is a very attentive alpha and beta
 tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
-for their tests under MacOSX.
+for their tests on MacOSX.
 
 I would like to thank ``F. Bertolazzi'' who has given very useful
 advices about the usability of this software. He also assembled the
 CadSoft Eagle\index{Eagle} compatibility library, useful to export
-FidoCadJ drawings under Eagle. Many thanks to ``Celsius'', who tested
+FidoCadJ drawings to Eagle. Many thanks to ``Celsius'', who tested
 the software functionalities for PCB realization, as well as its libraries.
 Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
 aspect on the Apple Macintosh, from the 0.21.1 version. I would like to thank 
@@ -230,7 +230,7 @@ Another file format useful for electronic schematics is the CadSoft
 Eagle script\index{CadSoft Eagle}, which is available from version
 0.21 of FidoCadJ. In this way, a schematics drawn with FidoCadJ can
 be exported to Eagle.
-The appendix~\ref{specifics} briefly describes how to install FidoCadJ under 
+The appendix~\ref{specifics} briefly describes how to install FidoCadJ on 
 the most diffused operating systems.
 
 
@@ -257,8 +257,7 @@ I did this work more or less around March 2007. A few moths later,
 the applet was on line and it was being tested by part of the community
 gravitating around it.hobby.elettronica\index{it.hobby.elettronica}
 and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
-\footnote{FidoReadJ\index{FidoReadJ} is still available, even if not regularly
-updated, at the address:\\
+\footnote{FidoReadJ\index{FidoReadJ} is still available at the address:\\
  \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc\&language=Francais}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.%
 }
 
@@ -274,7 +273,7 @@ The choice of using Java\index{Java} is due to the fact that in the
 last few years I changed a lot of operating systems. Spending time
 and energies on something which is not completely portable does not
 appeal to me anymore. The effort of learning the Cocoa framework would
-have probably given a better result under MacOSX, but it would have
+have probably given a better result on MacOSX, but it would have
 made FidoCadJ completely non-portable. I am not a computer guy. The
 time I spend to program is time taken away from my electronics interests.
 In fact, a simple analysis of the FidoCadJ code source shows that
@@ -308,20 +307,22 @@ source code using Subversion (SVN), or the SVN browser provided by SourceForge:
 If you want to help me with FidoCadJ, do not worry: you do not need to be an
 expert Java programmer. You can for example translate the user interface or the 
 manuals in a new language, check carefully the existing manuals for inconsistencies and
-errors. You can also work on the standard library\dots
+errors. You can also work on the standard library\dots\
+Consider that only the half of the spare time I dedicate to FidoCadJ is in reality dedicated to the coding activity. The rest is spent answering questions from users, writing and improving the documentation and so on.
 On SourceForge\index{SourceForge}, you can participate to the forums, write a 
-program review as well as suggest improvements or give a bug report.
+program review as well as suggest improvements or give a bug report:
 
+\href{http://sourceforge.net/projects/fidocadj/}{http://sourceforge.net/projects/fidocadj/}
 
 
 \myChapter{Drawing with FidoCadJ}
 
 The use of FidoCadJ should be quite intuitive for those who have ever
 used a vectorial drawing application\index{vectorial drawing}. A
-screenshot of the program running under MacOSX\index{MacOSX} is shown
+screenshot of the program running on MacOSX\index{MacOSX} is shown
 in Fig.~\ref{fig_fidocadj};\graffito{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
-different when running under other operating systems (for example
+different when running on other operating systems (for example
 Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
 on Sun\index{Sun}), but the philosophy remains the same. We will
 see what the features of the program are, and its basic elements (the
@@ -329,7 +330,7 @@ primitives)\index{primitive} which compose a FidoCadJ drawing. %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_macosx.png} 
 
-\caption{A typical FidoCadJ session running under MacOSX Tiger\index{MacOSX}.
+\caption{A typical FidoCadJ session running on MacOSX Tiger\index{MacOSX}.
 Appendix~\ref{specifics} describes the peculiarities of the version
 specific for Macintosh\index{Macintosh}.}
 
@@ -393,7 +394,7 @@ stick to the nearest step of the grid.
 
 \keyevidence{A} or \keyevidence{Spacebar} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
 \textsc{Select}\index{selection}  & Selects one or more graphic elements. Press \keyevidence{Control}
-(\keyevidence{Command} only under MacOSX) for multiple selections
+(\keyevidence{Command} only on MacOSX) for multiple selections
 or to deselect only one element. Click and drag to select several
 elements in an area. Press \keyevidence{R} to rotate the selected
 elements. Press \keyevidence{S} to mirror the selected elements.
@@ -520,7 +521,7 @@ oriented. To fix the problem is sufficient to click on {}``Select'',
 from the toolbar, select the transistor (which will be highlighted
 in green, with three control points\index{control point} identified
 by small red squares) and then press \keyevidence{S} to obtain
-its mirrored version. We will thus obtain a result similar to the
+its mirrored version. You may also press \keyevidence{S} when you have selected the symbol in the libraries and you are about to position it in the drawing. We will thus obtain a result similar to the
 one shown in figure~\ref{fig_fidocadj_fase2}.
 
 %
@@ -790,7 +791,7 @@ inductance. We should be able to reproduce the result shown in figure~\ref{fig_a
 
 
 To complete the electrical connections we can use the \emph{PCB line}
-primitive\index{PCB line}. I chose a track thickness of 10 unità
+primitive\index{PCB line}. I chose a track thickness of 10 units
 (1.27~mm), which helps the soldering process. %
 \begin{figure}
 \includegraphics[width=1\textwidth]{amplificateur_phase3} 
@@ -951,7 +952,7 @@ There are several different drawing styles for the arrow\index{arrow styles} as 
 \caption{The parameter window of the Bézier curve shown used in the schematics of figure~\ref{fig_gyrator}}
 \label{fig_parametri_bezier}
 \end{figure}
-The possibility of chosing a dashing style and putting arrowheads was not comprised in the original FidoCad format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCad\index{FidoCad} per Windows.
+The possibility of choosing a dashing style and putting arrowheads was not comprised in the original FidoCad format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCad\index{FidoCad} per Windows.
 When you do chose to use a FidoCadJ extension, you need to know what you are doing. If you need to have a complete FidoCad compatibility, you can activate the option ``Strict FidoCad compatibility'' in the ``FidoCadJ extensions'' tab of the ``FidoCadJ preferences'' window. In this way, the program will not allow you to introduce graphical elements which would give compatibility problems with FidoCad. If you need more details about the compatibility of the new graphical elements with FidoCad\index{FidoCad}, have a look at section~\ref{FCJ_extension}.
 
 
@@ -1111,7 +1112,7 @@ Example: load and convert a FidoCad drawing to a png file without using the GUI.
 \lstset{language=FIDOCAD,
     basicstyle=\small\ttfamily}
     
-The most simple option is \lstinline!-n!, with which the software\dots does nothing, i.e. it does not activate the GUI and just exits. Obviously, this option is not so much useful alone, but it will be precious when using in combination with other functionalities we will describe in a minute.
+The most simple option is \lstinline!-n!, with which the software\dots\ does nothing, i.e. it does not activate the GUI and just exits. Obviously, this option is not so much useful alone, but it will be precious when using in combination with other functionalities we will describe in a minute.
 Option \lstinline!-d! allows to specify the directory where FidoCadJ will seek for libraries to be loaded at startup. Option \lstinline!-c! allows to make FidoCadJ convert a FidoCad file (which must be specified) into an image in a vector or raster format. This can be very useful, as FidoCadJ can be used as a converter in a non interactive way (along with the \lstinline!-n! option)
 
 We can thus have a look at the example given in the help:
@@ -1150,7 +1151,7 @@ java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fido
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_motif} 
 
-\caption{The appearance of the program under MacOSX\index{MacOSX}, using the Motif look \& feel.}
+\caption{The appearance of the program on MacOSX\index{MacOSX}, using the Motif look \& feel.}
 
 
 \label{fig_fidocadj_motif} 
@@ -1180,11 +1181,11 @@ files management.%
 libraries and loaded together with the standard library. This is done
 at start time, which means that any modification will take effect
 when the application is restarted.
-From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 2.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
+From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.0 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
 Exactly as it happens for the other libraries embedded in FidoCadJ, if there is a file called \lstinline!IHRAM.FCL! in the current library search path, this one will be loaded at the place
 of the version embedded in the program.
 
-Other files with \lstinline!.fcl! extension in the library search path will be considered as libraries and FidoCadJ will try to load them when it is starting. This is done only once, so if you need to add or remove libraries in the directory you use for them, remember to restart FidoCadJ.
+Other files with \lstinline!.fcl! extension in the library search path will be considered as libraries and FidoCadJ will try to load them when it is starting. This is done when the application starts, when the user change the library search path, or when the ``Update libraries'' option in the ``Circuit menu'' is chosen.
 
 From version 0.23, FidoCadJ allows to split non standard macros (as the original FidoCad\index{FidoCad} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro which does not belong to the standard FidoCad\index{FidoCad} libraries is expanded into its graphic primitives. The reader thus does not need to have the very same libraries you have installed in your system to read your post.
 To activate this behaviour, you have to activate ``Split non standard macros'' in the ``FidoCadJ extensions'' tab of the ``Preferences'' window. You can choose if you want to do that when saving files or when doing a copy/paste of parts of the drawing.
@@ -1196,7 +1197,7 @@ FidoCad and, as a consequence, by FidoCadJ to store a drawing. It
 is a simple text format which has the advantage of being very compact
 and efficient. Since the format has never been described in detail
 in a document, I will try to summarize all that I learnt about it.
-Since I added a few extensions which are only available on FidoCadJ, I will try to describe them here as well.
+Since I added a few extensions which are only available on FidoCadJ, I will try to describe them here as well. Remember that from version 0.23.4, FidoCadJ uses only the UTF-8\index{UTF-8} encoding\index{encoding} on all platforms.
 
 \section{Header description}
 
@@ -1409,7 +1410,7 @@ the polyline, and the layer. The commands are
 PP x1 y1 x2 y2 ... l 
 PV x1 y1 x2 y2 ... l 
 \end{lstlisting} 
-where the points $(x_{1},y_{1})$, $(x_{2},y_{2})$\dots are the vertices
+where the points $(x_{1},y_{1})$, $(x_{2},y_{2})$\dots\ are the vertices
 that define the polyline and $l$ is the layer, characterized by a
 whole number between 0 and 15. The length of the command line can
 thus vary depending on the number of vertices used. The maximum number
@@ -1561,7 +1562,7 @@ will be identical to the one produced by FidoCadJ (see section~\ref{FCJ_extensio
 \label{FCJ_extension}
 Since version 0.21, FidoCadJ has started to introduce a few refinements over the original FidoCad forma\index{FidoCadJ extension}. The FidoCadJ extensions are represented in the code by the command \lstinline!FCJ!\index{FCJ}. This command is not used alone, but means that FidoCadJ needs to specify additional information on what it is specified in the previous line.
 
-FidoCadJ allows to activate a ``strict FidoCad compatibility mode'', in which all extensions are disabled. This way, FidoCadJ will be perfectly compatible with the original FidoCad\index{FidoCad}.
+FidoCadJ allows to activate a ``strict FidoCad compatibility mode'', in which all extensions are disabled. This way, FidoCadJ will be perfectly compatible with the original FidoCad\index{FidoCad}, except that FidoCadJ will continue using the UTF-8\index{UTF-8} encoding\index{encoding} instead of the old CP-1252\index{CP-1252} used by FidoCad\index{FidoCad}.
 FidoCad for Windows is unable to understand the additional informations carried by the \lstinline!FCJ!\index{FCJ} command. When reading with the original FidoCad a FidoCadJ drawing containing some extension, the program will prompt a few errors and will give a result which is different from the original FidoCadJ drawing.
 The results will depend on what extension has been used: a dashed line will be rendered as continuos, the arrow heads will be not drawn. The text associated to the name and the value of a macro will instead be perfectly rendered.
 
@@ -1569,7 +1570,7 @@ Figure~\ref{fig_gyrator_n} shows what can be obtained using FidoCad\index{FidoCa
 
 \begin{figure}
 \includegraphics[width=\textwidth]{gyrator_n}
-\caption{Figure~\ref{fig_gyrator} as it would appear under FidoCad for Windows.}
+\caption{Figure~\ref{fig_gyrator} as it would appear on FidoCad for Windows.}
 \label{fig_gyrator_n}
 \end{figure}
 
@@ -1697,7 +1698,7 @@ not send me any attachment!).
 
 One of the most frequent criticisms raised against the early versions
 of FidoCadJ from Macintosh users (like me, by the way) was the poor
-integration of the program under MacOSX. Starting from version 0.21.1,
+integration of the program on MacOSX. Starting from version 0.21.1,
 FidoCadJ is making specific efforts to comply better with the look
 and the philosophy of Mac's native applications. For this reason,
 some details in the program are slightly different when FidoCadJ is
@@ -1717,11 +1718,11 @@ files; These are associated to a specific icon, which should be sufficiently
 evocative.
 \end{itemize}
 
-\subsection{How to download and execute FidoCadJ under MacOSX}
+\subsection{How to download and execute FidoCadJ on MacOSX}
 FidoCadJ can work with a MacOSX\index{MacOSX} version more recent than 10.3.9 (Panther\index{Panther}).
 The reason is that under the hood FidoCadJ needs at least the 1.4 version of Java, which Apple provides with this operating system.
 
-Even if you can use directly the Java archive \lstinline!fidocad.jar! as you would do under other operating systems, under MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
+Even if you can use directly the Java archive \lstinline!fidocad.jar! as you would do on other operating systems, on MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
 {\small
 \href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}}\\
@@ -1789,7 +1790,7 @@ Let's create a new directory (but at first we will become a superuser\index{supe
 # mkdir /usr/bin/fidocadj
 \end{lstlisting}
 
-\dots and we can move there the downloaded file (substitute \lstinline!<user>! with the user name of the account where the file has been downloaded):
+\dots\ and we can move there the downloaded file (substitute \lstinline!<user>! with the user name of the account where the file has been downloaded):
 
 \begin{lstlisting}
 # mv /home/<user>/fidocadj.jar /usr/bin/fidocadj
@@ -1826,7 +1827,7 @@ In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not cha
 \begin{figure}
 \centering
 \includegraphics[width=.8\textwidth]{permessi}
-\caption{The setting of file rights, under Ubuntu\index{Ubuntu} 8.04.}
+\caption{The setting of file rights, on Ubuntu\index{Ubuntu} 8.04.}
 \label{fig_permessi}
 \end{figure}
 
@@ -1835,7 +1836,7 @@ In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not cha
 \begin{figure}
 \centering
 \includegraphics[width=.8\textwidth]{java6}
-\caption{Set the execution with the Java virtual machine, under Ubuntu\index{Ubuntu} 8.04.}
+\caption{Set the execution with the Java virtual machine, on Ubuntu\index{Ubuntu} 8.04.}
 \label{fig_java6}
 \end{figure}
 
@@ -1861,7 +1862,7 @@ Since version 0.23, when FidoCadJ recognizes a Windows platform, it will try to 
 \thispagestyle{empty}
 \mbox{ }
 \vfill
-This manual has been written using \textsc{pdf}\LaTeX\ under MacOSX, with the \href{http://www.ctan.org/tex-archive/macros/latex/contrib/classicthesis/}{classicthesis} class.
+This manual has been written using \textsc{pdf}\LaTeX\ on MacOSX, with the \href{http://www.ctan.org/tex-archive/macros/latex/contrib/classicthesis/}{classicthesis} class.
 Listings have been composed by using the  \href{http://www.ctan.org/tex-archive/macros/latex/contrib/listings/}{listings} packet. The \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} packet has been used for the figure~\ref{fig_schema}. All those packets are available on the CTAN archive.
 
 This work has been composed with the \emph{Palatino} font, by Hermann Zapf. 
