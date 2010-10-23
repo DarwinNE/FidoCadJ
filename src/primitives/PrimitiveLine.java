@@ -242,6 +242,7 @@ public class PrimitiveLine extends GraphicPrimitive
 	private BasicStroke stroke;
 	private int length2;
 	private int xbpap1, ybpap1;
+	private boolean arrows;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -257,7 +258,7 @@ public class PrimitiveLine extends GraphicPrimitive
 		// in the line primitive, the first two virtual points represent
 		//   the beginning and the end of the segment to be drawn. 
 
-		if(changed || stroke==null) {
+		if(changed) {
 			changed=false;
 			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
@@ -277,8 +278,10 @@ public class PrimitiveLine extends GraphicPrimitive
  				ya=y1;
  				yb=y2;
  			}
- 			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-coordSys.mapXi(0,0, false);
- 			l=coordSys.mapXi(arrowLength,arrowLength, false)-coordSys.mapXi(0,0,false);
+ 			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+ 				coordSys.mapXi(0,0, false);
+ 			l=coordSys.mapXi(arrowLength,arrowLength, false)-
+ 				coordSys.mapXi(0,0,false);
 
 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
@@ -287,7 +290,8 @@ public class PrimitiveLine extends GraphicPrimitive
  			if(dashStyle>0) {
 				stroke=new BasicStroke(w, BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
-                                          10.0f, Globals.dash[dashStyle], 0.0f);
+                                          10.0f, Globals.dash[dashStyle], 
+                                          0.0f);
 
 			} else {
     			stroke =new BasicStroke(w);
@@ -295,13 +299,13 @@ public class PrimitiveLine extends GraphicPrimitive
 			}
 			xbpap1=(xb-xa)+1;
 			ybpap1=(yb-ya)+1;
+			arrows = arrowStart || arrowEnd;
 		}
 
 		// This is a trick. We skip drawing the line if it is too short.
 		if(length2>2) {
 			if(!g.hitClip(xa,ya, xbpap1,ybpap1))
  				return;
-			
 			
 			// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
 			// setting the stroke takes a lot of time!
@@ -311,9 +315,11 @@ public class PrimitiveLine extends GraphicPrimitive
 			g.drawLine(x1, y1, x2, y2);
 		
 			// Eventually, we draw the arrows at the extremes.
-			if (arrowStart || arrowEnd) {	
-				if (arrowStart) Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
-				if (arrowEnd) Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
+			if (arrows) {	
+				if (arrowStart) 
+					Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
+				if (arrowEnd) 
+					Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
 			}
 		}
  		return;
