@@ -198,9 +198,11 @@ public class PrimitivePolygon extends GraphicPrimitive
  		// (mine is 1.5.something on an iMac G5 at 2 GHz).
  		
  		for(int i=0; i<nPoints-1; ++i) {
- 			g.drawLine(p.xpoints[i],p.ypoints[i], p.xpoints[i+1],p.ypoints[i+1]);
+ 			g.drawLine(p.xpoints[i],p.ypoints[i], p.xpoints[i+1],
+ 				p.ypoints[i+1]);
  		}
- 		g.drawLine(p.xpoints[nPoints-1],p.ypoints[nPoints-1], p.xpoints[0],p.ypoints[0]);
+ 		g.drawLine(p.xpoints[nPoints-1],p.ypoints[nPoints-1], p.xpoints[0],
+ 			p.ypoints[0]);
 			
 	}
 	

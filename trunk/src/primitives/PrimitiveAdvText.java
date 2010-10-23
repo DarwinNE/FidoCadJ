@@ -126,6 +126,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 	private int h, th, w, hh, ww;
 	private int x1, y1, xa, ya, qq;
 	private double xyfactor, si, co;
+	private boolean needStretching;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -191,26 +192,24 @@ public class PrimitiveAdvText extends GraphicPrimitive
     		w = fm.stringWidth(txt);
     				
  			xyfactor=1.0;
+ 			needStretching = false;
  			stretching = new AffineTransform();
-
  		
  			if(siy/six != 10/7){
     			// Create a transformation for the font. 
-				xyfactor=(double)siy/(double)six*22.0/40.0; 	
+				xyfactor=(double)siy/(double)six*22.0/40.0;
+				needStretching = true;
    			}
- 				
+ 			stretching.scale(1,xyfactor);
+ 			
     		if(orientation!=0){
     			si=Math.sin(Math.toRadians(-orientation));
 				co=Math.cos(Math.toRadians(-orientation));
-    		
+   			
     			if(mirror) {
     				mm = new AffineTransform(); 
     				mm.scale(-1,1);
-    				stretching.scale(1,xyfactor);
-				
-    			} else {
-    				stretching.scale(1,xyfactor);
-				}
+    			}
     		
 				hh=(int)(w*si+th*co);
 				ww=(int)(w*co-th*si);
@@ -223,7 +222,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
   				if (!mirror){
   					coordSys.trackPoint(xa+w,ya);
 					coordSys.trackPoint(xa,ya+(int)(h/xyfactor));
-					stretching.scale(1,xyfactor);
 				} else {
 					coordSys.trackPoint(xa-w,ya);
 					coordSys.trackPoint(xa,ya+(int)(th/xyfactor));
@@ -233,14 +231,14 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		}
 	   	
    		at=(AffineTransform)g.getTransform().clone();
-		ats=(AffineTransform)g.getTransform().clone();
-	
+		ats=(AffineTransform)at.clone();
+
 		if(orientation!=0){
     		if(mirror) {
     			// Here the text is rotated and mirrored
     		    at.concatenate(mm);
 				at.rotate(Math.toRadians(orientation),-xa, ya);
-				at.concatenate(stretching);
+				if(needStretching) at.concatenate(stretching);
    				g.setTransform(at);
 				if(!g.getFont().equals(f))
 	   				g.setFont(f);
@@ -250,7 +248,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
     		} else {
     			// Here the text is just rotated
 				at.rotate(Math.toRadians(-orientation),xa,ya);
-				at.concatenate(stretching);
+				if(needStretching) at.concatenate(stretching);
    				g.setTransform(at);
    				if(!g.getFont().equals(f))
 	   				g.setFont(f);
@@ -259,18 +257,24 @@ public class PrimitiveAdvText extends GraphicPrimitive
   		} else {
 			if (!mirror){
 				// Here the text is normal
-				at.concatenate(stretching);
-				g.setTransform(at);
+				if(needStretching) { 
+					at.concatenate(stretching);
+					g.setTransform(at);
+				}
 				
 				if(g.hitClip(xa,qq, w, th)){
 					if(th<Globals.textSizeLimit) {
 						g.drawLine(xa,qq,xa+w,qq);
-						g.setTransform(ats);
+						if(needStretching) 
+							g.setTransform(ats);
 	   					return;
 	    			} else {
 	    				if(!g.getFont().equals(f))
 	   						g.setFont(f);
 						g.drawString(txt,xa,qq+h);
+						if(needStretching) 
+							g.setTransform(ats);
+	   					return;
 					}
 				}
 			} else {
@@ -285,6 +289,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 				}
 			}
 		}
+		
 		g.setTransform(ats);
 	}
 	

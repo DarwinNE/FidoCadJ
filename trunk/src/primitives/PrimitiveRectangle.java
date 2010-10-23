@@ -181,8 +181,21 @@ public class PrimitiveRectangle extends GraphicPrimitive
  			// Java api is to skip the rightmost and bottom pixels 
  			g.fillRect(xa,ya,(xb-xa)+1,(yb-ya)+1);
  		} else {
- 			if(xb!=xa || yb!=ya)
- 				g.drawRect(xa,ya,(xb-xa),(yb-ya));			
+ 			if(xb!=xa || yb!=ya) {
+ 				//g.drawRect(xa,ya,(xb-xa),(yb-ya));	
+ 		
+ 		// It seems that under MacOSX, drawing a rectangle by cycling with
+ 		// the lines is much more efficient than the drawRect method.
+ 		// Probably, a further investigation is needed to determine if
+ 		// this situation is the same with more recent Java runtimes
+ 		// (mine is 1.5.something on an iMac G5 at 2 GHz).
+ 		
+ 				g.drawLine(xa, ya, xb,ya);
+ 				g.drawLine(xb, ya, xb,yb);
+ 				g.drawLine(xb, yb, xa,yb);
+ 				g.drawLine(xa, yb, xa,ya);
+ 				
+ 			}
 		}
  	}
 	

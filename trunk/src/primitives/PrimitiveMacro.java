@@ -780,10 +780,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 		if (!name.equals("") || !value.equals("")) {
 			if(extensions) s+="FCJ\n";
 			s+="TY "+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "+getLayer()
+				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
+				+getLayer()
 				+" "+subsFont+" "+name+"\n";
 			s+="TY "+virtualPoint[2].x+" "+virtualPoint[2].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "+getLayer()
+				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
+				+getLayer()
 				+" "+subsFont+" "+value+"\n";
 		}
 		
