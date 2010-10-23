@@ -105,6 +105,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
 		siy=sy;
 		sty=st;
 		txt=t;
+		o=or;
 		fontName=fn;
 		setLayer(l);
 		changed=true;
