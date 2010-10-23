@@ -154,10 +154,8 @@ public class ExportFidoCad implements ExportInterface {
 		if (isMirrored)
 			style+=4;
 			
-			
 		out.write((new PrimitiveAdvText(x,y, sizex, sizey, fontname, 
 			orientation, style,text, layer)).toString(extensions)); 
-	
 		
 	}
 	

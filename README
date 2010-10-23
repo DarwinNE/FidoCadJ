@@ -15,8 +15,8 @@ is very simple and somewhat limited, FidoCadJ can be very useful as an
 Electronic  design automation (EDA) software. FidoCadJ is inspired from FidoCad 
 (without "J"), which was a vector graphic editor useful for electrical 
 schematics and printed circuit boards. It uses a file format containing 
-only 7-bit ASCII text, very compact and suited for copy and pasting 
-from/into newsgroups and forum messages. 
+only UTF-8 text, very compact and suited for copy and pasting from/into 
+newsgroups and forum messages. 
 This determined its success among the italian Usenet community, from late 
 '90s, as it is quite versatile for simple mechanical drawings as well. 
 FidoCadJ is internationalized and its interface and manuals are available 
@@ -113,7 +113,7 @@ You should comment the code block as follows:
 /*      if(Globals.weAreOnAMac) {
             AppleSpecific a=new AppleSpecific();
             a.answerFinder();
-        }		*/
+        }       */
         
 And everything should compile fine.
 
@@ -129,8 +129,8 @@ code:
     for(i=0; i<10; ++i) {   // starting brace here
         // indented code (4 spaces)
         System.out.println("I counted up to "+i);
-    }	// close brace here at the same level of the 'if'
-	
+    }   // close brace here at the same level of the 'if'
+    
 - methods are indented as follows:
 
     void dummy (int i, int j) 
@@ -155,7 +155,8 @@ manual or in the program, any correction is welcomed. I will be very happy
 to know what do you think about FidoCadJ. I would be glad to receive some 
 help: if you know Java and you want to work on the source code you will be 
 welcome.
-If your Java coding is not fluent, you can participate to the project by improving the manuals or translating the interface, or just giving an advice. 
+If your Java coding is not fluent, you can participate to the project by 
+improving the manuals or translating the interface, or just giving an advice. 
 Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
 forums (the email address is valid without the nope part, but no 
 attachments, please). It is probably better to open a discussion in the 
@@ -209,8 +210,8 @@ Pay attention that sometimes there are spaces at the end of the value
 strings which need to be kept in place. You may be careful about always 
 providing complete files, since if a resource is missing, FidoCadJ can abort. 
 
-4.2 I would like to participate to the coding activity
-------------------------------------------------------
+4.2 "I would like to participate to the coding activity"
+--------------------------------------------------------
 
 This is very nice from you. We will be happy for that. You can manifest 
 yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
@@ -250,11 +251,13 @@ Translate user interface            Everything is done on FidoCadJ to make it
                                     your country!
 -------------------------------------------------------------------------------
 Translate manual                    This is an hard work, but it will be very 
-                                    welcomed by the users of your country.
+                                    welcomed by the users of your country. You 
+                                    will probably need an idea on how LaTeX
+                                    works.
 -------------------------------------------------------------------------------
 YouTube video tutorial              I will put on the FidoCadJ's page a link to 
                                     the best video tutorials about FidoCadJ on 
-                                    YouTube. Why don't you try?
+                                    YouTube. Why don't you give it a try?
 -------------------------------------------------------------------------------
 Report bugs                         Use the bug and artifact tracking system of
                                     SourceForge or drop me an email.
