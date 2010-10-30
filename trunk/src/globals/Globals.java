@@ -14,17 +14,7 @@ What? Global variables should not be used?
 
 But... who cares!!!
 
-<pre>
-   Version History 
 
-Version   Date           Author       Remarks
--------------------------------------------------------------------------------
-1.0     January 2008        D. Bucci    First working version
-1.1		June 2008			D. Bucci	A few improvements
-1.2		June 2009			D. Bucci	A few SCHIFIO's have been eliminated
-    									Capitalized
-1.2.1	March 2010			D. Bucci	A few details added
-    
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
