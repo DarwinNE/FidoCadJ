@@ -155,5 +155,16 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
 
         contentPane.add(programDescription2, constraints);
+        
+        JLabel programDescription3=new JLabel(Globals.messages.getString("programDescription3"));
+        constraints.gridx=0;
+        constraints.gridy=5;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.CENTER;
+        constraints.insets=new Insets(0,20,20,20);
+
+        contentPane.add(programDescription3, constraints);
+        
     }
 }
