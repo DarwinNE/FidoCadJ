@@ -221,8 +221,14 @@ public class FidoFrame extends JFrame implements
             
             // Standard dialogs are vastly better on MacOSX than the Swing ones
             Globals.useNativeFileDialogs=true;
+            // The order of the OK and Cancel buttons differs in Windows and
+            // MacOSX. How about the most common Window Managers in Linux?
+            Globals.okCancelWinOrder = false;
 
         } else {
+        	// This solves the bug #3076513
+            Globals.okCancelWinOrder = true;
+
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
         

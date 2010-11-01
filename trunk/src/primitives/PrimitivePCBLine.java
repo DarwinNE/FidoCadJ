@@ -113,7 +113,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 		/* in the PCB line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
 		   
-		if(changed || stroke==null) {
+		if(changed) {
 			changed=false;
 			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);

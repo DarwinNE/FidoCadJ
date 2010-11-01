@@ -24,7 +24,7 @@ import dialogs.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2010 by Davide Bucci
 </pre>
 
 
@@ -114,20 +114,25 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 		constraints.anchor=GridBagConstraints.WEST;
 		constraints.insets=new Insets(20,20,12,20);
         contentPane.add(scrollPane, constraints);
-        
-        
-        Box b=Box.createHorizontalBox();
-        
+               
         JButton ok=new JButton("Ok");
         JButton cancel=new JButton("Cancel");
         
-        
-		
-        b.add(Box.createGlue());
-		b.add(cancel);
-		b.add(Box.createHorizontalStrut(12));
+        // Put the OK and Cancel buttons and make them active.
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
 		ok.setPreferredSize(cancel.getPreferredSize());
-		b.add(ok);
+
+		if (Globals.okCancelWinOrder) {
+			b.add(ok);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(cancel);
+		
+		} else {
+			b.add(cancel);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(ok);
+		}
 		b.add(Box.createHorizontalStrut(20));
 
         constraints.gridx=0;
