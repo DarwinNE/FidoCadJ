@@ -195,12 +195,21 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints.insets=new Insets(6,20,20,20);
 		constraints.anchor=GridBagConstraints.EAST;
 		
-		Box b=Box.createHorizontalBox();
-		b.add(Box.createHorizontalGlue());
-		b.add(cancel);
-		b.add(Box.createHorizontalStrut(12));
+		// Put the OK and Cancel buttons and make them active.
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
 		ok.setPreferredSize(cancel.getPreferredSize());
-		b.add(ok);
+
+		if (Globals.okCancelWinOrder) {
+			b.add(ok);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(cancel);
+		
+		} else {
+			b.add(cancel);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(ok);
+		}
 		contentPane.add(b, constraints);			// Add cancel button	
 		
 		ok.addActionListener(new ActionListener()

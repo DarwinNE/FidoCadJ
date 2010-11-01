@@ -654,6 +654,11 @@ public class ParseSchem
 
     
     private double oZ, oX, oY, oO;
+	private	GraphicPrimitive gg;
+	private	int i_index;
+    private	int j_index;
+    private	int la;    	    	
+
 
     /** Draw the current drawing.
     	This code is rather critical. Do not touch it unless you know very
@@ -664,10 +669,6 @@ public class ParseSchem
     */
     final public void draw(Graphics2D G)
     {
-		GraphicPrimitive gg;
-		int i_index;
-    	int j_index;
-    	int la;    	    	
    	
     	// At first, we check if the current view has changed. 
     	if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() 
@@ -736,7 +737,8 @@ public class ParseSchem
         		// We will process only primitive which require holes (pads
         		// as well as macros containing pads).
         		
-            	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).needsHoles()) {
+            	if ((gg=(GraphicPrimitive)primitiveVector.get(i_index)).
+            		needsHoles()) {
 					gg.setDrawOnlyPads(true);
 					gg.draw(G, cs, layerV);
             		gg.setDrawOnlyPads(false);
@@ -776,7 +778,6 @@ public class ParseSchem
         			
        		if(gg.needsHoles())
        			needHoles=true;
-
         }
     }
     
@@ -807,6 +808,8 @@ public class ParseSchem
  	private BufferedImage bufferedImage; // Useful for grid calculation
     private double oldZoom;
     private TexturePaint tp;
+    private int width;
+    private int height;
  	
     /** Draw the grid in the given graphic context
         @param G the graphic context to be used
@@ -864,10 +867,10 @@ public class ParseSchem
     	
     		}
 				
-			int width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));
+			width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));
 			if (width<=0) width=1;
 				
-			int height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
+			height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
         	if (height<=0) height=1;
 		
 			/* Nowadays computers have generally a lot of memory, but this is not 
@@ -889,12 +892,13 @@ public class ParseSchem
 				return;
         	}
 		
-
-
 			try {
         		// Create a buffered image in which to draw
-        		bufferedImage = new BufferedImage(width, height, 
-        								  BufferedImage.TYPE_INT_ARGB);
+        		//bufferedImage = new BufferedImage(width, height,
+        		//System.out.println(""+width+ "   "+height);
+        		bufferedImage = new BufferedImage(width, height,
+        								  BufferedImage.TYPE_INT_BGR);
+        								  
     		} catch (java.lang.OutOfMemoryError E) {
     			System.out.println("Out of memory error when painting grid");
     			return;
@@ -922,7 +926,6 @@ public class ParseSchem
 		// Textured paint :-)
     	G.setPaint(tp);
     	G.fillRect(0, 0, xmax, ymax);
-    	
     }
     
     /** Draw the handles of all selected primitives

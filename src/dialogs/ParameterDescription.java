@@ -3,10 +3,6 @@ package dialogs;
 	The user should check the parameter type before using. The allowed parameter 
 	types are: (Integer|Double|String|Boolean|Point).
 	
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     June 2008      	D. Bucci    First working version
-1.1     October 2009   	D. Bucci	isExtension parameter    
 
 <pre>
 	This file is part of FidoCadJ.

@@ -295,14 +295,16 @@ public abstract class GraphicPrimitive
 		
 		if(selectedState) {
 			g.setColor(Color.green);
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 
+				1.0f));
 			oldalpha = 1.0f;
 		} else {
 			if(g.getColor()!=l.getColor() || oldalpha!=alpha) {
 				g.setColor(l.getColor());
 				alpha=l.getAlpha();
 				oldalpha = alpha;
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				g.setComposite(AlphaComposite.getInstance(
+					AlphaComposite.SRC_OVER, alpha));
 			}
 		}	
 		return true;
@@ -346,6 +348,8 @@ public abstract class GraphicPrimitive
 	{
 		int xa;
 		int ya;
+		int hw2=HANDLE_WIDTH/2;
+		int hl2=HANDLE_WIDTH/2;
 		
 		for(int i=0;i<getControlPointNumber();++i) {
 			xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
@@ -354,8 +358,8 @@ public abstract class GraphicPrimitive
 			// Recognize if we have clicked on a handle. Basically, we check
 			// if the point lies inside the rectangle given by the handle.
 			
- 			if(GeometricDistances.pointInRectangle(xa-HANDLE_WIDTH/2,
- 							ya-HANDLE_WIDTH/2,
+ 			if(GeometricDistances.pointInRectangle(xa-hw2,
+ 							ya-hl2,
  							HANDLE_WIDTH,HANDLE_WIDTH,px,py))
  				return i;
  			
@@ -375,9 +379,12 @@ public abstract class GraphicPrimitive
     */
     public boolean selectRect(int px, int py, int w, int h)
 	{
+		int xa;
+		int ya;
+		
 		for(int i=0;i<getControlPointNumber();++i) {
-			int xa=virtualPoint[i].x;
- 			int ya=virtualPoint[i].y;
+			xa=virtualPoint[i].x;
+ 			ya=virtualPoint[i].y;
  			
  			if(((px<=xa)&&(xa<(px+w)) && ((py<=ya)&&(ya<(py+h))))) {
  				setSelected(true);

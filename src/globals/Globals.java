@@ -58,6 +58,10 @@ public class Globals
    	
    	// Quaqua is a better Mac L&F
    	public static boolean quaquaActive; 
+   	
+   	// Show the cancel button to the right of the OK button, as it is done in
+   	// Windows
+   	public static boolean okCancelWinOrder;
     
     // Track the total number of FidoCadJ open windows
     public static int openWindows;

@@ -127,13 +127,22 @@ public class DialogPrint extends JDialog implements ComponentListener
 		constraints.gridwidth=4;
 		constraints.gridheight=1;
 		constraints.anchor=GridBagConstraints.EAST;
-		Box b=Box.createHorizontalBox();
-		b.add(Box.createHorizontalGlue());
-		b.add(cancel);
-		b.add(Box.createHorizontalStrut(12));
+		
+		// Put the OK and Cancel buttons and make them active.
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
 		ok.setPreferredSize(cancel.getPreferredSize());
-		b.add(ok);
-		contentPane.add(b, constraints);			// Add cancel button	
+
+		if (Globals.okCancelWinOrder) {
+			b.add(ok);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(cancel);
+		
+		} else {
+			b.add(cancel);
+			b.add(Box.createHorizontalStrut(12));
+			b.add(ok);
+		}	
 		
 		ok.addActionListener(new ActionListener()
 		{

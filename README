@@ -56,7 +56,7 @@ manual/                     the LaTeX manuals
 profile                     launch a profiler (jip)
 rebuild                     do a clean and then runs FidoCadJ
 run                         run FidoCadJ
-src                         contains all the Java source files
+src/                        contains all the Java source files
 exclude_from_svn            excludes all binary generated files from svn
 sign.sh                     creates the signature for the applet
 

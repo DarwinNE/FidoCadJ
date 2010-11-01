@@ -163,13 +163,13 @@ public class PrimitiveOval extends GraphicPrimitive
 		// setting the stroke takes a lot of time!
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);
-				
+		
+		// Draw the oval, filled or not.
  		if (isFilled)
  			g.fillOval(xa,ya,(xb-xa),(yb-ya));
  		else {
 			g.drawOval(xa,ya,(xb-xa),(yb-ya));
  		}
-		
 
  		return;
  	}
@@ -303,9 +303,6 @@ public class PrimitiveOval extends GraphicPrimitive
         } else
         	return GeometricDistances.pointToEllipse(xa,ya,
         		(xb-xa),(yb-ya),px,py);
-          	
-        
-        
 	}
 	
 	/** Obtain a string command descripion of the primitive.
