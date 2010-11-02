@@ -784,7 +784,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             
             // If control is hold, trace a circle
-            if(evt.isControlDown()) {
+            if(evt.isControlDown()&&clickNumber>0) {
                 y=sc.mapY(xpoly[1],ypoly[1])+(x-sc.mapX(xpoly[1],ypoly[1]));
             }
             ++ clickNumber;
@@ -814,6 +814,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 clickNumber == 0) {
                 selectAndSetProperties(x,y);
                 break;
+            }
+            // If control is hold, trace a square
+            if(evt.isControlDown()&&clickNumber>0) {
+                y=sc.mapY(xpoly[1],ypoly[1])+(x-sc.mapX(xpoly[1],ypoly[1]));
             }
             ++ clickNumber;
             successiveMove=false;
@@ -1150,6 +1154,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
        */
         if (actionSelected == RECTANGLE) {
+        // If control is hold, trace a square
+            if(evt.isControlDown()&&clickNumber>0) {
+                y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
+            }
             primEdit = new PrimitiveRectangle(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
             	false,	0, 0);
@@ -1171,7 +1179,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         */
         if (actionSelected == ELLIPSE) {
             // If control is hold, trace a circle
-            if(evt.isControlDown()) {
+            if(evt.isControlDown()&&clickNumber>0) {
                 y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
             }
                
