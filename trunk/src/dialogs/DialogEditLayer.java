@@ -31,7 +31,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2009 by Davide Bucci
+    Copyright 2007-2010 by Davide Bucci
 </pre>
     
 
@@ -103,52 +103,32 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         contentPane.setLayout(bgl);
         constraints.insets.right=30;
 	    tcc = new JColorChooser(l.getColor());
-        
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=0;
-        constraints.gridy=0;
-        constraints.gridwidth=3;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(20,20,6,20);
-        constraints.anchor=GridBagConstraints.CENTER;
-        
+        constraints = DialogUtil.createConst(0,0,3,1,100,100,
+			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+			new Insets(20,20,6,20));
+			
         contentPane.add(tcc, constraints);
         
         JLabel descrLabel=new JLabel(Globals.messages.getString("Description"));
-        constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=1;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,20,0,0);
-        constraints.anchor=GridBagConstraints.EAST;     
+		constraints = DialogUtil.createConst(1,1,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(0,20,0,0));
+        
         contentPane.add(descrLabel, constraints);
         
         description=new JTextField();
         description.setText(l.getDescription());
-        constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=2;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,120);
-        constraints.fill=GridBagConstraints.HORIZONTAL;
-        constraints.anchor=GridBagConstraints.WEST;     
+        constraints = DialogUtil.createConst(2,1,1,1,100,0,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,0,120));
+            
         contentPane.add(description, constraints);
 		
 		JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
-		constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=1;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,20);
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(1,3,1,1,100,0,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(0,0,0,20));
+		
         contentPane.add(opacityLbl, constraints);
         
         
@@ -161,28 +141,20 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 		opacity.setMinorTickSpacing(1);
 		opacity.setPaintTicks(true);
 		opacity.setPaintLabels(true);
-
-		constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=2;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,120);
-        constraints.fill=GridBagConstraints.HORIZONTAL;
-        constraints.anchor=GridBagConstraints.WEST;
-        contentPane.add(opacity, constraints);
+		
+		constraints = DialogUtil.createConst(2,3,1,1,100,0,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,0,120));
+			
+		contentPane.add(opacity, constraints);
         
         visibility=new JCheckBox(Globals.messages.getString("IsVisible"));
         visibility.setSelected(l.getVisible());
-        constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=2;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.insets=new Insets(0,0,20,120);
-        constraints.anchor=GridBagConstraints.WEST;
+        
+        constraints = DialogUtil.createConst(2,4,1,1,100,0,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,20,120));
+        
         contentPane.add(visibility, constraints);
         
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
@@ -203,14 +175,11 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 			b.add(Box.createHorizontalStrut(12));
 			b.add(ok);
 		}
-        constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=0;
-        constraints.gridy=5;
-        constraints.gridwidth=3;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,20,20,20);
-        constraints.anchor=GridBagConstraints.WEST;
+		
+		constraints = DialogUtil.createConst(0,5,3,1,100,0,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,20,20,20));
+			
         contentPane.add(b, constraints);
         
         ok.addActionListener(new ActionListener()

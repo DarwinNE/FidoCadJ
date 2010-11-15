@@ -26,7 +26,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2010 by Davide Bucci
 </pre>
 */
 
@@ -139,5 +139,35 @@ public class DialogUtil {
       	inputMap.put (escapeKey, CANCEL_ACTION_KEY);
       
       	f.getRootPane ().getActionMap ().put (CANCEL_ACTION_KEY, cancelAction);
+   	}
+   	
+   	/** Set up the constraints for the GridLayout manager
+   		@param gridx the x position in the grid
+   		@param gridy the y position in the grid
+   		@param width the width of the control
+   		@param height the heigth of the control
+   		@param weigthx
+   		@param weigthy
+   		@param anch
+   		@param fill
+   		@param insets
+   	
+   	*/
+   	public static GridBagConstraints createConst(int gridx, int gridy,
+   		int width, int height, int weightx, int weighty, 
+   		int anch, int fill, Insets insets)
+   	{
+   		GridBagConstraints constraints=new GridBagConstraints();
+        constraints.gridx=gridx;
+        constraints.gridy=gridy;
+        constraints.gridwidth=width;
+        constraints.gridheight=height;   
+        constraints.weightx=weightx;
+        constraints.weighty=weighty;
+        constraints.fill = fill;
+        constraints.anchor = anch;
+        constraints.insets=insets;
+        
+        return constraints;
    	}
 }
