@@ -29,10 +29,9 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2009 by Davide Bucci
+    Copyright 2007-2010 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.2 June 2009
     
     */
     
@@ -271,14 +270,10 @@ public class DialogExport extends JDialog implements ComponentListener
 
         JLabel resolutionLabel=new 
             JLabel(Globals.messages.getString("Resolution"));
-        constraints.weightx=0;
-        constraints.weighty=0;
-        constraints.gridx=1;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.insets=new Insets(20,40,6,0);
+            
+   		constraints = DialogUtil.createConst(1,0,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			new Insets(20,40,6,20));
 
         contentPane.add(resolutionLabel, constraints);
         
@@ -289,48 +284,34 @@ public class DialogExport extends JDialog implements ComponentListener
         resolution.addItem("600x600 dpi");
         resolution.addItem("1200x1200 dpi");
         
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=2;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.insets=new Insets(20,0,0,40);
-        constraints.fill=GridBagConstraints.HORIZONTAL;
-        constraints.anchor=GridBagConstraints.CENTER;
+   		constraints = DialogUtil.createConst(2,0,1,1,100,100,
+			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+			new Insets(20,0,0,40));
+        
         contentPane.add(resolution, constraints);
         
         antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_aliasing"));
-        //antiAlias_CB.setSelected(antiAlias);
-        constraints.gridx=2;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.WEST;
-        constraints.insets=new Insets(0,0,0,0);
+
+		constraints = DialogUtil.createConst(2,1,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,0,0));
 
         contentPane.add(antiAlias_CB, constraints);     // Add antialias cb
         
         blackWhite_CB=new JCheckBox(Globals.messages.getString("B_W"));
-        //blackWhite_CB.setSelected(antiAlias);
-        constraints.gridx=2;
-        constraints.gridy=2;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.WEST;
+       
+        constraints = DialogUtil.createConst(2,2,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(0,0,0,0));
+       
         contentPane.add(blackWhite_CB, constraints);        // Add antialias cb
         
         JLabel fileFormatLabel=new 
             JLabel(Globals.messages.getString("File_format"));
-        constraints.weightx=0;
-        constraints.weighty=0;
-        constraints.gridx=1;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,40,0,0);
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.fill=GridBagConstraints.NONE;
+            
+   		constraints = DialogUtil.createConst(1,3,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(0,40,0,0));
 
         contentPane.add(fileFormatLabel, constraints);
         
@@ -344,53 +325,34 @@ public class DialogExport extends JDialog implements ComponentListener
         fileFormat.addItem("CadSoft Eagle SCR (Script)");
 
         fileFormat.setSelectedIndex(0);
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=2;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,40);
-        constraints.anchor=GridBagConstraints.WEST;
-        constraints.fill=GridBagConstraints.HORIZONTAL;
+        
+        
+   		constraints = DialogUtil.createConst(2,3,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,0,40));
         contentPane.add(fileFormat, constraints);
         
         JLabel fileNameLabel=new 
             JLabel(Globals.messages.getString("File_name"));
-        constraints.weightx=0;
-        constraints.weighty=0;
-        constraints.gridx=1;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,40,0,0);
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.fill=GridBagConstraints.NONE;
+            
+		constraints = DialogUtil.createConst(1,4,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(0,40,0,0));
         contentPane.add(fileNameLabel, constraints);
         
         fileName=new JTextField();
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=2;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,12);
-        constraints.fill=GridBagConstraints.HORIZONTAL;
-        constraints.anchor=GridBagConstraints.CENTER;
+        constraints = DialogUtil.createConst(2,4,1,1,100,100,
+			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,0,0));
+			
         contentPane.add(fileName, constraints);
         fileName.setEditable(false);
         
         JButton browse=new JButton(Globals.messages.getString("Browse"));
-        constraints.weightx=0;
-        constraints.weighty=0;
-        constraints.gridx=3;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.insets=new Insets(0,0,0,20);
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.CENTER;
+		constraints = DialogUtil.createConst(3,4,1,1,0,0,
+			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+			new Insets(0,0,0,20));
+
         contentPane.add(browse, constraints);
 
         browse.addActionListener(new ActionListener()

@@ -100,14 +100,11 @@ public class DialogLayer extends JDialog implements ComponentListener
         JScrollPane sl=new JScrollPane(layerList);
         
         layerList.setCellRenderer( new LayerCellRenderer());
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=0;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.insets=new Insets(20,20,6,20);
+
+		constraints = DialogUtil.createConst(0,0,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			new Insets(20,20,6,20));
+
         
         contentPane.add(sl, constraints);
         
@@ -130,15 +127,11 @@ public class DialogLayer extends JDialog implements ComponentListener
 			b.add(Box.createHorizontalStrut(12));
 			b.add(ok);
 		}
-        constraints.weightx=100;
-        constraints.weighty=0;
-        constraints.gridx=0;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;   
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.insets=new Insets(0,20,20,20);
+		
+		constraints = DialogUtil.createConst(0,1,1,1,100,0,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,20,20,20));
+
         contentPane.add(b,constraints);         // Add cancel button    
         layerList.addMouseListener(new ActionDClick(this));
         

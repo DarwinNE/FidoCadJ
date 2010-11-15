@@ -342,7 +342,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 			b.add(Box.createHorizontalStrut(12));
 			b.add(ok);
 		}
-		
+		contentPane.add(b, constraints);
 		ok.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent evt)
