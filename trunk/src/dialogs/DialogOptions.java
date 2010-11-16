@@ -36,8 +36,8 @@ import dialogs.*;
 */
 public class DialogOptions extends JDialog implements ComponentListener 
 {
-  	private static final int MIN_WIDTH=500;
-  	private static final int MIN_HEIGHT=350;
+  	private static final int MIN_WIDTH=600;
+  	private static final int MIN_HEIGHT=450;
   	
   	public double zoomValue;
   	public boolean profileTime;
@@ -175,26 +175,21 @@ public class DialogOptions extends JDialog implements ComponentListener
 		tabsPane.addTab(Globals.messages.getString("FidoCad"), 
 			createExtensionsPanel());
 		
-		constraints.gridx=0;
-		constraints.gridy=0;
-		constraints.gridwidth=3;
-		constraints.gridheight=1;
-		constraints.insets=new Insets(6,20,6,20);
-		
+		constraints = DialogUtil.createConst(0,0,3,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			new Insets(6,20,6,20));
+
 		contentPane.add(tabsPane, constraints);
 		
     	// Put the OK and Cancel buttons and make them active.
 
 		JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
 		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
+
+		constraints = DialogUtil.createConst(0,1,3,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			new Insets(6,20,20,20));
 	
-		constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.gridwidth=3;
-		constraints.gridheight=1;
-		constraints.insets=new Insets(6,20,20,20);
-		constraints.anchor=GridBagConstraints.EAST;
-		
 		// Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
@@ -333,22 +328,18 @@ public class DialogOptions extends JDialog implements ComponentListener
 		restartOptionPanel.setOpaque(false);
 		
 		JLabel liblbl=new JLabel(Globals.messages.getString("lib_dir"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=0;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.anchor=GridBagConstraints.WEST;
-		constraints.insets=new Insets(20,40,6,0);
+		
+		constraints = DialogUtil.createConst(0,0,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(20,40,6,0));
+
 		restartOptionPanel.add(liblbl, constraints);			// Add lib dir label
 
 		libD=new JTextField(10);
 		libD.setText(libDirectory);
-		constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.insets=new Insets(6,40,6,0);
+		constraints = DialogUtil.createConst(0,1,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,40,6,20));
 
 		restartOptionPanel.add(libD,constraints);		// Add lib dir tf
 		
@@ -409,18 +400,20 @@ public class DialogOptions extends JDialog implements ComponentListener
 		textToolbar_CB=new JCheckBox(Globals.messages.getString("TextToolbar"));
 		textToolbar_CB.setSelected(textToolbar);
 		textToolbar_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=3;
-		constraints.insets=new Insets(6,40,6,0);
-
+		constraints = DialogUtil.createConst(0,3,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,40,6,0));
+		
 		restartOptionPanel.add(textToolbar_CB, constraints);		// Add text in tb cb	
 		
 		quaquaActive_CB=new 
 			JCheckBox(Globals.messages.getString("Quaqua"));
 		quaquaActive_CB.setSelected(quaquaActive);
 		quaquaActive_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=4;
+		
+		constraints = DialogUtil.createConst(0,4,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,40,6,20));
 		
 		if (Globals.weAreOnAMac) // Check the user wants Quaqua L&F
 		{
@@ -431,10 +424,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 			JCheckBox(Globals.messages.getString("SmallIcons"));
 		smallIconsToolbar_CB.setSelected(smallIconsToolbar);
 		smallIconsToolbar_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=5;
-		constraints.insets=new Insets(6,40,20,0);
-
+		
+		constraints = DialogUtil.createConst(0,5,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,40,20,20));
+		
 		restartOptionPanel.add(smallIconsToolbar_CB, constraints);		// Add small icons
 		
 		return restartOptionPanel;
@@ -450,39 +444,32 @@ public class DialogOptions extends JDialog implements ComponentListener
 		drawingOptPanel.setLayout(new GridBagLayout());
 		drawingOptPanel.setOpaque(false);
 		
-		constraints.weightx=100;
-		constraints.weighty=100;
-		
 		profile_CB=new JCheckBox(Globals.messages.getString("Profile"));
 		profile_CB.setOpaque(false);
 		profile_CB.setSelected(profileTime);
-		constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
+		
+		constraints = DialogUtil.createConst(1,1,2,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,6,6,20));
+			
 		if(Globals.isBeta)
 			drawingOptPanel.add(profile_CB, constraints);	// Add profiler cb		
 		
 		JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=2;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.EAST;
-		constraints.insets=new Insets(6,6,6,6);
-
+		
+		constraints = DialogUtil.createConst(0,2,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,6,6,6));
+		
 		drawingOptPanel.add(gridlbl, constraints);			// Add Grid label
 		
 		gridWidth=new JTextField(10);
 		gridWidth.setText(""+gridSize);
-		constraints.gridx=1;
-		constraints.gridy=2;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-
+		
+		constraints = DialogUtil.createConst(1,2,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+		
 		drawingOptPanel.add(gridWidth, constraints);		// Add grid width tf
 		
 		/**********************************************************************
@@ -490,63 +477,48 @@ public class DialogOptions extends JDialog implements ComponentListener
 		 **********************************************************************/
 		JLabel connectionSizelbl=new JLabel(Globals.messages.getString(
 			"connection_size"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=8;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,8,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		drawingOptPanel.add(connectionSizelbl, constraints);
 		
 		connectionSize=new JTextField(10);
 		connectionSize.setText(""+connectionSize_i);
-		constraints.gridx=1;
-		constraints.gridy=8;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,8,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		drawingOptPanel.add(connectionSize, constraints);		
 		
 		
 		JLabel stroke_size_strlbl=new JLabel(Globals.messages.getString(
 			"stroke_size_straight"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=9;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,9,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		drawingOptPanel.add(stroke_size_strlbl, constraints);
 		
 		stroke_size_straight=new JTextField(10);
 		stroke_size_straight.setText(""+stroke_size_straight_i);
-		constraints.gridx=1;
-		constraints.gridy=9;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,9,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+			
 		drawingOptPanel.add(stroke_size_straight, constraints);		
 		
 		JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
 			"stroke_size_oval"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=10;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,10,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+		
 		drawingOptPanel.add(stroke_size_ovlbl, constraints);
 		
 		stroke_size_oval=new JTextField(10);
 		stroke_size_oval.setText(""+stroke_size_oval_i);
-		constraints.gridx=1;
-		constraints.gridy=10;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,10,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+			
 		drawingOptPanel.add(stroke_size_oval, constraints);		
 		
 		/**********************************************************************
@@ -555,13 +527,9 @@ public class DialogOptions extends JDialog implements ComponentListener
 		
 		JLabel macroFontlbl=new JLabel(Globals.messages.getString(
 			"macrofont"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=11;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,11,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		drawingOptPanel.add(macroFontlbl, constraints);// Macro font selection
 
 		// Get all installed font families
@@ -577,43 +545,34 @@ public class DialogOptions extends JDialog implements ComponentListener
       		if (s[i].equals(macroFont))
       			comboFont.setSelectedIndex(i);
      	}
-		constraints.gridx=1;
-		constraints.gridy=11;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+     	constraints = DialogUtil.createConst(1,11,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+			
 		drawingOptPanel.add(comboFont, constraints);	// Add primitive font combo
 		
 		JLabel macroSizelbl=new JLabel(Globals.messages.getString(
 			"macroSize"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=12;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,12,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+			
 		drawingOptPanel.add(macroSizelbl, constraints);
 		
 		macroSize=new JTextField(10);
 		macroSize.setText(""+macroSize_i);
-		constraints.gridx=1;
-		constraints.gridy=12;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,12,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		drawingOptPanel.add(macroSize, constraints);				
 		
 		antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_al"));
 		antiAlias_CB.setSelected(antiAlias);
 		antiAlias_CB.setOpaque(false);
-		constraints.gridx=1;
-		constraints.gridy=13;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
-		constraints.insets=new Insets(6,6,6,40);
-
+		constraints = DialogUtil.createConst(1,13,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,40));
+			
 		drawingOptPanel.add(antiAlias_CB, constraints);		// Add antialias cb		
 		
 		return drawingOptPanel;
@@ -640,86 +599,62 @@ public class DialogOptions extends JDialog implements ComponentListener
 		pcbSizePanel.setLayout(new GridBagLayout());
 		pcbSizePanel.setOpaque(false);
 		
-		constraints.weightx=100;
-		constraints.weighty=100;
-		
 		JLabel pcblinelbl=new JLabel(Globals.messages.getString(
 			"pcbline_width"));
-		constraints.gridx=0;
-		constraints.gridy=0;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,0,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(0,0,0,0));
 		pcbSizePanel.add(pcblinelbl, constraints);			// Add pcbline label
 		
 		pcblinewidth=new JTextField(10);
 		pcblinewidth.setText(""+pcblinewidth_i);
-		constraints.gridx=1;
-		constraints.gridy=0;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,0,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+			
 		pcbSizePanel.add(pcblinewidth, constraints);		// Add pcbline width tf
 		
 		JLabel pcbpadwidthlbl=new JLabel(Globals.messages.getString(
 			"pcbpad_width"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
-
+		constraints = DialogUtil.createConst(0,1,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		pcbSizePanel.add(pcbpadwidthlbl, constraints); // Add pcbpad width label
 		
 		pcbpadwidth=new JTextField(10);
 		pcbpadwidth.setText(""+pcbpadwidth_i);
-		constraints.gridx=1;
-		constraints.gridy=1;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,1,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
+		
 		pcbSizePanel.add(pcbpadwidth, constraints);		// Add pcbpad width tf
 		
 		JLabel pcbpadheightlbl=new JLabel(Globals.messages.getString(
 			"pcbpad_height"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=2;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,2,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		pcbSizePanel.add(pcbpadheightlbl, constraints);	// Add pcbline label
 		
 		pcbpadheight=new JTextField(10);
 		pcbpadheight.setText(""+pcbpadheight_i);
-		constraints.gridx=1;
-		constraints.gridy=2;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,2,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		pcbSizePanel.add(pcbpadheight, constraints);		// Add pcbline height tf
 		
 		JLabel pcbpadintwlbl=new JLabel(Globals.messages.getString(
 			"pcbpad_intw"));
-		constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=3;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.anchor=GridBagConstraints.EAST;
+		constraints = DialogUtil.createConst(0,3,1,1,100,100,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		pcbSizePanel.add(pcbpadintwlbl, constraints);// Add pcbpad int w label
 		
 		pcbpadintw=new JTextField(10);
 		pcbpadintw.setText(""+pcbpadintw_i);
-		constraints.gridx=1;
-		constraints.gridy=3;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(1,3,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,6));
 		pcbSizePanel.add(pcbpadintw, constraints);		// Add pcbline width tf
 		
 		return pcbSizePanel;
@@ -739,63 +674,49 @@ public class DialogOptions extends JDialog implements ComponentListener
 		GridBagConstraints constraints=new GridBagConstraints();
 		extensionsPanel.setLayout(new GridBagLayout());
 		extensionsPanel.setOpaque(false);
-		
-		constraints.weightx=100;
-		constraints.weighty=100;
 
 		extStrict_CB=new JCheckBox(Globals.messages.getString("strict_FC_comp"));
 		extStrict_CB.setSelected(extStrict);
 		extStrict_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=0;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
-		constraints.insets=new Insets(6,40,6,40);
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(0,0,2,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,40,6,40));
 		extensionsPanel.add(extStrict_CB, constraints);	// Strict FidoCad
 														// compatibility
 		
 		extFCJ_s_CB=new JCheckBox(Globals.messages.getString("extFCJ_s"));
 		extFCJ_s_CB.setSelected(extFCJ_s);
 		extFCJ_s_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
-		constraints.insets=new Insets(6,40,6,40);
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(0,1,2,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,40,6,40));
 		extensionsPanel.add(extFCJ_s_CB, constraints);	// FCJ extensions while
 														// saving
 		
 		extFCJ_c_CB=new JCheckBox(Globals.messages.getString("extFCJ_c"));
 		extFCJ_c_CB.setSelected(extFCJ_c);
 		extFCJ_c_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=2;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(0,2,2,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,40,6,40));
 		extensionsPanel.add(extFCJ_c_CB, constraints);	// FCJ extensions while
 														// copying
 		
 		split_n_s_CB=new JCheckBox(Globals.messages.getString("split_nonstandard"));
 		split_n_s_CB.setSelected(split_n_s);
 		split_n_s_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=3;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(0,3,2,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,40,6,40));
+		
 		extensionsPanel.add(split_n_s_CB, constraints);
 		
 		split_n_c_CB=new JCheckBox(Globals.messages.getString("split_nonstandard_copy"));
 		split_n_c_CB.setSelected(split_n_c);
 		split_n_c_CB.setOpaque(false);
-		constraints.gridx=0;
-		constraints.gridy=4;
-		constraints.gridwidth=2;
-		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.WEST;
+		constraints = DialogUtil.createConst(0,4,2,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,40,6,40));
 		extensionsPanel.add(split_n_c_CB, constraints);
 		/**********************************************************************
 		  END of FidoCadJ extensions
