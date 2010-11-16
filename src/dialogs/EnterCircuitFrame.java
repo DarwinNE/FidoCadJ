@@ -104,15 +104,11 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         stringCircuit="[FIDOCAD]\n"+circuit;
         textArea=new JTextArea(stringCircuit,2,10);
         JScrollPane scrollPane=new JScrollPane(textArea);
-        constraints.weightx=100;
-		constraints.weighty=100;
-		constraints.gridx=0;
-		constraints.gridy=0;
-		constraints.gridwidth=1;
-		constraints.gridheight=1;	
-		constraints.fill = GridBagConstraints.BOTH;
-		constraints.anchor=GridBagConstraints.WEST;
-		constraints.insets=new Insets(20,20,12,20);
+        
+   		constraints = DialogUtil.createConst(0,0,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.BOTH, 
+			new Insets(20,20,12,20));
+
         contentPane.add(scrollPane, constraints);
                
         JButton ok=new JButton("Ok");
@@ -135,14 +131,9 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 		}
 		b.add(Box.createHorizontalStrut(20));
 
-        constraints.gridx=0;
-		constraints.gridy=1;
-		constraints.weighty=0;
-
- 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.anchor=GridBagConstraints.WEST;
-		constraints.insets=new Insets(0,0,20,0);
-
+		constraints = DialogUtil.createConst(0,1,1,1,100,0,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(0,0,20,0));
 		
         contentPane.add(b, constraints);
 
