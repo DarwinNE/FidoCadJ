@@ -95,7 +95,7 @@ You need to edit a little the following file:
 
 fidocadj/trunk/src/FidoMain.java
 
-You should search the following lines (around line 304 and something):
+You should search the following lines (around line 314 and something):
 
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.
@@ -223,7 +223,7 @@ file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with SVN the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
-FidoCadJ main stream, you MUST keep in tuch with us in the SF forums and you
+FidoCadJ main stream, you MUST keep in touch with us in the SF forums and you
 must discuss about what are you willing to do. 
 
 Once you decide what you want to do, you can run the Javadoc utility in order

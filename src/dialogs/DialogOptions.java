@@ -114,6 +114,10 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param mf the current Macro font
 	@param sn split non standard macros during save
 	@param sc split non standard macros during copy
+	@param sssi stroke width to be used for segments and straight lines
+	@param ssoi	stroke width to be used for ovals
+	@param ccs connection size
+	@param ms text height for macros
 	
 	*/
 	
@@ -290,6 +294,10 @@ public class DialogOptions extends JDialog implements ComponentListener
 		getRootPane().setDefaultButton(ok);
   	}
   
+  	/** Ensure that the dialog can not be resized to a size smaller than
+  		a certain limit (see MIN_WIDTH and MIN_HEIGHT constants).
+  	
+  	*/
   	public void componentResized(ComponentEvent e) 
   	{
      	int width = getWidth();
@@ -333,7 +341,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
 			new Insets(20,40,6,0));
 
-		restartOptionPanel.add(liblbl, constraints);			// Add lib dir label
+		// Add lib dir label
+		restartOptionPanel.add(liblbl, constraints);			
 
 		libD=new JTextField(10);
 		libD.setText(libDirectory);
@@ -357,6 +366,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 				String din;
             	
         		if(Globals.useNativeFileDialogs) {
+        			// Use the native (AWT) file dialogs instead of Swing's
             		FileDialog fd = new FileDialog(parent, 
 					Globals.messages.getString("Select_lib_directory"),
 											   FileDialog.LOAD);
@@ -376,6 +386,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 						din = "";
         	
         		} else {
+        			// Use Swing's file dialog.
            			JFileChooser fc = new JFileChooser(
 					new File(libD.getText()).getPath());
 					fc.setDialogTitle(
@@ -404,7 +415,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
 			new Insets(6,40,6,0));
 		
-		restartOptionPanel.add(textToolbar_CB, constraints);		// Add text in tb cb	
+		// Add text in tb cb	
+		restartOptionPanel.add(textToolbar_CB, constraints);		
 		
 		quaquaActive_CB=new 
 			JCheckBox(Globals.messages.getString("Quaqua"));
@@ -429,7 +441,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
 			new Insets(6,40,20,20));
 		
-		restartOptionPanel.add(smallIconsToolbar_CB, constraints);		// Add small icons
+		// Add small icons
+		restartOptionPanel.add(smallIconsToolbar_CB, constraints);		
 		
 		return restartOptionPanel;
 	}
@@ -549,7 +562,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 			
-		drawingOptPanel.add(comboFont, constraints);	// Add primitive font combo
+		drawingOptPanel.add(comboFont, constraints);// Add primitive font combo
 		
 		JLabel macroSizelbl=new JLabel(Globals.messages.getString(
 			"macroSize"));
@@ -612,7 +625,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 			
-		pcbSizePanel.add(pcblinewidth, constraints);		// Add pcbline width tf
+		pcbSizePanel.add(pcblinewidth, constraints);	// Add pcbline width tf
 		
 		JLabel pcbpadwidthlbl=new JLabel(Globals.messages.getString(
 			"pcbpad_width"));
@@ -641,7 +654,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints = DialogUtil.createConst(1,2,1,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
-		pcbSizePanel.add(pcbpadheight, constraints);		// Add pcbline height tf
+		pcbSizePanel.add(pcbpadheight, constraints);  // Add pcbline height tf
 		
 		JLabel pcbpadintwlbl=new JLabel(Globals.messages.getString(
 			"pcbpad_intw"));
@@ -675,7 +688,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 		extensionsPanel.setLayout(new GridBagLayout());
 		extensionsPanel.setOpaque(false);
 
-		extStrict_CB=new JCheckBox(Globals.messages.getString("strict_FC_comp"));
+		extStrict_CB=new JCheckBox(Globals.messages.getString(
+			"strict_FC_comp"));
 		extStrict_CB.setSelected(extStrict);
 		extStrict_CB.setOpaque(false);
 		constraints = DialogUtil.createConst(0,0,2,1,100,100,
@@ -702,16 +716,19 @@ public class DialogOptions extends JDialog implements ComponentListener
 		extensionsPanel.add(extFCJ_c_CB, constraints);	// FCJ extensions while
 														// copying
 		
-		split_n_s_CB=new JCheckBox(Globals.messages.getString("split_nonstandard"));
+		split_n_s_CB=new JCheckBox(Globals.messages.getString(
+			"split_nonstandard"));
 		split_n_s_CB.setSelected(split_n_s);
 		split_n_s_CB.setOpaque(false);
 		constraints = DialogUtil.createConst(0,3,2,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,40,6,40));
 		
-		extensionsPanel.add(split_n_s_CB, constraints);
+		extensionsPanel.add(split_n_s_CB, constraints); // Split non standard
+													// macros when saving files
 		
-		split_n_c_CB=new JCheckBox(Globals.messages.getString("split_nonstandard_copy"));
+		split_n_c_CB=new JCheckBox(Globals.messages.getString(
+			"split_nonstandard_copy"));
 		split_n_c_CB.setSelected(split_n_c);
 		split_n_c_CB.setOpaque(false);
 		constraints = DialogUtil.createConst(0,4,2,1,100,100,

@@ -297,10 +297,23 @@ public class PrimitiveLine extends GraphicPrimitive
     			stroke =new BasicStroke(w);
 
 			}
+			arrows = arrowStart || arrowEnd;
+
+			// This correction solves bug #3101041
+			// We do need to apply a correction to the clip calculation
+			// rectangle if necessary to take into account the arrow heads
+			if (arrows) {
+				xa -= h;
+				ya -= h;
+				xb += h;
+				yb += h;
+			}
 			xbpap1=(xb-xa)+1;
 			ybpap1=(yb-ya)+1;
-			arrows = arrowStart || arrowEnd;
 		}
+
+
+		
 
 		// This is a trick. We skip drawing the line if it is too short.
 		if(length2>2) {

@@ -392,7 +392,6 @@ public class ParseSchem
                 }
             }
             
-           
             if(!macroName.equals("")){
                 library.put(macroName, new MacroDesc(macroName.toLowerCase(),longName,
                 ((MacroDesc)library.get(macroName)).description+"\n"+line,

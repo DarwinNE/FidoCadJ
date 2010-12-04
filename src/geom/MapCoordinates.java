@@ -25,12 +25,12 @@ import java.awt.*;
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
-    used in Fidocad schematics (in mils?) with the corrisponding pixel position
+    used in FidoCad schematics with the corrisponding pixel position
     to be used when drawing on the screen or on an image file. The class
     tracks also the minimum and maximum values of the pixel x/y coordinates, in
     order to obtain the drawing size. 
     
-    The logical Fidocad resolution is 5 mils. Thus, for the following 
+    The logical Fidocad resolution is 5 mils (127um). Thus, for the following 
     resolutions, we obtain:
 
 <pre>    
@@ -394,18 +394,13 @@ public class MapCoordinates
             	    default:
             	        vx=((double)xc)*xMagnitude;
                 	    break;
-    
             	}
         	}   
-        
         } else {
         	vx=(double)xc*xMagnitude;
         }
-        
         return vx+xCenter;  
-
     }
-
 
     /** Map the xc,yc coordinate given in the Y pixel coordinate. The tracking
     	is active.
@@ -424,8 +419,6 @@ public class MapCoordinates
     */
     public final int mapYi(int xc,int yc, boolean track)
     {
-
-        
         ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals to the lowest 
                                    integer. We need to round correctly; */
         if(track) {
@@ -507,7 +500,6 @@ public class MapCoordinates
         return xc;
     }
 
-
     /** Un Map the Y screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
         @param Y the horizontal coordinate in the screen coordinate system.
@@ -518,7 +510,7 @@ public class MapCoordinates
         return yc;
     }
     
-     /** Un Map the X screen coordinate given in the drawing coordinate.
+    /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
         @param X the horizontal coordinate in the screen coordinate system.
     */
@@ -532,7 +524,6 @@ public class MapCoordinates
         }
         return xc;
     }
-
 
     /** Un Map the Y screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
