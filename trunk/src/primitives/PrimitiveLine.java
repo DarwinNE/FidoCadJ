@@ -264,6 +264,9 @@ public class PrimitiveLine extends GraphicPrimitive
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
  			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
+ 			
+ 			// We store the coordinates in an ordered way in order to ease
+ 			// the determination of the clip rectangle.
  			if (x1>x2) {
  				xa=x2;
  				xb=x1;
@@ -278,21 +281,26 @@ public class PrimitiveLine extends GraphicPrimitive
  				ya=y1;
  				yb=y2;
  			}
- 			h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
- 				coordSys.mapXi(0,0, false);
- 			l=coordSys.mapXi(arrowLength,arrowLength, false)-
- 				coordSys.mapXi(0,0,false);
+ 			
+ 			// Heigth and width of the arrows in pixels
+ 			h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+ 				coordSys.mapXi(0,0, false));
+ 			l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+ 				coordSys.mapXi(0,0,false));
 
+			// Calculate the width of the stroke in pixel. It should not
+			// make our lines disappear, even at very small zoom ratios.
+		 	// So we put a limit D_MIN.
 			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
  			
+ 			// Calculate the length in pixel.
  			length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
  			if(dashStyle>0) {
 				stroke=new BasicStroke(w, BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
                                           10.0f, Globals.dash[dashStyle], 
                                           0.0f);
-
 			} else {
     			stroke =new BasicStroke(w);
 
@@ -311,9 +319,6 @@ public class PrimitiveLine extends GraphicPrimitive
 			xbpap1=(xb-xa)+1;
 			ybpap1=(yb-ya)+1;
 		}
-
-
-		
 
 		// This is a trick. We skip drawing the line if it is too short.
 		if(length2>2) {
