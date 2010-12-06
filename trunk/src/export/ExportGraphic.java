@@ -146,31 +146,36 @@ public class ExportGraphic
 		// obtain drawing size
 		double oxz=P.getMapCoordinates().getXMagnitude();
 		double oyz=P.getMapCoordinates().getYMagnitude();
+		double ocx=P.getMapCoordinates().getXCenter();
+		double ocy=P.getMapCoordinates().getYCenter();
+		Point org=new Point(0,0);
 		
 		if (setSize) {
-			Dimension d = getImageSize(P, 1,false);
+			// In this case, the image size is set and so we need to calculate
+			// the correct zoom factor in order to fit the drawing in the 
+			// specified area.
+			Dimension d = getImageSize(P, 1,true);
 			d.width+=20;
 			d.height+=20;
    	 		//System.out.println(d);
-
-			unitPerPixel = Math.min(width/(double)d.width, height/(double)d.height);
+			
+			unitPerPixel = Math.min(width/(double)d.width, 
+				height/(double)d.height);
 		
 			P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);		
 		} else {
-			Dimension d = getImageSize(P, unitPerPixel,false);
-		
+			// In this situation, we do have to calculate the size from the
+			// specified resolution.
+			Dimension d = getImageSize(P, unitPerPixel,true);
 			width=d.width+20;
 			height=d.height+20;
-		
 		}
-		
+	  	org=getImageOrigin(P,unitPerPixel);
+
 		ArrayList ol=P.getLayers();
 
-		
 		BufferedImage bufferedImage;
 		
-        
-	
 		// To print in black and white, we only need to create a single layer
 		// in which all layers will be exported and drawn.
 		// Clearly, the choosen color will be black.
@@ -184,12 +189,13 @@ public class ExportGraphic
 			P.setLayers(v);
 		}
         
-        
         P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);
-	   	
-       	
-                    
+        System.out.println("xcenter: "+org.x);
+        System.out.println("ycenter: "+org.y);
         
+        P.getMapCoordinates().setXCenter(-org.x);
+	   	P.getMapCoordinates().setYCenter(-org.y);
+	   	        
     	if (format.equals("png")||format.equals("jpg")) {
 			// Create a buffered image in which to draw
 			
@@ -219,6 +225,8 @@ public class ExportGraphic
     			MapCoordinates m=P.getMapCoordinates();
        			m.setMagnitudes(oxz, oyz);
        			P.setMapCoordinates(m);
+       			P.getMapCoordinates().setXCenter(ocx);
+	   			P.getMapCoordinates().setYCenter(ocy);
        			P.setLayers(ol);
     			throw D;
         	} catch (Exception E) {
@@ -257,6 +265,8 @@ public class ExportGraphic
     	MapCoordinates m=P.getMapCoordinates();
        	m.setMagnitudes(oxz, oyz);
        	P.setMapCoordinates(m);
+        P.getMapCoordinates().setXCenter(ocx);
+	   	P.getMapCoordinates().setYCenter(ocy);       	
        	P.setLayers(ol);
 
     	return;
@@ -329,9 +339,7 @@ public class ExportGraphic
     /**	Get the image origin.
     	@param P the parsing class to be used.
     	@param unitperpixel the zoom set to be used.
-    
     */
-    
     public static Point getImageOrigin(ParseSchem P, double unitperpixel)
     {
     	int originx;
@@ -347,6 +355,7 @@ public class ExportGraphic
 		double ox=P.getMapCoordinates().getXCenter();
 		double oy=P.getMapCoordinates().getYCenter();
 		
+		// Create a dummy image on which the drawing will be done
 		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);
     
@@ -356,15 +365,12 @@ public class ExportGraphic
        	m.setXCenter(0);
        	m.setYCenter(0);
        	
-       	//P.setMapCoordinates(m);
-       	
-		//System.out.println("unitperpixel: "+unitperpixel);
-        Graphics2D g2d = bufferedImage.createGraphics();
-
+       	Graphics2D g2d = bufferedImage.createGraphics();
+		// Draw the image. In this way, the min and max coordinates will be
+		// tracked.
         P.draw(g2d);
         // Graphics context no longer needed so dispose it
         g2d.dispose();
-    	
     
     	// Verify that the image size is correct
 		if (P.getMapCoordinates().getXMax() >= P.getMapCoordinates().getXMin() && 
@@ -372,11 +378,17 @@ public class ExportGraphic
 			originx=P.getMapCoordinates().getXMin();
 			originy=P.getMapCoordinates().getYMin();
 		} else {
-			System.out.println("Warning: Image has a zero"+
-							   "sized image");
+			//System.out.println("Warning: Image has a zero"+
+			//				   "sized image");
 			originx=0;
 			originy=0;
 		}
+		
+		System.out.println("XMax "+ P.getMapCoordinates().getXMax());
+		System.out.println("YMax "+ P.getMapCoordinates().getYMax());
+		System.out.println("XMin "+ P.getMapCoordinates().getXMin());
+		System.out.println("YMin "+ P.getMapCoordinates().getYMin());
+		
         P.getMapCoordinates().setMagnitudes(oxz, oyz);
         P.getMapCoordinates().setXCenter(ox);
         P.getMapCoordinates().setYCenter(oy);
@@ -409,37 +421,17 @@ public class ExportGraphic
 		// the circuit has been drawn).
 		
 		forceCalc=true;	// 0.20.5
-		if (!forceCalc){
-		/*
-			maxsizex=(P.getMapCoordinates().getXMax()-
-				P.getMapCoordinates().getXMin())/Z;
-			maxsizey=(P.getMapCoordinates().getYMax()-
-				P.getMapCoordinates().getYMin())/Z;
-			org.x=(int)(P.getMapCoordinates().getXMin()/Z);
-			org.y=(int)(P.getMapCoordinates().getYMin()/Z);
-			*/
-			maxsizex=P.getMapCoordinates().getXMax()/oldZoom;
-			maxsizey=P.getMapCoordinates().getYMax()/oldZoom;
-		} else {
-			Dimension D = getImageSize(P,1,countMin); 
-			maxsizex=D.width;
-			maxsizey=D.height;
-			//System.out.println("recalc: "+maxsizex+", "+maxsizey);
+		
+		Dimension D = getImageSize(P,1,countMin); 
+		maxsizex=D.width;
+		maxsizey=D.height;
 			
-			
-			if (countMin) 
-				org=getImageOrigin(P,1);
-			
-
-		}
-/*
-		double zoomx=.98/((maxsizex+10)/(double)sizex);
-		double zoomy=.98/((maxsizey+10)/(double)sizey);
-*/	
+		if (countMin) 
+			org=getImageOrigin(P,1);
 
 	
-		double zoomx=1/((maxsizex)/(double)sizex);
-		double zoomy=1/((maxsizey)/(double)sizey);
+		double zoomx=1.0/((maxsizex)/(double)sizex);
+		double zoomy=1.0/((maxsizey)/(double)sizey);
 		//System.out.println("zoomx: "+zoomx+", "+zoomy);
 				
 		
@@ -448,17 +440,12 @@ public class ExportGraphic
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		
-		//System.out.println("recalc z: "+z);
-			
-		
 		newZoom.setMagnitudes(z,z);
 		newZoom.setXCenter(-(org.x*z));
 		newZoom.setYCenter(-(org.y*z));
 		
 		P.getMapCoordinates().setMagnitudes(oldZoom, oldZoom);
 		
-		//System.out.println(newZoom.toString());
 		return newZoom;
-	}
-    
+	}    
 }

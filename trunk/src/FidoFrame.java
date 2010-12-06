@@ -1413,11 +1413,10 @@ public class FidoFrame extends JFrame implements
             SC.getViewport().getExtentSize().width,
             SC.getViewport().getExtentSize().height,
             true,false);
-        MapCoordinates mi=CC.P.getMapCoordinates();
         double Z=Math.round(m.getXMagnitude()*100)/100;
                         
-        mi.setMagnitudes(Z,Z);
-        CC.P.setMapCoordinates(mi);
+        m.setMagnitudes(Z,Z);
+        CC.P.setMapCoordinates(m);
         
         CC.P.saveUndoState();
         CC.P.setModified(false);
@@ -1670,7 +1669,7 @@ public class FidoFrame extends JFrame implements
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
             SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
-            false,false);
+            false,true);
             
         double z=m.getXMagnitude();
         

@@ -43,7 +43,12 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	private int ry;
 	private int sty;
 	private int ri;
-
+	
+	// The radius of the rounded corner in logical units. This is hardcoded
+	// here as it has been done for FidoCadJ, but one may consider let this 
+	// value to be changed by the user interactively
+	private final int CORNER_DIAMETER = 5;
+	
 	private boolean drawOnlyPads;
 	
 	// A PCB pad is defined by one points.
@@ -139,8 +144,10 @@ public class PrimitivePCBPad extends GraphicPrimitive
 			x1=virtualPoint[0].x;
  			y1=virtualPoint[0].y;
  		
- 			rrx=Math.abs(coordSys.mapXi(x1,y1, false)-coordSys.mapXi(x1+rx,y1+ry, false));
- 			rry=Math.abs(coordSys.mapYi(x1,y1, false)-coordSys.mapYi(x1+rx,y1+ry, false));
+ 			rrx=Math.abs(coordSys.mapXi(x1,y1, false)-
+ 				coordSys.mapXi(x1+rx,y1+ry, false));
+ 			rry=Math.abs(coordSys.mapYi(x1,y1, false)-
+ 				coordSys.mapYi(x1+rx,y1+ry, false));
  			rrx2 = rrx/2;
  			rry2 = rry/2;
  		
@@ -150,8 +157,10 @@ public class PrimitivePCBPad extends GraphicPrimitive
  			coordSys.trackPoint(x1-rrx,y1-rry);
  			coordSys.trackPoint(x1+rrx,y1+rry);
  		
- 			rox=Math.abs(xa-coordSys.mapXi(x1+5,y1+5, false));
- 			roy=Math.abs(ya-coordSys.mapYi(x1+5,y1+5, false));
+ 			rox=Math.abs(xa-coordSys.mapXi(x1+CORNER_DIAMETER,
+ 			 	y1+CORNER_DIAMETER, false));
+ 			roy=Math.abs(ya-coordSys.mapYi(x1+CORNER_DIAMETER,
+ 				y1+CORNER_DIAMETER, false));
  		
  			rix=Math.abs(xa-coordSys.mapXi(x1+ri,y1+ri, false));
  			riy=Math.abs(ya-coordSys.mapYi(x1+ri,y1+ri, false));
