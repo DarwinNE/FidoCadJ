@@ -44,6 +44,10 @@ import java.awt.*;
 
 </pre>
 
+ 	This class allows to concatenate a translation with the xCenter and yCenter
+ 	variables. This should NOT be used to scroll the actual drawing in the 
+ 	viewport, since this is done by using the JScrollPane Swing control.
+ 	This is indeed very useful when exporting or when drawing macros.
 
 
 */
@@ -436,8 +440,7 @@ public class MapCoordinates
         @param yc the vertical coordinate in the drawing coordinate system.
     */       
     public final double mapYr(int xc,int yc)
-    {
-        
+    {  
         if(isMacro){
             xc-=100;
             yc-=100;
