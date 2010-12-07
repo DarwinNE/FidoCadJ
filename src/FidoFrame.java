@@ -380,6 +380,10 @@ public class FidoFrame extends JFrame implements
         
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
+        SC.setHorizontalScrollBarPolicy(
+        	JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        SC.setVerticalScrollBarPolicy(
+        	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         RulerPanel vertRuler = new RulerPanel(
             SwingConstants.VERTICAL, 20, 20, 5,
@@ -1405,19 +1409,9 @@ public class FidoFrame extends JFrame implements
         // Here txt contains the new circuit: draw it!
       
         CC.setCirc(new StringBuffer(txt.toString()));
-        
-        // Calculate the zoom to fit.
-        CC.P.getMapCoordinates().setMagnitudes(1,1);
- 
-        MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
-            SC.getViewport().getExtentSize().width,
-            SC.getViewport().getExtentSize().height,
-            true,false);
-        double Z=Math.round(m.getXMagnitude()*100)/100;
-                        
-        m.setMagnitudes(Z,Z);
-        CC.P.setMapCoordinates(m);
-        
+
+		// Calculate the zoom to fit     
+        zoomToFit();
         CC.P.saveUndoState();
         CC.P.setModified(false);
 
@@ -1675,6 +1669,10 @@ public class FidoFrame extends JFrame implements
         
         CC.P.getMapCoordinates().setMagnitudes(z, z);
         
+        CC.scrollRectToVisible(new Rectangle(-(int)(m.getXCenter()), 
+        	-(int)(m.getYCenter()), 
+        	SC.getViewport().getExtentSize().width, 
+        	SC.getViewport().getExtentSize().height));
         if (oldz!=z) CC.repaint();
 
     }
