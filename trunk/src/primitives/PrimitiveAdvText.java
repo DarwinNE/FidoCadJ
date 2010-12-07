@@ -202,22 +202,64 @@ public class PrimitiveAdvText extends GraphicPrimitive
    			}
  			stretching.scale(1,xyfactor);
  			
+ 			// Not a very neat piece of code...
+ 			
     		if(orientation!=0){
-    			si=Math.sin(Math.toRadians(-orientation));
-				co=Math.cos(Math.toRadians(-orientation));
+    			if(!mirror){
+    				si=Math.sin(Math.toRadians(orientation));
+					co=Math.cos(Math.toRadians(orientation));
+   				} else {
+    				si=Math.sin(Math.toRadians(-orientation));
+					co=Math.cos(Math.toRadians(-orientation));
+   				
+   				}
+   				//System.out.println("si="+si+"  co="+co);
+				hh=(int)Math.abs(w*si+th*co);
+				ww=(int)Math.abs(w*co-th*si);
+   				// Calculate the bounding box.
+
+   				double bbx1=xa;
+   				double bby1=ya;
    			
+   				double bbx2=xa+th*si;
+   				double bby2=ya+th*co;
+   				
+   				double bbx3=xa+w*co+th*si;
+   				double bby3=ya+th*co-w*si;
+   				
+   				double bbx4=xa+w*co;
+   				double bby4=ya-w*si;
+						
     			if(mirror) {
     				mm = new AffineTransform(); 
     				mm.scale(-1,1);
+   				 	bbx2=xa-th*si;
+   					bbx3=xa-w*co-th*si;
+   					bbx4=xa-w*co;
+
+    				//g.drawRect(xa,ya+h,ww,hh);			
+    			} else {
     			}
-    		
-				hh=(int)(w*si+th*co);
-				ww=(int)(w*co-th*si);
-							
-   				coordSys.trackPoint(xa,ya);
-  				coordSys.trackPoint(xa+ww,ya+th);
-   				coordSys.trackPoint(xa,ya+hh);
-   				coordSys.trackPoint(xa+ww,ya+hh+th);	
+   				
+   				/*
+   				int bbxA =(int)Math.min(Math.min(bbx1, bbx2),Math.min(bbx3, bbx4));
+   				int bbyA =(int)Math.min(Math.min(bby1, bby2),Math.min(bby3, bby4));
+    			
+   				int bbxB =(int)Math.max(Math.max(bbx1, bbx2),Math.max(bbx3, bbx4));
+   				int bbyB =(int)Math.max(Math.max(bby1, bby2),Math.max(bby3, bby4));
+   				
+   				g.drawString("1",(int)bbx1, (int)bby1); 
+   				g.drawString("2",(int)bbx2, (int)bby2); 
+   				g.drawString("3",(int)bbx3, (int)bby3); 
+   				g.drawString("4",(int)bbx4, (int)bby4); 
+   				g.drawRect(bbxA,bbyA,bbxB-bbxA,bbyB-bbyA);	
+   				*/
+    	 		
+    	 		coordSys.trackPoint((int)bbx1,(int)bby1);
+    	 		coordSys.trackPoint((int)bbx2,(int)bby2);
+    	 		coordSys.trackPoint((int)bbx3,(int)bby3);
+    	 		coordSys.trackPoint((int)bbx4,(int)bby4);
+
 			} else {
   				if (!mirror){
   					coordSys.trackPoint(xa+w,ya);
@@ -229,7 +271,9 @@ public class PrimitiveAdvText extends GraphicPrimitive
 			}
     		qq=(int)(ya/xyfactor);
 		}
-	   	
+
+		   			
+   		
    		at=(AffineTransform)g.getTransform().clone();
 		ats=(AffineTransform)at.clone();
 
