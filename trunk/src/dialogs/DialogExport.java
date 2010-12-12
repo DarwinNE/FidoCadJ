@@ -12,7 +12,6 @@ import globals.*;
 
 /** Choose file format, size and options of the graphic exporting.
 
-
 <pre>
     This file is part of FidoCadJ.
 

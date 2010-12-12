@@ -213,7 +213,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
 					co=Math.cos(Math.toRadians(-orientation));
    				
    				}
-   				//System.out.println("si="+si+"  co="+co);
 				hh=(int)Math.abs(w*si+th*co);
 				ww=(int)Math.abs(w*co-th*si);
    				// Calculate the bounding box.
@@ -236,10 +235,7 @@ public class PrimitiveAdvText extends GraphicPrimitive
    				 	bbx2=xa-th*si;
    					bbx3=xa-w*co-th*si;
    					bbx4=xa-w*co;
-
-    				//g.drawRect(xa,ya+h,ww,hh);			
-    			} else {
-    			}
+    			} 
    				
    				/*
    				int bbxA =(int)Math.min(Math.min(bbx1, bbx2),Math.min(bbx3, bbx4));
@@ -272,8 +268,6 @@ public class PrimitiveAdvText extends GraphicPrimitive
     		qq=(int)(ya/xyfactor);
 		}
 
-		   			
-   		
    		at=(AffineTransform)g.getTransform().clone();
 		ats=(AffineTransform)at.clone();
 
