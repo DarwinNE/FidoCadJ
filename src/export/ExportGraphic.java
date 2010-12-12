@@ -166,11 +166,18 @@ public class ExportGraphic
 		} else {
 			// In this situation, we do have to calculate the size from the
 			// specified resolution.
-			Dimension d = getImageSize(P, unitPerPixel,true);
-			width=d.width+20;
-			height=d.height+20;
+			Dimension d = getImageSize(P, 1,true);
+			width=(int)(d.width*unitPerPixel)+20;
+			height=(int)(d.height*unitPerPixel)+20;
 		}
-	  	org=getImageOrigin(P,unitPerPixel);
+	  	org=getImageOrigin(P,1);
+	  	
+		org.x *=unitPerPixel;
+		org.y *=unitPerPixel;
+		
+		org.x -= 10;
+		org.y -= 10;
+		
 
 		ArrayList ol=P.getLayers();
 
@@ -190,15 +197,17 @@ public class ExportGraphic
 		}
         
         P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);
-        System.out.println("xcenter: "+org.x);
-        System.out.println("ycenter: "+org.y);
-        
-        P.getMapCoordinates().setXCenter(-org.x);
-	   	P.getMapCoordinates().setYCenter(-org.y);
-	   	        
+               
     	if (format.equals("png")||format.equals("jpg")) {
-			// Create a buffered image in which to draw
+			// Center the drawing in the given space.
 			
+			System.out.println("xcenter: "+org.x);
+        	System.out.println("ycenter: "+org.y);
+        
+        	P.getMapCoordinates().setXCenter(-org.x);
+	   		P.getMapCoordinates().setYCenter(-org.y);
+			// Create a buffered image in which to draw
+
 			try {
         		bufferedImage = new BufferedImage(width, height, 
         								  BufferedImage.TYPE_INT_RGB);
@@ -322,7 +331,7 @@ public class ExportGraphic
 			height=m.getYMax();
 		}
 
-       	// System.out.println("width: "+width+ " height:"+height);
+       	System.out.println("width: "+width+ " height:"+height);
 			
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+

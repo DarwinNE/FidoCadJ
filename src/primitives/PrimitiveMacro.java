@@ -139,11 +139,12 @@ public class PrimitiveMacro extends GraphicPrimitive
 		o=oo;
 		m=mm;
 		
-		// A segment is defined by two points.
+		// Prepare the array of points for the macro.
 		virtualPoint = new Point[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
 			virtualPoint[i]=new Point();
 		
+		// Store the points of the macro and the text describing it.
 		virtualPoint[0].x=x;
 		virtualPoint[0].y=y;
 		virtualPoint[1].x=xa;
@@ -155,9 +156,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 		value=va;
 		
 		MacroDesc macro=(MacroDesc)library.get(key);
- 			
- 		if (macro==null){
- 			
+ 		
+ 		// Check if the macro description is contained in the database
+ 		// containing all the libraries.
+ 		if (macro==null){	
  			IOException G=new IOException("Unrecognized macro " 
  										  + key);
 			throw G;

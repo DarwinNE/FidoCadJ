@@ -26,62 +26,82 @@ First, a few useful sites about FidoCadJ:
 http://tinyurl.com/yavewp2
 http://sourceforge.net/projects/fidocadj/
 
------------------------------------------------
-2 - Files contained in this source distribution
------------------------------------------------
+If you own a PC running Linux or Windows (or any system supporting Java), you
+may download from the SourceForge repository the file fidocadj.jar. If Java
+is correctly installed on your machine, you may just double click on it to 
+run FidoCadJ. If you are a command line guy, you may enter in the directory
+where you have downloaded fidocadj.jar and type
+
+	java -jar fidocadj.jar
+	
+If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
+bundle and treat it just like any other native application. Since Apple does
+not seem to be prone to support very much Java in the future, if you have
+some problems running FidoCadJ, please check you do have a Java runtime 
+correctly installed on your Mac.
+
+Remember that if there is a greek letter after the version number of FidoCadJ,
+this means that you are using a preliminary version of this program. 
+Basically, you are warned: those version may be unstable!
+
+----------------------------------------------
+2 - Files contained in the source distribution
+----------------------------------------------
 
 In the following table you can find a description of the trunk directory of 
-the FidoCadJ program.
+the FidoCadJ program. You may download the complete source repository by
+using svn from the SourceForge repository. Check out the SF documentation
+for doing this: https://sourceforge.net/scm/?type=svn&group_id=274886
 
-File                        Comments
-----------------------------------------------------------------------------
-Manifest.txt                Manifest to be used for fidocadj.jar
-Manifest_applet.txt         Manifest to be used for fidoreadj.jar
-README                      This file
-bin/                        Contains all compiled classes and resources         
-busy being born/            Contains screenshots of old versions of FidoCadJ
-clean                       erases all compiled classes
-cleanall                    do a clean, erases fidocadj.jar, Javadocs
-compile                     compile FidoCadJ
-count                       do a wc on all Java source files                    
-createdoc                   run Javadoc on all source files
-createjar                   prepare fidocadj.jar
-doc                         contains all Javadoc produced HTML files
-gpl-3.0.txt                 the GNU public licence v. 3
-icons/                      contains all icons (made with Gimp)
-jar/                        contains fidocadj.jar as well as Quaqua
-lib/                        contains the standard libraries
-mac/                        contains some MacOSX specific files
-manual/                     the LaTeX manuals
-profile                     launch a profiler (jip)
-rebuild                     do a clean and then runs FidoCadJ
-run                         run FidoCadJ
-src/                        contains all the Java source files
-exclude_from_svn            excludes all binary generated files from svn
-sign.sh                     creates the signature for the applet
+  File                        Comments
+  ----------------------------------------------------------------------------
+  Manifest.txt                Manifest to be used for fidocadj.jar
+  Manifest_applet.txt         Manifest to be used for fidoreadj.jar
+  README                      This file
+  bin/                        Contains all compiled classes and resources         
+  busy being born/            Contains screenshots of old versions of FidoCadJ
+  clean                       erases all compiled classes
+  cleanall                    do a clean, erases fidocadj.jar, Javadocs
+  compile                     compile FidoCadJ
+  count                       do a wc on all Java source files                    
+  createdoc                   run Javadoc on all source files
+  createjar                   prepare fidocadj.jar
+  doc                         contains all Javadoc produced HTML files
+  gpl-3.0.txt                 the GNU public licence v. 3
+  icons/                      contains all icons (made with Gimp)
+  jar/                        contains fidocadj.jar as well as Quaqua
+  lib/                        contains the standard libraries
+  mac/                        contains some MacOSX specific files
+  manual/                     the LaTeX manuals
+  profile                     launch a profiler (jip)
+  rebuild                     do a clean and then runs FidoCadJ
+  run                         run FidoCadJ
+  src/                        contains all the Java source files
+  exclude_from_svn            excludes all binary generated files from svn
+  sign.sh                     creates the signature for the applet
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ
 -----------------------------------------------------
 
-Ok, you just chechout from SourceForge SVN the FidoCadJ source files. Good :-)
+Ok, you just checkout from SourceForge SVN the FidoCadJ source files. Good :-)
 FidoCadJ is a pure Java project, and for many reasons I prefer using a good
-text editor as well as a few command line script in order to compile and run 
+text editor as well as a few command line scripts, in order to compile and run 
 the code on which I am working.
-For this reason, you find in the trunk directory (see section 2 of this 
+You will thus find in the trunk directory (see section 2 of this 
 file) several scripts which will be useful for you, expecially if you are
 working in an Unix-like environment.
-If you prefer using some kind of IDE such as Eclipse, you may try, but I
+If you prefer using some kind of IDE such as Eclipse, you may try it, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote.
 
 3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
 ------------------------------------------------------------------------
 
-If you have MacOSX, you just open up a terminal window, go into the 
+If you are using MacOSX, you just open up a terminal window, go into the 
 fidocadj/trunk directory and type:
 
-./rebuild
+  ./rebuild
 
 And FidoCadJ should be automatically compiled and run.
 
@@ -110,7 +130,7 @@ You should comment the code block as follows:
         // Probably, you need to strip this code if you need to compile the
         // program under a non-Apple platform.
 
-/*      if(Globals.weAreOnAMac) {
+        /* if(Globals.weAreOnAMac) {
             AppleSpecific a=new AppleSpecific();
             a.answerFinder();
         }       */
@@ -170,38 +190,37 @@ FidoCadJ is written in such a way that translating its interface is
 particularly easy and does not need any programming skills.
 If you have downloaded the source file repository, you should find the 
 interface resource files in the trunk/bin directory.
-A language resource file has the name MessagesBundle_xx_YY.properties, where
-xx and YY are respectively the code for the language and the country 
-to which the translation is targeted.
+A language resource file has the name MessagesBundle_xx.properties, where
+xx is the code for the language to which the translation is targeted.
 If you have a look at the beginning of the file 
-trunk/bin/MessagesBundle_en_US.properties, you should read something as 
+trunk/bin/MessagesBundle_en.properties, you should read something as 
 follow:
 
-File = File
-New = New
-Open = Open file
-Save = Save
-SaveName = Save as...
-Export = Export
-Print = Print
-Close = Close
+	File = File
+	New = New
+	Open = Open file
+	Save = Save
+	SaveName = Save as...
+	Export = Export
+	Print = Print
+	Close = Close
 
-...
+	...
 
-The resources string are organized in the form key = value. For example, here 
+The resources strings are organized in the form key = value. For example, here 
 is the head of the corresponding file for the interface in French, in the file
-trunk/bin/MessagesBundle_fr_FR.properties
+trunk/bin/MessagesBundle_fr.properties
 
-File = Fichier
-New = Nouveau dessin
-Open = Ouvre un fichier
-Save = Enregistrer
-SaveName = Enregistrer sous un autre nom
-Export = Exporter
-Print = Impression
-Close = Fermer
+	File = Fichier
+	New = Nouveau dessin
+	Open = Ouvre un fichier
+	Save = Enregistrer
+	SaveName = Enregistrer sous un autre nom
+	Export = Exporter
+	Print = Impression
+	Close = Fermer
 
-...
+	...
 
 That is all. If you want to translate FidoCadJ in your language, you just have
 to translate line by line the values in a language resource file, name it 

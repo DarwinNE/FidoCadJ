@@ -104,7 +104,6 @@ public class DialogLayer extends JDialog implements ComponentListener
 		constraints = DialogUtil.createConst(0,0,1,1,100,100,
 			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
 			new Insets(20,20,6,20));
-
         
         contentPane.add(sl, constraints);
         
