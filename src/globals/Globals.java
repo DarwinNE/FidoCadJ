@@ -64,10 +64,12 @@ public class Globals
    	public static boolean okCancelWinOrder;
     
     // Track the total number of FidoCadJ open windows
-    public static int openWindows;
+    public static int openWindowsNumber;
     
     // A pointer to the active window
     public static JFrame activeWindow;
+    
+    public static HashSet openWindows = new HashSet();
  
     
     // Line width expressed in FidoCadJ coordinates 
