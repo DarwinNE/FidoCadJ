@@ -113,6 +113,7 @@ public class DialogLayer extends JDialog implements ComponentListener
         
     	// Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
+        b.add(edit);
         b.add(Box.createHorizontalGlue());
 		ok.setPreferredSize(cancel.getPreferredSize());
 
