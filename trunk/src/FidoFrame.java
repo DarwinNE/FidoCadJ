@@ -239,7 +239,8 @@ public class FidoFrame extends JFrame implements
 		// We need to keep track of the number of open windows. If the last
 		// one is closed, we exit from the program.
 		
-        ++Globals.openWindows;
+        ++Globals.openWindowsNumber;
+        Globals.openWindows.add(this);
 
         URL url=DialogAbout.class.getResource(
             "program_icons/icona_fidocadj_128x128.png");
@@ -714,23 +715,17 @@ public class FidoFrame extends JFrame implements
             {
                 public void windowClosing(WindowEvent e)
                 {
-                    if (CC.P.getModified()) {
-                        if(JOptionPane.showConfirmDialog(null, 
-                            Globals.messages.getString("Warning_unsaved"),
-                            Globals.messages.getString("Warning"),
-                            JOptionPane.OK_CANCEL_OPTION, 
-                            JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
-                        {
-                            return; 
-                        }
+                    if(!checkIfToBeSaved()) {
+                    	return;
                     }
                     
                     setVisible(false);
                     dispose();
+                    Globals.openWindows.remove(this);
 
-                    --Globals.openWindows;
+                    --Globals.openWindowsNumber;
                     
-                    if (Globals.openWindows<1)
+                    if (Globals.openWindowsNumber<1)
                         if (runsAsApplication) 
                         	System.exit(0);
                 }
@@ -748,6 +743,45 @@ public class FidoFrame extends JFrame implements
         //	Boolean.TRUE);
 
         
+    }
+    
+    /** Ask the user if the current file should be saved and do it if yes.
+    	@return true if the window should be closed or false if the closing
+    		action has been cancelled.
+    	
+    */
+    public boolean checkIfToBeSaved()
+    {
+    	boolean shouldExit = true;
+        if (CC.P.getModified()) {
+            Object[] options = {"Save",
+                "Do not save", "Cancel"};
+           	int choice=JOptionPane.showOptionDialog(null, 
+                Globals.messages.getString("Warning_unsaved"),
+                Globals.messages.getString("Warning"),
+                JOptionPane.YES_NO_CANCEL_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null,
+                options,  //the titles of buttons
+    	 		options[0]); //default button title)
+    						
+    		// Those constant names does not reflect the actual 
+    		// message shown on the buttons. 
+            if(choice==JOptionPane.YES_OPTION) { 
+               	//  Save and exit
+               	//System.out.println("Save and exit.");
+               	Save();
+            } else if (choice==JOptionPane.NO_OPTION) { 
+               	// Don't save, exit
+               	//System.out.println("Do not save and exit.");
+            } else if (choice==JOptionPane.CANCEL_OPTION) {
+               	// Don't exit
+               	//System.out.println("Do not exit.");
+               	shouldExit = false;
+            }
+                      
+        }
+    	return shouldExit;
     }
     
     /** The action listener. Recognize menu events and behaves consequently.
@@ -780,7 +814,7 @@ public class FidoFrame extends JFrame implements
             }
             
             if (arg.equals(Globals.messages.getString("Circ_opt"))) {
-                showPrefs();
+                ShowPrefs();
             }
             if (arg.equals(Globals.messages.getString("Layer_opt"))) {
                 DialogLayer layerDialog=new DialogLayer(this,CC.P.getLayers());
@@ -856,10 +890,7 @@ public class FidoFrame extends JFrame implements
                 SaveWithName();
             }  
             if (arg.equals(Globals.messages.getString("Save"))) {
-                if(CC.P.openFileName.equals(""))
-                    SaveWithName();
-                else 
-                    Save();
+                Save();
                 
             }
                 
@@ -957,7 +988,7 @@ public class FidoFrame extends JFrame implements
                         if (runsAsApplication)
                         	prefs.put("OPEN_DIR", din);  
                         popFrame.openFileDirectory=din;
-                        popFrame.openFile();
+                        popFrame.OpenFile();
                         popFrame.CC.P.saveUndoState();
                         popFrame.CC.P.setModified(false);
 
@@ -1086,23 +1117,17 @@ public class FidoFrame extends JFrame implements
             }
             
             if (arg.equals(Globals.messages.getString("Close"))) {
-                if (CC.P.getModified()) {
-                    if(JOptionPane.showConfirmDialog(null, 
-                        Globals.messages.getString("Warning_unsaved"),
-                        Globals.messages.getString("Warning"),
-                        JOptionPane.OK_CANCEL_OPTION, 
-                        JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
-                    {
-                        return; 
-                    }
+                if(!checkIfToBeSaved()) {
+                   	return;
                 }
                     
                 setVisible(false);
                 dispose();
+                Globals.openWindows.remove(this);
 
-                --Globals.openWindows;
+                --Globals.openWindowsNumber;
                     
-                if (Globals.openWindows<1)
+                if (Globals.openWindowsNumber<1)
                     System.exit(0);
             }
         }
@@ -1280,7 +1305,7 @@ public class FidoFrame extends JFrame implements
                     
                     // Only the first file of the list will be opened
                     popFrame.CC.P.openFileName=((File)(list.get(0))).getAbsolutePath();
-                    popFrame.openFile();
+                    popFrame.OpenFile();
                     // If we made it this far, everything worked.
                     dtde.dropComplete(true);
                     return;
@@ -1356,7 +1381,7 @@ public class FidoFrame extends JFrame implements
                             
                             // After we set the current file name, we just open
                             // it.
-                            popFrame.openFile();
+                            popFrame.OpenFile();
                             popFrame.CC.P.saveUndoState();
                             popFrame.CC.P.setModified(false);
                         
@@ -1382,7 +1407,7 @@ public class FidoFrame extends JFrame implements
     /** Open the current file
     
     */
-    public void openFile() 
+    public void OpenFile() 
         throws IOException
     {
         
@@ -1498,6 +1523,13 @@ public class FidoFrame extends JFrame implements
     */
     void Save()
     {
+    	// If there is not a name currently defined, we use instead the 
+    	// save with name function.
+    	if(CC.P.openFileName.equals("")) {
+            SaveWithName();
+            return;
+        }
+          
         try {
             if (splitNonStandardMacro_s) {
                 /*  In fact, splitting the nonstandard macro when saving a file
@@ -1536,7 +1568,7 @@ public class FidoFrame extends JFrame implements
         CC.P.openFileName= s;
                
         try {
-            openFile();
+            OpenFile();
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(this,
             Globals.messages.getString("Open_error")+fnfex);
@@ -1546,7 +1578,7 @@ public class FidoFrame extends JFrame implements
     /** Show the FidoCadJ preferences panel
     
     */
-    void showPrefs()
+    void ShowPrefs()
     {
     	String oldDirectory = libDirectory;
     	

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.*;
 
 import com.apple.eawt.*;
 
@@ -55,11 +56,14 @@ class AppleSpecific implements ApplicationListener{
 		evt.setHandled(true);
 
 	}
-    /** Respond to an user opening te application.
+    /** Respond to an user opening the application.
 	
 	*/
     public void handleOpenApplication(ApplicationEvent evt) 
     {
+    	String file = evt.getFilename();
+    	System.out.println("Load file:"+file);
+    	//((FidoFrame)Globals.activeWindow).Load(file);
     }
     /** Respond to an user double clicking on a FCD file
 	
@@ -74,7 +78,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
     public void handlePreferences(ApplicationEvent evt) 
 	{	
-		((FidoFrame)Globals.activeWindow).showPrefs();
+		((FidoFrame)Globals.activeWindow).ShowPrefs();
 	}
 	
 	/** Respond to an user wanting to print a particular file.
@@ -88,19 +92,17 @@ class AppleSpecific implements ApplicationListener{
 	*/
 	public void handleQuit(ApplicationEvent evt) 
 	{
-		boolean ca = false;
-		
-		if(JOptionPane.showConfirmDialog(null, 
-			Globals.messages.getString("Warning_quit"),
-			Globals.messages.getString("Warning"),
-			JOptionPane.OK_CANCEL_OPTION, 
-			JOptionPane.WARNING_MESSAGE)!=JOptionPane.OK_OPTION)
-		{
-			ca = false;
-		} else {
-			ca = true;
-		}
-		
+		boolean ca = true;
+					
+
+		//Create a iterator
+    	Iterator iterator = Globals.openWindows.iterator();     
+    	while (iterator.hasNext()){
+      		if(!((FidoFrame)iterator.next()).checkIfToBeSaved()) {
+      			ca = false;
+      		}
+    	}
+	
 		evt.setHandled(ca);
 	}
 	
