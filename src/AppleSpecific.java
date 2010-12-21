@@ -62,8 +62,8 @@ class AppleSpecific implements ApplicationListener{
     public void handleOpenApplication(ApplicationEvent evt) 
     {
     	String file = evt.getFilename();
-    	System.out.println("Load file:"+file);
-    	//((FidoFrame)Globals.activeWindow).Load(file);
+    	if(file!=null)
+    	  ((FidoFrame)Globals.activeWindow).Load(file);
     }
     /** Respond to an user double clicking on a FCD file
 	
