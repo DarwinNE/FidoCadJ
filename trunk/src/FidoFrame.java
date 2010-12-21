@@ -754,9 +754,11 @@ public class FidoFrame extends JFrame implements
     {
     	boolean shouldExit = true;
         if (CC.P.getModified()) {
-            Object[] options = {"Save",
-                "Do not save", "Cancel"};
-           	int choice=JOptionPane.showOptionDialog(null, 
+            Object[] options = {
+                Globals.messages.getString("Save"),
+                Globals.messages.getString("Do_Not_Save"),
+                Globals.messages.getString("Cancel_btn")};
+           	int choice=JOptionPane.showOptionDialog(this, 
                 Globals.messages.getString("Warning_unsaved"),
                 Globals.messages.getString("Warning"),
                 JOptionPane.YES_NO_CANCEL_OPTION, 
