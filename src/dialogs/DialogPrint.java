@@ -168,6 +168,8 @@ public class DialogPrint extends JDialog implements ComponentListener
             	setVisible(false);
         	}
       	};
+		contentPane.add(b, constraints);		// Add OK/cancel dialog
+
 		DialogUtil.addCancelEscape (this, cancelAction);
 		pack();
 		DialogUtil.center(this);
