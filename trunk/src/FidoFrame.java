@@ -1221,7 +1221,7 @@ public class FidoFrame extends JFrame implements
             g2d.scale(xscale,yscale); 
         }   
        
-        double om=CC.P.getMapCoordinates().getXMagnitude();
+		CC.P.getMapCoordinates().push();
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
 		// Perform an adjustement if we need to fit the drawing to the page.
@@ -1251,7 +1251,7 @@ public class FidoFrame extends JFrame implements
         
         // Check if printing is finished.
         if(page>npages) {
-            CC.P.getMapCoordinates().setMagnitudes(om,om);
+       		CC.P.getMapCoordinates().pop();
             return NO_SUCH_PAGE;
         }
 
@@ -1260,8 +1260,7 @@ public class FidoFrame extends JFrame implements
         // Now we perform our rendering 
         CC.P.draw(g2d);
         
-        //m.xCenter = 0;
-        CC.P.getMapCoordinates().setMagnitudes(om,om);
+		CC.P.getMapCoordinates().pop();
         
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -1536,7 +1535,6 @@ public class FidoFrame extends JFrame implements
             saveWithName();
             return;
         }
-          
         try {
             if (splitNonStandardMacro_s) {
                 /*  In fact, splitting the nonstandard macro when saving a file
@@ -1560,7 +1558,6 @@ public class FidoFrame extends JFrame implements
                 CC.P.setModified(false);
             
             }
-    
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(this,
             Globals.messages.getString("Save_error")+fnfex);
@@ -1572,8 +1569,7 @@ public class FidoFrame extends JFrame implements
     */
     void load(String s)
     {
-        CC.P.openFileName= s;
-               
+        CC.P.openFileName= s;     
         try {
             openFile();
         } catch (IOException fnfex) {
@@ -1583,7 +1579,6 @@ public class FidoFrame extends JFrame implements
     }
     
     /** Show the FidoCadJ preferences panel
-    
     */
     void showPrefs()
     {
@@ -1687,18 +1682,17 @@ public class FidoFrame extends JFrame implements
      	if(!libDirectory.equals(oldDirectory)) {
      		loadLibraries();
            	show();
-     	}
-     	
+     	}	
         repaint();
     }
     
     /** Set the current zoom to fit
-    
     */
     public void zoomToFit()
     {
         double oldz=CC.P.getMapCoordinates().getXMagnitude();
         
+        // We calculate the zoom to fit factor here.
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
             SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
@@ -1706,8 +1700,11 @@ public class FidoFrame extends JFrame implements
             
         double z=m.getXMagnitude();
         
+        // We apply the zoom factor to the coordinate transform
         CC.P.getMapCoordinates().setMagnitudes(z, z);
         
+        // We make the scroll pane show the interesting part of
+        // the drawing.
         CC.scrollRectToVisible(new Rectangle(-(int)(m.getXCenter()), 
         	-(int)(m.getYCenter()), 
         	SC.getViewport().getExtentSize().width, 
@@ -1821,8 +1818,7 @@ class RulerPanel extends JPanel implements SwingConstants
                             sc.mapXi(x,0,false),
                             sc.mapYi(x,0,false)+ d.height);
                 
-            }
-            
+            }    
         } else {
             int y=0;
             int inc=(sc.mapYi(increment, increment, false)-sc.mapYi(0, 0, false));

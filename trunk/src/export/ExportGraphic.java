@@ -144,10 +144,8 @@ public class ExportGraphic
 	{
 
 		// obtain drawing size
-		double oxz=P.getMapCoordinates().getXMagnitude();
-		double oyz=P.getMapCoordinates().getYMagnitude();
-		double ocx=P.getMapCoordinates().getXCenter();
-		double ocy=P.getMapCoordinates().getYCenter();
+		P.getMapCoordinates().push();
+
 		Point org=new Point(0,0);
 		
 		if (setSize) {
@@ -157,7 +155,6 @@ public class ExportGraphic
 			Dimension d = getImageSize(P, 1,true);
 			d.width+=20;
 			d.height+=20;
-   	 		//System.out.println(d);
 			
 			unitPerPixel = Math.min(width/(double)d.width, 
 				height/(double)d.height);
@@ -178,7 +175,6 @@ public class ExportGraphic
 		org.x -= 10;
 		org.y -= 10;
 		
-
 		ArrayList ol=P.getLayers();
 
 		BufferedImage bufferedImage;
@@ -231,18 +227,12 @@ public class ExportGraphic
         		g2d.dispose();
         	} catch (java.lang.OutOfMemoryError E) {
         		IOException D=new IOException("Memory Error");
-    			MapCoordinates m=P.getMapCoordinates();
-       			m.setMagnitudes(oxz, oyz);
-       			P.setMapCoordinates(m);
-       			P.getMapCoordinates().setXCenter(ocx);
-	   			P.getMapCoordinates().setYCenter(ocy);
+       			P.getMapCoordinates().pop();
        			P.setLayers(ol);
     			throw D;
         	} catch (Exception E) {
         		IOException D=new IOException("Size error"+E);
-    			MapCoordinates m=P.getMapCoordinates();
-       			m.setMagnitudes(oxz, oyz);
-       			P.setMapCoordinates(m);
+       			P.getMapCoordinates().pop();
        			P.setLayers(ol);
     			throw D;
 			}
@@ -271,15 +261,9 @@ public class ExportGraphic
     		throw E;
     	}
     	
-    	MapCoordinates m=P.getMapCoordinates();
-       	m.setMagnitudes(oxz, oyz);
-       	P.setMapCoordinates(m);
-        P.getMapCoordinates().setXCenter(ocx);
-	   	P.getMapCoordinates().setYCenter(ocy);       	
+		P.getMapCoordinates().pop();
        	P.setLayers(ol);
-
     	return;
-    	
     }
     
     /**	Get the image size.
@@ -299,8 +283,7 @@ public class ExportGraphic
 		// I do not like it, even if here we are not in a speed sensitive
 		// context!
 		
-		double oxz=P.getMapCoordinates().getXMagnitude();
-		double oyz=P.getMapCoordinates().getYMagnitude();
+		P.getMapCoordinates().push();
 		
 		BufferedImage bufferedImage = new BufferedImage(10, 10, 
         								  BufferedImage.TYPE_INT_RGB);
@@ -320,7 +303,6 @@ public class ExportGraphic
         g2d.dispose();
     	
     	// Verify that the image size is correct
-    	
     	if(countMin) {
 			width=m.getXMax()-
 				m.getXMin();
@@ -331,16 +313,15 @@ public class ExportGraphic
 			height=m.getYMax();
 		}
 
-       	System.out.println("width: "+width+ " height:"+height);
+       	//System.out.println("width: "+width+ " height:"+height);
 			
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
-							   "sized image");
-							   
+							   "sized image");					   
 			width=100;
 			height=100;
 		}
-        P.getMapCoordinates().setMagnitudes(oxz,oyz);
+		P.getMapCoordinates().pop();
 
 		return new Dimension(width, height);
     }
@@ -358,12 +339,8 @@ public class ExportGraphic
 		// context!
 		
 		P.setChanged(true);		
-		double oxz=P.getMapCoordinates().getXMagnitude();
-		double oyz=P.getMapCoordinates().getYMagnitude();
-		
-		double ox=P.getMapCoordinates().getXCenter();
-		double oy=P.getMapCoordinates().getYCenter();
-		
+		P.getMapCoordinates().push();
+
 		// Create a dummy image on which the drawing will be done
 		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);
@@ -387,20 +364,11 @@ public class ExportGraphic
 			originx=P.getMapCoordinates().getXMin();
 			originy=P.getMapCoordinates().getYMin();
 		} else {
-			//System.out.println("Warning: Image has a zero"+
-			//				   "sized image");
 			originx=0;
 			originy=0;
 		}
-		
-		System.out.println("XMax "+ P.getMapCoordinates().getXMax());
-		System.out.println("YMax "+ P.getMapCoordinates().getYMax());
-		System.out.println("XMin "+ P.getMapCoordinates().getXMin());
-		System.out.println("YMin "+ P.getMapCoordinates().getYMin());
-		
-        P.getMapCoordinates().setMagnitudes(oxz, oyz);
-        P.getMapCoordinates().setXCenter(ox);
-        P.getMapCoordinates().setYCenter(oy);
+
+		P.getMapCoordinates().pop();
 		
 		return new Point(originx, originy);
     }
@@ -418,7 +386,7 @@ public class ExportGraphic
     				boolean forceCalc, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
-		double oldZoom=P.getMapCoordinates().getXMagnitude();
+		P.getMapCoordinates().push();
 		double maxsizex;
 		double maxsizey;
 		Point org=new Point(0,0);
@@ -437,15 +405,11 @@ public class ExportGraphic
 			
 		if (countMin) 
 			org=getImageOrigin(P,1);
-
-	
+			
 		double zoomx=1.0/((maxsizex)/(double)sizex);
-		double zoomy=1.0/((maxsizey)/(double)sizey);
-		//System.out.println("zoomx: "+zoomx+", "+zoomy);
-				
+		double zoomy=1.0/((maxsizey)/(double)sizey);				
 		
 		double z=(zoomx>zoomy)?zoomy:zoomx;
-		
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		
@@ -453,7 +417,7 @@ public class ExportGraphic
 		newZoom.setXCenter(-(org.x*z));
 		newZoom.setYCenter(-(org.y*z));
 		
-		P.getMapCoordinates().setMagnitudes(oldZoom, oldZoom);
+		P.getMapCoordinates().pop();
 		
 		return newZoom;
 	}    

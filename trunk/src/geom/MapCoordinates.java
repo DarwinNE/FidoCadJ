@@ -1,5 +1,6 @@
 package geom;
 import java.awt.*;
+import java.util.*;
 
 /** MapCoordinates.java
 
@@ -65,7 +66,6 @@ public class MapCoordinates
     public boolean isMacro;
     public boolean snapActive;
     
-    
     public static final double MIN_MAGNITUDE=0.25;
     public static final double MAX_MAGNITUDE=100.0;
 
@@ -83,6 +83,8 @@ public class MapCoordinates
     private int xGridStep;
     private int yGridStep;
     
+    private Stack stack;
+    
     
     /** Standard constructor */
     public MapCoordinates()
@@ -97,6 +99,54 @@ public class MapCoordinates
         isMacro=false;
         snapActive=true;
         resetMinMax();
+        stack = new Stack();
+    }
+    
+    public void push()
+    {
+    	MapCoordinates m = new MapCoordinates();
+    	m.xCenter=xCenter;
+   		m.yCenter=yCenter;
+    	m.xMagnitude=xMagnitude;
+    	m.yMagnitude=yMagnitude;
+    	m.orientation=orientation;
+    	m.mirror=mirror;
+    	m.isMacro=isMacro;
+    	m.snapActive=snapActive;
+   		m.xMin=xMin;
+    	m.xMax=xMax;
+    	m.yMin=yMin;
+    	m.yMax=yMax;
+    
+    	m.xGridStep=xGridStep;
+    	m.yGridStep=yGridStep;
+    	stack.push(m);
+    }
+    
+    public void pop()
+    {
+    	if(!stack.empty()) {
+    		MapCoordinates m=(MapCoordinates) stack.pop();
+    		xCenter=m.xCenter;
+   			yCenter=m.yCenter;
+    		xMagnitude=m.xMagnitude;
+    		yMagnitude=m.yMagnitude;
+    		orientation=m.orientation;
+    		mirror=m.mirror;
+    		isMacro=m.isMacro;
+    		snapActive=m.snapActive;
+   			xMin=m.xMin;
+    		xMax=m.xMax;
+    		yMin=m.yMin;
+    		yMax=m.yMax;
+    
+    		xGridStep=m.xGridStep;
+    		yGridStep=m.yGridStep;
+    	
+    	} else {
+    	 	System.out.println("Warning: I can not pop the coordinate state "+
+    	 		"out of an empty stack!");
+    	}
     }
     
     /** Set the snapping state (used in the unmapping functions)
