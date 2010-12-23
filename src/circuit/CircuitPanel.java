@@ -78,7 +78,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
 	// Position of the rectangle used for the selection
     private Rectangle evidenceRect;
-    private Rectangle oldEvidenceRect;
 
 	// Margin size in pixels when calculating component sizes.
 	public static final int MARGIN=20;     
@@ -189,7 +188,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         record_c = record;
         record_d = record;
         evidenceRect = new Rectangle(0,0,-1,-1);
-        oldEvidenceRect = null;
         primEdit = null;
        
         setOpaque(true);
@@ -1408,35 +1406,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         evidenceRect.x=lx;
         evidenceRect.y=ly;
         evidenceRect.height=h;
-        evidenceRect.width=w;
-        
+        evidenceRect.width=w;        
     }
-    /** Sets the old evidence rectangle which has been put on screen.
-        All sizes are given in pixel.
-        
-        @param lx   the x coordinate of the left top corner
-        @param ly   the y coordinate of the left top corner
-        @param w    the width of the rectangle
-        @param h    the height of the rectangle
-    
-    */
-    public void setOldEvidence(int lx, int ly, int w, int h)
-    {
-        oldEvidenceRect=new Rectangle();
-        oldEvidenceRect.x=lx;
-        oldEvidenceRect.y=ly;
-        oldEvidenceRect.height=h;
-        oldEvidenceRect.width=w;
-        
-    }
-    
-    /** Resets the old evidence rectangle which has been put on screen. */
-    public void resetOldEvidence()
-    {   
-        oldEvidenceRect = null;
-        
-    }
-    
 
     /** Repaint the panel */
     public void paintComponent(Graphics g) 
@@ -1511,7 +1482,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         // If a ruler is active, draw it.
         if (ruler) {    
             drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
-            oldEvidenceRect=null;
         }
                 
        

@@ -63,14 +63,14 @@ class AppleSpecific implements ApplicationListener{
     {
     	String file = evt.getFilename();
     	if(file!=null)
-    	  ((FidoFrame)Globals.activeWindow).Load(file);
+    	  ((FidoFrame)Globals.activeWindow).load(file);
     }
     /** Respond to an user double clicking on a FCD file
 	
 	*/
     public void handleOpenFile(ApplicationEvent evt) {
     	String file = evt.getFilename();
-    	((FidoFrame)Globals.activeWindow).Load(file);
+    	((FidoFrame)Globals.activeWindow).load(file);
     }
     
     /** Respond to an user clicking on the Preferences menu.
@@ -78,7 +78,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
     public void handlePreferences(ApplicationEvent evt) 
 	{	
-		((FidoFrame)Globals.activeWindow).ShowPrefs();
+		((FidoFrame)Globals.activeWindow).showPrefs();
 	}
 	
 	/** Respond to an user wanting to print a particular file.
@@ -92,8 +92,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
 	public void handleQuit(ApplicationEvent evt) 
 	{
-		boolean ca = true;
-					
+		boolean ca = true;		
 
 		//Create a iterator
     	Iterator iterator = Globals.openWindows.iterator();     
@@ -102,12 +101,10 @@ class AppleSpecific implements ApplicationListener{
       			ca = false;
       		}
     	}
-	
 		evt.setHandled(ca);
 	}
 	
 	public void handleReOpenApplication(ApplicationEvent evt) 
 	{
 	}
-	
 }
