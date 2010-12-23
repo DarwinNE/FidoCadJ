@@ -343,8 +343,7 @@ class FidoMain {
         	// If a file should be loaded, load it now, since popFrame has been
         	// created and initialized.
         	if(!loadFile.equals(""))
-				popFrame.Load(loadFile);
-
+				popFrame.load(loadFile);
 		}
     }
     
