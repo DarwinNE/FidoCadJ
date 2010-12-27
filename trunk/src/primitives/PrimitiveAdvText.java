@@ -730,5 +730,20 @@ public class PrimitiveAdvText extends GraphicPrimitive
 			o, getLayer(), txt);
 			
 	}
-
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return -1;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return -1;
+	}
+	
 }

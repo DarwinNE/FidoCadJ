@@ -42,7 +42,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 
 	// A PCB segment is defined by two points.
 
-	static final int N_POINTS=2;
+	static final int N_POINTS=4;
 	
 	
 	/** Gets the number of control points used.
@@ -60,11 +60,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	{
 		super();
 		width=0;
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-		
+		initPrimitive(-1);
 	}
 	/** Create a PCB line between two points
 		@param x1 the start x coordinate (logical unit).
@@ -77,14 +73,16 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	public PrimitivePCBLine(int x1, int y1, int x2, int y2, int w, int layer)
 	{
 		super();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+		initPrimitive(-1);
 			
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
 		virtualPoint[1].x=x2;
 		virtualPoint[1].y=y2;
+		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y1+10;	
 		width=w;
 		
 		setLayer(layer);
@@ -110,6 +108,9 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
+			
+		drawText(g, coordSys, layerV, -1);
+		
 		/* in the PCB line primitive, the first two virtual points represent
 		   the beginning and the end of the segment to be drawn. */
 		   
@@ -134,8 +135,7 @@ public class PrimitivePCBLine extends GraphicPrimitive
 				java.awt.BasicStroke.CAP_ROUND,
 				java.awt.BasicStroke.JOIN_ROUND);
 			xbpap1=(xb-xa)+1;
-			ybpap1=(yb-ya)+1;
-			
+			ybpap1=(yb-ya)+1;	
 		}
  		   
 		// Exit if the primitive is offscreen. This is a simplification, but
@@ -249,6 +249,11 @@ public class PrimitivePCBLine extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+
 		int distance=GeometricDistances.pointToSegment(
 				virtualPoint[0].x,virtualPoint[0].y,
 				virtualPoint[1].x,virtualPoint[1].y,
@@ -276,5 +281,20 @@ public class PrimitivePCBLine extends GraphicPrimitive
 				cs.mapY(virtualPoint[1].x,virtualPoint[1].y), 
 				width, getLayer()); 
 	}
-
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 2;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 3;
+	}
+	
 }

@@ -40,7 +40,7 @@ public class PrimitiveOval extends GraphicPrimitive
 {
 
 	// An oval is defined by two points.
-	static final int N_POINTS=2;
+	static final int N_POINTS=4;
 	private boolean isFilled;
 	private int dashStyle;
 
@@ -59,11 +59,7 @@ public class PrimitiveOval extends GraphicPrimitive
 	{
 		super();
 		isFilled=false;
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-		
+		initPrimitive(-1);
 	}
 	/** Create an oval defined by two points.
 		@param x1 the start x coordinate (logical unit).
@@ -80,14 +76,17 @@ public class PrimitiveOval extends GraphicPrimitive
 		int dashSt)
 	{
 		super();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+		initPrimitive(-1);
 			
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
 		virtualPoint[1].x=x2;
 		virtualPoint[1].y=y2;
+		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
+		
 		isFilled=f;
 		dashStyle =dashSt;
 		
@@ -115,6 +114,9 @@ public class PrimitiveOval extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
+			
+		drawText(g, coordSys, layerV, -1);
+		
 		// in the oval primitive, the first two virtual points represent
 		//   the two corners of the segment 
  		
@@ -290,6 +292,11 @@ public class PrimitiveOval extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	    	
 		int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
         int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
@@ -341,5 +348,20 @@ public class PrimitiveOval extends GraphicPrimitive
 					   dashStyle,
 					   Globals.lineWidth); 
 	}
-
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 2;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 3;
+	}
+	
 }
