@@ -29,7 +29,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2010 by Davide Bucci
 </pre>
 
 	@author Davide Bucci

@@ -347,6 +347,7 @@ public class GeometricDistances {
 		l=Math.sqrt(Math.abs(l-1.0)*Math.min(w,h)*Math.min(w,h)/4)/2;
     	return l;
   	}  
+  	
   	/** Give the distance between the given point and the ellipse path
   		(integer version)
 		

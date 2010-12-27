@@ -49,14 +49,13 @@ public class PrimitivePolygon extends GraphicPrimitive
 
 	static final int N_POINTS=100;
 	
-	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
 	
 	public int getControlPointNumber()
 	{
-		return nPoints;
+		return nPoints+2;
 	}
 	 
 	public PrimitivePolygon()
@@ -65,11 +64,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 		isFilled=false;
 		nPoints=0;
 		p = new Polygon();
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-		
+		initPrimitive(N_POINTS);
 	}
 	/** Create a polygon. Add points with the addPoint method.
 		
@@ -83,15 +78,10 @@ public class PrimitivePolygon extends GraphicPrimitive
 	{
 		super();
 		p = new Polygon();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-			
+		initPrimitive(N_POINTS);
 		nPoints=0;
 		isFilled=f;
 		dashStyle=dashSt;
-		
-		
 		setLayer(layer);
 	}
 	
@@ -101,12 +91,19 @@ public class PrimitivePolygon extends GraphicPrimitive
 	*/
 	public void addPoint(int x, int y)
 	{
-		if(nPoints>=N_POINTS)
+		if(nPoints+2>=N_POINTS)
 			return;
+					
+		// And now we enter the position of the point we are interested with
 		virtualPoint[nPoints].x=x;
 		virtualPoint[nPoints++].y=y;
+		// We do need to shift the two points describing the position
+		// of the text lines
+		virtualPoint[getNameVirtualPointNumber()].x=x+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y+10;				
 		changed = true;
-
 	}
 
 
@@ -162,7 +159,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 	{
 		if(!selectLayer(g,layerV))
 			return;
-    	
+    	drawText(g, coordSys, layerV, -1);
     	if(changed) {
     		changed=false;
     		createPolygon(coordSys);
@@ -342,7 +339,11 @@ public class PrimitivePolygon extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
-		
+		// Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	    	
     	double[] xp=new double[N_POINTS];
         double[] yp=new double[N_POINTS];
         
@@ -352,7 +353,6 @@ public class PrimitivePolygon extends GraphicPrimitive
         	xp[k]=virtualPoint[k].x;
             yp[k]=virtualPoint[k].y;
         }     
-        
         
         int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
         	(py-yp[0])*(py-yp[0]));
@@ -390,7 +390,6 @@ public class PrimitivePolygon extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
-	
 		Point[] vertices = new Point[nPoints]; 
 		
 		for(int i=0; i<nPoints;++i){
@@ -401,6 +400,21 @@ public class PrimitivePolygon extends GraphicPrimitive
 		
 		exp.exportPolygon(vertices, nPoints, isFilled, getLayer(), dashStyle,
 			Globals.lineWidth);
-		
 	}
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return nPoints;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return nPoints+1;
+	}
+	
 }

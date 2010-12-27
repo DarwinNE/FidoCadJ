@@ -49,6 +49,7 @@ public abstract class GraphicPrimitive
 	// Maximum number of tokens
 	private static final int MAX_TOKENS=120;
 	
+	
 	// Indicates wether the primitive is selected or not
 	public boolean selectedState;
 	
@@ -63,8 +64,12 @@ public abstract class GraphicPrimitive
 
 	protected boolean changed;
 	
-	/* At first, non abstract methods */
+	protected int macroFontSize;
+	protected String macroFont;	
+	protected String name;
+	protected String value;
 	
+	/* At first, non abstract methods */
 	
 	/** Standard constructor */
 	public void GraphicPrimitive()
@@ -72,8 +77,246 @@ public abstract class GraphicPrimitive
 		selectedState=false;
 		layer=0;
         changed=true;
+        name = "";
+        value = "";
 
+		macroFontSize = 3;
+		macroFont=Globals.defaultTextFont;
 	}
+	/** Set the font to be used for name and value
+		@param f the font name
+		
+	*/
+	
+	public void setMacroFont(String f, int size)
+	{
+		macroFont = f;
+		macroFontSize = size;
+		
+		changed=true;	
+	}
+	
+	public void initPrimitive(int number)
+	{
+		macroFontSize = 3;
+		macroFont=Globals.defaultTextFont;
+		name = "";
+		value = "";
+		if (number<0)
+			number = getControlPointNumber();
+		
+		virtualPoint = new Point[number];
+		for(int i=0;i<number;++i)
+			virtualPoint[i]=new Point();	
+	}
+	
+	/** Get the font used for name and value
+		@return the font name
+		
+	*/
+	
+	public String getMacroFont()
+	{
+		return macroFont;
+	}
+	
+	/** Get the size of the macro font.
+		@return the size of the macro font.
+	
+	*/
+	public int getMacroFontSize()
+	{
+		return macroFontSize;
+	}
+	
+		// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	protected int z;
+	protected int xa, ya, xb, yb;
+	// Text sizes in pixels
+	protected int h,th, w1, w2;
+	
+	// Text sizes in logical units.
+	protected int t_h,t_th, t_w1, t_w2;
+ 	protected int x2,y2,x3,y3;
+ 	protected Font f;
+ 	protected FontMetrics fm;
+ 		
+	
+	/** Writes the macro name and value fields
+	
+	*/
+	protected void drawText(Graphics2D g, MapCoordinates coordSys,
+							  ArrayList layerV, int drawOnlyLayer)
+	{
+		if(!selectLayer(g,layerV))
+			return;
+				
+		if (value.length()==0 && name.length()==0)
+			return;
+			
+ 		if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer())
+ 			return;
+ 		
+ 		if(changed) {
+ 			x2=virtualPoint[getNameVirtualPointNumber()].x;
+ 			y2=virtualPoint[getNameVirtualPointNumber()].y;
+ 			x3=virtualPoint[getValueVirtualPointNumber()].x;
+ 			y3=virtualPoint[getValueVirtualPointNumber()].y;
+ 		
+ 			xa=coordSys.mapX(x2,y2);
+ 			ya=coordSys.mapY(x2,y2);
+ 			xb=coordSys.mapX(x3,y3);
+ 			yb=coordSys.mapY(x3,y3);
+
+ 			// At first, write the name and the value fields in the given positions
+ 			f = new Font(macroFont,Font.PLAIN,
+ 				(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
+ 			
+	   		fm = g.getFontMetrics(f);
+    		h = fm.getAscent();
+    		th = h+fm.getDescent();
+   			w1 = fm.stringWidth(name);
+   			w2 = fm.stringWidth(value);
+   			
+   			// Calculates the size of the text in logical units. This is 
+   			// useful for calculating wether the user has clicked inside a 
+   			// text line (see getDistanceToPoint)
+   			
+   			t_w1 = (int)(w1/coordSys.getXMagnitude());
+   			t_w2 = (int)(w2/coordSys.getYMagnitude());
+   			t_th = (int)(th/coordSys.getYMagnitude());
+   			   			
+   			// Track the points for calculating the drawing size
+   			
+    		coordSys.trackPoint(xa,ya);
+	  		coordSys.trackPoint(xa+w1,ya+th);
+	    	coordSys.trackPoint(xb,yb);
+    		coordSys.trackPoint(xb+w2, yb+th);
+		}
+		
+		System.out.println("name "+name);
+		System.out.println("value "+value);
+		System.out.println("xa = "+xa);
+		System.out.println("ya = "+ya);
+		System.out.println("xb = "+xb);
+		System.out.println("yb = "+yb);
+		System.out.println("w1 = "+w1);
+		System.out.println("th = "+th);
+		
+	   	
+	   	// If there is no need to draw the text, just exit.
+	   	
+	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
+ 			return;
+	   	
+	   	// This is useful and faster for small zooms
+	   	
+	   	if(th<Globals.textSizeLimit) {
+	   		g.drawLine(xa,ya, xa+w1-1,ya);
+	   		return;
+	   	} 
+		
+	   	
+	   	// Check if there is the need to change the current font. Apparently, 
+	   	// on some systems (I have seen this on MacOSX), setting up the font 
+	   	// takes a surprisingly amount of time.
+	   	
+ 		if(!g.getFont().equals(f))
+	   		g.setFont(f);
+
+   		/* The if's have been added thanks to this information:
+   		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
+   		*/
+  		if (name.length()!=0) {
+    		g.drawString(name,xa,ya+h);
+    	}
+    	if (value.length()!=0) {
+    		g.drawString(value,xb,yb+h);
+    	}	
+	}
+
+  	public boolean checkText(int px, int py)
+  	{
+	    if(GeometricDistances.pointInRectangle(
+	    	virtualPoint[getNameVirtualPointNumber()].x,
+	    	virtualPoint[getNameVirtualPointNumber()].y,t_w1,t_th,px,py))
+	       	return true;
+	    if(GeometricDistances.pointInRectangle(
+	    	virtualPoint[getValueVirtualPointNumber()].x,
+	    	virtualPoint[getValueVirtualPointNumber()].y,t_w2,t_th,px,py))
+	       	return true;
+	       	
+	    return false;
+  	}	
+	
+	public void setValue(String[] tokens, int N)
+		throws IOException
+	{
+		StringBuffer txtb=new StringBuffer();
+		int j=8;
+		changed=true;	
+		if (tokens[0].equals("TY")) {	// Text (advanced)
+ 			if (N<9) {
+ 				IOException E=new IOException("bad arguments on TY");
+				throw E;
+			}
+			
+ 			virtualPoint[2].x=Integer.parseInt(tokens[1]);
+ 			virtualPoint[2].y=Integer.parseInt(tokens[2]);
+ 			
+			if(tokens[8].equals("*")) {
+      			macroFont = Globals.defaultTextFont;
+      		} else {
+      			macroFont = tokens[8].replaceAll("\\+\\+"," ");
+      		} 			
+ 		 					
+      		while(j<N-1){
+      			txtb.append(tokens[++j]);
+      			if (j<N-1) txtb.append(" ");
+      		}
+			value=txtb.toString();
+      		
+ 					
+			
+ 		} else {
+ 			IOException E=new IOException("Invalid primitive: "+tokens[0]+
+ 										  " programming error?");
+			throw E;
+ 		} 
+ 	
+	}	
+	public void setName(String[] tokens, int N)
+		throws IOException
+	{
+		StringBuffer txtb=new StringBuffer();
+		int j=8;
+		changed=true;	
+		if (tokens[0].equals("TY")) {	// Text (advanced)
+ 			if (N<9) {
+ 				IOException E=new IOException("bad arguments on TY");
+				throw E;
+			}
+			
+ 			virtualPoint[1].x=Integer.parseInt(tokens[1]);
+ 			virtualPoint[1].y=Integer.parseInt(tokens[2]);
+ 			
+ 		 					
+      		while(j<N-1){
+      			txtb.append(tokens[++j]);
+      			if (j<N-1) txtb.append(" ");
+      		}
+			name=txtb.toString();	
+			
+ 		} else {
+ 			IOException E=new IOException("Invalid primitive:"+tokens[0]+
+ 										  " programming error?");
+			throw E;
+ 		} 
+ 	
+		
+	}	
 	
 	/** Specifies that the current primitive has been modified or not. 
 		If it is true, during the redraw all parameters should be calulated
@@ -408,8 +651,21 @@ public abstract class GraphicPrimitive
 	{
 		int i;
 		Vector v = new Vector(10);
-		ParameterDescription pd;
+		ParameterDescription pd = new ParameterDescription();
 		
+		pd.parameter=name;
+		pd.description="Name:";
+		pd.isExtension = true;
+		v.add(pd);
+		
+		pd = new ParameterDescription();
+		
+		pd.parameter=value;
+		pd.description="Value:";
+		pd.isExtension = true;
+
+		v.add(pd);
+			
 		for (i=0;i<getControlPointNumber();++i) {
 			pd = new ParameterDescription();
 			pd.parameter=virtualPoint[i];
@@ -437,18 +693,34 @@ public abstract class GraphicPrimitive
 	*/
 	public void setControls(Vector v)
 	{
-		int i;
+		int i=0;
 		ParameterDescription pd;
 		changed=true;	
-		for (i=0;i<getControlPointNumber();++i) {
+		
+		pd=(ParameterDescription)v.get(i);
+		++i;
+		// Check, just for sure...
+		if (pd.parameter instanceof String)
+			name=((String)pd.parameter);
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
+		
+		pd=(ParameterDescription)v.get(i);
+		++i;
+		// Check, just for sure...
+		if (pd.parameter instanceof String)
+			value=((String)pd.parameter);
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 			
+		for (;i<getControlPointNumber()+2;++i) {
 			pd = (ParameterDescription)v.get(i);
 			
 			// Check, just for sure...
 			if (pd.parameter instanceof Point)
-				virtualPoint[i]=(Point)pd.parameter;
+				virtualPoint[i-2]=(Point)pd.parameter;
 			else
-			 	System.out.println("Warning: unexpected parameter!");
-			
+			 	System.out.println("Warning: unexpected parameter!");	
 		}
 		pd = (ParameterDescription)v.get(i);
 		// Check, just for sure...
@@ -530,5 +802,16 @@ public abstract class GraphicPrimitive
 	*/
 	public abstract void export(ExportInterface exp, MapCoordinates cs)
 		throws IOException;
+		
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public abstract int getNameVirtualPointNumber();
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public abstract int getValueVirtualPointNumber();
+	
 }
 

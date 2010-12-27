@@ -41,7 +41,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 
 	
 	// A rectangle is defined by two points.
-	static final int N_POINTS=2;
+	static final int N_POINTS=4;
 	// The state: filled or not.
 	private boolean isFilled;
 	// The dashing style. 
@@ -69,10 +69,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	{
 		super();
 		isFilled=false;
+		initPrimitive(-1);
 		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
 		changed=true;
 		
 	}
@@ -90,14 +88,16 @@ public class PrimitiveRectangle extends GraphicPrimitive
 							  int layer, int dashSt)
 	{
 		super();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-			
+		initPrimitive(-1);
+		
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
 		virtualPoint[1].x=x2;
 		virtualPoint[1].y=y2;
+		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y1+10;	
 		isFilled=f;
 		dashStyle=dashSt;
 		changed = true;
@@ -126,7 +126,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
-			
+		drawText(g, coordSys, layerV, -1);
 		// in the rectangle primitive, the first two virtual points represent
 		//   the two corners of the segment 
 		   
@@ -321,6 +321,11 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	    	
 		int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
         int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
@@ -357,7 +362,6 @@ public class PrimitiveRectangle extends GraphicPrimitive
 		if(extensions) {
 			if (dashStyle>0) 
 		 		cmd+="FCJ "+dashStyle+"\n";
-		
 		}
 		
 		return cmd;
@@ -377,5 +381,20 @@ public class PrimitiveRectangle extends GraphicPrimitive
 					   dashStyle,
 					   Globals.lineWidth); 
 	}
-
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 2;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 3;
+	}
+	
 }

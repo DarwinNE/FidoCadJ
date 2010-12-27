@@ -40,8 +40,9 @@ public class PrimitiveConnection extends GraphicPrimitive
 
 
 	// A connection is defined by one points.
+	// We take into account the optional Name and Value text tags.
 
-	static final int N_POINTS=1;
+	static final int N_POINTS=3;
 	
 	
 	/** Gets the number of control points used.
@@ -56,41 +57,36 @@ public class PrimitiveConnection extends GraphicPrimitive
 	public PrimitiveConnection()
 	{
 		super();
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-		
+		initPrimitive(-1);
 	}
 
 	/** Create a connection in the given point.
 		@param x the x coordinate (logical unit) of the connection.
 		@param y the y coordinate (logical unit) of the connection.
 		@param layer the layer to be used.
-		
 	*/
-	
 	public PrimitiveConnection(int x, int y, int layer)
 	{
 		super();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-			
+		
+		initPrimitive(-1);
+		
 		virtualPoint[0].x=x;
 		virtualPoint[0].y=y;
 		
-		
-		
+		virtualPoint[getNameVirtualPointNumber()].x=x+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y+10;		
+
 		setLayer(layer);
-		
 	}
 	
 	
 	// Those are data which are kept for the fast redraw of this primitive. 
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
-	private int x1, y1, xa, ya, ni;
+	private int x1, y1, xa1, ya1, ni;
 	private double nn;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
@@ -100,10 +96,11 @@ public class PrimitiveConnection extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-	
 		if(!selectLayer(g,layerV))
 			return;
 		
+		drawText(g, coordSys, layerV, -1);
+
 		if (changed) {
 			changed=false;
 			/* in the PCB pad primitive, the the virtual points represent
@@ -121,20 +118,18 @@ public class PrimitiveConnection extends GraphicPrimitive
  					coordSys.mapX(20,20))*Globals.diameterConnection/12);
  			}
 	
- 			xa=(int)Math.round(coordSys.mapXr(x1,y1)- nn/2.0);
- 			ya=(int)Math.round(coordSys.mapYr(x1,y1)- nn/2.0);
+ 			xa1=(int)Math.round(coordSys.mapXr(x1,y1)- nn/2.0);
+ 			ya1=(int)Math.round(coordSys.mapYr(x1,y1)- nn/2.0);
  			
  			coordSys.trackPoint(xa,ya);
  			ni=(int)Math.round(nn);
  			
  		}
  		
- 		if(!g.hitClip(xa, ya, ni, ni))
+ 		if(!g.hitClip(xa1, ya1, ni, ni))
  			return;
- 		
- 		g.fillOval(xa, ya, ni, ni);
-		
- 		
+ 	
+ 		g.fillOval(xa1, ya1, ni, ni);
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -172,13 +167,8 @@ public class PrimitiveConnection extends GraphicPrimitive
  										  " programming error?");
 			throw E;
  		}
-		
- 			
-		
 	}
-	
-	
-	
+
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
 	    When it is reasonable, the behaviour can be binary (polygons, 
@@ -188,6 +178,12 @@ public class PrimitiveConnection extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+
+		// If not, we check for the distance with the connection center.
 		return GeometricDistances.pointToPoint(
 				virtualPoint[0].x,virtualPoint[0].y,
 				px,py)-1;
@@ -210,5 +206,20 @@ public class PrimitiveConnection extends GraphicPrimitive
 		exp.exportConnection(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y), getLayer(),
 					   Globals.diameterConnection); 
+	}
+		/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 1;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 2;
 	}
 }

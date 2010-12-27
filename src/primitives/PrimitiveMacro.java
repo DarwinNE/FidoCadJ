@@ -52,14 +52,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 	private ParseSchem macro;
 	private MapCoordinates macroCoord;
 	private boolean selected;
-
-	private int macroFontSize;
 	private String macroName;
 	private String macroDesc;
-	private String macroFont;
-	
-	private String name;
-	private String value;
 	private boolean exportInvisible;
 	
 	public void setExportInvisible(boolean s)
@@ -89,10 +83,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 		layers=l;
 		drawOnlyPads=false;
 		drawOnlyLayer=-1;
-		macroFontSize = 3;
-		name="";
-		value="";
-		macroFont=Globals.defaultTextFont;
 		macro=new ParseSchem();
 		macroCoord=new MapCoordinates();
 		changed=true;
@@ -176,140 +166,10 @@ public class PrimitiveMacro extends GraphicPrimitive
  	{
  		return macro.containsLayer(l);
  	}
-		
-	
-	/** Set the font to be used for name and value
-	
-		@param f the font name
-		
-	*/
-	
-	public void setMacroFont(String f, int size)
-	{
-		macroFont = f;
-		macroFontSize = size;
-		
-		changed=true;	
-	}
 	
 	
-	/** Get the font used for name and value
 	
-		@return the font name
-		
-	*/
-	
-	public String getMacroFont()
-	{
-		return macroFont;
-	}
-	
-	/** Get the size of the macro font.
-		@return the size of the macro font.
-	
-	*/
-	public int getMacroFontSize()
-	{
-		return macroFontSize;
-	}
-	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int z;
-	private int xa, ya, xb, yb;
-	// Text sizes in pixels
-	private int h,th, w1, w2;
-	
-	// Text sizes in logical units.
-	private int t_h,t_th, t_w1, t_w2;
-	
-	
-	/** Writes the macro name and value fields
-	
-	*/
-	final private void drawText(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
-	{
-		if(!selectLayer(g,layerV))
-			return;
-			
-		if (value.length()==0 && name.length()==0)
-			return;
-			
- 		if(drawOnlyLayer!=getLayer())
- 			return;
-    
- 		
- 		if(changed) {
- 			x2=virtualPoint[1].x;
- 			y2=virtualPoint[1].y;
- 			x3=virtualPoint[2].x;
- 			y3=virtualPoint[2].y;
- 		
- 			xa=coordSys.mapX(x2,y2);
- 			ya=coordSys.mapY(x2,y2);
- 			xb=coordSys.mapX(x3,y3);
- 			yb=coordSys.mapY(x3,y3);
 
- 			// At first, write the name and the value fields in the given positions
- 			f = new Font(macroFont,Font.PLAIN,
- 				(int)( macroFontSize*12*coordSys.getYMagnitude()/7+.5));
- 			
-	   		fm = g.getFontMetrics(f);
-    		h = fm.getAscent();
-    		th = h+fm.getDescent();
-   			w1 = fm.stringWidth(name);
-   			w2 = fm.stringWidth(value);
-   			
-   			// Calculates the size of the text in logical units. This is 
-   			// useful for calculating wether the user has clicked inside a 
-   			// text line (see getDistanceToPoint)
-   			
-   			t_w1 = (int)(w1/coordSys.getXMagnitude());
-   			t_w2 = (int)(w2/coordSys.getYMagnitude());
-   			t_th = (int)(th/coordSys.getYMagnitude());
-   			   			
-   			// Track the points for calculating the drawing size
-   			
-    		coordSys.trackPoint(xa,ya);
-	  		coordSys.trackPoint(xa+w1,ya+th);
-	    	coordSys.trackPoint(xb,yb);
-    		coordSys.trackPoint(xb+w2, yb+th);
-		}
-	   	
-	   	// If there is no need to draw the text, just exit.
-	   	
-	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
- 			return;
-	   	
-	   	// This is useful and faster for small zooms
-	   	
-	   	if(th<Globals.textSizeLimit) {
-	   		g.drawLine(xa,ya, xa+w1-1,ya);
-	   		return;
-	   	} 
-	   	
-	   	// Check if there is the need to change the current font. Apparently, 
-	   	// on some systems (I have seen this on MacOSX), setting up the font 
-	   	// takes a surprisingly amount of time.
-	   	
- 		if(!g.getFont().equals(f))
-	   		g.setFont(f);
-
-   		/* The if's have been added thanks to this information:
-   		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
-   		*/
-  		if (name.length()!=0) {
-    		g.drawString(name,xa,ya+h);
-    	}
-    	if (value.length()!=0) {
-    		g.drawString(value,xb,yb+h);
-    	}
-    	
-	}
-	
 	int x1, y1;
 	/**	Draw the macro contents
 	
@@ -401,15 +261,9 @@ public class PrimitiveMacro extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-		drawText(g, coordSys, layerV);
+		drawText(g, coordSys, layerV, drawOnlyLayer);
 		drawMacroContents(g, coordSys, layerV);
-		
  	}
- 	
- 	private int x2,y2,x3,y3;
- 	private Font f;
- 	private FontMetrics fm;
- 	
 	
 	/** Set the Draw Only Pads mode.
 	
@@ -433,81 +287,13 @@ public class PrimitiveMacro extends GraphicPrimitive
  		drawOnlyLayer=la;
  	}
 	
-	
-	public void setName(String[] tokens, int N)
-		throws IOException
-	{
-		StringBuffer txtb=new StringBuffer();
-		int j=8;
-		changed=true;	
-		if (tokens[0].equals("TY")) {	// Text (advanced)
- 			if (N<9) {
- 				IOException E=new IOException("bad arguments on TY");
-				throw E;
-			}
-			
- 			virtualPoint[1].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[1].y=Integer.parseInt(tokens[2]);
- 			
- 		 					
-      		while(j<N-1){
-      			txtb.append(tokens[++j]);
-      			if (j<N-1) txtb.append(" ");
-      		}
-			name=txtb.toString();
-      		
- 					
-			
- 		} else {
- 			IOException E=new IOException("Invalid primitive:"+tokens[0]+
- 										  " programming error?");
-			throw E;
- 		} 
- 	
-		
-	}
+
 	
 	public int getMaxLayer()
     {
     	return macro.getMaxLayer();
     }
 	
-	public void setValue(String[] tokens, int N)
-		throws IOException
-	{
-		StringBuffer txtb=new StringBuffer();
-		int j=8;
-		changed=true;	
-		if (tokens[0].equals("TY")) {	// Text (advanced)
- 			if (N<9) {
- 				IOException E=new IOException("bad arguments on TY");
-				throw E;
-			}
-			
- 			virtualPoint[2].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[2].y=Integer.parseInt(tokens[2]);
- 			
-			if(tokens[8].equals("*")) {
-      			macroFont = Globals.defaultTextFont;
-      		} else {
-      			macroFont = tokens[8].replaceAll("\\+\\+"," ");
-      		} 			
- 		 					
-      		while(j<N-1){
-      			txtb.append(tokens[++j]);
-      			if (j<N-1) txtb.append(" ");
-      		}
-			value=txtb.toString();
-      		
- 					
-			
- 		} else {
- 			IOException E=new IOException("Invalid primitive: "+tokens[0]+
- 										  " programming error?");
-			throw E;
- 		} 
- 	
-	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
 		Obviously, that routine should be called *after* having recognized
@@ -1010,4 +796,20 @@ public class PrimitiveMacro extends GraphicPrimitive
 		}
 		
 	}
+		/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 1;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 2;
+	}
+	
 }

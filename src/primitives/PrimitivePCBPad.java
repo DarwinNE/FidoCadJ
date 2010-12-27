@@ -53,7 +53,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	
 	// A PCB pad is defined by one points.
 
-	static final int N_POINTS=1;
+	static final int N_POINTS=3;
 	
 	
 	/** Gets the number of control points used.
@@ -81,19 +81,21 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		int layer)
 	{
 		super();
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-			
+		initPrimitive(-1);
+
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
+		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y1+10;	
+		
 		rx=wx;
 		ry=wy;
 		ri=radi;
 		sty=st;
 		
-		setLayer(layer);
-		
+		setLayer(layer);	
 	}
 	
 
@@ -105,11 +107,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 		ry=0;
 		sty=0;
 		ri=0;
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
-		
+		initPrimitive(-1);
 	}
 
 	public final boolean needsHoles()
@@ -135,6 +133,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
+		drawText(g, coordSys, layerV, -1);
 
 		if(changed) {
 			changed=false;
@@ -355,6 +354,11 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	    	
 		int distance=GeometricDistances.pointToPoint(
 				virtualPoint[0].x,virtualPoint[0].y,
 				px,py)-Math.min(rx,ry)/2;
@@ -384,5 +388,20 @@ public class PrimitivePCBPad extends GraphicPrimitive
 					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y)),
 					   ri, getLayer(),drawOnlyPads);
 	}
-
+	/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 1;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 2;
+	}
+	
 }

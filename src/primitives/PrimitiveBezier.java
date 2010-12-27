@@ -36,11 +36,11 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitiveBezier extends GraphicPrimitive
+public final class PrimitiveBezier extends GraphicPrimitive
 {
 
 	// A Bézier is defined by four points.
-	static final int N_POINTS=4;
+	static final int N_POINTS=6;
 	
 	private boolean arrowStart;
 	private boolean arrowEnd;
@@ -68,10 +68,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		super();
 		
 		r = new Rectangle();
-		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+   		initPrimitive(-1);
 		
 	}
 	/** Create a Bézier curve specified by four control points
@@ -97,6 +94,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 							int arrowSt, int arrowLe, int arrowWi, int dashSt)
 	{
 		super();
+
 		
 		arrowLength = arrowLe;
 		arrowHalfWidth = arrowWi;
@@ -107,11 +105,7 @@ public class PrimitiveBezier extends GraphicPrimitive
 		
 		r = new Rectangle();
 		
-		virtualPoint = new Point[N_POINTS];
-		
-		// Create the array containing the points
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+		initPrimitive(-1);
 			
 		// Store the coordinates of the points 
 		virtualPoint[0].x=x1;
@@ -123,6 +117,10 @@ public class PrimitiveBezier extends GraphicPrimitive
 		virtualPoint[3].x=x4;
 		virtualPoint[3].y=y4;
 		
+		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+		virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+		virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+		virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
 		// Store the layer
 		setLayer(layer);
 		
@@ -132,7 +130,6 @@ public class PrimitiveBezier extends GraphicPrimitive
 	
 		@return a vector of ParameterDescription containing each control
 				parameter.
-				The first parameters should always be the virtual points.
 				
 	*/
 	public Vector getControls()
@@ -187,43 +184,43 @@ public class PrimitiveBezier extends GraphicPrimitive
 	public void setControls(Vector v)
 	{
 		super.setControls(v);
-		int i=getControlPointNumber()+1;		
+		int i=getControlPointNumber()+3;		
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			arrowStart=((Boolean)pd.parameter).booleanValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 1!"+pd);
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			arrowEnd=((Boolean)pd.parameter).booleanValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 2!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Integer)
 			arrowLength=((Integer)pd.parameter).intValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 3!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Integer)
 			arrowHalfWidth=((Integer)pd.parameter).intValue();
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 4!"+pd);
 
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof ArrowInfo)
 			arrowStyle=((ArrowInfo)pd.parameter).style;
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 5!"+pd);
 		
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof DashInfo)
 			dashStyle=((DashInfo)pd.parameter).style;
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 6!"+pd);
 		
 		// Parameters validation and correction
 		if(dashStyle>=Globals.dashNumber)
@@ -256,10 +253,11 @@ public class PrimitiveBezier extends GraphicPrimitive
 	
 		if(!selectLayer(g,layerV))
 			return;
-			
+
+		drawText(g, coordSys, layerV, -1);
+	
 		// in the Bézier primitive, the four virtual points represent
 		//   the control points of the shape 
- 		
  		
  		if (changed) {
  			changed=false;
@@ -408,6 +406,12 @@ public class PrimitiveBezier extends GraphicPrimitive
 	*/
 	public int getDistanceToPoint(int px, int py)
 	{
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	
+		// If not, we check for the distance to the Bézier curve.
 		return GeometricDistances.pointToBezier(
 				virtualPoint[0].x, virtualPoint[0].y,
 				virtualPoint[1].x, virtualPoint[1].y,
@@ -457,4 +461,20 @@ public class PrimitiveBezier extends GraphicPrimitive
 					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
 					   arrowHalfWidth, dashStyle,Globals.lineWidth); 
 	}
+		/** Get the number of the virtual point associated to the Name property
+		@return the number of the virtual point associated to the Name property
+	*/
+	public int getNameVirtualPointNumber()
+	{
+		return 4;
+	}
+	
+	/** Get the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value property
+	*/
+	public  int getValueVirtualPointNumber()
+	{
+		return 5;
+	}
+	
 }
