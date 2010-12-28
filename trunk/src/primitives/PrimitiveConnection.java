@@ -156,9 +156,12 @@ public class PrimitiveConnection extends GraphicPrimitive
  			// Load the points in the virtual points associated to the 
  			// current primitive.
 
- 			virtualPoint[0].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[0].y=Integer.parseInt(tokens[2]);
- 			
+ 			int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
+ 			int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
+ 			virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+			virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
  			if(N>3) parseLayer(tokens[3]);
 
  			

@@ -86,7 +86,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.5 delta";
+    public static final String version = "0.23.5 epsilon";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -97,7 +97,8 @@ public class Globals
     public static final String defaultTextFont = "Courier New";
     
     public static final int dashNumber = 5;
-    public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, {2.0f, 5.0f},
+    public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, 
+    	{2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
     
     // Minimum height in pixels of a text to be drawn.

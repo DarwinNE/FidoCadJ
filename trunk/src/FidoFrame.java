@@ -688,7 +688,7 @@ public class FidoFrame extends JFrame implements
         //pack();
         addWindowFocusListener(this);
         Globals.activeWindow=this;
-        
+                
         // This is WAY too invasive!!!
         
         //getRootPane().putClientProperty("apple.awt.draggableWindowBackground", 	

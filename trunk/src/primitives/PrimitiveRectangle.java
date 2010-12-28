@@ -220,10 +220,15 @@ public class PrimitiveRectangle extends GraphicPrimitive
  				IOException E=new IOException("bad arguments on RV/RP");
 				throw E;
  			}
- 			virtualPoint[0].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[0].y=Integer.parseInt(tokens[2]);
+ 			int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
+ 			int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
  			virtualPoint[1].x=Integer.parseInt(tokens[3]);
  			virtualPoint[1].y=Integer.parseInt(tokens[4]);
+ 			
+ 			virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+			virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		 			
  			if(N>5) parseLayer(tokens[5]);
  			
  			if(tokens[0].equals("RP"))
