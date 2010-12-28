@@ -1561,6 +1561,8 @@ public class ParseSchem
                     if(tokens[0].equals("FCJ")) {   // FidoCadJ extension!
                         if(hasFCJ && old_tokens[0].equals("MC")) {
                             macro_counter=2;
+                            g=new PrimitiveMacro(library,layerV);
+                            g.parseTokens(old_tokens, old_j+1);
                         } else if (hasFCJ && old_tokens[0].equals("LI")) {
                             g=new PrimitiveLine();
                             
@@ -1570,7 +1572,12 @@ public class ParseSchem
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
-                            addPrimitive(g,false,false);
+
+                            if(old_j>5 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }
                      
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
                             g=new PrimitiveBezier();
@@ -1581,8 +1588,12 @@ public class ParseSchem
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
-                            addPrimitive(g,false,false);
-                     
+                            if(old_j>5 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }
+                            
                         } else if (hasFCJ && (old_tokens[0].equals("RV")||
                             old_tokens[0].equals("RP"))) {
                             g=new PrimitiveRectangle();
@@ -1593,7 +1604,11 @@ public class ParseSchem
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
-                            addPrimitive(g,false,false);
+                            if(old_j>2 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }                        
                         } else if (hasFCJ && (old_tokens[0].equals("EV")||
                             old_tokens[0].equals("EP"))) {
                             g=new PrimitiveOval();
@@ -1604,7 +1619,11 @@ public class ParseSchem
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
-                            addPrimitive(g,false,false);
+                            if(old_j>2 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }                        
                         } else if (hasFCJ && (old_tokens[0].equals("PV")||
                             old_tokens[0].equals("PP"))) {
                             g=new PrimitivePolygon();
@@ -1615,9 +1634,20 @@ public class ParseSchem
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
-                            addPrimitive(g,false,false);
+                            if(old_j>2 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }     
+    					} else if (hasFCJ && (old_tokens[0].equals("PL"))) {
+                    		macro_counter = 2;
+                    	} else if (hasFCJ && (old_tokens[0].equals("PA"))) {
+                    		macro_counter = 2;
+						} else if (hasFCJ && (old_tokens[0].equals("SA"))) {                    
+                    		macro_counter = 2;                       
                         }
                         hasFCJ=false;
+                    
                     } else if(tokens[0].equals("FJC")) {
                         // FidoCadJ Configuration
                     
@@ -1670,14 +1700,11 @@ public class ParseSchem
                         hasFCJ=true;
                     } else if(tokens[0].equals("MC")) {
                         // Save the tokenized line.
-                        // We cannot create the macro until we parse the 
-                        // following line (which can be FCJ)
                         macro_counter=0;
                         for(l=0; l<j+1; ++l)
                             old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
-
                     } else if(tokens[0].equals("TE")) {
                         hasFCJ=false;
                         macro_counter=0;
@@ -1697,10 +1724,8 @@ public class ParseSchem
                             for(l=0; l<j+1;++l)
                                 value[l]=tokens[l];
                             vv=j;       
-                            g=new PrimitiveMacro(library,layerV);
-                            g.parseTokens(old_tokens, old_j+1);
-                            ((PrimitiveMacro)g).setName(name,vn+1);
-                            ((PrimitiveMacro)g).setValue(value,vv+1);
+                            g.setName(name,vn+1);
+                            g.setValue(value,vv+1);
 
                             g.setSelected(selectNew);
                             addPrimitive(g, false,false);
@@ -1712,26 +1737,33 @@ public class ParseSchem
                             addPrimitive(g,false,false);
                          }
                     } else if(tokens[0].equals("PL")) {
-                        hasFCJ=false;
+                        hasFCJ=true;
+                        for(l=0; l<j+1; ++l)
+                            old_tokens[l]=tokens[l];
+                            
                         macro_counter=0;
                         g=new PrimitivePCBLine();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false,false);
+                        //addPrimitive(g,false,false);
                     } else if(tokens[0].equals("PA")) {
-                        hasFCJ=false;
+                        hasFCJ=true;
+                        for(l=0; l<j+1; ++l)
+                            old_tokens[l]=tokens[l];
                         macro_counter=0;
                         g=new PrimitivePCBPad();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false,false);
+                        //addPrimitive(g,false,false);
                     } else if(tokens[0].equals("SA")) {
-                        hasFCJ=false;
+                        hasFCJ=true;
+                        for(l=0; l<j+1; ++l)
+                            old_tokens[l]=tokens[l];
                         macro_counter=0;
                         g=new PrimitiveConnection();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        addPrimitive(g,false,false);
+                        //addPrimitive(g,false,false);
                     }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
                         macro_counter=0;
                         for(l=0; l<j+1; ++l)

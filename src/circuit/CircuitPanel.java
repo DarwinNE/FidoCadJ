@@ -512,9 +512,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if(evt.getClickCount() >= 2) 
                 setPropertiesForPrimitive();
             
-        }    
-        
-    
+        } else {
+        	//evidenceRect=null;
+        }
     }
 
 	/** Here we analyze and handle the mouse click. The behaviour is 

@@ -361,15 +361,18 @@ public final class PrimitiveBezier extends GraphicPrimitive
 				throw E;
  			}
  			// Parse the coordinates of all points of the Bézier curve
- 			virtualPoint[0].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[0].y=Integer.parseInt(tokens[2]);
+ 			int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
+ 			int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
  			virtualPoint[1].x=Integer.parseInt(tokens[3]);
  			virtualPoint[1].y=Integer.parseInt(tokens[4]);
  			virtualPoint[2].x=Integer.parseInt(tokens[5]);
  			virtualPoint[2].y=Integer.parseInt(tokens[6]);
  			virtualPoint[3].x=Integer.parseInt(tokens[7]);
  			virtualPoint[3].y=Integer.parseInt(tokens[8]);
- 			
+ 			virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+			virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		 			
  			if(N>9) parseLayer(tokens[9]);
  			
  			if(N>10 && tokens[10].equals("FCJ")) {

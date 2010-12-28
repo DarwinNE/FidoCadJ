@@ -239,7 +239,11 @@ public abstract class GraphicPrimitive
     		g.drawString(value,xb,yb+h);
     	}	
 	}
+	/** Creates the text strings containing the name and value of the primitive
+	@param extensions if true, outputs the FCJ tag before the two TY commands
+	@return a string containing the commands
 	
+	*/
 	public String saveText(boolean extensions)
 	{
 		String subsFont;
@@ -355,8 +359,10 @@ public abstract class GraphicPrimitive
 				throw E;
 			}
 			
- 			virtualPoint[2].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[2].y=Integer.parseInt(tokens[2]);
+ 			virtualPoint[getValueVirtualPointNumber()].x=
+ 				Integer.parseInt(tokens[1]);
+ 			virtualPoint[getValueVirtualPointNumber()].y=
+ 				Integer.parseInt(tokens[2]);
  			
 			if(tokens[8].equals("*")) {
       			macroFont = Globals.defaultTextFont;
@@ -389,8 +395,10 @@ public abstract class GraphicPrimitive
 				throw E;
 			}
 			
- 			virtualPoint[1].x=Integer.parseInt(tokens[1]);
- 			virtualPoint[1].y=Integer.parseInt(tokens[2]);
+ 			virtualPoint[getNameVirtualPointNumber()].x=
+ 				Integer.parseInt(tokens[1]);
+ 			virtualPoint[getNameVirtualPointNumber()].y=
+ 				Integer.parseInt(tokens[2]);
  			
  		 					
       		while(j<N-1){
@@ -404,8 +412,6 @@ public abstract class GraphicPrimitive
  										  " programming error?");
 			throw E;
  		} 
- 	
-		
 	}	
 	
 	/** Specifies that the current primitive has been modified or not. 

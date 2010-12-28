@@ -228,15 +228,20 @@ public class PrimitivePolygon extends GraphicPrimitive
  			// current primitive.
 			int j=1;
 			int i=0;
-        		
+        	int x1 = 0;
+        	int y1 = 0;
+        	
       		while(j<N-1){
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
-      			virtualPoint[i].x=Integer.parseInt(tokens[j++]);
-     			virtualPoint[i++].y=Integer.parseInt(tokens[j++]);
+      			x1 = virtualPoint[i].x=Integer.parseInt(tokens[j++]);
+     			y1 = virtualPoint[i++].y=Integer.parseInt(tokens[j++]);
       		}	      				
       		nPoints=i;
-      		
+      		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
+			virtualPoint[getNameVirtualPointNumber()].y=y1+5;
+			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
+			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
       		if(N>j) {
       			parseLayer(tokens[j++]);
       			 
