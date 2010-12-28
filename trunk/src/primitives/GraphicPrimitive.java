@@ -96,6 +96,15 @@ public abstract class GraphicPrimitive
 		changed=true;	
 	}
 	
+	/** Prepare the array of points for storing the different virtual points
+		needed by the primitive. This method also prepares the name and value
+		strings, as well as the font to be used.
+		
+		@param number if number is negative, obtain the number of points by
+			using getControlPointNumber(); if it is positive, use the number
+			of points given for the size of the array.
+	
+	*/
 	public void initPrimitive(int number)
 	{
 		macroFontSize = 3;
@@ -112,9 +121,7 @@ public abstract class GraphicPrimitive
 	
 	/** Get the font used for name and value
 		@return the font name
-		
 	*/
-	
 	public String getMacroFont()
 	{
 		return macroFont;
@@ -149,10 +156,7 @@ public abstract class GraphicPrimitive
 	*/
 	protected void drawText(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV, int drawOnlyLayer)
-	{
-		if(!selectLayer(g,layerV))
-			return;
-				
+	{				
 		if (value.length()==0 && name.length()==0)
 			return;
 			
@@ -195,7 +199,7 @@ public abstract class GraphicPrimitive
 	    	coordSys.trackPoint(xb,yb);
     		coordSys.trackPoint(xb+w2, yb+th);
 		}
-		
+/*		
 		System.out.println("name "+name);
 		System.out.println("value "+value);
 		System.out.println("xa = "+xa);
@@ -204,7 +208,7 @@ public abstract class GraphicPrimitive
 		System.out.println("yb = "+yb);
 		System.out.println("w1 = "+w1);
 		System.out.println("th = "+th);
-		
+*/		
 	   	
 	   	// If there is no need to draw the text, just exit.
 	   	
@@ -217,7 +221,6 @@ public abstract class GraphicPrimitive
 	   		g.drawLine(xa,ya, xa+w1-1,ya);
 	   		return;
 	   	} 
-		
 	   	
 	   	// Check if there is the need to change the current font. Apparently, 
 	   	// on some systems (I have seen this on MacOSX), setting up the font 
@@ -236,7 +239,59 @@ public abstract class GraphicPrimitive
     		g.drawString(value,xb,yb+h);
     	}	
 	}
+	
+	/** Export the name and the value text lines associated to the primitive.
+		This is done rather automatically by exploiting the export of the
+		advanced text feature. It should be noted that the export is done only
+		if necessary.
+		@param exp the ExportInterface to be used
+		@param cs the coordinate mapping system to be used
+		@param drawOnlyLayer the layer to be drawn (or -1)
+	*/
+	public void exportText(ExportInterface exp, MapCoordinates cs, 
+		int drawOnlyLayer) 
+		throws IOException
+	{
+		// Export the text associated to the name and value of the macro 			
+		if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
+			if(!name.equals(""))
+				exp.exportAdvText (cs.mapX(
+					virtualPoint[getNameVirtualPointNumber()].x,
+ 					virtualPoint[getNameVirtualPointNumber()].y),
+					cs.mapY(					virtualPoint[getNameVirtualPointNumber()].x,
+					virtualPoint[getNameVirtualPointNumber()].y), 
+					macroFontSize, 
+					(int)( macroFontSize*12/7+.5),
+					macroFont, 
+					false,
+					false,
+					false,
+					0, getLayer(), name);
+			
+			if(!value.equals(""))
+				exp.exportAdvText (cs.mapX(
+					virtualPoint[getValueVirtualPointNumber()].x,
+					virtualPoint[getValueVirtualPointNumber()].y),
+					cs.mapY(
+					virtualPoint[getValueVirtualPointNumber()].x,
+					virtualPoint[getValueVirtualPointNumber()].y), 
+					macroFontSize, 
+					(int)( macroFontSize*12/7+.5),
+					macroFont, 
+					false,
+					false,
+					false,
+					0, getLayer(), value);
+		}
+	}
 
+	/** Check if the given point (in logical units) lies inside one of the
+		two text lines associated to the primitive.
+		
+		@param px the x coordinates of the given point.
+		@param py the y coordinates of the given point.
+		@return true if the point is inside one of the two text lines.
+	*/
   	public boolean checkText(int px, int py)
   	{
 	    if(GeometricDistances.pointInRectangle(
@@ -278,8 +333,6 @@ public abstract class GraphicPrimitive
       		}
 			value=txtb.toString();
       		
- 					
-			
  		} else {
  			IOException E=new IOException("Invalid primitive: "+tokens[0]+
  										  " programming error?");

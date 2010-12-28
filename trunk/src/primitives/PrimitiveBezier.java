@@ -449,6 +449,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
+		exportText(exp, cs, -1);
 		exp.exportBezier(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y),
 					   cs.mapX(virtualPoint[1].x,virtualPoint[1].y),

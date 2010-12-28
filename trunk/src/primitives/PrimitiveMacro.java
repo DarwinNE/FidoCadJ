@@ -87,9 +87,8 @@ public class PrimitiveMacro extends GraphicPrimitive
 		macroCoord=new MapCoordinates();
 		changed=true;
 		
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+		initPrimitive(-1);
+				
 		macroStore(layers);
 	}
 	
@@ -129,10 +128,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 		o=oo;
 		m=mm;
 		
-		// Prepare the array of points for the macro.
-		virtualPoint = new Point[N_POINTS];
-		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+		initPrimitive(-1);
 		
 		// Store the points of the macro and the text describing it.
 		virtualPoint[0].x=x;
@@ -239,9 +235,7 @@ public class PrimitiveMacro extends GraphicPrimitive
 	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
  		changed=true;	
- 		//macroDesc=(String)library.get(macroName);
- 		
- 		
+		
  		if (macroDesc!=null) {
  			try {
  				macro.parseString(new StringBuffer(macroDesc)); 
@@ -261,7 +255,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV)
 	{
-		drawText(g, coordSys, layerV, drawOnlyLayer);
+	
+		if(selectLayer(g,layerV))
+			drawText(g, coordSys, layerV, drawOnlyLayer);
+		
 		drawMacroContents(g, coordSys, layerV);
  	}
 	
@@ -287,13 +284,10 @@ public class PrimitiveMacro extends GraphicPrimitive
  		drawOnlyLayer=la;
  	}
 	
-
-	
 	public int getMaxLayer()
     {
     	return macro.getMaxLayer();
     }
-	
 	
 	/**	Parse a token array and store the graphic data for a given primitive
 		Obviously, that routine should be called *after* having recognized
@@ -369,7 +363,6 @@ public class PrimitiveMacro extends GraphicPrimitive
 	{	
 		return macro.getNeedHoles();
 	}
-	
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
@@ -767,32 +760,7 @@ public class PrimitiveMacro extends GraphicPrimitive
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
  			macro.exportDrawing(exp, false, exportInvisible);
-			// Export the text associated to the name and value of the macro 			
- 			if(drawOnlyLayer==getLayer()) {
- 				if(!name.equals(""))
- 					exp.exportAdvText (cs.mapX(virtualPoint[1].x,
- 						virtualPoint[1].y),
-						cs.mapY(virtualPoint[1].x,virtualPoint[1].y), 
-						macroFontSize, 
-						(int)( macroFontSize*12/7+.5),
-						macroFont, 
-						false,
-						false,
-						false,
-						0, getLayer(), name);
-				
-				if(!value.equals(""))
-					exp.exportAdvText (cs.mapX(virtualPoint[2].x,
-						virtualPoint[2].y),
-						cs.mapY(virtualPoint[2].x,virtualPoint[2].y), 
-						macroFontSize, 
-						(int)( macroFontSize*12/7+.5),
-						macroFont, 
-						false,
-						false,
-						false,
-						0, getLayer(), value);
-			}
+			exportText(exp, cs, drawOnlyLayer);
 		}
 		
 	}
