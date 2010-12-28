@@ -377,6 +377,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs)
 		throws IOException
 	{
+		exportText(exp, cs, -1);
 		exp.exportPCBPad(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y), 
 					   sty, 

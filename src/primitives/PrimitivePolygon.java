@@ -106,7 +106,6 @@ public class PrimitivePolygon extends GraphicPrimitive
 		changed = true;
 	}
 
-
 	private int xmin, ymin;
 	private int width, height;
 	
@@ -390,6 +389,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
+		exportText(exp, cs, -1);
 		Point[] vertices = new Point[nPoints]; 
 		
 		for(int i=0; i<nPoints;++i){
