@@ -194,8 +194,12 @@ public class PrimitiveConnection extends GraphicPrimitive
 	*/
 	public String toString(boolean extensions)
 	{
-		return "SA "+virtualPoint[0].x+" "+virtualPoint[0].y+
+		String s= "SA "+virtualPoint[0].x+" "+virtualPoint[0].y+
 			" "+getLayer()+"\n";
+			
+		s+=saveText(extensions);
+		
+		return s;
 	}
 	
 		/** The export routine
