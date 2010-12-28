@@ -303,7 +303,7 @@ public class PrimitivePolygon extends GraphicPrimitive
 	public void setControls(Vector v)
 	{
 		super.setControls(v);
-		int i=getControlPointNumber()+1;		
+		int i=getControlPointNumber()+3;		
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -379,10 +379,15 @@ public class PrimitivePolygon extends GraphicPrimitive
 		cmd+=getLayer()+"\n";
 		
 		if(extensions) {
-			if (dashStyle>0) 
-		 		cmd+="FCJ "+dashStyle+"\n";
-		
+			if (dashStyle>0 || name.length()!=0 || value.length()!=0) {
+				String text = "0";
+				if (name.length()!=0 || value.length()!=0)
+					text = "1";
+		 		cmd+="FCJ "+dashStyle+" "+text+"\n";
+			}
 		}
+		// The false is needed since saveText should not write the FCJ tag.
+		cmd+=saveText(false);
 		return cmd;
 	}
 	

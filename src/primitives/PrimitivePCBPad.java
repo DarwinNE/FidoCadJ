@@ -295,7 +295,7 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	public void setControls(Vector v)
 	{
 		super.setControls(v);
-		int i=getControlPointNumber()+1;		
+		int i=getControlPointNumber()+3;		
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -370,8 +370,11 @@ public class PrimitivePCBPad extends GraphicPrimitive
 	*/
 	public String toString(boolean extensions)
 	{
-		return "PA "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
+		String s = "PA "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
 			rx+" "+ry+" "+ri+" "+sty+" "+getLayer()+"\n";
+		
+		s+=saveText(extensions);
+		return s;
 	}
 	
 	public void export(ExportInterface exp, MapCoordinates cs)

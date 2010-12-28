@@ -539,39 +539,10 @@ public class PrimitiveMacro extends GraphicPrimitive
 			
 		String s="MC "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+o+" "
 				+mirror+" "+macroName+"\n";
-		
-		String subsFont;
-		
-		// Check if the font is default and in this case, just put an asterisk.
-		if (macroFont.equals(Globals.defaultTextFont)) {
-			subsFont = "*";
-		} else {
-			StringBuffer s1=new StringBuffer("");
-    		
-    		for (int i=0; i<macroFont.length(); ++i) {
-    		if(macroFont.charAt(i)!=' ') 
-    			s1.append(macroFont.charAt(i));
-    		else
-    			s1.append("++");
-    		}
-			subsFont=s1.toString();
-		}
-		
-		// Write down the extensions only if needed
-		if (!name.equals("") || !value.equals("")) {
-			if(extensions) s+="FCJ\n";
-			s+="TY "+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
-				+getLayer()
-				+" "+subsFont+" "+name+"\n";
-			s+="TY "+virtualPoint[2].x+" "+virtualPoint[2].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
-				+getLayer()
-				+" "+subsFont+" "+value+"\n";
-		}
+				
+		s+=saveText(extensions);
 		
 		return s;
-		
 	}
 	
 	/**	Get the control parameters of the given primitive.
