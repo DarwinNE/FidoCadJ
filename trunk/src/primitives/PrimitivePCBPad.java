@@ -36,7 +36,7 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitivePCBPad extends GraphicPrimitive
+public final class PrimitivePCBPad extends GraphicPrimitive
 {
 
 	private int rx;

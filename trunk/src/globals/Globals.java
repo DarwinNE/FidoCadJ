@@ -86,7 +86,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.5 epsilon";
+    public static final String version = "0.23.5 zeta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -112,7 +112,6 @@ public class Globals
 
     /**	Adjust a long string in order to cope with space limitations.
     	Tipically, it will be used to show long paths in the window caption.
-    	
     	@param s the string to be treated
     	@param l the total maximum length of the result
     */

@@ -586,8 +586,8 @@ public class ParseSchem
     final public void draw(Graphics2D G)
     {   
         // At first, we check if the current view has changed. 
-        if(oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || oY!=cs.getYCenter() 
-            || oO!=cs.getOrientation() || changed) {
+        if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
+        	oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
             oZ=cs.getXMagnitude();
             oX=cs.getXCenter();
             oY=cs.getYCenter();
@@ -604,7 +604,6 @@ public class ParseSchem
             
             if (!drawOnlyPads) 
                 cs.resetMinMax();
-            
         }
         
         needHoles=drawOnlyPads;
@@ -636,7 +635,6 @@ public class ParseSchem
         } else if (!drawOnlyPads) {
             // If we want to draw all layers, we need to process with order.
             for(j_index=0;j_index<Globals.MAX_LAYERS; ++j_index) {
-                
                 if(!layersUsed[j_index])
                     continue;
                 drawPrimitives(j_index, G);             
@@ -845,7 +843,7 @@ public class ParseSchem
     {
         int i;
         for (i=0; i<primitiveVector.size(); ++i){
-            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
+            if(((GraphicPrimitive)primitiveVector.get(i)).getSelected()) 
                 ((GraphicPrimitive)primitiveVector.get(i)).drawHandles(G,
                    cs);
         }      
@@ -890,16 +888,15 @@ public class ParseSchem
     /** Set the font of all macros.
         @param f the font name
     */
-    public void setMacroFont(String f, int size)
+    public void setTextFont(String f, int size)
     {
         int i;
         macroFont=f;
         macroFontSize = size;
 
         for (i=0; i<primitiveVector.size(); ++i){
-            if((GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
-                ((PrimitiveMacro)primitiveVector.get(i)).setMacroFont(f, size);
-            }
+            ((GraphicPrimitive)primitiveVector.get(i)).setMacroFont(f, size);
+           
         }
         changed=true;
     }
@@ -908,13 +905,10 @@ public class ParseSchem
     /** Get the font of all macros.
         @return the font name
     */
-    public String getMacroFont()
+    public String getTextFont()
     {        
         for (int i=0; i<primitiveVector.size(); ++i){
-            if((GraphicPrimitive)primitiveVector.get(i) 
-                instanceof PrimitiveMacro) {
-                return ((PrimitiveMacro)primitiveVector.get(i)).getMacroFont();
-            }
+            return ((GraphicPrimitive)primitiveVector.get(i)).getMacroFont();
         }
         return macroFont;
     }
@@ -922,14 +916,11 @@ public class ParseSchem
     /** Get the size of the font used for all macros.
         @return the font name
     */
-    public int getMacroFontSize()
+    public int getTextFontSize()
     {        
         for (int i=0; i<primitiveVector.size(); ++i){
-            if((GraphicPrimitive)primitiveVector.get(i) instanceof 
-                PrimitiveMacro) {
-                return ((PrimitiveMacro)primitiveVector.get(i))
-                    .getMacroFontSize();
-            }
+            return ((GraphicPrimitive)primitiveVector.get(i))
+                    .getMacroFontSize();            
         }
         return macroFontSize;
     }
@@ -1498,6 +1489,7 @@ public class ParseSchem
     {
         primitiveVector.clear();
         addString(s, false);
+        setChanged(true);
     }
     
     /** Parse the circuit contained in the StringBuffer specified.
@@ -1665,8 +1657,7 @@ public class ParseSchem
                                 LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
                                 ll.setColor(new Color(rgb));
                                 ll.setAlpha(alpha);
-                                ll.setModified(true);
-                                    
+                                ll.setModified(true);  
                             }
                                 
                         } if(tokens[1].equals("A")) {
@@ -1742,6 +1733,7 @@ public class ParseSchem
                             old_tokens[l]=tokens[l];
                             
                         macro_counter=0;
+                        old_j=j;
                         g=new PrimitivePCBLine();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
@@ -1752,6 +1744,7 @@ public class ParseSchem
                             old_tokens[l]=tokens[l];
                         macro_counter=0;
                         g=new PrimitivePCBPad();
+                        old_j=j;
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
                         //addPrimitive(g,false,false);
@@ -1759,6 +1752,7 @@ public class ParseSchem
                         hasFCJ=true;
                         for(l=0; l<j+1; ++l)
                             old_tokens[l]=tokens[l];
+                        old_j=j;
                         macro_counter=0;
                         g=new PrimitiveConnection();
                         g.parseTokens(tokens, j+1);
@@ -1838,48 +1832,47 @@ public class ParseSchem
         GraphicPrimitive g, String[] old_tokens, int old_j, boolean selectNew)
         throws IOException
     {
+    	boolean addPrimitive = false;
         if(hasFCJ && !tokens[0].equals("FCJ")) {
             if (old_tokens[0].equals("MC")) {
                 g=new PrimitiveMacro(library,layerV);
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false);
-                hasFCJ=false;
+                addPrimitive = true;
             } else if (old_tokens[0].equals("LI")) {
                 g=new PrimitiveLine();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false);
-                hasFCJ=false;     
+                addPrimitive = true;
             } else if (old_tokens[0].equals("BE")) {
                 g=new PrimitiveBezier();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false); 
-                hasFCJ=false;
+                addPrimitive = true;
             } else if (old_tokens[0].equals("RP")||
                 old_tokens[0].equals("RV")) {
                 g=new PrimitiveRectangle();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false);
-                hasFCJ=false;
+                addPrimitive = true;
             } else if (old_tokens[0].equals("EP")||
                 old_tokens[0].equals("EV")) {
                 g=new PrimitiveOval();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false);
-                hasFCJ=false;
+                addPrimitive = true;
             } else if (old_tokens[0].equals("PP")||
                 old_tokens[0].equals("PV")) {
                 g=new PrimitivePolygon();
-                g.parseTokens(old_tokens, old_j+1);
-                g.setSelected(selectNew);
-                addPrimitive(g,false,false);
-                hasFCJ=false;
+                addPrimitive = true;
+            } else if(old_tokens[0].equals("PL")) {
+                g=new PrimitivePCBLine();
+                addPrimitive = true;
+             } else if(old_tokens[0].equals("PA")) {
+                g=new PrimitivePCBPad();
+                addPrimitive = true;
+            } else if(old_tokens[0].equals("SA")) {
+                g=new PrimitiveConnection();
+                addPrimitive = true;
             }
         }     
+        
+        if(addPrimitive) {
+            g.parseTokens(old_tokens, old_j+1);
+            g.setSelected(selectNew);
+            addPrimitive(g,false,false);
+            hasFCJ = false;        
+        }
         return hasFCJ;
     }
    

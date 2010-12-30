@@ -38,7 +38,7 @@ import globals.*;
 @author Davide Bucci
 */
 
-public class PrimitiveMacro extends GraphicPrimitive
+public final class PrimitiveMacro extends GraphicPrimitive
 {
 
 	static final int N_POINTS=3;

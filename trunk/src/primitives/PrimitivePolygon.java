@@ -36,7 +36,7 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitivePolygon extends GraphicPrimitive
+public final class PrimitivePolygon extends GraphicPrimitive
 {
 
 	private int nPoints;
@@ -167,10 +167,10 @@ public class PrimitivePolygon extends GraphicPrimitive
  			if (w<D_MIN) w=D_MIN;
 
 			if (dashStyle>0) 
-				stroke=new BasicStroke(w, 
-                                BasicStroke.CAP_BUTT, 
-                                BasicStroke.JOIN_MITER, 
-                                10.0f, Globals.dash[dashStyle], 0.0f);
+				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
+                                          BasicStroke.JOIN_ROUND, 
+                                          10.0f, Globals.dash[dashStyle], 
+                                          0.0f);
 			else 
 				stroke=new BasicStroke(w);
 		}
@@ -183,7 +183,9 @@ public class PrimitivePolygon extends GraphicPrimitive
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
-        if (isFilled) 
+		// Here we implement a small optimization: when the polygon is very
+		// small, it is not filled.
+        if (isFilled && width>=2 && height >=2) 
  			g.fillPolygon(p);
  			
  		//g.drawPolygon(p);
@@ -191,13 +193,14 @@ public class PrimitivePolygon extends GraphicPrimitive
  		// the lines is much more efficient than the drawPolygon method.
  		// Probably, a further investigation is needed to determine if
  		// this situation is the same with more recent Java runtimes
- 		// (mine is 1.5.something on an iMac G5 at 2 GHz).
- 		
+ 		// (mine is 1.5.something on an iMac G5 at 2 GHz and I made
+ 		// the same comparison with the same results with a MacBook 2GHz).
+ 		 
  		for(int i=0; i<nPoints-1; ++i) {
- 			g.drawLine(p.xpoints[i],p.ypoints[i], p.xpoints[i+1],
+ 			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
  				p.ypoints[i+1]);
  		}
- 		g.drawLine(p.xpoints[nPoints-1],p.ypoints[nPoints-1], p.xpoints[0],
+ 		g.drawLine(p.xpoints[nPoints-1], p.ypoints[nPoints-1], p.xpoints[0],
  			p.ypoints[0]);
 			
 	}
@@ -255,12 +258,10 @@ public class PrimitivePolygon extends GraphicPrimitive
  				}
  			}
       			
-      		
  			if (tokens[0].equals("PP"))
  				isFilled=true;
  			else
  				isFilled=false;
-			
  			
  		} else {
  			IOException E=new IOException("PP/PV: Invalid primitive:"+tokens[0]+

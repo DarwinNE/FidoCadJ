@@ -353,7 +353,7 @@ public class FidoFrame extends JFrame implements
         if (runsAsApplication)  {
         	
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
-        	CC.P.setMacroFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
+        	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
         }
         
@@ -769,7 +769,8 @@ public class FidoFrame extends JFrame implements
             if(choice==JOptionPane.YES_OPTION) { 
                	//  Save and exit
                	//System.out.println("Save and exit.");
-               	save();
+               	if(!save())
+               		shouldExit=false;
             } else if (choice==JOptionPane.NO_OPTION) { 
                	// Don't save, exit
                	//System.out.println("Do not save and exit.");
@@ -1457,8 +1458,10 @@ public class FidoFrame extends JFrame implements
     	This routine makes use of the standard dialogs (either the Swing or the
     	native one, depending on the host operating system), in order to let 
     	the user choose a new name for the file to be saved.
+    	@return true if the save operation has gone well.
+
     */
-    void saveWithName()
+    boolean saveWithName()
     {
         String fin;
         String din;
@@ -1503,7 +1506,7 @@ public class FidoFrame extends JFrame implements
             fc.setCurrentDirectory(new File(openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("SaveName"));
             if(fc.showSaveDialog(this)!=JFileChooser.APPROVE_OPTION)
-                return;
+                return false;
       
             fin=fc.getSelectedFile().getName();
             din=fc.getSelectedFile().getParentFile().getPath();             
@@ -1520,20 +1523,21 @@ public class FidoFrame extends JFrame implements
             openFileDirectory=din;
             
             // Here everything is ready for saving the current drawing.     
-            save();
+            return save();
+        } else {
+        	return false;
         }
     }
     
-    /** Save the current file
-    
+    /** Save the current file.
+    	@return true if the save operation has gone well.
     */
-    void save()
+    boolean save()
     {
     	// If there is not a name currently defined, we use instead the 
     	// save with name function.
     	if(CC.P.openFileName.equals("")) {
-            saveWithName();
-            return;
+            return saveWithName();
         }
         try {
             if (splitNonStandardMacro_s) {
@@ -1561,7 +1565,9 @@ public class FidoFrame extends JFrame implements
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(this,
             Globals.messages.getString("Save_error")+fnfex);
+            return false;
         }
+        return true;
     }
     
     /** Load the given file
@@ -1604,13 +1610,13 @@ public class FidoFrame extends JFrame implements
             extFCJ_c,
             Globals.quaquaActive,
             CC.getStrict(),
-            CC.P.getMacroFont(),
+            CC.P.getTextFont(),
             splitNonStandardMacro_s,
             splitNonStandardMacro_c,
             Globals.lineWidth,
             Globals.lineWidthCircles,
             Globals.diameterConnection,
-            CC.P.getMacroFontSize());
+            CC.P.getTextFontSize());
                     
         // The panel is now made visible. Its properties will be updated only 
         // if the user clicks on "Ok".
@@ -1630,7 +1636,7 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_sizex(options.pcbpadwidth_i);
         CC.setPCB_pad_sizey(options.pcbpadheight_i);
         CC.setPCB_pad_drill(options.pcbpadintw_i);
-        CC.P.setMacroFont(options.macroFont,options.macroSize_i);
+        CC.P.setTextFont(options.macroFont,options.macroSize_i);
         
         extFCJ_s = options.extFCJ_s;
         extFCJ_c = options.extFCJ_c;
@@ -1655,8 +1661,8 @@ public class FidoFrame extends JFrame implements
         
         if (runsAsApplication) {
        	 	prefs.put("DIR_LIBS", libDirectory);
-       	 	prefs.put("MACRO_FONT", CC.P.getMacroFont());
-       	 	prefs.put("MACRO_SIZE", ""+CC.P.getMacroFontSize());
+       	 	prefs.put("MACRO_FONT", CC.P.getTextFont());
+       	 	prefs.put("MACRO_SIZE", ""+CC.P.getTextFontSize());
        	 	
        	 	prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
        	 	prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);

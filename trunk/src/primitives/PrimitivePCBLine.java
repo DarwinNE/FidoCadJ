@@ -35,7 +35,7 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitivePCBLine extends GraphicPrimitive
+public final class PrimitivePCBLine extends GraphicPrimitive
 {
 
 	private int width;

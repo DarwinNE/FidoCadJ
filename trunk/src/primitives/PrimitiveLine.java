@@ -37,7 +37,7 @@ import export.*;
 */
 
 
-public class PrimitiveLine extends GraphicPrimitive
+public final class PrimitiveLine extends GraphicPrimitive
 {
 
 	static final int N_POINTS=4;
@@ -293,13 +293,12 @@ public class PrimitiveLine extends GraphicPrimitive
  			// Calculate the length in pixel.
  			length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
  			if(dashStyle>0) {
-				stroke=new BasicStroke(w, BasicStroke.CAP_BUTT, 
-                                          BasicStroke.JOIN_MITER, 
+				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
+                                          BasicStroke.JOIN_ROUND, 
                                           10.0f, Globals.dash[dashStyle], 
                                           0.0f);
 			} else {
     			stroke =new BasicStroke(w);
-
 			}
 			arrows = arrowStart || arrowEnd;
 
