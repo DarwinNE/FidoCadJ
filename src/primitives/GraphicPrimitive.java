@@ -85,6 +85,7 @@ public abstract class GraphicPrimitive
 	}
 	/** Set the font to be used for name and value
 		@param f the font name
+		@param size the font size
 		
 	*/
 	
@@ -151,12 +152,19 @@ public abstract class GraphicPrimitive
  	protected FontMetrics fm;
  		
 	
-	/** Writes the macro name and value fields
+	/** Writes the macro name and value fields. This method uses heavily the 
+		caching system implemented via the precalculation of the sizes and 
+		positions. This means that the "changed" flag is tested, BUT NOT
+		UPDATED, since this method should be one of the first to be called 
+		when a primitive implements its drawing.
+		The primitive will HAVE TO update the "changed" flag accordingly to
+		its needs, BEFORE calling drawText.
 	
 	*/
 	protected void drawText(Graphics2D g, MapCoordinates coordSys,
 							  ArrayList layerV, int drawOnlyLayer)
 	{				
+		// If this method is not needed, exit immediately.
 		if (value.length()==0 && name.length()==0)
 			return;
 			
@@ -164,6 +172,8 @@ public abstract class GraphicPrimitive
  			return;
  		
  		if(changed) {
+ 			// Calculate the positions of the text lines
+ 			
  			x2=virtualPoint[getNameVirtualPointNumber()].x;
  			y2=virtualPoint[getNameVirtualPointNumber()].y;
  			x3=virtualPoint[getValueVirtualPointNumber()].x;
@@ -660,6 +670,10 @@ public abstract class GraphicPrimitive
 		
 		g.setColor(Color.red);
 		for(int i=0;i<getControlPointNumber();++i) {
+		
+			if (!testIfValidHandle(i))
+				continue;	
+				
 			xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
  			ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
@@ -675,7 +689,8 @@ public abstract class GraphicPrimitive
  		}	
 	}
 	
-	/**	Tells if the pointer is on an handle.
+	/**	Tells if the pointer is on an handle. The handles associated to the
+		name and value strings are not considered if they are not defined.
 	
 		@param cs the coordinate mapping used.
 		@param px the x (screen) coordinate of the pointer. 
@@ -691,6 +706,10 @@ public abstract class GraphicPrimitive
 		int hl2=HANDLE_WIDTH/2;
 		
 		for(int i=0;i<getControlPointNumber();++i) {
+
+			if (!testIfValidHandle(i))
+				continue;		
+		
 			xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
  			ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
@@ -722,6 +741,9 @@ public abstract class GraphicPrimitive
 		int ya;
 		
 		for(int i=0;i<getControlPointNumber();++i) {
+			if (!testIfValidHandle(i))
+				continue;	
+				
 			xa=virtualPoint[i].x;
  			ya=virtualPoint[i].y;
  			
@@ -734,6 +756,21 @@ public abstract class GraphicPrimitive
 		return false;
 	}
 	
+	
+	/** Determines whether the handle specified is valid or is disabled.
+		Are disabled in particular the handles associated to the name and 
+		value strings when they are not defined.
+		@return true if the handle is active
+	
+	*/
+	protected boolean testIfValidHandle(int i)
+	{
+		if (i==getNameVirtualPointNumber() && name.length()==0)
+			return false;
+		if (i==getValueVirtualPointNumber() && value.length()==0)
+			return false;		
+		return true;
+	}
 	
 	/**	Get the control parameters of the given primitive. Each 
 		primitive should probably overload this version. We give here a very 
@@ -761,11 +798,22 @@ public abstract class GraphicPrimitive
 		pd.isExtension = true;
 
 		v.add(pd);
-			
+		
+		// Preparing the 
 		for (i=0;i<getControlPointNumber();++i) {
 			pd = new ParameterDescription();
 			pd.parameter=virtualPoint[i];
-			pd.description="Control point "+(i+1)+":";
+			
+			if (i==getNameVirtualPointNumber()){
+				pd.isExtension = true;
+				pd.description="Name:";
+			} else if (i==getValueVirtualPointNumber()){
+				pd.isExtension = true;
+				pd.description="Value:";
+			} else {
+				pd.description="Control point "+(i+1)+":";
+			}
+
 			v.add(pd);
 		}
 		

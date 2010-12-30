@@ -36,7 +36,7 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitiveRectangle extends GraphicPrimitive
+public final class PrimitiveRectangle extends GraphicPrimitive
 {
 
 	
@@ -111,7 +111,8 @@ public class PrimitiveRectangle extends GraphicPrimitive
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
 	private int xa, ya, xb, yb;
-	private int x1, y1,x2,y2; 		
+	private int x1, y1,x2,y2; 
+	private int width, height;
 	private Stroke stroke;
 	private float w;
 
@@ -165,10 +166,13 @@ public class PrimitiveRectangle extends GraphicPrimitive
                                          10.0f, Globals.dash[dashStyle], 0.0f);
 			else 
 				stroke=new BasicStroke(w);		
+				
+			width = xb-xa;
+			height = yb-ya;
 		}
 		
 		// If we do not need to perform the drawing, exit immediately		
-        if(!g.hitClip(xa,ya, (xb-xa)+1,(yb-ya)+1))
+        if(!g.hitClip(xa,ya, width+1,height+1))
  			return;
 
 		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
@@ -179,7 +183,7 @@ public class PrimitiveRectangle extends GraphicPrimitive
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 
  			// Java api is to skip the rightmost and bottom pixels 
- 			g.fillRect(xa,ya,(xb-xa)+1,(yb-ya)+1);
+ 			g.fillRect(xa,ya,width+1,height+1);
  		} else {
  			if(xb!=xa || yb!=ya) {
  				//g.drawRect(xa,ya,(xb-xa),(yb-ya));	

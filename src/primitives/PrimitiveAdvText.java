@@ -36,7 +36,7 @@ import globals.*;
 @author Davide Bucci
 */
 
-public class PrimitiveAdvText extends GraphicPrimitive
+public final class PrimitiveAdvText extends GraphicPrimitive
 {
 
 	private String txt;

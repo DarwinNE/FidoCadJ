@@ -35,7 +35,7 @@ import globals.*;
 @author Davide Bucci
 */
 
-public class PrimitiveConnection extends GraphicPrimitive
+public final class PrimitiveConnection extends GraphicPrimitive
 {
 
 

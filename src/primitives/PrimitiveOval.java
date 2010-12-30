@@ -36,7 +36,7 @@ import export.*;
 @author Davide Bucci
 */
 
-public class PrimitiveOval extends GraphicPrimitive
+public final class PrimitiveOval extends GraphicPrimitive
 {
 
 	// An oval is defined by two points.

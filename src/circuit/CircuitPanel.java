@@ -83,7 +83,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 	public static final int MARGIN=20;     
                                     
 	// Color of elements during editing
-    static final Color editingColor=Color.magenta;                                
+    static final Color editingColor=Color.green;                                
 
 	// Font to be used to draw the ruler
 	private static final String rulerFont = "Lucida Sans Regular";
@@ -218,8 +218,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     	@param actionString the action name to be associated to this action
     	@param key the key to be used. It will be associated either in
     		lower case as well as in upper case.
-    	@state the wanted state to be used (see definitions INTERFACE)
-    
+    	@param state the wanted state to be used (see definitions INTERFACE).
     */
     private void registerAction(String actionString, char key, final int state)
     {
@@ -320,15 +319,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     }
     
     /** Determine wether the current primitive being added is a macro.
-    
     */
     public boolean isEnteringMacro()
     {
     	return ((primEdit !=null) && (primEdit instanceof PrimitiveMacro));
     }
     
-    /** Rotate the macro being edited around its first control point
-    
+    /** Rotate the macro being edited around its first control point 
+    	(90 degrees clockwise rotation).
     */
     public void rotateMacro()
     {
@@ -395,7 +393,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     }
     /** Define the listener to be called when the selected action is changed
         @param c the new selection listener
-    
     */
     public void addChangeSelectionListener(ChangeSelectionListener c)
     {
@@ -405,19 +402,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     /** Define the listener to be called when the selected action is changed
         (this is explicitly done for the ScrollGestureSelection)
         @param c the new selection listener
-    
     */
     public void addScrollGestureSelectionListener(ChangeSelectionListener c)
     {
         scrollGestureSelectionListener=c;
     }
     
-    
-    
     /** Define the listener to be called when the coordinates of the mouse 
         cursor are changed
         @param c the new coordinates listener
-    
     */
     public void addChangeCoordinatesListener(ChangeCoordinatesListener c)
     {
@@ -449,11 +442,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     /** Sets the circuit.
         @param c the circuit string
     */
-    
     public void setCirc(StringBuffer c)
         throws IOException
     {
-        //circ=c;
         P.parseString(c);
     }
     
@@ -911,8 +902,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     sc.unmapYsnap(y),macroKey,"", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
                     sc.unmapYsnap(y)+10,
-                    P.getMacroFont(),
-                    P.getMacroFontSize(), orientation, mirror), true,true);
+                    P.getTextFont(),
+                    P.getTextFontSize(), orientation, mirror), true,true);
                 primEdit=null;
                 successiveMove=false;
                     
@@ -966,9 +957,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Graphics g = getGraphics();
         
         Graphics2D g2d = (Graphics2D)g;
-
-        //Globals.doNotUseXOR
-        if (!false) g.setXORMode(editingColor);
         
         // This is the newer code: if primEdit is different from null, it will
         // be drawn in the paintComponent event
@@ -1011,8 +999,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
-                    P.getMacroFont(),
-                    P.getMacroFontSize(), orientation, mirror);
+                    P.getTextFont(),
+                    P.getTextFontSize(), orientation, mirror);
                 n.setDrawOnlyLayer(-1);
 				primEdit = n;
                 repaint();
@@ -1465,13 +1453,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         P.drawSelectedHandles(g2);
     
         // If an evidence rectangle is active, draw it.
-
         
-        g.setColor(Color.green);
+        g.setColor(editingColor);
 
         g2.setStroke(new BasicStroke(1));
 
-        if(evidenceRect!=null)
+        if(evidenceRect!=null && actionSelected == SELECTION)
         	g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
             	evidenceRect.height);
 		
@@ -1540,7 +1527,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
           	
        	ArrayList ll=new ArrayList();
        	for(int i=0; i<Globals.MAX_LAYERS;++i) 
-       		ll.add(new LayerDesc(Color.green, true,"",1.0f));
+       		ll.add(new LayerDesc(editingColor, true,"",1.0f));
        		
        	return ll;
     }
@@ -1644,10 +1631,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
             fm.stringWidth(t2))+1, 24);
         
-        g.setColor(Color.green);
+        g.setColor(editingColor);
         g.drawRect(ex+9, ey-1, Math.max(fm.stringWidth(t1),
             fm.stringWidth(t2))+2, 25);
-        g.setColor(Color.green.darker().darker());
+        g.setColor(editingColor.darker().darker());
         g.drawString(t1, ex+10, ey+10);
         g.drawString(t2, ex+10, ey+20);
         
