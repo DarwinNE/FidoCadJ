@@ -351,7 +351,6 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-        	
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
         	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
