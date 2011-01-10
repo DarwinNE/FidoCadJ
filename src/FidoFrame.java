@@ -1706,16 +1706,17 @@ public class FidoFrame extends JFrame implements
         double z=m.getXMagnitude();
         
         // We apply the zoom factor to the coordinate transform
-        CC.P.getMapCoordinates().setMagnitudes(z, z);
-        
-        // We make the scroll pane show the interesting part of
-        // the drawing.
-        CC.scrollRectToVisible(new Rectangle(-(int)(m.getXCenter()), 
-        	-(int)(m.getYCenter()), 
-        	SC.getViewport().getExtentSize().width, 
-        	SC.getViewport().getExtentSize().height));
-        if (oldz!=z) CC.repaint();
-
+        CC.P.getMapCoordinates().setMagnitudes(z, z);     		 		
+	    	
+       	// We make the scroll pane show the interesting part of
+       	// the drawing.
+       	Rectangle r= new Rectangle(-(int)(m.getXCenter()), 
+   			-(int)(m.getYCenter()), 
+   			SC.getViewport().getExtentSize().width, 
+   			SC.getViewport().getExtentSize().height);
+   		CC.setScrollRectangle(r);
+   		CC.scrollRectToVisible(r);
+   		if (oldz!=z) CC.repaint();
     }
     
     /** We notify the user that something has changed by putting an asterisk

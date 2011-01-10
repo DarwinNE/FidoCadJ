@@ -88,6 +88,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 	// Font to be used to draw the ruler
 	private static final String rulerFont = "Lucida Sans Regular";
     
+    
+    public boolean paintSemaphore;
 
 	// ********** PROFILING **********
 
@@ -114,6 +116,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // See mouseMoved method
     private int oldx;
     private int oldy;
+    
+    // If this variable is different from null, the component will ensure that
+    // the corresponding rectangle will be shown in a scroll panel during the
+    // next redraw.
+	private Rectangle scrollRectangle;
+
 
 	// Track wether an editing action is being made.
     private boolean successiveMove;
@@ -380,6 +388,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         return actionSelected;
     }   
+    
+    /** Set the rectangle which will be shown during the next redraw.
+    	@param r the rectangle to show.
+    */
+    public void setScrollRectangle(Rectangle r)
+    {
+    	scrollRectangle = r;
+    }
     
     /***********************************************************************/
     
@@ -1443,11 +1459,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         // The standard color is black.
         g.setColor(Color.black);
         
-
         // Perform the drawing operation.
         P.draw(g2);
-        
-        
+       
         if (zoomListener!=null) 
             zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
         
@@ -1504,9 +1518,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
         }   
-        
+        paintSemaphore = false;      
+        if(scrollRectangle!=null) {
+  	   		scrollRectToVisible(scrollRectangle);
+			scrollRectangle = null;
+        }
     }
-    
+        
     /** Draws the current editing primitive.
     
     */
