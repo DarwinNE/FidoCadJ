@@ -44,7 +44,7 @@ Version   Date           Author       Remarks
     @version 1.0, April 2010
 */
 
-class FidoMain {
+public class FidoMain {
 
     /** The main method. Shows an instance of the FidoFrame */
     public static void main(String[] args)

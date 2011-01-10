@@ -1323,19 +1323,19 @@ public class ParseSchem
     public void dragHandleEnd(CircuitPanel P, int px, int py, boolean multiple)
     {
         // Check if we are effectively dragging something...
+        P.setEvidenceRect(0,0,-1,-1);
         if(handleBeingDragged<0){
-            if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){
-                P.setEvidenceRect(0,0,-1,-1);
-                int xa=Math.min(oldpx, cs.unmapXnosnap(px));
-                int ya=Math.min(oldpy, cs.unmapYnosnap(py));
-                int xb=Math.max(oldpx, cs.unmapXnosnap(px));
-                int yb=Math.max(oldpy, cs.unmapYnosnap(py));
-                if(!multiple) deselectAll();
-                selectRect(xa, ya, (xb-xa), (yb-ya)); 
-            }
-            // Test if we are anyway dragging an entire primitive
-            if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE){
-                if (hasMoved) saveUndoState();
+        	if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){        		
+        		int xa=Math.min(oldpx, cs.unmapXnosnap(px));
+        		int ya=Math.min(oldpy, cs.unmapYnosnap(py));
+        		int xb=Math.max(oldpx, cs.unmapXnosnap(px));
+        		int yb=Math.max(oldpy, cs.unmapYnosnap(py));
+        		if(!multiple) deselectAll();
+        		selectRect(xa, ya, (xb-xa), (yb-ya)); 
+        	}
+        	// Test if we are anyway dragging an entire primitive
+        	if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE){
+        		if (hasMoved) saveUndoState();
 
             }
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
