@@ -136,15 +136,15 @@ public class ExportPDF implements ExportInterface {
 	   	
 	    double res_mult=200.0/72.0;
 	    
-	
+		int border = 5;
 		
 		head = "%PDF-1.4\n";
 		b5=	"5 0 obj\n"+
 				"  <</Kids [4 0 R ]\n"+
 				"    /Count 1\n"+
 				"    /Type /Pages\n"+
-				"    /MediaBox [ 0 0  "+(int)(totalSize.width/res_mult+1)+" "+
-				(int)(totalSize.height/res_mult+1)+" ]\n"+
+				"    /MediaBox [ 0 0  "+(int)(totalSize.width/res_mult+1+border)+" "+
+				(int)(totalSize.height/res_mult+1+border)+" ]\n"+
 				"  >> endobj\n";
 				
 
@@ -158,7 +158,7 @@ public class ExportPDF implements ExportInterface {
 		actualWidth = -1;
 		
 		
-		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult)+ "  cm\n");
+		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ "  cm\n");
 
 		outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
 

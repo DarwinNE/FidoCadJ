@@ -1235,7 +1235,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         Graphics g = getGraphics();
         Graphics2D g2d = (Graphics2D)g;
         
-        // Handle the ruler.
+        // Handle the ruler. Basically, we just save the coordinates and
+        // we launch a repaint which will be done as soon as possible.
+        // No graphical elements are drawn outside a repaint.
         if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 || 
         	evt.isShiftDown()) {
             rulerEndX=px;
