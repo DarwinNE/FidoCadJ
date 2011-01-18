@@ -73,7 +73,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2010 by Davide Bucci
+    Copyright 2007-2011 by Davide Bucci
 </pre>
 
    Main parsing class 
@@ -1782,9 +1782,13 @@ public class ParseSchem
                 } catch(IOException E) {
                     System.out.println("Error encountered: "+E.toString());
                     System.out.println("string parsing line: "+lineNum);
+                    hasFCJ = false;
+                    macro_counter = 0;
                 } catch(NumberFormatException F) {
                     System.out.println("I could not read a number at line: "
                                        +lineNum);
+                    hasFCJ = false;
+                    macro_counter = 0;                  
                 }
                 j=0;
                 token.setLength(0);

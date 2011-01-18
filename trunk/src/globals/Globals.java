@@ -30,7 +30,7 @@ But... who cares!!!
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
 
 </pre>
 */
@@ -86,7 +86,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.5 zeta";
+    public static final String version = "0.23.5 eta RC1";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
