@@ -33,7 +33,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2010 by Davide Bucci
+    Copyright 2007-2011 by Davide Bucci
 </pre>
    The circuit panel will contain the whole drawing.
     This class is able to perform its profiling, which is in particular
@@ -1409,6 +1409,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void setEvidenceRect(int lx, int ly, int w, int h)
     {
+    	evidenceRect = new Rectangle();
         evidenceRect.x=lx;
         evidenceRect.y=ly;
         evidenceRect.height=h;
@@ -1477,6 +1478,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(evidenceRect!=null && actionSelected == SELECTION)
         	g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
             	evidenceRect.height);
+        else
+        	evidenceRect = null;
 		
 		// If there is a primitive or a macro being edited, draws it.
 		drawPrimEdit(g2);
@@ -1491,7 +1494,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (P.getMapCoordinates().getXMax()>0 && 
             P.getMapCoordinates().getYMax()>0){
             setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
-                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+               +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
             
             revalidate();
         }
@@ -1525,6 +1528,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         }
     }
         
+    public void validate()
+    {
+    	setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
+                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+    	super.validate();
+    }
     /** Draws the current editing primitive.
     
     */

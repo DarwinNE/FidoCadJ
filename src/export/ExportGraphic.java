@@ -197,8 +197,8 @@ public class ExportGraphic
     	if (format.equals("png")||format.equals("jpg")) {
 			// Center the drawing in the given space.
 			
-			System.out.println("xcenter: "+org.x);
-        	System.out.println("ycenter: "+org.y);
+			//System.out.println("xcenter: "+org.x);
+        	//System.out.println("ycenter: "+org.y);
         
         	P.getMapCoordinates().setXCenter(-org.x);
 	   		P.getMapCoordinates().setYCenter(-org.y);
