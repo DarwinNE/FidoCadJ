@@ -896,7 +896,6 @@ public class ParseSchem
 
         for (i=0; i<primitiveVector.size(); ++i){
             ((GraphicPrimitive)primitiveVector.get(i)).setMacroFont(f, size);
-           
         }
         changed=true;
     }
@@ -906,10 +905,12 @@ public class ParseSchem
         @return the font name
     */
     public String getTextFont()
-    {        
+    {   
+    /*
         for (int i=0; i<primitiveVector.size(); ++i){
             return ((GraphicPrimitive)primitiveVector.get(i)).getMacroFont();
         }
+        */
         return macroFont;
     }
     

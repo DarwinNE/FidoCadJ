@@ -86,9 +86,9 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.5 eta RC1";
+    public static final String version = "0.23.5";
     // Is it a beta version?
-    public static final boolean isBeta = true;		
+    public static final boolean isBeta = false;		
     
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";	

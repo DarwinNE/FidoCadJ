@@ -11,7 +11,7 @@ by Davide Bucci
 FidoCadJ is a very easy to use editor, with a vast library of electrical 
 symbols and footprints (through hole and SMD). Drawings can be exported in 
 several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it 
-is very simple and somewhat limited, FidoCadJ can be very useful as an
+is very simple and somewhat limited, FidoCadJ can be very useful as a basic
 Electronic  design automation (EDA) software. FidoCadJ is inspired from FidoCad 
 (without "J"), which was a vector graphic editor useful for electrical 
 schematics and printed circuit boards. It uses a file format containing 
@@ -29,8 +29,8 @@ http://sourceforge.net/projects/fidocadj/
 If you own a PC running Linux or Windows (or any system supporting Java), you
 may download from the SourceForge repository the file fidocadj.jar. If Java
 is correctly installed on your machine, you may just double click on it to 
-run FidoCadJ. If you are a command line guy, you may enter in the directory
-where you have downloaded fidocadj.jar and type
+run FidoCadJ. If you are a command line guy, you may enter the directory
+where the file fidocadj.jar has been saved and type
 
 	java -jar fidocadj.jar
 	
@@ -158,8 +158,8 @@ code:
         System.out.println("Indent code");
     }   // put the closing brace here
 
-- the class names are always capitalized, and so does methods
-- variables are never capitalized
+- the class names always start with a capital letter, and so does methods
+- variables never start with a capital letter
 - an instance of the class does have its first letter in lower case
 - each public class and method should be documented with Javadoc syntax
 - no lines longer than 80 characters
@@ -171,7 +171,7 @@ code:
 
 I am seeking for people interested in participating to the FidoCadJ project.
 If you spot a typo (I am not a native English speakers), or an error in the 
-manual or in the program, any correction is welcomed. I will be very happy 
+manual or in the program, any correction is very welcome. I will be very happy 
 to know what do you think about FidoCadJ. I would be glad to receive some 
 help: if you know Java and you want to work on the source code you will be 
 welcome.
