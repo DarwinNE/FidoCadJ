@@ -3,6 +3,7 @@ import java.util.prefs.*;
 import java.io.*;
 import java.util.*;
 import java.awt.*;
+import java.lang.reflect.*;
 
 import globals.*;
 import circuit.*;
@@ -312,8 +313,22 @@ public class FidoMain {
     	    // program under a non-Apple platform.
         
         	if(Globals.weAreOnAMac) {
+        	
+        		/*
             	AppleSpecific a=new AppleSpecific();
             	a.answerFinder();
+            	*/
+            	try {
+            		Class a = Class.forName("AppleSpecific");
+            		Object b = a.newInstance();
+            		Method m = a.getMethod("answerFinder", null);
+					m.invoke(b, null);
+            	
+            	} catch (Exception exc)
+    			{
+     				Globals.weAreOnAMac = false;
+     				System.out.println("It seems that this software has been compiled on a system different from MacOSX. Some nice integrations with MacOSX will therefore be absent. If you have compiled on MacOSX, make sure you used the 'compile' or 'rebuild' script along with the 'mac' option.");
+    			}
         	}
 
             // Here we create the main window object

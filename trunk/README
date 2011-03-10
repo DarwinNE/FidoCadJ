@@ -95,49 +95,41 @@ If you prefer using some kind of IDE such as Eclipse, you may try it, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote.
 
-3.1 Compile and run the sources from a MacOSX operating system (>=1.3.9) 
-------------------------------------------------------------------------
+3.1 Compile and run the sources on a MacOSX operating system (>=1.3.9) 
+----------------------------------------------------------------------
 
 If you are using MacOSX, you just open up a terminal window, go into the 
 fidocadj/trunk directory and type:
 
-  ./rebuild
+  ./rebuild mac
 
 And FidoCadJ should be automatically compiled and run.
 
-3.2 Compile and run the sources from another operating system
--------------------------------------------------------------
+3.2 Compile and run the sources on an Unix system
+-------------------------------------------------
 
-If you type the ./rebuild command directly as described in section 3.1, you
-will probably stumble in a lot of errors. The Java compiler is complaining 
-that there are some Apple-stuff related classes which are not found.
-You need to edit a little the following file:
+FidoCadJ can be compiled on an Unix system by using the following command into
+the fidocadj/trunk directory:
 
-fidocadj/trunk/src/FidoMain.java
+  ./rebuild
+  
+FidoCadJ should compile and run
 
-You should search the following lines (around line 314 and something):
+3.3 Compile and run the sources on an Windows system
+----------------------------------------------------
 
-        // Probably, you need to strip this code if you need to compile the
-        // program under a non-Apple platform.
+The provided scripts do not work on Microsoft Windows. You should handle 
+manually the compilation with the following command, from fidocadj\trunk:
 
-        if(Globals.weAreOnAMac) {
-            AppleSpecific a=new AppleSpecific();
-            a.answerFinder();
-        }
+javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 .\src\FidoMain.java -d bin
 
-You should comment the code block as follows:
+to launch the compiled program, you should type:
 
-        // Probably, you need to strip this code if you need to compile the
-        // program under a non-Apple platform.
+java  -classpath ".\bin:.\jar:.\jar\"  FidoMain
 
-        /* if(Globals.weAreOnAMac) {
-            AppleSpecific a=new AppleSpecific();
-            a.answerFinder();
-        }       */
-        
-And everything should compile fine.
+FidoCadJ should be launched.
 
-3.3 Coding conventions
+3.4 Coding conventions
 ----------------------
 
 The following coding conventions have been applied for the FidoCadJ source 
