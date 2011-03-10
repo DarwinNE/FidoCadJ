@@ -3,6 +3,14 @@
 
 # If you have a very old Java version, maybe the -Xlint:deprecation option is not recognized
 
+# Here we check if the user has chosen a compilation which should include the Macintosh
+# extensions
+
+if [ "$1" = "mac" ]; then
+  javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/AppleSpecific.java -d bin
+fi 
+
+
 # compile FidoCadJ
 javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoMain.java -d bin
 
