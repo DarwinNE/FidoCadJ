@@ -309,15 +309,21 @@ public class FidoMain {
     	                    END OF THE PLATFORM SELECTION CODE
         	*******************************************************************/
         
-	        // Probably, you need to strip this code if you need to compile the
-    	    // program under a non-Apple platform.
-        
         	if(Globals.weAreOnAMac) {
         	
         		/*
+        		// Probably, you need to strip this code if you need to compile the
+    	    	// program under a non-Apple platform.
             	AppleSpecific a=new AppleSpecific();
             	a.answerFinder();
             	*/
+            	
+            	// Here we use the reflection provided by Java to understand
+            	// if the AppleSpecific class is available on the system.
+            	// This class should be compiled separately from the main 
+            	// program since the compilation can be successful only on
+            	// a MacOSX system.
+           
             	try {
             		Class a = Class.forName("AppleSpecific");
             		Object b = a.newInstance();
