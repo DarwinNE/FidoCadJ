@@ -323,19 +323,64 @@ public final class PrimitiveBezier extends GraphicPrimitive
 			int l=coordSys.mapXi(arrowLength,arrowLength,false)-
 				coordSys.mapXi(0,0, false);
 	
- 			if (arrowStart) Arrow.drawArrow(g, 		
- 				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-				coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
-				coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
-				coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), l, h, 
-				arrowStyle);
-		
-			if (arrowEnd) Arrow.drawArrow(g, 		
- 				coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
-				coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
-				coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
-				coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y), l, h, 
-				arrowStyle);
+			
+ 			if (arrowStart) {
+ 				// We must check if the cubic curve is degenerate
+ 				if(virtualPoint[0].x!=virtualPoint[1].x ||
+ 				   virtualPoint[0].y!=virtualPoint[1].y) {
+ 						
+ 					Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
+						coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), 
+						l, h, arrowStyle);
+				} else if(virtualPoint[0].x!=virtualPoint[2].x ||
+ 				   virtualPoint[2].y!=virtualPoint[1].y) {
+					Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
+						coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y), 
+						l, h, arrowStyle);
+				} else {
+					Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y), 
+						l, h, arrowStyle);
+				}
+			}
+			
+			if (arrowEnd) {
+				// We must check if the cubic curve is degenerate
+				if(virtualPoint[3].x!=virtualPoint[2].x ||
+ 				   virtualPoint[3].y!=virtualPoint[2].y) {
+				
+					Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
+						coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y), 
+						l, h, arrowStyle);
+				} else if(virtualPoint[3].x!=virtualPoint[1].x ||
+ 				   virtualPoint[3].y!=virtualPoint[1].y) {
+ 				  	Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
+						coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y), 
+						l, h, arrowStyle);
+				} else {
+					Arrow.drawArrow(g, 		
+ 						coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y),
+						coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+						coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y), 
+						l, h, arrowStyle);
+				}
+			}
 		}
  	}
 	
