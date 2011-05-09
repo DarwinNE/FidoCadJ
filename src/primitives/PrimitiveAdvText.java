@@ -436,7 +436,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		// This calculation takes a lot of time, since we need to obtain the
 		// size of the font used, calculate the area which is active for the 
 		// mouse and so on. For this reason, we make it only when necessary, 
-		// by exploiting exactly the same principle of the optimized draw
+		// by exploiting exactly the same principle of the optimized drawing
 		// routines.
 		
 		if (changed||recalcSize) {
@@ -468,8 +468,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	
 		
 			if(siy/six != 10/7){
-    			hSCI=h*Math.round((int)((double)siy*24.0/40.0/six)); 
-				thSCI=th*Math.round((int)((double)siy*24.0/40.0/six)); 
+    			hSCI=h*Math.round((int)((double)siy*22.0/40.0/six)); 
+				thSCI=th*Math.round((int)((double)siy*22.0/40.0/six)); 
 
    			}
    			// Corrections for the mirrored text.

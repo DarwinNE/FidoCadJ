@@ -145,6 +145,9 @@ public class ExportGraphic
 
 		// obtain drawing size
 		P.getMapCoordinates().push();
+		
+		// This solves bug #3299281
+		P.deselectAll();
 
 		Point org=new Point(0,0);
 		
