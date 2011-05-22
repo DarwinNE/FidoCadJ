@@ -84,6 +84,7 @@ public class FidoFrame extends JFrame implements
     private String exportFormat;
     private boolean exportBlackWhite;
     private double exportUnitPerPixel;
+    private double exportMagnification;
     
     // Settings related to the printing mode.
     private boolean printMirror;
@@ -147,6 +148,7 @@ public class FidoFrame extends JFrame implements
         getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
         	Boolean.TRUE);
 
+		exportMagnification=1.0;
         	
         // Uncomment to force FidoCadJ to use a specified locale
         //currentLocale = new Locale("es", "VE");
@@ -1128,6 +1130,7 @@ public class FidoFrame extends JFrame implements
         export.setFileName(exportFileName);
         export.setUnitPerPixel(exportUnitPerPixel);
         export.setBlackWhite(exportBlackWhite);
+        export.setMagnification(exportMagnification);
                 
         // Once configured, we show the modal dialog
         export.setVisible(true);      
@@ -1136,6 +1139,7 @@ public class FidoFrame extends JFrame implements
             exportFormat=export.getFormat();
             exportUnitPerPixel=export.getUnitPerPixel();
             exportBlackWhite=export.getBlackWhite();
+            exportMagnification = export.getMagnification();
             int selection;
             
             // We first check if the file name chosen by the user has a correct
@@ -1165,7 +1169,8 @@ public class FidoFrame extends JFrame implements
              	// We do the export
                 ExportGraphic.export(new File(exportFileName),  CC.P, 
                     exportFormat, exportUnitPerPixel, 
-                    export.getAntiAlias(),exportBlackWhite,extFCJ_s,1.0);
+                    export.getAntiAlias(),exportBlackWhite,extFCJ_s,
+                    exportMagnification);
                 JOptionPane.showMessageDialog(this,
                     Globals.messages.getString("Export_completed"));
 

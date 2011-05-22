@@ -6,6 +6,7 @@ import java.awt.image.*;
 import javax.swing.*;
 import java.io.*;
 import javax.imageio.*;
+import javax.swing.border.*;
 
 import globals.*;
 
@@ -34,7 +35,8 @@ import globals.*;
     
     */
     
-public class DialogExport extends JDialog implements ComponentListener 
+public class DialogExport extends JDialog implements ComponentListener, 
+	ActionListener
 {
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
@@ -59,6 +61,7 @@ public class DialogExport extends JDialog implements ComponentListener
     private JCheckBox blackWhite_CB;    // Black and white checkbox
     private JComboBox fileFormat;       // File format combo box
     private JTextField fileName;        // File name text field
+    private JTextField multiplySizes;   // Size multiplications for vector exp.
     
     public void componentResized(ComponentEvent e) 
     {
@@ -198,6 +201,20 @@ public class DialogExport extends JDialog implements ComponentListener
         resolution.setSelectedIndex(index);
     }
     
+    /** Set the magnification factor for vector format export
+        @param d the default unit per pixel value
+    */
+    public void setMagnification(double d)
+    {      
+        multiplySizes.setText(""+d);
+    }
+    /** Get the magnification factor for vector format export
+        @param d the default unit per pixel value
+    */
+    public double getMagnification()
+    {      
+        return Double.parseDouble(multiplySizes.getText());
+    }
     /** Get the default unit per pixel value 
         @return the unit per pixel value
     */
@@ -243,38 +260,22 @@ public class DialogExport extends JDialog implements ComponentListener
         }
     }
     
-    /** Standard constructor: it needs the parent frame.
-        @param p the dialog's parent
-    */
-    public DialogExport (JFrame p)
+    private JPanel createInterfacePanel()
     {
-        super(p,Globals.messages.getString("Circ_exp_t"), true);
-        addComponentListener(this); 
-        export=false;
-        parent=p;
-        
-        
-  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
-  		// as a document modal sheet
-  		
-  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
-				Boolean.TRUE);
-        
-        
+    	JPanel panel = new JPanel();
+
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
-        Container contentPane=getContentPane();
-        contentPane.setLayout(bgl);
-        //constraints.insets.right=30;
+        panel.setLayout(bgl);
 
         JLabel resolutionLabel=new 
             JLabel(Globals.messages.getString("Resolution"));
             
    		constraints = DialogUtil.createConst(1,0,1,1,0,0,
 			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
-			new Insets(20,40,6,20));
+			new Insets(6,40,6,6));
 
-        contentPane.add(resolutionLabel, constraints);
+        panel.add(resolutionLabel, constraints);
         
         resolution=new JComboBox();
         resolution.addItem("72x72 dpi");
@@ -285,74 +286,62 @@ public class DialogExport extends JDialog implements ComponentListener
         
    		constraints = DialogUtil.createConst(2,0,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
-			new Insets(20,0,0,40));
+			new Insets(6,0,0,0));
         
-        contentPane.add(resolution, constraints);
+        panel.add(resolution, constraints);
         
         antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_aliasing"));
 
 		constraints = DialogUtil.createConst(2,1,1,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,0,0));
+			new Insets(6,0,0,0));
 
-        contentPane.add(antiAlias_CB, constraints);     // Add antialias cb
+        panel.add(antiAlias_CB, constraints);     // Add antialias cb
         
         blackWhite_CB=new JCheckBox(Globals.messages.getString("B_W"));
        
         constraints = DialogUtil.createConst(2,2,1,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
-			new Insets(0,0,0,0));
+			new Insets(6,0,0,0));
        
-        contentPane.add(blackWhite_CB, constraints);        // Add antialias cb
+        panel.add(blackWhite_CB, constraints);        // Add antialias cb
         
-        JLabel fileFormatLabel=new 
-            JLabel(Globals.messages.getString("File_format"));
+        JLabel multiplySizesLabel=new 
+            JLabel(Globals.messages.getString("Multiply_sizes"));
             
-   		constraints = DialogUtil.createConst(1,3,1,1,0,0,
+		constraints = DialogUtil.createConst(1,3,1,1,0,0,
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
-			new Insets(0,40,0,0));
+			new Insets(6,40,0,0));
+        panel.add(multiplySizesLabel, constraints);
+        
+        multiplySizes=new JTextField();
+        constraints = DialogUtil.createConst(2,3,1,1,100,100,
+			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+			new Insets(6,0,0,0));
+		panel.add(multiplySizes, constraints);
 
-        contentPane.add(fileFormatLabel, constraints);
-        
-        fileFormat=new JComboBox();
-        fileFormat.addItem("PNG (Bitmap)");
-        fileFormat.addItem("JPG (Bitmap)");
-        fileFormat.addItem("SVG (Vector, Scalable Vector Graphic)");
-        fileFormat.addItem("EPS (Vector, Encapsulated Postscript)");
-        fileFormat.addItem("PGF (Vector, PGF packet for LaTeX)");
-        fileFormat.addItem("PDF (Vector, Portable Document File)");
-        fileFormat.addItem("CadSoft Eagle SCR (Script)");
-
-        fileFormat.setSelectedIndex(0);
-        
-        
-   		constraints = DialogUtil.createConst(2,3,1,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,0,40));
-        contentPane.add(fileFormat, constraints);
-        
         JLabel fileNameLabel=new 
             JLabel(Globals.messages.getString("File_name"));
             
 		constraints = DialogUtil.createConst(1,4,1,1,0,0,
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
-			new Insets(0,40,0,0));
-        contentPane.add(fileNameLabel, constraints);
+			new Insets(6,40,0,0));
+        panel.add(fileNameLabel, constraints);
         
         fileName=new JTextField();
         constraints = DialogUtil.createConst(2,4,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,0,0));
+			new Insets(6,0,0,0));
 			
-        contentPane.add(fileName, constraints);
+        panel.add(fileName, constraints);
         fileName.setEditable(false);
         
         JButton browse=new JButton(Globals.messages.getString("Browse"));
 		constraints = DialogUtil.createConst(3,4,1,1,0,0,
 			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
-			new Insets(0,0,0,20));
+			new Insets(6,0,0,20));
 
-        contentPane.add(browse, constraints);
+        panel.add(browse, constraints);
 
         browse.addActionListener(new ActionListener()
         {
@@ -391,13 +380,122 @@ public class DialogExport extends JDialog implements ComponentListener
                     }   
                 } 
             }
-        });
+        });  
+        
+        return panel;
+    }
+    
+    
+    public void actionPerformed(ActionEvent evt)
+    {
+		JComboBox source = (JComboBox)evt.getSource();
+		int idx=source.getSelectedIndex();
+				
+		// Once the index of the selected item is obtained, we proceed
+		// by checking if it is a bitmap format
+		if(idx==0 || idx == 1) {
+			// It is a bitmap based export
+			resolution.setEnabled(true);     // Resolution combo box
+    		antiAlias_CB.setEnabled(true);   // AntiAlias checkbox
+    		blackWhite_CB.setEnabled(true);  // Black and white checkbox
+    		multiplySizes.setEnabled(false); // Size multiplications
+    		multiplySizes.setText("1.0");
+    	} else {
+			// It is a vector based export
+			resolution.setEnabled(false);     // Resolution combo box
+    		antiAlias_CB.setEnabled(false);   // AntiAlias checkbox
+    		blackWhite_CB.setEnabled(true);  // Black and white checkbox
+    		multiplySizes.setEnabled(true); // Size multiplications
+		}
+	}
+        
+    
+    /** Standard constructor: it needs the parent frame.
+        @param p the dialog's parent
+    */
+    public DialogExport (JFrame p)
+    {
+    
+        super(p,Globals.messages.getString("Circ_exp_t"), true);
+ 		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+  		// as a document modal sheet
+  		
+  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+				Boolean.TRUE);
+        
+        addComponentListener(this); 
+        export=false;
+        parent=p;
+        
+        // Obtain the current content pane and create the grid layout manager
+        // which will be used for putting the elements of the interface.
+        GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints=new GridBagConstraints();
+        Container contentPane=getContentPane();
+        
+        contentPane.setLayout(bgl);
+
+		// The first thing we need to put is the combobox describing the file
+		// format to be used. This is important, since part of the remaining
+		// dialog should be changed depending on the format chosen.
+        JLabel fileFormatLabel=new 
+            JLabel(Globals.messages.getString("File_format"));
+            
+   		constraints = DialogUtil.createConst(1,0,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(12,40,0,0));
+
+        contentPane.add(fileFormatLabel, constraints);
+        
+        fileFormat=new JComboBox();
+        fileFormat.addItem("PNG (Bitmap)");
+        fileFormat.addItem("JPG (Bitmap)");
+        fileFormat.addItem("SVG (Vector, Scalable Vector Graphic)");
+        fileFormat.addItem("EPS (Vector, Encapsulated Postscript)");
+        fileFormat.addItem("PGF (Vector, PGF packet for LaTeX)");
+        fileFormat.addItem("PDF (Vector, Portable Document File)");
+        fileFormat.addItem("CadSoft Eagle SCR (Script)");
+
+        fileFormat.setSelectedIndex(0);
+        
+        
+   		constraints = DialogUtil.createConst(2,0,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(12,0,0,20));
+        contentPane.add(fileFormat, constraints);
+        
+        // We need to track when the user changes the file format since some
+        // options will be made available or not depending if the file format
+        // chosen is vector based or bitmap based.
+        
+        fileFormat.addActionListener(this);
+        
+        
+        JPanel panel = createInterfacePanel();   
+        
+        // Put the panel containing the characteristics of the export inside a
+        // border.
+        Border etched = BorderFactory.createEtchedBorder();
+        Border titled = BorderFactory.createTitledBorder(etched, 
+        	Globals.messages.getString("Circ_opt"));
+        	
+        panel.setBorder(titled);
+
         
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
     
+    	constraints.gridx=0;
+        constraints.gridy=1;
+        constraints.gridwidth=4;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.insets=new Insets(20,20,20,20);
+        
+        contentPane.add(panel, constraints);
+        
         constraints.gridx=0;
-        constraints.gridy=6;
+        constraints.gridy=2;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
@@ -425,6 +523,18 @@ public class DialogExport extends JDialog implements ComponentListener
             public void actionPerformed(ActionEvent evt)
             {
                 int selection;
+                
+                // Check if the magnification factor is correct.
+                double mult = Double.parseDouble(multiplySizes.getText());
+                if(multiplySizes.isEnabled()==true && (mult<0.01 || mult>100)) {
+                	export=false;
+                    JOptionPane.showMessageDialog(null,
+						Globals.messages.getString("Warning_mul"),
+                        Globals.messages.getString("Warning"),
+    					JOptionPane.WARNING_MESSAGE);
+					return;
+                
+                }
                 
                 if(fileName.getText().trim().equals("")){
                     export=false;
@@ -464,7 +574,8 @@ public class DialogExport extends JDialog implements ComponentListener
         getRootPane().setDefaultButton(ok);
 
     }
-  
+    
+    
 
 
 }
