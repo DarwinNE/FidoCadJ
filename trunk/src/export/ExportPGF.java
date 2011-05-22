@@ -65,11 +65,6 @@ public class ExportPGF implements ExportInterface {
 	private double lineWidth;
 	private int actualDash;
 	
-	//static final int NODE_SIZE = 1;
-	//static final double strokeWidth=0.33;
-	
-	static final int mult = 2;
-	
 	
 	static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
 		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
@@ -129,6 +124,7 @@ public class ExportPGF implements ExportInterface {
 	    numberPath=0;
 	    LayerDesc l;
 	    Color c;
+	    sizeMagnification = sizeMag;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -139,11 +135,12 @@ public class ExportPGF implements ExportInterface {
 	    // a FidoCadJ unit equals to 2 LaTeX points. This should be
 	    // enough for most schematics have a reasonable size in the page.
 	    
-    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi*mult)+"pt}{"+(he*mult)+"pt}\n"
+    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi*sizeMagnification)+
+    		"pt}{"+(he*sizeMagnification)+"pt}\n"
     		+"% Created by FidoCadJ ver. "+Globals.version
 			+", export filter by Davide Bucci\n");
-		out.write("\\pgfsetxvec{\\pgfpoint{"+mult+"pt}{0pt}}\n");
-		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{"+mult+"pt}}\n");
+		out.write("\\pgfsetxvec{\\pgfpoint{"+sizeMagnification+"pt}{0pt}}\n");
+		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{"+sizeMagnification+"pt}}\n");
 		out.write("\\pgfsetroundjoin \n\\pgfsetroundcap\n");
 		out.write("\\pgftranslateto{\\pgfxy(0,"+he+")}\n");
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");
@@ -277,7 +274,8 @@ public class ExportPGF implements ExportInterface {
 	{ 
 		registerColorSize(layer, .33);
 
-		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+node_size*mult/2.0+"pt}");
+		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+
+			node_size*sizeMagnification/2.0+"pt}");
 	
 	}
 		
@@ -629,7 +627,8 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\color{layer"+layer+"}\n");
 		}
 		if (strokeWidth > 0 && actualWidth!=strokeWidth) {
-			out.write("\\pgfsetlinewidth{"+strokeWidth*mult+"pt}\n");
+			out.write("\\pgfsetlinewidth{"+strokeWidth*sizeMagnification
+			+"pt}\n");
 			actualWidth = strokeWidth;
 		}
 	}

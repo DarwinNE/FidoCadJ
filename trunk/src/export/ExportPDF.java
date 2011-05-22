@@ -99,6 +99,14 @@ public class ExportPDF implements ExportInterface {
 	public ExportPDF (File f) throws IOException
 	{
 		fileExp=f;
+		
+		/** From what I have seen, it appears that the standard PDF fonts
+			are not available with the UTF-8 encoding. This means that to
+			use it we should embed the fonts we are using, that have this
+			encoding. This might be something to be done in the future, but
+			for the moment we just restrict ourselves to the Latin-1 encoding
+			which is the standard encoding supported by the PDF format.
+		*/
 
 		fstream =  new OutputStreamWriter(new FileOutputStream(fileExp), 
 			"8859_1");
