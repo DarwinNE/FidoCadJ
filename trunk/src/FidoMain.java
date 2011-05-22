@@ -208,7 +208,7 @@ public class FidoMain {
         		try {
         			if (resolutionBasedExport) {
         				ExportGraphic.export(new File(outputFile),  P, 
-                    		exportFormat, resolution,true,false,true, 1.0);
+                    		exportFormat, resolution,true,false,true, resolution);
         			} else {
                 		ExportGraphic.exportSize(new File(outputFile),  P, 
                     		exportFormat, totx, toty, 

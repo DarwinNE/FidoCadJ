@@ -105,6 +105,7 @@ public class ExportEPS implements ExportInterface {
 		layerV=la;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
+	    sizeMagnification=sizeMag;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -115,6 +116,8 @@ public class ExportEPS implements ExportInterface {
 	   	// 72 dpi is the internal resolution of the Postscript coordinates
 	   	
 	    double res_mult=200.0/72.0;
+	    
+	    res_mult /= getMagnification();
 	    
     	out.write("%!PS-Adobe-3.0 EPSF-3.0\n");
 		out.write("%%Pages: 0\n");
