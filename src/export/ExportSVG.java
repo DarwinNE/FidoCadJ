@@ -96,6 +96,7 @@ public class ExportSVG implements ExportInterface {
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
+		sizeMagnification=sizeMag;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
 	    	    
@@ -107,7 +108,7 @@ public class ExportSVG implements ExportInterface {
     	out.write("<?xml version=\"1.0\" encoding=\""+Globals.encoding+"\" " + 			
 			"standalone=\"no\"?> \n<!DOCTYPE svg PUBLIC"+
 			" \"-//W3C//Dtd SVG 1.1//EN\" " + "\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
-			"<svg width=\""+wi+"\" height=\""+he+"\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +
+			"<svg width=\""+cLe(wi)+"\" height=\""+cLe(he)+"\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +
 			"xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"+
 			"<!-- Created by FidoCadJ ver. "+Globals.version+
 			", export filter by Davide Bucci -->\n");
@@ -160,7 +161,7 @@ public class ExportSVG implements ExportInterface {
 */		
 
 
-		out.write("<g transform=\"translate("+x+","+y+")");
+		out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
 	
 		
 		double xscale = (sizex/22.0/sizey*38.0)	;	
@@ -174,8 +175,8 @@ public class ExportSVG implements ExportInterface {
 		out.write(" scale("+xscale+",1) ");		
 		
 		out.write("\">");
-		out.write("<text x=\""+0+"\" y=\""+sizey+"\" font-family=\""+
-			fontname+"\" font-size=\""+sizey+"\" font-style=\""+
+		out.write("<text x=\""+0+"\" y=\""+cLe(sizey)+"\" font-family=\""+
+			fontname+"\" font-size=\""+cLe(sizey)+"\" font-style=\""+
 			(isItalic?"Italic":"")+"\" font-weigth=\""+
 			(isBold?"bold":"")+"\" "+
 			"fill=\"#"+
@@ -228,8 +229,9 @@ public class ExportSVG implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
-		out.write("<path d=\"M "+x1+","+y1+" C "+
-				  x2+ ","+y2+" "+x3+","+y3+" "+x4+","+y4+"\" ");
+		out.write("<path d=\"M "+cLe(x1)+","+cLe(y1)+" C "+
+				  cLe(x2)+ ","+cLe(y2)+" "+cLe(x3)+","+cLe(y3)+" "+cLe(x4)+
+				  ","+cLe(y4)+"\" ");
 				  
 		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
 		
@@ -251,10 +253,10 @@ public class ExportSVG implements ExportInterface {
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
-		double strokeWidth = 0.33;
+		double strokeWidth = cLe(0.33);
 		
-		out.write("<circle cx=\""+x+"\" cy=\""+y+"\""+
-			" r=\""+(node_size/2.0)+"\" style=\"stroke:#"+
+		out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
+			" r=\""+cLe(node_size/2.0)+"\" style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
 				  convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
@@ -298,8 +300,8 @@ public class ExportSVG implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
-		out.write("<line x1=\""+x1+"\" y1=\""+y1+"\" x2=\""+
-			x2+"\" y2=\""+y2+"\" ");
+		out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
+			cLe(x2)+"\" y2=\""+cLe(y2)+"\" ");
 		checkColorAndWidth(c, strokeWidth,"fill=\"none\"", dashStyle);
 
 		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
@@ -374,10 +376,10 @@ public class ExportSVG implements ExportInterface {
 		 
 		
 		
-		out.write("<ellipse cx=\""+(x1+x2)/2.0+"\" cy=\""+
-				  (y1+y2)/2.0+
-				  "\" rx=\""+Math.abs(x2-x1)/2.0+"\" ry=\""+
-				  Math.abs(y2-y1)/2.0+"\" ");
+		out.write("<ellipse cx=\""+cLe((x1+x2)/2.0)+"\" cy=\""+
+				  cLe((y1+y2)/2.0)+
+				  "\" rx=\""+cLe(Math.abs(x2-x1)/2.0)+"\" ry=\""+
+				  cLe(Math.abs(y2-y1)/2.0)+"\" ");
 		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
 	}
 		
@@ -397,8 +399,8 @@ public class ExportSVG implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		
-		out.write("<line x1=\""+x1+"\" y1=\""+y1+"\" x2=\""+
-			x2+"\" y2=\""+y2+"\" style=\"stroke:#"+
+		out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
+			cLe(x2)+"\" y2=\""+cLe(y2)+"\" style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
 				  convertToHex2(c.getBlue())+
@@ -439,25 +441,26 @@ public class ExportSVG implements ExportInterface {
 			switch (style) {
 				default:
 				case 0: // Oval pad
-					out.write("<ellipse cx=\""+x+"\" cy=\""+y+"\""+
-				  		" rx=\""+six/2.0+"\" ry=\""+siy/2.0+
+					out.write("<ellipse cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
+				  		" rx=\""+cLe(six/2.0)+"\" ry=\""+cLe(siy/2.0)+
 				  		"\" style=\"stroke:#"+
 				  		convertToHex2(c.getRed())+
 					  	convertToHex2(c.getGreen())+
-					  	convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
+					  	convertToHex2(c.getBlue())+";stroke-width:"+
+					  	cLe(strokeWidth)+
 					  	"\" fill=\"#"+
 					  	convertToHex2(c.getRed())+
 					  	convertToHex2(c.getGreen())+
 					  	convertToHex2(c.getBlue())+"\"/>\n");
 					 break;
 				case 1:	// Square pad
-						xdd=((double)x-six/2.0);
-						ydd=((double)y-siy/2.0);
+						xdd=cLe((double)x-six/2.0);
+						ydd=cLe((double)y-siy/2.0);
 					
 						out.write("<rect x=\""+xdd+"\" y=\""+
 					  		ydd+	"\" rx=\"0\" ry=\"0\" "+
-					  		"width=\""+six+"\" height=\""+
-					  		siy+"\" style=\"stroke:#"+
+					  		"width=\""+cLe(six)+"\" height=\""+
+					  		cLe(siy)+"\" style=\"stroke:#"+
 					  		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+
@@ -468,12 +471,13 @@ public class ExportSVG implements ExportInterface {
 				
 					break;
 				case 2:	// Rounded pad
-						xdd=((double)x-six/2.0);
-						ydd=((double)y-siy/2.0);
+						xdd=cLe((double)x-six/2.0);
+						ydd=cLe((double)y-siy/2.0);
+						double rd = cLe(2.5);
 						out.write("<rect x=\""+xdd+"\" y=\""+ydd+
-					  		"\" rx=\"2.5\" ry=\"2.5\" "+
-					  		"width=\""+six+"\" height=\""+
-					  		siy+"\" style=\"stroke:#"+
+					  		"\" rx=\""+rd+"\" ry=\""+rd+"\" "+
+					  		"width=\""+cLe(six)+"\" height=\""+
+					  		cLe(siy)+"\" style=\"stroke:#"+
 					  		convertToHex2(c.getRed())+
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+
@@ -485,8 +489,8 @@ public class ExportSVG implements ExportInterface {
 			}
 		}
 		// ... then, drill the hole!
-		out.write("<circle cx=\""+x+"\" cy=\""+y+"\""+
-			" r=\""+indiam/2.0+"\" style=\"stroke:white;stroke-width:"+strokeWidth+
+		out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
+			" r=\""+cLe(indiam/2.0)+"\" style=\"stroke:white;stroke-width:"+strokeWidth+
 				  	"\" fill=\"white\"/>\n");
 		
 	}
@@ -523,7 +527,7 @@ public class ExportSVG implements ExportInterface {
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		out.write("<polygon points=\"");
 		for (i=0; i<nVertices; ++i) {
-			out.write(""+vertices[i].x+","+vertices[i].y+" ");
+			out.write(""+cLe(vertices[i].x)+","+cLe(vertices[i].y)+" ");
 		
 		}
 		out.write("\" ");
@@ -563,11 +567,11 @@ public class ExportSVG implements ExportInterface {
 		
 		}
 		
-		out.write("<rect x=\""+Math.min(x1,x2)+"\" y=\""+
-				  Math.min(y1,y2)+
+		out.write("<rect x=\""+cLe(Math.min(x1,x2))+"\" y=\""+
+				  cLe(Math.min(y1,y2))+
 				  "\" rx=\"0\" ry=\"0\" "+
-				  "width=\""+Math.abs(x2-x1)+"\" height=\""+
-				  Math.abs(y2-y1)+"\" ");
+				  "width=\""+cLe(Math.abs(x2-x1))+"\" height=\""+
+				  cLe(Math.abs(y2-y1))+"\" ");
 		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
 	
 	}
@@ -612,7 +616,7 @@ public class ExportSVG implements ExportInterface {
 			if (dashStyle>0)
 				out.write(";stroke-dasharray: "+dash[dashStyle]);
 
-			out.write(";stroke-width:"+wl+
+			out.write(";stroke-width:"+wl*sizeMagnification+
 				  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
 		
 			// Saving old values.
@@ -668,9 +672,12 @@ public class ExportSVG implements ExportInterface {
 		
 		out.write("<polygon points=\"");
 			
-     	out.write(""+roundTo(x)+","+	roundTo(y)+" ");
-      	out.write(""+roundTo(x1)+","+roundTo(y1)+" ");
-      	out.write(""+roundTo(x2)+","+roundTo(y2)+"\" ");
+     	out.write(""+roundTo(x*sizeMagnification)+","
+     		+roundTo(y*sizeMagnification)+" ");
+      	out.write(""+roundTo(x1*sizeMagnification)+","
+      		+roundTo(y1*sizeMagnification)+" ");
+      	out.write(""+roundTo(x2*sizeMagnification)+","
+      		+roundTo(y2*sizeMagnification)+"\" ");
       	
         if ((style & Arrow.flagEmpty) == 0)
 			fill_pattern="fill=\"#"+
@@ -692,8 +699,8 @@ public class ExportSVG implements ExportInterface {
 		
 			x4 = x + h*Math.sin(alpha);
 			y4 = y - h*Math.cos(alpha);
-			out.write("<line x1=\""+x3+"\" y1=\""+y3+"\" x2=\""+
-				x4+"\" y2=\""+y4+"\" ");
+			out.write("<line x1=\""+cLe(x3)+"\" y1=\""+cLe(y3)+"\" x2=\""+
+				cLe(x4)+"\" y2=\""+cLe(y4)+"\" ");
 			checkColorAndWidth(c, strokeWidth,"fill=\"none\"", 0);
  		}
  		

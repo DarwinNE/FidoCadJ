@@ -1,0 +1,160 @@
+# Created by FidoCadJ 0.23.6 alpha by Davide Bucci
+Set Wire_Bend 2; 
+Grid inch 0.25;
+Change font fixed;
+Set auto_junction off;
+Net (0.25 6.75) (4.5 6.75);
+Net (0.25 7) (4.5 7);
+Net (0.25 7.25) (4.5 7.25);
+# Circle export not fully implemented
+Circle (0.25 9) (0.5 0.5);# Circle export not fully implemented
+Circle (1 9) (0.5 0.5);# Circle export not fully implemented
+Circle (2.5 9) (0.5 0.5);# Circle export not fully implemented
+Circle (3.25 9) (0.5 0.5);# Circle export not fully implemented
+Circle (4 9) (0.5 0.5);Layer 94;
+Rect (0.25 8.25) (0.75 7.75);
+Layer 91;
+Layer 94;
+Set Wire_Bend 0;
+Wire (1 8.25) (1.5 7.75);
+Wire (1.5 7.75) (1 8.25);
+Set Wire_Bend 2;
+Layer 91;
+Layer 94;
+Set Wire_Bend 0;
+Wire (2.5 8.25) (3 7.75);
+Wire (3 7.75) (2.5 8.25);
+Set Wire_Bend 2;
+Layer 91;
+Layer 94;
+Set Wire_Bend 0;
+Wire (3.25 8.25) (3.75 7.75);
+Wire (3.75 7.75) (3.25 8.25);
+Set Wire_Bend 2;
+Layer 91;
+Layer 94;
+Set Wire_Bend 0;
+Wire (4 8.25) (4.5 7.75);
+Wire (4.5 7.75) (4 8.25);
+Set Wire_Bend 2;
+Layer 91;
+Net (5 9) (9.25 9);
+Net (5 8.5) (9.25 8.5);
+Net (5 8.25) (9.25 8.25);
+Net (5 8) (9.25 8);
+Net (5 7.5) (9.25 7.5);
+Net (5 7.25) (9.25 7.25);
+Net (5 7) (9.25 7);
+Net (5 6.5) (9.25 6.5);
+Net (5 6.25) (9.25 6.25);
+Net (5 6) (9.25 6);
+Net (5 5.5) (9.25 5.5);
+Net (5 5.25) (9.25 5.25);
+# Bézier export not implemented yet
+# Bézier export not implemented yet
+# Bézier export not implemented yet
+# Bézier export not implemented yet
+# PCBLine export not implemented yet
+# PCBLine export not implemented yet
+# PCBLine export not implemented yet
+# PCBLine export not implemented yet
+Layer 94;
+Rect (5 5) (5.5 4.5);
+Layer 91;
+# PCBpad export not implemented yet
+# PCBpad export not implemented yet
+# PCBpad export not implemented yet
+# Bézier export not implemented yet
+# Bézier export not implemented yet
+# Polygon export not implemented yet
+# Polygon export not implemented yet
+# Polygon export not implemented yet
+# Polygon export not implemented yet
+# Polygon export not implemented yet
+Change size 0.146
+Text Text R0 (11 8.75);
+Text Text MR0 (11 8.75);
+Text Text R0 (11 8.25);
+Text Text MR0 (11 8.25);
+Change size 0.292
+Text Text R0 (11 8);
+Text Text MR0 (11 8);
+Text Text R0 (11 7.5);
+Text Text R-20 (11.25 7.25);
+Text Text R-40 (11.5 7);
+Text Text R-60 (11.75 6.75);
+Text Text R-80 (12 6.5);
+Text Text R-90 (12.25 6.25);
+Text Text MR-20 (10.75 7.25);
+Text Text MR-40 (10.5 7);
+Text Text MR-60 (10.25 6.75);
+Text Text MR-80 (10 6.5);
+Text Text MR0 (11 7.5);
+Text Text MR-90 (9.75 6.25);
+# Circle export not fully implemented
+Circle (10 6.25) (0.75 0.5);# Circle export not fully implemented
+Circle (11.25 6.25) (0.75 0.5);# Circle export not fully implemented
+Circle (10.75 5.75) (0.5 0.5);# Bézier export not implemented yet
+# Bézier export not implemented yet
+# Circle export not fully implemented
+Circle (10.25 6) (0.25 0.25);# Circle export not fully implemented
+Circle (11.5 6) (0.25 0.25);Change size 0.146
+Text Text MR0 (11.5 2.75);
+Text Text MR-90 (11.5 2.75);
+Text Text MR-180 (11.5 2.75);
+Text Text MR-270 (11.5 2.75);
+Layer 94;
+Rect (5.25 4.75) (5.75 4.25);
+Layer 91;
+Layer 94;
+Rect (5.5 4.5) (6 4);
+Layer 91;
+Layer 94;
+Rect (5.75 4.25) (6.25 3.75);
+Layer 91;
+Layer 94;
+Rect (6 4) (6.5 3.5);
+Layer 91;
+Layer 94;
+Rect (6.25 3.75) (6.75 3.25);
+Layer 91;
+Layer 94;
+Rect (6.5 4) (7 3.5);
+Layer 91;
+Layer 94;
+Rect (6.75 4.25) (7.25 3.75);
+Layer 91;
+Layer 94;
+Rect (7 4.5) (7.5 4);
+Layer 91;
+Layer 94;
+Rect (7.25 4.75) (7.75 4.25);
+Layer 91;
+Layer 94;
+Rect (7.5 5) (8 4.5);
+Layer 91;
+Layer 94;
+Rect (7.75 4.75) (8.25 4.25);
+Layer 91;
+Layer 94;
+Rect (8 4.5) (8.5 4);
+Layer 91;
+Layer 94;
+Rect (8.25 4.25) (8.75 3.75);
+Layer 91;
+Layer 94;
+Rect (8.5 4) (9 3.5);
+Layer 91;
+Layer 94;
+Rect (8.75 3.75) (9.25 3.25);
+Layer 91;
+# PCBpad export not implemented yet
+# PCBpad export not implemented yet
+# PCBpad export not implemented yet
+Junction (3.5 6.25);
+Junction (3.5 6);
+Junction (4 6.25);
+Junction (4 6);
+Junction (4 5.75);
+Junction (3.5 5.75);
+Window Fit; 

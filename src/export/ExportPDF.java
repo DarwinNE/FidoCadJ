@@ -29,11 +29,11 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
 </pre>
     
     @author Davide Bucci
-    @version 1.1, April 2010
+    @version 1.2, May 2011
 */
 
 public class ExportPDF implements ExportInterface {
@@ -135,6 +135,7 @@ public class ExportPDF implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
+	    sizeMagnification = sizeMag;
 	    
 	    fontWarning=false;
 	    // To track the block sizes, we will first write it in a temporary file
@@ -151,6 +152,8 @@ public class ExportPDF implements ExportInterface {
 	   	// 72 dpi is the internal resolution of the Postscript coordinates
 	   	
 	    double res_mult=200.0/72.0;
+	    
+	    res_mult/=getMagnification();
 	    
 		int border = 5;
 		
