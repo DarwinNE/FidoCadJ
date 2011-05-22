@@ -963,7 +963,7 @@ public class ParseSchem
                 temp.deleteOnExit();
                 
                 ExportGraphic.export(temp,  Q, "fcd", 1,true,false, 
-                    splitNonStandard);
+                    splitNonStandard, 1.0);
                 
                 FileInputStream input = new FileInputStream(temp);
                 BufferedReader bufRead = new BufferedReader(
@@ -1951,9 +1951,11 @@ public class ParseSchem
         @param header specify if an header and a tail should be written or not
         @param exportInvisible specify that the primitives on invisible layers
         should be exported
+        @param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplied.
     */
     public void exportDrawing(ExportInterface exp, boolean header, 
-        boolean exportInvisible)
+        boolean exportInvisible, double sizeMagnification)
         throws IOException
     {
         
@@ -1980,7 +1982,7 @@ public class ParseSchem
         
         if (header)
             exp.exportStart(ExportGraphic.getImageSize(this, 1, false), 
-                layerV, mp.getXGridStep());
+                layerV, mp.getXGridStep(), sizeMagnification);
         
         if(drawOnlyLayer>=0 && !drawOnlyPads){
             for (i=0; i<primitiveVector.size(); ++i){

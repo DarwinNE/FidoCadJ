@@ -39,15 +39,15 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2011 by Davide Bucci
 </pre>   
   
 	@author Davide Bucci
-	@version 1.4, January 2009
+	@version 1.5, May 2011
 */
 public class ExportGraphic 
 {
-	
+
 	
 	/** Exports the circuit contained in circ using the specified parsing 
 		class.
@@ -59,6 +59,8 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplied.
 	*/
 	public static void export(File file, 
 						ParseSchem P, 
@@ -66,7 +68,8 @@ public class ExportGraphic
 						double unitPerPixel,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						double sizeMagnification)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -78,7 +81,8 @@ public class ExportGraphic
 						 false,
 						 antiAlias,
 						 blackWhite,
-						 ext);
+						 ext,
+						 sizeMagnification);
 	}	
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -92,6 +96,8 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplied.
 	*/
 	public static void exportSize(File file, 
 						ParseSchem P, 
@@ -100,7 +106,8 @@ public class ExportGraphic
 						int height,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						double sizeMagnification)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -112,7 +119,8 @@ public class ExportGraphic
 						 true,
 						 antiAlias,
 						 blackWhite,
-						 ext);
+						 ext, 
+						 sizeMagnification);
 	}
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -129,6 +137,8 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplied.
 	*/
 	private static void exportSizeP(File file, 
 						ParseSchem P, 
@@ -139,7 +149,8 @@ public class ExportGraphic
 						boolean setSize,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						double sizeMagnification)
 	throws IOException
 	{
 
@@ -241,23 +252,23 @@ public class ExportGraphic
 			}
     	} else if(format.equals("svg")) {
     		ExportSVG es = new ExportSVG(file);
-    		P.exportDrawing(es, true, false);
+    		P.exportDrawing(es, true, false, sizeMagnification);
     	} else if(format.equals("eps")) {
     		ExportEPS ep = new ExportEPS(file);
-    		P.exportDrawing(ep, true, false);
+    		P.exportDrawing(ep, true, false, sizeMagnification);
     	} else if(format.equals("pgf")) {
     		ExportPGF ef = new ExportPGF(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, sizeMagnification);
     	} else if(format.equals("pdf")) {
     		ExportPDF ef = new ExportPDF(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, sizeMagnification);
     	} else if(format.equals("scr")) {
     		ExportEagle ef = new ExportEagle(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, sizeMagnification);
     	} else if(format.equals("fcd")) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true, true);
+    		P.exportDrawing(ef, true, true, sizeMagnification);
     	} else {
     		IOException E=new IOException(
     			"Wrong file format");

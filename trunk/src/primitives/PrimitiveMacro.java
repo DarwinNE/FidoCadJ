@@ -730,7 +730,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  				macro.selectAll();
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.exportDrawing(exp, false, exportInvisible);
+ 			macro.exportDrawing(exp, false, exportInvisible,exp.getMagnification());
 			exportText(exp, cs, drawOnlyLayer);
 		}
 		

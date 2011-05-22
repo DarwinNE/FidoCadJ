@@ -17,11 +17,6 @@ import timer.*;
 
 
 <pre>
-Version   Date           Author       Remarks
--------------------------------------------------------------------------------
-1.0     April 2010      D. Bucci    First working version
-
-
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -37,12 +32,12 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2010 by Davide Bucci
+    Copyright 2008-2011 by Davide Bucci
 </pre>
 
     
     @author Davide Bucci
-    @version 1.0, April 2010
+    @version 1.1, May 2011
 */
 
 public class FidoMain {
@@ -213,11 +208,11 @@ public class FidoMain {
         		try {
         			if (resolutionBasedExport) {
         				ExportGraphic.export(new File(outputFile),  P, 
-                    		exportFormat, resolution,true,false,true);
+                    		exportFormat, resolution,true,false,true, 1.0);
         			} else {
                 		ExportGraphic.exportSize(new File(outputFile),  P, 
                     		exportFormat, totx, toty, 
-                    		true,false,true);
+                    		true,false,true,1.0);
                 	}
                 	System.out.println("Export completed");
             	} catch(IOException ioe) {

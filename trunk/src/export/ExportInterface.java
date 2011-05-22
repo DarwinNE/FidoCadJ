@@ -19,14 +19,6 @@ import java.io.*;
 
 
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   	Date          	Author      Remarks
--------------------------------------------------------------------------------
-1.0     	June  2008      D. Bucci   	First working version
-2.0			November 2009	D. Bucci	Added arrows and dashing style
-
 
 	This file is part of FidoCadJ.
 
@@ -43,16 +35,22 @@ Version   	Date          	Author      Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
    </pre>
 
     
     @author Davide Bucci
-    @version 1.0, June 2008
+    @version 1.2, May 2011
 */
 
 public interface ExportInterface {
 
+
+	public int cLe(double l);
+	
+	public double getMagnification();
+		
+	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
 		there should be the code to write the header of the file on which
 		the drawing should be exported.
@@ -60,10 +58,16 @@ public interface ExportInterface {
 		@param totalSize the size of the image. Useful to calculate for example
 		the	bounding box.
 		@param la a vector describing the attributes of each layer.
-		@param grid the grid size
+		@param grid the grid size. This is useful when exporting to another 
+			drawing program having some kind of grid concept. You might use
+			this value to synchronize FidoCadJ's grid with the one used by
+			the target.
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid,
+		double sizeMagnification)  
 		throws IOException;
 	
 	/** Called at the end of the export phase.

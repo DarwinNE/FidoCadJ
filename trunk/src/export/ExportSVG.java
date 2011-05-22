@@ -47,7 +47,16 @@ public class ExportSVG implements ExportInterface {
 	//static final double strokeWidth=0.33;
 	static final String dash[]={"2.5,5", "1.25,1.25",
 		"0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
-	
+	private double sizeMagnification;
+
+	public int cLe(double l)
+	{
+		return (int)(l*sizeMagnification);
+	}
+	public double getMagnification()
+	{
+		return sizeMagnification;
+	}	
 	/** Constructor
 	
 		@param f the File object in which the export should be done.
@@ -70,12 +79,17 @@ public class ExportSVG implements ExportInterface {
 			
 		@param totalSize the size of the image. Useful to calculate for example
 		the	bounding box.
-		@param la a LayerDesc vector describing the attributes of each 
-		layer.
-		@param grid the grid size
+		@param la a vector describing the attributes of each layer.
+		@param grid the grid size. This is useful when exporting to another 
+			drawing program having some kind of grid concept. You might use
+			this value to synchronize FidoCadJ's grid with the one used by
+			the target.
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid,
+		double sizeMag)   
 		throws IOException
 	{ 
 		

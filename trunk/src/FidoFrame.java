@@ -1165,7 +1165,7 @@ public class FidoFrame extends JFrame implements
              	// We do the export
                 ExportGraphic.export(new File(exportFileName),  CC.P, 
                     exportFormat, exportUnitPerPixel, 
-                    export.getAntiAlias(),exportBlackWhite,extFCJ_s);
+                    export.getAntiAlias(),exportBlackWhite,extFCJ_s,1.0);
                 JOptionPane.showMessageDialog(this,
                     Globals.messages.getString("Export_completed"));
 
@@ -1546,7 +1546,7 @@ public class FidoFrame extends JFrame implements
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
-                    "fcd", 1,true,false, extFCJ_s);
+                    "fcd", 1,true,false, extFCJ_s,1.0);
                 CC.P.setModified(false);
     
             } else {
