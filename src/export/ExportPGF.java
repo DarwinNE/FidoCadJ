@@ -70,8 +70,21 @@ public class ExportPGF implements ExportInterface {
 	
 	static final int mult = 2;
 	
+	
 	static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
 		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
+	
+	
+	private double sizeMagnification;
+
+	public int cLe(double l)
+	{
+		return (int)(l*sizeMagnification);
+	}
+	public double getMagnification()
+	{
+		return sizeMagnification;
+	}	
 	
 	/** Constructor
 	
@@ -94,12 +107,17 @@ public class ExportPGF implements ExportInterface {
 			
 		@param totalSize the size of the image. Useful to calculate for example
 		the	bounding box.
-		@param la a LayerDesc vector describing the attributes of each 
-		layer.
-		@param grid the grid size
+		@param la a vector describing the attributes of each layer.
+		@param grid the grid size. This is useful when exporting to another 
+			drawing program having some kind of grid concept. You might use
+			this value to synchronize FidoCadJ's grid with the one used by
+			the target.
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid,
+		double sizeMag)   
 		throws IOException
 	{ 
 		

@@ -30,12 +30,12 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
 </pre>
 
     
     @author Davide Bucci
-    @version 1.1, November 2009
+    @version 1.2, May 2011
 */
 
 public class ExportFidoCad implements ExportInterface {
@@ -47,13 +47,19 @@ public class ExportFidoCad implements ExportInterface {
 	private int numberPath;
 	private int xsize;
 	private int ysize;
+	private double sizeMagnification;
 
+	public int cLe(double l)
+	{
+		return (int)(l*sizeMagnification);
+	}
+	public double getMagnification()
+	{
+		return sizeMagnification;
+	}	
+	
 	
 	private boolean extensions;		// use FidoCadJ extensions
-	
-	
-	static final int NODE_SIZE = 1;
-	static final double l_width=.33;
 	
 	/** Constructor
 	
@@ -87,12 +93,17 @@ public class ExportFidoCad implements ExportInterface {
 			
 		@param totalSize the size of the image. Useful to calculate for example
 		the	bounding box.
-		@param la a LayerDesc vector describing the attributes of each 
-		layer.
-		@param grid the grid size
+		@param la a vector describing the attributes of each layer.
+		@param grid the grid size. This is useful when exporting to another 
+			drawing program having some kind of grid concept. You might use
+			this value to synchronize FidoCadJ's grid with the one used by
+			the target.
+		@param sizeMagnification is the factor to which every coordinate in a 
+			vector drawing should be multiplied.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid,
+		double sizeMag)   
 		throws IOException
 	{ 
 		
@@ -101,7 +112,7 @@ public class ExportFidoCad implements ExportInterface {
 		layerV=la;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
-	    	    
+	   	sizeMagnification=sizeMag; 
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
 	    
@@ -111,10 +122,9 @@ public class ExportFidoCad implements ExportInterface {
 		
 		out.write(new String(P.registerConfiguration(extensions)));
 			
-		
-		
 	} 
 	
+
 	/** Called at the end of the export phase.
 	*/
 	public void exportEnd() 
@@ -154,7 +164,9 @@ public class ExportFidoCad implements ExportInterface {
 		if (isMirrored)
 			style+=4;
 			
-		out.write((new PrimitiveAdvText(x,y, sizex, sizey, fontname, 
+		out.write((new PrimitiveAdvText(cLe(x),
+			cLe(y), 
+			cLe(sizex), cLe(sizey), fontname, 
 			orientation, style,text, layer)).toString(extensions)); 
 		
 	}
@@ -194,8 +206,14 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException	
 	{ 
-		out.write((new PrimitiveBezier(x1,y1,x2,y2,x3,y3,x4,y4,layer,arrowStart,
-			arrowEnd,arrowStyle,arrowLength,arrowHalfWidth,
+		out.write((new PrimitiveBezier(cLe(x1),
+			cLe(y1), cLe(x2),
+			cLe(y2), cLe(x3),
+			cLe(y3), cLe(x4),
+			cLe(y4), layer,arrowStart,
+			arrowEnd,arrowStyle,
+			cLe(arrowLength),
+			cLe(arrowHalfWidth),
 			dashStyle)).toString(extensions));			
 
 	}
@@ -210,7 +228,8 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
-		out.write((new PrimitiveConnection(x,y,layer)).toString(extensions));
+		out.write((new PrimitiveConnection(cLe(x),
+			cLe(y),layer)).toString(extensions));
 	}
 		
 	/** Called when exporting a Line primitive.
@@ -243,8 +262,11 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveLine(x1,y1,x2,y2,layer,arrowStart,
-			arrowEnd,arrowStyle,arrowLength,arrowHalfWidth,
+		out.write((new PrimitiveLine(cLe(x1),cLe(y1),
+			cLe(x2),cLe(y2),layer,arrowStart,
+			arrowEnd,arrowStyle,
+			cLe(arrowLength),
+			cLe(arrowHalfWidth),
 			dashStyle)).toString(extensions));
 	}
 	
@@ -280,8 +302,12 @@ public class ExportFidoCad implements ExportInterface {
 		// name contains a dot
 		
 		if(macroName.indexOf(".")<0) {
-			out.write((new PrimitiveMacro(m, layerV, x, y, macroName, 
-		    name, xn, yn, value, xv, yv, font, fontSize, orientation/90, isMirrored)).toString(extensions));
+			out.write((new PrimitiveMacro(m, layerV, cLe(x), 
+				cLe(y), macroName, 
+		    	name, cLe(xn), cLe(yn), value, 
+		    	cLe(xv), cLe(yv), font, 
+		    	cLe(fontSize), orientation/90, 
+		    	isMirrored)).toString(extensions));
 			return true;
 		} 
 		// The macro will be expanded into primitives.
@@ -307,8 +333,9 @@ public class ExportFidoCad implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveOval(x1, y1, x2, y2, isFilled, 
-							  layer, dashStyle)).toString(extensions));
+		out.write((new PrimitiveOval(cLe(x1), 
+			cLe(y1), cLe(x2), cLe(y2), 
+			isFilled, layer, dashStyle)).toString(extensions));
 
 	}
 		
@@ -325,7 +352,9 @@ public class ExportFidoCad implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		out.write((new PrimitivePCBLine(x1,y1,x2,y2,width, layer)).toString(extensions));
+		out.write((new PrimitivePCBLine(cLe(x1),
+			cLe(y1),cLe(x2),cLe(y2),
+			cLe(width), cLe(layer))).toString(extensions));
 	}
 		
 	
@@ -347,7 +376,9 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{ 
 		if(!onlyHole)
-			out.write((new PrimitivePCBPad(x,y,six,siy,indiam, style,
+			out.write((new PrimitivePCBPad(cLe(x),
+				cLe(y),cLe(six),
+				cLe(siy),cLe(indiam), style,
 				layer)).toString(extensions));
 	
 	}
@@ -369,7 +400,8 @@ public class ExportFidoCad implements ExportInterface {
 		PrimitivePolygon p=new PrimitivePolygon(isFilled, layer, dashStyle);
 		
 		for (int i=0; i <nVertices; ++i) {
-			p.addPoint(vertices[i].x, vertices[i].y);
+			p.addPoint(cLe(vertices[i].x), 
+				cLe(vertices[i].y));
 		
 		}
 		out.write(p.toString(extensions));
@@ -391,8 +423,10 @@ public class ExportFidoCad implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveRectangle(x1, y1, x2, y2, isFilled, 
-							  layer, dashStyle)).toString(extensions));
+		out.write((new PrimitiveRectangle(cLe(x1), 
+			cLe(y1), cLe(x2), 
+			cLe(y2), isFilled, 
+			layer, dashStyle)).toString(extensions));
 
 
 	}
