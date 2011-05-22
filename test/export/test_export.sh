@@ -20,6 +20,12 @@ java -jar ../../jar/fidocadj.jar -n -c r2 pdf pdf/test_out.pdf original/test_pat
 echo "SCR (script for CadSoft Eagle)"
 java -jar ../../jar/fidocadj.jar -n -c r2 scr scr/test_out.scr original/test_pattern.fcd
 echo "PGF (PGF/TikZ script for LaTeX)"
-java -jar ../../jar/fidocadj.jar -n -c r2 pgf pgf/test_out.pgf original/test_pattern.fcd
+java -jar ../../jar/fidocadj.jar -n -c r1.5 pgf pgf/test_out.pgf original/test_pattern.fcd
+cd pgf
+pdflatex test_out.tex
+rm test_out.aux
+rm test_out.log
+cd ..
+echo "LaTeX test file for PGF export compiled. Please note that it is perfectly normal that the PGF export does not include the text size and font attributes, since the idea is that the user might control those aspects via LaTeX commands."
 
 echo "The reference drawing has been exported in all the supported formats. You might check the results now..."

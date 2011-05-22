@@ -1,7 +1,7 @@
-\begin{pgfpicture}{0cm}{0cm}{504pt}{370pt}
+\begin{pgfpicture}{0cm}{0cm}{378.0pt}{277.5pt}
 % Created by FidoCadJ ver. 0.23.6 alpha, export filter by Davide Bucci
-\pgfsetxvec{\pgfpoint{2pt}{0pt}}
-\pgfsetyvec{\pgfpoint{0pt}{2pt}}
+\pgfsetxvec{\pgfpoint{1.5pt}{0pt}}
+\pgfsetyvec{\pgfpoint{0pt}{1.5pt}}
 \pgfsetroundjoin 
 \pgfsetroundcap
 \pgftranslateto{\pgfxy(0,185)}
@@ -25,7 +25,7 @@
 \definecolor{layer15}{rgb}{0.0,0.0,0.0}
 % End of color definitions
 \color{layer0}
-\pgfsetlinewidth{1.0pt}
+\pgfsetlinewidth{0.75pt}
 \pgfsetdash{{1.0pt}{2.5pt}{2.5pt}{2.5pt}}{0pt}
 \pgfline{\pgfxy(5,50)}{\pgfxy(90,50)}
 \pgfsetdash{{1.0pt}{2.5pt}}{0pt}
@@ -251,16 +251,16 @@
 \pgfmoveto{\pgfxy(35,80)} 
 \pgfcurveto{\pgfxy(30,55)}{\pgfxy(70,55)}{\pgfxy(55,85)}
 \pgfstroke
-\pgfsetlinewidth{0.66pt}
-\pgfcircle[fill]{\pgfxy(70,60)}{1.5pt}\pgfcircle[fill]{\pgfxy(70,65)}{1.5pt}\pgfcircle[fill]{\pgfxy(80,60)}{1.5pt}\pgfcircle[fill]{\pgfxy(80,65)}{1.5pt}\pgfcircle[fill]{\pgfxy(80,70)}{1.5pt}\pgfcircle[fill]{\pgfxy(70,70)}{1.5pt}\pgfsetlinewidth{10.0pt}
+\pgfsetlinewidth{0.495pt}
+\pgfcircle[fill]{\pgfxy(70,60)}{1.125pt}\pgfcircle[fill]{\pgfxy(70,65)}{1.125pt}\pgfcircle[fill]{\pgfxy(80,60)}{1.125pt}\pgfcircle[fill]{\pgfxy(80,65)}{1.125pt}\pgfcircle[fill]{\pgfxy(80,70)}{1.125pt}\pgfcircle[fill]{\pgfxy(70,70)}{1.125pt}\pgfsetlinewidth{7.5pt}
 \pgfline{\pgfxy(10,110)}{\pgfxy(90,110)}
-\pgfsetlinewidth{12.0pt}
+\pgfsetlinewidth{9.0pt}
 \pgfline{\pgfxy(10,120)}{\pgfxy(90,120)}
-\pgfsetlinewidth{6.0pt}
+\pgfsetlinewidth{4.5pt}
 \pgfline{\pgfxy(10,90)}{\pgfxy(90,90)}
-\pgfsetlinewidth{8.0pt}
+\pgfsetlinewidth{6.0pt}
 \pgfline{\pgfxy(10,100)}{\pgfxy(90,100)}
-\pgfsetlinewidth{1.0pt}
+\pgfsetlinewidth{0.75pt}
 \pgfsetdash{}{0pt}
 \pgfmoveto{\pgfxy(100,85)}
 \pgflineto{\pgfxy(110,85)}
@@ -268,11 +268,11 @@
 \pgflineto{\pgfxy(100,95)}
 \pgfclosepath 
 \pgffill 
-\pgfsetlinewidth{0.66pt}
+\pgfsetlinewidth{0.495pt}
 \pgfellipse[fillstroke]{\pgfxy(15,135)}{\pgfxy(5,0)}{\pgfxy(0,5)}
 \pgfrect[fillstroke]{\pgfxy(25.0,130.0)}{\pgfxy(10,10)}
 \pgfrect[fillstroke]{\pgfxy(40.0,130.0)}{\pgfxy(10,10)}
-\pgfsetlinewidth{1.0pt}
+\pgfsetlinewidth{0.75pt}
 \pgfmoveto{\pgfxy(130,125)} 
 \pgfcurveto{\pgfxy(50,150)}{\pgfxy(135,175)}{\pgfxy(80,125)}
 \pgfstroke
