@@ -369,7 +369,7 @@ public class FidoMain {
     static private void  showCommandLineHelp()
     {
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-    	    "By Davide Bucci, 2007-2010.\n\n"+
+    	    "By Davide Bucci, 2007-2011.\n\n"+
     	    
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
