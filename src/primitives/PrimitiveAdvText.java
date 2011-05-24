@@ -524,46 +524,46 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=txt;
-		pd.description="Text:";
+		pd.description=Globals.messages.getString("ctrl_text");
 		v.add(pd);
 						
 		for (i=0;i<getControlPointNumber();++i) {
 			pd = new ParameterDescription();
 			pd.parameter=virtualPoint[i];
-			pd.description="Control point "+(i+1)+":";
+			pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
 			v.add(pd);
 		}
 		
 		pd = new ParameterDescription();
 		pd.parameter=new LayerInfo(getLayer());
-		pd.description="Layer:";
+		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(six);
-		pd.description="X Size:";
+		pd.description=Globals.messages.getString("ctrl_xsize");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(siy);
-		pd.description="Y Size:";
+		pd.description=Globals.messages.getString("ctrl_ysize");
 		v.add(pd);
 		
 	 	pd = new ParameterDescription();
 		pd.parameter=new Integer(o);
-		pd.description="Angle:";
+		pd.description=Globals.messages.getString("ctrl_angle");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean((sty & TEXT_MIRRORED)!=0);
-		pd.description="Mirror";
+		pd.description=Globals.messages.getString("ctrl_mirror");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean((sty & TEXT_BOLD)!=0);
-		pd.description="Boldface";
+		pd.description=Globals.messages.getString("ctrl_boldface");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Font(fontName,Font.PLAIN,12);
-		pd.description="Font:";
+		pd.description=Globals.messages.getString("ctrl_font");
 		v.add(pd);
 		return v;
 	}

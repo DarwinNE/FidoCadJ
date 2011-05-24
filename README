@@ -1,6 +1,6 @@
 README file for FidoCadJ
 
-Copyright 2007-2010 
+Copyright 2007-2011 
 
 by Davide Bucci
 
@@ -79,6 +79,7 @@ for doing this: https://sourceforge.net/scm/?type=svn&group_id=274886
   src/                        contains all the Java source files
   exclude_from_svn            excludes all binary generated files from svn
   sign.sh                     creates the signature for the applet
+  test/                       automatic tests for FidoCadJ
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ
@@ -103,7 +104,10 @@ fidocadj/trunk directory and type:
 
   ./rebuild mac
 
-And FidoCadJ should be automatically compiled and run.
+And FidoCadJ should be automatically compiled and run. You can use the 
+following script to create a jar archive in the jar/ directory:
+
+  ./createjar
 
 3.2 Compile and run the sources on an Unix system
 -------------------------------------------------
@@ -113,7 +117,10 @@ the fidocadj/trunk directory:
 
   ./rebuild
   
-FidoCadJ should compile and run
+FidoCadJ should compile and run. You can use the following script to create 
+a jar archive in the jar/ directory:
+
+  ./createjar
 
 3.3 Compile and run the sources on an Windows system
 ----------------------------------------------------
@@ -156,6 +163,34 @@ code:
 - each public class and method should be documented with Javadoc syntax
 - no lines longer than 80 characters
 - commits should not break the build
+
+
+3.5 Automatic tests
+-------------------
+
+To ease a certain degree of quality control when working on the source 
+code, the FidoCadJ source repository comes with a certain number of 
+automatic tests scripts contained in the directory test/.
+You may launch all the tests by using the script all_tests.sh contained
+in this directory, or you may run the tests individually by browsing the
+sub-directories containing them. The program is called by using the 
+fidocadj.jar archive which must be contained in the jar/ directory. 
+Ensure that this archive is updated with the ./createjar script before
+launching any test.
+The following table briefly describes the provided tests:
+
+  Test                             Comments
+  -----------------------------------------------------------------------------
+  test/export/test_export.sh       Test the export on all available
+                                   file format. A set of reference 
+                                   files is provided, so it might be
+                                   updated if differences on the 
+                                   export are introduced by purpouse.
+
+  test/messages/test_messages.sh   Test the coherence of all 
+                                   installed languages again the 
+                                   reference (which is the italian!)
+
 
 ----------------
 4 - Help wanted!

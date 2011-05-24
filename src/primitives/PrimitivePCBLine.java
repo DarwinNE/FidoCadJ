@@ -9,6 +9,7 @@ import java.awt.geom.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import globals.*;
 
 
 /** Class to handle the PCB line primitive.
@@ -213,7 +214,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=new Integer(width);
-		pd.description="Width:";
+		pd.description=Globals.messages.getString("ctrl_width");
 		v.add(pd);
 
 

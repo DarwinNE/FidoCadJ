@@ -285,12 +285,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=new Boolean(isFilled);
-		pd.description="Filled";
+		pd.description=Globals.messages.getString("ctrl_filled");
 		v.add(pd);
 
 		pd = new ParameterDescription();
 		pd.parameter=new DashInfo(dashStyle);
-		pd.description="Dash style";
+		pd.description=Globals.messages.getString("ctrl_dash_style");
 		pd.isExtension = true;
 		v.add(pd);
 		
