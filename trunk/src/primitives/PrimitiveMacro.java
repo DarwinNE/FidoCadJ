@@ -558,36 +558,36 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=name;
-		pd.description="Name:";
+		pd.description=Globals.messages.getString("ctrl_name");
 		pd.isExtension = true;
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		
 		pd.parameter=value;
-		pd.description="Value:";
+		pd.description=Globals.messages.getString("ctrl_value");
 		pd.isExtension = true;
 
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(getLayer());
-		pd.description="Layer:";
+		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=virtualPoint[0];
-		pd.description="Control point:";
+		pd.description=Globals.messages.getString("ctrl_control");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=virtualPoint[1];
-		pd.description="Name point:";
+		pd.description=Globals.messages.getString("ctrl_name_point");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=virtualPoint[2];
-		pd.description="Value point:";
+		pd.description=Globals.messages.getString("ctrl_value_point");
 		v.add(pd);
 		
 		

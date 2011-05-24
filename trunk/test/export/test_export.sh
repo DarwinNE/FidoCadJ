@@ -4,7 +4,8 @@
 # disappearing icon in the dock and it makes Java startup a little faster.
 
 echo "Test script for graphical export facility of FidoCadJ"
-echo
+echo "-----------------------------------------------------"
+echo ""
 
 echo "Testing the export on bitmap formats"
 echo "PNG (Portable Network Graphic)"
@@ -31,4 +32,8 @@ rm test_out.log
 cd ..
 echo "LaTeX test file for PGF export compiled. Please note that it is perfectly normal that the PGF export does not include the text size and font attributes, since the idea is that the user might control those aspects via LaTeX commands."
 
-echo "The reference drawing has been exported in all the supported formats. You might check the results now..."
+echo "The reference drawing has been exported in all the supported formats. Checking the results begins now..."
+
+./check.sh
+echo ""
+

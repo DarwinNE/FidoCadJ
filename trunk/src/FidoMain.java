@@ -387,11 +387,11 @@ public class FidoMain {
     		"        An alternative is to specify the resolution in pixels per logical unit by\n"+
     		"        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.\n\n"+
     		
-    		" -s     Print the size in logical coordinates of the specified file.\n\n"+
+    		" -s     Print the size  of the specified file in logical coordinates.\n\n"+
     		
-    		" -h     Print this help. and exit.\n\n"+
+    		" -h     Print this help and exit.\n\n"+
     		
-    		" [file] This is the optional (except if you use the -d or -s options) FidoCad file to load at\n"+
+    		" [file] The optional (except if you use the -d or -s options) FidoCad file to load at\n"+
     		"        startup time.\n\n"+
     		
     		"Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.\n"+

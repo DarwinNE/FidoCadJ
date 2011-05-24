@@ -787,14 +787,14 @@ public abstract class GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 		
 		pd.parameter=name;
-		pd.description="Name:";
+		pd.description=Globals.messages.getString("ctrl_name");
 		pd.isExtension = true;
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		
 		pd.parameter=value;
-		pd.description="Value:";
+		pd.description=Globals.messages.getString("ctrl_value");
 		pd.isExtension = true;
 
 		v.add(pd);
@@ -806,12 +806,12 @@ public abstract class GraphicPrimitive
 			
 			if (i==getNameVirtualPointNumber()){
 				pd.isExtension = true;
-				pd.description="Name:";
+				pd.description=Globals.messages.getString("ctrl_name_point");
 			} else if (i==getValueVirtualPointNumber()){
 				pd.isExtension = true;
-				pd.description="Value:";
+				pd.description=Globals.messages.getString("ctrl_value_point");
 			} else {
-				pd.description="Control point "+(i+1)+":";
+				pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
 			}
 
 			v.add(pd);
@@ -819,7 +819,7 @@ public abstract class GraphicPrimitive
 		
 		pd = new ParameterDescription();
 		pd.parameter=new LayerInfo(layer);
-		pd.description="Layer:";
+		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
 		
 		return v;

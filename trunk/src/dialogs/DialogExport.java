@@ -38,8 +38,8 @@ import globals.*;
 public class DialogExport extends JDialog implements ComponentListener, 
 	ActionListener
 {
-    private static final int MIN_WIDTH=400;
-    private static final int MIN_HEIGHT=350;
+    private static final int MIN_WIDTH=450;
+    private static final int MIN_HEIGHT=400;
     
     private JFrame parent;
     
@@ -325,13 +325,13 @@ public class DialogExport extends JDialog implements ComponentListener,
             
 		constraints = DialogUtil.createConst(1,4,1,1,0,0,
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
-			new Insets(6,40,0,0));
+			new Insets(6,40,12,0));
         panel.add(fileNameLabel, constraints);
         
         fileName=new JTextField();
         constraints = DialogUtil.createConst(2,4,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
-			new Insets(6,0,0,0));
+			new Insets(6,0,12,0));
 			
         panel.add(fileName, constraints);
         fileName.setEditable(false);
@@ -339,7 +339,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         JButton browse=new JButton(Globals.messages.getString("Browse"));
 		constraints = DialogUtil.createConst(3,4,1,1,0,0,
 			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
-			new Insets(6,0,0,20));
+			new Insets(6,0,12,12));
 
         panel.add(browse, constraints);
 
@@ -426,7 +426,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         addComponentListener(this); 
         export=false;
         parent=p;
-        
+              
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
         GridBagLayout bgl=new GridBagLayout();
@@ -457,8 +457,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         fileFormat.addItem("CadSoft Eagle SCR (Script)");
 
         fileFormat.setSelectedIndex(0);
-        
-        
+              
    		constraints = DialogUtil.createConst(2,0,1,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
 			new Insets(12,0,0,20));
@@ -470,14 +469,13 @@ public class DialogExport extends JDialog implements ComponentListener,
         
         fileFormat.addActionListener(this);
         
-        
         JPanel panel = createInterfacePanel();   
         
         // Put the panel containing the characteristics of the export inside a
         // border.
         Border etched = BorderFactory.createEtchedBorder();
         Border titled = BorderFactory.createTitledBorder(etched, 
-        	Globals.messages.getString("Circ_opt"));
+        	Globals.messages.getString("ExportOptions"));
         	
         panel.setBorder(titled);
 

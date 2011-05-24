@@ -756,9 +756,18 @@ public class FidoFrame extends JFrame implements
                 Globals.messages.getString("Save"),
                 Globals.messages.getString("Do_Not_Save"),
                 Globals.messages.getString("Cancel_btn")};
+            
+            // We try to show in the title bar of the dialog the file name of 
+           	// the drawing to which the dialog refers to. If not, we just
+           	// write Warning!
+           
+            String filename=Globals.messages.getString("Warning");
+            if(!CC.P.openFileName.equals("")) {
+            	filename=CC.P.openFileName;
+			}
            	int choice=JOptionPane.showOptionDialog(this, 
                 Globals.messages.getString("Warning_unsaved"),
-                Globals.messages.getString("Warning"),
+                Globals.prettifyPath(filename,35),
                 JOptionPane.YES_NO_CANCEL_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
                 null,

@@ -10,6 +10,7 @@ import java.awt.geom.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import globals.*;
 
 
 /** Class to handle the PCB pad primitive.
@@ -269,19 +270,19 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=new Integer(rx);
-		pd.description="X radius:";
+		pd.description=Globals.messages.getString("ctrl_x_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(ry);
-		pd.description="Y radius:";
+		pd.description=Globals.messages.getString("ctrl_y_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(ri);
-		pd.description="Internal radius:";
+		pd.description=Globals.messages.getString("ctrl_internal_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(sty);	// A list should be better
-		pd.description="Style:";
+		pd.description=Globals.messages.getString("ctrl_pad_style");
 		v.add(pd);
 		
 		return v;

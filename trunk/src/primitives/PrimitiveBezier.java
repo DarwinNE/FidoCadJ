@@ -140,33 +140,33 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean(arrowStart);
-		pd.description="Arrow at start";
+		pd.description=Globals.messages.getString("ctrl_arrow_start");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean(arrowEnd);
-		pd.description="Arrow at end";
+		pd.description=Globals.messages.getString("ctrl_arrow_end");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(arrowLength);
-		pd.description="Arrow length";
+		pd.description=Globals.messages.getString("ctrl_arrow_length");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new Integer(arrowHalfWidth);
-		pd.description="Arrow half width";
+		pd.description=Globals.messages.getString("ctrl_arrow_half_width");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
 		pd.parameter=new ArrowInfo(arrowStyle);
-		pd.description="Arrow style";
+		pd.description=Globals.messages.getString("ctrl_arrow_style");
 		pd.isExtension = true;
 		v.add(pd);
 
 		pd = new ParameterDescription();
 		pd.parameter=new DashInfo(dashStyle);
-		pd.description="Dash style";
+		pd.description=Globals.messages.getString("ctrl_dash_style");
 		pd.isExtension = true;
 		v.add(pd);
 		
