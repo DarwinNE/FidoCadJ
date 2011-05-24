@@ -80,6 +80,7 @@ public class FidoMain {
         				// the command line interface, without showing any
         				// GUI.
         				commandLineOnly=true;
+        				System.setProperty("java.awt.headless", "true");
         			} else if (args[i].startsWith("-d")) {
         				// -d indicates that the following argument is the path
         				// of the library directory. The previous library 
@@ -374,7 +375,7 @@ public class FidoMain {
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
     		
-    		" -n     Does not start the graphical user interface\n\n"+
+    		" -n     Does not start the graphical user interface (headless mode)\n\n"+
     		
     		" -d     Set the extern library directory\n"+
     		"        Usage: -d dir\n"+
