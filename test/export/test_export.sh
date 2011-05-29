@@ -10,13 +10,17 @@ echo ""
 echo "Testing the export on bitmap formats"
 echo "PNG (Portable Network Graphic)"
 java -jar ../../jar/fidocadj.jar -n -c r2 png png/test_out.png original/test_pattern.fcd
+java -jar ../../jar/fidocadj.jar -n -c 800 600 png png/test_out_r.png original/test_pattern.fcd
 echo "JPG (Joint Photographic Experts Group)" 
 java -jar ../../jar/fidocadj.jar -n -c r2 jpg jpg/test_out.jpg original/test_pattern.fcd
+java -jar ../../jar/fidocadj.jar -n -c 800 600 jpg jpg/test_out_r.jpg original/test_pattern.fcd
+
 echo
 
 echo Testing the export on vector formats
 echo "SVG (Scalar Vector Graphic)"
 java -jar ../../jar/fidocadj.jar -n -c r2 svg svg/test_out.svg original/test_pattern.fcd
+java -jar ../../jar/fidocadj.jar -n -c 800 600  svg svg/test_out_r.svg original/test_pattern.fcd
 echo "EPS (Encapsulated Postscript)"
 java -jar ../../jar/fidocadj.jar -n -c r2 eps eps/test_out.eps original/test_pattern.fcd
 echo "PDF (Portable Document Format)"

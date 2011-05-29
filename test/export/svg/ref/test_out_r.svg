@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF8" standalone="no"?> 
+<!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
+<svg width="800" height="595" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Created by FidoCadJ ver. 0.23.6 alpha, export filter by Davide Bucci -->
+<line x1="15" y1="152" x2="274" y2="152" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="15" y1="137" x2="274" y2="137" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="15" y1="122" x2="274" y2="122" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="30" cy="30" rx="15" ry="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<ellipse cx="76" cy="30" rx="15" ry="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="167" cy="30" rx="15" ry="15" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="213" cy="30" rx="15" ry="15" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="259" cy="30" rx="15" ry="15" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<rect x="15" y="61" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<rect x="61" y="61" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<rect x="152" y="61" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<rect x="198" y="61" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<rect x="244" y="61" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="15" x2="564" y2="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,15.26 314.5,12.21 314.5,18.32" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="564.88,15.26 555.72,18.32 555.72,12.21" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="45" x2="564" y2="45" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,45.8 314.5,42.74 314.5,48.85" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="564.88,45.8 555.72,48.85 555.72,42.74" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="61" x2="564" y2="61" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,61.06 314.5,58.01 314.5,64.12" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="564.88,61.06 555.72,64.12 555.72,58.01" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="76" x2="564" y2="76" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,76.33 314.5,73.28 314.5,79.38" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="73" x2="305" y2="79" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,76.33 555.72,79.38 555.72,73.28" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="564" y1="79" x2="564" y2="73" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="106" x2="564" y2="106" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,106.87 314.5,103.81 314.5,109.92" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="103" x2="305" y2="109" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,106.87 555.72,109.92 555.72,103.81" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="564" y1="109" x2="564" y2="103" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="122" x2="564" y2="122" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,122.13 314.5,119.08 314.5,125.19" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="305" y1="119" x2="305" y2="125" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,122.13 555.72,125.19 555.72,119.08" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<line x1="564" y1="125" x2="564" y2="119" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="137" x2="564" y2="137" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,137.4 314.5,134.35 314.5,140.45" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,137.4 555.72,140.45 555.72,134.35" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="167" x2="564" y2="167" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,167.93 314.5,164.88 314.5,170.99" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,167.93 555.72,170.99 555.72,164.88" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="183" x2="564" y2="183" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,183.2 314.5,180.15 314.5,186.25" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,183.2 555.72,186.25 555.72,180.15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="198" x2="564" y2="198" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,198.47 314.5,195.41 314.5,201.52" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="195" x2="305" y2="201" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,198.47 555.72,201.52 555.72,195.41" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="564" y1="201" x2="564" y2="195" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="229" x2="564" y2="229" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,229.0 314.5,225.95 314.5,232.06" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="225" x2="305" y2="232" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,229.0 555.72,232.06 555.72,225.95" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="564" y1="232" x2="564" y2="225" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="244" x2="564" y2="244" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="305.34,244.27 314.5,241.22 314.5,247.32" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="305" y1="241" x2="305" y2="247" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="564.88,244.27 555.72,247.32 555.72,241.22" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<line x1="564" y1="247" x2="564" y2="241" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 45,244 C 30,167 152,167 106,259" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 76,244 C 61,167 183,167 137,259" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 91,244 C 76,167 198,167 152,259" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 106,244 C 91,167 213,167 167,259" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<circle cx="213" cy="183" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<circle cx="213" cy="198" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<circle cx="244" cy="183" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<circle cx="244" cy="198" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<circle cx="244" cy="213" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<circle cx="213" cy="213" r="2" style="stroke:#000000;stroke-width:1.0" fill="#000000"/>
+<line x1="30" y1="335" x2="274" y2="335" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:5"/>
+<line x1="30" y1="366" x2="274" y2="366" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:6"/>
+<line x1="30" y1="274" x2="274" y2="274" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:3"/>
+<line x1="30" y1="305" x2="274" y2="305" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:4"/>
+<rect x="305" y="259" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<ellipse cx="45" cy="412" rx="15" ry="15" style="stroke:#000000;stroke-width:1" fill="#000000"/>
+<circle cx="45" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+<rect x="76.0" y="396.0" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
+<circle cx="91" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+<rect x="122.0" y="396.0" rx="7.0" ry="7.0" width="30" height="30" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
+<circle cx="137" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+<path d="M 396,381 C 152,458 412,534 244,381" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="396.94,381.67 389.11,387.32 387.29,381.49" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<path d="M 442,381 C 198,458 458,534 290,381" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="290.07,381.67 298.9,385.58 294.8,390.1" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="0,503 137,458 0,564 152,488 " style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="122,503 259,458 122,564 274,488 " style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="366,503 503,458 366,564 519,488 " style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="488,503 625,458 488,564 641,488 " style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<polygon points="610,503 748,458 610,564 763,488 " style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(671,30) scale(1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,30) scale(-1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,61) scale(3.4545454545454546,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,61) scale(-3.4545454545454546,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,76) scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,76) scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,106) scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(687,122) rotate(-20.0)  scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(702,137) rotate(-40.0)  scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(717,152) rotate(-60.0)  scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(732,167) rotate(-80.0)  scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(748,183) rotate(-90.0)  scale(0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(656,122) rotate(20.0)  scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(641,137) rotate(40.0)  scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(625,152) rotate(60.0)  scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(610,167) rotate(80.0)  scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(671,106) scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(595,183) rotate(90.0)  scale(-0.6477272727272727,1) "><text x="0" y="24" font-family="Courier New" font-size="24" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<ellipse cx="633" cy="198" rx="22" ry="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="709" cy="198" rx="22" ry="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="671" cy="229" rx="15" ry="15" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 625,244 C 656,274 687,274 717,244" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<path d="M 580,183 C 595,351 748,335 763,183" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="none"/>
+<ellipse cx="633" cy="206" rx="7" ry="7" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<ellipse cx="709" cy="206" rx="7" ry="7" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<g transform="translate(702,396) scale(-1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(702,396) rotate(90.0)  scale(-1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(702,396) rotate(180.0)  scale(-1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<g transform="translate(702,396) rotate(270.0)  scale(-1.2954545454545454,1) "><text x="0" y="12" font-family="Courier New" font-size="12" font-style="" font-weigth="" fill="#000000">Text</text>
+</g>
+<rect x="320" y="274" rx="0" ry="0" width="30" height="30" style="stroke:#000080;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000080"/>
+<rect x="335" y="290" rx="0" ry="0" width="30" height="30" style="stroke:#ff0000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ff0000"/>
+<rect x="351" y="305" rx="0" ry="0" width="30" height="30" style="stroke:#008080;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#008080"/>
+<rect x="366" y="320" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="381" y="335" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="396" y="320" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="412" y="305" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="427" y="290" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="442" y="274" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="458" y="259" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="473" y="274" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="488" y="290" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#ffc800"/>
+<rect x="503" y="305" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<rect x="519" y="320" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<rect x="534" y="335" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5267175572519085;fill-rule: evenodd;" fill="#000000"/>
+<circle cx="45" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+<circle cx="91" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+<circle cx="137" cy="412" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
+</svg>
