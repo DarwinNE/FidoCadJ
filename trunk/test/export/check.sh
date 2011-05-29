@@ -34,22 +34,42 @@ fi
 
 if diff svg/test_out.svg svg/ref/test_out.svg
 then
-  echo "svg     OK"
+  echo "svg R   OK"
 else
-  echo "svg export is not conformal to the model. Please check"
+  echo "svg export based on resolution is not conformal to the model. Please check"
 fi
+if diff svg/test_out_r.svg svg/ref/test_out_r.svg
+then
+  echo "svg S   OK"
+else
+  echo "svg export based on size is not conformal to the model. Please check"
+fi
+
 
 if diff png/test_out.png png/ref/test_out.png
 then
-  echo "png     OK"
+  echo "png R   OK"
 else
-  echo "png export is not conformal to the model. Please check"
+  echo "png export based on resolution is not conformal to the model. Please check"
+fi
+if diff png/test_out_r.png png/ref/test_out_r.png
+then
+  echo "png S   OK"
+else
+  echo "png export based on size is not conformal to the model. Please check"
 fi
 
 if diff jpg/test_out.jpg jpg/ref/test_out.jpg
 then
-  echo "jpg     OK"
+  echo "jpg R   OK"
 else
-  echo "jpg export is not conformal to the model. Please check"
+  echo "jpg export based on resolution is not conformal to the model. Please check"
+fi
+
+if diff jpg/test_out_r.jpg jpg/ref/test_out_R.jpg
+then
+  echo "jpg S   OK"
+else
+  echo "jpg export based on size is not conformal to the model. Please check"
 fi
 
