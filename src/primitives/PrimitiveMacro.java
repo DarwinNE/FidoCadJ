@@ -380,15 +380,20 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		int y1=virtualPoint[0].y;
  		int dt=Integer.MAX_VALUE;
 
-        // Here we check if the given point lies inside the text areas
-        
+        /*
 	    if(GeometricDistances.pointInRectangle(virtualPoint[1].x,
 	    	virtualPoint[1].y,t_w1,t_th,px,py))
 	       	return 0;
 	    if(GeometricDistances.pointInRectangle(virtualPoint[2].x,
 	    	virtualPoint[2].y,t_w2,t_th,px,py))
 	       	return 0;
-	        	
+	    */
+	    
+	    // Here we check if the given point lies inside the text areas
+        
+	    if(checkText(px, py))
+	    	return 0;
+	    
 		// If not, we need to see more throughly about the inners of the macro
 
  		int vx=px-x1+100;

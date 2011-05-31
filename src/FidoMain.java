@@ -94,6 +94,9 @@ public class FidoMain {
         				// which is the total width and height in pixel, the 
         				// format required (SVG, EPS, PGF, PNG, PDF, EPS, SCH)
         				// and the file name to be used.
+        				// The second possibility is that the -c option is 
+        				// followed by the r option, followed by a number
+        				// specifying the number of pixels for logical units.
         				
         				try {
         					if (args[++i].startsWith("r")) {

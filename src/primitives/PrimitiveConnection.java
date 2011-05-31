@@ -108,28 +108,30 @@ public final class PrimitiveConnection extends GraphicPrimitive
 			x1=virtualPoint[0].x;
  			y1=virtualPoint[0].y;
  			
- 		
  			nn=Math.abs(coordSys.mapXr(0,0)-
  				coordSys.mapXr(10,10))*Globals.diameterConnection/10.0;
+ 			
  		
  			// a little boost for small zooms :-)
- 			if (nn<2) {
- 				nn=(int)(Math.abs(coordSys.mapX(0,0)-
- 					coordSys.mapX(20,20))*Globals.diameterConnection/12);
+ 			if (nn<2.0) {
+ 				nn=(int)(Math.abs(coordSys.mapXr(0,0)-
+ 					coordSys.mapXr(20,20))*Globals.diameterConnection/12);
  			}
-	
- 			xa1=(int)Math.round(coordSys.mapXr(x1,y1)- nn/2.0);
- 			ya1=(int)Math.round(coordSys.mapYr(x1,y1)- nn/2.0);
  			
- 			coordSys.trackPoint(xa,ya);
+ 			xa1=(int)Math.round(coordSys.mapX(x1,y1)-nn/2.0);
+ 			ya1=(int)Math.round(coordSys.mapY(x1,y1)-nn/2.0);
+ 			
  			ni=(int)Math.round(nn);
  			
  		}
  		
- 		if(!g.hitClip(xa1, ya1, ni, ni))
- 			return;
- 	
- 		g.fillOval(xa1, ya1, ni, ni);
+ 		
+ 		// Do not trace connections which will appear hopelessly small...
+ 		if(ni>=1) {
+ 			if(!g.hitClip(xa1, ya1, ni, ni))
+ 				return;
+ 			g.fillOval(xa1, ya1, ni, ni);
+ 		}			
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive

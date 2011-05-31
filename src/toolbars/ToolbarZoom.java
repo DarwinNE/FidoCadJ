@@ -15,9 +15,7 @@ import geom.*;
     ToolbarZoom class
     
     @author Davide Bucci
-    @version 2.0, November 2009
- 
-
+    
 
 <pre>
 	This file is part of FidoCadJ.
@@ -35,7 +33,7 @@ import geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2011 by Davide Bucci
 </pre>
 
 @author Davide Bucci

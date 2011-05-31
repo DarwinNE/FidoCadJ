@@ -373,7 +373,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         clickNumber=0;
         successiveMove=false;
-        repaint();
+        selectCursor();
+
+//        repaint();
         
         macroKey=macro;
     }
@@ -480,11 +482,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         currentLayer=s;
     }
-    
-    public void cleanAll()
-    {
-        
-    }
+
     /** The callback method which is called when the current grid visibility 
     	has changed. 
         @param v is the wanted grid visibility state
@@ -550,7 +548,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 		if (actionSelected !=MACRO) 
         	primEdit = null;
         
-              
         switch(actionSelected) {
         // No action: ignore
         case NONE:	
@@ -931,8 +928,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             repaint();
             break;
         }    
-        
-
     }    
     
     /** Handle the mouse movements when editing a graphic primitive.
@@ -1323,9 +1318,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
     public void mouseEntered(MouseEvent evt)
     {
-        // Define the icon used for the mouse cursor, depending on the current
-        // action.
-        
+        selectCursor();
+    }
+    
+    /**
+    	Define the icon used for the mouse cursor, depending on the current
+        editing action.
+    */
+    public void selectCursor()
+    { 
         switch(actionSelected) {
             case NONE:
             case SELECTION:

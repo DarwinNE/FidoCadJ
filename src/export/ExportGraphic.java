@@ -167,13 +167,13 @@ public class ExportGraphic
 			// the correct zoom factor in order to fit the drawing in the 
 			// specified area.
 			Dimension d = getImageSize(P, 1,true);
-			d.width+=20;
-			d.height+=20;
+			d.width+=10;
+			d.height+=10;
 			
 			unitPerPixel = Math.min(width/(double)d.width, 
 				height/(double)d.height);
-		
-			P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);		
+			sizeMagnification = unitPerPixel;
+			//P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);		
 		} else {
 			// In this situation, we do have to calculate the size from the
 			// specified resolution.
@@ -210,10 +210,7 @@ public class ExportGraphic
                
     	if (format.equals("png")||format.equals("jpg")) {
 			// Center the drawing in the given space.
-			
-			//System.out.println("xcenter: "+org.x);
-        	//System.out.println("ycenter: "+org.y);
-        
+	
         	P.getMapCoordinates().setXCenter(-org.x);
 	   		P.getMapCoordinates().setYCenter(-org.y);
 			// Create a buffered image in which to draw
@@ -326,9 +323,7 @@ public class ExportGraphic
 			width=m.getXMax();
 			height=m.getYMax();
 		}
-
-       	//System.out.println("width: "+width+ " height:"+height);
-			
+		
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
 							   "sized image");					   
