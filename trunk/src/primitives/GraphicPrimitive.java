@@ -137,19 +137,19 @@ public abstract class GraphicPrimitive
 		return macroFontSize;
 	}
 	
-		// Those are data which are kept for the fast redraw of this primitive. 
+	// Those are data which are kept for the fast redraw of this primitive. 
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
-	protected int z;
-	protected int xa, ya, xb, yb;
+	private int z;
+	private int xa, ya, xb, yb;
 	// Text sizes in pixels
-	protected int h,th, w1, w2;
+	private int h,th, w1, w2;
 	
 	// Text sizes in logical units.
-	protected int t_h,t_th, t_w1, t_w2;
- 	protected int x2,y2,x3,y3;
- 	protected Font f;
- 	protected FontMetrics fm;
+	private int t_h,t_th, t_w1, t_w2;
+ 	private int x2,y2,x3,y3;
+ 	private Font f;
+ 	private FontMetrics fm;
  		
 	
 	/** Writes the macro name and value fields. This method uses heavily the 
