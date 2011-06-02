@@ -1,55 +1,55 @@
-# Created by FidoCadJ 0.23.6 alpha by Davide Bucci
+# Created by FidoCadJ 0.23.6 beta by Davide Bucci
 Set Wire_Bend 2; 
-Grid inch 0.5;
+Grid inch 0.25;
 Change font fixed;
 Set auto_junction off;
-Net (0.5 13.5) (9 13.5);
-Net (0.5 14) (9 14);
-Net (0.5 14.5) (9 14.5);
+Net (0.8 13.8) (9.3 13.8);
+Net (0.8 14.3) (9.3 14.3);
+Net (0.8 14.8) (9.3 14.8);
 # Circle export not fully implemented
-Circle (0.5 18) (1 1);# Circle export not fully implemented
-Circle (2 18) (1 1);# Circle export not fully implemented
-Circle (5 18) (1 1);# Circle export not fully implemented
-Circle (6.5 18) (1 1);# Circle export not fully implemented
-Circle (8 18) (1 1);Layer 94;
-Rect (0.5 16.5) (1.5 15.5);
+Circle (0.8 18.3) (1 1);# Circle export not fully implemented
+Circle (2.3 18.3) (1 1);# Circle export not fully implemented
+Circle (5.3 18.3) (1 1);# Circle export not fully implemented
+Circle (6.8 18.3) (1 1);# Circle export not fully implemented
+Circle (8.3 18.3) (1 1);Layer 94;
+Rect (0.8 16.8) (1.8 15.8);
 Layer 91;
 Layer 94;
 Set Wire_Bend 0;
-Wire (2 16.5) (3 15.5);
-Wire (3 15.5) (2 16.5);
+Wire (2.3 16.8) (3.3 15.8);
+Wire (3.3 15.8) (2.3 16.8);
 Set Wire_Bend 2;
 Layer 91;
 Layer 94;
 Set Wire_Bend 0;
-Wire (5 16.5) (6 15.5);
-Wire (6 15.5) (5 16.5);
+Wire (5.3 16.8) (6.3 15.8);
+Wire (6.3 15.8) (5.3 16.8);
 Set Wire_Bend 2;
 Layer 91;
 Layer 94;
 Set Wire_Bend 0;
-Wire (6.5 16.5) (7.5 15.5);
-Wire (7.5 15.5) (6.5 16.5);
+Wire (6.8 16.8) (7.8 15.8);
+Wire (7.8 15.8) (6.8 16.8);
 Set Wire_Bend 2;
 Layer 91;
 Layer 94;
 Set Wire_Bend 0;
-Wire (8 16.5) (9 15.5);
-Wire (9 15.5) (8 16.5);
+Wire (8.3 16.8) (9.3 15.8);
+Wire (9.3 15.8) (8.3 16.8);
 Set Wire_Bend 2;
 Layer 91;
-Net (10 18) (18.5 18);
-Net (10 17) (18.5 17);
-Net (10 16.5) (18.5 16.5);
-Net (10 16) (18.5 16);
-Net (10 15) (18.5 15);
-Net (10 14.5) (18.5 14.5);
-Net (10 14) (18.5 14);
-Net (10 13) (18.5 13);
-Net (10 12.5) (18.5 12.5);
-Net (10 12) (18.5 12);
-Net (10 11) (18.5 11);
-Net (10 10.5) (18.5 10.5);
+Net (10.3 18.3) (18.8 18.3);
+Net (10.3 17.3) (18.8 17.3);
+Net (10.3 16.8) (18.8 16.8);
+Net (10.3 16.3) (18.8 16.3);
+Net (10.3 15.3) (18.8 15.3);
+Net (10.3 14.8) (18.8 14.8);
+Net (10.3 14.3) (18.8 14.3);
+Net (10.3 13.3) (18.8 13.3);
+Net (10.3 12.8) (18.8 12.8);
+Net (10.3 12.3) (18.8 12.3);
+Net (10.3 11.3) (18.8 11.3);
+Net (10.3 10.8) (18.8 10.8);
 # Bézier export not implemented yet
 # Bézier export not implemented yet
 # Bézier export not implemented yet
@@ -59,7 +59,7 @@ Net (10 10.5) (18.5 10.5);
 # PCBLine export not implemented yet
 # PCBLine export not implemented yet
 Layer 94;
-Rect (10 10) (11 9);
+Rect (10.3 10.3) (11.3 9.3);
 Layer 91;
 # PCBpad export not implemented yet
 # PCBpad export not implemented yet
@@ -72,89 +72,89 @@ Layer 91;
 # Polygon export not implemented yet
 # Polygon export not implemented yet
 Change size 0.292
-Text Text R0 (22 17.5);
-Text Text MR0 (22 17.5);
-Text Text R0 (22 16.5);
-Text Text MR0 (22 16.5);
+Text Text R0 (22.3 17.8);
+Text Text MR0 (22.3 17.8);
+Text Text R0 (22.3 16.8);
+Text Text MR0 (22.3 16.8);
 Change size 0.584
-Text Text R0 (22 16);
-Text Text MR0 (22 16);
-Text Text R0 (22 15);
-Text Text R-20 (22.5 14.5);
-Text Text R-40 (23 14);
-Text Text R-60 (23.5 13.5);
-Text Text R-80 (24 13);
-Text Text R-90 (24.5 12.5);
-Text Text MR-20 (21.5 14.5);
-Text Text MR-40 (21 14);
-Text Text MR-60 (20.5 13.5);
-Text Text MR-80 (20 13);
-Text Text MR0 (22 15);
-Text Text MR-90 (19.5 12.5);
+Text Text R0 (22.3 16.3);
+Text Text MR0 (22.3 16.3);
+Text Text R0 (22.3 15.3);
+Text Text R-20 (22.8 14.8);
+Text Text R-40 (23.3 14.3);
+Text Text R-60 (23.8 13.8);
+Text Text R-80 (24.3 13.3);
+Text Text R-90 (24.8 12.8);
+Text Text MR-20 (21.8 14.8);
+Text Text MR-40 (21.3 14.3);
+Text Text MR-60 (20.8 13.8);
+Text Text MR-80 (20.3 13.3);
+Text Text MR0 (22.3 15.3);
+Text Text MR-90 (19.8 12.8);
 # Circle export not fully implemented
-Circle (20 12.5) (1.5 1);# Circle export not fully implemented
-Circle (22.5 12.5) (1.5 1);# Circle export not fully implemented
-Circle (21.5 11.5) (1 1);# Bézier export not implemented yet
+Circle (20.3 12.8) (1.5 1);# Circle export not fully implemented
+Circle (22.8 12.8) (1.5 1);# Circle export not fully implemented
+Circle (21.8 11.8) (1 1);# Bézier export not implemented yet
 # Bézier export not implemented yet
 # Circle export not fully implemented
-Circle (20.5 12) (0.5 0.5);# Circle export not fully implemented
-Circle (23 12) (0.5 0.5);Change size 0.292
-Text Text MR0 (23 5.5);
-Text Text MR-90 (23 5.5);
-Text Text MR-180 (23 5.5);
-Text Text MR-270 (23 5.5);
+Circle (20.8 12.3) (0.5 0.5);# Circle export not fully implemented
+Circle (23.3 12.3) (0.5 0.5);Change size 0.292
+Text Text MR0 (23.3 5.8);
+Text Text MR-90 (23.3 5.8);
+Text Text MR-180 (23.3 5.8);
+Text Text MR-270 (23.3 5.8);
 Layer 94;
-Rect (10.5 9.5) (11.5 8.5);
+Rect (10.8 9.8) (11.8 8.8);
 Layer 91;
 Layer 94;
-Rect (11 9) (12 8);
+Rect (11.3 9.3) (12.3 8.3);
 Layer 91;
 Layer 94;
-Rect (11.5 8.5) (12.5 7.5);
+Rect (11.8 8.8) (12.8 7.8);
 Layer 91;
 Layer 94;
-Rect (12 8) (13 7);
+Rect (12.3 8.3) (13.3 7.3);
 Layer 91;
 Layer 94;
-Rect (12.5 7.5) (13.5 6.5);
+Rect (12.8 7.8) (13.8 6.8);
 Layer 91;
 Layer 94;
-Rect (13 8) (14 7);
+Rect (13.3 8.3) (14.3 7.3);
 Layer 91;
 Layer 94;
-Rect (13.5 8.5) (14.5 7.5);
+Rect (13.8 8.8) (14.8 7.8);
 Layer 91;
 Layer 94;
-Rect (14 9) (15 8);
+Rect (14.3 9.3) (15.3 8.3);
 Layer 91;
 Layer 94;
-Rect (14.5 9.5) (15.5 8.5);
+Rect (14.8 9.8) (15.8 8.8);
 Layer 91;
 Layer 94;
-Rect (15 10) (16 9);
+Rect (15.3 10.3) (16.3 9.3);
 Layer 91;
 Layer 94;
-Rect (15.5 9.5) (16.5 8.5);
+Rect (15.8 9.8) (16.8 8.8);
 Layer 91;
 Layer 94;
-Rect (16 9) (17 8);
+Rect (16.3 9.3) (17.3 8.3);
 Layer 91;
 Layer 94;
-Rect (16.5 8.5) (17.5 7.5);
+Rect (16.8 8.8) (17.8 7.8);
 Layer 91;
 Layer 94;
-Rect (17 8) (18 7);
+Rect (17.3 8.3) (18.3 7.3);
 Layer 91;
 Layer 94;
-Rect (17.5 7.5) (18.5 6.5);
+Rect (17.8 7.8) (18.8 6.8);
 Layer 91;
 # PCBpad export not implemented yet
 # PCBpad export not implemented yet
 # PCBpad export not implemented yet
-Junction (7 12.5);
-Junction (7 12);
-Junction (8 12.5);
-Junction (8 12);
-Junction (8 11.5);
-Junction (7 11.5);
+Junction (7.3 12.8);
+Junction (7.3 12.3);
+Junction (8.3 12.8);
+Junction (8.3 12.3);
+Junction (8.3 11.8);
+Junction (7.3 11.8);
 Window Fit; 

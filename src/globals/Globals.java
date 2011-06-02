@@ -84,9 +84,12 @@ public class Globals
     public static final double diameterConnectionDefault = 2.0;
     public static double diameterConnection = diameterConnectionDefault; 
     
+    // Border to be used in the export in logical coordinates
+    public static final int exportBorder=6;
+    
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.6 alpha";
+    public static final String version = "0.23.6 beta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     

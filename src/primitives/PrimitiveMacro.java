@@ -379,15 +379,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		int x1=virtualPoint[0].x;
  		int y1=virtualPoint[0].y;
  		int dt=Integer.MAX_VALUE;
-
-        /*
-	    if(GeometricDistances.pointInRectangle(virtualPoint[1].x,
-	    	virtualPoint[1].y,t_w1,t_th,px,py))
-	       	return 0;
-	    if(GeometricDistances.pointInRectangle(virtualPoint[2].x,
-	    	virtualPoint[2].y,t_w2,t_th,px,py))
-	       	return 0;
-	    */
 	    
 	    // Here we check if the given point lies inside the text areas
         
@@ -706,13 +697,13 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		int y1=virtualPoint[0].y;
  		
 		MapCoordinates macroCoord=new MapCoordinates();
- 			
- 			
- 		macroCoord.setXMagnitude(1.0);
-		macroCoord.setYMagnitude(1.0);
+
+		macroCoord.setXMagnitude(cs.getXMagnitude());
+		macroCoord.setYMagnitude(cs.getYMagnitude());
 
  		macroCoord.setXCenter(cs.mapXr(x1,y1));
- 		macroCoord.setYCenter(cs.mapYr(x1,y1));
+		macroCoord.setYCenter(cs.mapYr(x1,y1));
+
 		macroCoord.orientation=(o+cs.orientation)%4;
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;
@@ -721,7 +712,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macro.setMapCoordinates(macroCoord);
  		macro.setDrawOnlyLayer(drawOnlyLayer);
 
- 		macro.setLibrary(library); 			// Inherit the library
+ 		macro.setLibrary(library);  // Inherit the library
  		macro.setLayers(layers);	// Inherit the layers
  		
  		if (macroDesc==null)
@@ -735,7 +726,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  				macro.selectAll();
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.exportDrawing(exp, false, exportInvisible,exp.getMagnification());
+ 			macro.exportDrawing(exp, false, exportInvisible);
 			exportText(exp, cs, drawOnlyLayer);
 		}
 		

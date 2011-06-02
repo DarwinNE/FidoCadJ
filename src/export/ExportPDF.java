@@ -78,17 +78,11 @@ public class ExportPDF implements ExportInterface {
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 		
-	private double sizeMagnification;
-
+	
 	public int cLe(double l)
 	{
-		return (int)(l*sizeMagnification);
+		return (int)l;
 	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}		
-
 	
 	/** Constructor
 	
@@ -134,8 +128,7 @@ public class ExportPDF implements ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
@@ -143,7 +136,6 @@ public class ExportPDF implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
-	    sizeMagnification = sizeMag;
 	    
 	    fontWarning=false;
 	    // To track the block sizes, we will first write it in a temporary file
@@ -161,7 +153,7 @@ public class ExportPDF implements ExportInterface {
 	   	
 	    double res_mult=200.0/72.0;
 	    
-	    res_mult/=getMagnification();
+	    //res_mult/=getMagnification();
 	    
 		int border = 5;
 		

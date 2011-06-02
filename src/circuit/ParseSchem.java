@@ -963,7 +963,7 @@ public class ParseSchem
                 temp.deleteOnExit();
                 
                 ExportGraphic.export(temp,  Q, "fcd", 1,true,false, 
-                    splitNonStandard, 1.0);
+                    splitNonStandard);
                 
                 FileInputStream input = new FileInputStream(temp);
                 BufferedReader bufRead = new BufferedReader(
@@ -1951,38 +1951,42 @@ public class ParseSchem
         @param header specify if an header and a tail should be written or not
         @param exportInvisible specify that the primitives on invisible layers
         should be exported
-        @param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplied.
     */
     public void exportDrawing(ExportInterface exp, boolean header, 
-        boolean exportInvisible, double sizeMagnification)
+        boolean exportInvisible)
         throws IOException
     {
-        
-        // SCHIFIO ************************************************************
-        // Il codice è replicato dalla funzione draw().
-        // Il copia/incolla funziona abbastanza, ma potrebbe essere opportuno 
-        // fare un po' di pulizia.
-        
-        MapCoordinates mp = new MapCoordinates();
-        mp.setXMagnitude(1);
-        mp.setYMagnitude(1);
 
-        mp.setXCenter(cs.getXCenter());
-        mp.setYCenter(cs.getYCenter());
-        mp.orientation=cs.orientation;
-        mp.mirror=cs.mirror;
-        mp.isMacro=cs.isMacro;
+        MapCoordinates mp=cs;
         
         int l;
         int i;
         int j;
         
         GraphicPrimitive g;
-        
-        if (header)
-            exp.exportStart(ExportGraphic.getImageSize(this, 1, false), 
-                layerV, mp.getXGridStep(), sizeMagnification);
+
+		// If it is needed, we should write the header of the file. This is 
+		// not to be done for example when we are exporting a macro and this
+		// routine is called recursively.
+		
+        if (header) {
+        	Dimension d = ExportGraphic.getImageSize(this, 1, true);
+
+			// 6 is the same mag
+
+			d.width+=Globals.exportBorder;
+			d.height+=Globals.exportBorder;
+			
+
+        	// We remeber that getImageSize works only with logical coordinates
+        	// so we may trasform them:
+        	
+        	d.width *= cs.getXMagnitude();
+        	d.height *= cs.getYMagnitude();
+        	
+        	// We finally write the header
+            exp.exportStart(d, layerV, mp.getXGridStep());
+        }
         
         if(drawOnlyLayer>=0 && !drawOnlyPads){
             for (i=0; i<primitiveVector.size(); ++i){

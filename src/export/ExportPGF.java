@@ -107,12 +107,9 @@ public class ExportPGF implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
@@ -124,23 +121,19 @@ public class ExportPGF implements ExportInterface {
 	    numberPath=0;
 	    LayerDesc l;
 	    Color c;
-	    sizeMagnification = sizeMag;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
 	    
 	    // A basic header of the PGF file
+
 	    
-	    // I found that for schematics, a good correspondance is to set 
-	    // a FidoCadJ unit equals to 2 LaTeX points. This should be
-	    // enough for most schematics have a reasonable size in the page.
-	    
-    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi*sizeMagnification)+
-    		"pt}{"+(he*sizeMagnification)+"pt}\n"
+    	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi)+
+    		"pt}{"+(he)+"pt}\n"
     		+"% Created by FidoCadJ ver. "+Globals.version
 			+", export filter by Davide Bucci\n");
-		out.write("\\pgfsetxvec{\\pgfpoint{"+sizeMagnification+"pt}{0pt}}\n");
-		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{"+sizeMagnification+"pt}}\n");
+		out.write("\\pgfsetxvec{\\pgfpoint{"+1+"pt}{0pt}}\n");
+		out.write("\\pgfsetyvec{\\pgfpoint{0pt}{"+1+"pt}}\n");
 		out.write("\\pgfsetroundjoin \n\\pgfsetroundcap\n");
 		out.write("\\pgftranslateto{\\pgfxy(0,"+he+")}\n");
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");

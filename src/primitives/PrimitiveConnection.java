@@ -215,7 +215,7 @@ public final class PrimitiveConnection extends GraphicPrimitive
 		exportText(exp, cs, -1);
 		exp.exportConnection(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 					   cs.mapY(virtualPoint[0].x,virtualPoint[0].y), getLayer(),
-					   Globals.diameterConnection); 
+					   Globals.diameterConnection*cs.getXMagnitude()); 
 	}
 		/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

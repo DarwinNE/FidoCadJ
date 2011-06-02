@@ -54,16 +54,10 @@ public class ExportEPS implements ExportInterface {
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 	
-	private double sizeMagnification;
-
 	public int cLe(double l)
 	{
-		return (int)(l*sizeMagnification);
+		return (int)l;
 	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}	
 	
 	/** Constructor
 	
@@ -91,12 +85,9 @@ public class ExportEPS implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
@@ -105,7 +96,6 @@ public class ExportEPS implements ExportInterface {
 		layerV=la;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
-	    sizeMagnification=sizeMag;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -117,7 +107,7 @@ public class ExportEPS implements ExportInterface {
 	   	
 	    double res_mult=200.0/72.0;
 	    
-	    res_mult /= getMagnification();
+	    //res_mult /= getMagnification();
 	    
     	out.write("%!PS-Adobe-3.0 EPSF-3.0\n");
 		out.write("%%Pages: 0\n");

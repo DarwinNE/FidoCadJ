@@ -47,17 +47,11 @@ public class ExportFidoCad implements ExportInterface {
 	private int numberPath;
 	private int xsize;
 	private int ysize;
-	private double sizeMagnification;
 
 	public int cLe(double l)
 	{
-		return (int)(l*sizeMagnification);
+		return (int)l;
 	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}	
-	
 	
 	private boolean extensions;		// use FidoCadJ extensions
 	
@@ -98,12 +92,9 @@ public class ExportFidoCad implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplied.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
@@ -112,7 +103,6 @@ public class ExportFidoCad implements ExportInterface {
 		layerV=la;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
-	   	sizeMagnification=sizeMag; 
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
 	    

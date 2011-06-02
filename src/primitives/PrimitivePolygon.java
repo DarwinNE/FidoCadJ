@@ -410,7 +410,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		}
 		
 		exp.exportPolygon(vertices, nPoints, isFilled, getLayer(), dashStyle,
-			Globals.lineWidth);
+			Globals.lineWidth*cs.getXMagnitude());
 	}
 	/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

@@ -514,8 +514,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
 					   cs.mapX(virtualPoint[3].x,virtualPoint[3].y),
 					   cs.mapY(virtualPoint[3].x,virtualPoint[3].y),
 					   getLayer(),
-					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
-					   arrowHalfWidth, dashStyle,Globals.lineWidth); 
+					   arrowStart, arrowEnd, arrowStyle, 
+					   (int)(arrowLength*cs.getXMagnitude()), 
+					   (int)(arrowHalfWidth*cs.getXMagnitude()), 
+					   dashStyle,Globals.lineWidth*cs.getXMagnitude()); 
 	}
 		/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property
