@@ -21,6 +21,8 @@ echo Testing the export on vector formats
 echo "SVG (Scalar Vector Graphic)"
 java -jar ../../jar/fidocadj.jar -n -c r2 svg svg/test_out.svg original/test_pattern.fcd
 java -jar ../../jar/fidocadj.jar -n -c 800 600  svg svg/test_out_r.svg original/test_pattern.fcd
+java -jar ../../jar/fidocadj.jar -n -c 800 600  svg svg/led_circuit_r.svg original/led_circuit.fcd
+
 echo "EPS (Encapsulated Postscript)"
 java -jar ../../jar/fidocadj.jar -n -c r2 eps eps/test_out.eps original/test_pattern.fcd
 echo "PDF (Portable Document Format)"

@@ -292,7 +292,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 				cs.mapY(virtualPoint[0].x,virtualPoint[0].y), 
 				cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
 				cs.mapY(virtualPoint[1].x,virtualPoint[1].y), 
-				width, getLayer()); 
+				(int)(width*cs.getXMagnitude()), getLayer()); 
 	}
 	/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

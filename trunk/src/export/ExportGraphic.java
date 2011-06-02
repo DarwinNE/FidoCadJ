@@ -59,8 +59,7 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplied.
+
 	*/
 	public static void export(File file, 
 						ParseSchem P, 
@@ -68,8 +67,7 @@ public class ExportGraphic
 						double unitPerPixel,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext,
-						double sizeMagnification)
+						boolean ext)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -81,8 +79,7 @@ public class ExportGraphic
 						 false,
 						 antiAlias,
 						 blackWhite,
-						 ext,
-						 sizeMagnification);
+						 ext);
 	}	
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -96,8 +93,6 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplied.
 	*/
 	public static void exportSize(File file, 
 						ParseSchem P, 
@@ -106,8 +101,7 @@ public class ExportGraphic
 						int height,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext,
-						double sizeMagnification)
+						boolean ext)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -119,8 +113,7 @@ public class ExportGraphic
 						 true,
 						 antiAlias,
 						 blackWhite,
-						 ext, 
-						 sizeMagnification);
+						 ext);
 	}
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -137,8 +130,7 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplied.
+
 	*/
 	private static void exportSizeP(File file, 
 						ParseSchem P, 
@@ -149,8 +141,7 @@ public class ExportGraphic
 						boolean setSize,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext,
-						double sizeMagnification)
+						boolean ext)
 	throws IOException
 	{
 
@@ -167,27 +158,28 @@ public class ExportGraphic
 			// the correct zoom factor in order to fit the drawing in the 
 			// specified area.
 			Dimension d = getImageSize(P, 1,true);
-			d.width+=10;
-			d.height+=10;
+
+			d.width+=Globals.exportBorder;
+			d.height+=Globals.exportBorder;
 			
-			unitPerPixel = Math.min(width/(double)d.width, 
-				height/(double)d.height);
-			sizeMagnification = unitPerPixel;
-			//P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);		
+			
+			unitPerPixel = Math.min((double)width/(double)d.width, 
+				(double)height/(double)d.height);
 		} else {
 			// In this situation, we do have to calculate the size from the
 			// specified resolution.
 			Dimension d = getImageSize(P, 1,true);
-			width=(int)(d.width*unitPerPixel)+20;
-			height=(int)(d.height*unitPerPixel)+20;
+			
+			width=(int)((d.width+Globals.exportBorder)*unitPerPixel);
+			height=(int)((d.height+Globals.exportBorder)*unitPerPixel);
 		}
 	  	org=getImageOrigin(P,1);
-	  	
+		
 		org.x *=unitPerPixel;
 		org.y *=unitPerPixel;
 		
-		org.x -= 10;
-		org.y -= 10;
+		org.x -= Globals.exportBorder*unitPerPixel/2.0;
+		org.y -= Globals.exportBorder*unitPerPixel/2.0;
 		
 		ArrayList ol=P.getLayers();
 
@@ -205,15 +197,16 @@ public class ExportGraphic
 			
 			P.setLayers(v);
 		}
+
+		// Center the drawing in the given space.
         
         P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);
-               
+        P.getMapCoordinates().setXCenter(-org.x);
+	   	P.getMapCoordinates().setYCenter(-org.y);
+			       
     	if (format.equals("png")||format.equals("jpg")) {
-			// Center the drawing in the given space.
 	
-        	P.getMapCoordinates().setXCenter(-org.x);
-	   		P.getMapCoordinates().setYCenter(-org.y);
-			// Create a buffered image in which to draw
+        	// Create a buffered image in which to draw
 
 			try {
         		bufferedImage = new BufferedImage(width, height, 
@@ -249,23 +242,23 @@ public class ExportGraphic
 			}
     	} else if(format.equals("svg")) {
     		ExportSVG es = new ExportSVG(file);
-    		P.exportDrawing(es, true, false, sizeMagnification);
+    		P.exportDrawing(es, true, false);
     	} else if(format.equals("eps")) {
     		ExportEPS ep = new ExportEPS(file);
-    		P.exportDrawing(ep, true, false, sizeMagnification);
+    		P.exportDrawing(ep, true, false);
     	} else if(format.equals("pgf")) {
     		ExportPGF ef = new ExportPGF(file);
-    		P.exportDrawing(ef, true, false, sizeMagnification);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("pdf")) {
     		ExportPDF ef = new ExportPDF(file);
-    		P.exportDrawing(ef, true, false, sizeMagnification);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("scr")) {
     		ExportEagle ef = new ExportEagle(file);
-    		P.exportDrawing(ef, true, false, sizeMagnification);
+    		P.exportDrawing(ef, true, false);
     	} else if(format.equals("fcd")) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true, true, sizeMagnification);
+    		P.exportDrawing(ef, true, true);
     	} else {
     		IOException E=new IOException(
     			"Wrong file format");
@@ -302,6 +295,8 @@ public class ExportGraphic
         // Create a graphics contents on the buffered image
 		MapCoordinates m=P.getMapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
+       	m.setXCenter(0);
+       	m.setYCenter(0);
        	m.resetMinMax();
        	P.setMapCoordinates(m);
        	

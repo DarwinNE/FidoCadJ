@@ -1146,7 +1146,14 @@ public class FidoFrame extends JFrame implements
         if (export.shouldExport()) {
 	    	exportFileName=export.getFileName();
             exportFormat=export.getFormat();
-            exportUnitPerPixel=export.getUnitPerPixel();
+            // The resolution based export should be used only for bitmap
+            // file formats
+            if(exportFormat.equals("png") ||
+               exportFormat.equals("jpg"))
+            	exportUnitPerPixel=export.getUnitPerPixel();
+            else
+            	exportUnitPerPixel = export.getMagnification();
+            
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
             int selection;
@@ -1178,8 +1185,7 @@ public class FidoFrame extends JFrame implements
              	// We do the export
                 ExportGraphic.export(new File(exportFileName),  CC.P, 
                     exportFormat, exportUnitPerPixel, 
-                    export.getAntiAlias(),exportBlackWhite,extFCJ_s,
-                    exportMagnification);
+                    export.getAntiAlias(),exportBlackWhite,extFCJ_s);
                 JOptionPane.showMessageDialog(this,
                     Globals.messages.getString("Export_completed"));
 
@@ -1560,7 +1566,7 @@ public class FidoFrame extends JFrame implements
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
-                    "fcd", 1,true,false, extFCJ_s,1.0);
+                    "fcd", 1.0,true,false, extFCJ_s);
                 CC.P.setModified(false);
     
             } else {

@@ -464,8 +464,12 @@ public final class PrimitiveLine extends GraphicPrimitive
 					   cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
 					   cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
 					   getLayer(),
-					   arrowStart, arrowEnd, arrowStyle, arrowLength, 
-					   arrowHalfWidth, dashStyle, Globals.lineWidth); 
+					   arrowStart, arrowEnd,
+					   arrowStyle,
+					   (int)(arrowLength*cs.getXMagnitude()),
+					   (int)(arrowHalfWidth*cs.getXMagnitude()),
+					   dashStyle, 
+					   Globals.lineWidth*cs.getXMagnitude()); 
 	}
 		/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

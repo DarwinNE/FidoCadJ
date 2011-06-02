@@ -26,12 +26,11 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
 </pre>
 
     
     @author Davide Bucci
-    @version 1.2, April 2010
 */
 
 public class ExportSVG implements ExportInterface {
@@ -43,20 +42,14 @@ public class ExportSVG implements ExportInterface {
 	private int numberPath;
 	private int actualDash;
 	
-	//static final int NODE_SIZE = 1;
-	//static final double strokeWidth=0.33;
 	static final String dash[]={"2.5,5", "1.25,1.25",
 		"0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
-	private double sizeMagnification;
 
 	public int cLe(double l)
 	{
-		return (int)(l*sizeMagnification);
+		//return (int)(l*sizeMagnification);
+		return (int)l;
 	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}	
 	/** Constructor
 	
 		@param f the File object in which the export should be done.
@@ -84,24 +77,21 @@ public class ExportSVG implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
+
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
-		sizeMagnification=sizeMag;
 	    out = new BufferedWriter(fstream);
 	    numberPath=0;
 	    	    
-	    int wi=totalSize.width+10;
-	    int he=totalSize.height+10;
+	    int wi=(int)(totalSize.width);
+	    int he=(int)(totalSize.height);
 	    
 	    // A dumb, basic header of the SVG file
 	    
@@ -616,7 +606,7 @@ public class ExportSVG implements ExportInterface {
 			if (dashStyle>0)
 				out.write(";stroke-dasharray: "+dash[dashStyle]);
 
-			out.write(";stroke-width:"+wl*sizeMagnification+
+			out.write(";stroke-width:"+wl+
 				  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
 		
 			// Saving old values.
@@ -672,12 +662,12 @@ public class ExportSVG implements ExportInterface {
 		
 		out.write("<polygon points=\"");
 			
-     	out.write(""+roundTo(x*sizeMagnification)+","
-     		+roundTo(y*sizeMagnification)+" ");
-      	out.write(""+roundTo(x1*sizeMagnification)+","
-      		+roundTo(y1*sizeMagnification)+" ");
-      	out.write(""+roundTo(x2*sizeMagnification)+","
-      		+roundTo(y2*sizeMagnification)+"\" ");
+     	out.write(""+roundTo(x)+","
+     		+roundTo(y)+" ");
+      	out.write(""+roundTo(x1)+","
+      		+roundTo(y1)+" ");
+      	out.write(""+roundTo(x2)+","
+      		+roundTo(y2)+"\" ");
       	
         if ((style & Arrow.flagEmpty) == 0)
 			fill_pattern="fill=\"#"+

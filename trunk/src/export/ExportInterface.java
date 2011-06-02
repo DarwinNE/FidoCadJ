@@ -45,11 +45,6 @@ import java.io.*;
 
 public interface ExportInterface {
 
-
-	public int cLe(double l);
-	
-	public double getMagnification();
-		
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
 		there should be the code to write the header of the file on which
@@ -66,8 +61,7 @@ public interface ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMagnification)  
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
 		throws IOException;
 	
 	/** Called at the end of the export phase.

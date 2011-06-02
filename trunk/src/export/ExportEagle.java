@@ -56,16 +56,11 @@ public class ExportEagle implements ExportInterface {
 	
 	static double res=5e-2;
 	
-	private double sizeMagnification;
 
 	public int cLe(double l)
 	{
-		return (int)(l*sizeMagnification);
+		return (int)l;
 	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}	
 	
 	
 	/** Constructor
@@ -95,12 +90,10 @@ public class ExportEagle implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
+
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid,
-		double sizeMag)   
+	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
 		throws IOException
 	{ 
 		
@@ -109,8 +102,7 @@ public class ExportEagle implements ExportInterface {
 		layerV=la;
 		dim=totalSize;
 	    out = new BufferedWriter(fstream);
-	    sizeMagnification = sizeMag;
-	    res = 5e-2*sizeMagnification;
+	    res = 5e-2;
 	    numberPath=0;
 		oldtextsize=-1;
 		macroList = "";

@@ -722,7 +722,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		throws IOException
 	{
 		exp.exportAdvText (cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
-			cs.mapY(virtualPoint[0].x,virtualPoint[0].y), six, siy,
+			cs.mapY(virtualPoint[0].x,virtualPoint[0].y), 
+			(int)(cs.mapXr(six,six)-cs.mapXr(0,0)),
+			(int)(cs.mapYr(siy,siy)-cs.mapYr(0,0)),
 			fontName, 
 			(sty & TEXT_BOLD)!=0,
 			(sty & TEXT_MIRRORED)!=0,
