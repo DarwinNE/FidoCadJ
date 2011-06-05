@@ -109,7 +109,7 @@ public final class PrimitiveOval extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -146,14 +146,20 @@ public final class PrimitiveOval extends GraphicPrimitive
  			coordSys.trackPoint(xb,yb);			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
 			if (w<D_MIN) w=D_MIN;
-
+			/*
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
 			else 
-				stroke=new BasicStroke(w);		
+				stroke=new BasicStroke(w);	
+			*/
+			
+			if (strokeStyle==null) {
+				strokeStyle = new StrokeStyle();
+			}
+			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 	/*	if (xb==xa && yb==ya)
 			return;*/

@@ -1549,13 +1549,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
    	/**  Create a fictionous Array List without making use of alpha 
          channels and colours.
          
-         @return an ArrayList composed by Globals.MAX_LAYERS opaque layers in 
+         @return an Vector composed by Globals.MAX_LAYERS opaque layers in 
          	green.
     */
-   	private ArrayList createEditingLayerArray()
+   	private Vector createEditingLayerArray()
     {
           	
-       	ArrayList ll=new ArrayList();
+       	Vector ll=new Vector();
        	for(int i=0; i<Globals.MAX_LAYERS;++i) 
        		ll.add(new LayerDesc(editingColor, true,"",1.0f));
        		

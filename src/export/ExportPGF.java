@@ -59,7 +59,7 @@ public class ExportPGF implements ExportInterface {
 	private File fileExp;
 	private FileWriter fstream;
 	private BufferedWriter out;
-	private ArrayList layerV;
+	private Vector layerV;
 	private int numberPath;
 	private Color actualColor;
 	private double lineWidth;
@@ -109,7 +109,7 @@ public class ExportPGF implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
+	public void exportStart(Dimension totalSize, Vector la, int grid)   
 		throws IOException
 	{ 
 		
@@ -126,7 +126,6 @@ public class ExportPGF implements ExportInterface {
 	    int he=totalSize.height;
 	    
 	    // A basic header of the PGF file
-
 	    
     	out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi)+
     		"pt}{"+(he)+"pt}\n"

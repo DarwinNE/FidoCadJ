@@ -40,7 +40,7 @@ public class DialogLayer extends JDialog implements ComponentListener
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
-    private ArrayList layers;
+    private Vector layers;
     public JList layerList;
     
     /** Ensure that the dialog does not have a size smaller than the limits
@@ -78,7 +78,7 @@ public class DialogLayer extends JDialog implements ComponentListener
         @param parent the dialog parent
         @param l a LayerDesc vector containing the layers' attributes 
     */
-    public DialogLayer (JFrame parent, ArrayList l)
+    public DialogLayer (JFrame parent, Vector l)
     {
         super(parent,Globals.messages.getString("Layer_editor"), true);
         DialogUtil.center(this, .40,.40,400,350);

@@ -43,7 +43,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
 	static final int N_POINTS=3;
 	private Map library;
-	private ArrayList layers;
+	private Vector layers;
 	private int o;
 	private boolean m; 
 	private boolean drawOnlyPads;
@@ -76,7 +76,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param lib the library to be inherited
 		@param l the list of layers
 	*/
-	public PrimitiveMacro(Map lib, ArrayList l)
+	public PrimitiveMacro(Map lib, Vector l)
 	{
 		super();
 		library=lib;
@@ -112,7 +112,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param oo the macro orientation
 		@param mm the macro mirroring
 	*/	
-	public PrimitiveMacro(Map lib, ArrayList l, int x, int y, String key, 
+	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS,
 		 int oo, boolean mm)
 		throws IOException
@@ -171,7 +171,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	
 	*/
 	final private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 		/* in the macro primitive, the the virtual point represents
 		   the position of the reference point of the macro to be drawn. */
@@ -230,7 +230,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@layerV the array containing the layer description to be inherited.
 	
 	*/
-	private void macroStore(ArrayList layerV)
+	private void macroStore(Vector layerV)
 	{
 	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
@@ -253,7 +253,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 	
 		if(selectLayer(g,layerV))

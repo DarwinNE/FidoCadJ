@@ -65,7 +65,7 @@ public class FidoFrame extends JFrame implements
     // Interface elements parts of FidoFrame
     
     // The circuit panel...
-    private CircuitPanel CC;
+    public CircuitPanel CC;
     // ... which is contained in a scroll pane.
     private JScrollPane SC;
     // The toolbar dedicated to the available tools (the first one under the
@@ -102,11 +102,11 @@ public class FidoFrame extends JFrame implements
     private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
         
     // Open/save default properties
-    private String openFileDirectory;
+    public String openFileDirectory;
 
     // Libraries properties
     public String libDirectory;
-    private Preferences prefs;
+    public Preferences prefs;
     
     // Toolbar properties
     
@@ -124,7 +124,7 @@ public class FidoFrame extends JFrame implements
     // Locale settings
     static public Locale currentLocale;
     // Runs as an application or an applet.
-    static boolean runsAsApplication;
+    static public boolean runsAsApplication;
     
     // Useful for automatic scrolling in panning mode.
     private ScrollGestureRecognizer sgr;
@@ -398,7 +398,7 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
         // I followed merely the FidoCad tradition.
-		ArrayList layerDesc=createStandardLayers();
+		Vector layerDesc=createStandardLayers();
         CC.P.setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
@@ -703,9 +703,9 @@ public class FidoFrame extends JFrame implements
     	
     	@return the list of the layers being created.
     */
-    public ArrayList createStandardLayers()
+    public Vector createStandardLayers()
     {
-        ArrayList LayerDesc=new ArrayList();
+        Vector LayerDesc=new Vector();
         
         LayerDesc.add(new LayerDesc(Color.black, true, 
             Globals.messages.getString("Circuit_l"),1.0f));
@@ -871,7 +871,19 @@ public class FidoFrame extends JFrame implements
             }
             // Open a file
             if (arg.equals(Globals.messages.getString("Open"))) {
-				open();
+				OpenFile openf=new OpenFile();
+				openf.setParam(this);
+				SwingUtilities.invokeLater(openf);
+				/*
+           		The following code would require a thread safe implementation
+           		of some of the inner classes (such as ParseSchem), which is 
+           		indeed not the case...
+           		
+				Thread thread = new Thread(openf);
+				thread.setDaemon(true);
+				// Start the thread
+				thread.start();
+				*/
             }
             // Export the current drawing
             if (arg.equals(Globals.messages.getString("Export"))) {
@@ -996,10 +1008,10 @@ public class FidoFrame extends JFrame implements
         printLandscape = dp.getLandscape();
         exportBlackWhite= dp.getBW();
         
-        ArrayList ol=CC.P.getLayers();
+        Vector ol=CC.P.getLayers();
         if (dp.shouldPrint()) {
             if(exportBlackWhite) {
-                ArrayList v=new ArrayList();
+                Vector v=new Vector();
                         
                 // Here we create an alternative array of layers in 
                 // which all colors are pitch black. This may be
@@ -1034,97 +1046,6 @@ public class FidoFrame extends JFrame implements
         CC.P.setLayers(ol);
                 
         }
-    }
-    
-    /** Open a new file, eventually in a new windows if the current one
-    	contains some unsaved elements.
-    	We pay attention to show the file chooser dialog which appears to be
-    	the best looking one on each operating system.
-    */
-    public void open()
-    {
-		String fin;
-        String din;
-                
-        if(Globals.useNativeFileDialogs) {             
-        	// File chooser provided by the host system.
-            // Vastly better on MacOSX
-            FileDialog fd = new FileDialog(this, 
-               	Globals.messages.getString("Open"));
-            fd.setDirectory(openFileDirectory);
-            fd.setFilenameFilter(new FilenameFilter(){
-                public boolean accept(File dir, String name)
-                {
-                    return (name.toLowerCase().endsWith(".fcd"));
-                }
-            });
-                    
-            fd.setVisible(true);
-            fin=fd.getFile();
-            din=fd.getDirectory();
-        } else {
-            // File chooser provided by Swing.
-            // Better on Linux
-                    
-            JFileChooser fc = new JFileChooser();
-            fc.setCurrentDirectory(new File(openFileDirectory));
-            fc.setDialogTitle(Globals.messages.getString("Open"));
-            fc.setFileFilter(new javax.swing.filechooser.FileFilter(){ 
-            	public boolean accept(File f)
-                {
-                    return (f.getName().toLowerCase().endsWith(".fcd")||
-                            f.isDirectory());
-                }
-                public String getDescription()
-                {
-                    return "FidoCadJ (.fcd)";
-                }
-            });
-                    
-	        if(fc.showOpenDialog(this)!=JFileChooser.APPROVE_OPTION)
-                return;
-                    
-            fin=fc.getSelectedFile().getName();
-            din=fc.getSelectedFile().getParentFile().getPath();
-                
-        }
-        
-        // We now have the directory as well as the file name, so we can
-        // open it!
-        if(fin!= null) {                
-       	 	try {
-            	FidoFrame popFrame;
-                if(CC.P.getModified() || !CC.P.isEmpty()) {
-                  	// Here we create a new window in order to display
-                   	// the file.
-                        	
-                    popFrame=new FidoFrame(runsAsApplication);;
-                    popFrame.init();
-                    popFrame.setBounds(getX()+20, getY()+20,    
-                    popFrame.getWidth(),        
-                    popFrame.getHeight());
-                    popFrame.setVisible(true);
-                    popFrame.loadLibraries();
-                } else {
-                    // Here we do not create the new window and we 
-                    // reuse the current one to load and display the 
-                    // file to be loaded
-                    popFrame=this;
-                }
-                popFrame.CC.P.openFileName= 
-                   	Globals.createCompleteFileName(din, fin);
-                if (runsAsApplication)
-                   	prefs.put("OPEN_DIR", din);  
-                popFrame.openFileDirectory=din;
-                popFrame.openFile();
-                popFrame.CC.P.saveUndoState();
-                popFrame.CC.P.setModified(false);
-
-            } catch (IOException fnfex) {
-                JOptionPane.showMessageDialog(this,
-                    Globals.messages.getString("Open_error")+fnfex);
-			}
-        }         
     }
     
     /** Export the current drawing
@@ -1181,21 +1102,25 @@ public class FidoFrame extends JFrame implements
                 if(selection!=JOptionPane.OK_OPTION)
                    	return;
              }
-             try {
-             	// We do the export
-                ExportGraphic.export(new File(exportFileName),  CC.P, 
-                    exportFormat, exportUnitPerPixel, 
-                    export.getAntiAlias(),exportBlackWhite,extFCJ_s);
-                JOptionPane.showMessageDialog(this,
-                    Globals.messages.getString("Export_completed"));
-
-              } catch(IOException ioe) {
-                JOptionPane.showMessageDialog(this,
-                    Globals.messages.getString("Export_error")+ioe);
-              } catch(IllegalArgumentException iae) {
-                JOptionPane.showMessageDialog(this,
-                    Globals.messages.getString("Illegal_filename"));
-              }
+          	// We do the export
+           	RunExport doExport = new RunExport();
+			// Here we try to use the multithreaded structure of Java.
+			doExport.setParam(new File(exportFileName),  CC.P, 
+               	exportFormat, exportUnitPerPixel, 
+               	export.getAntiAlias(),exportBlackWhite,extFCJ_s,
+               	this);
+               
+           	SwingUtilities.invokeLater(doExport);
+           	/*
+           		The following code would require a thread safe implementation
+           		of some of the inner classes (such as ParseSchem), which is 
+           		indeed not the case...
+           		
+           	Thread thread = new Thread(doExport);
+			thread.setDaemon(true);
+			// Start the thread
+			thread.start();
+			*/
          }
     }
     
@@ -1858,4 +1783,161 @@ class RulerPanel extends JPanel implements SwingConstants
         }
         
     }
+}
+
+class OpenFile implements Runnable {
+    
+    private FidoFrame parent;
+    
+    
+    public void setParam(FidoFrame tparent)
+    {
+    	parent=tparent;
+    }
+    
+    /** Open a new file, eventually in a new window if the current one
+    	contains some unsaved elements.
+    	We pay attention to show the file chooser dialog which appears to be
+    	the best looking one on each operating system.
+    */
+    public void run()
+    {
+		String fin;
+        String din;
+        
+        if(Globals.useNativeFileDialogs) {             
+        	// File chooser provided by the host system.
+            // Vastly better on MacOSX
+            FileDialog fd = new FileDialog(parent, 
+               	Globals.messages.getString("Open"));
+            fd.setDirectory(parent.openFileDirectory);
+            fd.setFilenameFilter(new FilenameFilter(){
+                public boolean accept(File dir, String name)
+                {
+                    return (name.toLowerCase().endsWith(".fcd"));
+                }
+            });
+                    
+            fd.setVisible(true);
+            fin=fd.getFile();
+            din=fd.getDirectory();
+        } else {
+            // File chooser provided by Swing.
+            // Better on Linux
+                    
+            JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(new File(parent.openFileDirectory));
+            fc.setDialogTitle(Globals.messages.getString("Open"));
+            fc.setFileFilter(new javax.swing.filechooser.FileFilter(){ 
+            	public boolean accept(File f)
+                {
+                    return (f.getName().toLowerCase().endsWith(".fcd")||
+                            f.isDirectory());
+                }
+                public String getDescription()
+                {
+                    return "FidoCadJ (.fcd)";
+                }
+            });
+                    
+	        if(fc.showOpenDialog(parent)!=JFileChooser.APPROVE_OPTION)
+                return;
+                    
+            fin=fc.getSelectedFile().getName();
+            din=fc.getSelectedFile().getParentFile().getPath();
+                
+        }
+        
+        // We now have the directory as well as the file name, so we can
+        // open it!
+        if(fin!= null) {                
+       	 	try {
+            	FidoFrame popFrame;
+                if(parent.CC.P.getModified() || !parent.CC.P.isEmpty()) {
+                  	// Here we create a new window in order to display
+                   	// the file.
+                        	
+                    popFrame=new FidoFrame(parent.runsAsApplication);;
+                    popFrame.init();
+                    popFrame.setBounds(parent.getX()+20, parent.getY()+20,    
+                    popFrame.getWidth(),        
+                    popFrame.getHeight());
+                    popFrame.loadLibraries();
+                    popFrame.setVisible(true);                    
+                } else {
+                    // Here we do not create the new window and we 
+                    // reuse the current one to load and display the 
+                    // file to be loaded
+                    popFrame=parent;
+                }
+                popFrame.CC.P.openFileName= 
+                   	Globals.createCompleteFileName(din, fin);
+                if (parent.runsAsApplication)
+                   	parent.prefs.put("OPEN_DIR", din);  
+                popFrame.openFileDirectory=din;
+                popFrame.openFile();
+                popFrame.CC.P.saveUndoState();
+                popFrame.CC.P.setModified(false);
+
+            } catch (IOException fnfex) {
+                JOptionPane.showMessageDialog(parent,
+                    Globals.messages.getString("Open_error")+fnfex);
+			}
+        }         
+    }
+    
+ 
+}
+
+/** Class which realizes the export of a file towards a graphical format.
+
+*/
+class RunExport implements Runnable {
+	File file; 
+	ParseSchem P; 
+	String format;
+	double unitPerPixel;
+	boolean antiAlias;
+	boolean blackWhite;
+	boolean ext;
+	JFrame parent;
+	boolean success;
+	
+    public void setParam(File tfile, 
+		ParseSchem tP, 
+		String tformat,
+		double tunitPerPixel,
+		boolean tantiAlias,
+		boolean tblackWhite,
+		boolean text,
+		JFrame tparent) 
+	{
+		file=tfile;
+		P = tP;
+		format = tformat;
+		unitPerPixel = tunitPerPixel;
+		antiAlias= tantiAlias;
+		blackWhite=tblackWhite;
+		ext=text;
+		parent=tparent;
+	}
+	
+	public void run() {
+		success = false;
+		
+		try {
+    		ExportGraphic.export(file, P, format, unitPerPixel,
+				antiAlias, blackWhite, ext);
+			success = true;
+       		JOptionPane.showMessageDialog(parent,
+                Globals.messages.getString("Export_completed"));
+		}  catch(IOException ioe) {
+        	JOptionPane.showMessageDialog(parent,
+     	       Globals.messages.getString("Export_error")+ioe);
+        } catch(IllegalArgumentException iae) {
+            JOptionPane.showMessageDialog(parent,
+               Globals.messages.getString("Illegal_filename"));
+        }
+    }
+
 }

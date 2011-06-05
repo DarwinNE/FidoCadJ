@@ -80,7 +80,7 @@ public class FidoReadApplet extends JApplet
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
  			"lib/PCB_en.fcl"), "pcb");
 	
-		ArrayList layerDesc=CreateLayersNoDescription();
+		Vector layerDesc=CreateLayersNoDescription();
         CC.P.setLayers(layerDesc);
 
 		Container contentPane;
@@ -92,10 +92,10 @@ public class FidoReadApplet extends JApplet
 	/** Create the array containing the layers (without their description)
 	
 	*/
-	public static ArrayList CreateLayersNoDescription()
+	public static Vector CreateLayersNoDescription()
 	{
 			// Create the layer array
-		ArrayList LayerDesc=new ArrayList();
+		Vector LayerDesc=new Vector();
         
         LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
         LayerDesc.add(new LayerDesc(new Color(0,0,128),true,"",1.0f));

@@ -195,7 +195,7 @@ public class FidoMain {
         		}
             
         		bufRead.close();
-				ArrayList LayerDesc=FidoReadApplet.CreateLayersNoDescription();
+				Vector LayerDesc=FidoReadApplet.CreateLayersNoDescription();
         		P.setLayers(LayerDesc);
                         
       			// Here txt contains the new circuit: parse it!

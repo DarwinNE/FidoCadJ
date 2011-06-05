@@ -49,6 +49,8 @@ public abstract class GraphicPrimitive
 	// Maximum number of tokens
 	private static final int MAX_TOKENS=120;
 	
+	protected static StrokeStyle strokeStyle;
+
 	
 	// Indicates wether the primitive is selected or not
 	public boolean selectedState;
@@ -162,7 +164,7 @@ public abstract class GraphicPrimitive
 	
 	*/
 	protected void drawText(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV, int drawOnlyLayer)
+							  Vector layerV, int drawOnlyLayer)
 	{				
 		// If this method is not needed, exit immediately.
 		if (value.length()==0 && name.length()==0)
@@ -618,7 +620,7 @@ public abstract class GraphicPrimitive
 		@param layerV a LayerDesc vector with the descriptions of the layers
 				being used.
 	*/
-	protected final boolean selectLayer(Graphics2D g, ArrayList layerV)
+	protected final boolean selectLayer(Graphics2D g, Vector layerV)
 	{
 		// At first, we see if we need to retrieve the current layer.
 		// It is important to check also the changed flag, since if not we 
@@ -900,7 +902,7 @@ public abstract class GraphicPrimitive
 		@param LayerDesc the layer description.
 	*/
 	public abstract void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList LayerDesc);
+							  Vector LayerDesc);
 	
 	/**	Parse a token array and store the graphic data for a given primitive
 		Obviously, that routine should be called *after* having recognized

@@ -66,7 +66,7 @@ public class ExportPDF implements ExportInterface {
 	
 	
 	
-	private ArrayList layerV;
+	private Vector layerV;
 	private int numberPath;
 	private int xsize;
 	private int ysize;
@@ -128,7 +128,7 @@ public class ExportPDF implements ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
+	public void exportStart(Dimension totalSize, Vector la, int grid)   
 		throws IOException
 	{ 
 		

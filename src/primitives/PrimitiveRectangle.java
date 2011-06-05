@@ -122,7 +122,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -159,13 +159,19 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 
 			// Check if we need to create a dashed stroke and fabricate the
 			// stroke style with the good characteristics
+			/*
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
                                          BasicStroke.CAP_BUTT, 
                                          BasicStroke.JOIN_MITER, 
                                          10.0f, Globals.dash[dashStyle], 0.0f);
 			else 
-				stroke=new BasicStroke(w);		
+				stroke=new BasicStroke(w);	
+			*/
+			if (strokeStyle==null) {
+				strokeStyle = new StrokeStyle();
+			}
+			stroke = strokeStyle.getStroke(w, dashStyle);
 				
 			width = xb-xa;
 			height = yb-ya;

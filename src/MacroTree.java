@@ -64,7 +64,7 @@ public class MacroTree extends JPanel
 		super(new GridLayout(1,0));
 	
 	}
-    public void updateLibraries(Map lib, ArrayList layers) {
+    public void updateLibraries(Map lib, Vector layers) {
         
 		library=lib.values();
         //Create the nodes.
