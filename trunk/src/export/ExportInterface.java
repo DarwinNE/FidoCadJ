@@ -61,7 +61,7 @@ public interface ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)  
+	public void exportStart(Dimension totalSize, Vector la, int grid)  
 		throws IOException;
 	
 	/** Called at the end of the export phase.

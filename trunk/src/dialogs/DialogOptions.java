@@ -524,7 +524,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 		
-		drawingOptPanel.add(stroke_size_ovlbl, constraints);
+		// drawingOptPanel.add(stroke_size_ovlbl, constraints);
 		
 		stroke_size_oval=new JTextField(10);
 		stroke_size_oval.setText(""+stroke_size_oval_i);
@@ -532,7 +532,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 			
-		drawingOptPanel.add(stroke_size_oval, constraints);		
+		//drawingOptPanel.add(stroke_size_oval, constraints);		
 		
 		/**********************************************************************
 		  Macro font

@@ -181,7 +181,7 @@ public class ExportGraphic
 		org.x -= Globals.exportBorder*unitPerPixel/2.0;
 		org.y -= Globals.exportBorder*unitPerPixel/2.0;
 		
-		ArrayList ol=P.getLayers();
+		Vector ol=P.getLayers();
 
 		BufferedImage bufferedImage;
 		
@@ -189,7 +189,7 @@ public class ExportGraphic
 		// in which all layers will be exported and drawn.
 		// Clearly, the choosen color will be black.
 		if(blackWhite) {
-			ArrayList v=new ArrayList();
+			Vector v=new Vector();
 			for (int i=0; i<16;++i)
 				v.add(new LayerDesc(Color.black, 
 					((LayerDesc)ol.get(i)).getVisible(),

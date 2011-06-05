@@ -49,8 +49,8 @@ public final class PrimitiveLine extends GraphicPrimitive
 	private int arrowHalfWidth;
 	
 	private int arrowStyle;
-	
 	private int dashStyle;
+	
 
 	/** Constructor
 		@param x1		the x coordinate of the start point of the line
@@ -69,7 +69,7 @@ public final class PrimitiveLine extends GraphicPrimitive
 						int arrowSt, int arrowLe, int arrowWi, int dashSt)
 	{
 		super();
-		
+	
 		arrowLength = arrowLe;
 		arrowHalfWidth = arrowWi;
 		arrowStart = arrowS;
@@ -243,7 +243,7 @@ public final class PrimitiveLine extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 		
 		if(!selectLayer(g,layerV))
@@ -292,6 +292,8 @@ public final class PrimitiveLine extends GraphicPrimitive
  			
  			// Calculate the length in pixel.
  			length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
+ 			
+ 			/*
  			if(dashStyle>0) {
 				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
                                           BasicStroke.JOIN_ROUND, 
@@ -299,7 +301,14 @@ public final class PrimitiveLine extends GraphicPrimitive
                                           0.0f);
 			} else {
     			stroke =new BasicStroke(w);
+			}*/
+			
+			
+			if (strokeStyle==null) {
+				strokeStyle = new StrokeStyle();
 			}
+			stroke = strokeStyle.getStroke(w, dashStyle);
+			
 			arrows = arrowStart || arrowEnd;
 
 			// This correction solves bug #3101041

@@ -154,7 +154,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
 			return;
@@ -165,7 +165,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
    
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-
+			/*
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
                                           BasicStroke.JOIN_ROUND, 
@@ -173,6 +173,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
                                           0.0f);
 			else 
 				stroke=new BasicStroke(w);
+			*/
+			if (strokeStyle==null) {
+				strokeStyle = new StrokeStyle();
+			}
+			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
 		if(!g.hitClip(xmin,ymin, width, height))

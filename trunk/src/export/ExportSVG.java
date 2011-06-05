@@ -38,7 +38,7 @@ public class ExportSVG implements ExportInterface {
 	private File fileExp;
 	private OutputStreamWriter fstream;
 	private BufferedWriter out;
-	private ArrayList layerV;
+	private Vector layerV;
 	private int numberPath;
 	private int actualDash;
 	
@@ -80,7 +80,7 @@ public class ExportSVG implements ExportInterface {
 
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
+	public void exportStart(Dimension totalSize, Vector la, int grid)   
 		throws IOException
 	{ 
 		

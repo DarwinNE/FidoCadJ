@@ -9,6 +9,7 @@ import java.util.*;
 import globals.*;
 import dialogs.*;
 import geom.*;
+import layers.*;
 
 
 /**
@@ -59,13 +60,15 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private JComboBox layerSel;
     private ChangeSelectedLayer changeLayerListener;
     
+    private Vector layers;
+    
     /** Standard constructor
     
     */
-    public ToolbarZoom (ArrayList layers) 
+    public ToolbarZoom (Vector l) 
     {
     	putClientProperty("Quaqua.ToolBar.style", "title");
-
+    	layers=l;
         zoom = new JComboBox();
         zoom.addItem("25%");
         zoom.addItem("50%");
@@ -113,13 +116,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 			{
 				if (layerSel.getSelectedIndex()>=0 && changeListener!=null) {
 					changeLayerListener.changeSelectedLayer(
-						layerSel.getSelectedIndex());
-					
+						layerSel.getSelectedIndex());						
 				}
 					
 			}
-		});       
-        
+		});  
+
         changeListener=null;
         add(zoom);
         add(zoomFit);

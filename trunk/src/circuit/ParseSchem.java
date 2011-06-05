@@ -158,10 +158,10 @@ public class ParseSchem
     // Actual line number. This is useful to indicate errors.
     private int lineNum;
     
-    // ArrayList containing all primitives in the drawing.
-    ArrayList primitiveVector;
-    // ArrayList containing all layers used in the drawing.
-    ArrayList layerV;
+    // Vector containing all primitives in the drawing.
+    Vector primitiveVector;
+    // Vector containing all layers used in the drawing.
+    Vector layerV;
     
     // Coordinate system to be used.
     MapCoordinates cs;
@@ -197,9 +197,9 @@ public class ParseSchem
     public ParseSchem()
     {
         tokens=new String[MAX_TOKENS];
-        primitiveVector=new ArrayList(25);
+        primitiveVector=new Vector(25);
         cs=new MapCoordinates();
-        layerV=new ArrayList(Globals.MAX_LAYERS);
+        layerV=new Vector(Globals.MAX_LAYERS);
         library=new TreeMap();
         firstDrag=false;
         um=new UndoManager(MAX_UNDO);
@@ -227,7 +227,7 @@ public class ParseSchem
     
     */
 
-    public ArrayList getLayers()
+    public Vector getLayers()
     {
         return layerV;
     }
@@ -237,7 +237,7 @@ public class ParseSchem
         @param v a vector of LayerDesc describing layers.
     
     */
-    public void setLayers(ArrayList v)
+    public void setLayers(Vector v)
     {
         layerV=v;
         changed=true;
@@ -583,7 +583,7 @@ public class ParseSchem
         @param G the graphic context in which the drawing should be drawn.
         
     */
-    final public void draw(Graphics2D G)
+    public synchronized void draw(Graphics2D G)
     {   
         // At first, we check if the current view has changed. 
         if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
@@ -1499,7 +1499,7 @@ public class ParseSchem
         @param s the string containing the circuit
         @param selectNew specify that the added primitives should be selected.
     */
-    public void addString(StringBuffer s, boolean selectNew) 
+    public synchronized void addString(StringBuffer s, boolean selectNew) 
         throws IOException
     {
         int i; // Character pointer within the string 

@@ -43,7 +43,7 @@ public class ExportFidoCad implements ExportInterface {
 	private File fileExp;
 	private OutputStreamWriter fstream;
 	private BufferedWriter out;
-	private ArrayList layerV;
+	private Vector layerV;
 	private int numberPath;
 	private int xsize;
 	private int ysize;
@@ -70,8 +70,8 @@ public class ExportFidoCad implements ExportInterface {
 		
 		fstream = new OutputStreamWriter(new FileOutputStream(f), 
 			Globals.encoding);
-        
-		
+	    out = new BufferedWriter(fstream);
+			
 	}
 	
 	/** Specify whether the FidoCadJ extensions should be taken into account
@@ -94,14 +94,13 @@ public class ExportFidoCad implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, ArrayList la, int grid)   
+	public void exportStart(Dimension totalSize, Vector la, int grid)   
 		throws IOException
 	{ 
 		
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
-	    out = new BufferedWriter(fstream);
 	    numberPath=0;
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -121,7 +120,7 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{ 
 		out.close();
-    
+		fstream.close();
 	}
 
 	/** Called when exporting an Advanced Text primitive.
@@ -205,7 +204,6 @@ public class ExportFidoCad implements ExportInterface {
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
 			dashStyle)).toString(extensions));			
-
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -302,7 +300,6 @@ public class ExportFidoCad implements ExportInterface {
 		} 
 		// The macro will be expanded into primitives.
 		return false; 
-		
 	}
 	
 	
@@ -326,7 +323,6 @@ public class ExportFidoCad implements ExportInterface {
 		out.write((new PrimitiveOval(cLe(x1), 
 			cLe(y1), cLe(x2), cLe(y2), 
 			isFilled, layer, dashStyle)).toString(extensions));
-
 	}
 		
 	/** Called when exporting a PCBLine primitive.
@@ -369,8 +365,7 @@ public class ExportFidoCad implements ExportInterface {
 			out.write((new PrimitivePCBPad(cLe(x),
 				cLe(y),cLe(six),
 				cLe(siy),cLe(indiam), style,
-				layer)).toString(extensions));
-	
+				layer)).toString(extensions));	
 	}
 	/**	Called when exporting a Polygon primitive
 	
@@ -417,11 +412,5 @@ public class ExportFidoCad implements ExportInterface {
 			cLe(y1), cLe(x2), 
 			cLe(y2), isFilled, 
 			layer, dashStyle)).toString(extensions));
-
-
 	}
-	
-	
-	
-
 }

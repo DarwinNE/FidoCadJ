@@ -248,7 +248,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -290,7 +290,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
 			// Check if there is a dash to be used for the stroke and 
 			// create a new stroke.
-			
+			/*
 			if (dashStyle>0) 
 				stroke=new BasicStroke(w, 
                             	BasicStroke.CAP_BUTT, 
@@ -298,6 +298,11 @@ public final class PrimitiveBezier extends GraphicPrimitive
                                 10.0f, Globals.dash[dashStyle], 0.0f);
 			else 
 				stroke=new BasicStroke(w);
+			*/
+			if (strokeStyle==null) {
+				strokeStyle = new StrokeStyle();
+			}
+			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
 		// If the curve is not visible, exit immediately

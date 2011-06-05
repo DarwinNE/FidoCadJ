@@ -134,7 +134,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
 			return;

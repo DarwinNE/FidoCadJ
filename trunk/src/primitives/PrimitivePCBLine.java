@@ -45,6 +45,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 
 	static final int N_POINTS=4;
 	
+	static StrokeStyle pcbStrokeStyle;
+
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -104,7 +106,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		@param layerV the layer description.
 	*/
 	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  ArrayList layerV)
+							  Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -132,9 +134,16 @@ public final class PrimitivePCBLine extends GraphicPrimitive
  			coordSys.trackPoint(xa,ya);
  			coordSys.trackPoint(xb,yb);
 
-   			stroke =new BasicStroke(wi_pix,
+   			/*stroke =new BasicStroke(wi_pix,
 				java.awt.BasicStroke.CAP_ROUND,
 				java.awt.BasicStroke.JOIN_ROUND);
+			*/	
+			if (pcbStrokeStyle==null) {
+				pcbStrokeStyle = new StrokeStyle();
+			}
+			
+			stroke = pcbStrokeStyle.getStroke(wi_pix, 0);
+			
 			xbpap1=(xb-xa)+1;
 			ybpap1=(yb-ya)+1;	
 		}

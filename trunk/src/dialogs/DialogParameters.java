@@ -62,7 +62,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 	
 	private Vector v;
 	
-	private ArrayList layers;
+	private Vector layers;
 	
   	/** Programmatically build a dialog frame containing the appropriate
   		elements, in order to let the user modify the characteristics of a 
@@ -73,7 +73,7 @@ public class DialogParameters extends JDialog implements ComponentListener
   			user.
   	
   	*/
-  	public DialogParameters (JFrame parent, Vector vec, boolean strict, ArrayList l)
+  	public DialogParameters (JFrame parent, Vector vec, boolean strict, Vector l)
   	{
   		super(parent, Globals.messages.getString("Param_opt"), true);
   		
