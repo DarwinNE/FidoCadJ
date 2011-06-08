@@ -192,7 +192,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.isMacro=true;
  			macroCoord.resetMinMax();
  		 		 			
- 			macro.setMapCoordinates(macroCoord);
+ 			//macro.setMapCoordinates(macroCoord);
 			macro.setChanged(true);
 		}
 		
@@ -207,7 +207,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		macro.setDrawOnlyLayer(drawOnlyLayer);
  		macro.setDrawOnlyPads(drawOnlyPads);
  		
-		macro.draw(g);
+		macro.draw(g, macroCoord);
 		
 		if (macroCoord.getXMax()>macroCoord.getXMin() && 
 			macroCoord.getYMax()>macroCoord.getYMin()) {
@@ -709,7 +709,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.isMacro=true;
  				 			
  		ParseSchem macro=new ParseSchem();
- 		macro.setMapCoordinates(macroCoord);
  		macro.setDrawOnlyLayer(drawOnlyLayer);
 
  		macro.setLibrary(library);  // Inherit the library
@@ -726,7 +725,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  				macro.selectAll();
  			 
  			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.exportDrawing(exp, false, exportInvisible);
+ 			macro.exportDrawing(exp, false, exportInvisible, macroCoord);
 			exportText(exp, cs, drawOnlyLayer);
 		}
 		

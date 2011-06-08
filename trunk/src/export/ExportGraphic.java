@@ -146,7 +146,7 @@ public class ExportGraphic
 	{
 
 		// obtain drawing size
-		P.getMapCoordinates().push();
+		MapCoordinates m=new MapCoordinates();
 		
 		// This solves bug #3299281
 		P.deselectAll();
@@ -200,9 +200,9 @@ public class ExportGraphic
 
 		// Center the drawing in the given space.
         
-        P.getMapCoordinates().setMagnitudes(unitPerPixel, unitPerPixel);
-        P.getMapCoordinates().setXCenter(-org.x);
-	   	P.getMapCoordinates().setYCenter(-org.y);
+        m.setMagnitudes(unitPerPixel, unitPerPixel);
+        m.setXCenter(-org.x);
+	   	m.setYCenter(-org.y);
 			       
     	if (format.equals("png")||format.equals("jpg")) {
 	
@@ -224,48 +224,46 @@ public class ExportGraphic
         		g2d.setColor(Color.white);
         		g2d.fillRect(0,0, width, height);
 				// Save bitmap
-				P.draw(g2d);
+				P.draw(g2d,m);
        		
         		ImageIO.write(bufferedImage, format, file);
         		// Graphics context no longer needed so dispose it
         		g2d.dispose();
         	} catch (java.lang.OutOfMemoryError E) {
         		IOException D=new IOException("Memory Error");
-       			P.getMapCoordinates().pop();
+       			
        			P.setLayers(ol);
     			throw D;
         	} catch (Exception E) {
         		IOException D=new IOException("Size error"+E);
-       			P.getMapCoordinates().pop();
        			P.setLayers(ol);
     			throw D;
 			}
     	} else if(format.equals("svg")) {
     		ExportSVG es = new ExportSVG(file);
-    		P.exportDrawing(es, true, false);
+    		P.exportDrawing(es, true, false, m);
     	} else if(format.equals("eps")) {
     		ExportEPS ep = new ExportEPS(file);
-    		P.exportDrawing(ep, true, false);
+    		P.exportDrawing(ep, true, false, m);
     	} else if(format.equals("pgf")) {
     		ExportPGF ef = new ExportPGF(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, m);
     	} else if(format.equals("pdf")) {
     		ExportPDF ef = new ExportPDF(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, m);
     	} else if(format.equals("scr")) {
     		ExportEagle ef = new ExportEagle(file);
-    		P.exportDrawing(ef, true, false);
+    		P.exportDrawing(ef, true, false, m);
     	} else if(format.equals("fcd")) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true, true);
+    		P.exportDrawing(ef, true, true, m);
     	} else {
     		IOException E=new IOException(
     			"Wrong file format");
     		throw E;
     	}
     	
-		P.getMapCoordinates().pop();
        	P.setLayers(ol);
     	return;
     }
@@ -287,24 +285,22 @@ public class ExportGraphic
 		// I do not like it, even if here we are not in a speed sensitive
 		// context!
 		
-		P.getMapCoordinates().push();
-		
+	
 		BufferedImage bufferedImage = new BufferedImage(10, 10, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
-		MapCoordinates m=P.getMapCoordinates();
+		MapCoordinates m=new MapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
        	m.setYCenter(0);
        	m.resetMinMax();
-       	P.setMapCoordinates(m);
        	
         Graphics2D g2d = bufferedImage.createGraphics();
        	// force an in deep recalculation
        	P.setChanged(true);
 
-        P.draw(g2d);
+        P.draw(g2d,m);
         // Graphics context no longer needed so dispose it
         g2d.dispose();
     	
@@ -325,7 +321,6 @@ public class ExportGraphic
 			width=100;
 			height=100;
 		}
-		P.getMapCoordinates().pop();
 
 		return new Dimension(width, height);
     }
@@ -343,14 +338,12 @@ public class ExportGraphic
 		// context!
 		
 		P.setChanged(true);		
-		P.getMapCoordinates().push();
-
 		// Create a dummy image on which the drawing will be done
 		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
-		MapCoordinates m=P.getMapCoordinates();
+		MapCoordinates m=new MapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
        	m.setYCenter(0);
@@ -358,21 +351,20 @@ public class ExportGraphic
        	Graphics2D g2d = bufferedImage.createGraphics();
 		// Draw the image. In this way, the min and max coordinates will be
 		// tracked.
-        P.draw(g2d);
+        P.draw(g2d, m);
         // Graphics context no longer needed so dispose it
         g2d.dispose();
     
     	// Verify that the image size is correct
-		if (P.getMapCoordinates().getXMax() >= P.getMapCoordinates().getXMin() && 
-			P.getMapCoordinates().getYMax() >= P.getMapCoordinates().getYMin()){
-			originx=P.getMapCoordinates().getXMin();
-			originy=P.getMapCoordinates().getYMin();
+		if (m.getXMax() >= m.getXMin() && 
+			m.getYMax() >= m.getYMin()){
+			originx=m.getXMin();
+			originy=m.getYMin();
 		} else {
 			originx=0;
 			originy=0;
 		}
 
-		P.getMapCoordinates().pop();
 		
 		return new Point(originx, originy);
     }
@@ -390,7 +382,6 @@ public class ExportGraphic
     				boolean forceCalc, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
-		P.getMapCoordinates().push();
 		double maxsizex;
 		double maxsizey;
 		Point org=new Point(0,0);
@@ -420,9 +411,7 @@ public class ExportGraphic
 		newZoom.setMagnitudes(z,z);
 		newZoom.setXCenter(-(org.x*z));
 		newZoom.setYCenter(-(org.y*z));
-		
-		P.getMapCoordinates().pop();
-		
+	
 		return newZoom;
 	}    
 }

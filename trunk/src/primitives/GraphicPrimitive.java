@@ -79,8 +79,8 @@ public abstract class GraphicPrimitive
 		selectedState=false;
 		layer=0;
         changed=true;
-        name = "";
-        value = "";
+        //name = "";
+        //value = "";
 
 		macroFontSize = 3;
 		macroFont=Globals.defaultTextFont;
@@ -112,8 +112,8 @@ public abstract class GraphicPrimitive
 	{
 		macroFontSize = 3;
 		macroFont=Globals.defaultTextFont;
-		name = "";
-		value = "";
+		//name = "";
+		//value = "";
 		if (number<0)
 			number = getControlPointNumber();
 		
@@ -167,7 +167,7 @@ public abstract class GraphicPrimitive
 							  Vector layerV, int drawOnlyLayer)
 	{				
 		// If this method is not needed, exit immediately.
-		if (value.length()==0 && name.length()==0)
+		if (value==null && name==null)
 			return;
 			
  		if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer())
@@ -193,8 +193,15 @@ public abstract class GraphicPrimitive
 	   		fm = g.getFontMetrics(f);
     		h = fm.getAscent();
     		th = h+fm.getDescent();
-   			w1 = fm.stringWidth(name);
-   			w2 = fm.stringWidth(value);
+    		if(name!=null) 
+   				w1 = fm.stringWidth(name);
+   			else
+   				w1=0;
+   			
+   			if(value!=null)
+   				w2 = fm.stringWidth(value);
+   			else
+   				w2=0;
    			
    			// Calculates the size of the text in logical units. This is 
    			// useful for calculating wether the user has clicked inside a 
@@ -211,16 +218,7 @@ public abstract class GraphicPrimitive
 	    	coordSys.trackPoint(xb,yb);
     		coordSys.trackPoint(xb+w2, yb+th);
 		}
-/*		
-		System.out.println("name "+name);
-		System.out.println("value "+value);
-		System.out.println("xa = "+xa);
-		System.out.println("ya = "+ya);
-		System.out.println("xb = "+xb);
-		System.out.println("yb = "+yb);
-		System.out.println("w1 = "+w1);
-		System.out.println("th = "+th);
-*/		
+
 	   	
 	   	// If there is no need to draw the text, just exit.
 	   	
@@ -244,10 +242,10 @@ public abstract class GraphicPrimitive
    		/* The if's have been added thanks to this information:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
    		*/
-  		if (name.length()!=0) {
+  		if (name!=null && name.length()!=0) {
     		g.drawString(name,xa,ya+h);
     	}
-    	if (value.length()!=0) {
+    	if (value!=null && value.length()!=0) {
     		g.drawString(value,xb,yb+h);
     	}	
 	}
@@ -276,18 +274,18 @@ public abstract class GraphicPrimitive
 		}
 		
 		// Write down the extensions only if needed
-		if (!name.equals("") || !value.equals("")) {
+		if ((name!=null && !name.equals("")) || (value!=null && !value.equals(""))) {
 			if(extensions) s+="FCJ\n";
 			s+="TY "+virtualPoint[getNameVirtualPointNumber()].x+
 				" "+virtualPoint[getNameVirtualPointNumber()].y+" "+
 				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
 				+getLayer()
-				+" "+subsFont+" "+name+"\n";
+				+" "+subsFont+" "+(name==null?"":name)+"\n";
 			s+="TY "+virtualPoint[getValueVirtualPointNumber()].x+
 				" "+virtualPoint[getValueVirtualPointNumber()].y+" "+
 				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
 				+getLayer()
-				+" "+subsFont+" "+value+"\n";
+				+" "+subsFont+" "+(value==null?"":value)+"\n";
 		}
 		
 		return s;
@@ -307,7 +305,7 @@ public abstract class GraphicPrimitive
 	{
 		// Export the text associated to the name and value of the macro 			
 		if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
-			if(!name.equals(""))
+			if(name!=null && !name.equals(""))
 				exp.exportAdvText (cs.mapX(
 					virtualPoint[getNameVirtualPointNumber()].x,
  					virtualPoint[getNameVirtualPointNumber()].y),
@@ -321,7 +319,7 @@ public abstract class GraphicPrimitive
 					false,
 					0, getLayer(), name);
 			
-			if(!value.equals(""))
+			if(value!=null && !value.equals(""))
 				exp.exportAdvText (cs.mapX(
 					virtualPoint[getValueVirtualPointNumber()].x,
 					virtualPoint[getValueVirtualPointNumber()].y),
@@ -758,6 +756,16 @@ public abstract class GraphicPrimitive
 		return false;
 	}
 	
+	protected boolean hasName()
+	{
+		return name!=null && name.length()!=0;
+	}
+	
+	protected boolean hasValue()
+	{
+		return value!=null && value.length()!=0;
+	}
+	
 	
 	/** Determines whether the handle specified is valid or is disabled.
 		Are disabled in particular the handles associated to the name and 
@@ -767,10 +775,18 @@ public abstract class GraphicPrimitive
 	*/
 	protected boolean testIfValidHandle(int i)
 	{
-		if (i==getNameVirtualPointNumber() && name.length()==0)
-			return false;
-		if (i==getValueVirtualPointNumber() && value.length()==0)
-			return false;		
+		if (i==getNameVirtualPointNumber()) {
+			if (name==null)
+				return false;
+			if(name.length()==0)
+				return false;
+		}
+		if (i==getValueVirtualPointNumber()) {
+			if(value==null)
+				return false;
+			if(value.length()==0)
+				return false;		
+		}
 		return true;
 	}
 	

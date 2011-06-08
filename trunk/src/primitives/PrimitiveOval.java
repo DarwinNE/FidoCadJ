@@ -341,7 +341,7 @@ public final class PrimitiveOval extends GraphicPrimitive
 			getLayer()+"\n";
 			
 		if(extensions) {
-			if (dashStyle>0 || name.length()!=0 || value.length()!=0) {
+			if (dashStyle>0 || hasName() || hasValue()) {
 				String text = "0";
 				if (name.length()!=0 || value.length()!=0)
 					text = "1";

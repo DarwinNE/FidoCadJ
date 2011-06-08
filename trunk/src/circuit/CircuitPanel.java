@@ -56,6 +56,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Maybe, should it be kept private?
     public ParseSchem P;
     
+    // Coordinate system to be used.
+    private MapCoordinates cs;
+    
 	// Default filled state of polygons, rectangles and ovals when they are
 	// created
     public boolean isFilled;
@@ -89,8 +92,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 	private static final String rulerFont = "Lucida Sans Regular";
     
     
-    public boolean paintSemaphore;
-
 	// ********** PROFILING **********
 
 	// Specify that the profiling mode should be activated.
@@ -197,7 +198,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         record_d = record;
         evidenceRect = new Rectangle(0,0,-1,-1);
         primEdit = null;
-       
+        // Set up the standard view settings:
+        // top left corner, 400% zoom. 
+        cs = new MapCoordinates();
+        cs.setXCenter(0.0);
+        cs.setYCenter(0.0);
+        cs.setXMagnitude(4.0);  
+        cs.setXMagnitude(4.0);  
+        cs.setOrientation(0);
         setOpaque(true);
         runs = 0;
         average = 0;
@@ -499,7 +507,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void setSnapState(boolean v)
     {
-        P.getMapCoordinates().setSnap(v);
+        cs.setSnap(v);
     }
     
 
@@ -535,7 +543,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         String cmd;
         int i;
-        MapCoordinates sc=P.getMapCoordinates();
 
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
@@ -580,24 +587,24 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     
             // Calculate a reasonable tolerance. If it is too small, we ensure
             // that it is rounded up to 2.
-            int toll= sc.unmapXnosnap(x+SEL_TOLERANCE)-
-                              sc.unmapXnosnap(x);
+            int toll= cs.unmapXnosnap(x+SEL_TOLERANCE)-
+                              cs.unmapXnosnap(x);
             
             if (toll<2) toll=2;
             
             
             
-             P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
+             P.selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y),
              	toll, toggle);
             break;
         
         // Zoom state
         case ZOOM:      
         //////// TO IMPROVE: should center the viewport
-            sc.unmapXsnap(x);
-            sc.unmapYsnap(y);
+            cs.unmapXsnap(x);
+            cs.unmapYsnap(y);
             
-            double z=sc.getXMagnitude();
+            double z=cs.getXMagnitude();
             
             // Click+Meta reduces the zoom
             // Click raises the zoom
@@ -612,7 +619,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             z=Math.round(z*100.0)/100.0;
             
-            sc.setMagnitudes(z,z);
+            cs.setMagnitudes(z,z);
             repaint();
             
             break;
@@ -625,8 +632,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             
             // Add a connection primitive at the given point.
-            P.addPrimitive(new PrimitiveConnection(sc.unmapXsnap(x),
-                                        sc.unmapYsnap(y), currentLayer), true,
+            P.addPrimitive(new PrimitiveConnection(cs.unmapXsnap(x),
+                                        cs.unmapYsnap(y), currentLayer), true,
                                         true);
                     
             repaint();
@@ -639,8 +646,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             // Add a PCB pad primitive at the given point
-            P.addPrimitive(new PrimitivePCBPad(sc.unmapXsnap(x),
-                                  sc.unmapYsnap(y), 
+            P.addPrimitive(new PrimitivePCBPad(cs.unmapXsnap(x),
+                                  cs.unmapYsnap(y), 
                                   PCB_pad_sizex,
                                   PCB_pad_sizey,                                                                                                                
                                   PCB_pad_drill,
@@ -666,8 +673,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             successiveMove=false;
             // clickNumber == 0 means that no line is being drawn
                     
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2 || (evt.getModifiers() & 
             	InputEvent.BUTTON3_MASK)!=0) {
             	// Here we know the two points needed for creating
@@ -702,8 +709,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
-            P.addPrimitive(new PrimitiveAdvText(sc.unmapXsnap(x),
-                                        sc.unmapYsnap(y), 
+            P.addPrimitive(new PrimitiveAdvText(cs.unmapXsnap(x),
+                                        cs.unmapYsnap(y), 
                                         3,4,Globals.defaultTextFont,0,0,
                                         "String", currentLayer), true, true);
                     
@@ -726,8 +733,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     
             // clickNumber == 0 means that no bezier is being drawn
                     
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             // a polygon definition is ended with a double click
             if (clickNumber == 4) {
                 P.addPrimitive(new PrimitiveBezier(xpoly[1],
@@ -772,8 +779,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ++ clickNumber;
             if(clickNumber<=2) successiveMove=false;
             // clickNumber == 0 means that no polygon is being drawn
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             break;   
             
         // Enter an ellipse: two clicks needed
@@ -787,14 +794,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             // If control is hold, trace a circle
             if(evt.isControlDown()&&clickNumber>0) {
-                y=sc.mapY(xpoly[1],ypoly[1])+(x-sc.mapX(xpoly[1],ypoly[1]));
+                y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
             }
             ++ clickNumber;
             successiveMove=false;
             // clickNumber == 0 means that no ellipse is being drawn
             
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2) {
                 P.addPrimitive(new PrimitiveOval(xpoly[1],
                                          ypoly[1],
@@ -819,14 +826,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             // If control is hold, trace a square
             if(evt.isControlDown()&&clickNumber>0) {
-                y=sc.mapY(xpoly[1],ypoly[1])+(x-sc.mapX(xpoly[1],ypoly[1]));
+                y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
             }
             ++ clickNumber;
             successiveMove=false;
             // clickNumber == 0 means that no rectangle is being drawn
            
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2) {
                 // The second click ends the rectangle introduction.
                 // We thus create the primitive and store it.
@@ -858,8 +865,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             successiveMove=false;
             // clickNumber == 0 means that no pcb line is being drawn
             
-            xpoly[clickNumber] = sc.unmapXsnap(x);
-            ypoly[clickNumber] = sc.unmapYsnap(y);
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2|| (evt.getModifiers() & 
             	InputEvent.BUTTON3_MASK)!=0) {
             	// Here is the end of the PCB line introduction: we create the
@@ -911,10 +918,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	}
                 
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
-                    P.getLayers(), sc.unmapXsnap(x),
-                    sc.unmapYsnap(y),macroKey,"", sc.unmapXsnap(x)+10,
-                    sc.unmapYsnap(y)+5, "", sc.unmapXsnap(x)+10,
-                    sc.unmapYsnap(y)+10,
+                    P.getLayers(), cs.unmapXsnap(x),
+                    cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
+                    cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
+                    cs.unmapYsnap(y)+10,
                     P.getTextFont(),
                     P.getTextFontSize(), orientation, mirror), true,true);
                 primEdit=null;
@@ -945,13 +952,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
  
         // This transformation/antitrasformation is useful to take care
         // of the snapping
-        MapCoordinates cs=P.getMapCoordinates();
-        int x=cs.mapX(P.getMapCoordinates().unmapXsnap(xa),0);
-        int y=cs.mapY(0,P.getMapCoordinates().unmapYsnap(ya));
+        int x=cs.mapX(cs.unmapXsnap(xa),0);
+        int y=cs.mapY(0,cs.unmapYsnap(ya));
         if (coordinatesListener!=null)
             coordinatesListener.changeCoordinates(
-                P.getMapCoordinates().unmapXsnap(xa),
-                P.getMapCoordinates().unmapYsnap(ya));
+                cs.unmapXsnap(xa),
+                cs.unmapYsnap(ya));
         
         // If no action is needed, exit immediately.
         if(x==oldx && y==oldy)
@@ -1051,10 +1057,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                    
             if (coordinatesListener!=null){
                 double w = Math.sqrt((xpoly[1]-
-                	P.getMapCoordinates().unmapXsnap(xa))*
-                    (xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
-                    (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
-                    (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
+                	cs.unmapXsnap(xa))*
+                    (xpoly[1]-cs.unmapXsnap(xa))+
+                    (ypoly[1]-cs.unmapYsnap(ya))*
+                    (ypoly[1]-cs.unmapYsnap(ya)));
                 coordinatesListener.changeInfos(
                     Globals.messages.getString("length")+roundTo(w,2));
                 
@@ -1081,10 +1087,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             successiveMove = true;    
             if (coordinatesListener!=null){
                 double w = Math.sqrt((xpoly[1]-
-                	P.getMapCoordinates().unmapXsnap(xa))*
-                    (xpoly[1]-P.getMapCoordinates().unmapXsnap(xa))+
-                    (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya))*
-                    (ypoly[1]-P.getMapCoordinates().unmapYsnap(ya)));
+                	cs.unmapXsnap(xa))*
+                    (xpoly[1]-cs.unmapXsnap(xa))+
+                    (ypoly[1]-cs.unmapYsnap(ya))*
+                    (ypoly[1]-cs.unmapYsnap(ya)));
                 coordinatesListener.changeInfos(
                     Globals.messages.getString("length")+roundTo(w,2));
                 
@@ -1223,7 +1229,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if(actionSelected == SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
             !evt.isShiftDown()) { 
-            P.dragHandleStart(px, py, SEL_TOLERANCE,multiple);
+            P.dragHandleStart(px, py, SEL_TOLERANCE,multiple, cs);
         } else if(actionSelected == SELECTION){ // Right click during selection
             ruler = true;
         }
@@ -1257,7 +1263,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             return;
         }
                
-        P.dragHandleDrag(this, g2d, px, py);
+        P.dragHandleDrag(this, g2d, px, py, cs);
         // A little profiling if necessary. I noticed that time needed for 
         // handling clicks is not negligible in large drawings, hence the
         // need of controlling it.
@@ -1291,7 +1297,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         if(actionSelected==SELECTION) {
             if(rulerStartX!=px || rulerStartY!=py)
-            	P.dragHandleEnd(this,px, py, multiple);
+            	P.dragHandleEnd(this,px, py, multiple, cs);
             else {
             	ruler=false;
             	handleClick(evt);
@@ -1370,7 +1376,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public void changeZoom(double z) 
     {
         z=Math.round(z*100.0)/100.0;
-        P.getMapCoordinates().setMagnitudes(z,z);
+        cs.setMagnitudes(z,z);
         successiveMove=false;
         
         //revalidate();
@@ -1454,7 +1460,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
         if(isGridVisible){  
-            P.drawGrid(g2,0,0,getWidth(),
+            P.drawGrid(g2,cs,0,0,getWidth(),
                               getHeight());
         }
         
@@ -1462,13 +1468,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         g.setColor(Color.black);
         
         // Perform the drawing operation.
-        P.draw(g2);
+        P.draw(g2, cs);
        
         if (zoomListener!=null) 
-            zoomListener.changeZoom(P.getMapCoordinates().getXMagnitude());
+            zoomListener.changeZoom(cs.getXMagnitude());
         
         // Draw the handles of all selected primitives.
-        P.drawSelectedHandles(g2);
+        P.drawSelectedHandles(g2, cs);
     
         // If an evidence rectangle is active, draw it.
         
@@ -1492,10 +1498,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         }
                 
        
-        if (P.getMapCoordinates().getXMax()>0 && 
-            P.getMapCoordinates().getYMax()>0){
-            setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
-               +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+        if (cs.getXMax()>0 && 
+            cs.getYMax()>0){
+            setPreferredSize(new Dimension(cs.getXMax()
+               +MARGIN,cs.getYMax()+MARGIN));
             
             revalidate();
         }
@@ -1522,7 +1528,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
         }   
-        paintSemaphore = false;      
         if(scrollRectangle!=null) {
   	   		scrollRectToVisible(scrollRectangle);
 			scrollRectangle = null;
@@ -1531,8 +1536,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     public void validate()
     {
-    	setPreferredSize(new Dimension(P.getMapCoordinates().getXMax()
-                +MARGIN,P.getMapCoordinates().getYMax()+MARGIN));
+    	setPreferredSize(new Dimension(cs.getXMax()
+                +MARGIN,cs.getYMax()+MARGIN));
     	super.validate();
     }
     /** Draws the current editing primitive.
@@ -1542,7 +1547,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
     	if(primEdit!=null) {
     		
-			primEdit.draw(g2,P.getMapCoordinates(), createEditingLayerArray());
+			primEdit.draw(g2,cs, createEditingLayerArray());
 		}
     }
     
@@ -1568,7 +1573,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
         double length;
-        MapCoordinates cs=P.getMapCoordinates();
+        //MapCoordinates cs=P.getMapCoordinates();
         
         int xa = cs.unmapXnosnap(sx);
         int ya = cs.unmapYnosnap(sy);
@@ -1790,12 +1795,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     private void selectAndSetProperties(int x, int y)
     {
-        MapCoordinates sc=P.getMapCoordinates();
+        //MapCoordinates cs=P.getMapCoordinates();
 
         P.deselectAll();
-        P.selectPrimitive(sc.unmapXnosnap(x), sc.unmapYnosnap(y),
-                              sc.unmapXnosnap(x+SEL_TOLERANCE)-
-                              sc.unmapXnosnap(x),false);
+        P.selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y),
+                              cs.unmapXnosnap(x+SEL_TOLERANCE)-
+                              cs.unmapXnosnap(x),false);
         repaint();
         setPropertiesForPrimitive();
     }
@@ -1835,6 +1840,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
     }
     
-
+    public void setMapCoordinates(MapCoordinates m)
+    {
+    	cs=m;
+    }
+    
+    public MapCoordinates getMapCoordinates()
+    {
+    	return cs;
+    }
 }
 

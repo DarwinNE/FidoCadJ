@@ -162,10 +162,7 @@ public class ParseSchem
     Vector primitiveVector;
     // Vector containing all layers used in the drawing.
     Vector layerV;
-    
-    // Coordinate system to be used.
-    MapCoordinates cs;
-    
+
     // Library of macros loaded.
     private Map library;
    
@@ -198,7 +195,6 @@ public class ParseSchem
     {
         tokens=new String[MAX_TOKENS];
         primitiveVector=new Vector(25);
-        cs=new MapCoordinates();
         layerV=new Vector(Globals.MAX_LAYERS);
         library=new TreeMap();
         firstDrag=false;
@@ -209,14 +205,6 @@ public class ParseSchem
         cl=null;
         macroFont = "Courier New";
         layersUsed = new boolean[Globals.MAX_LAYERS];
-        
-        // Setup the standard view settings:
-        // top left corner, 400% zoom. 
-        cs.setXCenter(0.0);
-        cs.setYCenter(0.0);
-        cs.setXMagnitude(4.0);  
-        cs.setXMagnitude(4.0);  
-        cs.setOrientation(0);
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         changed=true;
     }
@@ -438,23 +426,7 @@ public class ParseSchem
             }                
         } 
     }
-    
-    /** Obtain the description of the current coordinate mapping.
-        @return the current coordinate mapping.
-    
-    */
-    final public MapCoordinates getMapCoordinates()
-    {
-        return cs;
-    }
-    
-    /** Set the current coordinate mapping.
-        @param m the new coordinate mapping to be used.
-    */
-    final public void setMapCoordinates(MapCoordinates m)
-    {
-        cs=m;
-    }
+       
     /** Add a graphic primitive.
         @param p the primitive to be added.
         @param save save the undo state.
@@ -583,7 +555,7 @@ public class ParseSchem
         @param G the graphic context in which the drawing should be drawn.
         
     */
-    public synchronized void draw(Graphics2D G)
+    public synchronized void draw(Graphics2D G, MapCoordinates cs)
     {   
         // At first, we check if the current view has changed. 
         if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
@@ -629,7 +601,7 @@ public class ParseSchem
             if(!layersUsed[drawOnlyLayer])
                 return;
             
-            drawPrimitives(drawOnlyLayer, G);
+            drawPrimitives(drawOnlyLayer, G, cs);
             
             return;
         } else if (!drawOnlyPads) {
@@ -637,7 +609,7 @@ public class ParseSchem
             for(j_index=0;j_index<Globals.MAX_LAYERS; ++j_index) {
                 if(!layersUsed[j_index])
                     continue;
-                drawPrimitives(j_index, G);             
+                drawPrimitives(j_index, G,cs);             
             }
         }
         // Draw in a second time only the PCB pads, in order to ensure that the
@@ -663,7 +635,7 @@ public class ParseSchem
         @param j_index the layer to be considered
         @param G the graphic context in which to draw    
     */
-    private void drawPrimitives(int j_index, Graphics2D G)
+    private void drawPrimitives(int j_index, Graphics2D G, MapCoordinates cs)
     {
         GraphicPrimitive gg;
         int i_index;
@@ -725,7 +697,7 @@ public class ParseSchem
         @param xmax the x (screen) coordinate of the bottom right corner
         @param ymax the y (screen) coordinate of the bottom right corner  
     */
-    public void drawGrid(Graphics2D G, int xmin, int ymin, int xmax, int ymax) 
+    public void drawGrid(Graphics2D G, MapCoordinates cs, int xmin, int ymin, int xmax, int ymax) 
     {
         // Drawing the grid seems easy, but it appears that setting a pixel
         // takes a lot of time. Basically, we create a textured brush and we
@@ -839,7 +811,7 @@ public class ParseSchem
     /** Draw the handles of all selected primitives
         @param G the graphic context to be used.
     */
-    public void drawSelectedHandles(Graphics2D G)
+    public void drawSelectedHandles(Graphics2D G, MapCoordinates cs)
     {
         int i;
         for (i=0; i<primitiveVector.size(); ++i){
@@ -1001,7 +973,7 @@ public class ParseSchem
     /** Paste from the system clipboard
         
     */
-    public void paste()
+    public void paste(int xstep, int ystep)
     {
         TextTransfer textTransfer = new TextTransfer();
         
@@ -1012,7 +984,7 @@ public class ParseSchem
                 StringBuffer(textTransfer.getClipboardContents()),true);
         } catch (Exception E) {}
         
-        moveAllSelected(cs.getXGridStep(), cs.getYGridStep());
+        moveAllSelected(xstep, ystep);
         
         saveUndoState();
         setChanged(true);
@@ -1243,7 +1215,8 @@ public class ParseSchem
         @param multiple specifies whether multiple selection is active
     
     */
-    public void dragHandleStart(int px, int py, int tolerance, boolean multiple)
+    public void dragHandleStart(int px, int py, int tolerance, boolean multiple,
+    	MapCoordinates cs)
     {
         int i;
         int isel=0;
@@ -1321,7 +1294,8 @@ public class ParseSchem
         @param multiple specifies whether multiple selection is active
        
     */
-    public void dragHandleEnd(CircuitPanel P, int px, int py, boolean multiple)
+    public void dragHandleEnd(CircuitPanel P, int px, int py, boolean multiple,
+    	MapCoordinates cs)
     {
         // Check if we are effectively dragging something...
         P.setEvidenceRect(0,0,-1,-1);
@@ -1355,14 +1329,15 @@ public class ParseSchem
         @param px the (screen) x coordinate of the pointer
         @param py the (screen) y coordinate of the pointer
     */
-    public void dragHandleDrag(CircuitPanel P, Graphics2D g, int px, int py)
+    public void dragHandleDrag(CircuitPanel P, Graphics2D g, int px, int py,
+    	MapCoordinates cs)
     {
         hasMoved=true;
 
         // Check if we are effectively dragging and handle...
         if(handleBeingDragged<0){
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE)
-                dragPrimitives(P,g, px, py);
+                dragPrimitives(P,g, px, py, cs);
                 
             // if not, we are performing a rectangular selection
             if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION) {
@@ -1438,7 +1413,8 @@ public class ParseSchem
         @param py the y position (screen coordinates)
     
     */
-    public void dragPrimitives(CircuitPanel P,Graphics2D g, int px, int py)
+    public void dragPrimitives(CircuitPanel P,Graphics2D g, int px, int py,
+    	MapCoordinates cs)
     {
         // Check if we are effectively dragging the whole primitive...
         if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE)
@@ -1499,7 +1475,7 @@ public class ParseSchem
         @param s the string containing the circuit
         @param selectNew specify that the added primitives should be selected.
     */
-    public synchronized void addString(StringBuffer s, boolean selectNew) 
+    public void addString(StringBuffer s, boolean selectNew) 
         throws IOException
     {
         int i; // Character pointer within the string 
@@ -1534,6 +1510,9 @@ public class ParseSchem
         j=0;    // A fairy simple tokenizer
         token.setLength(0);
         len=s.length();
+        
+        synchronized(this) {
+        
         for(i=0; i<len;++i){
             c=s.charAt(i);
             if(c=='\n' || c=='\r'|| i==len-1) { //The string finished
@@ -1830,6 +1809,7 @@ public class ParseSchem
             Globals.lineWidthCircles = newLineWidthCircles;
         }
         sortPrimitiveLayers();
+        }
         
     }
     
@@ -1953,11 +1933,9 @@ public class ParseSchem
         should be exported
     */
     public void exportDrawing(ExportInterface exp, boolean header, 
-        boolean exportInvisible)
+        boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
-
-        MapCoordinates mp=cs;
         
         int l;
         int i;
@@ -1981,8 +1959,8 @@ public class ParseSchem
         	// We remeber that getImageSize works only with logical coordinates
         	// so we may trasform them:
         	
-        	d.width *= cs.getXMagnitude();
-        	d.height *= cs.getYMagnitude();
+        	d.width *= mp.getXMagnitude();
+        	d.height *= mp.getYMagnitude();
         	
         	// We finally write the header
             exp.exportStart(d, layerV, mp.getXGridStep());
@@ -2008,7 +1986,7 @@ public class ParseSchem
             }
             return;
         } else if (!drawOnlyPads) {
-            cs.resetMinMax();
+//            cs.resetMinMax();
             for(j=0;j<layerV.size(); ++j) {
                 for (i=0; i<primitiveVector.size(); ++i){
                 

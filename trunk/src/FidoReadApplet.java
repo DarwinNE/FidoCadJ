@@ -124,7 +124,7 @@ public class FidoReadApplet extends JApplet
 	*/
 	public void trace(String c, int zoom)
 	{
-		CC.P.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
+		CC.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
 		try {
 			CC.P.parseString(new StringBuffer(c));
 		} catch (IOException E) {

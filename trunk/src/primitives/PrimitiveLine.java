@@ -293,17 +293,7 @@ public final class PrimitiveLine extends GraphicPrimitive
  			// Calculate the length in pixel.
  			length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
  			
- 			/*
- 			if(dashStyle>0) {
-				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
-                                          BasicStroke.JOIN_ROUND, 
-                                          10.0f, Globals.dash[dashStyle], 
-                                          0.0f);
-			} else {
-    			stroke =new BasicStroke(w);
-			}*/
-			
-			
+ 			// Get the correct stroke style
 			if (strokeStyle==null) {
 				strokeStyle = new StrokeStyle();
 			}
@@ -443,12 +433,12 @@ public final class PrimitiveLine extends GraphicPrimitive
 		if(extensions) {
 		 	int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
 		 			 	
-		 	if (arrows>0 || dashStyle>0 || name.length()!=0 
-		 		|| value.length()!=0) {
+		 	if (arrows>0 || dashStyle>0 || (name!=null && name.length()!=0) 
+		 		|| (value!=null && value.length()!=0)) {
 		 		String text = "0";
 		 		// We take into account that there may be some text associated
 		 		// to that primitive.
-		 		if (name.length()!=0 || value.length()!=0) 
+		 		if (hasName() || hasValue()) 
 		 			text = "1";
 		 		s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
 		 		arrowHalfWidth+" "+dashStyle+" "+text+"\n";
