@@ -101,7 +101,6 @@ public class UndoManager {
 	/** Redo the last undo state from the buffer
 		@return the recovered state.
 	*/
-	
 	public Object undoRedo()
 		throws NoSuchElementException
 	{
