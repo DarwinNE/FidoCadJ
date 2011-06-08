@@ -349,21 +349,23 @@ public class FidoMain {
 			// We begin by showing immediately the window. This improves the
 			// perception of speed given to the user, since the libraries 
 			// are not yet loaded
-        	popFrame.setVisible(true);
+        	// popFrame.setVisible(true);  // NOT THREAD SAFE?
 
 			// We load the libraries (this does not take so long in modern
 			// systems).
 			popFrame.loadLibraries();
 
-			// We force a global validation of the window size, by including 
-			// this time the tree containing the various libraries and the
-			// macros.
-        	popFrame.setVisible(true);
 
         	// If a file should be loaded, load it now, since popFrame has been
         	// created and initialized.
         	if(!loadFile.equals(""))
 				popFrame.load(loadFile);
+				
+			// We force a global validation of the window size, by including 
+			// this time the tree containing the various libraries and the
+			// macros.
+        	popFrame.setVisible(true);
+
 		}
     }
     

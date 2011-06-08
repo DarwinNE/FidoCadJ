@@ -128,6 +128,7 @@ public class FidoFrame extends JFrame implements
     
     // Useful for automatic scrolling in panning mode.
     private ScrollGestureRecognizer sgr;
+   
     
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
@@ -245,6 +246,7 @@ public class FidoFrame extends JFrame implements
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;    
+
     }
     
     /** Read the preferences settings (mainly at startup or when a new 
@@ -374,11 +376,11 @@ public class FidoFrame extends JFrame implements
 		// feature will be implemented when possible.
         RulerPanel vertRuler = new RulerPanel(
             SwingConstants.VERTICAL, 20, 20, 5,
-            CC.P.getMapCoordinates());
+            CC.getMapCoordinates());
         
         RulerPanel horRuler = new RulerPanel(
             SwingConstants.HORIZONTAL, 20, 20, 5,
-            CC.P.getMapCoordinates());
+            CC.getMapCoordinates());
           
         //SC.setRowHeaderView(vertRuler);
         //SC.setColumnHeaderView(horRuler);
@@ -878,12 +880,12 @@ public class FidoFrame extends JFrame implements
            		The following code would require a thread safe implementation
            		of some of the inner classes (such as ParseSchem), which is 
            		indeed not the case...
-           		
-				Thread thread = new Thread(openf);
+           		*/
+				/*Thread thread = new Thread(openf);
 				thread.setDaemon(true);
 				// Start the thread
-				thread.start();
-				*/
+				thread.start();*/
+				
             }
             // Export the current drawing
             if (arg.equals(Globals.messages.getString("Export"))) {
@@ -952,7 +954,8 @@ public class FidoFrame extends JFrame implements
             }
             // Paste some graphical elements 
             if (arg.equals(Globals.messages.getString("Paste"))) {
-                CC.P.paste();   
+                CC.P.paste(CC.getMapCoordinates().getXGridStep(), 
+                	CC.getMapCoordinates().getYGridStep());   
                 repaint();
             }
             // Close the current window
@@ -1166,23 +1169,18 @@ public class FidoFrame extends JFrame implements
             g2d.scale(xscale,yscale); 
         }   
        
-		CC.P.getMapCoordinates().push();
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
 		// Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
-            CC.P.getMapCoordinates().setMagnitudes(1,1);
-            CC.P.getMapCoordinates().setMagnitudes(1,1);
-            CC.P.getMapCoordinates().setXCenter(0);
-            CC.P.getMapCoordinates().setYCenter(0);
-            
+        
             zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
                     true,false);
             zoom=zoomm.getXMagnitude();
         }
          
-        MapCoordinates m=CC.P.getMapCoordinates();
+        MapCoordinates m=new MapCoordinates();
         
         m.setMagnitudes(zoom, zoom);
         
@@ -1196,16 +1194,13 @@ public class FidoFrame extends JFrame implements
         
         // Check if printing is finished.
         if(page>npages) {
-       		CC.P.getMapCoordinates().pop();
             return NO_SUCH_PAGE;
         }
 
-        CC.P.setMapCoordinates(m);
-        
+       
         // Now we perform our rendering 
-        CC.P.draw(g2d);
+        CC.P.draw(g2d, m);
         
-		CC.P.getMapCoordinates().pop();
         
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -1540,9 +1535,9 @@ public class FidoFrame extends JFrame implements
     	// to the particular program to which it is referred, i.e. in this
     	// case FidoCadJ...
         DialogOptions options=new DialogOptions(this,
-            CC.P.getMapCoordinates().getXMagnitude(),
+            CC.getMapCoordinates().getXMagnitude(),
             CC.profileTime,CC.antiAlias,
-            CC.P.getMapCoordinates().getXGridStep(),
+            CC.getMapCoordinates().getXGridStep(),
             libDirectory,
             textToolbar,
             smallIconsToolbar,
@@ -1571,10 +1566,10 @@ public class FidoFrame extends JFrame implements
         textToolbar=options.textToolbar;
         smallIconsToolbar=options.smallIconsToolbar;
                 
-        CC.P.getMapCoordinates().setMagnitudes(options.zoomValue, 
+        CC.getMapCoordinates().setMagnitudes(options.zoomValue, 
                                                        options.zoomValue);
-        CC.P.getMapCoordinates().setXGridStep(options.gridSize); 
-        CC.P.getMapCoordinates().setYGridStep(options.gridSize); 
+        CC.getMapCoordinates().setXGridStep(options.gridSize); 
+        CC.getMapCoordinates().setYGridStep(options.gridSize); 
                 
         CC.setPCB_thickness(options.pcblinewidth_i);
         CC.setPCB_pad_sizex(options.pcbpadwidth_i);
@@ -1640,7 +1635,7 @@ public class FidoFrame extends JFrame implements
     */
     public void zoomToFit()
     {
-        double oldz=CC.P.getMapCoordinates().getXMagnitude();
+        double oldz=CC.getMapCoordinates().getXMagnitude();
         
         // We calculate the zoom to fit factor here.
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
@@ -1651,7 +1646,7 @@ public class FidoFrame extends JFrame implements
         double z=m.getXMagnitude();
         
         // We apply the zoom factor to the coordinate transform
-        CC.P.getMapCoordinates().setMagnitudes(z, z);     		 		
+        CC.getMapCoordinates().setMagnitudes(z, z);     		 		
 	    	
        	// We make the scroll pane show the interesting part of
        	// the drawing.
@@ -1874,10 +1869,13 @@ class OpenFile implements Runnable {
                    	Globals.createCompleteFileName(din, fin);
                 if (parent.runsAsApplication)
                    	parent.prefs.put("OPEN_DIR", din);  
+
                 popFrame.openFileDirectory=din;
                 popFrame.openFile();
                 popFrame.CC.P.saveUndoState();
                 popFrame.CC.P.setModified(false);
+               
+                System.gc();
 
             } catch (IOException fnfex) {
                 JOptionPane.showMessageDialog(parent,

@@ -165,8 +165,7 @@ public class MacroTree extends JPanel
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
     				previewPanel.getSize().width*80/100, previewPanel.getSize().height*80/100, 
     				true,true);
-    			previewPanel.P.setMapCoordinates(m);
-				//System.out.println(m);
+    			previewPanel.setMapCoordinates(m);
 				
             	repaint();
             	if (selectionListener!=null)
