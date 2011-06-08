@@ -231,142 +231,9 @@ public class FidoMain {
         }
 
         if (!commandLineOnly) {
-	        /*******************************************************************
-	            PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
-	        *******************************************************************/
-	        if (System.getProperty("os.name").startsWith("Mac")) {
-            
-            
-    	        Globals g=new Globals();
-        
-	            Preferences prefs_static = 
-	                Preferences.userNodeForPackage(g.getClass());
-            
-    	        Globals.quaquaActive = prefs_static.get("QUAQUA", 
-        	        "true").equals("true");
-        
-            	Globals.weAreOnAMac =true;
-        
-	            // These settings allows to obtain menus on the right place
-    	        System.setProperty("com.apple.macos.useScreenMenuBar","true");
-        	    // This is for JVM < 1.5 It won't harm on higher versions.
-            	System.setProperty("apple.laf.useScreenMenuBar","true"); 
-            	// This is for having the good application name in the menu
-            	System.setProperty(
-            		"com.apple.mrj.application.apple.menu.about.name", 
-            		"FidoCadJ");
-
-	            try { 
-             
-    	            //Globals.quaquaActive=true;
-        	        //System.setProperty("Quaqua.Debug.showVisualBounds","true");
-            	    //System.setProperty("Quaqua.Debug.showClipBounds","true");
-                	if(Globals.quaquaActive) { 
-                    	UIManager.setLookAndFeel(
-                        	"ch.randelshofer.quaqua.QuaquaLookAndFeel");
-                
-	                    System.out.println("Quaqua look and feel active");
- 	               	}
-                
-	                // set UI manager properties here that affect Quaqua
-	            } catch (Exception e) {
-	                // Quaqua is not active. Just continue!
-            
-    	            System.out.println(
-    	            	"The Quaqua look and feel is not available");
-        	        System.out.println(
-        	        	"I will continue with the basic Apple l&f");
-	            }
-	        } else if (System.getProperty("os.name").startsWith("Win")) {
-	            /* If the host system is a window system, select the Windows
-    	           look and feel. This is a way to encourage people to use 
-        	       FidoCadJ even on a Windows system, forgotting about Java.
-               
-            	*/
-	            try {
-	                UIManager.setLookAndFeel(
-	                	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
- 	            } catch (Exception E) {}
-            	Globals.quaquaActive=false;
-            
-        
-        	} else {
-            	Globals.quaquaActive=false;
-        	}
-
-        
-        	// Un-comment to try to use the Metal LAF
-        
-    		/*
-        	try {
-            	UIManager.setLookAndFeel(
-            	UIManager.getCrossPlatformLookAndFeelClassName());
-            	Globals.weAreOnAMac =false;
-        	} catch (Exception E) {}
-        	*/
-            /*******************************************************************
-    	                    END OF THE PLATFORM SELECTION CODE
-        	*******************************************************************/
-        
-        	if(Globals.weAreOnAMac) {
-        	
-        		/*
-        		// Probably, you need to strip this code if you need to compile the
-    	    	// program under a non-Apple platform.
-            	AppleSpecific a=new AppleSpecific();
-            	a.answerFinder();
-            	*/
-            	
-            	// Here we use the reflection provided by Java to understand
-            	// if the AppleSpecific class is available on the system.
-            	// This class should be compiled separately from the main 
-            	// program since the compilation can be successful only on
-            	// a MacOSX system.
-           
-            	try {
-            		Class a = Class.forName("AppleSpecific");
-            		Object b = a.newInstance();
-            		Method m = a.getMethod("answerFinder", null);
-					m.invoke(b, null);
-            	
-            	} catch (Exception exc)
-    			{
-     				Globals.weAreOnAMac = false;
-     				System.out.println("It seems that this software has been compiled on a system different from MacOSX. Some nice integrations with MacOSX will therefore be absent. If you have compiled on MacOSX, make sure you used the 'compile' or 'rebuild' script along with the 'mac' option.");
-    			}
-        	}
-
-            // Here we create the main window object
-        
-	        FidoFrame popFrame=new FidoFrame(true);
-        
-        	if (!libDirectory.equals("")) {
-				popFrame.libDirectory = libDirectory;
-        	}
-
-        	popFrame.init();
-
-			// We begin by showing immediately the window. This improves the
-			// perception of speed given to the user, since the libraries 
-			// are not yet loaded
-        	// popFrame.setVisible(true);  // NOT THREAD SAFE?
-
-			// We load the libraries (this does not take so long in modern
-			// systems).
-			popFrame.loadLibraries();
-
-
-        	// If a file should be loaded, load it now, since popFrame has been
-        	// created and initialized.
-        	if(!loadFile.equals(""))
-				popFrame.load(loadFile);
-				
-			// We force a global validation of the window size, by including 
-			// this time the tree containing the various libraries and the
-			// macros.
-        	popFrame.setVisible(true);
-
-		}
+        	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
+        		loadFile));
+        }
     }
     
     /** Print a short summary of each option available for launching
@@ -448,4 +315,153 @@ public class FidoMain {
         } else
            	System.out.println("Standard PCB library got from external file");
 	}
+}
+
+
+/** Creates the Swing elements needed for the interface.
+*/
+class CreateSwingInterface implements Runnable {
+
+	String libDirectory;
+	String loadFile;
+	
+	public CreateSwingInterface (String ld, String lf)
+	{
+		libDirectory = ld;
+		loadFile = lf;
+	}
+
+	public CreateSwingInterface ()
+	{
+		libDirectory = "";
+		loadFile = "";
+	}
+	
+	public void run() 
+	{
+	    /*******************************************************************
+	        PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
+	    *******************************************************************/
+	    if (System.getProperty("os.name").startsWith("Mac")) {
+            Globals g=new Globals();
+        
+	        Preferences prefs_static = 
+	            Preferences.userNodeForPackage(g.getClass());
+            
+    	    Globals.quaquaActive = prefs_static.get("QUAQUA", 
+                "true").equals("true");
+        
+           	Globals.weAreOnAMac =true;
+        
+	        // These settings allows to obtain menus on the right place
+    	    System.setProperty("com.apple.macos.useScreenMenuBar","true");
+            // This is for JVM < 1.5 It won't harm on higher versions.
+         	System.setProperty("apple.laf.useScreenMenuBar","true"); 
+            // This is for having the good application name in the menu
+            System.setProperty(
+            	"com.apple.mrj.application.apple.menu.about.name", 
+            	"FidoCadJ");
+
+	        try { 
+                //Globals.quaquaActive=true;
+        	    //System.setProperty("Quaqua.Debug.showVisualBounds","true");
+                //System.setProperty("Quaqua.Debug.showClipBounds","true");
+               	if(Globals.quaquaActive) { 
+                   	UIManager.setLookAndFeel(
+                       	"ch.randelshofer.quaqua.QuaquaLookAndFeel");
+                
+	                System.out.println("Quaqua look and feel active");
+ 	           	}
+                
+	        } catch (Exception e) {
+	            // Quaqua is not active. Just continue!
+            
+    	        System.out.println(
+    	         	"The Quaqua look and feel is not available");
+        	    System.out.println(
+        	       	"I will continue with the basic Apple l&f");
+	        }
+	    } else if (System.getProperty("os.name").startsWith("Win")) {
+	        /* If the host system is a window system, select the Windows
+    	       look and feel. This is a way to encourage people to use 
+               FidoCadJ even on a Windows system, forgotting about Java.
+              
+           	*/
+	        try {
+	            UIManager.setLookAndFeel(
+	              	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+ 	        } catch (Exception E) {}
+           	Globals.quaquaActive=false;
+            
+        
+        } else {
+           	Globals.quaquaActive=false;
+        }
+
+        
+        // Un-comment to try to use the Metal LAF
+        
+    	/*
+        try {
+           	UIManager.setLookAndFeel(
+           	UIManager.getCrossPlatformLookAndFeelClassName());
+           	Globals.weAreOnAMac =false;
+        } catch (Exception E) {}
+        */
+        /*******************************************************************
+    	                END OF THE PLATFORM SELECTION CODE
+        *******************************************************************/
+        
+        if(Globals.weAreOnAMac) {
+           	
+           	// Here we use the reflection provided by Java to understand
+           	// if the AppleSpecific class is available on the system.
+           	// This class should be compiled separately from the main 
+           	// program since the compilation can be successful only on
+           	// a MacOSX system.
+          
+           	try {
+           		Class a = Class.forName("AppleSpecific");
+           		Object b = a.newInstance();
+           		Method m = a.getMethod("answerFinder", null);
+				m.invoke(b, null);
+           	
+           	} catch (Exception exc) {
+     			Globals.weAreOnAMac = false;
+     			System.out.println("It seems that this software has been compiled on a system different from MacOSX. Some nice integrations with MacOSX will therefore be absent. If you have compiled on MacOSX, make sure you used the 'compile' or 'rebuild' script along with the 'mac' option.");
+    		}
+        }
+
+        // Here we create the main window object
+        
+	    FidoFrame popFrame=new FidoFrame(true);
+        
+        if (!libDirectory.equals("")) {
+			popFrame.libDirectory = libDirectory;
+        }
+
+        popFrame.init();
+
+		// We begin by showing immediately the window. This improves the
+		// perception of speed given to the user, since the libraries 
+		// are not yet loaded
+        // popFrame.setVisible(true); 
+
+		// We load the libraries (this does not take so long in modern
+		// systems).
+		popFrame.loadLibraries();
+
+
+        // If a file should be loaded, load it now, since popFrame has been
+        // created and initialized.
+        if(!loadFile.equals(""))
+			popFrame.load(loadFile);
+				
+		// We force a global validation of the window size, by including 
+		// this time the tree containing the various libraries and the
+		// macros.
+        popFrame.setVisible(true);
+
+	}
+
 }
