@@ -804,14 +804,14 @@ public abstract class GraphicPrimitive
 		Vector v = new Vector(10);
 		ParameterDescription pd = new ParameterDescription();
 		
-		pd.parameter=name;
+		pd.parameter=(name!=null?name:"");
 		pd.description=Globals.messages.getString("ctrl_name");
 		pd.isExtension = true;
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		
-		pd.parameter=value;
+		pd.parameter=(value!=null?value:"");
 		pd.description=Globals.messages.getString("ctrl_value");
 		pd.isExtension = true;
 

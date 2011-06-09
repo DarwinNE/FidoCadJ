@@ -45,8 +45,6 @@ public class FidoMain {
     /** The main method. Shows an instance of the FidoFrame */
     public static void main(String[] args)
     {
- 		// MyTimer mt = new MyTimer();
-
         // See if there is a filename to open or an option to take into 
         // account
        	String loadFile="";
@@ -70,7 +68,6 @@ public class FidoMain {
         	boolean loaded=false;
         	boolean nextLib=false;
 
-        	
         	for(i=0; i<args.length; ++i) {
         		if (args[i].startsWith("-")) {
         			// It is an option
@@ -168,7 +165,7 @@ public class FidoMain {
         	ParseSchem P = new ParseSchem();
         	
         	if(loadFile.equals("")) {
-        		System.err.println("You should specify a FidoCad file to read");
+        		System.err.println("You should specify a FidoCadJ file to read");
         		System.exit(1);
         	}
         	
