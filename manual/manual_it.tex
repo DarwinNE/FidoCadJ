@@ -115,7 +115,7 @@ Questo documento è il manuale utente di FidoCadJ. Dopo una breve presentazione d
 
 Molte persone hanno utilizzato il programma (o una delle sue versioni preliminari) e mi hanno fatto avere le loro impressioni. Ringrazio quindi i frequentatori del newsgroup\index{newsgroup} it.hobby.elettronica\index{it.hobby.elettronica} per i loro consigli. Il programma è stato pazientemente testato sotto Linux da  Stefano Martini, che è stato un infaticabile scovatore di bug. Inoltre, ringrazio, Olaf Marzocchi ed Emanuele Baggetta per i test funzionali sotto MacOSX\index{MacOSX}. Ringrazio F. Bertolazzi di non avermi dato tregua fino a che FidoCadJ non è diventato un minimo decente e di aver lavorato per la libreria CadSoft Eagle\index{Eagle}.  Ringrazio Celsius per le prove effettuate su FidoCadJ e sulla libreria PCB\index{PCB} ed Andrea D'Amore per i consigli su come migliorare l'aspetto del programma su Apple Macintosh, a partire dalla versione 0.21.1. Un grazie particolare a Roby IZ1CYN per le discussioni sulle librerie e per aver scritto il paragrafo \ref{installazione_linux} di questo manuale, relativo all'installazione sotto Linux\index{linux} di FidoCadJ. Un grazie anche a Pasu, che si è preso la briga di tradurre in inglese tutto questo manuale e che ha corretto diversi refusi che avevo fatto traducendo l'interfaccia di FidoCadJ in questa lingua. Gli utenti Macintosh possono contare sul buon aspetto di FidoCadJ grazie al look and feel Quaqua\index{Quaqua}, frutto del lavoro di Werner Randelshofer. Werner ha anche fornito molti consigli sull'organizzazione dell'interfaccia utente di FidoCadJ: grazie!
 
-Nell'aprile 2010, FidoCadJ è stato integrato all'interno del portale di elettronica \href{www.electroyou.it}{www.electroyou.it}. Ringrazio l'admin ed il webmaster e tanti utilizzatori per avermi fornito degli ottimi spunti per adattare FidoCadJ a girare in batch per convertire gli schemi sul loro server: è stata aperta una via molto interessante e promettente. Più di recente, la classe FidoReadPHP, capace di leggere ed interpretare i disegni FidoCadJ è stata adottata anche sul forum integrato a \href{www.grix.it}{www.grix.it}.
+Nell'aprile 2010, FidoCadJ è stato integrato all'interno del portale di elettronica \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}. Ringrazio l'admin ed il webmaster e tanti utilizzatori per avermi fornito degli ottimi spunti per adattare FidoCadJ a girare in batch per convertire gli schemi sul loro server: è stata aperta una via molto interessante e promettente. Più di recente, la classe FidoReadPHP, capace di leggere ed interpretare i disegni FidoCadJ è stata adottata anche sul forum di \href{www.grix.it}{www.grix.it}\index{www.grix.it} grazie agli sforzi di Arniek e di Sstrix, che ringrazio.
 
 
 \chapter*{FidoCadJ License}
@@ -165,7 +165,7 @@ Il file generato dal programma contiene solo dei codici in formato testo ed è mo
 
 Chi avesse già utilizzato FidoCad\index{FidoCad}, dovrebbe trovarsi abbastanza a suo agio con FidoCadJ, dato che alcuni comandi sono simili. Il mio scopo è stato quello di fornire una soluzione minimalista alle esigenze di disegno e di sbroglio di semplici circuitini. Il tutto rispettando la filosofia del programma originale, che è quella di fornire un mezzo agile e senza troppi fronzoli. Naturalmente, il mio obiettivo è stato quello di raggiungere una compatibilità totale a livello dei file prodotti fra FidoCadJ e il FidoCad\index{FidoCad} per Windows\index{Windows} originale. Questo è stato fatto fin dove possibile, ma le esigenze degli utenti hanno ben presto portato ad introdurre delle estensioni rispetto al formato originale.
 
-Fra i miei interessi compare la tipografia al calcolatore, ed in particolare il \LaTeX. Per questa ragione, FidoCadJ si distingue dal programma originale per la possibilità di esportare i disegni in diversi formati grafici vettoriali, fra cui il Postscript incapsulato (meglio noto come \textsc{EPS}\index{EPS}). Naturalmente, FidoCadJ può esportare anche verso il notissimo formato \textsc{PDF}\index{PDF}.
+Fra i miei interessi compare la tipografia al calcolatore, ed in particolare il \LaTeX\index{LaTeX@\LaTeX}. Per questa ragione, FidoCadJ si distingue dal programma originale per la possibilità di esportare i disegni in diversi formati grafici vettoriali, fra cui il Postscript incapsulato (meglio noto come \textsc{EPS}\index{EPS}). Naturalmente, FidoCadJ può esportare anche verso il notissimo formato \textsc{PDF}\index{PDF}.
 
 L'appendice~\ref{specifics} descrive brevemente fra le altre cose le procedure di installazione di FidoCadJ nei vari sistemi operativi.
 
@@ -177,19 +177,19 @@ La prima cosa che ho fatto è stata quindi di studiarmi in dettaglio il formato u
 Ho fatto un po' di reverse engineering, ho cercato informazioni dappertutto per capire quali fossero le possibilità e le limitazioni del formato, ed infine mi sono scaricato e studiato i sorgenti in C++ (peraltro molto ben fatti e commentati) del FidoCad originale.
 Questo avveniva più o meno verso marzo 2007. Qualche mese più tardi, l'applet era pubblicata sul sito ed era stata ampiamente testata da una parte della comunità gravitante attorno al gruppo it.hobby.elettronica\index{it.hobby.elettronica} e it.hobby.fai-da-te\index{it.hobby.fai-da-te}.\footnote{FidoReadJ\index{FidoReadJ} è sempre disponibile all'indirizzo:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.}
 
-Disponendo di un interprete\index{interprete}\graffito{In realtà, era un pallino che avevo da un pezzo. Il primo tentativo che ho fatto di scrivere un CAD 2D risale al 1993.} del formato, il lavoro restante per arrivare ad un editor completo è stato quello di mettere a punto la gestione dell'interfaccia utilizzatore e dei vari elementi di disegno\index{elemento}. Il grosso del lavoro si è protratto in varie fasi da gennaio a luglio 2008. FidoCadJ non è quindi un porting di FidoCad per Windows, ma piuttosto una riscrittura totale del programma. A partire dalla versione 0.21 (pubblicata nel gennaio 2009), FidoCadJ propone delle estensioni\index{estensioni} rispetto al formato FidoCad originale. Molta attenzione è stata fatta per mantenere comunque una compatibilità all'indietro, anche se a partire dalla versione 0.23 di fine dicembre 2009 sono state introdotte delle estensioni per cui è impossibile mantenere una compatibilità con FidoCad\index{FidoCad}. Per la prima volta, si è arrivati ad un punto FidoCadJ fa cose che FidoCad non può fare.
+Disponendo di un interprete\index{interprete}\graffito{In realtà, era un pallino che avevo da un pezzo. Il primo tentativo che ho fatto di scrivere un CAD 2D risale al 1993.} del formato, il lavoro restante per arrivare ad un editor completo è stato quello di mettere a punto la gestione dell'interfaccia utilizzatore e dei vari elementi di disegno\index{elemento}. Il grosso del lavoro si è protratto in varie fasi da gennaio a luglio 2008. FidoCadJ non è quindi un porting di FidoCad per Windows, ma piuttosto una riscrittura totale del programma. A partire dalla versione 0.21 (pubblicata nel gennaio 2009), FidoCadJ propone delle estensioni\index{estensioni} rispetto al formato FidoCad originale. Molta attenzione è stata fatta per mantenere comunque una compatibilità all'indietro, anche se a partire dalla versione 0.23 di fine dicembre 2009 sono state introdotte delle estensioni per cui è impossibile mantenere una compatibilità con FidoCad\index{FidoCad}. Si è quindi arrivati ad un punto in cui FidoCadJ fa cose che FidoCad non può fare.
 
 La mia scelta di Java\index{Java} è motivata dal fatto che ho cambiato troppe 
 architetture e sistemi operativi negli ultimi anni (per ragioni che 
 non sto qui ad elencare) ed ho scelto uno strumento che non mi legasse ad 
-una particolare architettura per il futuro. Inoltre, era un linguaggio 
-che conoscevo già, rispetto ad altre soluzioni multipiattaforma. 
+una particolare architettura per il futuro. Inoltre, Java era un linguaggio 
+che conoscevo già piuttosto bene, mentre lo stesso non potevo dire altre soluzioni multipiattaforma. 
 Lo sforzo di imparare il framework Cocoa\index{Cocoa} sarebbe probabilmente 
 ripagato da un aspetto migliore del programma sotto MacOSX\index{MacOSX}, ma avrebbe reso il programma non portabile, senza contare che NON sono un 
 informatico ed il tempo che dedico a programmare non lo dedico 
 all'elettronica. 
 
-Del resto, la struttura del codice rivela che io non sono certo un purista di Java\index{Java} e della programmazione ad oggetti\index{programmazione ad oggetti} e certe soluzioni sono più pragmatiche che eleganti.
+Del resto, la struttura del codice rivela che io non sono certo un purista di Java\index{Java} e della programmazione ad oggetti\index{programmazione ad oggetti} e certe soluzioni sono certamente più pragmatiche che eleganti.
 
 Quello che conta, più che la scelta di questo o quel linguaggio, è 
 secondo me l'impressione d'uso del programma da parte dell'utente 
@@ -206,7 +206,7 @@ pessima qualità ed è per questo che ogni commento sull'usabilità del
 programma e su eventuali problemi individuati sarà quanto mai benvenuto.
 
 A partire da novembre 2009, ho aperto un progetto FidoCadJ su SourceForge\index{SourceForge}.
-Da questa pagina si possono scaricare gli eseguibili ed i manuali di 
+Dalì si possono scaricare gli eseguibili ed i manuali di 
 FidoCadJ. Si può anche partecipare attivamente allo sviluppo del 
 programma, scaricandosi il codice sorgente, eventualmente utilizzando 
 Subversion, oppure con il browser SVN fornito da SourceForge: 
@@ -218,16 +218,45 @@ esperti: se volete, potete tradurre il programma in una lingua
 straniera, rileggere con attenzione i manuali per trovare 
 inconsistenze o errori, curare la coerenza (e la traduzione) della 
 libreria standard\dots\
-Del tempo libero che dedico a FidoCadJ, solo una metà circa è dedicata al lavoro del codice. Il resto è costituito dalle risposte alle domande degli utenti e dal lavoro sulla documentazione.
+Del tempo che dedico a FidoCadJ, solo una metà circa è dedicata al lavoro del codice. Il resto è costituito dalle risposte alle domande degli utenti e dal lavoro sulla documentazione.
 Se vi va, potete anche partecipare al forum di FidoCadJ, scrivere una recensione del programma, suggerire miglioramenti e segnalare bug. Il punto da cui partire è la pagina SourceForge:
 
  \href{http://sourceforge.net/projects/fidocadj/}{http://sourceforge.net/projects/fidocadj/} 
 
+\section{FidoCadJ ed il futuro}
+Nell'aprile 2010, sono capitato quasi per caso in una discussione all'interno del forum del noto portale \href{www.electroyou.it}{www.electroyou.it}. Un utente, Giancarlo Boletti, peraltro piuttosto famoso in diversi altri ambiti, ha proposto di integrare uno strumento di editing degli schemi elettrici direttamente all'interno del forum, come già era stato fatto con \LaTeX\index{LaTeX@\LaTeX}. Dato che veniva menzionato FidoCadJ, mi sono iscritto al sito e mi sono offerto di collaborare. Dopo pochissimi giorni, grazie al lavoro del webmaster, il sistema è stato finalizzato: basta fare un copia/incolla in un messaggio a partire dal programma e contrassegnare il codice con un paio di tag. Il motore del forum si occupa di lanciare FidoCadJ in maniera silenziosa sul server e recuperare un'immagine convertita. In questo modo, chi solo legge la discussione non deve avere nulla di installato per vedere l'immagine. Tuttavia, qualora desiderasse modificare l'immagine esistente, con pochi click può ottenere il codice da cui partire a fare le modifiche. La figura~\ref{fig_discussione_electroyou} mostra una parte di un mio messaggio inviato ad \href{www.electroyou.it}{www.electroyou.it}.
+Il sistema ha una praticità ed una flessibilità tale che sono stato il primo ad essere stupito dell'entusiasmo dimostrato dalla comunità gravitante attorno ad \href{www.electroyou.it}{www.electroyou.it}.\footnote{Per maggiori informazioni: \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}
+}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{discussione_electroyou.png}
+\caption{Una parte di un mio intervento sul forum di \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}. Basta un solo click e si può ingrandire lo schema elettrico. Con un altro, si accede immediatamente al codice pronto da essere nuovamente modificato con FidoCadJ.}
+\label{fig_discussione_electroyou}
+\end{figure}
+
+
+
+Il successo che il programma ha avuto su \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} ha fatto nascere delle richieste altrove, ed in particolare su  \href{www.grix.it}{www.grix.it}\index{www.grix.it}, un altro portale italiano molto noto. In questo caso, dato che il server non poteva far funzionare programmi in Java, è stata sviluppata la classe FidoReadPHP, una sorta di interprete scritto in PHP. Il progetto FidoReadPHP è pure lui open source ed è disponibile su SourceForge:
+
+\href{https://sourceforge.net/projects/fidoreadphp/}{https://sourceforge.net/projects/fidoreadphp/}
+
+Il risultato è simile a quanto si è ottenuto su \href{www.electroyou.it}{www.electroyou.it}, anche se le potenzialità grafiche delle librerie del PHP sono parecchio limitate rispetto a quanto offre Java.\footnote{Per maggiori informazioni: \href{http://www.grix.it/viewer.php?page=9335}{http://www.grix.it/viewer.php?page=9335}}
+La figura~\ref{fig_fidocadj_grix3} mostra un esempio di tale tecnica.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fidocadj_grix3.png}
+\caption{Un esempio di integrazione di un disegno FidoCadJ all'interno di un post del forum di \href{www.grix.it}{www.grix.it}\index{www.grix.it}. Anche qui si può accedere con un click al sorgente del disegno.}
+\label{fig_fidocadj_grix3}
+\end{figure}
+
+Credo che il futuro di sistemi come FidoCadJ non sia di diventare sempre più complicati alla stregua di altri programmi di CAD elettronico, ma piuttosto vada curata sempre di più la possibilità di integrazione con gruppi di discussione e portali tecnici. L'esperienza ha mostrato che questo è possibile e l'entusiasmo degli utenti suggerisce che questa è la via da percorrere, proprio nello spirito dell'idea originale che ha fatto nascere il primo FidoCad.
+
+
 
 \myChapter{Il disegno con FidoCadJ}
 
-L'uso del programma dovrebbe essere abbastanza intuitivo per chi abbia già utilizzato un programma di disegno vettoriale\index{disegno vettoriale}. 
-L'aspetto del programma sotto MacOSX\index{MacOSX} è mostrato nella figura~\ref{fig_fidocadj};\graffito{Gli utilizzatori Mac di lunga data noteranno che i menu sono al loro posto!} sotto altri sistemi operativi cambia qualche dettaglio (per esempio, la figura~\ref{fig_metal} mostra il risultato con il look and feel Metal\index{Metal} di Sun\index{Sun}), ma la filosofia resta la medesima. Vedremo quindi quali sono le funzionalità offerte dal programma, nonché gli elementi di disegno di base (le primitive)\index{primitiva}, a partire dai quali ogni disegno FidoCadJ può essere ottenuto.
+Usare FidoCadJ dovrebbe essere abbastanza intuitivo per chi si sia già servito di un programma di disegno vettoriale\index{disegno vettoriale}. 
+L'aspetto con MacOSX\index{MacOSX} è mostrato nella figura~\ref{fig_fidocadj};\graffito{Gli utilizzatori Mac di lunga data noteranno che i menu sono al loro posto!} sotto altri sistemi operativi cambia qualche dettaglio (per esempio, la figura~\ref{fig_metal} mostra il risultato con il look and feel Metal\index{Metal} di Sun\index{Sun}), ma la filosofia resta la medesima. Vedremo quindi quali sono le funzionalità offerte dal programma, nonché gli elementi di disegno di base (le primitive)\index{primitiva}, a partire dai quali ogni disegno FidoCadJ può essere ottenuto.
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_macosx.png}
 \caption{Una tipica sessione di lavoro di FidoCadJ sotto MacOSX Tiger\index{MacOSX}. Nell'appendice~\ref{specifics}, sono descritte le peculiarità della versione specifica per Macintosh\index{Macintosh}.}
@@ -245,7 +274,7 @@ L'aspetto del programma sotto MacOSX\index{MacOSX} è mostrato nella figura~\ref{
 Nella barra dei comandi\index{barra dei comandi} (in alto), si trovano le funzioni più utilizzate, che permettono di creare e modificare un disegno. La tabella~\ref{tab_comandi} mostra un rapido riassunto delle funzionalità dei comandi disponibili e descrive le azioni possibili. Noterete che una volta che viene premuto un bottone, questo rimarrà premuto fino a quando non si selezionerà un altra funzione dalla barra.\graffito{Questo modo di funzionare è ispirato alle vecchie radio a valvole ed ai commutatori in voga fino agli anni 70.}
 Nella barra, è possibile scegliere quale elemento di disegno\index{elemento} verrà introdotto.\footnote{Per avere maggiori informazioni sul formato con cui gli elementi del disegno vengono memorizzati, riferitevi alla sezione~\ref{sec_primitive}.} Sulla destra, una lista attivabile con un click mostra il layer corrente (riferitevi al paragrafo~\ref{sec_layer} per maggiori informazioni).
 
-La barra dei comandi\index{barra dei comandi} è parzialmente personalizzabile. In particolare, l'utente può scegliere se mostrare in ogni bottone l'icona più il testo, oppure solo l'icona. Le icone sono inoltre disponibili in due formati selezionabili a piacere. Per scegliere queste impostazioni, basta andare nel menu ``Vista/Opzioni''.\footnote{Tranne su MacOSX, in cui questa voce si trova nel menu FidoCadJ e si chiama ``Preferenze''.} Le modifiche saranno attive al riavvio successivo del programma, dato che presumibilmente non si tratta di qualcosa che va cambiato tutti i giorni.
+La barra dei comandi\index{barra dei comandi} è parzialmente personalizzabile. In particolare, si può scegliere se mostrare in ogni bottone l'icona più il testo, oppure solo l'icona. Le icone sono inoltre disponibili in due formati selezionabili a piacere. Per scegliere queste impostazioni, basta andare nel menu ``Vista/Opzioni''.\footnote{Tranne su MacOSX, in cui questa voce si trova nel menu FidoCadJ e si chiama ``Preferenze''.} Le modifiche saranno attive al riavvio successivo del programma, dato che presumibilmente non si tratta di qualcosa che va cambiato tutti i giorni.
 Le figure \ref{fig_fidocadj} e \ref{fig_metal} mostrano quanto si ottiene nella barra dei comandi (subito sotto il titolo della finestra), configurata per mostrare il testo e le icone, nella loro versione più piccola. 
 Nella seconda riga, a partire da sinistra si vedono le impostazioni di zoom ed i bottoni ``Adatta'', ``Mostra griglia'' e ``Blocca sulla griglia''. Il primo permette di selezionare automaticamente le impostazioni di zoom più adatte a mostrare la totalità del disegno. Il secondo permette di selezionare se mostrare oppure no la griglia. Il terzo permette all'utente di scegliere se desidera allineare gli elementi alla griglia durante l'introduzione, oppure no.
 
@@ -273,11 +302,11 @@ o
  \textsc{Seleziona}\index{selezione}
 &
 Selezione di uno o più elementi grafici. 
-Premere \keyevidence{Control} (\keyevidence{Command} con MacOSX) per fare selezioni multiple o deselezionare un solo elemento. 
+\keyevidence{Control} (\keyevidence{Command} con MacOSX) per fare selezioni multiple o deselezionare un solo elemento. 
 Fare click e trascinare per selezionare più elementi in un'area. 
-Premere \keyevidence{R} per ruotare la selezione. 
-Premere \keyevidence{S} per specchiare la selezione. 
-Fare doppio click su un elemento per modificarne le proprietà. 
+\keyevidence{R} per ruotare la selezione. 
+\keyevidence{S} per specchiare la selezione. 
+Doppio click su un elemento per modificarne le proprietà. 
 \\
 
 &
@@ -306,7 +335,7 @@ Cliccare nel disegno e spostare il mouse per fare scorrere il disegno.
 }
 \textsc{Linea}\index{linea}
 &
-Introduce una linea o una serie di linee. Premere \keyevidence{Esc}, fare click destro  o doppio click sinistro per terminare l'introduzione.
+Linea o una serie di linee. Premere \keyevidence{Esc}, fare click destro  o doppio click sinistro per terminare l'introduzione.
 \\
 
 \keyevidence{T}
@@ -336,7 +365,7 @@ Disegna una curva di Bézier.
 }
 \textsc{Poligono}\index{poligono}
 &
-Disegna un poligono pieno o vuoto. Fare doppio click o premere \keyevidence{Esc}, per terminare l'introduzione dei vertici.
+Poligono pieno o vuoto. Fare doppio click o premere \keyevidence{Esc}, per terminare l'introduzione dei vertici.
 \\
 
 \keyevidence{E}
@@ -346,7 +375,7 @@ Disegna un poligono pieno o vuoto. Fare doppio click o premere \keyevidence{Esc}
 }
 \textsc{Ellisse}\index{ellisse}
 &
-Disegna un ellisse pieno o vuoto (tener premuto \keyevidence{Control} per ottenere un cerchio).
+Ellisse pieno o vuoto (tener premuto \keyevidence{Control} per ottenere un cerchio).
 \\
 
 \keyevidence{G}
@@ -356,7 +385,7 @@ Disegna un ellisse pieno o vuoto (tener premuto \keyevidence{Control} per ottene
 }
 \textsc{Rettangolo}\index{rettangolo}
 &
-Disegna un rettangolo pieno o vuoto.
+Rettangolo pieno o vuoto.
 \\
 
 \keyevidence{C}
@@ -366,7 +395,7 @@ Disegna un rettangolo pieno o vuoto.
 }
 \textsc{Connessione}\index{connessione}
 &
-Disegna una connessione elettrica in uno schema.
+Connessione elettrica in uno schema.
 \\
 
 \keyevidence{I}
@@ -376,7 +405,7 @@ Disegna una connessione elettrica in uno schema.
 }
 \textsc{Pista}\index{pista c. s.}
 &
-Disegna una pista di circuito stampato. La larghezza di default può essere modificata nella finestra ``Vista/Opzioni''.
+Pista di circuito stampato. La larghezza di default può essere modificata da ``Vista/Opzioni''.
 \\
 
 \keyevidence{Z}
@@ -386,11 +415,11 @@ Disegna una pista di circuito stampato. La larghezza di default può essere modif
 }
 \textsc{Piazzola}\index{piazzola c. s.}
 &
-Disegna una piazzola per circuito stampato. Le dimensioni di default possono essere modificate nella finestra ``Vista/Opzioni''.
+Piazzola per circuito stampato. Le dimensioni di default possono essere modificate da ``Vista/Opzioni''.
 \\
 \bottomrule
 \end{tabular}
-\caption{Riassunto dei comandi di disegno disponibili in FidoCadJ. Il tasto mostrato nella colonna più a sinistra permette di selezionare rapidamente l'operazione da tastiera. Un click destro in una delle modalità di inserimento delle primitive permette di passare direttamente nella finestra di modifica delle proprietà.}
+\caption{Riassunto dei comandi di disegno di FidoCadJ. Il tasto nella colonna più a sinistra permette l'attivazione da tastiera. Un click destro permette di passare nella finestra di modifica di un elemento.}
 \label{tab_comandi}
 \end{table}
 
