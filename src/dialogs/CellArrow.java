@@ -28,7 +28,7 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009-2010 by Davide Bucci
+	Copyright 2009-2011 by Davide Bucci
 </pre>
 */
 public class CellArrow extends JPanel
@@ -61,8 +61,10 @@ public class CellArrow extends JPanel
 								list.getBackground());
 								
 		g.fillRect(0,0, getWidth(), getHeight());
-		g.setColor(list.getForeground());
-		g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
+        g.setColor(isSelected ? list.getSelectionForeground(): 
+                                list.getForeground());
+        
+        g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
 		Arrow.drawArrow((Graphics2D)g, getWidth()/3, getHeight()/2,
 			2*getWidth()/3, getHeight()/2, 10, 4, arrow.style);
 		

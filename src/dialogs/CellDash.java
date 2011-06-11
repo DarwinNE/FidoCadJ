@@ -28,7 +28,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009 by Davide Bucci
+    Copyright 2009-2011 by Davide Bucci
 </pre>
 */
 public class CellDash extends JPanel
@@ -70,7 +70,8 @@ public class CellDash extends JPanel
         // the element is selected or not.
         
         g.fillRect(0,0, getWidth(), getHeight());
-        g.setColor(list.getForeground());
+        g.setColor(isSelected ? list.getSelectionForeground(): 
+                                list.getForeground());
 
 		// We then proceed by drawing an horisontal line showing the dashing 
 		// style corresponding to the element
