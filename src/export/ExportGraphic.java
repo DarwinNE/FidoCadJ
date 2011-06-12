@@ -59,6 +59,8 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
+		@param shiftMin shift the exported image at the origin.
+
 
 	*/
 	public static void export(File file, 
@@ -67,7 +69,8 @@ public class ExportGraphic
 						double unitPerPixel,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						boolean shiftMin)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -79,7 +82,8 @@ public class ExportGraphic
 						 false,
 						 antiAlias,
 						 blackWhite,
-						 ext);
+						 ext,
+						 shiftMin);
 	}	
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -93,6 +97,8 @@ public class ExportGraphic
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
+		@param shiftMin shift the exported image at the origin.
+
 	*/
 	public static void exportSize(File file, 
 						ParseSchem P, 
@@ -101,7 +107,8 @@ public class ExportGraphic
 						int height,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						boolean shiftMin)
 	throws IOException
 	{
 		exportSizeP( file, 
@@ -113,7 +120,8 @@ public class ExportGraphic
 						 true,
 						 antiAlias,
 						 blackWhite,
-						 ext);
+						 ext,
+						 shiftMin);
 	}
 	
 	/** Exports the circuit contained in circ using the specified parsing 
@@ -129,7 +137,8 @@ public class ExportGraphic
 			does the opposite strategy.
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
-		@param ext activate FidoCadJ extensions when exporting
+		@param ext activate FidoCadJ extensions when exporting.
+		@param shiftMin shift the exported image at the origin.
 
 	*/
 	private static void exportSizeP(File file, 
@@ -141,7 +150,8 @@ public class ExportGraphic
 						boolean setSize,
 						boolean antiAlias,
 						boolean blackWhite,
-						boolean ext)
+						boolean ext,
+						boolean shiftMin)
 	throws IOException
 	{
 
@@ -201,9 +211,11 @@ public class ExportGraphic
 		// Center the drawing in the given space.
         
         m.setMagnitudes(unitPerPixel, unitPerPixel);
-        m.setXCenter(-org.x);
-	   	m.setYCenter(-org.y);
-			       
+        
+        if(shiftMin) {
+        	m.setXCenter(-org.x);
+	   		m.setYCenter(-org.y);
+		}	       
     	if (format.equals("png")||format.equals("jpg")) {
 	
         	// Create a buffered image in which to draw

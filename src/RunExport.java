@@ -77,7 +77,7 @@ class RunExport implements Runnable {
 		
 		try {
     		ExportGraphic.export(file, P, format, unitPerPixel,
-				antiAlias, blackWhite, ext);
+				antiAlias, blackWhite, ext, true);
 			success = true;
        		JOptionPane.showMessageDialog(parent,
                 Globals.messages.getString("Export_completed"));
