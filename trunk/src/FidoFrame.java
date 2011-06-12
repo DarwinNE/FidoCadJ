@@ -1486,7 +1486,7 @@ public class FidoFrame extends JFrame implements
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
-                    "fcd", 1.0,true,false, extFCJ_s);
+                    "fcd", 1.0,true,false, extFCJ_s, false);
                 CC.P.setModified(false);
     
             } else {

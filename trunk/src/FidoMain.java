@@ -209,11 +209,11 @@ public class FidoMain {
         		try {
         			if (resolutionBasedExport) {
         				ExportGraphic.export(new File(outputFile),  P, 
-                    		exportFormat, resolution,true,false,true);
+                    		exportFormat, resolution,true,false,true, true);
         			} else {
                 		ExportGraphic.exportSize(new File(outputFile),  P, 
                     		exportFormat, totx, toty, 
-                    		true,false,true);
+                    		true,false,true,true);
                 	}
                 	System.out.println("Export completed");
             	} catch(IOException ioe) {
