@@ -175,7 +175,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		   
 		   	*/
 	    	
-    		orientation=o;
+    		orientation=o-coordSys.getOrientation()*90;
     	
     		if((sty & TEXT_MIRRORED)!=0){
     	 		mirror=true;

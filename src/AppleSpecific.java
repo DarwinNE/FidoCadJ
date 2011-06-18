@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.*;
 
 
+
 import com.apple.eawt.*;
 
 import globals.*;
@@ -71,6 +72,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
     public void handleOpenFile(ApplicationEvent evt) {
     	String file = evt.getFilename();
+    	//JOptionPane.showMessageDialog(null,file);
     	((FidoFrame)Globals.activeWindow).load(file);
     }
     
