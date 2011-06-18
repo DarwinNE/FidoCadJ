@@ -142,7 +142,6 @@ public class FidoMain {
         				libDirectory= args[i];
         				System.out.println("Changed the library directory: "
         					+args[i]);
-        			
         			} else {
         				if (loaded) {
         					System.err.println("Only one file can be"+
@@ -156,8 +155,6 @@ public class FidoMain {
         			nextLib=false;
         		}
         	}
-        
-            
         }
            
         if(headlessMode) {
@@ -244,14 +241,14 @@ public class FidoMain {
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
     		
-    		" -n     Does not start the graphical user interface (headless mode)\n\n"+
+    		" -n     Do not start the graphical user interface (headless mode)\n\n"+
     		
     		" -d     Set the extern library directory\n"+
     		"        Usage: -d dir\n"+
-    		"        where 'dir' is the directory you want to specify.\n\n"+
+    		"        where 'dir' is the path of the directory you want to use.\n\n"+
     		    		 
     		" -c     Convert the given file to a graphical format.\n"+
-    		"        Usage: -d sx sy [eps|pdf|svg|png|jpg|fcd|sch] outfile\n"+
+    		"        Usage: -d sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
     		"        If you use this command line option, you *must* specify a FidoCad file to convert.\n"+
     		"        An alternative is to specify the resolution in pixels per logical unit by\n"+
     		"        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.\n\n"+
@@ -381,20 +378,16 @@ class CreateSwingInterface implements Runnable {
 	    } else if (System.getProperty("os.name").startsWith("Win")) {
 	        /* If the host system is a window system, select the Windows
     	       look and feel. This is a way to encourage people to use 
-               FidoCadJ even on a Windows system, forgotting about Java.
-              
+               FidoCadJ even on a Windows system, forgotting about Java. 
            	*/
 	        try {
 	            UIManager.setLookAndFeel(
 	              	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
  	        } catch (Exception E) {}
            	Globals.quaquaActive=false;
-            
-        
         } else {
            	Globals.quaquaActive=false;
         }
-
         
         // Un-comment to try to use the Metal LAF
         
@@ -410,7 +403,6 @@ class CreateSwingInterface implements Runnable {
         *******************************************************************/
         
         if(Globals.weAreOnAMac) {
-           	
            	// Here we use the reflection provided by Java to understand
            	// if the AppleSpecific class is available on the system.
            	// This class should be compiled separately from the main 
@@ -447,8 +439,6 @@ class CreateSwingInterface implements Runnable {
 		// We load the libraries (this does not take so long in modern
 		// systems).
 		popFrame.loadLibraries();
-
-
         // If a file should be loaded, load it now, since popFrame has been
         // created and initialized.
         if(!loadFile.equals(""))
@@ -458,7 +448,5 @@ class CreateSwingInterface implements Runnable {
 		// this time the tree containing the various libraries and the
 		// macros.
         popFrame.setVisible(true);
-
 	}
-
 }

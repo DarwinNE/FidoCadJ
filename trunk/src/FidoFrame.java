@@ -1172,8 +1172,7 @@ public class FidoFrame extends JFrame implements
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
 		// Perform an adjustement if we need to fit the drawing to the page.
-        if (printFitToPage) {
-        
+        if (printFitToPage) {        
             zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
                     true,false);
@@ -1186,6 +1185,11 @@ public class FidoFrame extends JFrame implements
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
         npages = (int)Math.floor(((imageWidth-1)/printerWidth));
+        
+ 		/*System.out.println("imageWidth="+imageWidth);
+ 		System.out.println("printerWidth="+printerWidth);
+
+ 		System.out.println("npages="+npages);*/
  
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
