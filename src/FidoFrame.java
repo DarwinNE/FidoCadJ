@@ -338,7 +338,7 @@ public class FidoFrame extends JFrame implements
         // I wanted to measure the library loading time, in order to ensure
         // that it is reasonably fast (it is, on any reasonable hardware).
         // A measurement is done only if Globals.isBeta is true.
-        
+        		    	        System.out.println("Event dispatch thread: "+javax.swing.SwingUtilities.isEventDispatchThread());
         MyTimer mt;
         mt = new MyTimer();
         Container contentPane=getContentPane();
