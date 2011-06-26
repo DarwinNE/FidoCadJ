@@ -79,8 +79,8 @@ public abstract class GraphicPrimitive
 		selectedState=false;
 		layer=0;
         changed=true;
-        //name = "";
-        //value = "";
+        name = "";
+        value = "";
 
 		macroFontSize = 3;
 		macroFont=Globals.defaultTextFont;
@@ -112,8 +112,8 @@ public abstract class GraphicPrimitive
 	{
 		macroFontSize = 3;
 		macroFont=Globals.defaultTextFont;
-		//name = "";
-		//value = "";
+		name = "";
+		value = "";
 		if (number<0)
 			number = getControlPointNumber();
 		

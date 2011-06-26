@@ -557,6 +557,7 @@ public class ParseSchem
     */
     public synchronized void draw(Graphics2D G, MapCoordinates cs)
     {   
+
         // At first, we check if the current view has changed. 
         if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
         	oY!=cs.getYCenter() || oO!=cs.getOrientation()) {

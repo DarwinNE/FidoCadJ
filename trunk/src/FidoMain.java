@@ -147,8 +147,8 @@ public class FidoMain {
         					System.err.println("Only one file can be"+
         						"specified in the command line");
         				}
-        				// We can not load the file now, since popFrame has
-        				// not been initialized yet.
+        				// We can not load the file now, since the main frame 
+        				// has not been initialized yet.
         				loadFile=args[i];
         				loaded=true;
         			}
@@ -308,6 +308,14 @@ public class FidoMain {
                	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
         } else
            	System.out.println("Standard PCB library got from external file");
+           	
+        if (!(new File(Globals.createCompleteFileName(libDirectory,"elettrotecnica.fcl"))).exists()) {
+           	if(englishLibraries)
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica.fcl"), "elettrotecnica");
+           	else
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica.fcl"), "elettrotecnica");
+        } else
+           	System.out.println("Electrotechnics library got from external file");   	
 	}
 }
 

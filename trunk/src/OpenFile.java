@@ -54,6 +54,7 @@ class OpenFile implements Runnable {
 		String fin;
         String din;
         
+        
         if(Globals.useNativeFileDialogs) {             
         	// File chooser provided by the host system.
             // Vastly better on MacOSX
