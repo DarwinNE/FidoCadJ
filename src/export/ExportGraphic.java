@@ -43,7 +43,6 @@ import circuit.*;
 </pre>   
   
 	@author Davide Bucci
-	@version 1.5, May 2011
 */
 public class ExportGraphic 
 {

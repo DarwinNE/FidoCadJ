@@ -48,10 +48,9 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2011 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.3, July 2010
 */
 
 public class ExportPGF implements ExportInterface {
@@ -70,17 +69,7 @@ public class ExportPGF implements ExportInterface {
 		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
 	
 	
-	private double sizeMagnification;
 
-	public int cLe(double l)
-	{
-		return (int)(l*sizeMagnification);
-	}
-	public double getMagnification()
-	{
-		return sizeMagnification;
-	}	
-	
 	/** Constructor
 	
 		@param f the File object in which the export should be done.
@@ -92,7 +81,6 @@ public class ExportPGF implements ExportInterface {
 		fileExp=f;
 		
 		fstream = new FileWriter(fileExp);
-    
 		
 	}
 	
@@ -267,7 +255,7 @@ public class ExportPGF implements ExportInterface {
 		registerColorSize(layer, .33);
 
 		out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+
-			node_size*sizeMagnification/2.0+"pt}");
+			node_size/2.0+"pt}");
 	
 	}
 		
@@ -619,7 +607,7 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\color{layer"+layer+"}\n");
 		}
 		if (strokeWidth > 0 && actualWidth!=strokeWidth) {
-			out.write("\\pgfsetlinewidth{"+strokeWidth*sizeMagnification
+			out.write("\\pgfsetlinewidth{"+strokeWidth
 			+"pt}\n");
 			actualWidth = strokeWidth;
 		}
