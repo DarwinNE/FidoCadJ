@@ -514,6 +514,7 @@ public class ExportEPS implements ExportInterface {
 		Color c=l.getColor();
 		
 		checkColorAndWidth(c, width);
+		registerDash(0);
 
 		out.write("1 setlinecap\n");
 		out.write(""+x1+" "+y1+" moveto "+

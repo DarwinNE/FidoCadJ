@@ -447,17 +447,11 @@ public class ExportPGF implements ExportInterface {
 		throws IOException
 	{ 
 		registerColorSize(layer, width);
-
+		// This avoids that some of the exported lines are dashed!
+		registerDash(0);
 
 		out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
 			x2+","+y2+")}\n");
-	
-		/*out.write("\\pgfellipse[fill"+
-			"]{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
-			width/2.0+",0)}{\\pgfxy(0,"+width+"pt)}\n");
-		out.write("\\pgfellipse[fill"+
-			"]{\\pgfxy("+x2+","+y2+")}{\\pgfxy("+
-			width/2.0+",0)}{\\pgfxy(0,"+width+"pt)}\n");*/
 	}
 		
 	
