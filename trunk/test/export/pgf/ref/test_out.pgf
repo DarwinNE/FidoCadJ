@@ -1,5 +1,5 @@
-\begin{pgfpicture}{0cm}{0cm}{387pt}{279pt}
-% Created by FidoCadJ ver. 0.23.6 gamma, export filter by Davide Bucci
+\begin{pgfpicture}{0cm}{0cm}{391pt}{279pt}
+% Created by FidoCadJ ver. 0.23.6 epsilon, export filter by Davide Bucci
 \pgfsetxvec{\pgfpoint{1pt}{0pt}}
 \pgfsetyvec{\pgfpoint{0pt}{1pt}}
 \pgfsetroundjoin 
@@ -25,7 +25,7 @@
 \definecolor{layer15}{rgb}{0.0,0.0,0.0}
 % End of color definitions
 \color{layer0}
-\pgfsetlinewidth{0.0pt}
+\pgfsetlinewidth{0.75pt}
 \pgfsetdash{{1.0pt}{2.5pt}{2.5pt}{2.5pt}}{0pt}
 \pgfline{\pgfxy(12,73)}{\pgfxy(139,73)}
 \pgfsetdash{{1.0pt}{2.5pt}}{0pt}
@@ -251,28 +251,28 @@
 \pgfmoveto{\pgfxy(57,118)} 
 \pgfcurveto{\pgfxy(49,81)}{\pgfxy(109,81)}{\pgfxy(87,126)}
 \pgfstroke
-\pgfsetlinewidth{0.0pt}
-\pgfcircle[fill]{\pgfxy(109,88)}{0.0pt}\pgfcircle[fill]{\pgfxy(109,96)}{0.0pt}\pgfcircle[fill]{\pgfxy(124,88)}{0.0pt}\pgfcircle[fill]{\pgfxy(124,96)}{0.0pt}\pgfcircle[fill]{\pgfxy(124,103)}{0.0pt}\pgfcircle[fill]{\pgfxy(109,103)}{0.0pt}\pgfsetlinewidth{0.0pt}
-\pgfline{\pgfxy(19,163)}{\pgfxy(139,163)}
-\pgfsetlinewidth{0.0pt}
-\pgfline{\pgfxy(19,178)}{\pgfxy(139,178)}
-\pgfsetlinewidth{0.0pt}
-\pgfline{\pgfxy(19,133)}{\pgfxy(139,133)}
-\pgfsetlinewidth{0.0pt}
-\pgfline{\pgfxy(19,148)}{\pgfxy(139,148)}
-\pgfsetlinewidth{0.0pt}
+\pgfsetlinewidth{0.33pt}
+\pgfcircle[fill]{\pgfxy(109,88)}{1.125pt}\pgfcircle[fill]{\pgfxy(109,96)}{1.125pt}\pgfcircle[fill]{\pgfxy(124,88)}{1.125pt}\pgfcircle[fill]{\pgfxy(124,96)}{1.125pt}\pgfcircle[fill]{\pgfxy(124,103)}{1.125pt}\pgfcircle[fill]{\pgfxy(109,103)}{1.125pt}\pgfsetlinewidth{7.0pt}
 \pgfsetdash{}{0pt}
+\pgfline{\pgfxy(19,163)}{\pgfxy(139,163)}
+\pgfsetlinewidth{9.0pt}
+\pgfline{\pgfxy(19,178)}{\pgfxy(139,178)}
+\pgfsetlinewidth{4.0pt}
+\pgfline{\pgfxy(19,133)}{\pgfxy(139,133)}
+\pgfsetlinewidth{6.0pt}
+\pgfline{\pgfxy(19,148)}{\pgfxy(139,148)}
+\pgfsetlinewidth{0.75pt}
 \pgfmoveto{\pgfxy(154,126)}
 \pgflineto{\pgfxy(169,126)}
 \pgflineto{\pgfxy(169,141)}
 \pgflineto{\pgfxy(154,141)}
 \pgfclosepath 
 \pgffill 
-\pgfsetlinewidth{0.0pt}
+\pgfsetlinewidth{0.33pt}
 \pgfellipse[fillstroke]{\pgfxy(27,201)}{\pgfxy(7,0)}{\pgfxy(0,7)}
 \pgfrect[fillstroke]{\pgfxy(41.5,193.5)}{\pgfxy(15,15)}
 \pgfrect[fillstroke]{\pgfxy(64.5,193.5)}{\pgfxy(15,15)}
-\pgfsetlinewidth{0.0pt}
+\pgfsetlinewidth{0.75pt}
 \pgfmoveto{\pgfxy(199,186)} 
 \pgfcurveto{\pgfxy(79,223)}{\pgfxy(207,261)}{\pgfxy(124,186)}
 \pgfstroke

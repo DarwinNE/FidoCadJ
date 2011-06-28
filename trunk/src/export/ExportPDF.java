@@ -720,6 +720,7 @@ public class ExportPDF implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		checkColorAndWidth(c, width);
+		registerDash(0);
 
 				  
 		outt.write("  "+x1+" "+y1+" m "+

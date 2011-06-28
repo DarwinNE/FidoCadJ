@@ -3,7 +3,7 @@
   <</Kids [4 0 R ]
     /Count 1
     /Type /Pages
-    /MediaBox [ 0 0  191 139 ]
+    /MediaBox [ 0 0  193 139 ]
   >> endobj
 6 0 obj
   <<	/Type /Font
@@ -605,6 +605,7 @@ s
 147.51 135.9 147.5 136.0 y
   f
   10.0 w
+[] 0 d
   26 216 m 186 216 l S
   12.0 w
   26 236 m 186 236 l S
@@ -613,7 +614,6 @@ s
   8.0 w
   26 196 m 186 196 l S
   1.0 w
-[] 0 d
   206 166 m
   226 166 l
   226 186 l
@@ -1468,7 +1468,7 @@ endobj
 endobj
 1 0 obj
 <<
-  /Creator (FidoCadJ0.23.6 gamma, PDF export filter by Davide Bucci)
+  /Creator (FidoCadJ0.23.6 epsilon, PDF export filter by Davide Bucci)
   /Author (davidebucci)
   /Producer (FidoCadJ)
 >>
@@ -1526,18 +1526,18 @@ xref
 0000000000 65535 f 
 0000029506 00000 n 
 0000029475 00000 n 
-0000029643 00000 n 
+0000029645 00000 n 
 0000029256 00000 n 
 0000000009 00000 n 
 0000000109 00000 n 
 0000000234 00000 n 
 0000000364 00000 n 
-0000029696 00000 n 
-0000029825 00000 n 
-0000029954 00000 n 
-0000030082 00000 n 
-0000030215 00000 n 
-0000030340 00000 n 
+0000029698 00000 n 
+0000029827 00000 n 
+0000029956 00000 n 
+0000030084 00000 n 
+0000030217 00000 n 
+0000030342 00000 n 
 trailer
 <<
   /Size 15
@@ -1545,5 +1545,5 @@ trailer
   /Info 1 0 R
 >>
 startxref
-30465
+30467
 %%EOF
