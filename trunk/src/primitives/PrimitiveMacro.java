@@ -677,17 +677,25 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
-	
+		System.out.println(alreadyExported);
 		if(alreadyExported)
 			return;
-			
+		
 		// Call the macro interface, to see if the macro should be expanded
 		
-		if (exp.exportMacro(virtualPoint[0].x, virtualPoint[0].y, 
-			m, o*90, macroName, macroDesc, name, virtualPoint[1].x, 
-			virtualPoint[1].y, value, virtualPoint[2].x, virtualPoint[2].y, 
-			macroFont, macroFontSize,library)) {
+		if (exp.exportMacro(cs.mapX(virtualPoint[0].x, virtualPoint[0].y),
+			cs.mapY(virtualPoint[0].x, virtualPoint[0].y),
+			m, o*90, macroName, macroDesc, name,
+			cs.mapX(virtualPoint[1].x, virtualPoint[1].y), 
+			cs.mapY(virtualPoint[1].x, virtualPoint[1].y),
+			value, 
+			cs.mapX(virtualPoint[2].x, virtualPoint[2].y),
+			cs.mapY(virtualPoint[2].x, virtualPoint[2].y),
+			macroFont, 
+			(int)(cs.mapYr(macroFontSize,macroFontSize)-cs.mapYr(0,0)),
+			library)) {
 			alreadyExported = true;
+			System.out.println(alreadyExported);
 			return;
 		}
 		/* in the macro primitive, the virtual point represents
@@ -707,6 +715,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		macroCoord.orientation=(o+cs.orientation)%4;
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;
+ 		
  				 			
  		ParseSchem macro=new ParseSchem();
  		macro.setDrawOnlyLayer(drawOnlyLayer);

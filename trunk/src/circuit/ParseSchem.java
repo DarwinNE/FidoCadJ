@@ -1943,7 +1943,6 @@ public class ParseSchem
         int j;
         
         GraphicPrimitive g;
-
 		// If it is needed, we should write the header of the file. This is 
 		// not to be done for example when we are exporting a macro and this
 		// routine is called recursively.

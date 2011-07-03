@@ -725,7 +725,6 @@ public class ExportPDF implements ExportInterface {
 				  
 		outt.write("  "+x1+" "+y1+" m "+
 			x2+" "+y2+" l S\n");
-		//outt.write("  " +strokeWidth+" w\n");
 	}
 		
 	
