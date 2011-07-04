@@ -1950,8 +1950,6 @@ public class ParseSchem
         if (header) {
         	Dimension d = ExportGraphic.getImageSize(this, 1, true);
 
-			// 6 is the same mag
-
 			d.width+=Globals.exportBorder;
 			d.height+=Globals.exportBorder;
 			
@@ -1986,7 +1984,6 @@ public class ParseSchem
             }
             return;
         } else if (!drawOnlyPads) {
-//            cs.resetMinMax();
             for(j=0;j<layerV.size(); ++j) {
                 for (i=0; i<primitiveVector.size(); ++i){
                 
