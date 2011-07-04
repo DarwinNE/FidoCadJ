@@ -661,7 +661,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	
 	/** Ensure that the next time the macro is exported, it will be done.
 		Macro that are not expanded during exportation does not need to be
-		replicated thru the layers. For this reason, there is an inibition system which is activated. Calling this method resets the inibition flag.
+		replicated thru the layers. For this reason, there is an inibition 
+		system which is activated. Calling this method resets the inibition flag.
 	*/
 	public void resetExport()
 	{
@@ -677,7 +678,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
-		System.out.println(alreadyExported);
 		if(alreadyExported)
 			return;
 		
@@ -695,7 +695,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			(int)(cs.mapYr(macroFontSize,macroFontSize)-cs.mapYr(0,0)),
 			library)) {
 			alreadyExported = true;
-			System.out.println(alreadyExported);
 			return;
 		}
 		/* in the macro primitive, the virtual point represents
@@ -715,28 +714,14 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		macroCoord.orientation=(o+cs.orientation)%4;
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;
- 		
- 				 			
- 		ParseSchem macro=new ParseSchem();
+ 					 			
  		macro.setDrawOnlyLayer(drawOnlyLayer);
-
- 		macro.setLibrary(library);  // Inherit the library
- 		macro.setLayers(layers);	// Inherit the layers
- 		
- 		if (macroDesc==null)
- 			System.out.println("2-Unrecognized macro "+
- 			        "WARNING this can be a programming problem...");
- 		else {
- 			// Recursive call
- 			macro.parseString(new StringBuffer(macroDesc)); 	
- 			// Propagate selection state
- 			if(getSelected())
- 				macro.selectAll();
+		if(getSelected())
+ 			macro.selectAll();
  			 
- 			macro.setDrawOnlyPads(drawOnlyPads);
- 			macro.exportDrawing(exp, false, exportInvisible, macroCoord);
-			exportText(exp, cs, drawOnlyLayer);
-		}
+ 		macro.setDrawOnlyPads(drawOnlyPads);
+ 		macro.exportDrawing(exp, false, exportInvisible, macroCoord);
+		exportText(exp, cs, drawOnlyLayer);
 		
 	}
 		/** Get the number of the virtual point associated to the Name property
