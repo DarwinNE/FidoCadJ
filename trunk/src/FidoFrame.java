@@ -936,12 +936,7 @@ public class FidoFrame extends JFrame implements
                 try {
                     FidoFrame popFrame;
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame(runsAsApplication);;
-                        popFrame.init();
-                        popFrame.setBounds(getX()+30, getY()+30,    
-                        popFrame.getWidth(),        
-                        popFrame.getHeight());
-                        popFrame.setVisible(true);
+                        popFrame = createNewInstance();
                     } else {
                         popFrame=this;
                     }
@@ -1128,8 +1123,9 @@ public class FidoFrame extends JFrame implements
     }
     
     /**	Create a new instance of the window.
+    	@return the created instance
     */
-    public void createNewInstance()
+    public FidoFrame createNewInstance()
     {
     	FidoFrame popFrame=new FidoFrame(runsAsApplication);
         popFrame.init();
@@ -1139,6 +1135,8 @@ public class FidoFrame extends JFrame implements
     
     	popFrame.loadLibraries();
         popFrame.setVisible(true);
+        
+        return popFrame;
 	}
 
     /** The printing interface 
@@ -1199,12 +1197,9 @@ public class FidoFrame extends JFrame implements
         // Check if printing is finished.
         if(page>npages) {
             return NO_SUCH_PAGE;
-        }
-
-       
+        } 
         // Now we perform our rendering 
         CC.P.draw(g2d, m);
-        
         
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -1253,12 +1248,7 @@ public class FidoFrame extends JFrame implements
                     FidoFrame popFrame;
                     
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame(runsAsApplication);;
-                        popFrame.init();
-                        popFrame.setBounds(getX()+30, getY()+30,    
-                        popFrame.getWidth(),        
-                        popFrame.getHeight());
-                        popFrame.setVisible(true);
+                        popFrame = createNewInstance();
                     } else {
                         popFrame=this;
                     }
@@ -1278,12 +1268,7 @@ public class FidoFrame extends JFrame implements
                     FidoFrame popFrame;
                     
                     if(CC.P.getModified()) {
-                        popFrame=new FidoFrame(runsAsApplication);;
-                        popFrame.init();
-                        popFrame.setBounds(getX()+30, getY()+30,    
-                        popFrame.getWidth(),        
-                        popFrame.getHeight());
-                        popFrame.setVisible(true);
+                        popFrame = createNewInstance();
                     } else {
                         popFrame=this;
                     }
@@ -1314,13 +1299,7 @@ public class FidoFrame extends JFrame implements
                             FidoFrame popFrame;
                             
                             if(CC.P.getModified()) {
-                                popFrame=new FidoFrame(runsAsApplication);;
-                                popFrame.init();
-                                popFrame.setBounds(getX()+30, getY()+30,    
-                                popFrame.getWidth(),        
-                                popFrame.getHeight());
-                                popFrame.setVisible(true);
-                
+                                popFrame=createNewInstance();
                             } else {
                                 popFrame=this;
                             }
@@ -1693,8 +1672,7 @@ public class FidoFrame extends JFrame implements
             Globals.prettifyPath(CC.P.openFileName,45)+ 
             (CC.P.getModified()?" *":""));
         
-		}
-		
+		}	
 	}
     
     /** The current window has gained focus
@@ -1758,7 +1736,6 @@ class RulerPanel extends JPanel implements SwingConstants
                             sc.mapYi(x,0,false),
                             sc.mapXi(x,0,false),
                             sc.mapYi(x,0,false)+ d.height*6/10);
-                
             }
             for (x=0; x<sc.getXMax();x+=10*increment) {
                 g.drawString(""+x,sc.mapXi(x,0,false), d.height); 
@@ -1766,8 +1743,7 @@ class RulerPanel extends JPanel implements SwingConstants
                 g.drawLine(sc.mapXi(x,0,false), 
                             sc.mapYi(x,0,false),
                             sc.mapXi(x,0,false),
-                            sc.mapYi(x,0,false)+ d.height);
-                
+                            sc.mapYi(x,0,false)+ d.height);   
             }    
         } else {
             int y=0;
@@ -1780,7 +1756,6 @@ class RulerPanel extends JPanel implements SwingConstants
                 g.drawLine(0, y, d.width*8/10, y);
             }
         }
-        
     }
 }
 

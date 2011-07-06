@@ -36,8 +36,8 @@ where the file fidocadj.jar has been saved and type
 	
 If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
 bundle and treat it just like any other native application. Since Apple does
-not seem to be prone to support very much Java in the future, if you have
-some problems running FidoCadJ, please check you do have a Java runtime 
+not seem to be very much prone to support Java, if you experience some 
+problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac.
 
 Remember that if there is a greek letter after the version number of FidoCadJ,
@@ -168,8 +168,8 @@ code:
 3.5 Automatic tests
 -------------------
 
-To ease a certain degree of quality control when working on the source 
-code, the FidoCadJ source repository comes with a certain number of 
+To ease the maintain of a certain degree of quality control when working 
+on the source code, the FidoCadJ source repository comes with a number of 
 automatic tests scripts contained in the directory test/.
 You may launch all the tests by using the script all_tests.sh contained
 in this directory, or you may run the tests individually by browsing the
@@ -186,6 +186,11 @@ The following table briefly describes the provided tests:
                                    files is provided, so it might be
                                    updated if differences on the 
                                    export are introduced by purpouse.
+                                   If a test is failed, this tells just that
+                                   the exported file is not identical to the
+                                   model which has been used. You may have a 
+                                   look at the log file and at the result of 
+                                   the export. You may decide that it is ok.
 
   test/messages/test_messages.sh   Test the coherence of all 
                                    installed languages again the 
@@ -197,7 +202,7 @@ The following table briefly describes the provided tests:
 ----------------
 
 I am seeking for people interested in participating to the FidoCadJ project.
-If you spot a typo (I am not a native English speakers), or an error in the 
+If you spot a typo (I am not a native English speaker), or an error in the 
 manual or in the program, any correction is very welcome. I will be very happy 
 to know what do you think about FidoCadJ. I would be glad to receive some 
 help: if you know Java and you want to work on the source code you will be 

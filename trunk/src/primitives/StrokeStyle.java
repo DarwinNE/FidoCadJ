@@ -9,21 +9,17 @@ import globals.*;
 
 	This class is used to centralize the creation of basic stroke styles 
 	between all the drawing primitive. An important advantage is that this 
-	allows to cache the creation of them.
-	
-	
-
+	allows to cache their creation, thus saving a little bit of time.
 */
 
-class StrokeStyle {
-
+class StrokeStyle 
+{
 	private BasicStroke[] strokeList;
 	private float actual_w;
 
 	void StrokeStyle()
 	{
 		actual_w=-1;
-
 	}
 	
 	/** Retrieves or create a BasicStroke object having the wanted with and
@@ -31,7 +27,6 @@ class StrokeStyle {
 		@param w the width in pixel
 		@param dashStyle the style of the stroke
 		@return the retrieved BasicStroke object to be used in drawing ops.
-	
 	*/
 	BasicStroke getStroke(float w, int dashStyle) 
 	{
@@ -47,10 +42,7 @@ class StrokeStyle {
         	actual_w=w;
 		}
 		BasicStroke stroke=(BasicStroke)strokeList[dashStyle];
-		
-		
+
 		return stroke; 
 	}
-	
-	
 }
