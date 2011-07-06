@@ -53,8 +53,7 @@ class OpenFile implements Runnable {
     {
 		String fin;
         String din;
-        
-        
+               
         if(Globals.useNativeFileDialogs) {             
         	// File chooser provided by the host system.
             // Vastly better on MacOSX
@@ -95,7 +94,6 @@ class OpenFile implements Runnable {
                     
             fin=fc.getSelectedFile().getName();
             din=fc.getSelectedFile().getParentFile().getPath();
-                
         }
         
         // We now have the directory as well as the file name, so we can
@@ -138,6 +136,4 @@ class OpenFile implements Runnable {
 			}
         }         
     }
-    
- 
 }

@@ -297,7 +297,7 @@ public class ParseSchem
                 // contents
                 readLibraryFile(f.getPath());
             } catch (IOException E) {
-                System.out.println("Problems reading library: "+f.getName());
+                System.out.println("Problems reading library "+f.getName()+" "+E);
             }
         } 
            
@@ -374,9 +374,12 @@ public class ParseSchem
             // A category
             if(line.charAt(0)=='{') { 
                 categoryName="";
-                for(i=1; line.charAt(i)!='}' &&
-                         i<line.length(); ++i){
+                for(i=1; i<line.length()&&line.charAt(i)!='}'; ++i){
                     categoryName+=line.charAt(i);
+                }
+                if(i==line.length()) {
+                	IOException e=new IOException("Category non terminated with }.");
+                    throw e;
                 }
                 continue;
             }
@@ -391,9 +394,13 @@ public class ParseSchem
                          i<line.length(); ++i){
                     macroName+=line.charAt(i);
                 }
-                for(int j=i; line.charAt(j)!=']' &&
-                         j<line.length(); ++j){
+                int j;
+                for(j=i; j<line.length()&&line.charAt(j)!=']'; ++j){
                     longName+=line.charAt(j);
+                }
+                if(j==line.length()) {
+                	IOException e=new IOException("Macro name non terminated with ].");
+                    throw e;
                 }
                 
                 if (macroName.equals("FIDOLIB")) {

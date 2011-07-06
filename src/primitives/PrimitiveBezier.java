@@ -30,7 +30,7 @@ import export.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2011 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -496,7 +496,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		 		s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
 		 		arrowHalfWidth+" "+dashStyle+" "+text+"\n";
 		 	}
-		
 		}
 		
 		// The false is needed since saveText should not write the FCJ tag.

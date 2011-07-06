@@ -187,7 +187,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public CircuitPanel (boolean isEditable) 
     {
-
         backgroundColor=Color.white; 
         P=new ParseSchem();
         isGridVisible=true;
@@ -204,7 +203,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         cs.setXCenter(0.0);
         cs.setYCenter(0.0);
         cs.setXMagnitude(4.0);  
-        cs.setXMagnitude(4.0);  
+        cs.setYMagnitude(4.0);  
         cs.setOrientation(0);
         setOpaque(true);
         runs = 0;
@@ -381,10 +380,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         clickNumber=0;
         successiveMove=false;
-        selectCursor();
-
-//        repaint();
-        
+        selectCursor(); 
         macroKey=macro;
     }
     

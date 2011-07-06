@@ -311,7 +311,7 @@ public class FidoMain {
            	
         if (!(new File(Globals.createCompleteFileName(libDirectory,"elettrotecnica.fcl"))).exists()) {
            	if(englishLibraries)
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica.fcl"), "elettrotecnica");
+               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica_en.fcl"), "elettrotecnica");
            	else
                	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica.fcl"), "elettrotecnica");
         } else
