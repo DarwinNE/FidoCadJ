@@ -1222,7 +1222,7 @@ EV 99 109 101 111 0
 LI 100 117 100 111 0
 LI 104 104 106 104 0
 LI 94 104 96 104 0
-[SZDVTPPCS Sezionatore due vie tre pos. con pos. di chiusura sx]
+[SZDVTPPCS Two-way disconnector with on-position to the left]
 LI 105 100 105 109 0
 LI 95 100 95 109 0
 LI 96 109 94 109 0
@@ -1230,7 +1230,7 @@ LI 106 109 104 109 0
 LI 99 114 95 110 0
 EV 99 114 101 116 0
 LI 105 120 101 116 0
-[SZDVTPPCD Sezionatore due vie tre pos. con pos. di chiusura dx]
+[SZDVTPPCD Two-way disconnector with on-position to the right]
 LI 95 95 95 104 0
 LI 105 95 105 104 0
 LI 104 104 106 104 0
@@ -1244,20 +1244,20 @@ LI 105 95 105 104 0
 LI 100 109 100 103 0
 EV 99 109 101 111 0
 LI 100 117 100 111 0
-[CDTPCS Contatto due vie tre pos. con posiz. di chiusura sx]
+[CDTPCS Two-way three-position contact with on-position to the left]
 LI 95 90 95 99 0
 LI 105 90 105 99 0
 LI 99 104 95 100 0
 EV 99 104 101 106 0
 LI 105 110 101 106 0
-[CDTPCD Contatto due vie tre pos. con posiz. di chiusura dx]
+[CDTPCD Two-way three-position contact with on-position to the right]
 LI 90 100 90 100 0
 LI 105 95 105 104 0
 LI 95 95 95 104 0
 LI 101 109 105 105 0
 EV 101 109 99 111 0
 LI 95 115 99 111 0
-[CDTPCIRAPSPMPD Contatto due vie tre pos. pos centr. interruz. rit. auto. pos sx e pos. manten.per pos. dx]
+[CDTPCIRAPSPMPD Change-over contact with off-position, automatic return and stay put]
 LI 105 95 105 103 0
 LI 100 109 100 103 0
 EV 99 109 101 111 0
@@ -1268,7 +1268,7 @@ LI 95 103 97 104 0
 LI 97 104 95 105 0
 LI 95 105 95 102 0
 EV 104 103 106 105 0
-[CBDVTPPCA Commut. bipolare due vie tre pos. con pos. centr. di apertura]
+[CBDVTPPCA Two-pole two-way switch with center off-position]
 LI 120 125 120 125 0
 LI 115 100 115 106 0
 LI 110 114 110 107 0
@@ -1285,7 +1285,7 @@ EV 104 106 106 108 0
 LI 90 100 90 106 0
 EV 89 106 91 108 0
 LI 95 110 110 110 0
-[CBDVTPPCS Commut. bipolare due vie tre pos. con pos. di chiusura sx]
+[CBDVTPPCS Two-pole two-way three-position switch with on-position to the left]
 LI 115 100 115 107 0
 EV 114 107 116 109 0
 LI 100 100 100 107 0
@@ -1301,7 +1301,7 @@ LI 109 114 105 110 0
 EV 109 114 111 116 0
 LI 115 120 111 116 0
 LI 92 112 107 112 0
-[CBDVTPPCD Commut. bipolare due vie tre pos. con pos. di chiusura dx]
+[CBDVTPPCD Two-pole two-way three-position switch with on-position to the right]
 LI 90 100 90 107 0
 EV 91 107 89 109 0
 LI 105 100 105 107 0
@@ -1317,7 +1317,7 @@ LI 96 114 100 110 0
 EV 96 114 94 116 0
 LI 90 120 94 116 0
 LI 113 112 98 112 0
-[CUTVPII Commut. unipolare tre vie, con pos. di interruzioni intermedie]
+[CUTVPII Three-way switch with intermediate off-positions]
 LI 95 100 95 106 0
 EV 94 106 96 108 0
 LI 100 100 100 104 0
@@ -1327,7 +1327,7 @@ EV 104 106 106 108 0
 EV 99 114 101 116 0
 LI 97 106 100 114 0
 LI 100 125 100 116 0
-[CBTVPII Commut. bipolare tre vie, con pos. di interruzioni intermedie]
+[CBTVPII Two-pole three-way switch with intermediate off-positions]
 LI 85 100 85 106 0
 EV 84 106 86 108 0
 LI 90 100 90 104 0
@@ -1347,7 +1347,7 @@ EV 104 114 106 116 0
 LI 102 106 105 114 0
 LI 105 125 105 116 0
 LI 88 109 103 109 0
-[CUDVSI Commut. unipolare due vie, senza interruzione]
+[CUDVSI Two-way switch]
 LI 95 95 95 103 0
 EV 94 103 96 105 0
 LI 105 95 105 103 0
@@ -1356,7 +1356,7 @@ EV 99 114 101 116 0
 LI 100 125 100 116 0
 LI 95 105 100 114 0
 LI 94 106 96 105 0
-[CBDVSI Commut. bipolare due vie, senza interruzione]
+[CBDVSI Two-pole two-way switch]
 LI 100 100 100 108 0
 EV 101 108 99 110 0
 LI 90 100 90 108 0
@@ -1460,7 +1460,7 @@ LI 515 340 515 355 0
 LI 205 45 205 45 0
 
 {Transformers}
-[TRTDA Trasformatore trifase a due avvolgimenti]
+[TRTDA Transformer with two windings, three-phase]
 EV 87 105 113 130 0
 EV 87 120 113 145 0
 LI 90 109 90 100 0
@@ -1889,7 +1889,7 @@ BE 97 108 96 111 95 108 95 108 0
 MC 100 105 0 0 810
 LI 100 100 100 105 0
 LI 100 110 100 115 0
-[DCRE Dispositivo comando relè elettromagnetico]
+[DCRE Operating device of an electromagnetic relay]
 MC 100 105 0 0 820
 LI 100 100 100 105 0
 LI 100 115 100 110 0
