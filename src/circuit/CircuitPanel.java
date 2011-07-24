@@ -280,6 +280,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void registerActiveKeys() 
     {
+    	System.out.println("Event dispatch thread: "+javax.swing.SwingUtilities.isEventDispatchThread());
         registerAction("selection", 'a', SELECTION);
    		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
         	.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
@@ -331,6 +332,58 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 }
             }
         });
+        
+        
+        final String left = "lleft";
+         // left key
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
+            java.awt.event.InputEvent.ALT_MASK,false), left);
+                
+        getActionMap().put(left, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored) {
+                P.moveAllSelected(-1,0);
+                repaint();
+            }
+        });
+        final String right = "lright";
+         // right key
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
+            java.awt.event.InputEvent.ALT_MASK,false), right);
+                
+        getActionMap().put(right, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored) {
+                P.moveAllSelected(1,0);
+                repaint();
+            }
+        });
+        
+        final String up = "lup";
+         // up key
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+            java.awt.event.InputEvent.ALT_MASK,false), up);
+                
+        getActionMap().put(up, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored) {
+                P.moveAllSelected(0,-1);
+                repaint();
+            }
+        });
+         final String down = "ldown";
+         // down key
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
+            java.awt.event.InputEvent.ALT_MASK,false), down);
+                
+        getActionMap().put(down, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored) {
+                P.moveAllSelected(0,1);
+                repaint();
+            }
+        });
+        
     }
     
     /** Determine wether the current primitive being added is a macro.
