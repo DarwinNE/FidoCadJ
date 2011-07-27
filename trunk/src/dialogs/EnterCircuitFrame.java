@@ -111,8 +111,8 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 
         contentPane.add(scrollPane, constraints);
                
-        JButton ok=new JButton("Ok");
-        JButton cancel=new JButton("Cancel");
+        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
+		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
         
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();

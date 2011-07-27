@@ -31,7 +31,7 @@ import dialogs.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2011 by Davide Bucci
 </pre>
 */
 public class DialogOptions extends JDialog implements ComponentListener 
@@ -471,7 +471,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
 		
 		constraints = DialogUtil.createConst(0,2,1,1,100,100,
-			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 		
 		drawingOptPanel.add(gridlbl, constraints);			// Add Grid label
