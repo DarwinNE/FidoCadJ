@@ -39,7 +39,8 @@ If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
 bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some 
 problems running FidoCadJ, please check you do have a Java runtime 
-correctly installed on your Mac.
+correctly installed on your Mac. This is particularly true if you are using
+the MacOSX Lion operating system.
 
 Remember that if there is a greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
@@ -268,7 +269,7 @@ providing complete files, since if a resource is missing, FidoCadJ can abort.
 This is very nice from you. We will be happy for that. You can manifest 
 yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
-in order to see if we can find an intersecton between what you can do with 
+in order to see if we can find an intersection between what you can do with 
 the FidoCadJ development strategy. The idea is to keep the work a little bit 
 organized and to know who does what. Have a peek to section 3.3 of this readme 
 file to see what coding style should be applied to the sources.
@@ -345,7 +346,7 @@ fill a bug report at the following address:
 
 http://sourceforge.net/tracker/?group_id=274886&atid=1167996
 
-If you feel unconfortable with the SourceForge system, please drop a few 
+If you feel uncomfortable with the SourceForge system, please drop a few 
 lines to davbucciNOPE@tiscali.it
 
 -------------

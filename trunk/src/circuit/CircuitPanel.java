@@ -1432,19 +1432,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         repaint();
     }
     
-    
-    /** Constructor which allows to specify the background color
-        @param sfondo the background color to be used.
-    */
-    public CircuitPanel (Color sfondo) {
-
-        backgroundColor=sfondo; 
-        P=new ParseSchem();
-        //circ=new StringBuffer();
-        setOpaque(true);
-
-    }
-    
     /** Sets the background color.
         @param sfondo the background color to be used.
     */
