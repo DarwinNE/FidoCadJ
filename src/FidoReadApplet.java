@@ -64,7 +64,9 @@ public class FidoReadApplet extends JApplet
 	public void init()
 	{
 		backgroundColor=Color.white;
-		CC=new CircuitPanel(backgroundColor);
+		CC=new CircuitPanel(false);
+		CC.setBackground(backgroundColor);
+		CC.setGridVisibility(false);
         SC= new JScrollPane((Component)CC);
 		SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
