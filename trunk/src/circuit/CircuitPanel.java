@@ -280,7 +280,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */
     public void registerActiveKeys() 
     {
-    	System.out.println("Event dispatch thread: "+javax.swing.SwingUtilities.isEventDispatchThread());
+    	
         registerAction("selection", 'a', SELECTION);
    		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
         	.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
@@ -1571,7 +1571,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     public void validate()
     {
-    	            System.out.println(cs.getXMax()+"  "+cs.getYMax());
 		if (cs.getXMax()>0 && 
             cs.getYMax()>0){
     		setPreferredSize(new Dimension(cs.getXMax()
