@@ -1538,7 +1538,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             cs.getYMax()>0){
             setPreferredSize(new Dimension(cs.getXMax()
                +MARGIN,cs.getYMax()+MARGIN));
-            
             revalidate();
         }
         
@@ -1572,9 +1571,13 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
     public void validate()
     {
-    	setPreferredSize(new Dimension(cs.getXMax()
+    	            System.out.println(cs.getXMax()+"  "+cs.getYMax());
+		if (cs.getXMax()>0 && 
+            cs.getYMax()>0){
+    		setPreferredSize(new Dimension(cs.getXMax()
                 +MARGIN,cs.getYMax()+MARGIN));
-    	super.validate();
+        }        
+        super.validate();
     }
     /** Draws the current editing primitive.
     
