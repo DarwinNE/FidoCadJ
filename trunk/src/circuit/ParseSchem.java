@@ -564,7 +564,11 @@ public class ParseSchem
     */
     public synchronized void draw(Graphics2D G, MapCoordinates cs)
     {   
-
+		if(cs==null) {
+			System.out.println("ParseSchem.draw: ouch... cs not initialized :-(");
+			return;
+		}
+		
         // At first, we check if the current view has changed. 
         if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
         	oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
