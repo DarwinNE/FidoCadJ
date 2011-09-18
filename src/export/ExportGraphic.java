@@ -419,6 +419,9 @@ public class ExportGraphic
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		
+		if(z<MapCoordinates.MIN_MAGNITUDE)
+			z=MapCoordinates.MIN_MAGNITUDE;
+		
 		newZoom.setMagnitudes(z,z);
 		newZoom.setXCenter(-(org.x*z));
 		newZoom.setYCenter(-(org.y*z));
