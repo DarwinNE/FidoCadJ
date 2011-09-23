@@ -212,15 +212,15 @@ public class GeometricDistances {
 		adapted from a snippet by Randolph Franklin, in Paul Bourke pages:
 		http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
 		
-		@param npol number of vertex
 		@param xp vector of x coordinates of vertices
 		@param yp vector of y coordinates of vertices
+		@param npol number of vertices
 		@param x x coordinate of the point
 		@param y y coordinate of the point
 		@return true if the point lies in the polygon, false otherwise.
 	*/
-	public static boolean pointInPolygon(int npol, 
-			double[] xp, double[] yp, double x, double y)
+	public static boolean pointInPolygon( 
+			int[] xp, int[] yp,int npol, double x, double y)
     {
       	c = false;
       	
