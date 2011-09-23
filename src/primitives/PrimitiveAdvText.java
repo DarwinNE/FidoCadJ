@@ -422,7 +422,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	private int yaSCI;
 	private int orientationSCI;
 	private int hSCI, thSCI, wSCI;
-	private double[] xpSCI, ypSCI;
+	private int[] xpSCI, ypSCI;
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
@@ -466,12 +466,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     		thSCI = hSCI+fmSCI.getDescent();
    			wSCI = fmSCI.stringWidth(txt);
 	
-		
 			if(siy/six != 10/7){
-    			hSCI=h*Math.round((int)((double)siy*22.0/40.0/six)); 
-				thSCI=th*Math.round((int)((double)siy*22.0/40.0/six)); 
+    			hSCI=(int)Math.round(hSCI*((double)siy*22.0/40.0/(double)six)); 
+				thSCI=(int)Math.round((double)thSCI*((double)siy*22.0/40.0/(double)six)); 
+   			}//
 
-   			}
    			// Corrections for the mirrored text.
  			if((sty & TEXT_MIRRORED)!=0){
     	 		orientationSCI=-orientationSCI;
@@ -484,8 +483,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     			double si=Math.sin(Math.toRadians(orientation));
 				double co=Math.cos(Math.toRadians(orientation));
 		
- 				xpSCI=new double[4];
-        		ypSCI=new double[4];
+ 				xpSCI=new int[4];
+        		ypSCI=new int[4];
                         
         		xpSCI[0]=xaSCI;
             	ypSCI[0]=yaSCI;
@@ -499,7 +498,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         }
 
        	if(orientationSCI!=0){	
-       		if(GeometricDistances.pointInPolygon(4,xpSCI,ypSCI, px,py))
+       	
+       		if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py))
           		return 0;
 		} else {
 			if(GeometricDistances.pointInRectangle(Math.min(xaSCI, 

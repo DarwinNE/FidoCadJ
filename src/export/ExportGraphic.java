@@ -410,7 +410,7 @@ public class ExportGraphic
 		maxsizey=D.height;
 			
 		if (countMin) 
-			org=getImageOrigin(P,1);
+			org=getImageOrigin(P,1.0);
 			
 		double zoomx=1.0/((maxsizex)/(double)sizex);
 		double zoomy=1.0/((maxsizey)/(double)sizey);				

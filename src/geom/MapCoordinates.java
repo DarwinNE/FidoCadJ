@@ -381,9 +381,8 @@ public class MapCoordinates
     public final int mapXi(int xc,int yc, boolean track)
     {
 
-        ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals to the lowest 
-                                   integer. We need to round correctly; */
-        
+        ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
+        	to the lowest integer. We need to round correctly; */
 
         if(track) {
         	if(ivx<xMin)
@@ -473,8 +472,9 @@ public class MapCoordinates
     */
     public final int mapYi(int xc,int yc, boolean track)
     {
-        ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals to the lowest 
-                                   integer. We need to round correctly; */
+        ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals 
+        	to the lowest integer. We need to round correctly; */
+        
         if(track) {
         	if(ivy<yMin)
             	yMin=ivy;

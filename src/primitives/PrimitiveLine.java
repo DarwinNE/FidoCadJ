@@ -323,7 +323,7 @@ public final class PrimitiveLine extends GraphicPrimitive
 			// setting the stroke takes a lot of time!
 			if(!stroke.equals(g.getStroke())) 
 				g.setStroke(stroke);			
-				
+			
 			g.drawLine(x1, y1, x2, y2);
 		
 			// Eventually, we draw the arrows at the extremes.

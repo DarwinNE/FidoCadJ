@@ -100,7 +100,7 @@ public class Globals
     public static final String defaultTextFont = "Courier New";
     
     public static final int dashNumber = 5;
-    public static final float dash[][] = {{10.0f,0f},{5.0f},{2.0f, 2.0f}, 
+    public static final float dash[][] = {{10.0f,0f},{5.0f,5.0f},{2.0f, 2.0f}, 
     	{2.0f, 5.0f},
     	{2.0f, 5.0f,5.0f,5.0f}}; 
     

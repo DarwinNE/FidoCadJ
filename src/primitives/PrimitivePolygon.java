@@ -354,8 +354,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	    if(checkText(px, py))
 	    	return 0;
 	    	
-    	double[] xp=new double[N_POINTS];
-        double[] yp=new double[N_POINTS];
+    	int[] xp=new int[N_POINTS];
+        int[] yp=new int[N_POINTS];
         
         int k;
                 
@@ -367,7 +367,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
         	(py-yp[0])*(py-yp[0]));
         
-        if(GeometricDistances.pointInPolygon(nPoints,xp,yp, px,py))
+        if(GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
           	distance=1;
             	
         return distance;
