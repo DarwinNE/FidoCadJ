@@ -400,7 +400,7 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
         // I followed merely the FidoCad tradition.
-		Vector layerDesc=createStandardLayers();
+		Vector layerDesc=Globals.createStandardLayers();
         CC.P.setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
@@ -700,50 +700,7 @@ public class FidoFrame extends JFrame implements
         
     }
     
-    /** Create the standard array containing the layer descriptions, colors
-    	and transparency.
-    	
-    	@return the list of the layers being created.
-    */
-    public Vector createStandardLayers()
-    {
-        Vector LayerDesc=new Vector();
-        
-        LayerDesc.add(new LayerDesc(Color.black, true, 
-            Globals.messages.getString("Circuit_l"),1.0f));			// 0
-        LayerDesc.add(new LayerDesc(new Color(0,0,128),true, 
-            Globals.messages.getString("Bottom_copper"),1.0f));		// 1
-        LayerDesc.add(new LayerDesc(Color.red, true, 
-            Globals.messages.getString("Top_copper"),1.0f));		// 2
-        LayerDesc.add(new LayerDesc(new Color(0,128,128), true, 
-            Globals.messages.getString("Silkscreen"),1.0f));		// 3
-        LayerDesc.add(new LayerDesc(Color.orange, true, 
-            Globals.messages.getString("Other_1"),1.0f));			// 4
-        LayerDesc.add(new LayerDesc(new Color(-8388864), true, 
-            Globals.messages.getString("Other_2"),1.0f));			// 5
-        LayerDesc.add(new LayerDesc(new Color(-16711681), true, 
-            Globals.messages.getString("Other_3"),1.0f));			// 6
-        LayerDesc.add(new LayerDesc(new Color(-16744448), true, 
-            Globals.messages.getString("Other_4"),1.0f));			// 7
-        LayerDesc.add(new LayerDesc(new Color(-6632142), true, 
-            Globals.messages.getString("Other_5"),1.0f));			// 8
-        LayerDesc.add(new LayerDesc(new Color(-60269), true, 
-            Globals.messages.getString("Other_6"),1.0f));			// 9
-        LayerDesc.add(new LayerDesc(new Color(-4875508), true, 
-            Globals.messages.getString("Other_7"),1.0f));			// 10
-        LayerDesc.add(new LayerDesc(new Color(-16678657), true, 
-            Globals.messages.getString("Other_8"),1.0f));			// 11
-        LayerDesc.add(new LayerDesc(new Color(-1973791), true, 
-            Globals.messages.getString("Other_9"),0.95f));			// 12
-        LayerDesc.add(new LayerDesc(new Color(-6118750), true, 
-            Globals.messages.getString("Other_10"),0.9f));			// 13
-        LayerDesc.add(new LayerDesc(new Color(-10526881), true, 
-            Globals.messages.getString("Other_11"),0.9f));			// 14
-        LayerDesc.add(new LayerDesc(Color.black, true, 
-            Globals.messages.getString("Other_12"),1.0f));			// 15
-            
-        return LayerDesc;
-    }
+   
     
     /** Ask the user if the current file should be saved and do it if yes.
     	@return true if the window should be closed or false if the closing

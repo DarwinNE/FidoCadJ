@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8" standalone="no"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
 <svg width="800" height="570" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<!-- Created by FidoCadJ ver. 0.23.6 psi, export filter by Davide Bucci -->
+<!-- Created by FidoCadJ ver. 0.23.7 gamma, export filter by Davide Bucci -->
 <line x1="24" y1="148" x2="285" y2="148" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="none"/>
 <line x1="24" y1="133" x2="285" y2="133" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="none"/>
 <line x1="24" y1="118" x2="285" y2="118" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="none"/>
@@ -148,16 +148,16 @@
 <rect x="346" y="286" rx="0" ry="0" width="31" height="31" style="stroke:#ff0000;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ff0000"/>
 <rect x="361" y="302" rx="0" ry="0" width="31" height="30" style="stroke:#008080;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#008080"/>
 <rect x="377" y="317" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="392" y="332" rx="0" ry="0" width="31" height="31" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="407" y="317" rx="0" ry="0" width="31" height="30" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="423" y="302" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="438" y="286" rx="0" ry="0" width="31" height="31" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="453" y="271" rx="0" ry="0" width="31" height="31" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="469" y="256" rx="0" ry="0" width="30" height="30" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="484" y="271" rx="0" ry="0" width="31" height="31" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="499" y="286" rx="0" ry="0" width="31" height="31" style="stroke:#ffc800;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ffc800"/>
-<rect x="515" y="302" rx="0" ry="0" width="30" height="30" style="stroke:#000000;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#000000"/>
-<rect x="530" y="317" rx="0" ry="0" width="31" height="30" style="stroke:#000000;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#000000"/>
+<rect x="392" y="332" rx="0" ry="0" width="31" height="31" style="stroke:#7fff00;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#7fff00"/>
+<rect x="407" y="317" rx="0" ry="0" width="31" height="30" style="stroke:#00ffff;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#00ffff"/>
+<rect x="423" y="302" rx="0" ry="0" width="30" height="30" style="stroke:#008000;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#008000"/>
+<rect x="438" y="286" rx="0" ry="0" width="31" height="31" style="stroke:#9acd32;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#9acd32"/>
+<rect x="453" y="271" rx="0" ry="0" width="31" height="31" style="stroke:#ff1493;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#ff1493"/>
+<rect x="469" y="256" rx="0" ry="0" width="30" height="30" style="stroke:#b59b0c;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#b59b0c"/>
+<rect x="484" y="271" rx="0" ry="0" width="31" height="31" style="stroke:#0180ff;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#0180ff"/>
+<rect x="499" y="286" rx="0" ry="0" width="31" height="31" style="stroke:#e1e1e1;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#e1e1e1"/>
+<rect x="515" y="302" rx="0" ry="0" width="30" height="30" style="stroke:#a2a2a2;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#a2a2a2"/>
+<rect x="530" y="317" rx="0" ry="0" width="31" height="30" style="stroke:#5f5f5f;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#5f5f5f"/>
 <rect x="545" y="332" rx="0" ry="0" width="31" height="31" style="stroke:#000000;stroke-width:1.5325670498084292;fill-rule: evenodd;" fill="#000000"/>
 <circle cx="55" cy="409" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
 <circle cx="101" cy="409" r="3" style="stroke:white;stroke-width:0.33" fill="white"/>
