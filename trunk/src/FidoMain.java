@@ -37,7 +37,6 @@ import timer.*;
 
     
     @author Davide Bucci
-    @version 1.1, May 2011
 */
 
 public class FidoMain {
@@ -189,8 +188,8 @@ public class FidoMain {
         		}
             
         		bufRead.close();
-				Vector LayerDesc=FidoReadApplet.CreateLayersNoDescription();
-        		P.setLayers(LayerDesc);
+				Vector layerDesc=Globals.createStandardLayers();
+        		P.setLayers(layerDesc);
                         
       			// Here txt contains the new circuit: parse it!
 

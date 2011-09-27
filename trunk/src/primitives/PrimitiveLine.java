@@ -313,7 +313,6 @@ public final class PrimitiveLine extends GraphicPrimitive
 			xbpap1=(xb-xa)+1;
 			ybpap1=(yb-ya)+1;
 		}
-
 		// This is a trick. We skip drawing the line if it is too short.
 		if(length2>2) {
 			if(!g.hitClip(xa,ya, xbpap1,ybpap1))
@@ -323,7 +322,6 @@ public final class PrimitiveLine extends GraphicPrimitive
 			// setting the stroke takes a lot of time!
 			if(!stroke.equals(g.getStroke())) 
 				g.setStroke(stroke);			
-			
 			g.drawLine(x1, y1, x2, y2);
 		
 			// Eventually, we draw the arrows at the extremes.

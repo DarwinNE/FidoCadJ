@@ -30,9 +30,11 @@ class StrokeStyle
 	*/
 	BasicStroke getStroke(float w, int dashStyle) 
 	{
-		if (w!=actual_w) {
+		if (w!=actual_w && w>0) {
 			strokeList = new BasicStroke[Globals.dashNumber];
 			
+			// If the line width has been changed, we need to update the 
+			// stroke table
 			for(int i=0; i<Globals.dashNumber; ++i) {
 				strokeList[i]=(new BasicStroke(w, BasicStroke.CAP_ROUND, 
             		BasicStroke.JOIN_ROUND, 
@@ -41,8 +43,9 @@ class StrokeStyle
         	}
         	actual_w=w;
 		}
-		BasicStroke stroke=(BasicStroke)strokeList[dashStyle];
-
-		return stroke; 
+		
+		// Here we retrieve the stroke style corresponding to the given 
+		// dashStyle
+		return (BasicStroke)strokeList[dashStyle];
 	}
 }

@@ -8,6 +8,7 @@ import java.util.*;
 
 import circuit.*;
 import layers.*;
+import globals.*;
 
 
 /** FidoReadApplet.java v.2.0
@@ -82,7 +83,7 @@ public class FidoReadApplet extends JApplet
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
  			"lib/PCB_en.fcl"), "pcb");
 	
-		Vector layerDesc=CreateLayersNoDescription();
+		Vector layerDesc=Globals.createStandardLayers();
         CC.P.setLayers(layerDesc);
 
 		Container contentPane;
@@ -91,33 +92,6 @@ public class FidoReadApplet extends JApplet
         contentPane.add(SC,"Center");
 	}
 	
-	/** Create the array containing the layers (without their description)
-	
-	*/
-	public static Vector CreateLayersNoDescription()
-	{
-			// Create the layer array
-		Vector LayerDesc=new Vector();
-        
-        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(new Color(0,0,128),true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.red, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(new Color(0,128,128), true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.orange, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
-        LayerDesc.add(new LayerDesc(Color.black, true,"",1.0f));
-        
-        return LayerDesc;
-	}
 	
 	/** Draw the schematic
 	
