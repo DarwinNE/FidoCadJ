@@ -30,6 +30,7 @@ class StrokeStyle
 	*/
 	BasicStroke getStroke(float w, int dashStyle) 
 	{
+		/*
 		if (w!=actual_w && w>0) {
 			strokeList = new BasicStroke[Globals.dashNumber];
 			
@@ -42,10 +43,18 @@ class StrokeStyle
         			0.0f));
         	}
         	actual_w=w;
+        	
+        	
+        	
 		}
 		
 		// Here we retrieve the stroke style corresponding to the given 
 		// dashStyle
-		return (BasicStroke)strokeList[dashStyle];
+		return (BasicStroke)strokeList[dashStyle];*/
+		
+		return new BasicStroke(w, BasicStroke.CAP_ROUND, 
+            		BasicStroke.JOIN_ROUND, 
+            		10.0f, Globals.dash[dashStyle], 
+        			0.0f);
 	}
 }
