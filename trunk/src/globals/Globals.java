@@ -91,7 +91,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.7 gamma";
+    public static final String version = "0.23.7 delta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -117,7 +117,9 @@ public class Globals
 	
 	
 	 /** Create the standard array containing the layer descriptions, colors
-    	and transparency.
+    	and transparency. The name of the layers are read from the resources
+    	which may be initizialized. If Globals.messages==null, no description
+    	is given.
     	
     	@return the list of the layers being created.
     */
