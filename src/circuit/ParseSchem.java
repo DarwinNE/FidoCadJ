@@ -947,7 +947,7 @@ public class ParseSchem
                 temp.deleteOnExit();
                 
                 ExportGraphic.export(temp,  Q, "fcd", 1,true,false, 
-                    splitNonStandard,false);
+                    extensions,false);
                 
                 FileInputStream input = new FileInputStream(temp);
                 BufferedReader bufRead = new BufferedReader(

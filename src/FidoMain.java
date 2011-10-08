@@ -218,7 +218,7 @@ public class FidoMain {
             }
             
             if (printSize) {
-            	Dimension d = ExportGraphic.getImageSize(P,1, false);
+            	Dimension d = ExportGraphic.getImageSize(P,1, true);
 				System.out.println(""+d.width+" "+d.height);	
             }
         }
