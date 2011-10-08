@@ -14,3 +14,8 @@ cd export
 cd ../messages
 ./test_messages.sh
 
+cd ../size
+./test_size.sh
+
+cd ..
+
