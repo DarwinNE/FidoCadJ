@@ -145,7 +145,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			
 		if(txt.length()==0)
 			return;		
-		
+		changed=true;
 		if(changed) {
  			changed=false;
 			mirror=false;
@@ -201,9 +201,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 				needStretching = true;
    			}
  			stretching.scale(1,xyfactor);
- 			
- 			// Not a very neat piece of code...
- 			
+ 		 			
     		if(orientation!=0){
     			if(!mirror){
     				si=Math.sin(Math.toRadians(orientation));
@@ -221,13 +219,13 @@ public final class PrimitiveAdvText extends GraphicPrimitive
    				double bby1=ya;
    			
    				double bbx2=xa+th*si;
-   				double bby2=ya+th*co;
+   				double bby2=ya+th*co*xyfactor;
    				
    				double bbx3=xa+w*co+th*si;
-   				double bby3=ya+th*co-w*si;
+   				double bby3=ya+(th*co-w*si)*xyfactor;
    				
    				double bbx4=xa+w*co;
-   				double bby4=ya-w*si;
+   				double bby4=ya-w*si*xyfactor;
 						
     			if(mirror) {
     				mm = new AffineTransform(); 
@@ -259,10 +257,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			} else {
   				if (!mirror){
   					coordSys.trackPoint(xa+w,ya);
-					coordSys.trackPoint(xa,ya+(int)(h/xyfactor));
+					coordSys.trackPoint(xa,ya+(int)(h*xyfactor));
 				} else {
 					coordSys.trackPoint(xa-w,ya);
-					coordSys.trackPoint(xa,ya+(int)(th/xyfactor));
+					coordSys.trackPoint(xa,ya+(int)(th*xyfactor));
 				}
 			}
     		qq=(int)(ya/xyfactor);
