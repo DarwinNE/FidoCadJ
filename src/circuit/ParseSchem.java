@@ -1,4 +1,4 @@
-xpackage circuit;
+package circuit;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -962,6 +962,8 @@ public class ParseSchem
                         
                 while (line != null){
                     line =bufRead.readLine();
+                    if (line==null)
+                    	break;
                     txt.append(line);
                     txt.append("\n");
                 }
@@ -1964,7 +1966,6 @@ public class ParseSchem
 			d.width+=Globals.exportBorder;
 			d.height+=Globals.exportBorder;
 			
-
         	// We remeber that getImageSize works only with logical coordinates
         	// so we may trasform them:
         	

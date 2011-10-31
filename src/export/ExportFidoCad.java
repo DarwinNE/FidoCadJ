@@ -47,14 +47,13 @@ public class ExportFidoCad implements ExportInterface {
 	private int numberPath;
 	private int xsize;
 	private int ysize;
+	private boolean extensions;		// use FidoCadJ extensions
 
 	public int cLe(double l)
 	{
 		return (int)l;
 	}
-	
-	private boolean extensions;		// use FidoCadJ extensions
-	
+		
 	/** Constructor
 	
 		@param f the File object in which the export should be done.
@@ -66,12 +65,10 @@ public class ExportFidoCad implements ExportInterface {
 		fileExp=f;
 		
 		extensions = true;
-		fileExp=f;
 		
 		fstream = new OutputStreamWriter(new FileOutputStream(f), 
 			Globals.encoding);
 	    out = new BufferedWriter(fstream);
-			
 	}
 	
 	/** Specify whether the FidoCadJ extensions should be taken into account
@@ -97,7 +94,6 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportStart(Dimension totalSize, Vector la, int grid)   
 		throws IOException
 	{ 
-		
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
@@ -106,11 +102,10 @@ public class ExportFidoCad implements ExportInterface {
 	    int he=totalSize.height;
 	    
 		out.write("[FIDOCAD]\n");
+		
 		ParseSchem P = new ParseSchem();
 		P.setLayers(la);
-		
-		out.write(new String(P.registerConfiguration(extensions)));
-			
+		out.write(new String(P.registerConfiguration(extensions)));		
 	} 
 	
 
@@ -119,8 +114,8 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportEnd() 
 		throws IOException
 	{ 
+		//fstream.close();
 		out.close();
-		fstream.close();
 	}
 
 	/** Called when exporting an Advanced Text primitive.
