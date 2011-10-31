@@ -1,4 +1,4 @@
-package circuit;
+xpackage circuit;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -285,7 +285,7 @@ public class ParseSchem
                 System.out.println("Warning! Library directory is incorrect:");
                 System.out.println(s);
             }
-            System.out.println("Using only standard libraries");
+            System.out.println("Activated FidoCadJ internal libraries and symbols.");
             return;
         }
         // We read all the directory content, file by file 
