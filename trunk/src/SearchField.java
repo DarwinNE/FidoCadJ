@@ -70,8 +70,8 @@ public class SearchField extends JTextField {
     		int width = r.width-8;
     		int height = r.height-8;
       		g.setColor(getBackground());
-      		g.fillOval(x,y, height, height);
-      		g.fillOval(x+width-height,y, height, height);
+      		g.fillOval(x-2,y, height, height);
+      		g.fillOval(x+width-height+2,y, height, height);
       		g.fillRect(x+height/2,y,width-height, height);
       	}
       	// Once the new background is drawn, we can proceed with the rest of
