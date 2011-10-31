@@ -147,12 +147,9 @@ public class ExportEPS implements ExportInterface {
 		// Since in a postscript drawing, the origin is at the bottom left,
 		// we introduce a coordinate transformation to have it at the top
 		// left of the drawing.
-		
-		
-		
+
 		out.write("0 "+(totalSize.height/res_mult)+" translate\n");
 		out.write(""+(1/res_mult)+" "+(-1/res_mult)+" scale\n");
-		
 	} 
 	
 	/** Called at the end of the export phase.
