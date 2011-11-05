@@ -9,14 +9,14 @@ by Davide Bucci
 ----------------
 
 FidoCadJ is a very easy to use editor, with a vast library of electrical 
-symbols and footprints (through hole and SMD). Drawings can be exported in 
+symbols and footprints (through hole and SMD). Its drawings can be exported in 
 several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it 
 is very simple and somewhat limited, FidoCadJ can be very useful as a basic
-Electronic  design automation (EDA) software. FidoCadJ is inspired from FidoCad 
-(without "J"), which was a vector graphic editor useful for electrical 
-schematics and printed circuit boards. It uses a file format containing 
-only UTF-8 text, very compact and suited for copy and pasting from/into 
-newsgroups and forum messages. 
+schematic capture and electronic  design automation (EDA) software. FidoCadJ 
+is inspired from FidoCAD (without "J"), which was a vector graphic editor 
+useful for electrical schematics and printed circuit boards. 
+It uses a file format containing only UTF-8 text, very compact and suited for 
+copy and pasting from/into newsgroups and forum messages. 
 This determined its success among the italian Usenet community, from late 
 '90s, as it is quite versatile for simple mechanical drawings as well. 
 FidoCadJ is internationalized and its manual is available in english, french 
@@ -40,7 +40,8 @@ bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some 
 problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion operating system.
+the MacOSX Lion operating system. Normally, you will have to download the Java
+runtime in a few clicks.
 
 Remember that if there is a greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
