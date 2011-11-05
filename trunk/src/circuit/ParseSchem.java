@@ -176,7 +176,12 @@ public class ParseSchem
     // Maximum number of levels to be retained for undo operations.
     private final int MAX_UNDO=100;
             
-    // A drawing modification flag. If true, there are unsaved changes
+    // A drawing modification flag. If true, there are unsaved changes.
+    // This is different from the "change" flag defined above, since while the
+    // "change=true" implies that the drawing should be redrawn recalculating
+    // all the coordinate scaling and so on, here "isModified=true" implies that
+    // a permanent change to the drawing has been made and the user might be
+    // prompted in the future if there is the risk of losing unsaved changes.
     private boolean isModified;
     
     
@@ -882,6 +887,7 @@ public class ParseSchem
             ((GraphicPrimitive)primitiveVector.get(i)).setMacroFont(f, size);
         }
         changed=true;
+        isModified=true;
     }
     
     
