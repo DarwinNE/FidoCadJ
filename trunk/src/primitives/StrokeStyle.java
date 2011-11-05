@@ -48,9 +48,7 @@ class StrokeStyle
         			0.0f));
         	}
         	actual_w=w;
-        	
-        	
-        	
+	
 		}
 		
 		// Here we retrieve the stroke style corresponding to the given 

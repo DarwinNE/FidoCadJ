@@ -592,6 +592,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         
         String cmd;
         int i;
+        GraphicPrimitive g;
 
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
@@ -679,11 +680,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
-            
             // Add a connection primitive at the given point.
-            P.addPrimitive(new PrimitiveConnection(cs.unmapXsnap(x),
-                                        cs.unmapYsnap(y), currentLayer), true,
-                                        true);
+
+            g=new PrimitiveConnection(cs.unmapXsnap(x),
+                                        cs.unmapYsnap(y), currentLayer);
+            g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+            P.addPrimitive(g, true, true);
+
                     
             repaint();
             break;
@@ -695,13 +699,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             // Add a PCB pad primitive at the given point
-            P.addPrimitive(new PrimitivePCBPad(cs.unmapXsnap(x),
+            g=new PrimitivePCBPad(cs.unmapXsnap(x),
                                   cs.unmapYsnap(y), 
                                   PCB_pad_sizex,
                                   PCB_pad_sizey,                                                                                                                
                                   PCB_pad_drill,
                                   PCB_pad_style,
-                                  currentLayer), true,true);
+                                  currentLayer);
+            g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+            P.addPrimitive(g, true, true);
             repaint();
             break;     
          
@@ -728,14 +735,17 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	InputEvent.BUTTON3_MASK)!=0) {
             	// Here we know the two points needed for creating
             	// the line. The object is thus added to the database.
-                P.addPrimitive(new PrimitiveLine(xpoly[1],
+            	g= new PrimitiveLine(xpoly[1],
                                                          ypoly[1],
                                                          xpoly[2],
                                                          ypoly[2],
                                                          currentLayer,
                                                          false,
                                                         false,
-                                                        0,3,2,0), true,true);
+                                                        0,3,2,0);
+                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+                P.addPrimitive(g, true, true);
                         
                 if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) {
                	 	clickNumber = 1;
@@ -760,7 +770,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             P.addPrimitive(new PrimitiveAdvText(cs.unmapXsnap(x),
                                         cs.unmapYsnap(y), 
-                                        3,4,Globals.defaultTextFont,0,0,
+                                        3,4,P.getTextFont(),0,0,
                                         "String", currentLayer), true, true);
                     
             repaint();
@@ -786,7 +796,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ypoly[clickNumber] = cs.unmapYsnap(y);
             // a polygon definition is ended with a double click
             if (clickNumber == 4) {
-                P.addPrimitive(new PrimitiveBezier(xpoly[1],
+            	g=new PrimitiveBezier(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
@@ -797,7 +807,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                                          currentLayer,
                                          false,
                                          false,
-                                         0,3,2,0), true,true);
+                                         0,3,2,0);
+                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+                P.addPrimitive(g, true, true);
         
                 clickNumber = 0;
                 repaint();
@@ -820,6 +833,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 for(i=1; i<=clickNumber; ++i) 
                     poly.addPoint(xpoly[i],ypoly[i]);
         
+                poly.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
                 P.addPrimitive(poly, true,true);
                 clickNumber = 0;
                 repaint();
@@ -852,12 +867,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2) {
-                P.addPrimitive(new PrimitiveOval(xpoly[1],
+            	g=new PrimitiveOval(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0), true,true);
+                                         currentLayer,0);
+                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+                P.addPrimitive(g, true, true);
         
         
                 clickNumber = 0;
@@ -886,12 +904,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if (clickNumber == 2) {
                 // The second click ends the rectangle introduction.
                 // We thus create the primitive and store it.
-                P.addPrimitive(new PrimitiveRectangle(xpoly[1],
+                g=new PrimitiveRectangle(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0), true, true);
+                                         currentLayer,0);
+                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+                P.addPrimitive(g, true, true);
                 clickNumber = 0;
                 repaint();
               
@@ -920,12 +941,14 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             	InputEvent.BUTTON3_MASK)!=0) {
             	// Here is the end of the PCB line introduction: we create the
             	// primitive.
-                P.addPrimitive(new PrimitivePCBLine(xpoly[1],
+            	g=new PrimitivePCBLine(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
                                          PCB_thickness,
-                                         currentLayer), true,true);
+                                         currentLayer);
+                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                P.addPrimitive(g, true,true);
                 
                 // Check if the user has clicked with the right button.
                 if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) {
@@ -965,7 +988,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             		orientation = ((PrimitiveMacro)primEdit).getOrientation();
 					mirror = ((PrimitiveMacro)primEdit).isMirrored();
             	}
-                
                 P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
                     P.getLayers(), cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,

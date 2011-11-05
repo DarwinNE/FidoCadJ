@@ -88,6 +88,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		changed=true;
 		
 		initPrimitive(-1);
+
 				
 		macroStore(layers);
 	}
