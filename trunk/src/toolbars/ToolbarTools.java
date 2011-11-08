@@ -10,44 +10,57 @@ import java.net.*;
 import globals.*;
 import circuit.*;
 
-
 /**
-    ToolbarTools class
-    
-    @author Davide Bucci
+ ToolbarTools class
  
-<pre>
-	This file is part of FidoCadJ.
+ @author Davide Bucci & Jose Emilio Munoz
+ 
+ <pre>
+ This file is part of FidoCadJ.
+ 
+ FidoCadJ is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ FidoCadJ is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ Copyright 2008-2011 by Davide Bucci
+ </pre>
+ 
+ 
+ This class allows to add and organise the buttons in the toolbar. Buttons are 
+ instances of <code>JToggleButton</code>, i.e. they have two states, selected 
+ and not selected. To make it easier to add a button, they are defined first 
+ as a <code>ToolButton</code> ({@link ToolButton}), then they are assigned 
+ their variable name, and they are finally added to the toolbar using the 
+ appropiate method ({@link #addToolButton(JToggleButton, int)}).</p> 
+ Once they are added to the toolbar, their action when selected must be 
+ defined. They each implement their own <code>ActionListener</code> (inner 
+ classes) and <code>actionPerformed</code> methods so that they can each have 
+ a different behavior if required.</p> 
+ When created they are automatically added to an <code>ArrayList</code> (to 
+ loop through this list and find the selected button,
+ {@link #getSelectedButton()}, this is used in {@link #getSelectionState()}), 
+ to a <code>HashMap</code> (to assign and find the <code>CircuitPanel</code> 
+ constant of each button, this is used in 
+ {@link #setSelectionState(int, String)}) and to a <code>ButtonGroup</code>, 
+ so that only one button is selected at a time.</p> 
+ 
+ */
 
-    FidoCadJ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    FidoCadJ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-
-	Copyright 2008-2011 by Davide Bucci
-</pre>
-
-@author Davide Bucci
-
-    I have to admit that I do not like so much how I implemented this class.
-    It seems to me that I did a few unnecessary cut and paste and the code is 
-    simple but tedious and potentially error prone.
-    I have left this way, as the whole is still maintenable.
-*/
-public class ToolbarTools extends JToolBar
-	implements ActionListener,
-			   ChangeSelectionListener
+public class ToolbarTools extends JToolBar implements ChangeSelectionListener
 
 {
-	// Interface elements needing to keep track of...
+    private ChangeSelectionListener selectionListener;
+    
+    //Instance variable of each button
     private JToggleButton selection;
     private JToggleButton zoom;
     private JToggleButton hand;  
@@ -57,413 +70,342 @@ public class ToolbarTools extends JToolBar
     private JToggleButton polygon;
     private JToggleButton ellipse;
     private JToggleButton rectangle;
-    private JToggleButton connection;
+    private JToggleButton connection;    
     private JToggleButton pcbline;
-    private JToggleButton pcbpad;
-    private ChangeSelectionListener selectionListener;
+    private JToggleButton pcbpad; 
     
-      
+    private static String base;
+    private static boolean showText;
     
-    public ToolbarTools (boolean showText, boolean smallIcons) {
-        
-        String base;
+    private ButtonGroup group;
+    private ArrayList<JToggleButton> toolButtonsList;
+    private HashMap<JToggleButton,Integer> circuitPanelConstants;
+    
+    /** <code>base</code> is passed to the <code>ToolbarTools</code> 
+     constructor to create the toolbar, but will need to be accessed by the 
+     <code>ToolButton</code> class to create each button.
+     
+     @return base    
+     */
+    
+    public static String getBase() 
+    {
+        return base;
+    }
+    
+    /** <code>showText</code> is passed to the <code>ToolbarTools</code> 
+     constructor to create the toolbar, but will need to be accessed by the 
+     <code>ToolButton</code> class to create each button.
+     
+     @return showText
+     */
+    
+    public static boolean getShowText() 
+    {
+        return showText;
+    }
+    
+    /** This method effectively adds the defined button to the toolbar.
+     
+     @param button - Name of the button to be added to the toolbar.
+     @param circuitPanelConstant - Determines its function, see 
+     <code>circuitPanel</code> class.
+     */
+    
+    public void addToolButton(JToggleButton button, int circuitPanelConstant) 
+    {
+        add(button);
+        group.add(button);
+        toolButtonsList.add(button);
+        circuitPanelConstants.put(button, circuitPanelConstant);
+    }
+    
+    /** Class Constructor 
+     Creates the toolbar, consisting of all the buttons, which are displayed
+     from left to right, in the order they were added.
+     
+     @param showText - True if the name of the tool is to be displayed 
+     underneath the icon.
+     @param smallIcons - True if 16x16 size icons are to be displayed.
+     */
+    
+    public ToolbarTools (boolean showText, boolean smallIcons) 
+    {
+        base = smallIcons ? "icons16/" : "icons32/";
+        this.showText = showText;
         
         putClientProperty("Quaqua.ToolBar.style", "title");
-
-        if(smallIcons)
-        	base="icons16/";
-        else
-        	base="icons32/";
         
         setBorderPainted(false);
-               	
-        URL url=ToolbarTools.class.getResource(base+"arrow.png");
-        selection = new JToggleButton(
-        	(showText?Globals.messages.getString("Selection"):""),
-        	new ImageIcon(url));
-        selection.setActionCommand("selection");
-        selection.setToolTipText(
-        	Globals.messages.getString("tooltip_selection"));
-        selection.setVerticalTextPosition(SwingConstants.BOTTOM);
-        selection.setHorizontalTextPosition(SwingConstants.CENTER);
         
-        url=ToolbarTools.class.getResource(base+"magnifier.png");
-        zoom = new JToggleButton(
-        	(showText?Globals.messages.getString("Zoom_p"):""),
-        	new ImageIcon(url));
-       	zoom.setActionCommand("zoom");
-        zoom.setToolTipText(
-        	Globals.messages.getString("tooltip_zoom"));
-        zoom.setVerticalTextPosition(SwingConstants.BOTTOM);
-        zoom.setHorizontalTextPosition(SwingConstants.CENTER);	
+        group = new ButtonGroup();
+        toolButtonsList = new ArrayList<JToggleButton>();
+        circuitPanelConstants = new HashMap<JToggleButton,Integer>();
         
-        	
-        url=ToolbarTools.class.getResource(base+"move.png");
-        hand = new JToggleButton(
-        	(showText?Globals.messages.getString("Hand"):""),
-        	new ImageIcon(url));
-        hand.setActionCommand("hand");
-        hand.setToolTipText(
-        	Globals.messages.getString("tooltip_hand"));
-       	hand.setVerticalTextPosition(SwingConstants.BOTTOM);
-        hand.setHorizontalTextPosition(SwingConstants.CENTER);
+        /**
+         * First button to be added. Firstly a ToolButton object is created by
+         * defining an icon image, the text displaying the name of the tool,
+         * the button ActionCommand, and the tool description/tip. Then it is
+         * assigned to the appropriate instance variable using the
+         * ToolButton.getToolButton() method. Finally button behavior is
+         * defined. As the button circuitPanel constant was already defined
+         * when adding the button, the appropriate constant is now fetched from
+         * the circuitPanelConstants HashMap.
+         * */
         
-        url=ToolbarTools.class.getResource(base+"line.png");
-        line = new JToggleButton(
-        	(showText?Globals.messages.getString("Line"):""),
-        	new ImageIcon(url));
-        line.setActionCommand("line");
-        line.setToolTipText(
-        	Globals.messages.getString("tooltip_line"));
-        line.setVerticalTextPosition(SwingConstants.BOTTOM);
-        line.setHorizontalTextPosition(SwingConstants.CENTER);
+        ToolButton selectionToolButton = new ToolButton("arrow.png", 
+                                                        "Selection", 
+                                                        "selection", 
+                                                        "tooltip_selection");
+        selection = selectionToolButton.getToolButton();
+        addToolButton(selection, CircuitPanel.SELECTION);
         
-       
-        url=ToolbarTools.class.getResource(base+"text.png");
-        advtext = new JToggleButton(
-        	(showText?Globals.messages.getString("Text"):""),
-        	new ImageIcon(url));
-        advtext.setActionCommand("text");
-        advtext.setToolTipText(
-        	Globals.messages.getString("tooltip_text"));
-        advtext.setVerticalTextPosition(SwingConstants.BOTTOM);
-        advtext.setHorizontalTextPosition(SwingConstants.CENTER);
+        selection.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(selection),"");
+            }                                                        
+        });
         
-        url=ToolbarTools.class.getResource(base+"bezier.png");
-        bezier = new JToggleButton(
-        	(showText?Globals.messages.getString("Bezier"):""),
-        	new ImageIcon(url));
-        bezier.setActionCommand("bezier");
-        bezier.setToolTipText(
-        	Globals.messages.getString("tooltip_bezier"));
-        bezier.setVerticalTextPosition(SwingConstants.BOTTOM);
-        bezier.setHorizontalTextPosition(SwingConstants.CENTER);
+        /** End of button definition. */
         
-        url=ToolbarTools.class.getResource(base+"polygon.png");
-        polygon = new JToggleButton(
-        	(showText?Globals.messages.getString("Polygon"):""),
-        	new ImageIcon(url));
-        polygon.setActionCommand("polygon");
-        polygon.setToolTipText(
-        	Globals.messages.getString("tooltip_polygon"));
-        polygon.setVerticalTextPosition(SwingConstants.BOTTOM);
-        polygon.setHorizontalTextPosition(SwingConstants.CENTER);
-                
+        ToolButton zoomToolButton = new ToolButton("magnifier.png", 
+                                                   "Zoom_p", 
+                                                   "zoom", 
+                                                   "tooltip_zoom");
+        zoom = zoomToolButton.getToolButton();
+        addToolButton(zoom, CircuitPanel.ZOOM);
         
-        url=ToolbarTools.class.getResource(base+"ellipse.png");
-        ellipse = new JToggleButton(
-        	(showText?Globals.messages.getString("Ellipse"):""),
-        	new ImageIcon(url));
-        ellipse.setActionCommand("ellipse");
-        ellipse.setToolTipText(
-        	Globals.messages.getString("tooltip_ellipse"));
-        ellipse.setVerticalTextPosition(SwingConstants.BOTTOM);
-        ellipse.setHorizontalTextPosition(SwingConstants.CENTER);
+        zoom.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(zoom),"");
+            }                                                        
+        });   
+        
+        ToolButton handToolButton = new ToolButton("move.png", 
+                                                   "Hand", 
+                                                   "hand", 
+                                                   "tooltip_hand");
+        hand = handToolButton.getToolButton();
+        addToolButton(hand, CircuitPanel.HAND);
+        
+        hand.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(hand),"");
+            }                                                        
+        });  
+        
+        ToolButton lineToolButton = new ToolButton("line.png", 
+                                                   "Line", 
+                                                   "line", 
+                                                   "tooltip_line");
+        line = lineToolButton.getToolButton();
+        addToolButton(line, CircuitPanel.LINE);
+        
+        line.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(line),"");
+            }                                                        
+        });  
+        
+        ToolButton advtextToolButton = new ToolButton("text.png", 
+                                                      "Text", 
+                                                      "text", 
+                                                      "tooltip_text");
+        advtext = advtextToolButton.getToolButton();
+        addToolButton(advtext, CircuitPanel.TEXT);
+        
+        advtext.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(advtext),"");
+            }                                                        
+        });  
+        
+        ToolButton bezierToolButton = new ToolButton("bezier.png", 
+                                                     "Bezier", 
+                                                     "bezier", 
+                                                     "tooltip_bezier");
+        bezier = bezierToolButton.getToolButton();
+        addToolButton(bezier, CircuitPanel.BEZIER);
+        
+        bezier.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(bezier),"");
+            }                                                        
+        });  
+        
+        ToolButton polygonToolButton = new ToolButton("polygon.png", 
+                                                      "Polygon", 
+                                                      "polygon", 
+                                                      "tooltip_polygon");
+        polygon = polygonToolButton.getToolButton();
+        addToolButton(polygon, CircuitPanel.POLYGON);
+        
+        polygon.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(polygon),"");
+            }                                                        
+        });  
+        
+        ToolButton ellipseToolButton = new ToolButton("ellipse.png", 
+                                                      "Ellipse", 
+                                                      "ellipse", 
+                                                      "tooltip_ellipse");
+        ellipse = ellipseToolButton.getToolButton();
+        addToolButton(ellipse, CircuitPanel.ELLIPSE);
+        
+        ellipse.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(ellipse),"");
+            }                                                        
+        });  
+        
+        ToolButton rectangleToolButton = new ToolButton("rectangle.png", 
+                                                        "Rectangle", 
+                                                        "rectangle", 
+                                                        "tooltip_rectangle");
+        rectangle = rectangleToolButton.getToolButton();
+        addToolButton(rectangle, CircuitPanel.RECTANGLE);
+        
+        rectangle.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(rectangle),"");
+            }                                                        
+        });
+        
+        ToolButton connectionToolButton = new ToolButton("connection.png", 
+                                                         "Connection", 
+                                                         "connection", 
+                                                         "tooltip_connection");
+        connection = connectionToolButton.getToolButton();
+        addToolButton(connection, CircuitPanel.CONNECTION);
+        
+        connection.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(connection),"");
+            }                                                        
+        });  
+        
+        ToolButton pcblineToolButton = new ToolButton("pcbline.png", 
+                                                      "PCBline", 
+                                                      "pcbline", 
+                                                      "tooltip_pcbline");
+        pcbline = pcblineToolButton.getToolButton();
+        addToolButton(pcbline, CircuitPanel.PCB_LINE);
+        
+        pcbline.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(pcbline),"");
+            }                                                        
+        });  
+        
+        ToolButton pcbpadToolButton = new ToolButton("pcbpad.png", 
+                                                     "PCBpad", 
+                                                     "pcbpad", 
+                                                     "tooltip_pcbpad");
+        pcbpad = pcbpadToolButton.getToolButton();
+        addToolButton(pcbpad, CircuitPanel.PCB_PAD);
+        
+        pcbpad.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                selectionListener.
+                setSelectionState(circuitPanelConstants.get(pcbpad),"");
+            }                                                        
+        });  
         
         
-        url=ToolbarTools.class.getResource(base+"rectangle.png");
-        rectangle = new JToggleButton(
-        	(showText?Globals.messages.getString("Rectangle"):""),
-        	new ImageIcon(url));
-        rectangle.setActionCommand("rectangle");
-        rectangle.setToolTipText(
-        	Globals.messages.getString("tooltip_rectangle"));
-        rectangle.setVerticalTextPosition(SwingConstants.BOTTOM);
-        rectangle.setHorizontalTextPosition(SwingConstants.CENTER);
+        add(Box.createGlue());  
         
-        
-        url=ToolbarTools.class.getResource(base+"connection.png");
-        connection = new JToggleButton(
-        	(showText?Globals.messages.getString("Connection"):""),
-        	new ImageIcon(url));
-        connection.setActionCommand("connection");
-        connection.setToolTipText(
-        	Globals.messages.getString("tooltip_connection"));
-        connection.setVerticalTextPosition(SwingConstants.BOTTOM);
-        connection.setHorizontalTextPosition(SwingConstants.CENTER);
-        
-        
-        
-        url=ToolbarTools.class.getResource(base+"pcbline.png");
-        pcbline = new JToggleButton(
-        	(showText?Globals.messages.getString("PCBline"):""),
-        	new ImageIcon(url));
-        pcbline.setActionCommand("pcbline");
-        pcbline.setToolTipText(
-        	Globals.messages.getString("tooltip_pcbline"));
-        pcbline.setVerticalTextPosition(SwingConstants.BOTTOM);
-        pcbline.setHorizontalTextPosition(SwingConstants.CENTER);
-        
-        
-        
-        url=ToolbarTools.class.getResource(base+"pcbpad.png");
-        pcbpad = new JToggleButton(
-        	(showText?Globals.messages.getString("PCBpad"):""),
-        	new ImageIcon(url));
-        pcbpad.setActionCommand("pcbpad");
-        pcbpad.setToolTipText(
-        	Globals.messages.getString("tooltip_pcbpad"));
-       	pcbpad.setVerticalTextPosition(SwingConstants.BOTTOM);
-        pcbpad.setHorizontalTextPosition(SwingConstants.CENTER);
-        
-
-        selection.addActionListener(this);
-        zoom.addActionListener(this);
-        hand.addActionListener(this);
-        line.addActionListener(this);
-        advtext.addActionListener(this);
-        bezier.addActionListener(this);
-        polygon.addActionListener(this);
-        ellipse.addActionListener(this);
-        rectangle.addActionListener(this);
-        connection.addActionListener(this);
-        pcbline.addActionListener(this);
-        pcbpad.addActionListener(this);
-        
-		selection.putClientProperty("Quaqua.Button.style","toolBarTab");
-		zoom.putClientProperty("Quaqua.Button.style","toolBarTab");
-		hand.putClientProperty("Quaqua.Button.style","toolBarTab");
-		line.putClientProperty("Quaqua.Button.style","toolBarTab");
-		advtext.putClientProperty("Quaqua.Button.style","toolBarTab");
-		bezier.putClientProperty("Quaqua.Button.style","toolBarTab");
-		polygon.putClientProperty("Quaqua.Button.style","toolBarTab");
-		ellipse.putClientProperty("Quaqua.Button.style","toolBarTab");
-		rectangle.putClientProperty("Quaqua.Button.style","toolBarTab");
-		connection.putClientProperty("Quaqua.Button.style","toolBarTab");
-		pcbline.putClientProperty("Quaqua.Button.style","toolBarTab");
-		pcbpad.putClientProperty("Quaqua.Button.style","toolBarTab");
-			
-        add(selection);
-        add(zoom);
-        add(hand);
-        add(line);
-        add(advtext);
-        add(bezier);
-        add(polygon);
-        add(ellipse);
-        add(rectangle);
-        add(connection);
-        add(pcbline);
-        add(pcbpad);
-     	
-        add(Box.createGlue());		
-
-		
         setFloatable(false);
         setRollover(true);
     }
     
-    
-	/**	Get the current selection state. Required for implementing the
-    	ChangeSelectionListener interface.
-	
-		@return the actual selection state (see the CircuitPanel class for the
-		definition of the constants used here).
-	
-	*/
-    public int getSelectionState()
-    {
-   	 	if(selection.isSelected())
-   	 		return CircuitPanel.SELECTION;
-   	 	if(zoom.isSelected())
-   	 		return CircuitPanel.ZOOM;
-		if(hand.isSelected())
-   	 		return CircuitPanel.HAND; 
-		if(line.isSelected())
-   	 		return CircuitPanel.LINE;        
-   	 	if(advtext.isSelected())
-   	 		return CircuitPanel.TEXT; 
-		if(bezier.isSelected())
-   	 		return CircuitPanel.BEZIER;        
-   	 	if(polygon.isSelected())
-   	 		return CircuitPanel.POLYGON;        
-   	 	if(ellipse.isSelected())
-   	 		return CircuitPanel.ELLIPSE;
-        if(rectangle.isSelected())
-   	 		return CircuitPanel.RECTANGLE;
-        if(connection.isSelected())
-   	 		return CircuitPanel.CONNECTION;
-        if(pcbline.isSelected())
-   	 		return CircuitPanel.PCB_LINE;
-        if(pcbpad.isSelected())
-   	 		return CircuitPanel.PCB_PAD;
-     	
-     	return CircuitPanel.NONE;
-    }
-    /**	Set the current selection state. Required for implementing the
-    	ChangeSelectionListener interface
-	
-		@param s the selection state (see the CircuitPanel class for the
-		definition of the constants used here).
-		@param m not used here (useful when playing with macros).
-	*/
-    public void setSelectionState(int s, String m)
-    {
-    	selection.setSelected(false);
-    	zoom.setSelected(false);
-    	hand.setSelected(false);
-    	line.setSelected(false);
-    	advtext.setSelected(false);
-    	bezier.setSelected(false);
-    	polygon.setSelected(false);
-    	ellipse.setSelected(false);
-    	rectangle.setSelected(false);
-    	connection.setSelected(false);
-    	pcbline.setSelected(false);
-    	pcbpad.setSelected(false);
-    	
-    	switch (s) {
-    		case CircuitPanel.NONE:
-    			break;
-    		
-    		case CircuitPanel.SELECTION:
-    			selection.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.ZOOM:
-    			zoom.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.HAND:
-    			hand.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.LINE:
-    			line.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.TEXT:
-    			advtext.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.BEZIER:
-    			bezier.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.POLYGON:
-    			polygon.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.ELLIPSE:
-    			ellipse.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.RECTANGLE:
-    			rectangle.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.CONNECTION:
-    			connection.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.PCB_LINE:
-    			pcbline.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.PCB_PAD:
-    			pcbpad.setSelected(true);
-    			break;
-    			
-    		case CircuitPanel.MACRO: 
-    			break;
-    			
-    	}
-    }
-    
     /** Add a selection listener (object implementing the ChangeSelection 
-    	interface) whose change method will be called when the current
-    	selected action should be changed.
+     interface) whose change method will be called when the current
+     selected action should be changed.
+     
+     */
     
-    */
     public void addSelectionListener(ChangeSelectionListener c)
     {
-    	selectionListener=c;
+        selectionListener=c;
     }
     
-    /** Implements the ActionListener interface.
-    	@param evt the current event to be treated.
-    */
-    public void actionPerformed(ActionEvent evt)
+    
+    /** This method finds the button selected at the moment.
+     
+     @return selectedButton
+     */
+    
+    public JToggleButton getSelectedButton()
     {
-        String s = evt.getActionCommand();
-        int oldsel=selectionListener.getSelectionState();
-        int sel=CircuitPanel.NONE;
-        JToggleButton actualButton=null;
-
-        if(s.equals("selection")) { 
-           
-            sel = CircuitPanel.SELECTION;
-            actualButton = selection;
-        } else
-            selection.setSelected(false);
-            
-        if(s.equals("zoom")) { 
-            sel= CircuitPanel.ZOOM;
-            actualButton = zoom;
-        } else
-            zoom.setSelected(false);
-        if(s.equals("hand")) { 
-            sel= CircuitPanel.HAND;
-            actualButton = hand;
-        } else
-            hand.setSelected(false);
-        if(s.equals("line")) { 
-            sel= CircuitPanel.LINE;
-            actualButton = line;
-        } else
-            line.setSelected(false);
-        if(s.equals("text")) { 
-            sel= CircuitPanel.TEXT;
-            actualButton = advtext;
-        } else
-            advtext.setSelected(false);
-            
-        if(s.equals("bezier")) { 
-            sel= CircuitPanel.BEZIER;
-            actualButton = bezier;
-        } else
-            bezier.setSelected(false);
-            
-        if(s.equals("polygon")) { 
-            sel= CircuitPanel.POLYGON;
-            actualButton = polygon;
-        } else
-            polygon.setSelected(false);
-        if(s.equals("ellipse")) { 
-            sel= CircuitPanel.ELLIPSE;
-            actualButton = ellipse;
-        } else
-            ellipse.setSelected(false);
-        
-        if(s.equals("rectangle")) { 
-            sel= CircuitPanel.RECTANGLE;
-            actualButton = rectangle;
-        } else
-            rectangle.setSelected(false);
-        if(s.equals("connection")) { 
-            sel= CircuitPanel.CONNECTION;
-            actualButton = connection;
-        } else
-            connection.setSelected(false);
-        if(s.equals("pcbline")) { 
-            sel= CircuitPanel.PCB_LINE;
-            actualButton = pcbline;
-        } else
-            pcbline.setSelected(false);
-        if(s.equals("pcbpad")) { 
-            sel= CircuitPanel.PCB_PAD;
-            actualButton = pcbpad;
-        } else
-            pcbpad.setSelected(false);
-        if(actualButton!=null) {
-            if(oldsel==sel) {
-                sel=CircuitPanel.NONE;
-                actualButton.setSelected(false);
-            } else
-                actualButton.setSelected(true);
+        JToggleButton selectedButton = null;
+        for (JToggleButton button : toolButtonsList) {
+            if (button.isSelected()) {
+                selectedButton = button;
+            }
         }
-        selectionListener.setSelectionState(sel,"");
+        return selectedButton;
     }
     
-
+    /** Get the current selection state. Required for implementing the
+     ChangeSelectionListener interface.
+     
+     @return the actual selection state (see the CircuitPanel class for the
+     definition of the constants used here).
+     */
+    
+    public int getSelectionState()
+    {
+        JToggleButton selectedButton = getSelectedButton();
+        if(!selectedButton.equals(null)) {
+            return circuitPanelConstants.get(selectedButton);
+        }
+        else {
+            return CircuitPanel.NONE;
+        }
+    }
+    
+    /** Set the current selection state. Required for implementing the
+     ChangeSelectionListener interface
+     
+     @param s the selection state (see the CircuitPanel class for the
+     definition of the constants used here).
+     @param m not used here (useful when playing with macros).
+     */
+    
+    public void setSelectionState(int s, String m)
+    {
+        for (JToggleButton button : toolButtonsList) {
+            button.setSelected(false);
+        }
+        
+        for(JToggleButton button : circuitPanelConstants.keySet()){
+            if(s == CircuitPanel.NONE || s == CircuitPanel.MACRO) break;
+            if(circuitPanelConstants.get(button).equals(s)) 
+                button.setSelected(true);
+        }
+    }
 }
