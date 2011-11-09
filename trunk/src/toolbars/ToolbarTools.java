@@ -41,10 +41,12 @@ import circuit.*;
  as a <code>ToolButton</code> ({@link ToolButton}), then they are assigned 
  their variable name, and they are finally added to the toolbar using the 
  appropiate method ({@link #addToolButton(JToggleButton, int)}).</p> 
+ 
  Once they are added to the toolbar, their action when selected must be 
  defined. They each implement their own <code>ActionListener</code> (inner 
  classes) and <code>actionPerformed</code> methods so that they can each have 
  a different behavior if required.</p> 
+ 
  When created they are automatically added to an <code>ArrayList</code> (to 
  loop through this list and find the selected button,
  {@link #getSelectedButton()}, this is used in {@link #getSelectionState()}), 
@@ -78,8 +80,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private static boolean showText;
     
     private ButtonGroup group;
-    private ArrayList<JToggleButton> toolButtonsList;
-    private HashMap<JToggleButton,Integer> circuitPanelConstants;
+    private ArrayList toolButtonsList;
+    private HashMap circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
      constructor to create the toolbar, but will need to be accessed by the 
@@ -131,6 +133,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     public ToolbarTools (boolean showText, boolean smallIcons) 
     {
+        
         base = smallIcons ? "icons16/" : "icons32/";
         this.showText = showText;
         
@@ -139,8 +142,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         setBorderPainted(false);
         
         group = new ButtonGroup();
-        toolButtonsList = new ArrayList<JToggleButton>();
-        circuitPanelConstants = new HashMap<JToggleButton,Integer>();
+        toolButtonsList = new ArrayList();
+        circuitPanelConstants = new HashMap();
         
         /**
          * First button to be added. Firstly a ToolButton object is created by
@@ -162,12 +165,11 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         
         selection.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
-            {                                                        
+            {                           
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(selection),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(selection),"");
             }                                                        
-        });
-        
+        });   
         /** End of button definition. */
         
         ToolButton zoomToolButton = new ToolButton("magnifier.png", 
@@ -181,7 +183,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(zoom),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(zoom),"");
             }                                                        
         });   
         
@@ -196,7 +198,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(hand),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(hand),"");
             }                                                        
         });  
         
@@ -211,7 +213,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(line),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(line),"");
             }                                                        
         });  
         
@@ -226,7 +228,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(advtext),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(advtext),"");
             }                                                        
         });  
         
@@ -241,7 +243,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(bezier),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(bezier),"");
             }                                                        
         });  
         
@@ -256,7 +258,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(polygon),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(polygon),"");
             }                                                        
         });  
         
@@ -271,7 +273,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(ellipse),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(ellipse),"");
             }                                                        
         });  
         
@@ -286,7 +288,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(rectangle),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(rectangle),"");
             }                                                        
         });
         
@@ -301,7 +303,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(connection),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(connection),"");
             }                                                        
         });  
         
@@ -316,7 +318,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(pcbline),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(pcbline),"");
             }                                                        
         });  
         
@@ -331,7 +333,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 selectionListener.
-                setSelectionState(circuitPanelConstants.get(pcbpad),"");
+                setSelectionState((int)(Integer) circuitPanelConstants.get(pcbpad),"");
             }                                                        
         });  
         
@@ -340,6 +342,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         
         setFloatable(false);
         setRollover(true);
+        
     }
     
     /** Add a selection listener (object implementing the ChangeSelection 
@@ -362,7 +365,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     public JToggleButton getSelectedButton()
     {
         JToggleButton selectedButton = null;
-        for (JToggleButton button : toolButtonsList) {
+        for(int i=0;i<toolButtonsList.size();i++) {
+            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             if (button.isSelected()) {
                 selectedButton = button;
             }
@@ -381,7 +385,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     {
         JToggleButton selectedButton = getSelectedButton();
         if(!selectedButton.equals(null)) {
-            return circuitPanelConstants.get(selectedButton);
+            return (int)(Integer) circuitPanelConstants.get(selectedButton);
         }
         else {
             return CircuitPanel.NONE;
@@ -398,13 +402,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     public void setSelectionState(int s, String m)
     {
-        for (JToggleButton button : toolButtonsList) {
+        for(int i=0;i<toolButtonsList.size();i++) {
+            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             button.setSelected(false);
         }
         
-        for(JToggleButton button : circuitPanelConstants.keySet()){
+        for(int i=0;i<toolButtonsList.size();i++) {
+            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             if(s == CircuitPanel.NONE || s == CircuitPanel.MACRO) break;
-            if(circuitPanelConstants.get(button).equals(s)) 
+            int circuitPanelConstant = (int)(Integer) circuitPanelConstants.get(button);
+            if(s == circuitPanelConstant) 
                 button.setSelected(true);
         }
     }
