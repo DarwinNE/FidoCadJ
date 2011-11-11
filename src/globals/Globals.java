@@ -8,15 +8,14 @@ import javax.swing.*;
 import layers.*;
 
 
-/* Globals.java v.1.2
+/* Globals.java
 
-   ****************************************************************************
 
 What? Global variables should not be used?
 
 But... who cares!!!
 
-
+<pre>
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -91,7 +90,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.23.7";
+    public static final String version = "0.24 alpha";
     // Is it a beta version?
     public static final boolean isBeta = false;		
     

@@ -12,8 +12,27 @@ import circuit.*;
 
 /**
  ToolbarTools class
+
+ <p>This class allows to add and organise the buttons in the toolbar. Buttons
+ are instances of <code>JToggleButton</code>, i.e. they have two states, 
+ selected and not selected. To make it easier to add a button, they are defined
+ first as a <code>ToolButton</code> ({@link ToolButton}), then they are 
+ assigned their variable name, and they are finally added to the toolbar 
+ using the appropiate method ({@link #addToolButton(JToggleButton, int)}).</p> 
  
- @author Davide Bucci & Jose Emilio Munoz
+ <p>Once they are added to the toolbar, their action when selected must be 
+ defined. They each implement their own <code>ActionListener</code> (inner 
+ classes) and <code>actionPerformed</code> methods so that they can each have 
+ a different behavior if required.</p> 
+ 
+ <p>When created they are automatically added to an <code>ArrayList</code> (to 
+ loop through this list and find the selected button,
+ {@link #getSelectedButton()}, this is used in {@link #getSelectionState()}), 
+ to a <code>HashMap</code> (to assign and find the <code>CircuitPanel</code> 
+ constant of each button, this is used in 
+ {@link #setSelectionState(int, String)}) and to a <code>ButtonGroup</code>, 
+ so that only one button is selected at a time.</p> 
+ 
  
  <pre>
  This file is part of FidoCadJ.
@@ -33,32 +52,11 @@ import circuit.*;
  
  Copyright 2008-2011 by Davide Bucci
  </pre>
- 
- 
- This class allows to add and organise the buttons in the toolbar. Buttons are 
- instances of <code>JToggleButton</code>, i.e. they have two states, selected 
- and not selected. To make it easier to add a button, they are defined first 
- as a <code>ToolButton</code> ({@link ToolButton}), then they are assigned 
- their variable name, and they are finally added to the toolbar using the 
- appropiate method ({@link #addToolButton(JToggleButton, int)}).</p> 
- 
- Once they are added to the toolbar, their action when selected must be 
- defined. They each implement their own <code>ActionListener</code> (inner 
- classes) and <code>actionPerformed</code> methods so that they can each have 
- a different behavior if required.</p> 
- 
- When created they are automatically added to an <code>ArrayList</code> (to 
- loop through this list and find the selected button,
- {@link #getSelectedButton()}, this is used in {@link #getSelectionState()}), 
- to a <code>HashMap</code> (to assign and find the <code>CircuitPanel</code> 
- constant of each button, this is used in 
- {@link #setSelectionState(int, String)}) and to a <code>ButtonGroup</code>, 
- so that only one button is selected at a time.</p> 
- 
- */
+
+ @author Davide Bucci & Jose Emilio Munoz
+*/
 
 public class ToolbarTools extends JToolBar implements ChangeSelectionListener
-
 {
     private ChangeSelectionListener selectionListener;
     
@@ -84,22 +82,21 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private HashMap circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
-     constructor to create the toolbar, but will need to be accessed by the 
-     <code>ToolButton</code> class to create each button.
+     	constructor to create the toolbar, but will need to be accessed by the 
+     	<code>ToolButton</code> class to create each button.
      
-     @return base    
-     */
-    
+     	@return base    
+    */
     public static String getBase() 
     {
         return base;
     }
     
     /** <code>showText</code> is passed to the <code>ToolbarTools</code> 
-     constructor to create the toolbar, but will need to be accessed by the 
-     <code>ToolButton</code> class to create each button.
+     	constructor to create the toolbar, but will need to be accessed by the 
+     	<code>ToolButton</code> class to create each button.
      
-     @return showText
+     	@return showText
      */
     
     public static boolean getShowText() 
@@ -109,11 +106,10 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     /** This method effectively adds the defined button to the toolbar.
      
-     @param button - Name of the button to be added to the toolbar.
-     @param circuitPanelConstant - Determines its function, see 
-     <code>circuitPanel</code> class.
-     */
-    
+     	@param button - Name of the button to be added to the toolbar.
+     	@param circuitPanelConstant - Determines its function, see 
+     	<code>circuitPanel</code> class.
+    */
     public void addToolButton(JToggleButton button, int circuitPanelConstant) 
     {
         add(button);
@@ -123,17 +119,15 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Class Constructor 
-     Creates the toolbar, consisting of all the buttons, which are displayed
-     from left to right, in the order they were added.
+     	Creates the toolbar, consisting of all the buttons, which are displayed
+     	from left to right, in the order they were added.
      
-     @param showText - True if the name of the tool is to be displayed 
-     underneath the icon.
-     @param smallIcons - True if 16x16 size icons are to be displayed.
-     */
-    
+     	@param showText - True if the name of the tool is to be displayed 
+     	underneath the icon.
+     	@param smallIcons - True if 16x16 size icons are to be displayed.
+    */
     public ToolbarTools (boolean showText, boolean smallIcons) 
     {
-        
         base = smallIcons ? "icons16/" : "icons32/";
         this.showText = showText;
         
@@ -146,15 +140,15 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         circuitPanelConstants = new HashMap();
         
         /**
-         * First button to be added. Firstly a ToolButton object is created by
-         * defining an icon image, the text displaying the name of the tool,
-         * the button ActionCommand, and the tool description/tip. Then it is
-         * assigned to the appropriate instance variable using the
-         * ToolButton.getToolButton() method. Finally button behavior is
-         * defined. As the button circuitPanel constant was already defined
-         * when adding the button, the appropriate constant is now fetched from
-         * the circuitPanelConstants HashMap.
-         * */
+           First button to be added. Firstly a ToolButton object is created by
+           defining an icon image, the text displaying the name of the tool,
+           the button ActionCommand, and the tool description/tip. Then it is
+           assigned to the appropriate instance variable using the
+           ToolButton.getToolButton() method. Finally button behavior is
+           defined. As the button circuitPanel constant was already defined
+           when adding the button, the appropriate constant is now fetched from
+           the circuitPanelConstants HashMap.
+        */
         
         ToolButton selectionToolButton = new ToolButton("arrow.png", 
                                                         "Selection", 
@@ -174,7 +168,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                 setSelectionState(circuitPanelConstant,"");
             }                                                        
         });   
-        /** End of button definition. */
+        /* End of button definition. */
         
         ToolButton zoomToolButton = new ToolButton("magnifier.png", 
                                                    "Zoom_p", 
@@ -394,10 +388,9 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Add a selection listener (object implementing the ChangeSelection 
-     interface) whose change method will be called when the current
-     selected action should be changed.
-     
-     */
+     	interface) whose change method will be called when the current
+     	selected action should be changed.
+    */
     
     public void addSelectionListener(ChangeSelectionListener c)
     {
@@ -407,8 +400,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     /** This method finds the button selected at the moment.
      
-     @return selectedButton
-     */
+     	@return selectedButton
+    */
     
     public JToggleButton getSelectedButton()
     {
@@ -423,11 +416,11 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Get the current selection state. Required for implementing the
-     ChangeSelectionListener interface.
+     	ChangeSelectionListener interface.
      
-     @return the actual selection state (see the CircuitPanel class for the
-     definition of the constants used here).
-     */
+     	@return the actual selection state (see the CircuitPanel class for the
+     	definition of the constants used here).
+    */
     
     public int getSelectionState()
     {
@@ -444,12 +437,12 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Set the current selection state. Required for implementing the
-     ChangeSelectionListener interface
+     	ChangeSelectionListener interface
      
-     @param s the selection state (see the CircuitPanel class for the
-     definition of the constants used here).
-     @param m not used here (useful when playing with macros).
-     */
+     	@param s the selection state (see the CircuitPanel class for the
+     	definition of the constants used here).
+     	@param m not used here (useful when playing with macros).
+    */
     
     public void setSelectionState(int s, String m)
     {
