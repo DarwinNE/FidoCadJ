@@ -1132,8 +1132,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                     (xpoly[1]-cs.unmapXsnap(xa))+
                     (ypoly[1]-cs.unmapYsnap(ya))*
                     (ypoly[1]-cs.unmapYsnap(ya)));
+                double wmm = w*127/1000;
                 coordinatesListener.changeInfos(
-                    Globals.messages.getString("length")+roundTo(w,2));
+                    Globals.messages.getString("length")+roundTo(w,2)+
+                    " ("+roundTo(wmm,2)+" mm)");
                 
             }   
         
