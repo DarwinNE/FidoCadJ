@@ -131,9 +131,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         add(Box.createGlue());
         add(infos);
         add(coords);
-        infos.setPreferredSize(new Dimension (150,28));
+        infos.setPreferredSize(new Dimension (250,28));
         infos.setMinimumSize(new Dimension (50,18));
-        infos.setMaximumSize(new Dimension (150,38));
+        infos.setMaximumSize(new Dimension (250,38));
         
         coords.setPreferredSize(new Dimension (300,28));
         coords.setMinimumSize(new Dimension (300,18));
