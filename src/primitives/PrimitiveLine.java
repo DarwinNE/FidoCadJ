@@ -322,15 +322,27 @@ public final class PrimitiveLine extends GraphicPrimitive
 			// setting the stroke takes a lot of time!
 			if(!stroke.equals(g.getStroke())) 
 				g.setStroke(stroke);			
-			g.drawLine(x1, y1, x2, y2);
+			
+			int x1_corr=x1;
+			int y1_corr=y1;
+			int x2_corr=x2;
+			int y2_corr=y2;
 		
 			// Eventually, we draw the arrows at the extremes.
 			if (arrows) {	
-				if (arrowStart) 
-					Arrow.drawArrow(g, x1, y1, x2, y2, l, h, arrowStyle);
-				if (arrowEnd) 
-					Arrow.drawArrow(g, x2, y2, x1, y1, l, h, arrowStyle);
+				if (arrowStart) {
+					Point Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
+					x1_corr = Pc.x;
+					y1_corr = Pc.y;
+				}
+				if (arrowEnd) {
+					Point Pc=Arrow.drawArrow(g,x2,y2,x1,y1,l,h,arrowStyle);
+					x2_corr = Pc.x;
+					y2_corr = Pc.y;
+				}
 			}
+			
+			g.drawLine(x1_corr, y1_corr, x2_corr, y2_corr);
 		}
  		return;
  	}
