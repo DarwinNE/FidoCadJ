@@ -54,8 +54,10 @@ public class Arrow {
 	@param h the half width of the arrow
 	@param style the arrow style
 	
+	@return the coordinate of the base point of the arrow head
+	
 	*/
-	public static void drawArrow(Graphics2D g, int x, int y, int xc, 
+	public static Point drawArrow(Graphics2D g, int x, int y, int xc, 
 		int yc, int l, int h, int style)
 	{
 		double s;
@@ -82,8 +84,6 @@ public class Arrow {
 		// the trigonometric convention (anti clockwise is positive).
 		
 		alpha += (x-xc>0)?0:Math.PI;
-		
-		
 	
 		// Then, we calculate the points for the polygon
 		x0 = x - l*Math.cos(alpha);
@@ -123,7 +123,7 @@ public class Arrow {
 			y4 = y - h*Math.cos(alpha);
 			g.drawLine((int)x3,(int)y3,(int)x4,(int)y4);
  		}
- 		
+ 		return new Point((int)(x0),(int)(y0));	
 	}
 	
 }
