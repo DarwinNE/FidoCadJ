@@ -1102,7 +1102,16 @@ public class FidoFrame extends JFrame implements
                                                    PrinterException 
     {
         int npages = 0;
-                
+        
+        // This might be explained as follows: 
+		// 1 - The Java printing system normally works with an internal 
+		// resolution which is 72 dpi (probably inspired by Postscript).
+		// 2 - To have a sufficient resolution, this is increased by 16 times,
+		// by using the scale method of the graphic object associated to the 
+		// printer. This gives a 72 dpi * 16=1152 dpi resolution.
+		// 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi 
+		// resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
+
         double xscale = 1.0/16; // Set 1152 logical units for an inch
         double yscale = 1.0/16; // as the standard resolution is 72
         double zoom = 5.76;     // act in a 1152 dpi resolution as 1:1
@@ -1110,9 +1119,8 @@ public class FidoFrame extends JFrame implements
         Graphics2D g2d = (Graphics2D)g;
         MapCoordinates zoomm=new MapCoordinates();
 
-        /* User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         */
+        // User (0,0) is typically outside the imageable area, so we must
+        // translate by the X and Y values in the PageFormat to avoid clipping
          
         if (printMirror) {
             g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
