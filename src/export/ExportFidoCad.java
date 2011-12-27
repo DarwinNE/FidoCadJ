@@ -142,7 +142,6 @@ public class ExportFidoCad implements ExportInterface {
 		
 		if (isBold)
 			style+=1;
-
 		if (isItalic)
 			style+=2;
 		if (isMirrored)

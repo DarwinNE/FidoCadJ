@@ -176,10 +176,13 @@ public class ExportPGF implements ExportInterface {
 		/*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR, 
 			MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
 			HANDLED at ALL!
+			This is somehow wanted, since the main use of the PGF export is
+			for inserting LaTeX commands inside drawings meant for use in a 
+			LaTeX documents. So this is something LaTeX should do, and it is
+			not a businnes for FidoCadJ.
 		*/
 		
 		out.write("\\begin{pgfmagnify}{1}{-1}\n");
-		//out.write("\\pgftranslateto{\pgfxy(0,"+(-he)+")}\n");
 		out.write("\\pgfputat{\\pgfxy("+x+","+(-y)+")}{\\pgfbox[left,top]{");	
 		out.write(text);
 		out.write("}}\n");

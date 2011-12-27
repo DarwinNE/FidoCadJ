@@ -167,7 +167,7 @@ public class ExportSVG implements ExportInterface {
 		out.write("\">");
 		out.write("<text x=\""+0+"\" y=\""+cLe(sizey)+"\" font-family=\""+
 			fontname+"\" font-size=\""+cLe(sizey)+"\" font-style=\""+
-			(isItalic?"Italic":"")+"\" font-weigth=\""+
+			(isItalic?"italic":"")+"\" font-weigth=\""+
 			(isBold?"bold":"")+"\" "+
 			"fill=\"#"+
 				convertToHex2(c.getRed())+
