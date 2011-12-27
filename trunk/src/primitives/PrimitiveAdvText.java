@@ -50,8 +50,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
 	/* Text style patterns */
 	static final int TEXT_BOLD=1;
-	static final int TEXT_ROTATE=2;
 	static final int TEXT_MIRRORED=4;
+	static final int TEXT_ITALIC=2;
 	
 	// A text is defined by one point.
 	static final int N_POINTS=1;
@@ -151,17 +151,22 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			mirror=false;
  			recalcSize =true;
  			/* in the simple text primitive, the the virtual point represents
-		   	the position of the text to be drawn. */
+		   		the position of the text to be drawn. */
 			x1=virtualPoint[0].x;
  			y1=virtualPoint[0].y;
  			xa=coordSys.mapX(x1,y1);
  			ya=coordSys.mapY(x1,y1);
  			/* siy is the font horizontal size in mils (1/1000 of an inch).
- 		   	1 typographical point is 1/72 of an inch.
+ 		   		1 typographical point is 1/72 of an inch.
  			*/
  			
- 			f=new Font(fontName,((sty & 
- 				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
+ 			int font_style = Font.PLAIN;
+ 			
+ 			// Here we determine the text style from its characteristics
+ 			font_style += (((sty & TEXT_BOLD)==0)?0:Font.BOLD);
+ 			font_style += (((sty & TEXT_ITALIC)==0)?0:Font.ITALIC);
+ 			
+ 			f=new Font(fontName,font_style,
  				(int)(six*12*coordSys.getYMagnitude()/7+.5));
  			 
 			/* At first, I tried to use an affine transform on the font, without
@@ -186,6 +191,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     			six=7;
     		}
     	
+    		// Determination of the size of the text string.
 			fm = g.getFontMetrics(f);
     		h = fm.getAscent();
     		th = h+fm.getDescent();
@@ -556,6 +562,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		pd.description=Globals.messages.getString("ctrl_mirror");
 		v.add(pd);
 		pd = new ParameterDescription();
+		pd.parameter=new Boolean((sty & TEXT_ITALIC)!=0);
+		pd.description=Globals.messages.getString("ctrl_italic");
+		v.add(pd);
+		pd = new ParameterDescription();
 		pd.parameter=new Boolean((sty & TEXT_BOLD)!=0);
 		pd.description=Globals.messages.getString("ctrl_boldface");
 		v.add(pd);
@@ -634,6 +644,15 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 				sty&sty & (~TEXT_MIRRORED);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Boolean)
+			sty = (((Boolean)pd.parameter).booleanValue())?
+				sty&sty | TEXT_ITALIC:
+				sty&sty & (~TEXT_ITALIC);
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			
@@ -726,7 +745,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			fontName, 
 			(sty & TEXT_BOLD)!=0,
 			(sty & TEXT_MIRRORED)!=0,
-			false,
+			(sty & TEXT_ITALIC)!=0,
 			o, getLayer(), txt);
 			
 	}
