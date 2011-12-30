@@ -52,7 +52,6 @@ import circuit.*;
  
  Copyright 2008-2011 by Davide Bucci
  </pre>
-
  @author Davide Bucci & Jose Emilio Munoz
 */
 
