@@ -513,15 +513,23 @@ public class ParseSchem
             s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
-        // Check if the layers should be indicated       
+        // Check if the layers should be indicated    
+        Vector standardLayers = Globals.createStandardLayers();
         if(extensions) {
             for(int i=0; i<layerV.size();++i) {
                 LayerDesc l = (LayerDesc)layerV.get(i);
-                
+                String defaultName=
+                	((LayerDesc)standardLayers.get(i)).getDescription();
                 if (l.getModified()) {
                     int rgb=l.getColor().getRGB();
                     float alpha=l.getAlpha();
                     s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
+                    // We compare the layers to the standard configuration.
+                	// If the name has been modified, the layer configuration 
+                	// is saved.
+                    if (!l.getDescription().equals(defaultName)) {
+                    	s.append("FJC N "+i+" "+l.getDescription()+"\n");
+                    }
                 }
             }
         
@@ -570,7 +578,8 @@ public class ParseSchem
     public synchronized void draw(Graphics2D G, MapCoordinates cs)
     {   
 		if(cs==null) {
-			System.out.println("ParseSchem.draw: ouch... cs not initialized :-(");
+			System.out.println(
+				"ParseSchem.draw: ouch... cs not initialized :-(");
 			return;
 		}
 		
@@ -1660,12 +1669,25 @@ public class ParseSchem
                                 ll.setModified(true);  
                             }
                                 
-                        } if(tokens[1].equals("A")) {
+                        } else if(tokens[1].equals("N")) {
+                        	// Layer name
+                        	int layerNum = Integer.parseInt(tokens[2]);
+                            if (layerNum>=0&&layerNum<layerV.size()){
+                                String lName="";
+                                
+                                for(int t=3; t<j+1; ++t)
+                                	lName+=tokens[t]+" ";
+                                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                                ll.setDescription(lName);
+                                ll.setModified(true);  
+                            }
+                        
+                        } else if(tokens[1].equals("A")) {
                             // Connection size
                             newLineWidth = 
                                 Double.parseDouble(tokens[2]);
                         
-                        } if(tokens[1].equals("B")) {
+                        } else if(tokens[1].equals("B")) {
                             // Connection size
                             newLineWidthCircles = 
                                 Double.parseDouble(tokens[2]);                      
