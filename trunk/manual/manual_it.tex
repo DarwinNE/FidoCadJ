@@ -57,7 +57,7 @@
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.6 \\ il manuale dell'utente} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24 \\ il manuale dell'utente} 
 
 
 \author{Davide Bucci\\[3em]
@@ -1154,7 +1154,14 @@ La configurazione dei layer è fatta attraverso il comando  \lstinline!FJC L!\ind
 FJC L n xxxx yy
 \end{lstlisting}
  dove $n$ rappresenta il numero del layer (da 0 a 15), $xxxx$ è un intero a 32 bit contenente le informazioni sul colore RGB. La componente rossa è contenuta nei bit 16-23, quella verde nei bit 8-15 ed il blu nei bit 0-7.
-Il valore, decimale, a singola precisione, $yy$ rappresenta la trasparenza del layer, compresa fra 0,0 (completamente trasparente) e 1,0 (completamente opaco).  
+Il valore, decimale, a singola precisione, $yy$ rappresenta la trasparenza del layer, compresa fra 0,0 (completamente trasparente) e 1,0 (completamente opaco).
+
+Una seconda informazione importante è il nome del layer, specificato (se necessario) come segue:
+\begin{lstlisting} 
+FJC N n aaaaa
+\end{lstlisting}
+ dove $n$ rappresenta il numero del layer (da 0 a 15), mentre {\tt aaaaa} è il nome del layer da assegnare. Se questa linea non è utilizzata, il nome del layer è quello assegnato per default all'avvio di FidoCadJ e che dipende dalla lingua e dalle configurazioni locali utilizzate dal sistema operativo.
+ 
 \subsection{Configurazione connessione elettrica}
 La dimensione del bollino utilizzato per indicare una connessione elettrica può essere modificata dal programma. Quando le estensioni FidoCadJ sono attive, il valore scelto viene salvato nel file con il comando  \lstinline!FJC C!\index{FJC C} nel modo seguente:
 \begin{lstlisting} 
