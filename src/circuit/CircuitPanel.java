@@ -171,6 +171,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public static final int PCB_LINE = 11;
     public static final int PCB_PAD = 12;
     public static final int MACRO = 13;
+    public static final int COMPLEXCURVE = 14;
+    
     
 	// ********** LISTENERS **********
 

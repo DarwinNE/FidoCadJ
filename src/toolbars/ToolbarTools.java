@@ -68,6 +68,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private JToggleButton bezier;
     private JToggleButton polygon;
     private JToggleButton ellipse;
+    private JToggleButton complexcurve;
     private JToggleButton rectangle;
     private JToggleButton connection;    
     private JToggleButton pcbline;
@@ -276,6 +277,26 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
                     (circuitPanelConstants.get(polygon));
+                int circuitPanelConstant = circuitPanelConstantInteger
+                    .intValue();                                   
+                selectionListener.
+                setSelectionState(circuitPanelConstant,"");
+            }                                                        
+        });  
+        
+        // TODO: add the description!
+        ToolButton complexCurveToolButton = new ToolButton("complexcurve.png", 
+                                                      "Complexcurve", 
+                                                      "complexcurve", 
+                                                      "tooltip_curve");
+        complexcurve = complexCurveToolButton.getToolButton();
+        addToolButton(complexcurve, CircuitPanel.COMPLEXCURVE);
+        
+        complexcurve.addActionListener(new ActionListener() {                                                         
+            public void actionPerformed(ActionEvent ev)               
+            {                                                        
+                Integer circuitPanelConstantInteger = (Integer)
+                    (circuitPanelConstants.get(complexcurve));
                 int circuitPanelConstant = circuitPanelConstantInteger
                     .intValue();                                   
                 selectionListener.
