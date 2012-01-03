@@ -44,7 +44,7 @@ work... I will do it for my NEXT vectorial drawing program :-D
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2011 by Davide Bucci
+    Copyright 2008-2012 by Davide Bucci
 </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -283,7 +283,19 @@ public class FidoFrame extends JFrame implements
 				prefs.get("STROKE_SIZE_OVAL", "0.35"));		
 		Globals.diameterConnection=Double.parseDouble(
 				prefs.get("CONNECTION_SIZE", "2.0"));	
+				
+
     }
+
+	/* Load the saved configuration for the grid.
+    */
+	public void readGridSettings()
+	{
+		CC.getMapCoordinates().setXGridStep(Integer.parseInt(
+			prefs.get("GRID_SIZE", "5"))); 
+        CC.getMapCoordinates().setYGridStep(Integer.parseInt(
+        	prefs.get("GRID_SIZE", "5"))); 
+	}
     
     /* Load the standard librairies according to the locale.
     */
@@ -347,7 +359,7 @@ public class FidoFrame extends JFrame implements
 		
         CC=new CircuitPanel(true);
         CC.P.openFileName = new String();
-        
+                        	
         dt = new DropTarget(CC, this);
         
         // If FidoCadJ runs as a standalone application, we must read the 
@@ -358,6 +370,7 @@ public class FidoFrame extends JFrame implements
         	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
         	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
+        	readGridSettings();
         }
         
         // Here we set the approximate size of the control at startup. This is 
@@ -1571,6 +1584,8 @@ public class FidoFrame extends JFrame implements
         
         	prefs.put("SPLIT_N_MACRO_COPY",
             	(splitNonStandardMacro_c?"true":"false"));
+            	
+            prefs.put("GRID_SIZE", ""+CC.getMapCoordinates().getXGridStep());
         }
      	if(!libDirectory.equals(oldDirectory)) {
      		loadLibraries();

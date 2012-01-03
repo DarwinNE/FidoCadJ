@@ -32,7 +32,7 @@ import timer.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2011 by Davide Bucci
+    Copyright 2008-2012 by Davide Bucci
 </pre>
 
     
@@ -235,7 +235,7 @@ public class FidoMain {
     static private void  showCommandLineHelp()
     {
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-    	    "By Davide Bucci, 2007-2011.\n\n"+
+    	    "By Davide Bucci, 2007-2012.\n\n"+
     	    
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
@@ -424,7 +424,12 @@ class CreateSwingInterface implements Runnable {
            	
            	} catch (Exception exc) {
      			Globals.weAreOnAMac = false;
-     			System.out.println("It seems that this software has been compiled on a system different from MacOSX. Some nice integrations with MacOSX will therefore be absent. If you have compiled on MacOSX, make sure you used the 'compile' or 'rebuild' script along with the 'mac' option.");
+     			System.out.println("It seems that this software has been "+
+     				"compiled on a system different from MacOSX. Some nice "+
+     				"integrations with MacOSX will therefore be absent. If "+
+     				"you have compiled on MacOSX, make sure you used the "+
+     				"'compile' or 'rebuild' script along with the 'mac' "+
+     				"option.");
     		}
         }
 
