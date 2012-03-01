@@ -46,25 +46,18 @@ public class ExportPDF implements ExportInterface {
 	private BufferedWriter outt;
 	private boolean fontWarning;
 	
+	// The file header
 	private String head;
-	private String b1;
-	private String b2;
-	private String b3;
-	private String b4;
-	private String b5;
-	private String b6;
-	private String b7;
-	private String b8;
-	private String b9;
-	private String b10;
-	private String b11;
-	private String b12;
-	private String b13;
-	private String b14;
-	private String b15;
 	
+	// An array which will contain String elements representing all the 
+	// objects present in the PDF file.
+	private String obj_PDF[];
 	
-	
+	// The maximum number of objects contained in the PDF file.
+	private final int numOfObjects = 20;
+		
+	private String closeObject;
+	private long fileLength;
 	
 	private Vector layerV;
 	private int numberPath;
@@ -110,6 +103,8 @@ public class ExportPDF implements ExportInterface {
 
 		fstreamt =  new OutputStreamWriter(new FileOutputStream(temp), 
 			"8859_1");
+			
+		obj_PDF = new String[numOfObjects];
 
 	}
 	
@@ -138,7 +133,10 @@ public class ExportPDF implements ExportInterface {
 	    out = new BufferedWriter(fstream);
 	    
 	    fontWarning=false;
-	    // To track the block sizes, we will first write it in a temporary file
+	    // To track the block sizes, we will first write all graphic elements
+	    // in a temporary file, whose stream is called outt instead of out.
+	    // At the end, the contents of the temporary file will be copied in 
+	    // the definitive destination file.
 	    
 	    outt = new BufferedWriter(fstreamt);
 	    numberPath=0;
@@ -152,31 +150,28 @@ public class ExportPDF implements ExportInterface {
 	   	// 72 dpi is the internal resolution of the Postscript coordinates
 	   	
 	    double res_mult=200.0/72.0;
-	    
-	    //res_mult/=getMagnification();
-	    
+   
+   
 		int border = 5;
 		
 		head = "%PDF-1.4\n";
-		b5=	"5 0 obj\n"+
+		
+		// Object 5 is a single page of the appropriate size, containing
+		// as a child object 4.
+		obj_PDF[5]=	"5 0 obj\n"+
 				"  <</Kids [4 0 R ]\n"+
 				"    /Count 1\n"+
 				"    /Type /Pages\n"+
 				"    /MediaBox [ 0 0  "+(int)(totalSize.width/res_mult+1+border)+" "+
 				(int)(totalSize.height/res_mult+1+border)+" ]\n"+
 				"  >> endobj\n";
-				
 
-
-		
 		// Since in a postscript drawing, the origin is at the bottom left,
 		// we introduce a coordinate transformation to have it at the top
 		// left of the drawing.
 		
 		actualColor = null;
 		actualWidth = -1;
-		
-		
 		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ "  cm\n");
 
 		outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
@@ -196,96 +191,22 @@ public class ExportPDF implements ExportInterface {
 
 		outt.close();
 		
-		long filelength=temp.length();
+		fileLength=temp.length();
 
 
-		b6=	"6 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F1\n" +
-				"    /BaseFont /Courier\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b7="7 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F2\n" +
-				"    /BaseFont /Courier-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-
-		b9=	"9 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F3\n" +
-				"    /BaseFont /Times-Roman\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b10="10 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F4\n" +
-				"    /BaseFont /Times-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b11="11 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F5\n" +
-				"    /BaseFont /Helvetica\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b12="12 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F6\n" +
-				"    /BaseFont /Helvetica-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b13="13 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F7\n" +
-				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-		b14="14 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /Name /F8\n" +
-				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
-				"  >> endobj\n";
-
-				
-		out.write(head+b5+b6+b7);
-
+		writeFontDescription();
 		
-		b8="8 0 obj\n" +
+		obj_PDF[8]="8 0 obj\n" +
 				"  <<\n" +
-				"    /Length "+filelength+"\n" +		
+				"    /Length "+fileLength+"\n" +		
 				"  >>\n"+
 				"  stream\n";
-		
-		out.write (b8);
-		
-		BufferedInputStream bufRead = new BufferedInputStream(new FileInputStream(temp));
-                
-        int c=0;
-        
-        // Copy all the contents of the temporary file into the pdf file
-        c =bufRead.read();
-        while (c!=-1){
-           	out.write(c);
-        	c =bufRead.read();
-        }
-            
-        bufRead.close();
-	
-		String b8e="endstream\n"+
-				"endobj\n";
 				
-		b4 = "4 0 obj\n"+
+		out.write(head+obj_PDF[5]+obj_PDF[6]+obj_PDF[7]+obj_PDF[8]);
+	
+		// Object 4 is a font container. The objects corresponding to fonts
+		// F1--F8 will be objects 6 to 14 (except object 8).
+		obj_PDF[4] = "4 0 obj\n"+
 				"<<	\n"+
 				"  /Type /Page\n"+
 				"  /Parent 5 0 R\n"+
@@ -306,12 +227,12 @@ public class ExportPDF implements ExportInterface {
 				">>\n"+
 				"endobj\n";
 		
-		b2 =	"2 0 obj\n"+
+		obj_PDF[2] =	"2 0 obj\n"+
 				"[ /PDF /Text  ]\n"+
 				"endobj\n";
 				
-		
-		b1="1 0 obj\n"+
+		// Object 1 is just 
+		obj_PDF[1]="1 0 obj\n"+
 				"<<\n"+
 				"  /Creator (FidoCadJ"+Globals.version+
 				", PDF export filter by Davide Bucci)\n"+
@@ -321,94 +242,35 @@ public class ExportPDF implements ExportInterface {
 				">>\n"+
 				"endobj\n";
 			
-		b3 = "3 0 obj\n"+
+		obj_PDF[3] = "3 0 obj\n"+
 				"<<\n"+
 				"  /Pages 5 0 R\n"+
 				"  /Type /Catalog\n"+
 				">>\n"+
 				"endobj\n";
 		
-		out.write(b8e+b4 + b2 + b1 +b3);
-
-		out.write(b9+b10+b11+b12+b13+b14);
-
 		
-		// order: header, 5, 6, 7, 8, file, 8e, 4, 2, 1, 3 
-		
-		out.write("xref \n"+
-				  "0 15\n"+
-				  "0000000000 65535 f \n"+			// header
+		BufferedInputStream bufRead = new 
+			BufferedInputStream(new FileInputStream(temp));
+                
+        int c=0;
+        
+        // Copy all the contents of the temporary file into the pdf file
+        c =bufRead.read();
+        while (c!=-1){
+           	out.write(c);
+        	c =bufRead.read();
+        }
+            
+        bufRead.close();
+		closeObject="endstream\n"+"endobj\n";
+
+		out.write(closeObject+obj_PDF[4]+obj_PDF[2]+obj_PDF[1]+
+			obj_PDF[3]+obj_PDF[9]+obj_PDF[10]+obj_PDF[11]+obj_PDF[12]+
+			obj_PDF[13]+obj_PDF[14]);
+			
+		writeCrossReferenceTable();
 				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length())+  " 00000 n \n"+ 		// 1
-				  				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length())+ 
-				  	" 00000 n \n"+			// 2
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length())+  " 00000 n \n"+ 		// 3
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length())+
-				  	" 00000 n \n"+ 		// 4
-				  
-				  addLeadZeros(head.length())+  " 00000 n \n"+ 		// 5
-				  
-				  addLeadZeros(head.length()+b5.length())+  " 00000 n \n"+ 		// 6
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length())+
-				  " 00000 n \n"+ 		// 7
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length())+ 
-				  " 00000 n \n"+ 		// 8
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length())+  " 00000 n \n"+ 		// 9
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length())+  " 00000 n \n"+ 		// 10
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length())+
-				  	" 00000 n \n"+ 		// 11
-				  
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
-				  	b11.length())+" 00000 n \n"+ 		// 12
-				  
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
-				  	b11.length()+b12.length())+" 00000 n \n"+ 		// 13
-				  
-				  addLeadZeros(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
-				  	b11.length()+b12.length()+b13.length())+" 00000 n \n"); 		// 14
-				  
-				  
-				  
-		out.write("trailer\n"+
-				"<<\n"+
-				"  /Size 15\n"+
-				"  /Root 3 0 R\n"+
-				"  /Info 1 0 R\n"+
-				">>\n"+
-				"startxref\n"+
-				(head.length()+b5.length()+b6.length()+b7.length()+
-				  	b8.length()+ filelength + b8e.length()+b4.length()+
-				  	b2.length()+b1.length()+b3.length()+b9.length()+b10.length()+
-				  	b11.length()+b12.length()+b13.length()+b14.length())+"\n"+
-				"%%EOF");
 		out.close();
 		
 		if (fontWarning) {
@@ -416,6 +278,275 @@ public class ExportPDF implements ExportInterface {
 				Globals.messages.getString("PDF_Font_error"));
 		}	
     
+	}
+	
+	/** This routine creates the eight definition of the fonts currently 
+		available:
+		F1 - Courier 
+		F2 - Courier Bold
+		F3 - Times Roman
+		F4 - Times Bold
+		F5 - Helvetica
+		F6 - Helvetica Bold
+		F7 - Symbol
+		F8 - Symbol
+		
+	*/
+	private void writeFontDescription() throws java.io.IOException
+	{
+		obj_PDF[6]=	"6 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F1\n" +
+				"    /BaseFont /Courier\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[7]="7 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F2\n" +
+				"    /BaseFont /Courier-Bold\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		
+		obj_PDF[9]="9 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F3\n" +
+				"    /BaseFont /Times-Roman\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[10]="10 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F4\n" +
+				"    /BaseFont /Times-Bold\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[11]="11 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F5\n" +
+				"    /BaseFont /Helvetica\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[12]="12 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F6\n" +
+				"    /BaseFont /Helvetica-Bold\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[13]="13 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F7\n" +
+				"    /BaseFont /Symbol\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+		obj_PDF[14]="14 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				"    /Name /F8\n" +
+				"    /BaseFont /Symbol\n" + 
+				"    /Encoding /WinAnsiEncoding\n" +
+				"  >> endobj\n";
+
+	}
+		
+	
+	/** Here we create the cross reference table for the PDF file, as well as
+		the trailer.
+		Order of the objects: 
+		header, 5, 6, 7, 8, file, closeObject, 4, 2, 1, 3 
+		
+		This is probably among the most boring code in FidoCadJ.
+	*/
+	private void writeCrossReferenceTable()  throws java.io.IOException
+	{
+		out.write("xref \n"+
+		  "0 15\n"+
+		  "0000000000 65535 f \n"+			// header
+				  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength+ 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length())+  
+		  " 00000 n \n"+ 		// 1
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length())+ 
+		  " 00000 n \n"+		// 2
+		  addLeadZeros(head.length() +
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length())+  
+		  " 00000 n \n"+ 		// 3
+			  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length())+
+		  " 00000 n \n"+ 		// 4
+			  
+		  addLeadZeros(head.length())+ 
+		  " 00000 n \n"+ 		// 5
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length())+  
+		  " 00000 n \n"+ 		// 6
+				  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length())+
+		  " 00000 n \n"+ 		// 7
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length())+ 
+		  " 00000 n \n"+ 		// 8
+				  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length())+  
+		  " 00000 n \n"+ 		// 9
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length())+  
+		  " 00000 n \n"+ 		// 10
+				  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length())+
+		  " 00000 n \n"+ 		// 11
+		  
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length())+
+		  " 00000 n \n"+ 		// 12
+				  
+				  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length()+
+		  obj_PDF[12].length())+
+		  " 00000 n \n"+ 		// 13
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length()+
+		  obj_PDF[12].length()+
+		  obj_PDF[13].length())+
+		  " 00000 n \n"); 		// 14
+		  
+		  out.write("trailer\n"+
+				"<<\n"+
+				"  /Size 15\n"+
+				"  /Root 3 0 R\n"+
+				"  /Info 1 0 R\n"+
+				">>\n"+
+				"startxref\n"+
+				(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length()+
+		  obj_PDF[12].length()+
+		  obj_PDF[13].length()+
+		  obj_PDF[14].length())+
+		  "\n%%EOF");
+				
 	}
 
 	/** Called when exporting an Advanced Text primitive.

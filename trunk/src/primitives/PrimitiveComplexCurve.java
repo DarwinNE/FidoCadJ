@@ -12,7 +12,7 @@ import dialogs.*;
 import export.*;
 
 
-/** Class to handle the ClosedCurve primitive.
+/** Class to handle the ComplexCurve primitive.
 
 <pre>
 	This file is part of FidoCadJ.
@@ -30,7 +30,10 @@ import export.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2011-2012 by Davide Bucci
+	
+	Spline calculations by Tim Lambert
+	http://www.cse.unsw.edu.au/~lambert/splines/
 </pre>
 
 @author Davide Bucci
@@ -42,10 +45,19 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	private int nPoints;
 	private boolean isFilled;
 	private int dashStyle;
-	private shape p;
- 
-
-	// A ClosedCurve can be defined up to 100 points
+	
+	// The natural spline is drawn as a polygon. Even if this is a rather
+	// crude technique, it fits well with the existing architecture (in 
+	// particular for the export facilities), since everything that it is
+	// needed for a polygon is available and can be reused here.
+	
+	// A first polygon stored in screen coordinates
+	private Polygon p;
+	
+	// A second polygon stored in logical coordinates
+ 	private Polygon q;
+ 	
+	// A ComplexCurve can be defined up to 100 points
 
 	static final int N_POINTS=100;
 	
@@ -63,12 +75,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		super();
 		isFilled=false;
 		nPoints=0;
-		p = new ();
+		p = new Polygon();
 		initPrimitive(N_POINTS);
 	}
-	/** Create a ClosedCurve. Add points with the addPoint method.
+	/** Create a ComplexCurve. Add points with the addPoint method.
 		
-		@param f specifies if the ClosedCurve should be filled 
+		@param f specifies if the ComplexCurve should be filled 
 		@param layer the layer to be used.
 		@param dashSt the dash style
 		
@@ -77,7 +89,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	public PrimitiveComplexCurve(boolean f, int layer, int dashSt)
 	{
 		super();
-		p = new ClosedCurve();
+		p = new Polygon();
 		initPrimitive(N_POINTS);
 		nPoints=0;
 		isFilled=f;
@@ -85,7 +97,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		setLayer(layer);
 	}
 	
-	/** Add a point at the current ClosedCurve
+	/** Add a point at the current ComplexCurve
 		@param x the x coordinate of the point.
 		@param y the y coordinate of the point.
 	*/
@@ -109,40 +121,94 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	private int xmin, ymin;
 	private int width, height;
 	
-	public final void createClosedCurve(MapCoordinates coordSys)
+	public final Polygon createComplexCurve(MapCoordinates coordSys)
 	{
      		
-     	int j;
         xmin = Integer.MAX_VALUE;
         ymin = Integer.MAX_VALUE;
         
         int xmax = -Integer.MAX_VALUE;
         int ymax = -Integer.MAX_VALUE;
         
-        int x, y;
+        double [] xPoints = new double[nPoints];
+        double [] yPoints = new double[nPoints];
         
-        p.reset();
-     	for(j=0;j<nPoints;++j) {
-     		x = coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y);
-     		y = coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y);
-      		p.addPoint(x,y);
-      		
-      		if (x<xmin) 
-      			xmin=x;
-      		if (x>xmax)
-      			xmax=x;
-      			
-      		if(y<ymin)
-      			ymin=y;
-      		if(y>ymax)
-      			ymax=y;
-      
- 		}
- 		width = xmax-xmin;
- 		height = ymax-ymin;
+        for (int i=0; i<nPoints; ++i) {
+        	xPoints[i] = coordSys.mapX(virtualPoint[i].x,virtualPoint[i].y);
+        	yPoints[i] = coordSys.mapY(virtualPoint[i].x,virtualPoint[i].y);
+        }
+     	Cubic[] X = calcNaturalCubic(nPoints-1, xPoints);
+      	Cubic[] Y = calcNaturalCubic(nPoints-1, yPoints);
+      	
+    	final int STEPS=24;
+      	/* very crude technique - just break each segment up into steps lines */
+      	Polygon poly = new Polygon();
+      	poly.addPoint((int) Math.round(X[0].eval(0)),
+		 	(int) Math.round(Y[0].eval(0)));
+		 	
+      	for (int i = 0; i < X.length; ++i) {
+			for (int j = 1; j <= STEPS; ++j) {
+	  			double u = j / (double) STEPS;
+	  			poly.addPoint((int)Math.round(X[i].eval(u)),
+	             	(int)Math.round(Y[i].eval(u)));
+			}
+      	} 
+      	
+      	return poly;
+      	
 	}
-	
-	
+ 
+        
+    /** Code mainly taken from Tim Lambert's snippets:
+    	http://www.cse.unsw.edu.au/~lambert/splines/
+    	
+    	Used here with permissions (hey, thanks a lot, Tim!)
+    */
+    Cubic[] calcNaturalCubic(int n, double[] x) {
+  	  	double[] gamma = new double[n+1];
+    	double[] delta = new double[n+1];
+    	double[] D = new double[n+1];
+    	int i;
+   
+   		/* We solve the equation
+       	[2 1       ] [D[0]]   [3(x[1] - x[0])  ]
+       	|1 4 1     | |D[1]|   |3(x[2] - x[0])  |
+       	|  1 4 1   | | .  | = |      .         |
+       	|    ..... | | .  |   |      .         |
+       	|     1 4 1| | .  |   |3(x[n] - x[n-2])|
+       	[       1 2] [D[n]]   [3(x[n] - x[n-1])]
+       
+       	by using row operations to convert the matrix to upper triangular
+       	and then back sustitution.  The D[i] are the derivatives at the knots.
+       */
+    
+    	gamma[0] = 1.0/2.0;
+    	for (i = 1; i<n; ++i) {
+      		gamma[i] = 1.0/(4.0-gamma[i-1]);
+    	}
+    	gamma[n] = 1.0/(2.0-gamma[n-1]);
+    
+    	delta[0] = 3*(x[1]-x[0])*gamma[0];
+    	for (i = 1; i < n; ++i) {
+      		delta[i] = (3.0*(x[i+1]-x[i-1])-delta[i-1])*gamma[i];
+    	}
+    	delta[n] = (3.0*(x[n]-x[n-1])-delta[n-1])*gamma[n];
+    
+    	D[n] = delta[n];
+    	for (i = n-1; i>=0; --i) {
+      		D[i] = delta[i] - gamma[i]*D[i+1];
+    	}
+
+    	/* now compute the coefficients of the cubics */
+    	Cubic[] C = new Cubic[n];
+    	for (i = 0; i<n; ++i) {
+      		C[i] = new Cubic(x[i], D[i], 3.0*(x[i+1] - x[i]) -2.0*D[i]-D[i+1],
+		       2.0*(x[i] - x[i+1]) + D[i] + D[i+1]);
+    	}
+    	return C;
+  	}
+
+
 	// Those are data which are kept for the fast redraw of this primitive. 
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
@@ -161,53 +227,31 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	drawText(g, coordSys, layerV, -1);
     	if(changed) {
     		changed=false;
-    		createClosedCurve(coordSys);
-   
+    		p=createComplexCurve(coordSys);
+   			q=createComplexCurve(new MapCoordinates());
+   		
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-			/*
-			if (dashStyle>0) 
-				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
-                                          BasicStroke.JOIN_ROUND, 
-                                          10.0f, Globals.dash[dashStyle], 
-                                          0.0f);
-			else 
-				stroke=new BasicStroke(w);
-			*/
 			if (strokeStyle==null) {
 				strokeStyle = new StrokeStyle();
 			}
 			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
-		
+		/*
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
-
+*/
 		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
 		// setting the stroke takes a lot of time!
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
-		// Here we implement a small optimization: when the ClosedCurve is very
-		// small, it is not filled.
-        if (isFilled && width>=2 && height >=2) 
- 			g.fillClosedCurve(p);
+		
+        if (isFilled) 
+ 			g.fillPolygon(p);
  			
- 		//g.drawClosedCurve(p);
- 		// It seems that under MacOSX, drawing a ClosedCurve by cycling with
- 		// the lines is much more efficient than the drawClosedCurve method.
- 		// Probably, a further investigation is needed to determine if
- 		// this situation is the same with more recent Java runtimes
- 		// (mine is 1.5.something on an iMac G5 at 2 GHz and I made
- 		// the same comparison with the same results with a MacBook 2GHz).
- 		 
- 		for(int i=0; i<nPoints-1; ++i) {
- 			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
- 				p.ypoints[i+1]);
- 		}
- 		g.drawLine(p.xpoints[nPoints-1], p.ypoints[nPoints-1], p.xpoints[0],
- 			p.ypoints[0]);
-			
+ 		g.drawPolygon(p);
+ 			
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -227,9 +271,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 
 		// assert it is the correct primitive
 		
-		if (tokens[0].equals("PP")||tokens[0].equals("PV")) {
+		if (tokens[0].equals("CP")||tokens[0].equals("CV")) {
  			if (N<6) {
- 				IOException E=new IOException("bad arguments on PP/PV");
+ 				IOException E=new IOException("bad arguments on CP/CV");
 				throw E;
  			}
  			// Load the points in the virtual points associated to the 
@@ -263,13 +307,13 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  				}
  			}
       			
- 			if (tokens[0].equals("PP"))
+ 			if (tokens[0].equals("CP"))
  				isFilled=true;
  			else
  				isFilled=false;
  			
  		} else {
- 			IOException E=new IOException("PP/PV: Invalid primitive:"+tokens[0]+
+ 			IOException E=new IOException("CP/CV: Invalid primitive:"+tokens[0]+
  										  " programming error?");
 			throw E;
  		}
@@ -342,7 +386,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
-	    When it is reasonable, the behaviour can be binary (ClosedCurves, 
+	    When it is reasonable, the behaviour can be binary (ComplexCurves, 
 	    ovals...). In other cases (lines, points), it can be proportional.
 		@param px the x coordinate of the given point
 		@param py the y coordinate of the given point
@@ -353,7 +397,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         
 	    if(checkText(px, py))
 	    	return 0;
-	    	
+	    /*	
     	int[] xp=new int[N_POINTS];
         int[] yp=new int[N_POINTS];
         
@@ -367,9 +411,15 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
         	(py-yp[0])*(py-yp[0]));
         
-        if(GeometricDistances.pointInClosedCurve(xp,yp,nPoints, px,py))
+        if(GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
           	distance=1;
-            	
+        */
+        
+        int distance = 100;
+        
+        if(q.contains(px, py)) 
+        	distance = 1;
+        
         return distance;
 	}
 	
@@ -380,9 +430,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	{
 		String cmd;
 		if(isFilled)
-			cmd="PP ";
+			cmd="CP ";
 		else
-			cmd="PV ";
+			cmd="CV ";
 			
 		for(int i=0; i<nPoints;++i)
 			cmd+=virtualPoint[i].x+" "+virtualPoint[i].y+" ";
@@ -402,19 +452,22 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		return cmd;
 	}
 	
+
+	
+	
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
 		exportText(exp, cs, -1);
-		Point[] vertices = new Point[nPoints]; 
+		Point[] vertices = new Point[q.npoints]; 
 		
-		for(int i=0; i<nPoints;++i){
+		for(int i=0; i<q.npoints;++i){
 			vertices[i]=new Point();
-			vertices[i].x=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
-			vertices[i].y=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
+			vertices[i].x=cs.mapX(q.xpoints[i],q.ypoints[i]);
+			vertices[i].y=cs.mapY(q.xpoints[i],q.ypoints[i]);
 		}
 		
-		exp.exportClosedCurve(vertices, nPoints, isFilled, getLayer(), dashStyle,
+		exp.exportPolygon(vertices, q.npoints, isFilled, getLayer(), dashStyle,
 			Globals.lineWidth*cs.getXMagnitude());
 	}
 	/** Get the number of the virtual point associated to the Name property
@@ -433,4 +486,24 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		return nPoints+1;
 	}
 	
+}
+
+/** this class represents a cubic polynomial, by Tim Lambert */
+
+class Cubic {
+
+  double a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
+
+  public Cubic(double a, double b, double c, double d){
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.d = d;
+  }
+
+  
+  /** evaluate cubic */
+  public double eval(double u) {
+    return (((d*u) + c)*u + b)*u + a;
+  }
 }

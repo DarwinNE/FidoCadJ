@@ -271,6 +271,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         [T]                 Text
         [B]                 Bézier
         [P]                 Polygon
+        [O]					Complex curve
         [E]                 Ellipse
         [G]                 Rectangle
         [C]                 Connection
@@ -291,6 +292,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         registerAction("text", 't', TEXT);
         registerAction("bezier", 'b', BEZIER);
         registerAction("polygon", 'p', POLYGON);
+        registerAction("complexcurve", 'o', COMPLEXCURVE);
         registerAction("ellipse", 'e', ELLIPSE);
         registerAction("rectangle", 'g', RECTANGLE);
         registerAction("connection", 'c', CONNECTION);
@@ -848,7 +850,38 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
             break;   
+        
+        // Insert a complex curve: continue until double click.
+        case COMPLEXCURVE:
+            if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
+                clickNumber == 0) {
+                selectAndSetProperties(x,y);
+                break;
+            }      
             
+            // a polygon definition is ended with a double click
+            if (evt.getClickCount() >= 2) {
+         
+                PrimitiveComplexCurve compc=new PrimitiveComplexCurve(isFilled,
+                                         currentLayer,0);
+                for(i=1; i<=clickNumber; ++i) 
+                    compc.addPoint(xpoly[i],ypoly[i]);
+        
+                compc.setMacroFont(P.getTextFont(), P.getTextFontSize());
+
+                P.addPrimitive(compc, true,true);
+                clickNumber = 0;
+                repaint();
+                break;
+            }
+            ++ clickNumber;
+            if(clickNumber<=2) successiveMove=false;
+            // clickNumber == 0 means that no polygon is being drawn
+            xpoly[clickNumber] = cs.unmapXsnap(x);
+            ypoly[clickNumber] = cs.unmapYsnap(y);
+            break;   
+        
+        
         // Enter an ellipse: two clicks needed
         case ELLIPSE:
         
@@ -1221,6 +1254,31 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             successiveMove = true;
 
         }
+        
+        /*  COMPLEX CURVE ****************************************************
+            
+               ++             ++
+                 *****   ***** 
+                   ****************++
+               ++***********
+                     ****
+                      ++
+                        
+        */
+        if (actionSelected == COMPLEXCURVE) {
+            primEdit = new PrimitiveComplexCurve(false, 0, 0);
+            
+			for(int i=1; i<=clickNumber; ++i)
+ 				((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
+ 			
+ 			
+ 			((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x), cs.unmapYsnap(y));
+
+ 			repaint();
+            successiveMove = true;
+
+        }
+        
         /*  RECTANGLE *********************************************************
             
                +          +
@@ -1423,6 +1481,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             case TEXT:
             case BEZIER:
             case POLYGON:
+            case COMPLEXCURVE:
             case ELLIPSE:
             case RECTANGLE:
             case CONNECTION:
