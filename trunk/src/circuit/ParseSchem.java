@@ -1640,6 +1640,21 @@ public class ParseSchem
                             } else {
                                 addPrimitive(g,false,false);
                             }     
+    					} else if (hasFCJ && (old_tokens[0].equals("CV")||
+                            old_tokens[0].equals("CP"))) {
+                            g=new PrimitiveComplexCurve();
+                            
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l+old_j+1]=tokens[l];
+                            
+                            old_j+=j+1;
+                            g.parseTokens(old_tokens, old_j+1);
+                            g.setSelected(selectNew);
+                            if(old_j>2 && old_tokens[old_j].equals("1")) {
+                            	macro_counter = 2;
+                            } else {
+                                addPrimitive(g,false,false);
+                            }     
     					} else if (hasFCJ && (old_tokens[0].equals("PL"))) {
                     		macro_counter = 2;
                     	} else if (hasFCJ && (old_tokens[0].equals("PA"))) {
@@ -1786,7 +1801,7 @@ public class ParseSchem
                             old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
-                } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
+                	} else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
                         macro_counter=0;
     
                         for(l=0; l<j+1; ++l)
@@ -1794,6 +1809,13 @@ public class ParseSchem
                         old_j=j;
                         hasFCJ=true;
                     } else if(tokens[0].equals("PV")||tokens[0].equals("PP")) {
+                        macro_counter=0;
+    
+                        for(l=0; l<j+1; ++l)
+                            old_tokens[l]=tokens[l];
+                        old_j=j;
+                        hasFCJ=true;
+                    } else if(tokens[0].equals("CV")||tokens[0].equals("CP")) {
                         macro_counter=0;
     
                         for(l=0; l<j+1; ++l)
@@ -1885,7 +1907,11 @@ public class ParseSchem
             } else if(old_tokens[0].equals("PL")) {
                 g=new PrimitivePCBLine();
                 addPrimitive = true;
-             } else if(old_tokens[0].equals("PA")) {
+             } else if (old_tokens[0].equals("CP")||
+                old_tokens[0].equals("CV")) {
+                g=new PrimitiveComplexCurve();
+                addPrimitive = true;
+            }  else if(old_tokens[0].equals("PA")) {
                 g=new PrimitivePCBPad();
                 addPrimitive = true;
             } else if(old_tokens[0].equals("SA")) {
