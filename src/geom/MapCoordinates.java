@@ -368,7 +368,7 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public final int mapX(int xc,int yc)
+    public final int mapX(double xc,double yc)
     {
     	return mapXi(xc, yc, true);
     }
@@ -378,7 +378,7 @@ public class MapCoordinates
         @param yc the vertical coordinate in the drawing coordinate system.
         @param track specifies if the tracking should be active or not
     */
-    public final int mapXi(int xc,int yc, boolean track)
+    public final int mapXi(double xc,double yc, boolean track)
     {
 
         ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
@@ -399,7 +399,7 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public final double mapXr(int xc,int yc)
+    public final double mapXr(double xc,double yc)
     {
         // The orientation data is not used outside a macro
         if(isMacro){
@@ -460,7 +460,7 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
-    public final int mapY(int xc,int yc)
+    public final int mapY(double xc,double yc)
     {
 		return mapYi(xc, yc, true);        
 
@@ -470,7 +470,7 @@ public class MapCoordinates
         @param yc the vertical coordinate in the drawing coordinate system.
         @param track specify if the point should be tracked
     */
-    public final int mapYi(int xc,int yc, boolean track)
+    public final int mapYi(double xc,double yc, boolean track)
     {
         ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals 
         	to the lowest integer. We need to round correctly; */
@@ -489,7 +489,7 @@ public class MapCoordinates
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */       
-    public final double mapYr(int xc,int yc)
+    public final double mapYr(double xc,double yc)
     {  
         if(isMacro){
             xc-=100;
@@ -527,19 +527,19 @@ public class MapCoordinates
         @param xp the X coordinate of the point being tracked.
         @param yp the Y coordinate of the point being tracked.
     */
-    public final void trackPoint(int xp, int yp)
+    public final void trackPoint(double xp, double yp)
     {
         if(yp<yMin)
-            yMin=yp;
+            yMin=(int)yp;
             
         if(yp>yMax)
-            yMax=yp;
+            yMax=(int)yp;
         
         if(xp<xMin)
-            xMin=xp;
+            xMin=(int)xp;
             
         if(xp>xMax)
-            xMax=xp;
+            xMax=(int)xp;
         
     }
     
