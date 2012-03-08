@@ -70,11 +70,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     private boolean isGridVisible;
     
     // Default sizes for PCB elements
-    private int PCB_pad_sizex;
-    private int PCB_pad_sizey;
-    private int PCB_pad_style;  
-    private int PCB_pad_drill;
-    private int PCB_thickness;
+    public int PCB_pad_sizex;
+    public int PCB_pad_sizey;
+    public int PCB_pad_style;  
+    public int PCB_pad_drill;
+    public int PCB_thickness;
 
 	// Default background color
     private Color backgroundColor;

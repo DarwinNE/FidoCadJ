@@ -283,7 +283,6 @@ public class FidoFrame extends JFrame implements
 				prefs.get("STROKE_SIZE_OVAL", "0.35"));		
 		Globals.diameterConnection=Double.parseDouble(
 				prefs.get("CONNECTION_SIZE", "2.0"));	
-				
 
     }
 
@@ -296,6 +295,17 @@ public class FidoFrame extends JFrame implements
         CC.getMapCoordinates().setYGridStep(Integer.parseInt(
         	prefs.get("GRID_SIZE", "5"))); 
 	}
+    
+    /* Load the saved configuration for the PCB drawing primitives.
+    */
+	public void readDrawingSettings()
+	{
+ 		CC.PCB_pad_sizex = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
+ 		CC.PCB_pad_sizey = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
+ 		CC.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
+ 		CC.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
+ 		CC.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
+    }
     
     /* Load the standard librairies according to the locale.
     */
@@ -371,6 +381,7 @@ public class FidoFrame extends JFrame implements
         	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
         	readGridSettings();
+        	readDrawingSettings();
         }
         
         // Here we set the approximate size of the control at startup. This is 
@@ -1586,6 +1597,13 @@ public class FidoFrame extends JFrame implements
             	(splitNonStandardMacro_c?"true":"false"));
             	
             prefs.put("GRID_SIZE", ""+CC.getMapCoordinates().getXGridStep());
+            
+            prefs.put("PCB_pad_sizex", ""+CC.PCB_pad_sizex);
+            prefs.put("PCB_pad_sizey", ""+CC.PCB_pad_sizey);
+			prefs.put("PCB_pad_style", ""+CC.PCB_pad_style);
+            prefs.put("PCB_pad_drill", ""+CC.PCB_pad_drill);
+            prefs.put("PCB_thickness", ""+CC.PCB_thickness);
+
         }
      	if(!libDirectory.equals(oldDirectory)) {
      		loadLibraries();
