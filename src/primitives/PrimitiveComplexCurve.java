@@ -44,6 +44,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 
 	private int nPoints;
 	private boolean isFilled;
+	private boolean isClosed;
 	private int dashStyle;
 	
 	// The natural spline is drawn as a polygon. Even if this is a rather
@@ -130,15 +131,34 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int xmax = -Integer.MAX_VALUE;
         int ymax = -Integer.MAX_VALUE;
         
-        double [] xPoints = new double[nPoints];
-        double [] yPoints = new double[nPoints];
+        int np=nPoints;
         
-        for (int i=0; i<nPoints; ++i) {
+        /*if(isClosed) 
+        	np=nPoints+1;*/
+        
+        double [] xPoints = new double[np];
+        double [] yPoints = new double[np];
+        
+        int i;
+        
+        for (i=0; i<nPoints; ++i) {
         	xPoints[i] = coordSys.mapX(virtualPoint[i].x,virtualPoint[i].y);
         	yPoints[i] = coordSys.mapY(virtualPoint[i].x,virtualPoint[i].y);
         }
-     	Cubic[] X = calcNaturalCubic(nPoints-1, xPoints);
-      	Cubic[] Y = calcNaturalCubic(nPoints-1, yPoints);
+        
+        // If the curve is closed, we need to add a last point which is the
+        // same as the first one.
+        
+        Cubic[] X;
+        Cubic[] Y;
+        
+        if(isClosed) {
+        	X = calcNaturalCubicClosed(np-1, xPoints);
+      		Y = calcNaturalCubicClosed(np-1, yPoints);
+        } else {
+        	X = calcNaturalCubic(np-1, xPoints);
+      		Y = calcNaturalCubic(np-1, yPoints);
+      	}
       	
     	final int STEPS=24;
       	/* very crude technique - just break each segment up into steps lines */
@@ -146,7 +166,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	poly.addPoint((int) Math.round(X[0].eval(0)),
 		 	(int) Math.round(Y[0].eval(0)));
 		 	
-      	for (int i = 0; i < X.length; ++i) {
+      	for (i = 0; i < X.length; ++i) {
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
 	  			poly.addPoint((int)Math.round(X[i].eval(u)),
@@ -207,6 +227,70 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	}
     	return C;
   	}
+  	
+  	/** Code mainly taken from Tim Lambert's snippets:
+    	http://www.cse.unsw.edu.au/~lambert/splines/
+    	
+    	Used here with permissions (hey, thanks a lot, Tim!)
+      	calculates the closed natural cubic spline that interpolates
+    	 x[0], x[1], ... x[n]
+     	The first segment is returned as
+     	C[0].a + C[0].b*u + C[0].c*u^2 + C[0].d*u^3 0<=u <1
+     	the other segments are in C[1], C[2], ...  C[n] */
+
+  	Cubic[] calcNaturalCubicClosed(int n, double[] x) {
+    	double[] w = new double[n+1];
+    	double[] v = new double[n+1];
+    	double[] y = new double[n+1];
+    	double[] D = new double[n+1];
+    	double z, F, G, H;
+    	int k;
+    	/* We solve the equation
+    	   [4 1      1] [D[0]]   [3(x[1] - x[n])  ]
+   		   |1 4 1     | |D[1]|   |3(x[2] - x[0])  |
+    	   |  1 4 1   | | .  | = |      .         |
+    	   |    ..... | | .  |   |      .         |
+    	   |     1 4 1| | .  |   |3(x[n] - x[n-2])|
+    	   [1      1 4] [D[n]]   [3(x[0] - x[n-1])]
+       
+       		by decomposing the matrix into upper triangular and lower matrices
+       		and then back sustitution.  See Spath "Spline Algorithms for Curves
+       		and Surfaces" pp 19--21. The D[i] are the derivatives at the knots.
+       	*/
+    	w[1] = v[1] = z = 1.0f/4.0f;
+    	y[0] = z * 3 * (x[1] - x[n]);
+    	H = 4;
+    	F = 3 * (x[0] - x[n-1]);
+    	G = 1;
+    	for ( k = 1; k < n; k++) {
+      		v[k+1] = z = 1/(4 - v[k]);
+      		w[k+1] = -z * w[k];
+     		y[k] = z * (3*(x[k+1]-x[k-1]) - y[k-1]);
+      		H = H - G * w[k];
+      		F = F - G * y[k-1];
+      		G = -v[k] * G;
+    	}
+   		H = H - (G+1)*(v[n]+w[n]);
+    	y[n] = F - (G+1)*y[n-1];
+    
+    	D[n] = y[n]/H;
+    	D[n-1] = y[n-1] - (v[n]+w[n])*D[n]; /* This equation is WRONG! in my copy of Spath */
+    	for (k = n-2; k >= 0; k--) {
+      		D[k] = y[k] - v[k+1]*D[k+1] - w[k+1]*D[n];
+    	}
+
+
+    	/* now compute the coefficients of the cubics */
+    	Cubic[] C = new Cubic[n+1];
+    	for ( k = 0; k < n; k++) {
+      		C[k] = new Cubic((float)x[k], D[k], 
+      			3*(x[k+1] - x[k]) - 2*D[k] - D[k+1],
+		       	2*(x[k] - x[k+1]) + D[k] + D[k+1]);
+    	}
+    	C[n] = new Cubic((float)x[n], D[n], 3*(x[0] - x[n]) - 2*D[n] - D[0],
+		     2*(x[n] - x[0]) + D[n] + D[0]);
+    	return C;
+  	}
 
 
 	// Those are data which are kept for the fast redraw of this primitive. 
@@ -250,7 +334,13 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         if (isFilled) 
  			g.fillPolygon(p);
  			
- 		g.drawPolygon(p);
+ 		for(int i=0; i<p.npoints-1; ++i) {
+ 			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
+ 				p.ypoints[i+1]);
+ 		}
+ 		if(isClosed)
+ 			g.drawLine(p.xpoints[p.npoints-1], p.ypoints[p.npoints-1], 
+ 			p.xpoints[0], p.ypoints[0]);
  			
 	}
 	
@@ -343,6 +433,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		pd.isExtension = true;
 		v.add(pd);
 		
+		pd = new ParameterDescription();
+		pd.parameter=new Boolean(isClosed);
+		pd.description="*** is closed ***";
+		pd.isExtension = true;
+		v.add(pd);
 
 		return v;
 	}
@@ -381,6 +476,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		if(dashStyle<0)
 			dashStyle=0;
 		
+		pd=(ParameterDescription)v.get(i++);
+		// Check, just for sure...
+		if (pd.parameter instanceof Boolean)
+			isClosed=((Boolean)pd.parameter).booleanValue();
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
 	}
 
 	
