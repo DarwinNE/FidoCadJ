@@ -18,7 +18,7 @@ do
 	then
 		rrr=1	
 	else
-		echo "Test failed: $t"
+		echo -e "\033[1mTest failed: $t\033[0m"
 		isok=0 
 	fi
 	
