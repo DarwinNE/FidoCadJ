@@ -1,6 +1,6 @@
 README file for FidoCadJ
 
-Copyright 2007-2011 
+Copyright 2007-2012 
 
 by Davide Bucci
 
@@ -99,7 +99,7 @@ If you prefer using some kind of IDE such as Eclipse, you may try it, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote.
 
-3.1 Compile and run the sources on a MacOSX operating system (>=1.3.9) 
+3.1 Compile and run the sources on a MacOSX operating system (>=1.4.11) 
 ----------------------------------------------------------------------
 
 If you are using MacOSX, you just open up a terminal window, go into the 
@@ -151,7 +151,7 @@ code:
     for(i=0; i<10; ++i) {   // starting brace here
         // indented code (4 spaces)
         System.out.println("I counted up to "+i);
-    }   // close brace here at the same level of the 'if'
+    }   // close brace here at the same level of the 'for'
     
 - methods are indented as follows:
 
@@ -326,9 +326,6 @@ Export in WMF/EMF formats           WMF/EMF are widely used in Windows and they
                                     may be useful for including drawings in 
                                     vector format in Microsoft Word or Power 
                                     Point.
--------------------------------------------------------------------------------
-Windows installer                   FidoCadJ does not come with a standard 
-                                    Windows installer. Can you prepare one?
 -------------------------------------------------------------------------------
 Linux packaging                     FidoCadJ could be distributed as a deb or a 
                                     RPM package. Can you prepare one?
