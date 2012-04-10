@@ -373,6 +373,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         	int x1 = 0;
         	int y1 = 0;
         	
+        	if(tokens[j++].equals("1"))
+        		isClosed = true;
+        	else
+        		isClosed = false;
+        	
       		while(j<N-1){
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
@@ -394,6 +399,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 						dashStyle=Globals.dashNumber-1;
 					if(dashStyle<0)
 						dashStyle=0;
+					
+					isClosed=false;
+					if(tokens[j++].equals("true")) {
+						isClosed=true;
+					}
  				}
  			}
       			
@@ -534,6 +544,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			cmd="CP ";
 		else
 			cmd="CV ";
+			
+		if(isClosed)
+			cmd += "1 ";
+		else
+			cmd += "0 ";
 			
 		for(int i=0; i<nPoints;++i)
 			cmd+=virtualPoint[i].x+" "+virtualPoint[i].y+" ";
