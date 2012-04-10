@@ -122,7 +122,7 @@ Nell'aprile 2010, FidoCadJ è stato integrato all'interno del portale di elettron
 \pdfbookmark[1]{Licenza FidoCadJ}{Licenza FidoCadJ}
 
  
-Copyright \copyright\ 2007-2011  Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2012  Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
         
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -779,10 +779,10 @@ Esistono però altre cose interessanti che FidoCadJ può fare. L'opzione  \lstinli
 	basicstyle=\tiny\ttfamily}
 
 \begin{lstlisting}
-[davidebucci@Darwin-iMac-G5]$ java -jar jar/fidocadj.jar -h
+[davidebucci@Darwin-iMac-G5]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.23.6.
-By Davide Bucci, 2007-2011.
+This is FidoCadJ, version 0.24.
+By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
 where options include:
@@ -813,12 +813,11 @@ Example: load and convert a FidoCad drawing to a png file without using the GUI.
          Each FidoCadJ logical unit will be converted in 2 pixels on the image.
 java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
 
-
 [davidebucci@Darwin]$ 
 \end{lstlisting}
 \lstset{language=FIDOCAD,
 	basicstyle=\small\ttfamily}
-L'opzione più semplice è \lstinline!-n! (meno enne), con cui il programma\dots\ non fa nulla, ovvero non fa partire un'interfaccia utente e non fa \textit{sua sponte} niente di interessante. C'è da rilevare che attivando il programma in questo modo, l'opzione \lstinline!java.awt.headless! viene automaticamente impostata a \lstinline!true!.
+L'opzione più semplice è \lstinline!-n! (``meno enne''), con cui il programma\dots\ non fa nulla, ovvero non fa partire un'interfaccia utente e non fa \textit{sua sponte} niente di interessante. C'è da rilevare che attivando il programma in questo modo, l'opzione \lstinline!java.awt.headless! viene automaticamente impostata a \lstinline!true!.
 Ovviamente, l'opzione \lstinline!-n! non serve a molto da sola, ma è interessante combinata con altre che vedremo tra un poco. Essa infatti permette di lanciare FidoCadJ su un server, oppure all'interno di uno script per effettuare operazioni automatiche.
 
 L'opzione \lstinline!-d! permette di specificare una directory dove pescare delle librerie aggiuntive e, da ultima, l'opzione \lstinline!-c! permette di convertire un file FidoCAD in un formato grafico a scelta fra quelli disponibili. Si tratta quindi dell'opzione che ci interessa maggiormente, soprattutto se utilizzata congiuntamente all'opzione \lstinline!-n!, che evita al programma di far partire un'interfaccia utente grafica.
@@ -1062,6 +1061,21 @@ FCJ a b c d e nv
 \end{lstlisting}
 dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
 
+\subsubsection{Curva complessa, spline}
+Una spline cubica\index{spline} viene creata a partire da un certo numero di vertici. La curva passa in tutti i vertici e viene calcolata in modo che il suo percorso sia molto liscio. All'interno di FidoCadJ, una spline cubica è identificata dai comandi \lstinline!CV!\index{CV} e \lstinline!CP!\index{CP}:
+\begin{verbatim}
+CV aa x1 y1 x2 y2 ... l
+CP aa x1 y1 x2 y2 ... l
+\end{verbatim}
+il parametro $aa$ è uguale a 1 se la curva è chiusa, o a 0 altrimenti. I punti $(x_1, y_1)$, $(x_2, y_2)$\dots sono i vertici che definiscono la spline e $l$ è il layer, indicato con un numero da 0 a 15.
+La lunghezza della linea può quindi variare a seconda del numero di vertici presenti.
+Il numero massimo di vertici\index{numero massimo di vertici} disponibili (come con i poligoni) è fissato arbitrariamente a 20, per evitare di avere a che fare con linee troppo lunghe. Questa primitiva è stata introdotta da FidoCadJ a partire dalla versione 0.24 e non è disponibile in FidoCAD\index{FidoCAD}.
+
+\textbf{Estensione FidoCadJ}: i comandi \lstinline!CV!\index{CP} e \lstinline!CV!\index{CV} possono essere seguiti nella riga successiva da un'estensione:
+\begin{verbatim} 
+FCJ e nv
+\end{verbatim}
+dove $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
 
 \subsubsection{Connessione elettrica}
 La primitiva connessione elettrica\index{connessione} è semplicemente un circoletto pieno di dimensione costante e va utilizzata per rappresentare una connessione in uno schema elettrico. È identificata dal comando \lstinline!SA!\index{SA} e richiede unicamente le coordinate ed il layer:
@@ -1133,21 +1147,22 @@ FCJ
 TY 50 35 4 3 0 0 0 * R1
 TY 50 40 4 3 0 0 0 * 47k
 \end{lstlisting}
-La presenza del comando \lstinline!FCJ! indica che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Solo le coordinate ed i font dei due comandi \lstinline!TY! sono utilizzate.
+La presenza del comando \lstinline!FCJ! indica che i campi indicanti il nome ed il valore sono specificati dai due comandi \lstinline!TY! nelle linee che seguono immediatamente \lstinline!FCJ!. Solo le coordinate ed i font dei due comandi \lstinline!TY! sono utilizzati.
 
 Questo modo di procedere ha il vantaggio che se un file contenente un'estensione di questo tipo viene letto da FidoCAD\index{FidoCAD}, quest'ultimo ignorerà le linee contenenti  \lstinline!FCJ! (emettendo un messaggio di errore), ma il disegno ottenuto sarà in qualche modo simile a quello che appare su FidoCadJ (vedere il paragrafo~\ref{FCJ_extension}).
 
+\begin{figure}
+\includegraphics[width=\textwidth]{gyrator_n}
+\caption{La figura~\ref{fig_gyrator} come probabilmente apparirebbe letta con FidoCAD.}
+\label{fig_gyrator_n}
+\end{figure}
 FidoCadJ dispone di una modalità ``compatibilità con FidoCAD'' all'interno della quale verranno disabilitate le estensioni, di modo da risultare compatibile con il FidoCAD originale. 
 In caso contrario, FidoCAD\index{FidoCAD} leggerà ancora (fornendo un messaggio di errore) i file prodotti da FidoCadJ, ma le informazioni addizionali di cui fa uso FidoCadJ non saranno prese in conto nei disegni. Una seconda difficoltà è che FidoCadJ utilizza sempre ed in ogni caso l'encoding\index{encoding} dei caratteri UTF-8\index{UTF-8}. Questo costituisce purtroppo una fonte d'incompatibilità con FidoCAD, basato sul vecchio sistema CP-1252\index{CP-1252}. Alcune lettere accentate potranno non visualizzarsi correttamente nei file scambiati fra i due programmi.
 Il risultato dipenderà dal contesto: una riga tratteggiata apparirà continua, le frecce eventualmente presenti non saranno disegnate. Il testo associato al nome ed al valore di una macro sarà invece mostrato correttamente.
 La figura~\ref{fig_gyrator_n} dovrebbe riassumere quello che si ottiene fornendo a FidoCAD il codice usato per disegnare la figura~\ref{fig_gyrator}. FidoCAD protesterà un po' per via dei comandi che non comprenderà, mancano dei dettagli (il tratteggio e la freccia), ma in linea di massima il disegno è ancora utilizzabile.
-\begin{figure}
-\includegraphics[width=\textwidth]{gyrator_n}
-\caption{La figura~\ref{fig_gyrator} come probabilmente apparirebbe se letta con FidoCAD.}
-\label{fig_gyrator_n}
-\end{figure}
 
 A differenza del FidoCAD originale, FidoCadJ permette di salvare un certo numero di informazioni relative alla configurazione del programma. Il comando utilizzato è \lstinline!FJC!\index{FJC} ed è solitamente emesso verso l'inizio del file. I casi trattati sono descritti nei prossimi paragrafi.
+
 \subsection{Configurazione dei layer}
 La configurazione dei layer è fatta attraverso il comando  \lstinline!FJC L!\index{FJC L}. Vengono salvaguardate delle informazioni solamente se il layer è stato modificato rispetto alla configurazione standard di FidoCadJ.
 \begin{lstlisting} 
@@ -1168,6 +1183,7 @@ La dimensione del bollino utilizzato per indicare una connessione elettrica può 
 FJC C aaaa
 \end{lstlisting}
 dove $aaaa$ è un valore decimale, a doppia precisione, rappresentante la taglia del bollino in unità logiche.
+
 \subsection{Configurazione larghezza tratto}
 La larghezza del pennino usato per il disegno degli schemi elettrici può essere modificata. Il programma fa differenza fra il tratto dei segmenti (primitiva \lstinline!LI!) e delle linee curve (primitive \lstinline!EV! e \lstinline!BE!). Il primo è modificato dal comando \lstinline!FJC A!\index{FJC A}, mentre il secondo dal comando \lstinline!FJC B!\index{FJC B}.
 \begin{lstlisting} 

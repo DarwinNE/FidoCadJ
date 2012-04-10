@@ -373,11 +373,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         	int x1 = 0;
         	int y1 = 0;
         	
+        	// The first token says if the spline is opened or closed
         	if(tokens[j++].equals("1"))
         		isClosed = true;
         	else
         		isClosed = false;
-        	
+        	// Then we have the points defining the curve
       		while(j<N-1){
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
@@ -385,10 +386,14 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
      			y1 = virtualPoint[i++].y=Integer.parseInt(tokens[j++]);
       		}	      				
       		nPoints=i;
+      		
+      		// We specify now the standard position of the name and value 
       		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
 			virtualPoint[getNameVirtualPointNumber()].y=y1+5;
 			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
 			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
+			
+			// And we check finally for extensions (FCJ)
       		if(N>j) {
       			parseLayer(tokens[j++]);
       			 
@@ -399,11 +404,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 						dashStyle=Globals.dashNumber-1;
 					if(dashStyle<0)
 						dashStyle=0;
-					
-					isClosed=false;
-					if(tokens[j++].equals("true")) {
-						isClosed=true;
-					}
  				}
  			}
       			
