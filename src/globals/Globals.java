@@ -42,7 +42,7 @@ public class Globals
 
 	// message bundle
     public static ResourceBundle messages;
-    
+    			  
     // shortcut key to be used:
     public static int shortcutKey;		
    	// META (Command) for Macintoshes
@@ -71,8 +71,7 @@ public class Globals
     public static JFrame activeWindow;
     
     public static HashSet openWindows = new HashSet();
- 
-    
+   
     // Line width expressed in FidoCadJ coordinates 
     public static final double lineWidthDefault = 0.5;  
     public static double lineWidth = lineWidthDefault;  
