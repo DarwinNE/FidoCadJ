@@ -347,8 +347,20 @@ http://sourceforge.net/tracker/?group_id=274886&atid=1167996
 If you feel uncomfortable with the SourceForge system, please drop a few 
 lines to davbucciNOPE@tiscali.it
 
+-------------------
+6 - Acknowledgments
+-------------------
+
+Code: Davide Bucci 
+
+Initial beta testers: Stefano Martini, F. Bertolazzi, Emanuele Baggetta, 
+    Celsius, Andrea D'Amore, Olaf Marzocchi, Werner Randelshofer
+
+Translations: Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
+    Geo Cherchetout (fr), androu1 (es), sbcne (es)
+
 -------------
-6 - Licensing
+7 - Licensing
 -------------
 
 FidoCadJ is distributed with the GPL v. 3 license:
