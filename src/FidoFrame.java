@@ -22,6 +22,7 @@ import clipboard.*;
 import toolbars.*;
 import timer.*;
 
+
 /** FidoFrame.java 
 
 Probably, it would be a very good idea to implement the editor with a 
@@ -152,7 +153,7 @@ public class FidoFrame extends JFrame implements
 		exportMagnification=1.0;
         	
         // Uncomment to force FidoCadJ to use a specified locale
-        // currentLocale = new Locale("de", "DE");
+        // currentLocale = new Locale("zh", "ZH");
         
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
@@ -161,7 +162,8 @@ public class FidoFrame extends JFrame implements
         try {
             // Try to load the program with the current locale
             Globals.messages = ResourceBundle.getBundle("MessagesBundle", 
-                currentLocale);
+               currentLocale, new UTF8Control());
+                               
             
         } catch(MissingResourceException mre) {
             try {

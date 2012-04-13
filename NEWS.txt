@@ -1,0 +1,4 @@
+Version 0.24
+- Added the support for italic text lines
+- The lenght of the segment being entered is expressed also in millimeters.
+- Slight adjustment of the arrow style when they are associated to lines.
