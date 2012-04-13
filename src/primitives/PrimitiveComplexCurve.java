@@ -160,6 +160,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       		Y = calcNaturalCubic(np-1, yPoints);
       	}
       	
+      	if(X==null || Y==null) return null;
+      	
     	final int STEPS=24;
       	/* very crude technique - just break each segment up into steps lines */
       	Polygon poly = new Polygon();
@@ -185,6 +187,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	Used here with permissions (hey, thanks a lot, Tim!)
     */
     Cubic[] calcNaturalCubic(int n, double[] x) {
+  	  	
+		if(n<1) return null;
+		
   	  	double[] gamma = new double[n+1];
     	double[] delta = new double[n+1];
     	double[] D = new double[n+1];
@@ -201,7 +206,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
        	by using row operations to convert the matrix to upper triangular
        	and then back sustitution.  The D[i] are the derivatives at the knots.
        */
-    
     	gamma[0] = 1.0/2.0;
     	for (i = 1; i<n; ++i) {
       		gamma[i] = 1.0/(4.0-gamma[i-1]);
@@ -239,6 +243,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
      	the other segments are in C[1], C[2], ...  C[n] */
 
   	Cubic[] calcNaturalCubicClosed(int n, double[] x) {
+  		
+		if(n<1) return null;
+		
     	double[] w = new double[n+1];
     	double[] v = new double[n+1];
     	double[] y = new double[n+1];
@@ -321,6 +328,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			}
 			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
+		
+		if (p==null)
+			return;
+		
 		/*
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
@@ -508,26 +519,16 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         
 	    if(checkText(px, py))
 	    	return 0;
-	    /*	
-    	int[] xp=new int[N_POINTS];
-        int[] yp=new int[N_POINTS];
-        
-        int k;
-                
-        for(k=0;k<nPoints;++k){
-        	xp[k]=virtualPoint[k].x;
-            yp[k]=virtualPoint[k].y;
-        }     
-        
-        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
-        	(py-yp[0])*(py-yp[0]));
-        
-        if(GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
-          	distance=1;
-        */
         
         int distance = 100;
         
+        // In this case, the user has not introduced a complete curve,
+        // but just one point.
+        if(p==null) {
+        	return GeometricDistances.pointToPoint(virtualPoint[0].x,
+        		virtualPoint[0].y,
+				px,py);	
+        }
         if(q.contains(px, py)) 
         	distance = 1;
         
