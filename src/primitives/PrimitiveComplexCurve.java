@@ -473,7 +473,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean(isClosed);
-		pd.description="*** is closed ***";
+		pd.description=Globals.messages.getString("ctrl_closed_curve");
 		pd.isExtension = true;
 		v.add(pd);
 
