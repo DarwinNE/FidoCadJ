@@ -132,10 +132,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int ymax = -Integer.MAX_VALUE;
         
         int np=nPoints;
-        
-        /*if(isClosed) 
-        	np=nPoints+1;*/
-        
+                
         double [] xPoints = new double[np];
         double [] yPoints = new double[np];
         
@@ -168,16 +165,30 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	poly.addPoint((int) Math.round(X[0].eval(0)),
 		 	(int) Math.round(Y[0].eval(0)));
 		 	
+		int x, y;
+		 	
       	for (i = 0; i < X.length; ++i) {
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
-	  			poly.addPoint((int)Math.round(X[i].eval(u)),
-	             	(int)Math.round(Y[i].eval(u)));
+	  			x=(int)Math.round(X[i].eval(u));
+	  			y=(int)Math.round(Y[i].eval(u));
+	  			poly.addPoint(x, y);
+	  			coordSys.trackPoint(x,y);
+	  			if (x<xmin) 
+      				xmin=x;
+      			if (x>xmax)
+      				xmax=x;
+      			
+      			if(y<ymin)
+      				ymin=y;
+      			if(y>ymax)
+      				ymax=y;
 			}
       	} 
+      	width = xmax-xmin;
+ 		height = ymax-ymin;
       	
-      	return poly;
-      	
+      	return poly;    	
 	}
  
         
@@ -318,8 +329,13 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	drawText(g, coordSys, layerV, -1);
     	if(changed) {
     		changed=false;
-    		p=createComplexCurve(coordSys);
+
+			// Important: note that createComplexCurve has some important
+			// side effects as the update of the xmin, ymin, width and height
+			// variables. This means that the order of the two following 
+			// commands is important!
    			q=createComplexCurve(new MapCoordinates());
+    		p=createComplexCurve(coordSys);
    		
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
@@ -332,19 +348,21 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		if (p==null)
 			return;
 		
-		/*
+		// If the curve is outside of the shown portion of the drawing,
+		// exit immediately.
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
-*/
+ 			
 		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
 		// setting the stroke takes a lot of time!
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
-		
+		// If needed, fill the interior of the shape
         if (isFilled) 
  			g.fillPolygon(p);
  			
+ 		// Explicit drawing of the polygon.
  		for(int i=0; i<p.npoints-1; ++i) {
  			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
  				p.ypoints[i+1]);
@@ -352,7 +370,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		if(isClosed)
  			g.drawLine(p.xpoints[p.npoints-1], p.ypoints[p.npoints-1], 
  			p.xpoints[0], p.ypoints[0]);
- 			
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
