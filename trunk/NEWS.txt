@@ -2,3 +2,8 @@ Version 0.24
 - Added the support for italic text lines
 - The lenght of the segment being entered is expressed also in millimeters.
 - Slight adjustment of the arrow style when they are associated to lines.
+- Added the new "curve" primitive (cubic spline).
+- Spanish translation of the user interface (thanks to Gohan).
+- Bug #3484904 corrected.
+- Layer names are saved, if nonstandard.
+- The grid pitch is saved (bug 3468917).
