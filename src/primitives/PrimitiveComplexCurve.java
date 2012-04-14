@@ -601,8 +601,22 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			vertices[i].y=cs.mapY(q.xpoints[i],q.ypoints[i]);
 		}
 		
-		exp.exportPolygon(vertices, q.npoints, isFilled, getLayer(), dashStyle,
-			Globals.lineWidth*cs.getXMagnitude());
+		if (isClosed) {
+			exp.exportPolygon(vertices, q.npoints, isFilled, getLayer(), 
+				dashStyle, Globals.lineWidth*cs.getXMagnitude());
+		} else {
+			for(int i=1; i<q.npoints;++i){
+				exp.exportLine(vertices[i-1].x,
+					   vertices[i-1].y,
+					   vertices[i].x,
+					   vertices[i].y,
+					   getLayer(),
+					   false, false,
+					   0, 0, 0,
+					   dashStyle, 
+					   Globals.lineWidth*cs.getXMagnitude()); 
+			}
+		}
 	}
 	/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property
