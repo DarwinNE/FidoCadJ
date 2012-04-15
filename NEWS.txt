@@ -7,3 +7,5 @@ Version 0.24
 - Bug #3484904 corrected.
 - Layer names are saved, if nonstandard.
 - The grid pitch is saved (bug 3468917).
+- More accurate automatic test scripts.
+- All language resource files for the user interface are encoded in UTF-8.
