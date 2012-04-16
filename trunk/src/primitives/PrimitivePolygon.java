@@ -10,6 +10,8 @@ import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import java.awt.geom.*;
+
 
 
 /** Class to handle the Polygon primitive.
@@ -406,10 +408,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		throws IOException
 	{
 		exportText(exp, cs, -1);
-		Point[] vertices = new Point[nPoints]; 
+		Point2D.Double[] vertices = new Point2D.Double[nPoints]; 
 		
 		for(int i=0; i<nPoints;++i){
-			vertices[i]=new Point();
+			vertices[i]=new Point2D.Double();
 			vertices[i].x=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
 			vertices[i].y=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 		}

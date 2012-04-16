@@ -10,6 +10,8 @@ import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import java.awt.geom.*;
+
 
 
 /** Class to handle the ComplexCurve primitive.
@@ -61,6 +63,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	// A ComplexCurve can be defined up to 100 points
 
 	static final int N_POINTS=100;
+	
+	static final int STEPS=24;
+
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -139,8 +144,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int i;
         
         for (i=0; i<nPoints; ++i) {
-        	xPoints[i] = coordSys.mapX(virtualPoint[i].x,virtualPoint[i].y);
-        	yPoints[i] = coordSys.mapY(virtualPoint[i].x,virtualPoint[i].y);
+        	xPoints[i] = coordSys.mapXr(virtualPoint[i].x,virtualPoint[i].y);
+        	yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
         }
         
         // If the curve is closed, we need to add a last point which is the
@@ -159,7 +164,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	
       	if(X==null || Y==null) return null;
       	
-    	final int STEPS=24;
       	/* very crude technique - just break each segment up into steps lines */
       	Polygon poly = new Polygon();
       	poly.addPoint((int) Math.round(X[0].eval(0)),
@@ -593,23 +597,60 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		throws IOException
 	{
 		exportText(exp, cs, -1);
-		Point[] vertices = new Point[q.npoints]; 
+               
+        double [] xPoints = new double[nPoints];
+        double [] yPoints = new double[nPoints];
+        Point2D.Double[] vertices = new Point2D.Double[nPoints*STEPS+1]; 
+      
+        int i;
+        
+        for (i=0; i<nPoints; ++i) {
+        	xPoints[i] = cs.mapXr(virtualPoint[i].x,virtualPoint[i].y);
+        	yPoints[i] = cs.mapYr(virtualPoint[i].x,virtualPoint[i].y);
+        }
+        
+        Cubic[] X;
+        Cubic[] Y;
+        
+        if(isClosed) {
+        	X = calcNaturalCubicClosed(nPoints-1, xPoints);
+      		Y = calcNaturalCubicClosed(nPoints-1, yPoints);
+        } else {
+        	X = calcNaturalCubic(nPoints-1, xPoints);
+      		Y = calcNaturalCubic(nPoints-1, yPoints);
+      	}
+      	
+      	if(X==null || Y==null) return;
+      	
+      	/* very crude technique - just break each segment up into steps lines */
+      	
+      	vertices[0]=new Point2D.Double();
+	  			
+	  	vertices[0].x=cs.mapXr(X[0].eval(0),Y[0].eval(0));
+	  	vertices[0].y=cs.mapYr(X[0].eval(0),Y[0].eval(0));
+		 	
+		int x, y;
+		 	
+      	for (i = 0; i < X.length; ++i) {
+			for (int j = 1; j <= STEPS; ++j) {
+	  			double u = j / (double) STEPS;
+				vertices[i*STEPS+j]=new Point2D.Double();
+	  			
+	  			vertices[i*STEPS+j].x=cs.mapXr(X[i].eval(u),Y[i].eval(u));
+	  			vertices[i*STEPS+j].y=cs.mapYr(X[i].eval(u),Y[i].eval(u));
+			}
+      	} 
 		
-		for(int i=0; i<q.npoints;++i){
-			vertices[i]=new Point();
-			vertices[i].x=cs.mapX(q.xpoints[i],q.ypoints[i]);
-			vertices[i].y=cs.mapY(q.xpoints[i],q.ypoints[i]);
-		}
 		
 		if (isClosed) {
 			exp.exportPolygon(vertices, q.npoints, isFilled, getLayer(), 
 				dashStyle, Globals.lineWidth*cs.getXMagnitude());
 		} else {
-			for(int i=1; i<q.npoints;++i){
-				exp.exportLine(vertices[i-1].x,
-					   vertices[i-1].y,
-					   vertices[i].x,
-					   vertices[i].y,
+			for(i=1; i<q.npoints;++i){
+				exp.exportLine((int)vertices[i-1].x,
+					   (int)vertices[i-1].y,
+					   (int)vertices[i].x,
+					   (int)vertices[i].y,
 					   getLayer(),
 					   false, false,
 					   0, 0, 0,

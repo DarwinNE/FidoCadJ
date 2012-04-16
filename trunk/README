@@ -9,9 +9,9 @@ by Davide Bucci
 ----------------
 
 FidoCadJ is a very easy to use editor, with a vast library of electrical 
-symbols and footprints (through hole and SMD). Its drawings can be exported in 
-several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if it 
-is very simple and somewhat limited, FidoCadJ can be very useful as a basic
+symbols and footprints (through hole and SMD). Its drawings can be exported
+in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if
+it is very simple and somewhat limited, FidoCadJ can be very useful as a basic
 schematic capture and electronic  design automation (EDA) software. FidoCadJ 
 is inspired from FidoCAD (without "J"), which was a vector graphic editor 
 useful for electrical schematics and printed circuit boards. 
@@ -183,7 +183,7 @@ launching any test.
 The following table briefly describes the provided tests:
 
   Test                             Comments
-  -----------------------------------------------------------------------------
+  ---------------------------------------------------------------------------
   test/export/test_export.sh       Test the export on all available
                                    file format. A set of reference 
                                    files is provided, so it might be
@@ -242,9 +242,9 @@ follow:
 
 	...
 
-The resources strings are organized in the form key = value. For example, here 
-is the head of the corresponding file for the interface in French, in the file
-trunk/bin/MessagesBundle_fr.properties
+The resources strings are organized in the form key = value. For example,
+here is the head of the corresponding file for the interface in French, in 
+the file trunk/bin/MessagesBundle_fr.properties
 
 	File = Fichier
 	New = Nouveau dessin
@@ -272,8 +272,8 @@ yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
 in order to see if we can find an intersection between what you can do with 
 the FidoCadJ development strategy. The idea is to keep the work a little bit 
-organized and to know who does what. Have a peek to section 3.3 of this readme 
-file to see what coding style should be applied to the sources.
+organized and to know who does what. Have a peek to section 3.3 of this 
+readme file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with SVN the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
@@ -291,45 +291,46 @@ forums dedicated to FidoCadJ!
 4.3 Things to do
 ----------------
 
--------------------------------------------------------------------------------
-Review on SourceForge or OhLoh      It is important that the users and 
-                                    developers of FidoCadJ understand what is 
-                                    good and what is bad in their favourite 
-                                    software. Do not be shy to review FidoCadJ 
-                                    on SourceForge or OhLoh!
--------------------------------------------------------------------------------
-Translate user interface            Everything is done on FidoCadJ to make it 
-                                    easy to translate its interface in any 
-                                    language. You can significatively 
-                                    contribute to the spread of FidoCadJ in 
-                                    your country!
--------------------------------------------------------------------------------
-Translate manual                    This is an hard work, but it will be very 
-                                    welcomed by the users of your country. You 
-                                    will probably need an idea on how LaTeX
-                                    works.
--------------------------------------------------------------------------------
-YouTube video tutorial              I will put on the FidoCadJ's page a link to 
-                                    the best video tutorials about FidoCadJ on 
-                                    YouTube. Why don't you give it a try?
--------------------------------------------------------------------------------
-Report bugs                         Use the bug and artifact tracking system of
-                                    SourceForge or drop me an email.
--------------------------------------------------------------------------------
-Export in Gerber format             Exporting in graphical vector formats is 
-                                    easy with FidoCadJ. If you want to add a 
-                                    file format you just need to know it and 
-                                    implement a Java interface. Gerber is 
-                                    highly requested by people working on PCBs.
--------------------------------------------------------------------------------
-Export in WMF/EMF formats           WMF/EMF are widely used in Windows and they 
-                                    may be useful for including drawings in 
-                                    vector format in Microsoft Word or Power 
-                                    Point.
--------------------------------------------------------------------------------
-Linux packaging                     FidoCadJ could be distributed as a deb or a 
-                                    RPM package. Can you prepare one?
--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Review on SourceForge or OhLoh    It is important that the users and 
+                                  developers of FidoCadJ understand what is 
+                                  good and what is bad in their favourite 
+                                  software. Do not be shy to review FidoCadJ 
+                                  on SourceForge or OhLoh!
+-----------------------------------------------------------------------------
+Translate user interface          Everything is done on FidoCadJ to make it 
+                                  easy to translate its interface in any 
+                                  language. You can significatively 
+                                  contribute to the spread of FidoCadJ in 
+                                  your country!
+-----------------------------------------------------------------------------
+Translate manual                  This is an hard work, but it will be very 
+                                  welcomed by the users of your country. You 
+                                  will probably need an idea on how LaTeX
+                                  works.
+-----------------------------------------------------------------------------
+YouTube video tutorial            I will put on the FidoCadJ's page a link to 
+                                  the best video tutorials about FidoCadJ on 
+                                  YouTube. Why don't you give it a try?
+-----------------------------------------------------------------------------
+Report bugs                       Use the bug and artifact tracking system of
+                                  SourceForge or drop me an email.
+-----------------------------------------------------------------------------
+Export in Gerber format           Exporting in graphical vector formats is 
+                                  easy with FidoCadJ. If you want to add a 
+                                  file format you just need to know it and 
+                                  implement a Java interface. Gerber is 
+                                  highly requested by people working on 
+                                  PCBs.
+-----------------------------------------------------------------------------
+Export in WMF/EMF formats         WMF/EMF are widely used in Windows and they 
+                                  may be useful for including drawings in 
+                                  vector format in Microsoft Word or Power 
+                                  Point.
+-----------------------------------------------------------------------------
+Linux packaging                   FidoCadJ could be distributed as a deb or
+                                  a RPM package. Can you prepare one?
+-----------------------------------------------------------------------------
 
 
 --------------------
@@ -351,13 +352,13 @@ lines to davbucciNOPE@tiscali.it
 6 - Acknowledgments
 -------------------
 
-Code: Davide Bucci 
+Code: Davide Bucci, josmil1 
 
 Initial beta testers: Stefano Martini, F. Bertolazzi, Emanuele Baggetta, 
     Celsius, Andrea D'Amore, Olaf Marzocchi, Werner Randelshofer
 
 Translations: Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
-    Geo Cherchetout (fr), androu1 (es), sbcne (es)
+    Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh)
 
 -------------
 7 - Licensing

@@ -7,6 +7,9 @@ import java.text.*;
 
 import globals.*;
 import layers.*;
+import java.awt.geom.*;
+
+
 /** 
 
 <pre>
@@ -424,7 +427,7 @@ public class ExportEagle implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 

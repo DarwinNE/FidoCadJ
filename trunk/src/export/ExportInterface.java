@@ -3,6 +3,7 @@ package export;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
+import java.awt.geom.*;
 
 /** ExportInterface.java 
 
@@ -254,7 +255,7 @@ public interface ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 		

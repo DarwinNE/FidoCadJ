@@ -9,6 +9,8 @@ import layers.*;
 import circuit.*;
 
 import primitives.*;
+import java.awt.geom.*;
+
 
 /** 
 	Export towards FidoCad (!)
@@ -371,7 +373,7 @@ public class ExportFidoCad implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
