@@ -6,6 +6,8 @@ import java.io.*;
 import globals.*;
 import layers.*;
 import primitives.*;
+import java.awt.geom.*;
+
 
 /** Export in a LaTeX drawing using the pgf (Portable Graphic File) packet.
 	The file should be compatible with at least the 0.65 version of the
@@ -530,7 +532,7 @@ public class ExportPGF implements ExportInterface {
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 

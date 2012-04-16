@@ -6,6 +6,7 @@ import java.io.*;
 import globals.*;
 import layers.*;
 import primitives.*;
+import java.awt.geom.*;
 
 /** 
 	Export drawing in the Scalable Vector Graphics format.
@@ -495,7 +496,7 @@ public class ExportSVG implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
@@ -522,8 +523,6 @@ public class ExportSVG implements ExportInterface {
 		}
 		out.write("\" ");
 		checkColorAndWidth(c, strokeWidth,fill_pattern, dashStyle);
-
-		
 	}
 		
 	/** Called when exporting a Rectangle primitive.

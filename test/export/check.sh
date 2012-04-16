@@ -9,7 +9,7 @@ echo "Checking that all the exported files are identical to the models."
 echo
 echo "Now testing:"
 echo "-------------"
-if diff -ICreationDate eps/test_out.eps eps/ref/test_out.eps >results_eps.txt
+if diff -ICreationDate|Creator eps/test_out.eps eps/ref/test_out.eps >results_eps.txt
 then
   echo "eps     OK"
   rm results_eps.txt output_eps.txt

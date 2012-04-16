@@ -3,9 +3,10 @@ Version 0.24
 - The lenght of the segment being entered is expressed also in millimeters.
 - Slight adjustment of the arrow style when they are associated to lines.
 - Added the new "curve" primitive (cubic spline).
-- Spanish translation of the user interface (thanks to Gohan).
+- Spanish translation of the user interface (thanks to Gohan "sbcne").
 - Bug #3484904 corrected.
 - Layer names are saved, if nonstandard.
 - The grid pitch is saved (bug 3468917).
 - More accurate automatic test scripts.
 - All language resource files for the user interface are encoded in UTF-8.
+- Chinese translation of the user interface, by Miles Qin "qhg007".

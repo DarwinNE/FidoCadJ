@@ -8,6 +8,8 @@ import java.text.*;
 import globals.*;
 import layers.*;
 import primitives.*;
+import java.awt.geom.*;
+
 
 /** 
 	Drawing export in Encapsulated Postscript
@@ -606,7 +608,7 @@ public class ExportEPS implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point[] vertices, int nVertices, 
+	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
@@ -627,7 +629,7 @@ public class ExportEPS implements ExportInterface {
 		out.write(""+vertices[0].x+" "+vertices[0].y+" moveto\n");
 		
 		for (int i=1; i<nVertices; ++i) 
-			out.write(""+vertices[i].x+" "+vertices[i].y+" lineto\n");
+			out.write(""+((int)vertices[i].x)+" "+((int)vertices[i].y)+" lineto\n");
 		
 		out.write("closepath\n");
 		if(isFilled) {
@@ -691,7 +693,7 @@ public class ExportEPS implements ExportInterface {
 		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
 	}
 	
-		private void roundRect (double x1, double y1, double w, double h, 
+	private void roundRect (double x1, double y1, double w, double h, 
 		double r, boolean filled)
 		throws IOException
 	{
