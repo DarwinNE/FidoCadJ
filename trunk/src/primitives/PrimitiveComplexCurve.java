@@ -75,7 +75,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	{
 		return nPoints+2;
 	}
-	 
+	
+	/** Create a ComplexCurve. Add points with the addPoint method.
+	*/
 	public PrimitiveComplexCurve()
 	{
 		super();
@@ -127,6 +129,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	private int xmin, ymin;
 	private int width, height;
 	
+	/** Create the polygon associated to the complex curve. This is a crude
+		technique, but it is very easy to be implemented.
+	
+	*/
 	public final Polygon createComplexCurve(MapCoordinates coordSys)
 	{
      		
@@ -164,7 +170,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	
       	if(X==null || Y==null) return null;
       	
-      	/* very crude technique - just break each segment up into steps lines */
+      	// very crude technique: just break each segment up into steps lines 
       	Polygon poly = new Polygon();
       	poly.addPoint((int) Math.round(X[0].eval(0)),
 		 	(int) Math.round(Y[0].eval(0)));
@@ -196,7 +202,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	}
  
         
-    /** Code mainly taken from Tim Lambert's snippets:
+    /** Code adapted from Tim Lambert's snippets:
     	http://www.cse.unsw.edu.au/~lambert/splines/
     	
     	Used here with permissions (hey, thanks a lot, Tim!)
@@ -219,7 +225,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
        	[       1 2] [D[n]]   [3(x[n] - x[n-1])]
        
        	by using row operations to convert the matrix to upper triangular
-       	and then back sustitution.  The D[i] are the derivatives at the knots.
+       	and then back substitution.  The D[i] are the derivatives at the knots.
        */
     	gamma[0] = 1.0/2.0;
     	for (i = 1; i<n; ++i) {
@@ -276,15 +282,16 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	   [1      1 4] [D[n]]   [3(x[0] - x[n-1])]
        
        		by decomposing the matrix into upper triangular and lower matrices
-       		and then back sustitution.  See Spath "Spline Algorithms for Curves
-       		and Surfaces" pp 19--21. The D[i] are the derivatives at the knots.
+       		and then back substitution.  See Spath "Spline Algorithms for 
+       		Curves and Surfaces" pp 19--21. The D[i] are the derivatives at 
+       		the knots.
        	*/
     	w[1] = v[1] = z = 1.0f/4.0f;
     	y[0] = z * 3 * (x[1] - x[n]);
     	H = 4;
     	F = 3 * (x[0] - x[n-1]);
     	G = 1;
-    	for ( k = 1; k < n; k++) {
+    	for (k = 1; k < n; ++k) {
       		v[k+1] = z = 1/(4 - v[k]);
       		w[k+1] = -z * w[k];
      		y[k] = z * (3*(x[k+1]-x[k-1]) - y[k-1]);
@@ -296,15 +303,16 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	y[n] = F - (G+1)*y[n-1];
     
     	D[n] = y[n]/H;
-    	D[n-1] = y[n-1] - (v[n]+w[n])*D[n]; /* This equation is WRONG! in my copy of Spath */
-    	for (k = n-2; k >= 0; k--) {
+    	D[n-1] = y[n-1] - (v[n]+w[n])*D[n]; /* This equation is WRONG! in 
+    										   my copy of Spath */
+    	for (k = n-2; k >= 0; --k) {
       		D[k] = y[k] - v[k+1]*D[k+1] - w[k+1]*D[n];
     	}
 
 
     	/* now compute the coefficients of the cubics */
     	Cubic[] C = new Cubic[n+1];
-    	for ( k = 0; k < n; k++) {
+    	for ( k = 0; k < n; ++k) {
       		C[k] = new Cubic((float)x[k], D[k], 
       			3*(x[k+1] - x[k]) - 2*D[k] - D[k+1],
 		       	2*(x[k] - x[k+1]) + D[k] + D[k+1]);
@@ -590,8 +598,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		return cmd;
 	}
 	
-
-	
 	
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
@@ -626,8 +632,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	
       	vertices[0]=new Point2D.Double();
 	  			
-	  	vertices[0].x=cs.mapXr(X[0].eval(0),Y[0].eval(0));
-	  	vertices[0].y=cs.mapYr(X[0].eval(0),Y[0].eval(0));
+	  	vertices[0].x=X[0].eval(0);
+	  	vertices[0].y=Y[0].eval(0);
 		 	
 		int x, y;
 		 	
@@ -636,8 +642,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	  			double u = j / (double) STEPS;
 				vertices[i*STEPS+j]=new Point2D.Double();
 	  			
-	  			vertices[i*STEPS+j].x=cs.mapXr(X[i].eval(u),Y[i].eval(u));
-	  			vertices[i*STEPS+j].y=cs.mapYr(X[i].eval(u),Y[i].eval(u));
+	  			vertices[i*STEPS+j].x=X[i].eval(u);
+	  			vertices[i*STEPS+j].y=Y[i].eval(u);
 			}
       	} 
 		
@@ -647,10 +653,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				dashStyle, Globals.lineWidth*cs.getXMagnitude());
 		} else {
 			for(i=1; i<q.npoints;++i){
-				exp.exportLine((int)vertices[i-1].x,
-					   (int)vertices[i-1].y,
-					   (int)vertices[i].x,
-					   (int)vertices[i].y,
+				exp.exportLine(vertices[i-1].x,
+					   vertices[i-1].y,
+					   vertices[i].x,
+					   vertices[i].y,
 					   getLayer(),
 					   false, false,
 					   0, 0, 0,
@@ -668,7 +674,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	}
 	
 	/** Get the number of the virtual point associated to the Value property
-		@return the number of the virtual point associated to the Value property
+		@return the number of the virtual point associated to the Value 
+		property
 	*/
 	public  int getValueVirtualPointNumber()
 	{

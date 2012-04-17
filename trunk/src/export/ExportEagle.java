@@ -31,12 +31,11 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
    </pre>
 
     
     @author Davide Bucci
-    @version 1.3, April 2010
 */
 
 public class ExportEagle implements ExportInterface {
@@ -254,8 +253,8 @@ public class ExportEagle implements ExportInterface {
 
 		
 	*/
-	public void exportLine (int x1, int y1,
-		int x2, int y2,
+	public void exportLine (double x1, double y1,
+		double x2, double y2,
 		int layer,
 		boolean arrowStart, 
 		boolean arrowEnd, 

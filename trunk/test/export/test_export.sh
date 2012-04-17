@@ -36,9 +36,9 @@ pdflatex test_out.tex >output_latex.tex
 rm test_out.aux
 rm test_out.log
 cd ..
-echo "LaTeX test file for PGF export compiled. Please note that it is perfectly normal that the PGF export does not include the text size and font attributes, since the idea is that the user might control those aspects via LaTeX commands."
+echo ""
+echo "LaTeX test file for PGF export compiled."
 echo
-echo "The reference drawing has been exported in all the supported formats. Checking the results begins now..."
 
 ./check.sh
 exit $?
