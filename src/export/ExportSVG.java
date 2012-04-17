@@ -27,7 +27,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2011 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
 
     
@@ -46,10 +46,10 @@ public class ExportSVG implements ExportInterface {
 	static final String dash[]={"2.5,5", "1.25,1.25",
 		"0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
 
-	public int cLe(double l)
+	public double cLe(double l)
 	{
 		//return (int)(l*sizeMagnification);
-		return (int)l;
+		return Math.round(l*100.0)/100.0;
 	}
 	/** Constructor
 	
@@ -276,8 +276,9 @@ public class ExportSVG implements ExportInterface {
 		@param dashStyle dashing style
 		
 	*/
-	public void exportLine (int x1, int y1,
-		int x2, int y2,
+	
+	public void exportLine (double x1, double y1,
+		double x2, double y2,
 		int layer,
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -624,7 +625,8 @@ public class ExportSVG implements ExportInterface {
 		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
 	}
 	
-	private void exportArrow(int x, int y, int xc, int yc, int l, int h, 
+	private void exportArrow(double x, double y, double xc, double yc, 
+		double l, double h, 
 		int style, Color c, double strokeWidth)
 		throws IOException
 	{

@@ -9,7 +9,7 @@ echo "Checking that all the exported files are identical to the models."
 echo
 echo "Now testing:"
 echo "-------------"
-if diff -ICreationDate|Creator eps/test_out.eps eps/ref/test_out.eps >results_eps.txt
+if diff -I CreationDate eps/test_out.eps eps/ref/test_out.eps >results_eps.txt
 then
   echo "eps     OK"
   rm results_eps.txt output_eps.txt
@@ -96,5 +96,10 @@ then
 else
   test_fail=1
   printf "\033[1mjpg export based on size is not conformal to the model. Please check\033[0m\n"
+fi
+
+if test $test_fail != 0
+then
+  printf "\n\033[1mWARNING: failing this test just means that the output file is not byte to byte conformal to the provided model. However, the output files could be perfectly acceptable, or they might be even better than the model. This typically happens when the version number of FidoCadJ has changed and in some cases this will generate a false positive. When those tests are failed, you should check carefully that the file contained in each subdirectory is valid. In this case, running export/update_ref.sh will update the models to the files just calculated.\033[0m\n"
 fi
 exit $test_fail

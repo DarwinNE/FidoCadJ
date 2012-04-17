@@ -8,6 +8,8 @@ echo "   by Davide Bucci 2011-2012"
 printf "\033[0m\n"
 echo ""
 
+printf " NOTE: the following tests will run ../jar/fidocadj.jar\n"
+printf "       Make sure you updated this file with the createjar.sh script\n\n"
 test_failed=0
 
 cd export
