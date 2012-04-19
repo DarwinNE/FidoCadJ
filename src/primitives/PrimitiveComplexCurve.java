@@ -89,18 +89,20 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	/** Create a ComplexCurve. Add points with the addPoint method.
 		
 		@param f specifies if the ComplexCurve should be filled 
+		@param c specifies if the ComplexCurve should be closed
 		@param layer the layer to be used.
 		@param dashSt the dash style
 		
 	*/
 	
-	public PrimitiveComplexCurve(boolean f, int layer, int dashSt)
+	public PrimitiveComplexCurve(boolean f, boolean c, int layer, int dashSt)
 	{
 		super();
 		p = new Polygon();
 		initPrimitive(N_POINTS);
 		nPoints=0;
 		isFilled=f;
+		isClosed=c;
 		dashStyle=dashSt;
 		setLayer(layer);
 	}
@@ -602,18 +604,36 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
-		exportText(exp, cs, -1);
-               
         double [] xPoints = new double[nPoints];
         double [] yPoints = new double[nPoints];
-        Point2D.Double[] vertices = new Point2D.Double[nPoints*STEPS+1]; 
+        Point2D.Double[] vertices = new Point2D.Double[nPoints*STEPS+1];
       
         int i;
         
         for (i=0; i<nPoints; ++i) {
         	xPoints[i] = cs.mapXr(virtualPoint[i].x,virtualPoint[i].y);
         	yPoints[i] = cs.mapYr(virtualPoint[i].x,virtualPoint[i].y);
+        	
+        	// This is a trick: we do not use another array, but we pre-charge
+        	// the control points in vertices (sure we have some place, at
+        	// least if STEPS>-1). If the export is done via a polygon, those
+        	// points will be discarded and the array reused.
+        	vertices[i] = new Point2D.Double();
+        	vertices[i].x = xPoints[i];
+        	vertices[i].y = yPoints[i];
         }
+		
+		// Check if the export is handled via a dedicated curve primitive.
+		// If not, we continue using a polygon with an high number of 
+		// vertex
+		if (exp.exportCurve(vertices, nPoints, isFilled, isClosed, getLayer(), 
+			    dashStyle, Globals.lineWidth*cs.getXMagnitude())) {
+			
+			exportText(exp, cs, -1);
+			return;
+    	}
+
+    	// Here we expand the polygon
         
         Cubic[] X;
         Cubic[] Y;
@@ -664,6 +684,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 					   Globals.lineWidth*cs.getXMagnitude()); 
 			}
 		}
+		
+		exportText(exp, cs, -1);
+
 	}
 	/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

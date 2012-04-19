@@ -102,4 +102,5 @@ if test $test_fail != 0
 then
   printf "\n\033[1mWARNING: failing this test just means that the output file is not byte to byte conformal to the provided model. However, the output files could be perfectly acceptable, or they might be even better than the model. This typically happens when the version number of FidoCadJ has changed and in some cases this will generate a false positive. When those tests are failed, you should check carefully that the file contained in each subdirectory is valid. In this case, running export/update_ref.sh will update the models to the files just calculated.\033[0m\n"
 fi
+echo ""
 exit $test_fail
