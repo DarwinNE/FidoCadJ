@@ -498,6 +498,25 @@ public class ExportEagle implements ExportInterface {
 		out.write("Layer 91;\n");
 	}
 	
+	/**	Called when exporting a Curve primitive
+	
+		@param vertices array containing the position of each vertex
+		@param nVertices number of vertices
+		@param isFilled true if the polygon is filled
+		@param isClosed true if the curve is closed
+		@param layer the layer that should be used
+		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+		
+		@return false if the curve should be rendered using a polygon, true
+			if it is handled by the function.
+	*/
+	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+		boolean isFilled, boolean isClosed, int layer, int dashStyle, double strokeWidth)
+		throws IOException
+	{
+		return false;
+	}
 
 	/**	Export a number: truncate it to four decimals
 	

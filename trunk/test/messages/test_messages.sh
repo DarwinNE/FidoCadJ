@@ -19,5 +19,5 @@ do
 		test_failed=1
 	fi
 done
-
+echo ""
 exit $test_failed
