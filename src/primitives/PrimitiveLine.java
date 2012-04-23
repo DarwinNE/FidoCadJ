@@ -166,10 +166,10 @@ public final class PrimitiveLine extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
-		super.setControls(v);
-		int i=getControlPointNumber()+3;		
+		
+		int i=super.setControls(v);		
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i++);
@@ -213,6 +213,7 @@ public final class PrimitiveLine extends GraphicPrimitive
 		if(dashStyle<0)
 			dashStyle=0;
 	
+		return i;
 	}
 	
 	/** Create a segment between two points

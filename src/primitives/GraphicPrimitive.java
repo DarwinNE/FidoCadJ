@@ -30,7 +30,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
 
 */
@@ -818,6 +818,7 @@ public abstract class GraphicPrimitive
 		v.add(pd);
 		
 		// Preparing the 
+		/*
 		for (i=0;i<getControlPointNumber();++i) {
 			pd = new ParameterDescription();
 			pd.parameter=virtualPoint[i];
@@ -834,7 +835,7 @@ public abstract class GraphicPrimitive
 
 			v.add(pd);
 		}
-		
+		*/
 		pd = new ParameterDescription();
 		pd.parameter=new LayerInfo(layer);
 		pd.description=Globals.messages.getString("ctrl_layer");
@@ -853,7 +854,7 @@ public abstract class GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
 		int i=0;
 		ParameterDescription pd;
@@ -874,7 +875,8 @@ public abstract class GraphicPrimitive
 			value=((String)pd.parameter);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
-		 			
+		
+		/*
 		for (;i<getControlPointNumber()+2;++i) {
 			pd = (ParameterDescription)v.get(i);
 			
@@ -884,12 +886,16 @@ public abstract class GraphicPrimitive
 			else
 			 	System.out.println("Warning: unexpected parameter!");	
 		}
+		
+		++i;*/
 		pd = (ParameterDescription)v.get(i);
 		// Check, just for sure...
 		if (pd.parameter instanceof LayerInfo)
 			layer=((LayerInfo)pd.parameter).getLayer();
 		else
-		 	System.out.println("Warning: unexpected parameter!");
+		 	System.out.println("Warning: unexpected parameter! (layer)");
+		 
+		 return ++i;
 	}
 	
 	/** This function should be redefined if the graphic primitive needs holes.

@@ -502,10 +502,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
-		super.setControls(v);
-		int i=getControlPointNumber()+3;		
+		int i=super.setControls(v);				
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -534,6 +533,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			isClosed=((Boolean)pd.parameter).booleanValue();
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	
+		return i;
 	}
 
 	
@@ -560,8 +561,24 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         		virtualPoint[0].y,
 				px,py);	
         }
-        if(q.contains(px, py)) 
-        	distance = 1;
+        
+        // If the curve is filled, we check if the given point lies inside
+        // the polygon.
+        if(isFilled && q.contains(px, py)) {
+        	return 1;
+        }
+        
+        // If the curve is not filled, we calculate the distance between the
+        // given point and all the segments composing the curve and we 
+        // take the smallest one.
+        for(int i=0; i<q.npoints-1; ++i) {
+        	int d=GeometricDistances.pointToSegment(q.xpoints[i],
+        		q.ypoints[i], q.xpoints[i+1],
+        		q.ypoints[i+1], px,py);
+        		
+        	if(d<distance) 
+        		distance = d;
+        }
         
         return distance;
 	}
