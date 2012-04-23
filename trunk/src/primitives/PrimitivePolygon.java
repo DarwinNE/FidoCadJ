@@ -47,9 +47,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	private Polygon p;
  
 
-	// A polygon can be defined up to 100 points
+	// A Curve can be defined up to 256 points
 
-	static final int N_POINTS=100;
+	static final int N_POINTS=256;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -313,10 +313,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
-		super.setControls(v);
-		int i=getControlPointNumber()+3;		
+		int i=super.setControls(v);		
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -338,7 +337,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 			dashStyle=Globals.dashNumber-1;
 		if(dashStyle<0)
 			dashStyle=0;
-		
+		return i;
 	}
 
 	
@@ -369,9 +368,28 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
         	(py-yp[0])*(py-yp[0]));
         
-        if(GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
-          	distance=1;
+        if(isFilled && GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
+          	return 1;
             	
+        
+        // If the curve is not filled, we calculate the distance between the
+        // given point and all the segments composing the curve and we 
+        // take the smallest one.
+        int j;
+        int d;
+        for(int i=0; i<nPoints; ++i) {
+        	j=i;
+        	if (j==nPoints-1)
+        		j=-1;
+        		
+        	d=GeometricDistances.pointToSegment(xp[i],
+        		yp[i], xp[j+1],
+        		yp[j+1], px,py);
+        		
+        	if(d<distance) 
+        		distance = d;
+        }
+        
         return distance;
 	}
 	

@@ -600,7 +600,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 				
 	*/
 
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
 		int i=0;		
 		ParameterDescription pd;
@@ -657,6 +657,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		else
 		 	System.out.println("Warning: unexpected parameter!");
 		
+		return i;
 	}
 	
 	

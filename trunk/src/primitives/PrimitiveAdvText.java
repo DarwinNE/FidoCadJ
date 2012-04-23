@@ -583,7 +583,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
 		int i=0;
 		changed=true;
@@ -667,7 +667,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			fontName = ((Font)pd.parameter).getFamily();
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
-		
+		return i;
 	}
 	
 	/** Rotate the primitive. Here we just rotate 90° by 90°

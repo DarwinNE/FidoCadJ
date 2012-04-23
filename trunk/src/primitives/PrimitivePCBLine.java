@@ -238,10 +238,9 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public void setControls(Vector v)
+	public int setControls(Vector v)
 	{
-		super.setControls(v);
-		int i=getControlPointNumber()+3;		
+		int i=super.setControls(v);			
 		ParameterDescription pd;
 		
 		pd=(ParameterDescription)v.get(i);
@@ -252,6 +251,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		
+		return i;
 	}
 
 	

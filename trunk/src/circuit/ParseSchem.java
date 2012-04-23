@@ -86,7 +86,7 @@ public class ParseSchem
     // ********** CONFIGURATION **********
     
     // This is the maximum number of tokens which will be considered in a line
-    static final int MAX_TOKENS=100;
+    static final int MAX_TOKENS=512;
   
     // True if FidoCadJ should use Windows style line feeds (appending \r
     // to the text generated).

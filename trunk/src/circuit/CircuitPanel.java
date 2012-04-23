@@ -133,8 +133,11 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Nuber of clicks done when entering an object.
     private int clickNumber;
     
+    // TO IMPROVE: this must be synchronized with the value in PrimitivePolygon
     // Maximum number of polygon vertices
-    public static final int NPOLY=20;
+    public static final int NPOLY=256;
+    
+    
     
     // Array used to keep track of polygon insertion
     private int[] xpoly;	
@@ -732,7 +735,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             
             successiveMove=false;
             // clickNumber == 0 means that no line is being drawn
-                    
+            
+            	
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
             if (clickNumber == 2 || (evt.getModifiers() & 
@@ -795,7 +799,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             if(clickNumber<=2) successiveMove=false;
                     
             // clickNumber == 0 means that no bezier is being drawn
-                    
+                             
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
             // a polygon definition is ended with a double click
@@ -847,6 +851,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             ++ clickNumber;
             if(clickNumber<=2) successiveMove=false;
             // clickNumber == 0 means that no polygon is being drawn
+			// prevent that we exceed the number of allowed points
+            if (clickNumber==NPOLY)
+            	return;
+			// prevent that we exceed the number of allowed points
+            if (clickNumber==NPOLY)
+            	return;            
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
             break;   
@@ -877,6 +887,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             }
             ++ clickNumber;
             if(clickNumber<=2) successiveMove=false;
+            // prevent that we exceed the number of allowed points
+            if (clickNumber==NPOLY)
+            	return;
             // clickNumber == 0 means that no polygon is being drawn
             xpoly[clickNumber] = cs.unmapXsnap(x);
             ypoly[clickNumber] = cs.unmapYsnap(y);
@@ -1245,7 +1258,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (actionSelected == POLYGON) {
             primEdit = new PrimitivePolygon(false, 0, 0);
             
-			for(int i=1; i<=clickNumber; ++i)
+            
+			for(int i=1; i<=clickNumber && i<NPOLY; ++i)
  				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
  			
  			
@@ -1269,7 +1283,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         if (actionSelected == COMPLEXCURVE) {
             primEdit = new PrimitiveComplexCurve(false, false, 0, 0);
             
-			for(int i=1; i<=clickNumber; ++i)
+			for(int i=1; i<=clickNumber && i<NPOLY; ++i)
  				((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
  			
  			
