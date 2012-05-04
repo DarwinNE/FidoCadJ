@@ -32,7 +32,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -167,15 +167,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
    
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-			/*
-			if (dashStyle>0) 
-				stroke=new BasicStroke(w, BasicStroke.CAP_ROUND, 
-                                          BasicStroke.JOIN_ROUND, 
-                                          10.0f, Globals.dash[dashStyle], 
-                                          0.0f);
-			else 
-				stroke=new BasicStroke(w);
-			*/
+			
 			if (strokeStyle==null) {
 				strokeStyle = new StrokeStyle();
 			}
