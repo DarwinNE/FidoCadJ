@@ -249,6 +249,7 @@ public abstract class GraphicPrimitive
     		g.drawString(value,xb,yb+h);
     	}	
 	}
+	
 	/** Creates the text strings containing the name and value of the primitive
 	@param extensions if true, outputs the FCJ tag before the two TY commands
 	@return a string containing the commands
@@ -378,7 +379,10 @@ public abstract class GraphicPrimitive
       			macroFont = Globals.defaultTextFont;
       		} else {
       			macroFont = tokens[8].replaceAll("\\+\\+"," ");
-      		} 			
+      		} 
+      		
+      		// Adding the following line should fix bug #3522962
+      		macroFontSize = Integer.parseInt(tokens[4]);
  		 					
       		while(j<N-1){
       			txtb.append(tokens[++j]);

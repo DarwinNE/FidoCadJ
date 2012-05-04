@@ -114,8 +114,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param mm the macro mirroring
 	*/	
 	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, 
-		 String na, int xa, int ya, String va, int xv, int yv, String macroF, int macroS,
-		 int oo, boolean mm)
+		 String na, int xa, int ya, String va, int xv, int yv, String macroF, 
+		 int macroS, int oo, boolean mm)
 		throws IOException
 	{
 		super();
@@ -664,7 +664,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	/** Ensure that the next time the macro is exported, it will be done.
 		Macro that are not expanded during exportation does not need to be
 		replicated thru the layers. For this reason, there is an inibition 
-		system which is activated. Calling this method resets the inibition flag.
+		system which is activated. Calling this method resets the inibition 
+		flag.
 	*/
 	public void resetExport()
 	{

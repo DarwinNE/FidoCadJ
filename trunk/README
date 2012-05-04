@@ -21,7 +21,7 @@ This determined its success among the italian Usenet community, from late
 '90s, as it is quite versatile for simple mechanical drawings as well. 
 FidoCadJ is internationalized and its manual is available in english, french 
 and italian. The user interface has been translated into english, french, 
-italian, spanish and german.
+italian, spanish, german and chinese.
 
 First, a few useful sites about FidoCadJ:
 http://tinyurl.com/yavewp2
@@ -93,7 +93,7 @@ FidoCadJ is a pure Java project, and for many reasons I prefer using a good
 text editor as well as a few command line scripts, in order to compile and run 
 the code on which I am working.
 You will thus find in the trunk directory (see section 2 of this 
-file) several scripts which will be useful for you, expecially if you are
+file) several scripts which will be useful for you, especially if you are
 working in an Unix-like environment.
 If you prefer using some kind of IDE such as Eclipse, you may try it, but I
 do not provide assistance about it and I will always refer to the scripts
@@ -361,7 +361,10 @@ Beta testers: Stefano Martini, F. Bertolazzi, Emanuele Baggetta,
     ... and many others!
 
 Translations: Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
-    Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh)
+    Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
+    DirtyDeeds (en)
+    
+Libraries: Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus
 
 -------------
 7 - Licensing
