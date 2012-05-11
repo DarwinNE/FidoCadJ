@@ -981,7 +981,14 @@ public class ExportPDF implements ExportInterface {
 			if it is handled by the function.
 	*/
 	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
-		boolean isFilled, boolean isClosed, int layer, int dashStyle, double strokeWidth)
+		boolean isFilled, boolean isClosed, int layer, 
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{
 		return false;
@@ -1159,7 +1166,7 @@ public class ExportPDF implements ExportInterface {
 		}
 	}
 	
-	private void exportArrow(double x, double y, double xc, double yc, 
+	public void exportArrow(double x, double y, double xc, double yc, 
 		double l, double h, 
 		int style)
 		throws IOException

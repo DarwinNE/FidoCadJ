@@ -402,11 +402,23 @@ public class ExportFidoCad implements ExportInterface {
 			if it is handled by the function.
 	*/
 	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
-		boolean isFilled, boolean isClosed, int layer, int dashStyle, double strokeWidth)
+		boolean isFilled, boolean isClosed, int layer, 
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle,
+		double strokeWidth)
 		throws IOException
 	{
 		PrimitiveComplexCurve p=new PrimitiveComplexCurve(isFilled, isClosed,
-			layer, dashStyle);
+			layer, 
+			arrowStart,
+			arrowEnd,arrowStyle,
+			cLe(arrowLength),
+			cLe(arrowHalfWidth),
+			dashStyle);
 		
 		for (int i=0; i <nVertices; ++i) {
 			p.addPoint(cLe(vertices[i].x), 
@@ -437,5 +449,23 @@ public class ExportFidoCad implements ExportInterface {
 			cLe(y1), cLe(x2), 
 			cLe(y2), isFilled, 
 			layer, dashStyle)).toString(extensions));
+	}
+	
+	/** Called when exporting an arrow.
+		@param x 
+		@param y
+		@param xc
+		@param yc
+		@param l
+		@param h
+		@param style
+	*/
+	public void exportArrow(double x, double y, double xc, double yc, 
+		double l, double h, 
+		int style)
+		throws IOException
+	{
+		// Does nothing, since it will not be useful here.
+		return;
 	}
 }
