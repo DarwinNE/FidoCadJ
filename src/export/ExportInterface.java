@@ -273,7 +273,14 @@ public interface ExportInterface {
 			if it is handled by the function.
 	*/
 	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
-		boolean isFilled, boolean isClosed, int layer, int dashStyle, double strokeWidth)
+		boolean isFilled, boolean isClosed, int layer, 
+		boolean arrowStart, 
+		boolean arrowEnd, 
+		int arrowStyle, 
+		int arrowLength, 
+		int arrowHalfWidth, 
+		int dashStyle,
+		double strokeWidth)
 		throws IOException;	
 		
 	/** Called when exporting a Rectangle primitive.
@@ -292,6 +299,20 @@ public interface ExportInterface {
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
+		throws IOException;
+		
+	/** Called when exporting an arrow.
+		@param x 
+		@param y
+		@param xc
+		@param yc
+		@param l
+		@param h
+		@param style
+	*/
+	public void exportArrow(double x, double y, double xc, double yc, 
+		double l, double h, 
+		int style)
 		throws IOException;
 
 }

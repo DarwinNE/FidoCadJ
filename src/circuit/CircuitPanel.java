@@ -874,7 +874,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
          
                 PrimitiveComplexCurve compc=new PrimitiveComplexCurve(isFilled,
                 						 false,
-                                         currentLayer,0);
+                                         currentLayer,
+            							false, false, 0, 3, 2, 0);
                 for(i=1; i<=clickNumber; ++i) 
                     compc.addPoint(xpoly[i],ypoly[i]);
         
@@ -1281,13 +1282,15 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                         
         */
         if (actionSelected == COMPLEXCURVE) {
-            primEdit = new PrimitiveComplexCurve(false, false, 0, 0);
+            primEdit = new PrimitiveComplexCurve(false, false, 0,
+            	false, false, 0, 3, 2, 0);
             
 			for(int i=1; i<=clickNumber && i<NPOLY; ++i)
  				((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
  			
  			
- 			((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x), cs.unmapYsnap(y));
+ 			((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x), 
+ 				cs.unmapYsnap(y));
 
  			repaint();
             successiveMove = true;

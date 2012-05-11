@@ -47,6 +47,14 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	private int nPoints;
 	private boolean isFilled;
 	private boolean isClosed;
+	
+	private boolean arrowStart;
+	private boolean arrowEnd;
+	
+	private int arrowLength;
+	private int arrowHalfWidth;
+	
+	private int arrowStyle;
 	private int dashStyle;
 	
 	// The natural spline is drawn as a polygon. Even if this is a rather
@@ -61,7 +69,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  	private Polygon q;
  	
 	// A ComplexCurve can be defined up to 100 points
-
+	// TODO this is somewhat not very efficient. It would be better to use
+	// a dynamically sized vector.
 	static final int N_POINTS=100;
 	
 	static final int STEPS=24;
@@ -95,9 +104,19 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		
 	*/
 	
-	public PrimitiveComplexCurve(boolean f, boolean c, int layer, int dashSt)
+	public PrimitiveComplexCurve(boolean f, boolean c, int layer, 
+		boolean arrowS, boolean arrowE,
+		int arrowSt, int arrowLe, int arrowWi, int dashSt)
 	{
 		super();
+		
+		arrowLength = arrowLe;
+		arrowHalfWidth = arrowWi;
+		arrowStart = arrowS;
+		arrowEnd = arrowE;
+		arrowStyle =arrowSt;
+		dashStyle=dashSt;
+		
 		p = new Polygon();
 		initPrimitive(N_POINTS);
 		nPoints=0;
@@ -384,6 +403,30 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		if(isClosed)
  			g.drawLine(p.xpoints[p.npoints-1], p.ypoints[p.npoints-1], 
  			p.xpoints[0], p.ypoints[0]);
+ 		
+ 		// Ensure that there are enough points to calculate the derivative.
+ 		if (p.npoints<2)
+ 			return;
+ 		
+ 		// Draw the arrows if they are needed
+ 		if (arrowStart || arrowEnd) {
+			int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+ 				coordSys.mapXi(0,0, false);
+			int l=coordSys.mapXi(arrowLength,arrowLength,false)-
+				coordSys.mapXi(0,0, false);
+			
+ 			if (arrowStart) {
+ 				Arrow.drawArrow(g, p.xpoints[0], p.ypoints[0],
+					p.xpoints[1], p.ypoints[1],l, h, arrowStyle);
+			}
+			
+			if (arrowEnd) {
+				Arrow.drawArrow(g, p.xpoints[p.npoints-1], 
+				p.ypoints[p.npoints-1],
+					p.xpoints[p.npoints-2], p.ypoints[p.npoints-2],l, h, 
+					arrowStyle);	
+			}
+		}
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -436,10 +479,17 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
 			
 			// And we check finally for extensions (FCJ)
-      		if(N>j) {
+			if(N>j) {
       			parseLayer(tokens[j++]);
-      			 
-      			if(j<N-1 && tokens[j++].equals("FCJ")) {
+      			
+				if(N>j && tokens[j++].equals("FCJ")) {
+ 					int arrows = Integer.parseInt(tokens[j++]);
+ 					arrowStart = (arrows & 0x01) !=0;
+ 					arrowEnd = (arrows & 0x02) !=0;
+ 				
+ 					arrowStyle = Integer.parseInt(tokens[j++]);
+ 					arrowLength = Integer.parseInt(tokens[j++]);
+ 					arrowHalfWidth = Integer.parseInt(tokens[j++]);
  					dashStyle = Integer.parseInt(tokens[j++]);
  					// Parameters validation and correction
 					if(dashStyle>=Globals.dashNumber)
@@ -448,7 +498,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 						dashStyle=0;
  				}
  			}
-      			
+  		
+			
  			if (tokens[0].equals("CP"))
  				isFilled=true;
  			else
@@ -478,12 +529,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		pd.parameter=new Boolean(isFilled);
 		pd.description=Globals.messages.getString("ctrl_filled");
 		v.add(pd);
-
-		pd = new ParameterDescription();
-		pd.parameter=new DashInfo(dashStyle);
-		pd.description=Globals.messages.getString("ctrl_dash_style");
-		pd.isExtension = true;
-		v.add(pd);
 		
 		pd = new ParameterDescription();
 		pd.parameter=new Boolean(isClosed);
@@ -491,6 +536,38 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		pd.isExtension = true;
 		v.add(pd);
 
+		pd = new ParameterDescription();
+		pd.parameter=new Boolean(arrowStart);
+		pd.description=Globals.messages.getString("ctrl_arrow_start");
+		pd.isExtension = true;
+		v.add(pd);
+		pd = new ParameterDescription();
+		pd.parameter=new Boolean(arrowEnd);
+		pd.description=Globals.messages.getString("ctrl_arrow_end");
+		pd.isExtension = true;
+		v.add(pd);
+		pd = new ParameterDescription();
+		pd.parameter=new Integer(arrowLength);
+		pd.description=Globals.messages.getString("ctrl_arrow_length");
+		pd.isExtension = true;
+		v.add(pd);
+		pd = new ParameterDescription();
+		pd.parameter=new Integer(arrowHalfWidth);
+		pd.description=Globals.messages.getString("ctrl_arrow_half_width");
+		pd.isExtension = true;
+		v.add(pd);
+		pd = new ParameterDescription();
+		pd.parameter=new ArrowInfo(arrowStyle);
+		pd.description=Globals.messages.getString("ctrl_arrow_style");
+		pd.isExtension = true;
+		v.add(pd);
+		
+		pd = new ParameterDescription();
+		pd.parameter=new DashInfo(dashStyle);
+		pd.description=Globals.messages.getString("ctrl_dash_style");
+		pd.isExtension = true;
+		v.add(pd);
+		
 		return v;
 	}
 	
@@ -516,10 +593,46 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
+		// Check, just for sure...
+		if (pd.parameter instanceof Boolean)
+			isClosed=((Boolean)pd.parameter).booleanValue();
+		else
+		 	System.out.println("Warning: unexpected parameter!"+pd);
+		
+				pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Boolean)
+			arrowStart=((Boolean)pd.parameter).booleanValue();
+		else
+		 	System.out.println("Warning: unexpected parameter 1!"+pd);
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Boolean)
+			arrowEnd=((Boolean)pd.parameter).booleanValue();
+		else
+		 	System.out.println("Warning: unexpected parameter 2!"+pd);
+		 	
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Integer)
+			arrowLength=((Integer)pd.parameter).intValue();
+		else
+		 	System.out.println("Warning: unexpected parameter 3!"+pd);
+		 	
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof Integer)
+			arrowHalfWidth=((Integer)pd.parameter).intValue();
+		else
+		 	System.out.println("Warning: unexpected parameter 4!"+pd);
+
+		pd=(ParameterDescription)v.get(i++);
+		if (pd.parameter instanceof ArrowInfo)
+			arrowStyle=((ArrowInfo)pd.parameter).style;
+		else
+		 	System.out.println("Warning: unexpected parameter 5!"+pd);
+		
+		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof DashInfo)
 			dashStyle=((DashInfo)pd.parameter).style;
 		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
+		 	System.out.println("Warning: unexpected parameter 6!"+pd);
 		
 		// Parameters validation and correction
 		if(dashStyle>=Globals.dashNumber)
@@ -527,13 +640,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		if(dashStyle<0)
 			dashStyle=0;
 		
-		pd=(ParameterDescription)v.get(i++);
-		// Check, just for sure...
-		if (pd.parameter instanceof Boolean)
-			isClosed=((Boolean)pd.parameter).booleanValue();
-		else
-		 	System.out.println("Warning: unexpected parameter!"+pd);
-		 	
 		return i;
 	}
 
@@ -605,12 +711,17 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		cmd+=getLayer()+"\n";
 		
 		if(extensions) {
-			if (dashStyle>0 || hasName() || hasValue()) {
-				String text = "0";
-				if (name.length()!=0 || value.length()!=0)
-					text = "1";
-		 		cmd+="FCJ "+dashStyle+" "+text+"\n";
-			}
+		 	int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
+		 			 	
+		 	if (arrows>0 || dashStyle>0 || hasName() || hasValue()) {
+		 		String text = "0";
+		 		// We take into account that there may be some text associated
+		 		// to that primitive.
+		 		if (name.length()!=0 || value.length()!=0) 
+		 			text = "1";
+		 		cmd+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
+		 		arrowHalfWidth+" "+dashStyle+" "+text+"\n";
+		 	}
 		}
 		// The false is needed since saveText should not write the FCJ tag.
 		cmd+=saveText(false);
@@ -643,17 +754,52 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		// Check if the export is handled via a dedicated curve primitive.
 		// If not, we continue using a polygon with an high number of 
 		// vertex
-		if (exp.exportCurve(vertices, nPoints, isFilled, isClosed, getLayer(), 
-			    dashStyle, Globals.lineWidth*cs.getXMagnitude())) {
+		if (!exp.exportCurve(vertices, nPoints, isFilled, isClosed, getLayer(), 
+			    arrowStart, arrowEnd, arrowStyle, 
+				(int)(arrowLength*cs.getXMagnitude()), 
+				(int)(arrowHalfWidth*cs.getXMagnitude()), 
+				dashStyle, Globals.lineWidth*cs.getXMagnitude())) {
 			
-			exportText(exp, cs, -1);
-			return;
-    	}
-
-    	// Here we expand the polygon
+			exportAsPolygon(xPoints, yPoints, vertices, exp, cs);
+    	        
         
-        Cubic[] X;
+			// Draw the arrows if they are needed
+			if(q.npoints>2) {
+				if (arrowStart) {
+					exp.exportArrow(vertices[0].x, vertices[0].y,
+						vertices[1].x, vertices[1].y, 
+						arrowLength*cs.getXMagnitude(), 
+						arrowHalfWidth*cs.getXMagnitude(), 
+						arrowStyle);
+				}
+			
+				if (arrowEnd) {
+					exp.exportArrow(vertices[q.npoints-1].x, 
+						vertices[q.npoints-1].y,
+						vertices[q.npoints-2].x, vertices[q.npoints-2].y, 
+						arrowLength*cs.getXMagnitude(), 
+						arrowHalfWidth*cs.getXMagnitude(), 
+						arrowStyle);	
+				}
+			}
+		}
+		exportText(exp, cs, -1);
+
+	}
+	
+	/** Expansion of the curve in a polygon with a big number of corners.
+		This is useful when some sort of spline command is not available on
+		the export format chosen.
+	
+	*/
+	private void exportAsPolygon(double [] xPoints, double [] yPoints,
+		Point2D.Double[] vertices,
+		ExportInterface exp, MapCoordinates cs)
+		throws IOException
+	{
+		Cubic[] X;
         Cubic[] Y;
+        int i;
         
         if(isClosed) {
         	X = calcNaturalCubicClosed(nPoints-1, xPoints);
@@ -701,9 +847,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 					   Globals.lineWidth*cs.getXMagnitude()); 
 			}
 		}
-		
-		exportText(exp, cs, -1);
-
 	}
 	/** Get the number of the virtual point associated to the Name property
 		@return the number of the virtual point associated to the Name property

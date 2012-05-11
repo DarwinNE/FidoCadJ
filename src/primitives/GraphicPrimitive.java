@@ -304,16 +304,18 @@ public abstract class GraphicPrimitive
 		int drawOnlyLayer) 
 		throws IOException
 	{
+		double size=cs.mapXr(macroFontSize,macroFontSize)-cs.mapXr(0,0);
+		
 		// Export the text associated to the name and value of the macro 			
 		if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
 			if(name!=null && !name.equals(""))
 				exp.exportAdvText (cs.mapX(
 					virtualPoint[getNameVirtualPointNumber()].x,
  					virtualPoint[getNameVirtualPointNumber()].y),
-					cs.mapY(					virtualPoint[getNameVirtualPointNumber()].x,
+					cs.mapY(virtualPoint[getNameVirtualPointNumber()].x,
 					virtualPoint[getNameVirtualPointNumber()].y), 
-					macroFontSize, 
-					(int)( macroFontSize*12/7+.5),
+					(int)(size), 
+					(int)(size*12/7+.5),
 					macroFont, 
 					false,
 					false,
@@ -327,8 +329,8 @@ public abstract class GraphicPrimitive
 					cs.mapY(
 					virtualPoint[getValueVirtualPointNumber()].x,
 					virtualPoint[getValueVirtualPointNumber()].y), 
-					macroFontSize, 
-					(int)( macroFontSize*12/7+.5),
+					(int)size, 
+					(int)(size*12/7+.5),
 					macroFont, 
 					false,
 					false,

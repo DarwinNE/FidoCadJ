@@ -47,8 +47,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	private Polygon p;
  
 
-	// A Curve can be defined up to 256 points
-
+	// A Polygon can be defined up to 256 points
+	// TODO this is somewhat not very efficient. It would be better to use
+	// a dynamically sized vector.
 	static final int N_POINTS=256;
 	
 	/** Gets the number of control points used.
