@@ -18,7 +18,7 @@
 \usepackage{listings} 
 \usepackage{makeidx}
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,%
+	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,CV,CP,FCJ,FJC,%
 		[FIDOCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
@@ -363,6 +363,16 @@ Curva di Bézier.
 \textsc{Poligono}\index{poligono}
 &
 Poligono pieno o vuoto. Doppio click o \keyevidence{Esc}, per terminare l'introduzione dei vertici.
+\\
+
+\keyevidence{k}
+&
+\raisebox{-.2em}{%
+\includegraphics[width=1em]{icons/complexcurve}%
+}
+\textsc{Curva}\index{curva}
+&
+Curva spline cubica aperta o chiusa. Doppio click o \keyevidence{Esc}, per terminare l'introduzione dei vertici.
 \\
 
 \keyevidence{E}
@@ -1069,13 +1079,13 @@ CP aa x1 y1 x2 y2 ... l
 \end{verbatim}
 il parametro $aa$ è uguale a 1 se la curva è chiusa, o a 0 altrimenti. I punti $(x_1, y_1)$, $(x_2, y_2)$\dots sono i vertici che definiscono la spline e $l$ è il layer, indicato con un numero da 0 a 15.
 La lunghezza della linea può quindi variare a seconda del numero di vertici presenti.
-Il numero massimo di vertici\index{numero massimo di vertici} disponibili (come con i poligoni) è fissato arbitrariamente a 20, per evitare di avere a che fare con linee troppo lunghe. Questa primitiva è stata introdotta da FidoCadJ a partire dalla versione 0.24 e non è disponibile in FidoCAD\index{FidoCAD}.
+Il numero massimo di vertici\index{numero massimo di vertici} disponibili (come con i poligoni) è fissato arbitrariamente ad un centinaio, per evitare di avere a che fare con linee troppo lunghe. Questa primitiva è stata introdotta da FidoCadJ a partire dalla versione 0.24 e non è disponibile in FidoCAD\index{FidoCAD}.
 
-\textbf{Estensione FidoCadJ}: i comandi \lstinline!CV!\index{CP} e \lstinline!CV!\index{CV} possono essere seguiti nella riga successiva da un'estensione:
-\begin{verbatim} 
-FCJ e nv
-\end{verbatim}
-dove $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
+\textbf{Estensione FidoCadJ}: \lstinline!CV!\index{CV} o \lstinline!CP!\index{CP} possono essere seguiti nella riga successiva da un'estensione:
+\begin{lstlisting} 
+FCJ a b c d e nv
+\end{lstlisting}
+dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
 
 \subsubsection{Connessione elettrica}
 La primitiva connessione elettrica\index{connessione} è semplicemente un circoletto pieno di dimensione costante e va utilizzata per rappresentare una connessione in uno schema elettrico. È identificata dal comando \lstinline!SA!\index{SA} e richiede unicamente le coordinate ed il layer:
