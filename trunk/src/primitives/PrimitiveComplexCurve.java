@@ -415,12 +415,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			int l=coordSys.mapXi(arrowLength,arrowLength,false)-
 				coordSys.mapXi(0,0, false);
 			
- 			if (arrowStart) {
+ 			if (arrowStart&&!isClosed) {
  				Arrow.drawArrow(g, p.xpoints[0], p.ypoints[0],
 					p.xpoints[1], p.ypoints[1],l, h, arrowStyle);
 			}
 			
-			if (arrowEnd) {
+			if (arrowEnd&&!isClosed) {
 				Arrow.drawArrow(g, p.xpoints[p.npoints-1], 
 				p.ypoints[p.npoints-1],
 					p.xpoints[p.npoints-2], p.ypoints[p.npoints-2],l, h, 
@@ -765,7 +765,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         
 			// Draw the arrows if they are needed
 			if(q.npoints>2) {
-				if (arrowStart) {
+				if (arrowStart&&!isClosed) {
 					exp.exportArrow(vertices[0].x, vertices[0].y,
 						vertices[1].x, vertices[1].y, 
 						arrowLength*cs.getXMagnitude(), 
@@ -773,7 +773,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 						arrowStyle);
 				}
 			
-				if (arrowEnd) {
+				if (arrowEnd&&!isClosed) {
 					exp.exportArrow(vertices[q.npoints-1].x, 
 						vertices[q.npoints-1].y,
 						vertices[q.npoints-2].x, vertices[q.npoints-2].y, 
