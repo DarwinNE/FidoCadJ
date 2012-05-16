@@ -153,7 +153,7 @@ public class FidoFrame extends JFrame implements
 		exportMagnification=1.0;
         	
         // Uncomment to force FidoCadJ to use a specified locale 
-        // currentLocale = new Locale("de", "DE");
+        currentLocale = new Locale("it", "IT");
         
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
