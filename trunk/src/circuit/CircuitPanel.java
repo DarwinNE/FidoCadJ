@@ -776,12 +776,16 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 selectAndSetProperties(x,y);
                 break;
             }
-            P.addPrimitive(new PrimitiveAdvText(cs.unmapXsnap(x),
+            PrimitiveAdvText newtext = new PrimitiveAdvText(cs.unmapXsnap(x),
                                         cs.unmapYsnap(y), 
                                         3,4,P.getTextFont(),0,0,
-                                        "String", currentLayer), true, true);
-                    
+                                        "String", currentLayer);
+            P.deselectAll();
+            P.addPrimitive(newtext, true, true);
+            newtext.setSelected(true);
             repaint();
+            setPropertiesForPrimitive();
+            
             break;
         
         // Add a Bézier polygonal curve: we need four clicks.

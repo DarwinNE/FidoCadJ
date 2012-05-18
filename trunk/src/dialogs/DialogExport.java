@@ -334,7 +334,9 @@ public class DialogExport extends JDialog implements ComponentListener,
 			new Insets(6,0,12,0));
 			
         panel.add(fileName, constraints);
-        fileName.setEditable(false);
+        
+        // See request #3526600
+        // fileName.setEditable(false);
         
         JButton browse=new JButton(Globals.messages.getString("Browse"));
 		constraints = DialogUtil.createConst(3,4,1,1,0,0,
