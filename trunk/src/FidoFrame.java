@@ -882,11 +882,15 @@ public class FidoFrame extends JFrame implements
             }
         	// Copy all selected elements in the clipboard
             if (arg.equals(Globals.messages.getString("Copy"))) {
-                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);   
+                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c,
+                	CC.getMapCoordinates().getXGridStep(), 
+                	CC.getMapCoordinates().getYGridStep());   
             }
             // Cut all the selected elements
             if (arg.equals(Globals.messages.getString("Cut"))) {
-                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c);   
+                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c,
+                	CC.getMapCoordinates().getXGridStep(), 
+                	CC.getMapCoordinates().getYGridStep());   
                 CC.P.deleteAllSelected();
                 repaint();
             }
@@ -931,8 +935,7 @@ public class FidoFrame extends JFrame implements
             }
             // Paste some graphical elements 
             if (arg.equals(Globals.messages.getString("Paste"))) {
-                CC.P.paste(CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
+                CC.P.paste();   
                 repaint();
             }
             // Close the current window

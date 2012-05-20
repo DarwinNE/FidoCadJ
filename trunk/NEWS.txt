@@ -6,11 +6,13 @@ Version 0.24
 - Spanish translation of the user interface (thanks to Gohan "sbcne").
 - Bug #3484904 corrected.
 - Layer names are saved, if nonstandard.
-- The grid pitch is saved (bug 3468917).
+- The grid pitch is saved (bug #3468917).
 - More accurate automatic test scripts.
 - All language resource files for the user interface are encoded in UTF-8.
 - Chinese translation of the user interface, by Miles Qin "qhg007".
 - The maximum number of points in a polygon and in a curve has been increased to 256
 - The control point coordinates are no longer shown while changing characteristics of a graphic element.
-- Bugs 3522962 and 3522951 corrected on the export towards vector formats.
+- Bugs #3522962 and #3522951 corrected on the export towards vector formats.
 - IHRaM library updated to v. 3.1.
+- Wrong file encoding has been corrected in some libraries.
+- Feature request #3526600 accepted and implemented.
