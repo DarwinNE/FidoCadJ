@@ -500,6 +500,10 @@ public class FidoFrame extends JFrame implements
         fileClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
             Globals.shortcutKey));
         
+        JMenuItem options = new 
+            JMenuItem(Globals.messages.getString("Circ_opt"));
+	
+        
         fileMenu.add(fileNew);
         fileMenu.add(fileOpen);
         fileMenu.add(fileSave);
@@ -509,6 +513,16 @@ public class FidoFrame extends JFrame implements
         fileMenu.add(fileExport);
         fileMenu.add(filePrint);
         fileMenu.addSeparator();
+
+        // On a MacOSX system, options is associated to preferences menu
+        // in the application menu. We do not need to show it in File.
+        // This needs the AppleSpecific extensions to be active.
+
+
+    	if(!Globals.weAreOnAMac) {
+        	fileMenu.add(options);
+        	fileMenu.addSeparator();
+        }
         fileMenu.add(fileClose);
 
         fileNew.addActionListener((ActionListener)this);
@@ -519,6 +533,9 @@ public class FidoFrame extends JFrame implements
     
         fileSave.addActionListener((ActionListener)this);
         fileSaveName.addActionListener((ActionListener)this);
+    
+        options.addActionListener((ActionListener)this);
+
     
         menuBar.add(fileMenu);
         
@@ -597,20 +614,9 @@ public class FidoFrame extends JFrame implements
             
         layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
             Globals.shortcutKey));
-            
-        JMenuItem optionCircuit = new 
-            JMenuItem(Globals.messages.getString("Circ_opt"));
-		
-
+               
         viewMenu.add(layerOptions);
         
-        // On a MacOSX system, this menu is associated to preferences menu
-        // in the application menu. We do not need to show it in View.
-        // This needs the AppleSpecific extensions to be active.
-        
-        if(!Globals.weAreOnAMac) 
-            viewMenu.add(optionCircuit);
-
         optionMacroOrigin = new 
             JCheckBoxMenuItem(Globals.messages.getString("Macro_origin"));
             
@@ -621,7 +627,6 @@ public class FidoFrame extends JFrame implements
         
         optionMacroOrigin.addActionListener((ActionListener)this);
         layerOptions.addActionListener((ActionListener)this);
-        optionCircuit.addActionListener((ActionListener)this);
 
         menuBar.add(viewMenu);
 
