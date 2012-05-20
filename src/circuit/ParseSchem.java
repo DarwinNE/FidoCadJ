@@ -73,7 +73,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2011 by Davide Bucci
+    Copyright 2007-2012 by Davide Bucci
 </pre>
 
    Main parsing class 
@@ -929,18 +929,23 @@ public class ParseSchem
         @param extensions specify if FCJ extensions should be applied
         @param splitNonStandard specify if non standard macros should be split
     */
-    public void copySelected(boolean extensions, boolean splitNonStandard)
+    public void copySelected(boolean extensions, boolean splitNonStandard,
+    	int xstep, int ystep)
     {
         int i;
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
         
         s.append(registerConfiguration(extensions));
-        
+        moveAllSelected(xstep, ystep);
+
         for (i=0; i<primitiveVector.size(); ++i){
             if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
                 s.append(((GraphicPrimitive)primitiveVector.get(i
                     )).toString(extensions));
         }
+        
+        moveAllSelected(-xstep, -ystep);
+
         
         /*  If we have to split non standard macros, we need to work on a 
             temporary file, since the splitting works on the basis of the 
@@ -1002,7 +1007,7 @@ public class ParseSchem
     /** Paste from the system clipboard
         
     */
-    public void paste(int xstep, int ystep)
+    public void paste()
     {
         TextTransfer textTransfer = new TextTransfer();
         
@@ -1013,7 +1018,6 @@ public class ParseSchem
                 StringBuffer(textTransfer.getClipboardContents()),true);
         } catch (Exception E) {}
         
-        moveAllSelected(xstep, ystep);
         
         saveUndoState();
         setChanged(true);
