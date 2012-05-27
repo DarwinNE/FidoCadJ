@@ -115,7 +115,7 @@ Questo documento è il manuale utente di FidoCadJ. Dopo una breve presentazione d
 
 Molte persone hanno utilizzato il programma (o una delle sue versioni preliminari) e mi hanno fatto avere le loro impressioni. Ringrazio quindi i frequentatori del newsgroup\index{newsgroup} it.hobby.elettronica\index{it.hobby.elettronica} per i loro consigli. Il programma è stato pazientemente testato sotto Linux da  Stefano Martini, che è stato un infaticabile scovatore di bug. Inoltre, ringrazio, Olaf Marzocchi ed Emanuele Baggetta per i test funzionali sotto MacOSX\index{MacOSX}. Ringrazio F. Bertolazzi di non avermi dato tregua fino a che FidoCadJ non è diventato un minimo decente e di aver lavorato per la libreria CadSoft Eagle\index{Eagle}.  Ringrazio Celsius per le prove effettuate su FidoCadJ e sulla libreria PCB\index{PCB} ed Andrea D'Amore per i consigli su come migliorare l'aspetto del programma su Apple Macintosh, a partire dalla versione 0.21.1. Un grazie particolare a Roby IZ1CYN per le discussioni sulle librerie e per aver scritto il paragrafo \ref{installazione_linux} di questo manuale, relativo all'installazione sotto Linux\index{linux} di FidoCadJ. Un grazie anche a Pasu, che si è preso la briga di tradurre in inglese tutto questo manuale e che ha corretto diversi refusi che avevo fatto traducendo l'interfaccia di FidoCadJ in questa lingua. Gli utenti Macintosh possono contare sul buon aspetto di FidoCadJ grazie al look and feel Quaqua\index{Quaqua}, frutto del lavoro di Werner Randelshofer. Werner ha anche fornito molti consigli sull'organizzazione dell'interfaccia utente di FidoCadJ: grazie!
 
-Nell'aprile 2010, FidoCadJ è stato integrato all'interno del portale di elettronica \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}. Ringrazio l'admin ed il webmaster e tanti utilizzatori per avermi fornito degli ottimi spunti per adattare FidoCadJ a girare in batch per convertire gli schemi sul loro server: è stata aperta una via molto interessante e promettente. Più di recente, la classe FidoReadPHP, capace di leggere ed interpretare i disegni FidoCadJ è stata adottata anche sul forum di \href{www.grix.it}{www.grix.it}\index{www.grix.it} grazie agli sforzi di Arniek e di Sstrix, che ringrazio.
+Nell'aprile 2010, FidoCadJ è stato integrato all'interno del portale di elettronica \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}. Ringrazio l'admin Zeno Martini, il webmaster Nicolò Martini e tanti utilizzatori per avermi fornito degli ottimi spunti per adattare FidoCadJ a girare in batch per convertire gli schemi sul loro server: è stata aperta una via molto interessante e promettente. Più di recente, la classe FidoReadPHP, capace di leggere ed interpretare i disegni FidoCadJ è stata adottata anche sul forum di \href{www.grix.it}{www.grix.it}\index{www.grix.it} grazie agli sforzi di Arniek e di Sstrix, che ringrazio.
 
 
 \chapter*{FidoCadJ License}
@@ -177,7 +177,7 @@ La prima cosa che ho fatto è stata quindi di studiarmi in dettaglio il formato u
 Ho fatto un po' di reverse engineering, ho cercato informazioni dappertutto per capire quali fossero le possibilità e le limitazioni del formato, ed infine mi sono scaricato e studiato i sorgenti in C++ (peraltro ben fatti e commentati) del FidoCAD originale.
 Questo avveniva più o meno verso marzo 2007. Qualche mese più tardi, l'applet era pubblicata sul sito ed era stata ampiamente testata da una parte della comunità gravitante attorno al gruppo it.hobby.elettronica\index{it.hobby.elettronica} e it.hobby.fai-da-te\index{it.hobby.fai-da-te}.\footnote{FidoReadJ\index{FidoReadJ} è sempre disponibile all'indirizzo:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.}
 
-Disponendo di un interprete\index{interprete}\graffito{In realtà, era un pallino che avevo da un pezzo. Il primo tentativo che ho fatto di scrivere un CAD 2D risale al 1993.} del formato, il lavoro restante per arrivare ad un editor completo è stato mettere a punto la gestione dell'interfaccia utilizzatore e dei vari elementi di disegno\index{elemento}. Il grosso del lavoro si è protratto in varie fasi da gennaio a luglio 2008. FidoCadJ non è quindi un porting di FidoCAD per Windows, ma piuttosto una riscrittura totale del programma. A partire dalla versione 0.21 (pubblicata nel gennaio 2009), FidoCadJ propone delle estensioni\index{estensioni} rispetto al formato FidoCAD originale. Molta attenzione è stata fatta per mantenere comunque una compatibilità all'indietro, anche se a partire dalla versione 0.23 di fine dicembre 2009 sono state introdotte delle estensioni per cui è impossibile mantenere una compatibilità con FidoCAD\index{FidoCAD}. Si è quindi arrivati ad un punto in cui FidoCadJ fa cose che FidoCAD non prevedeva.
+Disponendo di un interprete\index{interprete}\graffito{In realtà, era un pallino che avevo da un pezzo. Il primo tentativo che ho fatto di scrivere un CAD 2D risale al 1993.} del formato, il lavoro restante per arrivare ad un editor completo è stato mettere a punto la gestione dell'interfaccia utilizzatore e dei vari elementi di disegno\index{elemento}. Il grosso del lavoro si è protratto in varie fasi da gennaio a luglio 2008. FidoCadJ non è quindi un porting di FidoCAD per Windows, ma piuttosto una riscrittura totale del programma. A partire dalla versione 0.21 (pubblicata nel gennaio 2009), FidoCadJ propone delle estensioni\index{estensioni} rispetto al formato FidoCAD originale. Molta attenzione è stata fatta per mantenere comunque una compatibilità all'indietro, anche se a partire dalla versione 0.23 di fine dicembre 2009 sono state introdotte delle estensioni per cui è impossibile mantenere una compatibilità con FidoCAD\index{FidoCAD}. Si è quindi arrivati ad un punto in cui FidoCadJ può fare molte cose che il vecchio FidoCAD non prevedeva.
 
 La mia scelta di Java\index{Java} è motivata dal fatto che ho cambiato troppe 
 architetture e sistemi operativi negli ultimi anni (per ragioni che 
@@ -372,7 +372,7 @@ Poligono pieno o vuoto. Doppio click o \keyevidence{Esc}, per terminare l'introd
 }
 \textsc{Curva}\index{curva}
 &
-Curva spline cubica aperta o chiusa. Doppio click o \keyevidence{Esc}, per terminare l'introduzione dei vertici.
+Curva spline naturale cubica aperta o chiusa. Doppio click o \keyevidence{Esc}, per terminare l'introduzione dei vertici.
 \\
 
 \keyevidence{E}
@@ -804,8 +804,8 @@ where options include:
         where 'dir' is the path of the directory you want to use.
 
  -c     Convert the given file to a graphical format.
-        Usage: -d sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
-        If you use this command line option, you *must* specify a FidoCad file to convert.
+        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
+        If you use this command line option, you *must* specify a FidoCadJ file to convert.
         An alternative is to specify the resolution in pixels per logical unit by
         preceding it by the letter 'r' (without spaces), instead of giving sx and sy.
 
@@ -813,17 +813,18 @@ where options include:
 
  -h     Print this help and exit.
 
- [file] The optional (except if you use the -d or -s options) FidoCad file to load at
+ [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at
         startup time.
 
-Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.
+Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file without using the GUI.
 java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 
-Example: load and convert a FidoCad drawing to a png file without using the GUI.
+Example: load and convert a FidoCadJ drawing to a png file without using the GUI.
          Each FidoCadJ logical unit will be converted in 2 pixels on the image.
 java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
 
-[davidebucci@Darwin]$ 
+
+[davidebucci@Darwin-iMac-G5]$
 \end{lstlisting}
 \lstset{language=FIDOCAD,
 	basicstyle=\small\ttfamily}
@@ -865,7 +866,7 @@ Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella 
 
 
 \section{Gestione librerie}
-Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} A partire dalla versione 0.23.4, grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 3.0\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCAD e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
+Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} Grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 3.1\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCAD e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
 
 Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto all'avvio o quando l'utente configura FidoCadJ per leggere le librerie aggiuntive in un'altra directory. Si può forzare il programma a rileggere le librerie attraverso l'opzione ``Aggiorna librerie'' del menu ``Circuito''.
 
@@ -1072,7 +1073,7 @@ FCJ a b c d e nv
 dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
 
 \subsubsection{Curva complessa, spline}
-Una spline cubica\index{spline} viene creata a partire da un certo numero di vertici. La curva passa in tutti i vertici e viene calcolata in modo che il suo percorso sia molto liscio. All'interno di FidoCadJ, una spline cubica è identificata dai comandi \lstinline!CV!\index{CV} e \lstinline!CP!\index{CP}:
+Una spline naturale cubica\index{spline} viene creata a partire da un certo numero di vertici. La curva passa in tutti i vertici e viene calcolata in modo che il suo percorso sia molto liscio.\footnote{ \href{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}}All'interno di FidoCadJ, una spline cubica è identificata dai comandi \lstinline!CV!\index{CV} e \lstinline!CP!\index{CP}:
 \begin{verbatim}
 CV aa x1 y1 x2 y2 ... l
 CP aa x1 y1 x2 y2 ... l
@@ -1085,14 +1086,14 @@ Il numero massimo di vertici\index{numero massimo di vertici} disponibili (come 
 \begin{lstlisting} 
 FCJ a b c d e nv
 \end{lstlisting}
-dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
+dove $a$ è un intero che indica la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano  il nome ed il valore associati.
 
 \subsubsection{Connessione elettrica}
 La primitiva connessione elettrica\index{connessione} è semplicemente un circoletto pieno di dimensione costante e va utilizzata per rappresentare una connessione in uno schema elettrico. È identificata dal comando \lstinline!SA!\index{SA} e richiede unicamente le coordinate ed il layer:
 \begin{lstlisting} 
 SA x1 y1 l
 \end{lstlisting}
-Con FidoCadJ, il diametro del circoletto è fissato internamente al programma a due unità logiche.
+Con FidoCadJ, il diametro del circoletto può essere modificato nel menu ``Opzioni''.
 
 \textbf{Estensione FidoCadJ}: \lstinline!SA!\index{SA} può essere seguito nella riga successiva da un'estensione:
 \begin{lstlisting} 
@@ -1125,13 +1126,15 @@ La pista di circuito stampato\index{pista per c. s.} è sostanzialmente un segmen
 \begin{lstlisting} 
 PL x1 y1 x2 y2 di l
 \end{lstlisting}
+
 La pista viene tracciata tra i punti $(x_1, y_1)$ e $(x_2, y_2)$, con spessore totale $d_i$. Il layer utilizzato è $l$.
 
 \textbf{Estensione FidoCadJ}: \lstinline!PL!\index{PL} può essere seguito nella riga successiva da un'estensione:
+
 \begin{lstlisting} 
 FCJ 
 \end{lstlisting}
-Se \lstinline!FCJ! è presente, i due comandi successivi devono essere \lstinline!TY! che specificano il nome ed il valore da associare a quest'elemento.
+Se \lstinline!FCJ! è presente, i due comandi successivi sono \lstinline!TY! che specificano il nome ed il valore da associare.
 
 
 \subsubsection{Chiamata di una macro}
