@@ -187,6 +187,7 @@ public class ExportEPS implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		String bold=""; 
+		int ys = (int)(sizex*12/7+.5);
 		
 		if(isBold)
 			bold="-Bold";
@@ -198,7 +199,7 @@ public class ExportEPS implements ExportInterface {
 		substFont.put(" ","-");
 		fontname=Globals.substituteBizarreChars(fontname, substFont);
 		out.write("/"+fontname+bold+" findfont\n"+
-			sizey+" scalefont\n"+
+			ys+" scalefont\n"+
 			"setfont\n");       
 		out.write("newpath\n");
 
@@ -212,11 +213,22 @@ public class ExportEPS implements ExportInterface {
 			out.write("  -1 -1 scale\n");
 		else
 			out.write("  1 -1 scale\n");
-		out.write("  0 "+(int)(-(double)sizey/1.38)+" rmoveto\n");
+
 		// Remember that we consider sizex/sizey=7/12 as the "normal" aspect 
 		// ratio.
+			
 		
-		out.write("  "+(sizex/22.0/sizey*40.0)+" 1 scale\n");
+		
+		double ratio;
+		
+		if(sizey/sizex != 10/7){
+			ratio=(double)sizey/(double)sizex*22.0/40.0;
+   		} else {
+   			ratio = 1.0;
+   		}
+			
+		out.write("  "+1+" "+ratio+" scale\n");
+		out.write("  0 " +(-ys*0.8)+" rmoveto\n");
 		
 		checkColorAndWidth(c, 0.33);
 
@@ -230,10 +242,7 @@ public class ExportEPS implements ExportInterface {
 			
 		out.write("  ("+text+") show\n");
 		out.write("grestore\n");
-		
 	
-			
-		
 	}
 	
 	/** Called when exporting a Bézier primitive.

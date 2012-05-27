@@ -83,6 +83,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.setMaximumSize(new Dimension (80,38));
         zoom.setMinimumSize(new Dimension (80,18));
 
+		// Commented the following line due to this remark:
+		// http://www.electroyou.it/phpBB2/viewtopic.php?f=4&t=18347&start=450#p301931
         //zoom.setFocusable(false);
         
         zoomFit=new JButton(Globals.messages.getString("Zoom_fit"));

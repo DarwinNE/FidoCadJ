@@ -134,6 +134,7 @@ public class Globals
         layerDesc.add(new LayerDesc(Color.red, true,s,1.0f));			// 2
         if(Globals.messages!=null) s=Globals.messages.getString("Silkscreen");
         layerDesc.add(new LayerDesc(new Color(0,128,128), true,s,1.0f));// 3
+        
         if(Globals.messages!=null) s=Globals.messages.getString("Other_1");
         layerDesc.add(new LayerDesc(Color.orange, true,s,1.0f));		// 4
         if(Globals.messages!=null) s=Globals.messages.getString("Other_2");    
@@ -142,6 +143,7 @@ public class Globals
         layerDesc.add(new LayerDesc(new Color(-16711681), true,s,1.0f));// 6
         if(Globals.messages!=null) s=Globals.messages.getString("Other_4");
         layerDesc.add(new LayerDesc(new Color(-16744448), true,s,1.0f));// 7
+        
         if(Globals.messages!=null) s=Globals.messages.getString("Other_5");
         layerDesc.add(new LayerDesc(new Color(-6632142), true, s,1.0f));// 8
         if(Globals.messages!=null) s=Globals.messages.getString("Other_6");
@@ -150,6 +152,7 @@ public class Globals
         layerDesc.add(new LayerDesc(new Color(-4875508), true,s,1.0f));	// 10
         if(Globals.messages!=null) s=Globals.messages.getString("Other_8");
         layerDesc.add(new LayerDesc(new Color(-16678657), true,s,1.0f));// 11
+        
         if(Globals.messages!=null) s=Globals.messages.getString("Other_9");
         layerDesc.add(new LayerDesc(new Color(-1973791), true,s,0.95f));// 12
         if(Globals.messages!=null) s=Globals.messages.getString("Other_10");
