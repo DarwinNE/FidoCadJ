@@ -581,36 +581,37 @@ public class ExportPDF implements ExportInterface {
 		checkColorAndWidth(c, .33);
         
    		outt.write("BT\n");
-   		
+		int ys = (int)(sizex*12/7+.5);
+
 
 		if(fontname.equals("Courier") || fontname.equals("Courier New")) {
 			if(isBold)
-				outt.write("/F2"+" "+sizey+" Tf\n");       
+				outt.write("/F2"+" "+ys+" Tf\n");       
 			else
-				outt.write("/F1"+" "+sizey+" Tf\n");       
+				outt.write("/F1"+" "+ys+" Tf\n");       
 		} else if(fontname.equals("Times") || 
 			fontname.equals("Times New Roman") ||
 			fontname.equals("Times Roman")) {
 			if(isBold)
-				outt.write("/F4"+" "+sizey+" Tf\n");       
+				outt.write("/F4"+" "+ys+" Tf\n");       
 			else
-				outt.write("/F3"+" "+sizey+" Tf\n");       
+				outt.write("/F3"+" "+ys+" Tf\n");       
 		      
 		} else if(fontname.equals("Helvetica") || 
 			fontname.equals("Arial")) {
 			if(isBold)
-				outt.write("/F6"+" "+sizey+" Tf\n");       
+				outt.write("/F6"+" "+ys+" Tf\n");       
 			else
-				outt.write("/F5"+" "+sizey+" Tf\n");       
+				outt.write("/F5"+" "+ys+" Tf\n");       
 	      
 		} else if(fontname.equals("Symbol")) {
 			if(isBold)
-				outt.write("/F8"+" "+sizey+" Tf\n");       
+				outt.write("/F8"+" "+ys+" Tf\n");       
 			else
-				outt.write("/F7"+" "+sizey+" Tf\n");       
+				outt.write("/F7"+" "+ys+" Tf\n");       
 		} else {
 			fontWarning = true;
-			outt.write("/F4"+" "+sizey+" Tf\n");
+			outt.write("/F4"+" "+ys+" Tf\n");
 		}
 
 		outt.write("q\n");
@@ -630,17 +631,15 @@ public class ExportPDF implements ExportInterface {
 		else
 			outt.write("  1 0 0 -1 0 0 cm\n");
 		
-					
-		outt.write("  1 0 0 1 0 "+roundTo(-(double)sizey/1.38)+" cm\n");
+	
+		double ratio;
 		
-		// Remember that we consider sizex/sizey=7/12 as the "normal" aspect 
-		// ratio.
-		
-		
-		
-		outt.write("  "+ roundTo(100*(sizex/22.0/sizey*38.0))+" Tz\n");
-		
-		
+		if(sizey/sizex != 10/7){
+			ratio=(double)sizey/(double)sizex*22.0/40.0;
+   		} else {
+   			ratio = 1.0;
+   		}
+		outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
 		
 		Map subst = new HashMap();
 		subst.put("(","\\050");
@@ -649,9 +648,6 @@ public class ExportPDF implements ExportInterface {
 			
 		outt.write("  ("+text+") Tj\n");
 		outt.write("Q\nET\n");
-		
-	
-			
 		
 	}
 	

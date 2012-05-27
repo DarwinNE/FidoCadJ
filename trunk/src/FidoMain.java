@@ -116,7 +116,7 @@ public class FidoMain {
         				} catch (Exception E)
         				{
         					System.err.println("Unable to read the parameters"+
-        						"given to -c");
+        						" given to -c");
         					System.exit(1);
         				}
         				
@@ -144,7 +144,7 @@ public class FidoMain {
         			} else {
         				if (loaded) {
         					System.err.println("Only one file can be"+
-        						"specified in the command line");
+        						" specified in the command line");
         				}
         				// We can not load the file now, since the main frame 
         				// has not been initialized yet.
@@ -247,8 +247,8 @@ public class FidoMain {
     		"        where 'dir' is the path of the directory you want to use.\n\n"+
     		    		 
     		" -c     Convert the given file to a graphical format.\n"+
-    		"        Usage: -d sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
-    		"        If you use this command line option, you *must* specify a FidoCad file to convert.\n"+
+    		"        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
+    		"        If you use this command line option, you *must* specify a FidoCadJ file to convert.\n"+
     		"        An alternative is to specify the resolution in pixels per logical unit by\n"+
     		"        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.\n\n"+
     		
@@ -256,12 +256,12 @@ public class FidoMain {
     		
     		" -h     Print this help and exit.\n\n"+
     		
-    		" [file] The optional (except if you use the -d or -s options) FidoCad file to load at\n"+
+    		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at\n"+
     		"        startup time.\n\n"+
     		
-    		"Example: load and convert a FidoCad drawing to a 800x600 pixel png file without using the GUI.\n"+
+    		"Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file without using the GUI.\n"+
     		"java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd\n\n"+
-    		"Example: load and convert a FidoCad drawing to a png file without using the GUI.\n"+
+    		"Example: load and convert a FidoCadJ drawing to a png file without using the GUI.\n"+
     		"         Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
     		"java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n";
     		
