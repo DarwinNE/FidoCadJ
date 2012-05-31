@@ -1,9 +1,6 @@
 \documentclass[10pt,a4paper,twoside]{scrreprt}
 \usepackage[english]{babel} 
 
-\usepackage{classicthesis-ldpkg} 
-\usepackage[eulerchapternumbers,%drafting,%pdfspacing,%
-            subfig,eulermath,parts]{classicthesis}
 \pagestyle{headings}
 
 \addtolength{\voffset}{9mm}   %>>> moves text field down
@@ -12,7 +9,18 @@
 \graphicspath{{images/}} 
 \newcommand{\keyevidence}[1]{\fbox{#1}}
 
+% Smaller italic font for marginpars
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize\it #1]%
+{\raggedright\footnotesize\it #1}}
+
 \usepackage{pgf}
+\usepackage{hyperref}
+
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
 
 \usepackage{listings} 
 \usepackage{makeidx}
@@ -51,6 +59,11 @@
 	}
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
+\newcommand{\toprule}{\hline}
+
+\newcommand{\midrule}{\hline}
+
+\newcommand{\bottomrule}{\hline}
 
 \title{\Huge\color{webbrown} FidoCadJ 0.23.6 \\ the user manual} 
 
@@ -179,7 +192,7 @@ along with this program. If not, see \href{http://www.gnu.org/licenses/}{http://
 
 \endgroup
 
-\myChapter{Introduction} \pagenumbering{arabic} In this chapter,
+\chapter{Introduction} \pagenumbering{arabic} In this chapter,
 we will briefly introduce FidoCadJ. In particular, we will give a
 description of the philosophy behind this software, as well as a brief
 history of its development.
@@ -236,7 +249,7 @@ noticed that many schematics were provided using the FidoCad for Windows
 format\index{FidoCad}. This avoided awkward ASCII drawings. Since
 I do not use Windows since a few years ago, it was almost impossible
 for me to look at them and I wanted to try to do something to solve
-this problem. \graffito{By the way, I think that it is better to
+this problem. \marginpar{By the way, I think that it is better to
 work at a solution rather claim that an operating system different
 from Windows lacks in software}
 
@@ -257,7 +270,7 @@ and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
 
 Since I had an interpreter\index{interpreter} of the FidoCad format,
 it was interesting to continue the work in order to obtain a complete
-editor\graffito{To be honest, I made a first attempt at writing
+editor\marginpar{To be honest, I made a first attempt at writing
 a 2D vectorial drawing system around 1993.} The most part of the
 work was done in several steps, between January and July 2008. FidoCadJ
 is not an adaptation or a porting of FidoCad for Windows, but it is
@@ -341,12 +354,12 @@ Figure~\ref{fig_fidocadj_grix3} shows an example of a drawing obtained with Fido
 
 I think that the future of FidoCadJ is not to become more complex, as a complete CAD for electronics. Probably, those possibilities of integration with discussion groups and forums deserve to be developed. Experience has shown that this is possible and the enthusiasm of the users has been tantalizing. 
 
-\myChapter{Drawing with FidoCadJ}
+\chapter{Drawing with FidoCadJ}
 
 The use of FidoCadJ should be quite intuitive for those who already
 used a vectorial drawing application\index{vectorial drawing}. A
 screenshot of the program running on MacOSX\index{MacOSX} is shown
-in Fig.~\ref{fig_fidocadj};\graffito{Expert Mac-users will notice
+in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
 different when running on other operating systems (for example
 Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
@@ -384,7 +397,7 @@ find the most used features that allow the creation and the editing
 of a drawing. Table~\ref{tab_comandi} shows a brief summary of the
 functionalities and the commands and describes the possible actions.
 You will notice that once a button is pressed, it will remain in that
-position until another function from the toolbar will be selected.\graffito{This
+position until another function from the toolbar will be selected.\marginpar{This
 behavior is inspired to the old vacuum tube radios and to the switches
 very fashionable in the '70s.} From the toolbar we can select which
 drawing primitive\index{primitive} will be used.%
@@ -709,7 +722,7 @@ ones on lower layers.
 \section{The grid}
 
 The logic unit\index{logic unit} in FidoCadJ is 5 mils (127 micron)
-and ``half units\textquotedbl{} are not allowed, meaning that the
+and ``half units'' are not allowed, meaning that the
 coordinates of any graphic element must be integer numbers. This allows
 us to obtain a resolution\index{resolution} sufficiently fine to
 draw an electrical schematic and the majority of PCBs. However, for
@@ -732,7 +745,7 @@ Obviously, working on a computer allows us to benefit from all the
 flexibility offered by the machine.
 
 It must be noted that the design of a PCB\index{PCB}, especially
-if this is a complex one, is not an easy task. \graffito{The reader
+if this is a complex one, is not an easy task. \marginpar{The reader
 will find their way through: a few scribbles made with paper and pencil
 (and a lot of erasers) will result in time saved by obtaining a clear
 idea to be developed with the use of the computer.} The autoplacer\index{autoplacer}
@@ -835,7 +848,7 @@ designed for a polyester capacitor.  It will probably have the right dimensions.
 not forget that FidoCadJ is thought as a replacement for the transfers\index{R41 transfers}\dots
 
 We can also place a ``$+$'' and a ``$-$'' on the copper layer and
-place a ceramic capacitor in parallel with the power supply. \graffito{Be careful with the
+place a ceramic capacitor in parallel with the power supply. \marginpar{Be careful with the
 track widths: something that looks like a motor-way on the screen will
 probably be a track so thin that will detach from the board during
 the soldering.}
@@ -991,7 +1004,7 @@ of drawings through a number of different file formats.
 
 To export the current drawing, select the command {}``Export'' from
 the menu {}``File''. The Table~\ref{tab_esportazione} shows a
-list of graphic file formats currently available. \graffito{A vectorial
+list of graphic file formats currently available. \marginpar{A vectorial
 format\index{vectorial format} stores the primitives that compose
 the drawing. A bitmap format\index{bitmap format} works on a matrix
 of pixels.} For every file format, the Table (but also the export dialog
@@ -1208,7 +1221,7 @@ Other files with \lstinline!.fcl! extension in the library search path will be c
 From version 0.23, FidoCadJ allows to split non standard macros (as the original FidoCad\index{FidoCad} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro which does not belong to the standard FidoCad\index{FidoCad} libraries is expanded into its graphic primitives. The reader thus does not need to have the very same libraries you have installed in your system to read your post.
 To activate this behaviour, you have to activate ``Split non standard macros'' in the ``FidoCadJ extensions'' tab of the ``Preferences'' window. You can choose if you want to do that when saving files or when doing a copy/paste of parts of the drawing.
 
-\myChapter{Drawing format, macros and FidoCad libraries} \label{chap_formato}
+\chapter{Drawing format, macros and FidoCad libraries} \label{chap_formato}
 
 This chapter contains a detailed description of the format used by
 FidoCad and, as a consequence, by FidoCadJ to store a drawing. It
@@ -1273,7 +1286,7 @@ and separated by a space character.
 
 \subsubsection{Line}
 
-La line primitive\index{line}\graffito{Mathematicians would probably
+La line primitive\index{line}\marginpar{Mathematicians would probably
 find the term ``segment''\index{segment} more appropriate.} is identified
 by the command \lstinline!LI!\index{LI} and its definition requires
 only the begin and end coordinates and the layer: 
@@ -1703,7 +1716,7 @@ of that of the PCB library. Other libraries having different file
 names (but still with extension \lstinline!fcl!) will be loaded together
 with the standard libraries.
 
-\myChapter{Conclusion} We have seen in this manual how to use FidoCadJ
+\chapter{Conclusion} We have seen in this manual how to use FidoCadJ
 to draw an electrical schematic or a simple PCB. At this stage the
 reader should possess all the elements necessary to use FidoCadJ effectively
 for his needs.
@@ -1719,7 +1732,7 @@ further, and in which direction). To contact me, you can participate to the foru
 
 \appendix
 
-\myChapter{Platform-specific information} \label{specifics} 
+\chapter{Platform-specific information} \label{specifics} 
 
 
 \section{MacOSX}
@@ -1881,12 +1894,12 @@ Very often, if you have Java installed, you just have to download the  \lstinlin
 
 \href{http://www.java.com/it/download/}{http://www.java.com/it/download/}
 
-\manualmark 
-\markboth{\spacedlowsmallcaps{\indexname}}% 
-{\spacedlowsmallcaps{\indexname}} 
-\refstepcounter{dummy} 
-\pagestyle{scrheadings} 
-\addcontentsline{toc}{chapter}{\tocEntry{\indexname}} 
+%\manualmark 
+%\markboth{\spacedlowsmallcaps{\indexname}}% 
+%{\spacedlowsmallcaps{\indexname}} 
+%\refstepcounter{dummy} 
+%\pagestyle{scrheadings} 
+%\addcontentsline{toc}{chapter}{\tocEntry{\indexname}} 
 \printindex 
 \cleardoublepage
 \thispagestyle{empty}
