@@ -25,7 +25,7 @@
 \usepackage{listings} 
 \usepackage{makeidx}
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,%
+	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,CP,CV%
 		[FIDOCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
@@ -56,6 +56,9 @@
     pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 \lstset{frame=single,%
+	backgroundcolor=\color{lightgray},
+	keywordstyle=\color{RoyalBlue},
+	breaklines=true
 	}
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
@@ -65,7 +68,7 @@
 
 \newcommand{\bottomrule}{\hline}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.23.6 \\ the user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24 \\ user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -121,8 +124,8 @@ This document is the FidoCadJ official user manual. After a short
 introduction of the history and the birth of this software, we will
 describe the basic use of FidoCadJ. Our goal is to learn how to draw
 very simple electronic schematics and their printed circuit boards.
-The manual will end with a detailed description of the FidoCad (and
-thus FidoCadJ) format, which has not yet been documented. Finally, we will give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
+The manual will end with a detailed description of the FidoCadJ (and
+thus FidoCAD) format. Finally, we will give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
 
 \endgroup
 
@@ -156,14 +159,14 @@ Werner has given several useful advices about FidoCadJ's user interface: thanks!
 This manual has been translated to English by ``Pasu''. I would like to thank him for his work. 
 Macintosh users can enjoy a nice integration of FidoCadJ in their favourite operating system thanks to the work of Werner Randelshofer. Werner has also contributed with a lot of useful advices to the user interface of  FidoCadJ: many thanks!
 
-In April 2010, FidoCadJ has been integrated in the Italian web site \href{www.electroportal.it}{www.electroportal.it}. It silently runs on the server and it is used to automagically convert drawings posted by users of the forum.
-I would like to express my gratitude to the admin and webmaster and to all other users of this site as they gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced which deserves to be fully explored. More recently, the FidoReadPHP class has been prepared in order to read and interpret FidoCadJ drawings on a PHP server. It has been used by the popular \href{www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to Arniek and Sstrix. Many thanks to them!
+In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{www.electroportal.it}{www.electroportal.it}. It silently runs on the server and it is used to automagically convert drawings posted by users of the forum.
+I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all other users of this site as they gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced which deserves to be fully explored. More recently, the FidoReadPHP class has been prepared in order to read and interpret FidoCadJ drawings on a PHP server. It has been used by the popular \href{www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to Arniek and Sstrix. Many thanks to them!
 
 \chapter*{FidoCadJ License}
 
 \pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
 
-Copyright \copyright\ 2007-2011 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2012 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -330,7 +333,7 @@ Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \
 \begin{figure}
  \includegraphics[width=\textwidth]{discussione_electroyou.png}
  \caption{Part of one of my posts on \href{www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}.
- With just one click you can zoom on the schematic. With another one, you can obtain immediately the source code that you can paste on FidoCadJ to modify it.}
+ With just one click you can zoom on the schematic. With a second one, you can obtain immediately the source code that you can paste on FidoCadJ to modify it.}
 \label{fig_discussione_electroyou}
 \end{figure}
 
@@ -428,7 +431,7 @@ If you need to align carefully the elements, you may find useful to keep pressed
 
 %
 \begin{table}
-\centering \begin{tabular}{clp{0.7\textwidth}}
+\centering \begin{tabular}{clp{0.5\textwidth}}
 \toprule Key & Comando  & Use\tabularnewline
 \midrule
 
@@ -455,11 +458,20 @@ double-click to terminate the insertion %\footnote{In FidoCadJ versions prior to
 \keyevidence{P}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/polygon}}
 \textsc{Polyline}\index{polyline}  & Draws a polyline filled or empty. Double-click or press \keyevidence{Esc},
 to terminate the insertion of new vertices.\tabularnewline
+\keyevidence{K}
+&
+\raisebox{-.2em}{%
+\includegraphics[width=1em]{icons/complexcurve}%
+}
+\textsc{Curve}\index{curve}
+&
+Open or closed natural cubic spline curve. Double click or press \keyevidence{Esc},  to terminate the insertion of new vertices.\tabularnewline
+
 \keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
 \textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} to
 draw a circle). \tabularnewline
 \keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
-\textsc{Rectangole}\index{rectangle}  & Draws a rectangle filled or empty.\tabularnewline
+\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty.\tabularnewline
 \keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
 \textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
 \keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
@@ -744,11 +756,11 @@ practice an electronic version of the good old R41 transfers\index{R41 transfers
 Obviously, working on a computer allows us to benefit from all the
 flexibility offered by the machine.
 
-It must be noted that the design of a PCB\index{PCB}, especially
-if this is a complex one, is not an easy task. \marginpar{The reader
-will find their way through: a few scribbles made with paper and pencil
+\marginpar{The reader
+will find his way through: a few scribbles made with paper and pencil
 (and a lot of erasers) will result in time saved by obtaining a clear
-idea to be developed with the use of the computer.} The autoplacer\index{autoplacer}
+idea to be developed with the use of the computer.} It must be noted that the design of a PCB\index{PCB}, especially
+if this is a complex one, is not an easy task.  The autoplacer\index{autoplacer}
 and the autorouter\index{autorouter} features promise miracles on
 the publicity flyers from major CAD companies. There is no doubt that
 these are still a tasks where the user's experience still plays an
@@ -789,7 +801,7 @@ the board, it may be useful to place an empty rectangle on the silk-screen
 layer (layer No.~3). To do so we can use the \emph{rectangle} primitive\index{rectangle}
 making sure that we selected the appropriate layer first. We should
 get a result similar to the one shown in figure~\ref{fig_amplificateur_phase1}.%
-\footnote{FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish} and German\index{German}.
+\footnote{FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German} and Chinese\index{Chinese}.
 It is quite easy to translate menus and commands, so if you would
 like to see FidoCadJ in your native language, please let me know!
 There is also work to be done to translate the libraries (at least
@@ -1114,8 +1126,8 @@ Option \lstinline!-h! shows a listing of the FidoCadJ options:
 \begin{lstlisting}
 [davidebucci@Darwin]$ java -jar fidocadj.jar -h
 	 	 
-This is FidoCadJ, version 0.23.7 beta.
-By Davide Bucci, 2007-2011.
+This is FidoCadJ, version 0.24.
+By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
 where options include:
@@ -1127,7 +1139,7 @@ where options include:
         where 'dir' is the path of the directory you want to use.
 
  -c     Convert the given file to a graphical format.
-        Usage: -d sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
+        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
         If you use this command line option, you *must* specify a FidoCad 
         file to convert.
         An alternative is to specify the resolution in pixels per logical 
@@ -1138,14 +1150,14 @@ where options include:
 
  -h     Print this help and exit.
 
- [file] The optional (except if you use the -d or -s options) FidoCad file 
+ [file] The optional (except if you use the -d or -s options) FidoCadJ file 
  		to load at startup time.
 
-Example: load and convert a FidoCad drawing to a 800x600 pixel png file 
+Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file 
 without using the GUI.
 java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 
-Example: load and convert a FidoCad drawing to a png file without using 
+Example: load and convert a FidoCadJ drawing to a png file without using 
 		 the GUI. Each FidoCadJ logical unit will be converted in 2 
 		 pixels on the image.
 java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
@@ -1211,7 +1223,7 @@ Other files with \lstinline!.fcl! extension are considered as add-on
 libraries and loaded together with the standard library. This is done
 at start time, which means that any modification will take effect
 when the application is restarted.
-From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.0 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
+From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
 Exactly as it happens for the other libraries embedded in FidoCadJ, if there is a file called \lstinline!IHRAM.FCL! in the current library search path, this one will be loaded at the place
 of the version embedded in the program. You also have an electrical symbols library whose file is called \lstinline!elettrotecnica.fcl!.
 
@@ -1431,7 +1443,7 @@ in the internal structure of the program the words (and command terms)
 are separated when a line is being interpreted.
 
 
-\subsubsection{Empty or filled polyline}
+\subsubsection{Filled or Empty polyline}
 
 A polyline\index{poliline} filled or empty is indicated with the
 commands \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV}
@@ -1500,9 +1512,23 @@ FCJ a b c d e nv
 \end{lstlisting}
 where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the curve (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Parameters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style. If $nv$ is equal to 1, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
+\subsubsection{Complex curve, spline}
+A natural cubic spline\index{spline} is defined by a certain number of vertices. The curve crosses each vertex and it is calculated in such a way that it is very smooth.\footnote{ \href{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}} In the FidoCadJ format, a spline is identified by commands \lstinline!CV!\index{CV} and \lstinline!CP!\index{CP}:
+\begin{lstlisting}
+CV aa x1 y1 x2 y2 ... l
+CP aa x1 y1 x2 y2 ... l
+\end{lstlisting}
+the $aa$ parameter is equal to 1 if the curve is closed, or it is 0 otherwise. Vertices $(x_1, y_1)$, $(x_2, y_2)$\dots define the spline and $l$ is the layer, an integer ranging from 0 to 15.
+The lenght of the command line can thus vary depending on how much vertices are considered.
+As for polygons, the maximum number of vertices\index{maximum number of vertices} available is internally fixed to more or less 100, to avoid having to do with very long lines. This primitive has been introduced in version 0.24 and it is not existing in the original FidoCAD\index{FidoCAD}.
+
+\textbf{FidoCadJ extension}: \lstinline!CV!\index{CV} and \lstinline!CP!\index{CP} can be followed in the following line by an extension:
+\begin{lstlisting} 
+FCJ a b c d e nv
+\end{lstlisting}
+where $a$ is an integer which represent the presence or not of the arrow heads at the extremes of the curve (have a look at table~\ref{tab_frecce_estremita}), $b$ represents the arrow head style (as table~\ref{tab_frecce_stile}). Parameters $c$ and $d$ give respectively the total length and the half width of the arrow head, while $e$ is an integer which gives the dash style. If $nv$ is equal to 1, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
 \subsubsection{Electrical junction}
-
 The primitive electrical junction\index{junction} is simply a filled
 circle of constant dimensions and it is used to represent a connection
 in an electrical schematic. It is identified by the command \lstinline!SA!\index{SA}
@@ -1627,6 +1653,12 @@ An important difference from the original FidoCad\index{FidoCad} is that FidoCad
 where $n$ represents the layer number (ranging from 0 to 15), $xxxx$ is a 32 bit integer containing settings about the RGB color to be used. The red component is contained in bits 16-23, the green one in bits 8-15 and the blue one in bits 0-7.
 The value $yy$ is a single precision floating point constant which gives the layer transparency, comprised between 0.0 (completely transparent) and 1.0 (completely opaque).
 
+A second important information is the name of the layer, specified (if the user has changed it) as follows:
+\begin{lstlisting} 
+FJC N n aaaaa
+\end{lstlisting}
+where $n$ is the number of the layer (integer from 0 to 15), whereas {\tt aaaa} is the name of the layer to be considered. If this command is not present, the name of the layer will be the one used by default by FidoCadJ, depending on the language and on the local configuration of the operating system.
+
 \subsection{Electrical connection setup}
 The size of the black circle used to indicate an electrical connection can be modified by the user.
 When the FidoCadJ extensions are active, the selected value is saved in the file with the \lstinline!FJC C!\index{FJC C} command as follows:
@@ -1699,6 +1731,7 @@ Nothing prevents the calling of a macro within another macro. However,
 recursion\index{recursion} (i.e. a macro that calls itself) must
 be avoided.
 
+A library \textit{must not contain} among the macro definitions any information about the FidoCadJ configuration. In other words, commands \lstinline!FJC!\index{FJC} should \textit{never} appear inside a library file.
 
 \section{Standard Libraries}
 
@@ -1790,7 +1823,7 @@ with a graphical environment will be used instead. A poor configuration of your 
 \label{inst_testo} Download the program using the \lstinline!wget! command:
 
 
-%\lstset{language=plain,
+%\lstset{language=plain,%
 %	basicstyle=\tiny\ttfamily}
 	
 \begin{lstlisting}
@@ -1862,7 +1895,14 @@ In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not cha
 \begin{itemize}
 \item {Let's download the file from the browser, or with Gwget or similar tools.}
 
-\item {We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the directory \lstinline!/usr/bin/fidocadj! and move there the file we just downloaded (it will be somewhere in \lstinline!/home/<user>/!)}
+\item {We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the following directory:
+\begin{lstlisting}
+/usr/bin/fidocadj
+\end{lstlisting}
+and then move there the file we just downloaded. It will be somewhere in: 
+\begin{lstlisting}
+/home/<user>/
+\end{lstlisting}}
 
 \begin{figure}
 \centering
@@ -1905,10 +1945,10 @@ Very often, if you have Java installed, you just have to download the  \lstinlin
 \thispagestyle{empty}
 \mbox{ }
 \vfill
-This manual has been written using \textsc{pdf}\LaTeX\ on MacOSX, with the \href{http://www.ctan.org/tex-archive/macros/latex/contrib/classicthesis/}{classicthesis} class.
+This manual has been written using \textsc{pdf}\LaTeX\ on MacOSX.
 Listings have been composed by using the  \href{http://www.ctan.org/tex-archive/macros/latex/contrib/listings/}{listings} packet. The \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} packet has been used for the figure~\ref{fig_schema}. All those packets are available on the CTAN archive.
 
-This work has been composed with the \emph{Palatino} font, by Hermann Zapf. 
+%This work has been composed with the \emph{Palatino} font, by Hermann Zapf. 
 
 
 \end{document}
