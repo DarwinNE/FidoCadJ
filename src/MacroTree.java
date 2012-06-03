@@ -68,7 +68,7 @@ public class MacroTree extends JPanel
         
 		library=lib.values();
         //Create the nodes.
-        top = new DefaultMutableTreeNode("Fidocad");
+        top = new DefaultMutableTreeNode("FidoCadJ");
         createNodes(top);
 
         //Create a tree that allows one selection at a time.

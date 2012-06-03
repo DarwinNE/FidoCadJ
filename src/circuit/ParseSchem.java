@@ -58,6 +58,8 @@ Version   Date           Author       Remarks
 2.8     March 2010      D. Bucci    Optimization and improvements
 2.9     May 2010        D. Bucci    Optimized, code cleaned
 
+  ... then we used Subversion to track changes!
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -212,6 +214,7 @@ public class ParseSchem
         layersUsed = new boolean[Globals.MAX_LAYERS];
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         changed=true;
+        isModified=false;
     }
     
     /** Get the layer description vector
@@ -462,6 +465,7 @@ public class ParseSchem
         // We now have to track that something has changed. This forces all the
         // caching system used by the drawing routines to be refreshed.
         changed=true;
+        isModified=true;
     }
     
     /** Returns true if the specified layer is contained in the schematic

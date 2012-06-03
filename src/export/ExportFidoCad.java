@@ -283,10 +283,35 @@ public class ExportFidoCad implements ExportInterface {
 		int fontSize, Map m)
 		throws IOException
 	{
-		// A way to determine if a macro is standard is to see if its
-		// name contains a dot
+		boolean isStandard=false;
+		int dotpos=-1;
 		
-		if(macroName.indexOf(".")<0) {
+		// A first way to determine if a macro is standard is to see if its
+		// name does not contains a dot (original FidoCAD standard library)
+		
+		if ((dotpos=macroName.indexOf("."))<0) { 
+			isStandard = true;
+		} else {
+			// If the name contains a dot, we might check whether we have 
+			// one of the new FidoCadJ standard libraries:
+			// pcb, ihram, elettrotecnica.
+			
+			// Obtain the library name
+			String library=macroName.substring(0,dotpos);
+			
+			// Check it
+			if(library.equals("pcb")) { 
+				isStandard = true;
+			} else if (library.equals("ihram")) {
+				isStandard = true;
+			} else if (library.equals("elettrotecnica")) {
+				isStandard = true;
+			}
+		}
+			
+		// If the library is standard, we output the symbol just with a
+		// single MC command.
+		if(isStandard) {
 			out.write((new PrimitiveMacro(m, layerV, cLe(x), 
 				cLe(y), macroName, 
 		    	name, cLe(xn), cLe(yn), value, 
@@ -295,7 +320,7 @@ public class ExportFidoCad implements ExportInterface {
 		    	isMirrored)).toString(extensions));
 			return true;
 		} 
-		// The macro will be expanded into primitives.
+		// If it is not standard, the macro will be expanded into primitives.
 		return false; 
 	}
 	
