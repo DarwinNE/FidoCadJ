@@ -1,5 +1,4 @@
 #!/bin/bash
-# javac -Xlint:deprecation -g -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoFrame.java -d bin
 
 # If you have a very old Java version, maybe the -Xlint:deprecation option is not recognized
 
@@ -7,17 +6,17 @@
 # extensions
 
 if [ "$1" = "mac" ]; then
-  javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/AppleSpecific.java -d bin
+  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/AppleSpecific.java -d bin
 fi 
 
 
 # compile FidoCadJ
-javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoMain.java -d bin
+javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
 
 # compile FidoReadJ applet
-javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoReadApplet.java -d bin
+javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
 
 # compile FidoCadJ applet
-javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 ./src/FidoCadApplet.java -d bin
+javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
 
 

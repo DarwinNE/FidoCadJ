@@ -131,7 +131,7 @@ a jar archive in the jar/ directory:
 The provided scripts do not work on Microsoft Windows. You should handle 
 manually the compilation with the following command, from fidocadj\trunk:
 
-javac  -g -O -sourcepath src -classpath bin -source 1.4 -target 1.4 .\src\FidoMain.java -d bin
+javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 .\src\FidoMain.java -d bin
 
 to launch the compiled program, you should type:
 
@@ -145,6 +145,7 @@ FidoCadJ should be launched.
 The following coding conventions have been applied for the FidoCadJ source 
 code:
 
+- the code should be compatible with Java 1.5
 - tab set to 4 spaces
 - blocks delimited by curly braces are indented as follows:
 

@@ -33,7 +33,7 @@ nice icon of the program, its name as well as three lines of description.
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2009 by Davide Bucci
+    Copyright 2007-2012 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -165,6 +165,33 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
 
         contentPane.add(programDescription3, constraints);
+        
+            	
+    	class OpenUrlAction implements ActionListener {
+      		public void actionPerformed(ActionEvent e) {
+      			BareBonesBrowserLaunch.openURL("https://sourceforge.net/projects/fidocadj/");
+      			
+      		// The following code works only in Java v. 1.6	
+        	/*	if (Desktop.isDesktopSupported()) {
+      				try {
+        				Desktop.getDesktop().browse(uri);
+      				} catch (IOException err) { /* TODO: error handling * }
+   				 } else { /* TODO: error handling * }*/
+      		}
+    	}
+        
+        JButton link=new JButton("<HTML> <a href=\"https://sourceforge.net/projects/fidocadj/\">https://sourceforge.net/projects/fidocadj/</a></HTML>");
+        constraints.gridx=0;
+        constraints.gridy=6;
+        constraints.gridwidth=1;
+        constraints.gridheight=2;
+        constraints.anchor=GridBagConstraints.CENTER;
+        constraints.insets=new Insets(0,20,20,20);
+        
+        link.setBorderPainted(false);
+
+		link.addActionListener(new OpenUrlAction());
+        contentPane.add(link, constraints);
         
     }
 }
