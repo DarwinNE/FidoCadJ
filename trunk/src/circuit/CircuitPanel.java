@@ -128,7 +128,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     private boolean successiveMove;
     
     // Strict FidoCad compatibility
-    private boolean extStrict;  
+    public boolean extStrict;  
     
     // Nuber of clicks done when entering an object.
     private int clickNumber;
@@ -430,18 +430,23 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     */    
     public void setSelectionState(int s, String macro)
     {
-        if (selectionListener!=null && s!=actionSelected)
+        if (selectionListener!=null && s!=actionSelected) {
             selectionListener.setSelectionState(s, macro);
+            selectionListener.setStrictCompatibility(extStrict);
+        }
             
         actionSelected=s;
         
-        if (scrollGestureSelectionListener!=null)
-            scrollGestureSelectionListener.setSelectionState(s, macro);
+        if (scrollGestureSelectionListener!=null) {
+            scrollGestureSelectionListener.setSelectionState(s, 
+            	macro);
+        }
         
         clickNumber=0;
         successiveMove=false;
         selectCursor(); 
         macroKey=macro;
+        
     }
     
     /** Get the current editing action (see the constants defined in this 
@@ -1950,28 +1955,26 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         setPropertiesForPrimitive();
     }
     
-    /** Specifies whether FidoCadJ should strictly comply with the FidoCad
-        format (and limitations).
-        
-        @param v the compliance mode.
-    
-    */
-    public void setStrict (boolean v)
-    {
-        extStrict = v;
-    }
-    
-    
     /** Checks if FidoCadJ should strictly comply with the FidoCad
         format (and limitations).
         
         @return the compliance mode.
     
     */
-    public boolean getStrict ()
+    public boolean getStrictCompatibility()
     {
         return extStrict;
     }
+    
+    /** Set if the strict FidoCAD compatibility mode is active
+   		@param strict true if the compatibility with FidoCAD should be 
+   		obtained.
+   	
+   	*/
+   	public void setStrictCompatibility(boolean strict)
+   	{
+   		extStrict=strict;
+   	}
     
     /** Round the specified number to the specified number of decimal digits.
     

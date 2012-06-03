@@ -165,9 +165,8 @@ public class FidoMain {
         		System.exit(1);
         	}
         	
-            // Reads the standard libraries
-            
-        	readLibraries(P, false, libDirectory);
+            // Reads the standard librarie
+        	readLibrariesProbeDirectory(P, false, libDirectory);
         	
         	StringBuffer txt=new StringBuffer();    
 
@@ -280,7 +279,8 @@ public class FidoMain {
 		@param libDirectory the path of the external directory.
 
 	*/
-	public static void readLibraries(ParseSchem P, boolean englishLibraries, String libDirectory)
+	public static void readLibrariesProbeDirectory(ParseSchem P, 
+		boolean englishLibraries, String libDirectory)
 	{
 		P.loadLibraryDirectory(libDirectory);
 	    if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {

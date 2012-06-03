@@ -3,7 +3,6 @@ package toolbars;
     ZoomToFitListener interface
     
     @author Davide Bucci
-    @version 1.0, September 2008
  
 <pre>
 	This file is part of FidoCadJ.
@@ -21,7 +20,7 @@ package toolbars;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
    
 */

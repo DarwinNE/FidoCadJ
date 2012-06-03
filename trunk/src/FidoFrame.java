@@ -27,7 +27,7 @@ import timer.*;
 
 Probably, it would be a very good idea to implement the editor with a 
 model/vista/controller paradigm. Anyway, it would be a lot of code rearranging
-work... I will do it for my NEXT vectorial drawing program :-D
+work... I will do it for my NEXT vector drawing program :-D
 
 <pre>  
     This file is part of FidoCadJ.
@@ -99,8 +99,8 @@ public class FidoFrame extends JFrame implements
                                                 // when copying
    
    // FidoCadJ extensions
-    private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
-    private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
+    //private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
+    //private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
         
     // Open/save default properties
     public String openFileDirectory;
@@ -234,8 +234,8 @@ public class FidoFrame extends JFrame implements
         	smallIconsToolbar = true;
         	textToolbar = true;
         
-        	extFCJ_s = true;
-        	extFCJ_c = true;
+        	//extFCJ_s = true;
+        	//extFCJ_c = true;
 
         	splitNonStandardMacro_s= false;
         	splitNonStandardMacro_c= false;
@@ -246,8 +246,7 @@ public class FidoFrame extends JFrame implements
         exportBlackWhite=false;
         printMirror = false;
         printFitToPage = false;
-        printLandscape = false; 
-        
+        printLandscape = false;  
     }
     
     /** Read the preferences settings (mainly at startup or when a new 
@@ -268,8 +267,8 @@ public class FidoFrame extends JFrame implements
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
         
         // FidoCadJ extensions when saving, or copy/pasting
-        extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
-        extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
+        //extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
+        //extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
         
 		// Split non standard macros when saving, or copy/pasting
         splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", 
@@ -325,7 +324,8 @@ public class FidoFrame extends JFrame implements
         CC.P.resetLibrary();
         
         if(runsAsApplication) {
-    		FidoMain.readLibraries(CC.P, englishLibraries, libDirectory);
+    		FidoMain.readLibrariesProbeDirectory(CC.P, 
+    			englishLibraries, libDirectory);
         } else {
         	// This code is useful when FidoCadJ is used whithout having access
         	// to the user file system, for example because it is run as an
@@ -339,6 +339,8 @@ public class FidoFrame extends JFrame implements
             		"lib/FCDstdlib_en.fcl"), "");
             	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
             		"lib/PCB_en.fcl"), "pcb");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/elettrotecnica_en.fcl"), "elettrotecnica");
         	} else {
         		// Read the italian version of the libraries
             	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
@@ -347,6 +349,8 @@ public class FidoFrame extends JFrame implements
             		"lib/FCDstdlib.fcl"), "");
             	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
             		"lib/PCB.fcl"), "pcb");
+            	CC.P.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/elettrotecnica.fcl"), "elettrotecnica");
       		}
  		}
  		macroLib.updateLibraries(CC.P.getLibrary(), CC.P.getLayers());
@@ -378,7 +382,8 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-        	CC.setStrict(prefs.get("FCJ_EXT_STRICT", "false").equals("true"));
+        	CC.setStrictCompatibility(prefs.get("FCJ_EXT_STRICT", 
+        		"false").equals("true"));
         	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
         		Integer.parseInt(prefs.get("MACRO_SIZE", "3")));
         	readGridSettings();
@@ -795,7 +800,7 @@ public class FidoFrame extends JFrame implements
 			// Edit the FidoCadJ code of the drawing
             if (arg.equals(Globals.messages.getString("Define"))) {
                 EnterCircuitFrame circuitDialog=new EnterCircuitFrame(this,
-                    CC.getCirc(extFCJ_s).toString());
+                    CC.getCirc(!CC.extStrict).toString());
                 circuitDialog.setVisible(true);
                 
                 try {
@@ -887,13 +892,13 @@ public class FidoFrame extends JFrame implements
             }
         	// Copy all selected elements in the clipboard
             if (arg.equals(Globals.messages.getString("Copy"))) {
-                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c,
+                CC.P.copySelected(!CC.extStrict, splitNonStandardMacro_c,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
             }
             // Cut all the selected elements
             if (arg.equals(Globals.messages.getString("Cut"))) {
-                CC.P.copySelected(extFCJ_c, splitNonStandardMacro_c,
+                CC.P.copySelected(!CC.extStrict, splitNonStandardMacro_c,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
                 CC.P.deleteAllSelected();
@@ -1095,7 +1100,7 @@ public class FidoFrame extends JFrame implements
 			// Here we try to use the multithreaded structure of Java.
 			doExport.setParam(new File(exportFileName),  CC.P, 
                	exportFormat, exportUnitPerPixel, 
-               	export.getAntiAlias(),exportBlackWhite,extFCJ_s,
+               	export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
                	this);
                
            	SwingUtilities.invokeLater(doExport);
@@ -1467,7 +1472,7 @@ public class FidoFrame extends JFrame implements
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
-                    "fcd", 1.0,true,false, extFCJ_s, false);
+                    "fcd", 1.0,true,false, !CC.extStrict, false);
                 CC.P.setModified(false);
     
             } else {
@@ -1477,7 +1482,7 @@ public class FidoFrame extends JFrame implements
                 	Globals.encoding));
                 
                 output.write("[FIDOCAD]\n");
-                output.write(CC.getCirc(extFCJ_s).toString());
+                output.write(CC.getCirc(!CC.extStrict).toString());
                 output.close();
                 CC.P.setModified(false);
             
@@ -1526,10 +1531,8 @@ public class FidoFrame extends JFrame implements
             CC.getPCB_pad_sizex(),
             CC.getPCB_pad_sizey(),
             CC.getPCB_pad_drill(),
-            extFCJ_s,
-            extFCJ_c,
             Globals.quaquaActive,
-            CC.getStrict(),
+            CC.getStrictCompatibility(),
             CC.P.getTextFont(),
             splitNonStandardMacro_s,
             splitNonStandardMacro_c,
@@ -1558,12 +1561,14 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_drill(options.pcbpadintw_i);
         CC.P.setTextFont(options.macroFont,options.macroSize_i);
         
-        extFCJ_s = options.extFCJ_s;
-        extFCJ_c = options.extFCJ_c;
+        //extFCJ_s = options.extFCJ_s;
+        //extFCJ_c = options.extFCJ_c;
         splitNonStandardMacro_s = options.split_n_s;
         splitNonStandardMacro_c = options.split_n_c;
 
-        CC.setStrict(options.extStrict);
+        CC.setStrictCompatibility(options.extStrict);
+        toolBar.setStrictCompatibility(options.extStrict);
+
 
         Globals.quaquaActive=options.quaquaActive;
     
@@ -1597,7 +1602,7 @@ public class FidoFrame extends JFrame implements
         	prefs.put("QUAQUA",
             	(Globals.quaquaActive?"true":"false"));
         	prefs.put("FCJ_EXT_STRICT",
-            	(CC.getStrict()?"true":"false"));
+            	(CC.getStrictCompatibility()?"true":"false"));
             
         	prefs.put("SPLIT_N_MACRO_SAVE",
             	(splitNonStandardMacro_s?"true":"false"));

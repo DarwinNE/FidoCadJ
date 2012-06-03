@@ -45,8 +45,8 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean textToolbar;
   	public boolean smallIconsToolbar;
   	public int gridSize;
-  	public boolean extFCJ_s;
-  	public boolean extFCJ_c;
+  	//public boolean extFCJ_s;
+  	//public boolean extFCJ_c;
   	public boolean extStrict;
   	public boolean split_n_s;
   	public boolean split_n_c;
@@ -70,8 +70,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 
 	private JCheckBox antiAlias_CB;
 	private JCheckBox profile_CB;
-	private JCheckBox extFCJ_c_CB;
-	private JCheckBox extFCJ_s_CB;
+	//private JCheckBox extFCJ_c_CB;
+	//private JCheckBox extFCJ_s_CB;
 	private JCheckBox extStrict_CB;
 	private JCheckBox split_n_s_CB;
 	private JCheckBox split_n_c_CB;
@@ -108,8 +108,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param pw the current PCB pad width
 	@param ph the current PCB pad height
 	@param piw the current PCB bad internal hole diameter
-	@param es the current save using FidoCadJ extensions state
-	@param ec the current copy using FidoCadJ extensions state
 	@param qq the current Quaqua state
 	@param mf the current Macro font
 	@param sn split non standard macros during save
@@ -123,8 +121,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 	
 	public DialogOptions (JFrame pa, double z, boolean p, boolean a,
   						  int gs, String libDir, boolean tt, boolean sit,
-  						  int plw, int pw, int ph, int piw, boolean es, 
-  						  boolean ec, boolean qq, boolean ex, String mf,
+  						  int plw, int pw, int ph, int piw,
+  						  boolean qq, boolean ex, String mf,
   						  boolean sn, boolean sc, double sssi, double ssoi,
   						  double ccs, int ms)
   	{
@@ -139,8 +137,8 @@ public class DialogOptions extends JDialog implements ComponentListener
   		libDirectory = libDir;
   		textToolbar=tt;
   		smallIconsToolbar=sit;
-  		extFCJ_s=es;
-  		extFCJ_c=ec;
+  		//extFCJ_s=es;
+  		//extFCJ_c=ec;
   		quaquaActive=qq;
   		extStrict=ex;
   		macroFont = mf;
@@ -222,8 +220,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 				profileTime=profile_CB.isSelected();
 				textToolbar=textToolbar_CB.isSelected();
   				smallIconsToolbar=smallIconsToolbar_CB.isSelected();
-  				extFCJ_s =extFCJ_s_CB.isSelected();
-				extFCJ_c =extFCJ_c_CB.isSelected();
+  				//extFCJ_s =extFCJ_s_CB.isSelected();
+				//extFCJ_c =extFCJ_c_CB.isSelected();
 				quaquaActive=quaquaActive_CB.isSelected();
 				extStrict = extStrict_CB.isSelected();
 				macroFont = (String)comboFont.getSelectedItem();
@@ -698,7 +696,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		extensionsPanel.add(extStrict_CB, constraints);	// Strict FidoCad
 														// compatibility
 		
-		extFCJ_s_CB=new JCheckBox(Globals.messages.getString("extFCJ_s"));
+		/*extFCJ_s_CB=new JCheckBox(Globals.messages.getString("extFCJ_s"));
 		extFCJ_s_CB.setSelected(extFCJ_s);
 		extFCJ_s_CB.setOpaque(false);
 		constraints = DialogUtil.createConst(0,1,2,1,100,100,
@@ -707,6 +705,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		extensionsPanel.add(extFCJ_s_CB, constraints);	// FCJ extensions while
 														// saving
 		
+	
 		extFCJ_c_CB=new JCheckBox(Globals.messages.getString("extFCJ_c"));
 		extFCJ_c_CB.setSelected(extFCJ_c);
 		extFCJ_c_CB.setOpaque(false);
@@ -715,7 +714,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			new Insets(6,40,6,40));
 		extensionsPanel.add(extFCJ_c_CB, constraints);	// FCJ extensions while
 														// copying
-		
+		*/
 		split_n_s_CB=new JCheckBox(Globals.messages.getString(
 			"split_nonstandard"));
 		split_n_s_CB.setSelected(split_n_s);
