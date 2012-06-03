@@ -75,6 +75,16 @@ public class ScrollGestureRecognizer implements AWTEventListener,
         actionSelected=s;
     }
     
+	/** Set if the strict FidoCAD compatibility mode is active
+   		@param strict true if the compatibility with FidoCAD should be 
+   		obtained.
+   	
+   	*/
+   	public void setStrictCompatibility(boolean strict)
+   	{
+   		// Nothing is needed here.
+   	}
+    
     /** Get the current editing action (see the constants defined in this class)
     
         @return the current editing action

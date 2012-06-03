@@ -300,11 +300,11 @@ public class ExportFidoCad implements ExportInterface {
 			String library=macroName.substring(0,dotpos);
 			
 			// Check it
-			if(library.equals("pcb")) { 
+			if(extensions && library.equals("pcb")) { 
 				isStandard = true;
-			} else if (library.equals("ihram")) {
+			} else if (extensions && library.equals("ihram")) {
 				isStandard = true;
-			} else if (library.equals("elettrotecnica")) {
+			} else if (extensions && library.equals("elettrotecnica")) {
 				isStandard = true;
 			}
 		}

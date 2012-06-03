@@ -272,6 +272,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     	coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)"); 
     }
     
+    public void changeStrict(boolean strict)
+    {
+    	
+    }
+    
     /** Change the infos
     
     	@param s the string to be shown

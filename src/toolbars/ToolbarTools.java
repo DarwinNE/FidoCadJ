@@ -50,7 +50,7 @@ import circuit.*;
  You should have received a copy of the GNU General Public License
  along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
  
- Copyright 2008-2011 by Davide Bucci
+ Copyright 2008-2012 by Davide Bucci
  </pre>
  @author Davide Bucci & Jose Emilio Munoz
 */
@@ -454,6 +454,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         else {
             return CircuitPanel.NONE;
         }
+    }
+    
+   	/** Set if the strict FidoCAD compatibility mode is active
+   		@param strict true if the compatibility with FidoCAD should be 
+   		obtained.
+   	
+   	*/
+    public void setStrictCompatibility(boolean strict)
+    {
+    	complexcurve.setEnabled(!strict);
     }
     
     /** Set the current selection state. Required for implementing the
