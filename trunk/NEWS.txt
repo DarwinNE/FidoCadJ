@@ -1,11 +1,16 @@
 Version 0.24.1
+--------------
+
 - Added a link to the sourceforge project page in the About dialog (request #3531298).
 - Now Java 1.5 is needed for compiling FidoCadJ.
-- The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active.
+- The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
+- The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
 
 
 
 Version 0.24
+------------
+
 - Added the support for italic text lines
 - The lenght of the segment being entered is expressed also in millimeters.
 - Slight adjustment of the arrow style when they are associated to lines.
