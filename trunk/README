@@ -353,19 +353,31 @@ lines to davbucciNOPE@tiscali.it
 6 - Acknowledgments
 -------------------
 
-Code: Davide Bucci, josmil1 
+Code: 
+	Davide Bucci, josmil1 
 
-Beta testers: Stefano Martini, F. Bertolazzi, Emanuele Baggetta, 
-    Celsius, Andrea D'Amore, Olaf Marzocchi, Werner Randelshofer,
-    Zeno Martini
+Beta testers: 
+	Stefano Martini, F. Bertolazzi, Emanuele Baggetta, Celsius,
+    Andrea D'Amore, Olaf Marzocchi, Werner Randelshofer, Zeno Martini,
+    Electrodomus, IsidoroKZ, mubeta
     
     ... and many others!
 
-Translations: Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
+Translations: 
+	Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
     DirtyDeeds (en)
     
-Libraries: Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus
+Libraries: 
+	Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group
+
+Code snippets included in FidoCadJ:
+	http://www.centerkey.com/java/browser/
+	http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html
+	http://jroller.com/santhosh/entry/enhanced_scrolling_in_swing
+	http://www.thoughtsabout.net/blog/archives/000044.html
+	http://www.javareference.com/jrexamples/viewexample.jsp?id=99
+	http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
 
 -------------
 7 - Licensing
