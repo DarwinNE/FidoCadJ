@@ -88,7 +88,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		changed=true;
 		
 		initPrimitive(-1);
-
 				
 		macroStore(layers);
 	}
@@ -159,6 +158,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
  					
 	}
 	
+	
+	/** Returns true if the macro contains the specified layer. This
+		is a calculation done at the ParseSchem level.
+	
+	*/
 	public boolean containsLayer(int l)
  	{
  		return macro.containsLayer(l);
@@ -193,7 +197,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
  			macroCoord.isMacro=true;
  			macroCoord.resetMinMax();
  		 		 			
- 			//macro.setMapCoordinates(macroCoord);
 			macro.setChanged(true);
 		}
 		

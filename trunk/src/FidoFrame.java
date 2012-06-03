@@ -246,8 +246,8 @@ public class FidoFrame extends JFrame implements
         exportBlackWhite=false;
         printMirror = false;
         printFitToPage = false;
-        printLandscape = false;    
-
+        printLandscape = false; 
+        
     }
     
     /** Read the preferences settings (mainly at startup or when a new 
@@ -727,7 +727,7 @@ public class FidoFrame extends JFrame implements
         //getRootPane().putClientProperty("apple.awt.draggableWindowBackground", 	
         //	Boolean.TRUE);
 
-        
+        CC.P.setModified(false);
     }
     
    
