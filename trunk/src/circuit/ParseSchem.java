@@ -25,6 +25,9 @@ import timer.*;
 <pre>
    A FIDOCAD schematics draw class.
    
+   TODO: this file is way too big. This big class might be subdivided in 
+        several smaller classes.
+   
    ****************************************************************************
    Version History 
 
