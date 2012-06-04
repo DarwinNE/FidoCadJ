@@ -92,11 +92,7 @@ public class FidoFrame extends JFrame implements
     private boolean printFitToPage;
     private boolean printLandscape;
    
-    // Settings for macro splitting.
-    private boolean splitNonStandardMacro_s;    // split non standard macro
-                                                // when saving
-    private boolean splitNonStandardMacro_c;    // split non standard macro
-                                                // when copying
+   
    
    // FidoCadJ extensions
     //private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
@@ -237,8 +233,6 @@ public class FidoFrame extends JFrame implements
         	//extFCJ_s = true;
         	//extFCJ_c = true;
 
-        	splitNonStandardMacro_s= false;
-        	splitNonStandardMacro_c= false;
         }
         // some standard configurations
         exportFileName=new String();
@@ -270,12 +264,7 @@ public class FidoFrame extends JFrame implements
         //extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
         //extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
         
-		// Split non standard macros when saving, or copy/pasting
-        splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", 
-        		"false").equals("true");
-        splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", 
-        		"false").equals("true");
-
+		
 		// Element sizes
        	Globals.lineWidth=Double.parseDouble(
        	 		prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
@@ -296,7 +285,7 @@ public class FidoFrame extends JFrame implements
         	prefs.get("GRID_SIZE", "5"))); 
 	}
     
-    /* Load the saved configuration for the PCB drawing primitives.
+    /* Load the saved configuration for the drawing primitives.
     */
 	public void readDrawingSettings()
 	{
@@ -305,6 +294,12 @@ public class FidoFrame extends JFrame implements
  		CC.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
  		CC.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
  		CC.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
+ 		
+ 		// Split non standard macros when saving, or copy/pasting
+        CC.splitNonStandardMacro_s= prefs.get("SPLIT_N_MACRO_SAVE", 
+        		"false").equals("true");
+        CC.splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", 
+        		"false").equals("true");
     }
     
     /* Load the standard librairies according to the locale.
@@ -892,13 +887,13 @@ public class FidoFrame extends JFrame implements
             }
         	// Copy all selected elements in the clipboard
             if (arg.equals(Globals.messages.getString("Copy"))) {
-                CC.P.copySelected(!CC.extStrict, splitNonStandardMacro_c,
+                CC.P.copySelected(!CC.extStrict, CC.splitNonStandardMacro_c,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
             }
             // Cut all the selected elements
             if (arg.equals(Globals.messages.getString("Cut"))) {
-                CC.P.copySelected(!CC.extStrict, splitNonStandardMacro_c,
+                CC.P.copySelected(!CC.extStrict, CC.splitNonStandardMacro_c,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
                 CC.P.deleteAllSelected();
@@ -1465,10 +1460,10 @@ public class FidoFrame extends JFrame implements
             return saveWithName();
         }
         try {
-            if (splitNonStandardMacro_s) {
+            if (CC.splitNonStandardMacro_s) {
                 /*  In fact, splitting the nonstandard macro when saving a file
                     is indeed an export operation. This ease the job, since
-                    while exporting in a vectorial graphic format one has 
+                    while exporting in a vector graphic format one has 
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(CC.P.openFileName),  CC.P, 
@@ -1534,8 +1529,8 @@ public class FidoFrame extends JFrame implements
             Globals.quaquaActive,
             CC.getStrictCompatibility(),
             CC.P.getTextFont(),
-            splitNonStandardMacro_s,
-            splitNonStandardMacro_c,
+            CC.splitNonStandardMacro_s,
+            CC.splitNonStandardMacro_c,
             Globals.lineWidth,
             Globals.lineWidthCircles,
             Globals.diameterConnection,
@@ -1563,8 +1558,8 @@ public class FidoFrame extends JFrame implements
         
         //extFCJ_s = options.extFCJ_s;
         //extFCJ_c = options.extFCJ_c;
-        splitNonStandardMacro_s = options.split_n_s;
-        splitNonStandardMacro_c = options.split_n_c;
+        CC.splitNonStandardMacro_s = options.split_n_s;
+        CC.splitNonStandardMacro_c = options.split_n_c;
 
         CC.setStrictCompatibility(options.extStrict);
         toolBar.setStrictCompatibility(options.extStrict);
@@ -1605,10 +1600,10 @@ public class FidoFrame extends JFrame implements
             	(CC.getStrictCompatibility()?"true":"false"));
             
         	prefs.put("SPLIT_N_MACRO_SAVE",
-            	(splitNonStandardMacro_s?"true":"false"));
+            	(CC.splitNonStandardMacro_s?"true":"false"));
         
         	prefs.put("SPLIT_N_MACRO_COPY",
-            	(splitNonStandardMacro_c?"true":"false"));
+            	(CC.splitNonStandardMacro_c?"true":"false"));
             	
             prefs.put("GRID_SIZE", ""+CC.getMapCoordinates().getXGridStep());
             

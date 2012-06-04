@@ -41,7 +41,8 @@ import layers.*;
     
     @author Davide Bucci
 */
-public class CircuitPanel extends JPanel implements MouseMotionListener,
+public class CircuitPanel extends JPanel implements ActionListener,
+											 MouseMotionListener,
                                              MouseListener,
                                              ChangeSelectedLayer,
                                              ChangeGridState,
@@ -130,6 +131,12 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Strict FidoCad compatibility
     public boolean extStrict;  
     
+     // Settings for macro splitting.
+    public boolean splitNonStandardMacro_s;    // split non standard macro
+                                                // when saving
+    public boolean splitNonStandardMacro_c;    // split non standard macro
+                                                // when copying
+    
     // Nuber of clicks done when entering an object.
     private int clickNumber;
     
@@ -177,6 +184,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public static final int COMPLEXCURVE = 14;
     
     
+    // ********** INTERFACE ELEMENTS **********
+    
+    JPopupMenu popup;
+    
 	// ********** LISTENERS **********
 
     private ChangeZoomListener zoomListener;
@@ -223,6 +234,9 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         ypoly = new int[NPOLY];
         
         
+        splitNonStandardMacro_s= false;
+        splitNonStandardMacro_c= false;
+        	
         // This is useful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
@@ -230,7 +244,25 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
             addMouseMotionListener(this);
             setFocusable(true);
             registerActiveKeys();
-
+            //Create the popup menu.
+    		popup = new JPopupMenu();
+    		JMenuItem editCut = new 
+           		JMenuItem(Globals.messages.getString("Cut"));
+        	
+       		JMenuItem editCopy = new 
+            	JMenuItem(Globals.messages.getString("Copy"));
+        
+        	JMenuItem editPaste = new 
+            	JMenuItem(Globals.messages.getString("Paste"));
+        
+        	popup.add(editCut);
+        	popup.add(editCopy);
+        	popup.add(editPaste);
+        	
+        	editCut.addActionListener(this);
+        	editCopy.addActionListener(this);
+        	editPaste.addActionListener(this);
+        	
         }
     }
     
@@ -633,6 +665,21 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 break;
             }
             
+            // Show a pop up menu if the user does a right-click
+            if(evt.getButton() == MouseEvent.BUTTON3) {
+            	
+            	// At first, we check if there is at least an element
+            	// which has been selected.
+            	
+            	if(P.getFirstSelectedPrimitive()!=null) {
+            	
+            		// If this is true, we show up the menu.
+            		popup.show(evt.getComponent(),
+                       evt.getX(), evt.getY());
+            	}
+                break;
+            }
+            
             boolean toggle = false;
             
             if(Globals.useMetaForMultipleSelection) {
@@ -653,8 +700,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                               cs.unmapXnosnap(x);
             
             if (toll<2) toll=2;
-            
-            
             
              P.selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y),
              	toll, toggle);
@@ -1997,5 +2042,39 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
     	return cs;
     }
+    
+    /** The action listener. Recognize menu events and behaves consequently.
+    
+    */
+    public void actionPerformed(ActionEvent evt)
+    {
+    	
+    	// TODO: Avoid some copy/paste of code from FidoFrame class
+    	
+        // Recognize and handle menu events
+        if(evt.getSource() instanceof JMenuItem) 
+        {
+            String arg=evt.getActionCommand();
+			// Copy all selected elements in the clipboard
+            if (arg.equals(Globals.messages.getString("Copy"))) {
+                P.copySelected(!extStrict, splitNonStandardMacro_c,
+                	getMapCoordinates().getXGridStep(), 
+                	getMapCoordinates().getYGridStep());   
+            }
+            // Cut all the selected elements
+            if (arg.equals(Globals.messages.getString("Cut"))) {
+                P.copySelected(!extStrict, splitNonStandardMacro_c,
+                	getMapCoordinates().getXGridStep(), 
+                	getMapCoordinates().getYGridStep());   
+                P.deleteAllSelected();
+                repaint();
+            }
+            // Paste some graphical elements 
+            if (arg.equals(Globals.messages.getString("Paste"))) {
+                P.paste();   
+                repaint();
+            }
+       }
+   }
 }
 
