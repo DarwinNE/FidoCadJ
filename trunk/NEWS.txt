@@ -5,6 +5,8 @@ Version 0.24.1
 - Now Java 1.5 is needed for compiling FidoCadJ.
 - The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
 - The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
+- More precise selection of very close elements without "name" and "value" tags.
+- Popup menu accessible with right click in the selection mode (cut, copy, paste, request #3409656).
 
 
 
