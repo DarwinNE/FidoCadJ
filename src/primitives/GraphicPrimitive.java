@@ -348,11 +348,11 @@ public abstract class GraphicPrimitive
 	*/
   	public boolean checkText(int px, int py)
   	{
-	    if(GeometricDistances.pointInRectangle(
+	    if(!name.equals("") && GeometricDistances.pointInRectangle(
 	    	virtualPoint[getNameVirtualPointNumber()].x,
 	    	virtualPoint[getNameVirtualPointNumber()].y,t_w1,t_th,px,py))
 	       	return true;
-	    if(GeometricDistances.pointInRectangle(
+	    if(!value.equals("") && GeometricDistances.pointInRectangle(
 	    	virtualPoint[getValueVirtualPointNumber()].x,
 	    	virtualPoint[getValueVirtualPointNumber()].y,t_w2,t_th,px,py))
 	       	return true;

@@ -424,7 +424,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         
 	    if(checkText(px, py))
 	    	return 0;
-
+	    	
 		return GeometricDistances.pointToSegment(
 				virtualPoint[0].x,virtualPoint[0].y,
 				virtualPoint[1].x,virtualPoint[1].y,

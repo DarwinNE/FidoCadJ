@@ -218,6 +218,7 @@ public class ParseSchem
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         changed=true;
         isModified=false;
+        
     }
     
     /** Get the layer description vector
@@ -1107,11 +1108,10 @@ public class ParseSchem
                 (GraphicPrimitive)primitiveVector.get(i) instanceof PrimitiveMacro) {
                 distance=((GraphicPrimitive)
                        primitiveVector.get(i)).getDistanceToPoint(px,py);
-            
+            	
                 if (distance<=mindistance) {
                    isel=i;
                     mindistance=distance;
-                
                 }
             }
         }
