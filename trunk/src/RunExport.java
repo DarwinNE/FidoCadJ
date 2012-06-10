@@ -24,7 +24,7 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2011 by Davide Bucci
+    Copyright 2012 by Davide Bucci
 </pre>
 
     Class which realizes the export of a file towards a graphical format.
@@ -73,12 +73,10 @@ class RunExport implements Runnable {
 	}
 	
 	public void run() {
-		success = false;
 		
 		try {
     		ExportGraphic.export(file, P, format, unitPerPixel,
 				antiAlias, blackWhite, ext, true);
-			success = true;
        		JOptionPane.showMessageDialog(parent,
                 Globals.messages.getString("Export_completed"));
 		}  catch(IOException ioe) {

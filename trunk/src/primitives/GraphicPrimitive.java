@@ -142,13 +142,12 @@ public abstract class GraphicPrimitive
 	// Those are data which are kept for the fast redraw of this primitive. 
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
-	private int z;
 	private int xa, ya, xb, yb;
 	// Text sizes in pixels
 	private int h,th, w1, w2;
 	
 	// Text sizes in logical units.
-	private int t_h,t_th, t_w1, t_w2;
+	private int t_th, t_w1, t_w2;
  	private int x2,y2,x3,y3;
  	private Font f;
  	private FontMetrics fm;

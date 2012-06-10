@@ -179,7 +179,7 @@ public class ParseSchem
     private UndoManager um;
     
     // Maximum number of levels to be retained for undo operations.
-    private final int MAX_UNDO=100;
+    private static final int MAX_UNDO=100;
             
     // A drawing modification flag. If true, there are unsaved changes.
     // This is different from the "change" flag defined above, since while the
@@ -401,15 +401,19 @@ public class ParseSchem
                 macroName="";
                     
                 longName="";
+                StringBuffer temp=new StringBuffer(25);
                 for(i=1; line.charAt(i)!=' ' &&
                          line.charAt(i)!=']' &&
                          i<line.length(); ++i){
-                    macroName+=line.charAt(i);
+                    temp.append(line.charAt(i));
                 }
+                macroName=temp.toString();
                 int j;
+                temp=new StringBuffer(25);
                 for(j=i; j<line.length()&&line.charAt(j)!=']'; ++j){
-                    longName+=line.charAt(j);
+                    temp.append(line.charAt(j));
                 }
+                longName=temp.toString();
                 if(j==line.length()) {
                 	IOException e=new IOException("Macro name non terminated with ].");
                     throw e;
@@ -574,7 +578,6 @@ public class ParseSchem
     private GraphicPrimitive gg;
     private int i_index;
     private int j_index;
-    private int la; 
 
     /** Draw the current drawing.
         This code is rather critical. Do not touch it unless you know very
@@ -1701,8 +1704,13 @@ public class ParseSchem
                             if (layerNum>=0&&layerNum<layerV.size()){
                                 String lName="";
                                 
-                                for(int t=3; t<j+1; ++t)
-                                	lName+=tokens[t]+" ";
+                                StringBuffer temp=new StringBuffer(25);
+                                for(int t=3; t<j+1; ++t) {
+                                	temp.append(tokens[t]);
+                                	temp.append(" ");
+                                }
+                                
+                                lName=temp.toString();
                                 LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
                                 ll.setDescription(lName);
                                 ll.setModified(true);  
@@ -2128,6 +2136,7 @@ public class ParseSchem
             
         } catch (Exception E) 
         {
+        	System.out.println("Could not undo.");
         }
         
     }
@@ -2149,6 +2158,7 @@ public class ParseSchem
             
         } catch (Exception E) 
         {
+        	System.out.println("Could not redo.");
         }
         
     }

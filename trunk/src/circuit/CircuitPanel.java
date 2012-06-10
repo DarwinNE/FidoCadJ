@@ -55,10 +55,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     // This parsing object is used for normal graphic objects.
     // Maybe, should it be kept private?
-    public ParseSchem P;
+    public transient ParseSchem P;
     
     // Coordinate system to be used.
-    private MapCoordinates cs;
+    private transient MapCoordinates cs;
     
 	// Default filled state of polygons, rectangles and ovals when they are
 	// created
@@ -164,7 +164,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private String macroKey;                    
 
 	// The primitive being edited
-	private GraphicPrimitive primEdit;
+	private transient GraphicPrimitive primEdit;
 
     // Selection states
     public static final int NONE = 0;
@@ -650,6 +650,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	primEdit = null;
         
         switch(actionSelected) {
+        default:
+        	break;
+        
         // No action: ignore
         case NONE:	
             clickNumber = 0;
@@ -733,7 +736,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         // Put a connection (easy: just one click is needed)
         case CONNECTION:
-            if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==1) {
+            if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==
+            	InputEvent.BUTTON3_MASK) {
                 selectAndSetProperties(x,y);
                 break;
             }
@@ -751,7 +755,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     
         // Put a PCB pad (easy: just one click is needed)       
         case PCB_PAD:
-            if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==1) {
+            if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==
+            	InputEvent.BUTTON3_MASK) {
                 selectAndSetProperties(x,y);
                 break;
             }

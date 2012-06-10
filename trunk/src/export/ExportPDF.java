@@ -35,7 +35,6 @@ import java.awt.geom.*;
 </pre>
     
     @author Davide Bucci
-    @version 1.2, May 2011
 */
 
 public class ExportPDF implements ExportInterface {
@@ -56,15 +55,12 @@ public class ExportPDF implements ExportInterface {
 	private String obj_PDF[];
 	
 	// The maximum number of objects contained in the PDF file.
-	private final int numOfObjects = 20;
+	private static final int numOfObjects = 20;
 		
 	private String closeObject;
 	private long fileLength;
 	
 	private Vector layerV;
-	private int numberPath;
-	private int xsize;
-	private int ysize;
 	private Color actualColor;
 	private double actualWidth;
 	private int actualDash;
@@ -141,7 +137,6 @@ public class ExportPDF implements ExportInterface {
 	    // the definitive destination file.
 	    
 	    outt = new BufferedWriter(fstreamt);
-	    numberPath=0;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -581,7 +576,7 @@ public class ExportPDF implements ExportInterface {
 		checkColorAndWidth(c, .33);
         
    		outt.write("BT\n");
-		int ys = (int)(sizex*12/7+.5);
+		int ys = (int)(sizex*12.0/7.0+.5);
 
 
 		if(fontname.equals("Courier") || fontname.equals("Courier New")) {

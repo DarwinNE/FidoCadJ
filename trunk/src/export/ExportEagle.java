@@ -44,7 +44,6 @@ public class ExportEagle implements ExportInterface {
 	private FileWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private int numberPath;
 	private Dimension dim;
 	private int oldtextsize;
 	private String macroList;
@@ -105,7 +104,6 @@ public class ExportEagle implements ExportInterface {
 		dim=totalSize;
 	    out = new BufferedWriter(fstream);
 	    res = 5e-2;
-	    numberPath=0;
 		oldtextsize=-1;
 		macroList = "";
 		junctionList = "";

@@ -41,7 +41,6 @@ public class ExportSVG implements ExportInterface {
 	private BufferedWriter out;
 	private Vector layerV;
 	private int numberPath;
-	private int actualDash;
 	
 	private Color c;
 	private double strokeWidth;

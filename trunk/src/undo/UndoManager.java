@@ -13,7 +13,6 @@ import java.util.*;
     the maximum number of undo steps is reached.
     
     @author Davide Bucci
-    @version 1.0, January 2009
  
 
 
@@ -33,7 +32,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
 
 @author Davide Bucci

@@ -445,13 +445,12 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     public int getSelectionState()
     {
         JToggleButton selectedButton = getSelectedButton();
-        if(!selectedButton.equals(null)) {
+        if(selectedButton!=null) {
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(selectedButton));
             int circuitPanelConstant = circuitPanelConstantInteger.intValue();
             return circuitPanelConstant;
-        }
-        else {
+        } else {
             return CircuitPanel.NONE;
         }
     }

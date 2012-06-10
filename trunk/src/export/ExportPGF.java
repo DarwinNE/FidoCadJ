@@ -61,9 +61,7 @@ public class ExportPGF implements ExportInterface {
 	private FileWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private int numberPath;
 	private Color actualColor;
-	private double lineWidth;
 	private int actualDash;
 	
 	
@@ -108,7 +106,6 @@ public class ExportPGF implements ExportInterface {
 		layerV=la;
 		int i;
 	    out = new BufferedWriter(fstream);
-	    numberPath=0;
 	    LayerDesc l;
 	    Color c;
 	    	    

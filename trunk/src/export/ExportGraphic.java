@@ -389,8 +389,8 @@ public class ExportGraphic
     		taken into account
     
     */
-    public static MapCoordinates calculateZoomToFit(ParseSchem P, int sizex, int sizey, 
-    				boolean forceCalc, boolean countMin)
+    public static MapCoordinates calculateZoomToFit(ParseSchem P, int sizex, 
+    	int sizey, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
 		double maxsizex;
@@ -403,7 +403,7 @@ public class ExportGraphic
 		// If the size is invalid (for example because it's the first time
 		// the circuit has been drawn).
 		
-		forceCalc=true;	// 0.20.5
+		boolean forceCalc=true;	// 0.20.5
 		
 		Dimension D = getImageSize(P,1,countMin); 
 		maxsizex=D.width;

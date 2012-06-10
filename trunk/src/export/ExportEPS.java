@@ -42,9 +42,6 @@ public class ExportEPS implements ExportInterface {
 	private FileWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private int numberPath;
-	private int xsize;
-	private int ysize;
 	private double actualWidth;
 	private Color actualColor;
 	private int actualDash;
@@ -97,7 +94,6 @@ public class ExportEPS implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
-	    numberPath=0;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -187,7 +183,7 @@ public class ExportEPS implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		Color c=l.getColor();
 		String bold=""; 
-		int ys = (int)(sizex*12/7+.5);
+		int ys = (int)(sizex*12/(double)7+.5);
 		
 		if(isBold)
 			bold="-Bold";
@@ -586,10 +582,7 @@ public class ExportEPS implements ExportInterface {
 					out.write(""+xdd+" "+(ydd+siy)+" lineto\n");
 					out.write("closepath\n");	
 					out.write("fill\n");	
-					
-					
-					
-					
+		
 					break;
 			}
 		}		
