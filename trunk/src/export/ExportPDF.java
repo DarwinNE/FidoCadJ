@@ -183,8 +183,8 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	
 	{ 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
+		//DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		//Date date = new Date();
 
 		outt.close();
 		

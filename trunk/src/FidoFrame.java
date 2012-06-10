@@ -1293,7 +1293,8 @@ public class FidoFrame extends JFrame implements
                     int k;
                     while (line != null){
                         line = in.readLine();
-                        if ((k=line.toString().indexOf("file://"))>=0) {
+                        if (line!=null &&
+                        	(k=line.toString().indexOf("file://"))>=0) {
                             FidoFrame popFrame;
                             
                             if(CC.P.getModified()) {
@@ -1347,20 +1348,15 @@ public class FidoFrame extends JFrame implements
         
         BufferedReader bufRead = new BufferedReader(
         	new InputStreamReader(new FileInputStream(CC.P.openFileName), 
-        	Globals.encoding));
-        
+        	Globals.encoding));   
                 
         StringBuffer txt= new StringBuffer();    
-        String line="";
-                        
-        txt = new StringBuffer(bufRead.readLine());
-                        
-        txt.append("\n");
-                        
+        
+        String line =bufRead.readLine();
         while (line != null){
-            line =bufRead.readLine();
             txt.append(line);
             txt.append("\n");
+            line =bufRead.readLine();
         }
             
         bufRead.close();
@@ -1572,7 +1568,8 @@ public class FidoFrame extends JFrame implements
         libDirectory=options.libDirectory;
         
         Globals.lineWidth = options.stroke_size_straight_i;
-        Globals.lineWidthCircles = options.stroke_size_oval_i;
+        Globals.lineWidthCircles = options.stroke_size_straight_i;
+        //options.stroke_size_oval_i;
         Globals.diameterConnection = options.connectionSize_i;
        
         // We know that this code will be useful only when FidoCadJ will run as

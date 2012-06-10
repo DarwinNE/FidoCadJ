@@ -26,7 +26,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 */
 
@@ -39,7 +39,7 @@ public class DialogUtil {
         GraphicsEnvironment ge = 
         	GraphicsEnvironment.getLocalGraphicsEnvironment();
         Point center = ge.getCenterPoint();
-        Rectangle bounds = ge.getMaximumWindowBounds();
+        //Rectangle bounds = ge.getMaximumWindowBounds();
        
         int w = frame.getWidth();
         int h = frame.getHeight();

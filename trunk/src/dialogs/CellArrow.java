@@ -28,7 +28,7 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009-2011 by Davide Bucci
+	Copyright 2009-2012 by Davide Bucci
 </pre>
 */
 public class CellArrow extends JPanel
@@ -51,7 +51,7 @@ public class CellArrow extends JPanel
 		arrow=la;
 		list=l;
 		isSelected=is;
-		Box b=Box.createHorizontalBox();
+		//Box b=Box.createHorizontalBox();
 		setPreferredSize(new Dimension(50,18));
 	}
 	
