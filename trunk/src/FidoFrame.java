@@ -362,7 +362,7 @@ public class FidoFrame extends JFrame implements
         // A measurement is done only if Globals.isBeta is true.
         		    	        
         MyTimer mt;
-        mt = new MyTimer();
+//        mt = new MyTimer();
         Container contentPane=getContentPane();
         
 		//((JComponent)getContentPane()).setOpaque(true);
@@ -399,16 +399,16 @@ public class FidoFrame extends JFrame implements
 		// I planned to add rulers at the borders of the scroll panel.
 		// Unfortunately, they does not seem to work as expected and this 
 		// feature will be implemented when possible.
-        RulerPanel vertRuler = new RulerPanel(
+        /*RulerPanel vertRuler = new RulerPanel(
             SwingConstants.VERTICAL, 20, 20, 5,
             CC.getMapCoordinates());
         
         RulerPanel horRuler = new RulerPanel(
             SwingConstants.HORIZONTAL, 20, 20, 5,
-            CC.getMapCoordinates());
+            CC.getMapCoordinates()); 
           
-        //SC.setRowHeaderView(vertRuler);
-        //SC.setColumnHeaderView(horRuler);
+        SC.setRowHeaderView(vertRuler);
+        SC.setColumnHeaderView(horRuler);*/
         if (runsAsApplication) {
         	sgr = new ScrollGestureRecognizer();
         	CC.addScrollGestureSelectionListener(sgr);
@@ -1150,7 +1150,6 @@ public class FidoFrame extends JFrame implements
         double zoom = 5.76;     // act in a 1152 dpi resolution as 1:1
                
         Graphics2D g2d = (Graphics2D)g;
-        MapCoordinates zoomm=new MapCoordinates();
 
         // User (0,0) is typically outside the imageable area, so we must
         // translate by the X and Y values in the PageFormat to avoid clipping
@@ -1168,8 +1167,8 @@ public class FidoFrame extends JFrame implements
         int printerWidth = ((int)pf.getImageableWidth()*16);
 
 		// Perform an adjustement if we need to fit the drawing to the page.
-        if (printFitToPage) {        
-            zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
+        if (printFitToPage) {   
+        	MapCoordinates zoomm = ExportGraphic.calculateZoomToFit(CC.P, 
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
                     false);
             zoom=zoomm.getXMagnitude();

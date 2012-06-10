@@ -366,7 +366,7 @@ public class ParseSchem
         String categoryName="";
         String libraryName="";
         int i;
-        StringBuffer txt= new StringBuffer();    
+//        StringBuffer txt= new StringBuffer();    
         String line="";
         
         while(true) {
