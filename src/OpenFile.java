@@ -23,7 +23,7 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2011 by Davide Bucci
+    Copyright 2012 by Davide Bucci
 </pre>
 
     The OpenFile class allows to open a new file by using threads.
@@ -128,7 +128,7 @@ class OpenFile implements Runnable {
                 popFrame.CC.P.saveUndoState();
                 popFrame.CC.P.setModified(false);
                
-                System.gc();
+                //System.gc();
 
             } catch (IOException fnfex) {
                 JOptionPane.showMessageDialog(parent,

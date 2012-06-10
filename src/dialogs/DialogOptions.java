@@ -31,7 +31,7 @@ import dialogs.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2011 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 */
 public class DialogOptions extends JDialog implements ComponentListener 
@@ -52,7 +52,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean split_n_c;
   	
   	public double stroke_size_straight_i;
-	public double stroke_size_oval_i;
+	//public double stroke_size_oval_i;
 	
 	public double connectionSize_i;
 
@@ -89,7 +89,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JTextField macroSize;
 	
 	private JTextField stroke_size_straight;
-	private JTextField stroke_size_oval;
+	// private JTextField stroke_size_oval;
 	
 	private JCheckBox quaquaActive_CB;
 	private JComboBox comboFont;
@@ -153,7 +153,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   		macroSize_i = ms;
   		
 		stroke_size_straight_i =sssi;
-		stroke_size_oval_i=ssoi;
+		//stroke_size_oval_i=ssoi;
 
   		setSize(600,500);
 
@@ -247,8 +247,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 					stroke_size_straight_i=Double.parseDouble(
   						stroke_size_straight.getText().trim());
 					
-					stroke_size_oval_i=Double.parseDouble(
-  						stroke_size_oval.getText().trim());
+					//stroke_size_oval_i=Double.parseDouble(
+  					//	stroke_size_oval.getText().trim());
 					
 					connectionSize_i=Double.parseDouble(
   						connectionSize.getText().trim());
@@ -516,7 +516,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			
 		drawingOptPanel.add(stroke_size_straight, constraints);		
 		
-		JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
+/*		JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
 			"stroke_size_oval"));
 		constraints = DialogUtil.createConst(0,10,1,1,100,100,
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
@@ -530,7 +530,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,6,6,6));
 			
-		//drawingOptPanel.add(stroke_size_oval, constraints);		
+		//drawingOptPanel.add(stroke_size_oval, constraints);		*/
 		
 		/**********************************************************************
 		  Macro font
@@ -679,9 +679,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		  FidoCadJ extensions
 		 **********************************************************************/
 		JPanel extensionsPanel = new JPanel();
-    	
-    	GridBagLayout bgl=new GridBagLayout();
-		
+    			
 		GridBagConstraints constraints=new GridBagConstraints();
 		extensionsPanel.setLayout(new GridBagLayout());
 		extensionsPanel.setOpaque(false);

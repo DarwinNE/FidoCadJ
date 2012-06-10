@@ -28,7 +28,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2009 by Davide Bucci
+    Copyright 2007-2012 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -92,7 +92,7 @@ public class DialogLayer extends JDialog implements ComponentListener
   		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
 				Boolean.TRUE);
         GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints=new GridBagConstraints();
+        GridBagConstraints constraints;
         Container contentPane=getContentPane();
         contentPane.setLayout(bgl);
                 

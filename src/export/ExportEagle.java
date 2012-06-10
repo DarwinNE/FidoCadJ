@@ -152,7 +152,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		String mirror="";
 		
 		if(isMirrored) {
@@ -207,7 +207,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		
 		out.write("# Bézier export not implemented yet\n");
 
@@ -225,7 +225,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		junctionList += "Junction ("+een(x*res)+" "
 			+een((dim.height-y)*res)+");\n";
 
@@ -264,7 +264,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		
 		//out.write("Layer "+layer);
 		out.write("Net ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
@@ -339,7 +339,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		String fill_pattern="";
 		
 		//out.write("Layer "+layer);
@@ -363,7 +363,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		
 		out.write("# PCBLine export not implemented yet\n");
 
@@ -429,7 +429,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		String fill_pattern="";
 		
 		/*if(isFilled) {
@@ -477,7 +477,7 @@ public class ExportEagle implements ExportInterface {
 	{ 
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//Color c=l.getColor();
 		
 		out.write("Layer 94;\n");
 		

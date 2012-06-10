@@ -780,7 +780,7 @@ public class ParseSchem
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
                 ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
-                ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false)); 
+//                ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false)); 
             }
                 
             width=Math.abs(cs.mapX(mul*dx,0)-cs.mapX(0,0));

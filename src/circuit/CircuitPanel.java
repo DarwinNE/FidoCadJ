@@ -1153,7 +1153,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 		
         Graphics g = getGraphics();
         
-        Graphics2D g2d = (Graphics2D)g;
+//        Graphics2D g2d = (Graphics2D)g;
         
         // This is the newer code: if primEdit is different from null, it will
         // be drawn in the paintComponent event

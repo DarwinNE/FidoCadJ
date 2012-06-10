@@ -432,7 +432,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
         GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints=new GridBagConstraints();
+        GridBagConstraints constraints;
         Container contentPane=getContentPane();
         
         contentPane.setLayout(bgl);
