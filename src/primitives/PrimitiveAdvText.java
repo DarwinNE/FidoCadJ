@@ -461,7 +461,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  			
  			Font f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
- 				(int)(six*12/7+.5));
+ 				(int)(six*12.0/7.0+.5));
  			
 	   		gSCI.setFont(f);
             
@@ -640,16 +640,16 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			sty = (((Boolean)pd.parameter).booleanValue())?
-				sty&sty | TEXT_MIRRORED:
-				sty&sty & (~TEXT_MIRRORED);
+				sty | TEXT_MIRRORED:
+				sty & (~TEXT_MIRRORED);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			sty = (((Boolean)pd.parameter).booleanValue())?
-				sty&sty | TEXT_ITALIC:
-				sty&sty & (~TEXT_ITALIC);
+				sty | TEXT_ITALIC:
+				sty & (~TEXT_ITALIC);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		 	
@@ -657,8 +657,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		if (pd.parameter instanceof Boolean)
 			
 			sty= (((Boolean)pd.parameter).booleanValue()) ? 
-				sty&sty | TEXT_BOLD:
-				sty&sty & (~TEXT_BOLD);
+				sty | TEXT_BOLD:
+				sty & (~TEXT_BOLD);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		

@@ -390,7 +390,9 @@ class CreateSwingInterface implements Runnable {
 	        try {
 	            UIManager.setLookAndFeel(
 	              	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
- 	        } catch (Exception E) {}
+ 	        } catch (Exception E) {
+ 	        	System.out.println("Could not load the Windows Look and feel!");
+ 	        }
            	Globals.quaquaActive=false;
         } else {
            	Globals.quaquaActive=false;

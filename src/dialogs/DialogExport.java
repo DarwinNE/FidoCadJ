@@ -29,7 +29,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2010 by Davide Bucci
+    Copyright 2007-2012 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -53,7 +53,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     private static final int PDF_INDEX=5;       // Combo list index: pgf format
     private static final int SCR_INDEX=6;       // idem: Eagle scr format
 
-    private final double EPS=1E-5;      // Resolution comparison precision
+    private static final double EPS=1E-5;      // Resolution comparison precision
     
     // Swing elements
     private JComboBox resolution;       // Resolution combo box

@@ -42,13 +42,9 @@ import java.awt.geom.*;
 
 public class ExportFidoCad implements ExportInterface {
 
-	private File fileExp;
 	private OutputStreamWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private int numberPath;
-	private int xsize;
-	private int ysize;
 	private boolean extensions;		// use FidoCadJ extensions
 
 	public int cLe(double l)
@@ -64,7 +60,6 @@ public class ExportFidoCad implements ExportInterface {
 	
 	public ExportFidoCad (File f) throws IOException
 	{
-		fileExp=f;
 		
 		extensions = true;
 		
@@ -99,7 +94,6 @@ public class ExportFidoCad implements ExportInterface {
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
-	    numberPath=0;
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
 	    

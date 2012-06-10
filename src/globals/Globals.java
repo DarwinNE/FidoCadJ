@@ -31,7 +31,7 @@ But... who cares!!!
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2011 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 
 </pre>
 */
@@ -89,7 +89,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.1 alpha";
+    public static final String version = "0.24.1 beta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -200,22 +200,23 @@ public class Globals
     {
     	int i;
     	String s="";
+    	StringBuffer t=new StringBuffer(25);
     	
     	// Check if we have a " somewhere
-    	// Not particularly fast here, but the code is easy to read and we are
-    	// not in a speed sensitive context...
+    	
     	boolean skip=false;
     	
     	for (i=0; i<p.length(); ++i) {
     		if(p.charAt(i)!='"') 
-    			s += p.charAt(i);
+    			t.append(p.charAt(i));
     		else
     			skip=true;
     	}
     	
     	if (skip)
     		return true;
-    		
+    	
+    	s=t.toString();
     	// We need to check only the file name and not the entire path.
     	// So we begin our research only after the last file separation
     	    	

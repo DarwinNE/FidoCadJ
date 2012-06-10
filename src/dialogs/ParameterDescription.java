@@ -20,10 +20,9 @@ package dialogs;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
 
-	@version 1.1 October 2009
 	@author Davide Bucci
 */
 public class ParameterDescription {

@@ -1171,7 +1171,7 @@ public class FidoFrame extends JFrame implements
         if (printFitToPage) {        
             zoomm=ExportGraphic.calculateZoomToFit(CC.P, 
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                    true,false);
+                    false);
             zoom=zoomm.getXMagnitude();
         }
          
@@ -1180,7 +1180,7 @@ public class FidoFrame extends JFrame implements
         m.setMagnitudes(zoom, zoom);
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
-        npages = (int)Math.floor(((imageWidth-1)/printerWidth));
+        npages = (int)Math.floor(((imageWidth-1)/(double)printerWidth));
         
  		/*System.out.println("imageWidth="+imageWidth);
  		System.out.println("printerWidth="+printerWidth);
@@ -1286,8 +1286,9 @@ public class FidoFrame extends JFrame implements
              		// Everything seems to be ok here, so we proceed handling
              		// the file
              		dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                    BufferedReader in=new BufferedReader(new InputStreamReader(
-                     (InputStream)tr.getTransferData(flavors[i])));
+             		InputStreamReader reader=new InputStreamReader(
+             			(InputStream)tr.getTransferData(flavors[i]));
+                    BufferedReader in=new BufferedReader(reader);
 
                     String line="";
                     int k;
@@ -1322,6 +1323,8 @@ public class FidoFrame extends JFrame implements
                             break;
                         }
                     }
+                    in.close();
+                    reader.close();
                     CC.repaint();
                     
                     dtde.dropComplete(true);
@@ -1631,7 +1634,7 @@ public class FidoFrame extends JFrame implements
         MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
             SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
-            false,true);
+            true);
             
         double z=m.getXMagnitude();
         
