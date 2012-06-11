@@ -157,7 +157,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 
   		setSize(600,500);
 
-		GridBagConstraints constraints=new GridBagConstraints();
+		GridBagConstraints constraints;
 		Container contentPane=getContentPane();
 		
 		contentPane.setLayout(new GridBagLayout());

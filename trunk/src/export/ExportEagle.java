@@ -43,7 +43,7 @@ public class ExportEagle implements ExportInterface {
 	private File fileExp;
 	private FileWriter fstream;
 	private BufferedWriter out;
-	private Vector layerV;
+	//private Vector layerV;
 	private Dimension dim;
 	private int oldtextsize;
 	private String macroList;
@@ -100,7 +100,7 @@ public class ExportEagle implements ExportInterface {
 		
 		// We need to save layers informations, since we will use them later.
 		
-		layerV=la;
+		//layerV=la;
 		dim=totalSize;
 	    out = new BufferedWriter(fstream);
 	    res = 5e-2;
@@ -151,7 +151,7 @@ public class ExportEagle implements ExportInterface {
 		int orientation, int layer, String text) 
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		String mirror="";
 		
@@ -206,7 +206,7 @@ public class ExportEagle implements ExportInterface {
 		double strokeWidth)
 		throws IOException	
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		
 		out.write("# Bézier export not implemented yet\n");
@@ -224,7 +224,7 @@ public class ExportEagle implements ExportInterface {
 	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		junctionList += "Junction ("+een(x*res)+" "
 			+een((dim.height-y)*res)+");\n";
@@ -263,7 +263,7 @@ public class ExportEagle implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		
 		//out.write("Layer "+layer);
@@ -338,7 +338,7 @@ public class ExportEagle implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		String fill_pattern="";
 		
@@ -362,7 +362,7 @@ public class ExportEagle implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		
 		out.write("# PCBLine export not implemented yet\n");
@@ -389,8 +389,8 @@ public class ExportEagle implements ExportInterface {
 		double xdd;
 		double ydd;
 		
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//Color c=l.getColor();
 		
 		// At first, draw the pad...
 		if(!onlyHole) {
@@ -428,7 +428,7 @@ public class ExportEagle implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		String fill_pattern="";
 		
@@ -476,7 +476,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		
-		LayerDesc l=(LayerDesc)layerV.get(layer);
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
 		//Color c=l.getColor();
 		
 		out.write("Layer 94;\n");

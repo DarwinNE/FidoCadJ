@@ -70,7 +70,7 @@ public class Globals
     // A pointer to the active window
     public static JFrame activeWindow;
     
-    public static HashSet openWindows = new HashSet();
+    public static final HashSet openWindows = new HashSet();
    
     // Line width expressed in FidoCadJ coordinates 
     public static final double lineWidthDefault = 0.5;  
@@ -258,19 +258,19 @@ public class Globals
     public static String adjustExtension(String p, String ext)
     {
     	int i;
-    	String s="";
     	
     	// Check if we have a " somewhere
-    	// Not particularly fast here, but the code is easy to read and we are
-    	// not in a speed sensitive context...
+
     	boolean skip=false;
-    	
+		StringBuffer temp=new StringBuffer(25);    	
     	for (i=0; i<p.length(); ++i) {
     		if(p.charAt(i)!='"') 
-    			s += p.charAt(i);
+    			temp.append(p.charAt(i));
     		else
     			skip=true;
     	}
+    	
+    	String s=temp.toString();
     	
     	if (skip)
     		return s;

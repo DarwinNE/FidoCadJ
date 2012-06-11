@@ -372,16 +372,24 @@ public class DialogParameters extends JDialog implements ComponentListener
 						} else if(pd.parameter instanceof Boolean) {
 							pd.parameter=new Boolean(jcb[cc++].isSelected());
 						} else if(pd.parameter instanceof Integer) {
-							pd.parameter=new Integer(Integer.parseInt(
+							pd.parameter=Integer.valueOf(Integer.parseInt(
 								jtf[tc++].getText()));
+							// This variant is deprecated by FindBugs
+						/*	new Integer(Integer.parseInt(
+								jtf[tc++].getText()));*/
 						} else if(pd.parameter instanceof Font) {
-		      				pd.parameter=new Font((String)jco[co++].getSelectedItem(), Font.PLAIN, 12);
+		      				pd.parameter=new 
+		      					Font((String)jco[co++].getSelectedItem(), 
+		      					Font.PLAIN, 12);
       					} else if(pd.parameter instanceof LayerInfo) {
-		      				pd.parameter=new LayerInfo(jco[co++].getSelectedIndex());
+		      				pd.parameter=new 
+		      					LayerInfo(jco[co++].getSelectedIndex());
 		      			} else if(pd.parameter instanceof ArrowInfo) {
-		      				pd.parameter=new ArrowInfo(jco[co++].getSelectedIndex());
+		      				pd.parameter=new 
+		      					ArrowInfo(jco[co++].getSelectedIndex());
 		      			} else if(pd.parameter instanceof DashInfo) {
-		      				pd.parameter=new DashInfo(jco[co++].getSelectedIndex());
+		      				pd.parameter=new 
+		      					DashInfo(jco[co++].getSelectedIndex());
 		      			}
      				}
 				} catch (NumberFormatException E) 

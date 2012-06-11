@@ -123,7 +123,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	private int orientation;
 	private AffineTransform mm;
 	private FontMetrics fm;
-	private int h, th, w, hh, ww;
+	private int h, th, w;
 	private int x1, y1, xa, ya, qq;
 	private double xyfactor, si, co;
 	private boolean needStretching;
@@ -217,8 +217,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 					co=Math.cos(Math.toRadians(-orientation));
    				
    				}
-				hh=(int)Math.abs(w*si+th*co);
-				ww=(int)Math.abs(w*co-th*si);
+//				hh=(int)Math.abs(w*si+th*co);
+//				ww=(int)Math.abs(w*co-th*si);
    				// Calculate the bounding box.
 
    				double bbx1=xa;

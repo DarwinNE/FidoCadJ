@@ -1790,7 +1790,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         g.drawLine(sx, sy, ex, ey);
         
-        int tot=(int)length;
+//        int tot=(int)length;
         
         // A little bit of trigonometry :-)
         
@@ -1858,8 +1858,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         String t2 = roundTo(length*.127,2)+" mm";
         
         FontMetrics fm = g.getFontMetrics(f);
-        int h = fm.getAscent();
-        int th = h+fm.getDescent();
+//        int h = fm.getAscent();
+//        int th = h+fm.getDescent();
         
         // Draw the box at the end, with the measurement results.
         g.setColor(Color.white);

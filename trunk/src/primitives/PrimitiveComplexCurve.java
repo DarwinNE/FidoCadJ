@@ -694,21 +694,29 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	*/
 	public String toString(boolean extensions)
 	{
-		String cmd;
+		StringBuffer temp=new StringBuffer(25);
+
 		if(isFilled)
-			cmd="CP ";
+			temp.append("CP ");
 		else
-			cmd="CV ";
+			temp.append("CV ");
 			
 		if(isClosed)
-			cmd += "1 ";
+			temp.append("1 ");
 		else
-			cmd += "0 ";
-			
-		for(int i=0; i<nPoints;++i)
-			cmd+=virtualPoint[i].x+" "+virtualPoint[i].y+" ";
+			temp.append("0 ");
+
+		for(int i=0; i<nPoints;++i) {
+			temp.append(virtualPoint[i].x);
+			temp.append(" ");
+			temp.append(virtualPoint[i].y);
+			temp.append(" ");
+		}
 		
-		cmd+=getLayer()+"\n";
+		temp.append(getLayer());
+		temp.append("\n");
+		
+		String cmd=temp.toString();
 		
 		if(extensions) {
 		 	int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);

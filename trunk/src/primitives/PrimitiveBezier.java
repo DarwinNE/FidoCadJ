@@ -67,7 +67,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	{
 		super();
 		
-		r = new Rectangle();
+		//r = new Rectangle();
    		initPrimitive(-1);
 		
 	}
@@ -103,7 +103,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		arrowStyle =arrowSt;
 		dashStyle=dashSt;
 		
-		r = new Rectangle();
+		//r = new Rectangle();
 		
 		initPrimitive(-1);
 			
@@ -237,7 +237,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	private Shape shape1;
 	private Stroke stroke;
 	private float w;
-	private Rectangle r;
+	//private Rectangle r;
 	
 	private int xmin, ymin;
 	private int width, height;

@@ -391,16 +391,24 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	*/
 	public String toString(boolean extensions)
 	{
-		String cmd;
+		StringBuffer temp=new StringBuffer(25);
+
 		if(isFilled)
-			cmd="PP ";
+			temp.append("PP ");
 		else
-			cmd="PV ";
+			temp.append("PV ");
 			
-		for(int i=0; i<nPoints;++i)
-			cmd+=virtualPoint[i].x+" "+virtualPoint[i].y+" ";
+		for(int i=0; i<nPoints;++i) {
+			temp.append(virtualPoint[i].x);
+			temp.append(" ");
+			temp.append(virtualPoint[i].y);
+			temp.append(" ");
+		}
 		
-		cmd+=getLayer()+"\n";
+		temp.append(getLayer());
+		temp.append("\n");
+		
+		String cmd=temp.toString();
 		
 		if(extensions) {
 			if (dashStyle>0 || hasName() || hasValue()) {

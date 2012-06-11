@@ -160,7 +160,7 @@ public class ExportGraphic
 		// This solves bug #3299281
 		P.deselectAll();
 
-		Point org=new Point(0,0);
+		Point org;
 		
 		if (setSize) {
 			// In this case, the image size is set and so we need to calculate
