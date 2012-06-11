@@ -41,7 +41,7 @@ class RunExport implements Runnable {
 	boolean blackWhite;
 	boolean ext;
 	JFrame parent;
-	boolean success;
+	//boolean success;
 	
 	/** Setting up the parameters needed for the export
 	@param tfile the file name

@@ -386,9 +386,11 @@ public class ParseSchem
             // A category
             if(line.charAt(0)=='{') { 
                 categoryName="";
+                StringBuffer temp=new StringBuffer(25);
                 for(i=1; i<line.length()&&line.charAt(i)!='}'; ++i){
-                    categoryName+=line.charAt(i);
+                    temp.append(line.charAt(i));
                 }
+                categoryName=temp.toString();
                 if(i==line.length()) {
                 	IOException e=new IOException("Category non terminated with }.");
                     throw e;
@@ -547,13 +549,14 @@ public class ParseSchem
         
         }
         
-        // Check if the line widths should be indicated 
-        if(extensions && Globals.lineWidth !=
-            Globals.lineWidthDefault) {         
+        // Check if the line widths should be indicated
+        // We consider that a difference of 1e-5 is enough to be negligible
+        if(extensions && Math.abs(Globals.lineWidth -
+            Globals.lineWidthDefault)<1e-5) {         
             s.append("FJC A "+Globals.lineWidth+"\n");
         }
-        if(extensions && Globals.lineWidthCircles !=
-            Globals.lineWidthCirclesDefault) {          
+        if(extensions && Math.abs(Globals.lineWidthCircles -
+            Globals.lineWidthCirclesDefault)<1e-5) {          
             s.append("FJC B "+Globals.lineWidthCircles+"\n");
         }
         return s;
@@ -593,7 +596,6 @@ public class ParseSchem
 				"ParseSchem.draw: ouch... cs not initialized :-(");
 			return;
 		}
-		
         // At first, we check if the current view has changed. 
         if(changed 	|| oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
         	oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
@@ -1545,6 +1547,8 @@ public class ParseSchem
             implemented, it can be interesting to rewrite the parser as a
             state machine.
         */
+        synchronized(this) {
+
         int k;      
         char c='\n';
         int len;
@@ -1554,7 +1558,6 @@ public class ParseSchem
         token.setLength(0);
         len=s.length();
         
-        synchronized(this) {
         
         for(i=0; i<len;++i){
             c=s.charAt(i);
@@ -2019,7 +2022,7 @@ public class ParseSchem
         @param exportInvisible specify that the primitives on invisible layers
         should be exported
     */
-    public void exportDrawing(ExportInterface exp, boolean header, 
+    public synchronized void exportDrawing(ExportInterface exp, boolean header, 
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
@@ -2134,7 +2137,7 @@ public class ParseSchem
         
             if(cl!=null) cl.somethingHasChanged();
             
-        } catch (Exception E) 
+        } catch (IOException E) 
         {
         	System.out.println("Could not undo.");
         }
@@ -2156,7 +2159,7 @@ public class ParseSchem
         
             if(cl!=null) cl.somethingHasChanged();
             
-        } catch (Exception E) 
+        } catch (IOException E) 
         {
         	System.out.println("Could not redo.");
         }
@@ -2208,7 +2211,7 @@ public class ParseSchem
     /** Set the visibility of the macro origin
         @param s the visibility state
     */
-    public void setMacroOriginVisible(boolean s)
+    public synchronized void setMacroOriginVisible(boolean s)
     {
         hasFCJOriginVisible = s;
     }

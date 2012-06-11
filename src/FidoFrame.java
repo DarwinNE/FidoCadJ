@@ -235,8 +235,8 @@ public class FidoFrame extends JFrame implements
 
         }
         // some standard configurations
-        exportFileName=new String();
-        exportFormat=new String();
+        exportFileName="";
+        exportFormat="";
         exportBlackWhite=false;
         printMirror = false;
         printFitToPage = false;
@@ -368,7 +368,7 @@ public class FidoFrame extends JFrame implements
 		//((JComponent)getContentPane()).setOpaque(true);
 		
         CC=new CircuitPanel(true);
-        CC.P.openFileName = new String();
+        CC.P.openFileName = "";
                         	
         dt = new DropTarget(CC, this);
         

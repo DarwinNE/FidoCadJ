@@ -36,11 +36,11 @@ import java.awt.geom.*;
 
 public class ExportSVG implements ExportInterface {
 
-	private File fileExp;
+	//private File fileExp;
 	private OutputStreamWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private int numberPath;
+	//private int numberPath;
 	
 	private Color c;
 	private double strokeWidth;
@@ -61,7 +61,7 @@ public class ExportSVG implements ExportInterface {
 	
 	public ExportSVG (File f) throws IOException
 	{
-		fileExp=f;
+		//fileExp=f;
 		
 		fstream = new OutputStreamWriter(new FileOutputStream(f), 
 			Globals.encoding);
@@ -91,7 +91,7 @@ public class ExportSVG implements ExportInterface {
 		
 		layerV=la;
 	    out = new BufferedWriter(fstream);
-	    numberPath=0;
+	    //numberPath=0;
 	    	    
 	    int wi=(int)(totalSize.width);
 	    int he=(int)(totalSize.height);
@@ -607,10 +607,10 @@ public class ExportSVG implements ExportInterface {
 		return s;
 	}
 
-	private Color oc;
-	private double owl;
-	private String ofp;
-	private int ods;
+	//private Color oc;
+	//private double owl;
+	//private String ofp;
+	//private int ods;
 
 	
 	/** This routine ensures that the following items will be drawn with the
@@ -638,10 +638,10 @@ public class ExportSVG implements ExportInterface {
 				  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
 		
 			// Saving old values.
-			oc=c;
-			owl=strokeWidth;
-			ofp=fill_pattern;
-			ods=dashStyle;
+			//oc=c;
+			//owl=strokeWidth;
+			//ofp=fill_pattern;
+			//ods=dashStyle;
 		
 		} else {
 			out.write("/>\n");

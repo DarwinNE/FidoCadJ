@@ -22,7 +22,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2011 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -597,7 +597,7 @@ public class MapCoordinates
     */
     public String toString()
     {
-    	String s=new String();
+    	String s="";
         s+="[xCenter="+ xCenter;
     	s+="|yCenter="+ yCenter;
 	    s+="|xMagnitude="+xMagnitude;
