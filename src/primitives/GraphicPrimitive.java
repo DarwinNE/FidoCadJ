@@ -257,7 +257,8 @@ public abstract class GraphicPrimitive
 	public String saveText(boolean extensions)
 	{
 		String subsFont;
-		String s="";
+		//String s="";
+		StringBuffer s2=new StringBuffer();
 		// Check if the font is default and in this case, just put an asterisk.
 		if (macroFont.equals(Globals.defaultTextFont)) {
 			subsFont = "*";
@@ -275,20 +276,44 @@ public abstract class GraphicPrimitive
 		
 		// Write down the extensions only if needed
 		if ((name!=null && !name.equals("")) || (value!=null && !value.equals(""))) {
-			if(extensions) s+="FCJ\n";
-			s+="TY "+virtualPoint[getNameVirtualPointNumber()].x+
-				" "+virtualPoint[getNameVirtualPointNumber()].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
-				+getLayer()
-				+" "+subsFont+" "+(name==null?"":name)+"\n";
-			s+="TY "+virtualPoint[getValueVirtualPointNumber()].x+
-				" "+virtualPoint[getValueVirtualPointNumber()].y+" "+
-				macroFontSize*4/3+" "+macroFontSize+" "+"0"+" "+"0"+" "
-				+getLayer()
-				+" "+subsFont+" "+(value==null?"":value)+"\n";
+			if(extensions) 
+				s2.append("FCJ\n");
+			
+			s2.append("TY ");
+			s2.append(virtualPoint[getNameVirtualPointNumber()].x);
+			s2.append(" ");
+			s2.append(virtualPoint[getNameVirtualPointNumber()].y);
+			s2.append(" ");
+			s2.append(macroFontSize*4/3);
+			s2.append(" ");
+			s2.append(macroFontSize);
+			s2.append(" 0 0 ");
+			s2.append(getLayer());
+			s2.append(" ");
+			s2.append(subsFont);
+			s2.append(" ");
+			s2.append(name==null?"":name);
+			s2.append("\n");
+
+			s2.append("TY ");
+			s2.append(virtualPoint[getValueVirtualPointNumber()].x);
+			s2.append(" ");
+			s2.append(virtualPoint[getValueVirtualPointNumber()].y);
+			s2.append(" ");
+			s2.append(macroFontSize*4/3);
+			s2.append(" ");
+			s2.append(macroFontSize);
+			s2.append(" 0 0 ");
+			s2.append(getLayer());
+			s2.append(" ");
+			s2.append(subsFont);
+			s2.append(" ");
+			s2.append(value==null?"":value);
+			s2.append("\n");
+
 		}
 		
-		return s;
+		return s2.toString();
 	}
 	
 	/** Export the name and the value text lines associated to the primitive.

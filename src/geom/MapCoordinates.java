@@ -403,49 +403,48 @@ public class MapCoordinates
     {
         // The orientation data is not used outside a macro
         if(isMacro){
-            xc-=100;
-            yc-=100;
+            xc-=100.0;
+            yc-=100.0;
                
         	if(mirror) {
             	switch(orientation){
                 	case 0:
-                	    vx=-((double)xc)*xMagnitude;
+                	    vx=-xc*xMagnitude;
              	       	break;
                 	case 1:
-                    	vx=((double)yc)*yMagnitude;
+                    	vx=yc*yMagnitude;
                     	break;
-                
                 	case 2:
-                    	vx=((double)xc)*xMagnitude;
+                    	vx=xc*xMagnitude;
                     	break;
                 
                 	case 3:
-                    	vx=-((double)yc)*yMagnitude;
+                    	vx=-yc*yMagnitude;
                     	break;
     
                 	default:
-                	    vx=-((double)xc)*xMagnitude;
+                	    vx=-xc*xMagnitude;
              	       	break;
             	}
         	} else {
             	switch(orientation){
             	    case 0:
-            	        vx=((double)xc)*xMagnitude;
+            	        vx=xc*xMagnitude;
                 	    break;
                 	case 1:
-                	    vx=-((double)yc)*yMagnitude;
+                	    vx=-yc*yMagnitude;
                		    break;
                 
                 	case 2:
-                	    vx=-((double)xc)*xMagnitude;
+                	    vx=-xc*xMagnitude;
                 	    break;
                 
             	    case 3:
-            	        vx=((double)yc)*yMagnitude;
+            	        vx=yc*yMagnitude;
             	        break;
     
             	    default:
-            	        vx=((double)xc)*xMagnitude;
+            	        vx=xc*xMagnitude;
                 	    break;
             	}
         	}   
@@ -492,29 +491,27 @@ public class MapCoordinates
     public final double mapYr(double xc,double yc)
     {  
         if(isMacro){
-            xc-=100;
-            yc-=100;
+            xc-=100.0;
+            yc-=100.0;
         	      
         	switch(orientation){
-        	
             	case 0:
-                	vy=(double)yc*yMagnitude;
+                	vy=yc*yMagnitude;
         			break;
         			
             	case 1:
-                	vy=(double)xc*xMagnitude;
+                	vy=xc*xMagnitude;
                 	break;
             
             	case 2:
-                	vy=-(double)yc*yMagnitude;
+                	vy=-yc*yMagnitude;
                 	break;
             
             	case 3:
-                	vy=-(double)xc*xMagnitude;
+                	vy=-xc*xMagnitude;
                 	break;
                 default:
-                	vy=0;
-                	
+                	vy=0.0;
         	}
         } else {
         	vy=(double)yc*yMagnitude;

@@ -160,29 +160,27 @@ public class ExportGraphic
 		// This solves bug #3299281
 		P.deselectAll();
 
-		Point org;
+		Point org=new Point(0,0);
 		
+		Dimension d = getImageSize(P, 1,true,org);
 		if (setSize) {
 			// In this case, the image size is set and so we need to calculate
 			// the correct zoom factor in order to fit the drawing in the 
 			// specified area.
-			Dimension d = getImageSize(P, 1,true);
+			
 
 			d.width+=Globals.exportBorder;
 			d.height+=Globals.exportBorder;
-			
-			
+						
 			unitPerPixel = Math.min((double)width/(double)d.width, 
 				(double)height/(double)d.height);
 		} else {
 			// In this situation, we do have to calculate the size from the
 			// specified resolution.
-			Dimension d = getImageSize(P, 1,true);
-			
+						
 			width=(int)((d.width+Globals.exportBorder)*unitPerPixel);
 			height=(int)((d.height+Globals.exportBorder)*unitPerPixel);
 		}
-	  	org=getImageOrigin(P,1);
 		
 		org.x *=unitPerPixel;
 		org.y *=unitPerPixel;
@@ -284,11 +282,13 @@ public class ExportGraphic
     	@param unitperpixel the zoom set to be used.
     	@param countMin specifies that the size should be calculated counting 
     		the minimum x and y coordinates, and not the origin.
+    	@param origin is updated with the image origin.
     
     */
     public static Dimension getImageSize(ParseSchem P, 
     							  double unitperpixel, 
-    							  boolean countMin)
+    							  boolean countMin,
+    							  Point origin)
     {
     	int width;
 		int height;
@@ -297,7 +297,7 @@ public class ExportGraphic
 		// context!
 		
 	
-		BufferedImage bufferedImage = new BufferedImage(10, 10, 
+		BufferedImage bufferedImage = new BufferedImage(100, 100, 
         								  BufferedImage.TYPE_INT_RGB);
     
         // Create a graphics contents on the buffered image
@@ -332,6 +332,21 @@ public class ExportGraphic
 			width=100;
 			height=100;
 		}
+		
+		int originx;
+		int originy;
+		
+		if (m.getXMax() >= m.getXMin() && 
+			m.getYMax() >= m.getYMin()){
+			originx=m.getXMin();
+			originy=m.getYMin();
+		} else {
+			originx=0;
+			originy=0;
+		}
+
+		
+		origin = new Point(originx, originy);
 
 		return new Dimension(width, height);
     }
@@ -396,6 +411,7 @@ public class ExportGraphic
 		double maxsizex;
 		double maxsizey;
 		Point org=new Point(0,0);
+		Point o=new Point(0,0);
 		
 		P.setChanged(true);
 		MapCoordinates newZoom=new MapCoordinates();
@@ -403,14 +419,14 @@ public class ExportGraphic
 		// If the size is invalid (for example because it's the first time
 		// the circuit has been drawn).
 		
-		boolean forceCalc=true;	// 0.20.5
+		boolean forceCalc=true;	
 		
-		Dimension D = getImageSize(P,1,countMin); 
+		Dimension D = getImageSize(P,1,countMin, o); 
 		maxsizex=D.width;
 		maxsizey=D.height;
 			
 		if (countMin) 
-			org=getImageOrigin(P,1.0);
+			org=o;
 			
 		double zoomx=1.0/((maxsizex)/(double)sizex);
 		double zoomy=1.0/((maxsizey)/(double)sizey);				
