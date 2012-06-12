@@ -499,9 +499,9 @@ public class ParseSchem
         int i;
         StringBuffer s=registerConfiguration(extensions);   
         for (i=0; i<primitiveVector.size(); ++i){
-            s.append(new StringBuffer(
+            s.append(
                 ((GraphicPrimitive)primitiveVector.get(i)).toString(
-                    extensions)));
+                    extensions));
             if(useWindowsLineFeed) 
                 s.append("\r");
         }        
@@ -1992,19 +1992,20 @@ public class ParseSchem
         // database, this is a good place to calculate which layers are
         // used. We thus start by resetting the array.
         maxLayer = -1;
+        k=0;
         
         for (l=0; l<Globals.MAX_LAYERS; ++l) {
             layersUsed[l] = false;
             
-            for (i=0; i<primitiveVector.size(); ++i){
+            for (i=k; i<primitiveVector.size(); ++i){
                 g=(GraphicPrimitive)primitiveVector.get(i);
                 
-                // Layers are ordered now.
-                // if(g.layer>l)
-                //  break;
                 
-                if (g.containsLayer(l))
+                if (g.containsLayer(l)) {
                     layersUsed[l]=true;
+                    k=i;
+                    break;
+                }
                     
                 // We keep track of the maximum layer number used in the 
                 // drawing.

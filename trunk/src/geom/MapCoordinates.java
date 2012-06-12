@@ -372,7 +372,7 @@ public class MapCoordinates
     {
     	return mapXi(xc, yc, true);
     }
-    
+ 
     /** Map the xc,yc coordinate given in the X pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
@@ -380,7 +380,7 @@ public class MapCoordinates
     */
     public final int mapXi(double xc,double yc, boolean track)
     {
-
+    
         ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
         	to the lowest integer. We need to round correctly; */
 
@@ -390,7 +390,7 @@ public class MapCoordinates
         	if(ivx>xMax)
             	xMax=ivx;
        	}
-       	
+       
         return ivx;
     }
    
