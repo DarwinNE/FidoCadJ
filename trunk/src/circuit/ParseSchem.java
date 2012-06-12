@@ -2037,7 +2037,8 @@ public class ParseSchem
 		// routine is called recursively.
 		
         if (header) {
-        	Dimension d = ExportGraphic.getImageSize(this, 1, true);
+        	Point o=new Point(0,0);
+        	Dimension d = ExportGraphic.getImageSize(this, 1, true,o);
 
 			d.width+=Globals.exportBorder;
 			d.height+=Globals.exportBorder;

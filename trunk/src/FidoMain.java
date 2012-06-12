@@ -59,6 +59,7 @@ public class FidoMain {
         boolean headlessMode = false;
         boolean resolutionBasedExport = false;	
         boolean printSize=false;
+        boolean printTime=true;
         double resolution=1;
         
         
@@ -128,6 +129,8 @@ public class FidoMain {
         			} else if (args[i].startsWith("-s")) {
         				headlessMode = true;
         				printSize=true;
+        			} else if (args[i].startsWith("-t")) {
+        				printTime=true;
         			} else {
         				System.err.println("Unrecognized option: "+args[i]);
         				showCommandLineHelp();
@@ -169,8 +172,8 @@ public class FidoMain {
         	readLibrariesProbeDirectory(P, false, libDirectory);
         	
         	StringBuffer txt=new StringBuffer();    
-
-        	try {
+			MyTimer mt = new MyTimer();
+			try {
         		// Read the input file.
         		FileReader input = new FileReader(loadFile);
         		BufferedReader bufRead = new BufferedReader(input);
@@ -217,8 +220,13 @@ public class FidoMain {
             }
             
             if (printSize) {
-            	Dimension d = ExportGraphic.getImageSize(P,1, true);
+            	Point o=new Point(0,0);
+            	Dimension d = ExportGraphic.getImageSize(P,1, true, o);
 				System.out.println(""+d.width+" "+d.height);	
+            }
+            
+            if (printTime) {
+            	System.out.println("Elapsed time: "+mt.getElapsed()+" ms.");
             }
         }
 
@@ -254,6 +262,8 @@ public class FidoMain {
     		" -s     Print the size  of the specified file in logical coordinates.\n\n"+
     		
     		" -h     Print this help and exit.\n\n"+
+    		
+    		" -t     Print the time used by FidoCadJ for the specified operation.\n\n"+
     		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at\n"+
     		"        startup time.\n\n"+

@@ -184,8 +184,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		if(changed) {
 			changed = false;
 			x1=virtualPoint[0].x;
- 			y1=virtualPoint[0].y;
- 		
+ 			y1=virtualPoint[0].y;	
  				
  			macroCoord.setXMagnitude(coordSys.getXMagnitude());
 			macroCoord.setYMagnitude(coordSys.getYMagnitude());

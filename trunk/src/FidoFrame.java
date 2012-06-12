@@ -1178,7 +1178,9 @@ public class FidoFrame extends JFrame implements
         
         m.setMagnitudes(zoom, zoom);
         
-        int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false).width;
+        Point o=new Point(0,0);
+        
+        int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false, o).width;
         npages = (int)Math.floor(((imageWidth-1)/(double)printerWidth));
         
  		/*System.out.println("imageWidth="+imageWidth);
