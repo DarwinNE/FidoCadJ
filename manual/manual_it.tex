@@ -290,7 +290,7 @@ L'aspetto con MacOSX\index{MacOSX} è mostrato nella figura~\ref{fig_fidocadj};\m
 Nella barra dei comandi\index{barra dei comandi} (in alto), si trovano le funzioni più utilizzate, che permettono di creare e modificare un disegno. La tabella~\ref{tab_comandi} mostra un rapido riassunto delle funzionalità dei comandi disponibili e descrive le azioni possibili. Noterete che una volta che viene premuto un bottone, questo rimarrà premuto fino a quando non si selezionerà un altra funzione dalla barra.\marginpar{Questo modo di funzionare è ispirato alle vecchie radio a valvole ed ai commutatori in voga fino agli anni 70.}
 Nella barra, è possibile scegliere quale elemento di disegno\index{elemento} verrà introdotto.\footnote{Per avere maggiori informazioni sul formato con cui gli elementi del disegno vengono memorizzati, riferitevi alla sezione~\ref{sec_primitive}.} Sulla destra, una lista attivabile con un click mostra il layer corrente (riferitevi al paragrafo~\ref{sec_layer} per maggiori informazioni).
 
-La barra dei comandi\index{barra dei comandi} è parzialmente personalizzabile. In particolare, si può scegliere se mostrare in ogni bottone l'icona più il testo, oppure solo l'icona. Le icone sono inoltre disponibili in due formati selezionabili a piacere. Per scegliere queste impostazioni, basta andare nel menu ``Vista/Opzioni''.\footnote{Tranne su MacOSX, in cui questa voce si trova nel menu FidoCadJ e si chiama ``Preferenze''.} Le modifiche saranno attive al riavvio successivo del programma, dato che presumibilmente non si tratta di qualcosa che va cambiato tutti i giorni.
+La barra dei comandi\index{barra dei comandi} è parzialmente personalizzabile. In particolare, si può scegliere se mostrare in ogni bottone l'icona più il testo, oppure solo l'icona. Le icone sono inoltre disponibili in due formati selezionabili a piacere. Per scegliere queste impostazioni, basta andare nel menu ``File/Opzioni''.\footnote{Tranne su MacOSX, in cui questa voce si trova nel menu FidoCadJ e si chiama ``Preferenze''.} Le modifiche saranno attive al riavvio successivo del programma, dato che presumibilmente non si tratta di qualcosa che va cambiato tutti i giorni.
 Le figure \ref{fig_fidocadj} e \ref{fig_metal} mostrano quanto si ottiene nella barra dei comandi (subito sotto il titolo della finestra), configurata per mostrare il testo e le icone, nella loro versione più piccola. 
 Nella seconda riga, a partire da sinistra si vedono le impostazioni di zoom ed i bottoni ``Adatta'', ``Mostra griglia'' e ``Blocca sulla griglia''. Il primo permette di selezionare automaticamente le impostazioni di zoom più adatte a mostrare la totalità del disegno. Il secondo permette di selezionare se mostrare oppure no la griglia. Il terzo permette all'utente di scegliere se desidera allineare gli elementi alla griglia durante l'introduzione, oppure no. Una cosa che può essere utile per allineare con precisione degli oggetti senza dover disattivare la griglia è selezionare gli elementi da muovere e poi premere \keyevidence{Alt} ed i tasti cursore.
 
@@ -431,7 +431,7 @@ Connessione elettrica in uno schema.
 }
 \textsc{Pista}\index{pista c. s.}
 &
-Pista di circuito stampato. La larghezza di default può essere modificata da ``Vista/Opzioni''.
+Pista di circuito stampato. La larghezza di default può essere modificata da ``File/Opzioni''.
 \\
 
 \keyevidence{Z}
@@ -441,7 +441,7 @@ Pista di circuito stampato. La larghezza di default può essere modificata da ``V
 }
 \textsc{Piazzola}\index{piazzola c. s.}
 &
-Piazzola per circuito stampato. Le dimensioni di default possono essere modificate da ``Vista/Opzioni''.
+Piazzola per circuito stampato. Le dimensioni di default possono essere modificate da ``File/Opzioni''.
 \\
 \bottomrule
 \end{tabular}
@@ -885,7 +885,7 @@ Ovviamente, i comandi sopra elencati vanno usati da terminale, trovandosi nella 
 
 
 \section{Gestione librerie}
-Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``Vista/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} Grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 3.1\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCAD e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
+Il programma permette di specificare una directory all'interno della quale sono caricati tutti i file di libreria\index{libreria} (estensione \lstinline!.fcl!). Per farlo, basta andare nel menu ``File/Opzioni'' e specificarla nella riga apposita. Se è presente un file di nome \lstinline!FCDstdlib.fcl!, i suoi contenuti si sostituiscono alla libreria standard\index{libreria!libreria standard} disponibile nel programma. Se è presente un file di nome \lstinline!PCB.fcl!, i suoi contenuti si sostituiscono alla libreria PCB disponibile nel programma.\footnote{Attenzione all'utilizzo delle lettere maiuscole, in particolare se il vostro sistema operativo le differenzia dalle minuscole nella gestione dei file.} Grazie all'accordo di Roby IZ1CYN, ho potuto includere la libreria IHRaM 3.1\index{libreria IHRaM} direttamente nel pacchetto contenente FidoCadJ. Questo perché fra le varie librerie messe a punto dagli utilizzatori di FidoCAD e di FidoCadJ mi è parsa la migliore, la più completa e razionale. Se comunque all'interno della directory esterna contenente le librerie è disponibile un file chiamato \lstinline!IHRAM.FCL!, questo verrà caricato al posto della versione contenuta in FidoCadJ.
 
 Altri file con estensione \lstinline!.fcl! sono considerati alla stregua di librerie aggiuntive e caricati in memoria oltre alla libreria standard. Tutto questo è fatto all'avvio o quando l'utente configura FidoCadJ per leggere le librerie aggiuntive in un'altra directory. Si può forzare il programma a rileggere le librerie attraverso l'opzione ``Aggiorna librerie'' del menu ``Circuito''.
 
@@ -1260,7 +1260,7 @@ Una libreria \textit{non deve} contenere nelle sue macro alcuna informazione di 
 \section{Librerie standard}
 FidoCadJ contiene al suo interno alcune librerie tradizionalmente fornite con FidoCAD\index{FidoCAD}. In particolare, si tratta della libreria standard\index{libreria standard} e della libreria dedicata ai simboli per i circuiti stampati (PCB)\index{libreria PCB}.
 
-\'E tuttavia possibile modificare il sostituire il contenuto delle librerie interne specificando al programma (menu ``Vista/Opzioni/Directory Librerie'') una directory contenente le librerie da caricare.
+\'E tuttavia possibile modificare il sostituire il contenuto delle librerie interne specificando al programma (menu ``File/Opzioni/Directory Librerie'') una directory contenente le librerie da caricare.
 Se un file di nome \lstinline!FCDstdlib.fcl! è presente in questa directory, il suo contenuto sarà utilizzato al posto della libreria standard. Se un file di nome \lstinline!PCB.fcl! è presente, il suo contenuto verrà utilizzato al posto della libreria contenente i simboli da usare nei circuiti stampati.
 Librerie contenute in file con un altro nome e con estensione \lstinline!fcl! saranno caricate a fianco delle librerie standard.
 

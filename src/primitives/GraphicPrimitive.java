@@ -257,8 +257,8 @@ public abstract class GraphicPrimitive
 	public String saveText(boolean extensions)
 	{
 		String subsFont;
-		//String s="";
 		StringBuffer s2=new StringBuffer();
+
 		// Check if the font is default and in this case, just put an asterisk.
 		if (macroFont.equals(Globals.defaultTextFont)) {
 			subsFont = "*";
