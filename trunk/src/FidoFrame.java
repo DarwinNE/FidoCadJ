@@ -862,16 +862,16 @@ public class FidoFrame extends JFrame implements
             if (arg.equals(Globals.messages.getString("Open"))) {
 				OpenFile openf=new OpenFile();
 				openf.setParam(this);
-				SwingUtilities.invokeLater(openf);
+				//SwingUtilities.invokeLater(openf);
 				/*
            		The following code would require a thread safe implementation
            		of some of the inner classes (such as ParseSchem), which is 
            		indeed not the case...
            		*/
-				/*Thread thread = new Thread(openf);
+				Thread thread = new Thread(openf);
 				thread.setDaemon(true);
 				// Start the thread
-				thread.start();*/
+				thread.start();
 				
             }
             // Export the current drawing
