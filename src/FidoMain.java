@@ -59,7 +59,7 @@ public class FidoMain {
         boolean headlessMode = false;
         boolean resolutionBasedExport = false;	
         boolean printSize=false;
-        boolean printTime=true;
+        boolean printTime=false;
         double resolution=1;
         
         
@@ -458,7 +458,7 @@ class CreateSwingInterface implements Runnable {
 		// We begin by showing immediately the window. This improves the
 		// perception of speed given to the user, since the libraries 
 		// are not yet loaded
-        // popFrame.setVisible(true); 
+        popFrame.setVisible(true); 
 
 		// We load the libraries (this does not take so long in modern
 		// systems).
