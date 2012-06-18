@@ -670,16 +670,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             // Show a pop up menu if the user does a right-click
             if(evt.getButton() == MouseEvent.BUTTON3) {
-            	
-            	// At first, we check if there is at least an element
-            	// which has been selected.
-            	
-            	if(P.getFirstSelectedPrimitive()!=null) {
-            	
-            		// If this is true, we show up the menu.
-            		popup.show(evt.getComponent(),
-                       evt.getX(), evt.getY());
-            	}
+            	popup.show(evt.getComponent(), evt.getX(), evt.getY());
                 break;
             }
             
