@@ -68,10 +68,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	// A second polygon stored in logical coordinates
  	private Polygon q;
  	
-	// A ComplexCurve can be defined up to 100 points
-	// TODO this is somewhat not very efficient. It would be better to use
-	// a dynamically sized vector.
-	static final int N_POINTS=100;
+	// 5 points is the initial size, which is increased if needed
+ 	int N_POINTS=5;
 	
 	static final int STEPS=24;
 
@@ -130,11 +128,25 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		@param x the x coordinate of the point.
 		@param y the y coordinate of the point.
 	*/
+	/** Add a point at the current polygon
+		@param x the x coordinate of the point.
+		@param y the y coordinate of the point.
+	*/
 	public void addPoint(int x, int y)
 	{
-		if(nPoints+2>=N_POINTS)
-			return;
-					
+		if(nPoints+2>=N_POINTS) {
+			int o_n=N_POINTS;
+			int i;
+			N_POINTS += 10;
+			Point[] nv = new Point[N_POINTS];
+			for(i=0;i<o_n;++i) {
+				nv[i]=virtualPoint[i];
+			}
+			for(;i<N_POINTS;++i) {
+				nv[i]=new Point();
+			}
+			virtualPoint=nv;
+		}
 		// And now we enter the position of the point we are interested with
 		virtualPoint[nPoints].x=x;
 		virtualPoint[nPoints++].y=y;
@@ -146,7 +158,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		virtualPoint[getValueVirtualPointNumber()].y=y+10;				
 		changed = true;
 	}
-
+	
 	private int xmin, ymin;
 	private int width, height;
 	
@@ -467,8 +479,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       		while(j<N-1){
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
-      			x1 = virtualPoint[i].x=Integer.parseInt(tokens[j++]);
-     			y1 = virtualPoint[i++].y=Integer.parseInt(tokens[j++]);
+      			x1 =Integer.parseInt(tokens[j++]);
+     			y1 =Integer.parseInt(tokens[j++]);
+     			++i;
+     			addPoint(x1,y1);
       		}	      				
       		nPoints=i;
       		

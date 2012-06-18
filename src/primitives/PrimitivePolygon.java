@@ -47,10 +47,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	private Polygon p;
  
 
-	// A Polygon can be defined up to 256 points
-	// TODO this is somewhat not very efficient. It would be better to use
-	// a dynamically sized vector.
-	static final int N_POINTS=256;
+	// If needed, we increase this stuff.
+	
+	int N_POINTS=5;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -94,9 +93,19 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	*/
 	public void addPoint(int x, int y)
 	{
-		if(nPoints+2>=N_POINTS)
-			return;
-					
+		if(nPoints+2>=N_POINTS) {
+			int o_n=N_POINTS;
+			int i;
+			N_POINTS += 10;
+			Point[] nv = new Point[N_POINTS];
+			for(i=0;i<o_n;++i) {
+				nv[i]=virtualPoint[i];
+			}
+			for(;i<N_POINTS;++i) {
+				nv[i]=new Point();
+			}
+			virtualPoint=nv;
+		}
 		// And now we enter the position of the point we are interested with
 		virtualPoint[nPoints].x=x;
 		virtualPoint[nPoints++].y=y;
@@ -237,8 +246,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
       		while(j<N-1){
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
-      			x1 = virtualPoint[i].x=Integer.parseInt(tokens[j++]);
-     			y1 = virtualPoint[i++].y=Integer.parseInt(tokens[j++]);
+      			x1 = Integer.parseInt(tokens[j++]);
+     			y1 = Integer.parseInt(tokens[j++]);
+     			++i;
+     			addPoint(x1,y1);
       		}	      				
       		nPoints=i;
       		virtualPoint[getNameVirtualPointNumber()].x=x1+5;
