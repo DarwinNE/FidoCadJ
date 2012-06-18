@@ -181,7 +181,6 @@ public class ExportGraphic
 			width=(int)((d.width+Globals.exportBorder)*unitPerPixel);
 			height=(int)((d.height+Globals.exportBorder)*unitPerPixel);
 		}
-		
 		org.x *=unitPerPixel;
 		org.y *=unitPerPixel;
 		
@@ -305,7 +304,6 @@ public class ExportGraphic
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
        	m.setYCenter(0);
-       	m.resetMinMax();
        	
         Graphics2D g2d = bufferedImage.createGraphics();
        	// force an in deep recalculation
@@ -313,14 +311,13 @@ public class ExportGraphic
 
         P.draw(g2d,m);
         // Graphics context no longer needed so dispose it
+        
         g2d.dispose();
     	
     	// Verify that the image size is correct
     	if(countMin) {
-			width=m.getXMax()-
-				m.getXMin();
-			height=m.getYMax()-
-				m.getYMin();
+			width=m.getXMax()-m.getXMin();
+			height=m.getYMax()-m.getYMin();
 		} else {
 			width=m.getXMax();
 			height=m.getYMax();
@@ -333,20 +330,15 @@ public class ExportGraphic
 			height=100;
 		}
 		
-		int originx;
-		int originy;
 		
-		if (m.getXMax() >= m.getXMin() && 
-			m.getYMax() >= m.getYMin()){
-			originx=m.getXMin();
-			originy=m.getYMin();
+		if ((m.getXMax() > m.getXMin()) && 
+			(m.getYMax() > m.getYMin())){
+			origin.x=m.getXMin();
+			origin.y=m.getYMin();
 		} else {
-			originx=0;
-			originy=0;
+			origin.x=0;
+			origin.y=0;
 		}
-
-		
-		origin = new Point(originx, originy);
 
 		return new Dimension(width, height);
     }

@@ -252,7 +252,7 @@ public class MapCoordinates
         yMagnitude=ym;
     }
     
-        /**	Get the X magnification factor
+    /**	Get the X magnification factor
     	@return the X magnification factor
     
     */
