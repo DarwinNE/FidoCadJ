@@ -159,7 +159,7 @@ public class ParseSchem
     // ******* PRIMITIVE DATABASE ********
     
     // Array of tokens being processed.
-    private String[] tokens;
+    //private String[] tokens;
     // Actual line number. This is useful to indicate errors.
     private int lineNum;
     
@@ -203,7 +203,7 @@ public class ParseSchem
     */
     public ParseSchem()
     {
-        tokens=new String[MAX_TOKENS];
+        //tokens=new String[MAX_TOKENS];
         primitiveVector=new Vector(25);
         layerV=new Vector(Globals.MAX_LAYERS);
         library=new TreeMap();
@@ -1528,6 +1528,7 @@ public class ParseSchem
         boolean hasFCJ=false; // the last primitive has FCJ extensions
         StringBuffer token=new StringBuffer(); 
         GraphicPrimitive g = new PrimitiveLine();
+        String[] tokens=new String[MAX_TOKENS];
         String[] old_tokens=new String[MAX_TOKENS];
         String[] name=new String[MAX_TOKENS];
         String[] value=new String[MAX_TOKENS];
