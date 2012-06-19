@@ -100,6 +100,9 @@ class OpenFile implements Runnable {
         // open it!
         if(fin!= null) {                
        	 	try {
+       	 		// DOUBT: this might be done not on a new thread, but in the
+       	 		// normal Swing one.
+       	 	
             	FidoFrame popFrame;
                 if(parent.CC.P.getModified() || !parent.CC.P.isEmpty()) {
                   	// Here we create a new window in order to display
