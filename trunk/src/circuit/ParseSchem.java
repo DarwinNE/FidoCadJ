@@ -1530,8 +1530,8 @@ public class ParseSchem
         GraphicPrimitive g = new PrimitiveLine();
         String[] tokens=new String[MAX_TOKENS];
         String[] old_tokens=new String[MAX_TOKENS];
-        String[] name=new String[MAX_TOKENS];
-        String[] value=new String[MAX_TOKENS];
+        String[] name=null;
+        String[] value=null;
         double newConnectionSize = -1.0;
         double newLineWidth = -1.0;
         double newLineWidthCircles = -1.0;
@@ -1704,6 +1704,7 @@ public class ParseSchem
                                 
                         } else if(tokens[1].equals("N")) {
                         	// Layer name
+                        	
                         	int layerNum = Integer.parseInt(tokens[2]);
                             if (layerNum>=0&&layerNum<layerV.size()){
                                 String lName="";
@@ -1768,14 +1769,16 @@ public class ParseSchem
                         
                         if(macro_counter==2) {
                             macro_counter--;
-                            for(l=0; l<j+1;++l)
+                            name=new String[j+1];
+        					for(l=0; l<j+1;++l)
                                 name[l]=tokens[l];
                             vn=j;                                
                         } else if(macro_counter==1) {
+                        	value=new String[j+1];
                             for(l=0; l<j+1;++l)
                                 value[l]=tokens[l];
                             vv=j;       
-                            g.setName(name,vn+1);
+                            if (name!=null) g.setName(name,vn+1);
                             g.setValue(value,vv+1);
 
                             g.setSelected(selectNew);
