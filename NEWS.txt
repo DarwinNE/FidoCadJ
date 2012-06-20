@@ -7,7 +7,7 @@ Version 0.24.1
 - The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
 - More precise selection of very close elements without "name" and "value" tags.
 - Popup menu accessible with right click in the selection mode (cut, copy, paste, request #3409656).
-- Open a file is a little faster.
+- Open a file is faster and requires less memory..
 
 
 
