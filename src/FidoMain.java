@@ -44,6 +44,7 @@ public class FidoMain {
     /** The main method. Shows an instance of the FidoFrame */
     public static void main(String[] args)
     {
+    		
         // See if there is a filename to open or an option to take into 
         // account
        	String loadFile="";
@@ -51,6 +52,7 @@ public class FidoMain {
        	// If this is true, the GUI will not be loaded and FidoCadJ will run as
        	// a command line utility
        	boolean commandLineOnly = false;
+       	boolean stripOptimization=false;
         
         boolean convertFile = false;
         int totx=0, toty=0;
@@ -131,6 +133,8 @@ public class FidoMain {
         				printSize=true;
         			} else if (args[i].startsWith("-t")) {
         				printTime=true;
+        			} else if (args[i].startsWith("-p")) {
+        				stripOptimization=true;        			
         			} else {
         				System.err.println("Unrecognized option: "+args[i]);
         				showCommandLineHelp();
@@ -158,7 +162,30 @@ public class FidoMain {
         		}
         	}
         }
-           
+        
+        if(!stripOptimization && 
+        	System.getProperty("os.name").startsWith("Mac")) {
+        	// CAREFUL**************************************************
+        	// In all MacOSX systems I tried, this greatly increases the
+        	// redrawing speed. *HOWEVER* the default value for Java 1.6
+        	// as distributed by Apple is "false" (whereas it was "true"
+        	// for Java 1.5).  This might mean that in a future this can
+        	// be not very useful, or worse slowdown the performances.
+        	// CAREFUL**************************************************
+        	// NOTE: this does not seems to have any effect!
+			System.setProperty("apple.awt.graphics.UseQuartz", "true");
+		}
+		
+		if(!stripOptimization &&
+        	System.getProperty("os.name").toLowerCase().startsWith("linux")) {
+        	// CAREFUL**************************************************
+			// Various sources  reports that  this option  will increase
+			// the redrawing speed using Linux. It might happen, however
+			// that the  performances  can be somewhat  degraded in some 
+			// systems.
+			// CAREFUL**************************************************
+           	System.setProperty("sun.java2d.opengl", "true");
+        }   
         if(headlessMode) {
         	// Creates a circuit object
         	ParseSchem P = new ParseSchem();
@@ -265,6 +292,9 @@ public class FidoMain {
     		
     		" -t     Print the time used by FidoCadJ for the specified operation.\n\n"+
     		
+    		" -p     Does not activate some platform-dependent optimizations. You might try this\n"+
+    		"        option if FidoCadJ hangs or is painfully slow.\n\n"+
+    		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at\n"+
     		"        startup time.\n\n"+
     		
@@ -363,7 +393,7 @@ class CreateSwingInterface implements Runnable {
                 "true").equals("true");
         
            	Globals.weAreOnAMac =true;
-        
+           	
 	        // These settings allows to obtain menus on the right place
     	    System.setProperty("com.apple.macos.useScreenMenuBar","true");
             // This is for JVM < 1.5 It won't harm on higher versions.
@@ -372,7 +402,8 @@ class CreateSwingInterface implements Runnable {
             System.setProperty(
             	"com.apple.mrj.application.apple.menu.about.name", 
             	"FidoCadJ");
-
+            
+            
 	        try { 
                 //Globals.quaquaActive=true;
         	    //System.setProperty("Quaqua.Debug.showVisualBounds","true");
