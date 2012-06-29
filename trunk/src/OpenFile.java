@@ -108,7 +108,8 @@ class OpenFile implements Runnable {
                   	// Here we create a new window in order to display
                    	// the file.
                         	
-                    popFrame=new FidoFrame(parent.runsAsApplication);;
+                    popFrame=new FidoFrame(parent.runsAsApplication, 
+                    	parent.getLocale());
                     popFrame.init();
                     popFrame.setBounds(parent.getX()+20, parent.getY()+20,    
                     popFrame.getWidth(),        

@@ -46,7 +46,7 @@ public class FidoCadApplet extends JApplet implements ActionListener
         fidoButton.addActionListener(this);
         getContentPane().add(fidoButton);
         
-        popFrame=new FidoFrame(false);
+        popFrame=new FidoFrame(false, null);
         
         // FidoCadJ will try to determine the current locale configuration
         // in order to load the corresponding resource file and show an 
