@@ -91,13 +91,7 @@ public class FidoFrame extends JFrame implements
     private boolean printMirror;
     private boolean printFitToPage;
     private boolean printLandscape;
-   
-   
-   
-   // FidoCadJ extensions
-    //private boolean extFCJ_s;   // Use FidoCadJ extensions while saving
-    //private boolean extFCJ_c;   // Use FidoCadJ extensions while copying
-        
+          
     // Open/save default properties
     public String openFileDirectory;
 
@@ -126,17 +120,33 @@ public class FidoFrame extends JFrame implements
     // Useful for automatic scrolling in panning mode.
     private ScrollGestureRecognizer sgr;
    
+   	/** Gets the current locale.
+   	*/
+   	public Locale getLocale()
+   	{
+   		return currentLocale;
+   	}
     
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
         using the frame. You need to call the init procedure after you have
         set the configuration variables available for FidoFrame.
+        
+        @param appl should be true if FidoCadJ is run as a standalone 
+        	application.
+        @param loc the locale which should be used. If it is null, the current
+        	locale is automatically determined and FidoCadJ will try to use
+        	it for its user interface.
     */
-    public FidoFrame (boolean appl)
+    public FidoFrame (boolean appl, Locale loc)
     {
         super("FidoCadJ "+Globals.version);
 		runsAsApplication = appl;
-        currentLocale = Locale.getDefault();
+		
+		if(loc==null)
+        	currentLocale = Locale.getDefault();
+        else
+        	currentLocale = loc;
 
         // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
@@ -148,9 +158,6 @@ public class FidoFrame extends JFrame implements
 
 		exportMagnification=1.0;
         	
-        // Uncomment to force FidoCadJ to use a specified locale 
-        // currentLocale = new Locale("it", "IT");
-        
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
         // current locale is not available. The English interface will be shown.
@@ -1117,7 +1124,7 @@ public class FidoFrame extends JFrame implements
     */
     public FidoFrame createNewInstance()
     {
-    	FidoFrame popFrame=new FidoFrame(runsAsApplication);
+    	FidoFrame popFrame=new FidoFrame(runsAsApplication, currentLocale);
         popFrame.init();
                 
         popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       

@@ -36,7 +36,7 @@ import toolbars.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2012 by Davide Bucci
 </pre>
 */
 
@@ -277,6 +277,13 @@ public class MacroTree extends JPanel
     
     public void keyTyped(KeyEvent e)
     {  	
+    }
+    
+    /** Resets the selection done on the three. 
+    */
+    public void resetSelection()
+    {
+    	tree.clearSelection();	
     }
     
     /** Perform a search in the nodes of the macro tree

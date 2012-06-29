@@ -49,6 +49,7 @@ public class FidoMain {
         // account
        	String loadFile="";
        	String libDirectory="";
+       	Locale currentLocale=null;
        	// If this is true, the GUI will not be loaded and FidoCadJ will run as
        	// a command line utility
        	boolean commandLineOnly = false;
@@ -135,6 +136,12 @@ public class FidoMain {
         				printTime=true;
         			} else if (args[i].startsWith("-p")) {
         				stripOptimization=true;        			
+        			} else if (args[i].startsWith("-l")) {
+        				// Extract the code corresponding to the wanted locale
+        				String loc=args[i].substring(2);
+        				System.out.println("I will try to force FidoCadJ to "+
+        					"use the '"+loc+"' locale");
+        				currentLocale=new Locale(loc);
         			} else {
         				System.err.println("Unrecognized option: "+args[i]);
         				showCommandLineHelp();
@@ -259,7 +266,7 @@ public class FidoMain {
 
         if (!commandLineOnly) {
         	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
-        		loadFile));
+        		loadFile, currentLocale));
         }
     }
     
@@ -282,9 +289,11 @@ public class FidoMain {
     		    		 
     		" -c     Convert the given file to a graphical format.\n"+
     		"        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
-    		"        If you use this command line option, you *must* specify a FidoCadJ file to convert.\n"+
-    		"        An alternative is to specify the resolution in pixels per logical unit by\n"+
-    		"        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.\n\n"+
+    		"        If you use this command line option, you *must* specify a FidoCadJ\n"+
+    		"        file to convert.\n"+
+    		"        An alternative is to specify the resolution in pixels per logical unit\n"+
+    		"        by preceding it by the letter 'r' (without spaces), instead of giving\n"+
+    		"        sx and sy.\n\n"+
     		
     		" -s     Print the size  of the specified file in logical coordinates.\n\n"+
     		
@@ -292,17 +301,25 @@ public class FidoMain {
     		
     		" -t     Print the time used by FidoCadJ for the specified operation.\n\n"+
     		
-    		" -p     Does not activate some platform-dependent optimizations. You might try this\n"+
-    		"        option if FidoCadJ hangs or is painfully slow.\n\n"+
+    		" -p     Do not activate some platform-dependent optimizations. You might try\n"+
+    		"        this option if FidoCadJ hangs or is painfully slow.\n\n"+
     		
-    		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at\n"+
-    		"        startup time.\n\n"+
+    		" -l     Force FidoCadJ to use a certain locale (the code should follow\n"+
+    		"        immediately).\n\n"+
     		
-    		"Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file without using the GUI.\n"+
-    		"java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd\n\n"+
-    		"Example: load and convert a FidoCadJ drawing to a png file without using the GUI.\n"+
-    		"         Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
-    		"java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n";
+    		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
+    		"        load at startup time.\n\n"+
+    		
+    		"Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file\n"+
+    		"        without using the GUI.\n"+
+    		"  java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd\n\n"+
+    		"Example: load and convert a FidoCadJ drawing to a png file without using the\n"+ 
+    		"        graphic user interface (the so called headless mode).\n"+
+    		"        Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
+    		"  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
+    		"Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
+    		"  java -jar fidocadj.jar -lzh\n\n";
+    		
     		
     	System.out.println(help);
     }
@@ -365,11 +382,13 @@ class CreateSwingInterface implements Runnable {
 
 	String libDirectory;
 	String loadFile;
+	Locale currentLocale;
 	
-	public CreateSwingInterface (String ld, String lf)
+	public CreateSwingInterface (String ld, String lf, Locale ll)
 	{
 		libDirectory = ld;
 		loadFile = lf;
+		currentLocale =ll;
 	}
 
 	public CreateSwingInterface ()
@@ -478,7 +497,7 @@ class CreateSwingInterface implements Runnable {
 
         // Here we create the main window object
         
-	    FidoFrame popFrame=new FidoFrame(true);
+	    FidoFrame popFrame=new FidoFrame(true, currentLocale);
         
         if (!libDirectory.equals("")) {
 			popFrame.libDirectory = libDirectory;

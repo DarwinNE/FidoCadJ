@@ -604,7 +604,7 @@ Si dovrebbe ottenere il risultato mostrato in figura~\ref{fig_amplificateur_phas
 \label{fig_amplificateur_phase1}
 \end{figure}
 
-Si possono quindi introdurre le regioni ramate che forniranno l'alimentazione positiva e negativa. Per fare ciò, bisognerà introdurre dei poligoni\index{poligono} con la primitiva apposita e poi farci sopra doppio click in modalità selezione\index{selezione}, per specificare all'interno della finestra di dialogo che apparirà che quello che vogliamo è un poligono pieno. Fate attenzione a specificare anche il layer\index{layer} corretto, che è il numero 1, ovvero il rame lato saldature. L'uso di un poligono per i piani di alimentazione può essere utile per essere sicuri di disporre di collegamenti a bassa impedenza parassita.\marginpar{Attenzione alle larghezze delle piste: quella che sembra un'autostrada sullo schermo si rivelerà nella realtà dannatamente stretta e pronta a scollarsi dalla vetroresina durante la saldatura.}
+Si possono quindi introdurre le regioni ramate che forniranno l'alimentazione positiva e negativa. Per fare ciò, bisognerà introdurre dei poligoni\index{poligono} con la primitiva apposita e poi fare doppio click sul perimetro in modalità selezione\index{selezione}, per specificare all'interno della finestra di dialogo che apparirà che quello che vogliamo è un poligono pieno. Fate attenzione a specificare anche il layer\index{layer} corretto, che è il numero 1, ovvero il rame lato saldature. L'uso di un poligono per i piani di alimentazione può essere utile per essere sicuri di disporre di collegamenti a bassa impedenza parassita.\marginpar{Attenzione alle larghezze delle piste: quella che sembra un'autostrada sullo schermo si rivelerà nella realtà dannatamente stretta e pronta a scollarsi dalla vetroresina durante la saldatura.}
 Avrà probabilmente la dimensione corretta. Ricordiamoci in fondo che FidoCadJ nasce dai trasferibili\index{trasferibili R41}\dots Con un po' di attenzione, dovrebbe essere possibile ottenere il risultato mostrato in figura~\ref{fig_amplificateur_phase2}.
 
 \begin{figure}
@@ -810,7 +810,7 @@ Esistono però altre cose interessanti che FidoCadJ può fare. L'opzione  \lstinli
 \begin{lstlisting}
 [davidebucci@Darwin-iMac-G5]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.24.
+This is FidoCadJ, version 0.24.1
 By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
@@ -824,23 +824,38 @@ where options include:
 
  -c     Convert the given file to a graphical format.
         Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
-        If you use this command line option, you *must* specify a FidoCadJ file to convert.
-        An alternative is to specify the resolution in pixels per logical unit by
-        preceding it by the letter 'r' (without spaces), instead of giving sx and sy.
+        If you use this command line option, you *must* specify a FidoCadJ
+        file to convert.
+        An alternative is to specify the resolution in pixels per logical unit
+        by preceding it by the letter 'r' (without spaces), instead of giving
+        sx and sy.
 
  -s     Print the size  of the specified file in logical coordinates.
 
  -h     Print this help and exit.
 
- [file] The optional (except if you use the -d or -s options) FidoCadJ file to load at
-        startup time.
+ -t     Print the time used by FidoCadJ for the specified operation.
 
-Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file without using the GUI.
-java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+ -p     Do not activate some platform-dependent optimizations. You might try
+        this option if FidoCadJ hangs or is painfully slow.
 
-Example: load and convert a FidoCadJ drawing to a png file without using the GUI.
-         Each FidoCadJ logical unit will be converted in 2 pixels on the image.
-java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+ -l     Force FidoCadJ to use a certain locale (the code should follow
+        immediately).
+
+ [file] The optional (except if you use the -d or -s options) FidoCadJ file to
+        load at startup time.
+
+Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file
+        without using the GUI.
+  java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+
+Example: load and convert a FidoCadJ drawing to a png file without using the
+        graphic user interface (the so called headless mode).
+        Each FidoCadJ logical unit will be converted in 2 pixels on the image.
+  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+
+Example: load FidoCadJ forcing the locale to simplified chinese (zh).
+  java -jar fidocadj.jar -lzh
 
 
 [davidebucci@Darwin-iMac-G5]$

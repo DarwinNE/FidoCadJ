@@ -21,9 +21,10 @@ This determined its success among the italian Usenet community, from late
 '90s, as it is quite versatile for simple mechanical drawings as well. 
 FidoCadJ is internationalized and its manual is available in english, french 
 and italian. The user interface has been translated into english, french, 
-italian, spanish, german and chinese.
+italian, spanish, german, chinese, dutch.
 
 First, a few useful sites about FidoCadJ:
+
 http://tinyurl.com/yavewp2
 http://sourceforge.net/projects/fidocadj/
 
@@ -34,6 +35,10 @@ run FidoCadJ. If you are a command line guy, you may enter the directory
 where the file fidocadj.jar has been saved and type
 
 	java -jar fidocadj.jar
+
+If you use Windows, you might find useful using the classical installer
+contained in the FidoCadJ_Windows.exe file. If you run it, it will install
+FidoCadJ on your system and you might launch it via the Start menu.
 	
 If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
 bundle and treat it just like any other native application. Since Apple does
@@ -58,8 +63,6 @@ for doing this: https://sourceforge.net/scm/?type=svn&group_id=274886
 
   File                        Comments
   ----------------------------------------------------------------------------
-  Manifest.txt                Manifest to be used for fidocadj.jar
-  Manifest_applet.txt         Manifest to be used for fidoreadj.jar
   README                      This file
   bin/                        Contains all compiled classes and resources         
   busy being born/            Contains screenshots of old versions of FidoCadJ
@@ -73,8 +76,7 @@ for doing this: https://sourceforge.net/scm/?type=svn&group_id=274886
   gpl-3.0.txt                 the GNU public licence v. 3
   icons/                      contains all icons (made with Gimp)
   jar/                        contains fidocadj.jar as well as Quaqua
-  lib/                        contains the standard libraries
-  mac/                        contains some MacOSX specific files
+  OSes/                       contains files specific for some OS
   manual/                     the LaTeX manuals
   profile                     launch a profiler (jip)
   rebuild                     do a clean and then runs FidoCadJ
@@ -366,7 +368,7 @@ Beta testers:
 Translations: 
 	Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
-    DirtyDeeds (en)
+    DirtyDeeds (en), chokewood (nl)
     
 Libraries: 
 	Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group

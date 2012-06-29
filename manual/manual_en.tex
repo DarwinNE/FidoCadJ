@@ -821,8 +821,8 @@ the standard ones) and of course this manual.%
 
 We can then introduce the copper areas which will provide the positive
 and negative power supply. These are specified by drawing a polygon\index{polygon}
-(using the \emph{poly line} primitive) and double clicking inside
-the area in selection mode\index{selection mode} to tell FidoCadJ
+(using the \emph{poly line} primitive) and double clicking near its border 
+in selection mode\index{selection mode} to tell FidoCadJ
 (through dialog box) that we want a filled polygon. Before placing
 the polygon, make sure that the current layer\index{layer} is the
 one where we want to place the copper area (layer No~1, or copper
@@ -980,14 +980,13 @@ RV 30 5 320 255 3
 When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a card. FidoCadJ offers (from version 0.23.2) a ruler feature which allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not used in your operating system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_righello}
-\caption{Left click and drag to activate the FidoCadJ ruler.}
+\caption{Right click and drag to activate the FidoCadJ ruler.}
 \label{fig_fidocadj_righello}
 \end{figure}
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-Starting from FidoCadJ version 0.23, the software allows to draw arrow heads\index{arrows} at the beginning and at the end of lines and Bézier curves.
-FidoCadJ allows you to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows you to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
 
 A few stroke styles\index{stroke styles} are now available for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences.
@@ -1125,8 +1124,8 @@ Option \lstinline!-h! shows a listing of the FidoCadJ options:
 	 	 
 \begin{lstlisting}
 [davidebucci@Darwin]$ java -jar fidocadj.jar -h
-	 	 
-This is FidoCadJ, version 0.24.
+
+This is FidoCadJ, version 0.24.1
 By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
@@ -1140,27 +1139,38 @@ where options include:
 
  -c     Convert the given file to a graphical format.
         Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
-        If you use this command line option, you *must* specify a FidoCad 
+        If you use this command line option, you *must* specify a FidoCadJ
         file to convert.
-        An alternative is to specify the resolution in pixels per logical 
-        unit by preceding it by the letter 'r' (without spaces), instead 
-        of giving sx and sy.
+        An alternative is to specify the resolution in pixels per logical unit
+        by preceding it by the letter 'r' (without spaces), instead of giving
+        sx and sy.
 
  -s     Print the size  of the specified file in logical coordinates.
 
  -h     Print this help and exit.
 
- [file] The optional (except if you use the -d or -s options) FidoCadJ file 
- 		to load at startup time.
+ -t     Print the time used by FidoCadJ for the specified operation.
 
-Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file 
-without using the GUI.
-java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+ -p     Do not activate some platform-dependent optimizations. You might try
+        this option if FidoCadJ hangs or is painfully slow.
 
-Example: load and convert a FidoCadJ drawing to a png file without using 
-		 the GUI. Each FidoCadJ logical unit will be converted in 2 
-		 pixels on the image.
-java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+ -l     Force FidoCadJ to use a certain locale (the code should follow
+        immediately).
+
+ [file] The optional (except if you use the -d or -s options) FidoCadJ file to
+        load at startup time.
+
+Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file
+        without using the GUI.
+  java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+
+Example: load and convert a FidoCadJ drawing to a png file without using the
+        graphic user interface (the so called headless mode).
+        Each FidoCadJ logical unit will be converted in 2 pixels on the image.
+  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+
+Example: load FidoCadJ forcing the locale to simplified chinese (zh).
+  java -jar fidocadj.jar -lzh
 
 [davidebucci@Darwin]$
 \end{lstlisting}
@@ -1179,6 +1189,7 @@ java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 
 FidoCadJ will run without activating the GUI and will export in the png\index{PNG} format the file \lstinline!test1.fcd!. The output file will be called \lstinline!out1.png! and will have a 800x600 pixel size.
 There is an alternative version of the  \lstinline!-c! option, which will allow to specify how many pixels should be used to convert one logical unit. Since FidoCadJ does not deal with half units (they are all specified by integers), by choosing, let's say, two pixels per logical unit ensures that schematics will be always understandable (even if probably a little bit small). You can use non integer conversion factors.
+
 To know the total size (in logical units) of a schematic, you can use the \lstinline!-s! option. Remember anyway that, during the exports, FidoCadJ adds always a 6 logical units margin to the size calculated from the circuit.
 
 Another interesting option, although a feature due to Java\index{Java}
