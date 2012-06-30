@@ -1,0 +1,10 @@
+
+
+mainshellscript.tar.gz -> http://sourceforge.net/projects/fidocadj/files/misc/mainshellscript.tar.gz [1]
+maindocs.tar.gz        -> http://sourceforge.net/projects/fidocadj/files/misc/maindocs.tar.gz        [2]
+
+remarks:
+[1] this tar must only have one file "fidocadj" the main shell script to execute on linux   "/usr/bin/fidocadj"
+[2] May contain all documents; pdf, readme, copying, changelog whatever these get stored in "/usr/share/doc/fidocadj/"
+
+To Darwinne, remove this very line if did the above, will note your commit
