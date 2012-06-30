@@ -1,7 +1,7 @@
 #!/bin/sh
 ###########################################
 ##                                       ##
-## Distro independant Fidocadj installer ##
+## Distro independant FidoCadJ installer ##
 ##                                       ##
 ## FidoCadj installer script             ##
 ## 2012-June-28 by Chokewood             ##
@@ -220,16 +220,28 @@ case "$1" in
     echo " "
     echo "    Usage: ${0##*/} [Option]"
     echo " "
-    echo "    This script installs the FidoCadj runtime application and a desktop entry for you"
+    echo "    This script installs the FidoCadJ runtime application and a desktop entry for you"
     echo "    You must have a working internet connection up and running in order to fetch the"
     echo "    latest files from our project folder on the SourceForge server"
     echo " "	    
     echo " "
-    echo " 	${0##*/} --install      installs FidoCadj"
-    echo " 	${0##*/} --uninstall    uninstalls FidoCadj"
-    echo " 	${0##*/} --update       updates your FidoCadj jar file"
+    echo " 	${0##*/} --install      installs FidoCadJ"
+    echo " 	${0##*/} --uninstall    uninstalls FidoCadJ"
+    echo " 	${0##*/} --update       updates your FidoCadJ jar file"
     echo " "
-    echo "      Needless to say you must be root to install FidoCadj..."
+    echo "      Needless to say you must be root to install FidoCadJ..."
+    echo ""
+    echo " This installer operates on the following directories and files"
+    echo ""
+    echo "-----------------------------[DIR]------------------------------------"
+    echo "/usr/share/java/fidocadj/                   Java resources"
+    echo "/usr/share/fidocadj/                        Common resources"
+    echo "/usr/share/doc/fidocadj/                    Manuals in pdf"
+    echo "----------------------------[FILES]-----------------------------------"
+    echo "/usr/bin/fidocadj                           Launch script"
+    echo "/usr/share/applications/fidocadj.desktop    Desktop description file"
+    echo "/usr/share/pixmaps/fidocadj.png             Icon file"
+    echo "----------------------------------------------------------------------"
     echo " "
     exit 0
    ;;
