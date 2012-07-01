@@ -1,0 +1,51 @@
+#!/bin/sh
+###########################################
+##                                       ##
+## FidoCadj 0.24                         ##
+##                                       ##
+## 2012-June-28 by Chokewood             ##
+## revision juli 1 08:46:48 UTC 2012     ##
+##                                       ##
+###########################################
+
+run_app() {
+
+  terminalthis=`tty | sed -e "s:/dev/::" |cut -c1`
+  if [ "$terminalthis" == "t" ]
+  then
+    echo "This Java program requires the graphical desktop environment to be used interactively"
+    echo "See the /usr/share/doc/fidocadj/README on howto run FidoCadj non interactive"
+    exit 1
+  fi
+
+  if [ `env |grep JAVA |grep -c openjdk` -eq 1 ]
+  then 
+      export _JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on 
+  else
+      export _JAVA_OPTIONS=-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel
+  fi
+ $JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar
+}
+
+give_help() {
+$JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar -h
+}
+
+# HELP, --help, or -h
+case "$1" in
+        --help )
+		give_help
+    exit 0
+  ;;
+
+	-h )
+	      give_help
+    exit 0
+  ;;
+
+*) 
+  run_app
+  exit 0
+   ;;
+esac  
+
