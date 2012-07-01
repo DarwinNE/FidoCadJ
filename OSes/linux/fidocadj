@@ -8,6 +8,18 @@
 ##                                       ##
 ###########################################
 
+## file to open
+file_open=$1
+ext_in=`echo $file_open |awk -F . '{print $2}'`
+
+if [ "$ext_in" == "fcd" ]
+  then
+    echo "Opening: $file_open"
+  else
+    file_open=" "
+fi
+
+
 run_app() {
 
   terminalthis=`tty | sed -e "s:/dev/::" |cut -c1`
@@ -24,12 +36,15 @@ run_app() {
   else
       export _JAVA_OPTIONS=-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel
   fi
- $JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar
+echo "$1 - $2"
+ $JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar $file_open
 }
 
 give_help() {
 $JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar -h
 }
+
+
 
 # HELP, --help, or -h
 case "$1" in
