@@ -22,14 +22,6 @@ fi
 
 run_app() {
 
-  terminalthis=`tty | sed -e "s:/dev/::" |cut -c1`
-  if [ "$terminalthis" == "t" ]
-  then
-    echo "This Java program requires the graphical desktop environment to be used interactively"
-    echo "See the /usr/share/doc/fidocadj/README on howto run FidoCadj non interactive"
-    exit 1
-  fi
-
   if [ `env |grep JAVA |grep -c openjdk` -eq 1 ]
   then 
       export _JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on 
