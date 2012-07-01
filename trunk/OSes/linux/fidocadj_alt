@@ -1,0 +1,22 @@
+#!/bin/sh
+###########################################
+##                                       ##
+## FidoCadJ Linux launcher               ##
+##                                       ##
+## 2012-June-28 by Chokewood             ##
+## revision july 1 12:07:05 UTC 2012     ##
+##       darwinne                        ##
+###########################################
+
+
+
+  if [ `env |grep JAVA |grep -c openjdk` -eq 1 ]
+  then 
+      export _JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on 
+  else
+      export _JAVA_OPTIONS=-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel
+  fi
+
+$JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar $@
+
+
