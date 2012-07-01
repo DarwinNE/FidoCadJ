@@ -133,11 +133,11 @@ net_check
 
 ## words of welcome
     echo " "
-    echo "   This script installs the FidoCadj runtime application and a desktop entry for you"
+    echo "   This script installs the FidoCadJ runtime application and a desktop entry for you"
     echo "   You must have a working internet connection up and running in order to fetch the"
     echo "   latest files from our project folder on the SourceForge server"
     echo " "
-read -p "   Do you want to install FidoCadj on this system? [Y/n] " prompt
+read -p "   Do you want to install FidoCadJ on this system? [Y/n] " prompt
 	prompt=`echo "$prompt" | tr "[:upper:]" "[:lower:]"`
 	if [ "$prompt" == "n" ]
 	  then
@@ -165,8 +165,8 @@ echo "==>   Extracting documents in /usr/share/doc/fidocadj"
   make_docs
 ## words of wishdom
     echo " "
-echo "   All done..., The installation of FidoCadj is now complete Enjoy FidoCadj..."
-echo "   Start FidoCadj with command: fidocadj or from your desktop menu"
+echo "   All done..., The installation of FidoCadJ is now complete Enjoy FidoCadJ..."
+echo "   Start FidoCadJ with command: fidocadj or from your desktop menu"
     echo " "
 exit 0
 }
@@ -175,11 +175,11 @@ exit 0
 do_remove() {
 root_stub
     echo " "
-read -p "   Do you want to uninstall FidoCadj on this system? [N/y] " prompt
+read -p "   Do you want to uninstall FidoCadJ on this system? [N/y] " prompt
 prompt=`echo "$prompt" | tr "[:upper:]" "[:lower:]"`
 if [ "$prompt" == "y" ]
   then
-    echo "==>   Removing FidoCadj..."
+    echo "==>   Removing FidoCadJ..."
     rm -rf /usr/share/java/fidocadj/fidoca*
     rm -rf /usr/share/doc/fidocadj*
     rm -f /usr/share/applications/fidocadj.desktop
