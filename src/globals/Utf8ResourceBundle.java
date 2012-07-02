@@ -54,7 +54,8 @@ public abstract class Utf8ResourceBundle {
 			try {
 				return new String (value.getBytes("ISO-8859-1"),"UTF-8") ;
 			} catch (UnsupportedEncodingException e) {
-				// Shouldn't fail - but should we still add logging message?
+				System.err.println("Unsupported encoding. "+
+					"Problems in Utf8PropertyResourceBundle class.");
 				return null;
 			}
 		}

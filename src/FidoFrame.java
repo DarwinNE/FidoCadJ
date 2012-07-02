@@ -143,11 +143,16 @@ public class FidoFrame extends JFrame implements
         super("FidoCadJ "+Globals.version);
 		runsAsApplication = appl;
 		
-		if(loc==null)
-        	currentLocale = Locale.getDefault();
-        else
+		String systemLanguage = Locale.getDefault().getLanguage();
+		
+		if(loc==null) {
+			// Make sort that only the language is used for the current 
+        	currentLocale = new Locale(systemLanguage);
+        } else {
         	currentLocale = loc;
-
+        	System.out.println("Forced the locale to be: " +loc+ 
+        		" instead of: "+systemLanguage);
+		}
         // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
         // No! It is actually need to make all the window movable when clicking

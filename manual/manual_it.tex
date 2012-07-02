@@ -810,7 +810,7 @@ Esistono però altre cose interessanti che FidoCadJ può fare. L'opzione  \lstinli
 \begin{lstlisting}
 [davidebucci@Darwin-iMac-G5]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.24.1
+This is FidoCadJ, version 0.24.1 gamma.
 By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
@@ -839,8 +839,8 @@ where options include:
  -p     Do not activate some platform-dependent optimizations. You might try
         this option if FidoCadJ hangs or is painfully slow.
 
- -l     Force FidoCadJ to use a certain locale (the code should follow
-        immediately).
+ -l     Force FidoCadJ to use a certain locale (the code might follow
+        immediately or be separated by an optional space).
 
  [file] The optional (except if you use the -d or -s options) FidoCadJ file to
         load at startup time.
@@ -855,7 +855,7 @@ Example: load and convert a FidoCadJ drawing to a png file without using the
   java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
 
 Example: load FidoCadJ forcing the locale to simplified chinese (zh).
-  java -jar fidocadj.jar -lzh
+  java -jar fidocadj.jar -l zh
 
 
 [davidebucci@Darwin-iMac-G5]$
