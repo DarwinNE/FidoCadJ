@@ -156,10 +156,10 @@ make_docs
 echo "   All done..., The installation of FidoCadJ is now complete Enjoy FidoCadJ..."
 echo "   Start FidoCadJ with command: fidocadj or from your desktop menu"
 echo " "
-echo "   Your mimetype settings may require to re-logon, but is not essential to start working with FidoCadJ"
+echo "   Your mimetype settings may require to re-login, but this is not essential to start working with FidoCadJ"
 echo " "
-echo "   Store this installer on a save place for updating and if you wish "
-echo "   to remove FidoCadJ completely from your system"
+echo "   Store this installer on a safe place if you wish to update FidoCadJ in the future "
+echo "   or to completely remove FidoCadJ from your system."
 exit 0
 }
 
@@ -240,7 +240,7 @@ case "$1" in
     echo " "
     echo "   It also adds mimetype settings for FidoCadJ"
     echo " "
-    echo "   On uninstall all these files and mime-entries will be removed"
+    echo "   On uninstall, all these files and mime-entries will be removed"
     echo " "
     echo " "
     exit 0
