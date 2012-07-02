@@ -138,10 +138,27 @@ public class FidoMain {
         				stripOptimization=true;        			
         			} else if (args[i].startsWith("-l")) {
         				// Extract the code corresponding to the wanted locale
-        				String loc=args[i].substring(2);
-        				System.out.println("I will try to force FidoCadJ to "+
-        					"use the '"+loc+"' locale");
+        				String loc;
+        				if(args[i].length()==2) {
+        					// In this case, the -l xx form is used, where
+        					// xx indicates the wanted locale. A space 
+        					// separates "-l" from the wanted locale.
+        					
+        					// At first, check if the user forgot the locale
+        					if(i==args.length-1 || args[i+1].startsWith("-")) {
+        						System.err.println("-l option requires a "+
+        							"locale language code.");
+        						System.exit(1);
+        					}
+ 							loc=args[++i];       					
+        				} else {
+        					// In this case, the -lxx form is used, where
+        					// xx indicates the wanted locale. No space is
+        					// used.
+        					loc=args[i].substring(2);
+        				}
         				currentLocale=new Locale(loc);
+ 
         			} else {
         				System.err.println("Unrecognized option: "+args[i]);
         				showCommandLineHelp();
@@ -304,8 +321,8 @@ public class FidoMain {
     		" -p     Do not activate some platform-dependent optimizations. You might try\n"+
     		"        this option if FidoCadJ hangs or is painfully slow.\n\n"+
     		
-    		" -l     Force FidoCadJ to use a certain locale (the code should follow\n"+
-    		"        immediately).\n\n"+
+    		" -l     Force FidoCadJ to use a certain locale (the code might follow\n"+
+    		"        immediately or be separated by an optional space).\n\n"+
     		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
     		"        load at startup time.\n\n"+
@@ -318,7 +335,7 @@ public class FidoMain {
     		"        Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
     		"  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
     		"Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
-    		"  java -jar fidocadj.jar -lzh\n\n";
+    		"  java -jar fidocadj.jar -l zh\n\n";
     		
     		
     	System.out.println(help);
