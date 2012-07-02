@@ -5,7 +5,7 @@
 ##                                       ##
 ## FidoCadj installer script             ##
 ## 2012-June-28 by Chokewood             ##
-## revision 2012/June/30                 ##
+## revision 2012/Juli/02                 ##
 ##                                       ##
 ###########################################
 
@@ -22,7 +22,7 @@ if [ `which wget |grep -c wget` -eq 0 ]
 then
     echo " "
     echo "   Cannot continue, you must have wget installed"
-    echo "   Abort... "
+    echo "   Please install wget first... "
     echo " "
     exit 1
 fi
@@ -80,45 +80,43 @@ make_jarinstall() {
 }
 
 
-## create the posix compliant desktop entry
-make_desktop() {
-desktopfile=/tmp/new.dsk
-      echo "#!/usr/bin/env xdg-open" > $desktopfile
-      echo "[Desktop Entry]" >> $desktopfile
-      echo "Name=FidoCadj" >> $desktopfile
-      echo "Comment=Designing circuit drawings and PCB routing" >> $desktopfile
-      echo "Icon=fidocadj" >> $desktopfile
-      echo "Type=Application" >> $desktopfile
-      echo "Categories=Application;Development;" >> $desktopfile
-      echo "Encoding=UTF-8" >> $desktopfile
-      echo "Exec=fidocadj %u" >> $desktopfile
-      echo "Terminal=false" >> $desktopfile
-      echo "MultipleArgs=false" >> $desktopfile
-      echo "StartupNotify=false" >> $desktopfile
-cp -f /tmp/new.dsk /usr/share/applications/fidocadj.desktop
-}
-
-## shared icon object create
-make_icon() {
+## make the core
+make_core() {
+	mkdir -p /usr/bin/
 	mkdir -p /usr/share/fidocadj/
-	mkdir -p /usr/share/pixmaps/
-        wget -q -O /usr/share/fidocadj/fidocadj.png http://sourceforge.net/projects/fidocadj/files/misc/icon_fidocadj_128x128.png
+	mkdir -p /usr/share/doc/fidocadj/
+	mkdir -p /usr/share/java/fidocadj/
+	mkdir -p /usr/share/applications/
+	wget -q -O /tmp/main-linux-package.tgz http://sourceforge.net/projects/fidocadj/files/misc/main-linux-package.tgz
+	# <-- testing --->
+	#wget -q -O /tmp/main-linux-package.tgz http://www.2b-art-design.nl/files/test/main-linux-package.tgz 
+	tar xzfm /tmp/main-linux-package.tgz -C /usr
+	chown 0:0 /usr/bin/fidocadj
+	chmod 755 /usr/bin/fidocadj
 	ln -sf /usr/share/fidocadj/fidocadj.png /usr/share/pixmaps/fidocadj.png
+	xdg-icon-resource install --context mimetypes --size 48 /usr/share/fidocadj/fidocadj-file.png x-application-fidocadj
+	xdg-mime install /usr/share/fidocadj/fidocadj-mime.xml
+	update-mime-database /usr/share/mime
 }
 
-## get the main shell, and make it executable
-make_shell() {
-wget -q -O /tmp/mainshellscript.tar.gz http://sourceforge.net/projects/fidocadj/files/misc/mainshellscript.tar.gz
-tar xzfm /tmp/mainshellscript.tar.gz -C /usr/bin
-chown 0:0 /usr/bin/fidocadj
-chmod 755 /usr/bin/fidocadj
-}
 
-## get our doxz in place
+
+## get our docs check if we need french or italian else drop to english
 make_docs() {
-wget -q -O /tmp/maindocs.tar.gz http://sourceforge.net/projects/fidocadj/files/misc/maindocs.tar.gz
-mkdir -p /usr/share/doc/fidocadj
-tar xzfm /tmp/maindocs.tar.gz -C /usr/share/doc/fidocadj
+# what language for manuals
+get_lang=`env |grep -w LANG |cut -c6-7`
+if [ "$get_lang" == "fr" ]
+then 
+  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_fr.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_fr.pdf
+elif [ "$get_lang" == "it" ]
+then
+  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_it.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_it.pdf
+else
+  # at least drop this as default if we dont have it
+  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_en.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_en.pdf
+fi
+
+wget -q -O /usr/share/doc/fidocadj/README http://sourceforge.net/projects/fidocadj/files/README
 chown -R 0:0 /usr/share/doc/fidocadj
 chmod 644 /usr/share/doc/fidocadj/*
 }
@@ -148,26 +146,20 @@ echo " "
 
 
 ## Stage1 first we get the jar
-echo "==>   Created /usr/share/java/fidocadj"
-echo "==>   Fetching the main jar, please wait.... "
-  make_jarinstall
-echo "==>   Stored: /usr/share/java/fidocadj/fidocadj.jar"
-## Stage2 create desktop entry
-echo "==>   Creating Destop entry for common desktops.... "
-  make_desktop
-## Stage3 icon stuff
-echo "==>   Fetching iconfile, please wait.... "
-  make_icon
-## Stage4 main shell executable
-echo "==>   Extracting application script.... "
-  make_shell
-echo "==>   Extracting documents in /usr/share/doc/fidocadj"
-  make_docs
+echo "==>   Get the FidoCadJ core"
+make_core
+make_jarinstall
+echo "==>   Get the documents in /usr/share/doc/fidocadj"
+make_docs
 ## words of wishdom
     echo " "
 echo "   All done..., The installation of FidoCadJ is now complete Enjoy FidoCadJ..."
 echo "   Start FidoCadJ with command: fidocadj or from your desktop menu"
-    echo " "
+echo " "
+echo "   Your mimetype settings may require to re-logon, but is not essential to start working with FidoCadJ"
+echo " "
+echo "   Store this installer on a save place for updating and if you wish "
+echo "   to remove FidoCadJ completely from your system"
 exit 0
 }
 
@@ -180,12 +172,15 @@ prompt=`echo "$prompt" | tr "[:upper:]" "[:lower:]"`
 if [ "$prompt" == "y" ]
   then
     echo "==>   Removing FidoCadJ..."
+    xdg-mime uninstall /usr/share/fidocadj/fidocadj-mime.xml
+    xdg-icon-resource uninstall --context mimetypes --size 48 /usr/share/fidocadj/fidocadj-file.png x-application-fidocadj
     rm -rf /usr/share/java/fidocadj/fidoca*
     rm -rf /usr/share/doc/fidocadj*
     rm -f /usr/share/applications/fidocadj.desktop
     rm -f /usr/bin/fidocadj
     rm -f /usr/share/pixmaps/fidocadj.png
     rm -f /usr/share/fidocadj/fidocadj.png
+    update-mime-database /usr/share/mime
     echo "   All done  "
   else
     echo "   Aborted..."
@@ -231,17 +226,22 @@ case "$1" in
     echo " "
     echo "      Needless to say you must be root to install FidoCadJ..."
     echo ""
-    echo " This installer operates on the following directories and files"
+    echo "   This installer operates on the following directories and files"
     echo ""
-    echo "-----------------------------[DIR]------------------------------------"
-    echo "/usr/share/java/fidocadj/                   Java resources"
-    echo "/usr/share/fidocadj/                        Common resources"
-    echo "/usr/share/doc/fidocadj/                    Manuals in pdf"
-    echo "----------------------------[FILES]-----------------------------------"
-    echo "/usr/bin/fidocadj                           Launch script"
-    echo "/usr/share/applications/fidocadj.desktop    Desktop description file"
-    echo "/usr/share/pixmaps/fidocadj.png             Icon file"
-    echo "----------------------------------------------------------------------"
+    echo "   -----------------------------[DIR]------------------------------------"
+    echo "   /usr/share/java/fidocadj/                   Java resources"
+    echo "   /usr/share/fidocadj/                        Common resources"
+    echo "   /usr/share/doc/fidocadj/                    Manuals in pdf"
+    echo "   ----------------------------[FILES]-----------------------------------"
+    echo "   /usr/bin/fidocadj                           Launch script"
+    echo "   /usr/share/applications/fidocadj.desktop    Desktop description file"
+    echo "   /usr/share/pixmaps/fidocadj.png             Icon file (symbolic-link) "
+    echo "   ----------------------------------------------------------------------"
+    echo " "
+    echo "   It also adds mimetype settings for FidoCadJ"
+    echo " "
+    echo "   On uninstall all these files and mime-entries will be removed"
+    echo " "
     echo " "
     exit 0
    ;;
