@@ -4,7 +4,7 @@
 ## FidoCadj 0.24.1 gamma                 ##
 ##                                       ##
 ## 2012-June-28 by Chokewood             ##
-## revision juli 1 17:39:48 UTC 2012     ##
+## revision juli 2 10:12:48 UTC 2012     ##
 ##                                       ##
 ###########################################
 
@@ -25,20 +25,27 @@ run_app() {
   
   if [ ! -f $HOME/.fidocadj.cfg ]
   then
-    cp /usr/share/doc/fidocadj/default.cfg $HOME/.fidocadj.cfg
-    echo "user .fidocadj.cfg created"
+    # first run, create user config in its home folder
+    cp /usr/share/fidocadj/default.template $HOME/.fidocadj.cfg
+    sed -i '/#### DO NOT EDIT : TEMPLATE FOR USER .fidocadj.cfg ####/ d' $HOME/.fidocadj.cfg
+    langcode=`env |grep -w LANG |cut -c6-7`
+    echo "use_locale = $langcode" >> $HOME/.fidocadj.cfg
+    echo "user .fidocadj.cfg created using: use_locale = $langcode"
   fi
   
   setlocale="-l`cat $HOME/.fidocadj.cfg |grep -w "use_locale" |awk '{print $3}'`"
-
+  
+  java_version=`java -version`
   if [ `env |grep JAVA |grep -c openjdk` -eq 1 ]
   then
-      sunopts=`cat $HOME/.fidocadj.cfg |grep -w sun_oracle |awk -F = '{print $2}'`
-      export _JAVA_OPTIONS=$sunopts
-  else
-      jdkopts=`cat $HOME/.fidocadj.cfg |grep -w openjdk |awk -F = '{print $2}'`
-      export _JAVA_OPTIONS=$jdkopts
+	jdkopts=`cat $HOME/.fidocadj.cfg |grep -w openjdk |cut -c14-`
+	export _JAVA_OPTIONS=$jdkopts
+      else
+	sunopts=`cat $HOME/.fidocadj.cfg |grep -w sun_oracle |cut -c14-`
+	export _JAVA_OPTIONS=$sunopts
   fi
+
+ echo "$java_version"
  $JAVA_HOME/bin/java -jar /usr/share/java/fidocadj/fidocadj.jar $setlocale $file_open
 } # 
 
