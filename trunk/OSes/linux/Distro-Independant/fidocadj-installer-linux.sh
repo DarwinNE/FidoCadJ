@@ -96,7 +96,7 @@ make_core() {
 	ln -sf /usr/share/fidocadj/fidocadj.png /usr/share/pixmaps/fidocadj.png
 	xdg-icon-resource install --context mimetypes --size 48 /usr/share/fidocadj/fidocadj-file.png x-application-fidocadj
 	xdg-mime install /usr/share/fidocadj/fidocadj-mime.xml
-	update-mime-database /usr/share/mime
+	update-mime-database /usr/share/mime &> /dev/null
 }
 
 
@@ -193,7 +193,7 @@ if [ "$prompt" == "y" ]
     rm -f /usr/bin/fidocadj
     rm -f /usr/share/pixmaps/fidocadj.png
     rm -rf /usr/share/fidocad*
-    update-mime-database /usr/share/mime
+    update-mime-database /usr/share/mime &> /dev/null
     echo "   All done  "
   else
     echo "   Aborted..."
