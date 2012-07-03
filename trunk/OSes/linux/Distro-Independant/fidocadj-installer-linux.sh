@@ -5,7 +5,7 @@
 ##                                       ##
 ## FidoCadj installer script             ##
 ## 2012-June-28 by Chokewood             ##
-## revision 2012/Juli/02                 ##
+## revision 2012/Juli/03                 ##
 ##                                       ##
 ###########################################
 
@@ -82,7 +82,7 @@ make_jarinstall() {
 
 ## make the core
 make_core() {
-	mkdir -p /usr/bin/
+
 	mkdir -p /usr/share/fidocadj/
 	mkdir -p /usr/share/doc/fidocadj/
 	mkdir -p /usr/share/java/fidocadj/
@@ -108,13 +108,26 @@ get_lang=`env |grep -w LANG |cut -c6-7`
 if [ "$get_lang" == "fr" ]
 then 
   wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_fr.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_fr.pdf
+  echo "Your French manual is installed in /usr/share/doc/fidocadj/"
 elif [ "$get_lang" == "it" ]
 then
   wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_it.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_it.pdf
+  echo "Your Italian manual is installed in /usr/share/doc/fidocadj/"
+##
+
+#### duplicate and adapt this block for future languages
+#elif [ "$get_lang" == "XX" ]
+#then
+#  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_XX.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_XX.pdf
+#  echo "Your X-Lang manual is installed in /usr/share/doc/fidocadj/"
+####
+
+##
 else
-  # at least drop this as default if we dont have it
-  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_en.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_en.pdf
+  echo "There are no native manuals available, but an english manual is available in /usr/share/doc/fidocadj/"
 fi
+
+ wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_en.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_en.pdf
 
 wget -q -O /usr/share/doc/fidocadj/README http://sourceforge.net/projects/fidocadj/files/README
 chown -R 0:0 /usr/share/doc/fidocadj
@@ -179,7 +192,7 @@ if [ "$prompt" == "y" ]
     rm -f /usr/share/applications/fidocadj.desktop
     rm -f /usr/bin/fidocadj
     rm -f /usr/share/pixmaps/fidocadj.png
-    rm -f /usr/share/fidocadj/fidocadj.png
+    rm -rf /usr/share/fidocad*
     update-mime-database /usr/share/mime
     echo "   All done  "
   else
