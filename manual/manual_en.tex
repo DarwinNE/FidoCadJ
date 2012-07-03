@@ -68,7 +68,7 @@
 
 \newcommand{\bottomrule}{\hline}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.24 \\ user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24.1 \\ user manual} 
 
 
 \author{Davide Bucci\\[3em]
@@ -1189,9 +1189,17 @@ java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 \end{lstlisting}
 
 FidoCadJ will run without activating the GUI and will export in the png\index{PNG} format the file \lstinline!test1.fcd!. The output file will be called \lstinline!out1.png! and will have a 800x600 pixel size.
-There is an alternative version of the  \lstinline!-c! option, which will allow to specify how many pixels should be used to convert one logical unit. Since FidoCadJ does not deal with half units (they are all specified by integers), by choosing, let's say, two pixels per logical unit ensures that schematics will be always understandable (even if probably a little bit small). You can use non integer conversion factors.
+There is an alternative version of the  \lstinline!-c! option, which will allow to specify how many pixels should be used to convert one logical unit (we will call this factor $r_\mathrm{p}$). FidoCadJ does not deal with half logical units (they are always integers), by choosing, let's say, $r_\mathrm{p}$ equal to two pixels per logical unit ensures that schematics will be always understandable (even if probably a little bit small). The $r_\mathrm{p}$ factor can be non integer, as in the following example:
 
-To know the total size (in logical units) of a schematic, you can use the \lstinline!-s! option. Remember anyway that, during the exports, FidoCadJ adds always a 6 logical units margin to the size calculated from the circuit.
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
+\end{lstlisting}
+
+To know the total size (in logical units) of a schematic, you can use the \lstinline!-s! option. Remember anyway that, during the exports, FidoCadJ adds always a $t_\mathrm{margin}=3$ logical units margin for each side of the drawing. So, if $t_\mathrm{w}$ is the width of the drawing in logical units given by \lstinline!-s!, you might expect that $p_\mathrm{w}$ the width of your drawing in pixel is calculated as follows:
+
+\begin{equation}
+p_\mathrm{w} = r_\mathrm{p} (t_\mathrm{w}+ 2 t_\mathrm{margin})
+\end{equation}
 
 Another interesting option, although a feature due to Java\index{Java}
 more than FidoCadJ, is the possibility to modify the look of the application
