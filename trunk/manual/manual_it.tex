@@ -874,9 +874,24 @@ java -jar fidocadj.jar -n -c 800 600 png out.png test.fcd
 
 Il programma viene lanciato senza che l'interfaccia grafica venga mai attivata, esportando in png il file test.fcd. Il file prodotto sarà \lstinline!out.png! ed avrà una dimensione di 800 per 600 pixel.
 
-C'è una versione alternativa dell'opzione \lstinline!-c! che permette di specificare in quanti pixel dev'essere convertita una unità logica. Scegliere un paio di pixel per unità è un modo sicuro per cui gli schemi saranno sempre leggibili (anche se in alcuni casi un po' troppo piccoli). Fattori di conversione non interi sono possibili. Se l'esportazione avviene verso un file vettoriale, \lstinline!-c! permette di moltiplicare tutte le coordinate per il fattore specificato.
+C'è una versione alternativa dell'opzione \lstinline!-c! che permette di specificare in quanti pixel dev'essere convertita una unità logica. Scegliere un paio di pixel per unità è un modo sicuro per cui gli schemi saranno sempre leggibili (anche se in alcuni casi un po' troppo piccoli). Fattori di conversione non interi sono possibili. Se l'esportazione avviene verso un file vettoriale, \lstinline!-c! permette di moltiplicare tutte le coordinate per il fattore specificato, che chiameremo $r_\mathrm{p}$. Questo fattore può non essere intero, come nell'esempio seguente:
 
-Per conoscere la dimensione in unità logiche di uno schema, basta usare l'opzione \lstinline!-s!. Bisogna ricordarsi però che FidoCadJ inserisce un margine di 6 unità logiche, rispetto alle dimensioni calcolate.
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
+\end{lstlisting}
+
+There is an alternative version of the  \lstinline!-c! option, which will allow to specify how many pixels should be used to convert one logical unit (we will call this factor $r_\mathrm{p}$). FidoCadJ does not deal with half logical units (they are always integers), by choosing, let's say, $r_\mathrm{p}$ equal to two pixels per logical unit ensures that schematics will be always understandable (even if probably a little bit small). The $r_\mathrm{p}$ factor can be non integer, as in the following example:
+
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
+\end{lstlisting}
+
+Per conoscere la dimensione in unità logiche di uno schema, basta usare l'opzione \lstinline!-s!. Bisogna ricordarsi però che FidoCadJ inserisce un margine di $t_\mathrm{margin}=3$ unità logiche per ogni lato quando il disegno viene esportato. Per questa ragione, se $t_\mathrm{w}$ è la larghezza del disegno in unità logiche ottenuta tramite l'opzione \lstinline!-s!, ci si può aspettare che $p_\mathrm{w}$, la larghezza in pixel sia quanto fornito dall'espressione seguente:
+
+\begin{equation}
+p_\mathrm{w} = r_\mathrm{p} (t_\mathrm{w}+ 2 t_\mathrm{margin})
+\end{equation}
+
 
 Un'altra possibilità interessante, sebbene a stretto rigore sia più una caratteristica di Java\index{Java} che di FidoCadJ, è la possibilità di modificare l'aspetto del programma (che in gergo Java si chiama look \& feel\index{look \& feel}).
 

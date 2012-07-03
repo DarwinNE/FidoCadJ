@@ -29,8 +29,8 @@ fi
 if [ `which java |grep -c java` -eq 0 ] 
  then
     echo " "
-    echo "   No java support found!"
-    echo "   You need to install java support first"
+    echo "   No Java support found!"
+    echo "   You need to install Java support first"
     echo "   Use the OpenJDE version or the proprietary Sun/Oracle Java environment"
     echo "   Abort... "
     echo " "
