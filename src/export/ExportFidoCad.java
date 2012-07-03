@@ -37,14 +37,13 @@ import java.awt.geom.*;
 
     
     @author Davide Bucci
-    @version 1.2, May 2011
 */
 
 public class ExportFidoCad implements ExportInterface {
 
 	private OutputStreamWriter fstream;
 	private BufferedWriter out;
-	private Vector layerV;
+	private Vector<LayerDesc> layerV;
 	private boolean extensions;		// use FidoCadJ extensions
 
 	public int cLe(double l)
@@ -88,7 +87,8 @@ public class ExportFidoCad implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)   
 		throws IOException
 	{ 
 		// We need to save layers informations, since we will use them later.
@@ -274,7 +274,7 @@ public class ExportFidoCad implements ExportInterface {
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		int fontSize, Map m)
+		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
 		boolean isStandard=false;

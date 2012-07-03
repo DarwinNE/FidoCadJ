@@ -7,6 +7,7 @@ import java.util.*;
 
 import globals.*;
 import dialogs.*;
+import layers.*;
 
 /** Allows to create a generic dialog, capable of displaying and let the user
 	modify the parameters of a graphic primitive.
@@ -32,7 +33,7 @@ import dialogs.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2009 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 	*/
 
@@ -60,9 +61,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 	private JComboBox jco[];
 	private int co;
 	
-	private Vector v;
+	private Vector<ParameterDescription> v;
 	
-	private Vector layers;
+	private Vector<LayerDesc> layers;
 	
   	/** Programmatically build a dialog frame containing the appropriate
   		elements, in order to let the user modify the characteristics of a 
@@ -71,9 +72,12 @@ public class DialogParameters extends JDialog implements ComponentListener
   		@param vec a ParameterDescription array containing the value and the
   			description of each parameter that should be edited by the
   			user.
+  		@param strict true if a strict compatibility with FidoCAD is required
+  		@param l a vector containing the layers
   	
   	*/
-  	public DialogParameters (JFrame parent, Vector vec, boolean strict, Vector l)
+  	public DialogParameters (JFrame parent, Vector<ParameterDescription> vec, 
+  		boolean strict, Vector<LayerDesc> l)
   	{
   		super(parent, Globals.messages.getString("Param_opt"), true);
   		
@@ -254,7 +258,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 			} else if(pd.parameter instanceof LayerInfo) {
 				GraphicsEnvironment gE;  
 				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				jco[co]=new JComboBox(new Vector(layers));
+				jco[co]=new JComboBox(new Vector<LayerDesc>(layers));
 				jco[co].setSelectedIndex(((LayerInfo)pd.parameter).layer);
    				jco[co].setRenderer( new LayerCellRenderer());
 
@@ -436,7 +440,7 @@ public class DialogParameters extends JDialog implements ComponentListener
   		modified by the user.
   		@return a ParameterDescription vector describing each parameter.
   	*/
-  	public Vector getCharacteristics()
+  	public Vector<ParameterDescription> getCharacteristics()
   	{
 		return v;
 	}

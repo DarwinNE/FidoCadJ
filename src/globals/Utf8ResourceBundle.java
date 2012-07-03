@@ -42,7 +42,7 @@ public abstract class Utf8ResourceBundle {
   		/* (non-Javadoc)
    		* @see java.util.ResourceBundle#getKeys()
    		*/
-  		public Enumeration getKeys() {
+  		public Enumeration<String> getKeys() {
     		return bundle.getKeys();
   		}
   		/* (non-Javadoc)

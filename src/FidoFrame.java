@@ -437,7 +437,7 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
         // I followed merely the FidoCad tradition.
-		Vector layerDesc=Globals.createStandardLayers();
+		Vector<LayerDesc> layerDesc=Globals.createStandardLayers();
         CC.P.setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
@@ -1008,10 +1008,10 @@ public class FidoFrame extends JFrame implements
         printLandscape = dp.getLandscape();
         exportBlackWhite= dp.getBW();
         
-        Vector ol=CC.P.getLayers();
+        Vector<LayerDesc> ol=CC.P.getLayers();
         if (dp.shouldPrint()) {
             if(exportBlackWhite) {
-                Vector v=new Vector();
+                Vector<LayerDesc> v=new Vector<LayerDesc>();
                         
                 // Here we create an alternative array of layers in 
                 // which all colors are pitch black. This may be

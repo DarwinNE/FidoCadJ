@@ -121,7 +121,8 @@ public class ExportPDF implements ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException
 	{ 
 		
@@ -636,7 +637,7 @@ public class ExportPDF implements ExportInterface {
    		}
 		outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
 		
-		Map subst = new HashMap();
+		Map<String, String> subst = new HashMap<String, String>();
 		subst.put("(","\\050");
 		subst.put(")","\\051");
 		text=Globals.substituteBizarreChars(text, subst);

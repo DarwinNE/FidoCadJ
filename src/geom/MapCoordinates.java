@@ -83,7 +83,7 @@ public class MapCoordinates
     private int xGridStep;
     private int yGridStep;
     
-    private Stack stack;
+    private Stack<MapCoordinates> stack;
     
     
     /** Standard constructor */
@@ -99,7 +99,7 @@ public class MapCoordinates
         isMacro=false;
         snapActive=true;
         resetMinMax();
-        stack = new Stack();
+        stack = new Stack<MapCoordinates>();
     }
     
     public void push()

@@ -242,8 +242,8 @@ public class FidoMain {
         		}
             
         		bufRead.close();
-				Vector layerDesc=Globals.createStandardLayers();
-        		P.setLayers(layerDesc);
+				
+        		P.setLayers(Globals.createStandardLayers());
                         
       			// Here txt contains the new circuit: parse it!
 
@@ -499,8 +499,8 @@ class CreateSwingInterface implements Runnable {
            	try {
            		Class a = Class.forName("AppleSpecific");
            		Object b = a.newInstance();
-           		Method m = a.getMethod("answerFinder", null);
-				m.invoke(b, null);
+           		Method m = a.getMethod("answerFinder");
+				m.invoke(b);
            	
            	} catch (Exception exc) {
      			Globals.weAreOnAMac = false;

@@ -70,7 +70,7 @@ public class Globals
     // A pointer to the active window
     public static JFrame activeWindow;
     
-    public static final HashSet openWindows = new HashSet();
+    public static final HashSet<JFrame> openWindows = new HashSet<JFrame>();
    
     // Line width expressed in FidoCadJ coordinates 
     public static final double lineWidthDefault = 0.5;  
@@ -121,9 +121,9 @@ public class Globals
     	
     	@return the list of the layers being created.
     */
-    public static Vector createStandardLayers()
+    public static Vector<LayerDesc> createStandardLayers()
     {
-        Vector layerDesc=new Vector();
+        Vector<LayerDesc> layerDesc=new Vector<LayerDesc>();
         String s="";
         
         if(Globals.messages!=null) s=Globals.messages.getString("Circuit_l");

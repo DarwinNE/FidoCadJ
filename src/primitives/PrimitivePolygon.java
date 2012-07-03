@@ -290,9 +290,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public Vector getControls()
+	public Vector<ParameterDescription> getControls()
 	{
-		Vector v=super.getControls();
+		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=new Boolean(isFilled);
@@ -317,7 +317,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public int setControls(Vector v)
+	public int setControls(Vector<ParameterDescription> v)
 	{
 		int i=super.setControls(v);		
 		ParameterDescription pd;

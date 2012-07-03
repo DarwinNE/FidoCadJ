@@ -45,16 +45,19 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright march 2007- march 2010 by Davide Bucci
+    Copyright march 2007- march 2012 by Davide Bucci
 </pre>
 
 @author Davide Bucci
-@version 2.0
 */
 
 
 public class FidoReadApplet extends JApplet
 {
+	// Increment this version number each time an important modification of
+	// this class has been done.
+	private static final long serialVersionUID = 10L;
+	
 	CircuitPanel CC;
 	Color backgroundColor;
     JScrollPane SC;
@@ -83,8 +86,7 @@ public class FidoReadApplet extends JApplet
  		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
  			"lib/PCB_en.fcl"), "pcb");
 	
-		Vector layerDesc=Globals.createStandardLayers();
-        CC.P.setLayers(layerDesc);
+        CC.P.setLayers(Globals.createStandardLayers());
 
 		Container contentPane;
 		contentPane=getContentPane();
