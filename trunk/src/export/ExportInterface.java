@@ -5,6 +5,9 @@ import java.util.*;
 import java.io.*;
 import java.awt.geom.*;
 
+import layers.*;
+import primitives.*;
+
 /** ExportInterface.java 
 
 	Interface which allows to export a FidoCad draw under an arbitrary format.
@@ -61,7 +64,8 @@ public interface ExportInterface {
 			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)  
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException;
 	
 	/** Called at the end of the export phase.
@@ -193,7 +197,7 @@ public interface ExportInterface {
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		int fontSize, Map m)
+		int fontSize, Map<String, MacroDesc> m)
 		throws IOException;
 	
 	/** Called when exporting an Oval primitive. Specify the bounding box.

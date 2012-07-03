@@ -40,7 +40,7 @@ import java.util.*;
 
 public class UndoManager {
 	
-	private Vector undoBuffer;
+	private Vector<Object> undoBuffer;
 	private int pointer;
 	private boolean isRedoable;
 	
@@ -49,7 +49,7 @@ public class UndoManager {
 	*/
 	public UndoManager (int size)
 	{
-		undoBuffer = new Vector(size);
+		undoBuffer = new Vector<Object>(size);
 		undoReset();
 	}
 	

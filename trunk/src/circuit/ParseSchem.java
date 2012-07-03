@@ -164,12 +164,12 @@ public class ParseSchem
     private int lineNum;
     
     // Vector containing all primitives in the drawing.
-    Vector primitiveVector;
+    Vector<GraphicPrimitive> primitiveVector;
     // Vector containing all layers used in the drawing.
-    Vector layerV;
+    Vector<LayerDesc> layerV;
 
     // Library of macros loaded.
-    private Map library;
+    private Map<String, MacroDesc> library;
    
  
     
@@ -204,9 +204,9 @@ public class ParseSchem
     public ParseSchem()
     {
         //tokens=new String[MAX_TOKENS];
-        primitiveVector=new Vector(25);
-        layerV=new Vector(Globals.MAX_LAYERS);
-        library=new TreeMap();
+        primitiveVector=new Vector<GraphicPrimitive>(25);
+        layerV=new Vector<LayerDesc>(Globals.MAX_LAYERS);
+        library=new TreeMap<String, MacroDesc>();
         firstDrag=false;
         um=new UndoManager(MAX_UNDO);
         oldZoom=-1;
@@ -227,7 +227,7 @@ public class ParseSchem
     
     */
 
-    public Vector getLayers()
+    public Vector<LayerDesc> getLayers()
     {
         return layerV;
     }
@@ -237,7 +237,7 @@ public class ParseSchem
         @param v a vector of LayerDesc describing layers.
     
     */
-    public void setLayers(Vector v)
+    public void setLayers(Vector<LayerDesc> v)
     {
         layerV=v;
         changed=true;
@@ -248,7 +248,7 @@ public class ParseSchem
     
     */
     
-    public Map getLibrary()
+    public Map<String, MacroDesc> getLibrary()
     {
         return library;
     }
@@ -256,7 +256,7 @@ public class ParseSchem
     /** Specify the current library.
         @param l the new library (a String/String hash table)
     */
-    public void setLibrary(Map l)
+    public void setLibrary(Map<String, MacroDesc> l)
     {
         library=l;
         changed=true;
@@ -266,7 +266,7 @@ public class ParseSchem
     */
     public void resetLibrary()
     {
-        setLibrary(new TreeMap());
+        setLibrary(new TreeMap<String, MacroDesc>());
     }
     
     /** Try to load all libraries ("*.fcl") files in the given directory.
@@ -528,7 +528,7 @@ public class ParseSchem
         }
         
         // Check if the layers should be indicated    
-        Vector standardLayers = Globals.createStandardLayers();
+        Vector<LayerDesc> standardLayers = Globals.createStandardLayers();
         if(extensions) {
             for(int i=0; i<layerV.size();++i) {
                 LayerDesc l = (LayerDesc)layerV.get(i);

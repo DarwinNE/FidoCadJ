@@ -39,6 +39,10 @@ This is the main file for the FidoCadJ reader applet.
 
 public class FidoCadApplet extends JApplet implements ActionListener
 {
+	// Increment this version number each time an important modification of
+	// this class has been done.
+	private static final long serialVersionUID = 10L;
+	
 	public void init()
 	{
         // Here we create the main window object

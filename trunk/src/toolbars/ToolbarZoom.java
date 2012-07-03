@@ -60,12 +60,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private JComboBox layerSel;
     private ChangeSelectedLayer changeLayerListener;
     
-    private Vector layers;
+    private Vector<LayerDesc> layers;
     
     /** Standard constructor
-    
+    	@param l the layer description
     */
-    public ToolbarZoom (Vector l) 
+    public ToolbarZoom (Vector<LayerDesc> l) 
     {
     	putClientProperty("Quaqua.ToolBar.style", "title");
     	layers=l;
@@ -96,7 +96,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         infos = new JLabel("");
 
         setBorderPainted(false);
-                layerSel = new JComboBox(new Vector(layers));
+        layerSel = new JComboBox(new Vector<LayerDesc>(layers));
         layerSel.setToolTipText(
         	Globals.messages.getString("tooltip_layerSel"));
    		layerSel.setRenderer( new LayerCellRenderer());

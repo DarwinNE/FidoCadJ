@@ -132,9 +132,9 @@ public final class PrimitiveBezier extends GraphicPrimitive
 				parameter.
 				
 	*/
-	public Vector getControls()
+	public Vector<ParameterDescription> getControls()
 	{
-		Vector v=super.getControls();
+		Vector<ParameterDescription> v=super.getControls();
 		
 		ParameterDescription pd = new ParameterDescription();
 
@@ -181,7 +181,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public int setControls(Vector v)
+	public int setControls(Vector<ParameterDescription> v)
 	{
 		int i=super.setControls(v);		
 		ParameterDescription pd;

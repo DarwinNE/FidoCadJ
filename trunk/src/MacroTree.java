@@ -14,6 +14,7 @@ import circuit.*;
 import export.*;
 import geom.*;
 import toolbars.*;
+import layers.*;
 
 /* macroTree.java
 	
@@ -64,7 +65,8 @@ public class MacroTree extends JPanel
 		super(new GridLayout(1,0));
 	
 	}
-    public void updateLibraries(Map lib, Vector layers) {
+    public void updateLibraries(Map<String, MacroDesc> lib, 
+    	Vector<LayerDesc> layers) {
         
 		library=lib.values();
         //Create the nodes.
@@ -195,8 +197,10 @@ public class MacroTree extends JPanel
 
         Iterator it = library.iterator();
         
-		Map categories = new HashMap();
-		Map libraries = new HashMap();
+		Map<String, DefaultMutableTreeNode> categories = 
+			new HashMap<String, DefaultMutableTreeNode>();
+		Map<String, DefaultMutableTreeNode> libraries = 
+			new HashMap<String, DefaultMutableTreeNode>();
         DefaultMutableTreeNode library_i = null;
 
    		while (it.hasNext()) {

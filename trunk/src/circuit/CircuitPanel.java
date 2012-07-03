@@ -1748,10 +1748,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
          @return an Vector composed by Globals.MAX_LAYERS opaque layers in 
          	green.
     */
-   	private Vector createEditingLayerArray()
+   	private Vector<LayerDesc> createEditingLayerArray()
     {
           	
-       	Vector ll=new Vector();
+       	Vector<LayerDesc> ll=new Vector<LayerDesc>();
        	for(int i=0; i<Globals.MAX_LAYERS;++i) 
        		ll.add(new LayerDesc(editingColor, true,"",1.0f));
        		
@@ -1958,7 +1958,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         GraphicPrimitive gp=P.getFirstSelectedPrimitive();
         if (gp!=null) {
-            Vector v=gp.getControls();
+            Vector<ParameterDescription> v=gp.getControls();
             DialogParameters dp = new DialogParameters(null,v, extStrict, 
                 P.getLayers());
             dp.setVisible(true);

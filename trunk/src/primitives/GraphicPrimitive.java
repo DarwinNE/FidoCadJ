@@ -828,10 +828,10 @@ public abstract class GraphicPrimitive
 				parameter.
 				The first parameters should always be the virtual points.	
 	*/
-	public Vector getControls()
+	public Vector<ParameterDescription> getControls()
 	{
 		int i;
-		Vector v = new Vector(10);
+		Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
 		ParameterDescription pd = new ParameterDescription();
 		
 		pd.parameter=(name!=null?name:"");
@@ -884,7 +884,7 @@ public abstract class GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public int setControls(Vector v)
+	public int setControls(Vector<ParameterDescription> v)
 	{
 		int i=0;
 		ParameterDescription pd;

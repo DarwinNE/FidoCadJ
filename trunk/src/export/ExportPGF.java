@@ -97,7 +97,8 @@ public class ExportPGF implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException
 	{ 
 		

@@ -86,7 +86,8 @@ public class ExportEPS implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException
 	{ 
 		
@@ -191,7 +192,7 @@ public class ExportEPS implements ExportInterface {
         // It seems that Postscript fonts can not handle spaces. So I substitute
         // every space with a "-" sign.
         
-        Map substFont = new HashMap();
+        Map<String, String> substFont = new HashMap<String, String>();
 		substFont.put(" ","-");
 		fontname=Globals.substituteBizarreChars(fontname, substFont);
 		out.write("/"+fontname+bold+" findfont\n"+
@@ -231,7 +232,7 @@ public class ExportEPS implements ExportInterface {
 		//out.write("  "+c.getRed()/255.0+" "+c.getGreen()/255.0+ " "
 		//	+c.getBlue()/255.0+	" setrgbcolor\n");
 		
-		Map subst = new HashMap();
+		Map<String, String> subst = new HashMap<String, String>();
 		subst.put("(","\\050");
 		subst.put(")","\\051");
 		text=Globals.substituteBizarreChars(text, subst);
@@ -458,7 +459,7 @@ public class ExportEPS implements ExportInterface {
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		int fontSize, Map m)
+		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
 		// The macro will be expanded into primitives.

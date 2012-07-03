@@ -5,6 +5,7 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
+import primitives.*;
 import globals.*;
 import layers.*;
 import java.awt.geom.*;
@@ -94,7 +95,8 @@ public class ExportEagle implements ExportInterface {
 
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException
 	{ 
 		
@@ -297,7 +299,7 @@ public class ExportEagle implements ExportInterface {
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
 		String name, int xn, int yn, String value, int xv, int yv, String font,
-		int fontSize, Map m)
+		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
 		String mirror ="";
@@ -306,7 +308,7 @@ public class ExportEagle implements ExportInterface {
 		
 		// The component name should not contain spaces. Substitute with
 		// the underline character.
-		Map subst = new HashMap();
+		Map<String, String> subst = new HashMap<String, String>();
 		subst.put(" ","_");
 		name=Globals.substituteBizarreChars(name, subst);
 		

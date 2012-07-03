@@ -78,8 +78,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private static boolean showText;
     
     private ButtonGroup group;
-    private ArrayList toolButtonsList;
-    private HashMap circuitPanelConstants;
+    private ArrayList<JToggleButton> toolButtonsList;
+    private HashMap<JToggleButton, Integer> circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
      	constructor to create the toolbar, but will need to be accessed by the 
@@ -136,8 +136,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         setBorderPainted(false);
         
         group = new ButtonGroup();
-        toolButtonsList = new ArrayList();
-        circuitPanelConstants = new HashMap();
+        toolButtonsList = new ArrayList<JToggleButton>();
+        circuitPanelConstants = new HashMap<JToggleButton, Integer>();
         
         /**
            First button to be added. Firstly a ToolButton object is created by

@@ -11,6 +11,7 @@ import circuit.*;
 import dialogs.*;
 import export.*;
 import globals.*;
+import layers.*;
 
 
 /** Class to handle the macro primitive. Code is somewhat articulated since
@@ -42,8 +43,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 {
 
 	static final int N_POINTS=3;
-	private Map library;
-	private Vector layers;
+	private Map<String, MacroDesc> library;
+	private Vector<LayerDesc> layers;
 	private int o;
 	private boolean m; 
 	private boolean drawOnlyPads;
@@ -76,7 +77,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param lib the library to be inherited
 		@param l the list of layers
 	*/
-	public PrimitiveMacro(Map lib, Vector l)
+	public PrimitiveMacro(Map<String, MacroDesc>lib, Vector<LayerDesc> l)
 	{
 		super();
 		library=lib;
@@ -112,7 +113,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param oo the macro orientation
 		@param mm the macro mirroring
 	*/	
-	public PrimitiveMacro(Map lib, Vector l, int x, int y, String key, 
+	public PrimitiveMacro(Map<String, MacroDesc> lib, Vector<LayerDesc> l, 
+		 int x, int y, String key, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF, 
 		 int macroS, int oo, boolean mm)
 		throws IOException
@@ -233,7 +235,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@layerV the array containing the layer description to be inherited.
 	
 	*/
-	private void macroStore(Vector layerV)
+	private void macroStore(Vector<LayerDesc> layerV)
 	{
 	 	macro.setLibrary(library); 			// Inherit the library
  		macro.setLayers(layerV);	// Inherit the layers
@@ -551,9 +553,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
 				The first parameters should always be the virtual points.
 				
 	*/
-	public Vector getControls()
+	public Vector<ParameterDescription> getControls()
 	{
-		Vector v=new Vector(10);
+		Vector<ParameterDescription> v=new Vector<ParameterDescription>(10);
 		ParameterDescription pd = new ParameterDescription();
 
 		pd.parameter=name;
@@ -602,7 +604,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 				
 	*/
 
-	public int setControls(Vector v)
+	public int setControls(Vector<ParameterDescription> v)
 	{
 		int i=0;		
 		ParameterDescription pd;

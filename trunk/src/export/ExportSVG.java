@@ -83,7 +83,8 @@ public class ExportSVG implements ExportInterface {
 
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector la, int grid)   
+	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+		int grid)  
 		throws IOException
 	{ 
 		
