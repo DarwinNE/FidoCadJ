@@ -215,7 +215,8 @@ public class FidoMain {
         	ParseSchem P = new ParseSchem();
         	
         	if(loadFile.equals("")) {
-        		System.err.println("You should specify a FidoCadJ file to read");
+        		System.err.println("You should specify a FidoCadJ file to"+
+        		"read");
         		System.exit(1);
         	}
         	
