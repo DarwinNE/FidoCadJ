@@ -99,7 +99,19 @@ make_core() {
 	update-mime-database /usr/share/mime &> /dev/null
 }
 
-
+purge_me() {
+    echo "==>   Removing FidoCadJ..."
+    xdg-mime uninstall /usr/share/fidocadj/fidocadj-mime.xml
+    xdg-icon-resource uninstall --context mimetypes --size 48 /usr/share/fidocadj/fidocadj-file.png x-application-fidocadj
+    rm -rf /usr/share/java/fidocadj/fidoca*
+    rm -rf /usr/share/doc/fidocadj*
+    rm -f /usr/share/applications/fidocadj.desktop
+    rm -f /usr/bin/fidocadj
+    rm -f /usr/share/pixmaps/fidocadj.png
+    rm -rf /usr/share/fidocad*
+    update-mime-database /usr/share/mime &> /dev/null
+    echo "   All done  "
+}
 
 ## get our docs check if we need french or italian else drop to english
 make_docs() {
@@ -149,12 +161,13 @@ net_check
     echo "   latest files from our project folder on the SourceForge server"
     echo " "
 read -p "   Do you want to install FidoCadJ on this system? [Y/n] " prompt
-	prompt=`echo "$prompt" | tr "[:upper:]" "[:lower:]"`
-	if [ "$prompt" == "n" ]
-	  then
-	     echo "   Aborted...\033[0m"
+if [ "$prompt" == "n" ] ; then
+   echo "   Aborted..."
 	      exit 0 
-	 fi
+elif [ "$prompt" == "N" ] ; then
+   echo "   Aborted..."
+	      exit 0 
+fi
 echo " "
 
 
@@ -181,20 +194,10 @@ do_remove() {
 root_stub
     echo " "
 read -p "   Do you want to uninstall FidoCadJ on this system? [N/y] " prompt
-prompt=`echo "$prompt" | tr "[:upper:]" "[:lower:]"`
-if [ "$prompt" == "y" ]
-  then
-    echo "==>   Removing FidoCadJ..."
-    xdg-mime uninstall /usr/share/fidocadj/fidocadj-mime.xml
-    xdg-icon-resource uninstall --context mimetypes --size 48 /usr/share/fidocadj/fidocadj-file.png x-application-fidocadj
-    rm -rf /usr/share/java/fidocadj/fidoca*
-    rm -rf /usr/share/doc/fidocadj*
-    rm -f /usr/share/applications/fidocadj.desktop
-    rm -f /usr/bin/fidocadj
-    rm -f /usr/share/pixmaps/fidocadj.png
-    rm -rf /usr/share/fidocad*
-    update-mime-database /usr/share/mime &> /dev/null
-    echo "   All done  "
+if [ "$prompt" == "y" ] ; then
+   purge_me
+elif [ "$prompt" == "Y" ] ; then
+   purge_me
   else
     echo "   Aborted..."
     exit 1 
