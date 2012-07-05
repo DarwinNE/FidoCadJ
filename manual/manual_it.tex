@@ -178,7 +178,7 @@ In questo capitolo, faremo rapidamente alcune considerazioni su FidoCadJ. In par
 
 FidoCAD\index{FidoCAD} (senza la J alla fine!) era un software di disegno particolarmente adatto ad essere usato per tracciare semplicemente schemi elettrici e circuiti stampati. Può ancora essere scaricato gratuitamente dalla pagina dell'autore, Lorenzo Lutti\index{Lorenzo Lutti}:
 
-\href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/~lorenzo/fidocad.asp}
+\href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
 
 Il file generato dal programma contiene solo dei codici in formato testo ed è molto compatto, prestandosi quindi ad essere usato come formato di scambio presso le comunità Usenet. Purtroppo, il software esiste solo nella versione Windows\index{Windows}. Chi usa Linux\index{Linux} può utilizzare WInE\index{WInE}, ma chi come me usa un Macintosh, deve arrangiarsi. Quindi ho voluto dare un piccolo contributo scrivendo FidoCadJ (con la J alla fine, questa volta), un editor in Java\index{Java}, capace di visualizzare e modificare i disegni in formato FidoCAD\index{FidoCAD}. \marginpar{Del resto, penso che sia meglio darsi da fare, piuttosto che lagnarsi che sotto un sistema operativo alternativo a Windows\index{Windows} non si trova il tal programma. O no?}
 
@@ -790,7 +790,7 @@ C'è una cosa però da dire sull'esportazione \textsc{pdf} fatta da FidoCadJ. Il p
 Tra l'altro, questi font\index{font} sono praticamente di sicuro disponibili ovunque, quindi è una buona idea utilizzarli sistematicamente.
 
 \section{Opzioni linea di comando}
-Il programma viene distribuito sotto forma di file \lstinline!.jar!\index{jar}, ovvero un archivio Java.\footnote{Salvo nella versione per Macintosh\index{Macintosh}, per la quale vi è un'applicazione a sé stante.} In molti sistemi operativi, può essere sufficiente fare doppio click sul file per lanciare il programma, a patto di avere una versione recente di Java\index{Java} installata sulla macchina. Nella terminologia Sun\index{Sun}, quello che serve è il cosiddetto JRE\index{JRE}, ovvero il Java Runtime Environment, che è tutto quello che ci vuole per far girare un programma scritto in Java (ma non per scriverlo: per quello ci vuole l'SDK\dots). La versione minima di Java necessaria per utilizzare FidoCadJ è la 1.4, che è in giro ormai da diversi anni.
+Il programma viene distribuito sotto forma di file \lstinline!.jar!\index{jar}, ovvero un archivio Java.\footnote{Salvo nella versione per Macintosh\index{Macintosh}, per la quale vi è un'applicazione a sé stante.} In molti sistemi operativi, può essere sufficiente fare doppio click sul file per lanciare il programma, a patto di avere una versione recente di Java\index{Java} installata sulla macchina. Nella terminologia Sun\index{Sun}, quello che serve è il cosiddetto JRE\index{JRE}, ovvero il Java Runtime Environment, che è tutto quello che ci vuole per far girare un programma scritto in Java (ma non per scriverlo: per quello ci vuole l'SDK\dots). La versione minima di Java necessaria per utilizzare FidoCadJ è la 1.5, che è in giro ormai da diversi anni.
 
 In qualche caso, potrà essere utile far partire FidoCadJ dalla linea di comando (il terminale\index{terminale} dei sistemi Unix\index{Unix}, oppure il Prompt MS-DOS\index{prompt MS-DOS} per quelli Windows\index{Windows}). Per quello, basta utilizzare il comando \lstinline!java!, con l'opzione \lstinline!-jar!:
 \begin{lstlisting}
@@ -1123,7 +1123,7 @@ FCJ a b c d e nv
 dove $a$ è un intero rappresentante la presenza o l'assenza di frecce agli estremi della curva (vedere la tabella~\ref{tab_frecce_estremita}), $b$ è un intero identificante lo stile della freccia da utilizzare (vedere la tabella~\ref{tab_frecce_stile}). I parametri $c$ e $d$ forniscono rispettivamente la lunghezza totale e la semilarghezza della freccia da disegnare, mentre $e$ è un intero che fornisce lo stile del tratteggio. Se $nv$ è uguale a 1, la linea \lstinline!FCJ! dev'essere seguita da due comandi \lstinline!TY! che specificano rispettivamente il nome ed il valore associati a quest'elemento.
 
 \subsubsection{Curva complessa, spline}
-Una spline naturale cubica\index{spline} viene creata a partire da un certo numero di vertici. La curva passa in tutti i vertici e viene calcolata in modo che il suo percorso sia molto liscio.\footnote{ \href{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}}All'interno di FidoCadJ, una spline cubica è identificata dai comandi \lstinline!CV!\index{CV} e \lstinline!CP!\index{CP}:
+Una spline naturale cubica\index{spline} viene creata a partire da un certo numero di vertici. La curva passa in tutti i vertici e viene calcolata in modo che il suo percorso sia molto liscio.\footnote{ \href{http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html}{http://www.cse.unsw.edu.au/\textasciitilde lambert/splines/natcubic.html}}All'interno di FidoCadJ, una spline cubica è identificata dai comandi \lstinline!CV!\index{CV} e \lstinline!CP!\index{CP}:
 \begin{lstlisting}
 CV aa x1 y1 x2 y2 ... l
 CP aa x1 y1 x2 y2 ... l
@@ -1320,12 +1320,12 @@ Per questa ragione, alcuni dettagli del funzionamento del programma sono leggerm
 \end{itemize}
 
 \subsection{Come scaricare ed eseguire FidoCadJ con MacOSX}
-FidoCadJ può funzionare con una versione di MacOSX\index{MacOSX} superiore o eguale alla 10.3.9 (Panther\index{Panther}). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.4 di Java, che Apple\index{Apple} forniva con il suo sistema operativo. Per ragioni probabilmente di economia di mercato, Apple non sembra molto propensa a fornire Java con le ultime release del suo sistema operativo MacOSX\index{MacOSX}. Questo è un componente essenziale per far funzionare FidoCadJ, quindi se vi manca scaricatevelo ed installatelo. Fra l'altro, Apple non permette di distribuire tramite App Store\index{App Store} programmi GPL o basati su tecnologie software che non le sono simpatiche. La mancanza di Java è peraltro una delle ragioni per cui è improbabile che FidoCadJ possa girare su iPad\index{iPad} ed iPhone\index{iPhone}.
+FidoCadJ può funzionare con una versione di MacOSX\index{MacOSX} superiore o eguale alla 10.3.9 (Panther\index{Panther}). Il motivo è presto detto: FidoCadJ richiede per funzionare almeno la versione 1.5 di Java, che Apple\index{Apple} forniva con il suo sistema operativo. Per ragioni probabilmente di economia di mercato, Apple non sembra molto propensa a fornire Java con le ultime release del suo sistema operativo MacOSX\index{MacOSX}. Questo è un componente essenziale per far funzionare FidoCadJ, quindi se vi manca scaricatevelo ed installatelo. Fra l'altro, Apple non permette di distribuire tramite App Store\index{App Store} programmi GPL o basati su tecnologie software che non le sono simpatiche. La mancanza di Java è peraltro una delle ragioni per cui è improbabile che FidoCadJ possa girare su iPad\index{iPad} ed iPhone\index{iPhone}.
 
 Sebbene sia possibile utilizzare il file \lstinline!fidocad.jar! come sotto gli altri sistemi operativi, con MacOSX conviene utilizzare l'applicazione preparata specificatamente per questo sistema operativo. Tutto avviene come con le applicazioni native: basta scaricare l'immagine disco contenente il programma all'indirizzo: 
 
 {\small
-\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ.dmg/download}}\\
+\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ_MacOSX.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ\_ MacOSX.dmg/download}}\\
 aprite l'immagine disco e spostate \lstinline!FidoCadJ.app! all'interno della cartella \lstinline!Applicazioni! da cui sarà  poi disponibile.
 
 Per disinstallare FidoCadJ, sarà sufficiente prelevare \lstinline!FidoCadJ.app! dalla cartella \lstinline!Applicazioni! e spostarlo nel cestino.
@@ -1442,7 +1442,7 @@ creiamo poi la directory \lstinline!/usr/bin/fidocadj! e spostiamoci il file app
 \label{fig_java6}
 \end{figure}
 
-\item {Selezioniamo la scheda ``Apri con'' e scegliamo ``OpenJDK Java 6 Runtime'' oppure ``Sun Java 6 Runtime'', come visibile nella figura~\ref{fig_java6}.}\footnote{N.D.R. Mi è stato segnalato che utilizzando il runtime OpenJDK si possono incontrare dei problemi nella stampa di disegni su stampanti adoperanti driver CUPS. In caso di problemi, fate qualche prova con Sun JRE 1.4.2, se disponibile.}
+\item {Selezioniamo la scheda ``Apri con'' e scegliamo ``OpenJDK Java 6 Runtime'' oppure ``Sun Java 6 Runtime'', come visibile nella figura~\ref{fig_java6}.}\footnote{N.D.R. Mi è stato segnalato che utilizzando il runtime OpenJDK si possono incontrare dei problemi nella stampa di disegni su stampanti adoperanti driver CUPS.}
 
 \item {Click su ``Chiudi'', e siamo pronti ad eseguire FidoCadJ: un doppio click sull'eseguibile, oppure lo aggiungiamo al menu; il comando da inserire è semplicemente \lstinline!/usr/bin/fidocadj/fidocadj.jar!.}
 \end{itemize}

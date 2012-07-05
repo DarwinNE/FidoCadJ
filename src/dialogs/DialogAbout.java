@@ -180,7 +180,7 @@ public class DialogAbout extends JFrame implements ComponentListener
       		}
     	}
         
-        JButton link=new JButton("<HTML> <a href=\"https://sourceforge.net/projects/fidocadj/\">https://sourceforge.net/projects/fidocadj/</a></HTML>");
+        JButton link=new JButton("<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">http://sourceforge.net/projects/fidocadj/</a></HTML>");
         constraints.gridx=0;
         constraints.gridy=6;
         constraints.gridwidth=1;
