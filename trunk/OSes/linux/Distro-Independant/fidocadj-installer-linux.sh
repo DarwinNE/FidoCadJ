@@ -116,7 +116,7 @@ purge_me() {
 ## get our docs check if we need french or italian else drop to english
 make_docs() {
 # what language for manuals
-get_lang=`env |grep -w LANG |cut -c6-7`
+get_lang=`env | egrep 'LC|LANG' | grep _ |cut -c6-7`
 if [ "$get_lang" == "fr" ]
 then 
   wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_fr.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_fr.pdf
