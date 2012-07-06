@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ###########################################
 ##                                       ##
 ## Distro independant FidoCadJ installer ##
