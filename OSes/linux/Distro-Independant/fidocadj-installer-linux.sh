@@ -199,6 +199,7 @@ if [ "$prompt" == "y" ] ; then
 elif [ "$prompt" == "Y" ] ; then
    purge_me
   else
+    echo "   Option '$prompt' is not recognized."
     echo "   Aborted..."
     exit 1 
  fi
