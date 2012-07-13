@@ -1249,12 +1249,11 @@ FJC C aaaa
 dove $aaaa$ è un valore decimale, a doppia precisione, rappresentante la taglia del bollino in unità logiche.
 
 \subsection{Configurazione larghezza tratto}
-La larghezza del pennino usato per il disegno degli schemi elettrici può essere modificata. Il programma fa differenza fra il tratto dei segmenti (primitiva \lstinline!LI!) e delle linee curve (primitive \lstinline!EV! e \lstinline!BE!). Il primo è modificato dal comando \lstinline!FJC A!\index{FJC A}, mentre il secondo dal comando \lstinline!FJC B!\index{FJC B}.
+La larghezza del pennino usato per il disegno degli schemi elettrici può essere modificata tramite il comando \lstinline!FJC A!\index{FJC A}:
 \begin{lstlisting} 
 FJC A aaaa
-FJC B bbbb
 \end{lstlisting}
-dove $aaaa$ e $bbbb$ sono costanti decimali, a doppia precisione, rappresentanto la larghezza del tratto (in unità logiche) da utilizzare rispettivamente per il disegno dei segmenti e delle linee curve. La larghezza di default è fissata internamente a 0,5 unità logiche. 
+dove $aaaa$ è una costante decimale, a doppia precisione, che specifica la larghezza del tratto (in unità logiche) da utilizzare per gli elementi grafici (linee, rettangoli, ovali, spline, Bézier, poligoni). La larghezza di default è fissata internamente a 0,5 unità logiche. Prima della versione 0.23.6, FidoCadJ faceva differenza tra la larghezza del tratto dei segmenti e delle curve (indicata quest'ultima con \lstinline!FJC B bbbb!\index{FJC B}). Questa differenza è stata eliminata nelle versioni più recenti del programma.
 
 \section{Tolleranza agli errori sintattici}
 FidoCadJ è progettato per tollerare eventuali errori\index{tolleranza agli errori} o comandi malformati che vengano forniti al programma. Ovviamente, a meno che non abbiate una sfera di cristallo\index{sfera di cristallo} collegata come periferica USB, il programma non potrà correggere gli errori e si limiterà a saltare (ed eliminare) tutte le linee che li contengono.

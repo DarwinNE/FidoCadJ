@@ -1611,6 +1611,8 @@ the library, specified as \emph{library.code}.
 
 If \lstinline!MC!\index{MC} is followed by \lstinline!FCJ!, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
+<<<<<<< .mine
+=======
 \textbf{FidoCadJ extension}: FidoCadJ introduced
 some extensions\index{FidoCadJ extension} to the original FidoCad
 format, which are identified by the command \lstinline!FCJ!\index{FCJ}.
@@ -1635,6 +1637,7 @@ is read by FidoCad\index{FidoCad}, this will ignore the lines containing
 \lstinline!FCJ! (returning an error message), but the drawing obtained
 will be identical to the one produced by FidoCadJ (see section~\ref{FCJ_extension}).
 
+>>>>>>> .r390
 \section{FidoCadJ extensions}
 \label{FCJ_extension}
 Since version 0.21, FidoCadJ has started to introduce a few refinements over the original FidoCad forma\index{FidoCadJ extension}. The FidoCadJ extensions are represented in the code by the command \lstinline!FCJ!\index{FCJ}. This command is not used alone, but means that FidoCadJ needs to specify additional information on what it is specified in the previous line.
@@ -1685,12 +1688,11 @@ FJC C aaaa
 where $aaaa$ is a double precision floating point value (positive) which gives the diameter of the electrical connection, in FidoCadJ logical units.
 
  \subsection{Stroke width}
- The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ makes difference between the width of the pen used for segments (\lstinline!LI! command) and curved lines (commands \lstinline!EV! and \lstinline!BE!). The first case is represented by the command \lstinline!FJC A!\index{FJC A}, where the second is specified by the command \lstinline!FJC B!\index{FJC B}. They both require a double precision constant.
+ The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ adopts the command \lstinline!FJC A!\index{FJC A} to specify the stroke width of the lines, ovals, Bézier, splines, rectangles and polygons. The width can be a double precision constant.
 \begin{lstlisting}
 FJC A aaaa
-FJC B bbbb
 \end{lstlisting}
-Where $aaaa$ and $bbbb$ represent the stroke width (in logical units), to be used respectively for the drawing of the segments and curved lines. The default width is internally defined equal to 0.5 logical units.
+Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, Bézier) From version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
 
 \section{Syntax errors tolerance}
 
