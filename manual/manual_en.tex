@@ -1605,39 +1605,12 @@ MC x1 y1 o m n
 \end{lstlisting} 
 The macro is drawn using position $(x_{1},y_{1})$
 as the reference, and the orientation is defined by the value of $o$
-(multiplied by 90\textdegree{}) and if $m$ is equal to 1 the macro
+(multiplied by 90\textdegree{} clockwise) and if $m$ is equal to 1 the macro
 is mirrored. the last parameter, $n$, is the macro's name within
 the library, specified as \emph{library.code}.
 
 If \lstinline!MC!\index{MC} is followed by \lstinline!FCJ!, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
-<<<<<<< .mine
-=======
-\textbf{FidoCadJ extension}: FidoCadJ introduced
-some extensions\index{FidoCadJ extension} to the original FidoCad
-format, which are identified by the command \lstinline!FCJ!\index{FCJ}.
-For the moment, the only one that has been implemented is a feature
-that allows the association of a name and a value to a macro. It is
-used as follows: 
-\begin{lstlisting} 
-[FIDOCAD]
-MC 40 30 0 0 080
-FCJ
-TY 50 35 4 3 0 0 0 * R1
-TY 50 40 4 3 0 0 0 * 47k
-\end{lstlisting}
-The presence of the command \lstinline!FCJ! indicates that the definition
-of the macro is not finished, but the fields that indicate name and
-value are specified by the commands \lstinline!TY! on the lines that
-immediately follow \lstinline!FCJ!. So far, only the coordinates
-of the commands \lstinline!TY! are in use.
-
-This has the advantage that if a file containing such an extension
-is read by FidoCad\index{FidoCad}, this will ignore the lines containing
-\lstinline!FCJ! (returning an error message), but the drawing obtained
-will be identical to the one produced by FidoCadJ (see section~\ref{FCJ_extension}).
-
->>>>>>> .r390
 \section{FidoCadJ extensions}
 \label{FCJ_extension}
 Since version 0.21, FidoCadJ has started to introduce a few refinements over the original FidoCad forma\index{FidoCadJ extension}. The FidoCadJ extensions are represented in the code by the command \lstinline!FCJ!\index{FCJ}. This command is not used alone, but means that FidoCadJ needs to specify additional information on what it is specified in the previous line.
