@@ -462,6 +462,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */    
     public void setSelectionState(int s, String macro)
     {
+    	
         if (selectionListener!=null && s!=actionSelected) {
             selectionListener.setSelectionState(s, macro);
             selectionListener.setStrictCompatibility(extStrict);
