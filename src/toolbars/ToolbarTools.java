@@ -475,19 +475,19 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     public void setSelectionState(int s, String m)
     {
-        for(int i=0;i<toolButtonsList.size();i++) {
+        /* I think this code is not useful
+        for(int i=0; i<toolButtonsList.size(); ++i) {
             JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             button.setSelected(false);
-        }
-        
-        for(int i=0;i<toolButtonsList.size();i++) {
-            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
+        }*/
+        for(int i=0; i<toolButtonsList.size(); ++i) {
             if(s == CircuitPanel.NONE || s == CircuitPanel.MACRO) break;
+            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(button));
             int circuitPanelConstant = circuitPanelConstantInteger.intValue();
             if(s == circuitPanelConstant) 
                 button.setSelected(true);
-        }
+        }  
     }
 }

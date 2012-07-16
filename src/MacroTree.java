@@ -45,7 +45,8 @@ import layers.*;
 public class MacroTree extends JPanel
                       implements TreeSelectionListener,
                       			 DocumentListener,
-                      			 KeyListener
+                      			 KeyListener,
+                      			 FocusListener
                       
 {
     private CircuitPanel previewPanel;
@@ -55,6 +56,7 @@ public class MacroTree extends JPanel
     private SearchField search;
     private Collection library;
     private ChangeSelectionListener selectionListener;
+    private MacroDesc macro;
 
     private static boolean DEBUG = false;
     
@@ -63,8 +65,10 @@ public class MacroTree extends JPanel
 	public MacroTree()
 	{
 		super(new GridLayout(1,0));
-	
+		macro = null;
 	}
+	
+	
     public void updateLibraries(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers) {
         
@@ -75,6 +79,7 @@ public class MacroTree extends JPanel
 
         //Create a tree that allows one selection at a time.
         tree = new JTree(top);
+        tree.addFocusListener(this);
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -147,6 +152,19 @@ public class MacroTree extends JPanel
 		selectionListener=l;
 	}
 	
+	public void focusGained(FocusEvent e)
+    {
+       	if (selectionListener!=null && macro!=null)
+			selectionListener.setSelectionState(CircuitPanel.MACRO,
+					macro.key);
+
+    }
+    
+    public void focusLost(FocusEvent e)
+    {
+    
+    }
+	
     /** Required by TreeSelectionListener interface. Called when the user
     	clicks on a node of the tree.
     
@@ -154,13 +172,12 @@ public class MacroTree extends JPanel
     public void valueChanged(TreeSelectionEvent e) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             tree.getLastSelectedPathComponent();
-
         if (node == null) return;
-
+		macro=null;
         Object nodeInfo = node.getUserObject();
         if (node.isLeaf()) {
         	try {
-            	MacroDesc macro = (MacroDesc)nodeInfo;
+            	macro = (MacroDesc)nodeInfo;
             	
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
@@ -404,4 +421,6 @@ public class MacroTree extends JPanel
         // Node not found
         return null; 
     } 
+    
+
 }
