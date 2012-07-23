@@ -107,17 +107,19 @@
 %\let\cleardoublepage\relax
 %\let\cleardoublepage\relax
 
+%======================================= 1级标题（不加入目录）
 \clearpage{}
 \pdfbookmark[1]{摘要}{Abstract}
-\chapter*{摘要} %=================================== 1级标题（不加入目录）
+\chapter*{摘要}
 
 本手册是FidoCadJ的官方用户手册。首先简单介绍FidoCadJ的起源和历史，接着描述它的基本使用方法。目标是让读者学会使用FidoCadJ绘制简单的电路原理图以及相应的印制电路板图。然后，详细描述FidoCadJ的格式（也可以说是FidoCad的格式）。最后，我们将给出在目前比较流行的操作系统（Linux、MacOSX和Windows）平台上下载和安装FidoCadJ的方法。
 
 %\endgroup
 
+%======================================= 1级标题（不加入目录）
 \clearpage{}
 \pdfbookmark[1]{鸣谢}{Aknowledgements}
-\chapter*{鸣谢} %=================================== 1级标题（不加入目录）
+\chapter*{鸣谢}
 
 许多人从软件发布的第一版就开始使用了，并提出他们的意见帮助我改进此软件。在此，我要感谢it.hobby.elettronica\index{it.hobby.elettronica}新闻组\index{newsgroup}的所有参与者，是他们进行了非常富有成效的讨论。
 
@@ -129,9 +131,10 @@
 
 2010年4月，FidoCadJ整合进了有名的意大利网站\href{www.electroportal.it}{www.electroportal.it}。它默默地运行在服务器端，自动转换论坛用户张贴的绘图。我要表达对版主Zeno Martini、站长Nicoli Martini和该网站上其他所有用户的感激之情，是他们提出了许多实用的想法，例如FidoCadJ的批处理（这是目前跟踪到的一个很有潜力的发展方向，应该进行全面探讨）。最近，FidoReadPHP类已经完成，用于在PHP服务器上读取和解析FidoCadJ绘图。感谢Arniek和Sstrix，已经把它应用到流行的\href{www.grix.it}{www.grix.it}\index{www.grix.it}网站上，我要赞美他们！
 
+%======================================= 1级标题（不加入目录）
 \clearpage{}
 \pdfbookmark[1]{FidoCadJ许可证}{License FidoCadJ}
-\chapter*{FidoCadJ许可证} %========================== 1级标题（不加入目录）
+\chapter*{FidoCadJ许可证}
 
 版权 \copyright\ 2007-2012 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
 
@@ -143,10 +146,12 @@
 
 \clearpage{}
 \pdfbookmark[1]{目录}{Table of contents}
+\def\contentsname{目录}%
 \tableofcontents {}
 
 \clearpage{}
 \pdfbookmark[1]{插图}{List of figures}
+\def\listfigurename{插图}% 
 \listoffigures
 
 %\begingroup
@@ -157,6 +162,7 @@
 
 \clearpage{}
 \pdfbookmark[1]{表格}{Liste of tables}
+\def\listtablename{表格}%
 \listoftables
 
 %\endgroup
