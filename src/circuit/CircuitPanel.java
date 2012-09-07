@@ -255,13 +255,28 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	JMenuItem editPaste = new 
             	JMenuItem(Globals.messages.getString("Paste"));
         
+        
+            JMenuItem editRotate = new 
+	            JMenuItem(Globals.messages.getString("Rotate"));
+        
+    	    JMenuItem editMirror = new 
+        	    JMenuItem(Globals.messages.getString("Mirror_E"));
+        
         	popup.add(editCut);
         	popup.add(editCopy);
         	popup.add(editPaste);
         	
+        	popup.addSeparator();
+        	popup.add(editRotate);
+        	popup.add(editMirror);
+        	
+        	// Adding the action listener
+        	
         	editCut.addActionListener(this);
         	editCopy.addActionListener(this);
         	editPaste.addActionListener(this);
+        	editRotate.addActionListener(this);
+        	editMirror.addActionListener(this);
         	
         }
     }
@@ -2052,25 +2067,42 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(evt.getSource() instanceof JMenuItem) 
         {
             String arg=evt.getActionCommand();
-			// Copy all selected elements in the clipboard
+            
+            // Some wild copy and paste from FidoFrame class. How to refactor
+            // that?
+			
             if (arg.equals(Globals.messages.getString("Copy"))) {
+            	// Copy all selected elements in the clipboard
                 P.copySelected(!extStrict, splitNonStandardMacro_c,
                 	getMapCoordinates().getXGridStep(), 
                 	getMapCoordinates().getYGridStep());   
-            }
-            // Cut all the selected elements
-            if (arg.equals(Globals.messages.getString("Cut"))) {
+            } else if (arg.equals(Globals.messages.getString("Cut"))) {
+            	// Cut elements
                 P.copySelected(!extStrict, splitNonStandardMacro_c,
                 	getMapCoordinates().getXGridStep(), 
                 	getMapCoordinates().getYGridStep());   
                 P.deleteAllSelected();
                 repaint();
-            }
-            // Paste some graphical elements 
-            if (arg.equals(Globals.messages.getString("Paste"))) {
+            } else if (arg.equals(Globals.messages.getString("Paste"))) {
+            	// Paste elements from the clipboard
                 P.paste();   
                 repaint();
+            } else if (arg.equals(Globals.messages.getString("Rotate"))) {
+            	// Rotate the selected element
+                if(!isEnteringMacro())
+                	P.rotateAllSelected();
+                else
+                	rotateMacro();
+                repaint();
+            } else if(arg.equals(Globals.messages.getString("Mirror_E"))) {
+            	// Mirror the selected element
+            	if(!isEnteringMacro())
+                	P.mirrorAllSelected();
+                else
+                	mirrorMacro();               
+                repaint();
             }
+            
        }
    }
 }
