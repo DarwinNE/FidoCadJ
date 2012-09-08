@@ -11,7 +11,7 @@ Version 0.24.1
 - Added a Dutch translation of the user interface.
 - Added the -l option to the command line interface.
 - It is now easier to come back from an editing mode, to a macro that was previously selected.
-
+- Selected objects appear in green, with different shades depending on their original color.
 
 Version 0.24
 ------------
