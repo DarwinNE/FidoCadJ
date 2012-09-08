@@ -673,7 +673,10 @@ public abstract class GraphicPrimitive
 		// The color for selected primitives is green.
 		
 		if(selectedState) {
-			g.setColor(Color.green);
+			// We blend the layer color with green, in such a way that the 
+			// selected objects bear a certain reminescence of their original
+			// color.
+			g.setColor(blend(Color.green, l.getColor(), 0.6f));
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 
 				1.0f));
 			oldalpha = 1.0f;
@@ -688,6 +691,33 @@ public abstract class GraphicPrimitive
 		}	
 		return true;
 	}
+	
+	/**
+    	Blend two colors. From 
+     	http://www.java2s.com/Code/Java/2D-Graphics-GUI/Commoncolorutilities.htm
+    
+    	@param color1  First color to blend.
+    	@param color2  Second color to blend.
+    	@param ratio   Blend ratio. 0.5 will give even blend, 1.0 will return
+                   color1, 0.0 will return color2 and so on.
+    	@return        Blended color.
+   	*/
+  	public static Color blend (Color color1, Color color2, float r)
+  	{
+    	float ir = (float) 1.0 - r;
+
+    	float rgb1[] = new float[3];
+    	float rgb2[] = new float[3];    
+
+    	color1.getColorComponents (rgb1);
+    	color2.getColorComponents (rgb2);    
+
+    	Color color = new Color (rgb1[0] * r + rgb2[0] * ir, 
+                             rgb1[1] * r + rgb2[1] * ir, 
+                             rgb1[2] * r + rgb2[2] * ir);
+    
+    	return color;
+  	}
 	
 	/**	Draw the handles for the current primitive.
 		@param g the graphic context to be used.

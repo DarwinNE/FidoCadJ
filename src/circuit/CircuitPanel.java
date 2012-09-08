@@ -1710,6 +1710,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
             revalidate();
         }
         
+        if(scrollRectangle!=null) {
+        	Rectangle r=scrollRectangle;
+        	scrollRectangle = null;
+  	   		scrollRectToVisible(r);
+        }
+        
+        
         // Since the redraw speed is a capital parameter which determines the
         // perceived speed, we monitor it very carefully if the program
         // profiling is active.
@@ -1732,10 +1739,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
         }   
-        if(scrollRectangle!=null) {
-  	   		scrollRectToVisible(scrollRectangle);
-			scrollRectangle = null;
-        }
+        
     }
         
     public void validate()
