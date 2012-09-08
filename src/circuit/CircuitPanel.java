@@ -514,6 +514,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void setScrollRectangle(Rectangle r)
     {
     	scrollRectangle = r;
+    	scrollRectToVisible(r);
     }
     
     /***********************************************************************/
@@ -1713,7 +1714,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(scrollRectangle!=null) {
         	Rectangle r=scrollRectangle;
         	scrollRectangle = null;
-  	   		scrollRectToVisible(r);
+  	   		//scrollRectToVisible(r);
         }
         
         
