@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
+
+
 import globals.*;
 import geom.*;
 import dialogs.*;
@@ -14,9 +16,13 @@ import primitives.*;
 import timer.*;
 import toolbars.*;
 import layers.*;
+import clipboard.*;
+
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 
     important components, as it is responsible of all editing actions.
+    In many ways, this class contains the 
+    
 <pre>
     This file is part of FidoCadJ.
 
@@ -144,8 +150,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // Maximum number of polygon vertices
     public static final int NPOLY=256;
     
-    
-    
     // Array used to keep track of polygon insertion
     private int[] xpoly;	
     private int[] ypoly;
@@ -187,6 +191,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // ********** INTERFACE ELEMENTS **********
     
     JPopupMenu popup;
+    JMenuItem editCut;
+    JMenuItem editCopy;
+    JMenuItem editPaste;
+    JMenuItem editRotate;
+    JMenuItem editMirror;
+        
     
 	// ********** LISTENERS **********
 
@@ -246,21 +256,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
             registerActiveKeys();
             //Create the popup menu.
     		popup = new JPopupMenu();
-    		JMenuItem editCut = new 
-           		JMenuItem(Globals.messages.getString("Cut"));
-        	
-       		JMenuItem editCopy = new 
-            	JMenuItem(Globals.messages.getString("Copy"));
-        
-        	JMenuItem editPaste = new 
-            	JMenuItem(Globals.messages.getString("Paste"));
-        
-        
-            JMenuItem editRotate = new 
-	            JMenuItem(Globals.messages.getString("Rotate"));
-        
-    	    JMenuItem editMirror = new 
-        	    JMenuItem(Globals.messages.getString("Mirror_E"));
+    		editCut = new JMenuItem(Globals.messages.getString("Cut"));
+        	editCopy = new JMenuItem(Globals.messages.getString("Copy"));
+        	editPaste = new	JMenuItem(Globals.messages.getString("Paste"));
+        	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
+    	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
         
         	popup.add(editCut);
         	popup.add(editCopy);
@@ -687,6 +687,30 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             // Show a pop up menu if the user does a right-click
             if(evt.getButton() == MouseEvent.BUTTON3) {
+            	boolean s=false;
+            	// A certain number of menu options are applied to selected 
+            	// primitives. We therefore check wether are there some 
+            	// of them available and in this case we activate what should
+            	// be activated in the pop up menu.
+            	
+            	if(P.getFirstSelectedPrimitive()!=null) 
+            		s=true;
+            	
+            	editCut.setEnabled(s);
+            	editCopy.setEnabled(s);
+            	editRotate.setEnabled(s);
+            	editMirror.setEnabled(s);
+            	
+            	// We just check if the clipboard is empty. It would be better
+            	// to see if there is some FidoCadJ code wich might be pasted
+            	
+            	TextTransfer textTransfer = new TextTransfer();
+            	
+            	if(textTransfer.getClipboardContents().equals(""))
+            		editPaste.setEnabled(false);
+            	else
+            		editPaste.setEnabled(true);
+            	
             	popup.show(evt.getComponent(), evt.getX(), evt.getY());
                 break;
             }
@@ -2090,7 +2114,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {
             	// Paste elements from the clipboard
-                P.paste();   
+                P.paste(getMapCoordinates().getXGridStep(), 
+                	getMapCoordinates().getYGridStep());   
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Rotate"))) {
             	// Rotate the selected element

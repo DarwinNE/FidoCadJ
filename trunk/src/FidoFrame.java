@@ -952,7 +952,8 @@ public class FidoFrame extends JFrame implements
             }
             // Paste some graphical elements 
             if (arg.equals(Globals.messages.getString("Paste"))) {
-                CC.P.paste();   
+                CC.P.paste(CC.getMapCoordinates().getXGridStep(), 
+                	CC.getMapCoordinates().getYGridStep());   
                 repaint();
             }
             // Close the current window

@@ -949,7 +949,7 @@ public class ParseSchem
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
         
         s.append(registerConfiguration(extensions));
-        moveAllSelected(xstep, ystep);
+        //moveAllSelected(xstep, ystep);
 
         for (i=0; i<primitiveVector.size(); ++i){
             if(((GraphicPrimitive)primitiveVector.get(i)).getSelected())
@@ -957,7 +957,7 @@ public class ParseSchem
                     )).toString(extensions));
         }
         
-        moveAllSelected(-xstep, -ystep);
+        //moveAllSelected(-xstep, -ystep);
 
         
         /*  If we have to split non standard macros, we need to work on a 
@@ -968,7 +968,7 @@ public class ParseSchem
         
         if (splitNonStandard) {
             ParseSchem Q=new ParseSchem();
-            Q.setLibrary(library);          // Inherit the library
+            Q.setLibrary(library);  // Inherit the library
             Q.setLayers(layerV);    // Inherit the layers
             
             // from the obtained string, obtain the new Q object which will
@@ -1020,7 +1020,7 @@ public class ParseSchem
     /** Paste from the system clipboard
         
     */
-    public void paste()
+    public void paste(int xstep, int ystep)
     {
         TextTransfer textTransfer = new TextTransfer();
         
@@ -1030,7 +1030,7 @@ public class ParseSchem
             addString(new 
                 StringBuffer(textTransfer.getClipboardContents()),true);
         } catch (Exception E) {}
-        
+        moveAllSelected(xstep, ystep);
         
         saveUndoState();
         setChanged(true);
