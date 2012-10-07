@@ -268,8 +268,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
     	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
     	    
-    	    editAddNode = new JMenuItem("Add node");
-    	    editRemoveNode = new JMenuItem("Remove node");
+    	    editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
+    	    editRemoveNode = new JMenuItem(Globals.messages.getString("Remove_node"));
         
         	popup.add(editCut);
         	popup.add(editCopy);
@@ -2161,7 +2161,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 else
                 	mirrorMacro();               
                 repaint();
-            } else if(arg.equals("Remove node")) {
+            } else if(arg.equals(Globals.messages.getString("Remove_node"))) {
             	if(P.getFirstSelectedPrimitive() instanceof PrimitivePolygon) {
             		PrimitivePolygon poly=
             			(PrimitivePolygon)P.getFirstSelectedPrimitive();
