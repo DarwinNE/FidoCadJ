@@ -196,6 +196,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
     JMenuItem editPaste;
     JMenuItem editRotate;
     JMenuItem editMirror;
+    
+    JMenuItem editAddNode;
+    JMenuItem editRemoveNode;
+    
+    int menux;
+    int menuy;
         
     
 	// ********** LISTENERS **********
@@ -261,6 +267,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editPaste = new	JMenuItem(Globals.messages.getString("Paste"));
         	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
     	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
+    	    
+    	    editAddNode = new JMenuItem("Add node");
+    	    editRemoveNode = new JMenuItem("Remove node");
         
         	popup.add(editCut);
         	popup.add(editCopy);
@@ -270,6 +279,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	popup.add(editRotate);
         	popup.add(editMirror);
         	
+        	popup.add(editAddNode);
+        	popup.add(editRemoveNode);
+        	
         	// Adding the action listener
         	
         	editCut.addActionListener(this);
@@ -277,6 +289,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editPaste.addActionListener(this);
         	editRotate.addActionListener(this);
         	editMirror.addActionListener(this);
+        	
+        	editAddNode.addActionListener(this);
+        	editRemoveNode.addActionListener(this);
         	
         }
     }
@@ -701,6 +716,19 @@ public class CircuitPanel extends JPanel implements ActionListener,
             	editRotate.setEnabled(s);
             	editMirror.setEnabled(s);
             	
+            	if(P.getFirstSelectedPrimitive() 
+            		instanceof PrimitiveComplexCurve ||
+            		P.getFirstSelectedPrimitive() 
+            		instanceof PrimitivePolygon) {
+            		s=true;
+				} else
+					s=false;
+				
+				editAddNode.setEnabled(s);
+            	editRemoveNode.setEnabled(s);
+            	editAddNode.setVisible(s);
+            	editRemoveNode.setVisible(s);
+            	
             	// We just check if the clipboard is empty. It would be better
             	// to see if there is some FidoCadJ code wich might be pasted
             	
@@ -711,6 +739,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             	else
             		editPaste.setEnabled(true);
             	
+            	menux=evt.getX();
+            	menuy=evt.getY();
             	popup.show(evt.getComponent(), evt.getX(), evt.getY());
                 break;
             }
@@ -2092,7 +2122,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     	
     	// TODO: Avoid some copy/paste of code from FidoFrame class
     	
-        // Recognize and handle menu events
+        // Recognize and handle popup menu events
         if(evt.getSource() instanceof JMenuItem) 
         {
             String arg=evt.getActionCommand();
@@ -2131,6 +2161,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 else
                 	mirrorMacro();               
                 repaint();
+            } else if(arg.equals("Remove node")) {
+            	if(P.getFirstSelectedPrimitive() instanceof PrimitivePolygon) {
+            		PrimitivePolygon poly=
+            			(PrimitivePolygon)P.getFirstSelectedPrimitive();
+            		poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
+            			getMapCoordinates().unmapYnosnap(menuy),1);
+            		repaint();
+            	}
             }
             
        }
