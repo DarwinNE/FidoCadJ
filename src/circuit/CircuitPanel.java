@@ -2167,6 +2167,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             			(PrimitivePolygon)P.getFirstSelectedPrimitive();
             		poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
             			getMapCoordinates().unmapYnosnap(menuy),1);
+            		P.saveUndoState();
             		repaint();
             	} else if(P.getFirstSelectedPrimitive() instanceof 
             		PrimitiveComplexCurve) {
@@ -2174,8 +2175,19 @@ public class CircuitPanel extends JPanel implements ActionListener,
             			(PrimitiveComplexCurve)P.getFirstSelectedPrimitive();
             		curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
             			getMapCoordinates().unmapYnosnap(menuy),1);
+            		P.saveUndoState();
             		repaint();
             	}
+            } else if(arg.equals(Globals.messages.getString("Add_node"))) {
+            	if(P.getFirstSelectedPrimitive() instanceof PrimitivePolygon) {
+            		PrimitivePolygon poly=
+            			(PrimitivePolygon)P.getFirstSelectedPrimitive();
+            		poly.addPointClosest(
+            			getMapCoordinates().unmapXsnap(menux),
+            			getMapCoordinates().unmapYsnap(menuy));
+            		P.saveUndoState();
+            		repaint();
+            	} 
             }
             
        }
