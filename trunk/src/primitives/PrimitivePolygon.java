@@ -136,6 +136,66 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		
 	}
 	
+	public void addPointClosest(int px, int py)
+	{
+		int[] xp=new int[N_POINTS];
+        int[] yp=new int[N_POINTS];
+        
+        int k;
+                
+        for(k=0;k<nPoints;++k){
+        	xp[k]=virtualPoint[k].x;
+            yp[k]=virtualPoint[k].y;
+        }     
+	    // we calculate the distance between the
+        // given point and all the segments composing the polygon and we 
+        // take the smallest one.
+        
+        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        	(py-yp[0])*(py-yp[0]));
+        
+        int j;
+        int d;
+        int minv=0;
+        for(int i=0; i<nPoints; ++i) {
+        	j=i;
+        	if (j==nPoints-1)
+        		j=-1;
+        		
+        	d=GeometricDistances.pointToSegment(xp[i],
+        		yp[i], xp[j+1],
+        		yp[j+1], px,py);
+        		
+        	if(d<distance) {
+        		distance = d;
+        		minv=j+1;
+        	}
+        }
+
+        
+        // Now minv contains the index of the vertex before the one which 
+        // should be entered. We begin to enter the new vertex at the end...
+        
+        addPoint(px, py);
+        
+        
+		
+        // ...then we do the swap
+        
+        int dummy;
+        
+        
+        for(int i=nPoints-1; i>minv; --i) {  
+			virtualPoint[i].x=virtualPoint[i-1].x;
+			virtualPoint[i].y=virtualPoint[i-1].y;
+		}
+		
+		virtualPoint[minv].x=px;
+		virtualPoint[minv].y=py;
+
+        changed = true;
+	}
+	
 	/** Add a point at the current polygon
 		@param x the x coordinate of the point.
 		@param y the y coordinate of the point.
@@ -418,9 +478,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
             yp[k]=virtualPoint[k].y;
         }     
         
-        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
-        	(py-yp[0])*(py-yp[0]));
-        
         if(isFilled && GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
           	return 1;
             	
@@ -428,6 +485,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
         // If the curve is not filled, we calculate the distance between the
         // given point and all the segments composing the curve and we 
         // take the smallest one.
+        
+        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        	(py-yp[0])*(py-yp[0]));
+        
         int j;
         int d;
         for(int i=0; i<nPoints; ++i) {
