@@ -356,6 +356,56 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
   	}
 
 
+	/** Remove the control point of the spline closest to the given
+		coordinates, if the distance is less than a certain tolerance
+	
+		@param x			the x coordinate of the target
+		@param y			the y coordinate of the target
+		@param tolerance	the tolerance
+	
+	*/
+	public void removePoint(int x, int y, double tolerance)
+	{
+	
+		// We can not have a spline with less than three vertices
+		if (nPoints<=3)
+			return;
+		
+		int i;
+		double distance;
+		double min_distance= GeometricDistances.pointToPoint(virtualPoint[0].x,
+				virtualPoint[0].y,x,y);
+		int sel_i=-1;
+		
+		for(i=1;i<nPoints;++i) {
+			distance = GeometricDistances.pointToPoint(virtualPoint[i].x,
+				virtualPoint[i].y,x,y);
+				
+			if (distance<min_distance) {
+				min_distance=distance;
+				sel_i=i;
+			}
+		}
+		
+		
+		// Check if the control node losest to the given coordinates
+		// is closer than the given tolerance
+		if(min_distance<=tolerance){
+			--nPoints;
+			for(i=0;i<nPoints;++i) {
+				// Shift all the points subsequent to the one which needs
+				// to be erased.
+				if(i>=sel_i) {
+					virtualPoint[i].x=virtualPoint[i+1].x;
+					virtualPoint[i].y=virtualPoint[i+1].y;
+				}
+				changed=true;
+			}
+		}	
+		
+	}
+
+
 	// Those are data which are kept for the fast redraw of this primitive. 
 	// Basically, they are calculated once and then used as much as possible
 	// without having to calculate everything from scratch.
