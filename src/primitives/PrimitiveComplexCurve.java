@@ -269,6 +269,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	
 	public final Polygon createComplexCurvePoly(MapCoordinates coordSys)
 	{
+		Polygon poly = new Polygon();
 		
         xmin = Integer.MAX_VALUE;
         ymin = Integer.MAX_VALUE;
@@ -277,12 +278,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int ymax = -Integer.MAX_VALUE;
         
 		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
-		
-	  	Polygon poly = new Polygon();
-	  	
-      	poly.addPoint((int) Math.round(pp.get(0).x),
-      		(int) Math.round(pp.get(0).y));
-		 	
+	 	
 		int x, y;
 		 	
       	for (int i = 0; i < pp.size(); ++i) {
@@ -496,6 +492,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		if(!selectLayer(g,layerV))
 			return;
     	drawText(g, coordSys, layerV, -1);
+    	
     	if(changed) {
     		changed=false;
 
@@ -506,10 +503,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
    			q=createComplexCurvePoly(new MapCoordinates());
     		p=createComplexCurvePoly(coordSys);
     		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
+    		//System.out.println("q.npoints="+q.npoints);
+    		//System.out.println("p.npoints="+p.npoints);
     		
-    		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, p.npoints);
+    		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, q.npoints);
     		
-    		gp.moveTo((float)pp.get(0).x,(float)pp.get(0).y);
+    		gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
     		
     		for(int i=0; i<pp.size(); ++i) {
    				gp.lineTo((float)pp.get(i).x,(float)pp.get(i).y);
@@ -524,7 +523,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
-		if (p==null)
+		if (p==null || gp==null)
 			return;
 		
 		// If the curve is outside of the shown portion of the drawing,
@@ -542,22 +541,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         if (isFilled) 
  			g.fillPolygon(p);
  		
- 		/*
- 		// Explicit drawing of the polygon.
- 		for(int i=0; i<p.npoints-1; ++i) {
- 			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
- 				p.ypoints[i+1]);
- 		}
- 		if(isClosed)
- 			g.drawLine(p.xpoints[p.npoints-1], p.ypoints[p.npoints-1], 
- 			p.xpoints[0], p.ypoints[0]);
- 		
- 		*/
  		
  		g.draw(gp);
  		
- 		
- 		
+ 		 		
  		// Ensure that there are enough points to calculate the derivative.
  		if (p.npoints<2)
  			return;
@@ -926,6 +913,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			
 			exportAsPolygon(xPoints, yPoints, vertices, exp, cs);
     	        
+    	    int totalnP=q.npoints;
+    	    
+    	    //System.out.println("totalnP="+totalnP);
         
 			// Draw the arrows if they are needed
 			if(q.npoints>2) {
@@ -938,9 +928,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				}
 			
 				if (arrowEnd&&!isClosed) {
-					exp.exportArrow(vertices[q.npoints-1].x, 
-						vertices[q.npoints-1].y,
-						vertices[q.npoints-2].x, vertices[q.npoints-2].y, 
+					exp.exportArrow(vertices[totalnP-1].x, 
+						vertices[totalnP-1].y,
+						vertices[totalnP-2].x, vertices[totalnP-2].y, 
 						arrowLength*cs.getXMagnitude(), 
 						arrowHalfWidth*cs.getXMagnitude(), 
 						arrowStyle);	
@@ -993,13 +983,16 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	  			vertices[i*STEPS+j].y=Y[i].eval(u);
 			}
       	} 
-		
+      	
+      	vertices[X.length*STEPS]=new Point2D.Double();
+		vertices[X.length*STEPS].x=X[X.length-1].eval(1.0);
+	  	vertices[X.length*STEPS].y=Y[X.length-1].eval(1.0);
 		
 		if (isClosed) {
-			exp.exportPolygon(vertices, q.npoints, isFilled, getLayer(), 
+			exp.exportPolygon(vertices, X.length*STEPS+1, isFilled, getLayer(), 
 				dashStyle, Globals.lineWidth*cs.getXMagnitude());
 		} else {
-			for(i=1; i<q.npoints;++i){
+			for(i=1; i<X.length*STEPS+1;++i){
 				exp.exportLine(vertices[i-1].x,
 					   vertices[i-1].y,
 					   vertices[i].x,

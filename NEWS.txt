@@ -6,13 +6,15 @@ Version 0.24.1
 - The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
 - The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
 - More precise selection of very close elements without "name" and "value" tags.
-- Popup menu accessible with right click in the selection mode (cut, copy, paste, rotate, mirror request #3409656). Some menu items are disabled if nothing is selected.
+- Popup menu accessible with right click in the selection mode (cut, copy, paste, rotate, mirror request #3409656). Unuseful menu items are disabled if nothing is selected.
 - Open a file is now faster and requires less memory.
 - Added a Dutch translation of the user interface.
 - Added the -l option to the command line interface.
 - It is now easier to come back from an editing mode, to a macro that was previously selected.
 - Selected objects appear in green, with different shades depending on their original color.
 - Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy.
+- More precise rendering of the spline curves.
+- User can add and remove points to splines and polygons.
 
 Version 0.24
 ------------
