@@ -219,15 +219,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		technique, but it is very easy to be implemented.
 	
 	*/
-	public final Polygon createComplexCurve(MapCoordinates coordSys)
+	public final Vector<Point2D.Double> 
+		createComplexCurve(MapCoordinates coordSys)
 	{
      		
-        xmin = Integer.MAX_VALUE;
-        ymin = Integer.MAX_VALUE;
-        
-        int xmax = -Integer.MAX_VALUE;
-        int ymax = -Integer.MAX_VALUE;
-        
         int np=nPoints;
                 
         double [] xPoints = new double[np];
@@ -257,29 +252,53 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	if(X==null || Y==null) return null;
       	
       	// very crude technique: just break each segment up into steps lines 
-      	Polygon poly = new Polygon();
-      	poly.addPoint((int) Math.round(X[0].eval(0)),
-		 	(int) Math.round(Y[0].eval(0)));
+      	Vector<Point2D.Double> pp = new Vector<Point2D.Double>();
+      	
+		pp.add(new Point2D.Double(X[0].eval(0), Y[0].eval(0)));
 		 	
 		int x, y;
 		 	
       	for (i = 0; i < X.length; ++i) {
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
-	  			x=(int)Math.round(X[i].eval(u));
-	  			y=(int)Math.round(Y[i].eval(u));
-	  			poly.addPoint(x, y);
-	  			coordSys.trackPoint(x,y);
-	  			if (x<xmin) 
-      				xmin=x;
-      			if (x>xmax)
-      				xmax=x;
-      			
-      			if(y<ymin)
-      				ymin=y;
-      			if(y>ymax)
-      				ymax=y;
+	  			pp.add(new Point2D.Double(X[i].eval(u), Y[i].eval(u)));
 			}
+      	} 
+      	return pp;    	
+	}
+	
+	public final Polygon createComplexCurvePoly(MapCoordinates coordSys)
+	{
+		
+        xmin = Integer.MAX_VALUE;
+        ymin = Integer.MAX_VALUE;
+        
+        int xmax = -Integer.MAX_VALUE;
+        int ymax = -Integer.MAX_VALUE;
+        
+		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
+		
+	  	Polygon poly = new Polygon();
+	  	
+      	poly.addPoint((int) Math.round(pp.get(0).x),
+      		(int) Math.round(pp.get(0).y));
+		 	
+		int x, y;
+		 	
+      	for (int i = 0; i < pp.size(); ++i) {
+			x=(int)Math.round(pp.get(i).x);
+			y=(int)Math.round(pp.get(i).y);
+			poly.addPoint(x, y);
+	  		coordSys.trackPoint(x,y);
+	  		if (x<xmin) 
+      			xmin=x;
+      		if (x>xmax)
+      			xmax=x;
+      		if(y<ymin)
+      			ymin=y;
+      		if(y>ymax)
+      			ymax=y;
+			
       	} 
       	width = xmax-xmin;
  		height = ymax-ymin;
@@ -484,13 +503,19 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			// side effects as the update of the xmin, ymin, width and height
 			// variables. This means that the order of the two following 
 			// commands is important!
-   			q=createComplexCurve(new MapCoordinates());
-    		p=createComplexCurve(coordSys);
+   			q=createComplexCurvePoly(new MapCoordinates());
+    		p=createComplexCurvePoly(coordSys);
+    		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
     		
-    		gp = new GeneralPath();
+    		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, p.npoints);
     		
-    		for(int i=0; i<q.npoints-1; ++i) {
-   		
+    		gp.moveTo((float)pp.get(0).x,(float)pp.get(0).y);
+    		
+    		for(int i=0; i<pp.size(); ++i) {
+   				gp.lineTo((float)pp.get(i).x,(float)pp.get(i).y);
+   			}
+   			if (isClosed) gp.closePath();
+   			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
 			if (strokeStyle==null) {
@@ -512,6 +537,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
+		
 		// If needed, fill the interior of the shape
         if (isFilled) 
  			g.fillPolygon(p);
@@ -528,7 +554,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		
  		*/
  		
- 		
+ 		g.draw(gp);
  		
  		
  		
