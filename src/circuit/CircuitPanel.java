@@ -2187,7 +2187,16 @@ public class CircuitPanel extends JPanel implements ActionListener,
             			getMapCoordinates().unmapYsnap(menuy));
             		P.saveUndoState();
             		repaint();
-            	} 
+            	} else if(P.getFirstSelectedPrimitive() instanceof 
+            		PrimitiveComplexCurve) {
+            		PrimitiveComplexCurve poly=
+            			(PrimitiveComplexCurve)P.getFirstSelectedPrimitive();
+            		poly.addPointClosest(
+            			getMapCoordinates().unmapXsnap(menux),
+            			getMapCoordinates().unmapYsnap(menuy));
+            		P.saveUndoState();
+            		repaint();
+            	}
             }
             
        }

@@ -124,11 +124,64 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		setLayer(layer);
 	}
 	
+	public void addPointClosest(int px, int py)
+	{
+		int[] xp=new int[N_POINTS];
+        int[] yp=new int[N_POINTS];
+        
+        int k;
+                
+        for(k=0;k<nPoints;++k){
+        	xp[k]=virtualPoint[k].x;
+            yp[k]=virtualPoint[k].y;
+        }     
+	    // we calculate the distance between the
+        // given point and all the segments composing the polygon and we 
+        // take the smallest one.
+        
+        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        	(py-yp[0])*(py-yp[0]));
+        
+        int d;
+        int minv=0;
+        
+        for(int i=0; i<q.npoints-1; ++i) {
+        	d=GeometricDistances.pointToSegment(q.xpoints[i],
+        		q.ypoints[i], q.xpoints[i+1],
+        		q.ypoints[i+1], px,py);
+        		
+        	if(d<distance) {
+        		distance = d;
+        		minv=i-1;
+        	}
+        }
+        
+        minv /= STEPS;
+        ++minv;
+        if(minv<0) minv=nPoints-1;
+              
+        // Now minv contains the index of the vertex before the one which 
+        // should be entered. We begin to enter the new vertex at the end...
+        
+        addPoint(px, py);
+		
+        // ...then we do the swap
+        
+        int dummy;
+        
+        
+        for(int i=nPoints-1; i>minv; --i) {  
+			virtualPoint[i].x=virtualPoint[i-1].x;
+			virtualPoint[i].y=virtualPoint[i-1].y;
+		}
+		
+		virtualPoint[minv].x=px;
+		virtualPoint[minv].y=py;
+
+        changed = true;
+	}
+	
 	/** Add a point at the current ComplexCurve
-		@param x the x coordinate of the point.
-		@param y the y coordinate of the point.
-	*/
-	/** Add a point at the current polygon
 		@param x the x coordinate of the point.
 		@param y the y coordinate of the point.
 	*/
@@ -411,6 +464,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	// without having to calculate everything from scratch.
 	private Stroke stroke;
 	private float w;
+	private GeneralPath gp;
+	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
@@ -431,6 +486,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			// commands is important!
    			q=createComplexCurve(new MapCoordinates());
     		p=createComplexCurve(coordSys);
+    		
+    		gp = new GeneralPath();
+    		
+    		for(int i=0; i<q.npoints-1; ++i) {
    		
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
@@ -456,7 +515,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		// If needed, fill the interior of the shape
         if (isFilled) 
  			g.fillPolygon(p);
- 			
+ 		
+ 		/*
  		// Explicit drawing of the polygon.
  		for(int i=0; i<p.npoints-1; ++i) {
  			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
@@ -465,6 +525,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		if(isClosed)
  			g.drawLine(p.xpoints[p.npoints-1], p.ypoints[p.npoints-1], 
  			p.xpoints[0], p.ypoints[0]);
+ 		
+ 		*/
+ 		
+ 		
+ 		
+ 		
  		
  		// Ensure that there are enough points to calculate the derivative.
  		if (p.npoints<2)
