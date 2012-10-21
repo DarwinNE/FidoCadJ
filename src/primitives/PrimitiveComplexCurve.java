@@ -279,8 +279,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         
 		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
 	 	
+	 	if (pp==null) return null;
+	 	
 		int x, y;
-		 	
+
+				 	
       	for (int i = 0; i < pp.size(); ++i) {
 			x=(int)Math.round(pp.get(i).x);
 			y=(int)Math.round(pp.get(i).y);
@@ -505,6 +508,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
     		//System.out.println("q.npoints="+q.npoints);
     		//System.out.println("p.npoints="+p.npoints);
+    		
+    		if(q==null) return;
     		
     		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, q.npoints);
     		
