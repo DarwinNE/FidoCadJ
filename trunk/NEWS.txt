@@ -15,6 +15,8 @@ Version 0.24.1
 - Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy.
 - More precise rendering of the spline curves.
 - User can add and remove points to splines and polygons.
+- The FidoCadJ project updated to the new version of the SourceForge software.
+
 
 Version 0.24
 ------------
