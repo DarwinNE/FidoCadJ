@@ -50,6 +50,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean extStrict;
   	public boolean split_n_s;
   	public boolean split_n_c;
+  	public boolean shiftCP;
   	
   	public double stroke_size_straight_i;
 	//public double stroke_size_oval_i;
@@ -75,6 +76,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JCheckBox extStrict_CB;
 	private JCheckBox split_n_s_CB;
 	private JCheckBox split_n_c_CB;
+	
+	private JCheckBox shiftCP_CB;
 
 	private JComboBox zoom;  	
 	private JTextField gridWidth;
@@ -116,6 +119,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	@param ssoi	stroke width to be used for ovals
 	@param ccs connection size
 	@param ms text height for macros
+	@param sdcp shift during copy and paste
 	
 	*/
 	
@@ -124,11 +128,12 @@ public class DialogOptions extends JDialog implements ComponentListener
   						  int plw, int pw, int ph, int piw,
   						  boolean qq, boolean ex, String mf,
   						  boolean sn, boolean sc, double sssi, double ssoi,
-  						  double ccs, int ms)
+  						  double ccs, int ms, boolean sdcp)
   	{
   		super(pa, Globals.messages.getString("Cir_opt_t"), true);
   		addComponentListener(this);	
 
+		shiftCP=sdcp;
 		parent=pa;
   		zoomValue=z;
   		profileTime=p;
@@ -214,7 +219,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			public void actionPerformed(ActionEvent evt)
 			{
 				int ng=-1;
-				
+				shiftCP=shiftCP_CB.isSelected();
 				antiAlias=antiAlias_CB.isSelected();
 				//zoomValue=(double)(zoom.getSelectedIndex());
 				profileTime=profile_CB.isSelected();
@@ -585,6 +590,14 @@ public class DialogOptions extends JDialog implements ComponentListener
 			new Insets(6,6,6,40));
 			
 		drawingOptPanel.add(antiAlias_CB, constraints);		// Add antialias cb		
+		
+		shiftCP_CB=new JCheckBox(Globals.messages.getString("Shift_cp"));
+		shiftCP_CB.setSelected(shiftCP);
+		shiftCP_CB.setOpaque(false);
+		constraints = DialogUtil.createConst(1,14,1,1,100,100,
+			GridBagConstraints.WEST, GridBagConstraints.NONE, 
+			new Insets(6,6,6,40));
+		drawingOptPanel.add(shiftCP_CB, constraints);		// Add shift C/P cb
 		
 		return drawingOptPanel;
 	
