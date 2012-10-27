@@ -12,11 +12,10 @@ Version 0.24.1
 - Added the -l option to the command line interface.
 - It is now easier to come back from an editing mode, to a macro that was previously selected.
 - Selected objects appear in green, with different shades depending on their original color.
-- Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy.
 - More precise rendering of the spline curves.
 - User can add and remove points to splines and polygons.
 - The FidoCadJ project updated to the new version of the SourceForge software.
-
+- Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy. The shift can be disabled by turning off an option.
 
 Version 0.24
 ------------

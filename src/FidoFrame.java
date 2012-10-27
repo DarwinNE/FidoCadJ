@@ -312,6 +312,9 @@ public class FidoFrame extends JFrame implements
         		"false").equals("true");
         CC.splitNonStandardMacro_c= prefs.get("SPLIT_N_MACRO_COPY", 
         		"false").equals("true");
+        CC.P.setShiftCopyPaste(prefs.get("SHIFT_CP", 
+        		"true").equals("true"));
+        	
     }
     
     /* Load the standard librairies according to the locale.
@@ -1547,7 +1550,8 @@ public class FidoFrame extends JFrame implements
             Globals.lineWidth,
             Globals.lineWidthCircles,
             Globals.diameterConnection,
-            CC.P.getTextFontSize());
+            CC.P.getTextFontSize(),
+            CC.P.getShiftCopyPaste());
                     
         // The panel is now made visible. Its properties will be updated only 
         // if the user clicks on "Ok".
@@ -1576,6 +1580,7 @@ public class FidoFrame extends JFrame implements
 
         CC.setStrictCompatibility(options.extStrict);
         toolBar.setStrictCompatibility(options.extStrict);
+        CC.P.setShiftCopyPaste(options.shiftCP);
 
 
         Globals.quaquaActive=options.quaquaActive;
@@ -1626,6 +1631,7 @@ public class FidoFrame extends JFrame implements
 			prefs.put("PCB_pad_style", ""+CC.PCB_pad_style);
             prefs.put("PCB_pad_drill", ""+CC.PCB_pad_drill);
             prefs.put("PCB_thickness", ""+CC.PCB_thickness);
+            prefs.put("SHIFT_CP", (CC.P.getShiftCopyPaste()?"true":"false"));
 
         }
      	if(!libDirectory.equals(oldDirectory)) {

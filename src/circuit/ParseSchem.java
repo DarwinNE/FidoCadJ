@@ -143,6 +143,8 @@ public class ParseSchem
     private GraphicPrimitive primBeingDragged;
     // The handle of the active graphic primitive being treated.
     private int handleBeingDragged;
+    // True if elements should be shifted when copy/pasted
+    private boolean shiftCP;
    
     // Old cursor position for handle drag.
     private int opx;
@@ -220,6 +222,22 @@ public class ParseSchem
         isModified=false;
         
     }
+    
+    /** Returns true if the elements are shifted when copy/pasted
+    
+    */
+    public boolean getShiftCopyPaste()
+    {
+    	return shiftCP;
+    }
+    
+    /** Determines if the elements are shifted when copy/pasted
+    
+    */
+    public void setShiftCopyPaste(boolean s)
+    {
+    	shiftCP=s;
+    }  
     
     /** Get the layer description vector
     
@@ -1030,7 +1048,9 @@ public class ParseSchem
             addString(new 
                 StringBuffer(textTransfer.getClipboardContents()),true);
         } catch (Exception E) {}
-        moveAllSelected(xstep, ystep);
+        
+        if(shiftCP)
+        	moveAllSelected(xstep, ystep);
         
         saveUndoState();
         setChanged(true);

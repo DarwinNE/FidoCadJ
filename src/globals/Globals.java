@@ -89,7 +89,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.1 epsilon";
+    public static final String version = "0.24.1 zeta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
