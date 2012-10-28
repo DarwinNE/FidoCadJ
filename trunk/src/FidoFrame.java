@@ -241,15 +241,16 @@ public class FidoFrame extends JFrame implements
         	openFileDirectory = "";
         	smallIconsToolbar = true;
         	textToolbar = true;
+        	exportBlackWhite=false;
         
+        	exportFormat = "";
         	//extFCJ_s = true;
         	//extFCJ_c = true;
 
         }
         // some standard configurations
         exportFileName="";
-        exportFormat="";
-        exportBlackWhite=false;
+        
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;  
@@ -276,6 +277,13 @@ public class FidoFrame extends JFrame implements
         //extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
         //extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
         
+        // Export preferences
+		exportFormat = prefs.get("EXPORT_FORMAT", "png");
+		exportUnitPerPixel= Double.parseDouble(
+			prefs.get("EXPORT_UNITPERPIXEL", "1"));
+		exportMagnification = Double.parseDouble(
+			prefs.get("EXPORT_MAGNIFICATION", "1"));
+		exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
 		
 		// Element sizes
        	Globals.lineWidth=Double.parseDouble(
@@ -1061,6 +1069,11 @@ public class FidoFrame extends JFrame implements
     	DialogExport export=new DialogExport(this);
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
+        // The default export directory is the same where the FidoCadJ file
+        // are opened.
+        if(exportFileName.equals("")) {
+        	exportFileName=openFileDirectory;
+        }
         export.setFileName(exportFileName);
         export.setUnitPerPixel(exportUnitPerPixel);
         export.setBlackWhite(exportBlackWhite);
@@ -1081,23 +1094,37 @@ public class FidoFrame extends JFrame implements
             
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
+            
+            File f = new File(exportFileName);
+            // We first check if the file is a directory
+            if(f.isDirectory()) {
+           		JOptionPane.showMessageDialog(null, 
+           			Globals.messages.getString("Warning_noname"),
+           			Globals.messages.getString("Warning"), 
+           			JOptionPane.INFORMATION_MESSAGE );
+            	return;
+            }
+            
             int selection;
             
             // We first check if the file name chosen by the user has a correct
             // file extension, coherent with the file format chosen.
             if(!Globals.checkExtension(exportFileName, exportFormat)) {
                	selection = JOptionPane.showConfirmDialog(null, 
-                Globals.messages.getString("Warning_extension"),
-                Globals.messages.getString("Warning"),
-                JOptionPane.YES_NO_OPTION, 
-                JOptionPane.WARNING_MESSAGE);
+                	Globals.messages.getString("Warning_extension"),
+                	Globals.messages.getString("Warning"),
+                	JOptionPane.YES_NO_OPTION, 
+                	JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
             	if(selection==JOptionPane.OK_OPTION) 
                 	exportFileName = Globals.adjustExtension(
                 		exportFileName, exportFormat);
             }
+            
+            
+            
             // If the file already exists, we asks for confirmation
-            if(new File(exportFileName).exists()) {
+            if(f.exists()) {
                	selection = JOptionPane.showConfirmDialog(null, 
                     Globals.messages.getString("Warning_overwrite"),
                     Globals.messages.getString("Warning"),
@@ -1115,6 +1142,10 @@ public class FidoFrame extends JFrame implements
                	this);
                
            	SwingUtilities.invokeLater(doExport);
+           	prefs.put("EXPORT_FORMAT", exportFormat);
+            prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+            prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+            prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
            	/*
            		The following code would require a thread safe implementation
            		of some of the inner classes (such as ParseSchem), which is 
