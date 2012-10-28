@@ -233,9 +233,8 @@ public class DialogExport extends JDialog implements ComponentListener,
     
     /** Sets the default export format. 
     
-        @param s The default expor format. If the format string is not
-            recognized (valid strings are {"png"|"jpg"}), prints on System.out
-            a warning message and use the png format. 
+        @param s The export format. If the format string is not
+            recognized (valid strings are {"png"|"jpg"}), use the png format. 
     */
     public void setFormat(String s)
     {
