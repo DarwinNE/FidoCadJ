@@ -53,7 +53,6 @@ class OpenFile implements Runnable {
     {
 		String fin;
         String din;
-               
         if(Globals.useNativeFileDialogs) {             
         	// File chooser provided by the host system.
             // Vastly better on MacOSX
@@ -94,11 +93,34 @@ class OpenFile implements Runnable {
                     
             fin=fc.getSelectedFile().getName();
             din=fc.getSelectedFile().getParentFile().getPath();
+            
         }
         
         // We now have the directory as well as the file name, so we can
         // open it!
-        if(fin!= null) {                
+        if(fin!= null) {   
+        	File f=new File(Globals.createCompleteFileName(din, fin));
+        
+			// We first check if the file name chosen by the user has a correct
+        	// file extension, coherent with the file format chosen.
+        	// In reality, a confirm is asked to the user only if the selected 
+        	// file exists and if it has a non standard extension.
+        	if(!Globals.checkExtension(fin, Globals.DEFAULT_EXTENSION)) {
+        		int selection;
+  		      	if(f.exists()) {
+  	        		selection = JOptionPane.showConfirmDialog(null, 
+  	    	      		Globals.messages.getString("Warning_extension"),
+    	        		Globals.messages.getString("Warning"),
+            			JOptionPane.YES_NO_OPTION, 
+            			JOptionPane.WARNING_MESSAGE);
+   		        } else {
+            		selection=JOptionPane.OK_OPTION;
+            	}
+            	// If useful, we correct the extension.
+          		if(selection==JOptionPane.OK_OPTION) 
+            	   	fin = Globals.adjustExtension(
+            	   		fin, Globals.DEFAULT_EXTENSION);
+        	}        
        	 	try {
        	 		// DOUBT: this might be done not on a new thread, but in the
        	 		// normal Swing one.
