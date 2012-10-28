@@ -881,7 +881,7 @@ public class FidoFrame extends JFrame implements
 				/*
            		The following code would require a thread safe implementation
            		of some of the inner classes (such as ParseSchem), which is 
-           		indeed not the case...
+           		indeed not the case... Now, yes!
            		*/
 				Thread thread = new Thread(openf);
 				thread.setDaemon(true);
@@ -1089,7 +1089,7 @@ public class FidoFrame extends JFrame implements
                	selection = JOptionPane.showConfirmDialog(null, 
                 Globals.messages.getString("Warning_extension"),
                 Globals.messages.getString("Warning"),
-                JOptionPane.OK_CANCEL_OPTION, 
+                JOptionPane.YES_NO_OPTION, 
                 JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
             	if(selection==JOptionPane.OK_OPTION) 

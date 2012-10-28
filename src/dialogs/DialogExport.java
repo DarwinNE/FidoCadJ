@@ -254,8 +254,8 @@ public class DialogExport extends JDialog implements ComponentListener,
         } else if (s.equals("scr")) {
             fileFormat.setSelectedIndex(SCR_INDEX);
         } else {
-            System.out.println(
-              "dialogExport.setExportFormat: format set to png");
+            //System.out.println(
+            //  "dialogExport.setExportFormat: format set to png");
             fileFormat.setSelectedIndex(PNG_INDEX);
         }
     }
