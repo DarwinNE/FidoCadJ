@@ -17,7 +17,7 @@ Version 0.24.1
 - The FidoCadJ project updated to the new version of the SourceForge software.
 - Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy. The shift can be disabled by turning off an option.
 - Check and eventually auto complete the extension when loading FidoCadJ files.
-- Some information about graphical file export are now saved.
+- Some information about graphical file export are now saved on exit.
 
 Version 0.24
 ------------
