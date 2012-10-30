@@ -534,49 +534,56 @@ public class ParseSchem
     */
     public StringBuffer registerConfiguration(boolean extensions)
     {
+    	// This is something which is not contemplated by the original
+    	// FidoCAD for Windows. If extensions are not activated, just exit.
+        if(!extensions) {
+        	return new StringBuffer();
+		}
+		
         StringBuffer s = new StringBuffer();
         // Here is the beginning of the output. We can eventually provide
         // some hints about the configuration of the software (if needed).
         
         // We start by checking if the diameter of the electrical connection
         // should be written.
-        if(extensions && Globals.diameterConnectionDefault !=
-            Globals.diameterConnection) {           
+        
+        // We consider that a difference of 1e-5 is small enough 
+
+        if(Math.abs(Globals.diameterConnectionDefault-
+            Globals.diameterConnection)>1e-5) {           
             s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
+        
         // Check if the layers should be indicated    
         Vector<LayerDesc> standardLayers = Globals.createStandardLayers();
-        if(extensions) {
-            for(int i=0; i<layerV.size();++i) {
-                LayerDesc l = (LayerDesc)layerV.get(i);
-                String defaultName=
-                	((LayerDesc)standardLayers.get(i)).getDescription();
-                if (l.getModified()) {
-                    int rgb=l.getColor().getRGB();
-                    float alpha=l.getAlpha();
-                    s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
-                    // We compare the layers to the standard configuration.
-                	// If the name has been modified, the layer configuration 
-                	// is saved.
-                    if (!l.getDescription().equals(defaultName)) {
-                    	s.append("FJC N "+i+" "+l.getDescription()+"\n");
-                    }
+        for(int i=0; i<layerV.size();++i) {
+            LayerDesc l = (LayerDesc)layerV.get(i);
+            String defaultName=
+        	   	((LayerDesc)standardLayers.get(i)).getDescription();
+            if (l.getModified()) {
+                int rgb=l.getColor().getRGB();
+                float alpha=l.getAlpha();
+                s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
+                // We compare the layers to the standard configuration.
+              	// If the name has been modified, the layer configuration 
+               	// is saved.
+                if (!l.getDescription().equals(defaultName)) {
+                  	s.append("FJC N "+i+" "+l.getDescription()+"\n");
                 }
             }
-        
         }
         
         // Check if the line widths should be indicated
-        // We consider that a difference of 1e-5 is enough to be negligible
-        if(extensions && Math.abs(Globals.lineWidth -
-            Globals.lineWidthDefault)<1e-5) {         
-            s.append("FJC A "+Globals.lineWidth+"\n");
+        if(Math.abs(Globals.lineWidth -
+           	Globals.lineWidthDefault)>1e-5) {         
+           	s.append("FJC A "+Globals.lineWidth+"\n");
         }
-        if(extensions && Math.abs(Globals.lineWidthCircles -
-            Globals.lineWidthCirclesDefault)<1e-5) {          
-            s.append("FJC B "+Globals.lineWidthCircles+"\n");
-        }
+        if(Math.abs(Globals.lineWidthCircles -
+           	Globals.lineWidthCirclesDefault)>1e-5) {          
+           	s.append("FJC B "+Globals.lineWidthCircles+"\n");
+       	}
+       
         return s;
     }
     
