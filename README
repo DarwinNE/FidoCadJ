@@ -19,11 +19,12 @@ It uses a file format containing only UTF-8 text, very compact and suited for
 copy and pasting from/into newsgroups and forum messages. 
 This determined its success among the italian Usenet community, from late 
 '90s, as it is quite versatile for simple mechanical drawings as well. 
-FidoCadJ is internationalized and its manual is available in english, french 
-and italian. The user interface has been translated into english, french, 
-italian, spanish, german, chinese, dutch.
+No netlist concept lies behind the drawings.
+FidoCadJ is internationalized and its manual is available in english, french, 
+italian and chinese. The user interface has been translated into english, 
+french, italian, spanish, german, chinese, dutch.
 
-First, a few useful sites about FidoCadJ:
+Here are, a few useful sites about FidoCadJ:
 
 http://tinyurl.com/yavewp2
 http://sourceforge.net/projects/fidocadj/
