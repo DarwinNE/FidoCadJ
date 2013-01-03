@@ -1,0 +1,31 @@
+#!/bin/sh
+svn propset svn:ignore *.* doc
+svn propset svn:ignore compstore .
+svn propset svn:ignore package-list doc
+svn propset svn:ignore *.* doc/circuit
+svn propset svn:ignore *.* doc/clipboard
+svn propset svn:ignore *.* doc/dialogs
+svn propset svn:ignore *.* doc/export
+svn propset svn:ignore *.* doc/geom
+svn propset svn:ignore *.* doc/globals
+svn propset svn:ignore *.* doc/layers
+svn propset svn:ignore *.* doc/primitives
+svn propset svn:ignore *.* doc/timer
+svn propset svn:ignore *.* doc/toolbars
+svn propset svn:ignore *.* doc/undo
+
+svn propset svn:ignore "*.class" "./bin"
+svn propset svn:ignore *.class bin/timer
+svn propset svn:ignore *.class bin/export
+svn propset svn:ignore *.class bin/dialogs
+svn propset svn:ignore *.class bin/globals
+svn propset svn:ignore *.class bin/toolbars
+svn propset svn:ignore *.class bin/geom
+svn propset svn:ignore *.class bin/primitives
+svn propset svn:ignore *.class bin/layers
+svn propset svn:ignore *.class bin/clipboard
+svn propset svn:ignore *.class bin/circuit
+svn propset svn:ignore *.class bin/undo
+
+svn propset svn:ignore -F manual/svn_ignore_list.txt manual
+

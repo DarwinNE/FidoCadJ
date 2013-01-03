@@ -1,0 +1,2 @@
+Activated FidoCadJ internal libraries and symbols.
+85 37

@@ -1,0 +1,2 @@
+Activated FidoCadJ internal libraries and symbols.
+80 71

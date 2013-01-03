@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=FidoCadj
+Comment=Designing circuit drawings and PCB routing
+Icon=fidocadj
+Type=Application
+Categories=Application;Development;
+Encoding=UTF-8
+Exec=fidocadj %u
+Terminal=false
+MultipleArgs=false
+StartupNotify=false
