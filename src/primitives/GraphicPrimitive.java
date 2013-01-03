@@ -1041,5 +1041,37 @@ public abstract class GraphicPrimitive
 	*/
 	public abstract int getValueVirtualPointNumber();
 	
+	public Dimension getSize() // phylum
+	{        		
+		GraphicPrimitive p = this;
+		int qx = 0;
+		int qy = 0;
+		for (int i = 0; i < p.getControlPointNumber(); i++) {
+			if (i == p.getNameVirtualPointNumber()
+					|| i == p.getValueVirtualPointNumber())
+				continue;
+			for (int j = i + 1; j < p.getControlPointNumber(); j++) {
+				if (j == p.getNameVirtualPointNumber()
+						|| j == p.getValueVirtualPointNumber())
+					continue;
+					qx = Math.abs(p.virtualPoint[i].x - p.virtualPoint[j].x);
+					qy = Math.abs(p.virtualPoint[i].y - p.virtualPoint[j].y);
+			}
+		}		
+		return new Dimension(qx,qy);
+	}
+	public Point getPosition() // phylum
+	{        
+		GraphicPrimitive p = this;
+		int qx = Integer.MAX_VALUE;
+		int qy = Integer.MAX_VALUE;
+		for (int i = 0; i < p.getControlPointNumber(); i++) {
+			if (i == p.getNameVirtualPointNumber()
+					|| i == p.getValueVirtualPointNumber()) continue;
+			if (p.virtualPoint[i].x<qx) qx = p.virtualPoint[i].x;
+			if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
+		}		
+		return new Point(qx,qy);
+	}
 }
 

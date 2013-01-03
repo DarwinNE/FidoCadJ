@@ -1,4 +1,4 @@
-# Created by FidoCadJ 0.24.1 by Davide Bucci
+# Created by FidoCadJ 0.24.2 alpha by Davide Bucci
 Set Wire_Bend 2; 
 Grid inch 0.25;
 Change font fixed;

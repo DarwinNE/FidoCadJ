@@ -192,6 +192,7 @@ public class DialogAbout extends JFrame implements ComponentListener
 
 		link.addActionListener(new OpenUrlAction());
         contentPane.add(link, constraints);
+        pack();
         
     }
 }

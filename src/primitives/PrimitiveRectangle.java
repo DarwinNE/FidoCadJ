@@ -337,12 +337,12 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         
 	    if(checkText(px, py))
 	    	return 0;
-	    	
 		int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
         int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
         int yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
-            
+        
+			            
         if(isFilled) {
 	        if(GeometricDistances.pointInRectangle(xa,ya,(xb-xa),(yb-ya),px,py))
 	          	return DISTANCE_IN;

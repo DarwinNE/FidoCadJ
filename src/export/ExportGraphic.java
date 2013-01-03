@@ -264,6 +264,12 @@ public class ExportGraphic
     		P.exportDrawing(ef, true, false, m);
     	} else if(format.equals("fcd")) {
     		ExportFidoCad ef = new ExportFidoCad(file);
+    		ef.setSplitStandardMacros(false);
+    		ef.setExtensions(ext);
+    		P.exportDrawing(ef, true, true, m);
+    	} else if(format.equals("fcda")) {
+    		ExportFidoCad ef = new ExportFidoCad(file);
+    		ef.setSplitStandardMacros(true);
     		ef.setExtensions(ext);
     		P.exportDrawing(ef, true, true, m);
     	} else {

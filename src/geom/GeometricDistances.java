@@ -448,19 +448,21 @@ public class GeometricDistances {
 	public static int pointToRectangle(int ex,int ey,int w,
 								  int h, int px,int py) 
 	{
+		/* BUGGED!
 		if ( pointInRectangle(ex-1, ey-1, w+2, h+2, px, py) &&
 			!pointInRectangle(ex+1, ey+1, w-2, h-2, px, py)) 
 			return 1;
 		else
 			return Integer.MAX_VALUE;
-		/*
+		*/
+		
 		int d1=pointToSegment(ex,ey,ex+w,ey,px,py);
 		int d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
 		int d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
 		int d4=pointToSegment(ex,ey+h,ex,ey,px,py);
 		
 		return Math.min(Math.min(d1,d2),Math.min(d3,d4));
-		*/
+		
 	}
 
 

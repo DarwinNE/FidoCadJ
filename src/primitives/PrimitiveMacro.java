@@ -15,7 +15,7 @@ import layers.*;
 
 
 /** Class to handle the macro primitive. Code is somewhat articulated since
-	I use ricorsion (a macro is another drawing seen as an unbreakable symbol.
+	I use ricorsion (a macro is another drawing seen as an unbreakable symbol).
 
 <pre>
 	This file is part of FidoCadJ.
@@ -476,10 +476,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		// Here is a trick: if there is at least one active layer, 
 		// distancePrimitive will return a value less than the maximum.
 				
-		if (macro.distancePrimitive(0, 0)<Integer.MAX_VALUE) 
+		if (macro.distancePrimitive(0, 0)<Integer.MAX_VALUE) {
 			return super.selectRect(px, py, w, h);
-		else
+		} else {
 			return false;
+		}
 	}
 	
 	/** Get the macro orientation
@@ -745,6 +746,16 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	public  int getValueVirtualPointNumber()
 	{
 		return 2;
+	}
+
+
+	public String getMacroDesc() {
+		return macroDesc;
+	}
+
+
+	public void setMacroDesc(String macroDesc) {
+		this.macroDesc = macroDesc;
 	}
 	
 }

@@ -39,7 +39,7 @@ import clipboard.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2013 by Davide Bucci
 </pre>
    The circuit panel will contain the whole drawing.
     This class is able to perform its profiling, which is in particular
@@ -196,6 +196,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     JMenuItem editPaste;
     JMenuItem editRotate;
     JMenuItem editMirror;
+    JMenuItem editSymbolize; // phylum
+    JMenuItem editUSymbolize; // phylum
     
     JMenuItem editAddNode;
     JMenuItem editRemoveNode;
@@ -267,6 +269,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editPaste = new	JMenuItem(Globals.messages.getString("Paste"));
         	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
     	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
+    	    editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
+    	    editUSymbolize = new JMenuItem(Globals.messages.getString("Unsymbolize")); 
     	    
     	    editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
     	    editRemoveNode = new JMenuItem(Globals.messages.getString("Remove_node"));
@@ -282,6 +286,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	popup.add(editAddNode);
         	popup.add(editRemoveNode);
         	
+        	popup.add(new JSeparator());
+        	popup.add(editSymbolize); // by phylum
+        	popup.add(editUSymbolize); // phylum
+        	
         	// Adding the action listener
         	
         	editCut.addActionListener(this);
@@ -292,6 +300,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	
         	editAddNode.addActionListener(this);
         	editRemoveNode.addActionListener(this);
+        	
+        	editSymbolize.addActionListener(this); // phylum
+        	editUSymbolize.addActionListener(this); // phylum
         	
         }
     }
@@ -647,9 +658,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
         requestFocusInWindow();       
         if(actionSelected==SELECTION) {
             // Double click shows the Parameters dialog.
-            if(evt.getClickCount() >= 2) 
+            // In fact, when DialogParameters is non modal, this code makes
+            // sort that setPropertiesForPrimitive is called twice!
+            // This should probably be removed if there are no side effects
+            // showing up in Win or Linux.
+/*            if(evt.getClickCount() >= 2) 
                 setPropertiesForPrimitive();
-            
+*/            
         } else {
         	//evidenceRect=null;
         }
@@ -695,7 +710,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             clickNumber = 0;
             
             // Double click shows the Parameters dialog.
-            if(evt.getClickCount() >= 2) {
+            if(evt.getClickCount() == 2) {
                 setPropertiesForPrimitive();
                 break;
             }
@@ -738,6 +753,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
             		editPaste.setEnabled(false);
             	else
             		editPaste.setEnabled(true);
+            	
+            	editSymbolize.setEnabled(P.getFirstSelectedPrimitive() != null); // phylum
+            	editUSymbolize.setEnabled(P.getFirstSelectedPrimitive() != null
+            			&& P.getFirstSelectedPrimitive() instanceof PrimitiveMacro); // phylum
             	
             	menux=evt.getX();
             	menuy=evt.getY();
@@ -2030,7 +2049,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     	primitive.
     */
     private void setPropertiesForPrimitive()
-    {
+    {    	
         GraphicPrimitive gp=P.getFirstSelectedPrimitive();
         if (gp!=null) {
             Vector<ParameterDescription> v=gp.getControls();
@@ -2125,10 +2144,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // Recognize and handle popup menu events
         if(evt.getSource() instanceof JMenuItem) 
         {
-            String arg=evt.getActionCommand();
-            
-            // Some wild copy and paste from FidoFrame class. How to refactor
-            // that?
+            String arg=evt.getActionCommand();                        
 			
             if (arg.equals(Globals.messages.getString("Copy"))) {
             	// Copy all selected elements in the clipboard
@@ -2161,7 +2177,30 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 else
                 	mirrorMacro();               
                 repaint();
-            } else if(arg.equals(Globals.messages.getString("Remove_node"))) {
+            } 
+            
+            else if (arg.equals(Globals.messages.getString("Symbolize"))) { 	
+            	if (P.getFirstSelectedPrimitive() == null) return;
+				phylum_DialogSymbolize s = new phylum_DialogSymbolize(this,P);
+				s.setModal(true);
+				s.setVisible(true);	
+				P.saveUndoState();
+				repaint();
+			}  
+            
+            else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
+            	StringBuffer s=P.getSelectedString(true);
+            	P.deleteAllSelected();
+            	try{
+            		P.addString(P.splitMacros(s,  true),true);
+            	} catch (IOException E) {
+            		System.err.println("Can not split macros.");
+            	}
+            	P.saveUndoState();
+            	repaint(); 
+			}              
+            
+            else if(arg.equals(Globals.messages.getString("Remove_node"))) {
             	if(P.getFirstSelectedPrimitive() instanceof PrimitivePolygon) {
             		PrimitivePolygon poly=
             			(PrimitivePolygon)P.getFirstSelectedPrimitive();

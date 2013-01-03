@@ -45,7 +45,14 @@ public class ExportFidoCad implements ExportInterface {
 	private BufferedWriter out;
 	private Vector<LayerDesc> layerV;
 	private boolean extensions;		// use FidoCadJ extensions
+	private boolean splitStandardMacros; // Split also the standard macros
 
+
+	public void setSplitStandardMacros(boolean s)
+	{
+		splitStandardMacros = s;
+	}
+	
 	public int cLe(double l)
 	{
 		return (int)l;
@@ -61,6 +68,7 @@ public class ExportFidoCad implements ExportInterface {
 	{
 		
 		extensions = true;
+		splitStandardMacros=false;
 		
 		fstream = new OutputStreamWriter(new FileOutputStream(f), 
 			Globals.encoding);
@@ -251,7 +259,7 @@ public class ExportFidoCad implements ExportInterface {
 	
 	/** Called when exporting a Macro call.
 		This function can just return false, to indicate that the macro should 
-		be rendered by means of calling the other primitives. Please note that 
+		be rendered by means of calling other primitives. Please note that 
 		a macro does not have a reference layer, since it is defined by its
 		components.
 		
@@ -277,6 +285,9 @@ public class ExportFidoCad implements ExportInterface {
 		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
+		if(splitStandardMacros)
+			return false;
+			
 		boolean isStandard=false;
 		int dotpos=-1;
 		

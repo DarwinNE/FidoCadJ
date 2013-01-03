@@ -1,5 +1,7 @@
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
+
 import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
 import javax.swing.*;
@@ -7,10 +9,16 @@ import javax.swing.event.*;
 import java.awt.dnd.*;
 import java.awt.datatransfer.*;
 import java.io.*;
+import java.security.CodeSource;
 import java.util.*;
 import java.net.*;
 import java.awt.print.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
 import java.util.prefs.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import globals.*;
 import dialogs.*;
@@ -236,7 +244,7 @@ public class FidoFrame extends JFrame implements
         
         	// If we can not access to the preferences, we inizialize those
         	// configuration variables with default values.
-        	libDirectory = "";
+        	libDirectory = System.getProperty("user.home");
         	
         	openFileDirectory = "";
         	smallIconsToolbar = true;
@@ -262,7 +270,7 @@ public class FidoFrame extends JFrame implements
     public void readPreferences()
     {
 		// The library directory
-       	libDirectory = prefs.get("DIR_LIBS", "");
+       	libDirectory = prefs.get("DIR_LIBS", "");       	
        	
        	// The open file directory
         openFileDirectory = prefs.get("OPEN_DIR", "");
@@ -339,7 +347,7 @@ public class FidoFrame extends JFrame implements
         
         // This is useful if this is not the first time that libraries are 
         // being loaded.
-        CC.P.resetLibrary();
+        CC.P.resetLibrary();        
         
         if(runsAsApplication) {
     		FidoMain.readLibrariesProbeDirectory(CC.P, 
@@ -640,7 +648,7 @@ public class FidoFrame extends JFrame implements
                
         viewMenu.add(layerOptions);
         
-        optionMacroOrigin = new 
+        /*optionMacroOrigin = new 
             JCheckBoxMenuItem(Globals.messages.getString("Macro_origin"));
             
 		optionMacroOrigin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
@@ -649,6 +657,7 @@ public class FidoFrame extends JFrame implements
         viewMenu.add(optionMacroOrigin);
         
         optionMacroOrigin.addActionListener((ActionListener)this);
+        */
         layerOptions.addActionListener((ActionListener)this);
 
         menuBar.add(viewMenu);
@@ -674,6 +683,40 @@ public class FidoFrame extends JFrame implements
         clipboardCircuit.addActionListener((ActionListener)this);
 
         menuBar.add(circuitMenu);
+        
+        // phylum        
+        ActionListener langAct = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				String lang = (e.getActionCommand());
+				lang = lang.substring(lang.indexOf("(")+1).replace(")","").trim();								
+				currentLocale = new Locale(lang);
+				if (!checkIfToBeSaved()) return;
+				Globals.activeWindow.dispose();					
+	        	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
+	            		"", currentLocale));
+			}
+		};
+		
+        JMenu langMenu=new JMenu(Globals.messages.getString("Language"));
+        JMenuItem langsubCircuit;
+        
+        for (int i = 0;i<phylum_LibUtils.Languages.length;i++)
+        {
+        	URL u = FidoMain.class.getResource("MessagesBundle_" + phylum_LibUtils.Languages[i][0]  + ".properties");
+        	if (u==null) continue; 
+        	langsubCircuit = new JMenuItem(phylum_LibUtils.Languages[i][1] + " (" + phylum_LibUtils.Languages[i][0] + ")");
+        	langsubCircuit.addActionListener(langAct);
+        	langMenu.add(langsubCircuit);        	
+        }               
+        
+        // In the final versions (non beta), the user might change the locale 
+        // only via the command line, since there is no reason to use a locale
+        // different from the one of the operating system.
+        
+        if(Globals.isBeta) 
+        	menuBar.add(langMenu);
+        
 
         JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new 
@@ -940,10 +983,10 @@ public class FidoFrame extends JFrame implements
                 repaint();
             }
             // Show the macro origin
-            if (arg.equals(Globals.messages.getString("Macro_origin"))) {
+           /* if (arg.equals(Globals.messages.getString("Macro_origin"))) {
                 CC.P.setMacroOriginVisible(optionMacroOrigin.isSelected()); 
                 repaint();
-            }
+            }*/
             // Paste as a new circuit
             if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
                 TextTransfer textTransfer = new TextTransfer();

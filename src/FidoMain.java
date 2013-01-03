@@ -50,11 +50,19 @@ public class FidoMain {
        	String loadFile="";
        	String libDirectory="";
        	Locale currentLocale=null;
+       	
        	// If this is true, the GUI will not be loaded and FidoCadJ will run as
-       	// a command line utility
+       	// a command line utility:
        	boolean commandLineOnly = false;
+       	
+       	// The standard behavior implies that FidoCadJ tries to activate some
+       	// optimizations or settings which depends on the platform and should
+       	// increase things such as the redrawing speed and other stuff. In some
+       	// cases ("-p" option) they might be deactivated:
        	boolean stripOptimization=false;
         
+        // The following variable will be true if one requests to convert a 
+        // file:
         boolean convertFile = false;
         int totx=0, toty=0;
         String exportFormat="";
@@ -63,18 +71,34 @@ public class FidoMain {
         boolean resolutionBasedExport = false;	
         boolean printSize=false;
         boolean printTime=false;
-        double resolution=1;
-        
+        double resolution=1;               
         
         if (args.length>=1) {
         	int i;
         	boolean loaded=false;
         	boolean nextLib=false;
+        	
+        	// called by jnlp        	
+        	if (args[0].equalsIgnoreCase("-print"))
+        	{        		
+        		String filename = args[1].toLowerCase().replace(".fcd", "");  
+        		if (filename.lastIndexOf(
+        			System.getProperty("file.separator"))>0)
+        			filename = 
+        				filename.substring(filename.lastIndexOf(
+        				System.getProperty("file.separator"))+1);
+        		args = ("-n -c r72 pdf "+filename+".pdf "+args[1]).split(" ");         		
+        	}
 
         	for(i=0; i<args.length; ++i) {
         		if (args[i].startsWith("-")) {
         			// It is an option
         			
+        			// phylum        			
+        			if (args[i].trim().equalsIgnoreCase("-open")) {        				
+        				continue;
+        			}
+        			       			   
         			if (args[i].startsWith("-n")) {
         				// -n indicates that FidoCadJ should run only with
         				// the command line interface, without showing any
@@ -126,17 +150,17 @@ public class FidoMain {
         				
         				
         				convertFile=true;
-        			} else if (args[i].startsWith("-h")) {
+        			} else if (args[i].startsWith("-h")) { // Zu Hilfe!
         				showCommandLineHelp();
         				System.exit(0);
-        			} else if (args[i].startsWith("-s")) {
+        			} else if (args[i].startsWith("-s")) { // Get size
         				headlessMode = true;
         				printSize=true;
-        			} else if (args[i].startsWith("-t")) {
+        			} else if (args[i].startsWith("-t")) { // Timer
         				printTime=true;
-        			} else if (args[i].startsWith("-p")) {
+        			} else if (args[i].startsWith("-p")) { // No optimizations
         				stripOptimization=true;        			
-        			} else if (args[i].startsWith("-l")) {
+        			} else if (args[i].startsWith("-l")) { // Locale
         				// Extract the code corresponding to the wanted locale
         				String loc;
         				if(args[i].length()==2) {
@@ -210,6 +234,8 @@ public class FidoMain {
 			// CAREFUL**************************************************
            	System.setProperty("sun.java2d.opengl", "true");
         }   
+        
+        // Now we proceed with all the operations: opening files, converting...
         if(headlessMode) {
         	// Creates a circuit object
         	ParseSchem P = new ParseSchem();
@@ -293,6 +319,9 @@ public class FidoMain {
     */
     static private void  showCommandLineHelp()
     {
+    	// Here, exceptionally, the lenght of the code lines might exceed
+    	// 80 characters.
+    
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
     	    "By Davide Bucci, 2007-2012.\n\n"+
     	    
@@ -357,39 +386,53 @@ public class FidoMain {
 	public static void readLibrariesProbeDirectory(ParseSchem P, 
 		boolean englishLibraries, String libDirectory)
 	{
+		if (libDirectory == null || libDirectory.length()<3) libDirectory = System.getProperty("user.home");		
 		P.loadLibraryDirectory(libDirectory);
-	    if (!(new File(Globals.createCompleteFileName(libDirectory,"IHRAM.FCL"))).exists()) {
+	    if (!(new File(Globals.createCompleteFileName(
+	    	libDirectory,"IHRAM.FCL"))).exists()) {
             if(englishLibraries)
-                P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM_en.FCL"), "ihram");
+                P.loadLibraryInJar(FidoFrame.class.getResource(
+                	"lib/IHRAM_en.FCL"), "ihram");
             else
-                P.loadLibraryInJar(FidoFrame.class.getResource("lib/IHRAM.FCL"), "ihram");
+                P.loadLibraryInJar(FidoFrame.class.getResource(
+                	"lib/IHRAM.FCL"), "ihram");
         } else
             System.out.println("IHRAM library got from external file");
        	
-       	if (!(new File(Globals.createCompleteFileName(libDirectory,"FCDstdlib.fcl"))).exists()) {
+       	if (!(new File(Globals.createCompleteFileName(
+       		libDirectory,"FCDstdlib.fcl"))).exists()) {
            
        	  	if(englishLibraries)
-           		P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib_en.fcl"), "");
+           		P.loadLibraryInJar(FidoFrame.class.getResource(
+           			"lib/FCDstdlib_en.fcl"), "");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/FCDstdlib.fcl"), "");
+               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/FCDstdlib.fcl"), "");
         } else 
            	System.out.println("Standard library got from external file");
         
-        if (!(new File(Globals.createCompleteFileName(libDirectory,"PCB.fcl"))).exists()) {
+        if (!(new File(Globals.createCompleteFileName(
+        	libDirectory,"PCB.fcl"))).exists()) {
            	if(englishLibraries)
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB_en.fcl"), "pcb");
+               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/PCB_en.fcl"), "pcb");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/PCB.fcl"), "pcb");
+               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/PCB.fcl"), "pcb");
         } else
            	System.out.println("Standard PCB library got from external file");
            	
-        if (!(new File(Globals.createCompleteFileName(libDirectory,"elettrotecnica.fcl"))).exists()) {
+        if (!(new File(Globals.createCompleteFileName(
+        	libDirectory,"elettrotecnica.fcl"))).exists()) {
            	if(englishLibraries)
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica_en.fcl"), "elettrotecnica");
+               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/elettrotecnica_en.fcl"), "elettrotecnica");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource("lib/elettrotecnica.fcl"), "elettrotecnica");
+               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/elettrotecnica.fcl"), "elettrotecnica");
         } else
-           	System.out.println("Electrotechnics library got from external file");   	
+           	System.out.println(
+           		"Electrotechnics library got from external file");   	
 	}
 }
 

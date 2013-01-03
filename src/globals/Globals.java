@@ -82,16 +82,20 @@ public class Globals
   															
     // Connection size in FidoCadJ coordinates (diameter)
     public static final double diameterConnectionDefault = 2.0;
-    public static double diameterConnection = diameterConnectionDefault; 
+    public static double diameterConnection = diameterConnectionDefault;
+
+	public static Object lastCLib;
+
+	public static Object lastCGrp;	
     
     // Border to be used in the export in logical coordinates
     public static final int exportBorder=6;
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.1";
+    public static final String version = "0.24.2 alpha";
     // Is it a beta version?
-    public static final boolean isBeta = false;		
+    public static final boolean isBeta = true;		
     
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";	

@@ -30,7 +30,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2012 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -510,7 +510,15 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 				xaSCI+wSCI),yaSCI,Math.abs(wSCI),thSCI,px,py))
 	           	return 0;
 		}	
-		return Integer.MAX_VALUE;
+		
+		// It is better not to obtain Integer.MAX_VALUE, but a value which
+		// is very large yet smaller than Integer.MAX_VALUE. In fact, in some
+		// cases, a test is done to see if a layer is present and this test
+		// tries to see if the distance of a symbol is less than 
+		// Integer.MAX_VALUE, as this should be true when a symbol is present
+		// and visible on the screen.
+		
+		return Integer.MAX_VALUE/2;
 		
 	}	
 	
