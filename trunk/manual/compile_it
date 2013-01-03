@@ -1,6 +1,0 @@
-#!/bin/sh
-pdflatex manual_it
-makeindex manual_it
-bibtex manual_it
-# pdflatex manual_it
-# pdflatex manual_it

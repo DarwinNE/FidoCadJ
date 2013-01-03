@@ -1,2 +1,0 @@
-Activated FidoCadJ internal libraries and symbols.
-70 55

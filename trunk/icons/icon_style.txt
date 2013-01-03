@@ -1,7 +1,0 @@
-trace: 6 pt
-white contour: 11 pt
-
-export 32x32 pixels in trunk/bin/toolbar/icons32
-export 16x16 pixels in trunk/bin/toolbar/icons16
-
-A little bit of smoothing is applied to the 16x16 pixels icons
