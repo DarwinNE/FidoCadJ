@@ -1,6 +1,6 @@
 README file for FidoCadJ
 
-Copyright 2007-2012 
+Copyright 2007-2013
 
 by Davide Bucci
 
@@ -22,7 +22,7 @@ This determined its success among the italian Usenet community, from late
 No netlist concept lies behind the drawings.
 FidoCadJ is internationalized and its manual is available in english, french, 
 italian and chinese. The user interface has been translated into english, 
-french, italian, spanish, german, chinese, dutch.
+french, italian, spanish, german, chinese, dutch, japanese.
 
 Here are a few useful sites about FidoCadJ:
 
@@ -350,7 +350,7 @@ at each release, some details could just go unnoticed.
 If you ar familiar with the SourceForge interface, do not hesitate to
 fill a bug report at the following address:
 
-http://sourceforge.net/tracker/?group_id=274886&atid=1167996
+https://sourceforge.net/p/fidocadj/bugs/
 
 If you feel uncomfortable with the SourceForge system, please drop a few 
 lines to davbucciNOPE@tiscali.it
@@ -360,7 +360,7 @@ lines to davbucciNOPE@tiscali.it
 -------------------
 
 Code: 
-	Davide Bucci, josmil1 
+	Davide Bucci, josmil1, phylum2
 
 Beta testers: 
 	Stefano Martini, F. Bertolazzi, Emanuele Baggetta, Celsius,
@@ -372,7 +372,7 @@ Beta testers:
 Translations: 
 	Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
-    DirtyDeeds (en), chokewood (nl)
+    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja)
     
 Libraries: 
 	Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group
@@ -384,6 +384,12 @@ Code snippets included in FidoCadJ:
 	http://www.thoughtsabout.net/blog/archives/000044.html
 	http://www.javareference.com/jrexamples/viewexample.jsp?id=99
 	http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
+	
+When possible, the authors of the snippets have been contacted to gain explicit
+permission of using the code in an open source project. If you own the 
+copyright of some of the reused code and you do not agree on the use done in 
+the FidoCadJ project, contact us via the SourceForge forum and we will remove
+the offending code as fast as we can.
 
 -------------
 7 - Licensing

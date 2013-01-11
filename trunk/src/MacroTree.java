@@ -49,7 +49,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci, phylum2
+	Copyright 2008-2013 by Davide Bucci, phylum2
 </pre>
 */
 
@@ -116,26 +116,41 @@ public class MacroTree extends JPanel
 		tree.setDropMode(DropMode.ON_OR_INSERT);
 		tree.setTransferHandler(new TransferHandler() {				
 			public boolean canImport(TransferSupport support) { 
-				if (support == null || support.getDropLocation() == null) return false;
-				JTree.DropLocation dl = (javax.swing.JTree.DropLocation) support.getDropLocation();
+				if (support == null || support.getDropLocation() == null) 
+					return false;
+				JTree.DropLocation dl = (javax.swing.JTree.DropLocation)
+					support.getDropLocation();
 				TreePath pt = dl.getPath();
-				// TODO DB: I once got an exception near this point. Should fix
-				if (pt.getLastPathComponent().toString().equalsIgnoreCase(macro.category)) return false;
-				if (pt.getPathCount()<=2 || pt.getPathCount()==4) return false; // is root or lib
+				Object component=pt.getLastPathComponent();
+				if (component!=null && component.toString().equalsIgnoreCase(
+					macro.category)) 
+					return false;
+				if (pt.getPathCount()<=2 || pt.getPathCount()==4) 
+					return false; // is root or lib
 				return true;
 			}
-			public int getSourceActions(JComponent c) { return MOVE; }
-			protected Transferable createTransferable(JComponent c) { return new NodoDnD(new DefaultMutableTreeNode(macro)); }			
-			public boolean importData(TransferHandler.TransferSupport support) {
+			public int getSourceActions(JComponent c) 
+			{ 
+				return MOVE; 
+			}
+			protected Transferable createTransferable(JComponent c) 
+			{ 
+				return new NodoDnD(new DefaultMutableTreeNode(macro)); 
+			}			
+			public boolean importData(TransferHandler.TransferSupport support) 
+			{
 				if (macro == null) return false;
 				Object nodi = null;
 				try {
 					Transferable t = support.getTransferable();
-					nodi = t.getTransferData(new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
+					nodi = t.getTransferData(new 
+						DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
 				} catch (Exception e) {}
-				JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
+				JTree.DropLocation dl = (JTree.DropLocation) 
+					support.getDropLocation();
 				TreePath dest = dl.getPath();
-				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) dest.getLastPathComponent();
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) 
+					dest.getLastPathComponent();
 				JTree tree = (JTree) support.getComponent();
 				DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 				model.insertNodeInto((MutableTreeNode) nodi, parent, 0);
@@ -148,11 +163,18 @@ public class MacroTree extends JPanel
 					this.dnd = defaultMutableTreeNode;
 				}
 				public Object getTransferData(DataFlavor flavor)
-						throws UnsupportedFlavorException {					
+						throws UnsupportedFlavorException 
+				{					
 					return dnd;
 				}
-				public DataFlavor[] getTransferDataFlavors() { return new DataFlavor[1];}
-				public boolean isDataFlavorSupported(DataFlavor flavor) { return macro != null; }
+				public DataFlavor[] getTransferDataFlavors() 
+				{ 
+					return new DataFlavor[1];
+				}
+				public boolean isDataFlavorSupported(DataFlavor flavor) 
+				{ 
+					return macro != null;
+				}
 			}
 		});
         
@@ -193,23 +215,29 @@ public class MacroTree extends JPanel
         
         tree.getModel().addTreeModelListener(new TreeModelListener() {
 			
-			public void treeStructureChanged(TreeModelEvent e) {
+			public void treeStructureChanged(TreeModelEvent e) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 			
-			public void treeNodesRemoved(TreeModelEvent e) {
+			/** Remove a library, a group of macros or a single macro
+			
+			*/
+			public void treeNodesRemoved(TreeModelEvent e) 
+			{
 
 				if (macro == null)
 				{
-					// either lib or grp					
-					if (tgrp == null && !phylum_LibUtils.isStdLib(tlib)) // it's a lib
+					// Either lib or grp					
+					if (tgrp == null && !phylum_LibUtils.isStdLib(tlib)) 
+						// it's a lib
 						phylum_LibUtils.deleteLib(tlib);
+						
 					if (tgrp != null)
 						phylum_LibUtils.deleteGroup(libref,tlib,tgrp);															
-				}
-
-				if (macro != null) {					
+				} else {	
+					// It is a macro.
 					libref.remove(macro.key);
 					phylum_LibUtils.save(libref,
 							phylum_LibUtils.getLibPath(macro.library),
@@ -263,27 +291,31 @@ public class MacroTree extends JPanel
 				
 			}
 			
-			public void treeNodesChanged(TreeModelEvent e) {
+			public void treeNodesChanged(TreeModelEvent e) 
+			{
 				if (macro == null && e.getChildren() != null) {
-					// either lib or grp
+					// Either lib or grp
 					String newname = (e.getChildren()[0]).toString();
 					
-					if (tgrp != null) // renaming cat.
-					{
+					if (tgrp != null) { // renaming group
 						phylum_LibUtils
 								.renameGroup(libref, tlib, tgrp, newname);						
-					}
-					else // it's a lib
-					{				
-						if (tlib.trim().equalsIgnoreCase(newname.trim())) return;
-						if (phylum_LibUtils.isStdLib(tlib)) return; 						
+					} else { // It's a library
+						if (tlib.trim().equalsIgnoreCase(newname.trim()))
+							return;
+						
+						// Standard libraries should not be modified.
+						if (phylum_LibUtils.isStdLib(tlib)) 
+							return; 	
+						
+						// Save the library with the new name.
 						phylum_LibUtils.save(libref,
 								phylum_LibUtils.getLibPath(tlib),
 								tlib.trim(),newname.trim()); 
 												
 						Container c = Globals.activeWindow;
 						((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
-								.getSubElements()[0].getSubElements()[1]).doClick();
+							.getSubElements()[0].getSubElements()[1]).doClick();
 					}
 				}
 				if (macro != null) {
@@ -444,7 +476,8 @@ public class MacroTree extends JPanel
         			tlib = node.getUserObject().toString();
         			break;
         		case 1: // isCategory        			
-        			tlib = (((DefaultMutableTreeNode)node.getParent()).getUserObject()).toString();
+        			tlib = (((DefaultMutableTreeNode)node.getParent()).
+        				getUserObject()).toString();
         			tgrp = node.getUserObject().toString();
         			break;
         		case 3: // isRoot
@@ -459,7 +492,8 @@ public class MacroTree extends JPanel
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
-    				previewPanel.getSize().width*80/100, previewPanel.getSize().height*80/100, 
+    				previewPanel.getSize().width*80/100, 
+    				previewPanel.getSize().height*80/100, 
     				true);
     			m.setXCenter(m.getXCenter()+10);
     			m.setYCenter(m.getYCenter()+10);
