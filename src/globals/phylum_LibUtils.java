@@ -1,4 +1,5 @@
 package globals;
+
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
@@ -14,6 +15,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.prefs.Preferences;
+
+import primitives.GraphicPrimitive;
+import primitives.MacroDesc;
 
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
@@ -36,7 +40,7 @@ import primitives.MacroDesc;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2012 by phylum2
+	Copyright 2012-2013 by phylum2
 </pre>
 
 @author phylum2
@@ -225,7 +229,7 @@ public class phylum_LibUtils {
 							tlib.trim()))
 				md.category = newname;
 		}
-		save(libref,getLibPath(tlib),tlib.trim());
+		save(libref, getLibPath(tlib), tlib.trim());
 		
 	}
 
@@ -236,15 +240,19 @@ public class phylum_LibUtils {
 		@param libname2 library new name (if renamed)
 	*/
 	public static void save(Map<String, MacroDesc> m, String file,
-			String libname, String libname2) {
+			String libname, String libname2) 
+	{
 		
 		try {
 			String flibname = libname2;
-			if (isStdLib(libname.trim())) flibname = "Custom " + libname;		
+			// Avoid modifying the standard library
+			if (isStdLib(libname.trim())) 
+				flibname = "custom_" + libname;		
 			file = file.replace(libname, flibname);					
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 					   phylum_LibUtils.prepareText(
-							   phylum_LibUtils.getLibrary(m, libname), libname2));
+							   phylum_LibUtils.getLibrary(m, libname), 
+							   libname2));
 			deleteLib(libname);
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();

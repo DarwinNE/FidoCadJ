@@ -2,8 +2,11 @@ Version 0.24.2
 --------------
 - The user can now create new library symbols and edit existing libraries.
 - Standard and non standard libraries are identified by different icons.
-- Macros can be split.
+- Macros can be split (select one, then right click and "split macro").
 - Removed the "Show origin for macros" which is now useless.
+- When running on Linux, the sun.java2d.opengl option is no longer activated.
+- Corrected bug #41 ("Components' shapes disappear").
+- Japanese translation of the user interface.
 
 
 Version 0.24.1

@@ -232,7 +232,11 @@ public class FidoMain {
 			// that the  performances  can be somewhat  degraded in some 
 			// systems.
 			// CAREFUL**************************************************
-           	System.setProperty("sun.java2d.opengl", "true");
+			// We tested that in version 0.24.1. In fact, activating this 
+			// option renders the software inusable in some systems (Nvidia
+			// graphic software?)
+           	// System.setProperty("sun.java2d.opengl", "true");
+           	// See for example this discussion: http://tinyurl.com/axoxqcb
         }   
         
         // Now we proceed with all the operations: opening files, converting...
