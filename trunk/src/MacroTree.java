@@ -98,7 +98,8 @@ public class MacroTree extends JPanel
 	
 	
     public void updateLibraries(Map<String, MacroDesc> lib, 
-    	Vector<LayerDesc> layers) {
+    	Vector<LayerDesc> layers) 
+    {
         
 		library=lib.values();
         //Create the nodes.
@@ -291,6 +292,11 @@ public class MacroTree extends JPanel
 				
 			}
 			
+			/** Called after a node has been modified. We need to implement
+				the modification (renaming of a macro, a group or a whole
+				library) in the library file and then actualize the tree.
+			
+			*/
 			public void treeNodesChanged(TreeModelEvent e) 
 			{
 				if (macro == null && e.getChildren() != null) {
@@ -299,8 +305,10 @@ public class MacroTree extends JPanel
 					
 					if (tgrp != null) { // renaming group
 						phylum_LibUtils
-								.renameGroup(libref, tlib, tgrp, newname);						
+								.renameGroup(libref, tlib, tgrp, newname);
+						tgrp=newname;
 					} else { // It's a library
+						// Check if something has changed.
 						if (tlib.trim().equalsIgnoreCase(newname.trim()))
 							return;
 						
@@ -311,7 +319,7 @@ public class MacroTree extends JPanel
 						// Save the library with the new name.
 						phylum_LibUtils.save(libref,
 								phylum_LibUtils.getLibPath(tlib),
-								tlib.trim(),newname.trim()); 
+								tlib.trim(), newname.trim()); 
 												
 						Container c = Globals.activeWindow;
 						((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
@@ -319,6 +327,7 @@ public class MacroTree extends JPanel
 					}
 				}
 				if (macro != null) {
+					// Rename a macro.
 					libref.remove(macro.key);
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
@@ -331,16 +340,20 @@ public class MacroTree extends JPanel
 			}
 		});
         
+        // The action listener where the menu actions will be handled
         pml = new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				
 				String name = e.getActionCommand();
 				tree.setEditable(false);  
 				if (name.equalsIgnoreCase(Globals.messages.getString("Rename")))
 				{
-					if (phylum_LibUtils.isStdLib(tlib)) return;
+					// At first, check if it is a standard element (immutable).
+					if (phylum_LibUtils.isStdLib(tlib)) 
+						return;
 					tree.setEditable(true);  
+					// Edit the current element (see treeNodesChanged).
 		            tree.startEditingAtPath(tree.getSelectionPath()); 
 				}
 				if (name.equalsIgnoreCase(Globals.messages.getString("Delete")))
@@ -348,7 +361,8 @@ public class MacroTree extends JPanel
 					if (tlib == null && macro != null) tlib = macro.library;
 					if (phylum_LibUtils.isStdLib(tlib)) return;
 					DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) 
+						tree.getLastSelectedPathComponent();
                     if (node.getParent() != null) {
                         model.removeNodeFromParent(node);
                     }                        
@@ -357,7 +371,8 @@ public class MacroTree extends JPanel
 				{					
 					if (macro == null) return;
 					String k = macro.key.substring(macro.key.indexOf(".")+1);	
-					String z = JOptionPane.showInputDialog(Globals.messages.getString("Key"), k);
+					String z = JOptionPane.showInputDialog(
+						Globals.messages.getString("Key"), k);
 					if (z==null || z.length()<2) return;
 					macro.key = macro.key.replace(k, z);					
 					libref.remove(macro.key);
@@ -382,10 +397,11 @@ public class MacroTree extends JPanel
         //Create the scroll pane and add the tree to it. 
         JScrollPane treeView = new JScrollPane(tree);
         
+        // The previewPanel is an instance of CircuitPanel, where we show a
+        // preview of the selected macro when the user clicks on the tree.
 		previewPanel = new CircuitPanel(false);
 		previewPanel.P.setLayers(layers);
 		previewPanel.P.setLibrary(lib);
-		
 		
 		previewPanel.setGridVisibility(false);
 
@@ -435,7 +451,6 @@ public class MacroTree extends JPanel
 
 	/**	Modify the actual selection listener
 		@param l the new selection listener
-		
 	*/
 
 	public void setSelectionListener(ChangeSelectionListener l)
@@ -453,14 +468,13 @@ public class MacroTree extends JPanel
     
     public void focusLost(FocusEvent e)
     {
-    
     }
 	
     /** Required by TreeSelectionListener interface. Called when the user
     	clicks on a node of the tree.
-    
     */
-    public void valueChanged(TreeSelectionEvent e) {
+    public void valueChanged(TreeSelectionEvent e) 
+    {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             tree.getLastSelectedPathComponent();
         if (node == null) return;
@@ -486,14 +500,15 @@ public class MacroTree extends JPanel
         }
         
         if (node.isLeaf()) {
+        	// Show the preview of the component in the preview area.
         	try {
             	macro = (MacroDesc)nodeInfo;
             	
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
     				ExportGraphic.calculateZoomToFit(previewPanel.P, 
-    				previewPanel.getSize().width*80/100, 
-    				previewPanel.getSize().height*80/100, 
+    				previewPanel.getSize().width*85/100, 
+    				previewPanel.getSize().height*85/100, 
     				true);
     			m.setXCenter(m.getXCenter()+10);
     			m.setYCenter(m.getYCenter()+10);
@@ -588,8 +603,9 @@ public class MacroTree extends JPanel
     {
     }
     
-    /** Implementation of the KeyListener interface */
-    
+    /** Implementation of the KeyListener interface. Here we implement
+    	the navigation through the found elements using the arrow keys.
+    */
     public void keyPressed(KeyEvent e)
     {
 		if(e.getKeyCode()==KeyEvent.VK_DOWN){
@@ -611,7 +627,7 @@ public class MacroTree extends JPanel
     {  	
     }
     
-    /** Resets the selection done on the three. 
+    /** Resets the selection done on the tree. 
     */
     public void resetSelection()
     {
@@ -734,12 +750,13 @@ public class MacroTree extends JPanel
     }
 
 
-	public void mouseClicked(MouseEvent e) {
-			
+	public void mouseClicked(MouseEvent e) 
+	{
 	}
 
 
-	public void mousePressed(MouseEvent e) {		
+	public void mousePressed(MouseEvent e) 
+	{		
 		if (e.getButton() != e.BUTTON3) return;
 		TreePath p = tree.getClosestPathForLocation(e.getX(), e.getY());
 		tree.setSelectionPath(p);		
@@ -747,22 +764,17 @@ public class MacroTree extends JPanel
 	}
 
 
-	public void mouseReleased(MouseEvent e) {
-		
-		
+	public void mouseReleased(MouseEvent e) 
+	{		
 	}
 
 
-	public void mouseEntered(MouseEvent e) {
-		
-		
+	public void mouseEntered(MouseEvent e) 
+	{		
 	}
 
 
-	public void mouseExited(MouseEvent e) {
-		
-		
+	public void mouseExited(MouseEvent e) 
+	{		
 	} 
-    
-
 }
