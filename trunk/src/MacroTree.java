@@ -116,8 +116,11 @@ public class MacroTree extends JPanel
 		tree.setDragEnabled(true);
 		tree.setDropMode(DropMode.ON_OR_INSERT);
 		tree.setTransferHandler(new TransferHandler() {				
-			public boolean canImport(TransferSupport support) { 
+			public boolean canImport(TransferSupport support) 
+			{ 
 				if (support == null || support.getDropLocation() == null) 
+					return false;
+				if(macro==null||macro.category==null)
 					return false;
 				JTree.DropLocation dl = (javax.swing.JTree.DropLocation)
 					support.getDropLocation();
