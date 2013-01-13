@@ -44,8 +44,7 @@ public class MacroDesc {
 		key=ke;
 		description = de;
 		category = cat;
-		library = lib;
-		
+		library = lib;	
 	}
 	
 	public String toString() 

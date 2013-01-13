@@ -206,7 +206,9 @@ public class phylum_DialogSymbolize extends JDialog
 		Map<String,MacroDesc> m=jj.P.getLibrary();
 		for (Entry<String,MacroDesc> e : m.entrySet()) {
 			MacroDesc md = e.getValue();
-			if(!lst.contains(md.library)) {
+			// Add only non standard libs.
+			if(!lst.contains(md.library) && 
+				!phylum_LibUtils.isStdLib(md.library)) {
 				library.addItem(md.library);
 				lst.add(md.library);
 			}
