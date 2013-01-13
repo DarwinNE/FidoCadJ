@@ -186,9 +186,9 @@ public class phylum_LibUtils {
 	{
 		File lst = new File(phylum_LibUtils.getLibDir());
 		List<File> l = new ArrayList<File>();
-		if (!lst.exists()) return null;
-		for (File f : lst.listFiles())
-		{
+		if (!lst.exists()) 
+			return null;
+		for (File f : lst.listFiles()) {
 			if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);			
 		}
 		return l;				
@@ -200,6 +200,8 @@ public class phylum_LibUtils {
 	*/
 	public static boolean isStdLib(String szlib)
 	{
+		if(szlib==null)
+			return false;
 		// TODO to be improved
 		// DB: see the code in the exportMacro method of the
 		// export.ExportFidoCad class. In fact, what really counts is the
@@ -283,6 +285,23 @@ public class phylum_LibUtils {
 		}
 		save(m, getLibPath(tlib), tlib);
 	}
+	
+	/** Obtain a list containing all the groups in a given library
+		@m the map containing all the libraries
+		@szlib the name of the wanted library
+	*/
+	public static List enumGroups(Map<String,MacroDesc> m, String szlib) 
+	{
+ 		List lst = new LinkedList();
+ 		for (MacroDesc md : m.values()) {
+		 	if (!lst.contains(md.category)
+			 	&& szlib.trim().equalsIgnoreCase(md.library.trim()))  {
+		 		lst.add(md.category);
+		 	}
+ 		}
+ 		return lst;
+	}
+
 
 
 // TODO support libs with different filenames
@@ -441,15 +460,5 @@ public static String Languages[][] = {
 };
 
 
-public static List enumGroups(Map<String,MacroDesc> m,String szlib) {
- List lst = new LinkedList();
- for (MacroDesc md : m.values())
- {
-	 if (!lst.contains(md.category)
-			 && szlib.trim().equalsIgnoreCase(md.library.trim())) 
-		 		lst.add(md.category);
- }
- return lst;
-}
-
+	
 }

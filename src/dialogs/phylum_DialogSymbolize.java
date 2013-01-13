@@ -14,8 +14,10 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 import java.util.prefs.Preferences;
+import java.util.LinkedList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -200,13 +202,18 @@ public class phylum_DialogSymbolize extends JDialog
 	{
 		
 		library.removeAllItems();
-		if (phylum_LibUtils.getLibs()!=null) {
-			for (File f : phylum_LibUtils.getLibs()) {
-					library.addItem(f.getName().replace(".fcl", ""));
+		List lst = new LinkedList();
+		Map<String,MacroDesc> m=jj.P.getLibrary();
+		for (Entry<String,MacroDesc> e : m.entrySet()) {
+			MacroDesc md = e.getValue();
+			if(!lst.contains(md.library)) {
+				library.addItem(md.library);
+				lst.add(md.library);
 			}
 		}
+
 		if (((DefaultComboBoxModel) library.getModel()).getSize() == 0)
-			library.addItem("Libreria utente");
+			library.addItem("User lib");
 		library.setEditable(true);
 	}
 
@@ -234,7 +241,6 @@ public class phylum_DialogSymbolize extends JDialog
 
         String e = null;
                 
-        enumLibs();
 
    		constraints = DialogUtil.createConst(2,0,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
@@ -291,7 +297,8 @@ public class phylum_DialogSymbolize extends JDialog
     	jj.add(Box.createHorizontalStrut(256));
     	
         jj.P.setLayers(cp.getLayers());
-        jj.P.setLibrary(cp.getLibrary());        
+        jj.P.setLibrary(cp.getLibrary()); 
+        enumLibs();
         jj.antiAlias = true;
         jj.profileTime = false; 
         MacroDesc macro = BuildMacro("temp","temp","temp","temp",
@@ -401,9 +408,18 @@ public class phylum_DialogSymbolize extends JDialog
         return panel;
     }
     
-	protected void listGroups() {
+    /** Obtain all the groups in a given library and put them in the
+    	group list.
+    
+    */
+	protected void listGroups() 
+	{
+		// Obtain all the groups in a given library.
+		
 		List<String> l = phylum_LibUtils.enumGroups(cp.getLibrary(),
 			library.getEditor().getItem().toString());
+		
+		// Update the group list.
 		group.removeAllItems();
         for (String s : l)
         	group.addItem(s);	
