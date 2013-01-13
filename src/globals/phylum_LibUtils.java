@@ -88,12 +88,10 @@ public class phylum_LibUtils {
 		MacroDesc md;	
 		// Header
     	sb.append("[FIDOLIB " + name + "]\n");
-    	for (Entry<String,MacroDesc> e : m.entrySet()) 
-    	{    		  
+    	for (Entry<String,MacroDesc> e : m.entrySet()) {    		  
     		md = e.getValue();
-    		// Category
-    		if (prev == null || !prev.equalsIgnoreCase(md.category.trim()))
-    		{ 
+    		// Category (check if it is changed)
+    		if (prev == null || !prev.equalsIgnoreCase(md.category.trim())) {
     			sb.append("{"+md.category+"}\n"); 
     			prev = md.category.toLowerCase().trim(); 
     		}    		
@@ -109,7 +107,8 @@ public class phylum_LibUtils {
     	}
 		return sb.toString();		
 	}
-	/** Save to a file a string
+	
+	/** Save to a file a string respecting the global encoding settings.
 		@param file the file name 
 		@param the string to be written
 		@return 
@@ -128,8 +127,10 @@ public class phylum_LibUtils {
 		}				
 	}
 	
-	/**
-	
+	/** Save a library in a file.
+		@param m the map containing the library.
+		@param file the file name.
+		@param libname the name of the library.
 	*/
 	public static void save(Map<String,MacroDesc> m, String file, 
 		String libname) 
@@ -137,11 +138,13 @@ public class phylum_LibUtils {
 		try {
 			String flibname = libname;
 			if (isStdLib(libname.trim())) 
-				flibname = "Custom " + libname;		
-			file = file.replace(libname, flibname);					
+				flibname = "Custom " + libname;	
+				
+			// This is dangerous!!! What if libname appears twice in the path?
+			file = file.replace(libname, flibname);	
 			phylum_LibUtils.saveToFile(file + ".fcl", 
-					   phylum_LibUtils.prepareText(
-							   phylum_LibUtils.getLibrary(m, libname), flibname));
+				phylum_LibUtils.prepareText(
+				phylum_LibUtils.getLibrary(m, libname), flibname));
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}		
@@ -221,8 +224,8 @@ public class phylum_LibUtils {
 
 	*/
 	public static void renameGroup(Map<String, MacroDesc> libref, String tlib,
-			String tgrp, String newname) {
-
+			String tgrp, String newname) 
+	{
 		for (MacroDesc md : libref.values()) {
 			if (md.category.equalsIgnoreCase(tgrp)
 					&& md.library.trim().equalsIgnoreCase(
@@ -230,7 +233,6 @@ public class phylum_LibUtils {
 				md.category = newname;
 		}
 		save(libref, getLibPath(tlib), tlib.trim());
-		
 	}
 
 	/** Save a library in a file
