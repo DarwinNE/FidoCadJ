@@ -142,6 +142,7 @@ public class phylum_LibUtils {
 				
 			// This is dangerous!!! What if libname appears twice in the path?
 			file = file.replace(libname, flibname);	
+			
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 				phylum_LibUtils.prepareText(
 				phylum_LibUtils.getLibrary(m, libname), flibname));
