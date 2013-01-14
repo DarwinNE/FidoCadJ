@@ -122,6 +122,7 @@ public class MacroTree extends JPanel
 					return false;
 				if(macro==null||macro.category==null)
 					return false;
+					
 				JTree.DropLocation dl = (javax.swing.JTree.DropLocation)
 					support.getDropLocation();
 				TreePath pt = dl.getPath();
@@ -163,7 +164,8 @@ public class MacroTree extends JPanel
 			class NodoDnD implements Transferable {
 				DefaultMutableTreeNode dnd;
 				public NodoDnD(
-						DefaultMutableTreeNode defaultMutableTreeNode) {
+						DefaultMutableTreeNode defaultMutableTreeNode) 
+				{
 					this.dnd = defaultMutableTreeNode;
 				}
 				public Object getTransferData(DataFlavor flavor)
@@ -188,23 +190,30 @@ public class MacroTree extends JPanel
         tree.addMouseListener(this); // phylum
         final Map<String, MacroDesc> libref = lib;
         
-        tree.setCellRenderer( new DefaultTreeCellRenderer(){
+        tree.setCellRenderer(new DefaultTreeCellRenderer(){       
+        	/** The renderer used to define the icons to be used.
+        	*/
         	public Component getTreeCellRendererComponent(JTree tree,
         		      Object value,boolean sel,boolean expanded,boolean leaf,
         		      int row,boolean hasFocus) 
         	{
         		super.getTreeCellRendererComponent(tree, value, sel, 
         	         expanded, leaf, row, hasFocus);
-        		        
-        	    if (leaf) return this;
+        		
+        		// It is a macro.
+        	    if (leaf) 
+        	    	return this;
+        	    
         	    DefaultMutableTreeNode dtn = 
         	      	(DefaultMutableTreeNode) value;
         		        	
-        		        
+        		// It is a standard library.       
         	    if (phylum_LibUtils.isStdLib(value.toString())) {
         	   		setIcon(MetalIconFactory.getTreeHardDriveIcon());
         	   		return this;
         	   	}
+        	   	
+        	   	// It is the root.
         	    if (value.toString().equalsIgnoreCase("fidocadj")) {
         	      	setIcon(MetalIconFactory.getTreeComputerIcon());
         	      	return this;
@@ -225,8 +234,7 @@ public class MacroTree extends JPanel
 				
 			}
 			
-			/** Remove a library, a group of macros or a single macro
-			
+			/** Remove a library, a group of macros or a single macro.
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
 			{
@@ -266,8 +274,15 @@ public class MacroTree extends JPanel
 
 			}
 			
-			public void treeNodesInserted(TreeModelEvent e) { 				
-				if (macro == null) return; // not enough info to proceed
+			/** Insertion of a new node (drag and drop?).
+			*/
+			public void treeNodesInserted(TreeModelEvent e) 
+			{ 				
+				// macro will contain the element to be inserted. It should
+				// be already created before calling to treeNodeInserted.
+				if (macro == null) 
+					return; // not enough info to proceed
+					
 				String lib = macro.library.trim();
 				String grp = macro.category.trim();
 				String destLib = e.getPath()[1].toString().trim();
@@ -298,7 +313,6 @@ public class MacroTree extends JPanel
 			/** Called after a node has been modified. We need to implement
 				the modification (renaming of a macro, a group or a whole
 				library) in the library file and then actualize the tree.
-			
 			*/
 			public void treeNodesChanged(TreeModelEvent e) 
 			{

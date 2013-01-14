@@ -48,7 +48,7 @@ import circuit.ParseSchem;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2013 Phylum2, Davide Bucci
+    Copyright 2012-2013 Phylum2, Davide Bucci
 </pre>
     @author Phylum2, Davide Bucci
     
@@ -200,7 +200,6 @@ public class phylum_DialogSymbolize extends JDialog
     */
 	private void enumLibs() 
 	{
-		
 		library.removeAllItems();
 		List lst = new LinkedList();
 		Map<String,MacroDesc> m=jj.P.getLibrary();
@@ -250,12 +249,10 @@ public class phylum_DialogSymbolize extends JDialog
         
         panel.add(library, constraints);     	
     	    	        
-    	jj.addMouseListener(new MouseAdapter()
-		{
+    	jj.addMouseListener(new MouseAdapter() {
     	   	boolean grid = false;
 		   	public void mousePressed(MouseEvent e)
-		   	{
-		      
+		   	{      
 		      	// Toggle grid visibility, via the secondary mouse button
 		      	if (e.getButton()==e.BUTTON3) {
 		    	  	grid = !grid;
@@ -264,8 +261,7 @@ public class phylum_DialogSymbolize extends JDialog
 		      	}
 		   	}
 		});
-    	jj.addMouseMotionListener(new MouseAdapter()
-		{
+    	jj.addMouseMotionListener(new MouseAdapter() {
 			/** Drag the origin of axes using the mouse.
 			*/
 		    public void mouseDragged(MouseEvent evt)
@@ -308,11 +304,11 @@ public class phylum_DialogSymbolize extends JDialog
         	
         jj.setBorder(BorderFactory.createLoweredBevelBorder());
         
+        // Set the current objects in the preview panel.
         try {
-			jj.P.addString(
-				new StringBuffer(macro.description),
-				false);
+			jj.P.addString(new StringBuffer(macro.description),	false);
 		} catch (IOException e1) {}
+		// Calculate an optimum preview size in order to show all elements.
 		MapCoordinates m = 
 				ExportGraphic.calculateZoomToFit(jj.P, 
 				jj.getSize().width*80/100, jj.getSize().height*80/100, 
@@ -341,7 +337,6 @@ public class phylum_DialogSymbolize extends JDialog
         group.setEditable(true);   
         
         library.addItemListener(new ItemListener() {
-			
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				listGroups();
@@ -350,7 +345,6 @@ public class phylum_DialogSymbolize extends JDialog
 		});
         
         library.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				listGroups();
@@ -417,7 +411,6 @@ public class phylum_DialogSymbolize extends JDialog
 	protected void listGroups() 
 	{
 		// Obtain all the groups in a given library.
-		
 		List<String> l = phylum_LibUtils.enumGroups(cp.getLibrary(),
 			library.getEditor().getItem().toString());
 		
