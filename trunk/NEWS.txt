@@ -7,6 +7,7 @@ Version 0.24.2
 - When running on Linux, the sun.java2d.opengl option is no longer activated.
 - Corrected bug #41 ("Components' shapes disappear").
 - Japanese translation of the user interface.
+- When introducing text, a list of some UTF-8 characters (maths symbols, greek letters...) is now available and very easy to use.
 
 
 Version 0.24.1

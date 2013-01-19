@@ -90,7 +90,12 @@ public class phylum_DialogSymbolize extends JDialog
 	                        BasicStroke.JOIN_MITER,
 	                        1.0f, dash1, 1.0f);
 	    
+		// x and y coordinates of the origin in pixel.
 	    private int dx = 20,dy = 20;
+	    
+	    // x and y coordinates of the origin in logical units.
+	    // TODO: improve data encapsulation (these should be private).
+	    public int xl, yl;
 	    
 	    public int getDx()
 	    {
@@ -101,6 +106,7 @@ public class phylum_DialogSymbolize extends JDialog
 	    {
 	    	return dy;
 	    }
+	    
 	    
 	    /** Set the new x coordinate of the origin
 	    */
@@ -147,7 +153,9 @@ public class phylum_DialogSymbolize extends JDialog
     */
     public String getLibrary() 
     { 
-    	return library.getSelectedItem().toString().split("::")[0]; 
+    	// DB: I do not understand why splitting with the regex.
+    	String s=library.getSelectedItem().toString();//.split("::")[0]
+    	return s.trim(); 
     }
     /** Gets the name of the macro to be created
     	@return the name
@@ -270,20 +278,14 @@ public class phylum_DialogSymbolize extends JDialog
 		    	int y=evt.getY();
 		    	
 		    	if(snapToGrid.isSelected()) {
-		    		x=jj.getMapCoordinates().mapXi(
-		    			jj.getMapCoordinates().unmapXsnap(x),
-		    			jj.getMapCoordinates().unmapXsnap(x),false);
-		    		y=jj.getMapCoordinates().mapYi(
-		    			jj.getMapCoordinates().unmapYsnap(y),
-		    			jj.getMapCoordinates().unmapYsnap(y),false);
+		    		jj.xl=jj.getMapCoordinates().unmapXsnap(x);
+		    		jj.yl=jj.getMapCoordinates().unmapYsnap(y);
 		    	} else {
-		    		x=jj.getMapCoordinates().mapXi(
-		    			jj.getMapCoordinates().unmapXnosnap(x),
-		    			jj.getMapCoordinates().unmapXnosnap(x),false);
-		    		y=jj.getMapCoordinates().mapYi(
-		    			jj.getMapCoordinates().unmapYnosnap(y),
-		    			jj.getMapCoordinates().unmapYnosnap(y),false);
+		    		jj.xl=jj.getMapCoordinates().unmapXnosnap(x);
+		    		jj.yl=jj.getMapCoordinates().unmapYnosnap(y);
 		    	}
+		    	x=jj.getMapCoordinates().mapXi(jj.xl,jj.yl,false);
+		    	y=jj.getMapCoordinates().mapYi(jj.xl,jj.yl,false);
 		    	jj.setDx(x);
 		    	jj.setDy(y);
 		    	jj.repaint();		    	 
@@ -340,7 +342,6 @@ public class phylum_DialogSymbolize extends JDialog
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				listGroups();
-				
 			}
 		});
         
@@ -396,8 +397,10 @@ public class phylum_DialogSymbolize extends JDialog
 			new Insets(6,0,0,0));
         panel.add(snapToGrid, constraints);
         
-        if (Globals.lastCLib!=null) library.setSelectedItem(Globals.lastCLib);
-        if (Globals.lastCGrp!=null) group.setSelectedItem(Globals.lastCGrp);
+        if (Globals.lastCLib!=null) 
+        	library.setSelectedItem(Globals.lastCLib);
+        if (Globals.lastCGrp!=null) 
+        	group.setSelectedItem(Globals.lastCGrp);
         
         library.getEditor().selectAll();  
         
@@ -497,23 +500,22 @@ public class phylum_DialogSymbolize extends JDialog
             		key.requestFocus(); 
             		return; 
             	}
-            	Point p = new Point(
-            		200-jj.getMapCoordinates().unmapXnosnap(jj.dx),
-            		200-jj.getMapCoordinates().unmapYnosnap(jj.dy));
-            	
+            	Point p = new Point(200-jj.xl, 200-jj.yl);
             	MacroDesc macro = BuildMacro(getName().trim(),
-            		key.getText(),getLibrary(),getGroup(),p);            	
+            		key.getText().trim(),getLibrary().trim(),getGroup().trim(),
+            		p);            	
             	
             	cp.getLibrary().put(key.getText(), macro); // add to lib	
 				
 				// Save the new symbol in the current library
 				phylum_LibUtils.save(cp.getLibrary(), 
-					phylum_LibUtils.getLibPath(getLibrary()), getLibrary());							
+					phylum_LibUtils.getLibPath(getLibrary()).trim(), 
+					getLibrary());							
 				
             	setVisible(false);   
             	Globals.activeWindow.repaint();
             	
-				// dirty way to update libs
+				// Update libs
             	updateTreeLib();
             	
             	Globals.lastCLib = getLibrary();
@@ -584,7 +586,6 @@ public class phylum_DialogSymbolize extends JDialog
     
     
 	/** Update all the libs shown in the tree.
-    
     */
 	protected void updateTreeLib() 
 	{
