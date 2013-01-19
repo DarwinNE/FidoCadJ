@@ -40,7 +40,7 @@ import primitives.MacroDesc;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2012-2013 by phylum2
+	Copyright 2012-2013 by phylum2, Davide Bucci
 </pre>
 
 @author phylum2
@@ -116,6 +116,7 @@ public class phylum_LibUtils {
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
 	{		
+		//System.out.println(text);
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(file, Globals.encoding);
@@ -136,16 +137,10 @@ public class phylum_LibUtils {
 		String libname) 
 	{
 		try {
-			String flibname = libname;
-			if (isStdLib(libname.trim())) 
-				flibname = "Custom " + libname;	
-				
-			// This is dangerous!!! What if libname appears twice in the path?
-			file = file.replace(libname, flibname);	
 			
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 				phylum_LibUtils.prepareText(
-				phylum_LibUtils.getLibrary(m, libname), flibname));
+				phylum_LibUtils.getLibrary(m, libname), libname));
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}		
