@@ -167,12 +167,13 @@ code:
 - the class names always start with a capital letter, and so does methods
 - variables never start with a capital letter
 - an instance of the class does have its first letter in lower case
-- each public class and method should be documented with Javadoc syntax
+- each public class and method must be documented with Javadoc syntax
 - no lines longer than 80 characters
 - commits should not break the build
 - each commit *MUST* include a log 
 - predilect simplicity to unnecessary complication
 - predilect quality to quantity
+- discuss what you want to do BEFORE start coding
 
 
 3.5 Automatic tests

@@ -394,7 +394,15 @@ public class phylum_DialogSymbolize extends JDialog
         panel.add(nameLabel1, constraints);
             
         key=new JTextField();
-        key.setText(String.valueOf(System.nanoTime()));
+        
+        long t=System.nanoTime();
+        long h=0;
+        for(int i=0; t>0; ++i) {
+        	t>>=(i*8);
+        	h^=t & 0xFF;
+        }
+        
+        key.setText(String.valueOf(h));
         constraints = DialogUtil.createConst(2,5,1,1,100,100,
 		GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
     			new Insets(6,0,12,0));
@@ -508,7 +516,28 @@ public class phylum_DialogSymbolize extends JDialog
             {
             	// Check if there is a valid key available. We can not continue
             	// without a key!
-            	if (key.getText().length()<1) { 
+            	if (key.getText().length()<1) {
+            		JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("InvKey"),
+    					Globals.messages.getString("Symbolize"),
+    					JOptionPane.ERROR_MESSAGE);
+            		key.requestFocus();
+            		return;
+            	
+            	} else if(phylum_LibUtils.checkKey(cp.getLibrary(),
+            			getLibrary().trim(),
+            			getLibrary().trim()+"."+key.getText().trim())) { 
+            		JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("DupKey"),
+    					Globals.messages.getString("Symbolize"),    
+    					JOptionPane.ERROR_MESSAGE);
+            		key.requestFocus(); 
+            		return; 
+            	} else if(key.getText().contains(" ")) {
+            		JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("SpaceKey"),
+    					Globals.messages.getString("Symbolize"),    
+    					JOptionPane.ERROR_MESSAGE);
             		key.requestFocus(); 
             		return; 
             	}
