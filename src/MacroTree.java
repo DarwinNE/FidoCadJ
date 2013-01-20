@@ -384,9 +384,10 @@ public class MacroTree extends JPanel
                         model.removeNodeFromParent(node);
                     }                        
                 }				
-				if (name.equalsIgnoreCase(Globals.messages.getString("Key")))
+				if (name.equalsIgnoreCase(Globals.messages.getString("RenKey")))
 				{					
-					if (macro == null) return;
+					if (macro == null) 
+						return;
 					String k = macro.key.substring(macro.key.indexOf(".")+1);	
 					String z = JOptionPane.showInputDialog(
 						Globals.messages.getString("Key"), k);
@@ -405,7 +406,7 @@ public class MacroTree extends JPanel
         popup.add(Globals.messages.getString("Rename")).addActionListener(pml);
         popup.add(Globals.messages.getString("Delete")).addActionListener(pml);
         popup.add(new JSeparator());
-        popup.add(Globals.messages.getString("Key")).addActionListener(pml);
+        popup.add(Globals.messages.getString("RenKey")).addActionListener(pml);
         tree.setComponentPopupMenu(popup);
         
 

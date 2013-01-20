@@ -6,8 +6,10 @@ Version 0.24.2
 - Removed the "Show origin for macros" which is now useless.
 - When running on Linux, the sun.java2d.opengl option is no longer activated.
 - Corrected bug #41 ("Components' shapes disappear").
+- Corrected bug #20 ("Negative zoom reading file from command line").
 - Japanese translation of the user interface.
 - When introducing text, a list of some UTF-8 characters (maths symbols, greek letters...) is now available and very easy to use.
+- Option sun.java2d.opengl is no longer activated by default with Linux.
 
 
 Version 0.24.1
