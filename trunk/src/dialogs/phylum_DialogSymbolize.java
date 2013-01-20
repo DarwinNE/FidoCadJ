@@ -95,7 +95,7 @@ public class phylum_DialogSymbolize extends JDialog
 	    
 	    // x and y coordinates of the origin in logical units.
 	    // TODO: improve data encapsulation (these should be private).
-	    public int xl, yl;
+	    public int xl=5, yl=5;
 	    
 	    public int getDx()
 	    {
@@ -105,6 +105,17 @@ public class phylum_DialogSymbolize extends JDialog
 	    public int getDy()
 	    {
 	    	return dy;
+	    }
+	    
+	    /** Put the origin in the 10,10 logical coordinates.
+	    */
+	    public void resetOrigin()
+	    {
+	    	xl=getMapCoordinates().unmapXsnap(10);
+		    yl=getMapCoordinates().unmapYsnap(10);
+		    	
+		    dx=getMapCoordinates().mapXi(xl,yl,false);
+		    dy=getMapCoordinates().mapYi(xl,yl,false);
 	    }
 	    
 	    
@@ -318,6 +329,7 @@ public class phylum_DialogSymbolize extends JDialog
 		m.setXCenter(m.getXCenter()+10);
 		m.setYCenter(m.getYCenter()+10);
 		jj.setMapCoordinates(m);
+		jj.resetOrigin();
 		
         constraints = DialogUtil.createConst(3,0,8,8,100,100,
     		GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
