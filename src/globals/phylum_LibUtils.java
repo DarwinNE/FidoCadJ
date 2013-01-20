@@ -116,7 +116,7 @@ public class phylum_LibUtils {
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
 	{		
-		//System.out.println(text);
+		//System.out.println("file: "+file+"\n------\n"+text);
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(file, Globals.encoding);
@@ -232,7 +232,24 @@ public class phylum_LibUtils {
 		}
 		save(libref, getLibPath(tlib), tlib.trim());
 	}
-
+	
+	/** Check whether a key is used in a given library or it is available.
+		@param libref the map containing the library
+		@param tlib the name of the library
+		@param key the key to be checked
+		@return false if the key is available, true if it is used.
+	*/
+	public static boolean checkKey(Map<String, MacroDesc> libref, 
+		String tlib,String key) 
+	{
+		for (MacroDesc md : libref.values()) {
+			if (md.library.equalsIgnoreCase(tlib)) {
+				if(md.key.equalsIgnoreCase(key.trim()))
+					return true;
+			}
+		}
+		return false;
+	}
 	/** Save a library in a file
 		@param m the map containing the library
 		@param file the name of the file to be written
@@ -242,7 +259,6 @@ public class phylum_LibUtils {
 	public static void save(Map<String, MacroDesc> m, String file,
 			String libname, String libname2) 
 	{
-		
 		try {
 			String flibname = libname2;
 			// Avoid modifying the standard library

@@ -4,6 +4,7 @@ Version 0.24.2
 - Standard and non standard libraries are identified by different icons.
 - Macros can be split (select one, then right click and "split macro").
 - Removed the "Show origin for macros" which is now useless.
+- Macros can be moved through user defined libraries via drag and drop in the library tree.
 - When running on Linux, the sun.java2d.opengl option is no longer activated.
 - Corrected bug #41 ("Components' shapes disappear").
 - Corrected bug #20 ("Negative zoom reading file from command line").

@@ -408,7 +408,7 @@ public class ParseSchem
                 for(i=1; i<line.length()&&line.charAt(i)!='}'; ++i){
                     temp.append(line.charAt(i));
                 }
-                categoryName=temp.toString();
+                categoryName=temp.toString().trim();
                 if(i==line.length()) {
                 	IOException e=new IOException("Category non terminated with }.");
                     throw e;
@@ -427,7 +427,7 @@ public class ParseSchem
                          i<line.length(); ++i){
                     temp.append(line.charAt(i));
                 }
-                macroName=temp.toString();
+                macroName=temp.toString().trim();
                 int j;
                 temp=new StringBuffer(25);
                 for(j=i; j<line.length()&&line.charAt(j)!=']'; ++j){
@@ -440,7 +440,7 @@ public class ParseSchem
                 }
                 
                 if (macroName.equals("FIDOLIB")) {
-                    libraryName = longName;
+                    libraryName = longName.trim();
                     continue;
                 } else {
                     if(!prefix.equals(""))

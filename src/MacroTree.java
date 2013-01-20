@@ -71,6 +71,7 @@ public class MacroTree extends JPanel
     private Collection<MacroDesc> library;
     private ChangeSelectionListener selectionListener;
     private MacroDesc macro;
+    private Map<String, MacroDesc> libMap;
     
     String tlib, tgrp;    
     TreePath lpath;
@@ -100,7 +101,7 @@ public class MacroTree extends JPanel
     public void updateLibraries(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers) 
     {
-        
+        libMap=lib;
 		library=lib.values();
         //Create the nodes.
         top = new DefaultMutableTreeNode("FidoCadJ");
@@ -348,6 +349,7 @@ public class MacroTree extends JPanel
 					libref.remove(macro.key);
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
+					System.out.println("macro: "+macro+" "+macro.name);
 					libref.put(macro.key, macro);
 					phylum_LibUtils.save(libref,
 							phylum_LibUtils.getLibPath(macro.library),
@@ -363,35 +365,66 @@ public class MacroTree extends JPanel
 			{
 				
 				String name = e.getActionCommand();
-				tree.setEditable(false);  
-				if (name.equalsIgnoreCase(Globals.messages.getString("Rename")))
-				{
+				tree.setEditable(false);
+				
+				if (name.equalsIgnoreCase(
+					Globals.messages.getString("Rename"))) {
+					// Renaming macros.
+					
 					// At first, check if it is a standard element (immutable).
 					if (phylum_LibUtils.isStdLib(tlib)) 
 						return;
 					tree.setEditable(true);  
 					// Edit the current element (see treeNodesChanged).
 		            tree.startEditingAtPath(tree.getSelectionPath()); 
-				}
-				if (name.equalsIgnoreCase(Globals.messages.getString("Delete")))
-				{					
-					if (tlib == null && macro != null) tlib = macro.library;
-					if (phylum_LibUtils.isStdLib(tlib)) return;
+				} else 	if (name.equalsIgnoreCase(
+					Globals.messages.getString("Delete"))) {
+					// Delete selected macro
+					if (tlib == null && macro != null) 
+						tlib = macro.library;
+					// Standard librairies are immutable.
+					if (phylum_LibUtils.isStdLib(tlib)) 
+						return;
 					DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) 
 						tree.getLastSelectedPathComponent();
                     if (node.getParent() != null) {
                         model.removeNodeFromParent(node);
                     }                        
-                }				
-				if (name.equalsIgnoreCase(Globals.messages.getString("RenKey")))
-				{					
+                } else if (name.equalsIgnoreCase(
+                	Globals.messages.getString("RenKey"))) {
+                	// change the key
 					if (macro == null) 
 						return;
 					String k = macro.key.substring(macro.key.indexOf(".")+1);	
 					String z = JOptionPane.showInputDialog(
 						Globals.messages.getString("Key"), k);
-					if (z==null || z.length()<2) return;
+					
+					// Check if there is a valid key available. 
+					// We can not continue without a key!
+            		if (z==null || z.length()<1) {
+            			JOptionPane.showMessageDialog(null,
+    						Globals.messages.getString("InvKey"),
+    						Globals.messages.getString("Symbolize"),
+    						JOptionPane.ERROR_MESSAGE);
+            			return;
+            	
+            		} else if(phylum_LibUtils.checkKey(libMap,
+            				macro.library,
+            				macro.library+"."+z.trim())) { 
+            			JOptionPane.showMessageDialog(null,
+    						Globals.messages.getString("DupKey"),
+    						Globals.messages.getString("Symbolize"),    
+    						JOptionPane.ERROR_MESSAGE);
+            			return; 
+            		} else if(z.contains(" ")) {
+            			JOptionPane.showMessageDialog(null,
+    						Globals.messages.getString("SpaceKey"),
+    						Globals.messages.getString("Symbolize"),    
+    						JOptionPane.ERROR_MESSAGE);
+            			return; 
+            		}
+					
 					macro.key = macro.key.replace(k, z);					
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
