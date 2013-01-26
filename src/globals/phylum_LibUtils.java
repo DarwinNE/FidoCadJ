@@ -146,14 +146,12 @@ public class phylum_LibUtils {
 		}		
 	}
 
-	public static String getLibDir() 
+	public static String getLibDir() throws FileNotFoundException
 	{
 		Preferences prefs = Preferences.userNodeForPackage(Globals.class);
 		String s = prefs.get("DIR_LIBS", "");
-		if (s == null || s.length()<3) 
-		{
-			s = System.getProperty("user.home");
-			prefs.put("DIR_LIBS", s);			
+		if (s == null || s.length()==0) {
+			throw new FileNotFoundException();			
 		}
 		if (!s.endsWith(System.getProperty("file.separator"))) s+=System.getProperty("file.separator");		
 		return s;		
@@ -162,14 +160,16 @@ public class phylum_LibUtils {
 	/** Returns full path to lib file.
 	  @param lib Library name.
 	 */
-	public static String getLibPath(String lib) {		
+	public static String getLibPath(String lib) throws FileNotFoundException 
+	{		
 		return getLibDir()+lib.trim();		
 	}
 
 	/** Eliminates a library.
 		@param s Name of the library to eliminate
 	*/
-	public static void deleteLib(String  s) {
+	public static void deleteLib(String  s) throws FileNotFoundException
+	{
 		File f = new File(getLibDir()+s+".fcl");
 		f.delete();		
 	}
@@ -178,7 +178,7 @@ public class phylum_LibUtils {
 		@return a list containing all the library files.
 	
 	*/
-	public static List<File> getLibs()
+	public static List<File> getLibs() throws FileNotFoundException
 	{
 		File lst = new File(phylum_LibUtils.getLibDir());
 		List<File> l = new ArrayList<File>();
@@ -222,7 +222,7 @@ public class phylum_LibUtils {
 
 	*/
 	public static void renameGroup(Map<String, MacroDesc> libref, String tlib,
-			String tgrp, String newname) 
+			String tgrp, String newname) throws FileNotFoundException
 	{
 		for (MacroDesc md : libref.values()) {
 			if (md.category.equalsIgnoreCase(tgrp)
@@ -285,7 +285,7 @@ public class phylum_LibUtils {
 	
 	*/
 	public static void deleteGroup(Map<String, MacroDesc> m,String tlib, 
-		String tgrp) 
+		String tgrp) throws FileNotFoundException
 	{
 		Map<String, MacroDesc> mm = new TreeMap<String, MacroDesc>();
 		mm.putAll(m);
