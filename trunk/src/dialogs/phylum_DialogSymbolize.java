@@ -10,6 +10,8 @@ import java.awt.datatransfer.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
@@ -79,9 +81,6 @@ public class phylum_DialogSymbolize extends JDialog
 	class myCircuitPanel extends CircuitPanel
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		final float dash1[] = {2.0f};
 	    final BasicStroke dashed =
@@ -452,12 +451,12 @@ public class phylum_DialogSymbolize extends JDialog
     
     /** Standard constructor        
     */
-    public phylum_DialogSymbolize (CircuitPanel circuitPanel,ParseSchem p)
+    public phylum_DialogSymbolize (CircuitPanel circuitPanel, ParseSchem p)
     {   
 		super((JFrame)null, Globals.messages.getString("SaveSymbol"), true);
     	parent = circuitPanel;
-        addComponentListener(this);     
-              
+        addComponentListener(this);
+        
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
         GridBagLayout bgl=new GridBagLayout();
@@ -549,9 +548,16 @@ public class phylum_DialogSymbolize extends JDialog
             	cp.getLibrary().put(key.getText(), macro); // add to lib	
 				
 				// Save the new symbol in the current library
-				phylum_LibUtils.save(cp.getLibrary(), 
-					phylum_LibUtils.getLibPath(getLibrary()).trim(), 
-					getLibrary());							
+				try {
+					phylum_LibUtils.save(cp.getLibrary(), 
+						phylum_LibUtils.getLibPath(getLibrary()).trim(), 
+						getLibrary());
+				} catch (FileNotFoundException F) {
+					JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("DirNotFound"),
+    					Globals.messages.getString("Symbolize"),    
+    					JOptionPane.ERROR_MESSAGE);
+				}
 				
             	setVisible(false);   
             	Globals.activeWindow.repaint();

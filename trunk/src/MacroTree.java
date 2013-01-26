@@ -239,22 +239,29 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
 			{
-
-				if (macro == null)
-				{
-					// Either lib or grp					
-					if (tgrp == null && !phylum_LibUtils.isStdLib(tlib)) 
-						// it's a lib
-						phylum_LibUtils.deleteLib(tlib);
-						
-					if (tgrp != null)
-						phylum_LibUtils.deleteGroup(libref,tlib,tgrp);															
-				} else {	
-					// It is a macro.
-					libref.remove(macro.key);
-					phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.library),
-							macro.library.trim());
+				try {
+					if (macro == null) {
+						// Either lib or grp					
+						if (tgrp == null && !phylum_LibUtils.isStdLib(tlib)) {
+							// it's a lib
+							phylum_LibUtils.deleteLib(tlib);
+						}
+						if (tgrp != null) {
+							phylum_LibUtils.deleteGroup(libref,tlib,tgrp);	
+						}
+					} else {	
+						// It is a macro.
+						libref.remove(macro.key);
+							phylum_LibUtils.save(libref,
+								phylum_LibUtils.getLibPath(macro.library),
+								macro.library.trim());
+		
+					}
+				} catch (FileNotFoundException F) {
+					JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("DirNotFound"),
+    					Globals.messages.getString("Symbolize"),    
+    					JOptionPane.ERROR_MESSAGE);
 				}
 				
 				Container c = Globals.activeWindow;
@@ -297,13 +304,19 @@ public class MacroTree extends JPanel
 				//libref.put(macro.key, macro);
 				
 				// update libraries
-		
-				phylum_LibUtils.save(libref,
+				try {
+					phylum_LibUtils.save(libref,
 						phylum_LibUtils.getLibPath(lib),
 						lib);
-				phylum_LibUtils.save(libref,
+					phylum_LibUtils.save(libref,
 						phylum_LibUtils.getLibPath(destLib),
 						destLib);
+				} catch (FileNotFoundException F) {
+					JOptionPane.showMessageDialog(null,
+    					Globals.messages.getString("DirNotFound"),
+    					Globals.messages.getString("Symbolize"),    
+    					JOptionPane.ERROR_MESSAGE);
+				}
 				// synch
 				Container c = Globals.activeWindow;
 				((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
@@ -322,8 +335,15 @@ public class MacroTree extends JPanel
 					String newname = (e.getChildren()[0]).toString();
 					
 					if (tgrp != null) { // renaming group
-						phylum_LibUtils
+						try {
+							phylum_LibUtils
 								.renameGroup(libref, tlib, tgrp, newname);
+						} catch (FileNotFoundException F) {
+							JOptionPane.showMessageDialog(null,
+    							Globals.messages.getString("DirNotFound"),
+    							Globals.messages.getString("Symbolize"),    
+    							JOptionPane.ERROR_MESSAGE);
+						}
 						tgrp=newname;
 					} else { // It's a library
 						// Check if something has changed.
@@ -335,9 +355,16 @@ public class MacroTree extends JPanel
 							return; 	
 						
 						// Save the library with the new name.
-						phylum_LibUtils.save(libref,
+						try {
+							phylum_LibUtils.save(libref,
 								phylum_LibUtils.getLibPath(tlib),
-								tlib.trim(), newname.trim()); 
+								tlib.trim(), newname.trim());
+						} catch (FileNotFoundException F) {
+							JOptionPane.showMessageDialog(null,
+    							Globals.messages.getString("DirNotFound"),
+    							Globals.messages.getString("Symbolize"),    
+    							JOptionPane.ERROR_MESSAGE);
+						}
 												
 						Container c = Globals.activeWindow;
 						((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
@@ -351,9 +378,16 @@ public class MacroTree extends JPanel
 							.toString();
 					System.out.println("macro: "+macro+" "+macro.name);
 					libref.put(macro.key, macro);
-					phylum_LibUtils.save(libref,
+					try {
+						phylum_LibUtils.save(libref,
 							phylum_LibUtils.getLibPath(macro.library),
 							macro.library.trim());
+					} catch (FileNotFoundException F) {
+						JOptionPane.showMessageDialog(null,
+    						Globals.messages.getString("DirNotFound"),
+    						Globals.messages.getString("Symbolize"),    
+    						JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				
 			}
@@ -428,9 +462,16 @@ public class MacroTree extends JPanel
 					macro.key = macro.key.replace(k, z);					
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
-					phylum_LibUtils.save(libref,
+					try {
+						phylum_LibUtils.save(libref,
 							phylum_LibUtils.getLibPath(macro.library),
 							macro.library.trim());
+					} catch (FileNotFoundException F) {
+						JOptionPane.showMessageDialog(null,
+    						Globals.messages.getString("DirNotFound"),
+    						Globals.messages.getString("Symbolize"),    
+    						JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		};
