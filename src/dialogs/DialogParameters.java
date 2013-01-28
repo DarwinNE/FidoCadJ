@@ -452,14 +452,14 @@ public class DialogParameters extends JDialog implements ComponentListener {
 				}
 
 				active = true;
-				Globals.activeWindow.setEnabled(true);
+				//Globals.activeWindow.setEnabled(true);
 				setVisible(false);
 				keyb.setVisible(false);
 			}
 		});
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Globals.activeWindow.setEnabled(true);
+				//Globals.activeWindow.setEnabled(true);
 				setVisible(false);
 				keyb.setVisible(false);
 			}
@@ -468,7 +468,7 @@ public class DialogParameters extends JDialog implements ComponentListener {
 
 		AbstractAction cancelAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Globals.activeWindow.setEnabled(true);
+				//Globals.activeWindow.setEnabled(true);
 				setVisible(false);
 				keyb.setVisible(false);
 			}
@@ -477,7 +477,7 @@ public class DialogParameters extends JDialog implements ComponentListener {
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				Globals.activeWindow.setEnabled(true);
+				//Globals.activeWindow.setEnabled(true);
 				keyb.setVisible(false);
 			}
 		});
