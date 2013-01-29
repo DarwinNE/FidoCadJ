@@ -60,7 +60,8 @@ public class MacroTree extends JPanel
                       			 DocumentListener,
                       			 KeyListener,
                       			 FocusListener,
-                      			 MouseListener
+                      			 MouseListener,
+                      			 PopupMenuListener
                       
 {
     private CircuitPanel previewPanel;
@@ -73,7 +74,11 @@ public class MacroTree extends JPanel
     private MacroDesc macro;
     private Map<String, MacroDesc> libMap;
     
-    String tlib, tgrp;    
+    private JMenuItem popRename;
+    private JMenuItem popDelete;
+    private JMenuItem popRenKey;
+    
+    private String tlib, tgrp;    
     TreePath lpath;
 
     @SuppressWarnings("unused")
@@ -86,7 +91,7 @@ public class MacroTree extends JPanel
 	
 	  public void expand()
 	  {		
-		    System.out.println("Not yet implemented");
+		    //System.out.println("Not yet implemented");
 		    System.out.println(lpath);
 	  }
 
@@ -97,6 +102,32 @@ public class MacroTree extends JPanel
 		macro = null;
 	}
 	
+	public void popupMenuCanceled(PopupMenuEvent e) 
+	{
+	
+	}
+	
+	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) 
+	{
+	
+	}
+	
+	public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
+	{
+		// Check if it is a standard library (immutable)
+		if(phylum_LibUtils.isStdLib(tlib)) {
+			// All the menu items concern some modification, so they must be
+			// disabled.
+			popRename.setEnabled(false);
+    		popDelete.setEnabled(false);
+    		popRenKey.setEnabled(false);
+		} else {
+			// User-modifiable library
+			popRename.setEnabled(true);
+    		popDelete.setEnabled(true);
+    		popRenKey.setEnabled(true);
+		}
+	}
 	
     public void updateLibraries(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers) 
@@ -477,11 +508,15 @@ public class MacroTree extends JPanel
 		};
 		
         popup.removeAll();              
-        popup.add(Globals.messages.getString("Rename")).addActionListener(pml);
-        popup.add(Globals.messages.getString("Delete")).addActionListener(pml);
+        popRename = new JMenuItem(Globals.messages.getString("Rename"));
+        popup.add(popRename).addActionListener(pml);
+        popDelete = new JMenuItem(Globals.messages.getString("Delete"));
+        popup.add(popDelete).addActionListener(pml);
         popup.add(new JSeparator());
-        popup.add(Globals.messages.getString("RenKey")).addActionListener(pml);
+        popRenKey = new JMenuItem(Globals.messages.getString("RenKey"));
+        popup.add(popRenKey).addActionListener(pml);
         tree.setComponentPopupMenu(popup);
+        popup.addPopupMenuListener(this);
         
 
         start = new int[1];

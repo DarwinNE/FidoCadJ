@@ -754,9 +754,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
             	else
             		editPaste.setEnabled(true);
             	
-            	editSymbolize.setEnabled(P.getFirstSelectedPrimitive() != null); // phylum
+            	editSymbolize.setEnabled(P.getFirstSelectedPrimitive() != null);
+            		// phylum
             	editUSymbolize.setEnabled(P.getFirstSelectedPrimitive() != null
-            			&& P.getFirstSelectedPrimitive() instanceof PrimitiveMacro); // phylum
+            			&& P.getFirstSelectedPrimitive() 
+            			instanceof PrimitiveMacro); // phylum
             	
             	menux=evt.getX();
             	menuy=evt.getY();
@@ -2053,7 +2055,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         GraphicPrimitive gp=P.getFirstSelectedPrimitive();
         if (gp!=null) {
             Vector<ParameterDescription> v=gp.getControls();
-            DialogParameters dp = new DialogParameters(null,v, extStrict, 
+            DialogParameters dp = new DialogParameters(
+            	Globals.activeWindow,
+            	v, extStrict, 
                 P.getLayers());
             dp.setVisible(true);
             if(dp.active) {
