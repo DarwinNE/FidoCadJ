@@ -714,9 +714,9 @@ public class FidoFrame extends JFrame implements
         // only via the command line, since there is no reason to use a locale
         // different from the one of the operating system.
         
-        if(Globals.isBeta) 
+        /*if(Globals.isBeta) 
         	menuBar.add(langMenu);
-        
+        */
 
         JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new 
