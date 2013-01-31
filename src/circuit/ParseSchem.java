@@ -977,9 +977,8 @@ public class ParseSchem
             export technique.       
             The temporary file will then be loaded in the clipboard.
         */
-        
         if (splitNonStandard) {
-			splitMacros(s,  false);
+			s=splitMacros(s,  false);
         }
         
         // get the system clipboard
@@ -1018,7 +1017,7 @@ public class ParseSchem
     	boolean splitStandardMacros)
     {
         StringBuffer txt= new StringBuffer("");    
-
+		
         ParseSchem Q=new ParseSchem();
         Q.setLibrary(library);  // Inherit the library
         Q.setLayers(layerV);    // Inherit the layers
