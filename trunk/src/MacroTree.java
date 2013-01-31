@@ -77,6 +77,7 @@ public class MacroTree extends JPanel
     private JMenuItem popRename;
     private JMenuItem popDelete;
     private JMenuItem popRenKey;
+    private boolean isLeaf;
     
     private String tlib, tgrp;    
     TreePath lpath;
@@ -121,6 +122,11 @@ public class MacroTree extends JPanel
 			popRename.setEnabled(false);
     		popDelete.setEnabled(false);
     		popRenKey.setEnabled(false);
+		} else if(!isLeaf) {
+			// Library or group
+			popRename.setEnabled(true);
+    		popDelete.setEnabled(true);
+    		popRenKey.setEnabled(false); // This element does not have a key
 		} else {
 			// User-modifiable library
 			popRename.setEnabled(true);
@@ -233,9 +239,12 @@ public class MacroTree extends JPanel
         	         expanded, leaf, row, hasFocus);
         		
         		// It is a macro.
-        	    if (leaf) 
+        	    if (leaf) {
+        	    	isLeaf=true;
         	    	return this;
-        	    
+        	    } else {
+					isLeaf=false;
+				}
         	    DefaultMutableTreeNode dtn = 
         	      	(DefaultMutableTreeNode) value;
         		        	
