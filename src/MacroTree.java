@@ -424,7 +424,7 @@ public class MacroTree extends JPanel
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
-    						Globals.messages.getString("Symbolize"),    
+    						Globals.messages.getString("Rename"),    
     						JOptionPane.ERROR_MESSAGE);
 					}
 					globalUpdate();
@@ -508,16 +508,21 @@ public class MacroTree extends JPanel
 					if(n==JOptionPane.NO_OPTION) {
 						return;
 					}
-					String k = macro.key.substring(macro.key.indexOf(".")+1);	
+					String k = macro.key.substring(macro.key.indexOf(".")+1);
+					
 					String z = JOptionPane.showInputDialog(
 						Globals.messages.getString("Key"), k);
+						
+					// Check if something has changed or if the user canceled.
+					if(z==null || z.equals(k))
+						return;
 					
 					// Check if there is a valid key available. 
 					// We can not continue without a key!
             		if (z==null || z.length()<1) {
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("InvKey"),
-    						Globals.messages.getString("Symbolize"),
+    						Globals.messages.getString("RenKey"),
     						JOptionPane.ERROR_MESSAGE);
             			return;
             	
@@ -526,13 +531,13 @@ public class MacroTree extends JPanel
             				macro.library+"."+z.trim())) { 
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DupKey"),
-    						Globals.messages.getString("Symbolize"),    
+    						Globals.messages.getString("RenKey"),    
     						JOptionPane.ERROR_MESSAGE);
             			return; 
             		} else if(z.contains(" ")) {
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("SpaceKey"),
-    						Globals.messages.getString("Symbolize"),    
+    						Globals.messages.getString("RenKey"),    
     						JOptionPane.ERROR_MESSAGE);
             			return; 
             		}
