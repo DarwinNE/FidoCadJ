@@ -426,7 +426,7 @@ public class FidoFrame extends JFrame implements
         	JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         SC.setVerticalScrollBarPolicy(
         	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+        	
 		// I planned to add rulers at the borders of the scroll panel.
 		// Unfortunately, they does not seem to work as expected and this 
 		// feature will be implemented when possible.
@@ -648,16 +648,7 @@ public class FidoFrame extends JFrame implements
                
         viewMenu.add(layerOptions);
         
-        /*optionMacroOrigin = new 
-            JCheckBoxMenuItem(Globals.messages.getString("Macro_origin"));
-            
-		optionMacroOrigin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
-            Globals.shortcutKey));
 
-        viewMenu.add(optionMacroOrigin);
-        
-        optionMacroOrigin.addActionListener((ActionListener)this);
-        */
         layerOptions.addActionListener((ActionListener)this);
 
         menuBar.add(viewMenu);
@@ -737,6 +728,9 @@ public class FidoFrame extends JFrame implements
 		macroLib.setSelectionListener(CC);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         
+        // Useful for Quaqua with MacOSX.
+        //splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
+
         Dimension windowSize = getSize();
         CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
         

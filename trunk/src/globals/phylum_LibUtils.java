@@ -234,6 +234,7 @@ public class phylum_LibUtils {
 	}
 	
 	/** Check whether a key is used in a given library or it is available.
+		Also check for strange characters.
 		@param libref the map containing the library
 		@param tlib the name of the library
 		@param key the key to be checked
@@ -248,8 +249,29 @@ public class phylum_LibUtils {
 					return true;
 			}
 		}
+		if(key.contains("]"))
+			return true;
+			
 		return false;
 	}
+	
+	/** Check if a library name is acceptable. Since the library name is used
+		also as a file name, it must not contain characters which would 
+		be in conflict with the rules of file names in the various operating
+		systems.
+		@return true if something strange is found.
+	*/
+	public static boolean checkLibrary(String library)
+	{
+		if(library.contains("]")||library.contains(".")||
+		   library.contains("/")||library.contains("\\")||
+		   library.contains("~")||library.contains("&")||
+		   library.contains(",")||library.contains(";")||
+		   library.contains("]")||library.contains("\""))
+			return true;
+		return false;
+	}
+	
 	/** Save a library in a file
 		@param m the map containing the library
 		@param file the name of the file to be written
@@ -313,7 +335,6 @@ public class phylum_LibUtils {
  		}
  		return lst;
 	}
-
 
 
 // TODO support libs with different filenames
