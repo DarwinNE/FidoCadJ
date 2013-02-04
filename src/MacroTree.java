@@ -199,7 +199,8 @@ public class MacroTree extends JPanel
 				model.insertNodeInto((MutableTreeNode) nodi, parent, 0);
 				return true;
 			}
-			class NodoDnD implements Transferable {
+			class NodoDnD implements Transferable 
+			{
 				DefaultMutableTreeNode dnd;
 				public NodoDnD(
 						DefaultMutableTreeNode defaultMutableTreeNode) 
@@ -238,7 +239,7 @@ public class MacroTree extends JPanel
         		super.getTreeCellRendererComponent(tree, value, sel, 
         	         expanded, leaf, row, hasFocus);
         		
-        		// It is a macro.
+        		// It is a macro?
         	    if (leaf) {
         	    	isLeaf=true;
         	    	return this;
@@ -279,6 +280,7 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
 			{
+    					
 				try {
 					if (macro == null) {
 						// Either lib or grp					
@@ -304,23 +306,13 @@ public class MacroTree extends JPanel
     					JOptionPane.ERROR_MESSAGE);
 				}
 				
-				Container c = Globals.activeWindow;
-				((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
-						.getSubElements()[0].getSubElements()[1]).doClick();
-				
-				// also remove macro(s) from current circuit
-				CircuitPanel cp = ((FidoFrame) c).CC;
-				ParseSchem ps = cp.P;
-				try {
-					ps.parseString(ps.getText(true));
-					cp.repaint();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				globalUpdate();		
+
 				
 				expand();
 
 			}
+			
 			
 			/** Insertion of a new node (drag and drop?).
 			*/
@@ -358,9 +350,7 @@ public class MacroTree extends JPanel
     					JOptionPane.ERROR_MESSAGE);
 				}
 				// synch
-				Container c = Globals.activeWindow;
-				((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
-						.getSubElements()[0].getSubElements()[1]).doClick();
+				globalUpdate();
 				
 			}
 			
@@ -381,7 +371,7 @@ public class MacroTree extends JPanel
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
-    							Globals.messages.getString("Symbolize"),    
+    							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
 						tgrp=newname;
@@ -389,7 +379,16 @@ public class MacroTree extends JPanel
 						// Check if something has changed.
 						if (tlib.trim().equalsIgnoreCase(newname.trim()))
 							return;
-						
+							
+						if(phylum_LibUtils.checkLibrary(newname)) {
+							JOptionPane.showMessageDialog(null,
+    							Globals.messages.getString("InvalidCharLib"),
+    							Globals.messages.getString("Rename"),    
+    							JOptionPane.ERROR_MESSAGE);
+    								
+							globalUpdate();
+    						return;
+    					}
 						// Standard libraries should not be modified.
 						if (phylum_LibUtils.isStdLib(tlib)) 
 							return; 	
@@ -402,22 +401,22 @@ public class MacroTree extends JPanel
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
-    							Globals.messages.getString("Symbolize"),    
+    							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
 												
-						Container c = Globals.activeWindow;
-						((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
-							.getSubElements()[0].getSubElements()[1]).doClick();
+						globalUpdate();
 					}
 				}
 				if (macro != null) {
 					// Rename a macro.
-					libref.remove(macro.key);
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
-					System.out.println("macro: "+macro+" "+macro.name);
+					System.out.println("macro: "+macro+" "+macro.name+" "+e.getChildren()[0]);
+					libref.remove(macro.key);
 					libref.put(macro.key, macro);
+					//e.getChildren()[0].setUserObject(macro);
+					
 					try {
 						phylum_LibUtils.save(libref,
 							phylum_LibUtils.getLibPath(macro.library),
@@ -428,6 +427,7 @@ public class MacroTree extends JPanel
     						Globals.messages.getString("Symbolize"),    
     						JOptionPane.ERROR_MESSAGE);
 					}
+					globalUpdate();
 				}
 				
 			}
@@ -436,11 +436,11 @@ public class MacroTree extends JPanel
         // The action listener where the menu actions will be handled
         pml = new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
-			{
-				
+			{	
 				String name = e.getActionCommand();
 				tree.setEditable(false);
-				
+			
+				// Here is where the menu commands are interpreted
 				if (name.equalsIgnoreCase(
 					Globals.messages.getString("Rename"))) {
 					// Renaming macros.
@@ -448,6 +448,23 @@ public class MacroTree extends JPanel
 					// At first, check if it is a standard element (immutable).
 					if (phylum_LibUtils.isStdLib(tlib)) 
 						return;
+					
+					// Ask for confirmation only if we are trying to change 
+					// the name of a library, since it is used in the filename
+					// and in the complete key of a symbol.
+					// The other cases does not need an explicit confirmation
+					// since the modification are only not structural.
+					if (macro==null && tgrp==null) {
+						int n = JOptionPane.showConfirmDialog(null,
+    						Globals.messages.getString("ChangeKeyWarning"),
+    						Globals.messages.getString("Rename"),
+   					    	JOptionPane.YES_NO_OPTION);
+				
+						if(n==JOptionPane.NO_OPTION) {
+							return;
+						}
+					}
+						
 					tree.setEditable(true);  
 					// Edit the current element (see treeNodesChanged).
 		            tree.startEditingAtPath(tree.getSelectionPath()); 
@@ -459,6 +476,17 @@ public class MacroTree extends JPanel
 					// Standard librairies are immutable.
 					if (phylum_LibUtils.isStdLib(tlib)) 
 						return;
+					
+					// Ask for confirmation
+					int n = JOptionPane.showConfirmDialog(null,
+    					Globals.messages.getString("ChangeKeyWarning"),
+    					Globals.messages.getString("Delete"),
+   					    JOptionPane.YES_NO_OPTION);
+				
+					if(n==JOptionPane.NO_OPTION) {
+						return;
+					}
+				
 					DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) 
 						tree.getLastSelectedPathComponent();
@@ -470,6 +498,16 @@ public class MacroTree extends JPanel
                 	// change the key
 					if (macro == null) 
 						return;
+						
+					// Ask for confirmation
+					int n = JOptionPane.showConfirmDialog(null,
+    					Globals.messages.getString("ChangeKeyWarning"),
+    					Globals.messages.getString("RenKey"),
+   					    JOptionPane.YES_NO_OPTION);
+				
+					if(n==JOptionPane.NO_OPTION) {
+						return;
+					}
 					String k = macro.key.substring(macro.key.indexOf(".")+1);	
 					String z = JOptionPane.showInputDialog(
 						Globals.messages.getString("Key"), k);
@@ -526,7 +564,6 @@ public class MacroTree extends JPanel
         popup.add(popRenKey).addActionListener(pml);
         tree.setComponentPopupMenu(popup);
         popup.addPopupMenuListener(this);
-        
 
         start = new int[1];
 
@@ -555,6 +592,7 @@ public class MacroTree extends JPanel
 			
 			Addendum June 2009: let's try!
 			November 2009: this solution seems to be rather effective :-)
+			January 2013: indeed: this works very well!!!
 		*/
 		
 		topbox.add(search);
@@ -580,10 +618,30 @@ public class MacroTree extends JPanel
 		//splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
 		//splitPane.setDividerSize(10);
 
-
         //Add the split pane to this panel.
         add(splitPane);
     }
+
+
+	/** Force an in-depth reconstruction of the whole tree.
+	*/
+	public void globalUpdate()
+	{
+		// WARNING: very fragile code!	**************************************
+		Container c = Globals.activeWindow;
+		((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
+			.getSubElements()[0].getSubElements()[1]).doClick();
+			
+		// also remove macro(s) from current circuit
+		CircuitPanel cp = ((FidoFrame) c).CC;
+		ParseSchem ps = cp.P;
+		try {
+			ps.parseString(ps.getText(true));
+			cp.repaint();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	/**	Modify the actual selection listener
 		@param l the new selection listener
@@ -656,7 +714,6 @@ public class MacroTree extends JPanel
 					selectionListener.setSelectionState(CircuitPanel.MACRO,
 						macro.key);
             } catch (Exception E) {
-            	//System.out.println(E);
             	// We get an exception if we click on the base node in an empty
             	// library list.
             	// In such cases, it is OK just to ignore the action.
@@ -665,11 +722,9 @@ public class MacroTree extends JPanel
         }
     }
 
-  
 	/**	Create the library tree.
 		@param top the top node
 	*/
-    
     private void createNodes(DefaultMutableTreeNode top) {
         DefaultMutableTreeNode category = null;
         DefaultMutableTreeNode macro = null;
@@ -687,7 +742,7 @@ public class MacroTree extends JPanel
        		
        		macro = new DefaultMutableTreeNode(val);
        		
-       		// the "]" caracter can not be already present in a library name
+       		// the "]" character can not be already present in a library name
        		// here, we use it as a separator.
        		
         	if(categories.get(val.category+
@@ -710,7 +765,6 @@ public class MacroTree extends JPanel
         			library_i = new DefaultMutableTreeNode(val.library.trim());
         			top.add(library_i);
         			if (!val.category.equals("hidden")) {
-        				//System.out.println(""+val.category);
         				library_i.add(category);
         			}
         			
@@ -805,7 +859,6 @@ public class MacroTree extends JPanel
 		tree.expandPath(path);
     }
 
-
 	/** 
 	 * Inspired from: 
 	 * http://www.javareference.com/jrexamples/viewexample.jsp?id=99
@@ -885,11 +938,9 @@ public class MacroTree extends JPanel
         return null; 
     }
 
-
 	public void mouseClicked(MouseEvent e) 
 	{
 	}
-
 
 	public void mousePressed(MouseEvent e) 
 	{		
@@ -899,16 +950,13 @@ public class MacroTree extends JPanel
 		tree.setComponentPopupMenu(popup);
 	}
 
-
 	public void mouseReleased(MouseEvent e) 
 	{		
 	}
 
-
 	public void mouseEntered(MouseEvent e) 
 	{		
 	}
-
 
 	public void mouseExited(MouseEvent e) 
 	{		
