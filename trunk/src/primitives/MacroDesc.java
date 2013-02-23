@@ -18,33 +18,40 @@ package primitives;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 </pre>	
 	
 	
 */
 
 public class MacroDesc {
-	public String name;
-	public String key;
-	public String description;
-	public String category;
-	public String library;
+	public String name;			// The one which is shown
+	public String key;			// Unequivocally used to identify the macro 
+	public String description;	// The list of commands included in the macro
+	public String category;		// The category on which the macro is put
+	public String library;		// The library name
+	public String filename;		// The library file name
 	
-	/** Standard constructor. Give the macro's name, description and cathegory 
+	// The library file name is usually identical to the library name, except
+	// when an existing library is already present with a different filename.
+	// This is a legacy from previous versions of FidoCadJ.
+	
+	/** Standard constructor. Give the macro's name, description and category 
 		@param ke the key to be used
 		@param na the name of the macro
 		@param de the description of the macro (the list of commands)
 		@param cat the category of the macro
 		@param lib the library name
 	*/
-	public MacroDesc(String ke, String na, String de, String cat, String lib)
+	public MacroDesc(String ke, String na, String de, String cat, 
+		String lib, String fn)
 	{
 		name = na;
 		key=ke;
 		description = de;
 		category = cat;
-		library = lib;	
+		library = lib;
+		filename = fn;	
 	}
 	
 	public String toString() 
