@@ -627,7 +627,8 @@ public class phylum_DialogSymbolize extends JDialog
 		// Create the symbol key from the date and hour				
 		String k = mykey;
 		String desc = ss.toString();
-		MacroDesc md = new MacroDesc(k, myname, desc, mygrp, mylib);
+		// Here we use the library name (mylib) as the file name
+		MacroDesc md = new MacroDesc(k, myname, desc, mygrp, mylib, mylib);
 		return md;	
 	}
     

@@ -448,7 +448,7 @@ public class ParseSchem
                     
                     macroName=macroName.toLowerCase();
                     library.put(macroName, new 
-                        MacroDesc(macroName,"","","",""));
+                        MacroDesc(macroName,"","","","", prefix));
                     continue;
                 }
             }
@@ -465,7 +465,9 @@ public class ParseSchem
                 macroName=macroName.toLowerCase();
                 library.put(macroName, new MacroDesc(macroName,longName,
                 ((MacroDesc)library.get(macroName)).description+"\n"+line,
-                categoryName, libraryName));
+                categoryName, libraryName, prefix));
+                
+                // Is it OK to use prefix as the macro filename?
             }                
         } 
     }

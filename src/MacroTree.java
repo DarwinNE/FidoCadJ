@@ -412,7 +412,7 @@ public class MacroTree extends JPanel
 					// Rename a macro.
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
-					System.out.println("macro: "+macro+" "+macro.name+" "+e.getChildren()[0]);
+					//System.out.println("macro: "+macro+" "+macro.name+" "+e.getChildren()[0]);
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
 					//e.getChildren()[0].setUserObject(macro);
@@ -750,34 +750,41 @@ public class MacroTree extends JPanel
        		// the "]" character can not be already present in a library name
        		// here, we use it as a separator.
        		
-        	if(categories.get(val.category+
-        	    	"]"+val.library)!=null) {
-        	    	
+       		String libName=val.filename+"]"+val.library;
+       		String catName=val.filename+"]"+val.category+"]"+val.library;
+       		
+       		// Chech if the current category is already existing.
+        	if(categories.get(catName)!=null) {
+        		// The category node is already there: we retrieve it and 
+        		// we add a leaf for the macro.
+        		
         	    if(!val.category.equals("hidden")) {
-        			((DefaultMutableTreeNode)(categories.get(val.category+
-        	    		"]"+val.library))).add(macro);
+        			((DefaultMutableTreeNode)(categories.get(
+        				catName))).add(macro);
         	    }
         	} else {
+        		// The category is new: a new node must be created.
         	    category = new DefaultMutableTreeNode(val.category.trim());
-
-        		if(libraries.get(val.library)!=null) {
+				
+				// We see if the library is already existing
+        		if(libraries.get(libName)!=null) {
         			if(!val.category.equals("hidden")) {
         				((DefaultMutableTreeNode)(libraries.get(
-        					val.library))).add(
+        					libName))).add(
         					category);
         			}
         		} else {
+        			// If not, we create it
         			library_i = new DefaultMutableTreeNode(val.library.trim());
         			top.add(library_i);
         			if (!val.category.equals("hidden")) {
         				library_i.add(category);
         			}
         			
-        			libraries.put(val.library,library_i);
+        			libraries.put(libName,library_i);
         		}
         		category.add(macro);
-        		categories.put(val.category+
-        	    	"]"+val.library,category);
+        		categories.put(catName,category);
         	}
    		}
     }
