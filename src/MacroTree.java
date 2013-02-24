@@ -80,7 +80,7 @@ public class MacroTree extends JPanel
     private boolean isLeaf;
     
     private String tlibFName, tcategory;    
-    private MacroDesc currentMacro;
+    //private MacroDesc macro;
     TreePath lpath;
 
     @SuppressWarnings("unused")
@@ -174,18 +174,16 @@ public class MacroTree extends JPanel
 	
 	public void popupMenuCanceled(PopupMenuEvent e) 
 	{
-	
 	}
 	
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) 
 	{
-	
 	}
 	
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
 	{
 		// Check if it is a standard library (immutable)
-		if(phylum_LibUtils.isStdLib(currentMacro)) {
+		if(phylum_LibUtils.isStdLib(macro)) {
 			// All the menu items concern some modification, so they must be
 			// disabled.
 			popRename.setEnabled(false);
@@ -352,8 +350,7 @@ public class MacroTree extends JPanel
 			/** Remove a library, a group of macros or a single macro.
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
-			{
-				
+			{		
 				if(macro==null)
 					return;
 				try {
@@ -372,8 +369,8 @@ public class MacroTree extends JPanel
 						// It is a macro.
 						libref.remove(macro.key);
 						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.library),
-							macro.filename.trim());
+							phylum_LibUtils.getLibPath(macro.filename),
+							macro.library.trim(), macro.filename);
 					}
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
@@ -396,6 +393,7 @@ public class MacroTree extends JPanel
 					return; // not enough info to proceed
 					
 				String lib = macro.library.trim();
+				String file = macro.filename.trim();
 				String grp = macro.category.trim();
 				String destLib = e.getPath()[1].toString().trim();
 				String destGrp = e.getPath()[2].toString().trim();
@@ -410,11 +408,11 @@ public class MacroTree extends JPanel
 				// update libraries
 				try {
 					phylum_LibUtils.save(libref,
-						phylum_LibUtils.getLibPath(lib),
-						lib);
+						phylum_LibUtils.getLibPath(macro.filename),
+						lib, macro.filename);
 					phylum_LibUtils.save(libref,
 						phylum_LibUtils.getLibPath(destLib),
-						destLib);
+						destLib, macro.filename);	// TODO: correct that, it is awful!!!!!!!!!
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -462,11 +460,11 @@ public class MacroTree extends JPanel
     						return;
     					}
 						// Standard libraries should not be modified.
-						if (phylum_LibUtils.isStdLib(currentMacro)) 
+						if (phylum_LibUtils.isStdLib(macro)) 
 							return; 	
 						
 						// Save the library with the new name.
-						try {
+						/*try {
 							phylum_LibUtils.save(libref,
 								phylum_LibUtils.getLibPath(tlibFName),
 								tlibFName.trim(), newname.trim());
@@ -476,6 +474,7 @@ public class MacroTree extends JPanel
     							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
+						*/
 												
 						globalUpdate();
 					}
@@ -484,15 +483,15 @@ public class MacroTree extends JPanel
 					// Rename a macro.
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
-					//System.out.println("macro: "+macro+" "+macro.name+" "+e.getChildren()[0]);
+							
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
 					//e.getChildren()[0].setUserObject(macro);
 					
 					try {
 						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.library),
-							macro.library.trim());
+							phylum_LibUtils.getLibPath(macro.filename),
+							macro.library.trim(), macro.filename);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -518,14 +517,14 @@ public class MacroTree extends JPanel
 					// Renaming macros.
 					
 					// At first, check if it is a standard element (immutable).
-					if (phylum_LibUtils.isStdLib(currentMacro)) 
+					if (phylum_LibUtils.isStdLib(macro)) 
 						return;
 					
 					// Ask for confirmation only if we are trying to change 
 					// the name of a library, since it is used in the filename
 					// and in the complete key of a symbol.
 					// The other cases does not need an explicit confirmation
-					// since the modification are only not structural.
+					// since the modification are not structural.
 					if (macro==null && tcategory==null) {
 						int n = JOptionPane.showConfirmDialog(null,
     						Globals.messages.getString("ChangeKeyWarning"),
@@ -546,7 +545,7 @@ public class MacroTree extends JPanel
 					if (tlibFName == null && macro != null) 
 						tlibFName = macro.library;
 					// Standard librairies are immutable.
-					if (phylum_LibUtils.isStdLib(currentMacro)) 
+					if (phylum_LibUtils.isStdLib(macro)) 
 						return;
 					
 					// Ask for confirmation
@@ -619,8 +618,8 @@ public class MacroTree extends JPanel
 					libref.put(macro.key, macro);
 					try {
 						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.library),
-							macro.library.trim());
+							phylum_LibUtils.getLibPath(macro.filename),
+							macro.library.trim(), macro.filename);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -751,21 +750,21 @@ public class MacroTree extends JPanel
         if (node == null) return;
 		macro=null;
         Object nodeInfo = node.getUserObject(); 
-        currentMacro=(MacroDesc)nodeInfo;
+        macro=(MacroDesc)nodeInfo;
         lpath = tree.getSelectionPath().getParentPath();                    
         if (!node.isLeaf())         	
         {
-        	switch (currentMacro.level) //node.getDepth()
+        	switch (macro.level) //node.getDepth()
         	{
         		case 2: // isLibrary
         			tcategory = null;
-        			tlibFName = currentMacro.filename;
+        			tlibFName = macro.filename;
         			break;
         		case 1: // isCategory        			
         			tlibFName = ((MacroDesc)(((DefaultMutableTreeNode)
         				node.getParent()).
         				getUserObject())).filename;
-        			tcategory = currentMacro.category;
+        			tcategory = macro.category;
         			break;
         		case 3: // isRoot
         			tlibFName = null;

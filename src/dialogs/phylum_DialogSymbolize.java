@@ -551,7 +551,7 @@ public class phylum_DialogSymbolize extends JDialog
 				try {
 					phylum_LibUtils.save(cp.getLibrary(), 
 						phylum_LibUtils.getLibPath(getLibrary()).trim(), 
-						getLibrary());
+						getLibrary(), macro.filename);
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),

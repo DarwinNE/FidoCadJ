@@ -60,6 +60,7 @@ public class phylum_LibUtils {
 	public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
 		String libfile)
 	{
+		System.out.println("libfile:"+libfile);
 		Map<String,MacroDesc> mm = new TreeMap<String,MacroDesc>();
 		MacroDesc md;		
 		for (Entry<String, MacroDesc> e : m.entrySet())
@@ -131,7 +132,8 @@ public class phylum_LibUtils {
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
 	{		
-		System.out.println("file: "+file+"\n------\n"+text);
+		//System.out.println("file: "+file+"\n------\n"+text);
+		
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(file, Globals.encoding);
@@ -149,12 +151,12 @@ public class phylum_LibUtils {
 		@param libname the name of the library.
 	*/
 	public static void save(Map<String,MacroDesc> m, String file, 
-		String libname) 
+		String libname, String prefix) 
 	{
 		try {
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 				phylum_LibUtils.prepareText(
-				phylum_LibUtils.getLibrary(m, libname), libname));
+				phylum_LibUtils.getLibrary(m, prefix), libname));
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}		
@@ -282,13 +284,18 @@ public class phylum_LibUtils {
 	public static void renameGroup(Map<String, MacroDesc> libref, String tlib,
 			String tgrp, String newname) throws FileNotFoundException
 	{
+		String prefix="";
 		for (MacroDesc md : libref.values()) {
 			if (md.category.equalsIgnoreCase(tgrp)
 					&& md.library.trim().equalsIgnoreCase(
-							tlib.trim()))
+							tlib.trim())) {
 				md.category = newname;
+				prefix = md.filename; 
+			}
 		}
-		save(libref, getLibPath(tlib), tlib.trim());
+		if (prefix.equals(""))
+			return;
+		save(libref, getLibPath(tlib), tlib.trim(), prefix);
 	}
 	
 	/** Check whether a key is used in a given library or it is available.
@@ -336,12 +343,12 @@ public class phylum_LibUtils {
 		@param libname the name to be used for the library
 		@param libname2 library new name (if renamed)
 	*/
-	public static void save(Map<String, MacroDesc> m, String file,
+/*	public static void save(Map<String, MacroDesc> m, String file,
 			String libname, String libname2) 
 	{
 	
 		System.out.println("file: "+file);
-		try {
+*		try {
 			String flibname = libname2;
 			// Avoid modifying the standard library
 			//MacroDesc tag= new MacroDesc("","","","",libname, file);
@@ -355,9 +362,9 @@ public class phylum_LibUtils {
 			deleteLib(libname);
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
-		}	
+		}	*
 		
-	}
+	}*/
 
 	/** Delete a group inside a library
 		@param m the map containing the library
@@ -372,13 +379,19 @@ public class phylum_LibUtils {
 	{
 		Map<String, MacroDesc> mm = new TreeMap<String, MacroDesc>();
 		mm.putAll(m);
+		String prefix="";
 		for (Entry<String, MacroDesc> smd : mm.entrySet())
 		{
 			MacroDesc md = smd.getValue();			
 			if (md.library.trim().equalsIgnoreCase(tlib) && 
-					md.category.equalsIgnoreCase(tgrp)) m.remove(md.key);
+					md.category.equalsIgnoreCase(tgrp)) {	
+				m.remove(md.key);
+				prefix = md.filename;
+			}
 		}
-		save(m, getLibPath(tlib), tlib);
+		if(prefix.equals(""))
+			return;
+		save(m, getLibPath(tlib), tlib, prefix);
 	}
 	
 	/** Obtain a list containing all the groups in a given library

@@ -36,6 +36,7 @@ public class MacroDesc {
 	// The library file name is usually identical to the library name, except
 	// when an existing library is already present with a different filename.
 	// This is a legacy from previous versions of FidoCadJ.
+
 	
 	/** Standard constructor. Give the macro's name, description and category 
 		@param ke the key to be used
