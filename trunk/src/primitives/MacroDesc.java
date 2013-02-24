@@ -31,6 +31,7 @@ public class MacroDesc {
 	public String category;		// The category on which the macro is put
 	public String library;		// The library name
 	public String filename;		// The library file name
+	public int level;			// The level (0: macro 1:category 2:library)
 	
 	// The library file name is usually identical to the library name, except
 	// when an existing library is already present with a different filename.
@@ -51,11 +52,26 @@ public class MacroDesc {
 		description = de;
 		category = cat;
 		library = lib;
-		filename = fn;	
+		filename = fn;
+		level = 0;
 	}
 	
 	public String toString() 
 	{
-		return name.trim();//+", "+key+", "+category+", "+library;
+		String s;
+		switch (level) {
+			case 1:
+				s=category;
+				break;
+			case 2:
+				s=library;
+				break;
+			case 0:
+			default:
+				s=name;
+				break;
+		}
+		
+		return s.trim();
 	}
 }

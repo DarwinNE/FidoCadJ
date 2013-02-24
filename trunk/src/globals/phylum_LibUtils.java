@@ -49,28 +49,39 @@ import primitives.MacroDesc;
 
 public class phylum_LibUtils {
 
-	/** Get the library description from the library tree, according to
-		the given name of the library?
+	/** Extract all the macros belonging to a given library
 		
-		@param m ?
-		@param libname name of the wanted library?
+		@param m the macro list
+		@param libfile the file name of the wanted library
 		
 		@return the library.
 	
 	*/
 	public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
-		String libname)
+		String libfile)
 	{
 		Map<String,MacroDesc> mm = new TreeMap<String,MacroDesc>();
 		MacroDesc md;		
 		for (Entry<String, MacroDesc> e : m.entrySet())
 		{			
-			md = e.getValue();			
-			if (!md.library.trim().equalsIgnoreCase(libname)) 
+			md = e.getValue();
+			
+			// The most reliable way to discriminate the macros is to watch
+			// at the prefix in the key, i.e. everything which comes 
+			// before the dot in the complete key.
+			
+			int dotPos = md.key.lastIndexOf(".");
+			
+			// If no dot is found, this is by definition the original FidoCad
+			// standard library (immutable).
+			
+			if(dotPos<0)
 				continue;
-			mm.put(e.getKey(), md);
+			String lib = md.key.substring(0,dotPos).trim();
+			if (lib.equalsIgnoreCase(libfile)) {
+				mm.put(e.getKey(), md);
+			}
 		}
-		// DB: what will it happen if the wanted lib is not found?
 		return mm;		
 	}
 	
@@ -96,7 +107,11 @@ public class phylum_LibUtils {
     			prev = md.category.toLowerCase().trim(); 
     		}    		
     		sb.append("[");
-    		sb.append(md.key.substring(md.key.lastIndexOf(".")+1).toUpperCase().trim());
+    		// When the macros are written in the library, they contain only
+    		// the last part of the key, since the first part (before the .)
+    		// is always the file name.
+    		sb.append(md.key.substring(
+    			md.key.lastIndexOf(".")+1).toUpperCase().trim());
     		sb.append(" ");
     	    sb.append(md.name.trim());
     	    sb.append("]");
@@ -116,7 +131,7 @@ public class phylum_LibUtils {
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
 	{		
-		//System.out.println("file: "+file+"\n------\n"+text);
+		System.out.println("file: "+file+"\n------\n"+text);
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(file, Globals.encoding);
@@ -137,7 +152,6 @@ public class phylum_LibUtils {
 		String libname) 
 	{
 		try {
-			
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 				phylum_LibUtils.prepareText(
 				phylum_LibUtils.getLibrary(m, libname), libname));
@@ -194,22 +208,66 @@ public class phylum_LibUtils {
 		@param szlib the name (better prefix?) of the library
 		@return true if the specified library is standard
 	*/
-	public static boolean isStdLib(String szlib)
+	public static boolean isStdLib(MacroDesc tlib)
 	{
+		String szlib=tlib.library;
+		String szfn=tlib.filename;
+		
+//		System.out.println("filename: "+szfn);
+		
 		if(szlib==null)
 			return false;
-		// TODO to be improved
-		// DB: see the code in the exportMacro method of the
-		// export.ExportFidoCad class. In fact, what really counts is the
-		// name of the prefix, which is always the same for english or italian
-		// libs.
-		String[] libs = {"Standard library","Electrical symbols","IHRAM 3.1","PCB Footprints",
-						 "Libreria standard","Simboli Elettrotecnica"};
+		/*
+		String[] libs = {"Standard library","Electrical symbols",
+			"IHRAM 3.1","PCB Footprints",
+			"Libreria standard","Simboli Elettrotecnica"};
+			
+		String[] files = {"ihram","elettrotecnica",
+			"pcb","stdlib"};
+			
+		
+		boolean check=false;
+		
+		
 		for (String s : libs)
 			if (s.toLowerCase().trim().equalsIgnoreCase(		
 				szlib.toLowerCase().trim())) 
-				return true;
-		return false;
+				check=true;
+		
+		for (String s : files)
+			if (s.toLowerCase().trim().equalsIgnoreCase(		
+				szfn.toLowerCase().trim())) 
+				check=true;
+		*/
+		
+		boolean isStandard=false;
+		int dotpos=-1;
+		boolean extensions=true;
+		
+		// A first way to determine if a macro is standard is to see if its
+		// name does not contains a dot (original FidoCAD standard library)
+		
+		if ((dotpos=tlib.key.indexOf("."))<0) { 
+			isStandard = true;
+		} else {
+			// If the name contains a dot, we might check whether we have 
+			// one of the new FidoCadJ standard libraries:
+			// pcb, ihram, elettrotecnica.
+			
+			// Obtain the library name
+			String library=tlib.key.substring(0,dotpos);
+			
+			// Check it
+			if(extensions && library.equals("pcb")) { 
+				isStandard = true;
+			} else if (extensions && library.equals("ihram")) {
+				isStandard = true;
+			} else if (extensions && library.equals("elettrotecnica")) {
+				isStandard = true;
+			}
+		}
+			
+		return isStandard;
 	}
 	
 	/** Rename a group inside a library
@@ -281,11 +339,14 @@ public class phylum_LibUtils {
 	public static void save(Map<String, MacroDesc> m, String file,
 			String libname, String libname2) 
 	{
+	
+		System.out.println("file: "+file);
 		try {
 			String flibname = libname2;
 			// Avoid modifying the standard library
-			if (isStdLib(libname.trim())) 
-				flibname = "custom_" + libname;		
+			//MacroDesc tag= new MacroDesc("","","","",libname, file);
+			//if (isStdLib(tag)) 
+			//	flibname = "custom_" + libname;		
 			file = file.replace(libname, flibname);					
 			phylum_LibUtils.saveToFile(file + ".fcl", 
 					   phylum_LibUtils.prepareText(

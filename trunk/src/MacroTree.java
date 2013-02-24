@@ -79,7 +79,8 @@ public class MacroTree extends JPanel
     private JMenuItem popRenKey;
     private boolean isLeaf;
     
-    private String tlib, tgrp;    
+    private String tlibFName, tcategory;    
+    private MacroDesc currentMacro;
     TreePath lpath;
 
     @SuppressWarnings("unused")
@@ -103,6 +104,74 @@ public class MacroTree extends JPanel
 		macro = null;
 	}
 	
+	/**	Create the library tree.
+		@param top the top node
+	*/
+    private void createNodes(DefaultMutableTreeNode top) {
+        DefaultMutableTreeNode category = null;
+        DefaultMutableTreeNode macro = null;
+
+        Iterator<MacroDesc> it = library.iterator();
+        
+		Map<String, DefaultMutableTreeNode> categories = 
+			new HashMap<String, DefaultMutableTreeNode>();
+		Map<String, DefaultMutableTreeNode> libraries = 
+			new HashMap<String, DefaultMutableTreeNode>();
+        DefaultMutableTreeNode library_i = null;
+
+   		while (it.hasNext()) {
+       		MacroDesc val = (MacroDesc)it.next();
+       		
+       		macro = new DefaultMutableTreeNode(val);
+       		
+       		// the "]" character can not be already present in a library name
+       		// here, we use it as a separator.
+       		
+       		String libName=val.filename+"]"+val.library;
+       		String catName=val.filename+"]"+val.category+"]"+val.library;
+       		
+       		// Chech if the current category is already existing.
+        	if(categories.get(catName)!=null) {
+        		// The category node is already there: we retrieve it and 
+        		// we add a leaf for the macro.
+        		
+        	    if(!val.category.equals("hidden")) {
+        			((DefaultMutableTreeNode)(categories.get(
+        				catName))).add(macro);
+        	    }
+        	} else {
+        		// The category is new: a new node must be created.
+        		MacroDesc cat=new MacroDesc(val.key+"]cat","toto","",
+        			val.category,val.library,val.filename);
+        	    cat.level=1;
+        	    category = new DefaultMutableTreeNode(cat);
+				
+				// We see if the library is already existing
+        		if(libraries.get(libName)!=null) {
+        			if(!val.category.equals("hidden")) {
+        				((DefaultMutableTreeNode)(libraries.get(
+        					libName))).add(
+        					category);
+        			}
+        		} else {
+        			// If not, we create it
+        			MacroDesc lib=new MacroDesc(val.key+"]lib","toto","",
+        				cat.category,val.library,val.filename);
+        	   	 	lib.level=2;
+        			library_i = new DefaultMutableTreeNode(lib);
+        			top.add(library_i);
+        			if (!val.category.equals("hidden")) {
+        				library_i.add(category);
+        			}
+        			
+        			libraries.put(libName,library_i);
+        		}
+        		category.add(macro);
+        		categories.put(catName,category);
+        	}
+   		}
+    }
+	
 	public void popupMenuCanceled(PopupMenuEvent e) 
 	{
 	
@@ -116,7 +185,7 @@ public class MacroTree extends JPanel
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
 	{
 		// Check if it is a standard library (immutable)
-		if(phylum_LibUtils.isStdLib(tlib)) {
+		if(phylum_LibUtils.isStdLib(currentMacro)) {
 			// All the menu items concern some modification, so they must be
 			// disabled.
 			popRename.setEnabled(false);
@@ -141,7 +210,9 @@ public class MacroTree extends JPanel
         libMap=lib;
 		library=lib.values();
         //Create the nodes.
-        top = new DefaultMutableTreeNode("FidoCadJ");
+        MacroDesc tt=new MacroDesc("","FidoCadJ","","",
+        	"FidoCadJ","FidoCadJ");
+        top = new DefaultMutableTreeNode(tt);
         createNodes(top);
 
         //Create a tree that allows one selection at a time.
@@ -248,9 +319,11 @@ public class MacroTree extends JPanel
 				}
         	    DefaultMutableTreeNode dtn = 
         	      	(DefaultMutableTreeNode) value;
+        	      	
+        	    MacroDesc m=(MacroDesc)dtn.getUserObject();
         		        	
-        		// It is a standard library.       
-        	    if (phylum_LibUtils.isStdLib(value.toString())) {
+        		// It is a standard library.    
+        	    if (phylum_LibUtils.isStdLib(m)&&dtn.getDepth()==2) {
         	   		setIcon(MetalIconFactory.getTreeHardDriveIcon());
         	   		return this;
         	   	}
@@ -280,24 +353,27 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
 			{
-    					
+				
+				if(macro==null)
+					return;
 				try {
-					if (macro == null) {
+					if (macro.level>0) {
 						// Either lib or grp					
-						if (tgrp == null && !phylum_LibUtils.isStdLib(tlib)) {
+						if (macro.level==2 &&  
+							!phylum_LibUtils.isStdLib(macro)) {
 							// it's a lib
-							phylum_LibUtils.deleteLib(tlib);
+							phylum_LibUtils.deleteLib(tlibFName);
+						} else 	if (macro.level==1) {
+							// it's a category
+							phylum_LibUtils.deleteGroup(libref,tlibFName,
+								tcategory);	
 						}
-						if (tgrp != null) {
-							phylum_LibUtils.deleteGroup(libref,tlib,tgrp);	
-						}
-					} else {	
+					} else {
 						// It is a macro.
 						libref.remove(macro.key);
-							phylum_LibUtils.save(libref,
-								phylum_LibUtils.getLibPath(macro.library),
-								macro.library.trim());
-		
+						phylum_LibUtils.save(libref,
+							phylum_LibUtils.getLibPath(macro.library),
+							macro.filename.trim());
 					}
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
@@ -305,12 +381,8 @@ public class MacroTree extends JPanel
     					Globals.messages.getString("Symbolize"),    
     					JOptionPane.ERROR_MESSAGE);
 				}
-				
 				globalUpdate();		
-
-				
 				expand();
-
 			}
 			
 			
@@ -364,20 +436,20 @@ public class MacroTree extends JPanel
 					// Either lib or grp
 					String newname = (e.getChildren()[0]).toString();
 					
-					if (tgrp != null) { // renaming group
+					if (tcategory != null) { // renaming group
 						try {
 							phylum_LibUtils
-								.renameGroup(libref, tlib, tgrp, newname);
+								.renameGroup(libref, tlibFName, tcategory, newname);
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
     							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
-						tgrp=newname;
+						tcategory=newname;
 					} else { // It's a library
 						// Check if something has changed.
-						if (tlib.trim().equalsIgnoreCase(newname.trim()))
+						if (tlibFName.trim().equalsIgnoreCase(newname.trim()))
 							return;
 							
 						if(phylum_LibUtils.checkLibrary(newname)) {
@@ -390,14 +462,14 @@ public class MacroTree extends JPanel
     						return;
     					}
 						// Standard libraries should not be modified.
-						if (phylum_LibUtils.isStdLib(tlib)) 
+						if (phylum_LibUtils.isStdLib(currentMacro)) 
 							return; 	
 						
 						// Save the library with the new name.
 						try {
 							phylum_LibUtils.save(libref,
-								phylum_LibUtils.getLibPath(tlib),
-								tlib.trim(), newname.trim());
+								phylum_LibUtils.getLibPath(tlibFName),
+								tlibFName.trim(), newname.trim());
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
@@ -446,7 +518,7 @@ public class MacroTree extends JPanel
 					// Renaming macros.
 					
 					// At first, check if it is a standard element (immutable).
-					if (phylum_LibUtils.isStdLib(tlib)) 
+					if (phylum_LibUtils.isStdLib(currentMacro)) 
 						return;
 					
 					// Ask for confirmation only if we are trying to change 
@@ -454,7 +526,7 @@ public class MacroTree extends JPanel
 					// and in the complete key of a symbol.
 					// The other cases does not need an explicit confirmation
 					// since the modification are only not structural.
-					if (macro==null && tgrp==null) {
+					if (macro==null && tcategory==null) {
 						int n = JOptionPane.showConfirmDialog(null,
     						Globals.messages.getString("ChangeKeyWarning"),
     						Globals.messages.getString("Rename"),
@@ -471,10 +543,10 @@ public class MacroTree extends JPanel
 				} else 	if (name.equalsIgnoreCase(
 					Globals.messages.getString("Delete"))) {
 					// Delete selected macro
-					if (tlib == null && macro != null) 
-						tlib = macro.library;
+					if (tlibFName == null && macro != null) 
+						tlibFName = macro.library;
 					// Standard librairies are immutable.
-					if (phylum_LibUtils.isStdLib(tlib)) 
+					if (phylum_LibUtils.isStdLib(currentMacro)) 
 						return;
 					
 					// Ask for confirmation
@@ -678,22 +750,26 @@ public class MacroTree extends JPanel
             tree.getLastSelectedPathComponent();
         if (node == null) return;
 		macro=null;
-        Object nodeInfo = node.getUserObject();  
+        Object nodeInfo = node.getUserObject(); 
+        currentMacro=(MacroDesc)nodeInfo;
         lpath = tree.getSelectionPath().getParentPath();                    
         if (!node.isLeaf())         	
         {
-        	switch (node.getDepth())
+        	switch (currentMacro.level) //node.getDepth()
         	{
         		case 2: // isLibrary
-        			tgrp = null;
-        			tlib = node.getUserObject().toString();
+        			tcategory = null;
+        			tlibFName = currentMacro.filename;
         			break;
         		case 1: // isCategory        			
-        			tlib = (((DefaultMutableTreeNode)node.getParent()).
-        				getUserObject()).toString();
-        			tgrp = node.getUserObject().toString();
+        			tlibFName = ((MacroDesc)(((DefaultMutableTreeNode)
+        				node.getParent()).
+        				getUserObject())).filename;
+        			tcategory = currentMacro.category;
         			break;
         		case 3: // isRoot
+        			tlibFName = null;
+        			tcategory = null;
         			break;
         	}
         }
@@ -725,68 +801,6 @@ public class MacroTree extends JPanel
             }
             
         }
-    }
-
-	/**	Create the library tree.
-		@param top the top node
-	*/
-    private void createNodes(DefaultMutableTreeNode top) {
-        DefaultMutableTreeNode category = null;
-        DefaultMutableTreeNode macro = null;
-
-        Iterator<MacroDesc> it = library.iterator();
-        
-		Map<String, DefaultMutableTreeNode> categories = 
-			new HashMap<String, DefaultMutableTreeNode>();
-		Map<String, DefaultMutableTreeNode> libraries = 
-			new HashMap<String, DefaultMutableTreeNode>();
-        DefaultMutableTreeNode library_i = null;
-
-   		while (it.hasNext()) {
-       		MacroDesc val = (MacroDesc)it.next();
-       		
-       		macro = new DefaultMutableTreeNode(val);
-       		
-       		// the "]" character can not be already present in a library name
-       		// here, we use it as a separator.
-       		
-       		String libName=val.filename+"]"+val.library;
-       		String catName=val.filename+"]"+val.category+"]"+val.library;
-       		
-       		// Chech if the current category is already existing.
-        	if(categories.get(catName)!=null) {
-        		// The category node is already there: we retrieve it and 
-        		// we add a leaf for the macro.
-        		
-        	    if(!val.category.equals("hidden")) {
-        			((DefaultMutableTreeNode)(categories.get(
-        				catName))).add(macro);
-        	    }
-        	} else {
-        		// The category is new: a new node must be created.
-        	    category = new DefaultMutableTreeNode(val.category.trim());
-				
-				// We see if the library is already existing
-        		if(libraries.get(libName)!=null) {
-        			if(!val.category.equals("hidden")) {
-        				((DefaultMutableTreeNode)(libraries.get(
-        					libName))).add(
-        					category);
-        			}
-        		} else {
-        			// If not, we create it
-        			library_i = new DefaultMutableTreeNode(val.library.trim());
-        			top.add(library_i);
-        			if (!val.category.equals("hidden")) {
-        				library_i.add(category);
-        			}
-        			
-        			libraries.put(libName,library_i);
-        		}
-        		category.add(macro);
-        		categories.put(catName,category);
-        	}
-   		}
     }
     
     public void insertUpdate(DocumentEvent e)
