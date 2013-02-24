@@ -456,7 +456,7 @@ public class ParseSchem
            
             if(!macroName.equals("")){
                 // Add the macro name.
-                // NOTE: in FidoCad, the macro prefix is somewhat case 
+                // NOTE: in FidoCAD, the macro prefix is somewhat case 
                 // insensitive, since it indicates a file name and in 
                 // Windows all file names are case insensitive. Under
                 // other operating systems, we need to be waaay much
@@ -467,7 +467,7 @@ public class ParseSchem
                 ((MacroDesc)library.get(macroName)).description+"\n"+line,
                 categoryName, libraryName, prefix));
                 
-                // Is it OK to use prefix as the macro filename?
+                // Is it OK to use prefix as the macro filename? Yes!
             }                
         } 
     }
