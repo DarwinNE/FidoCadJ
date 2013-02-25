@@ -3,7 +3,7 @@ package dialogs;
 import export.ExportGraphic;
 import geom.MapCoordinates;
 import globals.Globals;
-import globals.phylum_LibUtils;
+import globals.LibUtils;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
@@ -56,7 +56,7 @@ import circuit.ParseSchem;
     
     */
 
-public class phylum_DialogSymbolize extends JDialog 
+public class DialogSymbolize extends JDialog 
 			implements 	ComponentListener, 
 						ActionListener
 {
@@ -225,7 +225,7 @@ public class phylum_DialogSymbolize extends JDialog
 			MacroDesc md = e.getValue();
 			// Add only non standard libs.
 			if(!lst.contains(md.library) && 
-				!phylum_LibUtils.isStdLib(md)) {
+				!LibUtils.isStdLib(md)) {
 				library.addItem(md.library);
 				lst.add(md.library);
 			}
@@ -433,7 +433,7 @@ public class phylum_DialogSymbolize extends JDialog
 	protected void listGroups() 
 	{
 		// Obtain all the groups in a given library.
-		List<String> l = phylum_LibUtils.enumGroups(cp.getLibrary(),
+		List<String> l = LibUtils.enumGroups(cp.getLibrary(),
 			library.getEditor().getItem().toString());
 		
 		// Update the group list.
@@ -451,7 +451,7 @@ public class phylum_DialogSymbolize extends JDialog
     
     /** Standard constructor        
     */
-    public phylum_DialogSymbolize (CircuitPanel circuitPanel, ParseSchem p)
+    public DialogSymbolize (CircuitPanel circuitPanel, ParseSchem p)
     {   
 		super((JFrame)null, Globals.messages.getString("SaveSymbol"), true);
     	parent = circuitPanel;
@@ -523,7 +523,7 @@ public class phylum_DialogSymbolize extends JDialog
             		key.requestFocus();
             		return;
             	
-            	} else if(phylum_LibUtils.checkKey(cp.getLibrary(),
+            	} else if(LibUtils.checkKey(cp.getLibrary(),
             			getLibrary().trim(),
             			getLibrary().trim()+"."+key.getText().trim())) { 
             		JOptionPane.showMessageDialog(null,
@@ -549,8 +549,8 @@ public class phylum_DialogSymbolize extends JDialog
 				
 				// Save the new symbol in the current library
 				try {
-					phylum_LibUtils.save(cp.getLibrary(), 
-						phylum_LibUtils.getLibPath(getLibrary()).trim(), 
+					LibUtils.save(cp.getLibrary(), 
+						LibUtils.getLibPath(getLibrary()).trim(), 
 						getLibrary(), macro.filename);
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
