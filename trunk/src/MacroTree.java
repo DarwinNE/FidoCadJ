@@ -108,7 +108,7 @@ public class MacroTree extends JPanel
 	*/
     private void createNodes(DefaultMutableTreeNode top) {
         DefaultMutableTreeNode category = null;
-        DefaultMutableTreeNode macro = null;
+        DefaultMutableTreeNode macroNode = null;
 
         Iterator<MacroDesc> it = library.iterator();
         
@@ -121,7 +121,7 @@ public class MacroTree extends JPanel
    		while (it.hasNext()) {
        		MacroDesc val = (MacroDesc)it.next();
        		
-       		macro = new DefaultMutableTreeNode(val);
+       		macroNode = new DefaultMutableTreeNode(val);
        		
        		// the "]" character can not be already present in a library name
        		// here, we use it as a separator.
@@ -136,7 +136,7 @@ public class MacroTree extends JPanel
         		
         	    if(!val.category.equals("hidden")) {
         			((DefaultMutableTreeNode)(categories.get(
-        				catName))).add(macro);
+        				catName))).add(macroNode);
         	    }
         	} else {
         		// The category is new: a new node must be created.
@@ -165,7 +165,7 @@ public class MacroTree extends JPanel
         			
         			libraries.put(libName,library_i);
         		}
-        		category.add(macro);
+        		category.add(macroNode);
         		categories.put(catName,category);
         	}
    		}
@@ -256,7 +256,9 @@ public class MacroTree extends JPanel
 					Transferable t = support.getTransferable();
 					nodi = t.getTransferData(new 
 						DataFlavor(DataFlavor.javaJVMLocalObjectMimeType));
-				} catch (Exception e) {}
+				} catch (Exception e) {
+					e.printStackTrace();	
+				}
 				JTree.DropLocation dl = (JTree.DropLocation) 
 					support.getDropLocation();
 				TreePath dest = dl.getPath();
@@ -390,28 +392,45 @@ public class MacroTree extends JPanel
 				// be already created before calling to treeNodeInserted.
 				if (macro == null) 
 					return; // not enough info to proceed
-					
-				String lib = macro.library.trim();
-				String file = macro.filename.trim();
+				
+				String oldLib = macro.library.trim();
+				String oldFile = macro.filename.trim();
 				String grp = macro.category.trim();
+				
 				String destLib = e.getPath()[1].toString().trim();
+				
+				MacroDesc destGroup = (MacroDesc)
+					((DefaultMutableTreeNode)e.getPath()[2]).getUserObject();
+				String newFile = destGroup.filename;
 				String destGrp = e.getPath()[2].toString().trim();
 				String mnam = macro.name.trim();
-				System.out.printf("\nMoving %s from %s::%s to %s::%s", mnam, lib, grp, destLib, destGrp);
 				
-				//libref.remove(macro);				
+				System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, lib, grp, destLib, destGrp, newFile);
+				
+				boolean isSourceStandard=false;
+				// If the macro does not belong to a standard library, we first
+				// eliminate the macro from the original library.
+				if(!LibUtils.isStdLib(macro)) {
+					libref.remove(macro.key);
+					isSourceStandard=true;
+				}
 				macro.category = destGrp;
 				macro.library = destLib;
-				//libref.put(macro.key, macro);
-				
+				macro.filename = newFile;
+				// Once we have redefined the elements of the macro, we put it
+				// in the new library and we save the two modified libraries.
+				libref.put(macro.key, macro);
+				System.out.println("here: "+newFile);
 				// update libraries
 				try {
+					if(!isSourceStandard && !oldFile.equals(newFile)) {
+						LibUtils.save(libref,
+							LibUtils.getLibPath(oldFile),
+							oldLib, oldFile);
+					}
 					LibUtils.save(libref,
-						LibUtils.getLibPath(macro.filename),
-						lib, macro.filename);
-					LibUtils.save(libref,
-						LibUtils.getLibPath(destLib),
-						destLib, macro.filename);	// TODO: correct that, it is awful!!!!!!!!!
+						LibUtils.getLibPath(newFile),
+						destLib, newFile);
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -463,8 +482,8 @@ public class MacroTree extends JPanel
 							return; 	
 						
 						// Save the library with the new name.
-						/*try {
-							LibUtils.save(libref,
+						try {
+							LibUtils.renameLib(libref,
 								LibUtils.getLibPath(tlibFName),
 								tlibFName.trim(), newname.trim());
 						} catch (FileNotFoundException F) {
@@ -473,7 +492,7 @@ public class MacroTree extends JPanel
     							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
-						*/
+						
 												
 						globalUpdate();
 					}
@@ -747,10 +766,12 @@ public class MacroTree extends JPanel
     {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             tree.getLastSelectedPathComponent();
-        if (node == null) return;
-		macro=null;
+        if (node == null) 
+        	return;
+
         Object nodeInfo = node.getUserObject(); 
         macro=(MacroDesc)nodeInfo;
+        System.out.println("currentMacro: "+macro);
         lpath = tree.getSelectionPath().getParentPath();                    
         if (!node.isLeaf())         	
         {
@@ -776,7 +797,6 @@ public class MacroTree extends JPanel
         if (node.isLeaf()) {
         	// Show the preview of the component in the preview area.
         	try {
-            	macro = (MacroDesc)nodeInfo;
             	
 				previewPanel.setCirc(new StringBuffer(macro.description));
     			MapCoordinates m = 
@@ -797,6 +817,8 @@ public class MacroTree extends JPanel
             	// We get an exception if we click on the base node in an empty
             	// library list.
             	// In such cases, it is OK just to ignore the action.
+            	System.out.println("Exception!");
+            	E.printStackTrace();
             }
             
         }
@@ -969,7 +991,8 @@ public class MacroTree extends JPanel
 
 	public void mousePressed(MouseEvent e) 
 	{		
-		if (e.getButton() != e.BUTTON3) return;
+		if (e.getButton() != e.BUTTON3) 
+			return;
 		TreePath p = tree.getClosestPathForLocation(e.getX(), e.getY());
 		tree.setSelectionPath(p);		
 		tree.setComponentPopupMenu(popup);

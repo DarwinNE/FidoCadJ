@@ -132,7 +132,7 @@ public class LibUtils {
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
 	{		
-		//System.out.println("file: "+file+"\n------\n"+text);
+		System.out.println("file: "+file);
 		
 		PrintWriter pw;
 		try {
@@ -149,6 +149,7 @@ public class LibUtils {
 		@param m the map containing the library.
 		@param file the file name.
 		@param libname the name of the library.
+		@param prefix the prefix to be used for the keys.
 	*/
 	public static void save(Map<String,MacroDesc> m, String file, 
 		String libname, String prefix) 
@@ -337,24 +338,17 @@ public class LibUtils {
 		return false;
 	}
 	
-	/** Save a library in a file
+	/** Rename a library file
 		@param m the map containing the library
 		@param file the name of the file to be written
-		@param libname the name to be used for the library
-		@param libname2 library new name (if renamed)
+		@param libname the previous name of the library 
+		@param libname2 the library new name
 	*/
-/*	public static void save(Map<String, MacroDesc> m, String file,
+	public static void renameLib(Map<String, MacroDesc> m, String file,
 			String libname, String libname2) 
 	{
-	
-		System.out.println("file: "+file);
-*		try {
-			String flibname = libname2;
-			// Avoid modifying the standard library
-			//MacroDesc tag= new MacroDesc("","","","",libname, file);
-			//if (isStdLib(tag)) 
-			//	flibname = "custom_" + libname;		
-			file = file.replace(libname, flibname);					
+		try {
+			file = file.replace(libname, libname2);					
 			LibUtils.saveToFile(file + ".fcl", 
 					   LibUtils.prepareText(
 							   LibUtils.getLibrary(m, libname), 
@@ -362,9 +356,9 @@ public class LibUtils {
 			deleteLib(libname);
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
-		}	*
+		}	
 		
-	}*/
+	}
 
 	/** Delete a group inside a library
 		@param m the map containing the library
