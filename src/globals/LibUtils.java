@@ -47,7 +47,7 @@ import primitives.MacroDesc;
 */
 
 
-public class phylum_LibUtils {
+public class LibUtils {
 
 	/** Extract all the macros belonging to a given library
 		
@@ -154,9 +154,9 @@ public class phylum_LibUtils {
 		String libname, String prefix) 
 	{
 		try {
-			phylum_LibUtils.saveToFile(file + ".fcl", 
-				phylum_LibUtils.prepareText(
-				phylum_LibUtils.getLibrary(m, prefix), libname));
+			LibUtils.saveToFile(file + ".fcl", 
+				LibUtils.prepareText(
+				LibUtils.getLibrary(m, prefix), libname));
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}		
@@ -196,7 +196,7 @@ public class phylum_LibUtils {
 	*/
 	public static List<File> getLibs() throws FileNotFoundException
 	{
-		File lst = new File(phylum_LibUtils.getLibDir());
+		File lst = new File(LibUtils.getLibDir());
 		List<File> l = new ArrayList<File>();
 		if (!lst.exists()) 
 			return null;
@@ -355,9 +355,9 @@ public class phylum_LibUtils {
 			//if (isStdLib(tag)) 
 			//	flibname = "custom_" + libname;		
 			file = file.replace(libname, flibname);					
-			phylum_LibUtils.saveToFile(file + ".fcl", 
-					   phylum_LibUtils.prepareText(
-							   phylum_LibUtils.getLibrary(m, libname), 
+			LibUtils.saveToFile(file + ".fcl", 
+					   LibUtils.prepareText(
+							   LibUtils.getLibrary(m, libname), 
 							   libname2));
 			deleteLib(libname);
 		} catch (FileNotFoundException e) { 
