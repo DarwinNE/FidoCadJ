@@ -24,7 +24,7 @@ import circuit.*;
 import export.*;
 import geom.*;
 import globals.Globals;
-import globals.phylum_LibUtils;
+import globals.LibUtils;
 import toolbars.*;
 import layers.*;
 
@@ -183,7 +183,7 @@ public class MacroTree extends JPanel
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
 	{
 		// Check if it is a standard library (immutable)
-		if(phylum_LibUtils.isStdLib(macro)) {
+		if(LibUtils.isStdLib(macro)) {
 			// All the menu items concern some modification, so they must be
 			// disabled.
 			popRename.setEnabled(false);
@@ -321,7 +321,7 @@ public class MacroTree extends JPanel
         	    MacroDesc m=(MacroDesc)dtn.getUserObject();
         		        	
         		// It is a standard library.    
-        	    if (phylum_LibUtils.isStdLib(m)&&dtn.getDepth()==2) {
+        	    if (LibUtils.isStdLib(m)&&dtn.getDepth()==2) {
         	   		setIcon(MetalIconFactory.getTreeHardDriveIcon());
         	   		return this;
         	   	}
@@ -357,19 +357,19 @@ public class MacroTree extends JPanel
 					if (macro.level>0) {
 						// Either lib or grp					
 						if (macro.level==2 &&  
-							!phylum_LibUtils.isStdLib(macro)) {
+							!LibUtils.isStdLib(macro)) {
 							// it's a lib
-							phylum_LibUtils.deleteLib(tlibFName);
+							LibUtils.deleteLib(tlibFName);
 						} else 	if (macro.level==1) {
 							// it's a category
-							phylum_LibUtils.deleteGroup(libref,tlibFName,
+							LibUtils.deleteGroup(libref,tlibFName,
 								tcategory);	
 						}
 					} else {
 						// It is a macro.
 						libref.remove(macro.key);
-						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.filename),
+						LibUtils.save(libref,
+							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
 					}
 				} catch (FileNotFoundException F) {
@@ -407,11 +407,11 @@ public class MacroTree extends JPanel
 				
 				// update libraries
 				try {
-					phylum_LibUtils.save(libref,
-						phylum_LibUtils.getLibPath(macro.filename),
+					LibUtils.save(libref,
+						LibUtils.getLibPath(macro.filename),
 						lib, macro.filename);
-					phylum_LibUtils.save(libref,
-						phylum_LibUtils.getLibPath(destLib),
+					LibUtils.save(libref,
+						LibUtils.getLibPath(destLib),
 						destLib, macro.filename);	// TODO: correct that, it is awful!!!!!!!!!
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
@@ -436,7 +436,7 @@ public class MacroTree extends JPanel
 					
 					if (tcategory != null) { // renaming group
 						try {
-							phylum_LibUtils
+							LibUtils
 								.renameGroup(libref, tlibFName, tcategory, newname);
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
@@ -450,7 +450,7 @@ public class MacroTree extends JPanel
 						if (tlibFName.trim().equalsIgnoreCase(newname.trim()))
 							return;
 							
-						if(phylum_LibUtils.checkLibrary(newname)) {
+						if(LibUtils.checkLibrary(newname)) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("InvalidCharLib"),
     							Globals.messages.getString("Rename"),    
@@ -460,13 +460,13 @@ public class MacroTree extends JPanel
     						return;
     					}
 						// Standard libraries should not be modified.
-						if (phylum_LibUtils.isStdLib(macro)) 
+						if (LibUtils.isStdLib(macro)) 
 							return; 	
 						
 						// Save the library with the new name.
 						/*try {
-							phylum_LibUtils.save(libref,
-								phylum_LibUtils.getLibPath(tlibFName),
+							LibUtils.save(libref,
+								LibUtils.getLibPath(tlibFName),
 								tlibFName.trim(), newname.trim());
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
@@ -489,8 +489,8 @@ public class MacroTree extends JPanel
 					//e.getChildren()[0].setUserObject(macro);
 					
 					try {
-						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.filename),
+						LibUtils.save(libref,
+							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
@@ -517,7 +517,7 @@ public class MacroTree extends JPanel
 					// Renaming macros.
 					
 					// At first, check if it is a standard element (immutable).
-					if (phylum_LibUtils.isStdLib(macro)) 
+					if (LibUtils.isStdLib(macro)) 
 						return;
 					
 					// Ask for confirmation only if we are trying to change 
@@ -545,7 +545,7 @@ public class MacroTree extends JPanel
 					if (tlibFName == null && macro != null) 
 						tlibFName = macro.library;
 					// Standard librairies are immutable.
-					if (phylum_LibUtils.isStdLib(macro)) 
+					if (LibUtils.isStdLib(macro)) 
 						return;
 					
 					// Ask for confirmation
@@ -597,7 +597,7 @@ public class MacroTree extends JPanel
     						JOptionPane.ERROR_MESSAGE);
             			return;
             	
-            		} else if(phylum_LibUtils.checkKey(libMap,
+            		} else if(LibUtils.checkKey(libMap,
             				macro.library,
             				macro.library+"."+z.trim())) { 
             			JOptionPane.showMessageDialog(null,
@@ -617,8 +617,8 @@ public class MacroTree extends JPanel
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
 					try {
-						phylum_LibUtils.save(libref,
-							phylum_LibUtils.getLibPath(macro.filename),
+						LibUtils.save(libref,
+							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,

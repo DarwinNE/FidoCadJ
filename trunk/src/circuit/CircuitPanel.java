@@ -2185,7 +2185,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             else if (arg.equals(Globals.messages.getString("Symbolize"))) { 	
             	if (P.getFirstSelectedPrimitive() == null) return;
-				phylum_DialogSymbolize s = new phylum_DialogSymbolize(this,P);
+				DialogSymbolize s = new DialogSymbolize(this,P);
 				s.setModal(true);
 				s.setVisible(true);	
 				P.saveUndoState();
