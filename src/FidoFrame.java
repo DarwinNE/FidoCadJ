@@ -692,11 +692,11 @@ public class FidoFrame extends JFrame implements
         JMenu langMenu=new JMenu(Globals.messages.getString("Language"));
         JMenuItem langsubCircuit;
         
-        for (int i = 0;i<phylum_LibUtils.Languages.length;i++)
+        for (int i = 0;i<LibUtils.Languages.length;i++)
         {
-        	URL u = FidoMain.class.getResource("MessagesBundle_" + phylum_LibUtils.Languages[i][0]  + ".properties");
+        	URL u = FidoMain.class.getResource("MessagesBundle_" + LibUtils.Languages[i][0]  + ".properties");
         	if (u==null) continue; 
-        	langsubCircuit = new JMenuItem(phylum_LibUtils.Languages[i][1] + " (" + phylum_LibUtils.Languages[i][0] + ")");
+        	langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" + LibUtils.Languages[i][0] + ")");
         	langsubCircuit.addActionListener(langAct);
         	langMenu.add(langsubCircuit);        	
         }               
