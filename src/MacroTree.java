@@ -80,7 +80,6 @@ public class MacroTree extends JPanel
     private boolean isLeaf;
     
     private String tlibFName, tcategory;    
-    //private MacroDesc macro;
     TreePath lpath;
 
     @SuppressWarnings("unused")
@@ -590,22 +589,23 @@ public class MacroTree extends JPanel
 					
 					// Check if there is a valid key available. 
 					// We can not continue without a key!
-            		if (z==null || z.length()<1) {
+            		if (z.length()<1) {
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("InvKey"),
     						Globals.messages.getString("RenKey"),
     						JOptionPane.ERROR_MESSAGE);
-            			return;
-            	
+            			return; 	
             		} else if(LibUtils.checkKey(libMap,
             				macro.library,
             				macro.library+"."+z.trim())) { 
+            			// The key must be unique
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DupKey"),
     						Globals.messages.getString("RenKey"),    
     						JOptionPane.ERROR_MESSAGE);
             			return; 
             		} else if(z.contains(" ")) {
+            			// The key must not contain spaces
             			JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("SpaceKey"),
     						Globals.messages.getString("RenKey"),    
@@ -613,8 +613,8 @@ public class MacroTree extends JPanel
             			return; 
             		}
 					
-					macro.key = macro.key.replace(k, z);					
 					libref.remove(macro.key);
+					macro.key = macro.key.replace(k, z);
 					libref.put(macro.key, macro);
 					try {
 						LibUtils.save(libref,
