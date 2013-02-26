@@ -84,8 +84,9 @@ public class Globals
     public static final double diameterConnectionDefault = 2.0;
     public static double diameterConnection = diameterConnectionDefault;
 
+	// The last library and group selected by the user.
+	// TODO: refactor this! Those variables should not be here.
 	public static Object lastCLib;
-
 	public static Object lastCGrp;	
     
     // Border to be used in the export in logical coordinates

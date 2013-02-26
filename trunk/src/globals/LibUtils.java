@@ -390,20 +390,34 @@ public class LibUtils {
 	
 	/** Obtain a list containing all the groups in a given library
 		@m the map containing all the libraries
-		@szlib the name of the wanted library
+		@prefix the filename of the wanted library
 	*/
-	public static List enumGroups(Map<String,MacroDesc> m, String szlib) 
+	public static List enumGroups(Map<String,MacroDesc> m, String prefix) 
 	{
  		List lst = new LinkedList();
  		for (MacroDesc md : m.values()) {
 		 	if (!lst.contains(md.category)
-			 	&& szlib.trim().equalsIgnoreCase(md.library.trim()))  {
+			 	&& prefix.trim().equalsIgnoreCase(md.filename.trim()))  {
 		 		lst.add(md.category);
 		 	}
  		}
  		return lst;
 	}
-
+	/** Obtain the full name of a library, from the prefix
+		@m the map containing all the libraries
+		@prefix the filename of the wanted library
+	*/
+	public static String getLibName(Map<String,MacroDesc> m, String prefix) 
+	{
+ 		List lst = new LinkedList();
+ 		for (MacroDesc md : m.values()) {
+		 	if (!lst.contains(md.category)
+			 	&& prefix.trim().equalsIgnoreCase(md.filename.trim()))  {
+		 		return md.library;
+		 	}
+ 		}
+ 		return null;
+	}
 
 // TODO support libs with different filenames
 
