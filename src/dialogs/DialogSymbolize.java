@@ -69,7 +69,8 @@ public class DialogSymbolize extends JDialog
     private ParseSchem cp;
     
     // Swing elements
-    private JComboBox library;       
+    private JComboBox libFilename;
+    private JTextField libName;
     private JTextField name;
     private JTextField key;    
     private JComboBox group;
@@ -80,7 +81,6 @@ public class DialogSymbolize extends JDialog
 	*/
 	class myCircuitPanel extends CircuitPanel
 	{
-
 		private static final long serialVersionUID = 1L;
 		final float dash1[] = {2.0f};
 	    final BasicStroke dashed =
@@ -164,18 +164,18 @@ public class DialogSymbolize extends JDialog
     public String getLibrary() 
     { 
     	// DB: I do not understand why splitting with the regex.
-    	String s=library.getSelectedItem().toString();//.split("::")[0]
+    	String s=libFilename.getSelectedItem().toString();//.split("::")[0]
     	return s.trim(); 
     }
     /** Gets the name of the macro to be created
     	@return the name
     */
-    public String getName() 
+    public String getFileName() 
     { 
     	return name.getText(); 
     }
     /**	Gets the group of the macro to be created
-    	@return the name
+    	@return the name of the group
     */
     public String getGroup() 
     {     	
@@ -212,28 +212,29 @@ public class DialogSymbolize extends JDialog
     {
     }    
     
-    /** List all the libraries available which are not standard in the library
-    	combo box.
+    /** List all the libraries available which are not standard in the 
+    	libFilename combo box.
     	If there are no non standard libraries, suggest a default name.
     */
 	private void enumLibs() 
 	{
-		library.removeAllItems();
+		libFilename.removeAllItems();
 		List lst = new LinkedList();
 		Map<String,MacroDesc> m=jj.P.getLibrary();
+		
 		for (Entry<String,MacroDesc> e : m.entrySet()) {
 			MacroDesc md = e.getValue();
 			// Add only non standard libs.
-			if(!lst.contains(md.library) && 
+			if(!lst.contains(md.filename) && 
 				!LibUtils.isStdLib(md)) {
-				library.addItem(md.library);
-				lst.add(md.library);
+				libFilename.addItem(md.filename);
+				lst.add(md.filename);
 			}
 		}
 
-		if (((DefaultComboBoxModel) library.getModel()).getSize() == 0)
-			library.addItem("User lib");
-		library.setEditable(true);
+		if (((DefaultComboBoxModel) libFilename.getModel()).getSize() == 0)
+			libFilename.addItem("user_lib");
+		libFilename.setEditable(true);
 	}
 
 	/** Create the GUI for the dialog.
@@ -248,25 +249,40 @@ public class DialogSymbolize extends JDialog
         panel.setLayout(bgl);
 
         JLabel libraryLabel=new 
-            JLabel(Globals.messages.getString("Library"));
+            JLabel(Globals.messages.getString("Library_file"));
             
    		constraints = DialogUtil.createConst(1,0,1,1,0,0,
-			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets(6,0,0,0));
 
         panel.add(libraryLabel, constraints);
         
-        library=new JComboBox();      
+        libFilename=new JComboBox();      
 
         String e = null;
-                
 
    		constraints = DialogUtil.createConst(2,0,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
 			new Insets(6,0,0,0));
         
-        panel.add(library, constraints);     	
-    	    	        
+        panel.add(libFilename, constraints);    
+        
+        JLabel libraryNameLabel=new 
+            JLabel(Globals.messages.getString("Library_name"));
+            
+   		constraints = DialogUtil.createConst(1,1,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.NONE, 
+			new Insets(6,0,0,0));
+
+        panel.add(libraryNameLabel, constraints);
+    	
+    	libName = new JTextField();
+    	constraints = DialogUtil.createConst(2,1,1,1,0,0,
+			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+			new Insets(6,0,0,0));
+    	
+    	panel.add(libName, constraints);
+    	
     	jj.addMouseListener(new MouseAdapter() {
     	   	boolean grid = false;
 		   	public void mousePressed(MouseEvent e)
@@ -311,7 +327,7 @@ public class DialogSymbolize extends JDialog
         enumLibs();
         jj.antiAlias = true;
         jj.profileTime = false; 
-        MacroDesc macro = BuildMacro("temp","temp","temp","temp",
+        MacroDesc macro = buildMacro("temp","temp","temp","temp",
         	new Point(100,100));
         	
         jj.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -349,14 +365,14 @@ public class DialogSymbolize extends JDialog
         	group.addItem((Globals.messages.getString("Group").toLowerCase()));
         group.setEditable(true);   
         
-        library.addItemListener(new ItemListener() {
+        libFilename.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				listGroups();
 			}
 		});
         
-        library.addActionListener(new ActionListener() {
+        libFilename.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				listGroups();
@@ -377,7 +393,8 @@ public class DialogSymbolize extends JDialog
         panel.add(nameLabel, constraints);
         
         name=new JTextField();
-        name.setText(Globals.messages.getString("Name").toLowerCase());
+        name.setText(
+        	Globals.messages.getString("Name").toLowerCase());
         constraints = DialogUtil.createConst(2,4,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
 			new Insets(6,0,12,0));
@@ -416,17 +433,18 @@ public class DialogSymbolize extends JDialog
 			new Insets(6,0,0,0));
         panel.add(snapToGrid, constraints);
         
+        // Keep in mind the last edited library and group
         if (Globals.lastCLib!=null) 
-        	library.setSelectedItem(Globals.lastCLib);
+        	libFilename.setSelectedItem(Globals.lastCLib);
         if (Globals.lastCGrp!=null) 
         	group.setSelectedItem(Globals.lastCGrp);
         
-        library.getEditor().selectAll();  
+        libFilename.getEditor().selectAll();  
         
         return panel;
     }
     
-    /** Obtain all the groups in a given library and put them in the
+    /** Obtain all the groups in a given libraryand put them in the
     	group list.
     
     */
@@ -434,12 +452,16 @@ public class DialogSymbolize extends JDialog
 	{
 		// Obtain all the groups in a given library.
 		List<String> l = LibUtils.enumGroups(cp.getLibrary(),
-			library.getEditor().getItem().toString());
+			libFilename.getEditor().getItem().toString());
 		
 		// Update the group list.
 		group.removeAllItems();
         for (String s : l)
-        	group.addItem(s);	
+        	group.addItem(s);
+        	
+        libName.setText(LibUtils.getLibName(cp.getLibrary(),
+			libFilename.getEditor().getItem().toString()));
+        
 	}
     
 	public void actionPerformed(ActionEvent evt)
@@ -541,17 +563,17 @@ public class DialogSymbolize extends JDialog
             		return; 
             	}
             	Point p = new Point(200-jj.xl, 200-jj.yl);
-            	MacroDesc macro = BuildMacro(getName().trim(),
+            	MacroDesc macro = buildMacro(getName().trim(),
             		key.getText().trim(),getLibrary().trim(),getGroup().trim(),
             		p);            	
             	
             	cp.getLibrary().put(key.getText(), macro); // add to lib	
 				
-				// Save the new symbol in the current library
+				// Save the new symbol in the current libFilename
 				try {
 					LibUtils.save(cp.getLibrary(), 
 						LibUtils.getLibPath(getLibrary()).trim(), 
-						getLibrary(), macro.filename);
+						getLibrary(), macro.name);
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -591,7 +613,7 @@ public class DialogSymbolize extends JDialog
         getRootPane().setDefaultButton(ok);
     }
       
-	protected MacroDesc BuildMacro(String myname, String mykey, String mylib, 
+	protected MacroDesc buildMacro(String myname, String mykey, String mylib, 
 			String mygrp, Point origin) 
 	{
        	StringBuilder ss = new StringBuilder();
@@ -627,7 +649,7 @@ public class DialogSymbolize extends JDialog
 		// Create the symbol key from the date and hour				
 		String k = mykey;
 		String desc = ss.toString();
-		// Here we use the library name (mylib) as the file name
+		// Here we use the libFilename name (mylib) as the file name
 		MacroDesc md = new MacroDesc(k, myname, desc, mygrp, mylib, mylib);
 		return md;	
 	}

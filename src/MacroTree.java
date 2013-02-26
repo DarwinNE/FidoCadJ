@@ -404,26 +404,42 @@ public class MacroTree extends JPanel
 				String newFile = destGroup.filename;
 				String destGrp = e.getPath()[2].toString().trim();
 				String mnam = macro.name.trim();
+				String oldKey = macro.key;
 				
-				System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, lib, grp, destLib, destGrp, newFile);
+				System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, oldLib, grp, destLib, destGrp, newFile);
 				
 				boolean isSourceStandard=false;
-				// If the macro does not belong to a standard library, we first
-				// eliminate the macro from the original library.
-				if(!LibUtils.isStdLib(macro)) {
-					libref.remove(macro.key);
+
+				// If the macro does not belong to a standard library, we 
+				// eliminate the old macro from the original library.
+				if(LibUtils.isStdLib(macro)) {
 					isSourceStandard=true;
 				}
 				macro.category = destGrp;
 				macro.library = destLib;
 				macro.filename = newFile;
+				
+				String reducedKey=macro.key.substring(macro.key.indexOf(".")+1);
+				if(!macro.filename.equals("")){
+					macro.key = macro.filename+"."+reducedKey;
+				} else {
+					macro.key=reducedKey;
+				}
+				if(LibUtils.isStdLib(macro)) {
+					globalUpdate();
+					return;
+				}
+				
+				if(!isSourceStandard)
+					libref.remove(oldKey);
+				
 				// Once we have redefined the elements of the macro, we put it
 				// in the new library and we save the two modified libraries.
 				libref.put(macro.key, macro);
 				System.out.println("here: "+newFile);
 				// update libraries
-				try {
-					if(!isSourceStandard && !oldFile.equals(newFile)) {
+				try {	
+					if(!isSourceStandard && !oldFile.equals(newFile)) {	
 						LibUtils.save(libref,
 							LibUtils.getLibPath(oldFile),
 							oldLib, oldFile);
