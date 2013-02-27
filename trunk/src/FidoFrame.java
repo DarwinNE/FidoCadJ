@@ -333,7 +333,7 @@ public class FidoFrame extends JFrame implements
         	
     }
     
-    /* Load the standard librairies according to the locale.
+    /* Load the standard libraries according to the locale.
     */
     public void loadLibraries()
     {

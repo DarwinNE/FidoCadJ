@@ -43,7 +43,7 @@ public class MacroDesc {
 		@param na the name of the macro
 		@param de the description of the macro (the list of commands)
 		@param cat the category of the macro
-		@param lib the library name
+		@param lib the library name (prefix)
 	*/
 	public MacroDesc(String ke, String na, String de, String cat, 
 		String lib, String fn)
