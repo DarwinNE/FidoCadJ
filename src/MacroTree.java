@@ -50,6 +50,9 @@ import layers.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 	Copyright 2008-2013 by Davide Bucci, phylum2
+	
+	Some code snippets adapted from lobby.org/java/forums/t19857.html
+	(santhosh kumar T - santhosh@in.fiorano.com)
 </pre>
 */
 
@@ -93,17 +96,50 @@ public class MacroTree extends JPanel
 	public MacroTree()
 	{
 		super(new GridLayout(1,0));
-		macro = null;
-		//Create a tree that allows one selection at a time.
-        MacroDesc tt=new MacroDesc("","FidoCadJ","","",
-        	"FidoCadJ","FidoCadJ");
-        top = new DefaultMutableTreeNode(tt);
-        tree = new JTree(top);        
-        tree.addFocusListener(this);
-        tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);       
+		macro = null;   
         
 	}
+	
+	// is path1 descendant of path2
+    public boolean isDescendant(TreePath path1, TreePath path2)
+    {
+        int count1 = path1.getPathCount();
+        int count2 = path2.getPathCount();
+        if(count1<=count2)
+            return false;
+        while(count1!=count2) {
+            path1 = path1.getParentPath();
+            count1--;
+        }
+        return path1.equals(path2);
+    }
+ 
+    public String getExpansionState(int row)
+    {
+    	//Thread.dumpStack();
+        TreePath rowPath = tree.getPathForRow(row);
+        StringBuffer buf = new StringBuffer();
+        int rowCount = tree.getRowCount();
+        for(int i=row; i<rowCount; ++i){
+            TreePath path = tree.getPathForRow(i);
+            if(i==row || isDescendant(path, rowPath)){
+                if(tree.isExpanded(path))
+                    buf.append(","+String.valueOf(i-row));
+            }else
+                break;
+        }
+        System.out.println("es: "+buf.toString());
+        return buf.toString();
+    }
+ 
+    public void restoreExpansionState(int row, String expansionState)
+    {
+        StringTokenizer stok = new StringTokenizer(expansionState, ",");
+        while(stok.hasMoreTokens()){
+            int token = row + Integer.parseInt(stok.nextToken());
+            tree.expandRow(token);
+        }
+    }
 	
 	/**	Create the library tree.
 		@param top the top node
@@ -211,16 +247,26 @@ public class MacroTree extends JPanel
 		
         //Create the nodes.
         
-        top.removeAllChildren();
-        ((DefaultTreeModel)tree.getModel()).reload();
+        MacroDesc tt=new MacroDesc("","FidoCadJ","","",
+        	"FidoCadJ","FidoCadJ");
+        top = new DefaultMutableTreeNode(tt);
+        
         createNodes(top);
         createTree(lib, layers);
-        System.out.println("Creating tree finished.");
+        //System.out.println("Creating tree finished.");
+        
+        tree.expandPath(new TreePath(top.getPath()));
+       	
 	}
 	
 	public void createTree(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers)
 	{
+		//Create a tree that allows one selection at a time.
+        tree = new JTree(top);        
+        tree.addFocusListener(this);
+        tree.getSelectionModel().setSelectionMode
+                (TreeSelectionModel.SINGLE_TREE_SELECTION);    
         // Phy :)
 		tree.setDragEnabled(true);
 		tree.setDropMode(DropMode.ON_OR_INSERT);
@@ -271,6 +317,7 @@ public class MacroTree extends JPanel
 				JTree tree = (JTree) support.getComponent();
 				DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 				model.insertNodeInto((MutableTreeNode) nodi, parent, 0);
+				globalUpdate();
 				return true;
 			}
 			class NodoDnD implements Transferable 
@@ -322,8 +369,12 @@ public class MacroTree extends JPanel
 				}
         	    DefaultMutableTreeNode dtn = 
         	      	(DefaultMutableTreeNode) value;
-        	      	
-        	    MacroDesc m=(MacroDesc)dtn.getUserObject();
+        	    
+        	    MacroDesc m=null;
+        	    if(dtn.getUserObject() instanceof MacroDesc)
+        	    	m=(MacroDesc)dtn.getUserObject();
+        	    else
+        	    	return this;
         		        	
         		// It is a standard library.    
         	    if (LibUtils.isStdLib(m)&&dtn.getDepth()==2) {
@@ -455,7 +506,7 @@ public class MacroTree extends JPanel
     					JOptionPane.ERROR_MESSAGE);
 				}
 				// synch
-				globalUpdate();
+				//globalUpdate();
 				
 			}
 			
@@ -465,7 +516,12 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesChanged(TreeModelEvent e) 
 			{
-				if (macro == null && e.getChildren() != null) {
+				if(macro==null)
+					return;
+					
+				if ((macro.level==1||macro.level==2) && 
+					e.getChildren() != null) 
+					{
 					// Either lib or grp
 					String newname = (e.getChildren()[0]).toString();
 					
@@ -485,7 +541,7 @@ public class MacroTree extends JPanel
 						if (tlibFName.trim().equalsIgnoreCase(newname.trim()))
 							return;
 							
-						if(LibUtils.checkLibrary(newname)) {
+						/*if(LibUtils.checkLibrary(newname)) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("InvalidCharLib"),
     							Globals.messages.getString("Rename"),    
@@ -493,7 +549,7 @@ public class MacroTree extends JPanel
     								
 							globalUpdate();
     						return;
-    					}
+    					} */
 						// Standard libraries should not be modified.
 						if (LibUtils.isStdLib(macro)) 
 							return; 	
@@ -512,8 +568,7 @@ public class MacroTree extends JPanel
 					
 						globalUpdate();
 					}
-				}
-				if (macro != null) {
+				} else {
 					// Rename a macro.
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
@@ -552,22 +607,6 @@ public class MacroTree extends JPanel
 					// At first, check if it is a standard element (immutable).
 					if (LibUtils.isStdLib(macro)) 
 						return;
-					
-					// Ask for confirmation only if we are trying to change 
-					// the name of a library, since it is used in the filename
-					// and in the complete key of a symbol.
-					// The other cases does not need an explicit confirmation
-					// since the modification are not structural.
-					if (macro==null && tcategory==null) {
-						int n = JOptionPane.showConfirmDialog(null,
-    						Globals.messages.getString("ChangeKeyWarning"),
-    						Globals.messages.getString("Rename"),
-   					    	JOptionPane.YES_NO_OPTION);
-				
-						if(n==JOptionPane.NO_OPTION) {
-							return;
-						}
-					}
 						
 					tree.setEditable(true);  
 					// Edit the current element (see treeNodesChanged).
@@ -737,19 +776,17 @@ public class MacroTree extends JPanel
 	*/
 	public void globalUpdate()
 	{
-		Enumeration<TreePath> tp=tree.getExpandedDescendants(new
-			TreePath(tree.getModel().getRoot()));
-	
+		String s=getExpansionState(0);
 		// WARNING: very fragile code!	**************************************
 		Container c = Globals.activeWindow;
 		((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
 			.getSubElements()[0].getSubElements()[1]).doClick();
 			
-		System.out.println("just after doclick");
+		//System.out.println("just after doclick");
 		
 		// I wonder why it does not work
 		//((FidoFrame)Globals.activeWindow).loadLibraries();
-		((DefaultTreeModel)tree.getModel()).reload();
+		//((DefaultTreeModel)tree.getModel()).reload();
 		
 		// also remove macro(s) from current circuit
 		CircuitPanel cp = ((FidoFrame) c).CC;
@@ -761,11 +798,7 @@ public class MacroTree extends JPanel
 			e1.printStackTrace();
 		}
 		
-		while (tp.hasMoreElements()) {
-            TreePath treePath = (TreePath) tp.nextElement();
-            //System.out.println("TP: "+treePath);
-            tree.expandPath(treePath);
-        }
+		restoreExpansionState(0,s);
 	}
 
 	/**	Modify the actual selection listener
