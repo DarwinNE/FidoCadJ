@@ -348,12 +348,12 @@ public class LibUtils {
 			String libname, String libname2) 
 	{
 		try {
-			file = file.replace(libname, libname2);					
+			//file = file.replace(libname, libname2);					
 			LibUtils.saveToFile(file + ".fcl", 
 					   LibUtils.prepareText(
 							   LibUtils.getLibrary(m, libname), 
 							   libname2));
-			deleteLib(libname);
+			//deleteLib(libname);
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}	

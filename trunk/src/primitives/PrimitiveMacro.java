@@ -62,7 +62,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		exportInvisible = s;
 	}
 
-	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
@@ -120,6 +119,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		throws IOException
 	{
 		super();
+		initPrimitive(-1);
 		library=lib;
 		layers=l;
 		key=key.toLowerCase();
@@ -130,7 +130,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		o=oo;
 		m=mm;
 		
-		initPrimitive(-1);
+		
 		
 		// Store the points of the macro and the text describing it.
 		virtualPoint[0].x=x;
