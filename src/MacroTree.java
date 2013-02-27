@@ -89,18 +89,20 @@ public class MacroTree extends JPanel
     
     JPopupMenu popup = new JPopupMenu(); // phylum    
 	private ActionListener pml;
-	
-	  public void expand()
-	  {		
-		    //System.out.println("Not yet implemented");
-		    System.out.println(lpath);
-	  }
-
 
 	public MacroTree()
 	{
 		super(new GridLayout(1,0));
 		macro = null;
+		//Create a tree that allows one selection at a time.
+        MacroDesc tt=new MacroDesc("","FidoCadJ","","",
+        	"FidoCadJ","FidoCadJ");
+        top = new DefaultMutableTreeNode(tt);
+        tree = new JTree(top);        
+        tree.addFocusListener(this);
+        tree.getSelectionModel().setSelectionMode
+                (TreeSelectionModel.SINGLE_TREE_SELECTION);       
+        
 	}
 	
 	/**	Create the library tree.
@@ -206,18 +208,19 @@ public class MacroTree extends JPanel
     {
         libMap=lib;
 		library=lib.values();
+		
         //Create the nodes.
-        MacroDesc tt=new MacroDesc("","FidoCadJ","","",
-        	"FidoCadJ","FidoCadJ");
-        top = new DefaultMutableTreeNode(tt);
-        createNodes(top);
-
-        //Create a tree that allows one selection at a time.
-        tree = new JTree(top);        
-        tree.addFocusListener(this);
-        tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);       
         
+        top.removeAllChildren();
+        ((DefaultTreeModel)tree.getModel()).reload();
+        createNodes(top);
+        createTree(lib, layers);
+        System.out.println("Creating tree finished.");
+	}
+	
+	public void createTree(Map<String, MacroDesc> lib, 
+    	Vector<LayerDesc> layers)
+	{
         // Phy :)
 		tree.setDragEnabled(true);
 		tree.setDropMode(DropMode.ON_OR_INSERT);
@@ -236,7 +239,8 @@ public class MacroTree extends JPanel
 				if (component!=null && component.toString().equalsIgnoreCase(
 					macro.category)) 
 					return false;
-				if (pt.getPathCount()<=2 || pt.getPathCount()==4) 
+				//System.out.println("getPathCount()="+pt.getPathCount());
+				if (pt.getPathCount()<=2) 
 					return false; // is root or lib
 				return true;
 			}
@@ -344,8 +348,6 @@ public class MacroTree extends JPanel
 			
 			public void treeStructureChanged(TreeModelEvent e) 
 			{
-				// TODO Auto-generated method stub
-				
 			}
 			
 			/** Remove a library, a group of macros or a single macro.
@@ -380,14 +382,13 @@ public class MacroTree extends JPanel
     					JOptionPane.ERROR_MESSAGE);
 				}
 				globalUpdate();		
-				expand();
 			}
 			
 			
-			/** Insertion of a new node (drag and drop?).
+			/** Insertion of a new node (drag and drop).
 			*/
 			public void treeNodesInserted(TreeModelEvent e) 
-			{ 				
+			{
 				// macro will contain the element to be inserted. It should
 				// be already created before calling to treeNodeInserted.
 				if (macro == null) 
@@ -406,7 +407,7 @@ public class MacroTree extends JPanel
 				String mnam = macro.name.trim();
 				String oldKey = macro.key;
 				
-				System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, oldLib, grp, destLib, destGrp, newFile);
+				//System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, oldLib, grp, destLib, destGrp, newFile);
 				
 				boolean isSourceStandard=false;
 
@@ -508,8 +509,7 @@ public class MacroTree extends JPanel
     							Globals.messages.getString("Rename"),    
     							JOptionPane.ERROR_MESSAGE);
 						}
-						
-												
+					
 						globalUpdate();
 					}
 				}
@@ -520,7 +520,6 @@ public class MacroTree extends JPanel
 							
 					libref.remove(macro.key);
 					libref.put(macro.key, macro);
-					//e.getChildren()[0].setUserObject(macro);
 					
 					try {
 						LibUtils.save(libref,
@@ -738,11 +737,20 @@ public class MacroTree extends JPanel
 	*/
 	public void globalUpdate()
 	{
+		Enumeration<TreePath> tp=tree.getExpandedDescendants(new
+			TreePath(tree.getModel().getRoot()));
+	
 		// WARNING: very fragile code!	**************************************
 		Container c = Globals.activeWindow;
 		((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
 			.getSubElements()[0].getSubElements()[1]).doClick();
 			
+		System.out.println("just after doclick");
+		
+		// I wonder why it does not work
+		//((FidoFrame)Globals.activeWindow).loadLibraries();
+		((DefaultTreeModel)tree.getModel()).reload();
+		
 		// also remove macro(s) from current circuit
 		CircuitPanel cp = ((FidoFrame) c).CC;
 		ParseSchem ps = cp.P;
@@ -752,6 +760,12 @@ public class MacroTree extends JPanel
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		while (tp.hasMoreElements()) {
+            TreePath treePath = (TreePath) tp.nextElement();
+            //System.out.println("TP: "+treePath);
+            tree.expandPath(treePath);
+        }
 	}
 
 	/**	Modify the actual selection listener
@@ -787,7 +801,6 @@ public class MacroTree extends JPanel
 
         Object nodeInfo = node.getUserObject(); 
         macro=(MacroDesc)nodeInfo;
-        System.out.println("currentMacro: "+macro);
         lpath = tree.getSelectionPath().getParentPath();                    
         if (!node.isLeaf())         	
         {

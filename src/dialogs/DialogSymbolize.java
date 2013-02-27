@@ -161,19 +161,27 @@ public class DialogSymbolize extends JDialog
     /** Gets the library to be created or modified.
     	@return the given library (string description).
     */
-    public String getLibrary() 
+    public String getLibraryName() 
     { 
-    	// DB: I do not understand why splitting with the regex.
-    	String s=libFilename.getSelectedItem().toString();//.split("::")[0]
+    	String s=libName.getText();
     	return s.trim(); 
     }
     /** Gets the name of the macro to be created
     	@return the name
     */
-    public String getFileName() 
+    public String getMacroName() 
     { 
     	return name.getText(); 
     }
+    
+    /** Gets the prefix (filename) of the macro to be created
+    	@return the filename/prefix
+    */
+    public String getPrefix()
+    {
+    	return libFilename.getEditor().getItem().toString();
+    }
+    
     /**	Gets the group of the macro to be created
     	@return the name of the group
     */
@@ -327,7 +335,7 @@ public class DialogSymbolize extends JDialog
         enumLibs();
         jj.antiAlias = true;
         jj.profileTime = false; 
-        MacroDesc macro = buildMacro("temp","temp","temp","temp",
+        MacroDesc macro = buildMacro("temp","temp","temp","temp", "temp",
         	new Point(100,100));
         	
         jj.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -546,8 +554,8 @@ public class DialogSymbolize extends JDialog
             		return;
             	
             	} else if(LibUtils.checkKey(cp.getLibrary(),
-            			getLibrary().trim(),
-            			getLibrary().trim()+"."+key.getText().trim())) { 
+            			getPrefix().trim(),
+            			getPrefix().trim()+"."+key.getText().trim())) { 
             		JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DupKey"),
     					Globals.messages.getString("Symbolize"),    
@@ -563,17 +571,19 @@ public class DialogSymbolize extends JDialog
             		return; 
             	}
             	Point p = new Point(200-jj.xl, 200-jj.yl);
-            	MacroDesc macro = buildMacro(getName().trim(),
-            		key.getText().trim(),getLibrary().trim(),getGroup().trim(),
-            		p);            	
+            	MacroDesc macro = buildMacro(getMacroName().trim(),
+            		key.getText().trim(),getLibraryName().trim(),
+            		getGroup().trim(), getPrefix().trim(),p);
+            		
+            	cp.getLibrary().put(macro.key, macro); // add to lib
             	
-            	cp.getLibrary().put(key.getText(), macro); // add to lib	
-				
+            	System.out.println("key: "+macro.key);
+	
 				// Save the new symbol in the current libFilename
 				try {
 					LibUtils.save(cp.getLibrary(), 
-						LibUtils.getLibPath(getLibrary()).trim(), 
-						getLibrary(), macro.name);
+						LibUtils.getLibPath(getPrefix()).trim(), 
+						getLibraryName(), getPrefix());
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -587,7 +597,7 @@ public class DialogSymbolize extends JDialog
 				// Update libs
             	updateTreeLib();
             	
-            	Globals.lastCLib = getLibrary();
+            	Globals.lastCLib = getLibraryName();
                 Globals.lastCGrp = getGroup();
             }
         });
@@ -614,7 +624,7 @@ public class DialogSymbolize extends JDialog
     }
       
 	protected MacroDesc buildMacro(String myname, String mykey, String mylib, 
-			String mygrp, Point origin) 
+			String mygrp, String myprefix, Point origin) 
 	{
        	StringBuilder ss = new StringBuilder();
        	
@@ -646,11 +656,9 @@ public class DialogSymbolize extends JDialog
 		}
 						
 		parent.repaint();	
-		// Create the symbol key from the date and hour				
-		String k = mykey;
 		String desc = ss.toString();
-		// Here we use the libFilename name (mylib) as the file name
-		MacroDesc md = new MacroDesc(k, myname, desc, mygrp, mylib, mylib);
+		MacroDesc md = new MacroDesc(myprefix+"."+mykey, myname, desc, mygrp, 
+			mylib, myprefix);
 		return md;	
 	}
     
