@@ -744,7 +744,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 		constraints = DialogUtil.createConst(0,4,2,1,100,100,
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,40,6,40));
-		extensionsPanel.add(split_n_c_CB, constraints);
+		//extensionsPanel.add(split_n_c_CB, constraints);
 		/**********************************************************************
 		  END of FidoCadJ extensions
 		 **********************************************************************/

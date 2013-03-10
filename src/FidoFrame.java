@@ -592,6 +592,11 @@ public class FidoFrame extends JFrame implements
         editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
             Globals.shortcutKey));
         
+        JMenuItem editCopySplit = new 
+            JMenuItem(Globals.messages.getString("Copy_split"));
+        editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
+            Globals.shortcutKey));
+        
         JMenuItem editPaste = new 
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
@@ -616,6 +621,7 @@ public class FidoFrame extends JFrame implements
         editRedo.addActionListener((ActionListener)this);
         editCut.addActionListener((ActionListener)this);
         editCopy.addActionListener((ActionListener)this);
+        editCopySplit.addActionListener((ActionListener)this);
         editPaste.addActionListener((ActionListener)this);
         editSelectAll.addActionListener((ActionListener)this);
         editMirror.addActionListener((ActionListener)this);
@@ -627,6 +633,7 @@ public class FidoFrame extends JFrame implements
         
         editMenu.add(editCut);
         editMenu.add(editCopy);
+        editMenu.add(editCopySplit);
         editMenu.add(editPaste);
         editMenu.add(clipboardCircuit);
 
@@ -947,7 +954,12 @@ public class FidoFrame extends JFrame implements
             }
         	// Copy all selected elements in the clipboard
             if (arg.equals(Globals.messages.getString("Copy"))) {
-                CC.P.copySelected(!CC.extStrict, CC.splitNonStandardMacro_c,
+                CC.P.copySelected(!CC.extStrict, false,
+                	CC.getMapCoordinates().getXGridStep(), 
+                	CC.getMapCoordinates().getYGridStep());   
+            }
+            if (arg.equals(Globals.messages.getString("Copy_split"))) {
+                CC.P.copySelected(!CC.extStrict, true,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
             }
