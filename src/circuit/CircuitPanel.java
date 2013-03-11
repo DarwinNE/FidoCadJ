@@ -212,7 +212,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private ChangeSelectionListener selectionListener;
     private ChangeSelectionListener scrollGestureSelectionListener;
     private ChangeCoordinatesListener coordinatesListener;
-
+	private ScrollMoveListener scrollMoveListener;
 
     /** Standard constructor
         @param isEditable indicates whether the panel should be responsible
@@ -221,6 +221,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public CircuitPanel (boolean isEditable) 
     {
+    	scrollMoveListener=null;
         backgroundColor=Color.white; 
         P=new ParseSchem();
         isGridVisible=true;
@@ -305,6 +306,15 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editUSymbolize.addActionListener(this); // phylum
         	
         }
+    }
+    
+    /** Sets the scroll move listener. This is useful in some cases, for 
+    	example when one needs to center the viewport during a scroll action.
+    	@param sm the scroll move listener to be used as a callback.
+    */
+    public void setScrollMoveListener(ScrollMoveListener sm)
+    {
+    	scrollMoveListener=sm;
     }
     
     /**	Register an action involving the editing
@@ -794,9 +804,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // Zoom state
         case ZOOM:      
         //////// TO IMPROVE: should center the viewport
-            cs.unmapXsnap(x);
-            cs.unmapYsnap(y);
-            
+            int xpos = cs.unmapXsnap(x);
+            int ypos = cs.unmapYsnap(y);
             double z=cs.getXMagnitude();
             
             // Click+Meta reduces the zoom
@@ -811,9 +820,23 @@ public class CircuitPanel extends JPanel implements ActionListener,
             if(z<.25) z=.25;
             
             z=Math.round(z*100.0)/100.0;
-            
             cs.setMagnitudes(z,z);
-            repaint();
+            //repaint();
+            //paintImmediately(0,0,10,10);
+            
+
+            if(scrollMoveListener!=null) {
+            	// Calculate the scroll position to center the scroll
+            	// where the user has done the click.
+            	double xs=(double)xpos/(cs.getXMax()/cs.getXMagnitude());
+            	if(xs<0.0) xs=0.0;
+            	//if(xs>1.0) xs=1.0;
+            	double ys=(double)ypos/(cs.getYMax()/cs.getYMagnitude());
+            	if(ys<0.0) ys=0.0;
+            	//if(ys>1.0) ys=1.0;
+            	
+            	scrollMoveListener.scroll(xs,ys);
+            }
             
             break;
         
@@ -1815,7 +1838,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
         }   
-        
+               
     }
         
     public void validate()
@@ -1826,6 +1849,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 +MARGIN,cs.getYMax()+MARGIN));
         }        
         super.validate();
+        
     }
     /** Draws the current editing primitive.
     

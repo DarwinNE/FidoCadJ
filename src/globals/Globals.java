@@ -119,6 +119,7 @@ public class Globals
 	public static final String encoding = "UTF8";
 	
 	
+	
 	 /** Create the standard array containing the layer descriptions, colors
     	and transparency. The name of the layers are read from the resources
     	which may be initizialized. If Globals.messages==null, no description

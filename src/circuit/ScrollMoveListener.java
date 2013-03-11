@@ -1,6 +1,6 @@
 package circuit;
 
-/**	Interface used to callback notify that something has changed
+/**	Interface used to callback notify that the scroll should be activated
 	<pre>
 		This file is part of FidoCadJ.
 
@@ -18,11 +18,10 @@ package circuit;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 	</pre>
-	@version 1.0
 	@author Davide Bucci
 */
 
-public interface HasChangedListener 
+public interface ScrollMoveListener 
 {
-	public void somethingHasChanged();
+	public void scroll(double x, double y);
 }

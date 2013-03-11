@@ -69,7 +69,8 @@ public class FidoFrame extends JFrame implements
                                             DropTargetListener,
                                             ZoomToFitListener,
                                             HasChangedListener,
-                                            WindowFocusListener
+                                            WindowFocusListener,
+                                            ScrollMoveListener
 {
     // Interface elements parts of FidoFrame
     
@@ -400,6 +401,7 @@ public class FidoFrame extends JFrame implements
 		
         CC=new CircuitPanel(true);
         CC.P.openFileName = "";
+        CC.setScrollMoveListener(this);
                         	
         dt = new DropTarget(CC, this);
         
@@ -1598,6 +1600,33 @@ public class FidoFrame extends JFrame implements
             JOptionPane.showMessageDialog(this,
             Globals.messages.getString("Open_error")+fnfex);
         }
+    }
+    
+    /** Required for the ScrollMoveListener interface
+    */
+    public void scroll(final double x, final double y)
+    {
+    	final int xmax = SC.getHorizontalScrollBar().getMaximum();
+    	final int xsize = SC.getHorizontalScrollBar().getVisibleAmount();
+    	final int ymax = SC.getVerticalScrollBar().getMaximum();
+    	final int ysize = SC.getVerticalScrollBar().getVisibleAmount();
+
+		
+    	System.out.println("x="+x+"  y="+y+"  xmax="+xmax+" ymax="+
+    		ymax+"  xsize="+xsize+"  ysize="+ysize);
+    		
+    	SwingUtilities.invokeLater(new Runnable() {
+  			public void run() 
+  			{
+  				System.out.println("Previous: "+SC.getHorizontalScrollBar().getValue());
+    			SC.getHorizontalScrollBar().setValue((int)(x*(xmax-xsize)));
+    			
+    			System.out.println("Now: "+SC.getHorizontalScrollBar().getValue());
+    			SC.getVerticalScrollBar().setValue((int)(y*(ymax-ysize)));
+  			}	
+		});
+
+    	
     }
     
     /** Show the FidoCadJ preferences panel
