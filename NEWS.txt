@@ -13,6 +13,7 @@ Version 0.24.2
 - Option sun.java2d.opengl is no longer activated by default with Linux.
 - Corrected a bug with the standard font used for the text associated to elements.
 - The "Split non standard macros while copy/pasting" modal option has been replaced by an immediate menu item.
+- Rough centering of the drawing under the mouse pointer while doing a zoom.
 
 Version 0.24.1
 --------------

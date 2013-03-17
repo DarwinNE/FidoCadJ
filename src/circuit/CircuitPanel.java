@@ -821,7 +821,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             z=Math.round(z*100.0)/100.0;
             cs.setMagnitudes(z,z);
-            //repaint();
+            repaint();
             //paintImmediately(0,0,10,10);
             
 
