@@ -19,7 +19,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2009 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -30,11 +30,16 @@ public class UndoState {
 	public boolean isModified;
 	public String fileName;
 	
+	// If isLibrary is true, text contains the path name of the temp library
+	// directory
+	public boolean isLibrary;
+	
 	public UndoState()
 	{
 		text="";
 		isModified=false;
 		fileName="";
+		isLibrary=false;
 	}
 
 	public String toString() {

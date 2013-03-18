@@ -100,4 +100,24 @@ else
   test_failed=1
 fi
 
+if diff complex1.txt references/complex1.txt >complex1_r.txt
+then 	
+  echo "  Complex 1:  OK"
+  rm complex1.txt complex1_r.txt
+else
+  printf "\033[1mTest failed: complex 1 size calculation\033[0m\n"
+  test_failed=1
+fi
+
+if diff complex2.txt references/complex2.txt >complex2_r.txt
+then 	
+  echo "  Complex 2:  OK"
+  rm complex2.txt complex2_r.txt
+else
+  printf "\033[1mTest failed: complex 2 size calculation\033[0m\n"
+  test_failed=1
+fi
+
+
+
 exit $test_failed

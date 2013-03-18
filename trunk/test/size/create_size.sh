@@ -29,4 +29,8 @@ printf "Done\n  Rectangle...  "
 java -jar ../../jar/fidocadj.jar -n -s primitives/rectangle.fcd >$1/rectangle.txt
 printf "Done\n  Text...       "
 java -jar ../../jar/fidocadj.jar -n -s primitives/text.fcd >$1/text.txt
+printf "Done\n  Complex 1...  "
+java -jar ../../jar/fidocadj.jar -n -s complex/source1.fcd >$1/complex1.txt
+printf "Done\n  Complex 2...  "
+java -jar ../../jar/fidocadj.jar -n -s complex/source2.fcd >$1/complex2.txt
 printf "Done\n"

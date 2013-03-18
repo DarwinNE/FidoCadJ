@@ -168,6 +168,8 @@ public abstract class GraphicPrimitive
 		// If this method is not needed, exit immediately.
 		if (value==null && name==null)
 			return;
+		if (value.equals("") && name.equals(""))
+			return;
 			
  		if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer())
  			return;
