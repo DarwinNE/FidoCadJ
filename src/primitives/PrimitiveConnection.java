@@ -122,16 +122,23 @@ public final class PrimitiveConnection extends GraphicPrimitive
  			ya1=(int)Math.round(coordSys.mapY(x1,y1)-nn/2.0);
  			
  			ni=(int)Math.round(nn);
+			// Make sure that something is drawn even for very small 
+			// connections
+ 			if(ni==0) 
+ 				ni=1;
  			
  		}
  		
- 		
- 		// Do not trace connections which will appear hopelessly small...
- 		if(ni>=1) {
- 			if(!g.hitClip(xa1, ya1, ni, ni))
- 				return;
- 			g.fillOval(xa1, ya1, ni, ni);
- 		}			
+		if(!g.hitClip(xa1, ya1, ni, ni))
+			return;
+			
+		// When the circle is very small, it is better to set a single pixel
+		// than trying to fill the oval.
+		if(ni>=1)
+			g.fillOval(xa1, ya1, ni, ni);
+		else
+			g.fillRect(xa1, ya1, ni, ni);
+			
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive

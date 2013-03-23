@@ -195,6 +195,7 @@ public class ParseSchem
     // ********** LISTENERS **********
     
     private HasChangedListener cl;
+    private LibraryUndoListener libraryUndoListener;
     
     
 
@@ -220,6 +221,7 @@ public class ParseSchem
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         changed=true;
         isModified=false;
+        libraryUndoListener=null;
         
     }
     
@@ -2192,8 +2194,14 @@ public class ParseSchem
     {
         try {
             UndoState r = (UndoState)um.undoPop();
-            StringBuffer s=new StringBuffer(r.text);
-            parseString(s);
+            if(r.isLibrary) {
+            	if(libraryUndoListener!=null) {
+            		libraryUndoListener.undoLibrary(r.text);
+            	}
+            } else {
+            	StringBuffer s=new StringBuffer(r.text);
+            	parseString(s);
+            }
             isModified = r.isModified;
             openFileName = r.fileName;
         
@@ -2244,6 +2252,23 @@ public class ParseSchem
         if(cl!=null) cl.somethingHasChanged();
     }
     
+    public void saveUndoLibrary(String tempLibraryDirectory)
+    {
+    	UndoState s = new UndoState();
+    	s.isLibrary=true;
+        s.text=tempLibraryDirectory;
+        s.isModified=isModified;
+        s.fileName=openFileName;
+        
+        um.undoPush(s);
+        isModified = true;
+    }
+    
+    public void setLibraryUndoListener(LibraryUndoListener l)
+   	{
+   		libraryUndoListener = l;
+   	}
+   
     
     /** Determine if the drawing has been modified.
         @return the state.
