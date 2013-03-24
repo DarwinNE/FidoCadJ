@@ -10,7 +10,6 @@ Version 0.24.2
 - Corrected bug #20 ("Negative zoom reading file from command line").
 - Japanese translation of the user interface.
 - When introducing text, a list of some UTF-8 characters (maths symbols, greek letters...) is now available and very easy to use.
-- Option sun.java2d.opengl is no longer activated by default with Linux.
 - Corrected a bug with the standard font used for the text associated to elements.
 - The "Split non standard macros while copy/pasting" modal option has been replaced by an immediate menu item.
 - Rough centering of the drawing under the mouse pointer while doing a zoom.
