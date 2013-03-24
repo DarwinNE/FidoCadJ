@@ -30,19 +30,21 @@ public class UndoState {
 	public boolean isModified;
 	public String fileName;
 	
-	// If isLibrary is true, text contains the path name of the temp library
-	// directory
-	public boolean isLibrary;
+	public String libraryDir;
 	
 	public UndoState()
 	{
 		text="";
 		isModified=false;
 		fileName="";
-		isLibrary=false;
+		libraryDir="";
 	}
 
-	public String toString() {
-		return text;
+	public String toString() 
+	{
+		String s="text="+text+"\nfileName="+fileName+
+			"\nlibraryDir="+libraryDir;
+		return s;
 	}
+	
 }
