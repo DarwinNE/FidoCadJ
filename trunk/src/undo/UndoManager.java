@@ -1,6 +1,9 @@
 package undo;
 
 import java.util.*;
+import java.io.*;
+
+import globals.*;
 
 /**
    	Implementation of a circular buffer of the given size.
@@ -37,7 +40,7 @@ import java.util.*;
 
 public class UndoManager {
 	
-	private Vector<Object> undoBuffer;
+	private Vector<UndoState> undoBuffer;
 	private int pointer;
 	private boolean isRedoable;
 	
@@ -46,7 +49,7 @@ public class UndoManager {
 	*/
 	public UndoManager (int size)
 	{
-		undoBuffer = new Vector<Object>(size);
+		undoBuffer = new Vector<UndoState>(size);
 		undoReset();
 	}
 	
@@ -76,7 +79,7 @@ public class UndoManager {
 	/** Pushes a new undo state in the buffer
 		@argument state the state to be committed.
 	*/
-	public void undoPush(Object state)
+	public void undoPush(UndoState state)
 	{
 		if(undoBuffer.size()==undoBuffer.capacity()) {
 			undoBuffer.removeElementAt(0);
@@ -93,13 +96,13 @@ public class UndoManager {
 	/** Pops the last undo state from the buffer
 		@return the recovered state.
 	*/
-	public Object undoPop()
+	public UndoState undoPop()
 		throws NoSuchElementException
 	{	
 		--pointer;
 		if(pointer<1)
 			pointer=1;
-		Object o=undoBuffer.get(pointer-1);
+		UndoState o=undoBuffer.get(pointer-1);
 
 		isRedoable=true;
 		return o;
@@ -109,7 +112,7 @@ public class UndoManager {
 	/** Redo the last undo state from the buffer
 		@return the recovered state.
 	*/
-	public Object undoRedo()
+	public UndoState undoRedo()
 		throws NoSuchElementException
 	{
 		if (!isRedoable) {
@@ -122,7 +125,7 @@ public class UndoManager {
 		if(pointer>undoBuffer.size())
 			pointer=undoBuffer.size();
 			
-		Object o=undoBuffer.get(pointer-1);
+		UndoState o=undoBuffer.get(pointer-1);
 		
 		return o;
 	}

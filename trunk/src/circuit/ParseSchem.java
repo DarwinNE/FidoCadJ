@@ -177,6 +177,9 @@ public class ParseSchem implements UndoActorListener
     // Undo manager
     private UndoManager um;
     
+    // Database of the temporary directories
+    private Vector<String> tempDir;
+    
     // Maximum number of levels to be retained for undo operations.
     private static final int MAX_UNDO=100;
             
@@ -217,6 +220,7 @@ public class ParseSchem implements UndoActorListener
         changed=true;
         isModified=false;
         libraryUndoListener=null;
+        tempDir=new Vector<String>();
         
     }
     
@@ -2187,7 +2191,7 @@ public class ParseSchem implements UndoActorListener
     */
     public void undo()
     {
-    	um.printUndoState();
+    	//um.printUndoState();
         try {
             UndoState r = (UndoState)um.undoPop();
             if(!r.libraryDir.equals("")) {
@@ -2269,6 +2273,7 @@ public class ParseSchem implements UndoActorListener
         s.libraryDir=tempLibraryDirectory;
         s.isModified=isModified;
         s.fileName=openFileName;
+        tempDir.add(t);
         
         um.undoPush(s);
     }
@@ -2351,5 +2356,15 @@ public class ParseSchem implements UndoActorListener
 	public void setPrimitiveVector(Vector<GraphicPrimitive> primitiveVector) {
 		this.primitiveVector = primitiveVector;
 	}
+	
+	public void doTheDishes()
+	{
+		//System.out.println("Do the dishes...");
+		for (int i=0; i<tempDir.size();++i) 
+		{
+			Globals.deleteDirectory(new File(tempDir.get(i)));
+		}
+	}
+	
 }
 
