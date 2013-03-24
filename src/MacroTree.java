@@ -132,7 +132,7 @@ public class MacroTree extends JPanel
             }else
                 break;
         }
-        System.out.println("es: "+buf.toString());
+        // System.out.println("es: "+buf.toString());
         return buf.toString();
     }
  
@@ -1104,7 +1104,7 @@ public class MacroTree extends JPanel
         	File sourceDir = new File(s);
         	String d=LibUtils.getLibDir();
         	File destinationDir = new File(d);
-        	System.out.println("undo: copy from "+s+" to "+d);
+        	//System.out.println("undo: copy from "+s+" to "+d);
             Globals.copyDirectory(sourceDir, destinationDir);
             globalUpdate();
         } catch (IOException e) {
@@ -1129,7 +1129,7 @@ public class MacroTree extends JPanel
 
         	String d=tempDir.getAbsolutePath();
         
-        	System.out.println("mod: copy from "+s+" to "+d);
+        	// System.out.println("mod: copy from "+s+" to "+d);
         	
         	File sourceDir = new File(s);
         	File destinationDir = new File(d);

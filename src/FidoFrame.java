@@ -53,7 +53,7 @@ work... I will do it for my NEXT vector drawing program :-D
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2012 by Davide Bucci
+    Copyright 2008-2013 by Davide Bucci
 </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -692,6 +692,7 @@ public class FidoFrame extends JFrame implements
 				lang = lang.substring(lang.indexOf("(")+1).replace(")","").trim();								
 				currentLocale = new Locale(lang);
 				if (!checkIfToBeSaved()) return;
+				((FidoFrame)Globals.activeWindow).CC.P.doTheDishes();				
 				Globals.activeWindow.dispose();					
 	        	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
 	            		"", currentLocale));
@@ -790,6 +791,7 @@ public class FidoFrame extends JFrame implements
                     }
                     
                     setVisible(false);
+					CC.P.doTheDishes();
                     dispose();
                     Globals.openWindows.remove(this);
 
@@ -865,6 +867,10 @@ public class FidoFrame extends JFrame implements
             }
                       
         }
+        
+        if(shouldExit)
+        	CC.P.doTheDishes();
+        	
     	return shouldExit;
     }
     
@@ -1041,6 +1047,7 @@ public class FidoFrame extends JFrame implements
                 }
                     
                 setVisible(false);
+                CC.P.doTheDishes();
                 dispose();
                 Globals.openWindows.remove(this);
 
