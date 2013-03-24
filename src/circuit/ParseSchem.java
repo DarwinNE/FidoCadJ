@@ -78,7 +78,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2013 by Davide Bucci
 </pre>
 
    Main parsing class 
@@ -86,7 +86,7 @@ Version   Date           Author       Remarks
     @author Davide Bucci
 */
 
-public class ParseSchem
+public class ParseSchem implements UndoActorListener
 {   
     // ********** CONFIGURATION **********
     
@@ -156,7 +156,6 @@ public class ParseSchem
     
     // True if the primitive has moved.
     private boolean hasMoved;
-    
         
     // ******* PRIMITIVE DATABASE ********
     
@@ -172,9 +171,7 @@ public class ParseSchem
 
     // Library of macros loaded.
     private Map<String, MacroDesc> library;
-   
- 
-    
+  
     // ************ UNDO *************
     
     // Undo manager
@@ -191,13 +188,11 @@ public class ParseSchem
     // prompted in the future if there is the risk of losing unsaved changes.
     private boolean isModified;
     
-    
     // ********** LISTENERS **********
     
     private HasChangedListener cl;
     private LibraryUndoListener libraryUndoListener;
-    
-    
+     
 
     /** The standard constructor. Not so much interesting, apart for the
         fact that it allocates memory of a few internal objects and reset all
@@ -2222,8 +2217,14 @@ public class ParseSchem
         try {
         
             UndoState r = (UndoState)um.undoRedo();
-            StringBuffer s=new StringBuffer(r.text);
-            parseString(s);
+            if(r.isLibrary) {
+            	if(libraryUndoListener!=null) {
+            		libraryUndoListener.undoLibrary(r.text);
+            	}
+            } else {
+            	StringBuffer s=new StringBuffer(r.text);
+            	parseString(s);
+            }
             isModified = r.isModified;
             openFileName = r.fileName;
         
@@ -2244,6 +2245,7 @@ public class ParseSchem
     {
         UndoState s = new UndoState();
         s.text=getText(true).toString();
+
         s.isModified=isModified;
         s.fileName=openFileName;
         
@@ -2261,7 +2263,6 @@ public class ParseSchem
         s.fileName=openFileName;
         
         um.undoPush(s);
-        isModified = true;
     }
     
     public void setLibraryUndoListener(LibraryUndoListener l)

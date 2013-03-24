@@ -8,8 +8,7 @@ import javax.swing.event.*;
 import clipboard.TextTransfer;
 
 import java.net.URL;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -27,6 +26,7 @@ import globals.Globals;
 import globals.LibUtils;
 import toolbars.*;
 import layers.*;
+import undo.*;
 
 /* macroTree.java
 	
@@ -64,7 +64,8 @@ public class MacroTree extends JPanel
                       			 KeyListener,
                       			 FocusListener,
                       			 MouseListener,
-                      			 PopupMenuListener
+                      			 PopupMenuListener,
+                      			 LibraryUndoListener
                       
 {
     private CircuitPanel previewPanel;
@@ -74,6 +75,7 @@ public class MacroTree extends JPanel
     private SearchField search;
     private Collection<MacroDesc> library;
     private ChangeSelectionListener selectionListener;
+    private UndoActorListener undoActorListener;
     private MacroDesc macro;
     private Map<String, MacroDesc> libMap;
     
@@ -96,7 +98,9 @@ public class MacroTree extends JPanel
 	public MacroTree()
 	{
 		super(new GridLayout(1,0));
-		macro = null;   
+		macro = null; 
+		undoActorListener = null;
+		selectionListener = null;
         
 	}
 	
@@ -412,12 +416,15 @@ public class MacroTree extends JPanel
 						// Either lib or grp					
 						if (macro.level==2 &&  
 							!LibUtils.isStdLib(macro)) {
+							
 							// it's a lib
 							LibUtils.deleteLib(tlibFName);
+							saveLibraryState();
 						} else 	if (macro.level==1) {
 							// it's a category
 							LibUtils.deleteGroup(libref,tlibFName,
 								tcategory);	
+							saveLibraryState();
 						}
 					} else {
 						// It is a macro.
@@ -425,6 +432,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
+						saveLibraryState();
 					}
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
@@ -490,7 +498,7 @@ public class MacroTree extends JPanel
 				libref.put(macro.key, macro);
 				System.out.println("here: "+newFile);
 				// update libraries
-				try {	
+				try {
 					if(!isSourceStandard && !oldFile.equals(newFile)) {	
 						LibUtils.save(libref,
 							LibUtils.getLibPath(oldFile),
@@ -499,6 +507,7 @@ public class MacroTree extends JPanel
 					LibUtils.save(libref,
 						LibUtils.getLibPath(newFile),
 						destLib, newFile);
+					saveLibraryState();
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -527,8 +536,10 @@ public class MacroTree extends JPanel
 					
 					if (tcategory != null) { // renaming group
 						try {
-							LibUtils
-								.renameGroup(libref, tlibFName, tcategory, newname);
+							saveLibraryState();
+							LibUtils.renameGroup(libref, tlibFName,
+								tcategory, newname);
+							saveLibraryState();
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
@@ -559,6 +570,7 @@ public class MacroTree extends JPanel
 							LibUtils.renameLib(libref,
 								LibUtils.getLibPath(tlibFName),
 								tlibFName.trim(), newname.trim());
+							saveLibraryState();
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
@@ -580,6 +592,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
+						saveLibraryState();
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -693,6 +706,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
+						saveLibraryState();
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -808,6 +822,15 @@ public class MacroTree extends JPanel
 	public void setSelectionListener(ChangeSelectionListener l)
 	{
 		selectionListener=l;
+	}
+	
+	/**	Modify the actual UndoActor Listener 
+		@param l the new UndoActor listener
+	*/
+
+	public void setUndoActorListener(UndoActorListener l)
+	{
+		undoActorListener=l;
 	}
 	
 	public void focusGained(FocusEvent e)
@@ -1071,4 +1094,53 @@ public class MacroTree extends JPanel
 	public void mouseExited(MouseEvent e) 
 	{		
 	} 
+	
+	/** This is requested by the LibraryUndoListener interface.
+		@param s is the name of the temporary directory where the library
+		files have been saved.
+	*/
+	public void undoLibrary(String s)
+	{
+        try {
+        	File sourceDir = new File(s);
+        	String d=LibUtils.getLibDir();
+        	File destinationDir = new File(d);
+        	System.out.println("undo: copy from "+s+" to "+d);
+            Globals.copyDirectory(sourceDir, destinationDir);
+            globalUpdate();
+        } catch (IOException e) {
+            System.out.println("Cannot restore library directory contents.");
+        }
+        
+	}
+	
+	/** Here we save the state of the library for the undo operation.
+		
+		Here we create a temporary directory and we copy all the contents of
+		the current library directory inside it.
+		The temporary directory name is then saved in the undo system.
+	*/
+	public void saveLibraryState()
+	{
+		try {
+			File tempDir = File.createTempFile("fidocadj_", "");
+        	tempDir.delete();
+        	tempDir.mkdir();
+        	String s=LibUtils.getLibDir();
+
+        	String d=tempDir.getAbsolutePath();
+        
+        	System.out.println("mod: copy from "+s+" to "+d);
+        	
+        	File sourceDir = new File(s);
+        	File destinationDir = new File(d);
+            Globals.copyDirectory(sourceDir, destinationDir);
+        	
+        	if(undoActorListener != null)
+        		undoActorListener.saveUndoLibrary(d);
+        } catch (IOException e) {
+        	System.out.println("Cannot save the library status.");
+        }
+
+	}
 }

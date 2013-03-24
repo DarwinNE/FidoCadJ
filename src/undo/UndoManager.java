@@ -2,9 +2,6 @@ package undo;
 
 import java.util.*;
 
-
-
-
 /**
    	Implementation of a circular buffer of the given size.
     This is tailored in particular for the undo/redo system.
@@ -32,7 +29,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -68,7 +65,7 @@ public class UndoManager {
 		@argument state the state to be committed.
 	*/
 	public void undoPush(Object state)
-	{	
+	{
 		if(undoBuffer.size()==undoBuffer.capacity()) {
 			undoBuffer.removeElementAt(0);
 			--pointer;
