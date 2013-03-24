@@ -2187,13 +2187,16 @@ public class ParseSchem implements UndoActorListener
     */
     public void undo()
     {
+    	um.printUndoState();
         try {
             UndoState r = (UndoState)um.undoPop();
-            if(r.isLibrary) {
+            if(!r.libraryDir.equals("")) {
             	if(libraryUndoListener!=null) {
-            		libraryUndoListener.undoLibrary(r.text);
+            		libraryUndoListener.undoLibrary(r.libraryDir);
             	}
-            } else {
+            } 
+            
+            if(!r.text.equals("")) {
             	StringBuffer s=new StringBuffer(r.text);
             	parseString(s);
             }
@@ -2217,14 +2220,17 @@ public class ParseSchem implements UndoActorListener
         try {
         
             UndoState r = (UndoState)um.undoRedo();
-            if(r.isLibrary) {
+            if(!r.libraryDir.equals("")) {
             	if(libraryUndoListener!=null) {
-            		libraryUndoListener.undoLibrary(r.text);
+            		libraryUndoListener.undoLibrary(r.libraryDir);
             	}
-            } else {
+            } 
+            
+            if(!r.text.equals("")) {
             	StringBuffer s=new StringBuffer(r.text);
             	parseString(s);
             }
+            
             isModified = r.isModified;
             openFileName = r.fileName;
         
@@ -2237,7 +2243,7 @@ public class ParseSchem implements UndoActorListener
         
     }
     
-        
+    private String tempLibraryDirectory="";
     /** Save the undo state
     
     */
@@ -2248,17 +2254,19 @@ public class ParseSchem implements UndoActorListener
 
         s.isModified=isModified;
         s.fileName=openFileName;
+        s.libraryDir=tempLibraryDirectory;
         
         um.undoPush(s);
         isModified = true;
         if(cl!=null) cl.somethingHasChanged();
     }
     
-    public void saveUndoLibrary(String tempLibraryDirectory)
+    public void saveUndoLibrary(String t)
     {
+    	tempLibraryDirectory=t;
     	UndoState s = new UndoState();
-    	s.isLibrary=true;
-        s.text=tempLibraryDirectory;
+    	s.text=getText(true).toString();
+        s.libraryDir=tempLibraryDirectory;
         s.isModified=isModified;
         s.fileName=openFileName;
         
@@ -2270,7 +2278,6 @@ public class ParseSchem implements UndoActorListener
    		libraryUndoListener = l;
    	}
    
-    
     /** Determine if the drawing has been modified.
         @return the state.
     */

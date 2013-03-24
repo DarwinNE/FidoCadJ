@@ -50,6 +50,18 @@ public class UndoManager {
 		undoReset();
 	}
 	
+	public void printUndoState()
+	{
+		for (int i=0; i<undoBuffer.size();++i) {
+			if(i==pointer-2)
+				System.out.println("*****************");
+			System.out.println("undoBuffer["+i+"]="+undoBuffer.get(i));
+			if(i==pointer-2)
+				System.out.println("*****************");
+				
+		}
+	}
+	
 	/** Removes all the elements from the circular buffer
 	
 	*/

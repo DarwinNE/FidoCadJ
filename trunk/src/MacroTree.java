@@ -536,7 +536,6 @@ public class MacroTree extends JPanel
 					
 					if (tcategory != null) { // renaming group
 						try {
-							saveLibraryState();
 							LibUtils.renameGroup(libref, tlibFName,
 								tcategory, newname);
 							saveLibraryState();
