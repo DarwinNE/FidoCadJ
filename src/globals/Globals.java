@@ -31,7 +31,7 @@ But... who cares!!!
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 
 </pre>
 */
@@ -94,7 +94,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.2 delta";
+    public static final String version = "0.24.2 zeta";
     // Is it a beta version?
     public static final boolean isBeta = true;		
     
@@ -134,7 +134,8 @@ public class Globals
         
         if(Globals.messages!=null) s=Globals.messages.getString("Circuit_l");
         layerDesc.add(new LayerDesc(Color.black, true, s,1.0f));	// 0
-        if(Globals.messages!=null) s=Globals.messages.getString("Bottom_copper");
+        if(Globals.messages!=null) 
+        	s=Globals.messages.getString("Bottom_copper");
         layerDesc.add(new LayerDesc(new Color(0,0,128),true, s,1.0f));	// 1
         if(Globals.messages!=null) s=Globals.messages.getString("Top_copper");
         layerDesc.add(new LayerDesc(Color.red, true,s,1.0f));			// 2
