@@ -490,14 +490,14 @@ access the properties window.}
 \end{table}
 
 
-On the right are shown in a tree list the elements \index{macro}
-(called macro) of the libraries loaded into the application. To insert
-an element from the library we only need to select it from the list
+On the right are shown in a tree list the symbols \index{macro}
+(also called macros) of the loaded libraries. To insert in the drawing
+an element from the library, we only need to select it from the list
 an click on the drawing. FidoCAD\index{FidoCAD} libraries include
 all standard symbols used in electrical schematics\index{electrical schematic} and a wide selection of footprints\index{PCB!footprint} for drawing PCBs.
 
-From version 0.22, you can do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}) 
-By typing up and down keys, you can navigate through the results found.
+You can also do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}) 
+By typing up and down arrow keys, you can navigate through the results found.
 
 \begin{figure}
 \centering
@@ -522,7 +522,6 @@ element (in this case a text string). Within this window it is possible
 to modify all the parameters (coordinates, rotation\dots) of any
 drawing element. The aspect of this window will change because the
 information that can be modified will depend on the selected element.
-
 
 \section{A simple schematic}
 
@@ -1272,12 +1271,12 @@ FidoCadJ allows to create new libraries and new symbols. The adopted technique h
   \caption{The new symbol definition dialog. Here you can set up all the important characteristics of the symbol. Note the origin defined by the two red axis.}
   \label{fig_new_symbols} 
 \end{figure}
-\item In the first field ``Library filename'' you find the file name of the library in which the new symbol must be included. If you type a new name there, FidoCadJ will create a new file.
-\item The second field ``Library complete name'' is the complete name of the library, the one which is shown in the library tree. You might write what you want there, but it is better to choose a short and meaningful one.
-\item The third field ``Group'' allows you to choose in which group you want to put the new symbol, inside the library. Once again, if you type a new name, a new group will be created.
-\item The fourth field ``Name'' is the name of the symbol, what it is shown in the library tree. Once again, choose a short but meaningful symbol.
-\item The fifth field ``Key'' is a very short tag which will identify the symbol in the code. It should be unique inside each library and should not contain spaces as well as characters such as parenthesis, dots, and so on. FidoCadJ will propose a short numerical code for you, but you might use mnemonic tags as well.
-\item By clicking in the field on the right, you must choose the origin of the symbol, the point which will be used for placing the symbol inside the drawing. You might choose to snap on the grid the position you choose by clicking on ``Snap origin on grid''.
+\item In the first field ``Library filename''\index{Library filename} you find the file name of the library in which the new symbol must be included. If you type a new name there, FidoCadJ will create a new file.
+\item The second field ``Library complete name''\index{Library complete name} is the complete name of the library, the one which is shown in the library tree. You might write what you want there, but it is better to choose a short and meaningful one.
+\item The third field ``Group''\index{Group} allows you to choose in which group you want to put the new symbol, inside the library. Once again, if you type a new name, a new group will be created.
+\item The fourth field ``Name''\index{Name} is the name of the symbol, what it is shown in the library tree. Once again, choose a short but meaningful symbol.
+\item The fifth field ``Key''\index{Key} is a very short tag which will identify the symbol in the code. It should be unique inside each library and should not contain spaces as well as characters such as parenthesis, dots, and so on. FidoCadJ will propose a short numerical code for you, but you might use mnemonic tags as well.
+\item By clicking in the field on the right, you must choose the origin\index{Origin} of the symbol, the point which will be used for placing the symbol inside the drawing. You might choose to snap on the grid the position you choose by clicking on ``Snap origin on grid''.
 \item Once you click on ``OK'', you should find your newly created symbol in the user library in the library tree in the main FidoCadJ window.
 \end{itemize}
 \begin{figure}
@@ -1288,6 +1287,24 @@ FidoCadJ allows to create new libraries and new symbols. The adopted technique h
 An example of an user symbol employed in a drawing is shown in figure~\ref{fig_new_symbol_use}. Note the difference between the selected part of the drawing on the left (actually what it has been used for defining a new symbol) and the new symbol placed on the right.
 In fact, just one control point is available for the placement of the symbol and this control point corresponds to the choice of the origin while doing the symbol definition. It is thus useful to choose for that a point which has some relevance in your symbol.
 You can split a symbol\index{Split a symbol} again in its primitives by selecting it and clicking on ``Vectorize''.
+
+\subsection{Modifying existing symbols}
+A few menu actions are available on symbols in the library tree and the drag and drop\index{Drag and drop} is also supported there. Once you select a symbol in an user library and do a right-click on it, a popup menu appears, as shown in figure~\ref{fig_popup_menu_lib}. Here you have several options:
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=.5\textwidth]{popup_menu_lib} 
+  \end{center}
+  \caption{The popup menu used for modifying symbol properties in an user library.}
+  \label{fig_popup_menu_lib} 
+\end{figure}
+\begin{itemize}
+\item ``Rename''\index{Rename (library symbol)} will change the displayed name of the symbol.
+\item ``Delete''\index{Delete (library symbol)} will throw away the symbol. Be careful with this: if a drawing contains the symbol, it will be invalidated and disappear.
+\item ``Change key''\index{Change key} is useful to modify the key associated to the symbol. Once again, this is something which must be done when the symbol has not been used in the drawing.
+\end{itemize}
+By using drag and drop\index{Drag and drop} , you might change the library or the category on which a symbol is categorized. Take into account that a symbol complete identification tag is composed by the library name, followed by the key of the symbol. Thus, moving a symbol from one library to another will invalidate drawings containing it.
+
+All library operations are undoable, exactly as drawing operations. Bear in mind that empty libraries or groups are not shown.
 
 \chapter{Drawing format, macros and FidoCAD libraries} \label{chap_formato}
 
