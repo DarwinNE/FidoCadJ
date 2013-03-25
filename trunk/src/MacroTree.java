@@ -82,7 +82,6 @@ public class MacroTree extends JPanel
     private JMenuItem popRename;
     private JMenuItem popDelete;
     private JMenuItem popRenKey;
-    private boolean isLeaf;
     
     private String tlibFName, tcategory;    
     TreePath lpath;
@@ -117,7 +116,10 @@ public class MacroTree extends JPanel
         }
         return path1.equals(path2);
     }
- 
+ 	/** Save the expansion state of a tree. It is extremely annoying that a
+ 		tree is closed when an update operation is done. So we can save its
+ 		state with this method.
+ 	*/
     public String getExpansionState(int row)
     {
     	//Thread.dumpStack();
@@ -136,6 +138,8 @@ public class MacroTree extends JPanel
         return buf.toString();
     }
  
+ 	/** The opposite as getExpansionState
+ 	*/
     public void restoreExpansionState(int row, String expansionState)
     {
         StringTokenizer stok = new StringTokenizer(expansionState, ",");
@@ -151,8 +155,31 @@ public class MacroTree extends JPanel
     private void createNodes(DefaultMutableTreeNode top) {
         DefaultMutableTreeNode category = null;
         DefaultMutableTreeNode macroNode = null;
-
-        Iterator<MacroDesc> it = library.iterator();
+        
+        // Make sort that the library symbols are always ordered in the
+        // list.
+        final java.util.List<MacroDesc> sorted = new ArrayList<MacroDesc>();
+        sorted.addAll(library);
+        
+        // Perform a sort with some complex rules (speed issues there?)
+		Collections.sort(sorted, new Comparator<MacroDesc>() {
+    		public int compare(MacroDesc g1, MacroDesc g2) {
+    			// Make sort that standard libraries must always come first.
+    			if(LibUtils.isStdLib(g1)&&!LibUtils.isStdLib(g2))
+    				return -1;
+    			if(!LibUtils.isStdLib(g1)&&LibUtils.isStdLib(g2))
+    				return 1;
+    			
+    			// Libraries are always compared from the 
+    			// library name first.
+    			String s1 = g1.library+g1.category+g1.name;
+    			String s2 = g2.library+g2.category+g2.name;
+        		return s1.compareToIgnoreCase(s2);
+    		}
+		});
+        
+        // Now, we iterate through the sorted library.
+        Iterator<MacroDesc> it = sorted.iterator();
         
 		Map<String, DefaultMutableTreeNode> categories = 
 			new HashMap<String, DefaultMutableTreeNode>();
@@ -230,11 +257,11 @@ public class MacroTree extends JPanel
 			popRename.setEnabled(false);
     		popDelete.setEnabled(false);
     		popRenKey.setEnabled(false);
-		} else if(!isLeaf) {
+		} else if(macro.level!=0) {
 			// Library or group
 			popRename.setEnabled(true);
     		popDelete.setEnabled(true);
-    		popRenKey.setEnabled(false); // This element does not have a key
+    		popRenKey.setEnabled(false); // Those elements do not have a key
 		} else {
 			// User-modifiable library
 			popRename.setEnabled(true);
@@ -366,11 +393,8 @@ public class MacroTree extends JPanel
         		
         		// It is a macro?
         	    if (leaf) {
-        	    	isLeaf=true;
         	    	return this;
-        	    } else {
-					isLeaf=false;
-				}
+        	    } 
         	    DefaultMutableTreeNode dtn = 
         	      	(DefaultMutableTreeNode) value;
         	    
@@ -857,8 +881,7 @@ public class MacroTree extends JPanel
         Object nodeInfo = node.getUserObject(); 
         macro=(MacroDesc)nodeInfo;
         lpath = tree.getSelectionPath().getParentPath();                    
-        if (!node.isLeaf())         	
-        {
+        if (!node.isLeaf()) {
         	switch (macro.level) //node.getDepth()
         	{
         		case 2: // isLibrary
@@ -876,9 +899,7 @@ public class MacroTree extends JPanel
         			tcategory = null;
         			break;
         	}
-        }
-        
-        if (node.isLeaf()) {
+        } else {
         	// Show the preview of the component in the preview area.
         	try {
             	
