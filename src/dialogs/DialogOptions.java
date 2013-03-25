@@ -394,9 +394,10 @@ public class DialogOptions extends JDialog implements ComponentListener
 					new File(libD.getText()).getPath());
 					fc.setDialogTitle(
 						Globals.messages.getString("Select_lib_directory"));
-					int r = fc.showSaveDialog(null);
+					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					int r = fc.showOpenDialog(null);
 					if (r == JFileChooser.APPROVE_OPTION) {
-						din=fc.getSelectedFile().getParentFile().getPath();
+						din=fc.getSelectedFile().getPath();
 						
 					} else
 						din=null;
