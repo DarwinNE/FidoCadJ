@@ -378,7 +378,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 					fd.setDirectory(libD.getText());
 					System.setProperty("apple.awt.fileDialogForDirectories", 
 						"true");
-
 					fd.setVisible(true);
 					System.setProperty("apple.awt.fileDialogForDirectories", 
 						"false");
@@ -386,31 +385,29 @@ public class DialogOptions extends JDialog implements ComponentListener
 						din=(new File(fd.getDirectory(),fd.getFile())).
 							getPath();
 					else
-						din = "";
+						din = null;
         	
         		} else {
         			// Use Swing's file dialog.
            			JFileChooser fc = new JFileChooser(
 					new File(libD.getText()).getPath());
 					fc.setDialogTitle(Globals.messages.getString("Select_lib_directory"));
-				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				
-				// Dock library panel.
-				LibraryPanel p = new LibraryPanel(fc);
+					// Dock library panel (postponed to v. 0.24.3).
+					// LibraryPanel p = new LibraryPanel(fc);
 				
-				int r = fc.showOpenDialog(null);
-				if (r == JFileChooser.APPROVE_OPTION) {
-					din=fc.getSelectedFile().getPath();
-					
-				} else
-					din=null;
+					int r = fc.showOpenDialog(null);
+					if (r == JFileChooser.APPROVE_OPTION) {
+						din=fc.getSelectedFile().getPath();
+					} else
+						din=null;
                 
         		}
-                
 						
 				if(din != null) {
-					libDirectory=din;			
-					libD.setText(libDirectory);
+					//libDirectory=din;			
+					libD.setText(din);
 				}
 			}
 		});
