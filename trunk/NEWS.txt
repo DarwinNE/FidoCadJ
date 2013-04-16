@@ -13,6 +13,7 @@ Version 0.24.2
 - Corrected a bug with the standard font used for the text associated to elements.
 - The "Split non standard macros while copy/pasting" modal option has been replaced by an immediate menu item.
 - Rough centering of the drawing under the mouse pointer while doing a zoom.
+- Corrected a bug concerning the library directory choice and the Cancel action while working on MacOSX.
 
 Version 0.24.1
 --------------
