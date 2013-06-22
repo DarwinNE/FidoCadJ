@@ -89,6 +89,8 @@ public class MacroTree extends JPanel
     @SuppressWarnings("unused")
 	private static boolean DEBUG = false;
     
+    private static boolean enterSearchDownward = false;
+    
     private int[] start;
     
     JPopupMenu popup = new JPopupMenu(); // phylum    
@@ -959,6 +961,17 @@ public class MacroTree extends JPanel
 			searchAndSelect(search.getText().trim(), start, false);
 			e.consume();
 		}
+		if(e.getKeyCode()==KeyEvent.VK_ENTER){
+			boolean res = searchAndSelect(search.getText().trim(), start, 
+				enterSearchDownward);
+			if(!res) {
+				enterSearchDownward = !enterSearchDownward;
+				searchAndSelect(search.getText().trim(), start, 
+					enterSearchDownward);
+			}				
+			e.consume();
+		}
+
 	}
     
     public void keyReleased(KeyEvent e)
@@ -978,14 +991,17 @@ public class MacroTree extends JPanel
     
     /** Perform a search in the nodes of the macro tree
     
+    	@return Return true if something is found, return false if nothing is
+    		found
+    
     */
-    private void searchAndSelect(String what, int[] start, boolean forward)
+    private boolean searchAndSelect(String what, int[] start, boolean forward)
     {
     	
        	TreePath path=null;
        	
        	if (what.trim().equals(""))
-       		return;
+       		return false;
        	
        	if(start[0]==0) {
        		// collapse all rows of the tree and clear the selection
@@ -1001,7 +1017,7 @@ public class MacroTree extends JPanel
        	DefaultMutableTreeNode nn=searchNode(what, start, forward);
        	if (nn==null) {
        		// Nothing found. Just exit quietly.
-       		return ;
+       		return false;
        	}
        	
        	// Something has been found. Expand and select the element.
@@ -1009,6 +1025,7 @@ public class MacroTree extends JPanel
 		tree.scrollPathToVisible(path);
 		tree.setSelectionPath (path);
 		tree.expandPath(path);
+		return true;
     }
 
 	/** 
