@@ -159,8 +159,6 @@ public class ParseSchem implements UndoActorListener
         
     // ******* PRIMITIVE DATABASE ********
     
-    // Array of tokens being processed.
-    //private String[] tokens;
     // Actual line number. This is useful to indicate errors.
     private int lineNum;
     
@@ -637,8 +635,8 @@ public class ParseSchem implements UndoActorListener
             // primitive level. 
             
             for (i_index=0; i_index<getPrimitiveVector().size(); ++i_index){
-                ((GraphicPrimitive)getPrimitiveVector().get(i_index)).setChanged(
-                    true);
+                ((GraphicPrimitive)getPrimitiveVector().get(i_index)).
+                	setChanged(true);
             }
             
             if (!drawOnlyPads) 

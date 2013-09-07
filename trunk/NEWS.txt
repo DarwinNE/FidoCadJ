@@ -1,3 +1,9 @@
+Version 0.24.3
+--------------
+- You can navigate through search results in the library using the Return key and not just the arrow keys.
+- Czech translation of the user interface (by Chemik582)
+
+
 Version 0.24.2
 --------------
 - The user can now create new library symbols and edit existing libraries.
