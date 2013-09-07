@@ -956,7 +956,6 @@ public class MacroTree extends JPanel
 			searchAndSelect(search.getText().trim(), start, true);
 			e.consume();
 		}
-		
 		if(e.getKeyCode()==KeyEvent.VK_UP){
 			searchAndSelect(search.getText().trim(), start, false);
 			e.consume();

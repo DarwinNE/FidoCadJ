@@ -506,8 +506,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
    			q=createComplexCurvePoly(new MapCoordinates());
     		p=createComplexCurvePoly(coordSys);
     		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
-    		//System.out.println("q.npoints="+q.npoints);
-    		//System.out.println("p.npoints="+p.npoints);
     		
     		if(q==null) return;
     		
@@ -518,6 +516,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     		for(int i=0; i<pp.size(); ++i) {
    				gp.lineTo((float)pp.get(i).x,(float)pp.get(i).y);
    			}
+   			
    			if (isClosed) gp.closePath();
    			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
@@ -541,12 +540,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		if(!stroke.equals(g.getStroke())) 
 			g.setStroke(stroke);		
 
-		
 		// If needed, fill the interior of the shape
-        if (isFilled) 
- 			g.fillPolygon(p);
- 		
- 		
+        if (isFilled) {
+ 			g.fill(gp);
+ 		}
+ 				
  		g.draw(gp);
  		
  		 		

@@ -130,7 +130,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // next redraw.
 	private Rectangle scrollRectangle;
 
-
 	// Track wether an editing action is being made.
     private boolean successiveMove;
     
@@ -256,7 +255,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         splitNonStandardMacro_s= false;
         splitNonStandardMacro_c= false;
         	
-        // This is useful when preparing the applet: the circuit panel will
+        // This is unot seful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
             addMouseListener(this);
@@ -537,7 +536,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     	class)
     
         @return the current editing action
-    
     */
     public int getSelectionState()
     {
@@ -1249,7 +1247,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(x==oldx && y==oldy)
             return;
 
-
 		// This code follows an old convention and is not optimally handled in
 		// modern graphic environments. In the development of FidoCadJ, I am
 		// progressively switching from primitives directly drawn from here, 
@@ -1258,9 +1255,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 		// much less prone to flickering.
 		
         Graphics g = getGraphics();
-        
-//        Graphics2D g2d = (Graphics2D)g;
-        
+                
         // This is the newer code: if primEdit is different from null, it will
         // be drawn in the paintComponent event
         // We need to differentiate this case since when we are entering a
@@ -1680,13 +1675,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if(successiveMove) {
             successiveMove = false;
-            primEdit = null;
+            //primEdit = null;
             repaint();
         }
     }
     
     /** The zoom listener
-    
         @param z the zoom factor to be used
     */
     
@@ -1727,7 +1721,17 @@ public class CircuitPanel extends JPanel implements ActionListener,
         evidenceRect.width=w;        
     }
 
-    /** Repaint the panel */
+    /** Repaint the panel.
+    	This method performs the following operations:
+    	1. set the anti aliasing on (or off, depending on antiAlias).
+    	2. paint in white the background and draw the grid.
+    	3. call ParseSchem draw
+    	4. draw all active handles
+    	5. if needed, draw the primitive being edited
+    	6. draw the ruler, if needed
+    	7. if requested, print information about redraw speed
+    
+    */
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
@@ -1736,18 +1740,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         
         Graphics2D g2 = (Graphics2D)g; 
-    	g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
-                RenderingHints.VALUE_RENDER_SPEED);
-        g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
-                RenderingHints.VALUE_COLOR_RENDER_SPEED);
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
-                RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+
                 
         // Activate anti-aliasing when necessary.
         
-        if (antiAlias) g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-             RenderingHints.VALUE_ANTIALIAS_ON);
-        else {
+        if (antiAlias) {
+        	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+             	RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
+                RenderingHints.VALUE_RENDER_QUALITY);
+        	g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        	g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        	g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, 
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        } else {
           // Faster graphic (??? true??? I do not think so on modern systems)
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_SPEED);
@@ -1857,10 +1867,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private void drawPrimEdit(Graphics2D g2)
     {
     	if(primEdit!=null) {
-    		
 			primEdit.draw(g2,cs, createEditingLayerArray());
 		}
     }
+    
+    private Vector<LayerDesc> ll_dummy=new Vector<LayerDesc>();
     
    	/**  Create a fictionous Array List without making use of alpha 
          channels and colours.
@@ -1870,16 +1881,23 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
    	private Vector<LayerDesc> createEditingLayerArray()
     {
-          	
-       	Vector<LayerDesc> ll=new Vector<LayerDesc>();
-       	for(int i=0; i<Globals.MAX_LAYERS;++i) 
-       		ll.add(new LayerDesc(editingColor, true,"",1.0f));
-       		
-       	return ll;
+    	// This is called at each redraw, so it is a good idea to avoid
+    	// creating it each time.
+        if(ll_dummy.size()==0) {
+       		for(int i=0; i<Globals.MAX_LAYERS;++i) 
+       			ll_dummy.add(new LayerDesc(editingColor, true,"",1.0f));
+       	}
+       	
+       	return ll_dummy;
     }
  
     /** Draws a ruler to ease measuring distances.
-    
+    	@param g the graphic context
+    	@param sx the x position of the starting corner
+    	@param sy the y position of the starting corner
+    	@param ex the x position of the end corner
+    	@param ey the y position of the end corner
+    	
     */
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
@@ -1898,11 +1916,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // Calculates the ruler length.
         length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
         
-        
         g.drawLine(sx, sy, ex, ey);
-        
-//        int tot=(int)length;
-        
+                
         // A little bit of trigonometry :-)
         
         double alpha;
@@ -1913,6 +1928,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         alpha += (ex-sx>0)?0:Math.PI;
         
+        // Those magic numers are the lenghts of the tics (major and minor)
         double l = 5.0;
         
         if (cs.getXMagnitude()<1.0) {
@@ -1921,8 +1937,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             l=1;
         } else {
             l=5;
-        }
-        
+        }  
         
         double ll=0.0;
         double ld=5.0;
@@ -1934,12 +1949,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         alpha += Math.PI/2.0;
         
-        
-        
         boolean debut=true;
         
-        // Draw the ticks.
-        
+        // Draw the ticks.     
         for(double i=0; i<=length; i+=l) {
             if (j++==m || debut) {
                 j=1;
@@ -1969,9 +1981,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         String t2 = roundTo(length*.127,2)+" mm";
         
         FontMetrics fm = g.getFontMetrics(f);
-//        int h = fm.getAscent();
-//        int th = h+fm.getDescent();
-        
+     
         // Draw the box at the end, with the measurement results.
         g.setColor(Color.white);
         g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
@@ -2162,11 +2172,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** The action listener. Recognize menu events and behaves consequently.
-    
     */
     public void actionPerformed(ActionEvent evt)
     {
-    	
     	// TODO: Avoid some copy/paste of code from FidoFrame class
     	
         // Recognize and handle popup menu events
@@ -2264,8 +2272,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             		P.saveUndoState();
             		repaint();
             	}
-            }
-            
+            }      
        }
    }
 }

@@ -10,6 +10,25 @@ import globals.*;
 	This class is used to centralize the creation of basic stroke styles 
 	between all the drawing primitive. An important advantage is that this 
 	allows to cache their creation, thus saving a little bit of time.
+	
+<pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2010-2013 by Davide Bucci
+</pre>
 */
 
 class StrokeStyle 
@@ -17,6 +36,9 @@ class StrokeStyle
 	private BasicStroke[] strokeList;
 	private float actual_w;
 
+	/** Standard creator.
+		the stroke width will be created at the first use.
+	*/
 	void StrokeStyle()
 	{
 		actual_w=-1;
@@ -48,16 +70,11 @@ class StrokeStyle
         			0.0f));
         	}
         	actual_w=w;
-	
 		}
 		
 		// Here we retrieve the stroke style corresponding to the given 
 		// dashStyle
 		return (BasicStroke)strokeList[dashStyle];
 		
-		/*return new BasicStroke(w, BasicStroke.CAP_ROUND, 
-            		BasicStroke.JOIN_ROUND, 
-            		10.0f, Globals.dash[dashStyle], 
-        			0.0f);*/
 	}
 }

@@ -678,7 +678,7 @@ public abstract class GraphicPrimitive
 			// We blend the layer color with green, in such a way that the 
 			// selected objects bear a certain reminescence of their original
 			// color.
-			g.setColor(blend(Color.green, l.getColor(), 0.6f));
+			g.setColor(blendColors(Color.green, l.getColor(), 0.6f));
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 
 				1.0f));
 			oldalpha = 1.0f;
@@ -704,7 +704,7 @@ public abstract class GraphicPrimitive
                    color1, 0.0 will return color2 and so on.
     	@return        Blended color.
    	*/
-  	public static Color blend (Color color1, Color color2, float r)
+  	public static Color blendColors (Color color1, Color color2, float r)
   	{
     	float ir = (float) 1.0 - r;
 
