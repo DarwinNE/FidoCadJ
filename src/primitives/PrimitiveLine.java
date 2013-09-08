@@ -66,7 +66,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     */
     public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
                         boolean arrowS, boolean arrowE,
-                        int arrowSt, int arrowLe, int arrowWi, int dashSt)
+                        int arrowSt, int arrowLe, int arrowWi, int dashSt,
+                        String f, int size)
     {
         super();
     
@@ -77,7 +78,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         arrowStyle=arrowSt;
         dashStyle = dashSt;
         
-        initPrimitive(-1);
+        initPrimitive(-1, f, size);
         
         virtualPoint[0].x=x1;
         virtualPoint[0].y=y1;
@@ -91,12 +92,12 @@ public final class PrimitiveLine extends GraphicPrimitive
         setLayer(layer);
     }
     
-    public PrimitiveLine()
+    public PrimitiveLine(String f, int size)
     {
         super();
         arrowLength = 3;
         arrowHalfWidth = 1;
-        initPrimitive(-1);
+        initPrimitive(-1, f, size);
     }
     
     /** Gets the number of control points used.

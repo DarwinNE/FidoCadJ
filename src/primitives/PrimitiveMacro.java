@@ -76,7 +76,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param lib the library to be inherited
 		@param l the list of layers
 	*/
-	public PrimitiveMacro(Map<String, MacroDesc>lib, Vector<LayerDesc> l)
+	public PrimitiveMacro(Map<String, MacroDesc>lib, Vector<LayerDesc> l,
+			String f, int size)
 	{
 		super();
 		library=lib;
@@ -87,7 +88,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		macroCoord=new MapCoordinates();
 		changed=true;
 		
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 				
 		macroStore(layers);
 	}
@@ -119,7 +120,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		throws IOException
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, macroF, macroS);
 		library=lib;
 		layers=l;
 		key=key.toLowerCase();

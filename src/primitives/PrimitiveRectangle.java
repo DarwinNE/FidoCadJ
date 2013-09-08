@@ -65,11 +65,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 	
 	/** Standard constructor.
 	*/
-	public PrimitiveRectangle()
+	public PrimitiveRectangle(String f, int size)
 	{
 		super();
 		isFilled=false;
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 		
 		changed=true;
 		
@@ -85,10 +85,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 	*/
 	
 	public PrimitiveRectangle(int x1, int y1, int x2, int y2, boolean f, 
-							  int layer, int dashSt)
+							  int layer, int dashSt, String font, int size)
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, font, size);
 		
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;

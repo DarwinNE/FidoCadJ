@@ -944,11 +944,6 @@ public class ParseSchem implements UndoActorListener
     */
     public String getTextFont()
     {   
-    /*
-        for (int i=0; i<primitiveVector.size(); ++i){
-            return ((GraphicPrimitive)primitiveVector.get(i)).getMacroFont();
-        }
-        */
         return macroFont;
     }
     
@@ -1067,7 +1062,8 @@ public class ParseSchem implements UndoActorListener
     }
     
     /** Paste from the system clipboard
-        
+    	@param xstep if the shift should be applied, this is the x shift
+    	@param ystep if the shift should be applied, this is the y shift
     */
     public void paste(int xstep, int ystep)
     {
@@ -1085,7 +1081,6 @@ public class ParseSchem implements UndoActorListener
         
         saveUndoState();
         setChanged(true);
-        
     }
     
     /** Get the first selected primitive
@@ -1581,7 +1576,7 @@ public class ParseSchem implements UndoActorListener
         int j; // token counter within the string
         boolean hasFCJ=false; // the last primitive has FCJ extensions
         StringBuffer token=new StringBuffer(); 
-        GraphicPrimitive g = new PrimitiveLine();
+        GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
         String[] tokens=new String[MAX_TOKENS];
         String[] old_tokens=new String[MAX_TOKENS];
         String[] name=null;
@@ -1634,10 +1629,11 @@ public class ParseSchem implements UndoActorListener
                     if(tokens[0].equals("FCJ")) {   // FidoCadJ extension!
                         if(hasFCJ && old_tokens[0].equals("MC")) {
                             macro_counter=2;
-                            g=new PrimitiveMacro(library,layerV);
+                            g=new PrimitiveMacro(library,layerV,
+                            	macroFont, macroFontSize);
                             g.parseTokens(old_tokens, old_j+1);
                         } else if (hasFCJ && old_tokens[0].equals("LI")) {
-                            g=new PrimitiveLine();
+                            g=new PrimitiveLine(macroFont, macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1653,7 +1649,7 @@ public class ParseSchem implements UndoActorListener
                             }
                      
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
-                            g=new PrimitiveBezier();
+                            g=new PrimitiveBezier(macroFont, macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1669,7 +1665,7 @@ public class ParseSchem implements UndoActorListener
                             
                         } else if (hasFCJ && (old_tokens[0].equals("RV")||
                             old_tokens[0].equals("RP"))) {
-                            g=new PrimitiveRectangle();
+                            g=new PrimitiveRectangle(macroFont, macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1684,7 +1680,7 @@ public class ParseSchem implements UndoActorListener
                             }                        
                         } else if (hasFCJ && (old_tokens[0].equals("EV")||
                             old_tokens[0].equals("EP"))) {
-                            g=new PrimitiveOval();
+                            g=new PrimitiveOval(macroFont, macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1699,7 +1695,7 @@ public class ParseSchem implements UndoActorListener
                             }                        
                         } else if (hasFCJ && (old_tokens[0].equals("PV")||
                             old_tokens[0].equals("PP"))) {
-                            g=new PrimitivePolygon();
+                            g=new PrimitivePolygon(macroFont, macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1714,7 +1710,8 @@ public class ParseSchem implements UndoActorListener
                             }     
     					} else if (hasFCJ && (old_tokens[0].equals("CV")||
                             old_tokens[0].equals("CP"))) {
-                            g=new PrimitiveComplexCurve();
+                            g=new PrimitiveComplexCurve(macroFont,
+                            	macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -1851,7 +1848,7 @@ public class ParseSchem implements UndoActorListener
                             
                         macro_counter=0;
                         old_j=j;
-                        g=new PrimitivePCBLine();
+                        g=new PrimitivePCBLine(macroFont, macroFontSize);
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
                         //addPrimitive(g,false,false);
@@ -1860,7 +1857,7 @@ public class ParseSchem implements UndoActorListener
                         for(l=0; l<j+1; ++l)
                             old_tokens[l]=tokens[l];
                         macro_counter=0;
-                        g=new PrimitivePCBPad();
+                        g=new PrimitivePCBPad(macroFont, macroFontSize);
                         old_j=j;
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
@@ -1871,7 +1868,7 @@ public class ParseSchem implements UndoActorListener
                             old_tokens[l]=tokens[l];
                         old_j=j;
                         macro_counter=0;
-                        g=new PrimitiveConnection();
+                        g=new PrimitiveConnection(macroFont, macroFontSize);
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
                         //addPrimitive(g,false,false);
@@ -1964,38 +1961,38 @@ public class ParseSchem implements UndoActorListener
     	boolean addPrimitive = false;
         if(hasFCJ && !tokens[0].equals("FCJ")) {
             if (old_tokens[0].equals("MC")) {
-                g=new PrimitiveMacro(library,layerV);
+                g=new PrimitiveMacro(library,layerV, macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("LI")) {
-                g=new PrimitiveLine();
+                g=new PrimitiveLine(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("BE")) {
-                g=new PrimitiveBezier();
+                g=new PrimitiveBezier(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("RP")||
                 old_tokens[0].equals("RV")) {
-                g=new PrimitiveRectangle();
+                g=new PrimitiveRectangle(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("EP")||
                 old_tokens[0].equals("EV")) {
-                g=new PrimitiveOval();
+                g=new PrimitiveOval(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("PP")||
                 old_tokens[0].equals("PV")) {
-                g=new PrimitivePolygon();
+                g=new PrimitivePolygon(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if(old_tokens[0].equals("PL")) {
-                g=new PrimitivePCBLine();
+                g=new PrimitivePCBLine(macroFont, macroFontSize);
                 addPrimitive = true;
              } else if (old_tokens[0].equals("CP")||
                 old_tokens[0].equals("CV")) {
-                g=new PrimitiveComplexCurve();
+                g=new PrimitiveComplexCurve(macroFont, macroFontSize);
                 addPrimitive = true;
             }  else if(old_tokens[0].equals("PA")) {
-                g=new PrimitivePCBPad();
+                g=new PrimitivePCBPad(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if(old_tokens[0].equals("SA")) {
-                g=new PrimitiveConnection();
+                g=new PrimitiveConnection(macroFont, macroFontSize);
                 addPrimitive = true;
             }
         }     
