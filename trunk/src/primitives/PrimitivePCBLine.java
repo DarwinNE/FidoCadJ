@@ -59,11 +59,11 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 	
 	/** Standard constructor.
 	*/
-	public PrimitivePCBLine()
+	public PrimitivePCBLine(String f, int size)
 	{
 		super();
 		width=0;
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 	}
 	/** Create a PCB line between two points
 		@param x1 the start x coordinate (logical unit).
@@ -73,10 +73,11 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		@param w specifies the line width. 
 		@param layer the layer to be used.
 	*/
-	public PrimitivePCBLine(int x1, int y1, int x2, int y2, int w, int layer)
+	public PrimitivePCBLine(int x1, int y1, int x2, int y2, int w, int layer,
+			String f, int size)
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 			
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;

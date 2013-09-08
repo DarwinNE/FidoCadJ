@@ -55,11 +55,11 @@ public final class PrimitiveOval extends GraphicPrimitive
 	
 	/** Standard constructor.
 	*/
-	public PrimitiveOval()
+	public PrimitiveOval(String f, int size)
 	{
 		super();
 		isFilled=false;
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 	}
 	/** Create an oval defined by two points.
 		@param x1 the start x coordinate (logical unit).
@@ -73,10 +73,10 @@ public final class PrimitiveOval extends GraphicPrimitive
 	*/
 	
 	public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer, 
-		int dashSt)
+		int dashSt, String font, int size)
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, font, size);
 			
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;

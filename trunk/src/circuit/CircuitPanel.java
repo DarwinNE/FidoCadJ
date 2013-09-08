@@ -848,7 +848,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             // Add a connection primitive at the given point.
 
             g=new PrimitiveConnection(cs.unmapXsnap(x),
-                                        cs.unmapYsnap(y), currentLayer);
+                    cs.unmapYsnap(y), currentLayer,
+                    P.getTextFont(), P.getTextFontSize());
             g.setMacroFont(P.getTextFont(), P.getTextFontSize());
 
             P.addPrimitive(g, true, true);
@@ -871,8 +872,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                   PCB_pad_sizey,                                                                                                                
                                   PCB_pad_drill,
                                   PCB_pad_style,
-                                  currentLayer);
-            g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                                  currentLayer,
+                                  P.getTextFont(), P.getTextFontSize());
 
             P.addPrimitive(g, true, true);
             repaint();
@@ -909,9 +910,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                                          currentLayer,
                                                          false,
                                                         false,
-                                                        0,3,2,0);
-                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
-
+                                                        0,3,2,0,
+                                                        P.getTextFont(), 
+                                                        P.getTextFontSize());
                 P.addPrimitive(g, true, true);
                         
                 if((evt.getModifiers() & InputEvent.BUTTON3_MASK)==0) {
@@ -978,8 +979,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                          currentLayer,
                                          false,
                                          false,
-                                         0,3,2,0);
-                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                                         0,3,2,0,
+                                         P.getTextFont(), 
+                                         P.getTextFontSize());
 
                 P.addPrimitive(g, true, true);
         
@@ -1000,12 +1002,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
             if (evt.getClickCount() >= 2) {
          
                 PrimitivePolygon poly=new PrimitivePolygon(isFilled,
-                                         currentLayer,0);
+                                         currentLayer,0,
+                                         P.getTextFont(), P.getTextFontSize());
                 for(i=1; i<=clickNumber; ++i) 
                     poly.addPoint(xpoly[i],ypoly[i]);
         
-                poly.setMacroFont(P.getTextFont(), P.getTextFontSize());
-
                 P.addPrimitive(poly, true,true);
                 clickNumber = 0;
                 repaint();
@@ -1036,14 +1037,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
             if (evt.getClickCount() >= 2) {
          
                 PrimitiveComplexCurve compc=new PrimitiveComplexCurve(isFilled,
-                						 false,
-                                         currentLayer,
-            							false, false, 0, 3, 2, 0);
+                						false,
+                                        currentLayer,
+            							false, false, 0, 3, 2, 0,
+            							P.getTextFont(), P.getTextFontSize());
                 for(i=1; i<=clickNumber; ++i) 
                     compc.addPoint(xpoly[i],ypoly[i]);
         
-                compc.setMacroFont(P.getTextFont(), P.getTextFontSize());
-
                 P.addPrimitive(compc, true,true);
                 clickNumber = 0;
                 repaint();
@@ -1085,8 +1085,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0);
-                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                                         currentLayer,0,
+                                         P.getTextFont(), P.getTextFontSize());
 
                 P.addPrimitive(g, true, true);
         
@@ -1122,8 +1122,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          isFilled,
-                                         currentLayer,0);
-                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                                         currentLayer,0,
+                                         P.getTextFont(), P.getTextFontSize());
 
                 P.addPrimitive(g, true, true);
                 clickNumber = 0;
@@ -1159,8 +1159,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                          xpoly[2],
                                          ypoly[2],
                                          PCB_thickness,
-                                         currentLayer);
-                g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+                                         currentLayer,
+                                         P.getTextFont(), P.getTextFontSize());
                 P.addPrimitive(g, true,true);
                 
                 // Check if the user has clicked with the right button.
@@ -1331,7 +1331,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
      
      		primEdit = new PrimitiveLine(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
-            	false, false, 0, 3, 2, 0);
+            	false, false, 0, 3, 2, 0, P.getTextFont(), P.getTextFontSize());
             
             repaint();
             successiveMove = true;  
@@ -1364,7 +1364,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (actionSelected == PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	PCB_thickness, 0);
+            	PCB_thickness, 0, P.getTextFont(), P.getTextFontSize());
             
             repaint();
             successiveMove = true;    
@@ -1394,7 +1394,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	// Since we do not know how to fabricate a cubic curve with less
         	// than four points, we use a polygon instead.
         	
-            primEdit = new PrimitivePolygon(false, 0, 0);
+            primEdit = new PrimitivePolygon(false, 0, 0, 
+            		P.getTextFont(), P.getTextFontSize());
             
 			for(int i=1; i<=clickNumber; ++i)
  				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
@@ -1417,7 +1418,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                         
         */
         if (actionSelected == POLYGON) {
-            primEdit = new PrimitivePolygon(false, 0, 0);
+            primEdit = new PrimitivePolygon(false, 0, 0,
+            		P.getTextFont(), P.getTextFontSize());
             
             
 			for(int i=1; i<=clickNumber && i<NPOLY; ++i)
@@ -1443,7 +1445,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         */
         if (actionSelected == COMPLEXCURVE) {
             primEdit = new PrimitiveComplexCurve(false, false, 0,
-            	false, false, 0, 3, 2, 0);
+            	false, false, 0, 3, 2, 0, P.getTextFont(), P.getTextFontSize());
             
 			for(int i=1; i<=clickNumber && i<NPOLY; ++i)
  				((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
@@ -1474,7 +1476,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }
             primEdit = new PrimitiveRectangle(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	false,	0, 0);
+            	false,	0, 0, P.getTextFont(), P.getTextFontSize());
             
             repaint();
             successiveMove = true;
@@ -1499,7 +1501,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                
 			primEdit = new PrimitiveOval(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	false,	0, 0);
+            	false,	0, 0, P.getTextFont(), P.getTextFontSize());
              
             repaint();
 			successiveMove = true;

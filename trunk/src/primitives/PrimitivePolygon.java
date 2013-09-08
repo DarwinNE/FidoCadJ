@@ -60,13 +60,13 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		return nPoints+2;
 	}
 	 
-	public PrimitivePolygon()
+	public PrimitivePolygon(String f, int size)
 	{
 		super();
 		isFilled=false;
 		nPoints=0;
 		p = new Polygon();
-		initPrimitive(N_POINTS);
+		initPrimitive(N_POINTS, f, size);
 	}
 	/** Create a polygon. Add points with the addPoint method.
 		
@@ -76,11 +76,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		
 	*/
 	
-	public PrimitivePolygon(boolean f, int layer, int dashSt)
+	public PrimitivePolygon(boolean f, int layer, int dashSt, 
+		String font, int size)
 	{
 		super();
 		p = new Polygon();
-		initPrimitive(N_POINTS);
+		initPrimitive(N_POINTS, font,  size);
 		nPoints=0;
 		isFilled=f;
 		dashStyle=dashSt;

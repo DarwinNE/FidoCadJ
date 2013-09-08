@@ -54,10 +54,10 @@ public final class PrimitiveConnection extends GraphicPrimitive
 		return N_POINTS;
 	}
 	
-	public PrimitiveConnection()
+	public PrimitiveConnection(String f, int size)
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 	}
 
 	/** Create a connection in the given point.
@@ -65,11 +65,11 @@ public final class PrimitiveConnection extends GraphicPrimitive
 		@param y the y coordinate (logical unit) of the connection.
 		@param layer the layer to be used.
 	*/
-	public PrimitiveConnection(int x, int y, int layer)
+	public PrimitiveConnection(int x, int y, int layer, String f, int size)
 	{
 		super();
 		
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 		
 		virtualPoint[0].x=x;
 		virtualPoint[0].y=y;

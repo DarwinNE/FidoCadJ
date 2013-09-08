@@ -96,8 +96,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		@param t the text to be used
 		@param l the layer to be used
 	*/
-	public PrimitiveAdvText(int x, int y, int sx, int sy, String fn, int or, int st,
-							String t, int l)
+	public PrimitiveAdvText(int x, int y, int sx, int sy, String fn, int or, 
+							int st, String t, int l)
 	{
 		this();
 		virtualPoint[0]=new Point(x,y);

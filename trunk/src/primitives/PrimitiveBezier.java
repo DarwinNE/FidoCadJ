@@ -63,12 +63,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	/** Standard constructor. It creates an empty shape.
 	
 	*/
-	public PrimitiveBezier()
+	public PrimitiveBezier(String f, int size)
 	{
 		super();
 		
 		//r = new Rectangle();
-   		initPrimitive(-1);
+   		initPrimitive(-1, f, size);
 		
 	}
 	/** Create a Bézier curve specified by four control points
@@ -91,7 +91,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	public PrimitiveBezier(int x1, int y1, int x2, int y2, 
 						 int x3, int y3, int x4, int y4, 
 							int layer, boolean arrowS, boolean arrowE,
-							int arrowSt, int arrowLe, int arrowWi, int dashSt)
+							int arrowSt, int arrowLe, int arrowWi, int dashSt,
+							String font, int size)
 	{
 		super();
 
@@ -105,7 +106,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		
 		//r = new Rectangle();
 		
-		initPrimitive(-1);
+		initPrimitive(-1, font, size);
 			
 		// Store the coordinates of the points 
 		virtualPoint[0].x=x1;

@@ -85,13 +85,13 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	
 	/** Create a ComplexCurve. Add points with the addPoint method.
 	*/
-	public PrimitiveComplexCurve()
+	public PrimitiveComplexCurve(String f, int size)
 	{
 		super();
 		isFilled=false;
 		nPoints=0;
 		p = new Polygon();
-		initPrimitive(N_POINTS);
+		initPrimitive(N_POINTS, f, size);
 	}
 	/** Create a ComplexCurve. Add points with the addPoint method.
 		
@@ -104,7 +104,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	
 	public PrimitiveComplexCurve(boolean f, boolean c, int layer, 
 		boolean arrowS, boolean arrowE,
-		int arrowSt, int arrowLe, int arrowWi, int dashSt)
+		int arrowSt, int arrowLe, int arrowWi, int dashSt,
+		String font, int size)
 	{
 		super();
 		
@@ -116,7 +117,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		dashStyle=dashSt;
 		
 		p = new Polygon();
-		initPrimitive(N_POINTS);
+		initPrimitive(N_POINTS, font, size);
 		nPoints=0;
 		isFilled=f;
 		isClosed=c;

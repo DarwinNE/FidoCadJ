@@ -79,10 +79,10 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 	*/
 	
 	public PrimitivePCBPad(int x1, int y1, int wx, int wy, int radi, int st, 
-		int layer)
+		int layer, String f, int size)
 	{
 		super();
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 
 		virtualPoint[0].x=x1;
 		virtualPoint[0].y=y1;
@@ -101,14 +101,14 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 	
 
 	
-	public PrimitivePCBPad()
+	public PrimitivePCBPad(String f, int size)
 	{
 		super();
 		rx=0;
 		ry=0;
 		sty=0;
 		ri=0;
-		initPrimitive(-1);
+		initPrimitive(-1, f, size);
 	}
 
 	public final boolean needsHoles()

@@ -32,7 +32,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 </pre>
 
     
@@ -46,7 +46,14 @@ public class ExportFidoCad implements ExportInterface {
 	private Vector<LayerDesc> layerV;
 	private boolean extensions;		// use FidoCadJ extensions
 	private boolean splitStandardMacros; // Split also the standard macros
+	private String textFont;
+	private int textFontSize;
 
+	public void setMacroFont(String f, int size)
+	{
+		textFont = f;
+		textFontSize = size;
+	}
 
 	public void setSplitStandardMacros(boolean s)
 	{
@@ -65,10 +72,11 @@ public class ExportFidoCad implements ExportInterface {
 	*/
 	
 	public ExportFidoCad (File f) throws IOException
-	{
-		
+	{	
 		extensions = true;
 		splitStandardMacros=false;
+		textFont=Globals.defaultTextFont;
+		textFontSize=3;
 		
 		fstream = new OutputStreamWriter(new FileOutputStream(f), 
 			Globals.encoding);
@@ -201,7 +209,8 @@ public class ExportFidoCad implements ExportInterface {
 			arrowEnd,arrowStyle,
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
-			dashStyle)).toString(extensions));			
+			dashStyle,
+			textFont, textFontSize)).toString(extensions));			
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -215,7 +224,8 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{ 
 		out.write((new PrimitiveConnection(cLe(x),
-			cLe(y),layer)).toString(extensions));
+			cLe(y),layer,
+			textFont, textFontSize)).toString(extensions));
 	}
 		
 	/** Called when exporting a Line primitive.
@@ -254,7 +264,8 @@ public class ExportFidoCad implements ExportInterface {
 			arrowEnd,arrowStyle,
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
-			dashStyle)).toString(extensions));
+			dashStyle,
+			textFont, textFontSize)).toString(extensions));
 	}
 	
 	/** Called when exporting a Macro call.
@@ -349,7 +360,8 @@ public class ExportFidoCad implements ExportInterface {
 	{ 
 		out.write((new PrimitiveOval(cLe(x1), 
 			cLe(y1), cLe(x2), cLe(y2), 
-			isFilled, layer, dashStyle)).toString(extensions));
+			isFilled, layer, dashStyle,
+			textFont, textFontSize)).toString(extensions));
 	}
 		
 	/** Called when exporting a PCBLine primitive.
@@ -367,7 +379,8 @@ public class ExportFidoCad implements ExportInterface {
 	{ 
 		out.write((new PrimitivePCBLine(cLe(x1),
 			cLe(y1),cLe(x2),cLe(y2),
-			cLe(width), cLe(layer))).toString(extensions));
+			cLe(width), cLe(layer),
+			textFont, textFontSize)).toString(extensions));
 	}
 		
 	
@@ -392,7 +405,8 @@ public class ExportFidoCad implements ExportInterface {
 			out.write((new PrimitivePCBPad(cLe(x),
 				cLe(y),cLe(six),
 				cLe(siy),cLe(indiam), style,
-				layer)).toString(extensions));	
+				layer,
+				textFont, textFontSize)).toString(extensions));	
 	}
 	/**	Called when exporting a Polygon primitive
 	
@@ -409,7 +423,8 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{ 
 		
-		PrimitivePolygon p=new PrimitivePolygon(isFilled, layer, dashStyle);
+		PrimitivePolygon p=new PrimitivePolygon(isFilled, layer, dashStyle,
+			textFont, textFontSize);
 		
 		for (int i=0; i <nVertices; ++i) {
 			p.addPoint(cLe(vertices[i].x), 
@@ -448,7 +463,8 @@ public class ExportFidoCad implements ExportInterface {
 			arrowEnd,arrowStyle,
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
-			dashStyle);
+			dashStyle,
+			textFont, textFontSize);
 		
 		for (int i=0; i <nVertices; ++i) {
 			p.addPoint(cLe(vertices[i].x), 
@@ -478,7 +494,8 @@ public class ExportFidoCad implements ExportInterface {
 		out.write((new PrimitiveRectangle(cLe(x1), 
 			cLe(y1), cLe(x2), 
 			cLe(y2), isFilled, 
-			layer, dashStyle)).toString(extensions));
+			layer, dashStyle,
+			textFont, textFontSize)).toString(extensions));
 	}
 	
 	/** Called when exporting an arrow.
