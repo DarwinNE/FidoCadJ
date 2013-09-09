@@ -268,6 +268,48 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	return pp;    	
 	}
 	
+	public final Vector<Point2D.Double> 
+		createComplexCurveDerivatives(MapCoordinates coordSys)
+	{
+     		
+        int np=nPoints;
+                
+        double [] xPoints = new double[np];
+        double [] yPoints = new double[np];
+        
+        int i;
+        
+        for (i=0; i<nPoints; ++i) {
+        	xPoints[i] = coordSys.mapXr(virtualPoint[i].x,virtualPoint[i].y);
+        	yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
+        }
+        
+        // If the curve is closed, we need to add a last point which is the
+        // same as the first one.
+        
+        Cubic[] X;
+        Cubic[] Y;
+        
+        if(isClosed) {
+        	X = calcNaturalCubicClosed(np-1, xPoints);
+      		Y = calcNaturalCubicClosed(np-1, yPoints);
+        } else {
+        	X = calcNaturalCubic(np-1, xPoints);
+      		Y = calcNaturalCubic(np-1, yPoints);
+      	}
+      	
+      	if(X==null || Y==null) return null;
+      	
+      	// very crude technique: just break each segment up into steps lines 
+      	Vector<Point2D.Double> pp = new Vector<Point2D.Double>();
+      			 			 	
+      	for (i = 0; i < X.length; ++i) {
+	  		pp.add(new Point2D.Double(X[i].d1, Y[i].d1));
+      	} 
+      	pp.add(new Point2D.Double(X[X.length-1].d2, Y[X.length-1].d2));
+      	return pp;    	
+	}
+	
 	public final Polygon createComplexCurvePoly(MapCoordinates coordSys)
 	{
 		Polygon poly = new Polygon();
@@ -354,6 +396,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     	for (i = 0; i<n; ++i) {
       		C[i] = new Cubic(x[i], D[i], 3.0*(x[i+1] - x[i]) -2.0*D[i]-D[i+1],
 		       2.0*(x[i] - x[i+1]) + D[i] + D[i+1]);
+		    C[i].d1=D[i];
+		    C[i].d2=D[i+1];
     	}
     	return C;
   	}
@@ -417,13 +461,18 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 
     	/* now compute the coefficients of the cubics */
     	Cubic[] C = new Cubic[n+1];
-    	for ( k = 0; k < n; ++k) {
+    	for (k = 0; k < n; ++k) {
       		C[k] = new Cubic((float)x[k], D[k], 
       			3*(x[k+1] - x[k]) - 2*D[k] - D[k+1],
 		       	2*(x[k] - x[k+1]) + D[k] + D[k+1]);
+		    C[k].d1=D[k];
+		    C[k].d2=D[k+1];
     	}
     	C[n] = new Cubic((float)x[n], D[n], 3*(x[0] - x[n]) - 2*D[n] - D[0],
 		     2*(x[n] - x[0]) + D[n] + D[0]);
+		C[n].d1=D[n];
+		C[n].d2=D[0];
+		
     	return C;
   	}
 
@@ -506,16 +555,64 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			// commands is important!
    			q=createComplexCurvePoly(new MapCoordinates());
     		p=createComplexCurvePoly(coordSys);
+    		
+    		Vector<Point2D.Double> dd = createComplexCurveDerivatives(coordSys);
     		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
     		
     		if(q==null) return;
     		
     		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, q.npoints);
     		
-    		gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
+    		/*gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
     		
-    		for(int i=0; i<pp.size(); ++i) {
+    		for(int i=1; i<pp.size(); ++i) {
    				gp.lineTo((float)pp.get(i).x,(float)pp.get(i).y);
+   			}*/
+   			
+   			gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
+   			
+   			int increment=STEPS;
+   			double derX1=0.0, derX2=0.0;
+   			double derY1=0.0, derY2=0.0;
+   			double w1=0.666667, w2=0.666667;
+   			int j=0;
+   			for(int i=0; i<pp.size()-increment; i+=increment) {
+   				
+   				derX1=dd.get(j).x/2.0*w1;
+   				derY1=dd.get(j).y/2.0*w1;
+   				  	
+   				if(j+1<dd.size()) {
+   					derX2=dd.get(j+1).x/2.0*w2;
+   					derY2=dd.get(j+1).y/2.0*w2;
+   				} else {
+   					derX2=dd.get(j+1).x/2.0*w2;
+   					derY2=dd.get(j+1).y/2.0*w2;
+   				}
+   				
+   				++j;
+   				
+   				/*
+   				gp.lineTo((float)(pp.get(i).x+derX1),
+   					(float)(pp.get(i).y+derY1));
+   				
+   				gp.moveTo((float)(pp.get(i+increment).x-derX2),
+   					(float)(pp.get(i+increment).y-derY2));
+   					
+   				gp.lineTo((float)(pp.get(i+increment).x),
+   					(float)(pp.get(i+increment).y));
+   				
+   				
+   				gp.moveTo((float)(pp.get(i).x),
+   					(float)(pp.get(i).y));
+   				*/
+   				
+   				gp.curveTo((float)(pp.get(i).x+derX1),
+   					(float)(pp.get(i).y+derY1),
+   					(float)(pp.get(i+increment).x-derX2),
+   					(float)(pp.get(i+increment).y-derY2),
+   					(float)(pp.get(i+increment).x),
+   					(float)(pp.get(i+increment).y));
+   					
    			}
    			
    			if (isClosed) gp.closePath();
@@ -1033,6 +1130,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 class Cubic {
 
   double a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
+  public double d1, d2;		// Derivatives
 
   public Cubic(double a, double b, double c, double d){
     this.a = a;
