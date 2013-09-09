@@ -257,6 +257,12 @@ public class ParseSchem implements UndoActorListener
     public void setLayers(Vector<LayerDesc> v)
     {
         layerV=v;
+        for (int i=0; i<getPrimitiveVector().size(); ++i) {
+            GraphicPrimitive g= (GraphicPrimitive)getPrimitiveVector().get(i);
+            if (g instanceof PrimitiveMacro) {
+            	((PrimitiveMacro) g).setLayers(v);
+            }
+        }
         changed=true;
     }
     

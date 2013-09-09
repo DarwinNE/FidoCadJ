@@ -252,6 +252,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		}
 	}
 	
+	final public void setLayers(Vector<LayerDesc> layerV)
+	{
+		macro.setLayers(layerV);
+	}
+	
 	/** Draw the graphic primitive on the given graphic context.
 	
 		@param g the graphic context in which the primitive should be drawn.
