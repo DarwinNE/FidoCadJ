@@ -2,7 +2,9 @@ Version 0.24.3
 --------------
 - You can navigate through search results in the library using the Return key and not just the arrow keys.
 - Czech translation of the user interface (by Chemik582)
-
+- Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
+- Corrected bug #45 "Color Print instead of Black and Wite print (or exported file)"
+- Corrected bug #43 and #44 "Wrong component font when using a personally created component"
 
 Version 0.24.2
 --------------
