@@ -220,7 +220,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		technique, but it is very easy to be implemented.
 	
 	*/
-	public final Vector<Point2D.Double> 
+	public final CurveStorage 
 		createComplexCurve(MapCoordinates coordSys)
 	{
      		
@@ -253,61 +253,22 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	if(X==null || Y==null) return null;
       	
       	// very crude technique: just break each segment up into steps lines 
-      	Vector<Point2D.Double> pp = new Vector<Point2D.Double>();
+      	CurveStorage c = new CurveStorage();
       	
-		pp.add(new Point2D.Double(X[0].eval(0), Y[0].eval(0)));
+		c.pp.add(new Point2D.Double(X[0].eval(0), Y[0].eval(0)));
 		 	
 		int x, y;
 		 	
       	for (i = 0; i < X.length; ++i) {
+      		c.dd.add(new Point2D.Double(X[i].d1, Y[i].d1));
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
-	  			pp.add(new Point2D.Double(X[i].eval(u), Y[i].eval(u)));
+	  			c.pp.add(new Point2D.Double(X[i].eval(u), Y[i].eval(u)));
 			}
       	} 
-      	return pp;    	
-	}
-	
-	public final Vector<Point2D.Double> 
-		createComplexCurveDerivatives(MapCoordinates coordSys)
-	{
-     		
-        int np=nPoints;
-                
-        double [] xPoints = new double[np];
-        double [] yPoints = new double[np];
-        
-        int i;
-        
-        for (i=0; i<nPoints; ++i) {
-        	xPoints[i] = coordSys.mapXr(virtualPoint[i].x,virtualPoint[i].y);
-        	yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
-        }
-        
-        // If the curve is closed, we need to add a last point which is the
-        // same as the first one.
-        
-        Cubic[] X;
-        Cubic[] Y;
-        
-        if(isClosed) {
-        	X = calcNaturalCubicClosed(np-1, xPoints);
-      		Y = calcNaturalCubicClosed(np-1, yPoints);
-        } else {
-        	X = calcNaturalCubic(np-1, xPoints);
-      		Y = calcNaturalCubic(np-1, yPoints);
-      	}
+      	c.dd.add(new Point2D.Double(X[X.length-1].d2, Y[X.length-1].d2));
       	
-      	if(X==null || Y==null) return null;
-      	
-      	// very crude technique: just break each segment up into steps lines 
-      	Vector<Point2D.Double> pp = new Vector<Point2D.Double>();
-      			 			 	
-      	for (i = 0; i < X.length; ++i) {
-	  		pp.add(new Point2D.Double(X[i].d1, Y[i].d1));
-      	} 
-      	pp.add(new Point2D.Double(X[X.length-1].d2, Y[X.length-1].d2));
-      	return pp;    	
+      	return c;    	
 	}
 	
 	public final Polygon createComplexCurvePoly(MapCoordinates coordSys)
@@ -320,7 +281,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int xmax = -Integer.MAX_VALUE;
         int ymax = -Integer.MAX_VALUE;
         
-		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
+        CurveStorage c=createComplexCurve(coordSys);
+		Vector<Point2D.Double> pp = c.pp;
 	 	
 	 	if (pp==null) return null;
 	 	
@@ -556,8 +518,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
    			q=createComplexCurvePoly(new MapCoordinates());
     		p=createComplexCurvePoly(coordSys);
     		
-    		Vector<Point2D.Double> dd = createComplexCurveDerivatives(coordSys);
-    		Vector<Point2D.Double> pp = createComplexCurve(coordSys);
+    		CurveStorage c = createComplexCurve(coordSys);
+    		Vector<Point2D.Double> dd = c.dd;
+    		Vector<Point2D.Double> pp = c.pp;
     		
     		if(q==null) return;
     		
@@ -1145,3 +1108,21 @@ class Cubic {
     return (((d*u) + c)*u + b)*u + a;
   }
 }
+
+/** The curve is stored in two vectors. 
+	The first contains a curve representation as a polygon with a lot of 
+	vertices.
+	The second has as much as elements as the number of control vertices and
+	stores only the derivatives.
+*/
+class CurveStorage {
+	Vector<Point2D.Double> pp;	// Curve as a polygon (relatively big)
+	Vector<Point2D.Double> dd;	// Derivatives 
+	
+	public CurveStorage()
+	{
+		pp = new Vector<Point2D.Double>();
+      	dd = new Vector<Point2D.Double>();
+	}
+}
+	
