@@ -1193,10 +1193,9 @@ public class FidoFrame extends JFrame implements
             	if(selection==JOptionPane.OK_OPTION) 
                 	exportFileName = Globals.adjustExtension(
                 		exportFileName, exportFormat);
+                	f = new File(exportFileName);
             }
-            
-            
-            
+
             // If the file already exists, we asks for confirmation
             if(f.exists()) {
                	selection = JOptionPane.showConfirmDialog(null, 

@@ -94,7 +94,7 @@ public class Globals
     
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.3 alpha";
+    public static final String version = "0.24.3 beta";
     // Is it a beta version?
     public static final boolean isBeta = true;	
     
@@ -103,6 +103,8 @@ public class Globals
     
     // The default font
     public static final String defaultTextFont = "Courier New";
+    // Comic Sans MS will send a 30 kV electrical discharge through USB...
+    
     
     public static final int dashNumber = 5;
     public static final float dash[][] = {{10.0f,0f},{5.0f,5.0f},{2.0f, 2.0f}, 
@@ -290,7 +292,6 @@ public class Globals
     	
     	// If the separator has not been found, start is negative.
     	if(start<0) start=0;
-    	
     	
     	// Search if there is a dot (separation of the extension)
     	if (search>start && search>=0) {
