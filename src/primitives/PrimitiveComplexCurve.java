@@ -282,8 +282,9 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int ymax = -Integer.MAX_VALUE;
         
         CurveStorage c=createComplexCurve(coordSys);
-		Vector<Point2D.Double> pp = c.pp;
 	 	
+	 	if (c==null) return null;
+		Vector<Point2D.Double> pp = c.pp;
 	 	if (pp==null) return null;
 	 	
 		int x, y;
