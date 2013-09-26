@@ -136,8 +136,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // Strict FidoCad compatibility
     public boolean extStrict;  
     
-     // Settings for macro splitting.
-    public boolean splitNonStandardMacro_s;    // split non standard macro
+     // Settings for macro splitting. 
+     // TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
+     public boolean splitNonStandardMacro_s;    // split non standard macro
                                                 // when saving
     public boolean splitNonStandardMacro_c;    // split non standard macro
                                                 // when copying

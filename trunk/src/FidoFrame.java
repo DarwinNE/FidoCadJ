@@ -513,6 +513,9 @@ public class FidoFrame extends JFrame implements
             JMenuItem(Globals.messages.getString("SaveName"));
         fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Globals.shortcutKey | InputEvent.SHIFT_MASK));
+        
+        JMenuItem fileSaveNameSplit = new 
+            JMenuItem(Globals.messages.getString("Save_split"));
             
         JMenuItem fileExport = new 
             JMenuItem(Globals.messages.getString("Export"));
@@ -536,11 +539,14 @@ public class FidoFrame extends JFrame implements
         JMenuItem options = new 
             JMenuItem(Globals.messages.getString("Circ_opt"));
 	
+        // Add the items in the file menu.
         
         fileMenu.add(fileNew);
         fileMenu.add(fileOpen);
         fileMenu.add(fileSave);
         fileMenu.add(fileSaveName);
+        fileMenu.addSeparator();
+        fileMenu.add(fileSaveNameSplit);
         fileMenu.addSeparator();
         
         fileMenu.add(fileExport);
@@ -557,6 +563,8 @@ public class FidoFrame extends JFrame implements
         	fileMenu.addSeparator();
         }
         fileMenu.add(fileClose);
+        
+        // Define all the action listeners
 
         fileNew.addActionListener((ActionListener)this);
         fileOpen.addActionListener((ActionListener)this);
@@ -566,6 +574,7 @@ public class FidoFrame extends JFrame implements
     
         fileSave.addActionListener((ActionListener)this);
         fileSaveName.addActionListener((ActionListener)this);
+        fileSaveNameSplit.addActionListener((ActionListener)this);
     
         options.addActionListener((ActionListener)this);
 
@@ -855,7 +864,7 @@ public class FidoFrame extends JFrame implements
             if(choice==JOptionPane.YES_OPTION) { 
                	//  Save and exit
                	//System.out.println("Save and exit.");
-               	if(!save())
+               	if(!save(false))
                		shouldExit=false;
             } else if (choice==JOptionPane.NO_OPTION) { 
                	// Don't save, exit
@@ -924,11 +933,15 @@ public class FidoFrame extends JFrame implements
             }
             // Save with name
             if (arg.equals(Globals.messages.getString("SaveName"))) {
-                saveWithName();
-            }  
+                saveWithName(false);
+            }
+            // Save with name, split non standard macros
+            if (arg.equals(Globals.messages.getString("Save_split"))) {
+                saveWithName(true);
+            }
             // Save with the current name (if available)
             if (arg.equals(Globals.messages.getString("Save"))) {
-                save();   
+                save(false);   
             }
             // New drawing
             if (arg.equals(Globals.messages.getString("New"))) {
@@ -1356,6 +1369,10 @@ public class FidoFrame extends JFrame implements
             Transferable tr = dtde.getTransferable();
             DataFlavor[] flavors = tr.getTransferDataFlavors();
             for (int i = 0; i < flavors.length; i++) {
+            	// try to avoid problematic situations
+            	if(flavors==null || flavors[i]==null)
+            		return;
+            	// check the correct type of the drop flavor
                 if (flavors[i].isFlavorJavaFileListType()) {
                     // Great!  Accept copy drops...
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
@@ -1499,9 +1516,11 @@ public class FidoFrame extends JFrame implements
     	native one, depending on the host operating system), in order to let 
     	the user choose a new name for the file to be saved.
     	@return true if the save operation has gone well.
+    	@param splitNonStandardMacro_s decides whether the non standard macros
+    	       should be split during the save operation.
 
     */
-    boolean saveWithName()
+    boolean saveWithName(boolean splitNonStandardMacro_s)
     {
         String fin;
         String din;
@@ -1563,24 +1582,26 @@ public class FidoFrame extends JFrame implements
             openFileDirectory=din;
             
             // Here everything is ready for saving the current drawing.     
-            return save();
+            return save(splitNonStandardMacro_s);
         } else {
         	return false;
         }
     }
     
     /** Save the current file.
+    	@param splitNonStandardMacro_s decides whether the non standard macros
+    	       should be split during the save operation.
     	@return true if the save operation has gone well.
     */
-    boolean save()
+    boolean save(boolean splitNonStandardMacro_s)
     {
     	// If there is not a name currently defined, we use instead the 
     	// save with name function.
     	if(CC.P.openFileName.equals("")) {
-            return saveWithName();
+            return saveWithName(splitNonStandardMacro_s);
         }
         try {
-            if (CC.splitNonStandardMacro_s) {
+            if (splitNonStandardMacro_s) {
                 /*  In fact, splitting the nonstandard macro when saving a file
                     is indeed an export operation. This ease the job, since
                     while exporting in a vector graphic format one has 
@@ -1686,8 +1707,9 @@ public class FidoFrame extends JFrame implements
                     
         // The panel is now made visible. Its properties will be updated only 
         // if the user clicks on "Ok".
-        
         options.setVisible(true);
+        
+        // Now, we can update the properties.
         CC.profileTime=options.profileTime;
         CC.antiAlias=options.antiAlias;
         textToolbar=options.textToolbar;
@@ -1703,9 +1725,7 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_sizey(options.pcbpadheight_i);
         CC.setPCB_pad_drill(options.pcbpadintw_i);
         CC.P.setTextFont(options.macroFont,options.macroSize_i);
-        
-        //extFCJ_s = options.extFCJ_s;
-        //extFCJ_c = options.extFCJ_c;
+
         CC.splitNonStandardMacro_s = options.split_n_s;
         CC.splitNonStandardMacro_c = options.split_n_c;
 
@@ -1713,14 +1733,12 @@ public class FidoFrame extends JFrame implements
         toolBar.setStrictCompatibility(options.extStrict);
         CC.P.setShiftCopyPaste(options.shiftCP);
 
-
         Globals.quaquaActive=options.quaquaActive;
     
         libDirectory=options.libDirectory;
         
         Globals.lineWidth = options.stroke_size_straight_i;
         Globals.lineWidthCircles = options.stroke_size_straight_i;
-        //options.stroke_size_oval_i;
         Globals.diameterConnection = options.connectionSize_i;
        
         // We know that this code will be useful only when FidoCadJ will run as
