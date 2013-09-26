@@ -293,7 +293,6 @@ public class ParseSchem implements UndoActorListener
     }
     
     /** Try to load all libraries ("*.fcl") files in the given directory.
-    
         FCDstdlib.fcl if exists will be considered as standard library.
         
         @param s the directory in which the libraries should be present.
@@ -1949,7 +1948,7 @@ public class ParseSchem implements UndoActorListener
                                      +lineNum);
         }
         
-        // If the schematics has some configuration informations, we need
+        // If the schematics has some configuration information, we need
         // to set them up.
         if (newConnectionSize>0) {
             Globals.diameterConnection=newConnectionSize;
@@ -2022,7 +2021,6 @@ public class ParseSchem implements UndoActorListener
         The sorting metod adopted is the Shell sort. By the practical point
         of view, this seems to be rather good even for large drawings. This is
         because the primitive list is always more or less already ordered.
-        
     */
     public void sortPrimitiveLayers()
     {
@@ -2031,7 +2029,6 @@ public class ParseSchem implements UndoActorListener
         boolean cont=true;
         //MyTimer mt=new MyTimer();
         maxLayer = 0;
-        
         
         // Indexes
         int j,k,l;
@@ -2149,7 +2146,8 @@ public class ParseSchem implements UndoActorListener
                     l=g.getLayer();         
 
                     if(l==j && !(g instanceof PrimitiveMacro)){
-                        if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
+                        if(((LayerDesc)(layerV.get(l))).isVisible||
+                        	exportInvisible)
                             g.export(exp, mp);
                         
                     } else if(g instanceof PrimitiveMacro) {
@@ -2157,9 +2155,9 @@ public class ParseSchem implements UndoActorListener
                         ((PrimitiveMacro)g).setDrawOnlyLayer(j);
                         ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
     
-                        if(((LayerDesc)(layerV.get(l))).isVisible||exportInvisible)
+                        if(((LayerDesc)(layerV.get(l))).isVisible||
+                        	exportInvisible)
                             g.export(exp, mp);
-                        
                     }
                 }
             }
@@ -2372,6 +2370,5 @@ public class ParseSchem implements UndoActorListener
 			Globals.deleteDirectory(new File(tempDir.get(i)));
 		}
 	}
-	
 }
 
