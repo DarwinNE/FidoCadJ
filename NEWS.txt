@@ -3,8 +3,9 @@ Version 0.24.3
 - You can navigate through search results in the library using the Return key and not just the arrow keys.
 - Czech translation of the user interface (by Chemik582)
 - Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
-- Corrected bug #45 "Color Print instead of Black and Wite print (or exported file)"
+- Corrected bug #45 "Color Print instead of Black and White print (or exported file)"
 - Corrected bug #43 and #44 "Wrong component font when using a personally created component"
+- The "Split non standard macros while saving" modal option has been replaced by an immediate menu item. It always works similarly to "save as..."
 
 Version 0.24.2
 --------------
@@ -31,7 +32,7 @@ Version 0.24.1
 - The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
 - The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
 - More precise selection of very close elements without "name" and "value" tags.
-- Popup menu accessible with right click in the selection mode (cut, copy, paste, rotate, mirror request #3409656). Unuseful menu items are disabled if nothing is selected.
+- Popup menu accessible with right click in the selection mode (cut, copy, paste, rotate, mirror request #3409656). Un-useful menu items are disabled if nothing is selected.
 - Open a file is now faster and requires less memory.
 - Added a Dutch translation of the user interface.
 - Added the -l option to the command line interface.

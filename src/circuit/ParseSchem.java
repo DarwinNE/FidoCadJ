@@ -936,7 +936,13 @@ public class ParseSchem implements UndoActorListener
         int i;
         macroFont=f;
         macroFontSize = size;
-
+        
+        // Silently correct a wrong size. This should never happen (the dialog
+        // has a control, but avoids a wrong configuration to sneak somewhere
+        // else.
+		if(size<=0)
+			size=1;
+			
         for (i=0; i<getPrimitiveVector().size(); ++i){
             ((GraphicPrimitive)getPrimitiveVector().get(i)).setMacroFont(f, size);
         }

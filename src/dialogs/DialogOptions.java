@@ -45,11 +45,13 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean textToolbar;
   	public boolean smallIconsToolbar;
   	public int gridSize;
-  	//public boolean extFCJ_s;
-  	//public boolean extFCJ_c;
   	public boolean extStrict;
+  	
+  	// TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
   	public boolean split_n_s;
   	public boolean split_n_c;
+  	///
+  	
   	public boolean shiftCP;
   	
   	public double stroke_size_straight_i;
@@ -74,8 +76,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 	//private JCheckBox extFCJ_c_CB;
 	//private JCheckBox extFCJ_s_CB;
 	private JCheckBox extStrict_CB;
+	
+	// TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
 	private JCheckBox split_n_s_CB;
 	private JCheckBox split_n_c_CB;
+	////
 	
 	private JCheckBox shiftCP_CB;
 
@@ -234,6 +239,17 @@ public class DialogOptions extends JDialog implements ComponentListener
 				split_n_c = split_n_c_CB.isSelected(); 				
 				
 				try{
+					int s=Integer.parseInt(macroSize.getText().trim());
+  					
+  					if(s<=0) {
+  						JOptionPane.showMessageDialog(null,
+                        Globals.messages.getString("Font_size_invalid"),
+                        "",
+                        JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    } else {
+  						macroSize_i=s;
+  					}
 					ng=Integer.parseInt(gridWidth.getText().trim());
 					libDirectory=libD.getText().trim();
 					
@@ -257,9 +273,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 					
 					connectionSize_i=Double.parseDouble(
   						connectionSize.getText().trim());
-  					
-  					macroSize_i=Integer.parseInt(macroSize.getText().trim());
   						
+  					
 				} catch (NumberFormatException E) 
 				{
 					// ng will remain equal to -1, which is invalid	 
@@ -735,7 +750,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets(6,40,6,40));
 		
-		extensionsPanel.add(split_n_s_CB, constraints); // Split non standard
+		//extensionsPanel.add(split_n_s_CB, constraints); // Split non standard
 													// macros when saving files
 		
 		split_n_c_CB=new JCheckBox(Globals.messages.getString(
