@@ -42,7 +42,8 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
         listModel.setDirectory(fc.getCurrentDirectory());
     }
     
-    private void initGUI() {
+    private void initGUI() 
+    {
         JScrollPane sp;
         
         setLayout(new BorderLayout());
@@ -54,29 +55,34 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
         fileList = new JList(listModel);
         fileList.setCellRenderer(new ListCellRenderer() {
         	@Override
-        	public Component getListCellRendererComponent(JList list, Object value, int index, 
-        							boolean isSelected, boolean cellHasFocus) {
-			LibraryDesc desc = (LibraryDesc) value;
-			String libraryName;
-			JPanel p;
-			Icon icon = MetalIconFactory.getTreeFloppyDriveIcon();
-			Icon spaceIcon = new SpaceIcon(icon.getIconWidth(), icon.getIconHeight());
+        	public Component getListCellRendererComponent(JList list, 
+        		Object value, int index, 
+        		boolean isSelected, boolean cellHasFocus) 
+        	{
+				LibraryDesc desc = (LibraryDesc) value;
+				String libraryName;
+				JPanel p;
+				Icon icon = MetalIconFactory.getTreeFloppyDriveIcon();
+				Icon spaceIcon = new SpaceIcon(icon.getIconWidth(), 
+					icon.getIconHeight());
 			
-			if (desc.libraryName == null) {
-			    libraryName = "---";
-			} else {
-			    libraryName = "(" + desc.libraryName + ")";
+				if (desc.libraryName == null) {
+			    	libraryName = "---";
+				} else {
+			    	libraryName = "(" + desc.libraryName + ")";
+				}
+			
+				p = new JPanel();
+				p.setBorder(new EmptyBorder(2,0,3,0));
+				p.setOpaque(false);
+				p.setLayout(new BorderLayout());
+				p.add(BorderLayout.NORTH, new JLabel(desc.filename, icon, 
+					SwingConstants.LEFT));
+				p.add(BorderLayout.SOUTH, new JLabel(libraryName, spaceIcon, 
+					SwingConstants.LEFT));
+				return p;
 			}
-			
-			p = new JPanel();
-			p.setBorder(new EmptyBorder(2,0,3,0));
-			p.setOpaque(false);
-			p.setLayout(new BorderLayout());
-			p.add(BorderLayout.NORTH, new JLabel(desc.filename, icon, SwingConstants.LEFT));
-			p.add(BorderLayout.SOUTH, new JLabel(libraryName, spaceIcon, SwingConstants.LEFT));
-			return p;
-		}
-        } );
+        });
         
         sp = new JScrollPane(fileList);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -86,45 +92,53 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
         fileList.setFocusable(false);
     }
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)){
+    public void propertyChange(PropertyChangeEvent evt) 
+    {
+        if (evt.getPropertyName().equals(
+        	JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
         	listModel.setDirectory(fc.getSelectedFile());
         }
-        if (evt.getPropertyName().equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
+        if (evt.getPropertyName().equals(
+        	JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
         	listModel.setDirectory(fc.getCurrentDirectory());
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         SwingUtilities.invokeLater(new Runnable() {
-		@Override
-		public void run() {
-			JFileChooser fc;
-			LibraryPanel lp;
-			fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fc.setPreferredSize(new Dimension(800,400));
-			lp = new LibraryPanel(fc);
+			@Override
+			public void run() 
+			{
+				JFileChooser fc;
+				LibraryPanel lp;
+				fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setPreferredSize(new Dimension(800,400));
+				lp = new LibraryPanel(fc);
 			
-			fc.showOpenDialog(null);
-		}
-        } );
+				fc.showOpenDialog(null);
+			}
+        });
     }
     
     /**
     * ListModel for libraries.
     */
-    class LibraryListModel implements ListModel {
+    class LibraryListModel implements ListModel 
+    {
     	private ArrayList<ListDataListener> listeners;
     	private ArrayList<LibraryDesc> libraryList;
     	private File currentDir;
     	
-    	LibraryListModel() {
+    	LibraryListModel() 
+    	{
     		listeners = new ArrayList<ListDataListener>();
     		libraryList = new ArrayList<LibraryDesc>();
     	}
     	
-    	public void setDirectory(File dir) {
+    	public void setDirectory(File dir) 
+    	{
     		currentDir = dir;
     		
     		clearList();
@@ -136,20 +150,22 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
     		fireChanged();
     	}
     	
-    	private void refreshList() {
+    	private void refreshList() 
+    	{
     		File[] files;
     		LibraryDesc desc;
     		
     		files = currentDir.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File f) {
-				if (f.isFile()) {
-					if (f.getName().toLowerCase().matches("^.*\\.fcl$")) {
-						return true;
+				@Override
+				public boolean accept(File f) 
+				{
+					if (f.isFile()) {
+						if (f.getName().toLowerCase().matches("^.*\\.fcl$")) {
+							return true;
+						}
 					}
+					return false;
 				}
-				return false;
-			}
     		});
     		
     		for (File f : files) {
@@ -160,26 +176,31 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
     		}
 
     		Collections.sort(libraryList, new Comparator<LibraryDesc>() {
-			@Override
-			public int compare(LibraryDesc ld1, LibraryDesc ld2) {
-				// Sorting with case sensitive
-				// If need Windows like sorting,use String.compareToIgnoreCase
-				return ld1.filename.compareTo(ld2.filename);
-			}
-			@Override
-			public boolean equals(Object obj) {
-				return false;
-			}
-    		} );
+				@Override
+				public int compare(LibraryDesc ld1, LibraryDesc ld2) 
+				{
+					// Sorting with case sensitive
+					// If need Windows like sorting,
+					// use String.compareToIgnoreCase
+					return ld1.filename.compareTo(ld2.filename);
+				}
+				@Override
+				public boolean equals(Object obj) {
+					return false;
+				}
+    		});
     	}
     	
-    	private void clearList() {
+    	private void clearList() 
+    	{
     		libraryList.clear();
     	}
     	
-    	private void fireChanged() {
+    	private void fireChanged() 
+    	{
     		for (ListDataListener l : listeners) {
-    			l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+    			l.contentsChanged(new ListDataEvent(this, 
+    				ListDataEvent.CONTENTS_CHANGED, 0, 0));
     		}
     	}
     	
@@ -238,22 +259,26 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
         }
         
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(ListDataListener l) 
+        {
         	listeners.add(l);
         }
         
         @Override
-        public void removeListDataListener(ListDataListener l) {
+        public void removeListDataListener(ListDataListener l) 
+        {
         	listeners.remove(l);
         }
         
         @Override
-        public int getSize() {
+        public int getSize() 
+        {
         	return libraryList.size();
         }
         
         @Override
-        public LibraryDesc getElementAt(int index) {
+        public LibraryDesc getElementAt(int index) 
+        {
         	return libraryList.get(index);
         }
     }
@@ -261,7 +286,8 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
     /**
     * Library description class.
     */
-    class LibraryDesc {
+    class LibraryDesc 
+    {
     	public String filename;
     	public String libraryName;
     	
@@ -274,27 +300,32 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
     /**
     * Dummy icon class for spacing.
     */
-    class SpaceIcon implements Icon {
+    class SpaceIcon implements Icon 
+    {
     	private int width;
     	private int height;
     	
-    	SpaceIcon(int width, int height) {
+    	SpaceIcon(int width, int height) 
+    	{
     		this.width = width;
     		this.height = height;
     	}
     	
     	@Override
-    	public int getIconHeight() {
+    	public int getIconHeight() 
+    	{
     		return height;
     	}
     	
     	@Override
-    	public int getIconWidth() {
+    	public int getIconWidth() 
+    	{
     		return width;
     	}
     	
     	@Override
-    	public void paintIcon(Component c, Graphics g, int x, int y) {
+    	public void paintIcon(Component c, Graphics g, int x, int y) 
+    	{
     		// NOP
     	}
     }

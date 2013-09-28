@@ -236,9 +236,9 @@ public class FidoFrame extends JFrame implements
             setIconImage(icon);
         }
                 
-        Globals g=new Globals();
         
         if (runsAsApplication) {
+        	Globals g=new Globals();
             prefs = Preferences.userNodeForPackage(g.getClass());
      	 	readPreferences();
         } else {

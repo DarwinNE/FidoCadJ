@@ -220,7 +220,7 @@ public class FidoMain {
         	// for Java 1.5).  This might mean that in a future this can
         	// be not very useful, or worse slowdown the performances.
         	// CAREFUL**************************************************
-        	// NOTE: this does not seems to have any effect!
+        	// NOTE: this does not seem to have any effect!
 			System.setProperty("apple.awt.graphics.UseQuartz", "true");
 		}
 		
@@ -327,7 +327,7 @@ public class FidoMain {
     	// 80 characters.
     
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-    	    "By Davide Bucci, 2007-2012.\n\n"+
+    	    "By Davide Bucci, 2007-2013.\n\n"+
     	    
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
@@ -486,7 +486,6 @@ class CreateSwingInterface implements Runnable {
             System.setProperty(
             	"com.apple.mrj.application.apple.menu.about.name", 
             	"FidoCadJ");
-            
             
 	        try { 
                 //Globals.quaquaActive=true;
