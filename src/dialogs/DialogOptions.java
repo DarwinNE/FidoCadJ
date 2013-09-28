@@ -410,7 +410,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				
 					// Dock library panel (postponed to v. 0.24.3).
-					// LibraryPanel p = new LibraryPanel(fc);
+					LibraryPanel p = new LibraryPanel(fc);
 				
 					int r = fc.showOpenDialog(null);
 					if (r == JFileChooser.APPROVE_OPTION) {
