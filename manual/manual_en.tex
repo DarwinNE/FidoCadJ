@@ -68,7 +68,7 @@
 
 \newcommand{\bottomrule}{\hline}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.24.2 \\ user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24.3 \\ user manual} 
 
 \author{Davide Bucci\\[3em]
 \includegraphics[width=.7\textwidth]{icona_fidocadj_a}
@@ -1245,8 +1245,9 @@ Exactly as it happens for the other libraries embedded in FidoCadJ, if there is 
 
 Other files with \lstinline!.fcl! extension in the library search path will be considered as libraries and FidoCadJ will try to load them when it is starting. This is done when the application starts, when the user change the library search path, or when the ``Update libraries'' option in the ``Circuit menu'' is chosen.
 
-From version 0.23, FidoCadJ allows to split non standard macros (as the original FidoCAD\index{FidoCAD} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro which does not belong to the standard FidoCAD\index{FidoCAD} libraries is expanded into its graphic primitives. The reader thus does not need to have the very same libraries you have installed in your system to read your post.
-To activate this behavior, you have to activate ``Split non standard macros when saving'' in the ``FidoCadJ extensions'' tab of the ``Preferences'' window. During copy/pasting, a different shortcut is available in the ``Edit'' menu, called ``Copy, split non standard macros'', in order to make sort that the copied drawing will have all the non standard macros split.
+FidoCadJ allows to split non standard macros (as the original FidoCAD\index{FidoCAD} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro not belong to the standard FidoCAD\index{FidoCAD} libraries is expanded into its graphic primitives. Who reads your post, thus, does not need to have the very same libraries you have installed in your system.
+For copy/pasting, a command and a shortcut are available in the ``Edit'' menu, called ``Copy, split non standard macros'' (or \keyevidence{Control}+\keyevidence{M}\footnote{On MacOSX systems, the shortcut is \keyevidence{Command}+\keyevidence{M}}), in order to make sort that the copied drawing will have all the non standard macros split.
+You might also save a file with the non standard macros split, by choosing `Save as..., split non standard macros''from the ``File'' menu. A dialog will appear to let you choose a new file name, since usually you do not want to overwrite the one you are working with.
 
 \subsection{Defining new symbols}
 FidoCadJ allows to create new libraries and new symbols. The adopted technique has been chosen in order to be as intuitive as possible. Here are the steps to follow:
