@@ -10,6 +10,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
 
+import globals.*;
+
 /**
 * Accessory panel to show library list for JFileChooser.
 * @Author Kohta Ozaki
@@ -52,8 +54,14 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(PREFERRED_PANEL_WIDTH,1));
         
-        // add(BorderLayout.NORTH,new JLabel(Globals.messages.getString("..."));
-        add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
+        // If this class is run as a standalone program, the Globals.messages
+        // resource handler might not be initizalized. In this case,
+        // an english tag will do.
+        if(Globals.messages!=null)
+        	add(BorderLayout.NORTH,new JLabel(
+        		Globals.messages.getString("lib_in_dir")));
+        else 
+        	add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
         
         fileList = new JList(listModel);
         fileList.setCellRenderer(new ListCellRenderer() {
