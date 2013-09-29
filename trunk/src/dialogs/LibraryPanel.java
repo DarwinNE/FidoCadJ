@@ -14,7 +14,8 @@ import java.util.*;
 * Accessory panel to show library list for JFileChooser.
 * @Author Kohta Ozaki
 */
-class LibraryPanel extends JPanel implements PropertyChangeListener {
+class LibraryPanel extends JPanel implements PropertyChangeListener 
+{
     private int PREFERRED_PANEL_WIDTH = 250;
     
     private JFileChooser fc;
@@ -26,7 +27,8 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
     * This automatically docks to JFileChooser.
     * @param fc JFileChooser to docking.
     */
-    LibraryPanel(JFileChooser fc) {
+    LibraryPanel(JFileChooser fc) 
+    {
         this.fc = fc;
         fc.addPropertyChangeListener(this);
         fc.setAccessory(this);
@@ -34,7 +36,8 @@ class LibraryPanel extends JPanel implements PropertyChangeListener {
         
         SwingUtilities.invokeLater(new Runnable() {
         		@Override
-        		public void run() {
+        		public void run() 
+        		{
         			initGUI();
         		}
         } );
