@@ -13,24 +13,27 @@ import java.util.*;
 import globals.*;
 
 /**
-* Accessory panel to show library list for JFileChooser.
-* @Author Kohta Ozaki
+* JFileChooser accessory panel for listing libraries description.
+*
+* @author Kohta Ozaki
 */
-class LibraryPanel extends JPanel implements PropertyChangeListener 
+public class LibraryPanel extends JPanel implements PropertyChangeListener 
 {
     private int PREFERRED_PANEL_WIDTH = 250;
     
     private JFileChooser fc;
     private JList fileList;
     private LibraryListModel listModel;
-    
+
     /**
-    * Constructor.
-    * This automatically docks to JFileChooser.
-    * @param fc JFileChooser to docking.
+    * Creates UI.
+    * This LibraryPanel register as accessory panel to JFileChooser.
+    * And adds as listener for receiving selection change event. 
+    * @param fc JFileChooser instance.
     */
-    LibraryPanel(JFileChooser fc) 
+    public LibraryPanel(JFileChooser fc) 
     {
+
         this.fc = fc;
         fc.addPropertyChangeListener(this);
         fc.setAccessory(this);
@@ -47,6 +50,9 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
         listModel.setDirectory(fc.getCurrentDirectory());
     }
     
+    /**
+    * Creates UI.
+    */
     private void initGUI() 
     {
         JScrollPane sp;
@@ -99,12 +105,15 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(BorderLayout.CENTER, sp);
         
-        // disable focus
+        // Disable focus.
+        // The list is never selected.
         fileList.setFocusable(false);
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) 
     {
+    	    
         if (evt.getPropertyName().equals(
         	JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
         	listModel.setDirectory(fc.getSelectedFile());
@@ -114,9 +123,15 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
         	listModel.setDirectory(fc.getCurrentDirectory());
         }
     }
-    
+
+    /**
+    * For test method.
+    * Shows only JFileChooser with this LibraryPanel.
+    * @param args
+    */
     public static void main(String[] args) 
     {
+
         SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() 
@@ -132,28 +147,39 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
 			}
         });
     }
-    
+
     /**
-    * ListModel for libraries.
+    * ListModel to provide libraries list.
+    * This model searches libraries in selected directory.
+    * And provide library name and filename to JList component.
     */
-    class LibraryListModel implements ListModel 
+    public class LibraryListModel implements ListModel 
     {
-    	private ArrayList<ListDataListener> listeners;
+    	    
+        private ArrayList<ListDataListener> listeners;
     	private ArrayList<LibraryDesc> libraryList;
     	private File currentDir;
-    	
+
+	/** Constructs model.
+	*/    	
     	LibraryListModel() 
     	{
     		listeners = new ArrayList<ListDataListener>();
     		libraryList = new ArrayList<LibraryDesc>();
     	}
     	
+    	/**
+    	* Sets directory.
+    	* And updates libraries list in directory.
+    	* @param dir selected directory as File
+    	*/
     	public void setDirectory(File dir) 
     	{
     		currentDir = dir;
     		
     		clearList();
     		if (currentDir != null) {
+    			// Permission check
     			if (currentDir.canRead() && currentDir.isDirectory()) {
     				refreshList();
     			}
@@ -186,13 +212,15 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
     			libraryList.add(desc);
     		}
 
+    		// Sort list by filename.
     		Collections.sort(libraryList, new Comparator<LibraryDesc>() {
 				@Override
 				public int compare(LibraryDesc ld1, LibraryDesc ld2) 
 				{
-					// Sorting with case sensitive
-					// If need Windows like sorting,
-					// use String.compareToIgnoreCase
+					// Sort with case sensitive.
+					// This likes UNIX.
+					// If case sensitive is not needed, use
+					// String.compareToIgnoreCase
 					return ld1.filename.compareTo(ld2.filename);
 				}
 				@Override
@@ -216,7 +244,8 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
     	}
     	
     	private String getLibraryName(File f) {
-    		// if unified api for library is implemented,replace this section
+    		// if there is a public api for reading library name direct,
+    		// rewrite this section.
     		
     		// maxReadLine = -1  : reads to EOF.
     		//             = num : reads to num line.
@@ -257,14 +286,14 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
     			// return null for libraryName
     		} finally {
     			try {
-    				if (br != null) {
+				if (br != null) {
     					br.close();
     				}
     				if (fr != null) {
     					fr.close();
     				}
-            } catch (Exception e) { }
-            }
+			} catch (Exception e) { }
+		}
             
             return libraryName;
         }
@@ -293,12 +322,13 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
         	return libraryList.get(index);
         }
     }
-    
+
     /**
     * Library description class.
     */
-    class LibraryDesc 
+    private class LibraryDesc 
     {
+
     	public String filename;
     	public String libraryName;
     	
@@ -307,13 +337,14 @@ class LibraryPanel extends JPanel implements PropertyChangeListener
     		return String.format("%s (%s)", filename, libraryName);
     	}
     }
-    
+
     /**
     * Dummy icon class for spacing.
     */
-    class SpaceIcon implements Icon 
+    private class SpaceIcon implements Icon 
     {
-    	private int width;
+
+ 	private int width;
     	private int height;
     	
     	SpaceIcon(int width, int height) 
