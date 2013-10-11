@@ -1159,19 +1159,23 @@ public class MacroTree extends JPanel
 	public void saveLibraryState()
 	{
 		try {
+			// This is an hack: at first, we create a temporary file. We store
+			// its name and we use it to create a temporary directory.
 			File tempDir = File.createTempFile("fidocadj_", "");
         	tempDir.delete();
         	tempDir.mkdir();
         	String s=LibUtils.getLibDir();
 
         	String d=tempDir.getAbsolutePath();
-        
-        	// System.out.println("mod: copy from "+s+" to "+d);
-        	
+            
+            // We copy all the contents of the current library directory in the
+            // temporary directory.
         	File sourceDir = new File(s);
         	File destinationDir = new File(d);
             Globals.copyDirectory(sourceDir, destinationDir);
         	
+        	// We store the directory name in the stack structure of the 
+        	// undo system.
         	if(undoActorListener != null)
         		undoActorListener.saveUndoLibrary(d);
         } catch (IOException e) {

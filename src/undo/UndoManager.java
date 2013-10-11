@@ -71,8 +71,8 @@ public class UndoManager {
 	public void undoReset()
 	{
 		undoBuffer.removeAllElements();
-		undoPush(new UndoState());
-		pointer=1;
+		//undoPush(new UndoState());
+		pointer=0;
 		isRedoable=false;
 	}
 	
@@ -81,6 +81,8 @@ public class UndoManager {
 	*/
 	public void undoPush(UndoState state)
 	{
+		//Thread.dumpStack();
+		System.out.println(""+state);
 		if(undoBuffer.size()==undoBuffer.capacity()) {
 			undoBuffer.removeElementAt(0);
 			--pointer;

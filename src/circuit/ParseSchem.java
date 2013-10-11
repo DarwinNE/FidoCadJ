@@ -1220,7 +1220,6 @@ public class ParseSchem implements UndoActorListener
             }
         }
         saveUndoState();
-        
     }
     
     /** Move all selected primitives.
@@ -2196,10 +2195,11 @@ public class ParseSchem implements UndoActorListener
     */
     public void undo()
     {
-    	//um.printUndoState();
         try {
             UndoState r = (UndoState)um.undoPop();
-            if(!r.libraryDir.equals("")) {
+            
+            // Check if it is an operation involving libraries.
+            if(r.libraryOperation) {
             	if(libraryUndoListener!=null) {
             		libraryUndoListener.undoLibrary(r.libraryDir);
             	}
@@ -2222,14 +2222,12 @@ public class ParseSchem implements UndoActorListener
     }
     
     /** Redo the last undo action
-    
     */
     public void redo()
     {
         try {
-        
             UndoState r = (UndoState)um.undoRedo();
-            if(!r.libraryDir.equals("")) {
+            if(r.libraryOperation) { //!r.libraryDir.equals("")
             	if(libraryUndoListener!=null) {
             		libraryUndoListener.undoLibrary(r.libraryDir);
             	}
@@ -2253,23 +2251,31 @@ public class ParseSchem implements UndoActorListener
     }
     
     private String tempLibraryDirectory="";
-    /** Save the undo state
     
+    /** Save the undo state, in the case an editing operation
+    	has been done on the drawing.
     */
     public void saveUndoState()
     {
         UndoState s = new UndoState();
+        
+        // In fact, the whole drawing is stored as a text.
+        // In this way, we can easily store it on a string.
         s.text=getText(true).toString();
 
         s.isModified=isModified;
         s.fileName=openFileName;
         s.libraryDir=tempLibraryDirectory;
-        
+        s.libraryOperation=false;
+
         um.undoPush(s);
         isModified = true;
         if(cl!=null) cl.somethingHasChanged();
     }
     
+    /** Save the undo state, in the case an editing operation
+    	has been performed on a library.
+    */
     public void saveUndoLibrary(String t)
     {
     	tempLibraryDirectory=t;
@@ -2278,6 +2284,7 @@ public class ParseSchem implements UndoActorListener
         s.libraryDir=tempLibraryDirectory;
         s.isModified=isModified;
         s.fileName=openFileName;
+        s.libraryOperation=true;
         tempDir.add(t);
         
         um.undoPush(s);

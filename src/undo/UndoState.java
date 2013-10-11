@@ -26,10 +26,20 @@ import java.util.*;
 */
 public class UndoState {
 	
+	// Contains a textual description of the drawing
 	public String text;
+	// Is true if there has been a modification of the drawing: something
+	// that needs the file to be saved, unless the user wants to discard
+	// changes.
 	public boolean isModified;
+	// The file name of the drawing.
 	public String fileName;
+
+	// True if an editing operation on the libraries has
+	// been performed.
+	public boolean libraryOperation;
 	
+	// The tempory directory where the libraries are be stored.
 	public String libraryDir;
 	
 	public UndoState()
@@ -43,6 +53,7 @@ public class UndoState {
 	public String toString() 
 	{
 		String s="text="+text+"\nfileName="+fileName+
+			"\nOperation on a library: "+libraryOperation+
 			"\nlibraryDir="+libraryDir;
 		return s;
 	}
