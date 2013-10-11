@@ -748,16 +748,15 @@ public class FidoFrame extends JFrame implements
 		
 		// Library operations can not be done by the ParseSchem class, which
 		// is however used for centralizing the undo events.
+		// This is not very clean, I recognize...
 		// So we must use a callback strategy to make sort that when an undo
 		// operation must be done on a library, it is done in the appropriate
-		// class, which is MacroTree.
-		
+		// class, which is MacroTree.		
 		CC.P.setLibraryUndoListener(macroLib);
 		
 		// On the same way, the MacroTree class must know who is in charge of
 		// the undo operations, so we might politely indicate that it is
 		// CC.P, an instance of ParseSchem.
-		
 		macroLib.setUndoActorListener(CC.P);
 		macroLib.saveLibraryState();
 		
