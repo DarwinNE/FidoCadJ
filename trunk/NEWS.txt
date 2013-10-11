@@ -1,12 +1,13 @@
 Version 0.24.3
 --------------
-- You can navigate through search results in the library using the Return key and not just the arrow keys.
+- You can navigate through search results in the library using the Return key and not just the arrow keys (by Mancuso Raffaele).
 - Czech translation of the user interface (by Chemik582)
 - Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
 - Corrected bug #45 "Color Print instead of Black and White print (or exported file)"
 - Corrected bug #43 and #44 "Wrong component font when using a personally created component"
 - The "Split non standard macros while saving" modal option has been replaced by an immediate menu item. It always works similarly to "save as..."
-- The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir.
+- The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir. Many thanks to 
+- Added "Select All" to the contextual popup menu (part of request #36).
 
 Version 0.24.2
 --------------

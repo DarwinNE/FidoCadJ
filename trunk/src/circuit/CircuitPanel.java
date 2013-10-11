@@ -190,10 +190,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     
     // ********** INTERFACE ELEMENTS **********
     
+    // Popup menu
     JPopupMenu popup;
+    
+    // Elements to be included in the popup menu
     JMenuItem editCut;
     JMenuItem editCopy;
     JMenuItem editPaste;
+    JMenuItem editSelectAll;
     JMenuItem editRotate;
     JMenuItem editMirror;
     JMenuItem editSymbolize; // phylum
@@ -267,9 +271,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
     		popup = new JPopupMenu();
     		editCut = new JMenuItem(Globals.messages.getString("Cut"));
         	editCopy = new JMenuItem(Globals.messages.getString("Copy"));
+        	editSelectAll = new JMenuItem(
+        		Globals.messages.getString("SelectAll"));
+        	
         	editPaste = new	JMenuItem(Globals.messages.getString("Paste"));
         	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
     	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
+    	    
     	    editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
     	    editUSymbolize = new JMenuItem(Globals.messages.getString("Unsymbolize")); 
     	    
@@ -279,6 +287,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	popup.add(editCut);
         	popup.add(editCopy);
         	popup.add(editPaste);
+        	popup.addSeparator();
+        	popup.add(editSelectAll);
         	
         	popup.addSeparator();
         	popup.add(editRotate);
@@ -295,6 +305,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	
         	editCut.addActionListener(this);
         	editCopy.addActionListener(this);
+        	editSelectAll.addActionListener(this);
         	editPaste.addActionListener(this);
         	editRotate.addActionListener(this);
         	editMirror.addActionListener(this);
@@ -2202,7 +2213,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 P.paste(getMapCoordinates().getXGridStep(), 
                 	getMapCoordinates().getYGridStep());   
                 repaint();
-            } else if (arg.equals(Globals.messages.getString("Rotate"))) {
+            } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
+            	// Select all in the drawing.
+            	P.selectAll();   
+                // Even if the drawing is not changed, a repaint operation is 
+                // needed since all selected elements are rendered in green.
+                repaint();
+            }else if (arg.equals(Globals.messages.getString("Rotate"))) {
             	// Rotate the selected element
                 if(!isEnteringMacro())
                 	P.rotateAllSelected();
