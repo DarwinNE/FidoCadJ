@@ -102,7 +102,7 @@ public class UndoManager {
 		for(int i=pointer; i<undoBuffer.size();++i)
 			undoBuffer.removeElementAt(pointer);
 			
-		printUndoState();
+		// printUndoState();
 	}
 	
 	public boolean isNextOperationOnALibrary()
@@ -145,7 +145,6 @@ public class UndoManager {
 			NoSuchElementException E=new NoSuchElementException();
 			throw E;
 		}
-		
 		
 		++pointer;
 		if(pointer>undoBuffer.size())

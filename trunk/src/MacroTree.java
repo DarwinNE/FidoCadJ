@@ -445,12 +445,13 @@ public class MacroTree extends JPanel
 							
 							// it's a lib
 							LibUtils.deleteLib(tlibFName);
-							saveLibraryState();
+							LibUtils.saveLibraryState(
+								undoActorListener);
 						} else 	if (macro.level==1) {
 							// it's a category
 							LibUtils.deleteGroup(libref,tlibFName,
 								tcategory);	
-							saveLibraryState();
+							LibUtils.saveLibraryState(undoActorListener);
 						}
 					} else {
 						// It is a macro.
@@ -458,7 +459,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
-						saveLibraryState();
+						LibUtils.saveLibraryState(undoActorListener);
 					}
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
@@ -533,7 +534,7 @@ public class MacroTree extends JPanel
 					LibUtils.save(libref,
 						LibUtils.getLibPath(newFile),
 						destLib, newFile);
-					saveLibraryState();
+					LibUtils.saveLibraryState(undoActorListener);
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
@@ -564,7 +565,7 @@ public class MacroTree extends JPanel
 						try {
 							LibUtils.renameGroup(libref, tlibFName,
 								tcategory, newname);
-							saveLibraryState();
+							LibUtils.saveLibraryState(undoActorListener);
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
@@ -595,7 +596,7 @@ public class MacroTree extends JPanel
 							LibUtils.renameLib(libref,
 								LibUtils.getLibPath(tlibFName),
 								tlibFName.trim(), newname.trim());
-							saveLibraryState();
+							LibUtils.saveLibraryState(undoActorListener);
 						} catch (FileNotFoundException F) {
 							JOptionPane.showMessageDialog(null,
     							Globals.messages.getString("DirNotFound"),
@@ -617,7 +618,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
-						saveLibraryState();
+						LibUtils.saveLibraryState(undoActorListener);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -731,7 +732,7 @@ public class MacroTree extends JPanel
 						LibUtils.save(libref,
 							LibUtils.getLibPath(macro.filename),
 							macro.library.trim(), macro.filename);
-						saveLibraryState();
+						LibUtils.saveLibraryState(undoActorListener);
 					} catch (FileNotFoundException F) {
 						JOptionPane.showMessageDialog(null,
     						Globals.messages.getString("DirNotFound"),
@@ -1150,37 +1151,5 @@ public class MacroTree extends JPanel
         
 	}
 	
-	/** Here we save the state of the library for the undo operation.
-		
-		Here we create a temporary directory and we copy all the contents of
-		the current library directory inside it.
-		The temporary directory name is then saved in the undo system.
-	*/
-	public void saveLibraryState()
-	{
-		try {
-			// This is an hack: at first, we create a temporary file. We store
-			// its name and we use it to create a temporary directory.
-			File tempDir = File.createTempFile("fidocadj_", "");
-        	tempDir.delete();
-        	tempDir.mkdir();
-        	String s=LibUtils.getLibDir();
-
-        	String d=tempDir.getAbsolutePath();
-            
-            // We copy all the contents of the current library directory in the
-            // temporary directory.
-        	File sourceDir = new File(s);
-        	File destinationDir = new File(d);
-            Globals.copyDirectory(sourceDir, destinationDir);
-        	
-        	// We store the directory name in the stack structure of the 
-        	// undo system.
-        	if(undoActorListener != null)
-        		undoActorListener.saveUndoLibrary(d);
-        } catch (IOException e) {
-        	System.out.println("Cannot save the library status.");
-        }
-
-	}
+	
 }

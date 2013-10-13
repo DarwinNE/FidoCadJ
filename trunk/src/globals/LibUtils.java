@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,8 @@ import primitives.MacroDesc;
 
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
+
+import undo.*;
 
 /** Class to handle library files and databases.
 
@@ -417,6 +420,39 @@ public class LibUtils {
 		 	}
  		}
  		return null;
+	}
+
+   /**  Here we save the state of the library for the undo operation.
+		We create a temporary directory and we copy all the contents of
+		the current library directory inside it.
+		The temporary directory name is then saved in the undo system.
+	*/
+	public static void saveLibraryState(UndoActorListener ua)
+	{
+		try {
+			// This is an hack: at first, we create a temporary file. We store
+			// its name and we use it to create a temporary directory.
+			File tempDir = File.createTempFile("fidocadj_", "");
+        	tempDir.delete();
+        	tempDir.mkdir();
+        	String s=LibUtils.getLibDir();
+
+        	String d=tempDir.getAbsolutePath();
+            
+            // We copy all the contents of the current library directory in the
+            // temporary directory.
+        	File sourceDir = new File(s);
+        	File destinationDir = new File(d);
+            Globals.copyDirectory(sourceDir, destinationDir);
+        	
+        	// We store the directory name in the stack structure of the 
+        	// undo system.
+        	if(ua != null)
+        		ua.saveUndoLibrary(d);
+        } catch (IOException e) {
+        	System.out.println("Cannot save the library status.");
+        }
+
 	}
 
 // TODO support libs with different filenames
