@@ -2199,7 +2199,7 @@ public class ParseSchem implements UndoActorListener
             UndoState r = (UndoState)um.undoPop();
             
             // Check if it is an operation involving libraries.
-            if(r.libraryOperation) {
+            if(um.isNextOperationOnALibrary()) {
             	if(libraryUndoListener!=null) {
             		libraryUndoListener.undoLibrary(r.libraryDir);
             	}

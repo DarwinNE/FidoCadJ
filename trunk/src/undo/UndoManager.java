@@ -55,6 +55,7 @@ public class UndoManager {
 	
 	public void printUndoState()
 	{
+		System.out.println("===============================================");
 		for (int i=0; i<undoBuffer.size();++i) {
 			if(i==pointer-2)
 				System.out.println("*****************");
@@ -63,6 +64,8 @@ public class UndoManager {
 				System.out.println("*****************");
 				
 		}
+		System.out.println("Is the next operation on a library? "+
+			(isNextOperationOnALibrary()?"Yes":"No"));
 	}
 	
 	/** Removes all the elements from the circular buffer
@@ -82,7 +85,7 @@ public class UndoManager {
 	public void undoPush(UndoState state)
 	{
 		//Thread.dumpStack();
-		System.out.println(""+state);
+		//System.out.println(""+state);
 		if(undoBuffer.size()==undoBuffer.capacity()) {
 			undoBuffer.removeElementAt(0);
 			--pointer;
@@ -90,8 +93,29 @@ public class UndoManager {
 		undoBuffer.add(pointer++, state);
 
 		isRedoable=false;
+		
+		// If the buffer contains other elements after the pointer, erase
+		// them. This happens when several undo operation is followed by an
+		// edit: you can not redo or merge the old undo "timeline" with the 
+		// new one.
+		
 		for(int i=pointer; i<undoBuffer.size();++i)
 			undoBuffer.removeElementAt(pointer);
+			
+		printUndoState();
+	}
+	
+	public boolean isNextOperationOnALibrary()
+	{
+		if(pointer>=undoBuffer.size() || pointer<1)
+			return false;
+		try {
+			if(undoBuffer.get(pointer).libraryOperation)
+				return true;
+		} catch (NoSuchElementException E) {
+			return false;
+		}
+		return false;
 	}
 
 
