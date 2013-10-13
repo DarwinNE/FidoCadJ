@@ -758,7 +758,7 @@ public class FidoFrame extends JFrame implements
 		// the undo operations, so we might politely indicate that it is
 		// CC.P, an instance of ParseSchem.
 		macroLib.setUndoActorListener(CC.P);
-		macroLib.saveLibraryState();
+		LibUtils.saveLibraryState(CC.P);
 		
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         

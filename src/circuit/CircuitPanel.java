@@ -2240,7 +2240,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 				DialogSymbolize s = new DialogSymbolize(this,P);
 				s.setModal(true);
 				s.setVisible(true);	
-				P.saveUndoState();
+				LibUtils.saveLibraryState(P);
 				repaint();
 			}  
             
@@ -2252,7 +2252,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             	} catch (IOException E) {
             		System.err.println("Can not split macros.");
             	}
-            	P.saveUndoState();
+            	LibUtils.saveLibraryState(P);
             	repaint(); 
 			}              
             
@@ -2295,5 +2295,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }      
        }
    }
+   
+
 }
 
