@@ -139,6 +139,11 @@ public class DialogSymbolize extends JDialog
 			super(isEditable);
 		}
 		
+		/** Show a red cross with dashed line and write "origin" near to the
+		    center. This should suggest to the user that it is worth clicking
+		    in the origin panel (some users reported they did not see the 
+		    cross alone in a first instance).
+		*/
 		@Override
 		public void paintComponent (Graphics g)
 		{
@@ -151,12 +156,20 @@ public class DialogSymbolize extends JDialog
 		    // Show the origin of axes (red cross)
 			g.drawLine(dx, 0, dx, getHeight()); // y
 			g.drawLine(0, dy, getWidth(), dy); // x
+			
+			Font f=new Font("Helvetica",0,12);
+			FontMetrics fm = g.getFontMetrics(f);
+    		int h = fm.getAscent();
+    		int th = h+fm.getDescent();
+ 				
+			g.drawString(Globals.messages.getString("Origin"), 
+				dx+5, dy+th+2);
 			g.setColor(c);
 			g2.setStroke(t);
 		}
 	}
 	
-	myCircuitPanel jj = new myCircuitPanel(false);
+	myCircuitPanel cpanel = new myCircuitPanel(false);
     
     /** Gets the library to be created or modified.
     	@return the given library (string description).
@@ -228,7 +241,7 @@ public class DialogSymbolize extends JDialog
 	{
 		libFilename.removeAllItems();
 		List lst = new LinkedList();
-		Map<String,MacroDesc> m=jj.P.getLibrary();
+		Map<String,MacroDesc> m=cpanel.P.getLibrary();
 		
 		for (Entry<String,MacroDesc> e : m.entrySet()) {
 			MacroDesc md = e.getValue();
@@ -291,19 +304,24 @@ public class DialogSymbolize extends JDialog
     	
     	panel.add(libName, constraints);
     	
-    	jj.addMouseListener(new MouseAdapter() {
+    	MouseAdapter ma = new MouseAdapter() {
     	   	boolean grid = false;
-		   	public void mousePressed(MouseEvent e)
+    	   	
+    	   	/** Mouse click: either show the grid (button 3), or move the 
+    	   		origin.
+    	   	*/
+		   	public void mouseReleased(MouseEvent e)
 		   	{      
 		      	// Toggle grid visibility, via the secondary mouse button
 		      	if (e.getButton()==e.BUTTON3) {
 		    	  	grid = !grid;
-		    	  	jj.setGridVisibility(grid);
-		    	  	jj.repaint();
+		    	  	cpanel.setGridVisibility(grid);
+		    	  	cpanel.repaint();
+		      	} else {
+		      		mouseDragged(e);
 		      	}
 		   	}
-		});
-    	jj.addMouseMotionListener(new MouseAdapter() {
+    	
 			/** Drag the origin of axes using the mouse.
 			*/
 		    public void mouseDragged(MouseEvent evt)
@@ -312,52 +330,59 @@ public class DialogSymbolize extends JDialog
 		    	int y=evt.getY();
 		    	
 		    	if(snapToGrid.isSelected()) {
-		    		jj.xl=jj.getMapCoordinates().unmapXsnap(x);
-		    		jj.yl=jj.getMapCoordinates().unmapYsnap(y);
+		    		cpanel.xl=cpanel.getMapCoordinates().unmapXsnap(x);
+		    		cpanel.yl=cpanel.getMapCoordinates().unmapYsnap(y);
 		    	} else {
-		    		jj.xl=jj.getMapCoordinates().unmapXnosnap(x);
-		    		jj.yl=jj.getMapCoordinates().unmapYnosnap(y);
+		    		cpanel.xl=cpanel.getMapCoordinates().unmapXnosnap(x);
+		    		cpanel.yl=cpanel.getMapCoordinates().unmapYnosnap(y);
 		    	}
-		    	x=jj.getMapCoordinates().mapXi(jj.xl,jj.yl,false);
-		    	y=jj.getMapCoordinates().mapYi(jj.xl,jj.yl,false);
-		    	jj.setDx(x);
-		    	jj.setDy(y);
-		    	jj.repaint();		    	 
+		    	x=cpanel.getMapCoordinates().mapXi(cpanel.xl,cpanel.yl,false);
+		    	y=cpanel.getMapCoordinates().mapYi(cpanel.xl,cpanel.yl,false);
+		    	cpanel.setDx(x);
+		    	cpanel.setDy(y);
+		    	cpanel.repaint();		    	 
 		    }
-		});    	
-    	jj.setSize(256, 256);	
-    	jj.setPreferredSize(new Dimension(256, 256));
-    	jj.add(Box.createVerticalStrut(256));
-    	jj.add(Box.createHorizontalStrut(256));
+		};
+		
+		// Make sort that the user can move the origin both by clicking
+		// and by dragging the mouse pointer. 
+		cpanel.addMouseListener(ma);
+		cpanel.addMouseMotionListener(ma);
+		
+		// Reasonable size
+    	cpanel.setSize(256, 256);	
+    	cpanel.setPreferredSize(new Dimension(256, 256));
+    	cpanel.add(Box.createVerticalStrut(256));
+    	cpanel.add(Box.createHorizontalStrut(256));
     	
-        jj.P.setLayers(cp.getLayers());
-        jj.P.setLibrary(cp.getLibrary()); 
+        cpanel.P.setLayers(cp.getLayers());
+        cpanel.P.setLibrary(cp.getLibrary()); 
         enumLibs();
-        jj.antiAlias = true;
-        jj.profileTime = false; 
+        cpanel.antiAlias = true;
+        cpanel.profileTime = false; 
         MacroDesc macro = buildMacro("temp","temp","temp","temp", "temp",
         	new Point(100,100));
         	
-        jj.setBorder(BorderFactory.createLoweredBevelBorder());
+        cpanel.setBorder(BorderFactory.createLoweredBevelBorder());
         
         // Set the current objects in the preview panel.
         try {
-			jj.P.addString(new StringBuffer(macro.description),	false);
+			cpanel.P.addString(new StringBuffer(macro.description),	false);
 		} catch (IOException e1) {}
 		// Calculate an optimum preview size in order to show all elements.
 		MapCoordinates m = 
-				ExportGraphic.calculateZoomToFit(jj.P, 
-				jj.getSize().width*80/100, jj.getSize().height*80/100, 
+				ExportGraphic.calculateZoomToFit(cpanel.P, 
+				cpanel.getSize().width*80/100, cpanel.getSize().height*80/100, 
 				true);
 		m.setXCenter(m.getXCenter()+10);
 		m.setYCenter(m.getYCenter()+10);
-		jj.setMapCoordinates(m);
-		jj.resetOrigin();
+		cpanel.setMapCoordinates(m);
+		cpanel.resetOrigin();
 		
         constraints = DialogUtil.createConst(3,0,8,8,100,100,
     		GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
     		new Insets(6,6,6,6)); 
-        panel.add(jj, constraints);          
+        panel.add(cpanel, constraints);          
      
      	JLabel groupLabel=new 
             JLabel(Globals.messages.getString("Group")); // 
@@ -454,7 +479,6 @@ public class DialogSymbolize extends JDialog
     
     /** Obtain all the groups in a given libraryand put them in the
     	group list.
-    
     */
 	protected void listGroups() 
 	{
@@ -468,8 +492,7 @@ public class DialogSymbolize extends JDialog
         	group.addItem(s);
         	
         libName.setText(LibUtils.getLibName(cp.getLibrary(),
-			libFilename.getEditor().getItem().toString()));
-        
+			libFilename.getEditor().getItem().toString()));      
 	}
     
 	public void actionPerformed(ActionEvent evt)
@@ -570,7 +593,7 @@ public class DialogSymbolize extends JDialog
             		key.requestFocus(); 
             		return; 
             	}
-            	Point p = new Point(200-jj.xl, 200-jj.yl);
+            	Point p = new Point(200-cpanel.xl, 200-cpanel.yl);
             	MacroDesc macro = buildMacro(getMacroName().trim(),
             		key.getText().trim(),getLibraryName().trim(),
             		getGroup().trim(), getPrefix().trim(),p);
