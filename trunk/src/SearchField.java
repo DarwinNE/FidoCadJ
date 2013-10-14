@@ -23,7 +23,8 @@ import globals.*;
 //
 
 
-public class SearchField extends JTextField {
+public class SearchField extends JTextField  
+{
 
     private static final Border CANCEL_BORDER = new CancelBorder();
    
@@ -91,17 +92,27 @@ public class SearchField extends JTextField {
         setMaximumSize(new Dimension(5000,30));
     }
 
-    
-
+   
+    /** Add a key listener
+    */
     private void initKeyListener() {
         addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(KeyEvent e) 
+           	{
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancel();
                 } else if (sendsNotificationForEachKeystroke) {
                     maybeNotify();
                 }
+                
             }
+            public void keyPressed(KeyEvent e)
+    		{
+    			// If the search field has the focus, it will be te only
+    			// recipient of the key strokes (solves bug #50).
+    			if(isFocusOwner())
+					e.consume();
+			}
         });
     }
 
@@ -283,12 +294,13 @@ public class SearchField extends JTextField {
         private Color previousColor;
 
 
-        PlaceholderText(String placeholderText) {
+        PlaceholderText(String placeholderText) 
+        {
             this.placeholderText = placeholderText;
             focusLost(null);
         }
 
-
+	
         public void focusGained(FocusEvent e) {
             setForeground(previousColor);
             setText(previousText);
@@ -308,6 +320,6 @@ public class SearchField extends JTextField {
         }
     }
 
-
+    
 
 }
