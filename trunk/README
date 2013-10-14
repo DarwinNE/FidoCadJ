@@ -12,17 +12,20 @@ FidoCadJ is a very easy to use editor, with a vast library of electrical
 symbols and footprints (through hole and SMD). Its drawings can be exported
 in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if
 it is very simple and somewhat limited, FidoCadJ can be very useful as a basic
-schematic capture and electronic  design automation (EDA) software. FidoCadJ 
+schematic capture and electronic design automation (EDA) software. FidoCadJ 
 is inspired from FidoCAD (without "J"), which was a vector graphic editor 
 useful for electrical schematics and printed circuit boards. 
-It uses a file format containing only UTF-8 text, very compact and suited for 
-copy and pasting from/into newsgroups and forum messages. 
+FidoCAD used a file format containing only UTF-8 text, very compact and 
+perfect for copy and pasting from/into newsgroups and forum messages. 
 This determined its success among the italian Usenet community, from late 
 '90s, as it is quite versatile for simple mechanical drawings as well. 
-No netlist concept lies behind the drawings.
+FidoCadJ is the modern successor of FidoCAD.
+No netlist concept lies behind the drawings, so there is all the graphical
+flexibility that a vector drawing software can offer (but no simulation).
+
 FidoCadJ is internationalized and its manual is available in english, french, 
 italian and chinese. The user interface has been translated into english, 
-french, italian, spanish, german, chinese, dutch, japanese.
+french, italian, spanish, german, chinese, dutch, japanese, czech.
 
 Here are a few useful sites about FidoCadJ:
 
@@ -32,22 +35,24 @@ http://sourceforge.net/projects/fidocadj/
 If you own a PC running Linux or Windows (or any system supporting Java), you
 may download from the SourceForge repository the file fidocadj.jar. If Java
 is correctly installed on your machine, you may just double click on it to 
-run FidoCadJ. If you are a command line guy, you may enter the directory
-where the file fidocadj.jar has been saved and type
+run FidoCadJ. If you are a command line wizard, you may go to the directory
+where the file fidocadj.jar has been saved and type:
 
 	java -jar fidocadj.jar
 
 If you use Windows, you might find useful using the classical installer
 contained in the FidoCadJ_Windows.exe file. If you run it, it will install
-FidoCadJ on your system and you might launch it via the Start menu.
+FidoCadJ on your system and you can launch it via the Start menu.
 	
 If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
 bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some 
 problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion operating system. Normally, you will have to download the Java
-runtime in a few clicks.
+the MacOSX Lion/Mountain Lion/Maverick operating system. Normally, you will 
+have to download the Java runtime in a few clicks. We tried our best, but
+the situation in 2007 was different from the actual one and Apple used to
+welcome Java developers back then...
 
 Remember that if there is a greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
@@ -58,34 +63,34 @@ Basically, you are warned: those version may be unstable!
 ----------------------------------------------
 
 In the following table you can find a description of the trunk directory of 
-the FidoCadJ program. You may download the complete source repository by
+the FidoCadJ source files. You may download the complete source repository by
 using svn from the SourceForge repository. Check out the SF documentation
-for doing this: https://sourceforge.net/scm/?type=svn&group_id=274886
+for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
 
   File                        Comments
   ----------------------------------------------------------------------------
   README                      This file
-  bin/                        Contains all compiled classes and resources         
-  busy being born/            Contains screenshots of old versions of FidoCadJ
-  clean                       erases all compiled classes
+  bin/                 DIR    Contains all the compiled classes and resources         
+  busy being born/     DIR    Contains screenshots of old versions of FidoCadJ
+  clean                       erases all the compiled classes
   cleanall                    do a clean, erases fidocadj.jar, Javadocs
   compile                     compile FidoCadJ
-  count                       do a wc on all Java source files                    
+  count                       do a wc (word count!) on all Java source files                    
   createdoc                   run Javadoc on all source files
   createjar                   prepare fidocadj.jar
   doc                         contains all Javadoc produced HTML files
   gpl-3.0.txt                 the GNU public licence v. 3
-  icons/                      contains all icons (made with Gimp)
-  jar/                        contains fidocadj.jar as well as Quaqua
-  OSes/                       contains files specific for some OS
-  manual/                     the LaTeX manuals
+  icons/               DIR    contains all icons (made with Gimp)
+  jar/                 DIR    contains fidocadj.jar as well as Quaqua
+  OSes/                DIR    contains files specific for some OS
+  manual/              DIR    all the LaTeX manuals sources
   profile                     launch a profiler (jip)
   rebuild                     do a clean and then runs FidoCadJ
   run                         run FidoCadJ
-  src/                        contains all the Java source files
+  src/                 DIR    contains all the Java source files
   exclude_from_svn            excludes all binary generated files from svn
   sign.sh                     creates the signature for the applet
-  test/                       automatic tests for FidoCadJ
+  test/                DIR    automatic tests for FidoCadJ
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ
@@ -98,19 +103,19 @@ the code on which I am working.
 You will thus find in the trunk directory (see section 2 of this 
 file) several scripts which will be useful for you, especially if you are
 working in an Unix-like environment.
-If you prefer using some kind of IDE such as Eclipse, you may try it, but I
+If you prefer using some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
-I wrote.
+I wrote. And no, I will not change my habits, sorry :-)
 
 3.1 Compile and run the sources on a MacOSX operating system (>=1.4.11) 
 ----------------------------------------------------------------------
 
-If you are using MacOSX, you just open up a terminal window, go into the 
+If you are using MacOSX, just open up a terminal window, go into the 
 fidocadj/trunk directory and type:
 
   ./rebuild mac
 
-And FidoCadJ should be automatically compiled and run. You can use the 
+FidoCadJ should be automatically compiled and launched. You can use the 
 following script to create a jar archive in the jar/ directory:
 
   ./createjar
@@ -192,6 +197,8 @@ The following table briefly describes the provided tests:
 
   Test                             Comments
   ---------------------------------------------------------------------------
+  test/all_test.sh                 Run all the available tests.
+
   test/export/test_export.sh       Test the export on all available
                                    file format. A set of reference 
                                    files is provided, so it might be
@@ -204,9 +211,20 @@ The following table briefly describes the provided tests:
                                    the export. You may decide that it is ok.
 
   test/messages/test_messages.sh   Test the coherence of all 
-                                   installed languages again the 
+                                   installed languages against the 
                                    reference (which is the italian!)
 
+  test/size/test_size.sh           Test if the size calculated for all 
+                                   elements is the same as the one stored
+                                   as a reference. Any change to the way
+                                   the size is calculated will invalidate
+                                   the test if the size is unvalid.
+
+Note that the way those tests are written, they compare the results of an
+operation involving FidoCadJ with a reference. In some cases, the reference
+can be improved or updated.
+In other cases, the differences might just contain unmeaningful data (such
+as version numbers and so on). 
 
 ----------------
 4 - Help wanted!
@@ -373,7 +391,7 @@ Beta testers:
 Translations: 
 	Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
-    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja)
+    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja), Chemik582 (cz)
     
 Libraries:
 	Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group
