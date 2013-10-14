@@ -56,14 +56,13 @@ public class LibUtils {
 		
 		@param m the macro list
 		@param libfile the file name of the wanted library
-		
 		@return the library.
 	
 	*/
 	public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
 		String libfile)
 	{
-		System.out.println("libfile:"+libfile);
+		//System.out.println("libfile:"+libfile);
 		Map<String,MacroDesc> mm = new TreeMap<String,MacroDesc>();
 		MacroDesc md;		
 		for (Entry<String, MacroDesc> e : m.entrySet())
