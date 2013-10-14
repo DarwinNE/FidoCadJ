@@ -138,7 +138,7 @@ javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 .\src\FidoMa
 
 to launch the compiled program, you should type:
 
-java  -classpath ".\bin:.\jar:.\jar\"  FidoMain
+java  -classpath .\bin;.\jar;.\jar\  FidoMain
 
 FidoCadJ should be launched.
 
