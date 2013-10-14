@@ -475,55 +475,70 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesInserted(TreeModelEvent e) 
 			{
-				// macro will contain the element to be inserted. It should
+				// macro will contain the element to be moved. It should
 				// be already created before calling to treeNodeInserted.
 				if (macro == null) 
 					return; // not enough info to proceed
 				
+				// the "old" characteristics are derived from the "macro"
+				// element
 				String oldLib = macro.library.trim();
 				String oldFile = macro.filename.trim();
 				String grp = macro.category.trim();
-				
-				String destLib = e.getPath()[1].toString().trim();
-				
-				MacroDesc destGroup = (MacroDesc)
-					((DefaultMutableTreeNode)e.getPath()[2]).getUserObject();
-				String newFile = destGroup.filename;
-				String destGrp = e.getPath()[2].toString().trim();
 				String mnam = macro.name.trim();
 				String oldKey = macro.key;
 				
-				//System.out.printf("\nMoving %s from %s::%s to %s::%s, file: %s\n", mnam, oldLib, grp, destLib, destGrp, newFile);
+				// Get the destination library (e contains the target node)
+				String destLib = e.getPath()[1].toString().trim();
 				
-				boolean isSourceStandard=false;
+				// Get destination group. It is stored in the user object,
+				// so we need to retrieve it and cast to a MacroDesc
+				MacroDesc destGroup = (MacroDesc)
+					((DefaultMutableTreeNode)e.getPath()[2]).getUserObject();
+					
+				// Once we have the object, we can retrieve the library name 
+				// as well as any information needed.
+				String newFile = destGroup.filename;
+				String destGrp = e.getPath()[2].toString().trim();		
 
-				// If the macro does not belong to a standard library, we 
-				// eliminate the old macro from the original library.
+				// If the origin macro does not belong to a standard library, 
+				// we eliminate the old macro from the original library.
+				boolean isSourceStandard=false;
 				if(LibUtils.isStdLib(macro)) {
 					isSourceStandard=true;
 				}
+				
+				// Now, we change the category, the library and the file name
+				// for the source macro.
 				macro.category = destGrp;
 				macro.library = destLib;
 				macro.filename = newFile;
 				
+				// Obtain the reduced key by processing the original macro
+				// key (remember the format nomefile.reducedkey used for the
+				// macro key in the database.
 				String reducedKey=macro.key.substring(macro.key.indexOf(".")+1);
 				if(!macro.filename.equals("")){
 					macro.key = macro.filename+"."+reducedKey;
 				} else {
+					// In fact, this should never happen: only the read-only
+					// 
 					macro.key=reducedKey;
+					System.out.println("Uh, standard libraries changed?");
 				}
 				if(LibUtils.isStdLib(macro)) {
 					globalUpdate();
 					return;
 				}
 				
+				// Only remove the old macro if the origin is a non standard
+				// library.
 				if(!isSourceStandard)
 					libref.remove(oldKey);
 				
 				// Once we have redefined the elements of the macro, we put it
 				// in the new library and we save the two modified libraries.
 				libref.put(macro.key, macro);
-				System.out.println("here: "+newFile);
 				// update libraries
 				try {
 					if(!isSourceStandard && !oldFile.equals(newFile)) {	
@@ -562,6 +577,9 @@ public class MacroTree extends JPanel
 					String newname = (e.getChildren()[0]).toString();
 					
 					if (tcategory != null) { // renaming group
+						// Standard libraries should not be modified.
+						if (LibUtils.isStdLib(macro)) 
+							return;
 						try {
 							LibUtils.renameGroup(libref, tlibFName,
 								tcategory, newname);
@@ -882,9 +900,19 @@ public class MacroTree extends JPanel
         	return;
 
         Object nodeInfo = node.getUserObject(); 
+        
+        // Start of the drag&drop operation. Here we save the content of the 
+        // source node (i.e. the macro which is being dragged).
+        // We do not know yet if the d&d will occour, but we save, just in
+        // case.
         macro=(MacroDesc)nodeInfo;
         lpath = tree.getSelectionPath().getParentPath();                    
         if (!node.isLeaf()) {
+        
+        	// TODO: avoid using obscure variables such as tcategory, tlibFName
+        	// In fact, macro should contain everything needed in each moment
+        	// of the d&d operation.
+        	
         	switch (macro.level) //node.getDepth()
         	{
         		case 2: // isLibrary
@@ -925,8 +953,8 @@ public class MacroTree extends JPanel
             	// We get an exception if we click on the base node in an empty
             	// library list.
             	// In such cases, it is OK just to ignore the action.
-            	System.out.println("Exception!");
-            	E.printStackTrace();
+            	// System.out.println("Exception!");
+            	// E.printStackTrace();
             }
             
         }
@@ -1147,9 +1175,6 @@ public class MacroTree extends JPanel
             globalUpdate();
         } catch (IOException e) {
             System.out.println("Cannot restore library directory contents.");
-        }
-        
-	}
-	
-	
+        }   
+	}	
 }
