@@ -110,7 +110,8 @@ public class SearchField extends JTextField
     		{
     			// If the search field has the focus, it will be te only
     			// recipient of the key strokes (solves bug #50).
-    			if(isFocusOwner())
+    			if(isFocusOwner() && (e.getKeyCode()==KeyEvent.VK_R ||
+    				e.getKeyCode()==KeyEvent.VK_S))
 					e.consume();
 			}
         });
