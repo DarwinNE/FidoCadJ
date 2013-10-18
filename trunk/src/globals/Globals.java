@@ -383,26 +383,69 @@ public class Globals
             	targetLocation.mkdir();
         	}
  
+ 			// Process all the elements of the directory.
         	String[] children = sourceLocation.list();
-        	for(int i = 0; i < children.length; i++) {
-            	copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation, children[i]));
+        	for(int i = 0; i < children.length; ++i) {
+            	copyDirectory(new File(sourceLocation, children[i]), 
+            		new File(targetLocation, children[i]));
         	}
     	} else {
-        	InputStream in = new FileInputStream(sourceLocation);
-        	OutputStream out = new FileOutputStream(targetLocation);
-         
-       		try {
-            	byte[] buf = new byte[1024];
-            	int len;
-            	while((len = in.read(buf)) > 0) {
-                	out.write(buf, 0, len);
+    		copyFile(sourceLocation, targetLocation);
+    	}
+	}
+	
+	/** Copy a file from a location to another one.
+	
+	*/ 
+	public static void copyFile(File sourceLocation, File targetLocation) 
+    	throws IOException 
+    {
+    	if(sourceLocation.isDirectory())
+    		return;
+ 
+ 		InputStream in = new FileInputStream(sourceLocation);
+        OutputStream out = new FileOutputStream(targetLocation);
+        
+        // The copy is made by bunch of 1024 bytes.
+        // I wander whether better OS copy funcions exist.
+       	try {
+           	byte[] buf = new byte[1024];
+           	int len;
+           	while((len = in.read(buf)) > 0) {
+               	out.write(buf, 0, len);
+           	}
+        }
+        finally {
+           	in.close();
+           	out.close();
+        }
+    	
+	}
+	   
+  	/** Copy all the files containing the specified criteria in the given 
+  		directory.
+  		This copy is not recursive: only the first level is processed.
+  	*/
+    public static void copyDirectoryNonRecursive(File sourceLocation, 
+    	File targetLocation, String criteria) 
+    	throws IOException 
+    {
+    	if(sourceLocation.isDirectory()) {
+        	if(!targetLocation.exists()) {
+            	targetLocation.mkdir();
+        	}
+        	
+        	criteria = criteria.toLowerCase();
+ 
+        	String[] children = sourceLocation.list();
+        	for(int i = 0; i < children.length; ++i) {
+        		if(children[i].toLowerCase().contains(criteria)) {
+            		copyFile(new File(sourceLocation, children[i]), 
+            			new File(targetLocation, children[i]));
+            		//System.out.println("c: "+targetLocation+"/"+children[i]);
             	}
         	}
-        	finally {
-            	in.close();
-            	out.close();
-        	}
-    	}
+        }
 	}
 	
 	/**

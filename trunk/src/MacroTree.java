@@ -82,6 +82,12 @@ public class MacroTree extends JPanel
     private JMenuItem popRename;
     private JMenuItem popDelete;
     private JMenuItem popRenKey;
+    private final int LEVEL_MACRO = 0;
+    private final int LEVEL_CATEGORY = 1;
+    private final int LEVEL_LIBRARY = 2;
+    private final int LEVEL_ROOT = 3;
+    
+    
     
     private String tlibFName, tcategory;    
     TreePath lpath;
@@ -475,10 +481,14 @@ public class MacroTree extends JPanel
 			*/
 			public void treeNodesInserted(TreeModelEvent e) 
 			{
-				// macro will contain the element to be moved. It should
+				// macro contains the element to be moved. It should
 				// be already created before calling to treeNodeInserted.
 				if (macro == null) 
 					return; // not enough info to proceed
+					
+				// Only allows to move macros and not categories.
+				if (macro.level!=LEVEL_MACRO)
+					return;
 				
 				// the "old" characteristics are derived from the "macro"
 				// element
@@ -557,8 +567,7 @@ public class MacroTree extends JPanel
     					JOptionPane.ERROR_MESSAGE);
 				}
 				// synch
-				//globalUpdate();
-				
+				//globalUpdate();			
 			}
 			
 			/** Called after a node has been modified. We need to implement
@@ -569,8 +578,18 @@ public class MacroTree extends JPanel
 			{
 				if(macro==null)
 					return;
-					
-				if ((macro.level==1||macro.level==2) && 
+				/*	
+				switch (macro.level) 
+				{
+        			case LEVEL_LIBRARY: 
+        				break;
+        			case LEVEL_CATEGORY:
+        				break;
+        			case LEVEL_ROOT: // isRoot
+        				break;
+        		}*/
+        		
+				if ((macro.level==LEVEL_CATEGORY||macro.level==LEVEL_LIBRARY)&& 
 					e.getChildren() != null) 
 					{
 					// Either lib or grp
@@ -915,17 +934,17 @@ public class MacroTree extends JPanel
         	
         	switch (macro.level) //node.getDepth()
         	{
-        		case 2: // isLibrary
+        		case LEVEL_LIBRARY: // isLibrary
         			tcategory = null;
         			tlibFName = macro.filename;
         			break;
-        		case 1: // isCategory        			
+        		case LEVEL_CATEGORY: // isCategory        			
         			tlibFName = ((MacroDesc)(((DefaultMutableTreeNode)
         				node.getParent()).
         				getUserObject())).filename;
         			tcategory = macro.category;
         			break;
-        		case 3: // isRoot
+        		case LEVEL_ROOT: // isRoot
         			tlibFName = null;
         			tcategory = null;
         			break;
