@@ -914,7 +914,7 @@ public class ParseSchem implements UndoActorListener
     
     /** Delete all selected primitives. 
     */
-    public void deleteAllSelected()
+    public void deleteAllSelected(boolean saveState)
     {
         int i;
 
@@ -923,7 +923,8 @@ public class ParseSchem implements UndoActorListener
                 getPrimitiveVector().remove((GraphicPrimitive)
                                         getPrimitiveVector().get(i--));
         }
-        saveUndoState();   
+        if (saveState) 
+        	saveUndoState();   
     }
     
         

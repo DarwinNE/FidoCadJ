@@ -1004,7 +1004,7 @@ public class FidoFrame extends JFrame implements
                 CC.P.copySelected(!CC.extStrict, CC.splitNonStandardMacro_c,
                 	CC.getMapCoordinates().getXGridStep(), 
                 	CC.getMapCoordinates().getYGridStep());   
-                CC.P.deleteAllSelected();
+                CC.P.deleteAllSelected(true);
                 repaint();
             }
             // Mirror all the selected elements

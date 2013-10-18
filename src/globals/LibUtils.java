@@ -442,7 +442,8 @@ public class LibUtils {
             // temporary directory.
         	File sourceDir = new File(s);
         	File destinationDir = new File(d);
-            Globals.copyDirectory(sourceDir, destinationDir);
+            Globals.copyDirectoryNonRecursive(sourceDir, destinationDir, 
+            	"fcl");
         	
         	// We store the directory name in the stack structure of the 
         	// undo system.

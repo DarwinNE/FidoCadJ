@@ -407,7 +407,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
         getActionMap().put(delete, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
-                P.deleteAllSelected();
+                P.deleteAllSelected(true);
                 repaint();
             }
         });
@@ -2206,7 +2206,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 P.copySelected(!extStrict, splitNonStandardMacro_c,
                 	getMapCoordinates().getXGridStep(), 
                 	getMapCoordinates().getYGridStep());   
-                P.deleteAllSelected();
+                P.deleteAllSelected(true);
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {
             	// Paste elements from the clipboard
@@ -2246,13 +2246,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
             	StringBuffer s=P.getSelectedString(true);
-            	P.deleteAllSelected();
+            	P.deleteAllSelected(false);
             	try{
             		P.addString(P.splitMacros(s,  true),true);
             	} catch (IOException E) {
             		System.err.println("Can not split macros.");
             	}
-            	LibUtils.saveLibraryState(P);
+            	P.saveUndoState();
             	repaint(); 
 			}              
             
