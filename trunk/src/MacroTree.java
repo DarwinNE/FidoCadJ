@@ -102,6 +102,8 @@ public class MacroTree extends JPanel
     JPopupMenu popup = new JPopupMenu(); // phylum    
 	private ActionListener pml;
 
+	/** Constructor: create an empty tree.
+	*/
 	public MacroTree()
 	{
 		super(new GridLayout(1,0));
@@ -127,6 +129,7 @@ public class MacroTree extends JPanel
  	/** Save the expansion state of a tree. It is extremely annoying that a
  		tree is closed when an update operation is done. So we can save its
  		state with this method.
+ 		@return a string describing the expansion state.
  	*/
     public String getExpansionState(int row)
     {
@@ -142,7 +145,6 @@ public class MacroTree extends JPanel
             }else
                 break;
         }
-        // System.out.println("es: "+buf.toString());
         return buf.toString();
     }
  
@@ -256,6 +258,9 @@ public class MacroTree extends JPanel
 	{
 	}
 	
+	/** Called just before the popup menu is visible.
+		Select if the various menu items are enabled or not.
+	*/
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) 
 	{
 		// Check if it is a standard library (immutable)
@@ -265,19 +270,23 @@ public class MacroTree extends JPanel
 			popRename.setEnabled(false);
     		popDelete.setEnabled(false);
     		popRenKey.setEnabled(false);
-		} else if(macro.level!=0) {
-			// Library or group
+		} else if(macro.level!=LEVEL_MACRO) {
+			// Library or group (no key)
 			popRename.setEnabled(true);
     		popDelete.setEnabled(true);
     		popRenKey.setEnabled(false); // Those elements do not have a key
 		} else {
-			// User-modifiable library
+			// User-modifiable macro
 			popRename.setEnabled(true);
     		popDelete.setEnabled(true);
     		popRenKey.setEnabled(true);
 		}
 	}
 	
+	/** Initialize the tree corresponding to the libraries in memory.
+		@param lib the library map
+		@param layers the layer description
+	*/
     public void updateLibraries(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers) 
     {
@@ -292,13 +301,14 @@ public class MacroTree extends JPanel
         
         createNodes(top);
         createTree(lib, layers);
-        //System.out.println("Creating tree finished.");
-        
+
+		// The root node is always expanded.        
         tree.expandPath(new TreePath(top.getPath()));
        	
 	}
 	
-	public void createTree(Map<String, MacroDesc> lib, 
+	
+	private void createTree(Map<String, MacroDesc> lib, 
     	Vector<LayerDesc> layers)
 	{
 		//Create a tree that allows one selection at a time.
@@ -306,10 +316,13 @@ public class MacroTree extends JPanel
         tree.addFocusListener(this);
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);    
-        // Phy :)
+                
+        // Phy :) enable the drag&drop
 		tree.setDragEnabled(true);
 		tree.setDropMode(DropMode.ON_OR_INSERT);
-		tree.setTransferHandler(new TransferHandler() {				
+		tree.setTransferHandler(new TransferHandler() {
+			/** Called during the drag&drop.
+			*/
 			public boolean canImport(TransferSupport support) 
 			{ 
 				if (support == null || support.getDropLocation() == null) 
@@ -324,7 +337,6 @@ public class MacroTree extends JPanel
 				if (component!=null && component.toString().equalsIgnoreCase(
 					macro.category)) 
 					return false;
-				//System.out.println("getPathCount()="+pt.getPathCount());
 				if (pt.getPathCount()<=2) 
 					return false; // is root or lib
 				return true;
@@ -446,6 +458,8 @@ public class MacroTree extends JPanel
 					return;
 					
 				try {
+					// The remove strategy is a little different whether 
+					// the level at which we are.
 					switch(macro.level) {
 						case LEVEL_MACRO:
 							libref.remove(macro.key);
@@ -462,9 +476,10 @@ public class MacroTree extends JPanel
 							LibUtils.deleteGroup(libref,tlibFName, tcategory);	
 							LibUtils.saveLibraryState(undoActorListener);
 							break;
-						}
-
+					}
 				} catch (FileNotFoundException F) {
+					// Something went wrong, probably because the output
+					// directory has not been defined yet.
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
     					Globals.messages.getString("Symbolize"),    
@@ -474,7 +489,7 @@ public class MacroTree extends JPanel
 			}
 			
 			
-			/** Insertion of a new node (drag and drop).
+			/** Insertion of a new node (end of drag and drop).
 			*/
 			public void treeNodesInserted(TreeModelEvent e) 
 			{
@@ -528,8 +543,7 @@ public class MacroTree extends JPanel
 				if(!macro.filename.equals("")){
 					macro.key = macro.filename+"."+reducedKey;
 				} else {
-					// In fact, this should never happen: only the read-only
-					// 
+					// In fact, this should never happen.
 					macro.key=reducedKey;
 					System.out.println("Uh, standard libraries changed?");
 				}
