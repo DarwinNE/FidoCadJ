@@ -440,33 +440,30 @@ public class MacroTree extends JPanel
 			/** Remove a library, a group of macros or a single macro.
 			*/
 			public void treeNodesRemoved(TreeModelEvent e) 
-			{		
-				if(macro==null)
+			{
+				// Don't allow to delete elements in the standard libs.
+				if(macro==null||LibUtils.isStdLib(macro))
 					return;
+					
 				try {
-					if (macro.level>0) {
-						// Either lib or grp					
-						if (macro.level==2 &&  
-							!LibUtils.isStdLib(macro)) {
-							
-							// it's a lib
-							LibUtils.deleteLib(tlibFName);
-							LibUtils.saveLibraryState(
-								undoActorListener);
-						} else 	if (macro.level==1) {
-							// it's a category
-							LibUtils.deleteGroup(libref,tlibFName,
-								tcategory);	
+					switch(macro.level) {
+						case LEVEL_MACRO:
+							libref.remove(macro.key);
+							LibUtils.save(libref,
+								LibUtils.getLibPath(macro.filename),
+								macro.library.trim(), macro.filename);
 							LibUtils.saveLibraryState(undoActorListener);
+							break;
+						case LEVEL_LIBRARY:
+							LibUtils.deleteLib(tlibFName);
+							LibUtils.saveLibraryState(undoActorListener);
+							break;
+						case LEVEL_CATEGORY:
+							LibUtils.deleteGroup(libref,tlibFName, tcategory);	
+							LibUtils.saveLibraryState(undoActorListener);
+							break;
 						}
-					} else {
-						// It is a macro.
-						libref.remove(macro.key);
-						LibUtils.save(libref,
-							LibUtils.getLibPath(macro.filename),
-							macro.library.trim(), macro.filename);
-						LibUtils.saveLibraryState(undoActorListener);
-					}
+
 				} catch (FileNotFoundException F) {
 					JOptionPane.showMessageDialog(null,
     					Globals.messages.getString("DirNotFound"),
