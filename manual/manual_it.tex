@@ -24,9 +24,9 @@
 
 \usepackage{listings} 
 \usepackage{makeidx}
-\lstdefinelanguage{FIDOCAD} 
+\lstdefinelanguage{FidoCAD} 
 	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,CP,CV,%
-		[FIDOCAD],[FIDOLIB]}, 
+		[FidoCAD],[FIDOLIB]}, 
 	sensitive=false, 
 	morecomment=[s]{[}{]}, 
 	morecomment=[s][\color{blue}]{\{}{\}}, 
@@ -34,7 +34,7 @@
 	moredelim=[il][\color{violet}]{£},
 } 
 
-\lstset{language=FIDOCAD,%
+\lstset{language=FidoCAD,%
 	basicstyle=\small\ttfamily} 
 
 % *******************************************************
@@ -119,7 +119,7 @@ sono registrati dai loro proprietari.
 
 Questo documento è il manuale ufficiale di FidoCadJ. Dopo una breve
 introduzione sulla storia e sulla nascita di questo software,
-viene descritto l'uso di base di FidocadJ. L'obiettivo è di
+viene descritto l'uso di base di FidoCadJ. L'obiettivo è di
 apprendere il disegno di semplici schemi elettrici con i loro
 relativi circuiti stampati.
 Il manuale termina con una descrizione dettagliata del formato
@@ -146,13 +146,13 @@ per i test condotti su MacOSX.
 Ringrazio ``F. Bertolazzi'' per i preziosi consigli circa 
 l'utilizzabilità del programma e per aver costruito una
 compatibility library per CadSoft Eagle\index{Eagle}, utile
-per esportare i disegni FidocadJ su Eagle.
+per esportare i disegni FidoCadJ su Eagle.
  
 Ringrazio ``Celsius'', che ha testato la parte del programma relativa
 alla realizzazione dei PCB, comprese le librerie. 
 
 Ringrazio Andrea D'Amore, per i suoi consigli riguardanti l'aspetto grafico
-di FidoCad su Apple Macintosh, dalla versione 0.21.1 
+di FidoCAD su Apple Macintosh, dalla versione 0.21.1 
 
 Ringrazio Roby IZ1CYN per le interessanti discussioni riguardanti le librerie
 e per aver scritto la sezione~\ref{installazione_linux} di questo manuale, 
@@ -163,7 +163,7 @@ al loro sistema operativo grazie a Quaqua\index{Quaqua} di Werner Randelshofer.
 
 Werner ha dato utili consigli circa l'interfaccia utente di FidocCadJ: grazie! 
 
-Questo manuale è stato tradotto in Inglese da ``Pasu'', che vorrei ringraziare
+Questo manuale è stato tradotto in inglese da ``Pasu'', che vorrei ringraziare
 per il lavoro svolto. Vorrei anche ringraziare ``qhg007'' per l'opera di
 controllo svolta e per le utilissime osservazioni.
   
@@ -224,7 +224,7 @@ nella comunità Usenet italiana degli anni novanta.
 E' possibile scaricarne gratuitamente una versione Windows\index{Windows}
 in lingua Italiana dalla pagina web di Lorenzo Lutti\index{Lorenzo Lutti}: 
 
-\href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
+\href{http://www.enetsystems.com/~lorenzo/FidoCAD.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
 
 I file generati da questo programma sono testuali e compatti.
 Questa caratteristica rende possibile includere disegni in
@@ -288,9 +288,9 @@ Senza voler arrivare alla perfezione, conoscendo i miei limiti di programmatore,
 Da Novembre 2009 ho aperto un progetto SourceForge\index{SourceForge} dedicato a FidoCadJ. 
 Da quella pagina potrete scaricare qualunque eseguibile, manuale e anche il codice sorgente. Potrete partecipare attivamente allo sviluppo di FidoCadJ lavorando sul suo codice sorgente usando Subversion (SVN) oppure il SVN browser predisposto da SorceForge: 
 
- \href{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/}{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/} 
+ \href{http://fidocadj.svn.sourceforge.net/viewvc/FidoCadJ/}{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/} 
 
-Se volete contribuire alla comunità FidoCadJ, non dovete preoccuparvi: non dovete essere esperti nella programmazione Java. Potrete, per esempio, tradurre l'interfaccia utente o il manuale in un'altra lingua, controllare il manuale esistente per trovare incongruenze, refusi o errori. FidoCadJ è disponibile, attualmente, in Italiano\index{Italiano}, Francese\index{Francese}, Inglese\index{Inglese}, Spagnolo\index{Spagnolo}, Tedesco\index{Tedesco}, Cinese\index{Cinese}, Giapponese\index{Giapponese} e Olandese\index{Olandese}.
+Se volete contribuire alla comunità FidoCadJ, non dovete preoccuparvi: non dovete essere esperti nella programmazione Java. Potrete, per esempio, tradurre l'interfaccia utente o il manuale in un'altra lingua, controllare il manuale esistente per trovare incongruenze, refusi o errori. FidoCadJ è disponibile, attualmente, in italiano\index{italiano}, francese\index{francese}, inglese\index{inglese}, spagnolo\index{spagnolo}, tedesco\index{tedesco}, cinese\index{cinese}, giapponese\index{giapponese} e olandese\index{olandese}.
 
 E' piuttosto semplice tradurre i menu e i comandi, quindi, se vi facesse piacere vedere FidoCadJ nella vostra madrelingua, fatemelo sapere! 
 
@@ -301,7 +301,7 @@ Potete anche lavorare alla libreria standard\dots\
 C'è da considerare che solo metà del mio tempo libero che dedico a FidoCadJ viene usato per programmare. Il resto viene speso per rispondere a domande degli utenti, scrivere e migliorare la documentazione e così via.
 Su SourceForge\index{SourceForge}, potete partecipare ai forum, scrivere delle recensioni sul programma e anche suggerire miglioramenti o segnalare dei bug: 
 
-\href{http://sourceforge.net/projects/fidocadj/}{http://sourceforge.net/projects/fidocadj/}
+\href{http://sourceforge.net/projects/FidoCadJ/}{http://sourceforge.net/projects/FidoCadJ/}
 
 \section{FidoCadJ e il futuro}
 
@@ -313,18 +313,17 @@ Questa immagine viene mostrata nel post sul forum, ma il suo codice sorgente rim
 In questo modo il lettore della discussione non deve avere alcunchè installato sul proprio computer per visualizzarla, ma, qualora desideri apportare delle modifiche, può ottenere il codice con pochi click. 
 
 Figure~\ref{fig_discussione_electroyou} mostra parte di un mio post scritto su  \href{http://www.electroyou.it}{www.electroyou.it}. 
-Questo sistema è così potente e flessibile che io stesso sono stato il primo ad essere sorpreso dall'entusiasmo dimostrato dagli utenti! \footnote{qui si trova l'articolo che scrissi, in Italiano:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}	 } 
+Questo sistema è così potente e flessibile che io stesso sono stato il primo ad essere sorpreso dall'entusiasmo dimostrato dagli utenti! \footnote{qui si trova l'articolo che scrissi, in Italiano:\\ \href{http://www.electroyou.it/darwinne/wiki/FidoCadJ}{http://www.electroyou.it/darwinne/wiki/FidoCadJ}	 } 
 FidoCadJ ha dimostrato di essere utile anche per disegni non direttamente collegati all'elettronica (vai all'appendice \ref{chap_fidocadj_art} per capire cosa intendo).
  	 
 \begin{figure}
  \includegraphics[width=\textwidth]{discussione_electroyou.png}
  \caption{Parte di uno dei miei post su \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}.
- 
-Con un semplice click è possibile fare lo zoom sullo schema. Con un secondo è possibile ottenere il codice sorgente, che è possibile incollare su FidoCadJ per apportare modifiche.}
+ Con un semplice click è possibile fare lo zoom sullo schema. Con un secondo è possibile ottenere il codice sorgente, che è possibile incollare su FidoCadJ per apportare modifiche.}
 \label{fig_discussione_electroyou}
 \end{figure}
 
-Il successo che ha avuto FidocadJ su \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} ha stimolato altre richieste di implementazione su altre piattaforme, in particolare su \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, un altro ben noto sito Italiano dedicato all'elettronica. FidoCadJ è anche usato dalla comunità di \href{http://www.matematicamente.it/forum/viewtopic.php?f=38&t=121249}{Matematicamente}\index{Matematicamente}.
+Il successo che ha avuto FidoCadJ su \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} ha stimolato altre richieste di implementazione su altre piattaforme, in particolare su \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, un altro ben noto sito Italiano dedicato all'elettronica. FidoCadJ è anche usato dalla comunità di \href{http://www.matematicamente.it/forum/viewtopic.php?f=38&t=121249}{Matematicamente}\index{Matematicamente}.
 Relativamente a \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, il server non può far girare un programma Java, così è stata scritta la classe FidoReadPHP che può essere fatta girare da un interprete PHP, per ottenere le immagini dal codice sorgente FidoCadJ. 
 Il progetto FidoReadPHP è open source ed è disponibile su SourceForge:
 
@@ -602,7 +601,7 @@ il circuito del nostro esempio. Per accedere al codice è sufficiente selezionare
 E' ora possibile copiare ed incollare il circuito in un messaggio e-mail
 \index{e-mail}, in un newsgroup\index{newsgroup}, o in un forum\index{forum}.
 \begin{lstlisting}
-[FIDOCAD]
+[FidoCAD]
 MC 95 65 0 0 280
 FCJ
 TY 115 60 4 3 0 0 0 * Q1B
@@ -632,7 +631,7 @@ TY 45 30 4 3 0 0 0 * 10 k
 TY 115 50 4 3 0 0 0 * I
 MC 110 50 1 0 074
 \end{lstlisting} 
-Se si è interessati al formato di esportazione utilizzato da FidoCad si può
+Se si è interessati al formato di esportazione utilizzato da FidoCAD si può
 consultare il capitolo~\ref{chap_formato}.
 
 In realtà non è necessario usare il comando {}``Insert circuit'';
@@ -861,7 +860,7 @@ come possiamo vedere in Figura~\ref{fig_amplificateur_impression}.
 Per completezza, viene qui riportato il codice che genera il PCB dell'esempio
 (fate attenzione alle linee lunghe!):
 \begin{lstlisting}
-[FIDOCAD]
+[FidoCAD]
 TY 320 10 18 11 0 4 1 * Darwin Ampli Esempio 08 
 TY 85 240 12 8 0 5 1 * + 
 TY 44 239 12 8 0 5 1 * - 
@@ -936,7 +935,7 @@ Qualche prova permetterà al lettore di apprezzarne le differenze.
 
 \label{fig_parametri_bezier}
 \end{figure}
-La possibilità di inserire linee tratteggiate e frecce non era contemplata nel formato originale FidoCad. Questo sfortunatamente significa che
+La possibilità di inserire linee tratteggiate e frecce non era contemplata nel formato originale FidoCAD. Questo sfortunatamente significa che
 i disegni FidoCadJ che usano queste funzionalità non sono completamente retrocompatibili con FidoCAD\index{FidoCAD} per Windows.
 Quando si opera la scelta di utilizzo di una estensione FidoCadJ è necessario conoscere che cosa si stia facendo. Se la compatibilità FidoCAD è assolutamente necessaria, è possibile selezionare l'opzione ``Strict FidoCAD compatibility'' in ``FidoCadJ extensions'' della finestra ``FidoCadJ preferences''. 
 In questo modo il programma non permetterà di introdurre elementi grafici che interromperebbero la compatibilità con FidoCAD.
@@ -1035,13 +1034,13 @@ In alcuni casi, potrebbe essere utile per far girare FidoCadJ da linea di comand
 Per fare ciò, è sufficiente lanciare il comando \lstinline!java!, con
 l'option \lstinline!-jar!: 
 \begin{lstlisting} 
-java -jar fidocadj.jar
+java -jar FidoCadJ.jar
 \end{lstlisting}
 
 Se viene specificato un file a seguito della linea di comando, \index{linea di comando}, FidoCadJ
 cercherà di aprirlo. Per esempio (su una macchina Unix\index{Unix}):
 \begin{lstlisting} 
-java -jar fidocadj.jar ~/FidoCadJ/test.fcd 
+java -jar FidoCadJ.jar ~/FidoCadJ/test.fcd 
 \end{lstlisting}
 
 FidoCadJ verrà lanciato cercando di aprire il file \lstinline!~/FidoCadJ/test.fcd!
@@ -1053,12 +1052,12 @@ L'opzione \lstinline!-h! mostra una lista delle opzioni FidoCadJ:
 \lstset{basicstyle=\scriptsize\ttfamily}
 	 	 
 \begin{lstlisting}
-[davidebucci@Darwin]$ java -jar fidocadj.jar -h
+[davidebucci@Darwin]$ java -jar FidoCadJ.jar -h
 
 This is FidoCadJ, version 0.24.1.
 By Davide Bucci, 2007-2012.
 
-Use: java -jar fidocadj.jar [-options] [file] 
+Use: java -jar FidoCadJ.jar [-options] [file] 
 where options include:
 
  -n     Do not start the graphical user interface (headless mode)
@@ -1092,20 +1091,20 @@ where options include:
 
 Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file
         without using the GUI.
-  java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+  java -jar FidoCadJ.jar -n -c 800 600 png out1.png test1.fcd
 
 Example: load and convert a FidoCadJ drawing to a png file without using the
         graphic user interface (the so called headless mode).
         Each FidoCadJ logical unit will be converted in 2 pixels on the image.
-  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+  java -jar FidoCadJ.jar -n -c r2 png out2.png test2.fcd
 
 Example: load FidoCadJ forcing the locale to simplified chinese (zh).
-  java -jar fidocadj.jar -l zh
+  java -jar FidoCadJ.jar -l zh
 
 
 [davidebucci@Darwin]$
 \end{lstlisting}
-\lstset{language=FIDOCAD,
+\lstset{language=FidoCAD,
     basicstyle=\small\ttfamily}
     
 L'opzione più semplice è \lstinline!-n!, con la quale il programma\dots\ non fa nulla, non attiva la GUI ed esce. In questo caso la variabile Java di 
@@ -1116,7 +1115,7 @@ L' opzione \lstinline!-c! converte un file FidoCAD (che deve essere specificato)
 Prendiamo in considerazione il primo esempio mostrato nell'help:
 
 \begin{lstlisting}
-java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+java -jar FidoCadJ.jar -n -c 800 600 png out1.png test1.fcd
 \end{lstlisting}
 
 FidoCadJ verrà avviato senza lanciare la GUI e esporterà in formato png\index{PNG} il file \lstinline!test1.fcd!. Il file di output verrà chiamato \lstinline!out1.png! avrà una dimensione di 800x600 pixel.
@@ -1125,7 +1124,7 @@ C'è una versione alternativa dell'opzione \lstinline!-c!, la quale permette di s
 il fattore $r_\mathrm{p}$ potrebbe non essere intero, come in questo esempio:
 
 \begin{lstlisting}
-java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
+java -jar FidoCadJ.jar -n -c r1.25 png out2.png test2.fcd
 \end{lstlisting}
 
 per sapere la dimensione complessiva (in unità logiche) di uno schema elettrico, è possibile utilizzare l'opzione \lstinline!-s!.
@@ -1145,14 +1144,14 @@ linea di codice.
 Riporto una cosa che gli utenti Linux\index{Linux} apprezzeranno,
 il look GTK+\index{GTK+}: 
 \begin{lstlisting} 
-java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar fidocadj.jar 
+java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar FidoCadJ.jar 
 \end{lstlisting} 
 E' anche disponibile il più classico Motif\index{Motif} look \& feel, mostrato in figura~\ref{fig_fidocadj_motif}\footnote{
 
 Questo stile potrebbe lasciare di stucco coloro che sono abituati a stili grafici rifiniti come Aqua su MacOSX.
 Ho visto qualche anno fa un sistema di controllo per un sincrotrone con una interfaccia grafica basata su Motif. Niente male!}: 
 \begin{lstlisting}
-java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fidocadj.jar 
+java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar FidoCadJ.jar 
 \end{lstlisting} %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_motif} 
@@ -1163,10 +1162,10 @@ java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fido
 \end{figure}
 
 Ovviamente, i comandi descritti devono essere inseriti da terminale,
-facendo attenzione che la directory corrente contenga il file \lstinline!fidocad.jar!.
+facendo attenzione che la directory corrente contenga il file \lstinline!FidoCAD.jar!.
 Bisogna fare inoltre attenzione a scrivere tutto sulla stessa linea di comando.
 
-\lstset{language=FIDOCAD,
+\lstset{language=FidoCAD,
  basicstyle=\small\ttfamily}
 
 \section{Gestione delle librerie}
@@ -1261,7 +1260,7 @@ Si ricordi che dalla versione 0.23.4, FidoCadJ usa solo la codifica UTF-8\index{
 \section{Descrizione dell'intestazione}
 
 Tutti i file contenenti un disegno in formato FidoCAD \emph{\index{FidoCAD}}
-iniziano con l'etichetta \emph{\lstinline!{[}FIDOCAD{]}!.}
+iniziano con l'etichetta \emph{\lstinline!{[}FidoCAD{]}!.}
 Un programma può quindi riconoscere la presenza di comandi FidoCAD leggendo questa etichetta.
 A questo proposito, FidoCadJ è più tollerante rispetto a FidoCAD \emph{\index{FidoCAD}} originale
 perchè riconosce e interpreta un file anche se non contiene l'intestazione\emph{\index{intestazione}} originale. 
@@ -1592,7 +1591,7 @@ Le estensioni FidoCadJ sono rappresentate nel codice dal comando \lstinline!FCJ!
 Questo comando non mai usato da solo, ma significa che FidoCadJ richiede di specificare informazioni addizionali su cosa è stato scritto alla linea precedente.
 Facciamo un esempio:
 \begin{lstlisting}
-[FIDOCAD]
+[FidoCAD]
 MC 40 30 0 0 080
 FCJ
 TY 50 35 4 3 0 0 0 * R1
@@ -1735,7 +1734,7 @@ siano disponibili librerie specifiche.
 Il vantaggio di un programma libero è che esso sia completamente a disposizione della comunità.
 Per questa ragione, l'opinione del lettore viene tenuta in grande considerazione (se non altro per
 capire se il progetto debba essere sviluppato ulteriormente e in che direzione).
-Per contattarmi potete partecipare al forum di SourceForge dedicato a FidoCadJ.\footnote{\href{https://sourceforge.net/projects/fidocadj/forums/forum/997486}{https://sourceforge.net/projects/fidocadj/forums/forum/997486}}
+Per contattarmi potete partecipare al forum di SourceForge dedicato a FidoCadJ.\footnote{\href{https://sourceforge.net/projects/FidoCadJ/forums/forum/997486}{https://sourceforge.net/projects/FidoCadJ/forums/forum/997486}}
 
 \appendix
 
@@ -1755,7 +1754,7 @@ FidoCadJ viene eseguito su una piattaforma Apple:
 \item per impostazione di fabbrica FidoCadJ usa il Quaqua%
 \footnote{\href{http://www.randelshofer.ch/quaqua/}{http://www.randelshofer.ch/quaqua/}%
 }\index{Quaqua} look and feel, quando viene fatta girare l'applicazione completa (FidoCadJ.app\index{FidoCadJ.app}
-invece di fidocadj.jar\index{fidocadj.jar}). Poichè Quaqua potrebbe rallentare le prestazioni delle macchine meno
+invece di FidoCadJ.jar\index{FidoCadJ.jar}). Poichè Quaqua potrebbe rallentare le prestazioni delle macchine meno
 recenti, è possibile disabilitarlo tramite il menu relativo alle impostazioni preferite. 
 \item La barra del menu è al proprio posto, cioè sulla sommità dello schermo 
 \item La voce di meu {}``Preferences'' e {}``About FidoCadJ'' sono al loro posto, cioè sotto il menu FidoCadJ.
@@ -1771,11 +1770,11 @@ Questo software è essenziale per FidoCadJ, ma fortunatamente è possibile scarica
 A tal proposito, Apple non permette di distribuire nel proprio App Store\index{App Store} software basato su Java o distribuito sotto licenza GPL.
 Questa è una delle ragioni più importanti per le quali è improbabile che FidoCadJ verrà reso portabile verso iPad\index{iPad} e iPhone\index{iPhone}.
 
-Anche se è possibile utilizzare direttamente l'archivio Java \lstinline!fidocadj.jar! come si farebbe per altri sistemi operativi, su MacOSX è possibile
+Anche se è possibile utilizzare direttamente l'archivio Java \lstinline!FidoCadJ.jar! come si farebbe per altri sistemi operativi, su MacOSX è possibile
 utilizzare l'applicazione per esso specificatamente progettata. Tutto funziona come per una applicazione nativa: è possibile scaricare una immagine utilizzando il seguente collegamento:  
 
 {\small
-\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ_MacOSX.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ\_ MacOSX.dmg/download}}\\
+\href{http://sourceforge.net/projects/FidoCadJ/files/FidoCadJ_MacOSX.dmg/download}{http://sourceforge.net/projects/FidoCadJ/files/FidoCadJ\_ MacOSX.dmg/download}}\\
 A questo punto è possibile aprire l'immagine e spostare \lstinline!FidoCadJ.app! nella cartella \lstinline!Applications!, dove l'esecuzione dell'applicativo avviene nello stesso modo come per qualunque altra applicazione Macintosh.
 Per disinstallare FidoCadJ, è possibile trascinare semplicemente il file  \lstinline!FidoCadJ.app! nel cestino.
 
@@ -1800,15 +1799,15 @@ Una configurazione scadente del Java Runtime Environment determinerà prestazioni
 %	basicstyle=\tiny\ttfamily}
 	
 \begin{lstlisting}
-$ wget http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
---00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
-           => `fidocadj.jar?use_mirror=garr'
+$ wget http://downloads.sourceforge.net/project/FidoCadJ/FidoCadJ.jar?use_mirror=garr
+--00:48:18--  http://downloads.sourceforge.net/project/FidoCadJ/FidoCadJ.jar?use_mirror=garr
+           => `FidoCadJ.jar?use_mirror=garr'
 Resolution of downloads.sourceforge.net is being done... 216.34.181.59
 Connection to downloads.sourceforge.net|216.34.181.59:80... connected.
 HTTP request sent, waiting for answer... 302 Found
-URL: http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
---00:48:24--  http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
-           => `fidocadj.jar'
+URL: http://garr.dl.sourceforge.net/project/FidoCadJ/FidoCadJ.jar
+--00:48:24--  http://garr.dl.sourceforge.net/project/FidoCadJ/FidoCadJ.jar
+           => `FidoCadJ.jar'
 Resolution of garr.dl.sourceforge.net is being done... 193.206.140.34
 Connection to garr.dl.sourceforge.net|193.206.140.34:80... connected.
 HTTP request sent, waiting for answer... 200 OK
@@ -1816,7 +1815,7 @@ Length: 343,207 (335K) [application/java-archive]
 
 100%[====================================>] 343,207      422.48K/s             
 
-00:48:30 (420.55 KB/s) - "fidocadj.jar" saved [343207/343207]
+00:48:30 (420.55 KB/s) - "FidoCadJ.jar" saved [343207/343207]
 $
 \end{lstlisting}
 \lstset{
@@ -1824,26 +1823,26 @@ $
 
 Alternativamente, o se si sono riscontrati dei problemi, è possibile scaricare il file tramite qualunque browser dall'URL seguente:
 
-\href{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}
+\href{http://sourceforge.net/projects/FidoCadJ/files/FidoCadJ.jar/download}{http://sourceforge.net/projects/FidoCadJ/files/FidoCadJ.jar/download}
 
 e salvare il file nella propria cartella \lstinline!/home/!.
 	
 Creiamo ora una nuova cartella (ma come prima cosa accediamo ai privilegi si superuser\index{superuser} tramite \lstinline!su! o \lstinline!sudo -s!):
 
 \begin{lstlisting}
-# mkdir /usr/bin/fidocadj
+# mkdir /usr/bin/FidoCadJ
 \end{lstlisting}
 
 \dots\ spostiamo ora dentro di essa il file precedentemente scaricato (sostituendo \lstinline!<user>! con il nome utente dell'account presso il quale il file è stato scaricato: 
 
 \begin{lstlisting}
-# mv /home/<user>/fidocadj.jar /usr/bin/fidocadj
+# mv /home/<user>/FidoCadJ.jar /usr/bin/FidoCadJ
 \end{lstlisting}
 
 Rendiamo eseguibile il file
 
 \begin{lstlisting}
-# chmod +x /usr/bin/fidocadj/fidocadj.jar
+# chmod +x /usr/bin/FidoCadJ/FidoCadJ.jar
 \end{lstlisting}
 
 Non dimentichiamoci di tornare ad essere utenti normali:
@@ -1855,7 +1854,7 @@ Non dimentichiamoci di tornare ad essere utenti normali:
 Finalmente possiamo eseguire il programma:
 
 \begin{lstlisting}
-$ /usr/bin/fidocadj/fidocadj.jar
+$ /usr/bin/FidoCadJ/FidoCadJ.jar
 $
 \end{lstlisting}
 %
@@ -1870,7 +1869,7 @@ In questo esempio, la piattaforma grafica è Ubuntu\index{Ubuntu} 8.04, ma le cos
 \item {Possiamo quindi avviare il nostro File Manager (Nautilus, Konqueror\dots) con i privilegi di root (qualora non esista un comando specifico nel menu, è possibile avviarlo dal terminale utilizzando il comando \lstinline!sudo nautilus!). 
 Creiamo quindi la seguente cartella:
 \begin{lstlisting}
-/usr/bin/fidocadj
+/usr/bin/FidoCadJ
 \end{lstlisting}
 e quindi spostiamoci dentro il file scaricato. Sarà da qualche parte in:
 \begin{lstlisting}
@@ -1896,7 +1895,7 @@ a ``Allow the execution of the file as a program'', come mostrato in figura~\ref
 
 \item {Selezioniamo quindi ``Open as'' e poi selezioniamo ``OpenJDK Java 6 Runtime'' o ``Sun Java 6 Runtime'', come si può vedere in figura~\ref{fig_java6}.}
 
-\item {Clicchiamo quindi su ``Close'' e siamo pronti all'esecuzione di FidoCadJ: facciamo un semplice doppio click sull'eseguibile oppure aggiungiamolo al menu principale. Il comando da aggiungere è \lstinline!/usr/bin/fidocadj/fidocadj.jar!.}
+\item {Clicchiamo quindi su ``Close'' e siamo pronti all'esecuzione di FidoCadJ: facciamo un semplice doppio click sull'eseguibile oppure aggiungiamolo al menu principale. Il comando da aggiungere è \lstinline!/usr/bin/FidoCadJ/FidoCadJ.jar!.}
 \end{itemize}
 
 
@@ -1905,7 +1904,7 @@ a ``Allow the execution of the file as a program'', come mostrato in figura~\ref
 Dalla versione 0.23, cioè da quando FidoCadJ riconosce la piattaforma Windows, viene usato il Look and Feel nativo per questo sistema.
 
  \subsection{come scaricare ed eseguire FidoCadJ}
-Molto spesso, avendo Java installato, è sufficiente scaricare il file \lstinline!fidocadj.jar! ed eseguirlo con un doppio click.
+Molto spesso, avendo Java installato, è sufficiente scaricare il file \lstinline!FidoCadJ.jar! ed eseguirlo con un doppio click.
 Se, dopo averlo scaricato, il sistema operativo lo riconosce come un archivio \lstinline!zip! probabilmente Java non è installato.
 Oracle permette di scaricare ed eseguire una versione gratuita di java da: 
 
