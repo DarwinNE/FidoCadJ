@@ -9,6 +9,7 @@ Version 0.24.3
 - The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir. Many thanks to 
 - Added "Select All" to the contextual popup menu (part of request #36).
 - Corrected the undo bug #47.
+- Deleted a nasty bug which in some cases produced very big temp directories, slowing down the startup and the overall use of FidoCadJ.
 
 Version 0.24.2
 --------------
