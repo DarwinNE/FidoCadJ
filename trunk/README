@@ -15,17 +15,19 @@ it is very simple and somewhat limited, FidoCadJ can be very useful as a basic
 schematic capture and electronic design automation (EDA) software. FidoCadJ 
 is inspired from FidoCAD (without "J"), which was a vector graphic editor 
 useful for electrical schematics and printed circuit boards. 
-FidoCAD used a file format containing only UTF-8 text, very compact and 
+FidoCAD used a file format containing UTF-8 text, very compact and 
 perfect for copy and pasting from/into newsgroups and forum messages. 
-This determined its success among the italian Usenet community, from late 
-'90s, as it is quite versatile for simple mechanical drawings as well. 
-FidoCadJ is the modern successor of FidoCAD.
+This determined its success among the italian Usenet community and forums, 
+from late '90s, as it is quite versatile for simple mechanical drawings as 
+well. FidoCadJ is the modern successor of FidoCAD.
+
 No netlist concept lies behind the drawings, so there is all the graphical
 flexibility that a vector drawing software can offer (but no simulation).
 
 FidoCadJ is internationalized and its manual is available in English, French, 
-Italian and Chinese. The user interface has been translated into English, 
-French, Italian, Spanish, German, Chinese, Dutch, Japanese, Czech.
+Italian and Chinese translations. The user interface has been translated 
+into English, French, Italian, Spanish, German, Chinese, Dutch, Japanese, 
+Czech.
 
 Here are a few useful sites about FidoCadJ:
 
@@ -49,21 +51,21 @@ bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some 
 problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion/Mountain Lion/Maverick operating system. Normally, you will 
+the MacOSX Lion/Mountain Lion/Mavericks operating system. Normally, you will 
 have to download the Java runtime in a few clicks. We tried our best, but
 the situation in 2007 was different from the actual one and Apple used to
 welcome Java developers back then...
 
-Remember that if there is a greek letter after the version number of FidoCadJ,
+Remember that if there is a Greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
-Basically, you are warned: those version may be unstable!
+Basically, you are warned: those versions may be unstable!
 
 ----------------------------------------------
 2 - Files contained in the source distribution
 ----------------------------------------------
 
-In the following table you can find a description of the trunk directory of 
-the FidoCadJ source files. You may download the complete source repository by
+In the following table you find a description of the trunk directory of 
+FidoCadJ source files. You may download the complete source repository by
 using svn from the SourceForge repository. Check out the SF documentation
 for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
 
@@ -145,7 +147,7 @@ to launch the compiled program, you should type:
 
 java  -classpath .\bin;.\jar;.\jar\  FidoMain
 
-FidoCadJ should be launched.
+FidoCadJ should start.
 
 3.4 Coding conventions
 ----------------------
@@ -172,7 +174,7 @@ code:
 - the class names always start with a capital letter, and so does methods
 - variables never start with a capital letter
 - an instance of the class does have its first letter in lower case
-- each public class and method must be documented with Javadoc syntax
+- public classes and methods should be documented with Javadoc syntax
 - no lines longer than 80 characters
 - commits should not break the build
 - each commit *MUST* include a log 
@@ -200,10 +202,10 @@ The following table briefly describes the provided tests:
   test/all_test.sh                 Run all the available tests.
 
   test/export/test_export.sh       Test the export on all available
-                                   file format. A set of reference 
+                                   file formats. A set of reference 
                                    files is provided, so it might be
                                    updated if differences on the 
-                                   export are introduced by purpouse.
+                                   export are introduced by purpose.
                                    If a test is failed, this tells just that
                                    the exported file is not identical to the
                                    model which has been used. You may have a 
@@ -211,20 +213,22 @@ The following table briefly describes the provided tests:
                                    the export. You may decide that it is ok.
 
   test/messages/test_messages.sh   Test the coherence of all 
-                                   installed languages against the 
-                                   reference (which is the italian!)
+                                   installed interface languages against the 
+                                   reference (which is the italian resource
+                                   file!)
 
   test/size/test_size.sh           Test if the size calculated for all 
                                    elements is the same as the one stored
                                    as a reference. Any change to the way
                                    the size is calculated will invalidate
-                                   the test if the size is unvalid.
+                                   the test if the size is invalid.
 
 Note that the way those tests are written, they compare the results of an
 operation involving FidoCadJ with a reference. In some cases, the reference
 can be improved or updated.
-In other cases, the differences might just contain unmeaningful data (such
-as version numbers and so on). 
+In other cases, the differences might just contain un-meaningful data (such
+as version numbers and so on). The test may fail in this case, even if the
+results are correct and acceptable.
 
 ----------------
 4 - Help wanted!
@@ -242,17 +246,23 @@ Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge
 forums (the email address is valid without the nope part, but no 
 attachments, please). It is probably better to open a discussion in the 
 SourceForge forums, in order that the work can eventually be shared and
-organized between all developers.
+organized between all developers:
+
+http://sourceforge.net/p/fidocadj/discussion/997486/
 
 4.1 "I want to translate FidoCadJ in my language"
 -------------------------------------------------
 
 FidoCadJ is written in such a way that translating its interface is 
-particularly easy and does not need any programming skills.
+particularly easy and does not need any programming skill.
 If you have downloaded the source file repository, you should find the 
 interface resource files in the trunk/bin directory.
 A language resource file has the name MessagesBundle_xx.properties, where
 xx is the code for the language to which the translation is targeted.
+Language code should follow ISO 639-1:
+
+http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
 If you have a look at the beginning of the file 
 trunk/bin/MessagesBundle_en.properties, you should read something as 
 follow:
@@ -299,7 +309,7 @@ your skills and basically what you would like to do. We will discuss a little
 in order to see if we can find an intersection between what you can do with 
 the FidoCadJ development strategy. The idea is to keep the work a little bit 
 organized and to know who does what. Have a peek to section 3.3 of this 
-readme file to see what coding style should be applied to the sources.
+README file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with SVN the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
@@ -309,7 +319,7 @@ must discuss about what are you willing to do.
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get a HTML description of all classes used in FidoCadJ. You will find that
 useful to understand the underpinnings of the program. To do that, you can
-run the trunk/createdoc sh script, if you are in a Unix system.
+run the trunk/createdoc.sh script, if you are in a Unix system.
 
 Then comes the hard work... We can help you! Please come to the SourceForge
 forums dedicated to FidoCadJ!
@@ -320,7 +330,7 @@ forums dedicated to FidoCadJ!
 -----------------------------------------------------------------------------
 Review on SourceForge or OhLoh    It is important that the users and 
                                   developers of FidoCadJ understand what is 
-                                  good and what is bad in their favourite 
+                                  good and what is bad in their favorite 
                                   software. Do not be shy to review FidoCadJ 
                                   on SourceForge or OhLoh!
 -----------------------------------------------------------------------------
@@ -391,7 +401,7 @@ Beta testers:
 Translations: 
 	Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
-    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja), Chemik582 (cz)
+    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja), Chemik582 (cs)
     
 Libraries:
 	Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group
