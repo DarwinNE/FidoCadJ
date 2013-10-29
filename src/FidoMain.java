@@ -97,9 +97,11 @@ public class FidoMain {
         			// phylum        			
         			if (args[i].trim().equalsIgnoreCase("-open")) {        				
         				continue;
-        			}
-        			       			   
-        			if (args[i].startsWith("-n")) {
+        			} else if (args[i].startsWith("-k")) {
+        				// -k: show the current locale
+        				System.out.println("Detected locale: "+
+        					Locale.getDefault().getLanguage());
+        			} else if (args[i].startsWith("-n")) {
         				// -n indicates that FidoCadJ should run only with
         				// the command line interface, without showing any
         				// GUI.
@@ -147,8 +149,6 @@ public class FidoMain {
         						" given to -c");
         					System.exit(1);
         				}
-        				
-        				
         				convertFile=true;
         			} else if (args[i].startsWith("-h")) { // Zu Hilfe!
         				showCommandLineHelp();
@@ -161,7 +161,8 @@ public class FidoMain {
         			} else if (args[i].startsWith("-p")) { // No optimizations
         				stripOptimization=true;        			
         			} else if (args[i].startsWith("-l")) { // Locale
-        				// Extract the code corresponding to the wanted locale
+        				// Extract the code corresponding to the wanted locale.
+        				// Use iso 639-1 codes.
         				String loc;
         				if(args[i].length()==2) {
         					// In this case, the -l xx form is used, where
@@ -357,6 +358,8 @@ public class FidoMain {
     		
     		" -l     Force FidoCadJ to use a certain locale (the code might follow\n"+
     		"        immediately or be separated by an optional space).\n\n"+
+    		
+    		" -k     Show the current locale, as specified by the operating system\n\n"+
     		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
     		"        load at startup time.\n\n"+
