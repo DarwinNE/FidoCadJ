@@ -760,6 +760,9 @@ public class ParseSchem implements UndoActorListener
     private int width;
     private int height;
     
+    private int oldDx;
+    private int oldDy;
+    
     /** Draw the grid in the given graphic context.
         @param G the graphic context to be used
         @param xmin the x (screen) coordinate of the upper left corner
@@ -785,7 +788,8 @@ public class ParseSchem implements UndoActorListener
         double m=1.0;   
 
         // Fabricate a new image only if necessary, to save time.   
-        if(oldZoom!=z || bufferedImage == null || tp==null) {
+        if(oldZoom!=z || bufferedImage == null || tp==null ||
+           oldDx!=dx || oldDy!=dy) {
             // It turns out that drawing the grid in an efficient way is not a 
             // trivial problem. What it is done here is that the program tries
             // to calculate the minimum common integer multiple of the dot 
@@ -804,6 +808,8 @@ public class ParseSchem implements UndoActorListener
             double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
             int d=1;
+            oldDx=dx;
+            oldDy=dy;
         
             // This code applies a correction: draws bigger points if the pitch
             // is very big, or draw much less points if it is too dense.
@@ -2349,8 +2355,8 @@ public class ParseSchem implements UndoActorListener
     }
     
     /** Set the change state of the class. This is different from being 
-        "modified", since modifies implies that the current drawing has not
-        been saved yet. Changed just means that we want to  recalculate
+        "modified", since modified implies just that the current drawing has 
+        not been saved yet. Changed just means that we want to  recalculate
         everything in deep during the first redraw.
     
         @param c if true, force a deep recalculation of all primitive 

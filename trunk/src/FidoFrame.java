@@ -1725,6 +1725,7 @@ public class FidoFrame extends JFrame implements
         CC.setPCB_pad_drill(options.pcbpadintw_i);
         CC.P.setTextFont(options.macroFont,options.macroSize_i);
 
+		// TODO: this is obsolete and should be removed
         CC.splitNonStandardMacro_s = options.split_n_s;
         CC.splitNonStandardMacro_c = options.split_n_c;
 
@@ -1782,6 +1783,9 @@ public class FidoFrame extends JFrame implements
             prefs.put("SHIFT_CP", (CC.P.getShiftCopyPaste()?"true":"false"));
 
         }
+        
+        // Forces a in-depth redraw.
+        CC.P.setChanged(true);
      	if(!libDirectory.equals(oldDirectory)) {
      		loadLibraries();
            	show();
