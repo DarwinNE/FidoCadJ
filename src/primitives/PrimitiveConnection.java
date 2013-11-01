@@ -134,7 +134,7 @@ public final class PrimitiveConnection extends GraphicPrimitive
 			
 		// When the circle is very small, it is better to set a single pixel
 		// than trying to fill the oval.
-		if(ni>=1)
+		if(ni>=3)
 			g.fillOval(xa1, ya1, ni, ni);
 		else
 			g.fillRect(xa1, ya1, ni, ni);

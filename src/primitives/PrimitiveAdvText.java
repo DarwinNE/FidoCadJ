@@ -678,7 +678,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		return i;
 	}
 	
-	/** Rotate the primitive. Here we just rotate 90° by 90°
+	/** Rotate the primitive. Here we just rotate 90Â° by 90Â°
 	
 		@param bCounterClockWise specify if the rotation should be done 
 				counterclockwise.
