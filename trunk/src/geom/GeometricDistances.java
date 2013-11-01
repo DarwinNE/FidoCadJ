@@ -34,7 +34,7 @@ public class GeometricDistances {
 	public static final int MIN_DISTANCE = 100;
 
 	// Number of segments evaluated when calculatin the distance between a 
-	// point and a Bézier curve.
+	// point and a BÃ©zier curve.
 	public static final int MAX_BEZIER_SEGMENTS=10;
 	
 	/** Calculate the euclidean distance between two points.
@@ -467,25 +467,25 @@ public class GeometricDistances {
 
 
 	/** Give an approximation of the distance between a point and
-	    a Bézier curve. The curve is divided into MAX_BEZIER_SEGMENTS 
+	    a BÃ©zier curve. The curve is divided into MAX_BEZIER_SEGMENTS 
 	    linear pieces and the distance is calculated with each piece.
 	    The given distance is the minimum distance found for all pieces.
 	    Freely inspired from the original Fidocad code.
 	    
-	    @param x1 x coordinate of the first control point of the Bézier curve.
-	    @param y1 y coordinate of the first control point of the Bézier curve.
-	    @param x2 x coordinate of the second control point of the Bézier curve.
-	    @param y2 y coordinate of the second control point of the Bézier curve.
-	    @param x3 x coordinate of the third control point of the Bézier curve.
-	    @param y3 y coordinate of the third control point of the Bézier curve.
-	    @param x4 x coordinate of the fourth control point of the Bézier curve.
-	    @param y4 y coordinate of the fourth control point of the Bézier curve.
+	    @param x1 x coordinate of the first control point of the BÃ©zier curve.
+	    @param y1 y coordinate of the first control point of the BÃ©zier curve.
+	    @param x2 x coordinate of the second control point of the BÃ©zier curve.
+	    @param y2 y coordinate of the second control point of the BÃ©zier curve.
+	    @param x3 x coordinate of the third control point of the BÃ©zier curve.
+	    @param y3 y coordinate of the third control point of the BÃ©zier curve.
+	    @param x4 x coordinate of the fourth control point of the BÃ©zier curve.
+	    @param y4 y coordinate of the fourth control point of the BÃ©zier curve.
 
 		@param px x coordinate of the point
 		@param py y coordinate of the point	    
 		
 		@return an approximate value of the distance between the given point 
-		        and the Bézier curve specified by the control points.
+		        and the BÃ©zier curve specified by the control points.
 	*/
 
 	public static int pointToBezier(int x1, int y1,
@@ -509,7 +509,7 @@ public class GeometricDistances {
 		
 		for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit)
 		{		
-			// This is the parametric form of the Bézier curve.
+			// This is the parametric form of the BÃ©zier curve.
 			// Probably, this is not the most convenient way to draw the
 			// curve (one should probably use De Casteljau's Algorithm), 
 			// but it indeed OK to find a few values such the one we need

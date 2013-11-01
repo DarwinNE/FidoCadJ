@@ -10,6 +10,8 @@ Version 0.24.3
 - Added "Select All" to the contextual popup menu (part of request #36).
 - Corrected the undo bug #47.
 - Deleted a nasty bug which in some cases produced very big temp directories, slowing down the startup and the overall use of FidoCadJ.
+- Added the command line option "-k" to show the code of the current locale.
+- Corrected a bug: when the grid pitch is changed, the results were not shown immediately.
 
 Version 0.24.2
 --------------
