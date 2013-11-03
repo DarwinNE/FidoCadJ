@@ -698,13 +698,15 @@ public class FidoFrame extends JFrame implements
 			
 			public void actionPerformed(ActionEvent e) {
 				String lang = (e.getActionCommand());
-				lang = lang.substring(lang.indexOf("(")+1).replace(")","").trim();								
+				lang = lang.substring(lang.indexOf("(")+1
+					).replace(")","").trim();								
 				currentLocale = new Locale(lang);
 				if (!checkIfToBeSaved()) return;
 				((FidoFrame)Globals.activeWindow).CC.P.doTheDishes();				
 				Globals.activeWindow.dispose();					
-	        	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
-	            		"", currentLocale));
+	        	SwingUtilities.invokeLater(new 
+	        		CreateSwingInterface(libDirectory, 
+	            	"", currentLocale));
 			}
 		};
 		
@@ -713,9 +715,11 @@ public class FidoFrame extends JFrame implements
         
         for (int i = 0;i<LibUtils.Languages.length;i++)
         {
-        	URL u = FidoMain.class.getResource("MessagesBundle_" + LibUtils.Languages[i][0]  + ".properties");
+        	URL u = FidoMain.class.getResource("MessagesBundle_" + 
+        		LibUtils.Languages[i][0]  + ".properties");
         	if (u==null) continue; 
-        	langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" + LibUtils.Languages[i][0] + ")");
+        	langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" +
+        		 LibUtils.Languages[i][0] + ")");
         	langsubCircuit.addActionListener(langAct);
         	langMenu.add(langsubCircuit);        	
         }               
@@ -1389,7 +1393,8 @@ public class FidoFrame extends JFrame implements
                     }
                     
                     // Only the first file of the list will be opened
-                    popFrame.CC.P.openFileName=((File)(list.get(0))).getAbsolutePath();
+                    popFrame.CC.P.openFileName=
+                    	((File)(list.get(0))).getAbsolutePath();
                     popFrame.openFile();
                     // If we made it this far, everything worked.
                     dtde.dropComplete(true);
@@ -1645,30 +1650,39 @@ public class FidoFrame extends JFrame implements
     }
     
     /** Required for the ScrollMoveListener interface
+    	Activate the scroll, in the sense that the scrollbars should be
+    	moved in order to center the specified position.
+    	
+    	@param x the x position of the wanted center of the viewport (comprised
+    		between 0 and 1. 
+    	@param y the y position of the wanted center of the viewport (comprised
+    		between 0 and 1.
     */
     public void scroll(final double x, final double y)
     {
-    	final int xmax = SC.getHorizontalScrollBar().getMaximum();
-    	final int xsize = SC.getHorizontalScrollBar().getVisibleAmount();
-    	final int ymax = SC.getVerticalScrollBar().getMaximum();
-    	final int ysize = SC.getVerticalScrollBar().getVisibleAmount();
-
-		
-    	System.out.println("x="+x+"  y="+y+"  xmax="+xmax+" ymax="+
-    		ymax+"  xsize="+xsize+"  ysize="+ysize);
-    		
     	SwingUtilities.invokeLater(new Runnable() {
   			public void run() 
   			{
-  				System.out.println("Previous: "+SC.getHorizontalScrollBar().getValue());
-    			SC.getHorizontalScrollBar().setValue((int)(x*(xmax-xsize)));
+  				int xmax = SC.getHorizontalScrollBar().getMaximum();
+    			int xsize = SC.getHorizontalScrollBar().getVisibleAmount();
     			
-    			System.out.println("Now: "+SC.getHorizontalScrollBar().getValue());
-    			SC.getVerticalScrollBar().setValue((int)(y*(ymax-ysize)));
+    			int ymax = SC.getVerticalScrollBar().getMaximum();
+    			int ysize = SC.getVerticalScrollBar().getVisibleAmount();
+    			
+    			int xv = (int)(x*xmax-xsize/2.0);
+    			int yv = (int)(y*ymax-ysize/2.0);
+    			
+    			if(xv>(xmax-xsize)) xv=xmax-xsize;
+    			if(yv>(ymax-ysize)) yv=ymax-ysize;
+    			
+    			if(xv<0) xv=0;
+    			if(yv<0) yv=0;
+    			
+    			SC.getHorizontalScrollBar().setValue(xv);
+    			
+    			SC.getVerticalScrollBar().setValue(yv);
   			}	
 		});
-
-    	
     }
     
     /** Show the FidoCadJ preferences panel
