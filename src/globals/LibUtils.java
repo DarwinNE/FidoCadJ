@@ -527,7 +527,7 @@ public static String Languages[][] = {
 {"ko","Korean"},
 {"kri","Krio (Sierra Leone)"},
 {"ku","Kurdish"},
-{"ckb","Kurdish (Soranî)"},
+{"ckb","Kurdish (SoranÃ®)"},
 {"ky","Kyrgyz"},
 {"lo","Laothian"},
 {"la","Latin"},

@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
-
-
 import globals.*;
 import geom.*;
 import dialogs.*;
@@ -17,6 +15,7 @@ import timer.*;
 import toolbars.*;
 import layers.*;
 import clipboard.*;
+import export.*;
 
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 
@@ -366,7 +365,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         [A] or [space]      Selection
         [L]                 Line
         [T]                 Text
-        [B]                 Bézier
+        [B]                 BÃ©zier
         [P]                 Polygon
         [O]					Complex curve
         [E]                 Ellipse
@@ -814,8 +813,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // Zoom state
         case ZOOM:      
         //////// TO IMPROVE: should center the viewport
-            int xpos = cs.unmapXsnap(x);
-            int ypos = cs.unmapYsnap(y);
+           // int xpos = cs.unmapXnosnap(x);
+           // int ypos = cs.unmapYnosnap(y);
             double z=cs.getXMagnitude();
             
             // Click+Meta reduces the zoom
@@ -826,25 +825,27 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 z=z*2.0/3.0;
             
             // Checking that reasonable limits are not exceeded.
-            if(z>20) z=20;
+            if(z>50) z=50;
             if(z<.25) z=.25;
+            
+            // Calculate the scroll position to center the scroll	
+            // where the user has done the click.
+            
+            Dimension dd=
+            	ExportGraphic.getImageSize(P, cs.getXMagnitude(), 
+            	false, new Point());
+            
+            double xs=(double)x/(dd.width);
+            if(xs<0.0) xs=0.0;
+            double ys=(double)y/(dd.height); 
+            if(ys<0.0) ys=0.0;
             
             z=Math.round(z*100.0)/100.0;
             cs.setMagnitudes(z,z);
-            repaint();
-            //paintImmediately(0,0,10,10);
-            
-
+            //repaint();
+			paintImmediately(0,0,dd.width,dd.height);
+			
             if(scrollMoveListener!=null) {
-            	// Calculate the scroll position to center the scroll
-            	// where the user has done the click.
-            	double xs=(double)xpos/(cs.getXMax()/cs.getXMagnitude());
-            	if(xs<0.0) xs=0.0;
-            	//if(xs>1.0) xs=1.0;
-            	double ys=(double)ypos/(cs.getYMax()/cs.getYMagnitude());
-            	if(ys<0.0) ys=0.0;
-            	//if(ys>1.0) ys=1.0;
-            	
             	scrollMoveListener.scroll(xs,ys);
             }
             
@@ -960,7 +961,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             break;
         
-        // Add a Bézier polygonal curve: we need four clicks.
+        // Add a BÃ©zier polygonal curve: we need four clicks.
         case BEZIER:
             if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 && 
                 clickNumber == 0) {
