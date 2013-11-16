@@ -805,7 +805,7 @@ public class FidoFrame extends JFrame implements
                     setVisible(false);
 					CC.P.doTheDishes();
                     dispose();
-                    Globals.openWindows.remove(this);
+                    Globals.openWindows.remove(FidoFrame.this);
 
                     --Globals.openWindowsNumber;
                     
@@ -1371,9 +1371,11 @@ public class FidoFrame extends JFrame implements
         try {
             Transferable tr = dtde.getTransferable();
             DataFlavor[] flavors = tr.getTransferDataFlavors();
+            if(flavors==null)
+            	return;
             for (int i = 0; i < flavors.length; i++) {
             	// try to avoid problematic situations
-            	if(flavors==null || flavors[i]==null)
+            	if(flavors[i]==null)
             		return;
             	// check the correct type of the drop flavor
                 if (flavors[i].isFlavorJavaFileListType()) {

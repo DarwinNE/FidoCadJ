@@ -30,7 +30,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2013 by Davide Bucci
 </pre>
 
 */
@@ -166,7 +166,7 @@ public abstract class GraphicPrimitive
 							  Vector layerV, int drawOnlyLayer)
 	{				
 		// If this method is not needed, exit immediately.
-		if (value==null && name==null)
+		if (value==null || name==null)
 			return;
 		if (value.equals("") && name.equals(""))
 			return;

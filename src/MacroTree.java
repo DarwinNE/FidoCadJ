@@ -82,10 +82,10 @@ public class MacroTree extends JPanel
     private JMenuItem popRename;
     private JMenuItem popDelete;
     private JMenuItem popRenKey;
-    private final int LEVEL_MACRO = 0;
-    private final int LEVEL_CATEGORY = 1;
-    private final int LEVEL_LIBRARY = 2;
-    private final int LEVEL_ROOT = 3;
+    private final static int LEVEL_MACRO = 0;
+    private final static int LEVEL_CATEGORY = 1;
+    private final static int LEVEL_LIBRARY = 2;
+    private final static int LEVEL_ROOT = 3;
     
     
     
