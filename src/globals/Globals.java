@@ -380,7 +380,8 @@ public class Globals
     {
     	if(sourceLocation.isDirectory()) {
         	if(!targetLocation.exists()) {
-            	targetLocation.mkdir();
+            	if(!targetLocation.mkdir())
+            		throw new IOException();
         	}
  
  			// Process all the elements of the directory.
@@ -432,7 +433,8 @@ public class Globals
     {
     	if(sourceLocation.isDirectory()) {
         	if(!targetLocation.exists()) {
-            	targetLocation.mkdir();
+            	if(!targetLocation.mkdir())
+            		throw new IOException();
         	}
         	
         	criteria = criteria.toLowerCase();
@@ -452,6 +454,7 @@ public class Globals
 	http://stackoverflow.com/questions/3775694/deleting-folder-from-java
 	*/
 	public static boolean deleteDirectory(File directory) 
+		throws IOException
 	{
     	if(directory.exists()){
         	File[] files = directory.listFiles();
@@ -461,7 +464,8 @@ public class Globals
                     	deleteDirectory(files[i]);
                 	}
                 	else {
-                   	 	files[i].delete();
+                		if(!files[i].delete())
+            				throw new IOException();
                 	}
             	}
         	}

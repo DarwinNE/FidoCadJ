@@ -2378,10 +2378,14 @@ public class ParseSchem implements UndoActorListener
 	
 	public void doTheDishes()
 	{
-		//System.out.println("Do the dishes...");
 		for (int i=0; i<tempDir.size();++i) 
 		{
-			Globals.deleteDirectory(new File(tempDir.get(i)));
+			try {
+				Globals.deleteDirectory(new File(tempDir.get(i)));
+			} catch (IOException e) {
+				System.out.println("Could not remove temp. directories!");
+			}
+			
 		}
 	}
 }
