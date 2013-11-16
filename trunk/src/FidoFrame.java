@@ -124,7 +124,7 @@ public class FidoFrame extends JFrame implements
     // Locale settings
     static public Locale currentLocale;
     // Runs as an application or an applet.
-    static public boolean runsAsApplication;
+    public boolean runsAsApplication;
     
     // Useful for automatic scrolling in panning mode.
     private ScrollGestureRecognizer sgr;

@@ -276,7 +276,7 @@ public class DialogExport extends JDialog implements ComponentListener,
 
         panel.add(resolutionLabel, constraints);
         
-        resolution=new JComboBox();
+        resolution=new JComboBox<String>();
         resolution.addItem("72x72 dpi");
         resolution.addItem("150x150 dpi");
         resolution.addItem("300x300 dpi");

@@ -45,7 +45,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 													 ChangeCoordinatesListener
 {
        
-    private JComboBox zoom;
+    private JComboBox<String> zoom;
     private JButton zoomFit;
     private JToggleButton showGrid;
     private JToggleButton snapGrid;
@@ -57,7 +57,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private ChangeZoomListener notifyZoomChangeListener;
     private ZoomToFitListener actualZoomToFitListener;
      
-    private JComboBox layerSel;
+    private JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
     
     private Vector<LayerDesc> layers;
@@ -69,7 +69,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     {
     	putClientProperty("Quaqua.ToolBar.style", "title");
     	layers=l;
-        zoom = new JComboBox();
+        zoom = new JComboBox<String>();
         zoom.addItem("25%");
         zoom.addItem("50%");
         zoom.addItem("75%");
@@ -96,7 +96,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         infos = new JLabel("");
 
         setBorderPainted(false);
-        layerSel = new JComboBox(new Vector<LayerDesc>(layers));
+        layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(layers));
         layerSel.setToolTipText(
         	Globals.messages.getString("tooltip_layerSel"));
    		layerSel.setRenderer( new LayerCellRenderer());
@@ -216,7 +216,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         
         // ComboBox
         if(evt.getSource() instanceof JComboBox) {
-        	JComboBox source=(JComboBox)evt.getSource();
+        	JComboBox<String> source=(JComboBox<String>)evt.getSource();
         	
         	
         	if (notifyZoomChangeListener!=null) {

@@ -334,7 +334,7 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 		return i;
 	}
 
-	/** Rotate the primitive. Here we just rotate 90° by 90° by swapping the
+	/** Rotate the primitive. Here we just rotate 90Â° by 90Â° by swapping the
 		x and y size of the pad
 	
 		@param bCounterClockWise specify if the rotation should be done 
