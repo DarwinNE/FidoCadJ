@@ -12,7 +12,7 @@ import dialogs.*;
 import export.*;
 
 
-/** Class to handle the Bézier primitive.
+/** Class to handle the BÃ©zier primitive.
 
 <pre>
 	This file is part of FidoCadJ.
@@ -39,7 +39,7 @@ import export.*;
 public final class PrimitiveBezier extends GraphicPrimitive
 {
 
-	// A Bézier is defined by four points.
+	// A BÃ©zier is defined by four points.
 	static final int N_POINTS=6;
 	
 	private boolean arrowStart;
@@ -71,7 +71,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
    		initPrimitive(-1, f, size);
 		
 	}
-	/** Create a Bézier curve specified by four control points
+	/** Create a BÃ©zier curve specified by four control points
 		@param x1 the x coordinate (logical unit) of P1.
 		@param y1 the y coordinate (logical unit) of P1.
 		@param x2 the x coordinate (logical unit) of P2.
@@ -258,13 +258,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
 		drawText(g, coordSys, layerV, -1);
 	
-		// in the Bézier primitive, the four virtual points represent
+		// in the BÃ©zier primitive, the four virtual points represent
 		//   the control points of the shape 
  		
  		if (changed) {
  			changed=false;
  			
- 			// Create the Bézier curve, which in the Java library is called a 
+ 			// Create the BÃ©zier curve, which in the Java library is called a 
  			// cubic curve (and indeed it is!)
  			shape1 = new CubicCurve2D.Float(
  				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
@@ -403,12 +403,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		changed=true;
 
 		// assert it is the correct primitive
-		if (tokens[0].equals("BE")) {	// Bézier
+		if (tokens[0].equals("BE")) {	// BÃ©zier
  			if (N<9) {
  				IOException E=new IOException("bad arguments on BE");
 				throw E;
  			}
- 			// Parse the coordinates of all points of the Bézier curve
+ 			// Parse the coordinates of all points of the BÃ©zier curve
  			int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
  			int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
  			virtualPoint[1].x=Integer.parseInt(tokens[3]);
@@ -462,7 +462,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	    if(checkText(px, py))
 	    	return 0;
 	
-		// If not, we check for the distance to the Bézier curve.
+		// If not, we check for the distance to the BÃ©zier curve.
 		return GeometricDistances.pointToBezier(
 				virtualPoint[0].x, virtualPoint[0].y,
 				virtualPoint[1].x, virtualPoint[1].y,

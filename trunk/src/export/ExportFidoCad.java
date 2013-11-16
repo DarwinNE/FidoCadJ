@@ -166,7 +166,7 @@ public class ExportFidoCad implements ExportInterface {
 		
 	}
 	
-	/** Called when exporting a Bézier primitive.
+	/** Called when exporting a BÃ©zier primitive.
 	
 		@param x1 the x position of the first point of the trace
 		@param y1 the y position of the first point of the trace

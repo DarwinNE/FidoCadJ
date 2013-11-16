@@ -190,7 +190,9 @@ public class LibUtils {
 	public static void deleteLib(String  s) throws FileNotFoundException
 	{
 		File f = new File(getLibDir()+s+".fcl");
-		f.delete();		
+				
+		if(!f.delete())
+            throw new FileNotFoundException();
 	}
 	
 	/** Get all the library in the current library directory.
@@ -432,8 +434,12 @@ public class LibUtils {
 			// This is an hack: at first, we create a temporary file. We store
 			// its name and we use it to create a temporary directory.
 			File tempDir = File.createTempFile("fidocadj_", "");
-        	tempDir.delete();
-        	tempDir.mkdir();
+        	
+        	if(!tempDir.delete())
+        		throw new IOException();
+        	if(!tempDir.mkdir())
+        		throw new IOException();
+        		
         	String s=LibUtils.getLibDir();
 
         	String d=tempDir.getAbsolutePath();
