@@ -69,11 +69,11 @@ public class DialogSymbolize extends JDialog
     private ParseSchem cp;
     
     // Swing elements
-    private JComboBox libFilename;
+    private JComboBox<String> libFilename;
     private JTextField libName;
     private JTextField name;
     private JTextField key;    
-    private JComboBox group;
+    private JComboBox<String> group;
     private JCheckBox snapToGrid;
     
 	/** The class myCircuitPanel extends the CircuitPanel class by adding
@@ -240,7 +240,7 @@ public class DialogSymbolize extends JDialog
 	private void enumLibs() 
 	{
 		libFilename.removeAllItems();
-		List lst = new LinkedList();
+		List lst = new LinkedList<String>();
 		Map<String,MacroDesc> m=cpanel.P.getLibrary();
 		
 		for (Entry<String,MacroDesc> e : m.entrySet()) {
@@ -278,7 +278,7 @@ public class DialogSymbolize extends JDialog
 
         panel.add(libraryLabel, constraints);
         
-        libFilename=new JComboBox();      
+        libFilename=new JComboBox<String>();      
 
         String e = null;
 
@@ -392,7 +392,7 @@ public class DialogSymbolize extends JDialog
 			new Insets(6,40,0,0));
         panel.add(groupLabel, constraints);
         
-        group=new JComboBox();                
+        group=new JComboBox<String>();                
         listGroups();
         if (group.getItemCount()==0)
         	group.addItem((Globals.messages.getString("Group").toLowerCase()));
@@ -497,7 +497,7 @@ public class DialogSymbolize extends JDialog
     
 	public void actionPerformed(ActionEvent evt)
     {
-		JComboBox source = (JComboBox)evt.getSource();
+		JComboBox source = (JComboBox<String>)evt.getSource();
 		int idx=source.getSelectedIndex();
 	}
         

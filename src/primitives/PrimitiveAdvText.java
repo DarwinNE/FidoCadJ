@@ -464,15 +464,17 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  				(int)(six*12.0/7.0+.5));
  			
 	   		gSCI.setFont(f);
-            
 			FontMetrics fmSCI = gSCI.getFontMetrics(f);
+			gSCI.dispose();
+			
     		hSCI = fmSCI.getAscent();
     		thSCI = hSCI+fmSCI.getDescent();
    			wSCI = fmSCI.stringWidth(txt);
 	
 			if(siy/six != 10/7){
     			hSCI=(int)Math.round(hSCI*((double)siy*22.0/40.0/(double)six)); 
-				thSCI=(int)Math.round((double)thSCI*((double)siy*22.0/40.0/(double)six)); 
+				thSCI=(int)Math.round((double)thSCI*((double)siy
+					*22.0/40.0/(double)six)); 
    			}//
 
    			// Corrections for the mirrored text.
@@ -501,8 +503,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             }
         }
 
+		// Once the calculated size is stored, we proceed in calculating 
+		// the distance.
        	if(orientationSCI!=0){	
-       	
        		if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py))
           		return 0;
 		} else {

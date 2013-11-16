@@ -406,10 +406,11 @@ public class DialogOptions extends JDialog implements ComponentListener
         			// Use Swing's file dialog.
            			JFileChooser fc = new JFileChooser(
 					new File(libD.getText()).getPath());
-					fc.setDialogTitle(Globals.messages.getString("Select_lib_directory"));
+					fc.setDialogTitle(
+						Globals.messages.getString("Select_lib_directory"));
 					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				
-					// Dock library panel (postponed to v. 0.24.3).
+					// Dock library panel.
 					LibraryPanel p = new LibraryPanel(fc);
 				
 					int r = fc.showOpenDialog(null);
