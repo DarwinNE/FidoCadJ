@@ -56,7 +56,7 @@ public class ExportEagle implements ExportInterface {
 	
 	// Conversion between FidoCadJ units and Eagle units (1/10 inches)
 	
-	static double res=5e-2;
+	static final double res=5e-2;
 	
 
 	public int cLe(double l)
@@ -105,7 +105,6 @@ public class ExportEagle implements ExportInterface {
 		//layerV=la;
 		dim=totalSize;
 	    out = new BufferedWriter(fstream);
-	    res = 5e-2;
 		oldtextsize=-1;
 		macroList = "";
 		junctionList = "";

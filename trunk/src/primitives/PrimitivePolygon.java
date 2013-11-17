@@ -32,7 +32,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2013 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -405,7 +405,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=new Boolean(isFilled);
+		pd.parameter=Boolean.valueOf(isFilled);
 		pd.description=Globals.messages.getString("ctrl_filled");
 		v.add(pd);
 
@@ -414,7 +414,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		pd.description=Globals.messages.getString("ctrl_dash_style");
 		pd.isExtension = true;
 		v.add(pd);
-		
 
 		return v;
 	}

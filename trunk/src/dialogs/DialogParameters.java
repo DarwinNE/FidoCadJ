@@ -417,7 +417,8 @@ public class DialogParameters extends JDialog implements ComponentListener {
 						} else if (pd.parameter instanceof String) {
 							pd.parameter = jtf[tc++].getText();
 						} else if (pd.parameter instanceof Boolean) {
-							pd.parameter = new Boolean(jcb[cc++].isSelected());
+							pd.parameter = Boolean.valueOf(
+								jcb[cc++].isSelected());
 						} else if (pd.parameter instanceof Integer) {
 							pd.parameter = Integer.valueOf(Integer
 									.parseInt(jtf[tc++].getText()));
@@ -502,9 +503,9 @@ public class DialogParameters extends JDialog implements ComponentListener {
 	}
 
 	private void adjustSize() {
-		int width = getWidth();
+/*		int width = getWidth();
 		int height = getHeight();
-/*		
+		
 		boolean resize = false;
 		if (width < MIN_WIDTH) {
 			resize = true;

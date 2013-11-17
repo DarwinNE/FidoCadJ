@@ -579,7 +579,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		v.add(pd);
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(getLayer());
+		pd.parameter=Integer.valueOf(getLayer());
 		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
 		

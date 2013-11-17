@@ -247,7 +247,7 @@ public final class PrimitiveOval extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=new Boolean(isFilled);
+		pd.parameter=Boolean.valueOf(isFilled);
 		pd.description=Globals.messages.getString("ctrl_filled");
 		v.add(pd);
 		pd = new ParameterDescription();
