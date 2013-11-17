@@ -56,10 +56,10 @@ public class DialogExport extends JDialog implements ComponentListener,
     private static final double EPS=1E-5;      // Resolution comparison precision
     
     // Swing elements
-    private JComboBox resolution;       // Resolution combo box
+    private JComboBox<String> resolution;       // Resolution combo box
     private JCheckBox antiAlias_CB;     // AntiAlias checkbox
     private JCheckBox blackWhite_CB;    // Black and white checkbox
-    private JComboBox fileFormat;       // File format combo box
+    private JComboBox<String> fileFormat;       // File format combo box
     private JTextField fileName;        // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
     

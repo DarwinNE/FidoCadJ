@@ -396,9 +396,10 @@ public class LibUtils {
 		@m the map containing all the libraries
 		@prefix the filename of the wanted library
 	*/
-	public static List enumGroups(Map<String,MacroDesc> m, String prefix) 
+	public static List<String> enumGroups(Map<String,MacroDesc> m, 
+		String prefix) 
 	{
- 		List lst = new LinkedList();
+ 		List<String> lst = new LinkedList<String>();
  		for (MacroDesc md : m.values()) {
 		 	if (!lst.contains(md.category)
 			 	&& prefix.trim().equalsIgnoreCase(md.filename.trim()))  {
@@ -463,7 +464,7 @@ public class LibUtils {
 
 // TODO support libs with different filenames
 
-public static String Languages[][] = {
+public static final String Languages[][] = {
 {"af","Afrikaans"},
 {"ak","Akan"},
 {"sq","Albanian"},
