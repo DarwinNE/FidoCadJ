@@ -115,7 +115,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         add(button);
         group.add(button);
         toolButtonsList.add(button);
-        circuitPanelConstants.put(button, new Integer(circuitPanelConstant));
+        circuitPanelConstants.put(button, Integer.valueOf(circuitPanelConstant));
     }
     
     /** Class Constructor 

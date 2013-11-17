@@ -223,7 +223,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=new Integer(width);
+		pd.parameter=Integer.valueOf(width);
 		pd.description=Globals.messages.getString("ctrl_width");
 		v.add(pd);
 

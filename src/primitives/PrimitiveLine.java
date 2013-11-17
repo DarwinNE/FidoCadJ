@@ -123,22 +123,22 @@ public final class PrimitiveLine extends GraphicPrimitive
         ParameterDescription pd = new ParameterDescription();
 
         pd = new ParameterDescription();
-        pd.parameter=new Boolean(arrowStart);
+        pd.parameter=Boolean.valueOf(arrowStart);
         pd.description=Globals.messages.getString("ctrl_arrow_start");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=new Boolean(arrowEnd);
+        pd.parameter=Boolean.valueOf(arrowEnd);
         pd.description=Globals.messages.getString("ctrl_arrow_end");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=new Integer(arrowLength);
+        pd.parameter=Integer.valueOf(arrowLength);
         pd.description=Globals.messages.getString("ctrl_arrow_length");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=new Integer(arrowHalfWidth);
+        pd.parameter=Integer.valueOf(arrowHalfWidth);
         pd.description=Globals.messages.getString("ctrl_arrow_half_width");
         pd.isExtension = true;
 

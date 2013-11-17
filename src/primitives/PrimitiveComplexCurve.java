@@ -527,17 +527,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
     		
     		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, q.npoints);
     		
-    		/*gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
-    		
-    		for(int i=1; i<pp.size(); ++i) {
-   				gp.lineTo((float)pp.get(i).x,(float)pp.get(i).y);
-   			}*/
-   			
    			gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
    			
    			int increment=STEPS;
    			double derX1=0.0, derX2=0.0;
    			double derY1=0.0, derY2=0.0;
+   			// Weigths of the points.
    			double w1=0.666667, w2=0.666667;
    			int j=0;
    			for(int i=0; i<pp.size()-increment; i+=increment) {
@@ -545,31 +540,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
    				derX1=dd.get(j).x/2.0*w1;
    				derY1=dd.get(j).y/2.0*w1;
    				  	
-   				if(j+1<dd.size()) {
-   					derX2=dd.get(j+1).x/2.0*w2;
-   					derY2=dd.get(j+1).y/2.0*w2;
-   				} else {
-   					derX2=dd.get(j+1).x/2.0*w2;
-   					derY2=dd.get(j+1).y/2.0*w2;
-   				}
+				derX2=dd.get(j+1).x/2.0*w2;
+				derY2=dd.get(j+1).y/2.0*w2;
    				
    				++j;
-   				
-   				/*
-   				gp.lineTo((float)(pp.get(i).x+derX1),
-   					(float)(pp.get(i).y+derY1));
-   				
-   				gp.moveTo((float)(pp.get(i+increment).x-derX2),
-   					(float)(pp.get(i+increment).y-derY2));
-   					
-   				gp.lineTo((float)(pp.get(i+increment).x),
-   					(float)(pp.get(i+increment).y));
-   				
-   				
-   				gp.moveTo((float)(pp.get(i).x),
-   					(float)(pp.get(i).y));
-   				*/
-   				
+   				   				
    				gp.curveTo((float)(pp.get(i).x+derX1),
    					(float)(pp.get(i).y+derY1),
    					(float)(pp.get(i+increment).x-derX2),
@@ -734,33 +709,33 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=new Boolean(isFilled);
+		pd.parameter=Boolean.valueOf(isFilled);
 		pd.description=Globals.messages.getString("ctrl_filled");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean(isClosed);
+		pd.parameter=Boolean.valueOf(isClosed);
 		pd.description=Globals.messages.getString("ctrl_closed_curve");
 		pd.isExtension = true;
 		v.add(pd);
 
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean(arrowStart);
+		pd.parameter=Boolean.valueOf(arrowStart);
 		pd.description=Globals.messages.getString("ctrl_arrow_start");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean(arrowEnd);
+		pd.parameter=Boolean.valueOf(arrowEnd);
 		pd.description=Globals.messages.getString("ctrl_arrow_end");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(arrowLength);
+		pd.parameter=Integer.valueOf(arrowLength);
 		pd.description=Globals.messages.getString("ctrl_arrow_length");
 		pd.isExtension = true;
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(arrowHalfWidth);
+		pd.parameter=Integer.valueOf(arrowHalfWidth);
 		pd.description=Globals.messages.getString("ctrl_arrow_half_width");
 		pd.isExtension = true;
 		v.add(pd);

@@ -269,19 +269,19 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=new Integer(rx);
+		pd.parameter=Integer.valueOf(rx);
 		pd.description=Globals.messages.getString("ctrl_x_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(ry);
+		pd.parameter=Integer.valueOf(ry);
 		pd.description=Globals.messages.getString("ctrl_y_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(ri);
+		pd.parameter=Integer.valueOf(ri);
 		pd.description=Globals.messages.getString("ctrl_internal_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(sty);	// A list should be better
+		pd.parameter=Integer.valueOf(sty);	// A list should be better
 		pd.description=Globals.messages.getString("ctrl_pad_style");
 		v.add(pd);
 		

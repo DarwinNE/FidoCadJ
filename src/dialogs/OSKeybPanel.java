@@ -89,14 +89,17 @@ public class OSKeybPanel extends JPanel {
 	
 	public enum KEYBMODES {GREEK, MATH, MISC};
 	
+	
+	/**	Constructor: create a virtual keyboard following a given "mode"
+		@param mode, the type of keyboard to be generated.
+	*/
 	public OSKeybPanel(KEYBMODES mode)
 	{		
 		super();
 
         GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints=new GridBagConstraints();        
         setLayout(bgl);
-        constraints = DialogUtil.createConst(0,0,1,1,0,0,
+        GridBagConstraints constraints = DialogUtil.createConst(0,0,1,1,0,0,
     			GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
     			new Insets(0,0,0,0));  
     			
@@ -106,7 +109,6 @@ public class OSKeybPanel extends JPanel {
 		Font fbig = new Font("Courier New",0,size+2);	
 
 		ActionListener al = new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) 
 			{
 				JDialog jd = (JDialog) txt;			
@@ -155,6 +157,9 @@ public class OSKeybPanel extends JPanel {
 			k[i].setFont(i>71 ? fbig : f);;
 			k[i].setFocusable(false);
 			k[i].addActionListener(al);	
+			// A little of Quaqua-style retouch, in order to have a very
+			// pretty keyboard on MacOSX. It won't harm on other operating
+			// systems.
 			k[i].putClientProperty("Quaqua.Button.style","toggleCenter");
 			if (constraints.gridx>7) {
 				k[i].putClientProperty("Quaqua.Button.style","toggleWest");
@@ -167,8 +172,8 @@ public class OSKeybPanel extends JPanel {
 			constraints.gridx++;
 		}
 		
-		// TODO: avoid using numbers in the code, but calculate automatically
-		// the indices.
+		// TODO: avoid using magic numbers in the code, but calculate 
+		// automatically the indices.
 		k[0].putClientProperty("Quaqua.Button.style","toggleWest");
 		k[symbols.length()-1].putClientProperty(
 			"Quaqua.Button.style","toggleEast");

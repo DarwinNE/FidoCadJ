@@ -555,29 +555,29 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		v.add(pd);
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(six);
+		pd.parameter=Integer.valueOf(six);
 		pd.description=Globals.messages.getString("ctrl_xsize");
 		v.add(pd);
 		
 		pd = new ParameterDescription();
-		pd.parameter=new Integer(siy);
+		pd.parameter=Integer.valueOf(siy);
 		pd.description=Globals.messages.getString("ctrl_ysize");
 		v.add(pd);
 		
 	 	pd = new ParameterDescription();
-		pd.parameter=new Integer(o);
+		pd.parameter=Integer.valueOf(o);
 		pd.description=Globals.messages.getString("ctrl_angle");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean((sty & TEXT_MIRRORED)!=0);
+		pd.parameter=Boolean.valueOf((sty & TEXT_MIRRORED)!=0);
 		pd.description=Globals.messages.getString("ctrl_mirror");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean((sty & TEXT_ITALIC)!=0);
+		pd.parameter=Boolean.valueOf((sty & TEXT_ITALIC)!=0);
 		pd.description=Globals.messages.getString("ctrl_italic");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Boolean((sty & TEXT_BOLD)!=0);
+		pd.parameter=Boolean.valueOf((sty & TEXT_BOLD)!=0);
 		pd.description=Globals.messages.getString("ctrl_boldface");
 		v.add(pd);
 		pd = new ParameterDescription();

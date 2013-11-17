@@ -506,8 +506,8 @@ public class MacroTree extends JPanel
 				// element
 				String oldLib = macro.library.trim();
 				String oldFile = macro.filename.trim();
-				String grp = macro.category.trim();
-				String mnam = macro.name.trim();
+				//String grp = macro.category.trim();  // Unused
+				//String mnam = macro.name.trim(); // Unused
 				String oldKey = macro.key;
 				
 				// Get the destination library (e contains the target node)

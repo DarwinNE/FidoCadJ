@@ -498,7 +498,7 @@ public class DialogSymbolize extends JDialog
 	public void actionPerformed(ActionEvent evt)
     {
 		JComboBox<String> source = (JComboBox<String>)evt.getSource();
-		int idx=source.getSelectedIndex();
+		//int idx=source.getSelectedIndex();
 	}
         
     

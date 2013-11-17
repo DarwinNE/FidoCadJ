@@ -1852,7 +1852,7 @@ public class FidoFrame extends JFrame implements
 			// the file has been modified.
 			
 			getRootPane().putClientProperty("Window.documentModified", 
-				new Boolean(CC.P.getModified()));
+				Boolean.valueOf(CC.P.getModified()));
 				
 			// On MacOSX >= 10.5, associate an icon and a file proxy to the
 			// title bar.
