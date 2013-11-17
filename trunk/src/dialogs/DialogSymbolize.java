@@ -240,7 +240,7 @@ public class DialogSymbolize extends JDialog
 	private void enumLibs() 
 	{
 		libFilename.removeAllItems();
-		List lst = new LinkedList<String>();
+		List<String> lst = new LinkedList<String>();
 		Map<String,MacroDesc> m=cpanel.P.getLibrary();
 		
 		for (Entry<String,MacroDesc> e : m.entrySet()) {
@@ -497,7 +497,7 @@ public class DialogSymbolize extends JDialog
     
 	public void actionPerformed(ActionEvent evt)
     {
-		JComboBox source = (JComboBox<String>)evt.getSource();
+		JComboBox<String> source = (JComboBox<String>)evt.getSource();
 		int idx=source.getSelectedIndex();
 	}
         

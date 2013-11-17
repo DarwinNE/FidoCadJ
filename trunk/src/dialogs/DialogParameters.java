@@ -287,7 +287,7 @@ public class DialogParameters extends JDialog implements ComponentListener {
 			} else if (pd.parameter instanceof ArrowInfo) {
 				GraphicsEnvironment gE;
 				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				jco[co] = new JComboBox();
+				jco[co] = new JComboBox<ArrowInfo>();
 				jco[co].addItem(new ArrowInfo(0));
 				jco[co].addItem(new ArrowInfo(1));
 				jco[co].addItem(new ArrowInfo(2));
@@ -310,7 +310,7 @@ public class DialogParameters extends JDialog implements ComponentListener {
 			} else if (pd.parameter instanceof DashInfo) {
 				GraphicsEnvironment gE;
 				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				jco[co] = new JComboBox();
+				jco[co] = new JComboBox<DashInfo>();
 
 				for (int k = 0; k < Globals.dashNumber; ++k) {
 					jco[co].addItem(new DashInfo(k));
