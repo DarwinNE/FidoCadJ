@@ -73,8 +73,8 @@ public abstract class GraphicPrimitive
 	
 	/* At first, non abstract methods */
 	
-	/** Standard constructor */
-	public void GraphicPrimitive(String f, int size)
+	/** Standard constructor (not used) */
+	/*public void GraphicPrimitive(String f, int size)
 	{
 		selectedState=false;
 		layer=0;
@@ -84,7 +84,8 @@ public abstract class GraphicPrimitive
 
 		macroFontSize = size;
 		macroFont=f;
-	}
+	}*/
+	
 	/** Set the font to be used for name and value
 		@param f the font name
 		@param size the font size

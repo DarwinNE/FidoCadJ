@@ -79,7 +79,7 @@ public class DialogSymbolize extends JDialog
 	/** The class myCircuitPanel extends the CircuitPanel class by adding
 	    coordinate axis which can be moved.
 	*/
-	class myCircuitPanel extends CircuitPanel
+	static class myCircuitPanel extends CircuitPanel
 	{
 		private static final long serialVersionUID = 1L;
 		final float dash1[] = {2.0f};
@@ -497,7 +497,7 @@ public class DialogSymbolize extends JDialog
     
 	public void actionPerformed(ActionEvent evt)
     {
-		JComboBox<String> source = (JComboBox<String>)evt.getSource();
+		//JComboBox<String> source = (JComboBox<String>)evt.getSource();
 		//int idx=source.getSelectedIndex();
 	}
         

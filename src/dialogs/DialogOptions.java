@@ -84,7 +84,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 	
 	private JCheckBox shiftCP_CB;
 
-	private JComboBox zoom;  	
 	private JTextField gridWidth;
 	private JTextField libD;
 	private JCheckBox textToolbar_CB;
@@ -100,7 +99,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 	// private JTextField stroke_size_oval;
 	
 	private JCheckBox quaquaActive_CB;
-	private JComboBox comboFont;
+	private JComboBox<String> comboFont;
 	
 	/** Standard constructor
 	
@@ -570,7 +569,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 
 		gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		String[] s = gE.getAvailableFontFamilyNames();  
-		comboFont=new JComboBox();
+		comboFont=new JComboBox<String>();
       	
       	//System.out.println(macroFont);
     	for (int i = 0; i < s.length; ++i) {

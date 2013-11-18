@@ -389,7 +389,8 @@ public class DialogExport extends JDialog implements ComponentListener,
     
     public void actionPerformed(ActionEvent evt)
     {
-		JComboBox source = (JComboBox)evt.getSource();
+		JComboBox<String> source = 
+			(JComboBox<String>)(evt.getSource());
 		int idx=source.getSelectedIndex();
 				
 		// Once the index of the selected item is obtained, we proceed
@@ -448,7 +449,7 @@ public class DialogExport extends JDialog implements ComponentListener,
 
         contentPane.add(fileFormatLabel, constraints);
         
-        fileFormat=new JComboBox();
+        fileFormat=new JComboBox<String>();
         fileFormat.addItem("PNG (Bitmap)");
         fileFormat.addItem("JPG (Bitmap)");
         fileFormat.addItem("SVG (Vector, Scalable Vector Graphic)");
