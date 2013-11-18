@@ -490,6 +490,7 @@ class CreateSwingInterface implements Runnable {
             	"com.apple.mrj.application.apple.menu.about.name", 
             	"FidoCadJ");
             
+            boolean noAqua=false;
 	        try { 
                 //Globals.quaquaActive=true;
         	    //System.setProperty("Quaqua.Debug.showVisualBounds","true");
@@ -499,11 +500,20 @@ class CreateSwingInterface implements Runnable {
                        	"ch.randelshofer.quaqua.QuaquaLookAndFeel");
                 
 	                System.out.println("Quaqua look and feel active");
- 	           	}
-                
-	        } catch (Exception e) {
+ 	           	} 
+ 	           	// Catch the possible exceptions
+	       	} catch (ClassNotFoundException C) {
+	       		noAqua=true;
+	       	} catch (InstantiationException D) {
+	       		noAqua=true;
+	       	} catch (IllegalAccessException E) {
+	       		noAqua=true;
+	       	} catch (UnsupportedLookAndFeelException E1) {
+	       		noAqua=true;
+	       	}
+	       	
+	       	if(noAqua) {
 	            // Quaqua is not active. Just continue!
-            
     	        System.out.println(
     	         	"The Quaqua look and feel is not available");
         	    System.out.println(
@@ -545,13 +555,26 @@ class CreateSwingInterface implements Runnable {
            	// program since the compilation can be successful only on
            	// a MacOSX system.
           
+          	boolean notCompiledForApple=false;
            	try {
            		Class a = Class.forName("AppleSpecific");
            		Object b = a.newInstance();
            		Method m = a.getMethod("answerFinder");
 				m.invoke(b);
-           	
-           	} catch (Exception exc) {
+				// Catch all the possible exceptions
+           	} catch (InstantiationException exc) {
+				notCompiledForApple=true;
+           	} catch (IllegalAccessException exc1) {
+           		notCompiledForApple=true;
+           	} catch (ClassNotFoundException exc2) {
+           		notCompiledForApple=true;
+           	} catch (NoSuchMethodException exc3) {
+           		notCompiledForApple=true;
+           	} catch (InvocationTargetException exc4) {
+           	    notCompiledForApple=true;
+           	}
+               
+        	if(notCompiledForApple) {    
      			Globals.weAreOnAMac = false;
      			System.out.println("It seems that this software has been "+
      				"compiled on a system different from MacOSX. Some nice "+

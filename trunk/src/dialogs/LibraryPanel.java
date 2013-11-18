@@ -69,7 +69,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         else 
         	add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
         
-        fileList = new JList(listModel);
+        fileList = new JList<String>(listModel);
         fileList.setCellRenderer(new ListCellRenderer() {
         	@Override
         	public Component getListCellRendererComponent(JList list, 
@@ -322,7 +322,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Library description class.
     */
-    private class LibraryDesc 
+    static private class LibraryDesc 
     {
 
     	public String filename;
@@ -337,10 +337,10 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Dummy icon class for spacing.
     */
-    private class SpaceIcon implements Icon 
+    static private class SpaceIcon implements Icon 
     {
 
- 	private int width;
+ 		private int width;
     	private int height;
     	
     	SpaceIcon(int width, int height) 
