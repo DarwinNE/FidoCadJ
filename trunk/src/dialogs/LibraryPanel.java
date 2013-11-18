@@ -223,10 +223,6 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 					// String.compareToIgnoreCase
 					return ld1.filename.compareTo(ld2.filename);
 				}
-				@Override
-				public boolean equals(Object obj) {
-					return false;
-				}
     		});
     	}
     	
