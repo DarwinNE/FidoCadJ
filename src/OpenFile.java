@@ -62,7 +62,7 @@ class OpenFile implements Runnable {
             fd.setFilenameFilter(new FilenameFilter(){
                 public boolean accept(File dir, String name)
                 {
-                    return (name.toLowerCase().endsWith(".fcd"));
+                    return name.toLowerCase().endsWith(".fcd");
                 }
             });
                     
@@ -79,8 +79,8 @@ class OpenFile implements Runnable {
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){ 
             	public boolean accept(File f)
                 {
-                    return (f.getName().toLowerCase().endsWith(".fcd")||
-                            f.isDirectory());
+                    return f.getName().toLowerCase().endsWith(".fcd")||
+                            f.isDirectory();
                 }
                 public String getDescription()
                 {

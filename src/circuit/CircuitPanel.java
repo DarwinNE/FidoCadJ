@@ -490,7 +490,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public boolean isEnteringMacro()
     {
-    	return ((primEdit !=null) && (primEdit instanceof PrimitiveMacro));
+    	return (primEdit !=null) && (primEdit instanceof PrimitiveMacro);
     }
     
     /** Rotate the macro being edited around its first control point 
@@ -675,18 +675,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void mouseClicked(MouseEvent evt)
     {
         requestFocusInWindow();       
-        if(actionSelected==SELECTION) {
+/*        if(actionSelected==SELECTION) {
             // Double click shows the Parameters dialog.
             // In fact, when DialogParameters is non modal, this code makes
             // sort that setPropertiesForPrimitive is called twice!
             // This should probably be removed if there are no side effects
             // showing up in Win or Linux.
-/*            if(evt.getClickCount() >= 2) 
+*            if(evt.getClickCount() >= 2) 
                 setPropertiesForPrimitive();
-*/            
+*            
         } else {
         	//evidenceRect=null;
-        }
+        } */
     }
 
 	/** Here we analyze and handle the mouse click. The behaviour is 
@@ -1084,7 +1084,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             // If control is hold, trace a circle
             if(evt.isControlDown()&&clickNumber>0) {
-                y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
+                y=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             }
             ++ clickNumber;
             successiveMove=false;
@@ -1119,7 +1119,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }
             // If control is hold, trace a square
             if(evt.isControlDown()&&clickNumber>0) {
-                y=cs.mapY(xpoly[1],ypoly[1])+(x-cs.mapX(xpoly[1],ypoly[1]));
+                y=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             }
             ++ clickNumber;
             successiveMove=false;

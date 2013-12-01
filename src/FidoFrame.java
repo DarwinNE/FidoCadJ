@@ -697,7 +697,7 @@ public class FidoFrame extends JFrame implements
         ActionListener langAct = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				String lang = (e.getActionCommand());
+				String lang = e.getActionCommand();
 				lang = lang.substring(lang.indexOf("(")+1
 					).replace(")","").trim();								
 				currentLocale = new Locale(lang);
@@ -809,9 +809,8 @@ public class FidoFrame extends JFrame implements
 
                     --Globals.openWindowsNumber;
                     
-                    if (Globals.openWindowsNumber<1)
-                        if (runsAsApplication) 
-                        	System.exit(0);
+                    if (Globals.openWindowsNumber<1 && runsAsApplication)
+                        System.exit(0);
                 }
             });
 
@@ -1300,7 +1299,7 @@ public class FidoFrame extends JFrame implements
             g2d.scale(xscale,yscale); 
         }   
        
-        int printerWidth = ((int)pf.getImageableWidth()*16);
+        int printerWidth = (int)pf.getImageableWidth()*16;
 
 		// Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {   
@@ -1317,7 +1316,7 @@ public class FidoFrame extends JFrame implements
         Point o=new Point(0,0);
         
         int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false, o).width;
-        npages = (int)Math.floor(((imageWidth-1)/(double)printerWidth));
+        npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
         
  		/*System.out.println("imageWidth="+imageWidth);
  		System.out.println("printerWidth="+printerWidth);
@@ -1544,7 +1543,7 @@ public class FidoFrame extends JFrame implements
             fd.setFilenameFilter(new FilenameFilter(){
                 public boolean accept(File dir, String name)
                 {
-                    return (name.toLowerCase().endsWith(".fcd"));
+                    return name.toLowerCase().endsWith(".fcd");
                 }
             });
             fd.setVisible(true);
@@ -1558,8 +1557,8 @@ public class FidoFrame extends JFrame implements
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
                 public boolean accept(File f)
                 {
-                    return (f.getName().toLowerCase().endsWith(".fcd") ||
-                        f.isDirectory());
+                    return f.getName().toLowerCase().endsWith(".fcd") ||
+                        f.isDirectory();
                 }
                 public String getDescription()
                 {
@@ -1942,7 +1941,8 @@ class RulerPanel extends JPanel implements SwingConstants
             }    
         } else {
             int y=0;
-            int inc=(sc.mapYi(increment, increment, false)-sc.mapYi(0, 0, false));
+            int inc= sc.mapYi(increment, increment, false)-
+            	sc.mapYi(0, 0, false);
             for (y=0; y<d.height;y+=inc) {
                 g.drawLine(0, y, d.width*4/10, y);
             }

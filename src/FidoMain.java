@@ -83,10 +83,11 @@ public class FidoMain {
         	{        		
         		String filename = args[1].toLowerCase().replace(".fcd", "");  
         		if (filename.lastIndexOf(
-        			System.getProperty("file.separator"))>0)
+        			System.getProperty("file.separator"))>0) {
         			filename = 
         				filename.substring(filename.lastIndexOf(
         				System.getProperty("file.separator"))+1);
+        		}
         		args = ("-n -c r72 pdf "+filename+".pdf "+args[1]).split(" ");         		
         	}
 
@@ -224,7 +225,7 @@ public class FidoMain {
         	// NOTE: this does not seem to have any effect!
 			System.setProperty("apple.awt.graphics.UseQuartz", "true");
 		}
-		
+	/*	
 		if(!stripOptimization &&
         	System.getProperty("os.name").toLowerCase().startsWith("linux")) {
         	// CAREFUL**************************************************
@@ -238,7 +239,7 @@ public class FidoMain {
 			// graphic software?)
            	// System.setProperty("sun.java2d.opengl", "true");
            	// See for example this discussion: http://tinyurl.com/axoxqcb
-        }   
+        }   */
         
         // Now we proceed with all the operations: opening files, converting...
         if(headlessMode) {
