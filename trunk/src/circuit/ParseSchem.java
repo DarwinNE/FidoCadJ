@@ -314,7 +314,7 @@ public class ParseSchem implements UndoActorListener
         });
         
         // We first check if the directory is existing or is not empty.        
-        if((!dir.exists()) || files==null) {
+        if(!dir.exists() || files==null) {
             if (!s.equals("")){
                 System.out.println("Warning! Library directory is incorrect:");
                 System.out.println(s);
@@ -1356,9 +1356,9 @@ public class ParseSchem implements UndoActorListener
             layer= gp.getLayer();
                        
             // Does not allow for selecting an invisible primitive
-            if(layer<layerV.size()) {
-                if(!((LayerDesc)layerV.get(layer)).isVisible &&
-                    !(gp instanceof PrimitiveMacro))
+            if(layer<layerV.size() &&
+            	!((LayerDesc)layerV.get(layer)).isVisible &&
+                !(gp instanceof PrimitiveMacro)) {
                     continue;
             } 
             if(gp.selectedState){

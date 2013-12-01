@@ -104,18 +104,15 @@ public class ScrollGlassPane extends JPanel implements ActionListener, MouseInpu
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			
-			// It seems that on some systems other than on MacOSX, the 
-			// background of the icon is always painted in black.
-			if (!Globals.weAreOnAMac) {
-				gfx.setColor(Color.white);
-				gfx.fillRect(x, y, getIconWidth(), getIconHeight());
-			}
+			gfx.setColor(Color.white);
+			gfx.fillRect(x, y, getIconWidth(), getIconHeight());
 			
 			gfx.setColor(Color.gray);
 			gfx.drawOval(x+2, y+2, getIconWidth()-5, getIconHeight()-5);
 			
 			gfx.setColor(Color.black);
-			gfx.fillOval(x+((getIconWidth()-1)/2)-3, y+((getIconHeight()-1)/2)-3, 6, 6);
+			gfx.fillOval(x+(getIconWidth()-1)/2-3, 
+				y+(getIconHeight()-1)/2-3, 6, 6);
 			
 			/* Create arrows */
 			Polygon arrow1 = new Polygon();
@@ -132,9 +129,9 @@ public class ScrollGlassPane extends JPanel implements ActionListener, MouseInpu
 			arrow3.addPoint(x+5,y+(getIconHeight()-1)/2-3);
 			arrow3.addPoint(x+5,y+(getIconHeight()-1)/2+3);
 			Polygon arrow4 = new Polygon();
-			arrow4.addPoint(x+(getIconWidth()-1),y+(getIconHeight()-1)/2);
-			arrow4.addPoint(x+(getIconWidth()-1)-5,y+(getIconHeight()-1)/2-3);
-			arrow4.addPoint(x+(getIconWidth()-1)-5,y+(getIconHeight()-1)/2+3);
+			arrow4.addPoint(x+getIconWidth()-1,y+(getIconHeight()-1)/2);
+			arrow4.addPoint(x+getIconWidth()-1-5,y+(getIconHeight()-1)/2-3);
+			arrow4.addPoint(x+getIconWidth()-1-5,y+(getIconHeight()-1)/2+3);
 			
 			gfx.fillPolygon(arrow1);
 			gfx.fillPolygon(arrow2);

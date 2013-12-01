@@ -230,8 +230,9 @@ public class SearchField extends JTextField
             // In lieu of proper hit-testing for the circle, check that
             // the mouse is somewhere in the border.
 
-            Rectangle innerArea = SwingUtilities.calculateInnerArea(SearchField.this, null);
-            return (innerArea.contains(e.getPoint()) == false);
+            Rectangle innerArea = 
+            	SwingUtilities.calculateInnerArea(SearchField.this, null);
+            return innerArea.contains(e.getPoint()) == false;
         }
 
         
@@ -269,7 +270,7 @@ public class SearchField extends JTextField
         
 
         private void arm(MouseEvent e) {
-            armed = (isOverButton(e) && SwingUtilities.isLeftMouseButton(e));
+            armed = isOverButton(e) && SwingUtilities.isLeftMouseButton(e);
             repaint();
         }
 
