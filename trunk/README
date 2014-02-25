@@ -84,9 +84,12 @@ for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
   gpl-3.0.txt                 the GNU public licence v. 3
   icons/               DIR    contains all icons (made with Gimp)
   jar/                 DIR    contains fidocadj.jar as well as Quaqua
+  proTOxml.py                 creates the xml string resource files
   OSes/                DIR    contains files specific for some OS
+  res/		       DIR    contains the Android project resources
   manual/              DIR    all the LaTeX manuals sources
   profile                     launch a profiler (jip)
+  res.sh                      creates the Android project resources
   rebuild                     do a clean and then runs FidoCadJ
   run                         run FidoCadJ
   src/                 DIR    contains all the Java source files
