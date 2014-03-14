@@ -25,4 +25,5 @@ package circuit;
 public interface HasChangedListener 
 {
 	public void somethingHasChanged();
+
 }

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.prefs.Preferences;
+import java.util.Locale;
 
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
@@ -43,7 +44,7 @@ import undo.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2012-2013 by phylum2, Davide Bucci
+	Copyright 2012-2014 by phylum2, Davide Bucci
 </pre>
 
 @author phylum2
@@ -107,7 +108,7 @@ public class LibUtils {
     		// Category (check if it is changed)
     		if (prev == null || !prev.equalsIgnoreCase(md.category.trim())) {
     			sb.append("{"+md.category+"}\n"); 
-    			prev = md.category.toLowerCase().trim(); 
+    			prev = md.category.toLowerCase(new Locale("en")).trim(); 
     		}    		
     		sb.append("[");
     		// When the macros are written in the library, they contain only
@@ -128,8 +129,7 @@ public class LibUtils {
 	
 	/** Save to a file a string respecting the global encoding settings.
 		@param file the file name 
-		@param the string to be written
-		@return 
+		@param text the string to be written
 	*/
 	public static void saveToFile(String file, String text) 
 		throws FileNotFoundException
@@ -190,9 +190,7 @@ public class LibUtils {
 	public static void deleteLib(String  s) throws FileNotFoundException
 	{
 		File f = new File(getLibDir()+s+".fcl");
-				
-		if(!f.delete())
-            throw new FileNotFoundException();
+		f.delete();		
 	}
 	
 	/** Get all the library in the current library directory.
@@ -212,7 +210,7 @@ public class LibUtils {
 	}
 	
 	/** Determine whether a library is standard or not.
-		@param szlib the name (better prefix?) of the library
+		@param tlib the name (better prefix?) of the library
 		@return true if the specified library is standard
 	*/
 	public static boolean isStdLib(MacroDesc tlib)
@@ -265,11 +263,11 @@ public class LibUtils {
 			String library=tlib.key.substring(0,dotpos);
 			
 			// Check it
-			if(extensions && library.equals("pcb")) { 
+			if(extensions && "pcb".equals(library)) { 
 				isStandard = true;
-			} else if (extensions && library.equals("ihram")) {
+			} else if (extensions && "ihram".equals(library)) {
 				isStandard = true;
-			} else if (extensions && library.equals("elettrotecnica")) {
+			} else if (extensions && "elettrotecnica".equals(library)) {
 				isStandard = true;
 			}
 		}
@@ -298,7 +296,7 @@ public class LibUtils {
 				prefix = md.filename; 
 			}
 		}
-		if (prefix.equals(""))
+		if ("".equals(prefix))
 			return;
 		save(libref, getLibPath(tlib), tlib.trim(), prefix);
 	}
@@ -314,10 +312,9 @@ public class LibUtils {
 		String tlib,String key) 
 	{
 		for (MacroDesc md : libref.values()) {
-			if (md.library.equalsIgnoreCase(tlib)) {
-				if(md.key.equalsIgnoreCase(key.trim()))
+			if (md.library.equalsIgnoreCase(tlib) &&
+				md.key.equalsIgnoreCase(key.trim()))
 					return true;
-			}
 		}
 		if(key.contains("]"))
 			return true;
@@ -387,14 +384,14 @@ public class LibUtils {
 				prefix = md.filename;
 			}
 		}
-		if(prefix.equals(""))
+		if("".equals(prefix))
 			return;
 		save(m, getLibPath(tlib), tlib, prefix);
 	}
 	
 	/** Obtain a list containing all the groups in a given library
-		@m the map containing all the libraries
-		@prefix the filename of the wanted library
+		@param m the map containing all the libraries
+		@param prefix the filename of the wanted library
 	*/
 	public static List<String> enumGroups(Map<String,MacroDesc> m, 
 		String prefix) 
@@ -409,8 +406,8 @@ public class LibUtils {
  		return lst;
 	}
 	/** Obtain the full name of a library, from the prefix
-		@m the map containing all the libraries
-		@prefix the filename of the wanted library
+		@param m the map containing all the libraries
+		@param prefix the filename of the wanted library
 	*/
 	public static String getLibName(Map<String,MacroDesc> m, String prefix) 
 	{
@@ -435,12 +432,8 @@ public class LibUtils {
 			// This is an hack: at first, we create a temporary file. We store
 			// its name and we use it to create a temporary directory.
 			File tempDir = File.createTempFile("fidocadj_", "");
-        	
-        	if(!tempDir.delete())
-        		throw new IOException();
-        	if(!tempDir.mkdir())
-        		throw new IOException();
-        		
+        	tempDir.delete();
+        	tempDir.mkdir();
         	String s=LibUtils.getLibDir();
 
         	String d=tempDir.getAbsolutePath();
@@ -449,7 +442,7 @@ public class LibUtils {
             // temporary directory.
         	File sourceDir = new File(s);
         	File destinationDir = new File(d);
-            Globals.copyDirectoryNonRecursive(sourceDir, destinationDir, 
+            FileUtils.copyDirectoryNonRecursive(sourceDir, destinationDir, 
             	"fcl");
         	
         	// We store the directory name in the stack structure of the 
@@ -464,7 +457,7 @@ public class LibUtils {
 
 // TODO support libs with different filenames
 
-public static final String Languages[][] = {
+/*public static String Languages[][] = {
 {"af","Afrikaans"},
 {"ak","Akan"},
 {"sq","Albanian"},
@@ -617,6 +610,6 @@ public static final String Languages[][] = {
 {"zu","Zulu"}
 };
 
-
+*/
 	
 }

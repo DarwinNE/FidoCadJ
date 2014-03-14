@@ -30,7 +30,10 @@ import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
 import primitives.PrimitiveMacro;
 import circuit.CircuitPanel;
-import circuit.ParseSchem;
+import circuit.model.DrawingModel;
+import circuit.controllers.EditorActions;
+import circuit.controllers.ParserActions;
+
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -50,7 +53,7 @@ import circuit.ParseSchem;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012-2013 Phylum2, Davide Bucci
+    Copyright 2012-2014 Phylum2, Davide Bucci
 </pre>
     @author Phylum2, Davide Bucci
     
@@ -66,7 +69,7 @@ public class DialogSymbolize extends JDialog
     private static final int MIN_HEIGHT=250;
  
     private JPanel parent;    
-    private ParseSchem cp;
+    private DrawingModel cp;
     
     // Swing elements
     private JComboBox<String> libFilename;
@@ -75,6 +78,9 @@ public class DialogSymbolize extends JDialog
     private JTextField key;    
     private JComboBox<String> group;
     private JCheckBox snapToGrid;
+    
+   	myCircuitPanel cpanel = new myCircuitPanel(false);
+
     
 	/** The class myCircuitPanel extends the CircuitPanel class by adding
 	    coordinate axis which can be moved.
@@ -168,9 +174,7 @@ public class DialogSymbolize extends JDialog
 			g2.setStroke(t);
 		}
 	}
-	
-	myCircuitPanel cpanel = new myCircuitPanel(false);
-    
+	    
     /** Gets the library to be created or modified.
     	@return the given library (string description).
     */
@@ -225,12 +229,15 @@ public class DialogSymbolize extends JDialog
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }    
     
     /** List all the libraries available which are not standard in the 
@@ -366,9 +373,8 @@ public class DialogSymbolize extends JDialog
         cpanel.setBorder(BorderFactory.createLoweredBevelBorder());
         
         // Set the current objects in the preview panel.
-        try {
-			cpanel.P.addString(new StringBuffer(macro.description),	false);
-		} catch (IOException e1) {}
+        cpanel.getParserActions().addString(
+			new StringBuffer(macro.description), false);
 		// Calculate an optimum preview size in order to show all elements.
 		MapCoordinates m = 
 				ExportGraphic.calculateZoomToFit(cpanel.P, 
@@ -504,7 +510,7 @@ public class DialogSymbolize extends JDialog
     
     /** Standard constructor        
     */
-    public DialogSymbolize (CircuitPanel circuitPanel, ParseSchem p)
+    public DialogSymbolize (CircuitPanel circuitPanel, DrawingModel p)
     {   
 		super((JFrame)null, Globals.messages.getString("SaveSymbol"), true);
     	parent = circuitPanel;
@@ -615,7 +621,7 @@ public class DialogSymbolize extends JDialog
 				}
 				
             	setVisible(false);   
-            	Globals.activeWindow.repaint();
+            	((JFrame)Globals.activeWindow).repaint();
             	
 				// Update libs
             	updateTreeLib();
@@ -650,23 +656,27 @@ public class DialogSymbolize extends JDialog
 			String mygrp, String myprefix, Point origin) 
 	{
        	StringBuilder ss = new StringBuilder();
+       	EditorActions edt=new EditorActions(cp, null);
        	
 		// Check if there is anything selected.
-		if (cp.getFirstSelectedPrimitive() == null) 
+		if (edt.getFirstSelectedPrimitive() == null) 
 			return null;
 										
 		// Move the selected primitives around the origin just
 		// determined and add them to the macro description contained
 		// in ss.
 		
-		ParseSchem ps = new ParseSchem();
+		DrawingModel ps = new DrawingModel();
 		try {				
 			ps.setLibrary(cp.getLibrary());
-			for (GraphicPrimitive p : cp.getPrimitiveVector()) {
-				if (p.getSelected()) 
-					ps.addString(new StringBuffer(p.toString(true)), true);						
+			ParserActions pa = new ParserActions(ps);
+			
+			for (GraphicPrimitive g : cp.getPrimitiveVector()) {
+				if (g.getSelected()) {
+					pa.addString(new StringBuffer(g.toString(true)), true);	
+				}					
 			}		
-			ps.selectAll();
+			edt.setSelectionAll(true);
 		} catch (Exception e){ 
 			e.printStackTrace(); 
 		}				
@@ -695,7 +705,7 @@ public class DialogSymbolize extends JDialog
         // ((FidoFrame)Globals.activeWindow).loadLibraries();
         
 		Container cc;
-		cc = Globals.activeWindow;
+		cc = (JFrame)Globals.activeWindow;
 		
 		((AbstractButton) ((JFrame) cc).getJMenuBar()
 			.getMenu(3).getSubElements()[0].getSubElements()[1]).doClick();
@@ -705,7 +715,7 @@ public class DialogSymbolize extends JDialog
 	/** Sets the drawing database on which to work
 		@param p the database
 	*/
-	public void setCircuit(ParseSchem p) {
+	public void setCircuit(DrawingModel p) {
 		this.cp = p;
 	}        
 

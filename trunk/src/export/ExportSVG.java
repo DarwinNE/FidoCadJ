@@ -1,12 +1,12 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
+
 import globals.*;
 import layers.*;
 import primitives.*;
-import java.awt.geom.*;
+import graphic.*;
 
 /** 
 	Export drawing in the Scalable Vector Graphics format.
@@ -27,7 +27,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
 
     
@@ -37,12 +37,12 @@ import java.awt.geom.*;
 public class ExportSVG implements ExportInterface {
 
 	//private File fileExp;
-	private OutputStreamWriter fstream;
+	final private OutputStreamWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
 	//private int numberPath;
 	
-	private Color c;
+	private ColorInterface c;
 	private double strokeWidth;
 	
 	static final String dash[]={"2.5,5", "1.25,1.25",
@@ -83,7 +83,7 @@ public class ExportSVG implements ExportInterface {
 
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException
 	{ 
@@ -101,8 +101,10 @@ public class ExportSVG implements ExportInterface {
 	    
     	out.write("<?xml version=\"1.0\" encoding=\""+Globals.encoding+"\" " + 			
 			"standalone=\"no\"?> \n<!DOCTYPE svg PUBLIC"+
-			" \"-//W3C//Dtd SVG 1.1//EN\" " + "\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
-			"<svg width=\""+cLe(wi)+"\" height=\""+cLe(he)+"\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +
+			" \"-//W3C//Dtd SVG 1.1//EN\" " + 
+			"\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
+			"<svg width=\""+cLe(wi)+"\" height=\""+cLe(he)+
+			"\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +
 			"xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"+
 			"<!-- Created by FidoCadJ ver. "+Globals.version+
 			", export filter by Davide Bucci -->\n");
@@ -115,7 +117,6 @@ public class ExportSVG implements ExportInterface {
 	{ 
 		out.write("</svg>");
 		out.close();
-    
 	}
 
 	/** Called when exporting an Advanced Text primitive.
@@ -158,9 +159,9 @@ public class ExportSVG implements ExportInterface {
 		out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
 	
 		
-		double xscale = (sizex/22.0/sizey*38.0)	;	
+		double xscale = sizex/22.0/sizey*38.0;	
 		if(orientation !=0) {
-			double alpha=(isMirrored?orientation:-orientation);
+			double alpha= isMirrored?orientation:-orientation;
 			out.write(" rotate("+alpha+") ");
 		}
 		if(isMirrored) {
@@ -432,23 +433,15 @@ public class ExportSVG implements ExportInterface {
 		LayerDesc l=(LayerDesc)layerV.get(layer);
 		c=l.getColor();
 		
-		// At first, draw the pad...
-		if(!onlyHole) {
+		if(onlyHole) {
+			// ... then, drill the hole!
+			out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
+				" r=\""+cLe(indiam/2.0)+
+				"\" style=\"stroke:white;stroke-width:"+strokeWidth+
+				"\" fill=\"white\"/>\n");
+		} else {
+			// At first, draw the pad...
 			switch (style) {
-				default:
-				case 0: // Oval pad
-					out.write("<ellipse cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
-				  		" rx=\""+cLe(six/2.0)+"\" ry=\""+cLe(siy/2.0)+
-				  		"\" style=\"stroke:#"+
-				  		convertToHex2(c.getRed())+
-					  	convertToHex2(c.getGreen())+
-					  	convertToHex2(c.getBlue())+";stroke-width:"+
-					  	cLe(strokeWidth)+
-					  	"\" fill=\"#"+
-					  	convertToHex2(c.getRed())+
-					  	convertToHex2(c.getGreen())+
-					  	convertToHex2(c.getBlue())+"\"/>\n");
-					 break;
 				case 1:	// Square pad
 						xdd=cLe((double)x-six/2.0);
 						ydd=cLe((double)y-siy/2.0);
@@ -482,12 +475,23 @@ public class ExportSVG implements ExportInterface {
 					  		convertToHex2(c.getGreen())+
 					  		convertToHex2(c.getBlue())+"\"/>\n");
 					break;
+				case 0: // Oval pad
+				default:
+					out.write("<ellipse cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
+				  		" rx=\""+cLe(six/2.0)+"\" ry=\""+cLe(siy/2.0)+
+				  		"\" style=\"stroke:#"+
+				  		convertToHex2(c.getRed())+
+					  	convertToHex2(c.getGreen())+
+					  	convertToHex2(c.getBlue())+";stroke-width:"+
+					  	cLe(strokeWidth)+
+					  	"\" fill=\"#"+
+					  	convertToHex2(c.getRed())+
+					  	convertToHex2(c.getGreen())+
+					  	convertToHex2(c.getBlue())+"\"/>\n");
+					 break;
 			}
-		}
-		// ... then, drill the hole!
-		out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
-			" r=\""+cLe(indiam/2.0)+"\" style=\"stroke:white;stroke-width:"+strokeWidth+
-				  	"\" fill=\"white\"/>\n");
+		} 
+		
 		
 	}
 	
@@ -501,7 +505,7 @@ public class ExportSVG implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double sW)
 		throws IOException
 	{ 
@@ -536,13 +540,15 @@ public class ExportSVG implements ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param isClosed true if the curve is closed
 		@param layer the layer that should be used
+		@param arrowStart true if an arrow should be drawn at the start point 
+		@param arrowEnd true if an arrow should be drawn at the end point 
 		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
+		@param sW the width of the pen to be used when drawing
 		
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -626,7 +632,7 @@ public class ExportSVG implements ExportInterface {
 		// It does not work...
 		
 		//if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
-		if(true) {
+		//if(true) {
 			out.write("style=\"stroke:#"+
 				  convertToHex2(c.getRed())+
 				  convertToHex2(c.getGreen())+
@@ -644,9 +650,9 @@ public class ExportSVG implements ExportInterface {
 			//ofp=fill_pattern;
 			//ods=dashStyle;
 		
-		} else {
-			out.write("/>\n");
-		}
+		//} else {
+		//	out.write("/>\n");
+		//}
 	}
 	private String roundTo(double n)
 	{
@@ -681,12 +687,12 @@ public class ExportSVG implements ExportInterface {
 		// At first we need the angle giving the direction of the arrow
 		// a little bit of trigonometry :-)
 		
-		if (x!=xc)
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		if (x==xc)
+			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 		else
-			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 		
-		alpha += (x-xc>0)?0:Math.PI;
+		alpha += x-xc>0.0?0.0:Math.PI;
 		String fill_pattern;		
 		
 	

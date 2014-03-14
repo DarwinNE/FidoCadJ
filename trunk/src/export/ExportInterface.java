@@ -1,12 +1,11 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
-import java.awt.geom.*;
 
 import layers.*;
 import primitives.*;
+import graphic.*;
 
 /** ExportInterface.java 
 
@@ -39,7 +38,7 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
    </pre>
 
     
@@ -60,11 +59,9 @@ public interface ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException;
 	
@@ -258,7 +255,7 @@ public interface ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 		
@@ -276,7 +273,7 @@ public interface ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 

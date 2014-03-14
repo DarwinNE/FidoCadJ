@@ -1,19 +1,18 @@
 package globals;
 
 import java.util.*;
-import java.awt.*;
 import java.io.*;
-import javax.swing.*;
 
 import layers.*;
+import graphic.*;
+
 
 
 /* Globals.java
 
-
 What? Global variables should not be used?
 
-But... who cares!!!
+But... who cares!!! (ehm... PMD does!)
 
 <pre>
 	This file is part of FidoCadJ.
@@ -31,7 +30,7 @@ But... who cares!!!
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2013 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 
 </pre>
 */
@@ -68,9 +67,12 @@ public class Globals
     public static int openWindowsNumber;
     
     // A pointer to the active window
-    public static JFrame activeWindow;
+    //public static JFrame activeWindow;
+    public static Object activeWindow;
     
-    public static final HashSet<JFrame> openWindows = new HashSet<JFrame>();
+    
+    //public static final HashSet<JFrame> openWindows = new HashSet<JFrame>();
+    public static final HashSet<Object> openWindows = new HashSet<Object>();
    
     // Line width expressed in FidoCadJ coordinates 
     public static final double lineWidthDefault = 0.5;  
@@ -88,10 +90,6 @@ public class Globals
 	// TODO: refactor this! Those variables should not be here.
 	public static Object lastCLib;
 	public static Object lastCGrp;	
-    
-    // Border to be used in the export in logical coordinates
-    public static final int exportBorder=6;
-    
   								
     // Version. This is shown in the main window title bar
     public static final String version = "0.24.4 alpha";
@@ -113,74 +111,19 @@ public class Globals
     
     // Minimum height in pixels of a text to be drawn.
     public static final int textSizeLimit = 4;
- 
- 	// Number of layers to be treated
-	public static final int MAX_LAYERS=16;
 	
 	// The encoding to be used by FidoCadJ
 	public static final String encoding = "UTF8";
 	
-	
-	
-	 /** Create the standard array containing the layer descriptions, colors
-    	and transparency. The name of the layers are read from the resources
-    	which may be initizialized. If Globals.messages==null, no description
-    	is given.
-    	
-    	@return the list of the layers being created.
-    */
-    public static Vector<LayerDesc> createStandardLayers()
-    {
-        Vector<LayerDesc> layerDesc=new Vector<LayerDesc>();
-        String s="";
-        
-        if(Globals.messages!=null) s=Globals.messages.getString("Circuit_l");
-        layerDesc.add(new LayerDesc(Color.black, true, s,1.0f));	// 0
-        if(Globals.messages!=null) 
-        	s=Globals.messages.getString("Bottom_copper");
-        layerDesc.add(new LayerDesc(new Color(0,0,128),true, s,1.0f));	// 1
-        if(Globals.messages!=null) s=Globals.messages.getString("Top_copper");
-        layerDesc.add(new LayerDesc(Color.red, true,s,1.0f));			// 2
-        if(Globals.messages!=null) s=Globals.messages.getString("Silkscreen");
-        layerDesc.add(new LayerDesc(new Color(0,128,128), true,s,1.0f));// 3
-        
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_1");
-        layerDesc.add(new LayerDesc(Color.orange, true,s,1.0f));		// 4
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_2");    
-        layerDesc.add(new LayerDesc(new Color(-8388864), true,s,1.0f));	// 5
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_3");
-        layerDesc.add(new LayerDesc(new Color(-16711681), true,s,1.0f));// 6
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_4");
-        layerDesc.add(new LayerDesc(new Color(-16744448), true,s,1.0f));// 7
-        
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_5");
-        layerDesc.add(new LayerDesc(new Color(-6632142), true, s,1.0f));// 8
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_6");
-        layerDesc.add(new LayerDesc(new Color(-60269), true,s,1.0f));	// 9
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_7");
-        layerDesc.add(new LayerDesc(new Color(-4875508), true,s,1.0f));	// 10
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_8");
-        layerDesc.add(new LayerDesc(new Color(-16678657), true,s,1.0f));// 11
-        
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_9");
-        layerDesc.add(new LayerDesc(new Color(-1973791), true,s,0.95f));// 12
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_10");
-        layerDesc.add(new LayerDesc(new Color(-6118750), true,s,0.9f));	// 13
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_11");
-        layerDesc.add(new LayerDesc(new Color(-10526881), true,s,0.9f));// 14
-        if(Globals.messages!=null) s=Globals.messages.getString("Other_12");
-        layerDesc.add(new LayerDesc(Color.black, true, s,1.0f));		// 15
-            
-        return layerDesc;
-    }
 
     /**	Adjust a long string in order to cope with space limitations.
     	Tipically, it will be used to show long paths in the window caption.
     	@param s the string to be treated
-    	@param l the total maximum length of the result
+    	@param len the total maximum length of the result
     */
-    public static String prettifyPath(String s, int l)
+    public static String prettifyPath(String s, int len)
     {
+    	int l=len;
     	if(s.length()<l)
     		return s;
     	
@@ -189,7 +132,7 @@ public class Globals
     		
      	String R;
      	R= s.substring(0,l/2-5)+ "...  "+
-    	   s.substring(s.length()-(l/2));
+    	   s.substring(s.length()-l/2);
     	
     	return R;
     	
@@ -216,10 +159,10 @@ public class Globals
     	boolean skip=false;
     	
     	for (i=0; i<p.length(); ++i) {
-    		if(p.charAt(i)!='"') 
-    			t.append(p.charAt(i));
-    		else
+    		if(p.charAt(i)=='"') 
     			skip=true;
+    		else
+    			t.append(p.charAt(i));	
     	}
     	
     	if (skip)
@@ -273,10 +216,10 @@ public class Globals
     	boolean skip=false;
 		StringBuffer temp=new StringBuffer(25);    	
     	for (i=0; i<p.length(); ++i) {
-    		if(p.charAt(i)!='"') 
-    			temp.append(p.charAt(i));
-    		else
+    		if(p.charAt(i)=='"')
     			skip=true;
+    		else
+    			temp.append(p.charAt(i));    			
     	}
     	
     	String s=temp.toString();
@@ -372,104 +315,15 @@ public class Globals
     	return s.toString();
     }
     
-    /**
-    http://subversivebytes.wordpress.com/2012/11/05/java-copy-directory-recursive-delete/
+    /** Round the specified number to the specified number of decimal digits.
+    
+    	@param n the number to be represented
+ 		@param ch the number of decimal digits to be retained
+ 		@return a string containing the result
+    
     */
-    public static void copyDirectory(File sourceLocation, File targetLocation) 
-    	throws IOException 
+    public static String roundTo(double n, int ch)
     {
-    	if(sourceLocation.isDirectory()) {
-        	if(!targetLocation.exists()) {
-            	if(!targetLocation.mkdir())
-            		throw new IOException();
-        	}
- 
- 			// Process all the elements of the directory.
-        	String[] children = sourceLocation.list();
-        	for(int i = 0; i < children.length; ++i) {
-            	copyDirectory(new File(sourceLocation, children[i]), 
-            		new File(targetLocation, children[i]));
-        	}
-    	} else {
-    		copyFile(sourceLocation, targetLocation);
-    	}
-	}
-	
-	/** Copy a file from a location to another one.
-	
-	*/ 
-	public static void copyFile(File sourceLocation, File targetLocation) 
-    	throws IOException 
-    {
-    	if(sourceLocation.isDirectory())
-    		return;
- 
- 		InputStream in = new FileInputStream(sourceLocation);
-        OutputStream out = new FileOutputStream(targetLocation);
-        
-        // The copy is made by bunch of 1024 bytes.
-        // I wander whether better OS copy funcions exist.
-       	try {
-           	byte[] buf = new byte[1024];
-           	int len;
-           	while((len = in.read(buf)) > 0) {
-               	out.write(buf, 0, len);
-           	}
-        }
-        finally {
-           	in.close();
-           	out.close();
-        }
-    	
-	}
-	   
-  	/** Copy all the files containing the specified criteria in the given 
-  		directory.
-  		This copy is not recursive: only the first level is processed.
-  	*/
-    public static void copyDirectoryNonRecursive(File sourceLocation, 
-    	File targetLocation, String criteria) 
-    	throws IOException 
-    {
-    	if(sourceLocation.isDirectory()) {
-        	if(!targetLocation.exists()) {
-            	if(!targetLocation.mkdir())
-            		throw new IOException();
-        	}
-        	
-        	criteria = criteria.toLowerCase();
- 
-        	String[] children = sourceLocation.list();
-        	for(int i = 0; i < children.length; ++i) {
-        		if(children[i].toLowerCase().contains(criteria)) {
-            		copyFile(new File(sourceLocation, children[i]), 
-            			new File(targetLocation, children[i]));
-            		//System.out.println("c: "+targetLocation+"/"+children[i]);
-            	}
-        	}
-        }
-	}
-	
-	/**
-	http://stackoverflow.com/questions/3775694/deleting-folder-from-java
-	*/
-	public static boolean deleteDirectory(File directory) 
-		throws IOException
-	{
-    	if(directory.exists()){
-        	File[] files = directory.listFiles();
-        	if(null!=files){
-            	for(int i=0; i<files.length; i++) {
-                	if(files[i].isDirectory()) {
-                    	deleteDirectory(files[i]);
-                	}
-                	else {
-                		if(!files[i].delete())
-            				throw new IOException();
-                	}
-            	}
-        	}
-    	}
-    	return(directory.delete());
-	}
+        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
+    }
 }

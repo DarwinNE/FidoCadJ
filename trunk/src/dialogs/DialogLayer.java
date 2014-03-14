@@ -28,7 +28,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -40,8 +40,8 @@ public class DialogLayer extends JDialog implements ComponentListener
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
-    private Vector<LayerDesc> layers;
-    public JList layerList;
+    private final Vector<LayerDesc> layers;
+    public JList<LayerDesc> layerList;
     
     /** Ensure that the dialog does not have a size smaller than the limits
     	specified above.
@@ -66,12 +66,15 @@ public class DialogLayer extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     
     /** Standard constructor.
@@ -96,10 +99,10 @@ public class DialogLayer extends JDialog implements ComponentListener
         Container contentPane=getContentPane();
         contentPane.setLayout(bgl);
                 
-        layerList = new JList(new Vector<LayerDesc>(layers));
+        layerList = new JList<LayerDesc>(new Vector<LayerDesc>(layers));
         JScrollPane sl=new JScrollPane(layerList);
         
-        layerList.setCellRenderer( new LayerCellRenderer());
+        layerList.setCellRenderer(new LayerCellRenderer());
 
 		constraints = DialogUtil.createConst(0,0,1,1,100,100,
 			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
@@ -174,7 +177,7 @@ public class DialogLayer extends JDialog implements ComponentListener
     
     /** Check if the layer index is non negative and then show the dialog for
     	the editing of the selected layer.
-    	@index the index of the layer to be modified.
+    	@param index the index of the layer to be modified.
 	*/
 	public void activateLayerEditor(int index)
 	{
@@ -204,7 +207,7 @@ public class DialogLayer extends JDialog implements ComponentListener
 */
 class ActionDClick extends MouseAdapter{
   	
-  	private DialogLayer dl;
+  	private final DialogLayer dl;
     
  	public ActionDClick(DialogLayer i)
  	{

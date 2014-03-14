@@ -1,6 +1,5 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.text.*;
@@ -8,11 +7,10 @@ import java.text.*;
 import primitives.*;
 import globals.*;
 import layers.*;
-import java.awt.geom.*;
+import graphic.*;
 
 
-/** 
-
+/**
 <pre>
 	Circuit export towards Cadsoft Eagle
 	
@@ -32,7 +30,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
    </pre>
 
     
@@ -41,11 +39,9 @@ import java.awt.geom.*;
 
 public class ExportEagle implements ExportInterface {
 
-	private File fileExp;
-	private FileWriter fstream;
+	private final FileWriter fstream;
 	private BufferedWriter out;
-	//private Vector layerV;
-	private Dimension dim;
+	private DimensionG dim;
 	private int oldtextsize;
 	private String macroList;
 	private String junctionList;
@@ -56,9 +52,11 @@ public class ExportEagle implements ExportInterface {
 	
 	// Conversion between FidoCadJ units and Eagle units (1/10 inches)
 	
-	static final double res=5e-2;
+	static double res=5e-2;
 	
-
+	/** double to integer conversion. In some cases, some processing might be
+		applied.
+	*/
 	public int cLe(double l)
 	{
 		return (int)l;
@@ -73,12 +71,9 @@ public class ExportEagle implements ExportInterface {
 	
 	public ExportEagle (File f) throws IOException
 	{
-		fileExp=f;
 		macroList = "";	
 		junctionList = "";
-		fstream = new FileWriter(fileExp);
-    
-		
+		fstream = new FileWriter(f);
 	}
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
@@ -95,7 +90,7 @@ public class ExportEagle implements ExportInterface {
 
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException
 	{ 
@@ -153,7 +148,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		String mirror="";
 		
 		if(isMirrored) {
@@ -208,7 +203,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException	
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		
 		out.write("# Bézier export not implemented yet\n");
 
@@ -226,7 +221,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		junctionList += "Junction ("+een(x*res)+" "
 			+een((dim.height-y)*res)+");\n";
 
@@ -265,7 +260,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		
 		//out.write("Layer "+layer);
 		out.write("Net ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
@@ -285,19 +280,19 @@ public class ExportEagle implements ExportInterface {
 		@param orientation the macro orientation in degrees
 		@param macroName the macro name
 		@param macroDesc the macro description, in the FidoCad format
-		@param name the shown name
-		@param xn coordinate of the shown name
-		@param yn coordinate of the shown name
+		@param tname the name shown
+		@param xn coordinate of the name shown 
+		@param yn coordinate of the name shown
 		@param value the shown value
-		@param xv coordinate of the shown value
-		@param yv coordinate of the shown value
+		@param xv coordinate of the value shown
+		@param yv coordinate of the value shown
 		@param font the used font
 		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
-		String name, int xn, int yn, String value, int xv, int yv, String font,
+		String tname, int xn, int yn, String value, int xv, int yv, String font,
 		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
@@ -309,7 +304,7 @@ public class ExportEagle implements ExportInterface {
 		// the underline character.
 		Map<String, String> subst = new HashMap<String, String>();
 		subst.put(" ","_");
-		name=Globals.substituteBizarreChars(name, subst);
+		String name=Globals.substituteBizarreChars(tname, subst);
 		
 		macroList += "Add "+ macroName+"@"+EagleFidoLib+ " "+name+" "+mirror+"R"
 			+(-orientation)+" ("+een(x*res)+" "+een((dim.height-y)*res)+");\n";
@@ -340,7 +335,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		String fill_pattern="";
 		
 		//out.write("Layer "+layer);
@@ -364,7 +359,7 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		
 		out.write("# PCBLine export not implemented yet\n");
 
@@ -391,21 +386,18 @@ public class ExportEagle implements ExportInterface {
 		double ydd;
 		
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		
 		// At first, draw the pad...
 		if(!onlyHole) {
 			switch (style) {
-				default:
-				case 0: // Oval pad
-
-					 break;
 				case 1:	// Square pad
-	
 					break;
 				case 2:	// Rounded pad
-
 					break;
+				case 0: // Oval pad
+				default:
+					 break;
 			}
 		}
 		// ... then, drill the hole!
@@ -425,12 +417,12 @@ public class ExportEagle implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		String fill_pattern="";
 		
 		/*if(isFilled) {
@@ -478,7 +470,7 @@ public class ExportEagle implements ExportInterface {
 	{ 
 		
 		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//Color c=l.getColor();
+		//ColorInterface c=l.getColor();
 		
 		out.write("Layer 94;\n");
 		
@@ -510,7 +502,7 @@ public class ExportEagle implements ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -539,7 +531,6 @@ public class ExportEagle implements ExportInterface {
 		throws IOException
 	{
 		// Does nothing, since it will not be useful here.
-		return;
 	}
 
 	/**	Export a number: truncate it to four decimals
@@ -557,6 +548,5 @@ public class ExportEagle implements ExportInterface {
         DecimalFormat exportFormat = new DecimalFormat(ExportFormatString,
         	separators);
         return exportFormat.format(n);
-        
 	}
 }

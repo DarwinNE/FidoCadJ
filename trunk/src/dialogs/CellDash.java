@@ -8,6 +8,7 @@ import java.util.*;
 import primitives.*;
 import globals.*;
 
+
 /** The class CellArrow is a simple panel showing the dash style characteristics. 
     To be used with ArrowCellRenderer.
 
@@ -28,14 +29,14 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009-2012 by Davide Bucci
+    Copyright 2009-2014 by Davide Bucci
 </pre>
 */
 public class CellDash extends JPanel
 {
-    private boolean isSelected;
-    private DashInfo dash;
-    private JList list;
+    private final boolean isSelected;
+    private final DashInfo dash;
+    private final JList list;
 
     
     /** Constructor. The user should provide the list in which the element is 

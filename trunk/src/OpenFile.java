@@ -23,7 +23,7 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012 by Davide Bucci
+    Copyright 2012-2014 by Davide Bucci
 </pre>
 
     The OpenFile class allows to open a new file by using threads.
@@ -62,7 +62,8 @@ class OpenFile implements Runnable {
             fd.setFilenameFilter(new FilenameFilter(){
                 public boolean accept(File dir, String name)
                 {
-                    return name.toLowerCase().endsWith(".fcd");
+                    return name.toLowerCase(
+                    	parent.getLocale()).endsWith(".fcd");
                 }
             });
                     
@@ -126,7 +127,8 @@ class OpenFile implements Runnable {
        	 		// normal Swing one.
        	 	
             	FidoFrame popFrame;
-                if(parent.CC.P.getModified() || !parent.CC.P.isEmpty()) {
+                if(parent.CC.getUndoActions().getModified() || 
+                	!parent.CC.P.isEmpty()) {
                   	// Here we create a new window in order to display
                    	// the file.
                         	
@@ -144,15 +146,15 @@ class OpenFile implements Runnable {
                     // file to be loaded
                     popFrame=parent;
                 }
-                popFrame.CC.P.openFileName= 
+                popFrame.CC.getParserActions().openFileName= 
                    	Globals.createCompleteFileName(din, fin);
                 if (parent.runsAsApplication)
                    	parent.prefs.put("OPEN_DIR", din);  
 
                 popFrame.openFileDirectory=din;
                 popFrame.openFile();
-                popFrame.CC.P.saveUndoState();
-                popFrame.CC.P.setModified(false);
+                popFrame.CC.getUndoActions().saveUndoState();
+                popFrame.CC.getUndoActions().setModified(false);
                
                 //System.gc();
 

@@ -24,7 +24,8 @@ package primitives;
 	
 */
 
-public class MacroDesc {
+public class MacroDesc 
+{
 	public String name;			// The one which is shown
 	public String key;			// Unequivocally used to identify the macro 
 	public String description;	// The list of commands included in the macro

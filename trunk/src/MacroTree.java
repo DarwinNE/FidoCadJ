@@ -20,9 +20,12 @@ import java.util.Timer;
 
 import primitives.*;
 import circuit.*;
+import circuit.controllers.*;
+import circuit.model.*;
 import export.*;
 import geom.*;
 import globals.Globals;
+import globals.FileUtils;
 import globals.LibUtils;
 import toolbars.*;
 import layers.*;
@@ -49,7 +52,7 @@ import undo.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2013 by Davide Bucci, phylum2
+	Copyright 2008-2014 by Davide Bucci, phylum2
 	
 	Some code snippets adapted from lobby.org/java/forums/t19857.html
 	(santhosh kumar T - santhosh@in.fiorano.com)
@@ -82,12 +85,10 @@ public class MacroTree extends JPanel
     private JMenuItem popRename;
     private JMenuItem popDelete;
     private JMenuItem popRenKey;
-    private final static int LEVEL_MACRO = 0;
-    private final static int LEVEL_CATEGORY = 1;
-    private final static int LEVEL_LIBRARY = 2;
-    private final static int LEVEL_ROOT = 3;
-    
-    
+    private static final int LEVEL_MACRO = 0;
+    private static final int LEVEL_CATEGORY = 1;
+    private static final int LEVEL_LIBRARY = 2;
+    private static final int LEVEL_ROOT = 3;
     
     private String tlibFName, tcategory;    
     TreePath lpath;
@@ -114,8 +115,10 @@ public class MacroTree extends JPanel
 	}
 	
 	// is path1 descendant of path2
-    public boolean isDescendant(TreePath path1, TreePath path2)
+    public boolean isDescendant(TreePath tpath1, TreePath path2)
     {
+        TreePath path1=tpath1;
+
         int count1 = path1.getPathCount();
         int count2 = path2.getPathCount();
         if(count1<=count2)
@@ -209,15 +212,7 @@ public class MacroTree extends JPanel
        		String catName=val.filename+"]"+val.category+"]"+val.library;
        		
        		// Chech if the current category is already existing.
-        	if(categories.get(catName)!=null) {
-        		// The category node is already there: we retrieve it and 
-        		// we add a leaf for the macro.
-        		
-        	    if(!val.category.equals("hidden")) {
-        			((DefaultMutableTreeNode)(categories.get(
-        				catName))).add(macroNode);
-        	    }
-        	} else {
+        	if(categories.get(catName)==null) {
         		// The category is new: a new node must be created.
         		MacroDesc cat=new MacroDesc(val.key+"]cat","toto","",
         			val.category,val.library,val.filename);
@@ -225,37 +220,47 @@ public class MacroTree extends JPanel
         	    category = new DefaultMutableTreeNode(cat);
 				
 				// We see if the library is already existing
-        		if(libraries.get(libName)!=null) {
-        			if(!val.category.equals("hidden")) {
-        				((DefaultMutableTreeNode)(libraries.get(
-        					libName))).add(
-        					category);
-        			}
-        		} else {
+        		if(libraries.get(libName)==null) {
         			// If not, we create it
         			MacroDesc lib=new MacroDesc(val.key+"]lib","toto","",
         				cat.category,val.library,val.filename);
         	   	 	lib.level=2;
         			library_i = new DefaultMutableTreeNode(lib);
         			top.add(library_i);
-        			if (!val.category.equals("hidden")) {
+        			if (!"hidden".equals(val.category)) {
         				library_i.add(category);
         			}
         			
         			libraries.put(libName,library_i);
+        		} else {
+        			if(!"hidden".equals(val.category)) {
+        				((DefaultMutableTreeNode)(libraries.get(
+        					libName))).add(
+        					category);
+        			}
         		}
         		category.add(macroNode);
         		categories.put(catName,category);
-        	}
+        	} else {
+        		// The category node is already there: we retrieve it and 
+        		// we add a leaf for the macro.
+        		
+        	    if(!"hidden".equals(val.category)) {
+        			((DefaultMutableTreeNode)(categories.get(
+        				catName))).add(macroNode);
+        	    }
+        	} 
    		}
     }
 	
 	public void popupMenuCanceled(PopupMenuEvent e) 
 	{
+		// Does nothing
 	}
 	
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) 
 	{
+		// Does nothing
 	}
 	
 	/** Called just before the popup menu is visible.
@@ -270,16 +275,16 @@ public class MacroTree extends JPanel
 			popRename.setEnabled(false);
     		popDelete.setEnabled(false);
     		popRenKey.setEnabled(false);
-		} else if(macro.level!=LEVEL_MACRO) {
-			// Library or group (no key)
-			popRename.setEnabled(true);
-    		popDelete.setEnabled(true);
-    		popRenKey.setEnabled(false); // Those elements do not have a key
-		} else {
+		} else if(macro.level==LEVEL_MACRO) {
 			// User-modifiable macro
 			popRename.setEnabled(true);
     		popDelete.setEnabled(true);
     		popRenKey.setEnabled(true);
+		} else {
+			// Library or group (no key)
+			popRename.setEnabled(true);
+    		popDelete.setEnabled(true);
+    		popRenKey.setEnabled(false); // Those elements do not have a key
 		}
 	}
 	
@@ -447,6 +452,7 @@ public class MacroTree extends JPanel
 			
 			public void treeStructureChanged(TreeModelEvent e) 
 			{
+				// Nothing to do
 			}
 			
 			/** Remove a library, a group of macros or a single macro.
@@ -476,6 +482,9 @@ public class MacroTree extends JPanel
 							LibUtils.deleteGroup(libref,tlibFName, tcategory);	
 							LibUtils.saveLibraryState(undoActorListener);
 							break;
+						default:
+							// This should never happen, but do nothing, just
+							// in case.
 					}
 				} catch (FileNotFoundException F) {
 					// Something went wrong, probably because the output
@@ -506,8 +515,8 @@ public class MacroTree extends JPanel
 				// element
 				String oldLib = macro.library.trim();
 				String oldFile = macro.filename.trim();
-				//String grp = macro.category.trim();  // Unused
-				//String mnam = macro.name.trim(); // Unused
+				String grp = macro.category.trim();
+				String mnam = macro.name.trim();
 				String oldKey = macro.key;
 				
 				// Get the destination library (e contains the target node)
@@ -540,12 +549,12 @@ public class MacroTree extends JPanel
 				// key (remember the format nomefile.reducedkey used for the
 				// macro key in the database.
 				String reducedKey=macro.key.substring(macro.key.indexOf(".")+1);
-				if(!macro.filename.equals("")){
-					macro.key = macro.filename+"."+reducedKey;
-				} else {
+				if("".equals(macro.filename)){
 					// In fact, this should never happen.
 					macro.key=reducedKey;
 					System.out.println("Uh, standard libraries changed?");
+				} else {
+					macro.key = macro.filename+"."+reducedKey;
 				}
 				if(LibUtils.isStdLib(macro)) {
 					globalUpdate();
@@ -589,7 +598,7 @@ public class MacroTree extends JPanel
 			{
 				if(macro==null)
 					return;
-				/*	
+				/*	this is the way to go?
 				switch (macro.level) 
 				{
         			case LEVEL_LIBRARY: 
@@ -604,24 +613,10 @@ public class MacroTree extends JPanel
 					e.getChildren() != null) 
 					{
 					// Either lib or grp
-					String newname = (e.getChildren()[0]).toString();
+					String newname = e.getChildren()[0].toString();
 					
-					if (tcategory != null) { // renaming group
-						// Standard libraries should not be modified.
-						if (LibUtils.isStdLib(macro)) 
-							return;
-						try {
-							LibUtils.renameGroup(libref, tlibFName,
-								tcategory, newname);
-							LibUtils.saveLibraryState(undoActorListener);
-						} catch (FileNotFoundException F) {
-							JOptionPane.showMessageDialog(null,
-    							Globals.messages.getString("DirNotFound"),
-    							Globals.messages.getString("Rename"),    
-    							JOptionPane.ERROR_MESSAGE);
-						}
-						tcategory=newname;
-					} else { // It's a library
+					if (tcategory == null) { 
+					     // It's a library
 						// Check if something has changed.
 						if (tlibFName.trim().equalsIgnoreCase(newname.trim()))
 							return;
@@ -653,8 +648,23 @@ public class MacroTree extends JPanel
 						}
 					
 						globalUpdate();
-					}
+					} else {	// Standard libraries should not be modified.
+						if (LibUtils.isStdLib(macro)) 
+							return;
+						try {
+							LibUtils.renameGroup(libref, tlibFName,
+								tcategory, newname);
+							LibUtils.saveLibraryState(undoActorListener);
+						} catch (FileNotFoundException F) {
+							JOptionPane.showMessageDialog(null,
+    							Globals.messages.getString("DirNotFound"),
+    							Globals.messages.getString("Rename"),    
+    							JOptionPane.ERROR_MESSAGE);
+						}
+						tcategory=newname;
+					} 
 				} else {
+					// It's a group
 					// Rename a macro.
 					macro.name = e.getChildren()[e.getChildren().length - 1]
 							.toString();
@@ -866,7 +876,7 @@ public class MacroTree extends JPanel
 	{
 		String s=getExpansionState(0);
 		// WARNING: very fragile code!	**************************************
-		Container c = Globals.activeWindow;
+		Container c = (JFrame)Globals.activeWindow;
 		((AbstractButton) ((JFrame) c).getJMenuBar().getMenu(3)
 			.getSubElements()[0].getSubElements()[1]).doClick();
 			
@@ -878,13 +888,10 @@ public class MacroTree extends JPanel
 		
 		// also remove macro(s) from current circuit
 		CircuitPanel cp = ((FidoFrame) c).CC;
-		ParseSchem ps = cp.P;
-		try {
-			ps.parseString(ps.getText(true));
-			cp.repaint();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		DrawingModel ps = cp.P;
+		ParserActions pa = new ParserActions(ps);
+		cp.getParserActions().parseString(pa.getText(true));
+		cp.repaint();
 		
 		restoreExpansionState(0,s);
 	}
@@ -910,13 +917,14 @@ public class MacroTree extends JPanel
 	public void focusGained(FocusEvent e)
     {
        	if (selectionListener!=null && macro!=null)
-			selectionListener.setSelectionState(CircuitPanel.MACRO,
+			selectionListener.setSelectionState(ElementsEdtActions.MACRO,
 					macro.key);
 
     }
     
     public void focusLost(FocusEvent e)
     {
+    	// Nothing to do 
     }
 	
     /** Required by TreeSelectionListener interface. Called when the user
@@ -936,31 +944,9 @@ public class MacroTree extends JPanel
         // We do not know yet if the d&d will occour, but we save, just in
         // case.
         macro=(MacroDesc)nodeInfo;
-        lpath = tree.getSelectionPath().getParentPath();                    
-        if (!node.isLeaf()) {
-        
-        	// TODO: avoid using obscure variables such as tcategory, tlibFName
-        	// In fact, macro should contain everything needed in each moment
-        	// of the d&d operation.
-        	
-        	switch (macro.level) //node.getDepth()
-        	{
-        		case LEVEL_LIBRARY: // isLibrary
-        			tcategory = null;
-        			tlibFName = macro.filename;
-        			break;
-        		case LEVEL_CATEGORY: // isCategory        			
-        			tlibFName = ((MacroDesc)(((DefaultMutableTreeNode)
-        				node.getParent()).
-        				getUserObject())).filename;
-        			tcategory = macro.category;
-        			break;
-        		case LEVEL_ROOT: // isRoot
-        			tlibFName = null;
-        			tcategory = null;
-        			break;
-        	}
-        } else {
+        lpath = tree.getSelectionPath().getParentPath();  
+                          
+        if (node.isLeaf()) {
         	// Show the preview of the component in the preview area.
         	try {
             	
@@ -977,16 +963,43 @@ public class MacroTree extends JPanel
 				
             	repaint();
             	if (selectionListener!=null)
-					selectionListener.setSelectionState(CircuitPanel.MACRO,
+					selectionListener.setSelectionState(
+						ElementsEdtActions.MACRO,
 						macro.key);
             } catch (Exception E) {
+            	// TODO: this is dangerous, specify the exact exception!
             	// We get an exception if we click on the base node in an empty
             	// library list.
             	// In such cases, it is OK just to ignore the action.
             	// System.out.println("Exception!");
             	// E.printStackTrace();
-            }
-            
+            }    
+        } else {
+        
+        	// TODO: avoid using obscure variables such as tcategory, tlibFName
+        	// In fact, macro should contain everything needed in each moment
+        	// of the d&d operation.
+        	
+        	switch (macro.level) {
+        		case LEVEL_LIBRARY: // isLibrary
+        			tcategory = null;
+        			tlibFName = macro.filename;
+        			break;
+        		case LEVEL_CATEGORY: // isCategory        			
+        			tlibFName = ((MacroDesc)(((DefaultMutableTreeNode)
+        				node.getParent()).
+        				getUserObject())).filename;
+        			tcategory = macro.category;
+        			break;
+        		case LEVEL_ROOT: // isRoot
+        			tlibFName = null;
+        			tcategory = null;
+        			break;
+        		default:
+        			tlibFName = null;
+        			tcategory = null;
+        			break;
+        	}
         }
     }
     
@@ -1004,6 +1017,7 @@ public class MacroTree extends JPanel
     
     public void changedUpdate(DocumentEvent e)
     {
+    	// Nothing to do
     }
     
     /** Implementation of the KeyListener interface. Here we implement
@@ -1034,10 +1048,12 @@ public class MacroTree extends JPanel
     
     public void keyReleased(KeyEvent e)
     {
+    	// Nothing to do
     }
     
     public void keyTyped(KeyEvent e)
-    {  	
+    {
+    	// Nothing to do
     }
     
     /** Resets the selection done on the tree. 
@@ -1167,6 +1183,7 @@ public class MacroTree extends JPanel
 
 	public void mouseClicked(MouseEvent e) 
 	{
+		// Nothing to do
 	}
 
 	public void mousePressed(MouseEvent e) 
@@ -1179,15 +1196,18 @@ public class MacroTree extends JPanel
 	}
 
 	public void mouseReleased(MouseEvent e) 
-	{		
+	{
+		// Nothing to do	
 	}
 
 	public void mouseEntered(MouseEvent e) 
-	{		
+	{
+		// Nothing to do
 	}
 
 	public void mouseExited(MouseEvent e) 
-	{		
+	{
+		// Nothing to do
 	} 
 	
 	/** This is requested by the LibraryUndoListener interface.
@@ -1201,7 +1221,7 @@ public class MacroTree extends JPanel
         	String d=LibUtils.getLibDir();
         	File destinationDir = new File(d);
         	//System.out.println("undo: copy from "+s+" to "+d);
-            Globals.copyDirectory(sourceDir, destinationDir);
+            FileUtils.copyDirectory(sourceDir, destinationDir);
             globalUpdate();
         } catch (IOException e) {
             System.out.println("Cannot restore library directory contents.");

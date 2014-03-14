@@ -1,0 +1,69 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/file"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/File">
+        <menu >
+            <item
+                android:id="@+id/new_drawing"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/New" />
+            <item
+                android:id="@+id/open_file"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Open" />
+            <item
+                android:id="@+id/save"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Save" />
+            <item
+                android:id="@+id/save_with_name"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/SaveName" />
+            <item
+                android:id="@+id/export"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Export" />
+            <item
+                android:id="@+id/print"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Print" />
+            <item
+                android:id="@+id/options"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Circ_opt_t" />
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/edit_menu"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/Edit_menu"/>
+    
+    <item
+        android:id="@+id/view"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/View">
+        <menu>
+            <item
+                android:id="@+id/layer"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Layer_options" />
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/circuit"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/Circuit_l" >
+       
+    </item>
+    
+    <item
+        android:id="@+id/about"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/About"/>
+    
+</menu>
+

@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.util.*;
 
 import layers.*;
+import graphic.*;
+import graphic.swing.*;
+
 
 /** The class CellLayer is a simple panel showing the color, the visibility
     and the description of each layer. To be used with LayerCellRenderer
@@ -28,14 +31,14 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2011 by Davide Bucci
+    Copyright 2007-2014 by Davide Bucci
 </pre>
 */
 public class CellLayer extends JPanel
 {
-    private JList list;
-    private boolean isSelected;
-    private LayerDesc layer;
+    private final JList list;
+    private final boolean isSelected;
+    private final LayerDesc layer;
     //private JCheckBox cb;
     
     /** Constructor. The user should provide the list in which the element is 
@@ -82,7 +85,8 @@ public class CellLayer extends JPanel
         g.setColor(isSelected ? list.getSelectionBackground(): 
                                 list.getBackground());
         g.fillRect(0,0, getWidth(), getHeight());
-        g.setColor(layer.getColor());
+        ColorSwing c=(ColorSwing) layer.getColor();
+        g.setColor(c.getColorSwing());
         g.fillRect(2,2, getHeight(), getHeight()-4);
         
         if(layer.getVisible()) {

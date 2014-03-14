@@ -28,7 +28,7 @@ import dialogs.*;
 </pre>
 
 
-    A dialog useful to past the Fidocad code.
+    A dialog useful to past the FidoCadJ code.
 
     @author Davide Bucci
     
@@ -39,7 +39,28 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
-    private JTextArea textArea;
+    private final JTextArea textArea;
+    
+    /* The stringCircuit property gives the modified string
+        if the user selected the Ok button.
+    */
+    private String stringCircuit;
+      
+    /** Defines the string containing the FidoCadJ code.
+    	@param s the string
+    */  
+    public void setStringCircuit(String s)
+    {
+    	stringCircuit = s;
+    }
+    
+    /** Gets the string containing the FidoCadJ code.
+    	@return the string.
+    */
+    public String getStringCircuit()
+    {
+    	return stringCircuit;
+    }
     
     /** Impose a minimum size for this dialog.
     */
@@ -63,21 +84,17 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
-    
-    /** The stringCircuit property gives the modified string
-        if the user selected the Ok button.
-        The property is not well incapsulated. One should implement
-        the getStringCircuit() or setStringCircuit(String) methods
-        to improve the code style. The next time.
-    */
-    public String stringCircuit;
+
     
     /** The constructor. 
         @param parent the parent frame

@@ -31,7 +31,7 @@ This is the main file for the FidoCadJ reader applet.
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright march 2007- march 2010 by Davide Bucci
+    Copyright march 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -42,6 +42,9 @@ public class FidoCadApplet extends JApplet implements ActionListener
 	// Increment this version number each time an important modification of
 	// this class has been done.
 	private static final long serialVersionUID = 10L;
+	
+	private FidoFrame popFrame;
+
 	
 	public void init()
 	{
@@ -56,7 +59,7 @@ public class FidoCadApplet extends JApplet implements ActionListener
         // in order to load the corresponding resource file and show an 
         // interface in the same language as the host operating system.
         
-        FidoFrame.currentLocale = Locale.getDefault();
+        popFrame.currentLocale = Locale.getDefault();
         
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
@@ -65,7 +68,7 @@ public class FidoCadApplet extends JApplet implements ActionListener
         try {
             // Try to load the program with the current locale
             Globals.messages = ResourceBundle.getBundle("MessagesBundle", 
-                FidoFrame.currentLocale);
+                popFrame.currentLocale);
             
         } catch(MissingResourceException mre) {
             try {
@@ -115,5 +118,4 @@ public class FidoCadApplet extends JApplet implements ActionListener
 		
 	}
 	
-	private FidoFrame popFrame;
 }

@@ -164,7 +164,7 @@ I would like to express my gratitude to the admin Zeno Martini and webmaster Nic
 
 \pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
 
-Copyright \copyright\ 2007-2013 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2012 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -314,7 +314,7 @@ source code using Subversion (SVN), or the SVN browser provided by SourceForge:
 
 If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the 
 manuals in a new language, check carefully the existing manuals for inconsistencies, typos and
-errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese}, Dutch\index{Dutch} and Czech\index{Czech}.
+errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese} and Dutch\index{Dutch}.
 It is quite easy to translate menus and commands, so if you would
 like to see FidoCadJ in your native language, please let me know!
 There is also work to be done to translate the libraries (at least
@@ -1121,8 +1121,8 @@ Option \lstinline!-h! shows a listing of the FidoCadJ options:
 \begin{lstlisting}
 [davidebucci@Darwin]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.24.3.
-By Davide Bucci, 2007-2013.
+This is FidoCadJ, version 0.24.1.
+By Davide Bucci, 2007-2012.
 
 Use: java -jar fidocadj.jar [-options] [file] 
 where options include:
@@ -1153,8 +1153,6 @@ where options include:
  -l     Force FidoCadJ to use a certain locale (the code might follow
         immediately or be separated by an optional space).
 
- -k     Show the current locale, as specified by the operating system
-
  [file] The optional (except if you use the -d or -s options) FidoCadJ file to
         load at startup time.
 
@@ -1169,6 +1167,7 @@ Example: load and convert a FidoCadJ drawing to a png file without using the
 
 Example: load FidoCadJ forcing the locale to simplified chinese (zh).
   java -jar fidocadj.jar -l zh
+
 
 [davidebucci@Darwin]$
 \end{lstlisting}

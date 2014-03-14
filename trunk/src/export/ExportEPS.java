@@ -1,6 +1,5 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.text.*;
@@ -8,8 +7,8 @@ import java.text.*;
 import globals.*;
 import layers.*;
 import primitives.*;
-import java.awt.geom.*;
-
+import graphic.*;
+import graphic.*;
 
 /** 
 	Drawing export in Encapsulated Postscript
@@ -30,20 +29,18 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
-    @version 1.2, April 2010
 */
 
 public class ExportEPS implements ExportInterface {
 
-	private File fileExp;
-	private FileWriter fstream;
+	private final FileWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
 	private double actualWidth;
-	private Color actualColor;
+	private ColorInterface actualColor;
 	private int actualDash;
 	
 	
@@ -53,6 +50,10 @@ public class ExportEPS implements ExportInterface {
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 	
+	
+	/** double to integer conversion. In some cases, some processing might be
+		applied.
+	*/
 	public int cLe(double l)
 	{
 		return (int)l;
@@ -65,12 +66,8 @@ public class ExportEPS implements ExportInterface {
 	*/
 	
 	public ExportEPS (File f) throws IOException
-	{
-		fileExp=f;
-		
-		fstream = new FileWriter(fileExp);
-    
-		
+	{		
+		fstream = new FileWriter(f);
 	}
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
@@ -86,7 +83,7 @@ public class ExportEPS implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException
 	{ 
@@ -115,7 +112,8 @@ public class ExportEPS implements ExportInterface {
 		out.write("%%Creator: FidoCadJ "+Globals.version+
 			", EPS export filter by Davide Bucci\n");
 			
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",
+			new Locale("en"));
 		Date date = new Date();
 		out.write("%%CreationDate: "+dateFormat.format(date)+"\n");
 		out.write("%%EndComments\n");
@@ -167,22 +165,24 @@ public class ExportEPS implements ExportInterface {
 		@param y the y position of the beginning of the string to be written
 		@param sizex the x size of the font to be used
 		@param sizey the y size of the font to be used
-		@param fontname the font to be used
+		@param fontname_t the font to be used
 		@param isBold true if the text should be written with a boldface font
 		@param isMirrored true if the text should be mirrored
 		@param isItalic true if the text should be written with an italic font
 		@param orientation angle of orientation (degrees)
 		@param layer the layer that should be used
-		@param text the text that should be written
+		@param text_t the text that should be written
 	*/
 	
 	public void exportAdvText (int x, int y, int sizex, int sizey,
-		String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
-		int orientation, int layer, String text) 
+		String fontname_t, boolean isBold, boolean isMirrored, boolean isItalic,
+		int orientation, int layer, String text_t) 
 		throws IOException
 	{ 
+		String fontname = fontname_t;
+		String text = text_t;
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		String bold=""; 
 		int ys = (int)(sizex*12/(double)7+.5);
 		
@@ -218,10 +218,10 @@ public class ExportEPS implements ExportInterface {
 		
 		double ratio;
 		
-		if(sizey/sizex != 10/7){
-			ratio=(double)sizey/(double)sizex*22.0/40.0;
+		if(sizey/sizex == 10/7){
+			ratio = 1.0;
    		} else {
-   			ratio = 1.0;
+   			ratio=(double)sizey/(double)sizex*22.0/40.0;
    		}
 			
 		out.write("  "+1+" "+ratio+" scale\n");
@@ -280,7 +280,7 @@ public class ExportEPS implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 				  
@@ -304,7 +304,7 @@ public class ExportEPS implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 
 		checkColorAndWidth(c, 0.33);
 
@@ -350,7 +350,7 @@ public class ExportEPS implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
@@ -381,12 +381,12 @@ public class ExportEPS implements ExportInterface {
 		// At first we need the angle giving the direction of the arrow
 		// a little bit of trigonometry :-)
 		
-		if (x!=xc)
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		if (x==xc)
+			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 		else
-			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
-		
-		alpha += (x-xc>0)?0:Math.PI;
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+			
+		alpha += x-xc>0.0?0.0:Math.PI;
 		
 		
 	
@@ -404,8 +404,7 @@ public class ExportEPS implements ExportInterface {
 		registerDash(0);
 
 		out.write("newpath\n");
-
-			
+		
      	out.write(""+roundTo(x)+" "+	roundTo(y)+" moveto\n");
       	out.write(""+roundTo(x1)+" "+roundTo(y1)+" lineto\n");
       	out.write(""+roundTo(x2)+" "+roundTo(y2)+" lineto\n");
@@ -487,7 +486,7 @@ public class ExportEPS implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
@@ -518,7 +517,7 @@ public class ExportEPS implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		
 		checkColorAndWidth(c, width);
 		registerDash(0);
@@ -550,7 +549,7 @@ public class ExportEPS implements ExportInterface {
 		double ydd;
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		
 		checkColorAndWidth(c, 0.33);
 
@@ -558,24 +557,14 @@ public class ExportEPS implements ExportInterface {
 		// At first, draw the pad...
 		if(!onlyHole) {
 			switch (style) {
-				default:
-				case 0: // Oval pad
-					out.write("newpath\n");
-					out.write(""+x+" "+y+" "+
-						six/2.0+ " " +siy/2.0+ 
-						" 0 360 ellipse\n");
-					out.write("fill\n");	
-
-					 break;
-				
 				case 2: // Rounded pad 
-					roundRect((x-six/2.0), (y-siy/2.0), 
-							six, siy, 4, true);
+					roundRect(x-six/2.0, y-siy/2.0, 
+						six, siy, 4, true);
 					break;
 				
 				case 1:	// Square pad
-					xdd=((double)x-six/2.0);
-					ydd=((double)y-siy/2.0);
+					xdd=(double)x-six/2.0;
+					ydd=(double)y-siy/2.0;
 					out.write("newpath\n");
 					out.write(""+xdd+" "+ydd+" moveto\n");
 					out.write(""+(xdd+six)+" "+ydd+" lineto\n");
@@ -583,14 +572,21 @@ public class ExportEPS implements ExportInterface {
 					out.write(""+xdd+" "+(ydd+siy)+" lineto\n");
 					out.write("closepath\n");	
 					out.write("fill\n");	
-		
+					break;
+				case 0: // Oval pad
+				default:
+					out.write("newpath\n");
+					out.write(""+x+" "+y+" "+
+						six/2.0+ " " +siy/2.0+ 
+						" 0 360 ellipse\n");
+					out.write("fill\n");	
 					break;
 			}
 		}		
 			// ... then, drill the hole!
 		
 		//out.write("1 1 1 setrgbcolor\n");
-		checkColorAndWidth(Color.white, 0.33);
+		checkColorAndWidth(c.white(), 0.33);
 
 		out.write("newpath\n");
 		out.write(""+x+" "+y+" "+
@@ -613,12 +609,12 @@ public class ExportEPS implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		String fill_pattern="";
 		
 		if (nVertices<1)
@@ -655,7 +651,7 @@ public class ExportEPS implements ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -689,7 +685,7 @@ public class ExportEPS implements ExportInterface {
 	{ 
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 	
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
@@ -745,13 +741,13 @@ public class ExportEPS implements ExportInterface {
 		out.write("  "+(filled?"fill\n":"stroke\n"));
 	}
 	
-	private void checkColorAndWidth(Color c, double wl)
+	private void checkColorAndWidth(ColorInterface c, double wl)
 		throws IOException
 	{
-		if(c != actualColor) {
+		if(!c.equals(actualColor)) {
 			out.write("  "+roundTo(c.getRed()/255.0)+" "+
 				roundTo(c.getGreen()/255.0)+ " "
-				+roundTo(c.getBlue()/255.0)+	" setrgbcolor\n");
+				+roundTo(c.getBlue()/255.0)+ " setrgbcolor\n");
 
 			actualColor=c;
 		}

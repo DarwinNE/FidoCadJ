@@ -79,11 +79,8 @@
 <line x1="26.0" y1="196.0" x2="186.0" y2="196.0" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:8"/>
 <rect x="206.0" y="166.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <ellipse cx="36.0" cy="266.0" rx="10.0" ry="10.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="36.0" cy="266.0" r="2.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <rect x="56.0" y="256.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="66.0" cy="266.0" r="2.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <rect x="86.0" y="256.0" rx="2.5" ry="2.5" width="20.0" height="20.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="96.0" cy="266.0" r="2.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <path d="M 266.0,246.0 C 106.0,296.0 276.0,346.0 166.0,246.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <polygon points="266.0,246.0 260.86,249.69 259.67,245.88" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <path d="M 296.0,246.0 C 136.0,296.0 306.0,346.0 196.0,246.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>

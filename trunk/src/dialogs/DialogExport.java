@@ -41,7 +41,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     private static final int MIN_WIDTH=450;
     private static final int MIN_HEIGHT=400;
     
-    private JFrame parent;
+    private final JFrame parent;
     
     private boolean export;     // Indicates that the export should be done
     
@@ -59,7 +59,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     private JComboBox<String> resolution;       // Resolution combo box
     private JCheckBox antiAlias_CB;     // AntiAlias checkbox
     private JCheckBox blackWhite_CB;    // Black and white checkbox
-    private JComboBox<String> fileFormat;       // File format combo box
+    private final JComboBox<String> fileFormat;       // File format combo box
     private JTextField fileName;        // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
     
@@ -83,14 +83,16 @@ public class DialogExport extends JDialog implements ComponentListener,
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
-    
     
     /** Indicates that the export should be done: the user selected the "ok"
         button 
@@ -209,7 +211,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         multiplySizes.setText(""+d);
     }
     /** Get the magnification factor for vector format export
-        @param d the default unit per pixel value
+        @return the unit per pixel value
     */
     public double getMagnification()
     {      
@@ -238,19 +240,19 @@ public class DialogExport extends JDialog implements ComponentListener,
     */
     public void setFormat(String s)
     {
-        if (s.equals("png")) {
+        if ("png".equals(s)) {
             fileFormat.setSelectedIndex(PNG_INDEX);
-        } else if (s.equals("jpg")) {
+        } else if ("jpg".equals(s)) {
             fileFormat.setSelectedIndex(JPG_INDEX);
-        } else if (s.equals("svg")) {
+        } else if ("svg".equals(s)) {
             fileFormat.setSelectedIndex(SVG_INDEX);
-        } else if (s.equals("eps")) {
+        } else if ("eps".equals(s)) {
             fileFormat.setSelectedIndex(EPS_INDEX);
-        } else if (s.equals("pgf")) {
+        } else if ("pgf".equals(s)) {
             fileFormat.setSelectedIndex(PGF_INDEX);
-        } else if (s.equals("pdf")) {
+        } else if ("pdf".equals(s)) {
             fileFormat.setSelectedIndex(PDF_INDEX);
-        } else if (s.equals("scr")) {
+        } else if ("scr".equals(s)) {
             fileFormat.setSelectedIndex(SCR_INDEX);
         } else {
             //System.out.println(
@@ -526,7 +528,7 @@ public class DialogExport extends JDialog implements ComponentListener,
                 
                 // Check if the magnification factor is correct.
                 double mult = Double.parseDouble(multiplySizes.getText());
-                if(multiplySizes.isEnabled()==true && (mult<0.01 || mult>100)) {
+                if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
                 	export=false;
                     JOptionPane.showMessageDialog(null,
 						Globals.messages.getString("Warning_mul"),

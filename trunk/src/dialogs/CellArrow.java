@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.util.*;
 
 import primitives.*;
+import graphic.*;
+import graphic.swing.*;
 
 /** The class CellArrow is a simple panel showing the arrow characteristics. 
 	To be used with ArrowCellRenderer.
@@ -28,14 +30,14 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2009-2012 by Davide Bucci
+	Copyright 2009-2014 by Davide Bucci
 </pre>
 */
 public class CellArrow extends JPanel
 {
-	private boolean isSelected;
-	private ArrowInfo arrow;
-	private JList list;
+	private final boolean isSelected;
+	private final ArrowInfo arrow;
+	private final JList list;
 
 	
 	/** Constructor. The user should provide the list in which the element is 
@@ -65,7 +67,7 @@ public class CellArrow extends JPanel
                                 list.getForeground());
         
         g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
-		Arrow.drawArrow((Graphics2D)g, getWidth()/3, getHeight()/2,
+		Arrow.drawArrow(new Graphics2DSwing(g), getWidth()/3, getHeight()/2,
 			2*getWidth()/3, getHeight()/2, 10, 4, arrow.style);
 		
 		

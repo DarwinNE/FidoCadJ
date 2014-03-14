@@ -29,7 +29,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 	@author Davide Bucci
@@ -40,10 +40,10 @@ public class DialogPrint extends JDialog implements ComponentListener
   	private static final int MIN_WIDTH=400;
   	private static final int MIN_HEIGHT=350;
   	
-  	private JCheckBox mirror_CB;
-  	private JCheckBox fit_CB;
-  	private JCheckBox bw_CB;
-	private JCheckBox landscape_CB;
+  	private final JCheckBox mirror_CB;
+  	private final JCheckBox fit_CB;
+  	private final JCheckBox bw_CB;
+	private final JCheckBox landscape_CB;
   	
   	private boolean export;		// Indicates that the export should be done
   	/** Standard constructor: it needs the parent frame.
@@ -195,12 +195,15 @@ public class DialogPrint extends JDialog implements ComponentListener
 	}
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
   	
   	/** Check if the drawing should be mirrored.
@@ -239,7 +242,7 @@ public class DialogPrint extends JDialog implements ComponentListener
   	}
 
   	/** Set the resize to fit option
-  		@param m true if the drawing should be stretched in order to fit the 
+  		@param f true if the drawing should be stretched in order to fit the 
   			page.
   	*/
   	public void setFit(boolean f)
@@ -248,7 +251,7 @@ public class DialogPrint extends JDialog implements ComponentListener
   	}
   	
   	/** Set the landscape mode
-  		@param m true if the output should be in landscape mode. It will be
+  		@param l true if the output should be in landscape mode. It will be
   			in portrait orientation otherwise.
   	*/
   	public void setLandscape(boolean l)

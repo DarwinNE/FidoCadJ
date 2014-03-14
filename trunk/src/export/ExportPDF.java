@@ -1,6 +1,5 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.text.*;
@@ -9,8 +8,7 @@ import javax.swing.*;
 import globals.*;
 import layers.*;
 import primitives.*;
-import java.awt.geom.*;
-
+import graphic.*;
 
 /** 
 	Export towards the Adobe Portable Document File
@@ -31,7 +29,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
     
     @author Davide Bucci
@@ -39,10 +37,9 @@ import java.awt.geom.*;
 
 public class ExportPDF implements ExportInterface {
 
-	private File fileExp;
-	private File temp;
-	private OutputStreamWriter fstream;
-	private OutputStreamWriter fstreamt;
+	private final File temp;
+	private final OutputStreamWriter fstream;
+	private final OutputStreamWriter fstreamt;
 	private BufferedWriter out;
 	private BufferedWriter outt;
 	private boolean fontWarning;
@@ -61,7 +58,7 @@ public class ExportPDF implements ExportInterface {
 	private long fileLength;
 	
 	private Vector layerV;
-	private Color actualColor;
+	private ColorInterface actualColor;
 	private double actualWidth;
 	private int actualDash;
 	
@@ -69,7 +66,9 @@ public class ExportPDF implements ExportInterface {
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 		
-	
+	/** double to integer conversion. In some cases, some processing might be
+		applied.
+	*/
 	public int cLe(double l)
 	{
 		return (int)l;
@@ -83,7 +82,6 @@ public class ExportPDF implements ExportInterface {
 	
 	public ExportPDF (File f) throws IOException
 	{
-		fileExp=f;
 		
 		/** From what I have seen, it appears that the standard PDF fonts
 			are not available with the UTF-8 encoding. This means that to
@@ -93,8 +91,7 @@ public class ExportPDF implements ExportInterface {
 			which is the standard encoding supported by the PDF format.
 		*/
 
-		fstream =  new OutputStreamWriter(new FileOutputStream(fileExp), 
-			"8859_1");
+		fstream =  new OutputStreamWriter(new FileOutputStream(f), "8859_1");
 		
     	temp = File.createTempFile("real",".howto");
 		temp.deleteOnExit();
@@ -117,11 +114,9 @@ public class ExportPDF implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-		@param sizeMagnification is the factor to which every coordinate in a 
-			vector drawing should be multiplicated.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException
 	{ 
@@ -559,19 +554,20 @@ public class ExportPDF implements ExportInterface {
 		@param isItalic true if the text should be written with an italic font
 		@param orientation angle of orientation (degrees)
 		@param layer the layer that should be used
-		@param text the text that should be written
+		@param text_t the text that should be written
 	*/
 	
 	public void exportAdvText (int x, int y, int sizex, int sizey,
 		String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
-		int orientation, int layer, String text) 
+		int orientation, int layer, String text_t) 
 		throws IOException
 	{ 
-		if (text.equals(""))
+		String text=text_t;
+		if ("".equals(text))
 			return;
 			
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		String bold=""; 
 		
 		checkColorAndWidth(c, .33);
@@ -580,27 +576,27 @@ public class ExportPDF implements ExportInterface {
 		int ys = (int)(sizex*12.0/7.0+.5);
 
 
-		if(fontname.equals("Courier") || fontname.equals("Courier New")) {
+		if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
 			if(isBold)
 				outt.write("/F2"+" "+ys+" Tf\n");       
 			else
 				outt.write("/F1"+" "+ys+" Tf\n");       
-		} else if(fontname.equals("Times") || 
-			fontname.equals("Times New Roman") ||
-			fontname.equals("Times Roman")) {
+		} else if("Times".equals(fontname) || 
+			"Times New Roman".equals(fontname) ||
+			"Times Roman".equals(fontname)) {
 			if(isBold)
 				outt.write("/F4"+" "+ys+" Tf\n");       
 			else
 				outt.write("/F3"+" "+ys+" Tf\n");       
 		      
-		} else if(fontname.equals("Helvetica") || 
-			fontname.equals("Arial")) {
+		} else if("Helvetica".equals(fontname) || 
+			"Arial".equals(fontname)) {
 			if(isBold)
 				outt.write("/F6"+" "+ys+" Tf\n");       
 			else
 				outt.write("/F5"+" "+ys+" Tf\n");       
 	      
-		} else if(fontname.equals("Symbol")) {
+		} else if("Symbol".equals(fontname)) {
 			if(isBold)
 				outt.write("/F8"+" "+ys+" Tf\n");       
 			else
@@ -630,10 +626,10 @@ public class ExportPDF implements ExportInterface {
 	
 		double ratio;
 		
-		if(sizey/sizex != 10/7){
-			ratio=(double)sizey/(double)sizex*22.0/40.0;
+		if(sizey/sizex == 10/7){
+			ratio = 1.0;
    		} else {
-   			ratio = 1.0;
+   			ratio=(double)sizey/(double)sizex*22.0/40.0;
    		}
 		outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
 		
@@ -685,7 +681,7 @@ public class ExportPDF implements ExportInterface {
 		throws IOException	
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 				  
@@ -709,13 +705,13 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 
 		checkColorAndWidth(c, .33);
 
 
-		ellipse((x-node_size/2.0), (y-node_size/2.0), 
-				(x+node_size/2.0), (y+node_size/2.0), true);
+		ellipse(x-node_size/2.0, y-node_size/2.0, 
+				x+node_size/2.0, y+node_size/2.0, true);
 		//outt.write("f\n");
 		
 	}
@@ -754,7 +750,7 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
@@ -822,7 +818,7 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
@@ -844,7 +840,7 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, width);
 		registerDash(0);
 
@@ -874,7 +870,7 @@ public class ExportPDF implements ExportInterface {
 		double ydd;
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		
 		checkColorAndWidth(c, 0.33);
 
@@ -882,21 +878,13 @@ public class ExportPDF implements ExportInterface {
 		// At first, draw the pad...
 		if(!onlyHole) {
 			switch (style) {
-				default:
-				case 0: // Oval pad
-					ellipse((x-six/2.0), (y-siy/2.0), 
-							(x+six/2.0), (y+siy/2.0), true);	
-				
-					outt.write("f\n");	
-
-					 break;
 				case 2: // Rounded pad 
-					roundRect((x-six/2.0), (y-siy/2.0), 
+					roundRect(x-six/2.0, y-siy/2.0, 
 							six, siy, 4, true);
 					break;
 				case 1:	// Square pad
-					xdd=((double)x-six/2.0);
-					ydd=((double)y-siy/2.0);
+					xdd=(double)x-six/2.0;
+					ydd=(double)y-siy/2.0;
 					outt.write(""+xdd+" "+ydd+" m\n");
 					outt.write(""+(xdd+six)+" "+ydd+" l\n");
 					outt.write(""+(xdd+six)+" "+(ydd+siy)+" l\n");
@@ -904,15 +892,22 @@ public class ExportPDF implements ExportInterface {
 					outt.write("B\n");	
 					
 					break;
+				case 0: // Oval pad
+				default:
+					ellipse(x-six/2.0, y-siy/2.0, 
+							x+six/2.0, y+siy/2.0, true);	
 				
+					outt.write("f\n");	
+
+					 break;
 			}
 		}		
 			// ... then, drill the hole!
 		
-		checkColorAndWidth(Color.WHITE, .33);
+		checkColorAndWidth(c.white(), .33);
 		
-		ellipse((x-indiam/2.0), (y-indiam/2.0), 
-				(x+indiam/2.0), (y+indiam/2.0), true);
+		ellipse(x-indiam/2.0, y-indiam/2.0, 
+				x+indiam/2.0, y+indiam/2.0, true);
 		outt.write("f\n");
 				
 	
@@ -930,12 +925,12 @@ public class ExportPDF implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		String fill_pattern="";
 		
 		if (nVertices<1)
@@ -972,7 +967,7 @@ public class ExportPDF implements ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -1006,7 +1001,7 @@ public class ExportPDF implements ExportInterface {
 	{ 
 		
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
+		ColorInterface c=l.getColor();
 		
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
@@ -1127,10 +1122,10 @@ public class ExportPDF implements ExportInterface {
 		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
 	}
 
-	private void checkColorAndWidth(Color c, double wl)
+	private void checkColorAndWidth(ColorInterface c, double wl)
 		throws IOException
 	{
-		if(c != actualColor) {
+		if(!c.equals(actualColor)) {
 			outt.write("  "+roundTo(c.getRed()/255.0)+" "+
 				roundTo(c.getGreen()/255.0)+ " "
 				+roundTo(c.getBlue()/255.0)+	" rg\n");
@@ -1175,14 +1170,12 @@ public class ExportPDF implements ExportInterface {
 		// At first we need the angle giving the direction of the arrow
 		// a little bit of trigonometry :-)
 		
-		if (x!=xc)
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		if (x==xc)
+			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 		else
-			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 		
-		alpha += (x-xc>0)?0:Math.PI;
-		
-		
+		alpha += x-xc>0.0?0.0:Math.PI;
 	
 		// Then, we calculate the points for the polygon
 		x0 = x - l*Math.cos(alpha);

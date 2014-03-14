@@ -7,6 +7,7 @@ import java.util.*;
 
 
 import circuit.*;
+import circuit.controllers.*;
 import layers.*;
 import globals.*;
 
@@ -45,7 +46,7 @@ Version   Date           Author       Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright march 2007- march 2012 by Davide Bucci
+    Copyright march 2007 - 2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -79,14 +80,15 @@ public class FidoReadApplet extends JApplet
 		CC.antiAlias=true;
 		
         // Reads the standard libraries
-        CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+        ParserActions pa = CC.getParserActions();
+       	pa.loadLibraryInJar(FidoReadApplet.class.getResource(
         	"lib/IHRAM.FCL"), "ihram");
- 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+ 		pa.loadLibraryInJar(FidoReadApplet.class.getResource(
  			"lib/FCDstdlib.fcl"), "");
- 		CC.P.loadLibraryInJar(FidoReadApplet.class.getResource(
+ 		pa.loadLibraryInJar(FidoReadApplet.class.getResource(
  			"lib/PCB_en.fcl"), "pcb");
 	
-        CC.P.setLayers(Globals.createStandardLayers());
+        CC.P.setLayers(StandardLayers.createStandardLayers());
 
 		Container contentPane;
 		contentPane=getContentPane();
@@ -103,12 +105,7 @@ public class FidoReadApplet extends JApplet
 	public void trace(String c, int zoom)
 	{
 		CC.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
-		try {
-			CC.P.parseString(new StringBuffer(c));
-		} catch (IOException E) {
-			JOptionPane.showMessageDialog(this,
-				"Too much consecutive errors. Bad format?");
-		}
+		CC.getParserActions().parseString(new StringBuffer(c));
 		repaint();
 		getToolkit().sync();
 	}
@@ -130,7 +127,7 @@ public class FidoReadApplet extends JApplet
 	}
 	
 	/** Set the background color.
-		@param the color code (see the old MS-DOS color codes).
+		@param color the color code (see the old MS-DOS color codes).
 	
 	*/
 	public void backColor(int color)

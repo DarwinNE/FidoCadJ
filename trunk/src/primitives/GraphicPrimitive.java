@@ -1,14 +1,16 @@
 package primitives;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 
 import layers.*;
-import dialogs.*;
+import dialogs.ParameterDescription;
+import dialogs.LayerInfo;
 import geom.*;
 import export.*;
 import globals.*;
+import graphic.*;
+
 /*
 	GraphicPrimitive is an abstract class implementing the basic behaviour
 	of a graphic primitive, which should be derived from it.
@@ -30,7 +32,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2013 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
 
 */
@@ -44,13 +46,10 @@ public abstract class GraphicPrimitive
 	public static final int RECT_SELECTION=-3;
 	
 	// Handle dimension in pixels 
-	private static final int HANDLE_WIDTH=8;
+	private static final int HANDLE_WIDTH=10;
 
 	// Maximum number of tokens
 	private static final int MAX_TOKENS=120;
-	
-	protected static StrokeStyle strokeStyle;
-
 	
 	// Indicates wether the primitive is selected or not
 	public boolean selectedState;
@@ -62,8 +61,11 @@ public abstract class GraphicPrimitive
 	public int layer;
 		
 	// Array containing the points defining the primitive
-	public Point[] virtualPoint;
+	public PointG[] virtualPoint;
 
+	// If changed is true, this means that the redraw operation should involve
+	// an in-depth calculation of the primitive. Otherwise, a lot of 
+	// information is stored to speed up the redraw.
 	protected boolean changed;
 	
 	protected int macroFontSize;
@@ -71,10 +73,28 @@ public abstract class GraphicPrimitive
 	protected String name;
 	protected String value;
 	
+	// Some caching data
+	private LayerDesc l;
+	private float alpha;
+	private static float oldalpha=1.0f;
+	private int old_layer=-1;
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int xa, ya, xb, yb;
+	// Text sizes in pixels
+	private int h,th, w1, w2;
+	
+	// Text sizes in logical units.
+	private int t_th, t_w1, t_w2;
+ 	private int x2,y2,x3,y3;
+
+	
 	/* At first, non abstract methods */
 	
-	/** Standard constructor (not used) */
-	/*public void GraphicPrimitive(String f, int size)
+	/** Standard constructor */
+	public void GraphicPrimitive(String f, int size)
 	{
 		selectedState=false;
 		layer=0;
@@ -84,8 +104,7 @@ public abstract class GraphicPrimitive
 
 		macroFontSize = size;
 		macroFont=f;
-	}*/
-	
+	}
 	/** Set the font to be used for name and value
 		@param f the font name
 		@param size the font size
@@ -109,18 +128,20 @@ public abstract class GraphicPrimitive
 	public void initPrimitive(int number, String font, int size)
 	{
 		// Not very elegant. In fact, it would be better to use settings
-		// present in ParseSchem, and not to have to use prefs here.
+		// present in DrawingModel, and not to have to use prefs here.
 		
 		macroFontSize = size;
 		macroFont= font;
 		name = "";
 		value = "";
-		if (number<0)
-			number = getControlPointNumber();
+		int npoints=number;
 		
-		virtualPoint = new Point[number];
-		for(int i=0;i<number;++i)
-			virtualPoint[i]=new Point();	
+		if (npoints<0)
+			npoints = getControlPointNumber();
+		
+		virtualPoint = new PointG[npoints];
+		for(int i=0;i<npoints;++i)
+			virtualPoint[i]=new PointG();	
 	}
 	
 	/** Get the font used for name and value
@@ -138,21 +159,7 @@ public abstract class GraphicPrimitive
 	public int getMacroFontSize()
 	{
 		return macroFontSize;
-	}
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int xa, ya, xb, yb;
-	// Text sizes in pixels
-	private int h,th, w1, w2;
-	
-	// Text sizes in logical units.
-	private int t_th, t_w1, t_w2;
- 	private int x2,y2,x3,y3;
- 	private Font f;
- 	private FontMetrics fm;
- 		
+	} 		
 	
 	/** Writes the macro name and value fields. This method uses heavily the 
 		caching system implemented via the precalculation of the sizes and 
@@ -163,13 +170,13 @@ public abstract class GraphicPrimitive
 		its needs, BEFORE calling drawText.
 	
 	*/
-	protected void drawText(Graphics2D g, MapCoordinates coordSys,
+	protected void drawText(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV, int drawOnlyLayer)
 	{				
 		// If this method is not needed, exit immediately.
-		if (value==null || name==null)
+		if (value==null && name==null)
 			return;
-		if (value.equals("") && name.equals(""))
+		if ("".equals(value) && "".equals(name))
 			return;
 			
  		if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer())
@@ -188,22 +195,25 @@ public abstract class GraphicPrimitive
  			xb=coordSys.mapX(x3,y3);
  			yb=coordSys.mapY(x3,y3);
 
- 			// At first, write the name and the value fields in the given positions
- 			f = new Font(macroFont,Font.PLAIN,
- 				(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
+ 			// At first, write the name and the value fields in the given 
+ 			// positions
  			
-	   		fm = g.getFontMetrics(f);
-    		h = fm.getAscent();
-    		th = h+fm.getDescent();
-    		if(name!=null) 
-   				w1 = fm.stringWidth(name);
-   			else
+ 			
+    		h = g.getFontAscent();
+    		th = h+g.getFontDescent();
+    		
+    		g.setFont(macroFont, 
+    			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
+    		
+    		if(name==null) 
    				w1=0;
-   			
-   			if(value!=null)
-   				w2 = fm.stringWidth(value);
    			else
-   				w2=0;
+   				w1 = g.getStringWidth(name);
+   			
+   			if(value==null)
+   				w2 = 0;
+   			else
+   				w2 = g.getStringWidth(value);
    			
    			// Calculates the size of the text in logical units. This is 
    			// useful for calculating wether the user has clicked inside a 
@@ -234,12 +244,8 @@ public abstract class GraphicPrimitive
 	   		return;
 	   	} 
 	   	
-	   	// Check if there is the need to change the current font. Apparently, 
-	   	// on some systems (I have seen this on MacOSX), setting up the font 
-	   	// takes a surprisingly amount of time.
-	   	
- 		if(!g.getFont().equals(f))
-	   		g.setFont(f);
+	   	g.setFont(macroFont, 
+    			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
    		/* The if's have been added thanks to this information:
    		 http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
@@ -269,16 +275,17 @@ public abstract class GraphicPrimitive
 			StringBuffer s1=new StringBuffer("");
     		
     		for (int i=0; i<macroFont.length(); ++i) {
-    		if(macroFont.charAt(i)!=' ') 
-    			s1.append(macroFont.charAt(i));
-    		else
+    		if(macroFont.charAt(i)==' ') 
     			s1.append("++");
+    		else
+    			s1.append(macroFont.charAt(i));
     		}
 			subsFont=s1.toString();
 		}
 		
 		// Write down the extensions only if needed
-		if ((name!=null && !name.equals("")) || (value!=null && !value.equals(""))) {
+		if (name!=null && !"".equals(name) || 
+			value!=null && !"".equals(value)) {
 			if(extensions) 
 				s2.append("FCJ\n");
 			
@@ -313,7 +320,6 @@ public abstract class GraphicPrimitive
 			s2.append(" ");
 			s2.append(value==null?"":value);
 			s2.append("\n");
-
 		}
 		
 		return s2.toString();
@@ -375,11 +381,11 @@ public abstract class GraphicPrimitive
 	*/
   	public boolean checkText(int px, int py)
   	{
-	    if(!name.equals("") && GeometricDistances.pointInRectangle(
+	    if(!"".equals(name) && GeometricDistances.pointInRectangle(
 	    	virtualPoint[getNameVirtualPointNumber()].x,
 	    	virtualPoint[getNameVirtualPointNumber()].y,t_w1,t_th,px,py))
 	       	return true;
-	    if(!value.equals("") && GeometricDistances.pointInRectangle(
+	    if(!"".equals(value) && GeometricDistances.pointInRectangle(
 	    	virtualPoint[getValueVirtualPointNumber()].x,
 	    	virtualPoint[getValueVirtualPointNumber()].y,t_w2,t_th,px,py))
 	       	return true;
@@ -471,7 +477,7 @@ public abstract class GraphicPrimitive
 	/** Get the first control point of the primitive
 		@return the coordinates of the first control point of the object.
 	*/
-	public Point getFirstPoint()
+	public PointG getFirstPoint()
 	{
 		return virtualPoint[0];
 	}
@@ -523,24 +529,23 @@ public abstract class GraphicPrimitive
 	{
 	
 		int b, m=getControlPointNumber();
-		Point ptTmp=new Point();
-		Point pt=new Point();
+		PointG ptTmp=new PointG();
+		PointG pt=new PointG();
 		
 		pt.x=ix;
 		pt.y=iy;
 	
-		for( b=0; b<m; ++b)
-		{
+		for(b=0; b<m; ++b) {
 			ptTmp.x = virtualPoint[b].x;
 			ptTmp.y = virtualPoint[b].y;
 
-			if( !bCounterClockWise)	{
-				virtualPoint[b].x = pt.x - (ptTmp.y-pt.y);
-				virtualPoint[b].y = pt.y + (ptTmp.x-pt.x);
-			} else {
-				virtualPoint[b].x = pt.x + (ptTmp.y-pt.y);
+			if(bCounterClockWise) {
+				virtualPoint[b].x = pt.x + ptTmp.y-pt.y;
 				virtualPoint[b].y = pt.y - (ptTmp.x-pt.x);
-			}
+			} else {
+				virtualPoint[b].x = pt.x - (ptTmp.y-pt.y);
+				virtualPoint[b].y = pt.y + ptTmp.x-pt.x;
+			} 
 		}
 		
 		changed=true;	
@@ -555,7 +560,7 @@ public abstract class GraphicPrimitive
 	*/
  	public void setDrawOnlyLayer (int i)
  	{
- 	
+ 		// Normally, this does nothing, except for macros.
  	}	
  	
  	/** Returns true if the primitive contains the specified layer.
@@ -619,7 +624,7 @@ public abstract class GraphicPrimitive
 		}
 		
 		// We do check if everything is OK.
-		if (layer<0 || layer>=Globals.MAX_LAYERS)
+		if (layer<0 || layer>=LayerDesc.MAX_LAYERS)
 			layer=0;
 		else
 			layer=l;
@@ -631,17 +636,12 @@ public abstract class GraphicPrimitive
 	*/
 	final public void setLayer(int l)
 	{
-		if (l<0 || l>=Globals.MAX_LAYERS)
+		if (l<0 || l>=LayerDesc.MAX_LAYERS)
 			layer=0;
 		else
 			layer=l;
 		changed=true;	
 	}
-	
-	private LayerDesc l;
-	private float alpha;
-	private static float oldalpha=1.0f;
-	private int old_layer=-1;
 	
 	/**	Treat the current layer. In particular, select the corresponding
 		color in the actual graphic context. If the primitive is selected,
@@ -651,7 +651,7 @@ public abstract class GraphicPrimitive
 		@param layerV a LayerDesc vector with the descriptions of the layers
 				being used.
 	*/
-	protected final boolean selectLayer(Graphics2D g, Vector layerV)
+	protected final boolean selectLayer(GraphicsInterface g, Vector layerV)
 	{
 		// At first, we see if we need to retrieve the current layer.
 		// It is important to check also the changed flag, since if not we 
@@ -671,67 +671,36 @@ public abstract class GraphicPrimitive
 		
 		if (!l.isVisible) {
 			return false;
-		}
-			
-		// The color for selected primitives is green.
+		}  
 		
 		if(selectedState) {
-			// We blend the layer color with green, in such a way that the 
-			// selected objects bear a certain reminescence of their original
-			// color.
-			g.setColor(blendColors(Color.green, l.getColor(), 0.6f));
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 
-				1.0f));
-			oldalpha = 1.0f;
+			// We change the color for selected objects
+						
+			g.activateSelectColor(l);
+
 		} else {
 			if(g.getColor()!=l.getColor() || oldalpha!=alpha) {
 				g.setColor(l.getColor());
 				alpha=l.getAlpha();
 				oldalpha = alpha;
-				g.setComposite(AlphaComposite.getInstance(
-					AlphaComposite.SRC_OVER, alpha));
+				g.setAlpha(alpha);
+				//g.setComposite(AlphaComposite.getInstance(
+				//	AlphaComposite.SRC_OVER, alpha));
 			}
 		}	
 		return true;
 	}
 	
-	/**
-    	Blend two colors. From 
-     	http://www.java2s.com/Code/Java/2D-Graphics-GUI/Commoncolorutilities.htm
-    
-    	@param color1  First color to blend.
-    	@param color2  Second color to blend.
-    	@param ratio   Blend ratio. 0.5 will give even blend, 1.0 will return
-                   color1, 0.0 will return color2 and so on.
-    	@return        Blended color.
-   	*/
-  	public static Color blendColors (Color color1, Color color2, float r)
-  	{
-    	float ir = (float) 1.0 - r;
-
-    	float rgb1[] = new float[3];
-    	float rgb2[] = new float[3];    
-
-    	color1.getColorComponents (rgb1);
-    	color2.getColorComponents (rgb2);    
-
-    	Color color = new Color (rgb1[0] * r + rgb2[0] * ir, 
-                             rgb1[1] * r + rgb2[1] * ir, 
-                             rgb1[2] * r + rgb2[2] * ir);
-    
-    	return color;
-  	}
-	
 	/**	Draw the handles for the current primitive.
 		@param g the graphic context to be used.
 		@param cs the coordinate mapping used.
 	*/
-	public void drawHandles(Graphics2D g, MapCoordinates cs)
+	public void drawHandles(GraphicsInterface g, MapCoordinates cs)
 	{
 		int xa;
 		int ya;
 		
-		g.setColor(Color.red);
+		g.setColor(g.getColor().red());
 		for(int i=0;i<getControlPointNumber();++i) {
 		
 			if (!testIfValidHandle(i))
@@ -765,6 +734,8 @@ public abstract class GraphicPrimitive
 	{
 		int xa;
 		int ya;
+		
+		int increase = 2;
 		int hw2=HANDLE_WIDTH/2;
 		int hl2=HANDLE_WIDTH/2;
 		
@@ -779,9 +750,11 @@ public abstract class GraphicPrimitive
 			// Recognize if we have clicked on a handle. Basically, we check
 			// if the point lies inside the rectangle given by the handle.
 			
- 			if(GeometricDistances.pointInRectangle(xa-hw2,
- 							ya-hl2,
- 							HANDLE_WIDTH,HANDLE_WIDTH,px,py))
+ 			if(GeometricDistances.pointInRectangle(xa-hw2-increase,
+ 							ya-hl2-increase,
+ 							HANDLE_WIDTH+2*increase,
+ 							HANDLE_WIDTH+2*increase,
+ 							px,py))
  				return i;
  			
 	 		
@@ -810,7 +783,7 @@ public abstract class GraphicPrimitive
 			xa=virtualPoint[i].x;
  			ya=virtualPoint[i].y;
  			
- 			if(((px<=xa)&&(xa<(px+w)) && ((py<=ya)&&(ya<(py+h))))) {
+ 			if(px<=xa && xa<px+w && py<=ya&& ya< py+h) {
  				setSelected(true);
  				return true;
  			}
@@ -867,14 +840,14 @@ public abstract class GraphicPrimitive
 		Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
 		ParameterDescription pd = new ParameterDescription();
 		
-		pd.parameter=(name!=null?name:"");
+		pd.parameter=(name==null?"":name);
 		pd.description=Globals.messages.getString("ctrl_name");
 		pd.isExtension = true;
 		v.add(pd);
 		
 		pd = new ParameterDescription();
 		
-		pd.parameter=(value!=null?value:"");
+		pd.parameter=(value==null?"":value);
 		pd.description=Globals.messages.getString("ctrl_value");
 		pd.isExtension = true;
 
@@ -944,8 +917,8 @@ public abstract class GraphicPrimitive
 			pd = (ParameterDescription)v.get(i);
 			
 			// Check, just for sure...
-			if (pd.parameter instanceof Point)
-				virtualPoint[i-2]=(Point)pd.parameter;
+			if (pd.parameter instanceof PointG)
+				virtualPoint[i-2]=(PointG)pd.parameter;
 			else
 			 	System.out.println("Warning: unexpected parameter!");	
 		}
@@ -979,6 +952,7 @@ public abstract class GraphicPrimitive
 	*/
 	public void setDrawOnlyPads(boolean t)
 	{
+		// Does nothing, except for macros and pcbpads.
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -986,7 +960,7 @@ public abstract class GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param LayerDesc the layer description.
 	*/
-	public abstract void draw(Graphics2D g, MapCoordinates coordSys,
+	public abstract void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector LayerDesc);
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -1044,7 +1018,7 @@ public abstract class GraphicPrimitive
 	*/
 	public abstract int getValueVirtualPointNumber();
 	
-	public Dimension getSize() // phylum
+	public DimensionG getSize() // phylum
 	{        		
 		GraphicPrimitive p = this;
 		int qx = 0;
@@ -1061,9 +1035,9 @@ public abstract class GraphicPrimitive
 					qy = Math.abs(p.virtualPoint[i].y - p.virtualPoint[j].y);
 			}
 		}		
-		return new Dimension(qx,qy);
+		return new DimensionG(qx,qy);
 	}
-	public Point getPosition() // phylum
+	public PointG getPosition() // phylum
 	{        
 		GraphicPrimitive p = this;
 		int qx = Integer.MAX_VALUE;
@@ -1074,7 +1048,7 @@ public abstract class GraphicPrimitive
 			if (p.virtualPoint[i].x<qx) qx = p.virtualPoint[i].x;
 			if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
 		}		
-		return new Point(qx,qy);
+		return new PointG(qx,qy);
 	}
 }
 

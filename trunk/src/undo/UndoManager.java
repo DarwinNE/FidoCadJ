@@ -3,8 +3,6 @@ package undo;
 import java.util.*;
 import java.io.*;
 
-import globals.*;
-
 /**
    	Implementation of a circular buffer of the given size.
     This is tailored in particular for the undo/redo system.
@@ -32,7 +30,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2013 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -40,7 +38,7 @@ import globals.*;
 
 public class UndoManager {
 	
-	private Vector<UndoState> undoBuffer;
+	private final Vector<UndoState> undoBuffer;
 	private int pointer;
 	private boolean isRedoable;
 	
@@ -71,7 +69,7 @@ public class UndoManager {
 	/** Removes all the elements from the circular buffer
 	
 	*/
-	public void undoReset()
+	public final void undoReset()
 	{
 		undoBuffer.removeAllElements();
 		//undoPush(new UndoState());
@@ -80,7 +78,7 @@ public class UndoManager {
 	}
 	
 	/** Pushes a new undo state in the buffer
-		@argument state the state to be committed.
+		@param state the state to be committed.
 	*/
 	public void undoPush(UndoState state)
 	{

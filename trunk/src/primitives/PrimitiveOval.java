@@ -1,15 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import graphic.*;
 
 
 /** Class to handle the Oval primitive.
@@ -30,7 +28,7 @@ import export.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -43,11 +41,18 @@ public final class PrimitiveOval extends GraphicPrimitive
 	static final int N_POINTS=4;
 	private boolean isFilled;
 	private int dashStyle;
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int xa, ya, xb, yb;
+	private int x1, x2, y1, y2;
+	private float w;
+	
 
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
-	*/
-	
+	*/	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
@@ -94,22 +99,12 @@ public final class PrimitiveOval extends GraphicPrimitive
 		
 	}
 	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int xa, ya, xb, yb;
-	private int x1, x2, y1, y2;
-	private Stroke stroke;
-	private float w;
-
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+	public void draw(GraphicsInterface g, MapCoordinates coordSys, Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
@@ -118,9 +113,9 @@ public final class PrimitiveOval extends GraphicPrimitive
 		drawText(g, coordSys, layerV, -1);
 		
 		// in the oval primitive, the first two virtual points represent
-		//   the two corners of the segment 
+		// the two corners of the oval diagonal 
  		
- 		if(changed || stroke==null) {
+ 		if(changed) {
  			changed=false;
 			x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
@@ -146,40 +141,19 @@ public final class PrimitiveOval extends GraphicPrimitive
  			coordSys.trackPoint(xb,yb);			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
 			if (w<D_MIN) w=D_MIN;
-			/*
-			if (dashStyle>0) 
-				stroke=new BasicStroke(w, 
-                                         BasicStroke.CAP_BUTT, 
-                                         BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f);
-			else 
-				stroke=new BasicStroke(w);	
-			*/
-			
-			if (strokeStyle==null) {
-				strokeStyle = new StrokeStyle();
-			}
-			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
-	/*	if (xb==xa && yb==ya)
-			return;*/
-			
-		if(!g.hitClip(xa,ya, (xb-xa),(yb-ya)))
+
+		if(!g.hitClip(xa,ya, xb-xa,yb-ya))
  			return;
  		
-		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
-		// setting the stroke takes a lot of time!
- 		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke);
+		g.applyStroke(w, dashStyle);
 		
 		// Draw the oval, filled or not.
  		if (isFilled)
- 			g.fillOval(xa,ya,(xb-xa),(yb-ya));
+ 			g.fillOval(xa,ya,xb-xa,yb-ya);
  		else {
-			g.drawOval(xa,ya,(xb-xa),(yb-ya));
+			g.drawOval(xa,ya,xb-xa,yb-ya);
  		}
-
- 		return;
  	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -316,13 +290,13 @@ public final class PrimitiveOval extends GraphicPrimitive
         int yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
      
      	if(isFilled){
-        	if(GeometricDistances.pointInEllipse(xa,ya,(xb-xa),(yb-ya),px,py))
+        	if(GeometricDistances.pointInEllipse(xa,ya,xb-xa,yb-ya,px,py))
           		return 0;
           	else
           		return 1000;
         } else
         	return GeometricDistances.pointToEllipse(xa,ya,
-        		(xb-xa),(yb-ya),px,py);
+        		xb-xa,yb-ya,px,py);
 	}
 	
 	/** Obtain a string command descripion of the primitive.
@@ -341,13 +315,11 @@ public final class PrimitiveOval extends GraphicPrimitive
 			+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
 			getLayer()+"\n";
 			
-		if(extensions) {
-			if (dashStyle>0 || hasName() || hasValue()) {
-				String text = "0";
-				if (name.length()!=0 || value.length()!=0)
-					text = "1";
-		 		cmd+="FCJ "+dashStyle+" "+text+"\n";
-			}
+		if(extensions && (dashStyle>0 || hasName() || hasValue())) {
+			String text = "0";
+			if (name.length()!=0 || value.length()!=0)
+				text = "1";
+		 	cmd+="FCJ "+dashStyle+" "+text+"\n";
 		}
 		// The false is needed since saveText should not write the FCJ tag.
 		cmd+=saveText(false);

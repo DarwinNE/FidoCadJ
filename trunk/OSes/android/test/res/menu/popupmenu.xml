@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_cut"
+          android:title="@string/Cut" />
+	<item android:id="@+id/menu_copy"
+          android:title="@string/Copy" />
+	<item android:id="@+id/menu_paste"
+          android:title="@string/Paste" />    
+    <item android:id="@+id/menu_selectall"
+          android:title="@string/SelectAll" />
+    <item android:id="@+id/menu_delete"
+          android:title="@string/Delete" />          
+	<item android:id="@+id/menu_rotate"
+          android:title="@string/Rotate" />  
+	<item android:id="@+id/menu_mirror"
+          android:title="@string/Mirror_E" />  
+</menu>

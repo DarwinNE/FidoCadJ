@@ -1,21 +1,22 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import geom.*;
 import circuit.*;
+import circuit.controllers.*;
+import circuit.model.*;
+import circuit.views.*;
 import dialogs.*;
 import export.*;
 import globals.*;
 import layers.*;
+import graphic.*;
 
 
 /** Class to handle the macro primitive. Code is somewhat articulated since
-	I use ricorsion (a macro is another drawing seen as an unbreakable symbol).
+	I use recursion (a macro is another drawing seen as an unbreakable symbol).
 
 <pre>
 	This file is part of FidoCadJ.
@@ -33,7 +34,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -43,19 +44,25 @@ public final class PrimitiveMacro extends GraphicPrimitive
 {
 
 	static final int N_POINTS=3;
-	private Map<String, MacroDesc> library;
-	private Vector<LayerDesc> layers;
+	private final Map<String, MacroDesc> library;
+	private final Vector<LayerDesc> layers;
 	private int o;
 	private boolean m; 
 	private boolean drawOnlyPads;
 	private int drawOnlyLayer;
 	private boolean alreadyExported;
-	private ParseSchem macro;
-	private MapCoordinates macroCoord;
+	private DrawingModel macro;
+	private final MapCoordinates macroCoord;
 	private boolean selected;
 	private String macroName;
 	private String macroDesc;
 	private boolean exportInvisible;
+	
+		
+	private Drawing drawingAgent;
+		
+	// Stored data for caching
+	private int x1, y1;
 	
 	public void setExportInvisible(boolean s)
 	{
@@ -65,7 +72,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
@@ -84,7 +90,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		layers=l;
 		drawOnlyPads=false;
 		drawOnlyLayer=-1;
-		macro=new ParseSchem();
+		macro=new DrawingModel();
 		macroCoord=new MapCoordinates();
 		changed=true;
 		
@@ -99,7 +105,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param l the list of layers
 		@param x the x coordinate of the control point of the macro
 		@param y the y coordinate of the control point of the macro
-		@param key the key to be used to uniquely identify the macro (it will 
+		@param key_t the key to be used to uniquely identify the macro (it will 
 			be converted to lowercase)
 		@param na the name to be shown
 		@param xa the x coordinate of the name of the macro
@@ -114,7 +120,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param mm the macro mirroring
 	*/	
 	public PrimitiveMacro(Map<String, MacroDesc> lib, Vector<LayerDesc> l, 
-		 int x, int y, String key, 
+		 int x, int y, String key_t, 
 		 String na, int xa, int ya, String va, int xv, int yv, String macroF, 
 		 int macroS, int oo, boolean mm)
 		throws IOException
@@ -123,8 +129,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		initPrimitive(-1, macroF, macroS);
 		library=lib;
 		layers=l;
-		key=key.toLowerCase();
-		macro=new ParseSchem();
+		String key=key_t.toLowerCase(new Locale("en"));
+		macro=new DrawingModel();
 		macroCoord=new MapCoordinates();
 		changed=true;
 		macroFontSize = macroS;
@@ -163,7 +169,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	
 	
 	/** Returns true if the macro contains the specified layer. This
-		is a calculation done at the ParseSchem level.
+		is a calculation done at the DrawingModel level.
 	
 	*/
 	public boolean containsLayer(int l)
@@ -171,14 +177,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		return macro.containsLayer(l);
  	}
 	
-	
-	
-
-	int x1, y1;
-	/**	Draw the macro contents
-	
+	/**	Draw the macro contents	
 	*/
-	final private void drawMacroContents(Graphics2D g, MapCoordinates coordSys,
+	private void drawMacroContents(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 		/* in the macro primitive, the the virtual point represents
@@ -194,7 +195,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		 		
  			macroCoord.setXCenter(coordSys.mapXr(x1,y1));
  			macroCoord.setYCenter(coordSys.mapYr(x1,y1));
-			macroCoord.orientation=(o+coordSys.orientation)%4;
+			macroCoord.setOrientation((o+coordSys.getOrientation())%4);
 			macroCoord.mirror=m ^ coordSys.mirror;
  			macroCoord.isMacro=true;
  			macroCoord.resetMinMax();
@@ -202,18 +203,20 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			macro.setChanged(true);
 		}
 		
+		EditorActions edt = new EditorActions(macro, null);
 		if(getSelected()) {
- 			macro.selectAll();
+ 			edt.setSelectionAll(true);
  			selected = true;
 		} else if (selected) {
-			macro.deselectAll();
+			edt.setSelectionAll(false);
 			selected = false;
 		}
 
 		macro.setDrawOnlyLayer(drawOnlyLayer);
  		macro.setDrawOnlyPads(drawOnlyPads);
  		
-		macro.draw(g, macroCoord);
+ 		drawingAgent = new Drawing(macro);
+		drawingAgent.draw(g,macroCoord);
 		
 		if (macroCoord.getXMax()>macroCoord.getXMin() && 
 			macroCoord.getYMax()>macroCoord.getYMin()) {
@@ -243,16 +246,13 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		changed=true;	
 		
  		if (macroDesc!=null) {
- 			try {
- 				macro.parseString(new StringBuffer(macroDesc)); 
- 				// Recursive call	
- 			} catch(IOException e) {
-                	System.out.println("Error: "+e); 
-            }
+			ParserActions pa = new ParserActions(macro);
+ 			pa.parseString(new StringBuffer(macroDesc)); 
+ 			// Recursive call	
  		}
 	}
 	
-	final public void setLayers(Vector<LayerDesc> layerV)
+	public void setLayers(Vector<LayerDesc> layerV)
 	{
 		macro.setLayers(layerV);
 	}
@@ -263,7 +263,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -276,25 +276,23 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	/** Set the Draw Only Pads mode.
 	
 		@param pd the wanted value
-	
-	*/
-								  
- 	final public void setDrawOnlyPads(boolean pd)
+	*/							  
+ 	public void setDrawOnlyPads(boolean pd)
  	{
  		drawOnlyPads=pd;
  	}
 	
 	/** Set the Draw Only Layer mode.
-	
 		@param la the layer that should be drawn.
-	
 	*/
 	
-	final public void setDrawOnlyLayer(int la)
+	public void setDrawOnlyLayer(int la)
  	{
  		drawOnlyLayer=la;
  	}
 	
+	/** Get the maximum index of the layers contained in the macro.
+	*/
 	public int getMaxLayer()
     {
     	return macro.getMaxLayer();
@@ -331,7 +329,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			virtualPoint[2].x=virtualPoint[0].x+10;
 			virtualPoint[2].y=virtualPoint[0].y+5;
  			o=Integer.parseInt(tokens[3]);  // orientation
- 			m=(Integer.parseInt(tokens[4])==1);  // mirror
+ 			m=Integer.parseInt(tokens[4])==1;  // mirror
  			macroName=tokens[5];
  			
  			// This is useful when a filename contains spaces. However, it does
@@ -343,7 +341,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
  			// The macro key recognition is made case insensitive by converting
  			// internally all keys to lower case. 
  			
-      		macroName=macroName.toLowerCase();
+      		macroName=macroName.toLowerCase(new Locale("en"));
 
 			// Let's see if the macro is recognized and store it.
  			MacroDesc macro=(MacroDesc)library.get(macroName);
@@ -370,9 +368,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			otherwise.
 	
 	*/
-	public final boolean needsHoles()
+	public boolean needsHoles()
 	{	
-		return macro.getNeedHoles();
+		return drawingAgent.getNeedHoles();
 	}
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
@@ -434,7 +432,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         } else {
             switch(o){
                 case 1:
-                    vx=(py-y1)+100;
+                    vx=py-y1+100;
                     vy=-(px-x1)+100;
                     break;
                 
@@ -445,7 +443,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
                 
                 case 3:
                     vx=-(py-y1)+100;
-                    vy=(px-x1)+100;
+                    vy=px-x1+100;
                     break;
     
                 case 0:
@@ -463,8 +461,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
  			System.out.println("1-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
-
- 			return Math.min(macro.distancePrimitive(vx, vy), dt);
+			EditorActions edt=new EditorActions(macro, null);
+ 			return Math.min(edt.distancePrimitive(vx, vy), dt);
 		}
 		return Integer.MAX_VALUE;
 	}
@@ -481,8 +479,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	{
 		// Here is a trick: if there is at least one active layer, 
 		// distancePrimitive will return a value less than the maximum.
-				
-		if (macro.distancePrimitive(0, 0)<Integer.MAX_VALUE) {
+		EditorActions edt=new EditorActions(macro, null);	
+		if (edt.distancePrimitive(0, 0)<Integer.MAX_VALUE) {
 			return super.selectRect(px, py, w, h);
 		} else {
 			return false;
@@ -517,10 +515,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	{
 		super.rotatePrimitive(bCounterClockWise, ix, iy);
 		
-		if (!bCounterClockWise)
-			o=++o%4;
-		else
+		if (bCounterClockWise)
 			o=(o+3)%4;
+		else
+			o=++o%4;
+			
 		changed=true;
 	}
 	
@@ -579,7 +578,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		v.add(pd);
 		
 		pd = new ParameterDescription();
-		pd.parameter=Integer.valueOf(getLayer());
+		pd.parameter= Integer.valueOf(getLayer());
 		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
 		
@@ -647,24 +646,24 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		pd = (ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
-		if (pd.parameter instanceof Point)
-			virtualPoint[0]=(Point)pd.parameter;
+		if (pd.parameter instanceof PointG)
+			virtualPoint[0]=(PointG)pd.parameter;
 		else
 		 	System.out.println("Warning: unexpected parameter!");
 		 	
 		pd = (ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
-		if (pd.parameter instanceof Point)
-			virtualPoint[1]=(Point)pd.parameter;
+		if (pd.parameter instanceof PointG)
+			virtualPoint[1]=(PointG)pd.parameter;
 		else
 		 	System.out.println("Warning: unexpected parameter!");
 		
 		pd = (ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
-		if (pd.parameter instanceof Point)
-			virtualPoint[2]=(Point)pd.parameter;
+		if (pd.parameter instanceof PointG)
+			virtualPoint[2]=(PointG)pd.parameter;
 		else
 		 	System.out.println("Warning: unexpected parameter!");
 		
@@ -725,16 +724,18 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.setXCenter(cs.mapXr(x1,y1));
 		macroCoord.setYCenter(cs.mapYr(x1,y1));
 
-		macroCoord.orientation=(o+cs.orientation)%4;
+		macroCoord.setOrientation((o+cs.getOrientation())%4);
 		macroCoord.mirror=m ^ cs.mirror;
  		macroCoord.isMacro=true;
  					 			
  		macro.setDrawOnlyLayer(drawOnlyLayer);
+ 		EditorActions edt=new EditorActions(macro, null);
 		if(getSelected())
- 			macro.selectAll();
+ 			edt.setSelectionAll(true);
  			 
  		macro.setDrawOnlyPads(drawOnlyPads);
- 		macro.exportDrawing(exp, false, exportInvisible, macroCoord);
+ 		new Export(macro).exportDrawing(exp, false, exportInvisible,
+ 			macroCoord);
 		exportText(exp, cs, drawOnlyLayer);
 		
 	}

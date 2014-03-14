@@ -1,6 +1,7 @@
 #!/bin/bash
 rm bin/*.class
 rm bin/circuit/*.class
+rm bin/circuit/controllers/*.class
 rm bin/clipboard/*.class
 rm bin/dialogs/*.class
 rm bin/export/*.class
@@ -11,3 +12,7 @@ rm bin/primitives/*.class
 rm bin/timer/*.class
 rm bin/toolbars/*.class
 rm bin/undo/*.class
+rm bin/graphic/*.class
+rm bin/graphic/swing/*.class
+rm bin/graphic/nil/*.class
+

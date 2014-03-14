@@ -1,16 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
-
+import graphic.*;
 
 /** Class to handle the rectangle primitive.
 
@@ -30,7 +27,7 @@ import export.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2013 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -54,6 +51,13 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 	// This is the value given instead when the clicks is done outside:
 	static final int DISTANCE_OUT = 1000;
 	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int xa, ya, xb, yb;
+	private int x1, y1,x2,y2; 
+	private int width, height;
+	private float w;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -105,23 +109,13 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 		setLayer(layer);
 		
 	}
-	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int xa, ya, xb, yb;
-	private int x1, y1,x2,y2; 
-	private int width, height;
-	private Stroke stroke;
-	private float w;
 
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -156,22 +150,6 @@ public final class PrimitiveRectangle extends GraphicPrimitive
  			// Calculate the stroke width
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
 			if (w<D_MIN) w=D_MIN;
-
-			// Check if we need to create a dashed stroke and fabricate the
-			// stroke style with the good characteristics
-			/*
-			if (dashStyle>0) 
-				stroke=new BasicStroke(w, 
-                                         BasicStroke.CAP_BUTT, 
-                                         BasicStroke.JOIN_MITER, 
-                                         10.0f, Globals.dash[dashStyle], 0.0f);
-			else 
-				stroke=new BasicStroke(w);	
-			*/
-			if (strokeStyle==null) {
-				strokeStyle = new StrokeStyle();
-			}
-			stroke = strokeStyle.getStroke(w, dashStyle);
 				
 			width = xb-xa;
 			height = yb-ya;
@@ -181,10 +159,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         if(!g.hitClip(xa,ya, width+1,height+1))
  			return;
 
-		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
-		// setting the stroke takes a lot of time!
-		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke); 			
+		g.applyStroke(w, dashStyle);
+			
 			
  		if(isFilled){
  			// We need to add 1 to the rectangle, since the behaviour of 
@@ -256,20 +232,17 @@ public final class PrimitiveRectangle extends GraphicPrimitive
  			}	
  			
  		} else {
- 			IOException E=new IOException("RV/RP: Invalid primitive: "+tokens[0]+
- 										  " programming error?");
+ 			IOException E=new IOException("RV/RP: Invalid primitive: "
+ 				+tokens[0]+" programming error?");
 			throw E;
- 		}
-		
-		
+ 		}	
 	}
 	
 	/**	Get the control parameters of the given primitive.
 	
 		@return a vector of ParameterDescription containing each control
 				parameter.
-				The first parameters should always be the virtual points.
-				
+				The first parameters should always be the virtual points.	
 	*/
 	public Vector<ParameterDescription> getControls()
 	{
@@ -344,15 +317,12 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         
 			            
         if(isFilled) {
-	        if(GeometricDistances.pointInRectangle(xa,ya,(xb-xa),(yb-ya),px,py))
+	        if(GeometricDistances.pointInRectangle(xa,ya, xb-xa, yb-ya,px,py))
 	          	return DISTANCE_IN;
    	     else
    		     	return DISTANCE_OUT;
    		}
-   		
-   		return GeometricDistances.pointToRectangle(xa,ya,(xb-xa),
-   												(yb-ya),px,py);
-   		
+   		return GeometricDistances.pointToRectangle(xa,ya, xb-xa, yb-ya,px,py);
 	}
 	
 	/** Obtain a string command descripion of the primitive.
@@ -371,13 +341,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 			+virtualPoint[1].x+" "+virtualPoint[1].y+" "+
 			getLayer()+"\n";
 		
-		if(extensions) {
-			if (dashStyle>0 || hasName() || hasValue()) {
-				String text = "0";
-				if (name.length()!=0 || value.length()!=0)
-					text = "1";
-		 		cmd+="FCJ "+dashStyle+" "+text+"\n";
-			}
+		if(extensions && (dashStyle>0 || hasName() || hasValue())) {
+			String text = "0";
+			if (name.length()!=0 || value.length()!=0)
+				text = "1";
+		 	cmd+="FCJ "+dashStyle+" "+text+"\n";
 		}
 		// The false is needed since saveText should not write the FCJ tag.
 		cmd+=saveText(false);
