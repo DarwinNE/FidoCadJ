@@ -5,11 +5,13 @@ import java.awt.event.*;
 
 import circuit.*;
 import toolbars.*;
+import circuit.controllers.ElementsEdtActions;
+
 
 /** @author Santhosh Kumar T - santhosh@in.fiorano.com 
    	Used in FidoCadJ with the author's permission.
 */ 
-public class ScrollGestureRecognizer implements AWTEventListener,
+public final class ScrollGestureRecognizer implements AWTEventListener,
 	ChangeSelectionListener
 { 
     private int actionSelected;
@@ -39,7 +41,7 @@ public class ScrollGestureRecognizer implements AWTEventListener,
     public void eventDispatched(AWTEvent event){ 
         MouseEvent me = (MouseEvent)event; 
         boolean isGesture = (SwingUtilities.isMiddleMouseButton(me) || 
-        actionSelected==CircuitPanel.HAND) && 
+        actionSelected==ElementsEdtActions.HAND) && 
         me.getID()==MouseEvent.MOUSE_PRESSED; 
            
         Component co=me.getComponent();

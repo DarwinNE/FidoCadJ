@@ -1,16 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
-
+import graphic.*;
 
 /** Class to handle the Bézier primitive.
 
@@ -30,7 +27,7 @@ import export.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2011 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -51,6 +48,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	
 	private int dashStyle;
 	
+		
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private ShapeInterface shape1;
+	private float w;
+	
+	private int xmin, ymin;
+	private int width, height;
+	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
@@ -67,9 +74,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 	{
 		super();
 		
-		//r = new Rectangle();
-   		initPrimitive(-1, f, size);
-		
+   		initPrimitive(-1, f, size);		
 	}
 	/** Create a Bézier curve specified by four control points
 		@param x1 the x coordinate (logical unit) of P1.
@@ -103,9 +108,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		arrowEnd = arrowE;
 		arrowStyle =arrowSt;
 		dashStyle=dashSt;
-		
-		//r = new Rectangle();
-		
+				
 		initPrimitive(-1, font, size);
 			
 		// Store the coordinates of the points 
@@ -231,42 +234,29 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		return i;
 	}
 	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private Shape shape1;
-	private Stroke stroke;
-	private float w;
-	//private Rectangle r;
-	
-	private int xmin, ymin;
-	private int width, height;
-
-		
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+	public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+		Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
 			return;
 
 		drawText(g, coordSys, layerV, -1);
-	
+		
 		// in the Bézier primitive, the four virtual points represent
 		//   the control points of the shape 
  		
  		if (changed) {
  			changed=false;
  			
- 			// Create the Bézier curve, which in the Java library is called a 
- 			// cubic curve (and indeed it is!)
- 			shape1 = new CubicCurve2D.Float(
+ 			shape1=g.createShape();
+ 			// Create the Bézier curve
+ 			shape1.createCubicCurve(
  				coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
 				coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
 				coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
@@ -278,7 +268,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 			
 			// Calculating the bounds of this curve is useful since we can 
 			// check if it is visible and thus choose wether draw it or not.
-			Rectangle r = shape1.getBounds();
+			RectangleG r = shape1.getBounds();
 			
 			xmin = r.x;
 			ymin = r.y;
@@ -286,25 +276,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
 			height = r.height;
  		
  			// Calculating stroke width
- 			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-
-			// Check if there is a dash to be used for the stroke and 
-			// create a new stroke.
-			/*
-			if (dashStyle>0) 
-				stroke=new BasicStroke(w, 
-                            	BasicStroke.CAP_BUTT, 
-                                BasicStroke.JOIN_MITER, 
-                                10.0f, Globals.dash[dashStyle], 0.0f);
-			else 
-				stroke=new BasicStroke(w);
-			*/
-			if (strokeStyle==null) {
-				strokeStyle = new StrokeStyle();
-			}
-			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
 		// If the curve is not visible, exit immediately
@@ -312,14 +285,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
 		
-		// This allows to save time on some systems where setting up a new 
-		// stroke style takes some time.
-		
-		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke);
+		// Apply the stroke style
+		g.applyStroke(w, dashStyle);
 		
 		// Draw the curve
-		
 		g.draw(shape1);
  		
  		// Check if there are arrows to be drawn and eventually draw them.

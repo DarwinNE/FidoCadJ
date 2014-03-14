@@ -1,15 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
+import graphic.*;
 
 
 /** Class to handle the line primitive.
@@ -50,6 +48,17 @@ public final class PrimitiveLine extends GraphicPrimitive
     
     private int arrowStyle;
     private int dashStyle;
+    
+    // Those are data which are kept for the fast redraw of this primitive. 
+    // Basically, they are calculated once and then used as much as possible
+    // without having to calculate everything from scratch.
+    private int xa, ya, xb, yb;
+    private int x1, y1,x2,y2;   
+    private int h,l;
+    private float w;
+    private int length2;
+    private int xbpap1, ybpap1;
+    private boolean arrows;
     
 
     /** Constructor
@@ -164,8 +173,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         
         @param v a vector of ParameterDescription containing each control
                 parameter.
-                The first parameters should always be the virtual points.
-                
+                The first parameters should always be the virtual points.             
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -226,26 +234,13 @@ public final class PrimitiveLine extends GraphicPrimitive
         
     */
     
-    
-    // Those are data which are kept for the fast redraw of this primitive. 
-    // Basically, they are calculated once and then used as much as possible
-    // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
-    private int x1, y1,x2,y2;   
-    private int h,l;
-    private float w;
-    private BasicStroke stroke;
-    private int length2;
-    private int xbpap1, ybpap1;
-    private boolean arrows;
-    
     /** Draw the graphic primitive on the given graphic context.
         @param g the graphic context in which the primitive should be drawn.
         @param coordSys the graphic coordinates system to be applied.
         @param layerV the layer description.
     */
-    final public void draw(Graphics2D g, MapCoordinates coordSys,
-                              Vector layerV)
+    public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+    	Vector layerV)
     {
         
         if(!selectLayer(g,layerV))
@@ -295,12 +290,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Calculate the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
             
-            // Get the correct stroke style
-            if (strokeStyle==null) {
-                strokeStyle = new StrokeStyle();
-            }
-            stroke = strokeStyle.getStroke(w, dashStyle);
-            
+
             arrows = arrowStart || arrowEnd;
 
             // This correction solves bug #3101041
@@ -312,18 +302,15 @@ public final class PrimitiveLine extends GraphicPrimitive
                 xb += h;
                 yb += h;
             }
-            xbpap1=(xb-xa)+1;
-            ybpap1=(yb-ya)+1;
+            xbpap1=xb-xa+1;
+            ybpap1=yb-ya+1;
         }
         // This is a trick. We skip drawing the line if it is too short.
         if(length2>2) {
             if(!g.hitClip(xa,ya, xbpap1,ybpap1))
                 return;
             
-            // Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
-            // setting the stroke takes a lot of time!
-            if(!stroke.equals(g.getStroke())) 
-                g.setStroke(stroke);            
+            g.applyStroke(w, dashStyle);
             
             int x1_corr=x1;
             int y1_corr=y1;
@@ -333,20 +320,18 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {   
                 if (arrowStart) {
-                    Point Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
+                    PointG Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
                     x1_corr = Pc.x;
                     y1_corr = Pc.y;
                 }
                 if (arrowEnd) {
-                    Point Pc=Arrow.drawArrow(g,x2,y2,x1,y1,l,h,arrowStyle);
+                    PointG Pc=Arrow.drawArrow(g,x2,y2,x1,y1,l,h,arrowStyle);
                     x2_corr = Pc.x;
                     y2_corr = Pc.y;
                 }
             }
-            
             g.drawLine(x1_corr, y1_corr, x2_corr, y2_corr);
         }
-        return;
     }
     
     /** Parse a token array and store the graphic data for a given primitive
@@ -445,8 +430,8 @@ public final class PrimitiveLine extends GraphicPrimitive
         if(extensions) {
             int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
                         
-            if (arrows>0 || dashStyle>0 || (name!=null && name.length()!=0) 
-                || (value!=null && value.length()!=0)) {
+            if (arrows>0 || dashStyle>0 || name!=null && name.length()!=0 
+                || value!=null && value.length()!=0) {
                 String text = "0";
                 // We take into account that there may be some text associated
                 // to that primitive.

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8" standalone="no"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
 <svg width="800.0" height="559.0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<!-- Created by FidoCadJ ver. 0.24.3 alpha, export filter by Davide Bucci -->
+<!-- Created by FidoCadJ ver. 0.24.4 alpha, export filter by Davide Bucci -->
 <line x1="24.0" y1="145.0" x2="280.0" y2="145.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="24.0" y1="130.0" x2="280.0" y2="130.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="24.0" y1="115.0" x2="280.0" y2="115.0" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
@@ -79,11 +79,8 @@
 <line x1="39.0" y1="296.0" x2="280.0" y2="296.0" style="stroke:#000000;stroke-linejoin:round;stroke-linecap:round;stroke-width:12"/>
 <rect x="310.0" y="251.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <ellipse cx="54.0" cy="401.0" rx="15.0" ry="15.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="54.0" cy="401.0" r="3.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <rect x="84.0" y="386.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="99.0" cy="401.0" r="3.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <rect x="129.0" y="386.0" rx="2.5" ry="2.5" width="30.0" height="30.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
-<circle cx="144.0" cy="401.0" r="3.0" style="stroke:white;stroke-width:0.33" fill="white"/>
 <path d="M 400.0,371.0 C 159.0,446.0 415.0,521.0 250.0,371.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <polygon points="400.0,371.0 392.29,376.53 390.51,370.8" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <path d="M 445.0,371.0 C 204.0,446.0 460.0,521.0 295.0,371.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>

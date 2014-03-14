@@ -23,7 +23,7 @@ import primitives.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009 by Davide Bucci
+    Copyright 2009-2014 by Davide Bucci
 </pre>
     
     */
@@ -33,7 +33,7 @@ public class DashInfo
     public int style;
     
     /** Creator.
-    	@param l the style to be stored
+    	@param i the style to be stored
     */
     public DashInfo(int i)
     { style=i; }

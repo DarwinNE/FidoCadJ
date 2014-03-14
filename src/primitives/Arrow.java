@@ -1,11 +1,8 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
-
+import graphic.*;
 
 /**
     Arrow class: draws an arrow of the given size, style and direction.
@@ -29,12 +26,13 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009-2010 by Davide Bucci
+    Copyright 2009-2014 by Davide Bucci
    </pre>
    
 */
 
-public class Arrow {
+public final class Arrow
+{
 
 	/** A few constants in order to define the arrow style.
 	
@@ -42,6 +40,10 @@ public class Arrow {
 	public static final int flagLimiter = 0x01;
 	public static final int flagEmpty = 0x02;
 	
+	private Arrow() 
+	{
+	
+	}
 
 	/** Draw an arrow at the given position.
 	
@@ -57,7 +59,7 @@ public class Arrow {
 	@return the coordinate of the base point of the arrow head
 	
 	*/
-	public static Point drawArrow(Graphics2D g, int x, int y, int xc, 
+	public static PointG drawArrow(GraphicsInterface g, int x, int y, int xc, 
 		int yc, int l, int h, int style)
 	{
 		double s;
@@ -74,16 +76,17 @@ public class Arrow {
 		// The idea is that the arrow head should be oriented in the direction
 		// specified by the second point.
 		
-		if (x!=xc)
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		if (x==xc)
+			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 		else
-			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+			
 		
 		
 		// Alpha is the angle of the arrow, against an horizontal line with
 		// the trigonometric convention (anti clockwise is positive).
 		
-		alpha += (x-xc>0)?0:Math.PI;
+		alpha += x-xc>0.0?0.0:Math.PI;
 	
 		// Then, we calculate the points for the polygon
 		x0 = x - l*Math.cos(alpha);
@@ -97,7 +100,7 @@ public class Arrow {
 		
 		// The arrow head is traced using a polygon. Here we create the
 		// object and populate it with the calculated coordinates.
-		Polygon p = new Polygon();
+		PolygonInterface p = g.createPolygon();
       		
      	p.addPoint((int)(x+0.5),(int)(y+0.5));
       	p.addPoint((int)(x1+0.5),(int)(y1+0.5));
@@ -123,7 +126,7 @@ public class Arrow {
 			y4 = y - h*Math.cos(alpha);
 			g.drawLine((int)x3,(int)y3,(int)x4,(int)y4);
  		}
- 		return new Point((int)(x0),(int)(y0));	
+ 		return new PointG((int)(x0),(int)(y0));	
 	}
 	
 }

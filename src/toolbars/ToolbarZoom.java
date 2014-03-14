@@ -34,7 +34,7 @@ import layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -45,22 +45,20 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 													 ChangeCoordinatesListener
 {
        
-    private JComboBox<String> zoom;
-    private JButton zoomFit;
-    private JToggleButton showGrid;
-    private JToggleButton snapGrid;
-    private JLabel coords;
-    private JLabel infos;
+    private final JComboBox<String> zoom;
+    private final JToggleButton showGrid;
+    private final JToggleButton snapGrid;
+    private final JLabel coords;
+    private final JLabel infos;
     private ChangeGridState changeListener;
     private boolean flagModify;
     private double oldzoom;
     private ChangeZoomListener notifyZoomChangeListener;
     private ZoomToFitListener actualZoomToFitListener;
      
-    private JComboBox<LayerDesc> layerSel;
+    private final JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
     
-    private Vector<LayerDesc> layers;
     
     /** Standard constructor
     	@param l the layer description
@@ -68,7 +66,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     public ToolbarZoom (Vector<LayerDesc> l) 
     {
     	putClientProperty("Quaqua.ToolBar.style", "title");
-    	layers=l;
         zoom = new JComboBox<String>();
         zoom.addItem("25%");
         zoom.addItem("50%");
@@ -86,7 +83,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 		// Commented the following line due to this remark:
 		// http://www.electroyou.it/phpBB2/viewtopic.php?f=4&t=18347&start=450#p301931
         //zoom.setFocusable(false);
-        
+        JButton zoomFit;
         zoomFit=new JButton(Globals.messages.getString("Zoom_fit"));
         showGrid=new JToggleButton(Globals.messages.getString("ShowGrid"));
     	
@@ -96,7 +93,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         infos = new JLabel("");
 
         setBorderPainted(false);
-        layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(layers));
+        layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
         layerSel.setToolTipText(
         	Globals.messages.getString("tooltip_layerSel"));
    		layerSel.setRenderer( new LayerCellRenderer());
@@ -119,8 +116,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 				if (layerSel.getSelectedIndex()>=0 && changeListener!=null) {
 					changeLayerListener.changeSelectedLayer(
 						layerSel.getSelectedIndex());						
-				}
-					
+				}		
 			}
 		});  
 
@@ -188,7 +184,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     
     /** The event listener to be called when the buttons are pressed, or the
     	zoom setup is changed.
-    
     */
     public void actionPerformed(ActionEvent evt)
     {
@@ -200,25 +195,17 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
            	//showGrid.setSelected(!showGrid.isSelected());
            	if(changeListener!=null)
            		changeListener.setGridVisibility(showGrid.isSelected());
-        }  
-        if(s.equals(Globals.messages.getString("SnapToGrid"))) { 
+        } else if(s.equals(Globals.messages.getString("SnapToGrid"))) { 
            	//snapGrid.setSelected(!snapGrid.isSelected());
            	if(changeListener!=null)
            		changeListener.setSnapState(snapGrid.isSelected());
-        }  
-        if(s.equals(Globals.messages.getString("Zoom_fit"))) { 
-           	
+        } else if(s.equals(Globals.messages.getString("Zoom_fit"))) { 
            	if(actualZoomToFitListener!=null) {
            		actualZoomToFitListener.zoomToFit();
            	}
-        }  
-        
-        
-        // ComboBox
-        if(evt.getSource() instanceof JComboBox) {
+        } else if(evt.getSource() instanceof JComboBox) {
+        	// ComboBox: the only one is about the zoom settings.
         	JComboBox<String> source=(JComboBox<String>)evt.getSource();
-        	
-        	
         	if (notifyZoomChangeListener!=null) {
         		try {
         			s=(String)source.getSelectedItem();
@@ -229,12 +216,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         			if(z==oldzoom)
         				return;
         		
-        			if((10<=z)&&(z<=1000)) {
+        			if(10<=z && z<=1000) {
         				oldzoom=z;
         				notifyZoomChangeListener.changeZoom(z/100);
         			}
         		} catch (NumberFormatException E) {
-        			
+        			// Just ignore
         		}
         		
         	}
@@ -274,7 +261,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     
     public void changeStrict(boolean strict)
     {
-    	
+    	// Does nothing.
     }
     
     /** Change the infos

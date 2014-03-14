@@ -1,16 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import geom.*;
 import dialogs.*;
 import export.*;
 import globals.*;
-
+import graphic.*;
 
 /** Class to handle the PCB line primitive.
 
@@ -30,7 +27,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -39,19 +36,23 @@ import globals.*;
 public final class PrimitivePCBLine extends GraphicPrimitive
 {
 
-	private int width;
+	private float width;
 
 	// A PCB segment is defined by two points.
 
 	static final int N_POINTS=4;
 	
-	static StrokeStyle pcbStrokeStyle;
-
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int xa, ya, xb, yb;
+	private int x1, y1,x2,y2; 		
+	private int wi_pix;
+	private int xbpap1, ybpap1;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
@@ -73,7 +74,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		@param w specifies the line width. 
 		@param layer the layer to be used.
 	*/
-	public PrimitivePCBLine(int x1, int y1, int x2, int y2, int w, int layer,
+	public PrimitivePCBLine(int x1, int y1, int x2, int y2, float w, int layer,
 			String f, int size)
 	{
 		super();
@@ -92,21 +93,12 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		setLayer(layer);
 	}
 	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int xa, ya, xb, yb;
-	private int x1, y1,x2,y2; 		
-	private int wi_pix;
-	private Stroke stroke;
-	private int xbpap1, ybpap1;
-	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -124,8 +116,10 @@ public final class PrimitivePCBLine extends GraphicPrimitive
  			y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
  			x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
  			y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
- 			wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,virtualPoint[0].y, false)
-		    -coordSys.mapXi(virtualPoint[0].x+width,virtualPoint[0].y+width, false));
+ 			wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,
+ 				virtualPoint[0].y, false)
+		    -coordSys.mapXi((int)(virtualPoint[0].x+width),
+		    	(int)(virtualPoint[0].y+width), false));
 		
  			xa=Math.min(x1, x2)-wi_pix/2;
  			ya=Math.min(y1, y2)-wi_pix/2;
@@ -135,18 +129,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
  			coordSys.trackPoint(xa,ya);
  			coordSys.trackPoint(xb,yb);
 
-   			/*stroke =new BasicStroke(wi_pix,
-				java.awt.BasicStroke.CAP_ROUND,
-				java.awt.BasicStroke.JOIN_ROUND);
-			*/	
-			if (pcbStrokeStyle==null) {
-				pcbStrokeStyle = new StrokeStyle();
-			}
-			
-			stroke = pcbStrokeStyle.getStroke(wi_pix, 0);
-			
-			xbpap1=(xb-xa)+1;
-			ybpap1=(yb-ya)+1;	
+			xbpap1=xb-xa+1;
+			ybpap1=yb-ya+1;	
 		}
  		   
 		// Exit if the primitive is offscreen. This is a simplification, but
@@ -155,12 +139,9 @@ public final class PrimitivePCBLine extends GraphicPrimitive
  				
  		if(!g.hitClip(xa,ya, xbpap1,ybpap1))
  			return;
-		
-		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke);		
-		
+	
+		g.applyStroke(wi_pix, 0);	
 		g.drawLine(x1, y1, x2, y2);
-		
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -198,7 +179,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 			virtualPoint[getValueVirtualPointNumber()].x=x1+5;
 			virtualPoint[getValueVirtualPointNumber()].y=y1+10;		
  			
- 			width=Integer.parseInt(tokens[5]);
+ 			width=Float.parseFloat(tokens[5]);
  			if(N>6) parseLayer(tokens[6]);
 
  			
@@ -223,7 +204,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=Integer.valueOf(width);
+		pd.parameter= Float.valueOf(width);
 		pd.description=Globals.messages.getString("ctrl_width");
 		v.add(pd);
 
@@ -247,8 +228,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 		pd=(ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
-		if (pd.parameter instanceof Integer)
-			width=((Integer)pd.parameter).intValue();
+		if (pd.parameter instanceof Float)
+			width=((Float)pd.parameter).floatValue();
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		
@@ -271,10 +252,10 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 	    if(checkText(px, py))
 	    	return 0;
 
-		int distance=GeometricDistances.pointToSegment(
+		int distance=(int)(GeometricDistances.pointToSegment(
 				virtualPoint[0].x,virtualPoint[0].y,
 				virtualPoint[1].x,virtualPoint[1].y,
-				px,py)-width/2;
+				px,py)-width/2.0f);
             
         return distance<0?0:distance;
 	}
@@ -285,7 +266,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
 	public String toString(boolean extensions)
 	{
 		String s= "PL "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-			+virtualPoint[1].x+" "+virtualPoint[1].y+" "+width+" "+
+			+virtualPoint[1].x+" "+virtualPoint[1].y+" "+(int)width+" "+
 			getLayer()+"\n";
 			
 		

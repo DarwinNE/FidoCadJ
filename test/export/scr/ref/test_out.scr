@@ -1,4 +1,4 @@
-# Created by FidoCadJ 0.24.3 alpha by Davide Bucci
+# Created by FidoCadJ 0.24.4 alpha by Davide Bucci
 Set Wire_Bend 2; 
 Grid inch 0.25;
 Change font fixed;
@@ -50,10 +50,10 @@ Net (10.3 12.8) (18.8 12.8);
 Net (10.3 12.3) (18.8 12.3);
 Net (10.3 11.3) (18.8 11.3);
 Net (10.3 10.8) (18.8 10.8);
-# Bézier export not implemented yet
-# Bézier export not implemented yet
-# Bézier export not implemented yet
-# Bézier export not implemented yet
+# BÃ©zier export not implemented yet
+# BÃ©zier export not implemented yet
+# BÃ©zier export not implemented yet
+# BÃ©zier export not implemented yet
 # PCBLine export not implemented yet
 # PCBLine export not implemented yet
 # PCBLine export not implemented yet
@@ -64,8 +64,8 @@ Layer 91;
 # PCBpad export not implemented yet
 # PCBpad export not implemented yet
 # PCBpad export not implemented yet
-# Bézier export not implemented yet
-# Bézier export not implemented yet
+# BÃ©zier export not implemented yet
+# BÃ©zier export not implemented yet
 # Polygon export not implemented yet
 # Polygon export not implemented yet
 # Polygon export not implemented yet
@@ -94,8 +94,8 @@ Text Text MR-90 (19.8 12.8);
 # Circle export not fully implemented
 Circle (20.3 12.8) (1.5 1);# Circle export not fully implemented
 Circle (22.8 12.8) (1.5 1);# Circle export not fully implemented
-Circle (21.8 11.8) (1 1);# Bézier export not implemented yet
-# Bézier export not implemented yet
+Circle (21.8 11.8) (1 1);# BÃ©zier export not implemented yet
+# BÃ©zier export not implemented yet
 # Circle export not fully implemented
 Circle (20.8 12.3) (0.5 0.5);# Circle export not fully implemented
 Circle (23.3 12.3) (0.5 0.5);Change size 0.292

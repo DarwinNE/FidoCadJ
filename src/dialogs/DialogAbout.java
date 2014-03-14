@@ -33,7 +33,7 @@ nice icon of the program, its name as well as three lines of description.
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -72,12 +72,15 @@ public class DialogAbout extends JFrame implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     
     /** Standard constructor: it needs the parent frame.
@@ -130,7 +133,8 @@ public class DialogAbout extends JFrame implements ComponentListener
         contentPane.add(programName, constraints);  
         
         
-        JLabel programVersion=new JLabel(Globals.messages.getString("Version")+Globals.version);
+        JLabel programVersion=new JLabel(
+        	Globals.messages.getString("Version")+Globals.version);
         constraints.gridx=0;
         constraints.gridy=2;
         constraints.gridwidth=1;
@@ -138,7 +142,8 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(programVersion, constraints);
         
-        JLabel programDescription1=new JLabel(Globals.messages.getString("programDescription1"));
+        JLabel programDescription1=new JLabel(
+        	Globals.messages.getString("programDescription1"));
         constraints.gridx=0;
         constraints.gridy=3;
         constraints.gridwidth=1;
@@ -146,7 +151,8 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(programDescription1, constraints);
         
-        JLabel programDescription2=new JLabel(Globals.messages.getString("programDescription2"));
+        JLabel programDescription2=new JLabel(
+        	Globals.messages.getString("programDescription2"));
         constraints.gridx=0;
         constraints.gridy=4;
         constraints.gridwidth=1;
@@ -156,7 +162,8 @@ public class DialogAbout extends JFrame implements ComponentListener
 
         contentPane.add(programDescription2, constraints);
         
-        JLabel programDescription3=new JLabel(Globals.messages.getString("programDescription3"));
+        JLabel programDescription3=new JLabel(
+        	Globals.messages.getString("programDescription3"));
         constraints.gridx=0;
         constraints.gridy=5;
         constraints.gridwidth=1;
@@ -169,9 +176,11 @@ public class DialogAbout extends JFrame implements ComponentListener
             	
     	class OpenUrlAction implements ActionListener {
       		public void actionPerformed(ActionEvent e) {
-      			BareBonesBrowserLaunch.openURL("https://sourceforge.net/projects/fidocadj/");
+      			BareBonesBrowserLaunch.openURL(
+      			"https://sourceforge.net/projects/fidocadj/");
       			
-      		// The following code works only in Java v. 1.6	
+      		// The following code works only in Java v. 1.6	and for the moment
+      		// the minimum requirements for FidoCadJ are Java 1.5
         	/*	if (Desktop.isDesktopSupported()) {
       				try {
         				Desktop.getDesktop().browse(uri);
@@ -180,7 +189,8 @@ public class DialogAbout extends JFrame implements ComponentListener
       		}
     	}
         
-        JButton link=new JButton("<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">http://sourceforge.net/projects/fidocadj/</a></HTML>");
+        JButton link=new JButton(
+        	"<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">http://sourceforge.net/projects/fidocadj/</a></HTML>");
         constraints.gridx=0;
         constraints.gridy=6;
         constraints.gridwidth=1;
@@ -192,7 +202,6 @@ public class DialogAbout extends JFrame implements ComponentListener
 
 		link.addActionListener(new OpenUrlAction());
         contentPane.add(link, constraints);
-        pack();
-        
+        pack(); 
     }
 }

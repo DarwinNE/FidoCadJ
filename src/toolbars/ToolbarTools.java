@@ -9,8 +9,9 @@ import java.net.*;
 
 import globals.*;
 import circuit.*;
+import circuit.controllers.ElementsEdtActions;
 
-/**
+/** SWING VERSION.
  ToolbarTools class
 
  <p>This class allows to add and organise the buttons in the toolbar. Buttons
@@ -50,7 +51,7 @@ import circuit.*;
  You should have received a copy of the GNU General Public License
  along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
  
- Copyright 2008-2012 by Davide Bucci
+ Copyright 2008-2014 by Davide Bucci
  </pre>
  @author Davide Bucci & Jose Emilio Munoz
 */
@@ -60,26 +61,26 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private ChangeSelectionListener selectionListener;
     
     //Instance variable of each button
-    private JToggleButton selection;
-    private JToggleButton zoom;
-    private JToggleButton hand;  
-    private JToggleButton line;
-    private JToggleButton advtext;
-    private JToggleButton bezier;
-    private JToggleButton polygon;
-    private JToggleButton ellipse;
-    private JToggleButton complexcurve;
-    private JToggleButton rectangle;
-    private JToggleButton connection;    
-    private JToggleButton pcbline;
-    private JToggleButton pcbpad; 
+    private final JToggleButton selection;
+    private final JToggleButton zoom;
+    private final JToggleButton hand;  
+    private final JToggleButton line;
+    private final JToggleButton advtext;
+    private final JToggleButton bezier;
+    private final JToggleButton polygon;
+    private final JToggleButton ellipse;
+    private final JToggleButton complexcurve;
+    private final JToggleButton rectangle;
+    private final JToggleButton connection;    
+    private final JToggleButton pcbline;
+    private final JToggleButton pcbpad; 
     
     private static String base;
     private static boolean showText;
     
-    private ButtonGroup group;
-    private ArrayList<JToggleButton> toolButtonsList;
-    private HashMap<JToggleButton, Integer> circuitPanelConstants;
+    private final ButtonGroup group;
+    private final ArrayList<JToggleButton> toolButtonsList;
+    private final HashMap<JToggleButton, Integer> circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
      	constructor to create the toolbar, but will need to be accessed by the 
@@ -115,7 +116,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         add(button);
         group.add(button);
         toolButtonsList.add(button);
-        circuitPanelConstants.put(button, Integer.valueOf(circuitPanelConstant));
+        circuitPanelConstants.put(button, 
+        	Integer.valueOf(circuitPanelConstant));
     }
     
     /** Class Constructor 
@@ -155,7 +157,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                         "selection", 
                                                         "tooltip_selection");
         selection = selectionToolButton.getToolButton();
-        addToolButton(selection, CircuitPanel.SELECTION);
+        addToolButton(selection, ElementsEdtActions.SELECTION);
         
         selection.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -175,7 +177,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                    "zoom", 
                                                    "tooltip_zoom");
         zoom = zoomToolButton.getToolButton();
-        addToolButton(zoom, CircuitPanel.ZOOM);
+        addToolButton(zoom, ElementsEdtActions.ZOOM);
         
         zoom.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -194,7 +196,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                    "hand", 
                                                    "tooltip_hand");
         hand = handToolButton.getToolButton();
-        addToolButton(hand, CircuitPanel.HAND);
+        addToolButton(hand, ElementsEdtActions.HAND);
         
         hand.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -213,7 +215,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                    "line", 
                                                    "tooltip_line");
         line = lineToolButton.getToolButton();
-        addToolButton(line, CircuitPanel.LINE);
+        addToolButton(line, ElementsEdtActions.LINE);
         
         line.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -232,7 +234,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                       "text", 
                                                       "tooltip_text");
         advtext = advtextToolButton.getToolButton();
-        addToolButton(advtext, CircuitPanel.TEXT);
+        addToolButton(advtext, ElementsEdtActions.TEXT);
         
         advtext.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -251,7 +253,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                      "bezier", 
                                                      "tooltip_bezier");
         bezier = bezierToolButton.getToolButton();
-        addToolButton(bezier, CircuitPanel.BEZIER);
+        addToolButton(bezier, ElementsEdtActions.BEZIER);
         
         bezier.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -270,7 +272,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                       "polygon", 
                                                       "tooltip_polygon");
         polygon = polygonToolButton.getToolButton();
-        addToolButton(polygon, CircuitPanel.POLYGON);
+        addToolButton(polygon, ElementsEdtActions.POLYGON);
         
         polygon.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -290,7 +292,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                       "complexcurve", 
                                                       "tooltip_curve");
         complexcurve = complexCurveToolButton.getToolButton();
-        addToolButton(complexcurve, CircuitPanel.COMPLEXCURVE);
+        addToolButton(complexcurve, ElementsEdtActions.COMPLEXCURVE);
         
         complexcurve.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -309,7 +311,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                       "ellipse", 
                                                       "tooltip_ellipse");
         ellipse = ellipseToolButton.getToolButton();
-        addToolButton(ellipse, CircuitPanel.ELLIPSE);
+        addToolButton(ellipse, ElementsEdtActions.ELLIPSE);
         
         ellipse.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -328,7 +330,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                         "rectangle", 
                                                         "tooltip_rectangle");
         rectangle = rectangleToolButton.getToolButton();
-        addToolButton(rectangle, CircuitPanel.RECTANGLE);
+        addToolButton(rectangle, ElementsEdtActions.RECTANGLE);
         
         rectangle.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -347,7 +349,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                          "connection", 
                                                          "tooltip_connection");
         connection = connectionToolButton.getToolButton();
-        addToolButton(connection, CircuitPanel.CONNECTION);
+        addToolButton(connection, ElementsEdtActions.CONNECTION);
         
         connection.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -366,7 +368,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                       "pcbline", 
                                                       "tooltip_pcbline");
         pcbline = pcblineToolButton.getToolButton();
-        addToolButton(pcbline, CircuitPanel.PCB_LINE);
+        addToolButton(pcbline, ElementsEdtActions.PCB_LINE);
         
         pcbline.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -385,7 +387,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                                                      "pcbpad", 
                                                      "tooltip_pcbpad");
         pcbpad = pcbpadToolButton.getToolButton();
-        addToolButton(pcbpad, CircuitPanel.PCB_PAD);
+        addToolButton(pcbpad, ElementsEdtActions.PCB_PAD);
         
         pcbpad.addActionListener(new ActionListener() {                                                         
             public void actionPerformed(ActionEvent ev)               
@@ -445,13 +447,13 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     public int getSelectionState()
     {
         JToggleButton selectedButton = getSelectedButton();
-        if(selectedButton!=null) {
+        if(selectedButton==null) {
+        	// No button is selected. There is a specific state for that.
+        	return ElementsEdtActions.NONE;
+        } else {
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(selectedButton));
-            int circuitPanelConstant = circuitPanelConstantInteger.intValue();
-            return circuitPanelConstant;
-        } else {
-            return CircuitPanel.NONE;
+            return circuitPanelConstantInteger.intValue();
         }
     }
     
@@ -481,7 +483,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             button.setSelected(false);
         }*/
         for(int i=0; i<toolButtonsList.size(); ++i) {
-            if(s == CircuitPanel.NONE || s == CircuitPanel.MACRO) break;
+            if(s == ElementsEdtActions.NONE || s == ElementsEdtActions.MACRO)
+            	break;
             JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(button));

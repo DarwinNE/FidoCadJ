@@ -12,9 +12,15 @@ import java.lang.*;
 
 import globals.*;
 import layers.*;
+import graphic.*;
+import graphic.swing.*;
+import graphic.nil.*;
 
 import geom.*;
 import circuit.*;
+import circuit.controllers.*;
+import circuit.model.*;
+import circuit.views.*;
 
 /** ExportGraphic.java
 
@@ -39,14 +45,18 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>   
   
 	@author Davide Bucci
 */
-public class ExportGraphic 
+public final class ExportGraphic 
 {
 
+	private ExportGraphic()
+	{
+		// Nothing to do.
+	}
 	
 	/** Exports the circuit contained in circ using the specified parsing 
 		class.
@@ -54,7 +64,7 @@ public class ExportGraphic
 		@param file the file name of the graphic file which will be created.
 		@param P the parsing schematics class which should be used (libraries).
 		@param format the graphic format which should be used {png|jpg}.
-		@param unitperpixel the number of unit for each graphic pixel.
+		@param unitPerPixel the number of unit for each graphic pixel.
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
@@ -63,7 +73,7 @@ public class ExportGraphic
 
 	*/
 	public static void export(File file, 
-						ParseSchem P, 
+						DrawingModel P, 
 						String format,
 						double unitPerPixel,
 						boolean antiAlias,
@@ -92,7 +102,7 @@ public class ExportGraphic
 		@param P the parsing schematics class which should be used (libraries).
 		@param format the graphic format which should be used {png|jpg}.
 		@param width the image width in pixels (raster images only)
-		@param heith the image heigth in pixels (raster images only)
+		@param height the image heigth in pixels (raster images only)
 		@param antiAlias specify whether the anti alias option should be on.
 		@param blackWhite specify that the export should be done in B/W.
 		@param ext activate FidoCadJ extensions when exporting
@@ -100,7 +110,7 @@ public class ExportGraphic
 
 	*/
 	public static void exportSize(File file, 
-						ParseSchem P, 
+						DrawingModel P, 
 						String format,
 						int width,
 						int height,
@@ -141,11 +151,11 @@ public class ExportGraphic
 
 	*/
 	private static void exportSizeP(File file, 
-						ParseSchem P, 
+						DrawingModel P, 
 						String format,
-						int width,
-						int height,
-						double unitPerPixel,
+						int width_t,
+						int height_t,
+						double unitPerPixel_t,
 						boolean setSize,
 						boolean antiAlias,
 						boolean blackWhite,
@@ -153,24 +163,28 @@ public class ExportGraphic
 						boolean shiftMin)
 	throws IOException
 	{
-
+		int width=width_t;
+		int height=height_t;
+		double unitPerPixel=unitPerPixel_t;
+		
 		// obtain drawing size
 		MapCoordinates m=new MapCoordinates();
+		EditorActions edt = new EditorActions(P, null);
 		
 		// This solves bug #3299281
-		P.deselectAll();
+		edt.setSelectionAll(false);
 
-		Point org=new Point(0,0);
+		PointG org=new PointG(0,0);
 		
-		Dimension d = getImageSize(P, 1,true,org);
+		DimensionG d = getImageSize(P, 1,true,org);
 		if (setSize) {
 			// In this case, the image size is set and so we need to calculate
 			// the correct zoom factor in order to fit the drawing in the 
 			// specified area.
 			
 
-			d.width+=Globals.exportBorder;
-			d.height+=Globals.exportBorder;
+			d.width+=Export.exportBorder;
+			d.height+=Export.exportBorder;
 						
 			unitPerPixel = Math.min((double)width/(double)d.width, 
 				(double)height/(double)d.height);
@@ -178,14 +192,14 @@ public class ExportGraphic
 			// In this situation, we do have to calculate the size from the
 			// specified resolution.
 						
-			width=(int)((d.width+Globals.exportBorder)*unitPerPixel);
-			height=(int)((d.height+Globals.exportBorder)*unitPerPixel);
+			width=(int)((d.width+Export.exportBorder)*unitPerPixel);
+			height=(int)((d.height+Export.exportBorder)*unitPerPixel);
 		}
 		org.x *=unitPerPixel;
 		org.y *=unitPerPixel;
 		
-		org.x -= Globals.exportBorder*unitPerPixel/2.0;
-		org.y -= Globals.exportBorder*unitPerPixel/2.0;
+		org.x -= Export.exportBorder*unitPerPixel/2.0;
+		org.y -= Export.exportBorder*unitPerPixel/2.0;
 		
 		Vector<LayerDesc> ol=P.getLayers();
 
@@ -197,7 +211,7 @@ public class ExportGraphic
 		if(blackWhite) {
 			Vector<LayerDesc> v=new Vector<LayerDesc>();
 			for (int i=0; i<16;++i)
-				v.add(new LayerDesc(Color.black, 
+				v.add(new LayerDesc((new ColorSwing()).black(), // NOPMD
 					((LayerDesc)ol.get(i)).getVisible(),
 					"B/W",((LayerDesc)ol.get(i)).getAlpha()));
 			
@@ -212,7 +226,7 @@ public class ExportGraphic
         	m.setXCenter(-org.x);
 	   		m.setYCenter(-org.y);
 		}	       
-    	if (format.equals("png")||format.equals("jpg")) {
+    	if ("png".equals(format)||"jpg".equals(format)) {
 	
         	// Create a buffered image in which to draw
 
@@ -221,7 +235,8 @@ public class ExportGraphic
         								  BufferedImage.TYPE_INT_RGB);
     
         		// Create a graphics contents on the buffered image
-        		Graphics2D g2d = bufferedImage.createGraphics();
+        		Graphics2D g2d = 
+        			(Graphics2D)bufferedImage.createGraphics();
         
         		if(antiAlias) {
         			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
@@ -232,7 +247,8 @@ public class ExportGraphic
         		g2d.setColor(Color.white);
         		g2d.fillRect(0,0, width, height);
 				// Save bitmap
-				P.draw(g2d,m);
+				Drawing drawingAgent = new Drawing(P);
+				drawingAgent.draw(new Graphics2DSwing(g2d),m);
        		
         		ImageIO.write(bufferedImage, format, file);
         		// Graphics context no longer needed so dispose it
@@ -247,31 +263,31 @@ public class ExportGraphic
        			P.setLayers(ol);
     			throw D;
 			}
-    	} else if(format.equals("svg")) {
+    	} else if("svg".equals(format)) {
     		ExportSVG es = new ExportSVG(file);
-    		P.exportDrawing(es, true, false, m);
-    	} else if(format.equals("eps")) {
+    		new Export(P).exportDrawing(es, true, false, m);
+    	} else if("eps".equals(format)) {
     		ExportEPS ep = new ExportEPS(file);
-    		P.exportDrawing(ep, true, false, m);
-    	} else if(format.equals("pgf")) {
+    		new Export(P).exportDrawing(ep, true, false, m);
+    	} else if("pgf".equals(format)) {
     		ExportPGF ef = new ExportPGF(file);
-    		P.exportDrawing(ef, true, false, m);
-    	} else if(format.equals("pdf")) {
+    		new Export(P).exportDrawing(ef, true, false, m);
+    	} else if("pdf".equals(format)) {
     		ExportPDF ef = new ExportPDF(file);
-    		P.exportDrawing(ef, true, false, m);
-    	} else if(format.equals("scr")) {
+    		new Export(P).exportDrawing(ef, true, false, m);
+    	} else if("scr".equals(format)) {
     		ExportEagle ef = new ExportEagle(file);
-    		P.exportDrawing(ef, true, false, m);
-    	} else if(format.equals("fcd")) {
+    		new Export(P).exportDrawing(ef, true, false, m);
+    	} else if("fcd".equals(format)) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setSplitStandardMacros(false);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true, true, m);
-    	} else if(format.equals("fcda")) {
+    		new Export(P).exportDrawing(ef, true, true, m);
+    	} else if("fcda".equals(format)) {
     		ExportFidoCad ef = new ExportFidoCad(file);
     		ef.setSplitStandardMacros(true);
     		ef.setExtensions(ext);
-    		P.exportDrawing(ef, true, true, m);
+    		new Export(P).exportDrawing(ef, true, true, m);
     	} else {
     		IOException E=new IOException(
     			"Wrong file format");
@@ -279,7 +295,6 @@ public class ExportGraphic
     	}
     	
        	P.setLayers(ol);
-    	return;
     }
     
     /**	Get the image size.
@@ -290,36 +305,26 @@ public class ExportGraphic
     	@param origin is updated with the image origin.
     
     */
-    public static Dimension getImageSize(ParseSchem P, 
+    public static DimensionG getImageSize(DrawingModel P, 
     							  double unitperpixel, 
     							  boolean countMin,
-    							  Point origin)
+    							  PointG origin)
     {
     	int width;
 		int height;
-		// Unfortunately, to get the image size, we need to redraw it.	
-		// I do not like it, even if here we are not in a speed sensitive
-		// context!
-		
-	
-		BufferedImage bufferedImage = new BufferedImage(100, 100, 
-        								  BufferedImage.TYPE_INT_RGB);
-    
-        // Create a graphics contents on the buffered image
+
 		MapCoordinates m=new MapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
        	m.setYCenter(0);
        	
-        Graphics2D g2d = bufferedImage.createGraphics();
        	// force an in deep recalculation
        	P.setChanged(true);
+        Drawing drawingAgent = new Drawing(P);
+		drawingAgent.draw(new GraphicsNull(),m);
+		// force an in deep recalculation
+       	P.setChanged(true);
 
-        P.draw(g2d,m);
-        // Graphics context no longer needed so dispose it
-        
-        g2d.dispose();
-    	
     	// Verify that the image size is correct
     	if(countMin) {
 			width=m.getXMax()-m.getXMin();
@@ -337,8 +342,8 @@ public class ExportGraphic
 		}
 		
 		
-		if ((m.getXMax() > m.getXMin()) && 
-			(m.getYMax() > m.getYMin())){
+		if (m.getXMax() > m.getXMin() && 
+			m.getYMax() > m.getYMin()) {
 			origin.x=m.getXMin();
 			origin.y=m.getYMin();
 		} else {
@@ -346,38 +351,33 @@ public class ExportGraphic
 			origin.y=0;
 		}
 
-		return new Dimension(width, height);
+		return new DimensionG(width, height);
     }
     
     /**	Get the image origin.
     	@param P the parsing class to be used.
     	@param unitperpixel the zoom set to be used.
     */
-    public static Point getImageOrigin(ParseSchem P, double unitperpixel)
+    public static PointG getImageOrigin(DrawingModel P, double unitperpixel)
     {
     	int originx;
 		int originy;
-		// Unfortunately, to get the image size, we need to redraw it.	
-		// I do not like it, even if here we are not in a speed sensitive
-		// context!
+
 		
-		P.setChanged(true);		
-		// Create a dummy image on which the drawing will be done
-		BufferedImage bufferedImage = new BufferedImage(100, 100, 
-        								  BufferedImage.TYPE_INT_RGB);
-    
-        // Create a graphics contents on the buffered image
+		P.setChanged(true);
+
 		MapCoordinates m=new MapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
        	m.setYCenter(0);
        	
-       	Graphics2D g2d = bufferedImage.createGraphics();
 		// Draw the image. In this way, the min and max coordinates will be
 		// tracked.
-        P.draw(g2d, m);
-        // Graphics context no longer needed so dispose it
-        g2d.dispose();
+		Drawing drawingAgent = new Drawing(P);
+		drawingAgent.draw(new GraphicsNull(),m);
+		// force an in deep recalculation
+       	P.setChanged(true);
+
     
     	// Verify that the image size is correct
 		if (m.getXMax() >= m.getXMin() && 
@@ -388,9 +388,9 @@ public class ExportGraphic
 			originx=0;
 			originy=0;
 		}
-
-		
-		return new Point(originx, originy);
+		System.out.println("Origin: "+originx+"  "+originy);
+	
+		return new PointG(originx, originy);
     }
     
     /** Calculate the zoom to fit the given size in pixel (i.e. the viewport
@@ -402,14 +402,14 @@ public class ExportGraphic
     		taken into account
     
     */
-    public static MapCoordinates calculateZoomToFit(ParseSchem P, int sizex, 
+    public static MapCoordinates calculateZoomToFit(DrawingModel P, int sizex, 
     	int sizey, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
 		double maxsizex;
 		double maxsizey;
-		Point org=new Point(0,0);
-		Point o=new Point(0,0);
+		PointG org=new PointG(0,0);
+		PointG o=new PointG(0,0);
 		
 		P.setChanged(true);
 		MapCoordinates newZoom=new MapCoordinates();
@@ -419,7 +419,7 @@ public class ExportGraphic
 		
 		boolean forceCalc=true;	
 		
-		Dimension D = getImageSize(P,1,countMin, o); 
+		DimensionG D = getImageSize(P,1,countMin, o); 
 		maxsizex=D.width;
 		maxsizey=D.height;
 			
@@ -429,7 +429,7 @@ public class ExportGraphic
 		double zoomx=1.0/((maxsizex)/(double)sizex);
 		double zoomy=1.0/((maxsizey)/(double)sizey);				
 		
-		double z=(zoomx>zoomy)?zoomy:zoomx;
+		double z= zoomx>zoomy ?zoomy:zoomx;
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		

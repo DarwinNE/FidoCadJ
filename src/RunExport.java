@@ -4,7 +4,7 @@ import java.io.*;
 import globals.*;
 import export.*;
 import circuit.*;
-
+import circuit.model.*;
 
 /** RunExport.java 
 
@@ -24,7 +24,7 @@ import circuit.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012 by Davide Bucci
+    Copyright 2012-2014 by Davide Bucci
 </pre>
 
     Class which realizes the export of a file towards a graphical format.
@@ -34,7 +34,7 @@ import circuit.*;
 
 class RunExport implements Runnable {
 	File file; 
-	ParseSchem P; 
+	DrawingModel P; 
 	String format;
 	double unitPerPixel;
 	boolean antiAlias;
@@ -45,7 +45,7 @@ class RunExport implements Runnable {
 	
 	/** Setting up the parameters needed for the export
 	@param tfile the file name
-	@param tP the ParseSchem object containing the drawing to be exported
+	@param tP the DrawingModel object containing the drawing to be exported
 	@param tformat the file format to be used
 	@param tunitPerPixel the magnification factor to be used for the export
 	@param tantiAlias the application of anti alias for bitmap export
@@ -54,7 +54,7 @@ class RunExport implements Runnable {
 	
 	*/
     public void setParam(File tfile, 
-		ParseSchem tP, 
+		DrawingModel tP, 
 		String tformat,
 		double tunitPerPixel,
 		boolean tantiAlias,

@@ -1,3 +1,2 @@
 #!/bin/bash
-javadoc -d doc -sourcepath src circuit clipboard dialogs export geom globals layers primitives timer toolbars undo src/FidoFrame.java src/SearchField.java src/ScrollGlassPane.java src/ScrollGestureRecognizer.java src/MacroTree.java src/AppleSpecific.java
-
+javadoc -d doc -sourcepath src circuit circuit.controllers circuit.model circuit.views clipboard dialogs export geom globals graphic layers primitives timer toolbars undo src/FidoFrame.java src/*.java

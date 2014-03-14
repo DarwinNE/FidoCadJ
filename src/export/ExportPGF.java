@@ -1,12 +1,12 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
+
 import globals.*;
 import layers.*;
 import primitives.*;
-import java.awt.geom.*;
+import graphic.*;
 
 
 /** Export in a LaTeX drawing using the pgf (Portable Graphic File) packet.
@@ -50,20 +50,20 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
 */
 
 public class ExportPGF implements ExportInterface {
 
-	private File fileExp;
-	private FileWriter fstream;
+	private final FileWriter fstream;
 	private BufferedWriter out;
 	private Vector layerV;
-	private Color actualColor;
+	private ColorInterface actualColor;
 	private int actualDash;
-	
+	private double actualWidth;
+
 	
 	static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
 		"{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
@@ -78,10 +78,8 @@ public class ExportPGF implements ExportInterface {
 	
 	public ExportPGF (File f) throws IOException
 	{
-		fileExp=f;
-		
-		fstream = new FileWriter(fileExp);
-		
+		actualColor=null;
+		fstream = new FileWriter(f);	
 	}
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
@@ -97,7 +95,7 @@ public class ExportPGF implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
 		throws IOException
 	{ 
@@ -108,7 +106,7 @@ public class ExportPGF implements ExportInterface {
 		int i;
 	    out = new BufferedWriter(fstream);
 	    LayerDesc l;
-	    Color c;
+	    ColorInterface c;
 	    	    
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
@@ -324,14 +322,12 @@ public class ExportPGF implements ExportInterface {
 		// At first we need the angle giving the direction of the arrow
 		// a little bit of trigonometry :-)
 		
-		if (x!=xc)
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+		if (x==xc)
+			alpha = Math.PI/2.0+(y-yc<0?0:Math.PI);
 		else
-			alpha = Math.PI/2.0+((y-yc<0)?0:Math.PI);
+			alpha = Math.atan((double)(y-yc)/(double)(x-xc));			
 		
-		alpha += (x-xc>0)?0:Math.PI;
-		
-		
+		alpha += x-xc>0?0:Math.PI;
 	
 		// Then, we calculate the points for the polygon
 		x0 = x - l*Math.cos(alpha);
@@ -479,40 +475,10 @@ public class ExportPGF implements ExportInterface {
 		double xdd;
 		double ydd;
 		
-		// At first, draw the pad...
-		if(!onlyHole) {
-			registerColorSize(layer, .33);
-			switch (style) {
-				default:
-				case 0: // Oval pad
-					out.write("\\pgfellipse[fillstroke"+
-						"]{\\pgfxy("+x+","+y+")}{\\pgfxy("+
-						(six/2)+",0)}{\\pgfxy(0,"+
-						(siy/2)+")}\n");
-					 break;
-				case 1:	// Square pad
-					xdd=((double)x-six/2.0);
-					ydd=((double)y-siy/2.0);
-					out.write("\\pgfrect[fillstroke"+
-						"]{\\pgfxy("+xdd+","+ydd+")}{\\pgfxy("+
-						six+","+
-						siy+")}\n");
-					
-				
-					break;
-				case 2:	// Rounded pad
-					xdd=((double)x-six/2.0);
-					ydd=((double)y-siy/2.0);
-					out.write("\\pgfrect[fillstroke"+
-						"]{\\pgfxy("+xdd+","+ydd+")}{\\pgfxy("+
-						six+","+
-						siy+")}\n");
-					break;
-			}
-		} else {
+		if(onlyHole) {
 			// ... then, drill the hole!
-			if(actualColor!=Color.white) {
-				actualColor=Color.white;
+			if(!actualColor.equals(actualColor.white())) {
+				actualColor=actualColor.white();
 				out.write("\\color{white}\n");
 			}
 				
@@ -520,6 +486,34 @@ public class ExportPGF implements ExportInterface {
 				"]{\\pgfxy("+x+","+y+")}{\\pgfxy("+
 				(indiam/2)+",0)}{\\pgfxy(0,"+
 				(indiam/2)+")}\n");
+		} else {
+			// At first, draw the pad...
+			registerColorSize(layer, .33);
+			switch (style) {
+				case 1:	// Square pad
+					xdd=(double)x-six/2.0;
+					ydd=(double)y-siy/2.0;
+					out.write("\\pgfrect[fillstroke"+
+						"]{\\pgfxy("+xdd+","+ydd+")}{\\pgfxy("+
+						six+","+
+						siy+")}\n");
+					break;
+				case 2:	// Rounded pad
+					xdd=(double)x-six/2.0;
+					ydd=(double)y-siy/2.0;
+					out.write("\\pgfrect[fillstroke"+
+						"]{\\pgfxy("+xdd+","+ydd+")}{\\pgfxy("+
+						six+","+
+						siy+")}\n");
+					break;
+				case 0: // Oval pad
+				default:
+					out.write("\\pgfellipse[fillstroke"+
+						"]{\\pgfxy("+x+","+y+")}{\\pgfxy("+
+						(six/2.0)+",0)}{\\pgfxy(0,"+
+						(siy/2.0)+")}\n");
+					 break;
+			}
 		}
 	}
 	
@@ -532,7 +526,7 @@ public class ExportPGF implements ExportInterface {
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
@@ -569,7 +563,7 @@ public class ExportPGF implements ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -614,7 +608,6 @@ public class ExportPGF implements ExportInterface {
 			out.write("\\pgfqstroke \n");
 	}
 
-	private double actualWidth;
 	
 	/** Check if there has been a change in the actual color and stroke width.
 		if yes, change accordingly.
@@ -626,8 +619,8 @@ public class ExportPGF implements ExportInterface {
 		throws IOException
 	{
 		LayerDesc l=(LayerDesc)layerV.get(layer);
-		Color c=l.getColor();
-		if(actualColor!=c) {
+		ColorInterface c=l.getColor();
+		if(!c.equals(actualColor)) {
 			actualColor=c;
 			out.write("\\color{layer"+layer+"}\n");
 		}

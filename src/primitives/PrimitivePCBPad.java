@@ -1,17 +1,13 @@
 package primitives;
 
-
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import geom.*;
 import dialogs.*;
 import export.*;
 import globals.*;
-
+import graphic.*;
 
 /** Class to handle the PCB pad primitive.
 
@@ -31,7 +27,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -56,17 +52,19 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 
 	static final int N_POINTS=3;
 	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
+	private int rrx2, rry2, rix2, riy2;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
 	}
-	
-	
 	
 	/** Create a PCB pad
 		@param x1 the x coordinate (logical unit).
@@ -111,24 +109,17 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 		initPrimitive(-1, f, size);
 	}
 
-	public final boolean needsHoles()
+	public boolean needsHoles()
 	{	
 		return true;
 	}
 
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
-	private int rrx2, rry2, rix2, riy2;
-	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 	
@@ -176,7 +167,10 @@ public final class PrimitivePCBPad extends GraphicPrimitive
  		if(!g.hitClip(xa-rrx2,ya-rry2, rrx, rry))
  			return;
  			
- 		if (!drawOnlyPads) {
+ 		if (drawOnlyPads) {
+ 			g.setColor(g.getColor().white()); // Drill the hole
+ 			g.fillOval(xa-rix2, ya-riy2,rix,riy);
+ 		} else {
  			switch(sty) {
  			case 1:
  				// Rectangular pad 
@@ -189,16 +183,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
  			case 0:
  			default:
  				// Oval Pad 
-		
  				g.fillOval(xa-rrx2, ya-rry2,rrx,rry);
- 			
  			}
- 		} else {
-      			
- 			g.setColor(Color.white); // Drill the hole
- 			g.fillOval(xa-rix2, ya-riy2,rix,riy);
- 		}
- 		
+ 		} 
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -269,19 +256,19 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 		Vector<ParameterDescription> v=super.getControls();
 		ParameterDescription pd = new ParameterDescription();
 
-		pd.parameter=Integer.valueOf(rx);
+		pd.parameter= Integer.valueOf(rx);
 		pd.description=Globals.messages.getString("ctrl_x_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=Integer.valueOf(ry);
+		pd.parameter= Integer.valueOf(ry);
 		pd.description=Globals.messages.getString("ctrl_y_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=Integer.valueOf(ri);
+		pd.parameter= Integer.valueOf(ri);
 		pd.description=Globals.messages.getString("ctrl_internal_radius");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=Integer.valueOf(sty);	// A list should be better
+		pd.parameter= Integer.valueOf(sty);	// A list should be better
 		pd.description=Globals.messages.getString("ctrl_pad_style");
 		v.add(pd);
 		

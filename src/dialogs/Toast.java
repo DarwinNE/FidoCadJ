@@ -47,9 +47,10 @@ public class Toast {
 		msg.setFont(new Font("Arial",0,12));
 		msg.setEditable(false);
 		toast.setSize(300, 55);		
-		toast.setLocation(35 + toast.getX()-toast.getSize().width/2, toast.getY() + 20);
+		toast.setLocation(35 + toast.getX()-toast.getSize().width/2, 
+			toast.getY() + 20);
 				
-		final long expire = System.currentTimeMillis() + (10 * 1000);
+		final long expire = System.currentTimeMillis() + 10 * 1000;
 		final JFrame inst = toast;
 		
 		

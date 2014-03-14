@@ -146,11 +146,11 @@ public class DialogUtil {
    		@param gridy the y position in the grid
    		@param width the width of the control
    		@param height the heigth of the control
-   		@param weigthx
-   		@param weigthy
-   		@param anch
-   		@param fill
-   		@param insets
+   		@param weightx the weightx to be adopted
+   		@param weighty the weighty to be adopted
+   		@param anch the anchor value
+   		@param fill the fill valuue
+   		@param insets the insets to be used
    	
    	*/
    	public static GridBagConstraints createConst(int gridx, int gridy,

@@ -1,6 +1,5 @@
 package globals;
 
-
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -11,7 +10,12 @@ import java.util.ResourceBundle;
 
 */
 
-public abstract class Utf8ResourceBundle {
+public abstract class Utf8ResourceBundle 
+{	
+	public Utf8ResourceBundle()
+	{
+		// Nothing to do.
+	}
 	public static final ResourceBundle getBundle(String baseName) 
 	{
   		ResourceBundle bundle = ResourceBundle.getBundle(baseName);
@@ -19,13 +23,13 @@ public abstract class Utf8ResourceBundle {
 	}
 
 	public static final ResourceBundle getBundle(String baseName, 
-		Locale locale) 
+		Locale locale) 	
 	{
   		ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale); 
   		return createUtf8PropertyResourceBundle(bundle);
 	}
 
-	public static ResourceBundle getBundle(String baseName, Locale locale, 
+	public static ResourceBundle getBundle(String baseName, Locale locale,
 		ClassLoader loader) 
 	{
   		ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale, 
@@ -41,10 +45,11 @@ public abstract class Utf8ResourceBundle {
   		return new Utf8PropertyResourceBundle((PropertyResourceBundle)bundle);
 	}
 
-	private static class Utf8PropertyResourceBundle extends ResourceBundle {
+	private static class Utf8PropertyResourceBundle extends ResourceBundle 
+	{
   		PropertyResourceBundle bundle;
 
-  		private Utf8PropertyResourceBundle(PropertyResourceBundle bundle) 
+  		public Utf8PropertyResourceBundle(PropertyResourceBundle bundle)
   		{
     		this.bundle = bundle;
   		}
@@ -60,8 +65,9 @@ public abstract class Utf8ResourceBundle {
    		*/
   		protected Object handleGetObject(String key) 
   		{
-  			if (key==null) return null;
 			String value = (String)bundle.getString(key);
+			// FindBugs suggests the following test is redundant.
+			//if (value==null) return null;
 			try {
 				return new String (value.getBytes("ISO-8859-1"),"UTF-8") ;
 			} catch (UnsupportedEncodingException e) {

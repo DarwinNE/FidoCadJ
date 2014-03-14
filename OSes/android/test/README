@@ -1,0 +1,38 @@
+		FidoCadJ for Android
+		
+By Davide Bucci, 2014
+
+This folder contains the complete sources of the FidoCadJ for Android 
+application.
+This app shares a lot of files with the main program running on PC's using
+Swing.
+Those files are present in the source arborescence by means of symbolic links.
+So, please use a decent operating system allowing you to use symbolic links for
+files, if you want to contribute to the coding.
+You may also notice that in some case different files with the same name and
+package are present for the Swing version and the Android version: 
+
+graphic.nil.*
+layers.StandardLayers
+
+This is because those files need some version-specific features.
+
+--------------
+Useful scripts
+--------------
+
+-------------------------------------------------------------------------
+README                      this file
+proTOxml.py                 creates the xml string resource files
+res/                 DIR    contains the Android project resources
+res.sh                      creates the Android project resources
+src                  DIR    contains all the project sources
+-------------------------------------------------------------------------
+
+---------
+Resources
+---------
+
+The primary resources are always those for the Swing application. For this 
+reason, if you need to add a string, modify the resource files of the
+Swing application (/bin/*.resources) and then run res.sh script.

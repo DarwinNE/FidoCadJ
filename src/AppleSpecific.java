@@ -53,7 +53,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
 	public void handleAbout(ApplicationEvent evt) 
 	{
-		DialogAbout d=new DialogAbout(Globals.activeWindow);
+		DialogAbout d=new DialogAbout((JFrame)Globals.activeWindow);
 		d.setVisible(true);
 		evt.setHandled(true);
 
@@ -87,6 +87,7 @@ class AppleSpecific implements ApplicationListener{
 	*/
 	public void handlePrintFile(ApplicationEvent evt) 
 	{
+		// does nothing
 	}
 	
 	/** Ask for confirmation when quitting.
@@ -108,5 +109,6 @@ class AppleSpecific implements ApplicationListener{
 	
 	public void handleReOpenApplication(ApplicationEvent evt) 
 	{
+		// does nothing
 	}
 }

@@ -1,18 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
-import java.awt.geom.*;
-
-
+import graphic.*;
 
 /** Class to handle the Polygon primitive.
 
@@ -32,7 +27,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2013 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -44,17 +39,24 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	private int nPoints;
 	private boolean isFilled;
 	private int dashStyle;
-	private Polygon p;
- 
+	private PolygonInterface p;
 
-	// If needed, we increase this stuff.
-	
+	// If needed, we might increase this stuff.
 	int N_POINTS=5;
+	
+	// Some private data cached.
+	private int xmin, ymin;
+	private int width, height;
+		
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private float w;
+	
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return nPoints+2;
@@ -65,7 +67,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		super();
 		isFilled=false;
 		nPoints=0;
-		p = new Polygon();
+		p = null;
 		initPrimitive(N_POINTS, f, size);
 	}
 	/** Create a polygon. Add points with the addPoint method.
@@ -80,7 +82,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		String font, int size)
 	{
 		super();
-		p = new Polygon();
+		p = null;
 		initPrimitive(N_POINTS, font,  size);
 		nPoints=0;
 		isFilled=f;
@@ -98,7 +100,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
 	*/
 	public void removePoint(int x, int y, double tolerance)
 	{
-	
 		// We can not have a polygon with less than three vertices
 		if (nPoints<=3)
 			return;
@@ -172,15 +173,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
         		minv=j+1;
         	}
         }
-
-        
+      
         // Now minv contains the index of the vertex before the one which 
         // should be entered. We begin to enter the new vertex at the end...
         
         addPoint(px, py);
-        
-        
-		
+	
         // ...then we do the swap
         
         int dummy;
@@ -207,12 +205,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
 			int o_n=N_POINTS;
 			int i;
 			N_POINTS += 10;
-			Point[] nv = new Point[N_POINTS];
+			PointG[] nv = new PointG[N_POINTS];
 			for(i=0;i<o_n;++i) {
 				nv[i]=virtualPoint[i];
 			}
 			for(;i<N_POINTS;++i) {
-				nv[i]=new Point();
+				nv[i]=new PointG();
 			}
 			virtualPoint=nv;
 		}
@@ -228,10 +226,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		changed = true;
 	}
 
-	private int xmin, ymin;
-	private int width, height;
-	
-	public final void createPolygon(MapCoordinates coordSys)
+	/** Store the polygon, which must be already calculated.
+	*/
+	public void createPolygon(MapCoordinates coordSys, GraphicsInterface g)
 	{
      		
      	int j;
@@ -242,7 +239,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int ymax = -Integer.MAX_VALUE;
         
         int x, y;
-        
+        p=g.createPolygon();
         p.reset();
      	for(j=0;j<nPoints;++j) {
      		x = coordSys.mapX(virtualPoint[j].x,virtualPoint[j].y);
@@ -264,18 +261,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
  		height = ymax-ymin;
 	}
 	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private Stroke stroke;
-	private float w;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
@@ -283,45 +274,37 @@ public final class PrimitivePolygon extends GraphicPrimitive
     	drawText(g, coordSys, layerV, -1);
     	if(changed) {
     		changed=false;
-    		createPolygon(coordSys);
+    		createPolygon(coordSys, g);
    
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-			
-			if (strokeStyle==null) {
-				strokeStyle = new StrokeStyle();
-			}
-			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
 
-		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
-		// setting the stroke takes a lot of time!
- 		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke);		
+		g.applyStroke(w, dashStyle);
 
 		// Here we implement a small optimization: when the polygon is very
 		// small, it is not filled.
         if (isFilled && width>=2 && height >=2) 
  			g.fillPolygon(p);
  			
- 		//g.drawPolygon(p);
+ 		g.drawPolygon(p);
  		// It seems that under MacOSX, drawing a polygon by cycling with
  		// the lines is much more efficient than the drawPolygon method.
  		// Probably, a further investigation is needed to determine if
  		// this situation is the same with more recent Java runtimes
  		// (mine is 1.5.something on an iMac G5 at 2 GHz and I made
  		// the same comparison with the same results with a MacBook 2GHz).
- 		 
+ 		 /*
  		for(int i=0; i<nPoints-1; ++i) {
  			g.drawLine(p.xpoints[i], p.ypoints[i], p.xpoints[i+1],
  				p.ypoints[i+1]);
  		}
  		g.drawLine(p.xpoints[nPoints-1], p.ypoints[nPoints-1], p.xpoints[0],
  			p.ypoints[0]);
-			
+		*/	
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -389,8 +372,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
  										  " programming error?");
 			throw E;
  		}
-	
-		
 	}
 	
 	/**	Get the control parameters of the given primitive.
@@ -414,7 +395,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		pd.description=Globals.messages.getString("ctrl_dash_style");
 		pd.isExtension = true;
 		v.add(pd);
-
+		
 		return v;
 	}
 	
@@ -531,14 +512,13 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		
 		String cmd=temp.toString();
 		
-		if(extensions) {
-			if (dashStyle>0 || hasName() || hasValue()) {
-				String text = "0";
-				if (name.length()!=0 || value.length()!=0)
-					text = "1";
-		 		cmd+="FCJ "+dashStyle+" "+text+"\n";
-			}
+		if(extensions && (dashStyle>0 || hasName() || hasValue())) {
+			String text = "0";
+			if (name.length()!=0 || value.length()!=0)
+				text = "1";
+		 	cmd+="FCJ "+dashStyle+" "+text+"\n";
 		}
+		
 		// The false is needed since saveText should not write the FCJ tag.
 		cmd+=saveText(false);
 		return cmd;
@@ -548,10 +528,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
 		throws IOException
 	{
 		exportText(exp, cs, -1);
-		Point2D.Double[] vertices = new Point2D.Double[nPoints]; 
+		PointDouble[] vertices = new PointDouble[nPoints]; 
 		
 		for(int i=0; i<nPoints;++i){
-			vertices[i]=new Point2D.Double();
+			vertices[i]=new PointDouble();
 			vertices[i].x=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
 			vertices[i].y=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 		}

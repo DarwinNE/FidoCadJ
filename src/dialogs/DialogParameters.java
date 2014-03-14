@@ -9,6 +9,7 @@ import globals.*;
 import dialogs.*;
 import dialogs.OSKeybPanel.KEYBMODES;
 import layers.*;
+import graphic.*;
 
 /**
  * Allows to create a generic dialog, capable of displaying and let the user
@@ -34,11 +35,12 @@ import layers.*;
  *     You should have received a copy of the GNU General Public License
  *     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * 	Copyright 2007-2012 by Davide Bucci
+ * 	Copyright 2007-2014 by Davide Bucci
  * </pre>
  */
 
-public class DialogParameters extends JDialog implements ComponentListener {
+public class DialogParameters extends JDialog implements ComponentListener
+ {
 	private static int MIN_WIDTH = 450;
 	private static int MIN_HEIGHT = 350;
 	private static final int MAX = 20;
@@ -50,20 +52,17 @@ public class DialogParameters extends JDialog implements ComponentListener {
 	public boolean active; // true if the user selected Ok
 
 	// Text box array and counter
-	private JTextField jtf[];
-	private int tc;
+	private final JTextField jtf[];
+	private int tc;	// NOPMD this field can NOT be final! It is a counter.
 
 	// Check box array and counter
-	private JCheckBox jcb[];
-	private int cc;
-	private boolean extStrict; // Strict compatibility
+	private final JCheckBox jcb[];
+	private int cc; // NOPMD this field can NOT be final! It is a counter.
 
-	private JComboBox jco[];
-	private int co;
+	private final JComboBox jco[];
+	private int co; // NOPMD this field can NOT be final! It is a counter.
 
-	private Vector<ParameterDescription> v;
-
-	private Vector<LayerDesc> layers;
+	private final Vector<ParameterDescription> v;
 
 	OSKeybPanel keyb1,keyb2;
 	JTabbedPane keyb = new JTabbedPane();
@@ -79,11 +78,14 @@ public class DialogParameters extends JDialog implements ComponentListener {
 	 *            user.
 	 * @param strict
 	 *            true if a strict compatibility with FidoCAD is required
-	 * @param l
+	 * @param layers
 	 *            a vector containing the layers
 	 */
+	// Here some legacy code makes use of generics. They are tested, so there
+	// is no risk of an actual error, but Java issues a warning.
+	@SuppressWarnings("unchecked")
 	public DialogParameters(JFrame parent, Vector<ParameterDescription> vec,
-			boolean strict, Vector<LayerDesc> l) {
+			boolean strict, Vector<LayerDesc> layers) {
 		super(parent, Globals.messages.getString("Param_opt"), true);
 
 		keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
@@ -94,7 +96,7 @@ public class DialogParameters extends JDialog implements ComponentListener {
 		keyb.addTab("Misc", keyb2);
 		keyb.setVisible(false);
 		v = vec;
-		layers = l;
+		
 
 		int ycount = 0;
 
@@ -108,13 +110,12 @@ public class DialogParameters extends JDialog implements ComponentListener {
 
 		active = false;
 		addComponentListener(this);
-		//setSize(400, 300);
 
 		GridBagLayout bgl = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
 		Container contentPane = getContentPane();
 		contentPane.setLayout(bgl);
-		extStrict = strict;
+		boolean extStrict = strict;
 
 		ParameterDescription pd;
 
@@ -243,17 +244,35 @@ public class DialogParameters extends JDialog implements ComponentListener {
 				constraints.fill = GridBagConstraints.HORIZONTAL;
 				jtf[tc].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jtf[tc++], constraints);
-
-			} else if (pd.parameter instanceof Font) {
+			} else if (pd.parameter instanceof Float) {
+				// TODO. 
+				// WARNING: (DB) this is supposed to be temporary. In fact, I 
+				// am planning to upgrade some of the parameters from int
+				// to float. But for a few months, the users should not be
+				// aware of that, even if the internal representation is 
+				// slowing being adapted.
+				jtf[tc] = new JTextField(24);
+				int dummy = java.lang.Math.round((Float) pd.parameter);
+				jtf[tc].setText(""+dummy);
+				constraints.weightx = 100;
+				constraints.weighty = 100;
+				constraints.gridx = 2;
+				constraints.gridy = ycount;
+				constraints.gridwidth = 2;
+				constraints.gridheight = 1;
+				constraints.insets = new Insets(top, 0, 0, 20);
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				jtf[tc].setEnabled(!(pd.isExtension && extStrict));
+				contentPane.add(jtf[tc++], constraints);
+			} else if (pd.parameter instanceof FontG) {
 				GraphicsEnvironment gE;
 				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				String[] s = gE.getAvailableFontFamilyNames();
 				jco[co] = new JComboBox();
-				// System.out.println("%"+((Font)pd.parameter).getFamily()+"%");
 
 				for (int i = 0; i < s.length; ++i) {
 					jco[co].addItem(s[i]);
-					if (s[i].equals(((Font) pd.parameter).getFamily()))
+					if (s[i].equals(((FontG) pd.parameter).getFamily()))
 						jco[co].setSelectedIndex(i);
 				}
 				constraints.weightx = 100;
@@ -341,12 +360,12 @@ public class DialogParameters extends JDialog implements ComponentListener {
 				// If at this point, the keyboard is not visible, this means
 				// that it will become visible in a while. It is better to
 				// resize first and then show up the keyboard.
-				if (!keyb.isVisible()) {
-					MIN_WIDTH = 400;
-					MIN_HEIGHT = 500;
-				} else {
+				if (keyb.isVisible()) {
 					MIN_WIDTH = 400;
 					MIN_HEIGHT = 350;
+				} else {
+					MIN_WIDTH = 400;
+					MIN_HEIGHT = 500;
 
 				}
 				//setSize(MIN_WIDTH, MIN_HEIGHT);
@@ -422,14 +441,12 @@ public class DialogParameters extends JDialog implements ComponentListener {
 						} else if (pd.parameter instanceof Integer) {
 							pd.parameter = Integer.valueOf(Integer
 									.parseInt(jtf[tc++].getText()));
-							// This variant is deprecated by FindBugs
-							/*
-							 * new Integer(Integer.parseInt(
-							 * jtf[tc++].getText()));
-							 */
-						} else if (pd.parameter instanceof Font) {
-							pd.parameter = new Font((String) jco[co++]
-									.getSelectedItem(), Font.PLAIN, 12);
+						} else if (pd.parameter instanceof Float) {
+							pd.parameter = Float.valueOf(Float
+									.parseFloat(jtf[tc++].getText()));
+						} else if (pd.parameter instanceof FontG) {
+							pd.parameter = new FontG((String) jco[co++]
+									.getSelectedItem());
 						} else if (pd.parameter instanceof LayerInfo) {
 							pd.parameter = new LayerInfo(jco[co++]
 									.getSelectedIndex());
@@ -522,12 +539,18 @@ public class DialogParameters extends JDialog implements ComponentListener {
 		
 	}
 
-	public void componentMoved(ComponentEvent e) {
+	public void componentMoved(ComponentEvent e) 
+	{
+		// does nothing
 	}
 
-	public void componentShown(ComponentEvent e) {
+	public void componentShown(ComponentEvent e) 
+	{
+		// does nothing
 	}
 
-	public void componentHidden(ComponentEvent e) {
+	public void componentHidden(ComponentEvent e) 
+	{
+		// does nothing
 	}
 }

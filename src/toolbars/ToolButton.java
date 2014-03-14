@@ -29,7 +29,7 @@ import circuit.*;
  	You should have received a copy of the GNU General Public License
  	along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
  
- 	Copyright 2008-2011 by Davide Bucci
+ 	Copyright 2008-2014 by Davide Bucci
  	</pre>
  
  
@@ -46,7 +46,7 @@ import circuit.*;
 
 public class ToolButton {
     
-    private JToggleButton toolButton;
+    private final JToggleButton toolButton;
     
     /** Class Constructor: Creates a new <code>JToggleButton</code> that has 
      	the specified text and image, and that is initially unselected. It also 

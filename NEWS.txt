@@ -1,7 +1,10 @@
+Version 0.24.4
+--------------
+- Complete reorganization of the source code, to improve readability as well as modularity.
+- Started the porting towards Android devices. The port shares a lot of code with the original Swing application.
+
 Version 0.24.3
 --------------
-November 5, 2013
-
 - You can navigate through search results in the library using the Return key and not just the arrow keys (by Mancuso Raffaele).
 - Czech translation of the user interface (by Chemik582)
 - Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
@@ -11,15 +14,9 @@ November 5, 2013
 - The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir. Many thanks to 
 - Added "Select All" to the contextual popup menu (part of request #36).
 - Corrected the undo bug #47.
-- Deleted a nasty bug which in some cases produced very big temp directories, slowing down the startup and the overall use of FidoCadJ.
-- Added the command line option "-k" to show the code of the current locale.
-- Corrected a bug: when the grid pitch is changed, the results were not shown immediately.
-- When zoom level is increased or decreased with the magnification tool, the place where the user clicks is centered (request #18).
 
 Version 0.24.2
 --------------
-April 14, 2013
-
 - The user can now create new library symbols and edit existing libraries.
 - Standard and non standard libraries are identified by different icons.
 - Macros can be split (select one, then right click and "split macro").
@@ -37,7 +34,6 @@ April 14, 2013
 
 Version 0.24.1
 --------------
-November 5, 2012
 
 - Added a link to the Sourceforge project page in the About dialog (request #3531298).
 - Now Java 1.5 is needed for compiling FidoCadJ.
@@ -59,7 +55,6 @@ November 5, 2012
 
 Version 0.24
 ------------
-May 29, 2012
 
 - Added the support for italic text lines
 - The length of the segment being entered is expressed also in millimeters.

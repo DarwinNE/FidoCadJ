@@ -1,15 +1,16 @@
 package export;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.text.*;
+
 import globals.*;
 import layers.*;
-import circuit.*;
+import circuit.model.*;
+import circuit.controllers.*;
+import graphic.*;
 
 import primitives.*;
-import java.awt.geom.*;
 
 
 /** 
@@ -32,7 +33,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2013 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
 
     
@@ -41,8 +42,7 @@ import java.awt.geom.*;
 
 public class ExportFidoCad implements ExportInterface {
 
-	private OutputStreamWriter fstream;
-	private BufferedWriter out;
+	private final BufferedWriter out;
 	private Vector<LayerDesc> layerV;
 	private boolean extensions;		// use FidoCadJ extensions
 	private boolean splitStandardMacros; // Split also the standard macros
@@ -60,6 +60,9 @@ public class ExportFidoCad implements ExportInterface {
 		splitStandardMacros = s;
 	}
 	
+	/** double to integer conversion. In some cases, some processing might be
+		applied.
+	*/
 	public int cLe(double l)
 	{
 		return (int)l;
@@ -77,8 +80,8 @@ public class ExportFidoCad implements ExportInterface {
 		splitStandardMacros=false;
 		textFont=Globals.defaultTextFont;
 		textFontSize=3;
-		
-		fstream = new OutputStreamWriter(new FileOutputStream(f), 
+		OutputStreamWriter fstream = new OutputStreamWriter(
+			new FileOutputStream(f), 
 			Globals.encoding);
 	    out = new BufferedWriter(fstream);
 	}
@@ -103,7 +106,7 @@ public class ExportFidoCad implements ExportInterface {
 			the target.
 	*/
 	
-	public void exportStart(Dimension totalSize, Vector<LayerDesc> la,
+	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)   
 		throws IOException
 	{ 
@@ -115,9 +118,10 @@ public class ExportFidoCad implements ExportInterface {
 	    
 		out.write("[FIDOCAD]\n");
 		
-		ParseSchem P = new ParseSchem();
+		DrawingModel P = new DrawingModel();
+		ParserActions pa = new ParserActions(P);
 		P.setLayers(la);
-		out.write(new String(P.registerConfiguration(extensions)));		
+		out.write(new String(pa.registerConfiguration(extensions)));		
 	} 
 	
 
@@ -126,7 +130,6 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportEnd() 
 		throws IOException
 	{ 
-		//fstream.close();
 		out.close();
 	}
 
@@ -159,10 +162,10 @@ public class ExportFidoCad implements ExportInterface {
 		if (isMirrored)
 			style+=4;
 			
-		out.write((new PrimitiveAdvText(cLe(x),
+		out.write(new PrimitiveAdvText(cLe(x),
 			cLe(y), 
 			cLe(sizex), cLe(sizey), fontname, 
-			orientation, style,text, layer)).toString(extensions)); 
+			orientation, style,text, layer).toString(extensions)); 
 		
 	}
 	
@@ -201,7 +204,7 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException	
 	{ 
-		out.write((new PrimitiveBezier(cLe(x1),
+		out.write(new PrimitiveBezier(cLe(x1),
 			cLe(y1), cLe(x2),
 			cLe(y2), cLe(x3),
 			cLe(y3), cLe(x4),
@@ -210,7 +213,7 @@ public class ExportFidoCad implements ExportInterface {
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
 			dashStyle,
-			textFont, textFontSize)).toString(extensions));			
+			textFont, textFontSize).toString(extensions));			
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -223,9 +226,9 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
-		out.write((new PrimitiveConnection(cLe(x),
+		out.write(new PrimitiveConnection(cLe(x),
 			cLe(y),layer,
-			textFont, textFontSize)).toString(extensions));
+			textFont, textFontSize).toString(extensions));
 	}
 		
 	/** Called when exporting a Line primitive.
@@ -259,13 +262,13 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveLine(cLe(x1),cLe(y1),
+		out.write(new PrimitiveLine(cLe(x1),cLe(y1),
 			cLe(x2),cLe(y2),layer,arrowStart,
 			arrowEnd,arrowStyle,
 			cLe(arrowLength),
 			cLe(arrowHalfWidth),
 			dashStyle,
-			textFont, textFontSize)).toString(extensions));
+			textFont, textFontSize).toString(extensions));
 	}
 	
 	/** Called when exporting a Macro call.
@@ -316,11 +319,11 @@ public class ExportFidoCad implements ExportInterface {
 			String library=macroName.substring(0,dotpos);
 			
 			// Check it
-			if(extensions && library.equals("pcb")) { 
+			if(extensions && "pcb".equals(library)) { 
 				isStandard = true;
-			} else if (extensions && library.equals("ihram")) {
+			} else if (extensions && "ihram".equals(library)) {
 				isStandard = true;
-			} else if (extensions && library.equals("elettrotecnica")) {
+			} else if (extensions && "elettrotecnica".equals(library)) {
 				isStandard = true;
 			}
 		}
@@ -328,12 +331,12 @@ public class ExportFidoCad implements ExportInterface {
 		// If the library is standard, we output the symbol just with a
 		// single MC command.
 		if(isStandard) {
-			out.write((new PrimitiveMacro(m, layerV, cLe(x), 
+			out.write(new PrimitiveMacro(m, layerV, cLe(x), 
 				cLe(y), macroName, 
 		    	name, cLe(xn), cLe(yn), value, 
 		    	cLe(xv), cLe(yv), font, 
 		    	cLe(fontSize), orientation/90, 
-		    	isMirrored)).toString(extensions));
+		    	isMirrored).toString(extensions));
 			return true;
 		} 
 		// If it is not standard, the macro will be expanded into primitives.
@@ -358,10 +361,10 @@ public class ExportFidoCad implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveOval(cLe(x1), 
+		out.write(new PrimitiveOval(cLe(x1), 
 			cLe(y1), cLe(x2), cLe(y2), 
 			isFilled, layer, dashStyle,
-			textFont, textFontSize)).toString(extensions));
+			textFont, textFontSize).toString(extensions));
 	}
 		
 	/** Called when exporting a PCBLine primitive.
@@ -377,10 +380,10 @@ public class ExportFidoCad implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		out.write((new PrimitivePCBLine(cLe(x1),
+		out.write(new PrimitivePCBLine(cLe(x1),
 			cLe(y1),cLe(x2),cLe(y2),
 			cLe(width), cLe(layer),
-			textFont, textFontSize)).toString(extensions));
+			textFont, textFontSize).toString(extensions));
 	}
 		
 	
@@ -402,11 +405,11 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{ 
 		if(!onlyHole)
-			out.write((new PrimitivePCBPad(cLe(x),
+			out.write(new PrimitivePCBPad(cLe(x),
 				cLe(y),cLe(six),
 				cLe(siy),cLe(indiam), style,
 				layer,
-				textFont, textFontSize)).toString(extensions));	
+				textFont, textFontSize).toString(extensions));	
 	}
 	/**	Called when exporting a Polygon primitive
 	
@@ -418,7 +421,7 @@ public class ExportFidoCad implements ExportInterface {
 
 	
 	*/
-	public void exportPolygon(Point2D.Double[] vertices, int nVertices, 
+	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
@@ -446,7 +449,7 @@ public class ExportFidoCad implements ExportInterface {
 		@return false if the curve should be rendered using a polygon, true
 			if it is handled by the function.
 	*/
-	public boolean exportCurve(Point2D.Double[] vertices, int nVertices, 
+	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, boolean isClosed, int layer, 
 		boolean arrowStart, 
 		boolean arrowEnd, 
@@ -491,11 +494,11 @@ public class ExportFidoCad implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		out.write((new PrimitiveRectangle(cLe(x1), 
+		out.write(new PrimitiveRectangle(cLe(x1), 
 			cLe(y1), cLe(x2), 
 			cLe(y2), isFilled, 
 			layer, dashStyle,
-			textFont, textFontSize)).toString(extensions));
+			textFont, textFontSize).toString(extensions));
 	}
 	
 	/** Called when exporting an arrow.
@@ -513,6 +516,5 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{
 		// Does nothing, since it will not be useful here.
-		return;
 	}
 }

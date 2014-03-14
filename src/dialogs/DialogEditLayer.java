@@ -11,6 +11,9 @@ import javax.swing.colorchooser.*;
 
 import globals.*;
 import layers.*;
+import graphic.*;
+import graphic.swing.*;
+
 
 /** The class dialogEditLayer allows to choose the style, visibility and
     description of the current layer.
@@ -48,12 +51,12 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 	static final int ALPHA_MAX = 100;
     
     private JButton color;  
-    private JColorChooser tcc;
-    private JCheckBox visibility;
-    private JTextField description;
-    private JSlider opacity;
+    private final JColorChooser tcc;
+    private final JCheckBox visibility;
+    private final JTextField description;
+    private final JSlider opacity;
     private boolean active;             // true if the user selected ok
-	private LayerDesc ll;
+	private final LayerDesc ll;
 
     public void componentResized(ComponentEvent e) 
     {
@@ -75,12 +78,15 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     
     /** Standard constructor.
@@ -102,7 +108,8 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         GridBagConstraints constraints=new GridBagConstraints();
         contentPane.setLayout(bgl);
         constraints.insets.right=30;
-	    tcc = new JColorChooser(l.getColor());
+        ColorSwing c = (ColorSwing) l.getColor();
+	    tcc = new JColorChooser(c.getColorSwing());
         constraints = DialogUtil.createConst(0,0,3,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
 			new Insets(20,20,6,20));
@@ -226,7 +233,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     	
         ll.setVisible(visibility.isSelected());
         ll.setDescription(description.getText());
-        ll.setColor(tcc.getColor());
+        ll.setColor(new ColorSwing(tcc.getColor()));
         ll.setAlpha(opacity.getValue()/100.0f);
         ll.setModified(true);
     }

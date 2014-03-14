@@ -27,15 +27,16 @@ import layers.*;
 </pre>
 
 	@author Davide Bucci
-	@version 1.0 December 2007
+	@version 1.0 December 2007 - February 2014
 	
 	*/
-public class LayerCellRenderer implements ListCellRenderer 
+public class LayerCellRenderer implements ListCellRenderer<LayerDesc> 
 {
 	/** Method required for the ListCellRenderer interface; it draws
 		a layer element in the cell and adds its event listeners */
-	public Component getListCellRendererComponent(final JList list, 
-		final Object value, final int index, final boolean isSelected, 
+	public Component getListCellRendererComponent(
+		final JList<? extends LayerDesc> list, 
+		final LayerDesc value, final int index, final boolean isSelected, 
 		final boolean cellHasFocus)
 	{
 		final LayerDesc layer=(LayerDesc) value;

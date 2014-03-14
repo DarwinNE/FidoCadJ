@@ -7,14 +7,16 @@ import java.lang.reflect.*;
 
 import globals.*;
 import circuit.*;
+import circuit.controllers.*;
+import circuit.model.*;
 import export.*;
 import timer.*;
-
+import graphic.*;
+import layers.*;
 
 /** FidoMain.java 
 
 	The starting point of FidoCadJ.
-
 
 <pre>
     This file is part of FidoCadJ.
@@ -32,186 +34,55 @@ import timer.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2013 by Davide Bucci
+    Copyright 2008-2014 by Davide Bucci
 </pre>
 
     
     @author Davide Bucci
 */
 
-public class FidoMain {
+public class FidoMain 
+{
 
-    /** The main method. Shows an instance of the FidoFrame */
+    // See if there is a filename to open or an option to take into 
+    // account
+	private static String loadFile="";
+    private static String libDirectory="";
+    private static Locale currentLocale=null;
+           	
+	// If this is true, the GUI will not be loaded and FidoCadJ will run as
+    // a command line utility:
+    private static boolean commandLineOnly = false;
+       	
+    // The standard behavior implies that FidoCadJ tries to activate some
+    // optimizations or settings which depends on the platform and should
+    // increase things such as the redrawing speed and other stuff. In some
+    // cases ("-p" option) they might be deactivated:
+    private static boolean stripOptimization=false;
+        
+    // The following variable will be true if one requests to convert a 
+    // file:
+    private static boolean convertFile = false;
+    private static int totx=0, toty=0;
+    private static String exportFormat="";
+    private static String outputFile="";
+    private static boolean headlessMode = false;
+    private static boolean resolutionBasedExport = false;	
+    private static boolean printSize=false;
+    private static boolean printTime=false;
+    private static double resolution=1;               
+    
+	/** silence MPD "All methods are static" warning */
+	private FidoMain() {
+	}
+
+    /** The main method. Process the command line options and if necessary
+    	shows an instance of FidoFrame.
+    */
     public static void main(String[] args)
-    {
-    		
-        // See if there is a filename to open or an option to take into 
-        // account
-       	String loadFile="";
-       	String libDirectory="";
-       	Locale currentLocale=null;
-       	
-       	// If this is true, the GUI will not be loaded and FidoCadJ will run as
-       	// a command line utility:
-       	boolean commandLineOnly = false;
-       	
-       	// The standard behavior implies that FidoCadJ tries to activate some
-       	// optimizations or settings which depends on the platform and should
-       	// increase things such as the redrawing speed and other stuff. In some
-       	// cases ("-p" option) they might be deactivated:
-       	boolean stripOptimization=false;
-        
-        // The following variable will be true if one requests to convert a 
-        // file:
-        boolean convertFile = false;
-        int totx=0, toty=0;
-        String exportFormat="";
-        String outputFile="";
-        boolean headlessMode = false;
-        boolean resolutionBasedExport = false;	
-        boolean printSize=false;
-        boolean printTime=false;
-        double resolution=1;               
-        
-        if (args.length>=1) {
-        	int i;
-        	boolean loaded=false;
-        	boolean nextLib=false;
-        	
-        	// called by jnlp        	
-        	if (args[0].equalsIgnoreCase("-print"))
-        	{        		
-        		String filename = args[1].toLowerCase().replace(".fcd", "");  
-        		if (filename.lastIndexOf(
-        			System.getProperty("file.separator"))>0) {
-        			filename = 
-        				filename.substring(filename.lastIndexOf(
-        				System.getProperty("file.separator"))+1);
-        		}
-        		args = ("-n -c r72 pdf "+filename+".pdf "+args[1]).split(" ");         		
-        	}
-
-        	for(i=0; i<args.length; ++i) {
-        		if (args[i].startsWith("-")) {
-        			// It is an option
-        			
-        			// phylum        			
-        			if (args[i].trim().equalsIgnoreCase("-open")) {        				
-        				continue;
-        			} else if (args[i].startsWith("-k")) {
-        				// -k: show the current locale
-        				System.out.println("Detected locale: "+
-        					Locale.getDefault().getLanguage());
-        			} else if (args[i].startsWith("-n")) {
-        				// -n indicates that FidoCadJ should run only with
-        				// the command line interface, without showing any
-        				// GUI.
-        				commandLineOnly=true;
-        				System.setProperty("java.awt.headless", "true");
-        			} else if (args[i].startsWith("-d")) {
-        				// -d indicates that the following argument is the path
-        				// of the library directory. The previous library 
-        				// directory will be ignored.
-        				nextLib=true;
-        			} else if (args[i].startsWith("-c")) {
-        				// -c indicates that FidoCadJ should read and convert
-        				// the given file. The structure of the command must 
-        				// be as follows:
-        				// -c 800 600 png test.png
-        				// which is the total width and height in pixel, the 
-        				// format required (SVG, EPS, PGF, PNG, PDF, EPS, SCH)
-        				// and the file name to be used.
-        				// The second possibility is that the -c option is 
-        				// followed by the r option, followed by a number
-        				// specifying the number of pixels for logical units.
-        				
-        				try {
-        					if (args[++i].startsWith("r")) {
-        						resolution = Double.parseDouble(
-        							args[i].substring(1));
-        						resolutionBasedExport = true;
-        						if (resolution<=0) {
-        							System.err.println("Resolution should be"+
-        								"a positive real number");
-        							System.exit(1);
-        						}
-        					} else {
-        						totx=Integer.parseInt(args[i]);
-        						toty=Integer.parseInt(args[++i]);
-        					}
-        					exportFormat=args[++i];
-        					outputFile=args[++i];
-        					convertFile=true;
-        					headlessMode = true;
-        					
-        				} catch (Exception E)
-        				{
-        					System.err.println("Unable to read the parameters"+
-        						" given to -c");
-        					System.exit(1);
-        				}
-        				convertFile=true;
-        			} else if (args[i].startsWith("-h")) { // Zu Hilfe!
-        				showCommandLineHelp();
-        				System.exit(0);
-        			} else if (args[i].startsWith("-s")) { // Get size
-        				headlessMode = true;
-        				printSize=true;
-        			} else if (args[i].startsWith("-t")) { // Timer
-        				printTime=true;
-        			} else if (args[i].startsWith("-p")) { // No optimizations
-        				stripOptimization=true;        			
-        			} else if (args[i].startsWith("-l")) { // Locale
-        				// Extract the code corresponding to the wanted locale.
-        				// Use iso 639-1 codes.
-        				String loc;
-        				if(args[i].length()==2) {
-        					// In this case, the -l xx form is used, where
-        					// xx indicates the wanted locale. A space 
-        					// separates "-l" from the wanted locale.
-        					
-        					// At first, check if the user forgot the locale
-        					if(i==args.length-1 || args[i+1].startsWith("-")) {
-        						System.err.println("-l option requires a "+
-        							"locale language code.");
-        						System.exit(1);
-        					}
- 							loc=args[++i];       					
-        				} else {
-        					// In this case, the -lxx form is used, where
-        					// xx indicates the wanted locale. No space is
-        					// used.
-        					loc=args[i].substring(2);
-        				}
-        				currentLocale=new Locale(loc);
- 
-        			} else {
-        				System.err.println("Unrecognized option: "+args[i]);
-        				showCommandLineHelp();
-        				System.exit(1);
-        			}
-        		} else {
-        			// We should process now the arguments of the different 
-        			// options (if it applies).
-        			if (nextLib) {
-        				// This is -d: read the new library directory
-        				libDirectory= args[i];
-        				System.out.println("Changed the library directory: "
-        					+args[i]);
-        			} else {
-        				if (loaded) {
-        					System.err.println("Only one file can be"+
-        						" specified in the command line");
-        				}
-        				// We can not load the file now, since the main frame 
-        				// has not been initialized yet.
-        				loadFile=args[i];
-        				loaded=true;
-        			}
-        			nextLib=false;
-        		}
-        	}
-        }
+    {	
+        if (args.length>=1) 
+        	processArguments(args);
         
         if(!stripOptimization && 
         	System.getProperty("os.name").startsWith("Mac")) {
@@ -225,8 +96,8 @@ public class FidoMain {
         	// NOTE: this does not seem to have any effect!
 			System.setProperty("apple.awt.graphics.UseQuartz", "true");
 		}
-	/*	
-		if(!stripOptimization &&
+		
+/*		if(!stripOptimization &&
         	System.getProperty("os.name").toLowerCase().startsWith("linux")) {
         	// CAREFUL**************************************************
 			// Various sources  reports that  this option  will increase
@@ -240,13 +111,12 @@ public class FidoMain {
            	// System.setProperty("sun.java2d.opengl", "true");
            	// See for example this discussion: http://tinyurl.com/axoxqcb
         }   */
-        
         // Now we proceed with all the operations: opening files, converting...
         if(headlessMode) {
         	// Creates a circuit object
-        	ParseSchem P = new ParseSchem();
+        	DrawingModel P = new DrawingModel();
         	
-        	if(loadFile.equals("")) {
+        	if("".equals(loadFile)) {
         		System.err.println("You should specify a FidoCadJ file to"+
         		"read");
         		System.exit(1);
@@ -275,11 +145,11 @@ public class FidoMain {
             
         		bufRead.close();
 				
-        		P.setLayers(Globals.createStandardLayers());
+        		P.setLayers(StandardLayers.createStandardLayers());
                         
       			// Here txt contains the new circuit: parse it!
-
-      			P.parseString(new StringBuffer(txt.toString()));       
+				ParserActions pa=new ParserActions(P);
+      			pa.parseString(new StringBuffer(txt.toString()));       
 	 	
             } catch(IllegalArgumentException iae) {
                 System.err.println("Illegal filename");
@@ -304,8 +174,8 @@ public class FidoMain {
             }
             
             if (printSize) {
-            	Point o=new Point(0,0);
-            	Dimension d = ExportGraphic.getImageSize(P,1, true, o);
+            	PointG o=new PointG(0,0);
+            	DimensionG d = ExportGraphic.getImageSize(P,1, true, o);
 				System.out.println(""+d.width+" "+d.height);	
             }
             
@@ -318,6 +188,147 @@ public class FidoMain {
         	SwingUtilities.invokeLater(new CreateSwingInterface(libDirectory, 
         		loadFile, currentLocale));
         }
+    }
+    
+    static private void processArguments(String[] orArgs)
+    {
+       	int i;
+       	boolean loaded=false;
+       	boolean nextLib=false;
+   		String[] args=orArgs;
+	
+        
+       	// called by jnlp        	
+       	if (args[0].equalsIgnoreCase("-print")) {
+       		// TODO: verify if this can happen in a operating system
+       		// with case sensitive file system! Windows only code?	
+       		String filename = args[1].toLowerCase().replace(".fcd", "");  
+       		if (filename.lastIndexOf(
+       			System.getProperty("file.separator"))>0)
+       			filename = 
+       				filename.substring(filename.lastIndexOf(
+       				System.getProperty("file.separator"))+1);
+       		args = ("-n -c r72 pdf "+filename+".pdf " // NOPMD
+            	+args[1]).split(" "); // NOPMD  suppressed PMD false positive    		
+       	}
+
+       	for(i=0; i<args.length; ++i) {
+       		if (args[i].startsWith("-")) {
+       			// It is an option
+       			
+       			// phylum        			
+       			if (args[i].trim().equalsIgnoreCase("-open")) {        				
+       				continue;
+       			}
+       			       			   
+       			if (args[i].startsWith("-n")) {
+       				// -n indicates that FidoCadJ should run only with
+       				// the command line interface, without showing any
+       				// GUI.
+       				commandLineOnly=true;
+       				System.setProperty("java.awt.headless", "true");
+       			} else if (args[i].startsWith("-d")) {
+       				// -d indicates that the following argument is the path
+       				// of the library directory. The previous library 
+       				// directory will be ignored.
+       				nextLib=true;
+       			} else if (args[i].startsWith("-c")) {
+       				// -c indicates that FidoCadJ should read and convert
+       				// the given file. The structure of the command must 
+       				// be as follows:
+       				// -c 800 600 png test.png
+       				// which is the total width and height in pixel, the 
+       				// format required (SVG, EPS, PGF, PNG, PDF, EPS, SCH)
+       				// and the file name to be used.
+       				// The second possibility is that the -c option is 
+       				// followed by the r option, followed by a number
+       				// specifying the number of pixels for logical units.
+       				
+       				try {
+       					if (args[++i].startsWith("r")) {
+       						resolution = Double.parseDouble(
+       							args[i].substring(1));
+       						resolutionBasedExport = true;
+       						if (resolution<=0) {
+       							System.err.println("Resolution should be"+
+       								"a positive real number");
+       							System.exit(1);
+       						}
+       					} else {
+       						totx=Integer.parseInt(args[i]);
+       						toty=Integer.parseInt(args[++i]);
+       					}
+       					exportFormat=args[++i];
+       					outputFile=args[++i];
+       					convertFile=true;
+       					headlessMode = true;
+        					
+       				} catch (Exception E) {
+       					System.err.println("Unable to read the parameters"+
+       						" given to -c");
+       					System.exit(1);
+       				}
+       				
+       				convertFile=true;
+       			} else if (args[i].startsWith("-h")) { // Zu Hilfe!
+       				showCommandLineHelp();
+       				System.exit(0);
+       			} else if (args[i].startsWith("-s")) { // Get size
+       				headlessMode = true;
+       				printSize=true;
+       			} else if (args[i].startsWith("-t")) { // Timer
+       				printTime=true;
+       			} else if (args[i].startsWith("-p")) { // No optimizations
+       				stripOptimization=true;        			
+       			} else if (args[i].startsWith("-l")) { // Locale
+       				// Extract the code corresponding to the wanted locale
+       				String loc;
+       				if(args[i].length()==2) {
+       					// In this case, the -l xx form is used, where
+       					// xx indicates the wanted locale. A space 
+       					// separates "-l" from the wanted locale.
+        					
+       					// At first, check if the user forgot the locale
+       					if(i==args.length-1 || args[i+1].startsWith("-")) {
+       						System.err.println("-l option requires a "+
+       							"locale language code.");
+       						System.exit(1);
+       					}
+ 						loc=args[++i];       					
+       				} else {
+       					// In this case, the -lxx form is used, where
+       					// xx indicates the wanted locale. No space is
+       					// used.
+       					loc=args[i].substring(2);
+       				}
+       				currentLocale=new Locale(loc);
+ 
+       			} else {
+       				System.err.println("Unrecognized option: "+args[i]);
+       				showCommandLineHelp();
+       				System.exit(1);
+       			}
+       		} else {
+       			// We should process now the arguments of the different 
+       			// options (if it applies).
+       			if (nextLib) {
+       				// This is -d: read the new library directory
+       				libDirectory= args[i];
+       				System.out.println("Changed the library directory: "
+       					+args[i]);
+       			} else {
+       				if (loaded) {
+       					System.err.println("Only one file can be"+
+       						" specified in the command line");
+       				}
+       				// We can not load the file now, since the main frame 
+       				// has not been initialized yet.
+       				loadFile=args[i];
+       				loaded=true;
+       			}
+       			nextLib=false;
+       		}
+       	}
     }
     
     /** Print a short summary of each option available for launching
@@ -360,8 +371,6 @@ public class FidoMain {
     		" -l     Force FidoCadJ to use a certain locale (the code might follow\n"+
     		"        immediately or be separated by an optional space).\n\n"+
     		
-    		" -k     Show the current locale, as specified by the operating system\n\n"+
-    		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
     		"        load at startup time.\n\n"+
     		
@@ -388,59 +397,70 @@ public class FidoMain {
 		@param P the parsing class in which the libraries should be loaded
 		@param englishLibraries a flag to specify if the internal libraries 
 			should be loaded in English or in Italian.
-		@param libDirectory the path of the external directory.
+		@param libDirectoryO the path of the external directory.
 
 	*/
-	public static void readLibrariesProbeDirectory(ParseSchem P, 
-		boolean englishLibraries, String libDirectory)
+	public static void readLibrariesProbeDirectory(DrawingModel P, 
+		boolean englishLibraries, String libDirectoryO)
 	{
-		if (libDirectory == null || libDirectory.length()<3) libDirectory = System.getProperty("user.home");		
-		P.loadLibraryDirectory(libDirectory);
-	    if (!(new File(Globals.createCompleteFileName(
-	    	libDirectory,"IHRAM.FCL"))).exists()) {
-            if(englishLibraries)
-                P.loadLibraryInJar(FidoFrame.class.getResource(
+		String libDirectory=libDirectoryO;
+		ParserActions pa = new ParserActions(P);
+		
+		synchronized(P) {
+		if (libDirectory == null || libDirectory.length()<3) 
+			libDirectory = System.getProperty("user.home");	
+		
+			
+		pa.loadLibraryDirectory(libDirectory);
+	    if (new File(Globals.createCompleteFileName(
+	    	libDirectory,"IHRAM.FCL")).exists()) {
+            System.out.println("IHRAM library got from external file");
+        } else {
+        	if(englishLibraries)
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
                 	"lib/IHRAM_en.FCL"), "ihram");
             else
-                P.loadLibraryInJar(FidoFrame.class.getResource(
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
                 	"lib/IHRAM.FCL"), "ihram");
-        } else
-            System.out.println("IHRAM library got from external file");
-       	
-       	if (!(new File(Globals.createCompleteFileName(
-       		libDirectory,"FCDstdlib.fcl"))).exists()) {
-           
+        }
+            
+       	if (new File(Globals.createCompleteFileName(
+       		libDirectory,"FCDstdlib.fcl")).exists()) {
+           	System.out.println("Standard library got from external file");
+        } else {        
        	  	if(englishLibraries)
-           		P.loadLibraryInJar(FidoFrame.class.getResource(
+           		pa.loadLibraryInJar(FidoFrame.class.getResource(
            			"lib/FCDstdlib_en.fcl"), "");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/FCDstdlib.fcl"), "");
-        } else 
-           	System.out.println("Standard library got from external file");
+        }
         
-        if (!(new File(Globals.createCompleteFileName(
-        	libDirectory,"PCB.fcl"))).exists()) {
-           	if(englishLibraries)
-               	P.loadLibraryInJar(FidoFrame.class.getResource(
+        if (new File(Globals.createCompleteFileName(
+        	libDirectory,"PCB.fcl")).exists()) {
+           	System.out.println("Standard PCB library got from external file");
+        } else {
+        	if(englishLibraries)
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/PCB_en.fcl"), "pcb");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/PCB.fcl"), "pcb");
-        } else
-           	System.out.println("Standard PCB library got from external file");
+    	}
            	
-        if (!(new File(Globals.createCompleteFileName(
-        	libDirectory,"elettrotecnica.fcl"))).exists()) {
-           	if(englishLibraries)
-               	P.loadLibraryInJar(FidoFrame.class.getResource(
+        if (new File(Globals.createCompleteFileName(
+        	libDirectory,"elettrotecnica.fcl")).exists()) {
+           	System.out.println(
+           		"Electrotechnics library got from external file");   
+        } else {
+        	if(englishLibraries)
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/elettrotecnica_en.fcl"), "elettrotecnica");
            	else
-               	P.loadLibraryInJar(FidoFrame.class.getResource(
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/elettrotecnica.fcl"), "elettrotecnica");
-        } else
-           	System.out.println(
-           		"Electrotechnics library got from external file");   	
+    	}
+	}
 	}
 }
 
@@ -453,6 +473,12 @@ class CreateSwingInterface implements Runnable {
 	String loadFile;
 	Locale currentLocale;
 	
+	/** Constructor where we specify some details concerning the library
+		directory, the file to load (if needed) as well as the locale.
+		@param ld the library directory
+		@param lf the file to load
+		@param ll the locale.
+	*/
 	public CreateSwingInterface (String ld, String lf, Locale ll)
 	{
 		libDirectory = ld;
@@ -460,12 +486,17 @@ class CreateSwingInterface implements Runnable {
 		currentLocale =ll;
 	}
 
+	/** Standard constructor.
+	
+	*/
 	public CreateSwingInterface ()
 	{
 		libDirectory = "";
 		loadFile = "";
 	}
 	
+	/** Run the thread.
+	*/
 	public void run() 
 	{
 	    /*******************************************************************
@@ -491,7 +522,6 @@ class CreateSwingInterface implements Runnable {
             	"com.apple.mrj.application.apple.menu.about.name", 
             	"FidoCadJ");
             
-            boolean noAqua=false;
 	        try { 
                 //Globals.quaquaActive=true;
         	    //System.setProperty("Quaqua.Debug.showVisualBounds","true");
@@ -501,20 +531,11 @@ class CreateSwingInterface implements Runnable {
                        	"ch.randelshofer.quaqua.QuaquaLookAndFeel");
                 
 	                System.out.println("Quaqua look and feel active");
- 	           	} 
- 	           	// Catch the possible exceptions
-	       	} catch (ClassNotFoundException C) {
-	       		noAqua=true;
-	       	} catch (InstantiationException D) {
-	       		noAqua=true;
-	       	} catch (IllegalAccessException E) {
-	       		noAqua=true;
-	       	} catch (UnsupportedLookAndFeelException E1) {
-	       		noAqua=true;
-	       	}
-	       	
-	       	if(noAqua) {
+ 	           	}
+                
+	        } catch (Exception e) {
 	            // Quaqua is not active. Just continue!
+            
     	        System.out.println(
     	         	"The Quaqua look and feel is not available");
         	    System.out.println(
@@ -556,26 +577,13 @@ class CreateSwingInterface implements Runnable {
            	// program since the compilation can be successful only on
            	// a MacOSX system.
           
-          	boolean notCompiledForApple=false;
            	try {
-           		Class a = Class.forName("AppleSpecific");
+           		Class<?> a = Class.forName("AppleSpecific");
            		Object b = a.newInstance();
            		Method m = a.getMethod("answerFinder");
 				m.invoke(b);
-				// Catch all the possible exceptions
-           	} catch (InstantiationException exc) {
-				notCompiledForApple=true;
-           	} catch (IllegalAccessException exc1) {
-           		notCompiledForApple=true;
-           	} catch (ClassNotFoundException exc2) {
-           		notCompiledForApple=true;
-           	} catch (NoSuchMethodException exc3) {
-           		notCompiledForApple=true;
-           	} catch (InvocationTargetException exc4) {
-           	    notCompiledForApple=true;
-           	}
-               
-        	if(notCompiledForApple) {    
+           	
+           	} catch (Exception exc) {
      			Globals.weAreOnAMac = false;
      			System.out.println("It seems that this software has been "+
      				"compiled on a system different from MacOSX. Some nice "+
@@ -590,7 +598,7 @@ class CreateSwingInterface implements Runnable {
         
 	    FidoFrame popFrame=new FidoFrame(true, currentLocale);
         
-        if (!libDirectory.equals("")) {
+        if (!"".equals(libDirectory)) {
 			popFrame.libDirectory = libDirectory;
         }
 
@@ -606,7 +614,7 @@ class CreateSwingInterface implements Runnable {
 		popFrame.loadLibraries();
         // If a file should be loaded, load it now, since popFrame has been
         // created and initialized.
-        if(!loadFile.equals(""))
+        if(!"".equals(loadFile))
 			popFrame.load(loadFile);
 				
 		// We force a global validation of the window size, by including 

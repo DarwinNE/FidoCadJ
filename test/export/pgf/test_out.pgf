@@ -269,7 +269,7 @@
 \pgfclosepath 
 \pgffill 
 \pgfsetlinewidth{0.33pt}
-\pgfellipse[fillstroke]{\pgfxy(27,201)}{\pgfxy(7,0)}{\pgfxy(0,7)}
+\pgfellipse[fillstroke]{\pgfxy(27,201)}{\pgfxy(7.5,0)}{\pgfxy(0,7.5)}
 \pgfrect[fillstroke]{\pgfxy(41.5,193.5)}{\pgfxy(15,15)}
 \pgfrect[fillstroke]{\pgfxy(64.5,193.5)}{\pgfxy(15,15)}
 \pgfsetlinewidth{0.5249999999999999pt}
@@ -933,7 +933,9 @@
 \pgffill 
 \color{white}
 \pgfellipse[fillstroke]{\pgfxy(27,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
+\color{white}
 \pgfellipse[fillstroke]{\pgfxy(49,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
+\color{white}
 \pgfellipse[fillstroke]{\pgfxy(72,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
 \end{pgfmagnify}
 \end{pgfpicture}

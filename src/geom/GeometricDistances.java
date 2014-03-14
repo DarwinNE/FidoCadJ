@@ -21,21 +21,39 @@ package geom;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>	
-
-    
+  
     @author Davide Bucci
-    @version 1.3, July 2010
 */
 
-public class GeometricDistances {
+public final class GeometricDistances {
 
 	public static final int MIN_DISTANCE = 100;
 
 	// Number of segments evaluated when calculatin the distance between a 
 	// point and a Bézier curve.
 	public static final int MAX_BEZIER_SEGMENTS=10;
+	
+	// Some caching data
+	private static	int idx;
+	private static	int idy;
+	private static	int it;
+	private static  int ixmin, ixmax, iymin, iymax;
+	
+	private static double dx;
+	private static double dy;
+	private static double t;
+	private static double xmin, ymin, xmax, ymax;
+	
+		
+	private static int i, j;
+    private static 	boolean c;
+    
+    private GeometricDistances()
+    {
+    	// Does nothing.
+    }
 	
 	/** Calculate the euclidean distance between two points.
 	
@@ -71,11 +89,6 @@ public class GeometricDistances {
 			return MIN_DISTANCE;
 	
 	}
-	
-	private static double dx;
-	private static double dy;
-	private static double t;
-	private static double xmin, ymin, xmax, ymax;
 	
 	/** Calculate the euclidean distance between a point and a segment.
 	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
@@ -128,17 +141,12 @@ public class GeometricDistances {
 			dx=x-xb;
 			dy=y-yb;
 		} else {
-			dx=x-(xa+t*dx);
-			dy=y-(ya+t*dy);
+			dx=x-xa+t*dx;
+			dy=y-ya+t*dy;
 		}
 		return Math.sqrt(dx*dx+dy*dy);
 	
 	}
-	
-	private static	int idx;
-	private static	int idy;
-	private static	int it;
-	private static  int ixmin, ixmax, iymin, iymax;
 	
 	/** Calculate the euclidean distance between a point and a segment.
 	    Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
@@ -197,16 +205,11 @@ public class GeometricDistances {
 			idx=x-xb;
 			idy=y-yb;
 		} else {
-			idx=x-(xa+it*idx/1000);
-			idy=y-(ya+it*idy/1000);
+			idx=x-(xa+it*idx/1000);	// NOPMD parentheses are useful here!
+			idy=y-(ya+it*idy/1000); // NOPMD parentheses are useful here!
 		}
 		return (int)Math.sqrt(idx*idx+idy*idy);
-		
-	
 	}
-	
-	private static int i, j;
-    private static 	boolean c;
 
 	/** Tells if a point lies inside a polygon, using the alternance rule
 		adapted from a snippet by Randolph Franklin, in Paul Bourke pages:
@@ -225,9 +228,9 @@ public class GeometricDistances {
       	c = false;
       	
       	for (i = 0,j = npol-1; i < npol; j=i++) {
-      		if ((((yp[i] <= y) && (y < yp[j])) ||
-             	((yp[j] <= y) && (y < yp[i]))) &&
-            	(x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i]))
+      		if ((yp[i] <= y && y < yp[j] ||
+             	 yp[j] <= y && y < yp[i]) &&
+            	x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i])
           		c = !c;
         	j=i;
       	}
@@ -247,12 +250,12 @@ public class GeometricDistances {
 								  double h,double px,double py) 
 	{
     	//Determine and normalize quadrant.
-    	dx = Math.abs(px-(ex+w/2.0));
-    	dy = Math.abs(py-(ey+h/2.0));
+    	dx = Math.abs(px-(ex+w/2.0));	// NOPMD
+    	dy = Math.abs(py-(ey+h/2.0));	// NOPMD
     	
 		
     	//Shortcut
-    	if( dx > w/2.0 || dy > h/2.0 ) {
+    	if( dx > w/2.0 || dy > h/2.0) {
      	 	return false;
    		 }
 
@@ -318,8 +321,8 @@ public class GeometricDistances {
 								  double h,double px,double py) 
 	{
     	//Determine and normalize quadrant.
-    	double dx = Math.abs(px-(ex+w/2));
-    	double dy = Math.abs(py-(ey+h/2));
+    	double dx = Math.abs(px-(ex+w/2.0)); // NOPMD parentheses are useful!
+    	double dy = Math.abs(py-(ey+h/2.0)); // NOPMD parentheses are useful!
     	double l;
 	
 		// Treat separately the degenerate cases. This will avoid a divide
@@ -383,10 +386,7 @@ public class GeometricDistances {
 	public static boolean pointInRectangle(double ex,double ey,double w,
 								  double h,double px,double py) 
 	{
-	if((ex>px)||(px>ex+w) || (ey>py)||(py>ey+h))
-		return false;
-	else
-		return true;
+		return !(ex>px||px>ex+w || ey>py || py>ey+h);
 	}
 	
 	/** Tells if a point lies inside a rectangle, integer version
@@ -403,11 +403,7 @@ public class GeometricDistances {
 	public static boolean pointInRectangle(int ex,int ey,int w,
 								  int h, int px,int py) 
 	{
-		if((ex>px)||(px>ex+w) || (ey>py)||(py>ey+h))
-			return false;
-		else
-			return true;
-		
+		return !(ex>px || px>ex+w || ey>py || py>ey+h);
 	}
 	
 	
@@ -499,8 +495,8 @@ public class GeometricDistances {
 		double b03, b13, b23, b33;
 		double umu;
 		double u;
-		int j;
-		int i=0;
+		
+		i=0;
 		int[] x=new int[MAX_BEZIER_SEGMENTS+1];
 		int[] y=new int[MAX_BEZIER_SEGMENTS+1];
 		double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
@@ -533,14 +529,12 @@ public class GeometricDistances {
 		}
 		
 		// Calculate the distance of the given point with each of the
-		// obtained segments.
-		
+		// obtained segments.	
 		for(j=0;j<MAX_BEZIER_SEGMENTS;++j) {
 			distance=Math.min(distance, pointToSegment(x[j], y[j], 
 												x[j+1], y[j+1],px, py));
 		}
 		return distance;
 	}
-
 }
 

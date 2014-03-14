@@ -69,7 +69,7 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public String macroFont;
   	public int macroSize_i;
 
- 	private JFrame parent;
+ 	private final JFrame parent;
 
 	private JCheckBox antiAlias_CB;
 	private JCheckBox profile_CB;
@@ -335,12 +335,15 @@ public class DialogOptions extends JDialog implements ComponentListener
 	}
     public void componentMoved(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
+    	// Nothing to do
     }
     
     // Creates the panel dedicated to the startup options of FidoCadJ.
@@ -396,7 +399,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 					System.setProperty("apple.awt.fileDialogForDirectories", 
 						"false");
 					if(fd.getDirectory()!= null && fd.getFile() != null) 
-						din=(new File(fd.getDirectory(),fd.getFile())).
+						din=new File(fd.getDirectory(),fd.getFile()).
 							getPath();
 					else
 						din = null;

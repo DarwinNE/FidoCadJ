@@ -18,7 +18,7 @@ package toolbars;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2014 by Davide Bucci
 </pre>
     
    
@@ -31,7 +31,7 @@ public interface ChangeSelectionListener {
 		has changed. 
 		@param s the actual selection state (see the CircuitPanel class for the
 		definition of the constants used here).
-		@param m the key of the macro being used (if necessary).
+		@param macroKey the key of the macro being used (if necessary).
 
 	*/
 	public void setSelectionState(int s, String macroKey);

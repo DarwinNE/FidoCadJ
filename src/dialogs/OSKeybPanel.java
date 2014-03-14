@@ -52,7 +52,9 @@ import javax.swing.plaf.basic.BasicBorders;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2012 by phylum2
+	Copyright 2012-2014 by phylum2, Davide Bucci
+	
+	TODO: avoid using magic numbers in the code
 </pre>
 
 @author phylum2
@@ -60,11 +62,8 @@ import javax.swing.plaf.basic.BasicBorders;
 
 @SuppressWarnings("serial")
 
-public class OSKeybPanel extends JPanel {
-
-	/**
-	 * @param args
-	 */
+public class OSKeybPanel extends JPanel 
+{
 	
 	String symbols = 
 		"\u0391\u0392\u0393\u0394\u0395\u0396\u0397\u0398\u0399\u039A" 
@@ -89,17 +88,16 @@ public class OSKeybPanel extends JPanel {
 	
 	public enum KEYBMODES {GREEK, MATH, MISC};
 	
-	
-	/**	Constructor: create a virtual keyboard following a given "mode"
-		@param mode, the type of keyboard to be generated.
+	/** Create the keyboard panel of the selected type.
 	*/
 	public OSKeybPanel(KEYBMODES mode)
 	{		
 		super();
 
         GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints=new GridBagConstraints();        
         setLayout(bgl);
-        GridBagConstraints constraints = DialogUtil.createConst(0,0,1,1,0,0,
+        constraints = DialogUtil.createConst(0,0,1,1,0,0,
     			GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
     			new Insets(0,0,0,0));  
     			
@@ -109,6 +107,7 @@ public class OSKeybPanel extends JPanel {
 		Font fbig = new Font("Courier New",0,size+2);	
 
 		ActionListener al = new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) 
 			{
 				JDialog jd = (JDialog) txt;			
@@ -119,8 +118,8 @@ public class OSKeybPanel extends JPanel {
 				JTextField jfd = (JTextField)jd.getMostRecentFocusOwner();			
 				if (jfd.getSelectedText()!=null) 
 				{
-					String ee = (jfd.getText().replace(
-						jfd.getSelectedText(), ""));
+					String ee = jfd.getText().replace(
+						jfd.getSelectedText(), "");
 					jfd.setText(ee);
 				} 
 				int p = jfd.getCaretPosition();
@@ -154,12 +153,9 @@ public class OSKeybPanel extends JPanel {
 			if (mode == KEYBMODES.MISC && i<48) 
 				continue;
 				
-			k[i].setFont(i>71 ? fbig : f);;
+			k[i].setFont(i>71 ? fbig : f);
 			k[i].setFocusable(false);
 			k[i].addActionListener(al);	
-			// A little of Quaqua-style retouch, in order to have a very
-			// pretty keyboard on MacOSX. It won't harm on other operating
-			// systems.
 			k[i].putClientProperty("Quaqua.Button.style","toggleCenter");
 			if (constraints.gridx>7) {
 				k[i].putClientProperty("Quaqua.Button.style","toggleWest");
@@ -172,8 +168,8 @@ public class OSKeybPanel extends JPanel {
 			constraints.gridx++;
 		}
 		
-		// TODO: avoid using magic numbers in the code, but calculate 
-		// automatically the indices.
+		// TODO: avoid using numbers in the code, but calculate automatically
+		// the indices.
 		k[0].putClientProperty("Quaqua.Button.style","toggleWest");
 		k[symbols.length()-1].putClientProperty(
 			"Quaqua.Button.style","toggleEast");

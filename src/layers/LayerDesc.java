@@ -1,21 +1,13 @@
 package layers;
 
-import java.awt.*;
+import graphic.*;
 
-
-/** layerDesc.java v.1.0
+/** layerDesc.java
 
 	
    Provide a complete description of each layer (color, visibility).
 <pre>
-   ****************************************************************************
-   Version History 
-
-Version   Date           	Author      Remarks
-------------------------------------------------------------------------------
-1.0     December 2007		D. Bucci    First working version
-1.1		June 2009			D. Bucci 	Capitalize the first letters                                     
-
+  
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,35 +23,44 @@ Version   Date           	Author      Remarks
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2010 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 
-	</pre>
+</pre>
 
-   The class layerDesc provides a complete description of each layer.
+   
 
 	@author Davide Bucci
-	@version 1.2 April 2010
-	
-	*/
+
+*/
 	
 public class LayerDesc 
 {
-  	private Color layerColor;
+	 
+ 	// Number of layers to be treated:
+	public static final int MAX_LAYERS=16;
+
+
+	// The color of the layer:
+  	private ColorInterface layerColor;
   	
-  	// isVisible is true if the layer should be drawn.
-  	
+  	// isVisible is true if the layer should be drawn:
   	public boolean isVisible;
+  	
+  	// is Modified is true if a redraw is needed:
   	private boolean isModified;
+  	
+  	// Name or description of the layer:
   	private String LayerDescription;
+  	
+  	// Transparency
   	private float alpha;
   	
   	/** Standard constructor: obtain a visible layer with a black color and no 
   		description.
   	*/
-  	
   	public LayerDesc()
   	{
-  		layerColor=Color.black;
+  		layerColor=null;
   		isVisible=true;
   		LayerDescription="";
   	
@@ -72,7 +73,7 @@ public class LayerDesc
   		@param d the layer description
   	*/
   	
-  	public LayerDesc(Color c, boolean v, String d, float a)
+  	public LayerDesc(ColorInterface c, boolean v, String d, float a)
   	{
   		layerColor=c;
   		isVisible=v;
@@ -85,7 +86,7 @@ public class LayerDesc
   		
   		@return the color to be used
   	*/
-  	final public Color getColor()
+  	final public ColorInterface getColor()
   	{
   		return layerColor;
   	}
@@ -151,7 +152,7 @@ public class LayerDesc
   	
    	/** This method allows to indicate that the layer has been modified.
   		
-  		@param true if the layer should be considered as modified
+  		@param v true if the layer should be considered as modified
   	*/
   	final public void setModified(boolean v)
   	{
@@ -162,7 +163,7 @@ public class LayerDesc
   		
   		@param c the layer color
   	*/
-  	final public void setColor(Color c)
+  	final public void setColor(ColorInterface c)
   	{
   		layerColor=c;
   	}

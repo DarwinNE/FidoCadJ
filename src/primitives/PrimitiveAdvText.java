@@ -1,16 +1,20 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+
+/*
 import java.awt.geom.*;
 import java.awt.image.*;
+import java.awt.*;
+import java.awt.event.*;
+*/
 
 import geom.*;
 import dialogs.*;
 import export.*;
 import globals.*;
+import graphic.*;
 
 /** Class to handle the advanced text primitive.
 
@@ -30,7 +34,7 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
@@ -55,11 +59,30 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	
 	// A text is defined by one point.
 	static final int N_POINTS=1;
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.	
+//	private static BufferedImage sizeCalculationImage;
+	private int xaSCI;
+	private int yaSCI;
+	private int orientationSCI;
+	private int hSCI, thSCI, wSCI;
+	private int[] xpSCI, ypSCI;
+	
+	private boolean mirror;
+	private int orientation;
+	
+	private int h, th, w;
+	private double ymagnitude;
+	private int x1, y1, xa, ya, qq;
+	private double xyfactor, si, co;
+	private boolean needsStretching;
+
 		
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
 	*/
-	
 	public int getControlPointNumber()
 	{
 		return N_POINTS;
@@ -75,14 +98,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		o=0;
 		txt="";
 		fontName = Globals.defaultTextFont;
-		virtualPoint = new Point[N_POINTS];
+		virtualPoint = new PointG[N_POINTS];
 		for(int i=0;i<N_POINTS;++i)
-			virtualPoint[i]=new Point();
+			virtualPoint[i]=new PointG();
 		
 		changed=true;
-		recalcSize=true;
-
-		
+		recalcSize=true;		
 	}
 	
 	/** Complete constructor.
@@ -100,7 +121,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 							int st, String t, int l)
 	{
 		this();
-		virtualPoint[0]=new Point(x,y);
+		virtualPoint[0]=new PointG(x,y);
 		six=sx;
 		siy=sy;
 		sty=st;
@@ -111,30 +132,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		changed=true;
 		recalcSize=true;
 	}
-
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private	AffineTransform at;
-	private AffineTransform stretching;
-	private AffineTransform ats;
-	private Font f;
-	private boolean mirror;
-	private int orientation;
-	private AffineTransform mm;
-	private FontMetrics fm;
-	private int h, th, w;
-	private int x1, y1, xa, ya, qq;
-	private double xyfactor, si, co;
-	private boolean needStretching;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+	public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+		Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
 			return;
@@ -146,6 +151,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		if(txt.length()==0)
 			return;		
 		changed=true;
+		ymagnitude=coordSys.getYMagnitude();
 		if(changed) {
  			changed=false;
 			mirror=false;
@@ -160,25 +166,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  		   		1 typographical point is 1/72 of an inch.
  			*/
  			
- 			int font_style = Font.PLAIN;
- 			
- 			// Here we determine the text style from its characteristics
- 			font_style += (((sty & TEXT_BOLD)==0)?0:Font.BOLD);
- 			font_style += (((sty & TEXT_ITALIC)==0)?0:Font.ITALIC);
- 			
- 			f=new Font(fontName,font_style,
- 				(int)(six*12*coordSys.getYMagnitude()/7+.5));
- 			 
-			/* At first, I tried to use an affine transform on the font, without
-		   	pratically touching the graphic context. This technique worked well,
-		   	but I noticed it produced bugs on the case of a jar packed on a 
-		   	MacOSX application bundle.
-		   	I therefore choose (from v. 0.20.2) to use only graphic context
-		   	transforms. What a pity!
-		   
-		   	February 20, 2009: I noticed this is in fact a bug on JRE < 1.5 
-		   
-		   	*/
+ 			g.setFont(fontName, (int)(six*12*coordSys.getYMagnitude()/7+.5),
+ 				(sty & TEXT_ITALIC)!=0, (sty & TEXT_BOLD)!=0);
 	    	
     		orientation=o-coordSys.getOrientation()*90;
     	
@@ -192,33 +181,35 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     		}
     	
     		// Determination of the size of the text string.
-			fm = g.getFontMetrics(f);
-    		h = fm.getAscent();
-    		th = h+fm.getDescent();
-    		w = fm.stringWidth(txt);
+    		h = g.getFontAscent();
+    		th = h+g.getFontDescent();
+    		w = g.getStringWidth(txt);
     				
  			xyfactor=1.0;
- 			needStretching = false;
- 			stretching = new AffineTransform();
+ 			needsStretching = false;
  		
  			if(siy/six != 10/7){
     			// Create a transformation for the font. 
 				xyfactor=(double)siy/(double)six*22.0/40.0;
-				needStretching = true;
+				needsStretching = true;
    			}
- 			stretching.scale(1,xyfactor);
  		 			
-    		if(orientation!=0){
-    			if(!mirror){
-    				si=Math.sin(Math.toRadians(orientation));
-					co=Math.cos(Math.toRadians(orientation));
-   				} else {
+    		if(orientation==0) {
+  				if (mirror){
+  					coordSys.trackPoint(xa-w,ya);
+					coordSys.trackPoint(xa,ya+(int)(th*xyfactor));
+				} else {
+  					coordSys.trackPoint(xa+w,ya);
+					coordSys.trackPoint(xa,ya+(int)(h*xyfactor));
+				}	
+			} else {
+    			if(mirror){
     				si=Math.sin(Math.toRadians(-orientation));
 					co=Math.cos(Math.toRadians(-orientation));
-   				
+   				} else {
+    				si=Math.sin(Math.toRadians(orientation));
+					co=Math.cos(Math.toRadians(orientation));
    				}
-//				hh=(int)Math.abs(w*si+th*co);
-//				ww=(int)Math.abs(w*co-th*si);
    				// Calculate the bounding box.
 
    				double bbx1=xa;
@@ -234,105 +225,20 @@ public final class PrimitiveAdvText extends GraphicPrimitive
    				double bby4=ya-w*si*xyfactor;
 						
     			if(mirror) {
-    				mm = new AffineTransform(); 
-    				mm.scale(-1,1);
    				 	bbx2=xa-th*si;
    					bbx3=xa-w*co-th*si;
    					bbx4=xa-w*co;
     			} 
-   				
-   				/*
-   				int bbxA =(int)Math.min(Math.min(bbx1, bbx2),Math.min(bbx3, bbx4));
-   				int bbyA =(int)Math.min(Math.min(bby1, bby2),Math.min(bby3, bby4));
-    			
-   				int bbxB =(int)Math.max(Math.max(bbx1, bbx2),Math.max(bbx3, bbx4));
-   				int bbyB =(int)Math.max(Math.max(bby1, bby2),Math.max(bby3, bby4));
-   				
-   				g.drawString("1",(int)bbx1, (int)bby1); 
-   				g.drawString("2",(int)bbx2, (int)bby2); 
-   				g.drawString("3",(int)bbx3, (int)bby3); 
-   				g.drawString("4",(int)bbx4, (int)bby4); 
-   				g.drawRect(bbxA,bbyA,bbxB-bbxA,bbyB-bbyA);	
-   				*/
     	 		
     	 		coordSys.trackPoint((int)bbx1,(int)bby1);
     	 		coordSys.trackPoint((int)bbx2,(int)bby2);
     	 		coordSys.trackPoint((int)bbx3,(int)bby3);
     	 		coordSys.trackPoint((int)bbx4,(int)bby4);
-
-			} else {
-  				if (!mirror){
-  					coordSys.trackPoint(xa+w,ya);
-					coordSys.trackPoint(xa,ya+(int)(h*xyfactor));
-				} else {
-					coordSys.trackPoint(xa-w,ya);
-					coordSys.trackPoint(xa,ya+(int)(th*xyfactor));
-				}
-			}
+			} 
     		qq=(int)(ya/xyfactor);
 		}
-
-   		at=(AffineTransform)g.getTransform().clone();
-		ats=(AffineTransform)at.clone();
-
-		if(orientation!=0){
-    		if(mirror) {
-    			// Here the text is rotated and mirrored
-    		    at.concatenate(mm);
-				at.rotate(Math.toRadians(orientation),-xa, ya);
-				if(needStretching) at.concatenate(stretching);
-   				g.setTransform(at);
-				if(!g.getFont().equals(f))
-	   				g.setFont(f);
-
-    			g.drawString(txt,-xa,qq+h); 
-
-    		} else {
-    			// Here the text is just rotated
-				at.rotate(Math.toRadians(-orientation),xa,ya);
-				if(needStretching) at.concatenate(stretching);
-   				g.setTransform(at);
-   				if(!g.getFont().equals(f))
-	   				g.setFont(f);
-				g.drawString(txt,xa,qq+h); 
-    		}
-  		} else {
-			if (!mirror){
-				// Here the text is normal
-				if(needStretching) { 
-					at.concatenate(stretching);
-					g.setTransform(at);
-				}
-				
-				if(g.hitClip(xa,qq, w, th)){
-					if(th<Globals.textSizeLimit) {
-						g.drawLine(xa,qq,xa+w,qq);
-						if(needStretching) 
-							g.setTransform(ats);
-	   					return;
-	    			} else {
-	    				if(!g.getFont().equals(f))
-	   						g.setFont(f);
-						g.drawString(txt,xa,qq+h);
-						if(needStretching) 
-							g.setTransform(ats);
-	   					return;
-					}
-				}
-			} else {
-				// Here the text is mirrored
-				at.scale(-1,xyfactor);
-				g.setTransform(at);
-				if(g.hitClip(-xa,qq,w,h)){
-					if(!g.getFont().equals(f))
-	   					g.setFont(f);
-
-					g.drawString(txt,-xa,qq+h); 
-				}
-			}
-		}
-		
-		g.setTransform(ats);
+		g.drawAdvText(xyfactor, xa, ya, qq, h, w, h, needsStretching, 
+			orientation, mirror, txt);
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
@@ -420,14 +326,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  		} 			
  	
 	}
-	
-	private static BufferedImage sizeCalculationImage;
-	private int xaSCI;
-	private int yaSCI;
-	private int orientationSCI;
-	private int hSCI, thSCI, wSCI;
-	private int[] xpSCI, ypSCI;
-	
+		
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
 	    When it is reasonable, the behaviour can be binary (polygons, 
@@ -444,37 +343,56 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		// routines.
 		
 		if (changed||recalcSize) {
+		
+			if(changed) {
+				System.out.println("Warning: size calculation in PrimitiveAdvText might be uncorrect!!!");
+			}
  			// recalcSize is set to true when the draw method detects that the
  			// graphical appearance of the text should be recalculated.
  			
  			recalcSize = false;
-        	sizeCalculationImage = new BufferedImage(1, 1, 
-        		BufferedImage.TYPE_INT_RGB);
-     
-         	// Create a graphics contents on the buffered image
-         	Graphics2D gSCI = sizeCalculationImage.createGraphics();
- 		
+        	
 			xaSCI=virtualPoint[0].x;
  			yaSCI=virtualPoint[0].y;
 
     		orientationSCI=o;
  			
+ 			/*
+ 			BufferedImage sizeCalculationImage = new BufferedImage(1, 1, 
+        	BufferedImage.TYPE_INT_RGB);
+     
+         	// Create a graphics contents on the buffered image
+         	Graphics2D gSCI = 
+         		(Graphics2D)sizeCalculationImage.createGraphics();
+         		
  			Font f=new Font(fontName,((sty & 
  				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
  				(int)(six*12.0/7.0+.5));
- 			
+ 				
 	   		gSCI.setFont(f);
+            
 			FontMetrics fmSCI = gSCI.getFontMetrics(f);
-			gSCI.dispose();
-			
     		hSCI = fmSCI.getAscent();
     		thSCI = hSCI+fmSCI.getDescent();
    			wSCI = fmSCI.stringWidth(txt);
-	
+   			
+   			int dh =(int)(h/ymagnitude);
+			int dth=(int)(th/ymagnitude);
+			int dw=(int)(w/ymagnitude);
+			
+			if(hSCI!=dh || thSCI!=dth || wSCI!=dw)
+				System.out.println("(hSCI="+hSCI+", h="+dh+")  (thSCI="+ thSCI+
+					", th="+dth+")   (wSCI="+wSCI+", w="+dw+")");
+			*/
+			
+			hSCI =(int)(h/ymagnitude);
+			thSCI=(int)(th/ymagnitude);
+			wSCI=(int)(w/ymagnitude);
+			
 			if(siy/six != 10/7){
     			hSCI=(int)Math.round(hSCI*((double)siy*22.0/40.0/(double)six)); 
-				thSCI=(int)Math.round((double)thSCI*((double)siy
-					*22.0/40.0/(double)six)); 
+				thSCI=(int)Math.round((double)thSCI*((double)siy*
+					22.0/40.0/(double)six)); 
    			}//
 
    			// Corrections for the mirrored text.
@@ -503,16 +421,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             }
         }
 
-		// Once the calculated size is stored, we proceed in calculating 
-		// the distance.
-       	if(orientationSCI!=0){	
-       		if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py))
-          		return 0;
-		} else {
+       	if(orientationSCI==0) {
 			if(GeometricDistances.pointInRectangle(Math.min(xaSCI, 
 				xaSCI+wSCI),yaSCI,Math.abs(wSCI),thSCI,px,py))
 	           	return 0;
-		}	
+		} else {	
+       		if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py))
+          		return 0;
+		} 
 		
 		// It is better not to obtain Integer.MAX_VALUE, but a value which
 		// is very large yet smaller than Integer.MAX_VALUE. In fact, in some
@@ -581,7 +497,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		pd.description=Globals.messages.getString("ctrl_boldface");
 		v.add(pd);
 		pd = new ParameterDescription();
-		pd.parameter=new Font(fontName,Font.PLAIN,12);
+		pd.parameter=new FontG(fontName);
 		pd.description=Globals.messages.getString("ctrl_font");
 		v.add(pd);
 		return v;
@@ -613,8 +529,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			pd = (ParameterDescription)v.get(i);
 			
 			// Check, just for sure...
-			if (pd.parameter instanceof Point)
-				virtualPoint[i-1]=(Point)pd.parameter;
+			if (pd.parameter instanceof PointG)
+				virtualPoint[i-1]=(PointG)pd.parameter;
 			else
 			 	System.out.println("Warning: unexpected parameter!");
 			
@@ -650,7 +566,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
-			sty = (((Boolean)pd.parameter).booleanValue())?
+			sty = ((Boolean)pd.parameter).booleanValue()?
 				sty | TEXT_MIRRORED:
 				sty & (~TEXT_MIRRORED);
 		else
@@ -658,7 +574,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		 	
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
-			sty = (((Boolean)pd.parameter).booleanValue())?
+			sty = ((Boolean)pd.parameter).booleanValue() ?
 				sty | TEXT_ITALIC:
 				sty & (~TEXT_ITALIC);
 		else
@@ -667,15 +583,15 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
 			
-			sty= (((Boolean)pd.parameter).booleanValue()) ? 
+			sty= ((Boolean)pd.parameter).booleanValue() ? 
 				sty | TEXT_BOLD:
 				sty & (~TEXT_BOLD);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		
 		pd=(ParameterDescription)v.get(i++);
-		if (pd.parameter instanceof Font)
-			fontName = ((Font)pd.parameter).getFamily();
+		if (pd.parameter instanceof FontG)
+			fontName = ((FontG)pd.parameter).getFamily();
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		return i;
@@ -683,11 +599,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	
 	/** Rotate the primitive. Here we just rotate 90° by 90°
 	
-		@param bCounterClockWise specify if the rotation should be done 
+		@param bc specify if the rotation should be done 
 				counterclockwise.
+		@param ix the x coordinate of the rotation center
+		@param iy the y coordinate of the rotation center
 	*/
-	public void rotatePrimitive(boolean bCounterClockWise, int ix, int iy)
+	public void rotatePrimitive(boolean bc, int ix, int iy)
 	{
+		boolean bCounterClockWise=bc;
 		super.rotatePrimitive(bCounterClockWise, ix, iy);
 		
 		int po=o/90;
@@ -732,10 +651,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     		// All spaces are substituted with "++" in order to avoid problems
     		// during the parsing phase
     		for (int i=0; i<fontName.length(); ++i) {
-    		if(fontName.charAt(i)!=' ') 
-    			s.append(fontName.charAt(i));
-    		else
+    		if(fontName.charAt(i)==' ') 
     			s.append("++");
+    		else
+    			s.append(fontName.charAt(i));	
     		}
 			subsFont=s.toString();
 		}
@@ -775,5 +694,4 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	{
 		return -1;
 	}
-	
 }

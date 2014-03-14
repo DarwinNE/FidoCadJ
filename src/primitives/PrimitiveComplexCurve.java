@@ -1,18 +1,13 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import globals.*;
 import geom.*;
 import dialogs.*;
 import export.*;
-import java.awt.geom.*;
-
-
+import graphic.*;
 
 /** Class to handle the ComplexCurve primitive.
 
@@ -32,7 +27,7 @@ import java.awt.geom.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2011-2012 by Davide Bucci
+	Copyright 2011-2014 by Davide Bucci
 	
 	Spline calculations by Tim Lambert
 	http://www.cse.unsw.edu.au/~lambert/splines/
@@ -41,7 +36,8 @@ import java.awt.geom.*;
 @author Davide Bucci
 */
 
-public final class PrimitiveComplexCurve extends GraphicPrimitive
+public final class PrimitiveComplexCurve
+	extends GraphicPrimitive
 {
 
 	private int nPoints;
@@ -61,18 +57,29 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	// crude technique, it fits well with the existing architecture (in 
 	// particular for the export facilities), since everything that it is
 	// needed for a polygon is available and can be reused here.
+	// In some cases (for example for drawing), a ShapeInterface is created,
+	// since it gives better results than a polygon.
 	
 	// A first polygon stored in screen coordinates
-	private Polygon p;
+	private PolygonInterface p;
 	
 	// A second polygon stored in logical coordinates
- 	private Polygon q;
+ 	private PolygonInterface q;
  	
 	// 5 points is the initial size, which is increased if needed
  	int N_POINTS=5;
 	
 	static final int STEPS=24;
 
+	// Some stored data
+	private int xmin, ymin;
+	private int width, height;
+	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private float w;
+	private ShapeInterface gp;
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -90,7 +97,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		super();
 		isFilled=false;
 		nPoints=0;
-		p = new Polygon();
+		p = null;
 		initPrimitive(N_POINTS, f, size);
 	}
 	/** Create a ComplexCurve. Add points with the addPoint method.
@@ -116,7 +123,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		arrowStyle =arrowSt;
 		dashStyle=dashSt;
 		
-		p = new Polygon();
+		p = null;
 		initPrimitive(N_POINTS, font, size);
 		nPoints=0;
 		isFilled=f;
@@ -146,10 +153,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         int d;
         int minv=0;
         
-        for(int i=0; i<q.npoints-1; ++i) {
-        	d=GeometricDistances.pointToSegment(q.xpoints[i],
-        		q.ypoints[i], q.xpoints[i+1],
-        		q.ypoints[i+1], px,py);
+        for(int i=0; i<q.getNpoints()-1; ++i) {
+        	d=GeometricDistances.pointToSegment(q.getXpoints()[i],
+        		q.getYpoints()[i], q.getXpoints()[i+1],
+        		q.getYpoints()[i+1], px,py);
         		
         	if(d<distance) {
         		distance = d;
@@ -192,12 +199,12 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			int o_n=N_POINTS;
 			int i;
 			N_POINTS += 10;
-			Point[] nv = new Point[N_POINTS];
+			PointG[] nv = new PointG[N_POINTS];
 			for(i=0;i<o_n;++i) {
 				nv[i]=virtualPoint[i];
 			}
 			for(;i<N_POINTS;++i) {
-				nv[i]=new Point();
+				nv[i]=new PointG();
 			}
 			virtualPoint=nv;
 		}
@@ -213,17 +220,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		changed = true;
 	}
 	
-	private int xmin, ymin;
-	private int width, height;
-	
 	/** Create the polygon associated to the complex curve. This is a crude
 		technique, but it is very easy to be implemented.
-	
 	*/
-	public final CurveStorage 
-		createComplexCurve(MapCoordinates coordSys)
-	{
-     		
+	public CurveStorage createComplexCurve(MapCoordinates coordSys)
+	{   		
         int np=nPoints;
                 
         double [] xPoints = new double[np];
@@ -255,26 +256,25 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	// very crude technique: just break each segment up into steps lines 
       	CurveStorage c = new CurveStorage();
       	
-		c.pp.add(new Point2D.Double(X[0].eval(0), Y[0].eval(0)));
+		c.pp.add(new PointDouble(X[0].eval(0), Y[0].eval(0)));
 		 	
 		int x, y;
 		 	
       	for (i = 0; i < X.length; ++i) {
-      		c.dd.add(new Point2D.Double(X[i].d1, Y[i].d1));
+      		c.dd.add(new PointDouble(X[i].d1, Y[i].d1));
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
-	  			c.pp.add(new Point2D.Double(X[i].eval(u), Y[i].eval(u)));
+	  			c.pp.add(new PointDouble(X[i].eval(u), Y[i].eval(u)));
 			}
       	} 
-      	c.dd.add(new Point2D.Double(X[X.length-1].d2, Y[X.length-1].d2));
+      	c.dd.add(new PointDouble(X[X.length-1].d2, Y[X.length-1].d2));
       	
       	return c;    	
 	}
 	
-	public final Polygon createComplexCurvePoly(MapCoordinates coordSys)
-	{
-		Polygon poly = new Polygon();
-		
+	public PolygonInterface createComplexCurvePoly(MapCoordinates coordSys,
+		PolygonInterface poly)
+	{	
         xmin = Integer.MAX_VALUE;
         ymin = Integer.MAX_VALUE;
         
@@ -284,12 +284,11 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         CurveStorage c=createComplexCurve(coordSys);
 	 	
 	 	if (c==null) return null;
-		Vector<Point2D.Double> pp = c.pp;
+		Vector<PointDouble> pp = c.pp;
 	 	if (pp==null) return null;
 	 	
 		int x, y;
-
-				 	
+			 	
       	for (int i = 0; i < pp.size(); ++i) {
 			x=(int)Math.round(pp.get(i).x);
 			y=(int)Math.round(pp.get(i).y);
@@ -488,21 +487,13 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		}	
 		
 	}
-
-
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private Stroke stroke;
-	private float w;
-	private GeneralPath gp;
 	
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
+	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
@@ -516,23 +507,29 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 			// side effects as the update of the xmin, ymin, width and height
 			// variables. This means that the order of the two following 
 			// commands is important!
-   			q=createComplexCurvePoly(new MapCoordinates());
-    		p=createComplexCurvePoly(coordSys);
+   			q=createComplexCurvePoly(new MapCoordinates(), g.createPolygon());
+    		p=createComplexCurvePoly(coordSys, g.createPolygon());
     		
     		CurveStorage c = createComplexCurve(coordSys);
-    		Vector<Point2D.Double> dd = c.dd;
-    		Vector<Point2D.Double> pp = c.pp;
+    		// Prevent a null pointer exception when the user does three clicks
+    		// on the same point. TODO: an incomplete toString output is
+    		// created.
+    		if (c==null)
+    			return;
+    		
+    		Vector<PointDouble> dd = c.dd;
+    		Vector<PointDouble> pp = c.pp;
     		
     		if(q==null) return;
     		
-    		gp = new GeneralPath(GeneralPath.WIND_EVEN_ODD, q.npoints);
+    		gp = g.createShape();
+    		gp.createGeneralPath(q.getNpoints());
     		
    			gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
    			
    			int increment=STEPS;
    			double derX1=0.0, derX2=0.0;
    			double derY1=0.0, derY2=0.0;
-   			// Weigths of the points.
    			double w1=0.666667, w2=0.666667;
    			int j=0;
    			for(int i=0; i<pp.size()-increment; i+=increment) {
@@ -544,7 +541,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				derY2=dd.get(j+1).y/2.0*w2;
    				
    				++j;
-   				   				
+   				
    				gp.curveTo((float)(pp.get(i).x+derX1),
    					(float)(pp.get(i).y+derY1),
    					(float)(pp.get(i+increment).x-derX2),
@@ -558,10 +555,6 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
    			
  			w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
  			if (w<D_MIN) w=D_MIN;
-			if (strokeStyle==null) {
-				strokeStyle = new StrokeStyle();
-			}
-			stroke = strokeStyle.getStroke(w, dashStyle);
 		}
 		
 		if (p==null || gp==null)
@@ -572,10 +565,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		if(!g.hitClip(xmin,ymin, width, height))
  			return;
  			
-		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
-		// setting the stroke takes a lot of time!
- 		if(!stroke.equals(g.getStroke())) 
-			g.setStroke(stroke);		
+		g.applyStroke(w, dashStyle);	
 
 		// If needed, fill the interior of the shape
         if (isFilled) {
@@ -586,7 +576,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
  		
  		 		
  		// Ensure that there are enough points to calculate the derivative.
- 		if (p.npoints<2)
+ 		if (p.getNpoints()<2)
  			return;
  		
  		// Draw the arrows if they are needed
@@ -597,14 +587,14 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				coordSys.mapXi(0,0, false);
 			
  			if (arrowStart&&!isClosed) {
- 				Arrow.drawArrow(g, p.xpoints[0], p.ypoints[0],
-					p.xpoints[1], p.ypoints[1],l, h, arrowStyle);
+ 				Arrow.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],
+					p.getXpoints()[1], p.getYpoints()[1],l, h, arrowStyle);
 			}
 			
 			if (arrowEnd&&!isClosed) {
-				Arrow.drawArrow(g, p.xpoints[p.npoints-1], 
-				p.ypoints[p.npoints-1],
-					p.xpoints[p.npoints-2], p.ypoints[p.npoints-2],l, h, 
+				Arrow.drawArrow(g, p.getXpoints()[p.getNpoints()-1], 
+				p.getYpoints()[p.getNpoints()-1],
+					p.getXpoints()[p.getNpoints()-2], p.getYpoints()[p.getNpoints()-2],l, h, 
 					arrowStyle);	
 			}
 		}
@@ -860,10 +850,10 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         // If the curve is not filled, we calculate the distance between the
         // given point and all the segments composing the curve and we 
         // take the smallest one.
-        for(int i=0; i<q.npoints-1; ++i) {
-        	int d=GeometricDistances.pointToSegment(q.xpoints[i],
-        		q.ypoints[i], q.xpoints[i+1],
-        		q.ypoints[i+1], px,py);
+        for(int i=0; i<q.getNpoints()-1; ++i) {
+        	int d=GeometricDistances.pointToSegment(q.getXpoints()[i],
+        		q.getYpoints()[i], q.getXpoints()[i+1],
+        		q.getYpoints()[i+1], px,py);
         		
         	if(d<distance) 
         		distance = d;
@@ -925,7 +915,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 	{
         double [] xPoints = new double[nPoints];
         double [] yPoints = new double[nPoints];
-        Point2D.Double[] vertices = new Point2D.Double[nPoints*STEPS+1];
+        PointDouble[] vertices = new PointDouble[nPoints*STEPS+1];
       
         int i;
         
@@ -937,7 +927,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
         	// the control points in vertices (sure we have some place, at
         	// least if STEPS>-1). If the export is done via a polygon, those
         	// points will be discarded and the array reused.
-        	vertices[i] = new Point2D.Double();
+        	vertices[i] = new PointDouble();
         	vertices[i].x = xPoints[i];
         	vertices[i].y = yPoints[i];
         }
@@ -951,14 +941,14 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 				(int)(arrowHalfWidth*cs.getXMagnitude()), 
 				dashStyle, Globals.lineWidth*cs.getXMagnitude())) {
 			
-			exportAsPolygon(xPoints, yPoints, vertices, exp, cs);
+			exportAsPolygonInterface(xPoints, yPoints, vertices, exp, cs);
     	        
-    	    int totalnP=q.npoints;
+    	    int totalnP=q.getNpoints();
     	    
     	    //System.out.println("totalnP="+totalnP);
         
 			// Draw the arrows if they are needed
-			if(q.npoints>2) {
+			if(q.getNpoints()>2) {
 				if (arrowStart&&!isClosed) {
 					exp.exportArrow(vertices[0].x, vertices[0].y,
 						vertices[1].x, vertices[1].y, 
@@ -986,8 +976,8 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
 		the export format chosen.
 	
 	*/
-	private void exportAsPolygon(double [] xPoints, double [] yPoints,
-		Point2D.Double[] vertices,
+	private void exportAsPolygonInterface(double [] xPoints, double [] yPoints,
+		PointDouble[] vertices,
 		ExportInterface exp, MapCoordinates cs)
 		throws IOException
 	{
@@ -1007,7 +997,7 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	
       	/* very crude technique - just break each segment up into steps lines */
       	
-      	vertices[0]=new Point2D.Double();
+      	vertices[0]=new PointDouble();
 	  			
 	  	vertices[0].x=X[0].eval(0);
 	  	vertices[0].y=Y[0].eval(0);
@@ -1017,19 +1007,20 @@ public final class PrimitiveComplexCurve extends GraphicPrimitive
       	for (i = 0; i < X.length; ++i) {
 			for (int j = 1; j <= STEPS; ++j) {
 	  			double u = j / (double) STEPS;
-				vertices[i*STEPS+j]=new Point2D.Double();
+				vertices[i*STEPS+j]=new PointDouble();
 	  			
 	  			vertices[i*STEPS+j].x=X[i].eval(u);
 	  			vertices[i*STEPS+j].y=Y[i].eval(u);
 			}
       	} 
       	
-      	vertices[X.length*STEPS]=new Point2D.Double();
+      	vertices[X.length*STEPS]=new PointDouble();
 		vertices[X.length*STEPS].x=X[X.length-1].eval(1.0);
 	  	vertices[X.length*STEPS].y=Y[X.length-1].eval(1.0);
 		
 		if (isClosed) {
-			exp.exportPolygon(vertices, X.length*STEPS+1, isFilled, getLayer(), 
+			exp.exportPolygon(vertices, X.length*STEPS+1, isFilled,
+			 	getLayer(), 
 				dashStyle, Globals.lineWidth*cs.getXMagnitude());
 		} else {
 			for(i=1; i<X.length*STEPS+1;++i){
@@ -1077,11 +1068,10 @@ class Cubic {
     this.c = c;
     this.d = d;
   }
-
   
   /** evaluate cubic */
   public double eval(double u) {
-    return (((d*u) + c)*u + b)*u + a;
+    return ((d*u + c)*u + b)*u + a;
   }
 }
 
@@ -1092,13 +1082,13 @@ class Cubic {
 	stores only the derivatives.
 */
 class CurveStorage {
-	Vector<Point2D.Double> pp;	// Curve as a polygon (relatively big)
-	Vector<Point2D.Double> dd;	// Derivatives 
+	Vector<PointDouble> pp;	// Curve as a polygon (relatively big)
+	Vector<PointDouble> dd;	// Derivatives 
 	
 	public CurveStorage()
 	{
-		pp = new Vector<Point2D.Double>();
-      	dd = new Vector<Point2D.Double>();
+		pp = new Vector<PointDouble>();
+      	dd = new Vector<PointDouble>();
 	}
 }
 	

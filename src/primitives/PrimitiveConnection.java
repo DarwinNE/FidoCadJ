@@ -1,14 +1,12 @@
 package primitives;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.geom.*;
 
 import geom.*;
 import export.*;
 import globals.*;
+import graphic.*;
 
 
 /** Class to handle the Connection primitive.
@@ -29,21 +27,24 @@ import globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2010 by Davide Bucci
+	Copyright 2007-2014 by Davide Bucci
 </pre>
 
 @author Davide Bucci
 */
 
-public final class PrimitiveConnection extends GraphicPrimitive
+public final class PrimitiveConnection
+	extends GraphicPrimitive
 {
-
-
 	// A connection is defined by one points.
 	// We take into account the optional Name and Value text tags.
-
 	static final int N_POINTS=3;
 	
+	// Those are data which are kept for the fast redraw of this primitive. 
+	// Basically, they are calculated once and then used as much as possible
+	// without having to calculate everything from scratch.
+	private int x1, y1, xa1, ya1, ni;
+	private double nn;	
 	
 	/** Gets the number of control points used.
 		@return the number of points used by the primitive
@@ -82,19 +83,12 @@ public final class PrimitiveConnection extends GraphicPrimitive
 		setLayer(layer);
 	}
 	
-	
-	// Those are data which are kept for the fast redraw of this primitive. 
-	// Basically, they are calculated once and then used as much as possible
-	// without having to calculate everything from scratch.
-	private int x1, y1, xa1, ya1, ni;
-	private double nn;
 	/** Draw the graphic primitive on the given graphic context.
 		@param g the graphic context in which the primitive should be drawn.
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	final public void draw(Graphics2D g, MapCoordinates coordSys,
-							  Vector layerV)
+	public void draw(GraphicsInterface g, MapCoordinates coordSys, Vector layerV)
 	{
 		if(!selectLayer(g,layerV))
 			return;
@@ -134,7 +128,7 @@ public final class PrimitiveConnection extends GraphicPrimitive
 			
 		// When the circle is very small, it is better to set a single pixel
 		// than trying to fill the oval.
-		if(ni>=3)
+		if(ni>=1)
 			g.fillOval(xa1, ya1, ni, ni);
 		else
 			g.fillRect(xa1, ya1, ni, ni);

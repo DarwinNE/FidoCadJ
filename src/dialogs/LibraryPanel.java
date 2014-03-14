@@ -22,7 +22,6 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     private int PREFERRED_PANEL_WIDTH = 250;
     
     private JFileChooser fc;
-    private JList fileList;
     private LibraryListModel listModel;
 
     /**
@@ -55,6 +54,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     */
     private void initGUI() 
     {
+		JList<LibraryDesc> fileList;
         JScrollPane sp;
         
         setLayout(new BorderLayout());
@@ -69,11 +69,12 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         else 
         	add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
         
-        fileList = new JList<String>(listModel);
-        fileList.setCellRenderer(new ListCellRenderer() {
+        fileList = new JList<LibraryDesc>(listModel);
+        fileList.setCellRenderer(new ListCellRenderer<LibraryDesc>() {
         	@Override
-        	public Component getListCellRendererComponent(JList list, 
-        		Object value, int index, 
+        	public Component getListCellRendererComponent(JList<? 
+        		extends LibraryPanel.LibraryDesc> list, 
+        		LibraryPanel.LibraryDesc value, int index, 
         		boolean isSelected, boolean cellHasFocus) 
         	{
 				LibraryDesc desc = (LibraryDesc) value;
@@ -102,7 +103,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         });
         
         sp = new JScrollPane(fileList);
-        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        sp.setVerticalScrollBarPolicy(
+        	ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(BorderLayout.CENTER, sp);
         
         // Disable focus.
@@ -137,11 +139,10 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 			public void run() 
 			{
 				JFileChooser fc;
-				LibraryPanel lp;
 				fc = new JFileChooser();
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fc.setPreferredSize(new Dimension(800,400));
-				lp = new LibraryPanel(fc);
+				new LibraryPanel(fc);
 			
 				fc.showOpenDialog(null);
 			}
@@ -153,7 +154,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     * This model searches libraries in selected directory.
     * And provide library name and filename to JList component.
     */
-    public class LibraryListModel implements ListModel 
+    public class LibraryListModel implements ListModel<LibraryDesc>
     {
     	    
         private ArrayList<ListDataListener> listeners;
@@ -178,12 +179,12 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     		currentDir = dir;
     		
     		clearList();
-    		if (currentDir != null) {
-    			// Permission check
-    			if (currentDir.canRead() && currentDir.isDirectory()) {
-    				refreshList();
-    			}
+    		if (currentDir != null && currentDir.canRead() && 
+                 currentDir.isDirectory()) {
+				// Permission check
+    			refreshList();
     		}
+    		// DB -> KO check if it is correct. I removed a "}"
     		fireChanged();
     	}
     	
@@ -196,11 +197,11 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 				@Override
 				public boolean accept(File f) 
 				{
-					if (f.isFile()) {
-						if (f.getName().toLowerCase().matches("^.*\\.fcl$")) {
-							return true;
-						}
+					if (f.isFile() &&
+						f.getName().toLowerCase().matches("^.*\\.fcl$")) {
+						return true;
 					}
+					// DB -> KO check if it is correct. I removed a "}"
 					return false;
 				}
     		});
@@ -218,10 +219,18 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 				public int compare(LibraryDesc ld1, LibraryDesc ld2) 
 				{
 					// Sort with case sensitive.
-					// This likes UNIX.
+					// This is usually made in UNIX file systems.
 					// If case sensitive is not needed, use
 					// String.compareToIgnoreCase
 					return ld1.filename.compareTo(ld2.filename);
+				}
+				@Override
+				public boolean equals(Object obj) 
+				{	// DB. FindBugs complains that this methods always 
+					// returns "false". It considers it a quite high priority
+					// issue to be solved. Is there any particular reason why
+					// this must return false?
+					return false;
 				}
     		});
     	}
@@ -278,18 +287,27 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     				pt++;
     			}
     			
+    			// DB: it seems to me that catching an Exception is a 
+    			// little bit too general. Which kind of reasonable 
+    			// problems have we got to handle here?
     		} catch (Exception e) {
     			// return null for libraryName
+    			libraryName=null;
     		} finally {
     			try {
-				if (br != null) {
+					if (br != null) {
     					br.close();
     				}
     				if (fr != null) {
     					fr.close();
     				}
-			} catch (Exception e) { }
-		}
+    				// DB: it seems to me that catching an Exception is a 
+    				// little bit too general. Which kind of reasonable 
+    				// problems have we got to handle here?
+				} catch (Exception e) { 
+					System.out.println("Problems while closing streams.");
+				}
+			}
             
             return libraryName;
         }
@@ -322,7 +340,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Library description class.
     */
-    static private class LibraryDesc 
+    private class LibraryDesc 
     {
 
     	public String filename;
@@ -337,10 +355,10 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Dummy icon class for spacing.
     */
-    static private class SpaceIcon implements Icon 
+    private class SpaceIcon implements Icon 
     {
 
- 		private int width;
+ 	private int width;
     	private int height;
     	
     	SpaceIcon(int width, int height) 
