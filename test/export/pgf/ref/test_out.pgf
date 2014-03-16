@@ -933,7 +933,9 @@
 \pgffill 
 \color{white}
 \pgfellipse[fillstroke]{\pgfxy(27,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
+\color{white}
 \pgfellipse[fillstroke]{\pgfxy(49,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
+\color{white}
 \pgfellipse[fillstroke]{\pgfxy(72,201)}{\pgfxy(1,0)}{\pgfxy(0,1)}
 \end{pgfmagnify}
 \end{pgfpicture}
