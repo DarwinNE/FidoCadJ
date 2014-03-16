@@ -151,6 +151,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     JPopupMenu popup;
     
     // Elements to be included in the popup menu
+    JMenuItem editProperties;
     JMenuItem editCut;
     JMenuItem editCopy;
     JMenuItem editPaste;
@@ -228,6 +229,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
             registerActiveKeys();
             //Create the popup menu.
     		popup = new JPopupMenu();
+    		editProperties = new 
+    			JMenuItem(Globals.messages.getString("Param_opt"));
+
     		editCut = new JMenuItem(Globals.messages.getString("Cut"));
         	editCopy = new JMenuItem(Globals.messages.getString("Copy"));
         	editSelectAll = new JMenuItem(
@@ -246,6 +250,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
     	    editRemoveNode = 	
     	    	new JMenuItem(Globals.messages.getString("Remove_node"));
         
+        	popup.add(editProperties);
+        	popup.addSeparator();
+        	
         	popup.add(editCut);
         	popup.add(editCopy);
         	popup.add(editPaste);
@@ -259,12 +266,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	popup.add(editAddNode);
         	popup.add(editRemoveNode);
         	
-        	popup.add(new JSeparator());
+        	popup.addSeparator();
         	popup.add(editSymbolize); // by phylum
         	popup.add(editUSymbolize); // phylum
         	
         	// Adding the action listener
         	
+        	editProperties.addActionListener(this);
         	editCut.addActionListener(this);
         	editCopy.addActionListener(this);
         	editSelectAll.addActionListener(this);
@@ -635,10 +643,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
        	// primitives. We therefore check wether are there some 
        	// of them available and in this case we activate what should
        	// be activated in the pop up menu.
-            	
+
        	if(edt.getFirstSelectedPrimitive()!=null) 
        		s=true;
-            	
+        
+       	editProperties.setEnabled(s);
       	editCut.setEnabled(s);
         editCopy.setEnabled(s);
         editRotate.setEnabled(s);
@@ -1234,35 +1243,59 @@ public class CircuitPanel extends JPanel implements ActionListener,
     } 
      
     /** Shows a dialog which allows the user modify the parameters of a given
-    	primitive.
+    	primitive. If more than one primitive is selected, modify only the
+    	layer of all selected primitives.
     */
     public void setPropertiesForPrimitive()
     {    	
         GraphicPrimitive gp=edt.getFirstSelectedPrimitive();
-        if (gp!=null) {
-            Vector<ParameterDescription> v=gp.getControls();
-            DialogParameters dp = new DialogParameters(
-            	(JFrame)Globals.activeWindow,
-            	v, extStrict, 
-                P.getLayers());
-            dp.setVisible(true);
-            if(dp.active) {
-                gp.setControls(dp.getCharacteristics());
-                P.setChanged(true);
-                
-                // We need to check and sort the layers, since the user can
-                // change the layer associated to a given primitive thanks to
-                // the dialog window which has been shown.
-                
-                P.sortPrimitiveLayers();
-                ua.saveUndoState();
-                repaint();
+        if (gp==null) 
+        	return;
+        	
+        Vector<ParameterDescription> v;
+        if (edt.isUniquePrimitiveSelected()) {
+           	v=gp.getControls();
+        } else {
+          	// If more than a primitive is selected, 
+           	v=new Vector<ParameterDescription>(1);
+           	ParameterDescription pd = new ParameterDescription();
+			pd.parameter=new LayerInfo(gp.getLayer());
+			pd.description=Globals.messages.getString("ctrl_layer");
+			v.add(pd);
+        }
+        DialogParameters dp = new DialogParameters(
+           	(JFrame)Globals.activeWindow,
+           	v, extStrict, 
+            P.getLayers());
+        dp.setVisible(true);
+        if(dp.active) {
+        	if (edt.isUniquePrimitiveSelected()) {
+        	    gp.setControls(dp.getCharacteristics());	
+        	} else { 
+        		ParameterDescription pd=(ParameterDescription)v.get(0);
+        		v=dp.getCharacteristics();
+        		if (pd.parameter instanceof LayerInfo) {
+					int l=((LayerInfo)pd.parameter).getLayer();
+					edt.setLayerForSelectedPrimitives(l);
+				} else {
+		 			System.out.println(
+		 				"Warning: unexpected parameter! (layer)");
+		 		}
             }
+            P.setChanged(true);
+                
+            // We need to check and sort the layers, since the user can
+            // change the layer associated to a given primitive thanks to
+            // the dialog window which has been shown.
+                
+            P.sortPrimitiveLayers();
+            ua.saveUndoState();
+            repaint();
         }
     }
     
     /** Selects the closest object to the given point (in logical coordinates)
-    	and pops up a dialog for the editing of its properties.
+    	and pops up a dialog for the editing of its Param_opt.
     	
     	@param x the x logical coordinate of the point used for the selection
     	@param y the y logical coordinate of the point used for the selection
@@ -1327,7 +1360,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         {
             String arg=evt.getActionCommand();                        
 			
-            if (arg.equals(Globals.messages.getString("Copy"))) {
+			if (arg.equals(Globals.messages.getString("Param_opt"))) {
+				setPropertiesForPrimitive();
+            } else if (arg.equals(Globals.messages.getString("Copy"))) {
             	// Copy all selected elements in the clipboard
                 cpa.copySelected(!extStrict, false,
                 	getMapCoordinates().getXGridStep(), 

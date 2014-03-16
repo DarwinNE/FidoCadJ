@@ -158,6 +158,39 @@ public class EditorActions
         return null;
     }
     
+    /** Determine if only one primitive has been selected
+    	@return true if only one primitive is selected, false otherwise (which
+    		means that either more than several primitives or no primitive are
+    		selected).
+    */
+    public boolean isUniquePrimitiveSelected()
+    {
+    	boolean isUnique=true;
+    	boolean hasFound=false;
+    	
+    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            if (g.getSelected()) {
+            	if(hasFound)
+            		isUnique = false;
+            		
+                hasFound = true;
+            }
+        }
+        
+        return hasFound && isUnique;
+    }
+    
+    /** Sets the layer for all selected primitives.
+    	@param l the wanted layer index.
+    */
+    public void setLayerForSelectedPrimitives(int l)
+    {
+    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            if (g.getSelected())
+            	g.setLayer(l);
+		}
+    }
+    
     /** Calculates the minimum distance between the given point and
         a set of primitive. Every coordinate is logical.
         

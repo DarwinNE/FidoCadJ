@@ -92,7 +92,7 @@ public class Globals
 	public static Object lastCGrp;	
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.4 alpha";
+    public static final String version = "0.24.4 beta";
     // Is it a beta version?
     public static final boolean isBeta = true;	
     
@@ -102,7 +102,6 @@ public class Globals
     // The default font
     public static final String defaultTextFont = "Courier New";
     // Comic Sans MS will send a 30 kV electrical discharge through USB...
-    
     
     public static final int dashNumber = 5;
     public static final float dash[][] = {{10.0f,0f},{5.0f,5.0f},{2.0f, 2.0f}, 
