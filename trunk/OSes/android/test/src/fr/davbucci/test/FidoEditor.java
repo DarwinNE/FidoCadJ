@@ -12,6 +12,9 @@ import android.graphics.Paint.*;
 import android.util.AttributeSet;
 import android.widget.PopupMenu;
 import android.os.Handler;
+import android.widget.Toast;
+import android.app.Activity;
+import android.view.ContextMenu.*;
 
 
 import circuit.model.*;
@@ -21,6 +24,34 @@ import circuit.views.*;
 import circuit.controllers.*;
 import graphic.android.*;
 import layers.*;
+
+/** Android Editor view: draw the circuit inside this view. This is one of the
+	most important classes, as it is responsible of all editing actions.
+    
+<pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 by Davide Bucci
+</pre>
+   The circuit panel will contain the whole drawing.
+    This class is able to perform its profiling, which is in particular
+    the measurement of the time needed to draw the circuit.
+    
+    @author Davide Bucci
+*/
 
 public class FidoEditor extends View implements PrimitivesParInterface
 {
@@ -52,6 +83,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private Context cc;
 	final Handler handler = new Handler(); 
 
+	/** Public constructor.
+	*/
     public FidoEditor(Context context, AttributeSet attrs) 
     {
         super(context, attrs);
@@ -62,6 +95,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         
     }
 
+	/** Initialize the view and prepare everything for the drawing.
+	*/
     private void init()
     {
         Vector<LayerDesc> layerDesc = StandardLayers.createStandardLayers();
@@ -87,7 +122,17 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		cs.setXMagnitude(3);
 		cs.setYMagnitude(3);
     }
+    
+    /** Get the EditorActions controller for the drawing.
+    */
+    public EditorActions getEditorActions()
+    {
+    	return ea;
+    }
 
+	/** Draw the drawing on the given canvas.
+		@param canvas the canvas where the drawing will be drawn.
+	*/
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -165,6 +210,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	return true;
     }
     
+    /** Inform Android's operating system of the size of the view.
+    */
     @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) 
 	{
@@ -204,6 +251,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	setMeasuredDimension(width, height);
 	}
 	
+	/** Create a test pattern, for debug purposes. It contains all the 
+		primitives of FidoCadJ.
+		@return a string containing the test pattern.  
+	*/
 	private String createTestPattern()
 	{
 		String s="[FIDOCAD]\n"+
@@ -342,16 +393,26 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	return s;
 	}
 
+	/** Implementation of the PrimitivesParInterface interface.
+	*/
 	public void selectAndSetProperties(int x,int y){}
+	
+	/** Implementation of the PrimitivesParInterface interface.
+	*/
 	public void setPropertiesForPrimitive(){}
+	
+	/** Implementation of the PrimitivesParInterface interface.
+		Show the popup menu. In Android, the menu can be centered inside the
+		current view.
+	*/
 	public void showPopUpMenu(int x, int y)
 	{
-		PopupMenu popup = new PopupMenu(cc, this);
-    	MenuInflater inflater = popup.getMenuInflater();
-   		inflater.inflate(R.menu.popupmenu, popup.getMenu());
-    	popup.show();
-    	android.util.Log.e("fidocadj", "here I am");
-	}
+		((Activity) cc).registerForContextMenu(this); 
+    	((Activity) cc).openContextMenu(this);
+    	((Activity) cc).unregisterForContextMenu(this);
+    }
+    
+	
 	
 	/** Increases or decreases the zoom by a step of 33%
     	@param increase if true, increase the zoom, if false decrease
