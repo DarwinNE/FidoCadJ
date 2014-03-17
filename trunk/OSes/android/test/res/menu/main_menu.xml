@@ -4,7 +4,7 @@
         android:id="@+id/file"
         android:showAsAction="ifRoom|withText"
         android:title="@string/File">
-        <menu >
+        <menu>
             <item
                 android:id="@+id/new_drawing"
         		android:showAsAction="ifRoom|withText"
@@ -39,7 +39,46 @@
     <item
         android:id="@+id/edit_menu"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/Edit_menu"/>
+        android:title="@string/Edit_menu">
+        <menu>
+        	<item
+                android:id="@+id/undo"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Undo" />
+        	<item
+                android:id="@+id/redo"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Redo" />
+        	<item
+                android:id="@+id/cut"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Cut" />
+        	<item
+                android:id="@+id/copy"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Copy" />
+        	<item
+                android:id="@+id/copy_split"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Copy_split" />
+        	<item
+                android:id="@+id/define_clipboard"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/DefineClipboard" />
+        	<item
+                android:id="@+id/select_all"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/SelectAll" />
+        	<item
+                android:id="@+id/rotate"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Rotate" />
+        	<item
+                android:id="@+id/mirror"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Mirror_E" />
+        </menu>
+    </item>
     
     <item
         android:id="@+id/view"

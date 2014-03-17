@@ -213,7 +213,7 @@
 	<string name="ChangeKeyWarning">Attention : cette opération pourrait rendre invalides des symboles dans le dessin actuel. Continuer?</string>
 	<string name="InvalidCharLib">A library name is also used as a file name: it should not contain invalid characters for this use: /\~[],;{}"&amp;.</string>
 	<string name="lib_filename">Nom du fichier :</string>
-	<string name="Copy_split">Copier, séparer symbole non standard</string>
+	<string name="Copy_split">Copier, séparer symboles non standard</string>
 	<string name="Save_split">Enregistrer sous..., séparer symboles non standard</string>
 	<string name="Font_size_invalid">La taille de la police du texte associé aux éléments graphiques doit être positive.</string>
 	<string name="lib_in_dir">Bibliothèques dans le répertoire</string>

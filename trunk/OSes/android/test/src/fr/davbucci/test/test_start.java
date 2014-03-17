@@ -25,7 +25,6 @@ public class test_start extends Activity
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
         
         tt.activateListeners(this, drawingPanel.eea);
-        
     }
     
     @Override
@@ -44,7 +43,10 @@ public class test_start extends Activity
 			case R.id.edit_menu: 		return edit();
 			case R.id.view: 			return view();
 			case R.id.about:		    return about();
-			default: 					return false;
+			default: 					
+				android.util.Log.e("fidocadj", "menu not found: "+
+					item.getItemId());
+				return false;
 		}
 	}
 	

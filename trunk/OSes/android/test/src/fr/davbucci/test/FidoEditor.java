@@ -186,7 +186,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		// Handle move events.
         switch (action) {
         	case MotionEvent.ACTION_UP:
-        		android.util.Log.e("f", "t x="+x+"  rulerStartX="+rulerStartX);
+        	case MotionEvent.ACTION_CANCEL:
         		if(Math.abs(x-rulerStartX)>10 || 
     			   Math.abs(y-rulerStartY)>10) {
             		haa.dragHandleEnd(this,x, y, false, cs);
