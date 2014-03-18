@@ -552,8 +552,8 @@ public class ElementsEdtActions
   //*************** coordinatesListener.changeInfos("");
 	
 		// We need to differentiate this case since when we are entering a
-		// macro, primEdit contains some useful hints about the orientation
-		// and the mirroring
+		// macro, primEdit already contains some useful hints about the 
+		// orientation and the mirroring, so we need to keep it.
 		if (actionSelected !=MACRO) 
         	primEdit = null;
         

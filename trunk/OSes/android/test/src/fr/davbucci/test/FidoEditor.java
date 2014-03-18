@@ -63,11 +63,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private DrawingModel dm;
     private Drawing dd;
     private MapCoordinates cs;
+    
     private ParserActions pa;
     private UndoActions ua;
     public EditorActions ea;
     public ContinuosMoveActions eea;
     private HandleActions haa;
+    private CopyPasteActions cpa;
     
     	// ********** RULER **********
 	
@@ -111,7 +113,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		ea = new EditorActions(dm, ua);
 		eea = new ContinuosMoveActions(dm, ua, ea);
 		haa = new HandleActions(dm, ea, ua);
+		cpa=new CopyPasteActions(dm, ea, pa, ua, (test_start)cc);
 
+		cpa.setShiftCopyPaste(true);	
+	
 		eea.setActionSelected(ElementsEdtActions.SELECTION);
 		eea.setPrimitivesParListener(this);
         
@@ -121,6 +126,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		
 		cs.setXMagnitude(3);
 		cs.setYMagnitude(3);
+		cs.setXGridStep(5);
+		cs.setYGridStep(5);
     }
     
     /** Get the EditorActions controller for the drawing.
@@ -130,6 +137,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	return ea;
     }
 
+	/** Get the CopyPasteActions controller for the drawing.
+    */
+    public CopyPasteActions getCopyPasteActions()
+    {
+    	return cpa;
+    }
+    
 	/** Draw the drawing on the given canvas.
 		@param canvas the canvas where the drawing will be drawn.
 	*/
@@ -454,6 +468,14 @@ public class FidoEditor extends View implements PrimitivesParInterface
     {
     	evidenceRect = new RectF(x, y, x+w, y+h); 
     }
+    
+    /** Get the current coordinate mapping object.
+    	@return the current coordinate mapping object.
+    */
+    public MapCoordinates getMapCoordinates()
+	{
+		return cs;
+	}
 
 	private class GestureListener extends 
 		GestureDetector.SimpleOnGestureListener 

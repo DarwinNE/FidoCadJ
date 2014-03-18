@@ -193,7 +193,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         eea. setPrimitivesParListener(this);
         
         haa=new HandleActions(P, edt, ua);
-        cpa=new CopyPasteActions(P, edt, pa, ua);
+        cpa=new CopyPasteActions(P, edt, pa, ua, new TextTransfer());
        
        	graphicSwing = new Graphics2DSwing();
         

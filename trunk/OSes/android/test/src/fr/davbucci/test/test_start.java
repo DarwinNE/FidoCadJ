@@ -6,11 +6,13 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.*;
+import android.content.*;
 
 
 import toolbars.*;
+import globals.*;
 
-public class test_start extends Activity
+public class test_start extends Activity implements ProvidesCopyPasteInterface
 {
 	private ToolbarTools tt;
 	private FidoEditor drawingPanel;
@@ -96,10 +98,25 @@ public class test_start extends Activity
 			case R.id.menu_param: 
 				break;			
 			case R.id.menu_cut:
+				drawingPanel.getCopyPasteActions().copySelected(
+					true, false,
+                	drawingPanel.getMapCoordinates().getXGridStep(), 
+                	drawingPanel.getMapCoordinates().getYGridStep());
+				drawingPanel.getEditorActions().deleteAllSelected(true);
+				status=true;
 				break;
-			case R.id.menu_copy: 
+			case R.id.menu_copy:
+				drawingPanel.getCopyPasteActions().copySelected(
+					true, false,
+                	drawingPanel.getMapCoordinates().getXGridStep(), 
+                	drawingPanel.getMapCoordinates().getYGridStep());
+                status=true;
 				break;			
  			case R.id.menu_paste: 
+ 				drawingPanel.getCopyPasteActions().paste(
+ 					drawingPanel.getMapCoordinates().getXGridStep(), 
+                	drawingPanel.getMapCoordinates().getYGridStep());
+                status=true;
  				break;			
 			case R.id.menu_selectall:
 				drawingPanel.getEditorActions().setSelectionAll(true);
@@ -126,6 +143,29 @@ public class test_start extends Activity
 			drawingPanel.invalidate();
 			
 		return status;
+	}
+	
+	public void copyText(String s)
+	{
+		 // Gets a handle to the clipboard service.
+		ClipboardManager clipboard = (ClipboardManager)
+        	getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("simple text", s.toString());
+        clipboard.setPrimaryClip(clip);
+	}
+	public String pasteText()
+	{
+		ClipboardManager clipboard = (ClipboardManager) 
+        	getSystemService(Context.CLIPBOARD_SERVICE);
+
+		String pasteData = "";
+		ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+
+		// Gets the clipboard as text.
+		pasteData = item.getText().toString();
+
+		// If the string contains data, then the paste operation is done
+		return pasteData;
 	}
    
 }
