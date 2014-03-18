@@ -1,0 +1,1 @@
+../../../../../src/globals/ProvidesCopyPasteInterface.java
