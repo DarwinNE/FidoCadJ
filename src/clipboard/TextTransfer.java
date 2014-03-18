@@ -9,7 +9,29 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.Toolkit;
 import java.io.*;
 
-public final class TextTransfer implements ClipboardOwner {
+import globals.*;
+
+public final class TextTransfer implements ClipboardOwner, 
+	ProvidesCopyPasteInterface
+{
+
+
+	public void copyText(String s)
+	{
+		 // get the system clipboard
+        Clipboard systemClipboard =Toolkit.getDefaultToolkit()
+            .getSystemClipboard();
+        
+        Transferable transferableText = new StringSelection(s);
+        systemClipboard.setContents(transferableText,null);
+	}
+	
+	public String pasteText()
+	{
+		// TODO: review a little...
+		TextTransfer textTransfer = new TextTransfer();
+		return textTransfer.getClipboardContents();
+	}
 
    	/**
    		Empty implementation of the ClipboardOwner interface.

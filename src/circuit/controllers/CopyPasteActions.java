@@ -1,15 +1,12 @@
 package circuit.controllers;
 
-import java.awt.datatransfer.*; 	// Used in copySelected
-import java.awt.*;	// To remove (Toolkit)
-
-import clipboard.*;
 import circuit.*;
 import circuit.model.*;
+import globals.*;
 
 
 /** CopyPasteActions: contains a controller which can perform copy and paste 
-	actions on a primitive database
+	actions on a primitive database.
     
 <pre>
     This file is part of FidoCadJ.
@@ -39,18 +36,20 @@ public class CopyPasteActions {
 	private final EditorActions edt;
 	private final ParserActions pa;
 	private final UndoActions ua;
+	private final ProvidesCopyPasteInterface cpi;
 
     // True if elements should be shifted when copy/pasted
     private boolean shiftCP;	
 	/** Standard constructor: provide the database class.
 	*/
 	public CopyPasteActions(DrawingModel pp, EditorActions ed, 
-		ParserActions aa, UndoActions u)
+		ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
 	{
 		P=pp;
 		edt=ed;
 		pa=aa;
 		ua=u;
+		cpi=p;
 		shiftCP=false;
 	}
 		
@@ -60,13 +59,10 @@ public class CopyPasteActions {
     */
     public void paste(int xstep, int ystep)
     {
-        TextTransfer textTransfer = new TextTransfer();
-        
         edt.setSelectionAll(false);
         
         try {
-            pa.addString(new 
-                StringBuffer(textTransfer.getClipboardContents()),true);
+        	pa.addString(new  StringBuffer(cpi.pasteText()), true);
         } catch (Exception E) {
         	System.out.println("Warning: paste operation has gone wrong.");
         }
@@ -96,12 +92,7 @@ public class CopyPasteActions {
 			s=pa.splitMacros(s,  false);
         }
         
-        // get the system clipboard
-        Clipboard systemClipboard =Toolkit.getDefaultToolkit()
-            .getSystemClipboard();
-        
-        Transferable transferableText = new StringSelection(s.toString());
-        systemClipboard.setContents(transferableText,null);
+        cpi.copyText(s.toString());
     }
     
     /** Returns true if the elements are shifted when copy/pasted
@@ -112,8 +103,8 @@ public class CopyPasteActions {
     	return shiftCP;
     }
     
-    /** Determines if the elements are shifted when copy/pasted
-    
+    /** Determines if the elements are to be shifted when copy/pasted
+    	@param s true if the elements should be shifted
     */
     public void setShiftCopyPaste(boolean s)
     {
