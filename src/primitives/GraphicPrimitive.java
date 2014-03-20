@@ -701,6 +701,8 @@ public abstract class GraphicPrimitive
 		int ya;
 		
 		g.setColor(g.getColor().red());
+		g.applyStroke(2.0f,0);
+
 		for(int i=0;i<getControlPointNumber();++i) {
 		
 			if (!testIfValidHandle(i))

@@ -205,6 +205,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     			   Math.abs(y-rulerStartY)>10) {
             		haa.dragHandleEnd(this,x, y, false, cs);
             	}
+            	invalidate();
         		break;
         	case MotionEvent.ACTION_MOVE:
             	int pointerCount = event.getPointerCount();
@@ -484,6 +485,9 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		@Override
 		public boolean onDown(MotionEvent event) 
 		{
+    		if(eea.getSelectionState()!=ElementsEdtActions.SELECTION)
+        		return false;
+        		
 			int x, y;
 			if(event.getPointerCount()>0) {
     			x = (int)event.getX(0);
