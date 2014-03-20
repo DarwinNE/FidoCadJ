@@ -786,6 +786,7 @@ public class ElementsEdtActions
     {
     	int x, y;
 		g.setColor(g.getColor().red());
+		g.applyStroke(2.0f,0);
 		// The data here begins at index 1, due to the internal construction.
 		for(int i=1; i<=clickNumber; ++i) {
 			x = cs.mapXi(xpoly[i], ypoly[i], false);

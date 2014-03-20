@@ -39,17 +39,42 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) 
 	{
-		switch (item.getItemId()) 
-		{
-			case R.id.file: 			return file();
-			case R.id.edit_menu: 		return edit();
-			case R.id.view: 			return view();
-			case R.id.about:		    return about();
+		boolean status=false;
+
+		if (onContextItemSelected(item))
+			return true;
+			
+		switch (item.getItemId()) {
+			case R.id.menu_copy_split:
+				// TODO: this is not yet working.
+				drawingPanel.getCopyPasteActions().copySelected(
+					true, true,
+                	drawingPanel.getMapCoordinates().getXGridStep(), 
+                	drawingPanel.getMapCoordinates().getYGridStep());
+                status=true;
+				break;
+				
+			case R.id.file: 			
+				status = file();
+				break;
+			case R.id.edit_menu: 
+				status = edit();
+				break;
+				
+			case R.id.view: 
+				status = view();
+				break;
+				
+			case R.id.about:
+				status = about();
+				break;
 			default: 					
-				android.util.Log.e("fidocadj", "menu not found: "+
-					item.getItemId());
-				return false;
+				
 		}
+		if(!status)
+			android.util.Log.e("fidocadj", "menu not found: "+
+					item.getItemId());
+		return status;
 	}
 	
 	private boolean file()
@@ -111,7 +136,7 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
                 	drawingPanel.getMapCoordinates().getXGridStep(), 
                 	drawingPanel.getMapCoordinates().getYGridStep());
                 status=true;
-				break;			
+				break;
  			case R.id.menu_paste: 
  				drawingPanel.getCopyPasteActions().paste(
  					drawingPanel.getMapCoordinates().getXGridStep(), 

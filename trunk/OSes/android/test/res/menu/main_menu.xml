@@ -1,5 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
+    <detail>
+    IMPORTANT NOTE: the unimplemented menu resources are not to be shown in the
+    development version. Each time a menu option is implemented (I mean, some 
+    code handles the action which is associated to it), remove the associated
+    line:
+    
+    android:visible="false"
+    
+    At the end, when all menu actions will be implemented, remove this note 
+    :-)
+    </detail>
+    
     <item
         android:id="@+id/file"
         android:showAsAction="ifRoom|withText"
@@ -8,31 +20,38 @@
             <item
                 android:id="@+id/new_drawing"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/New" />
+        		android:title="@string/New"
+        		android:visible="false" />
             <item
                 android:id="@+id/open_file"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Open" />
+        		android:title="@string/Open"
+        		android:visible="false" />
             <item
                 android:id="@+id/save"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Save" />
+        		android:title="@string/Save"
+        		android:visible="false" />
             <item
                 android:id="@+id/save_with_name"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/SaveName" />
+        		android:title="@string/SaveName"
+        		android:visible="false" />
             <item
                 android:id="@+id/export"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Export" />
+        		android:title="@string/Export"
+        		android:visible="false" />
             <item
                 android:id="@+id/print"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Print" />
+        		android:title="@string/Print"
+        		android:visible="false" />
             <item
                 android:id="@+id/options"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Circ_opt_t" />
+        		android:title="@string/Circ_opt_t"
+        		android:visible="false" />
         </menu>
     </item>
     
@@ -44,39 +63,49 @@
         	<item
                 android:id="@+id/undo"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Undo" />
+        		android:title="@string/Undo"
+        		android:visible="false" />
         	<item
                 android:id="@+id/redo"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Redo" />
-        	<item
-                android:id="@+id/cut"
+        		android:title="@string/Redo"
+        		android:visible="false" />
+        	<item android:id="@+id/menu_cut"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Cut" />
+          		android:title="@string/Cut" />
+			<item android:id="@+id/menu_copy"	
+				android:showAsAction="ifRoom|withText"
+          		android:title="@string/Copy" />
+          	<detail>
+          		Splitting the nonstandard macros requires to write stuff on a
+          		temporary file. This does not work yet with Android.
+          	</detail>
         	<item
-                android:id="@+id/copy"
+                android:id="@+id/menu_copy_split"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Copy" />
+        		android:title="@string/Copy_split" 
+        		android:visible="false"/>
+        	<item android:id="@+id/menu_paste"
+				android:showAsAction="ifRoom|withText"
+          		android:title="@string/Paste" />
         	<item
-                android:id="@+id/copy_split"
+                android:id="@+id/menu_define_clipboard"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Copy_split" />
+        		android:title="@string/DefineClipboard"
+        		android:visible="false" />
         	<item
-                android:id="@+id/define_clipboard"
-        		android:showAsAction="ifRoom|withText"
-        		android:title="@string/DefineClipboard" />
-        	<item
-                android:id="@+id/select_all"
+                android:id="@+id/menu_selectall"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/SelectAll" />
-        	<item
-                android:id="@+id/rotate"
+        	<item android:id="@+id/menu_delete"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Rotate" />
-        	<item
-                android:id="@+id/mirror"
-        		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Mirror_E" />
+          		android:title="@string/Delete" />          
+			<item android:id="@+id/menu_rotate"
+				android:showAsAction="ifRoom|withText"
+          		android:title="@string/Rotate" />  
+			<item android:id="@+id/menu_mirror"
+				android:showAsAction="ifRoom|withText"
+          		android:title="@string/Mirror_E" />
         </menu>
     </item>
     
@@ -88,14 +117,16 @@
             <item
                 android:id="@+id/layer"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Layer_options" />
+        		android:title="@string/Layer_options"
+        		android:visible="false" />
         </menu>
     </item>
     
     <item
         android:id="@+id/circuit"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/Circuit_l" >
+        android:title="@string/Circuit_l"
+         >
        
     </item>
     
