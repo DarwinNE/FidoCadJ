@@ -1,4 +1,4 @@
-package fr.davbucci.test;
+package net.sourceforge.fidocadj;
 
 import dialogs.DialogAbout;
 import android.app.Activity;

@@ -1,6 +1,6 @@
 package dialogs;
 
-import fr.davbucci.test.R;
+import net.sourceforge.fidocadj.R;
 import android.app.Activity;
 import android.app.Dialog;  
 import android.app.DialogFragment;
