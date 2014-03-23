@@ -6,7 +6,7 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.app.Activity;
 
-import fr.davbucci.test.*;
+import net.sourceforge.fidocadj.*;
 import circuit.controllers.ElementsEdtActions;
 
 
