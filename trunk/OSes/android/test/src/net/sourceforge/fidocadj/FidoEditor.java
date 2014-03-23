@@ -94,7 +94,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
         init();
         evidenceRect = null;
         gestureDetector = new GestureDetector(context, new GestureListener());
-        
     }
 
 	/** Initialize the view and prepare everything for the drawing.
@@ -122,6 +121,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         
         StringBuffer s=new StringBuffer(createTestPattern());	
 		pa.parseString(s);
+		ua.saveUndoState();
 		cs = new MapCoordinates();
 		
 		cs.setXMagnitude(3);
@@ -142,6 +142,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public CopyPasteActions getCopyPasteActions()
     {
     	return cpa;
+    }
+    
+    /** Get the UndoActions controller for the drawing.
+    */
+    public UndoActions getUndoActions()
+    {
+    	return ua;
     }
     
 	/** Draw the drawing on the given canvas.

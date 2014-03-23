@@ -103,7 +103,7 @@
           	android:layout_width="wrap_content" /> 
 	</LinearLayout>
 	
-	<fr.davbucci.test.FidoEditor 
+	<net.sourceforge.fidocadj.FidoEditor 
     		android:id="@+id/drawingPanel"
     		android:layout_weight="0.95"
     		android:layout_width="wrap_content"
