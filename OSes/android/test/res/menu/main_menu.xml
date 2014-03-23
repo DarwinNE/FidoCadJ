@@ -61,15 +61,13 @@
         android:title="@string/Edit_menu">
         <menu>
         	<item
-                android:id="@+id/undo"
+                android:id="@+id/menu_undo"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Undo"
-        		android:visible="false" />
+        		android:title="@string/Undo"/>
         	<item
-                android:id="@+id/redo"
+                android:id="@+id/menu_redo"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Redo"
-        		android:visible="false" />
+        		android:title="@string/Redo" />
         	<item android:id="@+id/menu_cut"
         		android:showAsAction="ifRoom|withText"
           		android:title="@string/Cut" />

@@ -53,7 +53,14 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
                 	drawingPanel.getMapCoordinates().getYGridStep());
                 status=true;
 				break;
-				
+			case R.id.menu_undo:
+				drawingPanel.getUndoActions().undo();
+				status=true;
+				break;
+			case R.id.menu_redo:
+				drawingPanel.getUndoActions().redo();
+				status=true;
+				break;
 			case R.id.file: 			
 				status = file();
 				break;
@@ -74,6 +81,8 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
 		if(!status)
 			android.util.Log.e("fidocadj", "menu not found: "+
 					item.getItemId());
+		else
+			drawingPanel.invalidate();
 		return status;
 	}
 	
