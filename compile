@@ -9,17 +9,17 @@ unamestr=`uname`
 
 if [ "$unamestr" = 'Darwin' ]||[ "$1" = "mac" ]; then
   echo "MacOSX detected: activated AppleSpecific classes."
-  javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/AppleSpecific.java -d bin
+  javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/AppleSpecific.java -d bin
 fi 
 
 
 # compile FidoCadJ
-javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
+javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
 
 # compile FidoReadJ applet
-javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
+javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
 
 # compile FidoCadJ applet
-javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
+javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
 
 

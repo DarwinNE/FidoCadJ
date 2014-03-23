@@ -305,7 +305,7 @@ public final class ExportGraphic
     	@param origin is updated with the image origin.
     
     */
-    public static DimensionG getImageSize(DrawingModel P, 
+    public static DimensionG getImageSize(DrawingModel dm, 
     							  double unitperpixel, 
     							  boolean countMin,
     							  PointG origin)
@@ -318,14 +318,13 @@ public final class ExportGraphic
        	m.setXCenter(0);
        	m.setYCenter(0);
        	
-       	// force an in deep recalculation
-       	P.setChanged(true);
-        Drawing drawingAgent = new Drawing(P);
+       	// force an in-depth recalculation
+       	dm.setChanged(true);
+        Drawing drawingAgent = new Drawing(dm);
 		drawingAgent.draw(new GraphicsNull(),m);
-		// force an in deep recalculation
-       	P.setChanged(true);
-
-    	// Verify that the image size is correct
+		dm.setChanged(true);
+		
+		// Calculate image size
     	if(countMin) {
 			width=m.getXMax()-m.getXMin();
 			height=m.getYMax()-m.getYMin();
@@ -333,7 +332,8 @@ public final class ExportGraphic
 			width=m.getXMax();
 			height=m.getYMax();
 		}
-		
+
+    	// Verify that the image size is reasonable		
 		if(width<=0 || height<=0) {
 			System.out.println("Warning: Image has a zero"+
 							   "sized image");					   
@@ -358,14 +358,13 @@ public final class ExportGraphic
     	@param P the parsing class to be used.
     	@param unitperpixel the zoom set to be used.
     */
-    public static PointG getImageOrigin(DrawingModel P, double unitperpixel)
+    public static PointG getImageOrigin(DrawingModel dm, double unitperpixel)
     {
     	int originx;
 		int originy;
 
-		
-		P.setChanged(true);
-
+       	// force an in-depth recalculation
+		dm.setChanged(true);
 		MapCoordinates m=new MapCoordinates();
        	m.setMagnitudes(unitperpixel, unitperpixel);
        	m.setXCenter(0);
@@ -373,11 +372,9 @@ public final class ExportGraphic
        	
 		// Draw the image. In this way, the min and max coordinates will be
 		// tracked.
-		Drawing drawingAgent = new Drawing(P);
-		drawingAgent.draw(new GraphicsNull(),m);
-		// force an in deep recalculation
-       	P.setChanged(true);
-
+		Drawing drawingAgent = new Drawing(dm);
+		drawingAgent.draw(new GraphicsNull(), m);
+    	dm.setChanged(true);
     
     	// Verify that the image size is correct
 		if (m.getXMax() >= m.getXMin() && 
@@ -388,7 +385,6 @@ public final class ExportGraphic
 			originx=0;
 			originy=0;
 		}
-		System.out.println("Origin: "+originx+"  "+originy);
 	
 		return new PointG(originx, originy);
     }
@@ -402,34 +398,28 @@ public final class ExportGraphic
     		taken into account
     
     */
-    public static MapCoordinates calculateZoomToFit(DrawingModel P, int sizex, 
+    public static MapCoordinates calculateZoomToFit(DrawingModel dm, int sizex, 
     	int sizey, boolean countMin)
     {
  		// Here we calculate the zoom to fit parameters
 		double maxsizex;
 		double maxsizey;
 		PointG org=new PointG(0,0);
-		PointG o=new PointG(0,0);
 		
-		P.setChanged(true);
 		MapCoordinates newZoom=new MapCoordinates();
-	
-		// If the size is invalid (for example because it's the first time
-		// the circuit has been drawn).
 		
-		boolean forceCalc=true;	
-		
-		DimensionG D = getImageSize(P,1,countMin, o); 
+		// Determine the size and the origin of the current drawing.
+		DimensionG D = getImageSize(dm,1,countMin, org); 
 		maxsizex=D.width;
 		maxsizey=D.height;
 			
-		if (countMin) 
-			org=o;
+		if (!countMin) 
+			org=new PointG(0,0);
 			
 		double zoomx=1.0/((maxsizex)/(double)sizex);
 		double zoomy=1.0/((maxsizey)/(double)sizey);				
 		
-		double z= zoomx>zoomy ?zoomy:zoomx;
+		double z= zoomx>zoomy ? zoomy:zoomx;
 		
 		z=Math.round(z*100.0)/100.0;		// 0.20.5
 		
@@ -437,8 +427,8 @@ public final class ExportGraphic
 			z=MapCoordinates.MIN_MAGNITUDE;
 		
 		newZoom.setMagnitudes(z,z);
-		newZoom.setXCenter(-(org.x*z));
-		newZoom.setYCenter(-(org.y*z));
+		newZoom.setXCenter((org.x*z));
+		newZoom.setYCenter((org.y*z));
 	
 		return newZoom;
 	}    

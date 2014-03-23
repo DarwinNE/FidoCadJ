@@ -2,7 +2,7 @@
 
 cd src
 
-wc AppleSpecific.java SearchField.java globals/*.* FidoFrame.java circuit/*.* circuit/views/*.java circuit/model/*.java circuit/controllers/*.*  layers/*.* FidoReadApplet.java   clipboard/*.*  primitives/*.* MacroTree.java dialogs/*.* timer/*.* graphic/*.java ScrollGestureRecognizer.java export/*.*  toolbars/*.* ScrollGlassPane.java  geom/*.*   undo/*.* ../bin/*.properties graphic/swing/*.java graphic/nil/*.java
+wc /net/sourceforge/fidocadj/*.java globals/*.* FidoFrame.java circuit/*.* circuit/views/*.java circuit/model/*.java circuit/controllers/*.*  layers/*.* FidoReadApplet.java   clipboard/*.*  primitives/*.* MacroTree.java dialogs/*.* timer/*.* graphic/*.java ScrollGestureRecognizer.java export/*.*  toolbars/*.* ScrollGlassPane.java  geom/*.*   undo/*.* ../bin/*.properties graphic/swing/*.java graphic/nil/*.java
 
 
 cd ..

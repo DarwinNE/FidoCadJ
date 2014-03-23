@@ -1,6 +1,7 @@
 #!/bin/bash
 
 svn delete --force bin/*.class
+svn delete --force bin/net/sourceforge/fidocadj/*.class
 svn delete --force doc/*.*
 svn delete --force jar/fidocadj.jar
 svn delete --force doc/circuit/*.* 
