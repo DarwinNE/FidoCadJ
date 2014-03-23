@@ -169,8 +169,19 @@ public class GraphicsAndroid implements GraphicsInterface
 	public void setFont(String name, int size, boolean isItalic, 
 		boolean isBold)
 	{
-		Typeface tf = Typeface.create("Helvetica",Typeface.BOLD);
+		int style;
+		if(isBold && isItalic) 
+			style=Typeface.BOLD_ITALIC;
+		else if (isBold)
+			style=Typeface.BOLD;
+		else if (isItalic)
+			style=Typeface.ITALIC;
+		else
+			style=Typeface.NORMAL;
+		
+		Typeface tf = Typeface.create(name, style);
    		paint.setTypeface(tf);
+   		paint.setTextSize(size);
 	}
 	
 	public void setFont(String name, int size)
@@ -181,20 +192,19 @@ public class GraphicsAndroid implements GraphicsInterface
 
 	public int getFontAscent()
 	{
-		return 0;
+		return (int)paint.getFontMetrics().ascent;
 	}
 
 	public int getFontDescent()
 	{
-		return 0;
+		return  (int)paint.getFontMetrics().descent;
 	}
 
 	public int getStringWidth(String s)
 	{
-		return 0;
+		return (int)paint.measureText(s);
 	}
 
-	
 	public void drawString(String str,
                                 int x,
                                 int y)
@@ -263,11 +273,37 @@ public class GraphicsAndroid implements GraphicsInterface
   	{
   		applyStroke(1.0f, 0);
 		paint.setStyle(Style.FILL);
-
-		canvas.drawText(txt, xa,  ya, paint);
+		Path pp=new Path();
+		pp.moveTo(xa,ya);
+		
+		
+		if (mirror) {
+			canvas.save();
+			canvas.scale(-1f, 1f, xa, ya);
+			orientation=-orientation;
+		}
+		
+		if(needsStretching) {
+			float size=paint.getTextSize();
+			paint.setTextScaleX((float)(1.0f/xyfactor));
+			paint.setTextSize(size*(float)xyfactor);
+			th=(int)(th*xyfactor);
+		} else
+			paint.setTextScaleX(1.0f);
+			
+		double orientationRad=-orientation/180.0*Math.PI;
+		
+		pp.rLineTo(1000*(float)Math.cos(orientationRad), 
+			1000*(float)Math.sin(orientationRad));
+		
+		canvas.drawTextOnPath(txt, pp, 0,-th, paint);
+		
+		
+		if (mirror) {
+			canvas.restore();
+		}
 		
     	paint.setStyle(Style.STROKE);
-
   	}
     
     public void drawGrid(MapCoordinates cs, 
