@@ -1,5 +1,7 @@
 package net.sourceforge.fidocadj;
 
+import android.util.FloatMath;
+
 import dialogs.DialogAbout;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -7,16 +9,29 @@ import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.*;
 import android.content.*;
+import android.hardware.*;
 
 
 import toolbars.*;
 import globals.*;
 
-public class test_start extends Activity implements ProvidesCopyPasteInterface
+public class test_start extends Activity implements ProvidesCopyPasteInterface,
+	SensorEventListener
 {
 	private ToolbarTools tt;
 	private FidoEditor drawingPanel;
 	private FragmentManager fragmentManager = getFragmentManager();
+	
+	/* Gyroscope gestures */
+	private SensorManager mSensorManager;
+  	private Sensor mAccelerometer;
+  	float averagedAngleSpeedX;
+	float averagedAngleSpeedY;
+	float averagedAngleSpeedZ;
+	long holdoff;
+	
+	
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -27,6 +42,11 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
         
         tt.activateListeners(this, drawingPanel.eea);
+        mSensorManager = (SensorManager) 
+        	getSystemService(Context.SENSOR_SERVICE);
+    	mAccelerometer = mSensorManager.getDefaultSensor(
+    		Sensor.TYPE_GYROSCOPE);
+
     }
     
     @Override
@@ -108,6 +128,82 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
 	    return true;
 	}	
 	
+
+  	@Override
+  	public final void onAccuracyChanged(Sensor sensor, int accuracy) 
+  	{
+    	// Do something here if sensor accuracy changes.
+  	}
+
+	/** Implement sensor actions to detect rotation and flip gestures with
+		the gyroscope.
+	*/
+  	@Override
+  	public final void onSensorChanged(SensorEvent event) 
+  	{
+    	// Get the gyroscope angles.
+    	float xValue = event.values[0];
+    	float yValue = event.values[1];
+    	float zValue = event.values[2];
+    	
+    	// Exit if we are in a holdoff time. After one gesture has been
+    	// recognized, there is a certain time (until holdoff) where the
+    	// system is not responding to new events, to avoid multiple
+    	// triggering.
+    	if(event.timestamp<holdoff) {
+    		return;
+    	}
+    		
+    	// Calculate the averaged angle speed.
+    	averagedAngleSpeedX=0.2f*averagedAngleSpeedX+0.8f*xValue;
+	    averagedAngleSpeedY=0.2f*averagedAngleSpeedY+0.8f*yValue;
+	   	averagedAngleSpeedZ=0.2f*averagedAngleSpeedZ+0.8f*zValue;
+
+    	// This is a delicate value: it should be enough to require a 
+    	// deliberate action, but not too much.
+    	float threshold=0.75f;
+    	
+    	// X or Y action: mirror
+    	if (averagedAngleSpeedX>threshold ||averagedAngleSpeedX<-threshold ||
+    		averagedAngleSpeedY>threshold ||averagedAngleSpeedY<-threshold) {
+    		holdoff = event.timestamp+500000000l;
+    		drawingPanel.getEditorActions().mirrorAllSelected();
+
+    		drawingPanel.invalidate();			
+    	}
+    	
+    	// Z action: rotation.
+    	if (averagedAngleSpeedZ>threshold ||averagedAngleSpeedZ<-threshold) {
+    	
+    		holdoff = event.timestamp+500000000l;
+    		drawingPanel.getEditorActions().rotateAllSelected();
+    		if (averagedAngleSpeedZ>0.0f) {
+    			drawingPanel.getEditorActions().rotateAllSelected();
+    			drawingPanel.getEditorActions().rotateAllSelected();
+    		}
+    		drawingPanel.invalidate();			
+    	}
+  	}
+
+  	@Override
+  	protected void onResume() 
+  	{
+    	super.onResume();
+    	// Restore registering accelerometer events.
+    	mSensorManager.registerListener(this, mAccelerometer, 
+    		SensorManager.SENSOR_DELAY_NORMAL);
+  	}
+
+  	@Override
+  	protected void onPause() 
+  	{
+    	super.onPause();
+    	// Avoid registering accelerometer events when the application is
+    	// paused.
+    	mSensorManager.unregisterListener(this);
+  	}
+
+	
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, 
      	ContextMenuInfo menuInfo)
@@ -116,7 +212,6 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface
 
     	MenuInflater inflater = getMenuInflater();
    		inflater.inflate(R.menu.popupmenu, menu);
-   	
     }
     
     /** Called when the user selects something in the context menu.

@@ -169,6 +169,8 @@ public class GraphicsAndroid implements GraphicsInterface
 	public void setFont(String name, int size, boolean isItalic, 
 		boolean isBold)
 	{
+		Typeface tf = Typeface.create("Helvetica",Typeface.BOLD);
+   		paint.setTypeface(tf);
 	}
 	
 	public void setFont(String name, int size)
@@ -259,7 +261,13 @@ public class GraphicsAndroid implements GraphicsInterface
   		int orientation, boolean mirror,		
   		String txt)
   	{
-		// nothing to do
+  		applyStroke(1.0f, 0);
+		paint.setStyle(Style.FILL);
+
+		canvas.drawText(txt, xa,  ya, paint);
+		
+    	paint.setStyle(Style.STROKE);
+
   	}
     
     public void drawGrid(MapCoordinates cs, 
