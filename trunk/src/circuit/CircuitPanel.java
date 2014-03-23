@@ -496,6 +496,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
     	scrollRectangle = r;
     	scrollRectToVisible(r);
+    	repaint();
     }
         
     /** Define the listener to be called when the zoom is changed

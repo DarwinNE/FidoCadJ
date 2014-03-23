@@ -12,7 +12,7 @@ import java.awt.image.*;
 
 
 	Null graphic class. Does nothing. Nil. Zero. :-)
-	Except... calculate text size correctly!
+	Except... calculating text size correctly!
 
 	Yes. There is a reason for that.
 	    
@@ -25,7 +25,7 @@ import java.awt.image.*;
     (at your option) any later version.
 
     FidoCadJ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY{} without even the implied warranty of
+    but WITHOUT ANY WARRANTY without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
@@ -48,11 +48,12 @@ public class GraphicsNull implements GraphicsInterface
 		// I do not like it, even if here we are not in a speed sensitive
 		// context!
 		// Create a dummy image on which the drawing will be done
-		BufferedImage bufferedImage = new BufferedImage(1, 1, 
+		BufferedImage bufferedImage = new BufferedImage(10, 10, 
         								  BufferedImage.TYPE_INT_RGB);
     	
         // Create a graphics contents on the buffered image
        	g = bufferedImage.createGraphics();
+       	fm = g.getFontMetrics();
 	}
 	
 	public void setColor(ColorInterface c) 
@@ -127,7 +128,7 @@ public class GraphicsNull implements GraphicsInterface
 		Font f = new Font(name, 
 			Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 
 			size);
-
+			
 		fm=g.getFontMetrics(f);
 	}
 	
@@ -154,7 +155,6 @@ public class GraphicsNull implements GraphicsInterface
 	{
 		return fm.stringWidth(s);
 	}
-
 	
 	public void drawString(String str,
                                 int x,
@@ -218,7 +218,6 @@ public class GraphicsNull implements GraphicsInterface
     {
     		// nothing to do
     }
-    	
     	
     public PolygonInterface createPolygon()
     {

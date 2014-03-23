@@ -1,5 +1,5 @@
 #!/bin/bash
-rm bin/*.class
+rm bin/net/sourceforge/fidocadj/*.class
 rm bin/circuit/*.class
 rm bin/circuit/controllers/*.class
 rm bin/clipboard/*.class
