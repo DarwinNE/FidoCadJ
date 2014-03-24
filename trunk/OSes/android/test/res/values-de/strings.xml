@@ -218,4 +218,5 @@
 	<string name="Font_size_invalid">Die Schriftgröße des Textes eines Grafikelementes muss positiv sein.</string>
 	<string name="lib_in_dir">Ordner mit Bibliotheken</string>
 	<string name="Origin">Origin</string>
+	<string name="Choose_browser">Choose the browser</string>
 </resources>

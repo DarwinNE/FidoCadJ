@@ -218,4 +218,5 @@
 	<string name="Font_size_invalid">La taille de la police du texte associé aux éléments graphiques doit être positive.</string>
 	<string name="lib_in_dir">Bibliothèques dans le répertoire</string>
 	<string name="Origin">Origine</string>
+	<string name="Choose_browser">Choisir le navigateur</string>
 </resources>
