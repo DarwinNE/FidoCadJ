@@ -24,6 +24,7 @@ import circuit.views.*;
 import circuit.controllers.*;
 import graphic.android.*;
 import layers.*;
+import dialogs.*;
 
 /** Android Editor view: draw the circuit inside this view. This is one of the
 	most important classes, as it is responsible of all editing actions.
@@ -415,14 +416,75 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	return s;
 	}
 
-	/** Implementation of the PrimitivesParInterface interface.
-	*/
-	public void selectAndSetProperties(int x,int y){}
-	
-	/** Implementation of the PrimitivesParInterface interface.
-	*/
-	public void setPropertiesForPrimitive(){}
-	
+    /** Shows a dialog which allows the user modify the parameters of a given
+    	primitive. If more than one primitive is selected, modify only the
+    	layer of all selected primitives.
+    */
+    public void setPropertiesForPrimitive()
+    {    	
+        GraphicPrimitive gp=ea.getFirstSelectedPrimitive();
+        if (gp==null) 
+        	return;
+        	
+        Vector<ParameterDescription> v;
+        if (ea.isUniquePrimitiveSelected()) {
+           	v=gp.getControls();
+        } else {
+          	// If more than a primitive is selected, 
+           	v=new Vector<ParameterDescription>(1);
+           	ParameterDescription pd = new ParameterDescription();
+			pd.parameter=new LayerInfo(gp.getLayer());
+			pd.description="TODO: add a reference to a resource";
+			v.add(pd);
+        }
+        
+        // TODO: it should call the Android version of the DialogParameters 
+        // dialog and save the new settings
+        /*DialogParameters dp = new DialogParameters(
+           	(JFrame)Globals.activeWindow,
+           	v, extStrict, 
+            dm.getLayers());
+        dp.setVisible(true);*
+        if(dp.active) {
+        	if (edt.isUniquePrimitiveSelected()) {
+        	    gp.setControls(dp.getCharacteristics());	
+        	} else { 
+        		ParameterDescription pd=(ParameterDescription)v.get(0);
+        		v=dp.getCharacteristics();
+        		if (pd.parameter instanceof LayerInfo) {
+					int l=((LayerInfo)pd.parameter).getLayer();
+					edt.setLayerForSelectedPrimitives(l);
+				} else {
+		 			System.out.println(
+		 				"Warning: unexpected parameter! (layer)");
+		 		}
+            }
+            dm.setChanged(true);
+                
+            // We need to check and sort the layers, since the user can
+            // change the layer associated to a given primitive thanks to
+            // the dialog window which has been shown.
+                
+            dm.sortPrimitiveLayers();
+            ua.saveUndoState();
+            invalidate();
+        }*/
+    }
+    
+    /** Selects the closest object to the given point (in logical coordinates)
+    	and pops up a dialog for the editing of its Param_opt.
+    	
+    	@param x the x logical coordinate of the point used for the selection
+    	@param y the y logical coordinate of the point used for the selection
+    
+    */
+    public void selectAndSetProperties(int x, int y)
+    {
+        ea.setSelectionAll(false);
+        ea.handleSelection(cs, x, y, false);
+        invalidate();
+        setPropertiesForPrimitive();
+    }	
 	/** Implementation of the PrimitivesParInterface interface.
 		Show the popup menu. In Android, the menu can be centered inside the
 		current view.
