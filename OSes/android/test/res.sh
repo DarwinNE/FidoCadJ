@@ -13,8 +13,8 @@ function absolute
 	while test -L "$TARGET_FILE"
 	do
  	    TARGET_FILE=`readlink $TARGET_FILE`
-    	    cd `dirname $TARGET_FILE`
-    	    TARGET_FILE=`basename $TARGET_FILE`
+    	cd `dirname $TARGET_FILE`
+    	TARGET_FILE=`basename $TARGET_FILE`
 	done
 
 	local PHYS_DIR=`pwd -P`

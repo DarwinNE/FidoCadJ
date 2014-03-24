@@ -17,7 +17,7 @@ fi
 
 for size in "small" "large" "xlarge" 
 do
-	if test -d "res/res/layout-$size"
+	if test ! -d "res/layout-$size"
 	then 
 		mkdir res/layout-$size
 		touch res/layout-$size/$1

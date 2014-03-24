@@ -51,7 +51,7 @@ public class DialogAbout extends DialogFragment
 			{  
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         		Intent chooser = Intent.createChooser(intent, 
-        			"Choose the browser:");
+        			dialog.findViewById(R.string.Choose_browser);
         		startActivity(chooser);
 			}  
 		});
