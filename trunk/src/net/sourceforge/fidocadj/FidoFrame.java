@@ -186,14 +186,16 @@ public class FidoFrame extends JFrame implements
         
         try {
             // Try to load the program with the current locale
-            Globals.messages = Utf8ResourceBundle.getBundle("MessagesBundle", 
-               currentLocale);                             
+            Globals.messages = new 
+            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
+               currentLocale));                             
             
         } catch(MissingResourceException mre) {
             try {
                 // If it does not work, try to use the standard English
-                Globals.messages = ResourceBundle.getBundle("MessagesBundle",
-                    new Locale("en", "US"));
+                Globals.messages = new 
+            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
+                    new Locale("en", "US")));
                 System.out.println("No locale available, sorry... "+
                 	"interface will be in English");
             } catch(MissingResourceException mre1) {

@@ -438,6 +438,9 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			v.add(pd);
         }
         
+        // test...
+        // android.util.Log.e("fidocadj", "name: "+v.get(0).description);
+        
         // TODO: it should call the Android version of the DialogParameters 
         // dialog and save the new settings
         /*DialogParameters dp = new DialogParameters(
