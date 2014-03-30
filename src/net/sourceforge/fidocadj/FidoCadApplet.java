@@ -69,22 +69,25 @@ public class FidoCadApplet extends JApplet implements ActionListener
         
         try {
             // Try to load the program with the current locale
-            Globals.messages = ResourceBundle.getBundle("MessagesBundle", 
-                popFrame.currentLocale);
+            Globals.messages = new 
+            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
+               popFrame.currentLocale));                             
             
         } catch(MissingResourceException mre) {
             try {
                 // If it does not work, try to use the standard English
-                Globals.messages = ResourceBundle.getBundle("MessagesBundle",
-                    new Locale("en", "US"));
-                System.out.println("No locale available, sorry... interface will be in English");
+                Globals.messages = new 
+            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
+                    new Locale("en", "US")));
+                System.out.println("No locale available, sorry... "+
+                	"interface will be in English");
             } catch(MissingResourceException mre1) {
                 // Give up!!!
                 JOptionPane.showMessageDialog(null,
                     "Unable to find language localization files: " + mre1);
                 System.exit(1);
             }
-        }        
+        }     
              
 
         Globals.useNativeFileDialogs=false;

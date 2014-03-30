@@ -41,6 +41,7 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface,
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
         
+        Globals.messages = new AccessResources(this);
         tt.activateListeners(this, drawingPanel.eea);
         mSensorManager = (SensorManager) 
         	getSystemService(Context.SENSOR_SERVICE);

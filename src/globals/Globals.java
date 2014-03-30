@@ -40,7 +40,7 @@ public class Globals
 {
 
 	// message bundle
-    public static ResourceBundle messages;
+    public static AccessResources messages;
     			  
     // shortcut key to be used:
     public static int shortcutKey;		
