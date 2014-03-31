@@ -3,7 +3,7 @@ Version 0.24.4
 - Complete reorganization of the source code, to improve readability as well as modularity.
 - Started the porting towards Android devices. The port shares a lot of code with the original Swing application.
 - More ergonomic editing of the libraries. No more drag&drop, but copy/paste for symbols. Better search.
-- The layer of more than one primitive can be selected at once.
+- The layer of more than one primitive can be selected at once: either with the Parameters dialog or just by choosing a layer when elements are selected.
 
 Version 0.24.3
 --------------

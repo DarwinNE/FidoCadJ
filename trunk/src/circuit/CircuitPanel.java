@@ -565,12 +565,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
         return pa.getText(extensions);
     }
     
-    /** Change the current layer state
+    /** Change the current layer state. Change the layer of all selected
+    	primitives.
         @param s the layer to be selected
     */
     public void changeSelectedLayer(int s)
     {
+    	// Change the current layer
         eea.currentLayer=s;
+        // Change also the layer of all selected primitives
+        if(edt.setLayerForSelectedPrimitives(s)) {
+        	repaint();
+        }
     }
 
     /** The callback method which is called when the current grid visibility 

@@ -1,10 +1,10 @@
 #!/bin/bash
 cd bin
-jar cvfm fidocadj.jar ../jar/Manifest.txt *.class *.properties toolbars/icons16/*.* toolbars/icons32/*.* program_icons/*.* circuit/*.class circuit/controllers/*.class circuit/model/*.class circuit/views/*.class clipboard/*.class dialogs/*.class dialogs/program_icons/*.* export/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class toolbars/*.class undo/*.class graphic/*.class graphic/swing/*.class graphic/nil/*.class lib/*.* net/sourceforge/fidocadj/*.class
+jar cvfm fidocadj.jar ../jar/Manifest.txt *.class *.properties toolbars/icons16/*.* toolbars/icons32/*.* program_icons/*.* circuit/*.class circuit/controllers/*.class circuit/model/*.class circuit/views/*.class clipboard/*.class dialogs/*.class dialogs/program_icons/*.* export/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class toolbars/*.class undo/*.class graphic/*.class graphic/swing/*.class graphic/nil/*.class net/sourceforge/fidocadj/lib/*.* net/sourceforge/fidocadj/*.class
 jar i fidocadj.jar
 mv fidocadj.jar ../jar
 
-jar cvfm fidoreadj_applet.jar ../jar/Manifest_applet.txt *.class toolbars/*.class circuit/*.class circuit/model/*.class circuit/views/*.class clipboard/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class undo/*.class graphic/*.class graphic/swing/*.class graphic/nil/*.class  lib/*.* net/sourceforge/fidocadj/*.class
+jar cvfm fidoreadj_applet.jar ../jar/Manifest_applet.txt *.class toolbars/*.class circuit/*.class circuit/model/*.class circuit/views/*.class clipboard/*.class geom/*.class globals/*.class layers/*.class primitives/*.class timer/*.class undo/*.class graphic/*.class graphic/swing/*.class graphic/nil/*.class  net/sourceforge/fidocadj/lib/*.* net/sourceforge/fidocadj/*.class
 
 jar i fidoreadj_applet.jar
 mv fidoreadj_applet.jar ../jar

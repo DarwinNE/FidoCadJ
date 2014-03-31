@@ -681,6 +681,12 @@ public class ParserActions
     */
     public void loadLibraryInJar(URL s, String prefix)
     {
+    	if(s==null) {
+    		if (prefix==null)
+    			prefix="";
+    		System.out.println("Resource not found! "+prefix);
+    		return; 
+    	}
         try {
             readLibraryBufferedReader(new BufferedReader(new 
                 InputStreamReader(s.openStream(), Globals.encoding)), prefix);
