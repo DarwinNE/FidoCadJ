@@ -22,6 +22,7 @@ import primitives.*;
 import geom.*;
 import circuit.views.*;
 import circuit.controllers.*;
+import globals.Globals;
 import graphic.android.*;
 import layers.*;
 import dialogs.*;
@@ -443,12 +444,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
         
         // TODO: it should call the Android version of the DialogParameters 
         // dialog and save the new settings
-        /*DialogParameters dp = new DialogParameters(
-           	(JFrame)Globals.activeWindow,
-           	v, extStrict, 
-            dm.getLayers());
-        dp.setVisible(true);*
-        if(dp.active) {
+        DialogParameters dp = DialogParameters.newInstance(v, false, dm.getLayers()) ;
+        dp.show( ((Activity)cc).getFragmentManager(), "");
+        
+        //dp.setVisible(true);
+        
+    /*    if(dp.active) {
         	if (edt.isUniquePrimitiveSelected()) {
         	    gp.setControls(dp.getCharacteristics());	
         	} else { 
