@@ -182,13 +182,24 @@ public class EditorActions
     
     /** Sets the layer for all selected primitives.
     	@param l the wanted layer index.
+    	@return true if at least a layer has been changed.
     */
-    public void setLayerForSelectedPrimitives(int l)
+    public boolean setLayerForSelectedPrimitives(int l)
     {
+    	boolean toRedraw=false;
+    	// Search for all selected primitives.
     	for (GraphicPrimitive g: P.getPrimitiveVector()) {
-            if (g.getSelected())
+    		// If selected, change the layer.
+            if (g.getSelected()) {
             	g.setLayer(l);
+            	toRedraw=true;
+            }
 		}
+		if(toRedraw) {
+			P.sortPrimitiveLayers();
+			P.setChanged(true);
+		}
+		return toRedraw;
     }
     
     /** Calculates the minimum distance between the given point and
