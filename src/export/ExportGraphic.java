@@ -427,8 +427,8 @@ public final class ExportGraphic
 			z=MapCoordinates.MIN_MAGNITUDE;
 		
 		newZoom.setMagnitudes(z,z);
-		newZoom.setXCenter((org.x*z));
-		newZoom.setYCenter((org.y*z));
+		newZoom.setXCenter(org.x*z);
+		newZoom.setYCenter(org.y*z);
 	
 		return newZoom;
 	}    
