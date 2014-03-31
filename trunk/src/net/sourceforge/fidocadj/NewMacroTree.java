@@ -411,19 +411,19 @@ public class NewMacroTree extends JPanel
                         // removed it so the try block is not needed anymore.
                         previewPanel.setCirc(new StringBuffer(md.description));
                         MapCoordinates m =
-                            ExportGraphic.calculateZoomToFit(previewPanel.P,
-                                                             previewPanel.getSize().width*85/100,
-                                                             previewPanel.getSize().height*85/100,
-                                                             true);
-                        m.setXCenter(m.getXCenter()+10);
-                        m.setYCenter(m.getYCenter()+10);
+                            ExportGraphic.calculateZoomToFit(
+                            	previewPanel.P,
+                            	previewPanel.getSize().width*85/100, 
+                            	previewPanel.getSize().height*85/100,true);
+                        m.setXCenter(-m.getXCenter()+10);
+                        m.setYCenter(-m.getYCenter()+10);
 
-                        System.out.println("calc zoom: "+m);
+                        //System.out.println("calc zoom: "+m);
 
                         previewPanel.setMapCoordinates(m);
 
-                        System.out.println("get  zoom: "+
-                                           previewPanel.getMapCoordinates());
+                        //System.out.println("get  zoom: "+
+                        //                   previewPanel.getMapCoordinates());
                         previewPanel.repaint();
                     } catch (Exception ex) {
                         // NOP

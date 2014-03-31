@@ -222,7 +222,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
     
-    private TreePath createAbsolutePath(TreeNode lastNode){
+    private TreePath createAbsolutePath(TreeNode lastNode)
+    {
     	TreeNode parentNode = lastNode.getParent();
     	if(parentNode==null){
     		return new TreePath(lastNode);
@@ -274,7 +275,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    public void libraryNodeAdded(AddEvent e) {
+    public void libraryNodeAdded(AddEvent e) 
+    {
         Object parentNode;
         TreePath parentPath;
         TreeNode parentMacroTreeNode;
@@ -297,7 +299,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    public void libraryNodeKeyChanged(KeyChangeEvent e) {
+    public void libraryNodeKeyChanged(KeyChangeEvent e) 
+    {
     }
 
     public void libraryLoaded()
