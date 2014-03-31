@@ -225,7 +225,8 @@ public class test_start extends Activity implements ProvidesCopyPasteInterface,
 		// Get the action selected by the user and execute it.
 		switch (item.getItemId()) 
 		{
-			case R.id.menu_param: 
+			case R.id.menu_param:
+				drawingPanel.setPropertiesForPrimitive();
 				break;			
 			case R.id.menu_cut:
 				drawingPanel.getCopyPasteActions().copySelected(
