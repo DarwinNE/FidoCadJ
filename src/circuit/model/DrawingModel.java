@@ -317,19 +317,17 @@ public class DrawingModel
             for (i=k; i<getPrimitiveVector().size(); ++i){
                 g=(GraphicPrimitive)getPrimitiveVector().get(i);
                 
-                
-                if (g.containsLayer(l)) {
-                    layersUsed[l]=true;
-                    k=i;
-                    for (int z = 0; z<l; z++) layersUsed[z]=true;
-                    break;
-                }
-                    
                 // We keep track of the maximum layer number used in the 
                 // drawing.
                 if (g.layer>maxLayer)
                         maxLayer = g.layer;
                 
+                if (g.containsLayer(l)) {
+                    layersUsed[l]=true;
+                    k=i;
+                    for (int z = 0; z<l; ++z) layersUsed[z]=true;
+                    break;
+                }                
             }
         }
     }

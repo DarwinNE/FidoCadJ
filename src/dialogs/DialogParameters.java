@@ -172,9 +172,9 @@ public class DialogParameters extends JDialog implements ComponentListener
 			// Now, depending on the type of parameter we create interface
 			// elements and we populate the dialog.
 
-			if (pd.parameter instanceof Point) {
+			if (pd.parameter instanceof PointG) {
 				jtf[tc] = new JTextField(10);
-				jtf[tc].setText("" + ((Point) (pd.parameter)).x);
+				jtf[tc].setText("" + ((PointG) (pd.parameter)).x);
 				constraints.weightx = 100;
 				constraints.weighty = 100;
 				constraints.gridx = 2;
@@ -187,7 +187,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 				contentPane.add(jtf[tc++], constraints);
 
 				jtf[tc] = new JTextField(10);
-				jtf[tc].setText("" + ((Point) (pd.parameter)).y);
+				jtf[tc].setText("" + ((PointG) (pd.parameter)).y);
 				constraints.weightx = 100;
 				constraints.weighty = 100;
 				constraints.gridx = 3;
@@ -428,10 +428,10 @@ public class DialogParameters extends JDialog implements ComponentListener
 							break;
 						pd = (ParameterDescription) v.elementAt(ycount);
 
-						if (pd.parameter instanceof Point) {
-							((Point) (pd.parameter)).x = Integer
+						if (pd.parameter instanceof PointG) {
+							((PointG) (pd.parameter)).x = Integer
 									.parseInt(jtf[tc++].getText());
-							((Point) (pd.parameter)).y = Integer
+							((PointG) (pd.parameter)).y = Integer
 									.parseInt(jtf[tc++].getText());
 						} else if (pd.parameter instanceof String) {
 							pd.parameter = jtf[tc++].getText();

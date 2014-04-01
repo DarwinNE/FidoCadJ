@@ -189,8 +189,9 @@ public class EditorActions
     	boolean toRedraw=false;
     	// Search for all selected primitives.
     	for (GraphicPrimitive g: P.getPrimitiveVector()) {
-    		// If selected, change the layer.
-            if (g.getSelected()) {
+    		// If selected, change the layer. Macros must be always associated
+    		// to layer 0.
+            if (g.getSelected() && ! (g instanceof PrimitiveMacro)) {
             	g.setLayer(l);
             	toRedraw=true;
             }
@@ -198,6 +199,7 @@ public class EditorActions
 		if(toRedraw) {
 			P.sortPrimitiveLayers();
 			P.setChanged(true);
+			ua.saveUndoState();
 		}
 		return toRedraw;
     }
