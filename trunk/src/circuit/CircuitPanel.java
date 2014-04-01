@@ -20,6 +20,7 @@ import circuit.views.*;
 import circuit.model.*;
 import graphic.*;
 import graphic.swing.*;
+import export.*;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 
     important components, as it is responsible of all editing actions.
@@ -92,6 +93,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     // Maybe, should it be kept private?
     public transient DrawingModel P;
+    
+    public JScrollPane father;
     
     // Views:
     public Drawing drawingAgent;
@@ -174,7 +177,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private ChangeZoomListener zoomListener;
     private ChangeSelectionListener selectionListener;
     private ChangeSelectionListener scrollGestureSelectionListener;
-	private ScrollMoveListener scrollMoveListener;
 
     /** Standard constructor
         @param isEditable indicates whether the panel should be responsible
@@ -183,7 +185,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public CircuitPanel (boolean isEditable) 
     {
-    	scrollMoveListener=null;
         backgroundColor=Color.white; 
         P=new DrawingModel();
         pa=new ParserActions(P);
@@ -287,15 +288,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editUSymbolize.addActionListener(this); // phylum
         	
         }
-    }
-    
-    /** Sets the scroll move listener. This is useful in some cases, for 
-    	example when one needs to center the viewport during a scroll action.
-    	@param sm the scroll move listener to be used as a callback.
-    */
-    public void setScrollMoveListener(ScrollMoveListener sm)
-    {
-    	scrollMoveListener=sm;
     }
     
     /**	Register an action involving the editing
@@ -495,7 +487,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void setScrollRectangle(Rectangle r)
     {
     	scrollRectangle = r;
-    	scrollRectToVisible(r);
     	repaint();
     }
         
@@ -598,6 +589,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         cs.setSnap(v);
     }
     
+    
+    double xs,ys;
     /** Increase or decrease the zoom by a step of 33%
     	@param increase if true, increase the zoom, if false decrease
     	@param x coordinate to which center the viewport (screen coordinates)
@@ -605,12 +598,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void changeZoomByStep(boolean increase, int x, int y)
     {
-        int xpos = cs.unmapXsnap(x);
-        int ypos = cs.unmapYsnap(y);
+        int xpos = cs.unmapXnosnap(x);
+        int ypos = cs.unmapYnosnap(y);
         double z=cs.getXMagnitude();
-            
+        
+        // Calculate the scroll position to center the scroll
+        // where the user has done the click.
+        
+        PointG origin=new PointG();
+        DimensionG d=ExportGraphic.getImageSize(P, 1.0, false, origin);
+    							
+        xs=(double)xpos/(d.width+MARGIN);
+        if(xs<0.0) xs=0.0;
+        ys=(double)ypos/(d.height+MARGIN);
+        if(ys<0.0) ys=0.0;
+                    
         // Click+Meta reduces the zoom
         // Click raises the zoom
+        double oldz=z;
         if(increase) 
             z=z*3.0/2.0;
         else
@@ -622,19 +627,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
        	z=Math.round(z*100.0)/100.0;
         cs.setMagnitudes(z,z);
-        repaint();
-            
 
-       	if(scrollMoveListener!=null) {
-          	// Calculate the scroll position to center the scroll
-           	// where the user has done the click.
-           	double xs=(double)xpos/(cs.getXMax()/cs.getXMagnitude());
-           	if(xs<0.0) xs=0.0;
-           	double ys=(double)ypos/(cs.getYMax()/cs.getYMagnitude());
-           	if(ys<0.0) ys=0.0;
-            	
-           	scrollMoveListener.scroll(xs,ys);
-        }    
+        // A little strong...
+        
+        int width = father.getViewport().getExtentSize().width;
+        int height = father.getViewport().getExtentSize().height;
+        
+        Rectangle r=new Rectangle((int)(xpos*z-width/2),
+       			(int)(ypos*z-height/2),
+       			width, height);
+       	
+       	setScrollRectangle(r); 
+
     }
     
     /** Show a popup menu representing the actions that can be done on the
@@ -754,16 +758,19 @@ public class CircuitPanel extends JPanel implements ActionListener,
         rulerStartY = py;
         rulerEndX=px;
         rulerEndY=py;
-        boolean multiple=evt.isControlDown();
+        boolean toggle = false;
         
-        if(Globals.useMetaForMultipleSelection)
-            multiple=evt.isMetaDown();
+        if(Globals.useMetaForMultipleSelection) {
+        	toggle = evt.isMetaDown();
+    	} else {
+        	toggle = evt.isControlDown();
+        }
             
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
             !evt.isShiftDown()) { 
             haa.dragHandleStart(px, py, EditorActions.SEL_TOLERANCE,
-            	multiple, cs);
+            	toggle, cs);
         } else if(eea.actionSelected == ElementsEdtActions.SELECTION){ 
         	// Right click during selection
             ruler = true;
@@ -819,14 +826,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int px=evt.getX();
         int py=evt.getY();
         
-        boolean multiple=evt.isControlDown();
-        boolean toggle = false;
         boolean toRepaint = false;
+        boolean toggle = false;
         
-        
-        if(Globals.useMetaForMultipleSelection)
-            multiple=evt.isMetaDown();
-            
         if(Globals.useMetaForMultipleSelection) {
         	toggle = evt.isMetaDown();
     	} else {
@@ -838,7 +840,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         if(eea.actionSelected==ElementsEdtActions.SELECTION) {
             if(rulerStartX!=px || rulerStartY!=py)
-            	haa.dragHandleEnd(this,px, py, multiple, cs);
+            	haa.dragHandleEnd(this, px, py, toggle, cs);
             else {
             	ruler=false;
             	requestFocusInWindow();
@@ -930,7 +932,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         cs.setMagnitudes(z,z);
         eea.successiveMove=false;
         
-        //revalidate();
         repaint();
     }
     
@@ -1065,7 +1066,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(scrollRectangle!=null) {
         	Rectangle r=scrollRectangle;
         	scrollRectangle = null;
-  	   		//scrollRectToVisible(r);
+  	   		scrollRectToVisible(r);
         }
         
         
@@ -1098,6 +1099,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
 		if (cs.getXMax()>0 && 
             cs.getYMax()>0){
+            //System.out.println("Validate: "+(cs.getXMax()
+            //    +MARGIN)+"x"+(cs.getYMax()+MARGIN));
     		setPreferredSize(new Dimension(cs.getXMax()
                 +MARGIN,cs.getYMax()+MARGIN));
         }        

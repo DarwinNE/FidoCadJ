@@ -75,8 +75,7 @@ public class FidoFrame extends JFrame implements
                                             DropTargetListener,
                                             ZoomToFitListener,
                                             HasChangedListener,
-                                            WindowFocusListener,
-                                            ScrollMoveListener
+                                            WindowFocusListener
 {
     // Interface elements parts of FidoFrame
     
@@ -420,7 +419,6 @@ public class FidoFrame extends JFrame implements
 		
         CC=new CircuitPanel(true);
         CC.getParserActions().openFileName = "";
-        CC.setScrollMoveListener(this);
                         	
         dt = new DropTarget(CC, this);
         
@@ -444,6 +442,8 @@ public class FidoFrame extends JFrame implements
         
         CC.setPreferredSize(new Dimension(1000,1000));
         SC= new JScrollPane((Component)CC);
+        CC.father=SC;
+        
         SC.setHorizontalScrollBarPolicy(
         	JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         SC.setVerticalScrollBarPolicy(
@@ -1677,35 +1677,6 @@ public class FidoFrame extends JFrame implements
         }
     }
     
-    /** Required for the ScrollMoveListener interface
-    */
-    public void scroll(final double x, final double y)
-    {
-    	final int xmax = SC.getHorizontalScrollBar().getMaximum();
-    	final int xsize = SC.getHorizontalScrollBar().getVisibleAmount();
-    	final int ymax = SC.getVerticalScrollBar().getMaximum();
-    	final int ysize = SC.getVerticalScrollBar().getVisibleAmount();
-
-		
-    	System.out.println("x="+x+"  y="+y+"  xmax="+xmax+" ymax="+
-    		ymax+"  xsize="+xsize+"  ysize="+ysize);
-    		
-    	SwingUtilities.invokeLater(new Runnable() {
-  			public void run() 
-  			{
-  				System.out.println("Previous: "+
-  					SC.getHorizontalScrollBar().getValue());
-    			SC.getHorizontalScrollBar().setValue((int)(x*(xmax-xsize)));
-    			
-    			System.out.println("Now: "+	
-    				SC.getHorizontalScrollBar().getValue());
-    			SC.getVerticalScrollBar().setValue((int)(y*(ymax-ysize)));
-  			}	
-		});
-
-    	
-    }
-    
     /** Show the FidoCadJ preferences panel
     */
     void showPrefs()
@@ -1744,6 +1715,8 @@ public class FidoFrame extends JFrame implements
         // The panel is now made visible. Its properties will be updated only 
         // if the user clicks on "Ok".
         options.setVisible(true);
+        
+       
         
         // Now, we can update the properties.
         CC.profileTime=options.profileTime;

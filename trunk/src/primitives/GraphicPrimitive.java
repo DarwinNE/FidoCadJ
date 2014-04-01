@@ -198,13 +198,13 @@ public abstract class GraphicPrimitive
  			// At first, write the name and the value fields in the given 
  			// positions
  			
- 			
+    		g.setFont(macroFont, 
+    			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
+    		 			
     		h = g.getFontAscent();
     		th = h+g.getFontDescent();
     		
-    		g.setFont(macroFont, 
-    			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
-    		
+
     		if(name==null) 
    				w1=0;
    			else

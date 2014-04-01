@@ -576,11 +576,12 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		pd.isExtension = true;
 
 		v.add(pd);
-		
+		/*
 		pd = new ParameterDescription();
 		pd.parameter= Integer.valueOf(getLayer());
 		pd.description=Globals.messages.getString("ctrl_layer");
 		v.add(pd);
+		
 		
 		pd = new ParameterDescription();
 		pd.parameter=virtualPoint[0];
@@ -595,10 +596,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		pd = new ParameterDescription();
 		pd.parameter=virtualPoint[2];
 		pd.description=Globals.messages.getString("ctrl_value_point");
-		v.add(pd);
+		v.add(pd);*/
 		
-		
-	
 		return v;
 	}
 	/**	Set the control parameters of the given primitive.
@@ -632,9 +631,12 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			value=((String)pd.parameter);
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
-		 	
+		
+		/* 	
 		pd = (ParameterDescription)v.get(i);
 		++i;
+		
+		
 		// Check, just for sure...
 		if (pd.parameter instanceof Integer)
 			setLayer(((Integer)pd.parameter).intValue());
@@ -666,6 +668,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			virtualPoint[2]=(PointG)pd.parameter;
 		else
 		 	System.out.println("Warning: unexpected parameter!");
+		*/
 		
 		return i;
 	}
