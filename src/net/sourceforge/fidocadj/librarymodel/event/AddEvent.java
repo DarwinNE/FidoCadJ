@@ -1,11 +1,11 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.event;
 
 public class AddEvent
 {
 	private Object addedNode;
 	private Object parentNode;
 
-	AddEvent(Object parentNode,Object addedNode)
+	public AddEvent(Object parentNode,Object addedNode)
 	{
 		this.parentNode = parentNode;
 		this.addedNode = addedNode;

@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.layermodel;
 
 import java.util.*;
 import layers.LayerDesc;
@@ -9,7 +9,7 @@ public class LayerModel
 {
     private final DrawingModel DrawingModel;
 
-    LayerModel(DrawingModel DrawingModel)
+    public LayerModel(DrawingModel DrawingModel)
     {
         this.DrawingModel = DrawingModel;
     }

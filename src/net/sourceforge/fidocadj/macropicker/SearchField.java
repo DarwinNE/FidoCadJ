@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.macropicker;
 
 import java.awt.*;
 import java.awt.event.*;

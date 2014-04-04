@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.event;
 
 public class KeyChangeEvent
 {
@@ -6,7 +6,7 @@ public class KeyChangeEvent
 	private Object parentNode;
 	private String oldKey;
 
-	KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
+	public KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
 	{
 		this.parentNode = parentNode;
 		this.keyChangedNode = keyChangedNode;

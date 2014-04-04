@@ -47,17 +47,41 @@ goto :END
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
   rem javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
+  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
+  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
+  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
   exit /b
 
 
 :FORCE_COMPILE
+  del winbuild.log 2> NUL
+  del winbuild.err 2> NUL
   for /r .\src %%N in (*.java) do (
   	  echo %%N
-  	  javac -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 -d bin %%N
+  	  echo ######## %%N >> winbuild.log
+  	  javac -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 -d bin %%N > winbuild.tmp 2>&1 
+  	  if ERRORLEVEL=1 (
+  	  	  echo ... ERROR.
+  	  	  echo ------- %%N >> winbuild.err
+  	  	  type winbuild.tmp >> winbuild.err
+  	  	  type winbuild.tmp >> winbuild.log
+  	  ) else (
+  	  	  echo ... COMPILED.
+  	  	  type winbuild.tmp >> winbuild.log
+  	  )
+  	  echo. >> winbuild.log
+  	  echo. >> winbuild.log
   )
+  if exist winbuild.err (
+  	  echo.
+  	  echo ERROR SOURCES:
+  	  type winbuild.err
+  	  echo ... CHECK COMPILE LOG FILE: winbuild.log
+  	  echo ... CHECK ERROR ONLY LOG FILE: winbuild.err
+  )
+  del winbuild.tmp 2> NUL
+  echo.
+  echo FINISHED.
   exit /b
   
 :CLEAN
@@ -68,7 +92,7 @@ goto :END
   exit /b
 
 :RUN
-  java -classpath ./bin;./jar;./jar/quaqua.jar;./jar/ FidoMain
+  java -classpath ./bin;./jar;./jar/quaqua.jar;./jar/ net.sourceforge.fidocadj.FidoMain
   exit /b
 
 :END

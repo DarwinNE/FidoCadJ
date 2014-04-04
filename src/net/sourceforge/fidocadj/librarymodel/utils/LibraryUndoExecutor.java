@@ -1,18 +1,20 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.utils;
 
 import java.io.*;
 
 import globals.FileUtils;
 import globals.LibUtils;
 import undo.LibraryUndoListener;
-import undo.LibraryUndoListener;
+
+import net.sourceforge.fidocadj.librarymodel.LibraryModel;
+import net.sourceforge.fidocadj.FidoFrame;
 
 public class LibraryUndoExecutor implements LibraryUndoListener
 {
 	FidoFrame fidoFrame;
 	LibraryModel libraryModel;
 	
-	LibraryUndoExecutor(FidoFrame frame, LibraryModel model)
+	public LibraryUndoExecutor(FidoFrame frame, LibraryModel model)
 	{
 		fidoFrame = frame;
 		libraryModel = model;

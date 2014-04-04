@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.macropicker.model;
 
 import javax.swing.*;
 import javax.swing.tree.*;
@@ -6,7 +6,7 @@ import javax.swing.tree.*;
 /**
  * Extended interface of JTree node for showing macros.
  */ 
-interface MacroTreeNode extends TreeNode
+public interface MacroTreeNode extends TreeNode
 {
     /** 
      * Sort child nodes.
