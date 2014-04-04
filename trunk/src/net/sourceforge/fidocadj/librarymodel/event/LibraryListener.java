@@ -1,6 +1,6 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.event;
 
-interface LibraryListener
+public interface LibraryListener
 {
 	public void libraryLoaded();
 	public void libraryNodeRenamed(RenameEvent e);

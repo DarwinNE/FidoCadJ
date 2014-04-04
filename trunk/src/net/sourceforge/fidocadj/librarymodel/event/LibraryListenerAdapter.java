@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.event;
 
 /**
  * Adapter class of LibraryListener interface.

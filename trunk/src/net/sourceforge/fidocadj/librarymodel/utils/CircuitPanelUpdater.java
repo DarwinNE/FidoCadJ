@@ -1,4 +1,11 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.utils;
+
+import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
+import net.sourceforge.fidocadj.librarymodel.event.AddEvent;
+import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
+import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
+import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
+import net.sourceforge.fidocadj.FidoFrame;
 
 import circuit.CircuitPanel;
 import circuit.controllers.ParserActions;
@@ -8,7 +15,7 @@ public class CircuitPanelUpdater implements LibraryListener
 {
 	FidoFrame fidoFrame;
 	
-	CircuitPanelUpdater(FidoFrame fidoFrame)
+	public CircuitPanelUpdater(FidoFrame fidoFrame)
 	{
 		this.fidoFrame = fidoFrame;
 	}

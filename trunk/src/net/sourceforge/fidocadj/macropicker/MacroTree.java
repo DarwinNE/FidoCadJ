@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.macropicker;
 
 import java.util.*;
 import java.awt.*;
@@ -16,10 +16,19 @@ import toolbars.ChangeSelectionListener;
 import circuit.controllers.ElementsEdtActions;
 import globals.Globals;
 
+import net.sourceforge.fidocadj.librarymodel.LibraryModel;
+import net.sourceforge.fidocadj.librarymodel.Library;
+import net.sourceforge.fidocadj.librarymodel.Category;
+import net.sourceforge.fidocadj.layermodel.LayerModel;
+import net.sourceforge.fidocadj.librarymodel.event.LibraryListenerAdapter;
+import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
+import net.sourceforge.fidocadj.macropicker.model.MacroTreeModel;
+import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
+
 /**
 * Library view component.<br>
 */
-public class NewMacroTree extends JPanel
+public class MacroTree extends JPanel
 {
     // Selected node type
     public static final int LIBRARY = 0;
@@ -51,7 +60,7 @@ public class NewMacroTree extends JPanel
     * @param libraryModel library model. not null.
     * @param layerModel layer model. not null.
     */
-    NewMacroTree(LibraryModel libraryModel, LayerModel layerModel)
+    public MacroTree(LibraryModel libraryModel, LayerModel layerModel)
     {
         this.libraryModel = libraryModel;
         this.layerModel = layerModel;
@@ -330,7 +339,7 @@ public class NewMacroTree extends JPanel
 		libraryModel.copy(targetMacro,destCategory);
 	}
     
-    public void createPermissionObject()
+    private void createPermissionObject()
     {
         permissionObject = new OperationPermission();
     }
@@ -426,7 +435,7 @@ public class NewMacroTree extends JPanel
                         //                   previewPanel.getMapCoordinates());
                         previewPanel.repaint();
                     } catch (Exception ex) {
-                        // NOP
+                        ex.printStackTrace();
                     }
                 }
             }

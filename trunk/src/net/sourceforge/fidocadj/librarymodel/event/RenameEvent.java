@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel.event;
 
 public class RenameEvent
 {
@@ -7,7 +7,7 @@ public class RenameEvent
 	private String oldName;
 
 
-	RenameEvent(Object parentNode,Object renamedNode,String oldName)
+	public RenameEvent(Object parentNode,Object renamedNode,String oldName)
 	{
 		this.parentNode = parentNode;
 		this.renamedNode = renamedNode;

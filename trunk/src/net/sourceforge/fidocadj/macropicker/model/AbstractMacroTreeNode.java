@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.macropicker.model;
 
 import java.util.*;
 import javax.swing.*;

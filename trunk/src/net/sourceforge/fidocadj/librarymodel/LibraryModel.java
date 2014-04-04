@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.librarymodel;
 
 import java.util.*;
 import javax.swing.event.*;
@@ -10,6 +10,7 @@ import globals.LibUtils;
 import globals.Globals;
 import undo.UndoActorListener;
 
+import net.sourceforge.fidocadj.librarymodel.event.*;
 
 // TODO: specify the license and comment public methods
 // NOTE: This model has no adding macro method.
@@ -31,7 +32,7 @@ public class LibraryModel
      * Costructor.
      * @param drawingModel DrawingModel instance to fetch macros. 
      */
-    LibraryModel(DrawingModel drawingModel)
+    public LibraryModel(DrawingModel drawingModel)
     {
         this.drawingModel = drawingModel;
         libraryListeners = new ArrayList<LibraryListener>();

@@ -35,7 +35,11 @@ import geom.*;
 import clipboard.*;
 import toolbars.*;
 import timer.*;
-
+import net.sourceforge.fidocadj.macropicker.MacroTree;
+import net.sourceforge.fidocadj.librarymodel.LibraryModel;
+import net.sourceforge.fidocadj.layermodel.LayerModel;
+import net.sourceforge.fidocadj.librarymodel.utils.CircuitPanelUpdater;
+import net.sourceforge.fidocadj.librarymodel.utils.LibraryUndoExecutor;
 
 /** FidoFrame.java 
 
@@ -84,14 +88,14 @@ public class FidoFrame extends JFrame implements
     // ... which is contained in a scroll pane.
     private JScrollPane SC;
        
-    // Tree allowing the access to the loaded libraries.
+    // Macro picker component
     private MacroTree macroLib;
     
-    // NewMacroTree
-    private NewMacroTree newMacroLib;
+    // Macro library model
     private LibraryModel libraryModel;
+    
+    // Layer model
     private LayerModel layerModel;
-     
  
     // Export default properties
     private String exportFileName;
@@ -392,7 +396,6 @@ public class FidoFrame extends JFrame implements
             		"lib/elettrotecnica.fcl"), "elettrotecnica");
       		}
  		}
- 		//macroLib.updateLibraries(CC.P.getLibrary(), CC.P.getLayers());
  		libraryModel.forceUpdate();
  	}
     
@@ -772,17 +775,14 @@ public class FidoFrame extends JFrame implements
 		
         libraryModel = new LibraryModel(CC.P);
         layerModel = new LayerModel(CC.P);
-        newMacroLib = new NewMacroTree(libraryModel,layerModel);
-        newMacroLib.setSelectionListener(CC);
+        macroLib = new MacroTree(libraryModel,layerModel);
+        macroLib.setSelectionListener(CC);
         
         libraryModel.setUndoActorListener(CC.getUndoActions());
         libraryModel.addLibraryListener(new CircuitPanelUpdater(this));
         CC.getUndoActions().setLibraryUndoListener(
         	                       new LibraryUndoExecutor(this,libraryModel));
         
-		//CC.P.setLibraryUndoListener(macroLib);
-		
-		//macroLib.setUndoActorListener(CC.P);
 		LibUtils.saveLibraryState(CC.getUndoActions());
 		
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -794,8 +794,8 @@ public class FidoFrame extends JFrame implements
         CC.setPreferredSize(new Dimension(windowSize.width*85/100,100));
         
         splitPane.setTopComponent(SC);
-        newMacroLib.setPreferredSize(new Dimension(450,200));
-        splitPane.setBottomComponent(newMacroLib);
+        macroLib.setPreferredSize(new Dimension(450,200));
+        splitPane.setBottomComponent(macroLib);
         splitPane.setResizeWeight(.8);
 
         contentPane.add(splitPane,"Center");

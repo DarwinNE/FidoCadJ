@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj;
+package net.sourceforge.fidocadj.macropicker;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,11 +7,14 @@ import primitives.MacroDesc;
 
 import globals.*;
 
+import net.sourceforge.fidocadj.librarymodel.Library;
+import net.sourceforge.fidocadj.librarymodel.Category;
+
 public class MacroTreePopupMenu extends JPopupMenu implements
 			ChangeListener
 {
-	private NewMacroTree macroTree;
-	private NewMacroTree.OperationPermission permission;
+	private MacroTree macroTree;
+	private MacroTree.OperationPermission permission;
 	
 	private JMenuItem copyMenu;
 	private JMenuItem pasteMenu;
@@ -19,7 +22,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 	private JMenuItem removeMenu;
 	private JMenuItem renkeyMenu;
 	
-	MacroTreePopupMenu(NewMacroTree macroTree)
+	public MacroTreePopupMenu(MacroTree macroTree)
 	{
 		this.macroTree = macroTree;
 		permission = macroTree.getOperationPermission();
@@ -63,23 +66,23 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 	
 	private ActionListener createRenameActionListener()
 	{
-		final NewMacroTree mt = macroTree;
+		final MacroTree mt = macroTree;
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case NewMacroTree.MACRO:
+				case MacroTree.MACRO:
 					MacroDesc m = mt.getSelectedMacro();
 					if(m!=null){
 						mt.rename(m);
 					}
 					break;
-				case NewMacroTree.CATEGORY:
+				case MacroTree.CATEGORY:
 					Category c = mt.getSelectedCategory();
 					if(c!=null){
 						mt.rename(c);
 					}
 					break;
-				case NewMacroTree.LIBRARY:
+				case MacroTree.LIBRARY:
 					Library l = mt.getSelectedLibrary();
 					if(l!=null){
 						mt.rename(l);
@@ -94,23 +97,23 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 	
 	private ActionListener createRemoveActionListener()
 	{
-		final NewMacroTree mt = macroTree;
+		final MacroTree mt = macroTree;
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case NewMacroTree.MACRO:
+				case MacroTree.MACRO:
 					MacroDesc m = mt.getSelectedMacro();
 					if(m!=null){
 						mt.remove(m);
 					}
 					break;
-				case NewMacroTree.CATEGORY:
+				case MacroTree.CATEGORY:
 					Category c = mt.getSelectedCategory();
 					if(c!=null){
 						mt.remove(c);
 					}
 					break;
-				case NewMacroTree.LIBRARY:
+				case MacroTree.LIBRARY:
 					Library l = mt.getSelectedLibrary();
 					if(l!=null){
 						mt.remove(l);
@@ -124,20 +127,20 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 	
 	private ActionListener createRenkeyActionListener()
 	{
-		final NewMacroTree mt = macroTree;
+		final MacroTree mt = macroTree;
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case NewMacroTree.MACRO:
+				case MacroTree.MACRO:
 					MacroDesc m = mt.getSelectedMacro();
 					if(m!=null){
 						mt.changeKey(m);
 					}
 					break;
-				case NewMacroTree.CATEGORY:
+				case MacroTree.CATEGORY:
 					//NOP
 					break;
-				case NewMacroTree.LIBRARY:
+				case MacroTree.LIBRARY:
 					//NOP
 					break;
 				}
@@ -148,7 +151,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 	
 	private ActionListener createCopyActionListener()
 	{
-		final NewMacroTree mt = macroTree;
+		final MacroTree mt = macroTree;
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -160,7 +163,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 
 	private ActionListener createPasteActionListener()
 	{
-		final NewMacroTree mt = macroTree;
+		final MacroTree mt = macroTree;
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
