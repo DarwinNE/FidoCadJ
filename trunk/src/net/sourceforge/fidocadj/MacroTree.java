@@ -33,6 +33,8 @@ import toolbars.*;
 import layers.*;
 import undo.*;
 
+import net.sourceforge.fidocadj.macropicker.SearchField;
+
 /* macroTree.java
 	
 	Show in a tree the macros available in the loaded libraries.
