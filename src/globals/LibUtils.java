@@ -26,6 +26,8 @@ import primitives.MacroDesc;
 
 import undo.*;
 
+import net.sourceforge.fidocadj.FidoMain;
+
 /** Class to handle library files and databases.
 
 <pre>
@@ -167,7 +169,8 @@ public class LibUtils {
 
 	public static String getLibDir() throws FileNotFoundException
 	{
-		Preferences prefs = Preferences.userNodeForPackage(Globals.class);
+		//Preferences prefs = Preferences.userNodeForPackage(Globals.class);
+		Preferences prefs = Preferences.userNodeForPackage(FidoMain.class);
 		String s = prefs.get("DIR_LIBS", "");
 		if (s == null || s.length()==0) {
 			throw new FileNotFoundException();			

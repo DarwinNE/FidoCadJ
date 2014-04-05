@@ -380,8 +380,8 @@ public class DialogSymbolize extends JDialog
 				ExportGraphic.calculateZoomToFit(cpanel.P, 
 				cpanel.getSize().width*80/100, cpanel.getSize().height*80/100, 
 				true);
-		m.setXCenter(m.getXCenter()+10);
-		m.setYCenter(m.getYCenter()+10);
+		m.setXCenter(-m.getXCenter()+10);
+		m.setYCenter(-m.getYCenter()+10);
 		cpanel.setMapCoordinates(m);
 		cpanel.resetOrigin();
 		
