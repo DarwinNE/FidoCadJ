@@ -266,7 +266,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	public void draw(GraphicsInterface g, MapCoordinates coordSys,
 							  Vector layerV)
 	{
-	
+		// Macros are *always* on layer 0 (they can contain elements to be
+		// drawn, of course, on other layers).
+		setLayer(0);
 		if(selectLayer(g,layerV))
 			drawText(g, coordSys, layerV, drawOnlyLayer);
 		
