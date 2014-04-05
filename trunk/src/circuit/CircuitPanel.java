@@ -669,7 +669,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
             s=true;
 		} else
 			s=false;
-				
+		
+		if (!edt.isUniquePrimitiveSelected())
+			s=false;
+		
 		editAddNode.setEnabled(s);
         editRemoveNode.setEnabled(s);
         editAddNode.setVisible(s);
@@ -686,10 +689,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
             editPaste.setEnabled(true);
             	
         editSymbolize.setEnabled(edt.getFirstSelectedPrimitive() != null);
+        
         editUSymbolize.setEnabled(edt.getFirstSelectedPrimitive() != null
             			&& edt.getFirstSelectedPrimitive() 
-            			instanceof PrimitiveMacro); // phylum
-            	
+            			instanceof PrimitiveMacro
+            			&& edt.isUniquePrimitiveSelected()); // phylum
         
         popup.show(this, x, y);
     }
