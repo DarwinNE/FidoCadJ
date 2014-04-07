@@ -286,8 +286,6 @@ public class DialogParameters extends JDialog implements ComponentListener
 				jco[co].setEnabled(!(pd.isExtension && extStrict));
 				contentPane.add(jco[co++], constraints);
 			} else if (pd.parameter instanceof LayerInfo) {
-				GraphicsEnvironment gE;
-				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				jco[co] = new JComboBox(new Vector<LayerDesc>(layers));
 				jco[co].setSelectedIndex(((LayerInfo) pd.parameter).layer);
 				jco[co].setRenderer(new LayerCellRenderer());
@@ -304,8 +302,6 @@ public class DialogParameters extends JDialog implements ComponentListener
 				contentPane.add(jco[co++], constraints);
 
 			} else if (pd.parameter instanceof ArrowInfo) {
-				GraphicsEnvironment gE;
-				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				jco[co] = new JComboBox<ArrowInfo>();
 				jco[co].addItem(new ArrowInfo(0));
 				jco[co].addItem(new ArrowInfo(1));
@@ -327,8 +323,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 				contentPane.add(jco[co++], constraints);
 
 			} else if (pd.parameter instanceof DashInfo) {
-				GraphicsEnvironment gE;
-				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			
 				jco[co] = new JComboBox<DashInfo>();
 
 				for (int k = 0; k < Globals.dashNumber; ++k) {
