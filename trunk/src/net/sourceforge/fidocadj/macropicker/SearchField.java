@@ -93,7 +93,7 @@ public class SearchField extends JTextField implements FocusListener
     }
 
     /**
-     * Draw placeholder text.
+     * Draws placeholder text.
      */
     private void showPlaceHolder(Graphics g)
     {

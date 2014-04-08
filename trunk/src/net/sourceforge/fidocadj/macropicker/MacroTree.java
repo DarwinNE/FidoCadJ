@@ -1,3 +1,20 @@
+// This file is part of FidoCadJ.
+// 
+// FidoCadJ is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// FidoCadJ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Copyright 2014 Kohta Ozaki
+
 package net.sourceforge.fidocadj.macropicker;
 
 import java.util.*;
@@ -27,12 +44,20 @@ import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
 
 /**
 * Library view component.<br>
+* Features:<BR>
+* * Shows macros of libraries as tree and previews.<BR>
+* * Notice selected macro to related components.<BR>
+* * Provides interfaces of renaming, removing, moving and changing key for
+* library.<BR>
+* @author Kohta Ozaki
 */
 public class MacroTree extends JPanel
 {
-    // Selected node type
+    /** Indicates library */
     public static final int LIBRARY = 0;
+    /** Indicates category */
     public static final int CATEGORY = 1;
+    /** Indicates macro */
     public static final int MACRO = 2;
 
     // View components.
@@ -111,6 +136,10 @@ public class MacroTree extends JPanel
         changeListeners.remove(l);
     }
 
+    /**
+    * Returns node type of selected.
+    * @return int A constant of LIBRARY or CATEGORY or MACRO or -1(other). 
+    */
     public int getSelectedType()
     {
         TreePath path = treeComponent.getSelectionPath();
@@ -131,6 +160,10 @@ public class MacroTree extends JPanel
         }
     }
 
+    /**
+    * Removes library.
+    * @param library Library to remove.
+    */
     public void remove(Library library)
     {
         int result;
@@ -153,6 +186,10 @@ public class MacroTree extends JPanel
         }
     }
 
+    /**
+    * Removes category.
+    * @param category Category to remove.
+    */
     public void remove(Category category)
     {
         int result;
@@ -175,6 +212,10 @@ public class MacroTree extends JPanel
         }
     }
 
+    /**
+    * Remove macro.
+    * @param macro MacroDesc to remove.
+    */
     public void remove(MacroDesc macro)
     {
         int result;
