@@ -1,5 +1,7 @@
 package dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -12,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,7 +24,7 @@ import android.widget.TextView;
 
 import net.sourceforge.fidocadj.R;
 import layers.LayerDesc;
-import graphic.FontG;;
+import graphic.FontG;
 
 
 public class DialogParameters extends DialogFragment 
@@ -31,7 +34,9 @@ public class DialogParameters extends DialogFragment
 	private static Vector<LayerDesc> layers;
 	
 	private static final int MAX = 20;
-
+	
+	private static final int BORDER = 30;
+	private static final int MAX_LEN = 200;
 	// Maximum number of user interface elements of the same type present
 	// in the dialog window.
 	private static final int MAX_ELEMENTS = 100;
@@ -44,7 +49,7 @@ public class DialogParameters extends DialogFragment
 	
 	// Check box array and counter
 	private CheckBox cbv[];
-	private int cc; // 
+	private int cc; 
 
 	private Spinner spv[];
 	private int sc; 
@@ -63,15 +68,15 @@ public class DialogParameters extends DialogFragment
 		
 		return dialog;
 	}
-
-	public void onCreate(Bundle savedInstanceState) 
-	{
-        super.onCreate(savedInstanceState);
-        
-        vec = (Vector<ParameterDescription>) getArguments().getSerializable("vec");
-        strict = getArguments().getBoolean("strict");
-        layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
-	}
+	
+	/* @Override
+	 public void onCreate(Bundle savedInstanceState) 
+	 {
+		 super.onCreate(savedInstanceState);
+		 vec = (Vector<ParameterDescription>) getArguments().getSerializable("vec");
+     	 strict = getArguments().getBoolean("strict");
+     	 layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
+	 }*/
 
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
@@ -82,7 +87,11 @@ public class DialogParameters extends DialogFragment
             strict = savedInstanceState.getBoolean("strict");
             layers = (Vector<LayerDesc>) savedInstanceState.getSerializable("layers");
     	}
-    	
+        else{
+        	vec = (Vector<ParameterDescription>) getArguments().getSerializable("vec");
+        	strict = getArguments().getBoolean("strict");
+        	layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
+        }
     	
 		final Activity context = getActivity();
 		final Dialog dialog = new Dialog(context);
@@ -92,12 +101,13 @@ public class DialogParameters extends DialogFragment
     	LinearLayout vv = new LinearLayout(context);
     	
     	vv.setOrientation(LinearLayout.VERTICAL);
-    	vv.setMinimumHeight(getResources().
-			getDimensionPixelSize(R.dimen.large_dialog_height));
+    	/*vv.setMinimumHeight(getResources().
+			getDimensionPixelSize(R.dimen.large_dialog_height));*/
     	vv.setMinimumWidth(getResources().
-			getDimensionPixelSize(R.dimen.large_dialog_width));
+			getDimensionPixelSize(R.dimen.normal_dialog_width));
     	vv.setBackgroundColor(getResources().
 			getColor(R.color.background_white));
+    	vv.setPadding(20, BORDER, BORDER, 15);
     	
     	etv = new EditText[MAX_ELEMENTS];
 		cbv = new CheckBox[MAX_ELEMENTS];
@@ -126,6 +136,7 @@ public class DialogParameters extends DialogFragment
 			lab = new TextView(context);
 			lab.setTextColor(Color.BLACK);
 			lab.setText(pd.description);
+			lab.setPadding(0, 0, 10, 0);
 			//lab.setMinimumHeight(100);
 			//lab.setMinimumWidth(100);
 			
@@ -141,19 +152,31 @@ public class DialogParameters extends DialogFragment
 			if (pd.parameter instanceof Point) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
+				etv[ec].setBackgroundColor(Color.WHITE);
 				etv[ec].setText("" + ((Point) (pd.parameter)).x);
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setSingleLine();
+				etv[ec].setPadding(0, 0, 10, 0);
 
 				vh.addView(etv[ec++]);
 
 				etv[ec] = new EditText(context);
 				etv[ec].setText("" + ((Point) (pd.parameter)).y);
 				etv[ec].setTextColor(Color.BLACK);
+				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setSingleLine();
+				etv[ec].setPadding(0, 0, 10, 0);
 				
-				vv.addView(etv[ec++]);
+				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
+				etv[ec].setBackgroundColor(Color.WHITE);
 				etv[ec].setText((String) (pd.parameter));
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setSingleLine();
+				etv[ec].setPadding(0, 0, 10, 0);
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
 				// the most important field (e.g. for the AdvText primitive)
@@ -164,14 +187,20 @@ public class DialogParameters extends DialogFragment
 			} else if (pd.parameter instanceof Boolean) {
 				cbv[cc] = new CheckBox(context);
 				cbv[cc].setText(pd.description);
-				cbv[cc].setSelected(((Boolean) (pd.parameter)).booleanValue());
+				cbv[cc].setTextColor(Color.BLACK);
+				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
 				
+				vh.setPadding(50, 0, 10, 0);
 				vh.addView(cbv[cc++]);
 
 			} else if (pd.parameter instanceof Integer) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
+				etv[ec].setBackgroundColor(Color.WHITE);
 				etv[ec].setText(((Integer) pd.parameter).toString());
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setSingleLine();
+				etv[ec].setPadding(10, 0, 10, 0);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
@@ -183,27 +212,44 @@ public class DialogParameters extends DialogFragment
 				// slowing being adapted.
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
+				etv[ec].setBackgroundColor(Color.WHITE);
 				int dummy = java.lang.Math.round((Float) pd.parameter);
 				etv[ec].setText(""+dummy);
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setSingleLine();
+				etv[ec].setPadding(0, 0, 0, 0);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof FontG) {
 				spv[sc] = new Spinner(context);
 				
-				/*GraphicsEnvironment gE;
-				gE = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				String[] s = gE.getAvailableFontFamilyNames();
+				String[] s = {"Normal","Italic","Bold"};
 				
+				TextView t = new TextView(context);
+				t.setText("PROVA");
+				t.setTextColor(Color.BLACK);
+			
+				
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, t.getId(), s);
+				spv[sc].setAdapter(adapter);
 				for (int i = 0; i < s.length; ++i) {
-					spv[sc].addItem(s[i])
 					if (s[i].equals(((FontG) pd.parameter).getFamily()))
-						spv[sc].setSelectedIndex(i);
-				}*/
+						spv[sc].setSelection(i);
+				}
 				vh.addView(spv[sc++]);
 			} else if (pd.parameter instanceof LayerInfo) {
 				spv[sc] = new Spinner(context);
+				List<String> l = new ArrayList<String>();
+				for (int i = 0; i < layers.size(); i++)
+					l.add(layers.get(i).getDescription());
 				
-
+				
+				TextView t = new TextView(context);
+				t.setText("PROVA");
+				t.setId(1);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,1, l);
+				spv[sc].setAdapter(adapter);
+				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
 		    }
 			
 		}
@@ -300,13 +346,15 @@ public class DialogParameters extends DialogFragment
 		vv.addView(buttonView);
 		
 		dialog.setContentView((View)vv);  
+		
 		return dialog;
+		//return (View)vv;
 	}
 	
-	/*public void onDismiss(Bundle savedInstanceState)
+	public void onDismiss(Bundle savedInstanceState)
 	{
 		savedInstanceState.putSerializable("vec", vec);
 		savedInstanceState.putBoolean("strict", strict);
 		savedInstanceState.putSerializable("layers", layers);
-	}*/
+	}
 }
