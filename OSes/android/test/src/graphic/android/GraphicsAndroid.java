@@ -186,13 +186,17 @@ public class GraphicsAndroid implements GraphicsInterface
 	
 	public void setFont(String name, int size)
 	{
+
 		setFont(name, size, false, false);
 	}
 	
 
 	public int getFontAscent()
 	{
-		return (int)paint.getFontMetrics().ascent;
+		// Note: an ascent is "going up", so it is negative 
+		// as in the FontMetrics documentation...
+		// FidoCadJ requires a positive size, instead.
+		return -(int)paint.getFontMetrics().ascent;
 	}
 
 	public int getFontDescent()
@@ -296,7 +300,7 @@ public class GraphicsAndroid implements GraphicsInterface
 		pp.rLineTo(1000*(float)Math.cos(orientationRad), 
 			1000*(float)Math.sin(orientationRad));
 		
-		canvas.drawTextOnPath(txt, pp, 0,-th, paint);
+		canvas.drawTextOnPath(txt, pp, 0,th, paint);
 		
 		
 		if (mirror) {
