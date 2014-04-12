@@ -439,40 +439,35 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			v.add(pd);
         }
         
-        // test...
-        // android.util.Log.e("fidocadj", "name: "+v.get(0).description);
-        
-        // TODO: it should call the Android version of the DialogParameters 
-        // dialog and save the new settings
-        DialogParameters dp = DialogParameters.newInstance(v, false, dm.getLayers()) ;
+        DialogParameters dp = DialogParameters.newInstance(v, 
+        	false, dm.getLayers(), this);
         dp.show( ((Activity)cc).getFragmentManager(), "");
-        
-        //dp.setVisible(true);
-        
-    /*    if(dp.active) {
-        	if (edt.isUniquePrimitiveSelected()) {
-        	    gp.setControls(dp.getCharacteristics());	
-        	} else { 
-        		ParameterDescription pd=(ParameterDescription)v.get(0);
-        		v=dp.getCharacteristics();
-        		if (pd.parameter instanceof LayerInfo) {
-					int l=((LayerInfo)pd.parameter).getLayer();
-					edt.setLayerForSelectedPrimitives(l);
-				} else {
-		 			System.out.println(
-		 				"Warning: unexpected parameter! (layer)");
-		 		}
-            }
-            dm.setChanged(true);
+	}
+	
+	public void saveCharacteristics(Vector<ParameterDescription> v)
+	{	
+		GraphicPrimitive gp=ea.getFirstSelectedPrimitive();
+       	if (ea.isUniquePrimitiveSelected()) {
+       	    gp.setControls(v);	
+       	} else { 
+       		ParameterDescription pd=(ParameterDescription)v.get(0);
+       		if (pd.parameter instanceof LayerInfo) {
+				int l=((LayerInfo)pd.parameter).getLayer();
+				ea.setLayerForSelectedPrimitives(l);
+			} else {
+	 			android.util.Log.e("FidoCadJ",
+	 				"Warning: unexpected parameter! (layer)");
+	 		}
+       	}
+       	dm.setChanged(true);
                 
-            // We need to check and sort the layers, since the user can
-            // change the layer associated to a given primitive thanks to
-            // the dialog window which has been shown.
+        // We need to check and sort the layers, since the user can
+        // change the layer associated to a given primitive thanks to
+        // the dialog window which has been shown.
                 
-            dm.sortPrimitiveLayers();
-            ua.saveUndoState();
-            invalidate();
-        }*/
+        dm.sortPrimitiveLayers();
+        ua.saveUndoState();
+        invalidate();
     }
     
     /** Selects the closest object to the given point (in logical coordinates)

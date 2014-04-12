@@ -25,6 +25,7 @@ import android.widget.TextView;
 import net.sourceforge.fidocadj.R;
 import layers.LayerDesc;
 import graphic.FontG;
+import net.sourceforge.fidocadj.FidoEditor;
 
 
 public class DialogParameters extends DialogFragment 
@@ -41,8 +42,6 @@ public class DialogParameters extends DialogFragment
 	// in the dialog window.
 	private static final int MAX_ELEMENTS = 100;
 
-	public boolean active; // true if the user selected Ok
-
 	// Text box array and counter
 	private EditText etv[];
 	private int ec;	
@@ -54,9 +53,19 @@ public class DialogParameters extends DialogFragment
 	private Spinner spv[];
 	private int sc; 
 	
+	private FidoEditor caller;
+	/**
+	 * Get a ParameterDescription vector describing the characteristics modified
+	 * by the user.
+	 * 
+	 * @return a ParameterDescription vector describing each parameter.
+	 */
+	public Vector<ParameterDescription> getCharacteristics() {
+		return vec;
+	}	
 	
 	public static DialogParameters newInstance(Vector<ParameterDescription> vec,
-			boolean strict, Vector<LayerDesc> layers) 
+			boolean strict, Vector<LayerDesc> layers, FidoEditor callback) 
 	{
 		DialogParameters dialog = new DialogParameters();
 		
@@ -65,6 +74,7 @@ public class DialogParameters extends DialogFragment
         args.putBoolean("strict", strict);
         args.putSerializable("layers", layers);
         dialog.setArguments(args);
+        dialog.caller=callback;
 		
 		return dialog;
 	}
@@ -142,7 +152,8 @@ public class DialogParameters extends DialogFragment
 			
 			LinearLayout vh = new LinearLayout(context);
 			vh.setGravity(Gravity.FILL_HORIZONTAL);
-			vv.addView(vh);
+			
+			int background = Color.GREEN;
 			
 			if (!(pd.parameter instanceof Boolean))
 				vh.addView(lab);
@@ -152,7 +163,7 @@ public class DialogParameters extends DialogFragment
 			if (pd.parameter instanceof Point) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setBackgroundColor(background);
 				etv[ec].setText("" + ((Point) (pd.parameter)).x);
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setSingleLine();
@@ -163,7 +174,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec] = new EditText(context);
 				etv[ec].setText("" + ((Point) (pd.parameter)).y);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setBackgroundColor(background);
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 10, 0);
@@ -172,9 +183,11 @@ public class DialogParameters extends DialogFragment
 			} else if (pd.parameter instanceof String) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setGravity(Gravity.FILL_HORIZONTAL|
+					Gravity.CENTER_HORIZONTAL);
+				etv[ec].setBackgroundColor(background);
 				etv[ec].setText((String) (pd.parameter));
-				etv[ec].setMaxWidth(MAX_LEN);
+				//etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 10, 0);
 				// If we have a String text field in the first position, its
@@ -196,7 +209,7 @@ public class DialogParameters extends DialogFragment
 			} else if (pd.parameter instanceof Integer) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setBackgroundColor(background);
 				etv[ec].setText(((Integer) pd.parameter).toString());
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setSingleLine();
@@ -212,7 +225,7 @@ public class DialogParameters extends DialogFragment
 				// slowing being adapted.
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(Color.WHITE);
+				etv[ec].setBackgroundColor(background);
 				int dummy = java.lang.Math.round((Float) pd.parameter);
 				etv[ec].setText(""+dummy);
 				etv[ec].setMaxWidth(MAX_LEN);
@@ -251,7 +264,8 @@ public class DialogParameters extends DialogFragment
 				spv[sc].setAdapter(adapter);
 				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
 		    }
-			
+			vv.addView(vh);
+	
 		}
     	
 		LinearLayout buttonView = new LinearLayout(context);
@@ -289,8 +303,12 @@ public class DialogParameters extends DialogFragment
 						} else if (pd.parameter instanceof String) {
 							pd.parameter = etv[ec++].getText().toString();
 						} else if (pd.parameter instanceof Boolean) {
+							android.util.Log.e("fidocadj", 
+								"value:"+Boolean.valueOf(
+								cbv[cc].isChecked()));
 							pd.parameter = Boolean.valueOf(
-								cbv[cc++].isSelected());
+								cbv[cc++].isChecked());
+							
 						} else if (pd.parameter instanceof Integer) {
 							pd.parameter = Integer.valueOf(Integer
 									.parseInt(etv[ec++].getText().toString()));
@@ -322,9 +340,7 @@ public class DialogParameters extends DialogFragment
 							JOptionPane.INFORMATION_MESSAGE);
 					return;*/
 				}
-
-				active = true;
-				
+				caller.saveCharacteristics(vec);
 				dialog.dismiss();
 			}
 		});
@@ -338,7 +354,7 @@ public class DialogParameters extends DialogFragment
 			@Override  
 			public void onClick(View buttonView) 
 			{  
-				//cancel action
+				dialog.dismiss();
 			}  
 		});
 		buttonView.addView(cancel);
