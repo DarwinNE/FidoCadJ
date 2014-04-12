@@ -75,7 +75,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.addItem("200%");
         zoom.addItem("300%");
         zoom.addItem("400%");
+        zoom.addItem("600%");
+        zoom.addItem("800%");
         zoom.addItem("1000%");
+        zoom.addItem("1500%");
+        zoom.addItem("2000%");
         zoom.setPreferredSize(new Dimension (80,29));
         zoom.setMaximumSize(new Dimension (80,38));
         zoom.setMinimumSize(new Dimension (80,18));
@@ -212,16 +216,19 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         			
         			// The percent symbol should be eliminated.
         			s=s.replace('%',' ').trim();
+        			//System.out.println ("New zoom: "+s);
         			double z=Double.parseDouble(s);
+        			// Very important: if I remove that, CPU goes to 100%
+        			// since this is called continuously!
         			if(z==oldzoom)
         				return;
-        		
-        			if(10<=z && z<=1000) {
-        				oldzoom=z;
+        			oldzoom=z;
+        			if(10<=z && z<=2000) {
         				notifyZoomChangeListener.changeZoom(z/100);
         			}
         		} catch (NumberFormatException E) {
         			// Just ignore
+        			//System.out.println ("Zoom ignored");
         		}
         		
         	}

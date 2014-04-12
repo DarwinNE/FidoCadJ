@@ -1,5 +1,8 @@
 #!/bin/bash
 rm bin/net/sourceforge/fidocadj/*.class
+rm bin/net/sourceforge/fidocadj/layermodel/*.class
+rm bin/net/sourceforge/fidocadj/librarymodel/*.class
+rm bin/net/sourceforge/fidocadj/macropicker/*.class
 rm bin/circuit/*.class
 rm bin/circuit/controllers/*.class
 rm bin/clipboard/*.class

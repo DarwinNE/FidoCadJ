@@ -64,7 +64,7 @@ public class MapCoordinates
     public boolean snapActive;
     
     public static final double MIN_MAGNITUDE=0.25;
-    public static final double MAX_MAGNITUDE=100.0;
+    public static final double MAX_MAGNITUDE=20.0;
 
     private double vx;
     private int ivx;	// NOPMD this is not a local variable for efficiency
@@ -120,6 +120,15 @@ public class MapCoordinates
     {
 		return orientation;
 	}
+	
+	/** Get the current mirroring state
+    	@return the current mirroring state.
+    */
+    public boolean getMirror()
+    {
+		return mirror;
+	}
+	
     
     /** Save in a stack the current coordinate state.
     

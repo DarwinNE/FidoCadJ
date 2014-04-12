@@ -163,14 +163,12 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macroName = key;
  		macroFont = macroF;
  		
- 		macroStore(layers);
- 					
+ 		macroStore(layers);			
 	}
 	
 	
 	/** Returns true if the macro contains the specified layer. This
 		is a calculation done at the DrawingModel level.
-	
 	*/
 	public boolean containsLayer(int l)
  	{
