@@ -650,13 +650,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
     	menux=x; menuy=y;
     	boolean s=false;
+    	boolean somethingSelected=edt.getFirstSelectedPrimitive()!=null;
+    	GraphicPrimitive g=edt.getFirstSelectedPrimitive();
+		
 		// A certain number of menu options are applied to selected 
        	// primitives. We therefore check wether are there some 
        	// of them available and in this case we activate what should
        	// be activated in the pop up menu.
-
-       	if(edt.getFirstSelectedPrimitive()!=null) 
-       		s=true;
+     	s=somethingSelected;
         
        	editProperties.setEnabled(s);
       	editCut.setEnabled(s);
@@ -664,8 +665,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         editRotate.setEnabled(s);
         editMirror.setEnabled(s);
             	
-        if(edt.getFirstSelectedPrimitive() instanceof PrimitiveComplexCurve ||
-            edt.getFirstSelectedPrimitive() instanceof PrimitivePolygon) {
+        if(g instanceof PrimitiveComplexCurve ||
+            g instanceof PrimitivePolygon) {
             s=true;
 		} else
 			s=false;
@@ -688,12 +689,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         else
             editPaste.setEnabled(true);
             	
-        editSymbolize.setEnabled(edt.getFirstSelectedPrimitive() != null);
+        editSymbolize.setEnabled(somethingSelected);
         
-        editUSymbolize.setEnabled(edt.getFirstSelectedPrimitive() != null
-            			&& edt.getFirstSelectedPrimitive() 
-            			instanceof PrimitiveMacro
-            			&& edt.isUniquePrimitiveSelected()); // phylum
+        editUSymbolize.setEnabled(edt.selectionCanBeSplitted()); // phylum
         
         popup.show(this, x, y);
     }

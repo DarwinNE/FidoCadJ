@@ -180,6 +180,24 @@ public class EditorActions
         return hasFound && isUnique;
     }
     
+    /** Determine if the selection can be splitted
+    	@return true if the selection contains at least a macro, or some of
+    		its elements have a name or a value (which are separated).
+    */
+    public boolean selectionCanBeSplitted()
+    {
+    	
+    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            if (g.getSelected() && 
+            	(g instanceof PrimitiveMacro ||
+            	 g.hasName() || g.hasValue())) {
+            	return true;
+            }
+        }
+        
+        return false;
+    }
+    
     /** Sets the layer for all selected primitives.
     	@param l the wanted layer index.
     	@return true if at least a layer has been changed.

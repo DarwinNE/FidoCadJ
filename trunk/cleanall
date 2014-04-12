@@ -1,7 +1,5 @@
 #!/bin/bash
 
-svn delete --force bin/*.class
-svn delete --force bin/net/sourceforge/fidocadj/*.class
 svn delete --force doc/*.*
 svn delete --force jar/fidocadj.jar
 svn delete --force doc/circuit/*.* 
@@ -18,6 +16,17 @@ svn delete --force doc/toolbars/*.*
 svn delete --force doc/undo/*.*
 svn delete --force doc/package-list
 
+svn delete --force doc/net/sourceforge/fidocadj/*.*
+svn delete --force doc/net/sourceforge/fidocadj/layermodel/*.*
+svn delete --force doc/net/sourceforge/fidocadj/librarymodel/*.*
+svn delete --force doc/net/sourceforge/fidocadj/macropicker/*.*
+
+
+svn delete --force bin/*.class
+svn delete --force bin/net/sourceforge/fidocadj/*.class
+svn delete --force bin/net/sourceforge/fidocadj/layermodel/*.class
+svn delete --force bin/net/sourceforge/fidocadj/librarymodel/*.class
+svn delete --force bin/net/sourceforge/fidocadj/macropicker/*.class
 svn delete --force bin/circuit/*.class
 svn delete --force bin/circuit/controllers/*.class
 svn delete --force bin/clipboard/*.class

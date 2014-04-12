@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8" standalone="no"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
 <svg width="800.0" height="222.0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<!-- Created by FidoCadJ ver. 0.24.4 alpha, export filter by Davide Bucci -->
+<!-- Created by FidoCadJ ver. 0.24.4 zeta, export filter by Davide Bucci -->
 <polygon points="70.0,78.0 70.0,105.0 98.0,91.0 " style="stroke:#000000;stroke-width:3.4782608695652173;fill-rule: evenodd;" fill="#000000"/>
 <line x1="140.0" y1="91.0" x2="36.0" y2="91.0" style="stroke:#000000;stroke-width:3.4782608695652173;fill-rule: evenodd;" fill="none"/>
 <ellipse cx="84.0" cy="91.5" rx="28.0" ry="27.5" style="stroke:#000000;stroke-width:3.4782608695652173;fill-rule: evenodd;" fill="none"/>

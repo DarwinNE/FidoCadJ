@@ -337,7 +337,10 @@ public abstract class GraphicPrimitive
 		int drawOnlyLayer) 
 		throws IOException
 	{
-		double size=cs.mapXr(macroFontSize,macroFontSize)-cs.mapXr(0,0);
+		double size=
+			Math.abs(cs.mapXr(macroFontSize,macroFontSize)-cs.mapXr(0,0));
+		System.out.println("exportText: macroFontSize="+macroFontSize+
+			" size="+size);
 		
 		// Export the text associated to the name and value of the macro 			
 		if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
@@ -794,12 +797,12 @@ public abstract class GraphicPrimitive
 		return false;
 	}
 	
-	protected boolean hasName()
+	public boolean hasName()
 	{
 		return name!=null && name.length()!=0;
 	}
 	
-	protected boolean hasValue()
+	public boolean hasValue()
 	{
 		return value!=null && value.length()!=0;
 	}

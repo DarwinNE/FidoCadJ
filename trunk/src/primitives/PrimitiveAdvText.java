@@ -15,6 +15,7 @@ import dialogs.*;
 import export.*;
 import globals.*;
 import graphic.*;
+import graphic.nil.*;
 
 /** Class to handle the advanced text primitive.
 
@@ -75,6 +76,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	
 	private int h, th, w;
 	private double ymagnitude;
+	private int coordorientation;
+	private boolean	coordmirroring;
+	
 	private int x1, y1, xa, ya, qq;
 	private double xyfactor, si, co;
 	private boolean needsStretching;
@@ -152,6 +156,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			return;		
 		changed=true;
 		ymagnitude=coordSys.getYMagnitude();
+		coordorientation=coordSys.getOrientation();
+		coordmirroring=coordSys.getMirror();
+		
 		if(changed) {
  			changed=false;
 			mirror=false;
@@ -169,17 +176,24 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  			g.setFont(fontName, (int)(six*12*coordSys.getYMagnitude()/7+.5),
  				(sty & TEXT_ITALIC)!=0, (sty & TEXT_BOLD)!=0);
 	    	
-    		orientation=o-coordSys.getOrientation()*90;
-    	
-    		if((sty & TEXT_MIRRORED)!=0){
-    	 		mirror=true;
+	    	orientation=o;
+	    	mirror=false;
+    		if(((sty & TEXT_MIRRORED)!=0)){
+    	 		mirror=!mirror;
     	 		orientation=-orientation;
     		}
     		if (six==0 || siy==0) {
     			siy=10;
     			six=7;
     		}
-    	
+    		orientation-=coordSys.getOrientation()*90;
+    		
+			if(coordmirroring){
+    	 		mirror=!mirror;
+    	 		orientation=-orientation;
+    		}
+
+
     		// Determination of the size of the text string.
     		h = g.getFontAscent();
     		th = h+g.getFontDescent();
@@ -343,11 +357,21 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		// routines.
 		
 		if (changed||recalcSize) {
-		
 			if(changed) {
-				System.out.println("Warning: size calculation in PrimitiveAdvText might be uncorrect!!!");
-			}
- 			// recalcSize is set to true when the draw method detects that the
+				GraphicsNull gSCI = new GraphicsNull();
+ 				
+	   			gSCI.setFont(fontName, (int)(six*12.0/7.0+.5),
+	   				(sty & TEXT_ITALIC)!=0, (sty & TEXT_BOLD)!=0);
+		
+    			hSCI = gSCI.getFontAscent();
+    			thSCI = hSCI+gSCI.getFontDescent();
+   				wSCI = gSCI.getStringWidth(txt);
+   			} else {
+   				hSCI =(int)(h/ymagnitude);
+				thSCI=(int)(th/ymagnitude);
+				wSCI=(int)(w/ymagnitude);
+   			}
+   			// recalcSize is set to true when the draw method detects that the
  			// graphical appearance of the text should be recalculated.
  			
  			recalcSize = false;
@@ -356,50 +380,26 @@ public final class PrimitiveAdvText extends GraphicPrimitive
  			yaSCI=virtualPoint[0].y;
 
     		orientationSCI=o;
- 			
- 			/*
- 			BufferedImage sizeCalculationImage = new BufferedImage(1, 1, 
-        	BufferedImage.TYPE_INT_RGB);
-     
-         	// Create a graphics contents on the buffered image
-         	Graphics2D gSCI = 
-         		(Graphics2D)sizeCalculationImage.createGraphics();
-         		
- 			Font f=new Font(fontName,((sty & 
- 				TEXT_BOLD)==0)?Font.PLAIN:Font.BOLD,
- 				(int)(six*12.0/7.0+.5));
- 				
-	   		gSCI.setFont(f);
-            
-			FontMetrics fmSCI = gSCI.getFontMetrics(f);
-    		hSCI = fmSCI.getAscent();
-    		thSCI = hSCI+fmSCI.getDescent();
-   			wSCI = fmSCI.stringWidth(txt);
-   			
-   			int dh =(int)(h/ymagnitude);
-			int dth=(int)(th/ymagnitude);
-			int dw=(int)(w/ymagnitude);
-			
-			if(hSCI!=dh || thSCI!=dth || wSCI!=dw)
-				System.out.println("(hSCI="+hSCI+", h="+dh+")  (thSCI="+ thSCI+
-					", th="+dth+")   (wSCI="+wSCI+", w="+dw+")");
-			*/
-			
-			hSCI =(int)(h/ymagnitude);
-			thSCI=(int)(th/ymagnitude);
-			wSCI=(int)(w/ymagnitude);
-			
+    					
 			if(siy/six != 10/7){
     			hSCI=(int)Math.round(hSCI*((double)siy*22.0/40.0/(double)six)); 
 				thSCI=(int)Math.round((double)thSCI*((double)siy*
 					22.0/40.0/(double)six)); 
-   			}//
+   			}
+   			
+   			// TODO: the calculation fails when mirrored text or rotated is 
+   			// included into a mirrored or rotated macro. 
 
    			// Corrections for the mirrored text.
- 			if((sty & TEXT_MIRRORED)!=0){
+ 			if(((sty & TEXT_MIRRORED)!=0)){
     	 		orientationSCI=-orientationSCI;
     	 		wSCI=-wSCI;
-    		}	
+    		}
+    		
+    		if (coordmirroring) {
+    			//orientationSCI=-orientationSCI;
+    			wSCI=-wSCI;
+    		}
  			
  			// If there is a tilt of the text, we calculate the four corner
  			// of the tilted text area and we put them in a polygon.
@@ -668,15 +668,17 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
+		int resulting_o=o+(-cs.getOrientation()*90);
+		
 		exp.exportAdvText (cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 			cs.mapY(virtualPoint[0].x,virtualPoint[0].y), 
-			(int)(cs.mapXr(six,six)-cs.mapXr(0,0)),
-			(int)(cs.mapYr(siy,siy)-cs.mapYr(0,0)),
+			(int)Math.abs(cs.mapXr(six,six)-cs.mapXr(0,0)),
+			(int)Math.abs(cs.mapYr(siy,siy)-cs.mapYr(0,0)),
 			fontName, 
 			(sty & TEXT_BOLD)!=0,
 			(sty & TEXT_MIRRORED)!=0,
 			(sty & TEXT_ITALIC)!=0,
-			o, getLayer(), txt);
+			resulting_o, getLayer(), txt);
 			
 	}
 	/** Get the number of the virtual point associated to the Name property
