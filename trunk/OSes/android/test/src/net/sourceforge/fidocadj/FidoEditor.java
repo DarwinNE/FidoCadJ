@@ -130,6 +130,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		cs.setYMagnitude(3);
 		cs.setXGridStep(5);
 		cs.setYGridStep(5);
+		
+		// Courier New is the standard on PC, but it is not available on 
+		// Android. Here the system will find a substitute.
+        dm.setTextFont("Courier New", 3, null);
     }
     
     /** Get the EditorActions controller for the drawing.

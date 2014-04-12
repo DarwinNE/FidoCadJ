@@ -241,6 +241,7 @@ public abstract class GraphicPrimitive
 	   	
 	   	if(th<Globals.textSizeLimit) {
 	   		g.drawLine(xa,ya, xa+w1-1,ya);
+	   		g.drawLine(xb,yb, xb+w2-1,yb);
 	   		return;
 	   	} 
 	   	
