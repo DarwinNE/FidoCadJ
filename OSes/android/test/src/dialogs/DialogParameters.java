@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import 	android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -21,12 +22,27 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import net.sourceforge.fidocadj.R;
 import layers.LayerDesc;
+import globals.Globals;
 import graphic.FontG;
 import net.sourceforge.fidocadj.FidoEditor;
 
+
+/**
+ * <pre>
+ * 
+ * Allows to create a generic dialog, capable of displaying and let the user
+ * modify the parameters of a graphic primitive. The idea is that the dialog
+ * uses a ParameterDescripion vector which contains all the elements, their
+ * description as well as the type. Depending on the contents of the array, the
+ * window will be created automatically.
+ * 
+ * </pre>
+ *
+ * @author Dante Loi
+ *
+ */
 
 public class DialogParameters extends DialogFragment 
 {
@@ -54,6 +70,7 @@ public class DialogParameters extends DialogFragment
 	private int sc; 
 	
 	private FidoEditor caller;
+	
 	/**
 	 * Get a ParameterDescription vector describing the characteristics modified
 	 * by the user.
@@ -64,6 +81,11 @@ public class DialogParameters extends DialogFragment
 		return vec;
 	}	
 	
+	/**
+	 * Makes the dialog and passes its arguments to it.
+	 * 
+	 * @return a new istance of DialogParameters.
+	 */
 	public static DialogParameters newInstance(Vector<ParameterDescription> vec,
 			boolean strict, Vector<LayerDesc> layers, FidoEditor callback) 
 	{
@@ -78,15 +100,6 @@ public class DialogParameters extends DialogFragment
 		
 		return dialog;
 	}
-	
-	/* @Override
-	 public void onCreate(Bundle savedInstanceState) 
-	 {
-		 super.onCreate(savedInstanceState);
-		 vec = (Vector<ParameterDescription>) getArguments().getSerializable("vec");
-     	 strict = getArguments().getBoolean("strict");
-     	 layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
-	 }*/
 
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
@@ -135,8 +148,8 @@ public class DialogParameters extends DialogFragment
 		// corresponding interface element will be created.
 		// A symmetrical operation is done when validating parameters.
 		for (int ycount = 0; ycount < vec.size(); ++ycount) {
-			//if (ycount > MAX)
-				//break;
+			if (ycount > MAX)
+				break;
 
 			pd = (ParameterDescription) vec.elementAt(ycount);
     	
@@ -193,8 +206,8 @@ public class DialogParameters extends DialogFragment
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
 				// the most important field (e.g. for the AdvText primitive)
-				//if (ycount == 0)
-					//etv[ec].selectAll();
+				if (ycount == 0)
+					etv[ec].selectAll();
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Boolean) {
@@ -217,12 +230,7 @@ public class DialogParameters extends DialogFragment
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
-				// TODO. 
-				// WARNING: (DB) this is supposed to be temporary. In fact, I 
-				// am planning to upgrade some of the parameters from int
-				// to float. But for a few months, the users should not be
-				// aware of that, even if the internal representation is 
-				// slowing being adapted.
+
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
@@ -236,36 +244,72 @@ public class DialogParameters extends DialogFragment
 			} else if (pd.parameter instanceof FontG) {
 				spv[sc] = new Spinner(context);
 				
-				String[] s = {"Normal","Italic","Bold"};
-				
-				TextView t = new TextView(context);
-				t.setText("PROVA");
-				t.setTextColor(Color.BLACK);
+				String[] s = {"Normal","Italic","Bold"};			
 			
-				
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, t.getId(), s);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						context, android.R.layout.simple_spinner_item , s);
 				spv[sc].setAdapter(adapter);
+				spv[sc].setBackgroundColor(background);
+				
 				for (int i = 0; i < s.length; ++i) {
 					if (s[i].equals(((FontG) pd.parameter).getFamily()))
 						spv[sc].setSelection(i);
+					else 
+						spv[sc].setSelection(0);
 				}
 				vh.addView(spv[sc++]);
+				
 			} else if (pd.parameter instanceof LayerInfo) {
 				spv[sc] = new Spinner(context);
 				List<String> l = new ArrayList<String>();
+				
 				for (int i = 0; i < layers.size(); i++)
 					l.add(layers.get(i).getDescription());
 				
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 
+						android.R.layout.simple_spinner_item, l);
 				
-				TextView t = new TextView(context);
-				t.setText("PROVA");
-				t.setId(1);
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,1, l);
 				spv[sc].setAdapter(adapter);
+				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
-		    }
+				
+				vh.addView(spv[sc++]);
+		    
+			} else if (pd.parameter instanceof ArrowInfo) {
+				spv[sc] = new Spinner(context);
+				
+				List<ArrowInfo> l = new ArrayList<ArrowInfo>();
+				l.add(new ArrowInfo(0));
+				l.add(new ArrowInfo(1));
+				l.add(new ArrowInfo(2));
+				l.add(new ArrowInfo(3));
+				
+				ArrayAdapter<ArrowInfo> adapter = new ArrayAdapter<ArrowInfo>(context, 
+						android.R.layout.simple_spinner_item, l);
+				
+				spv[sc].setAdapter(adapter);
+				spv[sc].setBackgroundColor(background);
+				spv[sc].setSelection(((ArrowInfo) pd.parameter).style);
+				
+				vh.addView(spv[sc++]);
+				
+			} else if (pd.parameter instanceof DashInfo) {
+				spv[sc] = new Spinner(context);
+				
+				List<DashInfo> l = new ArrayList<DashInfo>();
+				for (int k = 0; k < Globals.dashNumber; ++k)
+					l.add(new DashInfo(k));
+					
+				ArrayAdapter<DashInfo> adapter = new ArrayAdapter<DashInfo>(context, 
+						android.R.layout.simple_spinner_item, l);
+				
+				spv[sc].setAdapter(adapter);
+				spv[sc].setBackgroundColor(background);
+				spv[sc].setSelection(((DashInfo) pd.parameter).style);
+				
+				vh.addView(spv[sc++]);
+			}
 			vv.addView(vh);
-	
 		}
     	
 		LinearLayout buttonView = new LinearLayout(context);
@@ -315,19 +359,19 @@ public class DialogParameters extends DialogFragment
 						} else if (pd.parameter instanceof Float) {
 							pd.parameter = Float.valueOf(Float
 									.parseFloat(etv[ec++].getText().toString()));
-						} /*else if (pd.parameter instanceof FontG) {
+						} else if (pd.parameter instanceof FontG) {
 							pd.parameter = new FontG((String) spv[sc++]
 									.getSelectedItem());
 						} else if (pd.parameter instanceof LayerInfo) {
 							pd.parameter = new LayerInfo((Integer) spv[sc++]
-									.getSelectedItem());
+									.getSelectedItemPosition());
 						} else if (pd.parameter instanceof ArrowInfo) {
 							pd.parameter = new ArrowInfo((Integer) spv[sc++]
-									.getSelectedItem());
+									.getSelectedItemPosition());
 						} else if (pd.parameter instanceof DashInfo) {
 							pd.parameter = new DashInfo((Integer) spv[sc++]
-									.getSelectedItem());
-						}*/
+									.getSelectedItemPosition());
+						}
 						else {}
 					}
 				} catch (NumberFormatException E) {
@@ -335,10 +379,9 @@ public class DialogParameters extends DialogFragment
 					// invalid string when FidoCadJ was expecting a numerical
 					// input.
 
-					/*JOptionPane.showMessageDialog(null,
-							Globals.messages.getString("Format_invalid"), "",
-							JOptionPane.INFORMATION_MESSAGE);
-					return;*/
+					Toast t = new Toast(context);
+					t.setText(Globals.messages.getString("Format_invalid"));
+					t.show();
 				}
 				caller.saveCharacteristics(vec);
 				dialog.dismiss();
@@ -364,7 +407,6 @@ public class DialogParameters extends DialogFragment
 		dialog.setContentView((View)vv);  
 		
 		return dialog;
-		//return (View)vv;
 	}
 	
 	public void onDismiss(Bundle savedInstanceState)
