@@ -15,7 +15,7 @@ import android.hardware.*;
 import toolbars.*;
 import globals.*;
 
-public class test_start extends Activity implements ProvidesCopyPasteInterface,
+public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	SensorEventListener
 {
 	private ToolbarTools tt;

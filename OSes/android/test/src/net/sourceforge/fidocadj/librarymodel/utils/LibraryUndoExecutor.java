@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 // 
-// Copyright 2014 Kohta Ozaki
+// Copyright 2014 Kohta Ozaki - Davide Bucci
 
-// SWING VERSION
+// ANDROID VERSION
 
 package net.sourceforge.fidocadj.librarymodel.utils;
 
@@ -26,21 +26,20 @@ import globals.LibUtils;
 import undo.LibraryUndoListener;
 
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
-import net.sourceforge.fidocadj.FidoFrame;
 
 public class LibraryUndoExecutor implements LibraryUndoListener
 {
-	FidoFrame fidoFrame;
 	LibraryModel libraryModel;
 	
-	public LibraryUndoExecutor(FidoFrame frame, LibraryModel model)
+	public LibraryUndoExecutor(//FidoFrame frame, 
+		LibraryModel model)
 	{
-		fidoFrame = frame;
+		//fidoFrame = frame;
 		libraryModel = model;
 	}
 	
 	public void undoLibrary(String s){
-        try {
+/*        try {
         	File sourceDir = new File(s);
         	String d=LibUtils.getLibDir();
         	File destinationDir = new File(d);
@@ -50,7 +49,7 @@ public class LibraryUndoExecutor implements LibraryUndoListener
             libraryModel.forceUpdate();
         } catch (IOException e) {
             System.out.println("Cannot restore library directory contents.");
-        }
+        }*/
     }
 }
 

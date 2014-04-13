@@ -1,7 +1,5 @@
 package globals;
 
-import java.awt.Frame;
-import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
