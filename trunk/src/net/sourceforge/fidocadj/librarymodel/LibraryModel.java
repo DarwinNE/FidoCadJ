@@ -18,7 +18,6 @@
 package net.sourceforge.fidocadj.librarymodel;
 
 import java.util.*;
-import javax.swing.event.*;
 import java.io.FileNotFoundException;
 
 import circuit.model.DrawingModel;

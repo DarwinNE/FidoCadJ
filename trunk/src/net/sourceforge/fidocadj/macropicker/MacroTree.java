@@ -688,81 +688,41 @@ public class MacroTree extends JPanel
 
         public boolean isCopyAvailable()
         {
-
             return copyAvailable;
-
         }
 
-
-
-
-
         /**
-
         * Returns the value of pasteAvailable.
-
         */
 
         public boolean isPasteAvailable()
         {
-
             return pasteAvailable;
-
         }
 
-
-
-
-
         /**
-
         * Returns the value of renameAvailable.
-
         */
-
         public boolean isRenameAvailable()
         {
-
             return renameAvailable;
-
         }
 
-
-
-
-
         /**
-
         * Returns the value of removeAvailable.
-
         */
-
         public boolean isRemoveAvailable()
         {
-
             return removeAvailable;
-
         }
-
-
-
-
 
         /**
-
         * Returns the value of renKeyAvailable.
-
         */
-
         public boolean isRenKeyAvailable()
         {
-
             return renKeyAvailable;
-
         }
-
-
-
 
         public void disableAll()
         {

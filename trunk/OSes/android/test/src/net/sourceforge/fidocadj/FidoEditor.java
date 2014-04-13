@@ -114,7 +114,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		ea = new EditorActions(dm, ua);
 		eea = new ContinuosMoveActions(dm, ua, ea);
 		haa = new HandleActions(dm, ea, ua);
-		cpa=new CopyPasteActions(dm, ea, pa, ua, (test_start)cc);
+		cpa=new CopyPasteActions(dm, ea, pa, ua, (FidoMain)cc);
 
 		cpa.setShiftCopyPaste(true);	
 	

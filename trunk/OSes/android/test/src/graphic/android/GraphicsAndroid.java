@@ -213,7 +213,10 @@ public class GraphicsAndroid implements GraphicsInterface
                                 int x,
                                 int y)
     {
+    	applyStroke(1.0f, 0);
+		paint.setStyle(Style.FILL);
   		canvas.drawText (str, x,  y, paint);
+		paint.setStyle(Style.STROKE);
     }
     
     public void setAlpha(float alpha)
@@ -302,12 +305,12 @@ public class GraphicsAndroid implements GraphicsInterface
 		
 		canvas.drawTextOnPath(txt, pp, 0,th, paint);
 		
-		
 		if (mirror) {
 			canvas.restore();
 		}
 		
     	paint.setStyle(Style.STROKE);
+    	paint.setTextScaleX(1.0f);
   	}
     
     public void drawGrid(MapCoordinates cs, 
