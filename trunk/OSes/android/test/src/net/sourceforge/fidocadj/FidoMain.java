@@ -2,7 +2,10 @@ package net.sourceforge.fidocadj;
 
 import android.util.FloatMath;
 
-import dialogs.DialogAbout;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -10,6 +13,12 @@ import android.view.*;
 import android.view.ContextMenu.*;
 import android.content.*;
 import android.hardware.*;
+import android.widget.ExpandableListView;
+
+import dialogs.DialogAbout;
+
+import net.sourceforge.fidocadj.macropicker.*;
+
 
 
 import toolbars.*;
@@ -30,7 +39,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	float averagedAngleSpeedZ;
 	long holdoff;
 	
-	
+	ExpandableMacroListView listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,7 +59,57 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         	getSystemService(Context.SENSOR_SERVICE);
     	mAccelerometer = mSensorManager.getDefaultSensor(
     		Sensor.TYPE_GYROSCOPE);
-
+		
+		// get the listview
+        expListView = (ExpandableListView) findViewById(R.id.macroTree);
+ 
+        // preparing list data
+        prepareListData();
+ 
+        listAdapter = new ExpandableMacroListView(this, listDataHeader, listDataChild);
+ 
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+    }
+ 
+    /*
+     * Preparing the list data
+     */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        
+        // TODO: FidoCadJ should construct these lists from the libraries which
+        // have been read. Here we just construct some junk data, just to show
+        // something vaguely related to FidoCadJ.
+ 
+        // Adding child data
+        listDataHeader.add("Standard library");
+        listDataHeader.add("IHRAM v. 2fs");
+        listDataHeader.add("User library");
+ 
+        // Adding child data
+        List<String> std = new ArrayList<String>();
+        std.add("NPN transistor");
+        std.add("PNP transistor");
+        std.add("Resistor");
+ 
+ 		// Adding child data
+        List<String> ihram = new ArrayList<String>();
+        ihram.add("Biased NPN transistor");
+        ihram.add("Biased PNP transistor");
+        ihram.add("Resistor, alt");
+ 
+ 		// Adding child data
+        List<String> user = new ArrayList<String>();
+        user.add("LED with resistor");
+        user.add("JFET transistor");
+        user.add("Memristor");
+        
+ 
+        listDataChild.put(listDataHeader.get(0), std); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), ihram);
+        listDataChild.put(listDataHeader.get(2), user);
     }
     
     @Override
