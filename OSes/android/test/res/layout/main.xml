@@ -103,10 +103,25 @@
           	android:layout_width="wrap_content" /> 
 	</LinearLayout>
 	
-	<net.sourceforge.fidocadj.FidoEditor 
+	<LinearLayout
+  		android:orientation="horizontal"
+  		android:weightSum="1.0" 
+  		android:padding="1px"
+  		android:layout_height="wrap_content"
+ 		android:layout_width="fill_parent"
+ 		android:background="@color/background_light"
+  		android:layout_weight="0.95">
+		<net.sourceforge.fidocadj.FidoEditor 
     		android:id="@+id/drawingPanel"
-    		android:layout_weight="0.95"
+    		android:layout_weight="0.20"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
-    />
+    	/>
+    	<ExpandableListView
+                android:id="@+id/macroTree"
+                android:layout_weight="0.80"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+   	 	/>
+	</LinearLayout>
 </LinearLayout>
