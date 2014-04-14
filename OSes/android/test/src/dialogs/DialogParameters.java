@@ -10,8 +10,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -50,7 +52,7 @@ public class DialogParameters extends DialogFragment
 	private static boolean strict;
 	private static Vector<LayerDesc> layers;
 	
-	private static final int MAX = 20;
+	private static final int MAX = 400;
 	
 	private static final int BORDER = 30;
 	private static final int MAX_LEN = 200;
@@ -148,8 +150,6 @@ public class DialogParameters extends DialogFragment
 		// corresponding interface element will be created.
 		// A symmetrical operation is done when validating parameters.
 		for (int ycount = 0; ycount < vec.size(); ++ycount) {
-			if (ycount > MAX)
-				break;
 
 			pd = (ParameterDescription) vec.elementAt(ycount);
     	
@@ -160,11 +160,10 @@ public class DialogParameters extends DialogFragment
 			lab.setTextColor(Color.BLACK);
 			lab.setText(pd.description);
 			lab.setPadding(0, 0, 10, 0);
-			//lab.setMinimumHeight(100);
-			//lab.setMinimumWidth(100);
 			
 			LinearLayout vh = new LinearLayout(context);
 			vh.setGravity(Gravity.FILL_HORIZONTAL);
+			vh.setGravity(Gravity.RIGHT);
 			
 			int background = Color.GREEN;
 			
@@ -177,18 +176,22 @@ public class DialogParameters extends DialogFragment
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
-				etv[ec].setText("" + ((Point) (pd.parameter)).x);
+				Integer x = new Integer(((Point) (pd.parameter)).x);
+				etv[ec].setText(x.toString());
 				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 10, 0);
 
 				vh.addView(etv[ec++]);
 
 				etv[ec] = new EditText(context);
-				etv[ec].setText("" + ((Point) (pd.parameter)).y);
+				Integer y = new Integer(((Point) (pd.parameter)).y);
+				etv[ec].setText(y.toString());
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
 				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 10, 0);
 				
@@ -200,7 +203,8 @@ public class DialogParameters extends DialogFragment
 					Gravity.CENTER_HORIZONTAL);
 				etv[ec].setBackgroundColor(background);
 				etv[ec].setText((String) (pd.parameter));
-				//etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 10, 0);
 				// If we have a String text field in the first position, its
@@ -214,9 +218,11 @@ public class DialogParameters extends DialogFragment
 				cbv[cc] = new CheckBox(context);
 				cbv[cc].setText(pd.description);
 				cbv[cc].setTextColor(Color.BLACK);
+				cbv[cc].setMinimumWidth(MAX);
 				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
 				
-				vh.setPadding(50, 0, 10, 0);
+				vh.setPadding(0, 0, 10, 0);
+				vh.setGravity(Gravity.RIGHT);
 				vh.addView(cbv[cc++]);
 
 			} else if (pd.parameter instanceof Integer) {
@@ -225,6 +231,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setBackgroundColor(background);
 				etv[ec].setText(((Integer) pd.parameter).toString());
 				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(10, 0, 10, 0);
 				
@@ -235,8 +242,9 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
 				int dummy = java.lang.Math.round((Float) pd.parameter);
-				etv[ec].setText(""+dummy);
+				etv[ec].setText("  "+dummy);
 				etv[ec].setMaxWidth(MAX_LEN);
+				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
 				etv[ec].setPadding(0, 0, 0, 0);
 				
@@ -250,6 +258,7 @@ public class DialogParameters extends DialogFragment
 						context, android.R.layout.simple_spinner_item , s);
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
+				spv[sc].setMinimumWidth(MAX);
 				
 				for (int i = 0; i < s.length; ++i) {
 					if (s[i].equals(((FontG) pd.parameter).getFamily()))
@@ -266,12 +275,18 @@ public class DialogParameters extends DialogFragment
 				for (int i = 0; i < layers.size(); i++)
 					l.add(layers.get(i).getDescription());
 				
+				/* GradientDrawable gd = new GradientDrawable();
+				 gd.setColor(Color.BLUE);
+				 gd.setCornerRadius(15);
+				 gd.setStroke(5, 5);*/
+				 
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 
-						android.R.layout.simple_spinner_item, l);
+						R.layout.layer_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
+				spv[sc].setMinimumWidth(MAX);
 				
 				vh.addView(spv[sc++]);
 		    
@@ -290,6 +305,7 @@ public class DialogParameters extends DialogFragment
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((ArrowInfo) pd.parameter).style);
+				spv[sc].setMinimumWidth(MAX);
 				
 				vh.addView(spv[sc++]);
 				
@@ -306,6 +322,7 @@ public class DialogParameters extends DialogFragment
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((DashInfo) pd.parameter).style);
+				spv[sc].setMinimumWidth(MAX);
 				
 				vh.addView(spv[sc++]);
 			}
