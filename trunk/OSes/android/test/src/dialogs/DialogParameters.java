@@ -8,19 +8,26 @@ import 	android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,6 +35,7 @@ import net.sourceforge.fidocadj.R;
 import layers.LayerDesc;
 import globals.Globals;
 import graphic.FontG;
+import graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;
 
 
@@ -72,6 +80,8 @@ public class DialogParameters extends DialogFragment
 	private int sc; 
 	
 	private FidoEditor caller;
+	
+	//final Activity context = getActivity();
 	
 	/**
 	 * Get a ParameterDescription vector describing the characteristics modified
@@ -118,7 +128,7 @@ public class DialogParameters extends DialogFragment
         	layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
         }
     	
-		final Activity context = getActivity();
+    	final Activity context = getActivity();
 		final Dialog dialog = new Dialog(context);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -172,28 +182,26 @@ public class DialogParameters extends DialogFragment
 			// Now, depending on the type of parameter we create interface
 			// elements and we populate the dialog.
 
-			if (pd.parameter instanceof Point) {
+			if (pd.parameter instanceof PointG) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
-				Integer x = new Integer(((Point) (pd.parameter)).x);
+				Integer x = Integer.valueOf(((PointG) (pd.parameter)).x);
 				etv[ec].setText(x.toString());
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
-				etv[ec].setPadding(0, 0, 10, 0);
 
 				vh.addView(etv[ec++]);
-
+				
 				etv[ec] = new EditText(context);
-				Integer y = new Integer(((Point) (pd.parameter)).y);
+				Integer y = Integer.valueOf(((PointG) (pd.parameter)).y);
 				etv[ec].setText(y.toString());
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundColor(background);
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
-				etv[ec].setPadding(0, 0, 10, 0);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
@@ -206,7 +214,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
-				etv[ec].setPadding(0, 0, 10, 0);
+				
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
 				// the most important field (e.g. for the AdvText primitive)
@@ -221,7 +229,6 @@ public class DialogParameters extends DialogFragment
 				cbv[cc].setMinimumWidth(MAX);
 				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
 				
-				vh.setPadding(0, 0, 10, 0);
 				vh.setGravity(Gravity.RIGHT);
 				vh.addView(cbv[cc++]);
 
@@ -233,7 +240,6 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
-				etv[ec].setPadding(10, 0, 10, 0);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
@@ -246,7 +252,6 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
-				etv[ec].setPadding(0, 0, 0, 0);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof FontG) {
@@ -254,7 +259,7 @@ public class DialogParameters extends DialogFragment
 				
 				String[] s = {"Normal","Italic","Bold"};			
 			
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				ArrayAdapter<String> adapter = new ArrayAdapter<String> (
 						context, android.R.layout.simple_spinner_item , s);
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
@@ -274,14 +279,8 @@ public class DialogParameters extends DialogFragment
 				
 				for (int i = 0; i < layers.size(); i++)
 					l.add(layers.get(i).getDescription());
-				
-				/* GradientDrawable gd = new GradientDrawable();
-				 gd.setColor(Color.BLUE);
-				 gd.setCornerRadius(15);
-				 gd.setStroke(5, 5);*/
 				 
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 
-						R.layout.layer_spinner_item, l);
+				LayerSpinnerAdapter adapter = new LayerSpinnerAdapter(context, R.layout.layer_spinner_item, l, layers);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
@@ -432,4 +431,55 @@ public class DialogParameters extends DialogFragment
 		savedInstanceState.putBoolean("strict", strict);
 		savedInstanceState.putSerializable("layers", layers);
 	}
+	
+	/**
+	 * 
+	 * @author dante
+	 *
+	 */
+    private class LayerSpinnerAdapter extends ArrayAdapter<String>
+    {
+    	private Context context;
+    	private List<LayerDesc> layers;
+    	private List<String> itemList;
+    	
+    	public LayerSpinnerAdapter(Context context, int textViewResourceId, List<String> itemList, List<LayerDesc> layers) 
+    	{
+    		super(context, textViewResourceId, itemList);
+    		this.context = context;
+    		this.layers = layers;
+    		this.itemList = itemList;
+    	}
+
+    	@Override
+    	public View getView(int position, View convertView, ViewGroup parent) 
+    	{
+    		return getCustomView(position, convertView, parent);
+        }
+    	
+    	@Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) 
+    	{
+        	return getCustomView(position, convertView, parent);
+        }
+        
+        public View getCustomView(int position, View convertView, ViewGroup parent) 
+        { 
+        	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+    		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
+    						false);
+    		row.setBackgroundColor(Color.GREEN);
+    		
+    		SurfaceView sv = (SurfaceView) row.findViewById(R.id.surface_view);
+    		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
+    		
+    		TextView v = (TextView) row.findViewById(R.id.name_item);
+            v.setText(itemList.get(position));
+            v.setTextColor(Color.BLACK);
+            v.setBackgroundColor(Color.GREEN);
+            
+            return row;
+        }
+    }
+
 }
