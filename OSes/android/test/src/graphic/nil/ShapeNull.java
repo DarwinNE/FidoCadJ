@@ -49,7 +49,6 @@ public class ShapeNull implements ShapeInterface
 		path.reset();
 		path.moveTo(x0,y0);
 		path.cubicTo (x1, y1, x2, y2, x3, y3);
-		
 	}
 	
 	public void createGeneralPath(int npoints)

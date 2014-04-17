@@ -66,7 +66,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         // preparing list data
         prepareListData();
  
-        listAdapter = new ExpandableMacroListView(this, listDataHeader, listDataChild);
+        listAdapter = new ExpandableMacroListView(this, 
+        	listDataHeader, listDataChild);
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -75,7 +76,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     /*
      * Preparing the list data
      */
-    private void prepareListData() {
+    private void prepareListData() 
+    {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
         

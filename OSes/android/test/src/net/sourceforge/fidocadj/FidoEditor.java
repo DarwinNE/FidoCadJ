@@ -1,6 +1,7 @@
 package net.sourceforge.fidocadj;
 
 import java.util.Vector;
+import java.io.*;
 
 import android.view.View;
 import android.view.InputDevice;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.widget.Toast;
 import android.app.Activity;
 import android.view.ContextMenu.*;
+import android.content.res.Resources;
 
 
 import circuit.model.*;
@@ -120,7 +122,28 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	
 		eea.setActionSelected(ElementsEdtActions.SELECTION);
 		eea.setPrimitivesParListener(this);
+		
+		
+		BufferedReader stdLib = new BufferedReader(
+			new InputStreamReader(cc.getResources().openRawResource(
+			R.raw.fcdstdlib_en)));
+		BufferedReader ihram = new BufferedReader(
+			new InputStreamReader(cc.getResources().openRawResource(
+			R.raw.ihram_en)));
+		BufferedReader elettrotecnica = new BufferedReader(
+			new InputStreamReader(cc.getResources().openRawResource(
+			R.raw.elettrotecnica_en)));
+		BufferedReader pcb = new BufferedReader(
+			new InputStreamReader(cc.getResources().openRawResource(
+			R.raw.pcb_en)));
+		try {
+			pa.readLibraryBufferedReader(stdLib, "");
+			pa.readLibraryBufferedReader(pcb, "pcb");
+			pa.readLibraryBufferedReader(ihram, "ihram");
+			pa.readLibraryBufferedReader(elettrotecnica, "elettrotecnica");
+        } catch (IOException E) {
         
+        }
         StringBuffer s=new StringBuffer(createTestPattern());	
 		pa.parseString(s);
 		ua.saveUndoState();
@@ -417,7 +440,53 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			"RP 160 95 170 105 12\n"+
 			"RP 165 100 175 110 13\n"+
 			"RP 170 105 180 115 14\n"+
-			"RP 175 110 185 120 15\n";
+			"RP 175 110 185 120 15\n"+
+"MC 55 195 0 0 170\n"+
+"FCJ\n"+
+"TY 55 185 4 3 0 0 0 Helvetica C\n"+
+"TY 65 205 4 3 0 0 0 Helvetica \n"+
+"LI 65 195 75 195 0\n"+
+"LI 75 195 75 210 0\n"+
+"LI 55 195 45 195 0\n"+
+"LI 45 195 45 210 0\n"+
+"SA 45 210 0\n"+
+"SA 75 210 0\n"+
+"LI 50 230 20 230 0\n"+
+"LI 50 240 40 240 0\n"+
+"LI 40 240 40 250 0\n"+
+"SA 20 230 0\n"+
+"LI 65 210 90 210 0\n"+
+"LI 90 210 90 235 0\n"+
+"LI 75 235 100 235 0\n"+
+"SA 90 235 0\n"+
+"MC 50 240 2 1 580\n"+
+"FCJ\n"+
+"TY 65 245 4 3 0 0 0 Helvetica U\n"+
+"TY 60 235 4 3 0 0 0 Helvetica \n"+
+"MC 20 250 3 0 240\n"+
+"FCJ\n"+
+"TY 25 240 4 3 0 0 0 Helvetica D\n"+
+"TY 30 260 4 3 0 0 0 Helvetica \n"+
+"MC 55 210 0 0 080\n"+
+"FCJ\n"+
+"TY 65 215 4 3 0 0 0 Helvetica R\n"+
+"TY 65 220 4 3 0 0 0 Helvetica \n"+
+"LI 55 210 20 210 0\n"+
+"LI 20 210 20 235 0\n"+
+"MC 20 250 0 0 045\n"+
+"MC 40 250 0 0 045\n"+
+"MC 145 215 0 0 elettrotecnica.mam\n"+
+"MC 180 215 0 0 elettrotecnica.matscsaar\n"+
+"MC 210 245 0 0 ihram.lcd44780\n"+
+"TY 85 195 4 3 0 0 0 Helvetica Stdlib\n"+
+"TY 235 195 4 3 0 0 0 Helvetica IHRAM\n"+
+"TY 150 195 4 3 0 0 0 Helvetica Elettrotecnica\n"+
+"TY 265 110 4 3 0 0 0 Helvetica PCB\n"+
+"MC 285 130 0 0 pcb.to92-45";
+
+
+
+
 	return s;
 	}
 

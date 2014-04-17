@@ -36,18 +36,17 @@ import android.graphics.Paint.*;
 */
 
 public class GraphicsNull implements GraphicsInterface 
-{
-
-	Canvas g;
+{		
+	Paint paint;
 	
 	public GraphicsNull()
 	{
-
+		paint = new Paint();
 	}
 	
 	public void setColor(ColorInterface c) 
 	{
-		// nothing to do
+		// Nothing to do
 	}
 	public ColorInterface getColor()
 	{
@@ -61,7 +60,7 @@ public class GraphicsNull implements GraphicsInterface
 	*/
 	public void applyStroke(float w, int dashStyle)
 	{
-		// nothing to do
+		// Nothing to do
 	}
 	
 	/** Draws a rectangle on the current graphic context.
@@ -72,7 +71,7 @@ public class GraphicsNull implements GraphicsInterface
 	*/
 	public void drawRect(int x, int y, int width, int height)
 	{
-		// nothing to do
+		// Nothing to do
 	}
 	
 	/** Fills a rectangle on the current graphic context.
@@ -83,7 +82,7 @@ public class GraphicsNull implements GraphicsInterface
 	*/
 	public void fillRect(int x, int y, int width, int height)
 	{
-		// nothing to do	
+		// Nothing to do
 	}
 	
     public void fillRoundRect(int x,
@@ -93,7 +92,7 @@ public class GraphicsNull implements GraphicsInterface
                                    int arcWidth,
                                    int arcHeight)
     {
-		// nothing to do    
+		// Nothing to do
     }
 
     public boolean hitClip(int x,
@@ -101,20 +100,32 @@ public class GraphicsNull implements GraphicsInterface
                        int width,
                        int height)
     {
-    	return false;
+    	return true;
     }
 	public void drawLine(int x1,
                               int y1,
                               int x2,
                               int y2)
-	{		
-		// nothing to do
+	{
+		// Nothing to do
 	}
                               
 	public void setFont(String name, int size, boolean isItalic, 
 		boolean isBold)
 	{
-
+		int style;
+		if(isBold && isItalic) 
+			style=Typeface.BOLD_ITALIC;
+		else if (isBold)
+			style=Typeface.BOLD;
+		else if (isItalic)
+			style=Typeface.ITALIC;
+		else
+			style=Typeface.NORMAL;
+		
+		Typeface tf = Typeface.create(name, style);
+   		paint.setTypeface(tf);
+   		paint.setTextSize(size);
 	}
 	
 	public void setFont(String name, int size)
@@ -122,36 +133,35 @@ public class GraphicsNull implements GraphicsInterface
 		setFont(name, size, false, false);
 	}
 	
-	/** TODO: is there a way to implement something without a graphic context?
-	*/
+
 	public int getFontAscent()
 	{
-		return 0;
-	}
-	/** TODO: is there a way to implement something without a graphic context?
-	*/
-	public int getFontDescent()
-	{
-		return 0;
-	}
-	/** TODO: is there a way to implement something without a graphic context?
-	*/
-	public int getStringWidth(String s)
-	{
-		return 0;
+		// Note: an ascent is "going up", so it is negative 
+		// as in the FontMetrics documentation...
+		// FidoCadJ requires a positive size, instead.
+		return -(int)paint.getFontMetrics().ascent;
 	}
 
-	
+	public int getFontDescent()
+	{
+		return  (int)paint.getFontMetrics().descent;
+	}
+
+	public int getStringWidth(String s)
+	{
+		return (int)paint.measureText(s);
+	}
+
 	public void drawString(String str,
                                 int x,
                                 int y)
     {
-  		// nothing to do
+		// Nothing to do
     }
     
     public void setAlpha(float alpha)
     {
-		// nothing to do    
+		// Nothing to do
     }
 
     public void fillOval(int x,
@@ -159,35 +169,35 @@ public class GraphicsNull implements GraphicsInterface
                               int width,
                               int height)
 	{
-		// nothing to do	
+		// Nothing to do
 	}
 	public void drawOval(int x,
                               int y,
                               int width,
                               int height)
     {
-		// nothing to do
+		// Nothing to do
     }                          
     public void fill(ShapeInterface s)
     {
-		// nothing to do
+		// Nothing to do
     }
     public void draw(ShapeInterface s)
     {
-		// nothing to do
+		// Nothing to do
     }
     public void fillPolygon(PolygonInterface p)
     {		
-    	// nothing to do
+		// Nothing to do
     }
     public void drawPolygon(PolygonInterface p)
     {
-		// nothing to do    
+		// Nothing to do
     }
     
     public void activateSelectColor(LayerDesc l)
     {
-		// nothing to do    
+		// Nothing to do
     }
     
     public void drawAdvText(double xyfactor, int xa, int ya,
@@ -195,7 +205,7 @@ public class GraphicsNull implements GraphicsInterface
   		int orientation, boolean mirror,		
   		String txt)
   	{
-		// nothing to do
+		// Nothing to do
   	}
     
     public void drawGrid(MapCoordinates cs, 
