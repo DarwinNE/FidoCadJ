@@ -9,12 +9,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -23,11 +22,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,7 +34,6 @@ import globals.Globals;
 import graphic.FontG;
 import graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;
-
 
 /**
  * <pre>
@@ -155,6 +151,21 @@ public class DialogParameters extends DialogFragment
 		ec = 0;
 		cc = 0;
 		sc = 0;
+		
+		//Filter for the Integer EditText, 
+		//allows to write only digit in the filtered field.
+		InputFilter filter = new InputFilter() 
+		{ 
+	        public CharSequence filter(CharSequence source, int start, int end, 
+	        		Spanned dest, int dstart, int dend) { 
+	                for (int i = start; i < end; i++) { 
+	                        if (!Character.isDigit(source.charAt(i))) { 
+	                                return ""; 
+	                        } 
+	                } 
+	                return null; 
+	        }
+		};
 
 		// We process all parameter passed. Depending on its type, a
 		// corresponding interface element will be created.
@@ -191,7 +202,8 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
-
+				etv[ec].setFilters( new InputFilter[]{filter} );
+				
 				vh.addView(etv[ec++]);
 				
 				etv[ec] = new EditText(context);
@@ -202,6 +214,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX/2);
 				etv[ec].setSingleLine();
+				etv[ec].setFilters( new InputFilter[]{filter} );
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
@@ -240,6 +253,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setMinimumWidth(MAX);
 				etv[ec].setSingleLine();
+				etv[ec].setFilters( new InputFilter[]{filter} );
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
@@ -275,12 +289,9 @@ public class DialogParameters extends DialogFragment
 				
 			} else if (pd.parameter instanceof LayerInfo) {
 				spv[sc] = new Spinner(context);
-				List<String> l = new ArrayList<String>();
-				
-				for (int i = 0; i < layers.size(); i++)
-					l.add(layers.get(i).getDescription());
 				 
-				LayerSpinnerAdapter adapter = new LayerSpinnerAdapter(context, R.layout.layer_spinner_item, l, layers);
+				LayerSpinnerAdapter adapter = new LayerSpinnerAdapter(context, 
+						R.layout.layer_spinner_item, layers);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
@@ -432,23 +443,19 @@ public class DialogParameters extends DialogFragment
 		savedInstanceState.putSerializable("layers", layers);
 	}
 	
-	/**
-	 * 
-	 * @author dante
-	 *
-	 */
-    private class LayerSpinnerAdapter extends ArrayAdapter<String>
+	//Customized item for the layout spinner.
+    private class LayerSpinnerAdapter extends ArrayAdapter<LayerDesc>
     {
     	private Context context;
     	private List<LayerDesc> layers;
-    	private List<String> itemList;
     	
-    	public LayerSpinnerAdapter(Context context, int textViewResourceId, List<String> itemList, List<LayerDesc> layers) 
+    	public LayerSpinnerAdapter(Context context, int textViewResourceId, 
+    			List<LayerDesc> layers) 
     	{
-    		super(context, textViewResourceId, itemList);
+    		super(context, textViewResourceId, layers);
     		this.context = context;
     		this.layers = layers;
-    		this.itemList = itemList;
+
     	}
 
     	@Override
@@ -474,7 +481,7 @@ public class DialogParameters extends DialogFragment
     		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
     		
     		TextView v = (TextView) row.findViewById(R.id.name_item);
-            v.setText(itemList.get(position));
+            v.setText(layers.get(position).getDescription());
             v.setTextColor(Color.BLACK);
             v.setBackgroundColor(Color.GREEN);
             
