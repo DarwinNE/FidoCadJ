@@ -35,6 +35,7 @@ import graphic.FontG;
 import graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;
 
+
 /**
  * <pre>
  * 
@@ -97,38 +98,43 @@ public class DialogParameters extends DialogFragment
 	public static DialogParameters newInstance(Vector<ParameterDescription> vec,
 			boolean strict, Vector<LayerDesc> layers, FidoEditor callback) 
 	{
-		DialogParameters dialog = new DialogParameters();
+		DialogParameters dialog = new DialogParameters();	
 		
 		Bundle args = new Bundle();
         args.putSerializable("vec", vec);
         args.putBoolean("strict", strict);
         args.putSerializable("layers", layers);
         dialog.setArguments(args);
+        dialog.setRetainInstance(true);
         dialog.caller=callback;
 		
 		return dialog;
 	}
-
+	
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
     	super.onCreate(savedInstanceState);
     	
     	if(savedInstanceState != null){
-    		vec = (Vector<ParameterDescription>) savedInstanceState.getSerializable("vec");
-            strict = savedInstanceState.getBoolean("strict");
-            layers = (Vector<LayerDesc>) savedInstanceState.getSerializable("layers");
+    		vec = (Vector<ParameterDescription>) savedInstanceState
+     			     				   .getSerializable("vec");
+            layers = (Vector<LayerDesc>) savedInstanceState
+									   .getSerializable("layers");
+			strict = savedInstanceState.getBoolean("strict");
     	}
         else{
-        	vec = (Vector<ParameterDescription>) getArguments().getSerializable("vec");
+        	vec = (Vector<ParameterDescription>) getArguments()
+								   .getSerializable("vec");
+        	layers = (Vector<LayerDesc>) getArguments()
+								   .getSerializable("layers");
         	strict = getArguments().getBoolean("strict");
-        	layers = (Vector<LayerDesc>) getArguments().getSerializable("layers");
         }
     	
     	final Activity context = getActivity();
 		final Dialog dialog = new Dialog(context);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-    	
+		
     	LinearLayout vv = new LinearLayout(context);
     	
     	vv.setOrientation(LinearLayout.VERTICAL);
@@ -153,7 +159,7 @@ public class DialogParameters extends DialogFragment
 		sc = 0;
 		
 		//Filter for the Integer EditText, 
-		//allows to write only digit in the filtered field.
+		//allows to write only digit in the filtered fields.
 		InputFilter filter = new InputFilter() 
 		{ 
 	        public CharSequence filter(CharSequence source, int start, int end, 
@@ -309,8 +315,8 @@ public class DialogParameters extends DialogFragment
 				l.add(new ArrowInfo(2));
 				l.add(new ArrowInfo(3));
 				
-				ArrayAdapter<ArrowInfo> adapter = new ArrayAdapter<ArrowInfo>(context, 
-						android.R.layout.simple_spinner_item, l);
+				ArrayAdapter<ArrowInfo> adapter = new ArrayAdapter<ArrowInfo>(
+						context, android.R.layout.simple_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
@@ -326,8 +332,8 @@ public class DialogParameters extends DialogFragment
 				for (int k = 0; k < Globals.dashNumber; ++k)
 					l.add(new DashInfo(k));
 					
-				ArrayAdapter<DashInfo> adapter = new ArrayAdapter<DashInfo>(context, 
-						android.R.layout.simple_spinner_item, l);
+				ArrayAdapter<DashInfo> adapter = new ArrayAdapter<DashInfo>(
+						context, android.R.layout.simple_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
@@ -443,6 +449,14 @@ public class DialogParameters extends DialogFragment
 		savedInstanceState.putSerializable("layers", layers);
 	}
 	
+	 @Override
+	 public void onDestroyView() 
+	 {
+	     if (getDialog() != null && getRetainInstance())
+	         getDialog().setDismissMessage(null);
+	     super.onDestroyView();
+	 }
+	
 	//Customized item for the layout spinner.
     private class LayerSpinnerAdapter extends ArrayAdapter<LayerDesc>
     {
@@ -455,7 +469,6 @@ public class DialogParameters extends DialogFragment
     		super(context, textViewResourceId, layers);
     		this.context = context;
     		this.layers = layers;
-
     	}
 
     	@Override
@@ -465,13 +478,13 @@ public class DialogParameters extends DialogFragment
         }
     	
     	@Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) 
-    	{
+        public View getDropDownView(int position, 
+								View convertView, ViewGroup parent){
         	return getCustomView(position, convertView, parent);
         }
         
-        public View getCustomView(int position, View convertView, ViewGroup parent) 
-        { 
+        public View getCustomView(int position, 
+								View convertView, ViewGroup parent) { 
         	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
     		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
     						false);
