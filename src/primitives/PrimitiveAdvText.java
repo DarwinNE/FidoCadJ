@@ -458,12 +458,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		pd.description=Globals.messages.getString("ctrl_text");
 		v.add(pd);
 						
-		for (i=0;i<getControlPointNumber();++i) {
+	/*	for (i=0;i<getControlPointNumber();++i) {
 			pd = new ParameterDescription();
 			pd.parameter=virtualPoint[i];
 			pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
 			v.add(pd);
-		}
+		} */
 		
 		pd = new ParameterDescription();
 		pd.parameter=new LayerInfo(getLayer());
@@ -525,7 +525,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 
-		for (i=1;i<getControlPointNumber()+1;++i) {
+	/*	for (i=1;i<getControlPointNumber()+1;++i) {
 			pd = (ParameterDescription)v.get(i);
 			
 			// Check, just for sure...
@@ -534,7 +534,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			else
 			 	System.out.println("Warning: unexpected parameter!");
 			
-		}
+		}*/
 		pd = (ParameterDescription)v.get(i);
 		++i;
 		// Check, just for sure...
