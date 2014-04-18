@@ -135,7 +135,7 @@ public class ParserActions
     /** Get the FidoCadJ text file.
     
         @param extensions specify if FCJ extensions should be used
-        @return the sketch in the text Fidocad format
+        @return the sketch in the text FidoCadJ format
     */
     public StringBuffer getText(boolean extensions)
     {

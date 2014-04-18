@@ -180,6 +180,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	return ua;
     }
     
+    /** Get the ParserActions controller for the drawing.
+    */
+    public ParserActions getParserActions()
+    {
+    	return pa;
+    }
+    
 	/** Draw the drawing on the given canvas.
 		@param canvas the canvas where the drawing will be drawn.
 	*/

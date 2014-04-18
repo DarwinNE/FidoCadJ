@@ -63,7 +63,6 @@ public class CellDash extends JPanel
     public void paintComponent(Graphics g)
     {	
     	// Show the dashing styles in a list.
-    	
         g.setColor(isSelected ? list.getSelectionBackground(): 
                                 list.getBackground());
         
@@ -76,6 +75,8 @@ public class CellDash extends JPanel
 
 		// We then proceed by drawing an horisontal line showing the dashing 
 		// style corresponding to the element
+		
+		// Maybe just applyStroke of the GraphicsSwing object can be enough?
         BasicStroke dashed = new BasicStroke(1, 
                                           BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
