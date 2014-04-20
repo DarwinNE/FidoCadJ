@@ -71,7 +71,21 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
+        
+        final Object data = getLastNonConfigurationInstance();
+    
+    	if (data != null) {
+    		StringBuffer s = (StringBuffer) data;
+    		drawingPanel.getParserActions().parseString(s);
+    	}
     }
+    
+    @Override
+	public Object onRetainNonConfigurationInstance() {
+    	final StringBuffer drawing =  
+    		drawingPanel.getParserActions().getText(true);
+    	return drawing;
+	}
  
     /*
      * Preparing the list data
