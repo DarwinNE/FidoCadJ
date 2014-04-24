@@ -18,7 +18,8 @@ import android.widget.ExpandableListView;
 import dialogs.DialogAbout;
 
 import net.sourceforge.fidocadj.macropicker.*;
-
+import net.sourceforge.fidocadj.librarymodel.*;
+import primitives.*;
 
 
 import toolbars.*;
@@ -66,7 +67,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         expListView = (ExpandableListView) findViewById(R.id.macroTree);
  
         // preparing list data
-        prepareListData();
+        prepareListData(new LibraryModel(drawingPanel.getDrawingModel()));
  
         listAdapter = new ExpandableMacroListView(this, 
         	listDataHeader1, listDataChild);
@@ -95,23 +96,28 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     /*
      * Preparing the list data
      */
-    private void prepareListData() 
+    private void prepareListData(LibraryModel lib) 
     {
         listDataHeader1 = new ArrayList<String>();
         listDataHeader2 = new HashMap<String, HashMap<String, List<String>>>();
         listDataChild = new HashMap<String, List<String>>();
         
-        // TODO: FidoCadJ should construct these lists from the libraries which
-        // have been read. Here we just construct some junk data, just to show
-        // something vaguely related to FidoCadJ.
- 
         // Adding child data
-        listDataHeader1.add("Standard library");
-        listDataHeader1.add("IHRAM v. 2fs");
-        listDataHeader1.add("User library");
-    
- 
-        // Adding child data
+        List<Library> libsList = lib.getAllLibraries();
+        for(Library l : libsList) {
+        	listDataHeader.add(l.getName());
+        	List<Category> catList = l.getAllCategories();
+        	List<String> ts = new ArrayList<String>();
+        	for(Category c : catList) {
+        		List<MacroDesc> macroList = c.getAllMacros();
+        		for(MacroDesc m : macroList) {
+        			ts.add(m.name);
+        		}
+        	}
+			listDataChild.put(l.getName(), ts);
+        }
+        
+   /*     // Adding child data
         List<String> std = new ArrayList<String>();
         std.add("NPN transistor");
         std.add("PNP transistor");
@@ -136,9 +142,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         
  		listDataHeader1.put(listDataHeader1.get(0),listDataHeader2);
  
-        listDataChild.put(listDataHeader2.get(0), std); // Header, Child data
-        listDataChild.put(listDataHeader2.get(1), ihram);
-        listDataChild.put(listDataHeader2.get(2), user);
+        listDataChild.put(listDataHeader.get(0), std); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), ihram);
+        listDataChild.put(listDataHeader.get(2), user);*/
     }
     
     @Override
