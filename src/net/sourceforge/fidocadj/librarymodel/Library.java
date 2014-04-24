@@ -26,7 +26,7 @@ public class Library
     boolean isStd;
     ArrayList<Category> categories;
 
-    Library(String libraryName,String filename,boolean isStd)
+    Library(String libraryName, String filename,boolean isStd)
     {
         this.libraryName = libraryName;
         this.filename = filename;
@@ -50,6 +50,9 @@ public class Library
         return filename;
     }
 
+	/** Gets all the categories contained in the library.
+		@return a list containing all categories.
+	*/
     public List<Category> getAllCategories()
     {
         return categories;

@@ -28,7 +28,7 @@ import undo.UndoActorListener;
 
 import net.sourceforge.fidocadj.librarymodel.event.*;
 
-// TODO: specify the license and comment public methods
+// TODO: comment public methods
 // NOTE: This model has no adding macro method.
 /**
  * Model class for macro operation.
