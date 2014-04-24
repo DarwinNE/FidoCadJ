@@ -41,7 +41,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	
 	ExpandableMacroListView listAdapter;
     ExpandableListView expListView;
-    List<String> listDataHeader;
+    List<String> listDataHeader1;
+    HashMap<String, HashMap<String, List<String>>> listDataHeader2;
+
     HashMap<String, List<String>> listDataChild;
 	
     /** Called when the activity is first created. */
@@ -67,11 +69,14 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         prepareListData();
  
         listAdapter = new ExpandableMacroListView(this, 
-        	listDataHeader, listDataChild);
+        	listDataHeader1, listDataChild);
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
         
+        // TODO: this is method which works well, but it is discouraged by
+        // modern Android APIs. It requires to redo the parsing, which for 
+        // *very* complex drawings can be a little waste of resources.
         final Object data = getLastNonConfigurationInstance();
     
     	if (data != null) {
@@ -92,7 +97,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
      */
     private void prepareListData() 
     {
-        listDataHeader = new ArrayList<String>();
+        listDataHeader1 = new ArrayList<String>();
+        listDataHeader2 = new HashMap<String, HashMap<String, List<String>>>();
         listDataChild = new HashMap<String, List<String>>();
         
         // TODO: FidoCadJ should construct these lists from the libraries which
@@ -100,9 +106,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         // something vaguely related to FidoCadJ.
  
         // Adding child data
-        listDataHeader.add("Standard library");
-        listDataHeader.add("IHRAM v. 2fs");
-        listDataHeader.add("User library");
+        listDataHeader1.add("Standard library");
+        listDataHeader1.add("IHRAM v. 2fs");
+        listDataHeader1.add("User library");
+    
  
         // Adding child data
         List<String> std = new ArrayList<String>();
@@ -122,10 +129,16 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         user.add("JFET transistor");
         user.add("Memristor");
         
+                // Adding child data
+        listDataHeader2.add(std);
+        listDataHeader2.add(ihram);
+        listDataHeader2.add(user);
+        
+ 		listDataHeader1.put(listDataHeader1.get(0),listDataHeader2);
  
-        listDataChild.put(listDataHeader.get(0), std); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), ihram);
-        listDataChild.put(listDataHeader.get(2), user);
+        listDataChild.put(listDataHeader2.get(0), std); // Header, Child data
+        listDataChild.put(listDataHeader2.get(1), ihram);
+        listDataChild.put(listDataHeader2.get(2), user);
     }
     
     @Override
