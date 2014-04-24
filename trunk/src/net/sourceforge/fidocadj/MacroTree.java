@@ -63,6 +63,8 @@ import net.sourceforge.fidocadj.macropicker.SearchField;
 </pre>
 */
 
+// TODO: this class should be removed???
+
 
 @SuppressWarnings("serial")
 public class MacroTree extends JPanel

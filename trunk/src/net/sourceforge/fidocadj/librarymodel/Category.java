@@ -35,6 +35,9 @@ public class Category
         this.isHidden = isHidden;
     }
 
+	/** Get the parent library.
+		@return the parent library.
+	*/
     public Library getParentLibrary()
     {
         return parentLibrary;
