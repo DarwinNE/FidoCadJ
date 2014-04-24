@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 // 
-// Copyright 2014 Kohta Ozaki
+// Copyright 2014 Kohta Ozaki, Davide Bucci
 
 package net.sourceforge.fidocadj.macropicker;
 
@@ -172,16 +172,18 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result = JOptionPane.showConfirmDialog(null, "Really remove library "+
-                                               library.getName() + "?",
-                                               "Remove library",
-                                               JOptionPane.YES_NO_OPTION);
+        result = JOptionPane.showConfirmDialog(null, 
+        		Globals.messages.getString("remove_library_confirm")+
+                library.getName() + "?",
+                Globals.messages.getString("remove_library"),
+                JOptionPane.YES_NO_OPTION);
         if(result==JOptionPane.YES_OPTION) {
             try {
                 libraryModel.remove(library);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                              JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                Globals.messages.getString("error"),
+                JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -198,16 +200,18 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result = JOptionPane.showConfirmDialog(null, "Really remove category "+
-                                               category.getName() + "?",
-                                               "Remove category",
-                                               JOptionPane.YES_NO_OPTION);
+        result=JOptionPane.showConfirmDialog(null, 
+        		Globals.messages.getString("remove_category_confirm")+
+                category.getName() + "?",
+                Globals.messages.getString("remove_category"),
+                JOptionPane.YES_NO_OPTION);
         if(result==JOptionPane.YES_OPTION) {
             try {
                 libraryModel.remove(category);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                              JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                	Globals.messages.getString("error"),
+                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -224,20 +228,25 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result = JOptionPane.showConfirmDialog(null, "Really remove macro "+
-                                               macro.name + "?",
-                                               "Remove category",
-                                               JOptionPane.YES_NO_OPTION);
+        result=JOptionPane.showConfirmDialog(null, 
+        		Globals.messages.getString("remove_macro_confirm")+
+                macro.name + "?",
+                Globals.messages.getString("remove_macro"),
+                JOptionPane.YES_NO_OPTION);
         if(result==JOptionPane.YES_OPTION) {
             try {
                 libraryModel.remove(macro);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                              JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                	Globals.messages.getString("error"),
+                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-
+	/**
+    * Renames macro.
+    * @param macro MacroDesc to rename.
+    */
     public void rename(MacroDesc macro)
     {
         String newName;
@@ -246,16 +255,18 @@ public class MacroTree extends JPanel
             return;
         }
 
-        newName = JOptionPane.showInputDialog(null,"Please input new macro name.",
-                                              macro.name);
+        newName = JOptionPane.showInputDialog(null,
+        	Globals.messages.getString("new_macro_name"),
+            macro.name);
         if(newName==null || newName.equals(macro.name)) {
             return;
         }
         try {
             libraryModel.rename(macro,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            	Globals.messages.getString("error"),
+				JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -267,16 +278,18 @@ public class MacroTree extends JPanel
             return;
         }
 
-        newName = JOptionPane.showInputDialog(null,"Please input new category name.",
-                                              category.getName());
+        newName = JOptionPane.showInputDialog(null,
+        	Globals.messages.getString("new_category_name"),
+            category.getName());
         if(newName==null || newName.equals(category.getName())) {
             return;
         }
         try {
             libraryModel.rename(category,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            	Globals.messages.getString("error"),
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -288,19 +301,24 @@ public class MacroTree extends JPanel
             return;
         }
 
-        newName = JOptionPane.showInputDialog(null,"Please input new library name.",
-                                              library.getName());
+        newName = JOptionPane.showInputDialog(null,
+        	Globals.messages.getString("new_library_name"),
+            library.getName());
         if(newName==null || newName.equals(library.getName())) {
             return;
         }
         try {
             libraryModel.rename(library,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            	Globals.messages.getString("error"),
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
+	/** Ask to the user to change the key of the given macro.
+	@param macro the macro to be modified. 
+	*/
     public void changeKey(MacroDesc macro)
     {
     	String oldKey;
@@ -329,8 +347,9 @@ public class MacroTree extends JPanel
         try {
             libraryModel.changeKey(macro,newKey);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+            	 Globals.messages.getString("error"),
+                 JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -348,9 +367,11 @@ public class MacroTree extends JPanel
     	int copyTargetType = macroTreeModel.getNodeType(copyTarget);
     	int selectedNodeType = getSelectedType();
     	
-    	if(copyTargetType==MacroTreeModel.CATEGORY && selectedNodeType==LIBRARY){
+    	if(copyTargetType==MacroTreeModel.CATEGORY && 
+    		selectedNodeType==LIBRARY){
     		copyCategoryIntoLibrary();
-    	} else 	if(copyTargetType==MacroTreeModel.MACRO && selectedNodeType==CATEGORY){
+    	} else 	if(copyTargetType==MacroTreeModel.MACRO && 
+    		selectedNodeType==CATEGORY){
     		copyMacroIntoCategory();
 		}
 		
