@@ -187,6 +187,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	return pa;
     }
     
+    /** Get the DrawingModel object containing the drawing.
+    */
+    public DrawingModel getDrawingModel()
+    {
+    	return dm;
+    }
+    
 	/** Draw the drawing on the given canvas.
 		@param canvas the canvas where the drawing will be drawn.
 	*/
