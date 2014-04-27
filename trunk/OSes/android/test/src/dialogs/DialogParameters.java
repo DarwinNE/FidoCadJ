@@ -315,6 +315,7 @@ public class DialogParameters extends DialogFragment
 				l.add(new ArrowInfo(2));
 				l.add(new ArrowInfo(3));
 				
+				//TODO: customize the Arrayadapter.
 				ArrayAdapter<ArrowInfo> adapter = new ArrayAdapter<ArrowInfo>(
 						context, android.R.layout.simple_spinner_item, l);
 				
@@ -331,7 +332,7 @@ public class DialogParameters extends DialogFragment
 				List<DashInfo> l = new ArrayList<DashInfo>();
 				for (int k = 0; k < Globals.dashNumber; ++k)
 					l.add(new DashInfo(k));
-					
+				//TODO: customize the Arrayadapter.
 				ArrayAdapter<DashInfo> adapter = new ArrayAdapter<DashInfo>(
 						context, android.R.layout.simple_spinner_item, l);
 				
@@ -503,3 +504,4 @@ public class DialogParameters extends DialogFragment
     }
 
 }
+
