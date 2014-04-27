@@ -40,6 +40,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	float averagedAngleSpeedZ;
 	long holdoff;
 	
+	private float mx;
+	private float my;
+	
 	ExpandableMacroListView listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader1;
@@ -92,6 +95,32 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     		drawingPanel.getParserActions().getText(true);
     	return drawing;
 	}
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float curX, curY;
+
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                mx = event.getX();
+                my = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curX = event.getX();
+                curY = event.getY();
+                drawingPanel.scrollBy((int) (mx - curX), (int) (my - curY));
+                mx = curX;
+                my = curY;
+                break;
+            case MotionEvent.ACTION_UP:
+                curX = event.getX();
+                curY = event.getY();
+                drawingPanel.scrollBy((int) (mx - curX), (int) (my - curY));
+                break;
+        }
+        return true;
+    }
  
     /*
      * Preparing the list data
@@ -105,7 +134,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         // Adding child data
         List<Library> libsList = lib.getAllLibraries();
         for(Library l : libsList) {
-        	listDataHeader.add(l.getName());
+        	listDataHeader1.add(l.getName());
         	List<Category> catList = l.getAllCategories();
         	List<String> ts = new ArrayList<String>();
         	for(Category c : catList) {
@@ -397,3 +426,4 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
    
 }
+

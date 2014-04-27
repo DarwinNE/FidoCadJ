@@ -228,51 +228,56 @@ public class FidoEditor extends View implements PrimitivesParInterface
      @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-    	gestureDetector.onTouchEvent(event);
+    	if( eea.getSelectionState() != ElementsEdtActions.HAND ) 
+		{
+    		gestureDetector.onTouchEvent(event);
     	
-    	int x=-1;
-    	int y=-1;
-    	boolean toRepaint=true;
+    		int x=-1;
+    		int y=-1;
+    		boolean toRepaint=true;
     	
-    	if(event.getPointerCount()>0) {
-    		x = (int)event.getX(0);
-    		y = (int)event.getY(0);
-    	} else {
-    		return super.onTouchEvent(event);
-    	}
+	    	if(event.getPointerCount()>0) {
+	    		x = (int)event.getX(0);
+	    		y = (int)event.getY(0);
+	    	} else {
+	    		return super.onTouchEvent(event);
+	    	}
     	
-        int action = event.getAction() & MotionEvent.ACTION_MASK;
-        int pointerIndex = (event.getAction() & 
-        	MotionEvent.ACTION_POINTER_ID_MASK) >> 
-        	MotionEvent.ACTION_POINTER_ID_SHIFT;
-        int pointerId = event.getPointerId(pointerIndex);
+	        int action = event.getAction() & MotionEvent.ACTION_MASK;
+	        int pointerIndex = (event.getAction() & 
+	        	MotionEvent.ACTION_POINTER_ID_MASK) >> 
+	        	MotionEvent.ACTION_POINTER_ID_SHIFT;
+	        int pointerId = event.getPointerId(pointerIndex);
 
-		// Handle move events.
-        switch (action) {
-        	case MotionEvent.ACTION_UP:
-        	case MotionEvent.ACTION_CANCEL:
-        		if(Math.abs(x-rulerStartX)>10 || 
-    			   Math.abs(y-rulerStartY)>10) {
-            		haa.dragHandleEnd(this,x, y, false, cs);
-            	}
-            	invalidate();
-        		break;
-        	case MotionEvent.ACTION_MOVE:
-            	int pointerCount = event.getPointerCount();
-            	for (int i = 0; i < pointerCount; i++) {
-            		x = (int)event.getX(i);
-    				y = (int)event.getY(i);
-    				if(Math.abs(x-rulerStartX)>10 || 
-    				   Math.abs(y-rulerStartY)>10)
-
-					haa.dragHandleDrag(this, x, y, cs);
-            	}
-            	invalidate();
-           		break;
-           	default:
-           		break;
-        }
-    	return true;
+			// Handle move events.
+	        switch (action) {
+	        	case MotionEvent.ACTION_UP:
+	        	case MotionEvent.ACTION_CANCEL:
+	        		if(Math.abs(x-rulerStartX)>10 || 
+	    			   Math.abs(y-rulerStartY)>10) {
+	            		haa.dragHandleEnd(this,x, y, false, cs);
+	            	}
+	            	invalidate();
+	        		break;
+	        	case MotionEvent.ACTION_MOVE:
+	            	int pointerCount = event.getPointerCount();
+	            	for (int i = 0; i < pointerCount; i++) {
+	            		x = (int)event.getX(i);
+	    				y = (int)event.getY(i);
+	    				if(Math.abs(x-rulerStartX)>10 || 
+	    				   Math.abs(y-rulerStartY)>10)
+	
+						haa.dragHandleDrag(this, x, y, cs);
+	            	}
+	            	invalidate();
+	           		break;
+	           	default:
+	           		break;
+	        }
+	    	return true;
+	    }
+	    	else 
+				return false;
     }
     
     /** Inform Android's operating system of the size of the view.
@@ -714,3 +719,4 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
