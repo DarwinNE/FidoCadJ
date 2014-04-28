@@ -19,6 +19,8 @@ package net.sourceforge.fidocadj.librarymodel;
 
 import java.util.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 import circuit.model.DrawingModel;
 import primitives.MacroDesc;
@@ -35,9 +37,9 @@ import net.sourceforge.fidocadj.librarymodel.event.*;
  */
 public class LibraryModel
 {
-    private ArrayList<LibraryListener> libraryListeners;
-    private DrawingModel drawingModel;
-    private List<Library> libraries;
+    final private ArrayList<LibraryListener> libraryListeners;
+    final private DrawingModel drawingModel;
+    final private List<Library> libraries;
 
     // Bridge for existing system. 
     private Map<String,MacroDesc> masterLibrary;
@@ -129,7 +131,9 @@ public class LibraryModel
         	LibUtils.deleteLib(library.getFileName());
         } catch (FileNotFoundException e){
         	System.out.println("library not found:"+library.getFileName());
-        }
+        } catch (IOException e) {
+			System.out.println("Exception: "+e);
+		}
         saveLibraryState(); 
         fireRemoved(null,library);
     }
@@ -432,7 +436,7 @@ public class LibraryModel
         long t=System.nanoTime();
         long h=0;
         for(int i=0; t>0; ++i) {
-            t>>=(i*8);
+            t>>=i*8;
             h^=t & 0xFF;
         }
 
@@ -488,11 +492,15 @@ public class LibraryModel
 	 */
     private boolean isStdLib(MacroDesc macro)
     {
+    	// An alternative way to see if a macro is standard or not
+    	// is to extract the prefix from the key and to see if the
+    	// prefix is "" or the one of the standard libraries.
+    	
         for(Library l:getAllLibraries()) {
             if(l.isStdLib()) {
                 for(Category c:l.getAllCategories()) {
                     for(MacroDesc m:c.getAllMacros()) {
-                        if(macro==m) {
+                        if(macro.equals(m)) {
                             return true;
                         }
                     }
@@ -538,15 +546,15 @@ public class LibraryModel
     private Object getParentNode(Object node)
     {
         for(Library l:getAllLibraries()) {
-            if(node==l) {
+            if(node.equals(l)) {
                 return null;
             }
             for(Category c:l.getAllCategories()) {
-                if(node==c) {
+                if(node.equals(c)) {
                     return l;
                 }
                 for(MacroDesc m:c.getAllMacros()) {
-                    if(node==m) {
+                    if(node.equals(m)) {
                         return c;
                     }
                 }
@@ -598,7 +606,11 @@ public class LibraryModel
      */
     public void saveLibraryState()
     {
-        LibUtils.saveLibraryState(undoActorListener);
+    	try {
+        	LibUtils.saveLibraryState(undoActorListener);
+        } catch (IOException e) {
+        	System.out.println("Exception: "+e);
+        }
     }
 
     /**

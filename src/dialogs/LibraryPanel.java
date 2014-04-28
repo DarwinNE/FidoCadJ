@@ -19,10 +19,10 @@ import globals.*;
 */
 public class LibraryPanel extends JPanel implements PropertyChangeListener 
 {
-    private int PREFERRED_PANEL_WIDTH = 250;
+    final private static int PREFERRED_PANEL_WIDTH = 250;
     
-    private JFileChooser fc;
-    private LibraryListModel listModel;
+    final private JFileChooser fc;
+    final private LibraryListModel listModel;
 
     /**
     * Creates UI.
@@ -62,12 +62,13 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         
         // If this class is run as a standalone program, the Globals.messages
         // resource handler might not be initizalized. In this case,
-        // an english tag will do.
-        if(Globals.messages!=null)
+        // an english tag will do the job.
+        if(Globals.messages==null)
+        	add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
+        else 
         	add(BorderLayout.NORTH,new JLabel(
         		Globals.messages.getString("lib_in_dir")));
-        else 
-        	add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
+        	
         
         fileList = new JList<LibraryDesc>(listModel);
         fileList.setCellRenderer(new ListCellRenderer<LibraryDesc>() {
@@ -157,8 +158,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     public class LibraryListModel implements ListModel<LibraryDesc>
     {
     	    
-        private ArrayList<ListDataListener> listeners;
-    	private ArrayList<LibraryDesc> libraryList;
+        final private ArrayList<ListDataListener> listeners;
+    	final private ArrayList<LibraryDesc> libraryList;
     	private File currentDir;
 
 	/** Constructs model.
@@ -230,7 +231,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 					// returns "false". It considers it a quite high priority
 					// issue to be solved. Is there any particular reason why
 					// this must return false?
-					return false;
+					// return false;
+					return this == obj;
 				}
     		});
     	}
@@ -358,9 +360,11 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     private class SpaceIcon implements Icon 
     {
 
- 	private int width;
-    	private int height;
+ 		final private int width;
+    	final private int height;
     	
+    	/** Constructor. Creates a dummy icon with the given size.
+    	*/
     	SpaceIcon(int width, int height) 
     	{
     		this.width = width;

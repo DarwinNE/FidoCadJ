@@ -19,8 +19,8 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
 public class RemoveEvent
 {
-	private Object removedNode;
-	private Object parentNode;
+	final private Object removedNode;
+	final private Object parentNode;
 
 	public RemoveEvent(Object parentNode,Object removedNode)
 	{

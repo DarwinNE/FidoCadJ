@@ -679,8 +679,9 @@ public class ParserActions
         This is particularly useful to read librairies shipped in a jar 
         file.
     */
-    public void loadLibraryInJar(URL s, String prefix)
+    public void loadLibraryInJar(URL s, String prefix_s)
     {
+    	String prefix=prefix_s;
     	if(s==null) {
     		if (prefix==null)
     			prefix="";

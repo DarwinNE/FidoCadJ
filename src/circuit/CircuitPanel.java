@@ -127,6 +127,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     		
 	// ********** INTERFACE **********
     
+    
+
     // Track the old mouse coordinates. This is useful during editing
     // See mouseMoved method
     private int oldx;
@@ -590,7 +592,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     
-    double xs,ys;
     /** Increase or decrease the zoom by a step of 33%
     	@param increase if true, increase the zoom, if false decrease
     	@param x coordinate to which center the viewport (screen coordinates)
@@ -607,7 +608,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         PointG origin=new PointG();
         DimensionG d=ExportGraphic.getImageSize(P, 1.0, false, origin);
-    							
+    	double xs,ys;
+    					
         xs=(double)xpos/(d.width+MARGIN);
         if(xs<0.0) xs=0.0;
         ys=(double)ypos/(d.height+MARGIN);
@@ -1419,7 +1421,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
 				DialogSymbolize s = new DialogSymbolize(this,P);
 				s.setModal(true);
 				s.setVisible(true);	
-				LibUtils.saveLibraryState(ua);
+				try {
+					LibUtils.saveLibraryState(ua);
+				} catch (IOException e) {
+					System.out.println("Exception: "+e);
+		
+				}
 				repaint();
 			}  
             

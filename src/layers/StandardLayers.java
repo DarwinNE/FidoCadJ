@@ -41,6 +41,7 @@ public class StandardLayers
 {
 	// A dummy list of layers.
     private static Vector<LayerDesc> ll_dummy;
+    private final static Object lock = new Object();
 
 	/** Create the standard array containing the layer descriptions, colors
     	and transparency. The name of the layers are read from the resources
@@ -51,9 +52,11 @@ public class StandardLayers
     */
     public static Vector<LayerDesc> createStandardLayers()
     {
-        Vector<LayerDesc> layerDesc=new Vector<LayerDesc>();
+    	Vector<LayerDesc> layerDesc;
+        synchronized(lock) {
         String s="";
         
+        layerDesc=new Vector<LayerDesc>();
         if(Globals.messages!=null) s=Globals.messages.getString("Circuit_l");
         layerDesc.add(new LayerDesc(new ColorSwing(Color.black), true, 
         	s,1.0f));	// 0
@@ -106,7 +109,7 @@ public class StandardLayers
         if(Globals.messages!=null) s=Globals.messages.getString("Other_12");
         layerDesc.add(new LayerDesc(new ColorSwing(Color.black),
         	true, s,1.0f));		// 15
-            
+        }
         return layerDesc;
     }
     
@@ -117,16 +120,15 @@ public class StandardLayers
     */
    	public static Vector<LayerDesc> createEditingLayerArray()
     {
-    	
-
-    	// This is called at each redraw, so it is a good idea to avoid
-    	// creating it each time.
-        if(ll_dummy == null || ll_dummy.isEmpty()) {
-        	ll_dummy = new Vector<LayerDesc>();
-       		ll_dummy.add(new LayerDesc(new ColorSwing(Color.green),
-        		true, "", 1.0f));
+    	synchronized(lock) {
+    		// This is called at each redraw, so it is a good idea to avoid
+    		// creating it each time.
+        	if(ll_dummy == null || ll_dummy.isEmpty()) {
+        		ll_dummy = new Vector<LayerDesc>();
+       			ll_dummy.add(new LayerDesc(new ColorSwing(Color.green),
+        			true, "", 1.0f));
+       		}
        	}
-       	
        	return ll_dummy;
     }
 }

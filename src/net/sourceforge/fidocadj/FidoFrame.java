@@ -87,15 +87,12 @@ public class FidoFrame extends JFrame implements
     public CircuitPanel CC;
     // ... which is contained in a scroll pane.
     private JScrollPane SC;
-       
-    // Macro picker component
-    private MacroTree macroLib;
-    
-    // Macro library model
-    private LibraryModel libraryModel;
     
     // Layer model
     private LayerModel layerModel;
+    
+    // Macro library model
+    private LibraryModel libraryModel;
  
     // Export default properties
     private String exportFileName;
@@ -772,6 +769,9 @@ public class FidoFrame extends JFrame implements
         if(!Globals.weAreOnAMac)
             menuBar.add(about);
         aboutMenu.addActionListener((ActionListener)this);
+
+    	// Macro picker component
+    	MacroTree macroLib;
 		
         libraryModel = new LibraryModel(CC.P);
         layerModel = new LayerModel(CC.P);
@@ -783,7 +783,12 @@ public class FidoFrame extends JFrame implements
         CC.getUndoActions().setLibraryUndoListener(
         	                       new LibraryUndoExecutor(this,libraryModel));
         
-		LibUtils.saveLibraryState(CC.getUndoActions());
+		try {
+			LibUtils.saveLibraryState(CC.getUndoActions());
+		} catch (IOException e) {
+			System.out.println("Exception: "+e);
+		
+		}
 		
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         

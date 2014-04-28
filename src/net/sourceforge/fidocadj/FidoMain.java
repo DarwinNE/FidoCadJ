@@ -74,8 +74,11 @@ public class FidoMain
     private static boolean printTime=false;
     private static double resolution=1;               
     
+    
 	public FidoMain() 
 	{
+		// Nothing to do here. The entry point is the main method and all
+		// important settings here are static.
 	}
 
     /** The main method. Process the command line options and if necessary

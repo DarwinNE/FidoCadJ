@@ -55,7 +55,6 @@ public class DialogOptions extends JDialog implements ComponentListener
   	public boolean shiftCP;
   	
   	public double stroke_size_straight_i;
-	//public double stroke_size_oval_i;
 	
 	public double connectionSize_i;
 
@@ -73,15 +72,8 @@ public class DialogOptions extends JDialog implements ComponentListener
 
 	private JCheckBox antiAlias_CB;
 	private JCheckBox profile_CB;
-	//private JCheckBox extFCJ_c_CB;
-	//private JCheckBox extFCJ_s_CB;
 	private JCheckBox extStrict_CB;
-	
-	// TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
-	private JCheckBox split_n_s_CB;
-	private JCheckBox split_n_c_CB;
-	////
-	
+		
 	private JCheckBox shiftCP_CB;
 
 	private JTextField gridWidth;
@@ -96,7 +88,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 	private JTextField macroSize;
 	
 	private JTextField stroke_size_straight;
-	// private JTextField stroke_size_oval;
 	
 	private JCheckBox quaquaActive_CB;
 	private JComboBox<String> comboFont;
@@ -234,8 +225,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 				quaquaActive=quaquaActive_CB.isSelected();
 				extStrict = extStrict_CB.isSelected();
 				macroFont = (String)comboFont.getSelectedItem();
-				split_n_s = split_n_s_CB.isSelected(); 				
-				split_n_c = split_n_c_CB.isSelected(); 				
+		
 				
 				try{
 					int s=Integer.parseInt(macroSize.getText().trim());
@@ -449,10 +439,11 @@ public class DialogOptions extends JDialog implements ComponentListener
 			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
 			new Insets(6,40,6,20));
 		
+	/*	Does not leave the choice. It works so well that it useless.
 		if (Globals.weAreOnAMac) // Check the user wants Quaqua L&F
 		{
 			restartOptionPanel.add(quaquaActive_CB, constraints);
-		}
+		}*/
 		
 		smallIconsToolbar_CB=new 
 			JCheckBox(Globals.messages.getString("SmallIcons"));
@@ -726,44 +717,6 @@ public class DialogOptions extends JDialog implements ComponentListener
 		extensionsPanel.add(extStrict_CB, constraints);	// Strict FidoCad
 														// compatibility
 		
-		/*extFCJ_s_CB=new JCheckBox(Globals.messages.getString("extFCJ_s"));
-		extFCJ_s_CB.setSelected(extFCJ_s);
-		extFCJ_s_CB.setOpaque(false);
-		constraints = DialogUtil.createConst(0,1,2,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.NONE, 
-			new Insets(6,40,6,40));
-		extensionsPanel.add(extFCJ_s_CB, constraints);	// FCJ extensions while
-														// saving
-		
-	
-		extFCJ_c_CB=new JCheckBox(Globals.messages.getString("extFCJ_c"));
-		extFCJ_c_CB.setSelected(extFCJ_c);
-		extFCJ_c_CB.setOpaque(false);
-		constraints = DialogUtil.createConst(0,2,2,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.NONE, 
-			new Insets(6,40,6,40));
-		extensionsPanel.add(extFCJ_c_CB, constraints);	// FCJ extensions while
-														// copying
-		*/
-		split_n_s_CB=new JCheckBox(Globals.messages.getString(
-			"split_nonstandard"));
-		split_n_s_CB.setSelected(split_n_s);
-		split_n_s_CB.setOpaque(false);
-		constraints = DialogUtil.createConst(0,3,2,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.NONE, 
-			new Insets(6,40,6,40));
-		
-		//extensionsPanel.add(split_n_s_CB, constraints); // Split non standard
-													// macros when saving files
-		
-		split_n_c_CB=new JCheckBox(Globals.messages.getString(
-			"split_nonstandard_copy"));
-		split_n_c_CB.setSelected(split_n_c);
-		split_n_c_CB.setOpaque(false);
-		constraints = DialogUtil.createConst(0,4,2,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.NONE, 
-			new Insets(6,40,6,40));
-		//extensionsPanel.add(split_n_c_CB, constraints);
 		/**********************************************************************
 		  END of FidoCadJ extensions
 		 **********************************************************************/
