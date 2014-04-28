@@ -14,14 +14,10 @@ import android.view.ContextMenu.*;
 import android.content.*;
 import android.hardware.*;
 import android.widget.ExpandableListView;
-
 import dialogs.DialogAbout;
-
 import net.sourceforge.fidocadj.macropicker.*;
 import net.sourceforge.fidocadj.librarymodel.*;
 import primitives.*;
-
-
 import toolbars.*;
 import globals.*;
 
@@ -81,16 +77,21 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         final Object data = getLastNonConfigurationInstance();
     
     	if (data != null) {
-    		StringBuffer s = (StringBuffer) data;
-    		drawingPanel.getParserActions().parseString(s);
+    		List<Object> d = (List<Object>) data;
+    		drawingPanel.getParserActions().parseString((StringBuffer)d.get(0));
+    		drawingPanel.eea.setActionSelected((Integer) d.get(1));
     	}
     }
     
     @Override
-	public Object onRetainNonConfigurationInstance() {
-    	final StringBuffer drawing =  
-    		drawingPanel.getParserActions().getText(true);
-    	return drawing;
+	public Object onRetainNonConfigurationInstance() 
+    {
+    	List<Object> data = new ArrayList<Object>();
+    	
+    	data.add(drawingPanel.getParserActions().getText(true));
+    	data.add(drawingPanel.eea.getSelectionState());
+
+    	return data;
 	}
  
     /*
@@ -397,5 +398,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
    
 }
+
 
 
