@@ -240,33 +240,28 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	
     	if( eea.getSelectionState() == ElementsEdtActions.SELECTION ) 
 		{
+    		mx = (int) event.getX()+getScrollX();
+    		my = (int) event.getY()+getScrollY();
 			// Handle selection events.
 	        switch (action) {
 	        	case MotionEvent.ACTION_DOWN:
-	        		mx = (int) event.getX()+getScrollX();
-	        		my = (int) event.getY()+getScrollY();
 	        		haa.dragHandleStart(mx, my, EditorActions.SEL_TOLERANCE,
 	        				false, cs);
-		            invalidate();
 	        		break;
 	        	case MotionEvent.ACTION_MOVE:							
-	        		mx = (int) event.getX()+getScrollX();
-	        		my = (int) event.getY()+getScrollY();
 	                haa.dragHandleDrag(this, mx, my, cs);
-	            	invalidate();
 	           		break;
 	        	case MotionEvent.ACTION_UP:
 	        	case MotionEvent.ACTION_CANCEL:
-	        		mx = (int) event.getX()+getScrollX();
-	        		my = (int) event.getY()+getScrollY();
-	            	haa.dragHandleEnd(this, mx, my, false, cs);
-	            	invalidate();
+	            	haa.dragHandleEnd(this, mx, my, false, cs);     	
 	        		break;
 	           	default:
 	           		break;
 	        }
+	        invalidate();
 	    }
-	    else 
+    	
+	    if (eea.getSelectionState() == ElementsEdtActions.HAND )
 	    {
 	    	//Handle Scrolling events
 	        switch (action) {
@@ -282,11 +277,11 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	                my = curY;
 	                break;
 	            case MotionEvent.ACTION_UP: 
-	                curX = (int)event.getX();
-	                curY = (int)event.getY();
-	                if(!(getScrollX() <= width && getScrollY() <= height
-	                		&& getScrollX() >= 0 && getScrollY() >= 0))
-	                	scrollBy(-getScrollX(), -getScrollY());  
+	            	int deltaX = getScrollX();
+	            	int deltaY = getScrollY();
+	                if(!(deltaX <= width && deltaY <= height
+	                		&& deltaX >= 0 && deltaY >= 0))
+	                	scrollTo(0, 0);  
 	                break;
 	            default:
 	            	break;
@@ -665,8 +660,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         		
 			int x, y;
 			if(event.getPointerCount()>0) {
-    			x = (int)event.getX(0);
-    			y = (int)event.getY(0);
+    			x = (int)event.getX(0)+getScrollX();
+    			y = (int)event.getY(0)+getScrollY();
     		} else {
     			return false;
     		}
@@ -704,8 +699,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		{
 			int x, y;
 			if(event.getPointerCount()>0) {
-    			x = (int)event.getX(0);
-    			y = (int)event.getY(0);
+    			x = (int)event.getX(0)+getScrollX();
+    			y = (int)event.getY(0)+getScrollY();
     		} else {
     			return false;
     		}		
@@ -734,5 +729,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
 
 
