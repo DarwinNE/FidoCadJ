@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj;
 import java.util.Vector;
 import java.io.*;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.InputDevice;
 import android.view.ViewGroup.LayoutParams;
@@ -11,14 +12,13 @@ import android.content.*;
 import android.view.*;
 import android.graphics.Paint.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.PopupMenu;
 import android.os.Handler;
 import android.widget.Toast;
 import android.app.Activity;
 import android.view.ContextMenu.*;
 import android.content.res.Resources;
-
-
 import circuit.model.*;
 import primitives.*;
 import geom.*;
@@ -81,14 +81,17 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private int rulerStartX;
     private int rulerStartY;
     private int rulerEndX;
-    private int rulerEndY;        
+    private int rulerEndY;       
+    
+    private int mx;
+    private int my;
     
     	// ********** EDITING *********
     	
     private RectF evidenceRect;
     private Context cc;
 	final Handler handler = new Handler(); 
-
+	
 	/** Public constructor.
 	*/
     public FidoEditor(Context context, AttributeSet attrs) 
@@ -225,59 +228,71 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	onTouchEvent and the GestureListener (which does not handle slide and
     	move events).
     */
-     @Override
+    @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-    	if( eea.getSelectionState() != ElementsEdtActions.HAND ) 
+    	gestureDetector.onTouchEvent(event);
+    	 
+    	int action = event.getAction() & MotionEvent.ACTION_MASK;
+    	int curX, curY;
+    	int height = getMeasuredHeight();
+    	int width =getMeasuredWidth();
+    	
+    	if( eea.getSelectionState() == ElementsEdtActions.SELECTION ) 
 		{
-    		gestureDetector.onTouchEvent(event);
-    	
-    		int x=-1;
-    		int y=-1;
-    		boolean toRepaint=true;
-    	
-	    	if(event.getPointerCount()>0) {
-	    		x = (int)event.getX(0);
-	    		y = (int)event.getY(0);
-	    	} else {
-	    		return super.onTouchEvent(event);
-	    	}
-    	
-	        int action = event.getAction() & MotionEvent.ACTION_MASK;
-	        int pointerIndex = (event.getAction() & 
-	        	MotionEvent.ACTION_POINTER_ID_MASK) >> 
-	        	MotionEvent.ACTION_POINTER_ID_SHIFT;
-	        int pointerId = event.getPointerId(pointerIndex);
-
-			// Handle move events.
+			// Handle selection events.
 	        switch (action) {
-	        	case MotionEvent.ACTION_UP:
-	        	case MotionEvent.ACTION_CANCEL:
-	        		if(Math.abs(x-rulerStartX)>10 || 
-	    			   Math.abs(y-rulerStartY)>10) {
-	            		haa.dragHandleEnd(this,x, y, false, cs);
-	            	}
-	            	invalidate();
+	        	case MotionEvent.ACTION_DOWN:
+	        		mx = (int) event.getX()+getScrollX();
+	        		my = (int) event.getY()+getScrollY();
+	        		haa.dragHandleStart(mx, my, EditorActions.SEL_TOLERANCE,
+	        				false, cs);
+		            invalidate();
 	        		break;
-	        	case MotionEvent.ACTION_MOVE:
-	            	int pointerCount = event.getPointerCount();
-	            	for (int i = 0; i < pointerCount; i++) {
-	            		x = (int)event.getX(i);
-	    				y = (int)event.getY(i);
-	    				if(Math.abs(x-rulerStartX)>10 || 
-	    				   Math.abs(y-rulerStartY)>10)
-	
-						haa.dragHandleDrag(this, x, y, cs);
-	            	}
+	        	case MotionEvent.ACTION_MOVE:							
+	        		mx = (int) event.getX()+getScrollX();
+	        		my = (int) event.getY()+getScrollY();
+	                haa.dragHandleDrag(this, mx, my, cs);
 	            	invalidate();
 	           		break;
+	        	case MotionEvent.ACTION_UP:
+	        	case MotionEvent.ACTION_CANCEL:
+	        		mx = (int) event.getX()+getScrollX();
+	        		my = (int) event.getY()+getScrollY();
+	            	haa.dragHandleEnd(this, mx, my, false, cs);
+	            	invalidate();
+	        		break;
 	           	default:
 	           		break;
 	        }
-	    	return true;
 	    }
-	    	else 
-				return false;
+	    else 
+	    {
+	    	//Handle Scrolling events
+	        switch (action) {
+	            case MotionEvent.ACTION_DOWN:
+	                mx = (int)event.getX();
+	                my = (int)event.getY();
+	                break;
+	            case MotionEvent.ACTION_MOVE:
+	                curX = (int)event.getX();
+	                curY = (int)event.getY();
+	                scrollBy((mx - curX), (my - curY));
+	                mx = curX;
+	                my = curY;
+	                break;
+	            case MotionEvent.ACTION_UP: 
+	                curX = (int)event.getX();
+	                curY = (int)event.getY();
+	                if(!(getScrollX() <= width && getScrollY() <= height
+	                		&& getScrollX() >= 0 && getScrollY() >= 0))
+	                	scrollBy(-getScrollX(), -getScrollY());  
+	                break;
+	            default:
+	            	break;
+	        }
+	    }
+    	return true;		
     }
     
     /** Inform Android's operating system of the size of the view.
@@ -314,7 +329,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	height = Math.min(desiredHeight, heightSize);
     	} else {
         	//Be whatever you want
-        	height = desiredHeight;
+        	height = desiredHeight; 
     	}
 
     	//MUST CALL THIS
@@ -658,8 +673,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     		ruler=false;
 			rulerStartX = x;
         	rulerStartY = y;
-        	rulerEndX=x;
-        	rulerEndY=y;
+        	rulerEndX = x;
+        	rulerEndY = y;
         	haa.dragHandleStart(x, y, EditorActions.SEL_TOLERANCE,
             	false, cs);
             invalidate();
@@ -719,4 +734,5 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
 
