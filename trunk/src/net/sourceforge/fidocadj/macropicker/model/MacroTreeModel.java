@@ -46,16 +46,18 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     public static final int MACRO=3;
 
     private RootNode rootNode;
-    private LibraryModel libraryModel;
-    private List<TreeModelListener> listeners;
+    final private LibraryModel libraryModel;
+    final private List<TreeModelListener> listeners;
 
     //private Map<Object,TreePath> pathMap;
     //private Map<Object,AbstractMacroTreeNode> nodeMap;
 
-    private HashMap<TreePath,AbstractMacroTreeNode> libraryNodeMap;
+    private HashMap<TreePath, AbstractMacroTreeNode> libraryNodeMap;
     
     private String filterWord;
 
+	/** Constructor.
+	*/
     public MacroTreeModel(LibraryModel libraryModel)
     {
         this.libraryModel = libraryModel;
@@ -105,7 +107,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
     public boolean isSearchMode()
     {
-        return (filterWord != null);
+        return filterWord != null;
     }
 
     private void createMap()
@@ -330,8 +332,11 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
     public void libraryNodeKeyChanged(KeyChangeEvent e) 
     {
+    	// Nothing to do here
     }
 
+	/** To be called when a new library has been loaded.
+	*/
     public void libraryLoaded()
     {
     	resetSearchMode();
@@ -366,6 +371,13 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     	}
     }
     
+    
+    /** Performs a synchronization of the library tree with the current
+    	contents of the library model. It can be called when a research is 
+    	done, to obtain the results shown in the tree.
+    	
+    	@param filter filtering rules to be applied.
+    */
     private void synchronizeTree(NodeFilterInterface filter)
     {
     	LibraryNode ln;
@@ -387,7 +399,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         if(filter==null) {
             rootNode.setLabel("FidoCadJ");
         } else {
-            rootNode.setLabel("Search result...");
+            rootNode.setLabel("Search results...");
         }
 
         rootNode.clearChildNodes();
@@ -482,7 +494,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     private static class LibraryNode extends AbstractMacroTreeNode
         implements Comparable<LibraryNode>
     {
-        private Library library;
+        final private Library library;
 
         LibraryNode(Library library)
         {
@@ -536,7 +548,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     private static class CategoryNode extends AbstractMacroTreeNode
         implements Comparable<CategoryNode>
     {
-        private Category category;
+        final private Category category;
 
         CategoryNode(Category category)
         {

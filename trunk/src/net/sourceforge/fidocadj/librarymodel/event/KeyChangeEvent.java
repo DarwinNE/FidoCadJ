@@ -19,9 +19,9 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
 public class KeyChangeEvent
 {
-	private Object keyChangedNode;
-	private Object parentNode;
-	private String oldKey;
+	final private Object keyChangedNode;
+	final private Object parentNode;
+	final private String oldKey;
 
 	public KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
 	{

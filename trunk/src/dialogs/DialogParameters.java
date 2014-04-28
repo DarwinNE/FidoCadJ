@@ -41,8 +41,8 @@ import graphic.*;
 
 public class DialogParameters extends JDialog implements ComponentListener
  {
-	private static int MIN_WIDTH = 450;
-	private static int MIN_HEIGHT = 350;
+	private int MIN_WIDTH = 450;
+	private int MIN_HEIGHT = 350;
 	private static final int MAX = 20;
 
 	// Maximum number of user interface elements of the same type present
@@ -365,8 +365,7 @@ public class DialogParameters extends JDialog implements ComponentListener
 				}
 				//setSize(MIN_WIDTH, MIN_HEIGHT);
 				keyb.setVisible(!keyb.isVisible());
-				pack();
-				
+				pack();	
 			}
 		});
 

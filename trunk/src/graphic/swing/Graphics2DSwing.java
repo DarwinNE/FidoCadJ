@@ -208,7 +208,7 @@ public class Graphics2DSwing implements GraphicsInterface
 	public void setFont(String name, int size, boolean isItalic, 
 		boolean isBold)
 	{
-		Font f = new Font(name, 
+		f = new Font(name, 
 			Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 
 			size);
 		// Check if there is the need to change the current font. Apparently, 

@@ -133,7 +133,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		macro=new DrawingModel();
 		macroCoord=new MapCoordinates();
 		changed=true;
-		macroFontSize = macroS;
+		setMacroFontSize(macroS);
 		o=oo;
 		m=mm;
 		
@@ -708,7 +708,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			cs.mapX(virtualPoint[2].x, virtualPoint[2].y),
 			cs.mapY(virtualPoint[2].x, virtualPoint[2].y),
 			macroFont, 
-			(int)(cs.mapYr(macroFontSize,macroFontSize)-cs.mapYr(0,0)),
+			(int)(cs.mapYr(getMacroFontSize(),getMacroFontSize())-
+				cs.mapYr(0,0)),
 			library)) {
 			alreadyExported = true;
 			return;

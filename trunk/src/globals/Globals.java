@@ -92,7 +92,7 @@ public class Globals
 	public static Object lastCGrp;	
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.4 eta";
+    public static final String version = "0.24.4 theta";
     // Is it a beta version?
     public static final boolean isBeta = true;	
     

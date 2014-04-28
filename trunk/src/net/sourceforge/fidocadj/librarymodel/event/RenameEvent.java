@@ -19,9 +19,9 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
 public class RenameEvent
 {
-	private Object renamedNode;
-	private Object parentNode;
-	private String oldName;
+	final private Object renamedNode;
+	final private Object parentNode;
+	final private String oldName;
 
 
 	public RenameEvent(Object parentNode,Object renamedNode,String oldName)

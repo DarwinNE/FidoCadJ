@@ -31,7 +31,7 @@ import java.io.*;
 public class AccessResources
 {
 	// message bundle
-    private ResourceBundle messages;
+    final private ResourceBundle messages;
     
     public AccessResources()
     {

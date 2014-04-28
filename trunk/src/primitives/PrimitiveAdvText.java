@@ -76,7 +76,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	
 	private int h, th, w;
 	private double ymagnitude;
-	private int coordorientation;
+	//private int coordorientation;
 	private boolean	coordmirroring;
 	
 	private int x1, y1, xa, ya, qq;
@@ -156,7 +156,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			return;		
 		changed=true;
 		ymagnitude=coordSys.getYMagnitude();
-		coordorientation=coordSys.getOrientation();
+		//coordorientation=coordSys.getOrientation();
 		coordmirroring=coordSys.getMirror();
 		
 		if(changed) {
@@ -178,7 +178,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	    	
 	    	orientation=o;
 	    	mirror=false;
-    		if(((sty & TEXT_MIRRORED)!=0)){
+    		if((sty & TEXT_MIRRORED)!=0){
     	 		mirror=!mirror;
     	 		orientation=-orientation;
     		}
@@ -391,7 +391,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
    			// included into a mirrored or rotated macro. 
 
    			// Corrections for the mirrored text.
- 			if(((sty & TEXT_MIRRORED)!=0)){
+ 			if((sty & TEXT_MIRRORED)!=0){
     	 		orientationSCI=-orientationSCI;
     	 		wSCI=-wSCI;
     		}
@@ -668,7 +668,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 	public void export(ExportInterface exp, MapCoordinates cs) 
 		throws IOException
 	{
-		int resulting_o=o+(-cs.getOrientation()*90);
+		int resulting_o=o-cs.getOrientation()*90;
 		
 		exp.exportAdvText (cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 			cs.mapY(virtualPoint[0].x,virtualPoint[0].y), 

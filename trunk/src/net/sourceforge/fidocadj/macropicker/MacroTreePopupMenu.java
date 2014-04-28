@@ -36,14 +36,14 @@ import net.sourceforge.fidocadj.librarymodel.Category;
 public class MacroTreePopupMenu extends JPopupMenu implements
 			ChangeListener
 {
-	private MacroTree macroTree;
-	private MacroTree.OperationPermission permission;
+	final private MacroTree macroTree;
+	final private MacroTree.OperationPermission permission;
 	
-	private JMenuItem copyMenu;
-	private JMenuItem pasteMenu;
-	private JMenuItem renameMenu;
-	private JMenuItem removeMenu;
-	private JMenuItem renkeyMenu;
+	final private JMenuItem copyMenu;
+	final private JMenuItem pasteMenu;
+	final private JMenuItem renameMenu;
+	final private JMenuItem removeMenu;
+	final private JMenuItem renkeyMenu;
 	
 	public MacroTreePopupMenu(MacroTree macroTree)
 	{
@@ -93,28 +93,29 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case MacroTree.MACRO:
-					MacroDesc m = mt.getSelectedMacro();
-					if(m!=null){
-						mt.rename(m);
-					}
-					break;
-				case MacroTree.CATEGORY:
-					Category c = mt.getSelectedCategory();
-					if(c!=null){
-						mt.rename(c);
-					}
-					break;
-				case MacroTree.LIBRARY:
-					Library l = mt.getSelectedLibrary();
-					if(l!=null){
-						mt.rename(l);
-					}
-					break;
+					case MacroTree.MACRO:
+						MacroDesc m = mt.getSelectedMacro();
+						if(m!=null){
+							mt.rename(m);
+						}
+						break;
+					case MacroTree.CATEGORY:
+						Category c = mt.getSelectedCategory();
+						if(c!=null){
+							mt.rename(c);
+						}
+						break;
+					case MacroTree.LIBRARY:
+						Library l = mt.getSelectedLibrary();
+						if(l!=null){
+							mt.rename(l);
+						}
+						break;
+					default:
+						break;
 				}
 			}
 		};
-		
 		return al;
 	}
 	
@@ -124,24 +125,26 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case MacroTree.MACRO:
-					MacroDesc m = mt.getSelectedMacro();
-					if(m!=null){
-						mt.remove(m);
-					}
-					break;
-				case MacroTree.CATEGORY:
-					Category c = mt.getSelectedCategory();
-					if(c!=null){
-						mt.remove(c);
-					}
-					break;
-				case MacroTree.LIBRARY:
-					Library l = mt.getSelectedLibrary();
-					if(l!=null){
-						mt.remove(l);
-					}
-					break;
+					case MacroTree.MACRO:
+						MacroDesc m = mt.getSelectedMacro();
+						if(m!=null){
+							mt.remove(m);
+						}
+						break;
+					case MacroTree.CATEGORY:
+						Category c = mt.getSelectedCategory();
+						if(c!=null){
+							mt.remove(c);
+						}
+						break;
+					case MacroTree.LIBRARY:
+						Library l = mt.getSelectedLibrary();
+						if(l!=null){
+							mt.remove(l);
+						}
+						break;
+					default:
+						break;
 				}
 			}
 		};
@@ -154,18 +157,20 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 		ActionListener al = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				switch(mt.getSelectedType()) {
-				case MacroTree.MACRO:
-					MacroDesc m = mt.getSelectedMacro();
-					if(m!=null){
-						mt.changeKey(m);
-					}
-					break;
-				case MacroTree.CATEGORY:
-					//NOP
-					break;
-				case MacroTree.LIBRARY:
-					//NOP
-					break;
+					case MacroTree.MACRO:
+						MacroDesc m = mt.getSelectedMacro();
+						if(m!=null){
+							mt.changeKey(m);
+						}
+						break;
+					case MacroTree.CATEGORY:
+						//NOP
+						break;
+					case MacroTree.LIBRARY:
+						//NOP
+						break;
+					default:
+						break;
 				}
 			}
 		};

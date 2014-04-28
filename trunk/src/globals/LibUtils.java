@@ -188,10 +188,12 @@ public class LibUtils {
 	/** Eliminates a library.
 		@param s Name of the library to eliminate
 	*/
-	public static void deleteLib(String  s) throws FileNotFoundException
+	public static void deleteLib(String  s) throws FileNotFoundException,
+		IOException
 	{
 		File f = new File(getLibDir()+s+".fcl");
-		f.delete();		
+		if(!f.delete()) 
+			throw new IOException("Can not delete library.");		
 	}
 	
 	/** Get all the library in the current library directory.
@@ -428,13 +430,20 @@ public class LibUtils {
 		The temporary directory name is then saved in the undo system.
 	*/
 	public static void saveLibraryState(UndoActorListener ua)
+		throws IOException
 	{
 		try {
 			// This is an hack: at first, we create a temporary file. We store
 			// its name and we use it to create a temporary directory.
 			File tempDir = File.createTempFile("fidocadj_", "");
-        	tempDir.delete();
-        	tempDir.mkdir();
+        	if(!tempDir.delete()) 
+				throw new IOException(
+					"saveLibraryState: Can not delete temp file."); 
+			
+			if(!tempDir.mkdir()) 
+				throw new IOException(
+					"saveLibraryState: Can not create temp directory."); 
+        	
         	String s=LibUtils.getLibDir();
 
         	String d=tempDir.getAbsolutePath();

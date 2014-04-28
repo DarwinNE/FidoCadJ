@@ -68,7 +68,7 @@ public class DialogSymbolize extends JDialog
     private static final int MIN_WIDTH=350;
     private static final int MIN_HEIGHT=250;
  
-    private JPanel parent;    
+    final private JPanel parent;    
     private DrawingModel cp;
     
     // Swing elements
@@ -401,7 +401,7 @@ public class DialogSymbolize extends JDialog
         group=new JComboBox<String>();                
         listGroups();
         if (group.getItemCount()==0)
-        	group.addItem((Globals.messages.getString("Group").toLowerCase()));
+        	group.addItem(Globals.messages.getString("Group").toLowerCase());
         group.setEditable(true);   
         
         libFilename.addItemListener(new ItemListener() {
@@ -453,7 +453,7 @@ public class DialogSymbolize extends JDialog
         long t=System.nanoTime();
         long h=0;
         for(int i=0; t>0; ++i) {
-        	t>>=(i*8);
+        	t>>=i*8;
         	h^=t & 0xFF;
         }
         
@@ -483,10 +483,10 @@ public class DialogSymbolize extends JDialog
         return panel;
     }
     
-    /** Obtain all the groups in a given libraryand put them in the
+    /** Obtain all the groups in a given library and put them in the
     	group list.
     */
-	protected void listGroups() 
+	private void listGroups() 
 	{
 		// Obtain all the groups in a given library.
 		List<String> l = LibUtils.enumGroups(cp.getLibrary(),

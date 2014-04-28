@@ -68,7 +68,7 @@ public abstract class GraphicPrimitive
 	// information is stored to speed up the redraw.
 	protected boolean changed;
 	
-	protected int macroFontSize;
+	private int macroFontSize;
 	protected String macroFont;	
 	protected String name;
 	protected String value;
@@ -101,8 +101,9 @@ public abstract class GraphicPrimitive
         changed=true;
         name = "";
         value = "";
+		
+		setMacroFontSize(size);
 
-		macroFontSize = size;
 		macroFont=f;
 	}
 	/** Set the font to be used for name and value
@@ -112,7 +113,8 @@ public abstract class GraphicPrimitive
 	public void setMacroFont(String f, int size)
 	{
 		macroFont = f;
-		macroFontSize = size;
+		
+		setMacroFontSize(size);
 		changed=true;	
 	}
 	
@@ -130,7 +132,7 @@ public abstract class GraphicPrimitive
 		// Not very elegant. In fact, it would be better to use settings
 		// present in DrawingModel, and not to have to use prefs here.
 		
-		macroFontSize = size;
+		setMacroFontSize(size);
 		macroFont= font;
 		name = "";
 		value = "";
@@ -161,6 +163,21 @@ public abstract class GraphicPrimitive
 		return macroFontSize;
 	} 		
 	
+	/** Set the size of the macro font.
+		@param size the size of the macro font.
+	
+	*/
+	public void setMacroFontSize(int size)
+	{
+		macroFontSize=size;
+		// Silently correct a wrong size. This should never happen (the dialog
+        // has a control, but avoids a wrong configuration to sneak somewhere
+        // else.
+		if(macroFontSize<=0)
+			macroFontSize=1;
+		
+	} 	
+	
 	/** Writes the macro name and value fields. This method uses heavily the 
 		caching system implemented via the precalculation of the sizes and 
 		positions. This means that the "changed" flag is tested, BUT NOT
@@ -176,6 +193,7 @@ public abstract class GraphicPrimitive
 		// If this method is not needed, exit immediately.
 		if (value==null && name==null)
 			return;
+			
 		if ("".equals(value) && "".equals(name))
 			return;
 			
@@ -200,10 +218,9 @@ public abstract class GraphicPrimitive
  			
     		g.setFont(macroFont, 
     			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
-    		 			
+    		
     		h = g.getFontAscent();
     		th = h+g.getFontDescent();
-    		
 
     		if(name==null) 
    				w1=0;
@@ -215,12 +232,16 @@ public abstract class GraphicPrimitive
    			else
    				w2 = g.getStringWidth(value);
    			
+   			/*System.out.println("name="+name+"  value="+value+"  w1="+w1+
+	   		"  w2="+w2+"  th="+th+" macroFont="+macroFont+
+	   		"  macroFontSize="+macroFontSize+" calculated size="+
+	   		((int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5)));*/
    			// Calculates the size of the text in logical units. This is 
    			// useful for calculating wether the user has clicked inside a 
    			// text line (see getDistanceToPoint)
    			
    			t_w1 = (int)(w1/coordSys.getXMagnitude());
-   			t_w2 = (int)(w2/coordSys.getYMagnitude());
+   			t_w2 = (int)(w2/coordSys.getXMagnitude());
    			t_th = (int)(th/coordSys.getYMagnitude());
    			   			
    			// Track the points for calculating the drawing size
@@ -231,21 +252,19 @@ public abstract class GraphicPrimitive
     		coordSys.trackPoint(xb+w2, yb+th);
 		}
 
-	   	
 	   	// If there is no need to draw the text, just exit.
-	   	
 	   	if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
  			return;
 	   	
 	   	// This is useful and faster for small zooms
-	   	
 	   	if(th<Globals.textSizeLimit) {
 	   		g.drawLine(xa,ya, xa+w1-1,ya);
 	   		g.drawLine(xb,yb, xb+w2-1,yb);
 	   		return;
 	   	} 
 	   	
-	   	g.setFont(macroFont, 
+	   	if(!changed) 
+	   		g.setFont(macroFont, 
     			(int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
    		/* The if's have been added thanks to this information:
@@ -256,7 +275,7 @@ public abstract class GraphicPrimitive
     	}
     	if (value!=null && value.length()!=0) {
     		g.drawString(value,xb,yb+h);
-    	}	
+    	}
 	}
 	
 	/** Creates the text strings containing the name and value of the primitive
@@ -340,8 +359,6 @@ public abstract class GraphicPrimitive
 	{
 		double size=
 			Math.abs(cs.mapXr(macroFontSize,macroFontSize)-cs.mapXr(0,0));
-		System.out.println("exportText: macroFontSize="+macroFontSize+
-			" size="+size);
 		
 		// Export the text associated to the name and value of the macro 			
 		if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
@@ -421,7 +438,7 @@ public abstract class GraphicPrimitive
       		} 
       		
       		// Adding the following line should fix bug #3522962
-      		macroFontSize = Integer.parseInt(tokens[4]);
+      		setMacroFontSize(Integer.parseInt(tokens[4]));
  		 					
       		while(j<N-1){
       			txtb.append(tokens[++j]);
@@ -545,9 +562,9 @@ public abstract class GraphicPrimitive
 
 			if(bCounterClockWise) {
 				virtualPoint[b].x = pt.x + ptTmp.y-pt.y;
-				virtualPoint[b].y = pt.y - (ptTmp.x-pt.x);
+				virtualPoint[b].y = pt.y - (ptTmp.x-pt.x); // NOPMD
 			} else {
-				virtualPoint[b].x = pt.x - (ptTmp.y-pt.y);
+				virtualPoint[b].x = pt.x - (ptTmp.y-pt.y); // NOPMD
 				virtualPoint[b].y = pt.y + ptTmp.x-pt.x;
 			} 
 		}

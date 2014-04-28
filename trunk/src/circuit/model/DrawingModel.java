@@ -228,12 +228,6 @@ public class DrawingModel
     {
         int i;
         int size=tsize;
-        
-        // Silently correct a wrong size. This should never happen (the dialog
-        // has a control, but avoids a wrong configuration to sneak somewhere
-        // else.
-		if(size<=0)
-			size=1;
 
         macroFont=f;
         macroFontSize = size;
@@ -261,13 +255,15 @@ public class DrawingModel
     public int getTextFontSize()
     {   
     	// TODO: not very elegant piece of code
-        for (int i=0; i<getPrimitiveVector().size(); ++i){
-            return ((GraphicPrimitive)getPrimitiveVector().get(i))
-                    .getMacroFontSize();            
+        if(getPrimitiveVector().size()>0){
+        	int size=((GraphicPrimitive)getPrimitiveVector().get(0))
+                    .getMacroFontSize();
+                    
+            if(size<=0) size=1;
+            macroFontSize=size;
         }
         return macroFontSize;
     }
-    
    
     /** Performs a sort of the primitives on the basis of their layer.
         The sorting metod adopted is the Shell sort. By the practical point
