@@ -48,6 +48,7 @@ public class ToolbarTools
 	private ToggleButton pcbline;
 	private ToggleButton pcbpad;
 	private ToggleButton hand;
+	private ToggleButton zoom;
 	
 	private ElementsEdtActions eea;
 	
@@ -157,6 +158,14 @@ public class ToolbarTools
 				eea.setActionSelected(ElementsEdtActions.HAND);
 			}
 		});
+		zoom.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				resetButtons(zoom);
+				zoom.setChecked(true);
+				eea.setActionSelected(ElementsEdtActions.ZOOM);
+			}
+		});
 	}
 	
 	/** Reset the state of all buttons, except the one specified.
@@ -176,7 +185,8 @@ public class ToolbarTools
 		if(!connection.equals(exc))   connection.setChecked(false);
 		if(!pcbline.equals(exc))      pcbline.setChecked(false);
 		if(!pcbpad.equals(exc))       pcbpad.setChecked(false);
-		if(!hand.equals(exc))       hand.setChecked(false);
+		if(!hand.equals(exc))         hand.setChecked(false);
+		if(!zoom.equals(exc))		  zoom.setChecked(false);
 	}
 	
 	/** Associate all the ToggleButtons present in the resources to internal
@@ -197,5 +207,7 @@ public class ToolbarTools
 		pcbline = (ToggleButton) aa.findViewById(R.id.pcbline);
 		pcbpad = (ToggleButton) aa.findViewById(R.id.pcbpad);
 		hand = (ToggleButton) aa.findViewById(R.id.hand);
+		zoom = (ToggleButton) aa.findViewById(R.id.zoom);
 	}
 }
+
