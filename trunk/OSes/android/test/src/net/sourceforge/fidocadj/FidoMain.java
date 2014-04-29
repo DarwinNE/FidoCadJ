@@ -1,11 +1,10 @@
 package net.sourceforge.fidocadj;
 
-import android.util.FloatMath;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.FloatMath;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -14,9 +13,15 @@ import android.view.ContextMenu.*;
 import android.content.*;
 import android.hardware.*;
 import android.widget.ExpandableListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.*;
+
+
 import dialogs.DialogAbout;
 import net.sourceforge.fidocadj.macropicker.*;
 import net.sourceforge.fidocadj.librarymodel.*;
+import circuit.controllers.*;
+
 import primitives.*;
 import toolbars.*;
 import globals.*;
@@ -35,6 +40,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	float averagedAngleSpeedY;
 	float averagedAngleSpeedZ;
 	long holdoff;
+	List<Category> globalList;
 	
 	ExpandableMacroListView listAdapter;
     ExpandableListView expListView;
@@ -51,7 +57,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         setContentView(R.layout.main);
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
-        
+
         Globals.messages = new AccessResources(this);
         tt.activateListeners(this, drawingPanel.eea);
         mSensorManager = (SensorManager) 
@@ -70,6 +76,27 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
+        expListView.setOnChildClickListener(
+        	new ExpandableListView.OnChildClickListener() {
+        		 public boolean onChildClick(ExpandableListView parent, 
+        		 	View v, int groupPosition, int childPosition, long id)
+        		 {
+        		 	Category c= globalList.get(groupPosition);
+        		 	MacroDesc md=c.getAllMacros().
+        		 		get(childPosition);
+        		 	
+        		 	
+        		 	if(md!=null){
+                    	ContinuosMoveActions eea =
+                    		 drawingPanel.getContinuosMoveActions();
+        				eea.setState(ElementsEdtActions.MACRO, md.key);
+                    } else {
+                    	
+                    }	
+        		 	
+        		 	return true;
+        		 }
+        	});
         
         // TODO: this is method which works well, but it is discouraged by
         // modern Android APIs. It requires to redo the parsing, which for 
@@ -100,52 +127,24 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     private void prepareListData(LibraryModel lib) 
     {
         listDataHeader1 = new ArrayList<String>();
-        listDataHeader2 = new HashMap<String, HashMap<String, List<String>>>();
         listDataChild = new HashMap<String, List<String>>();
         
         // Adding child data
         List<Library> libsList = lib.getAllLibraries();
+        globalList=new ArrayList<Category>();
         for(Library l : libsList) {
-        	listDataHeader1.add(l.getName());
-        	List<Category> catList = l.getAllCategories();
-        	List<String> ts = new ArrayList<String>();
+        	List<Category>catList = l.getAllCategories();
         	for(Category c : catList) {
+        		listDataHeader1.add(c.getName());
+				List<String> ts = new ArrayList<String>();
         		List<MacroDesc> macroList = c.getAllMacros();
         		for(MacroDesc m : macroList) {
         			ts.add(m.name);
         		}
+        		listDataChild.put(c.getName(), ts);
         	}
-			listDataChild.put(l.getName(), ts);
+        	globalList.addAll(catList);
         }
-        
-   /*     // Adding child data
-        List<String> std = new ArrayList<String>();
-        std.add("NPN transistor");
-        std.add("PNP transistor");
-        std.add("Resistor");
- 
- 		// Adding child data
-        List<String> ihram = new ArrayList<String>();
-        ihram.add("Biased NPN transistor");
-        ihram.add("Biased PNP transistor");
-        ihram.add("Resistor, alt");
- 
- 		// Adding child data
-        List<String> user = new ArrayList<String>();
-        user.add("LED with resistor");
-        user.add("JFET transistor");
-        user.add("Memristor");
-        
-                // Adding child data
-        listDataHeader2.add(std);
-        listDataHeader2.add(ihram);
-        listDataHeader2.add(user);
-        
- 		listDataHeader1.put(listDataHeader1.get(0),listDataHeader2);
- 
-        listDataChild.put(listDataHeader.get(0), std); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), ihram);
-        listDataChild.put(listDataHeader.get(2), user);*/
     }
     
     @Override
@@ -373,7 +372,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			
 		return status;
 	}
-	
+
 	public void copyText(String s)
 	{
 		 // Gets a handle to the clipboard service.

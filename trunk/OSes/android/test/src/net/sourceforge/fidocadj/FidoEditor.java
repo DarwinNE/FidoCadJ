@@ -155,12 +155,19 @@ public class FidoEditor extends View implements PrimitivesParInterface
         dm.setTextFont("Courier New", 3, null);
     }
     
-    /** Get the EditorActions controller for the drawing.
+    /** Gets the EditorActions controller for the drawing.
     */
     public EditorActions getEditorActions()
     {
     	return ea;
     }
+
+	/** Gets the ContinuosMoveActions for the drawing
+	*/
+	public ContinuosMoveActions getContinuosMoveActions()
+	{
+		return eea;
+	}
 
 	/** Get the CopyPasteActions controller for the drawing.
     */
