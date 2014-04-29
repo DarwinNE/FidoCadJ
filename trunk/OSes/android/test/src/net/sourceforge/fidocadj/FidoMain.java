@@ -85,13 +85,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         		 	MacroDesc md=c.getAllMacros().
         		 		get(childPosition);
         		 	
-        		 	
+        		 	ContinuosMoveActions eea = 
+        		 		drawingPanel.getContinuosMoveActions();
         		 	if(md!=null){
-                    	ContinuosMoveActions eea =
-                    		 drawingPanel.getContinuosMoveActions();
         				eea.setState(ElementsEdtActions.MACRO, md.key);
                     } else {
-                    	
+                    	eea.setState(ElementsEdtActions.SELECTION, "");
                     }	
         		 	
         		 	return true;

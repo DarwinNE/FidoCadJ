@@ -57,7 +57,7 @@ public class Drawing
     }
 
     /** Draw the handles of all selected primitives
-        @param G the graphic context to be used.
+        @param gi the graphic context to be used.
     */
     public void drawSelectedHandles(GraphicsInterface gi, MapCoordinates cs)
     {

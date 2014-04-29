@@ -7,47 +7,16 @@ import primitives.*;
 import geom.*;
 import graphic.*;
 
-import circuit.controllers.UndoActions; 	// TODO: remove this
+import circuit.controllers.UndoActions;
 
 /**
+	Database of the FidoCadJ drawing. This is the "model" in the 
+	model/view/controller pattern. Offers methods to modify its contents,
+	but they are relatively low level and database-oriented. More high-level
+	operations can be done via the controllers operating on this class.
+	
 <pre>
-   FidoCadJ schematics draw class.
    
-   ****************************************************************************
-   Version History 
-
-Version   Date           Author       Remarks
-------------------------------------------------------------------------------
-1.0     March 2007      D. Bucci    First working version
-1.1     December 2007   D. Bucci    Improved PCB rendering:
-                                     - Pad dimensions and style
-                                     - Drill
-                                     - Mirrored text and size handling
-1.2     December 2007   D. Bucci    Improved speed
-                                    Supports layer
-1.3     December 2007   D. Bucci    Better text rendering
-                                    Improved speed
-1.3.1   December 2007   D. Bucci    coordSys becomes private
-                                    Provided methods to obtain zoom settings
-                                    Provided methods to obtain circuit surface
-                                    Improved speed by optimized redrawing
-                                    Uses the new high resolution coordinates
-                                    Improved layer handling
-1.3.2   January 2008    D. Bucci    Handle PCB library macros
-2.0     May 2008        D. Bucci    Redesigned primitive handling
-2.1     June 2008       D. Bucci    Drag & drop 
-2.2     August 2008     D. Bucci    
-2.3     November 2008   D. Bucci    library becomes a TreeMap
-2.4     December 2008   D. Bucci    FCJ extensions
-2.5     June 2009       D. Bucci    Capitalize the first letters                                     
-2.6     November 2009   D. Bucci    New FCJ extensions
-                                    Macro font selection
-2.7     February 2010   D. Bucci    General optimization
-2.8     March 2010      D. Bucci    Optimization and improvements
-2.9     May 2010        D. Bucci    Optimized, code cleaned
-
-  ... then we used Subversion to track changes!
-
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -65,8 +34,6 @@ Version   Date           Author       Remarks
 
     Copyright 2007-2014 by Davide Bucci
 </pre>
-
-   Main parsing class 
     
     @author Davide Bucci
 */

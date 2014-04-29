@@ -298,7 +298,7 @@ public final class ExportGraphic
     }
     
     /**	Get the image size.
-    	@param P the parsing class to be used.
+    	@param dm the model class containing the drawing.
     	@param unitperpixel the zoom set to be used.
     	@param countMin specifies that the size should be calculated counting 
     		the minimum x and y coordinates, and not the origin.
@@ -355,7 +355,7 @@ public final class ExportGraphic
     }
     
     /**	Get the image origin.
-    	@param P the parsing class to be used.
+    	@param dm the model class containing the drawing.
     	@param unitperpixel the zoom set to be used.
     */
     public static PointG getImageOrigin(DrawingModel dm, double unitperpixel)
