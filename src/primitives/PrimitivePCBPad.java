@@ -166,7 +166,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
  		
  		if(!g.hitClip(xa-rrx2,ya-rry2, rrx, rry))
  			return;
- 			
+ 		
+ 		g.applyStroke(1, 0);
+ 		
  		if (drawOnlyPads) {
  			g.setColor(g.getColor().white()); // Drill the hole
  			g.fillOval(xa-rix2, ya-riy2,rix,riy);
