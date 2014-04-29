@@ -447,8 +447,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 edt.moveAllSelected(0,1);
                 repaint();
             }
-        });
-        
+        });  
     }
     
     /** Makes sure the object gets focus.
@@ -467,9 +466,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (selectionListener!=null && s!=eea.actionSelected) {
             selectionListener.setSelectionState(s, macro);
             selectionListener.setStrictCompatibility(extStrict);
-        }
-            
-        
+        }    
         
         if (scrollGestureSelectionListener!=null) {
             scrollGestureSelectionListener.setSelectionState(s, 

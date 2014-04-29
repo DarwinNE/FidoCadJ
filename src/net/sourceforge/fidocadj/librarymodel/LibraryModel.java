@@ -567,7 +567,7 @@ public class LibraryModel
 
     /**
      * Returns MacroDesc map.
-     * @returns Map composed of String key and MacroDesc from parser.
+     * @return Map composed of String key and MacroDesc from parser.
      */
     public Map<String,MacroDesc> getAllMacros()
     {
