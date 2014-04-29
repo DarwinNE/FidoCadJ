@@ -8,8 +8,10 @@ import android.view.View;
 import android.graphics.*;
 import android.content.*;
 import android.view.*;
+import android.widget.Toast;
 import android.graphics.Paint.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.os.Handler;
 import android.app.Activity;
 import circuit.model.*;
@@ -76,8 +78,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private int rulerEndX;
     private int rulerEndY;       
     
+		// ********** TOUCH HANDLING **********
+
     private int mx;
     private int my;
+    private int oldDist;
+    private int newDist;
     
     	// ********** EDITING *********
     	
@@ -232,10 +238,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public boolean onTouchEvent(MotionEvent event)
     {
     	gestureDetector.onTouchEvent(event);
-    	 
+    	
+    	if(event.getPointerCount()<=0)
+    		return false;
+    	
     	int action = event.getAction() & MotionEvent.ACTION_MASK;
     	int curX, curY;
-	    int oldDist = 1, newDist = 1;
     	int height = getMeasuredHeight();
     	int width =getMeasuredWidth();
     	
@@ -278,8 +286,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	                my = curY;
 	                break;
 	            case MotionEvent.ACTION_UP: 
-	            	int deltaX = getScrollX();
-	            	int deltaY = getScrollY();
+	            	int deltaX = (int)(getScrollX()/cs.getXMagnitude());
+	            	int deltaY = (int)(getScrollY()/cs.getYMagnitude());
 	                if(!(deltaX <= width && deltaY <= height
 	                		&& deltaX >= 0 && deltaY >= 0))
 	                	scrollTo(0, 0);  
@@ -288,73 +296,45 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	            	break;
 	        }
 	    }
-	    //stupid zoom
-	    if (eea.getSelectionState() == ElementsEdtActions.ZOOM )
-	    {
-	    	//Handle zoom events
-	        switch (action) {
-	            case MotionEvent.ACTION_DOWN:
-	            	mx = (int) event.getX()+getScrollX();
-	        		my = (int) event.getY()+getScrollY();
-	            	setPivotX(mx);
-	            	setPivotY(my);
-	            	setScaleX(2);
-	            	setScaleY(2);
-	                break;
-	            case MotionEvent.ACTION_UP: 
-	            	setPivotX(mx);
-	            	setPivotY(my);
-	            	setScaleX(1);
-	            	setScaleY(1);
-	            default:
-	            	break;
-	        }
-	    }
 	    //multi touch zoom solution
-	 /*   if (eea.getSelectionState() == ElementsEdtActions.ZOOM )
-	    {
+	    if (eea.getSelectionState() == ElementsEdtActions.ZOOM )
+	    {   	
 	    	//Handle zoom events
 	        switch (action) {
 	            case MotionEvent.ACTION_POINTER_DOWN:
 	            	oldDist = spacing(event);
-	                break;
+	            	break;
 	            case MotionEvent.ACTION_MOVE:
-	            	newDist = spacing(event);
-	            	PointG pivot = midPoint(event); 
-	            	setPivotX(pivot.x);
-	            	setPivotY(pivot.y);
-	            	int scale = newDist / oldDist;
-	            	setScaleX(scale);
-	            	setScaleY(scale);
-	                break;
+	            	if(event.getPointerCount() == 2) {
+	            		newDist = spacing(event);
+	            		double scale = newDist / oldDist;
+	            		scale = Math.min(1.33, scale);
+	            		scale = Math.max(1/1.33, scale);
+	            		if( scale*cs.getXMagnitude() < 6 && 
+	            				scale*cs.getXMagnitude() > 0.36 ) {
+	            			cs.setXMagnitude(scale*cs.getXMagnitude());
+	            			cs.setYMagnitude(scale*cs.getYMagnitude());
+	            			invalidate();
+	            		}
+	            	}
+	            	break;
 	            default:
 	            	break;
 	        }
-	    }*/
+	        
+	    }
     	return true;		
     }
     
-   
     /**
      *    @return the space between two points.
      */
     private int spacing(MotionEvent event)
     {
-    	float x = event.getX(0) - event.getX(1) + 2*getScrollX();
-    	float y = event.getY(0) - event.getY(1) + 2*getScrollY();
-    	return (int) Math.sqrt(x * x + y * y);
-    }
-    /**
-     *    @return the middle point in the line passing by two points.
-     */
-    private PointG midPoint(MotionEvent event) 
-    {
-    	PointG point = new PointG();
-    	float x = event.getX(0) - event.getX(1) + 2*getScrollX();
-    	float y = event.getY(0) - event.getY(1) + 2*getScrollY();
-    	point.x = (int) x / 2;
-    	point.y = (int) y / 2;
-    	return point;
+    	float x = event.getX(0) - event.getX(1);
+    	float y = event.getY(0) - event.getY(1);
+    	int dist = (int) Math.sqrt(x * x + y * y);
+    	return dist;
     }
     
     /** Inform Android's operating system of the size of the view.
@@ -537,48 +517,48 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			"RP 165 100 175 110 13\n"+
 			"RP 170 105 180 115 14\n"+
 			"RP 175 110 185 120 15\n"+
-"MC 55 195 0 0 170\n"+
-"FCJ\n"+
-"TY 55 185 4 3 0 0 0 Helvetica C\n"+
-"TY 65 205 4 3 0 0 0 Helvetica \n"+
-"LI 65 195 75 195 0\n"+
-"LI 75 195 75 210 0\n"+
-"LI 55 195 45 195 0\n"+
-"LI 45 195 45 210 0\n"+
-"SA 45 210 0\n"+
-"SA 75 210 0\n"+
-"LI 50 230 20 230 0\n"+
-"LI 50 240 40 240 0\n"+
-"LI 40 240 40 250 0\n"+
-"SA 20 230 0\n"+
-"LI 65 210 90 210 0\n"+
-"LI 90 210 90 235 0\n"+
-"LI 75 235 100 235 0\n"+
-"SA 90 235 0\n"+
-"MC 50 240 2 1 580\n"+
-"FCJ\n"+
-"TY 65 245 4 3 0 0 0 Helvetica U\n"+
-"TY 60 235 4 3 0 0 0 Helvetica \n"+
-"MC 20 250 3 0 240\n"+
-"FCJ\n"+
-"TY 25 240 4 3 0 0 0 Helvetica D\n"+
-"TY 30 260 4 3 0 0 0 Helvetica \n"+
-"MC 55 210 0 0 080\n"+
-"FCJ\n"+
-"TY 65 215 4 3 0 0 0 Helvetica R\n"+
-"TY 65 220 4 3 0 0 0 Helvetica \n"+
-"LI 55 210 20 210 0\n"+
-"LI 20 210 20 235 0\n"+
-"MC 20 250 0 0 045\n"+
-"MC 40 250 0 0 045\n"+
-"MC 145 215 0 0 elettrotecnica.mam\n"+
-"MC 180 215 0 0 elettrotecnica.matscsaar\n"+
-"MC 210 245 0 0 ihram.lcd44780\n"+
-"TY 85 195 4 3 0 0 0 Helvetica Stdlib\n"+
-"TY 235 195 4 3 0 0 0 Helvetica IHRAM\n"+
-"TY 150 195 4 3 0 0 0 Helvetica Elettrotecnica\n"+
-"TY 265 110 4 3 0 0 0 Helvetica PCB\n"+
-"MC 285 130 0 0 pcb.to92-45";
+			"MC 55 195 0 0 170\n"+
+			"FCJ\n"+
+			"TY 55 185 4 3 0 0 0 Helvetica C\n"+
+			"TY 65 205 4 3 0 0 0 Helvetica \n"+
+			"LI 65 195 75 195 0\n"+
+			"LI 75 195 75 210 0\n"+
+			"LI 55 195 45 195 0\n"+
+			"LI 45 195 45 210 0\n"+
+			"SA 45 210 0\n"+
+			"SA 75 210 0\n"+
+			"LI 50 230 20 230 0\n"+
+			"LI 50 240 40 240 0\n"+
+			"LI 40 240 40 250 0\n"+
+			"SA 20 230 0\n"+
+			"LI 65 210 90 210 0\n"+
+			"LI 90 210 90 235 0\n"+
+			"LI 75 235 100 235 0\n"+
+			"SA 90 235 0\n"+
+			"MC 50 240 2 1 580\n"+
+			"FCJ\n"+
+			"TY 65 245 4 3 0 0 0 Helvetica U\n"+
+			"TY 60 235 4 3 0 0 0 Helvetica \n"+
+			"MC 20 250 3 0 240\n"+
+			"FCJ\n"+
+			"TY 25 240 4 3 0 0 0 Helvetica D\n"+
+			"TY 30 260 4 3 0 0 0 Helvetica \n"+
+			"MC 55 210 0 0 080\n"+
+			"FCJ\n"+
+			"TY 65 215 4 3 0 0 0 Helvetica R\n"+
+			"TY 65 220 4 3 0 0 0 Helvetica \n"+
+			"LI 55 210 20 210 0\n"+
+			"LI 20 210 20 235 0\n"+
+			"MC 20 250 0 0 045\n"+
+			"MC 40 250 0 0 045\n"+
+			"MC 145 215 0 0 elettrotecnica.mam\n"+
+			"MC 180 215 0 0 elettrotecnica.matscsaar\n"+
+			"MC 210 245 0 0 ihram.lcd44780\n"+
+			"TY 85 195 4 3 0 0 0 Helvetica Stdlib\n"+
+			"TY 235 195 4 3 0 0 0 Helvetica IHRAM\n"+
+			"TY 150 195 4 3 0 0 0 Helvetica Elettrotecnica\n"+
+			"TY 265 110 4 3 0 0 0 Helvetica PCB\n"+
+			"MC 285 130 0 0 pcb.to92-45";
 
 
 
@@ -799,7 +779,4 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
-
-
-
 
