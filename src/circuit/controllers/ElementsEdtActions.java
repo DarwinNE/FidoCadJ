@@ -226,11 +226,21 @@ public class ElementsEdtActions
         return PCB_thickness;
     }
     
-        /** Determine wether the current primitive being added is a macro.
+    /** Determine wether the current primitive being added is a macro.
     */
     public boolean isEnteringMacro()
     {
     	return primEdit instanceof PrimitiveMacro;
+    }
+    
+    /** Chooses the entering state.
+    */
+    public void setState(int s, String macro)
+    {
+    	actionSelected=s;
+        clickNumber=0;
+        successiveMove=false;
+        macroKey=macro;
     }
     
     /** Rotate the macro being edited around its first control point 
@@ -805,4 +815,18 @@ public class ElementsEdtActions
     {
         return actionSelected;
     }  
+    
+    /** Sets the current editing primitive
+    */
+    public void setPrimEdit(GraphicPrimitive gp)
+    {
+    	primEdit=gp;
+    }
+    
+    /** Gets the current editing primitive
+    */
+    public GraphicPrimitive getPrimEdit(GraphicPrimitive gp)
+    {
+    	return primEdit;
+    }
 }

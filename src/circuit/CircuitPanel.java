@@ -469,18 +469,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
             selectionListener.setStrictCompatibility(extStrict);
         }
             
-        eea.actionSelected=s;
+        
         
         if (scrollGestureSelectionListener!=null) {
             scrollGestureSelectionListener.setSelectionState(s, 
             	macro);
         }
-        
-        eea.clickNumber=0;
-        eea.successiveMove=false;
-        selectCursor(); 
-        eea.macroKey=macro;
-        
+        eea.setState(s, macro);
+        selectCursor();
     }
     
     /** Set the rectangle which will be shown during the next redraw.

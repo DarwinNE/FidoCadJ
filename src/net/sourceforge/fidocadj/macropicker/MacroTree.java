@@ -471,41 +471,31 @@ public class MacroTree extends JPanel
         // Relate with JTree.
         treeComponent.getSelectionModel().
         addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
+            public void valueChanged(TreeSelectionEvent e) 
+            {
                 MacroDesc md;
                 md = macroTreeModel.getMacro(e.getPath());
 
                 if(md!=null) {
-                    try {
-                        // why throws IOException??
-                        // DB: @kohta you are right, there is no need! I
-                        // removed it so the try block is not needed anymore.
-                        previewPanel.setCirc(new StringBuffer(md.description));
-                        MapCoordinates m =
-                            ExportGraphic.calculateZoomToFit(
-                            	previewPanel.P,
-                            	previewPanel.getSize().width*85/100, 
-                            	previewPanel.getSize().height*85/100,true);
-                        m.setXCenter(-m.getXCenter()+10);
-                        m.setYCenter(-m.getYCenter()+10);
+                    previewPanel.setCirc(new StringBuffer(md.description));
+                    MapCoordinates m =
+                   		ExportGraphic.calculateZoomToFit(
+                        	previewPanel.P,
+                    		previewPanel.getSize().width*85/100, 
+                    		previewPanel.getSize().height*85/100, true);
+                    m.setXCenter(-m.getXCenter()+10);
+                    m.setYCenter(-m.getYCenter()+10);
 
-                        //System.out.println("calc zoom: "+m);
-
-                        previewPanel.setMapCoordinates(m);
-
-                        //System.out.println("get  zoom: "+
-                        //                   previewPanel.getMapCoordinates());
-                        previewPanel.repaint();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    previewPanel.setMapCoordinates(m);
+                    previewPanel.repaint();
                 }
             }
         });
 
         // Relate with library model.
         LibraryListener l = new LibraryListenerAdapter() {
-            public void libraryLoaded() {
+            public void libraryLoaded() 
+            {
                 previewPanel.P.setLibrary(libraryModel.getAllMacros());
             }
         };
