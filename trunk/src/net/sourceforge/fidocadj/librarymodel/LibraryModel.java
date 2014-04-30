@@ -179,7 +179,7 @@ public class LibraryModel
      * @throws IllegalNameException If new name is invalid.        
      */
     public void rename(MacroDesc macro,String newName)
-    throws IllegalNameException,IllegalLibraryAccessException
+    throws IllegalNameException, IllegalLibraryAccessException
     {
         if(macro==null) {
             return;
@@ -226,7 +226,8 @@ public class LibraryModel
         }
 
         if(category.getParentLibrary().isStdLib()) {
-            throw new IllegalLibraryAccessException("A category in standard library can't be renamed.");
+            throw new IllegalLibraryAccessException(
+            	 "A category in standard library can't be renamed.");
         }
 
         if(!Category.isValidName(newName)) {

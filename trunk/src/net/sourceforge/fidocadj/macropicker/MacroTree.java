@@ -630,11 +630,11 @@ public class MacroTree extends JPanel
 
             @Override
             public void keyReleased(KeyEvent e) {
-                System.out.println("keyreleased"+System.currentTimeMillis());
+                //System.out.println("keyreleased"+System.currentTimeMillis());
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(e.isShiftDown()) {
                         treeComponent.selectPrevLeaf();
-                        System.out.println("prev");
+                        //System.out.println("prev");
                     } else {
                         treeComponent.selectNextLeaf();
                     }
@@ -760,12 +760,16 @@ public class MacroTree extends JPanel
                               tree, value, sel,
                               expanded, leaf, row,
                               hasFocus);
-            Icon icon = ((MacroTreeNode)value).getIcon();
+            if(value instanceof MacroTreeNode) {
+            	Icon icon = ((MacroTreeNode)value).getIcon();
 
-            if(icon == null) {
-                return c;
+           	 	if(icon == null) {
+                	return c;
+            	} else {
+                	setIcon(icon);
+            	}
             } else {
-                setIcon(icon);
+            	return null;
             }
 
             return this;

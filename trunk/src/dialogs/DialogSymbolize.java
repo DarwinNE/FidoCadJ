@@ -266,7 +266,6 @@ public class DialogSymbolize extends JDialog
 	}
 
 	/** Create the GUI for the dialog.
-	
 	*/
  	private JPanel createInterfacePanel()
     { 			
@@ -637,8 +636,8 @@ public class DialogSymbolize extends JDialog
                 setVisible(false);
             }
         });
+        
         // Here is an action in which the dialog is closed
-
         AbstractAction cancelAction = new AbstractAction ()
         {
             public void actionPerformed (ActionEvent e)
@@ -700,7 +699,8 @@ public class DialogSymbolize extends JDialog
     */
 	protected void updateTreeLib() 
 	{
-        // This is a dangerous code. What if a new menu option is added?
+		// TODO:
+        // This is a tricky code. What if a new menu option is added?
         // This would be better, but there is something to solve about access.
         // ((FidoFrame)Globals.activeWindow).loadLibraries();
         
@@ -717,6 +717,5 @@ public class DialogSymbolize extends JDialog
 	*/
 	public void setCircuit(DrawingModel p) {
 		this.cp = p;
-	}        
-
+	}
 }

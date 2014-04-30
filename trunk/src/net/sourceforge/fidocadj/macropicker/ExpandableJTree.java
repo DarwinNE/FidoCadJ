@@ -108,7 +108,7 @@ public class ExpandableJTree extends JTree
 			
 			if(nextRow < 0){
 				nextRow = getRowCount();
-				System.out.println(nextRow);
+				//System.out.println(nextRow);
 				continue;
 			} else if(getRowCount() <= nextRow){
 				nextRow = -1;

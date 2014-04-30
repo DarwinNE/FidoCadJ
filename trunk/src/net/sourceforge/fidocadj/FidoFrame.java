@@ -1818,7 +1818,7 @@ public class FidoFrame extends JFrame implements
 	    	
        	// We make the scroll pane show the interesting part of
        	// the drawing.
-       	System.out.println("x: "+m.getXCenter()+"  y: "+m.getYCenter());
+       	//System.out.println("x: "+m.getXCenter()+"  y: "+m.getYCenter());
        	Rectangle r= new Rectangle((int)(m.getXCenter()), 
    			(int)(m.getYCenter()), 
    			SC.getViewport().getExtentSize().width, 
