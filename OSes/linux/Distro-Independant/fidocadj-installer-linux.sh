@@ -6,7 +6,8 @@
 ## FidoCadj installer script             ##
 ## 2012-June-28 by Chokewood             ##
 ## revision 2012/Juli/03                 ##
-##                                       ##
+## revision 2014/April/30                ##
+## 						                 ##
 ###########################################
 
 ## welcome ##
@@ -27,7 +28,7 @@ then
     exit 1
 fi
 if [ `which java |grep -c java` -eq 0 ] 
- then
+then
     echo " "
     echo "   No Java support found!"
     echo "   You need to install Java support first"
@@ -115,35 +116,35 @@ purge_me() {
 
 ## get our docs check if we need french or italian else drop to english
 make_docs() {
-# what language for manuals
-get_lang=`env | egrep 'LC|LANG' | grep _ |cut -c6-7`
-if [ "$get_lang" == "fr" ]
-then 
-  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_fr.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_fr.pdf
-  echo "Your French manual is installed in /usr/share/doc/fidocadj/"
-elif [ "$get_lang" == "it" ]
-then
-  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_it.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_it.pdf
-  echo "Your Italian manual is installed in /usr/share/doc/fidocadj/"
-##
+	# what language for manuals
+	get_lang=`env | egrep 'LC|LANG' | grep _ |cut -c6-7`
+	if [ "$get_lang" == "fr" ]
+	then 
+  		wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_fr.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_fr.pdf
+  		echo "Your French manual is installed in /usr/share/doc/fidocadj/"
+	elif [ "$get_lang" == "it" ]
+	then
+  		wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_it.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_it.pdf
+  		echo "Your Italian manual is installed in /usr/share/doc/fidocadj/"
+	##
 
-#### duplicate and adapt this block for future languages
-#elif [ "$get_lang" == "XX" ]
-#then
-#  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_XX.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_XX.pdf
-#  echo "Your X-Lang manual is installed in /usr/share/doc/fidocadj/"
-####
+	#### duplicate and adapt this block for future languages
+	#elif [ "$get_lang" == "XX" ]
+	#then
+	#  wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_XX.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_XX.pdf
+	#  echo "Your X-Lang manual is installed in /usr/share/doc/fidocadj/"
+	####
 
-##
-else
-  echo "There are no native manuals available, but an english manual is available in /usr/share/doc/fidocadj/"
-fi
+	##
+	else
+  		echo "There are no native manuals available, but an english manual is available in /usr/share/doc/fidocadj/"
+	fi
 
- wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_en.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_en.pdf
+ 	wget -q -O /usr/share/doc/fidocadj/fidocadj_manual_en.pdf http://sourceforge.net/projects/fidocadj/files/manuals/fidocadj_manual_en.pdf
 
-wget -q -O /usr/share/doc/fidocadj/README http://sourceforge.net/projects/fidocadj/files/README
-chown -R 0:0 /usr/share/doc/fidocadj
-chmod 644 /usr/share/doc/fidocadj/*
+	wget -q -O /usr/share/doc/fidocadj/README http://sourceforge.net/projects/fidocadj/files/README
+	chown -R 0:0 /usr/share/doc/fidocadj
+	chmod 644 /usr/share/doc/fidocadj/*
 }
 
 ## Start ##################################
@@ -151,137 +152,174 @@ chmod 644 /usr/share/doc/fidocadj/*
 
 ## run the installer from the switches
 do_install() {
-root_stub
-net_check
+	root_stub
+	net_check
 
-## words of welcome
+	## words of welcome
+   	echo " "
+   	echo "   This script installs the FidoCadJ runtime application and a desktop entry for you"
+   	echo "   You must have a working internet connection up and running in order to fetch the"
+   	echo "   latest files from our project folder on the SourceForge server"
     echo " "
-    echo "   This script installs the FidoCadJ runtime application and a desktop entry for you"
-    echo "   You must have a working internet connection up and running in order to fetch the"
-    echo "   latest files from our project folder on the SourceForge server"
-    echo " "
-read -p "   Do you want to install FidoCadJ on this system? [Y/n] " prompt
-if [ "$prompt" == "n" ] ; then
-   echo "   Aborted..."
-	      exit 0 
-elif [ "$prompt" == "N" ] ; then
-   echo "   Aborted..."
-	      exit 0 
-fi
-echo " "
+	read -p "   Do you want to install FidoCadJ on this system? [Y/n] " prompt
+	if [ "$prompt" == "n" ] 
+	then
+	   echo "   Aborted..."
+	   exit 0 
+	elif [ "$prompt" == "N" ]
+	then
+	   echo "   Aborted..."
+	   exit 0 
+	fi
+	echo " "
 
 
-## Stage1 first we get the jar
-echo "==>   Get the FidoCadJ core"
-make_core
-make_jarinstall
-echo "==>   Get the documents in /usr/share/doc/fidocadj"
-make_docs
-## words of wishdom
+	## Stage1 first we get the jar
+	echo "==>   Get the FidoCadJ core"
+	make_core
+	make_jarinstall
+	echo "==>   Get the documents in /usr/share/doc/fidocadj"
+	make_docs
+	## words of wishdom
     echo " "
-echo "   All done..., The installation of FidoCadJ is now complete Enjoy FidoCadJ..."
-echo "   Start FidoCadJ with command: fidocadj or from your desktop menu"
-echo " "
-echo "   Your mimetype settings may require to re-login, but this is not essential to start working with FidoCadJ"
-echo " "
-echo "   Store this installer on a safe place if you wish to update FidoCadJ in the future "
-echo "   or to completely remove FidoCadJ from your system."
-exit 0
+	echo "   All done..., The installation of FidoCadJ is now complete Enjoy FidoCadJ..."
+	echo "   Start FidoCadJ with command: fidocadj or from your desktop menu"
+	echo " "
+	echo "   Your mimetype settings may require to re-login, but this is not essential to start working with FidoCadJ"
+	echo " "
+	echo "   Store this installer on a safe place if you wish to update FidoCadJ in the future "
+	echo "   or to completely remove FidoCadJ from your system."
+	exit 0
 }
 
 # Oh-Noo, I get zapped
 do_remove() {
-root_stub
+	root_stub
     echo " "
-read -p "   Do you want to uninstall FidoCadJ on this system? [N/y] " prompt
-if [ "$prompt" == "y" ] ; then
-   purge_me
-elif [ "$prompt" == "Y" ] ; then
-   purge_me
-  else
-    echo "   Option '$prompt' is not recognized."
-    echo "   Aborted..."
-    exit 1 
- fi
+	read -p "   Do you want to uninstall FidoCadJ on this system? [N/y] " prompt
+	if [ "$prompt" == "y" ]
+	then
+		purge_me
+	elif [ "$prompt" == "Y" ] ; then
+   		purge_me
+ 	else
+    	echo "   Aborted..."
+    	exit 1 
+ 	fi
 }
 
 # only overwrite the jar, in future release this should also get new manuals 
 do_update() {
-root_stub
-net_check
-      if [ -f /usr/bin/fidocadj  ]
-      then
-	echo "==>   Upgrading /usr/share/java/fidocadj"
-	echo "==>   Fetching the main jar, please wait.... "
-	wget -q -O /usr/share/java/fidocadj/fidocadj.jar http://download.sourceforge.net/fidocadj/files/fidocadj.jar
-	echo " "
-	echo "   All done  " 
-      else
-	echo " "
-	echo "   Error: Use --install option instead, /usr/bin/fidocadj not found.... "
-	echo " "
-	exit 1
-      fi
+	root_stub
+	net_check
+    if [ -f /usr/bin/fidocadj  ]
+    then
+		echo "==>   Upgrading /usr/share/java/fidocadj"
+		echo "==>   Fetching the main jar, please wait.... "
+		wget -q -O /usr/share/java/fidocadj/fidocadj.jar http://download.sourceforge.net/fidocadj/files/fidocadj.jar
+		echo " "
+		echo "   All done  " 
+    else
+		echo " "
+		echo "   Error: Use --install option instead, /usr/bin/fidocadj not found.... "
+		echo " "
+		exit 1
+    fi
+}
+
+do_restore() {
+	root_stub
+	net_check
+    if [ -f /usr/bin/fidocadj  ]
+    then
+		echo "==>   Upgrading /usr/share/java/fidocadj"
+		echo "==>   Fetching the main jar, please wait.... "
+		wget -q -O /usr/share/java/fidocadj/$1.jar https://sourceforge.net/projects/fidocadj/files/Older%20versions/$1/fidocadj.jar
+		if [ $? -eq 0 ]
+		then 
+			rm /usr/share/java/fidocadj/fidocadj.jar
+			mv /usr/share/java/fidocadj/$1.jar /usr/share/java/fidocadj/fidocadj.jar
+			echo " "
+			echo "   All done  "
+		else
+			rm /usr/share/java/fidocadj/$1.jar
+			echo " "
+			echo "   Error: $1 not is a FidoCadj version. "
+		fi 
+    else
+		echo " "
+		echo "   Error: Use --install option instead, /usr/bin/fidocadj not found.... "
+		echo " "
+		exit 1
+    fi
 }
 
 ########################################################################  echo -e "\033[40;1;37m witte reus\033[0m"
 #### SWITCH OPTIONS    ####
 # HELP, as in help, you know --help
 case "$1" in
-        --help )
-    echo " "
-    echo "    Usage: ${0##*/} [Option]"
-    echo " "
-    echo "    This script installs the FidoCadJ runtime application and a desktop entry for you"
-    echo "    You must have a working internet connection up and running in order to fetch the"
-    echo "    latest files from our project folder on the SourceForge server"
-    echo " "	    
-    echo " "
-    echo " 	${0##*/} --install      installs FidoCadJ"
-    echo " 	${0##*/} --uninstall    uninstalls FidoCadJ"
-    echo " 	${0##*/} --update       updates your FidoCadJ jar file"
-    echo " "
-    echo "      Needless to say you must be root to install FidoCadJ..."
-    echo ""
-    echo "   This installer operates on the following directories and files"
-    echo ""
-    echo "   -----------------------------[DIR]------------------------------------"
-    echo "   /usr/share/java/fidocadj/                   Java resources"
-    echo "   /usr/share/fidocadj/                        Common resources"
-    echo "   /usr/share/doc/fidocadj/                    Manuals in pdf"
-    echo "   ----------------------------[FILES]-----------------------------------"
-    echo "   /usr/bin/fidocadj                           Launch script"
-    echo "   /usr/share/applications/fidocadj.desktop    Desktop description file"
-    echo "   /usr/share/pixmaps/fidocadj.png             Icon file (symbolic-link) "
-    echo "   ----------------------------------------------------------------------"
-    echo " "
-    echo "   It also adds mimetype settings for FidoCadJ"
-    echo " "
-    echo "   On uninstall, all these files and mime-entries will be removed"
-    echo " "
-    echo " "
-    exit 0
-   ;;
+    --help )
+    	echo " "
+    	echo "    Usage: ${0##*/} [Option]"
+    	echo " "
+    	echo "    This script installs the FidoCadJ runtime application and a desktop entry for you"
+    	echo "    You must have a working internet connection up and running in order to fetch the"
+    	echo "    latest files from our project folder on the SourceForge server"
+    	echo " "	    
+    	echo " "
+    	echo " 	${0##*/} --install      	   installs FidoCadJ"
+    	echo " 	${0##*/} --uninstall    	   uninstalls FidoCadJ"
+    	echo " 	${0##*/} --update       	   updates your FidoCadJ jar file"
+    	echo " 	${0##*/} --resore [VERSION]     restore your FidoCadJ jar file to an old version"
+    	echo " "
+    	echo "      Needless to say you must be root to install FidoCadJ..."
+    	echo ""
+    	echo "   This installer operates on the following directories and files"
+    	echo ""
+    	echo "   -----------------------------[DIR]------------------------------------"
+    	echo "   /usr/share/java/fidocadj/                   Java resources"
+    	echo "   /usr/share/fidocadj/                        Common resources"
+    	echo "   /usr/share/doc/fidocadj/                    Manuals in pdf"
+    	echo "   ----------------------------[FILES]-----------------------------------"
+    	echo "   /usr/bin/fidocadj                           Launch script"
+    	echo "   /usr/share/applications/fidocadj.desktop    Desktop description file"
+    	echo "   /usr/share/pixmaps/fidocadj.png             Icon file (symbolic-link) "
+    	echo "   ----------------------------------------------------------------------"
+    	echo " "
+    	echo "   It also adds mimetype settings for FidoCadJ"
+    	echo " "
+    	echo "   On uninstall, all these files and mime-entries will be removed"
+    	echo " "
+    	echo " "
+    	exit 0
+	  ;;
  
 	--install )
-	      do_install
-	      exit 0
+	    do_install
+	    exit 0
 	  ;;
 
-        --uninstall )
-	      do_remove
-	      exit 0
-	    ;;
+    --uninstall )
+		do_remove
+	    exit 0
+	  ;;
 
-	 --update )
-	      do_update
-	      exit 0
-	    ;;
+	--update )
+		do_update
+	    exit 0
+	  ;;
 
-*) echo " "
-   echo "   Error: Switch $1 is not processed..."
-   echo " "
-   ;;
+	--restore )
+		do_restore $2
+		exit 0
+	  ;;
+
+	*) 
+		echo " "
+	   	echo "   Error: Switch $1 is not processed..."
+   		echo " "
+   	  ;;
 esac           
 
+exit 0
 ########################################################################
