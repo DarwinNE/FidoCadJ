@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>fcd</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>icona_file_fidocad.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>FidoCadJ document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+	</array>
+	
 <key>CFBundleDevelopmentRegion</key>
 <string>English</string>
 <key>CFBundleExecutable</key>
@@ -31,6 +47,7 @@
 <key>JVMOptions</key>
 <array>
 <string>-Dapple.laf.useScreenMenuBar=true</string>
+<string>-Xdock:name=FidoCadJ</string>
 </array>
 <key>JVMArguments</key>
 <array>
