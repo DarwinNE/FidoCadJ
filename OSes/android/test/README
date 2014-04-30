@@ -10,11 +10,7 @@ Those files are present in the source arborescence by means of symbolic links.
 So, please use a decent operating system allowing you to use symbolic links for
 files, if you want to contribute to the coding.
 You may also notice that in some case different files with the same name and
-package are present for the Swing version and the Android version: 
-
-graphic.nil.*
-layers.StandardLayers
-
+package are present for the Swing version and the Android version.
 This is because those files need some version-specific features.
 
 --------------
