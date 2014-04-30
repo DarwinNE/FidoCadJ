@@ -768,10 +768,8 @@ public class MacroTree extends JPanel
             	} else {
                 	setIcon(icon);
             	}
-            } else {
-            	return null;
             }
-
+            
             return this;
         }
     }
