@@ -83,7 +83,6 @@ make_jarinstall() {
 
 ## make the core
 make_core() {
-
 	mkdir -p /usr/share/fidocadj/
 	mkdir -p /usr/share/doc/fidocadj/
 	mkdir -p /usr/share/java/fidocadj/
@@ -270,7 +269,7 @@ case "$1" in
     	echo " 	${0##*/} --install      	   installs FidoCadJ"
     	echo " 	${0##*/} --uninstall    	   uninstalls FidoCadJ"
     	echo " 	${0##*/} --update       	   updates your FidoCadJ jar file"
-    	echo " 	${0##*/} --resore [VERSION]     restore your FidoCadJ jar file to an old version"
+    	echo " 	${0##*/} --restore [VERSION]     restore your FidoCadJ jar file to an old version"
     	echo " "
     	echo "      Needless to say you must be root to install FidoCadJ..."
     	echo ""
