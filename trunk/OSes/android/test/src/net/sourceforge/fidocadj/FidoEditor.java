@@ -78,8 +78,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private int rulerEndX;
     private int rulerEndY;       
     
-		// ********** TOUCH HANDLING **********
-
     private int mx;
     private int my;
     private int oldDist;
@@ -270,20 +268,36 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	        invalidate();
 	    }
     	
-	    if (eea.getSelectionState() == ElementsEdtActions.HAND )
+	    if (eea.getSelectionState() == ElementsEdtActions.NONE )
 	    {
-	    	//Handle Scrolling events
+	    	//Handle Scrolling and zooming events
 	        switch (action) {
 	            case MotionEvent.ACTION_DOWN:
 	                mx = (int)event.getX();
 	                my = (int)event.getY();
 	                break;
+	            case MotionEvent.ACTION_POINTER_DOWN:
+	            	oldDist = spacing(event);
+	            	break;
 	            case MotionEvent.ACTION_MOVE:
-	                curX = (int)event.getX();
-	                curY = (int)event.getY();
-	                scrollBy((mx - curX), (my - curY));
-	                mx = curX;
-	                my = curY;
+	                if(event.getPointerCount() == 2) {
+	            		newDist = spacing(event);
+	            		double scale = newDist / oldDist;
+	            		scale = Math.min(1.11, scale);
+	            		scale = Math.max(1/1.11, scale);
+	            		if( scale*cs.getXMagnitude() < 6 && 
+	            				scale*cs.getXMagnitude() > 0.36 ) {
+	            			cs.setXMagnitude(scale*cs.getXMagnitude());
+	            			cs.setYMagnitude(scale*cs.getYMagnitude());
+	            			invalidate();
+	            		}
+	                } else {
+	                	curX = (int)event.getX();
+		                curY = (int)event.getY();
+		                scrollBy((mx - curX), (my - curY));
+		                mx = curX;
+		                my = curY;
+	                }
 	                break;
 	            case MotionEvent.ACTION_UP: 
 	            	int deltaX = (int)(getScrollX()/cs.getXMagnitude());
@@ -295,33 +309,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	            default:
 	            	break;
 	        }
-	    }
-	    //multi touch zoom solution
-	    if (eea.getSelectionState() == ElementsEdtActions.ZOOM )
-	    {   	
-	    	//Handle zoom events
-	        switch (action) {
-	            case MotionEvent.ACTION_POINTER_DOWN:
-	            	oldDist = spacing(event);
-	            	break;
-	            case MotionEvent.ACTION_MOVE:
-	            	if(event.getPointerCount() == 2) {
-	            		newDist = spacing(event);
-	            		double scale = newDist / oldDist;
-	            		scale = Math.min(1.33, scale);
-	            		scale = Math.max(1/1.33, scale);
-	            		if( scale*cs.getXMagnitude() < 6 && 
-	            				scale*cs.getXMagnitude() > 0.36 ) {
-	            			cs.setXMagnitude(scale*cs.getXMagnitude());
-	            			cs.setYMagnitude(scale*cs.getYMagnitude());
-	            			invalidate();
-	            		}
-	            	}
-	            	break;
-	            default:
-	            	break;
-	        }
-	        
 	    }
     	return true;		
     }
@@ -336,6 +323,18 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	int dist = (int) Math.sqrt(x * x + y * y);
     	return dist;
     }
+    
+  /*  private PointG middlePoint(MotionEvent event)
+    {
+    	PointG p = new PointG();
+    	p.x = (int)(event.getX(0) - event.getX(1)) / 2;
+    	p.y = (int)(event.getY(0) - event.getY(1)) / 2;
+    	int deltaX = (int)(getScrollX()/cs.getXMagnitude());
+    	int deltaY = (int)(getScrollY()/cs.getYMagnitude());
+    	p.x += deltaX;	
+    	p.y += deltaY;
+    	return p;
+    }*/
     
     /** Inform Android's operating system of the size of the view.
     */
@@ -779,4 +778,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
+
+
+
 

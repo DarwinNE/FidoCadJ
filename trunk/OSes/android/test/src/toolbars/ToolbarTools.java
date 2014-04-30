@@ -57,6 +57,7 @@ public class ToolbarTools
 	public void activateListeners(Activity aa, ElementsEdtActions ee)
 	{
 		eea=ee;
+		eea.setActionSelected(ElementsEdtActions.NONE);
 		getButtons(aa);
 		
 		// Quite boring, but easy code. Each listener blanks the state
@@ -66,106 +67,132 @@ public class ToolbarTools
 			@Override
 			public void onClick(View v) {
 				resetButtons(selection);
-				selection.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.SELECTION);
+				if(!selection.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.SELECTION);	
 			}
 		});
 		line.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(line);
-				line.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.LINE);
+				if(!line.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.LINE);
 			}
 		});
 		advtext.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(advtext);
-				advtext.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.TEXT);
+				if(!advtext.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.TEXT);
 			}
 		});
 		bezier.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(bezier);
-				bezier.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.BEZIER);
-			}
+				if(!bezier.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.BEZIER);
+			}	
 		});
 		polygon.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(polygon);
-				polygon.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.POLYGON);
+				if(!polygon.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.POLYGON);
 			}
 		});
 		complexcurve.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(complexcurve);
-				complexcurve.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.COMPLEXCURVE);
+				if(!complexcurve.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.COMPLEXCURVE);
 			}
 		});
 		ellipse.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(ellipse);
-				ellipse.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.ELLIPSE);
+				if(!ellipse.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.ELLIPSE);
 			}
 		});
 		rectangle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(rectangle);
-				rectangle.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.RECTANGLE);
+				if(!rectangle.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.RECTANGLE);
 			}
 		});
 		connection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(connection);
-				connection.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.CONNECTION);
+				if(!connection.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.CONNECTION);
 			}
 		});
 		pcbline.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(pcbline);
-				pcbline.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.PCB_LINE);
+				if(!pcbline.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.PCB_LINE);
 			}
 		});
 		pcbpad.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(pcbpad);
-				pcbpad.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.PCB_PAD);
+				if(!pcbpad.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.PCB_PAD);
 			}
 		});
-		hand.setOnClickListener(new OnClickListener() {
+	/*	hand.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(hand);
-				hand.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.HAND);
+				if(!hand.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.HAND);
 			}
 		});
 		zoom.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(zoom);
-				zoom.setChecked(true);
-				eea.setActionSelected(ElementsEdtActions.ZOOM);
+				if(!zoom.isChecked())
+					eea.setActionSelected(ElementsEdtActions.NONE);
+				else
+					eea.setActionSelected(ElementsEdtActions.ZOOM);
 			}
-		});
+		});*/
 	}
 	
 	/** Reset the state of all buttons, except the one specified.
@@ -185,8 +212,10 @@ public class ToolbarTools
 		if(!connection.equals(exc))   connection.setChecked(false);
 		if(!pcbline.equals(exc))      pcbline.setChecked(false);
 		if(!pcbpad.equals(exc))       pcbpad.setChecked(false);
-		if(!hand.equals(exc))         hand.setChecked(false);
-		if(!zoom.equals(exc))		  zoom.setChecked(false);
+		//if(!hand.equals(exc))         hand.setChecked(false);
+		//if(!zoom.equals(exc))		  zoom.setChecked(false);
+		
+		eea.setActionSelected(ElementsEdtActions.NONE);
 	}
 	
 	/** Associate all the ToggleButtons present in the resources to internal
@@ -206,8 +235,9 @@ public class ToolbarTools
 		connection = (ToggleButton) aa.findViewById(R.id.connection);
 		pcbline = (ToggleButton) aa.findViewById(R.id.pcbline);
 		pcbpad = (ToggleButton) aa.findViewById(R.id.pcbpad);
-		hand = (ToggleButton) aa.findViewById(R.id.hand);
-		zoom = (ToggleButton) aa.findViewById(R.id.zoom);
+		//hand = (ToggleButton) aa.findViewById(R.id.hand);
+		//zoom = (ToggleButton) aa.findViewById(R.id.zoom);
 	}
 }
+
 
