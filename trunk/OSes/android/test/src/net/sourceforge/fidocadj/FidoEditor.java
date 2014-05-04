@@ -8,10 +8,8 @@ import android.view.View;
 import android.graphics.*;
 import android.content.*;
 import android.view.*;
-import android.widget.Toast;
 import android.graphics.Paint.*;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.os.Handler;
 import android.app.Activity;
 import circuit.model.*;
@@ -19,7 +17,6 @@ import primitives.*;
 import geom.*;
 import circuit.views.*;
 import circuit.controllers.*;
-import graphic.PointG;
 import graphic.android.*;
 import layers.*;
 import dialogs.*;
@@ -105,7 +102,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private void init()
     {
         Vector<LayerDesc> layerDesc = StandardLayers.createStandardLayers();
-        
+        this.setMeasuredDimension(this.desiredWidth, this.desiredHeight);
         dm = new DrawingModel();
         dd = new Drawing(dm);
            
@@ -153,7 +150,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		cs.setYMagnitude(3);
 		cs.setXGridStep(5);
 		cs.setYGridStep(5);
-		
+
 		// Courier New is the standard on PC, but it is not available on 
 		// Android. Here the system will find a substitute.
         dm.setTextFont("Courier New", 3, null);
@@ -227,12 +224,24 @@ public class FidoEditor extends View implements PrimitivesParInterface
         eea.showClicks(g, cs);
     }
     
+    @Override
+    protected void onScrollChanged(int x, int y, int oldx, int oldy) 
+    {
+    	super.onScrollChanged(x, y, oldx, oldy);
+        if(x < 0)	
+        	scrollBy(-x,0);
+        else if(y < 0)	
+        	scrollBy(0,-y);
+        else
+        	scrollBy(0,0);
+    }
+    
     /** Reacts to a touch event. In reality, since we need to handle a variety
     	of different events, there is somehow a mix between the low level
     	onTouchEvent and the GestureListener (which does not handle slide and
-    	move events).
+    	move events). 
     */
-    @Override
+    @Override 
     public boolean onTouchEvent(MotionEvent event)
     {
     	gestureDetector.onTouchEvent(event);
@@ -242,8 +251,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	
     	int action = event.getAction() & MotionEvent.ACTION_MASK;
     	int curX, curY;
-    	int height = getMeasuredHeight();
-    	int width =getMeasuredWidth();
     	
     	if( eea.getSelectionState() == ElementsEdtActions.SELECTION ) 
 		{
@@ -292,19 +299,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	            			invalidate();
 	            		}
 	                } else {
-	                	curX = (int)event.getX();
-		                curY = (int)event.getY();
-		                scrollBy((mx - curX), (my - curY));
+                		curX = (int)event.getX();
+	                	curY = (int)event.getY();
+			            scrollBy((mx - curX), (my - curY));
 		                mx = curX;
 		                my = curY;
 	                }
-	                break;
-	            case MotionEvent.ACTION_UP: 
-	            	int deltaX = (int)(getScrollX()/cs.getXMagnitude());
-	            	int deltaY = (int)(getScrollY()/cs.getYMagnitude());
-	                if(!(deltaX <= width && deltaY <= height
-	                		&& deltaX >= 0 && deltaY >= 0))
-	                	scrollTo(0, 0);  
 	                break;
 	            default:
 	            	break;
@@ -778,6 +778,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
 
 
 
