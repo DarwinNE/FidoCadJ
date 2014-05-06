@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -303,7 +304,6 @@ public class DialogParameters extends DialogFragment
 				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
 				spv[sc].setMinimumWidth(MAX);
-				
 				vh.addView(spv[sc++]);
 		    
 			} else if (pd.parameter instanceof ArrowInfo) {
@@ -315,15 +315,14 @@ public class DialogParameters extends DialogFragment
 				l.add(new ArrowInfo(2));
 				l.add(new ArrowInfo(3));
 				
-				//TODO: customize the Arrayadapter.
-				ArrayAdapter<ArrowInfo> adapter = new ArrayAdapter<ArrowInfo>(
-						context, android.R.layout.simple_spinner_item, l);
+				ArrowSpinnerAdapter adapter = new ArrowSpinnerAdapter(
+						context, R.layout.arrow_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundColor(background);
 				spv[sc].setSelection(((ArrowInfo) pd.parameter).style);
 				spv[sc].setMinimumWidth(MAX);
-				
+				spv[sc].setLayoutParams(new LayoutParams(MAX,60));
 				vh.addView(spv[sc++]);
 				
 			} else if (pd.parameter instanceof DashInfo) {
@@ -502,6 +501,45 @@ public class DialogParameters extends DialogFragment
             return row;
         }
     }
+    
+  //Customized item for the arrow spinner.
+    private class ArrowSpinnerAdapter extends ArrayAdapter<ArrowInfo>
+    {
+    	private Context context;
+    	private List<ArrowInfo> info;
+    	
+    	public ArrowSpinnerAdapter(Context context, int textViewResourceId, 
+    			List<ArrowInfo> info) 
+    	{
+    		super(context, textViewResourceId, info);
+    		this.context = context;
+    		this.info = info;
+    	}
 
+    	@Override
+    	public View getView(int position, View convertView, ViewGroup parent) 
+    	{
+    		return getCustomView(position, convertView, parent);
+        }
+    	
+    	@Override
+        public View getDropDownView(int position, 
+								View convertView, ViewGroup parent){
+        	return getCustomView(position, convertView, parent);
+        }
+        
+        public View getCustomView(int position, 
+								View convertView, ViewGroup parent) { 
+        	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+    		LinearLayout row = (LinearLayout)inflater.
+				inflate(R.layout.arrow_spinner_item, parent, false);
+        	CellArrow ca = new CellArrow(context);
+        	ca.setStyle(info.get(position));
+    		row.addView(ca);
+    		
+            return row;
+        }
+    }
 }
+
 
