@@ -291,6 +291,8 @@ public class LibraryModel
         newMacro = copyMacro(macro,destCategory);
         synchronizeMacros(destCategory.getParentLibrary());
         synchronizeMasterLibrary();
+        save();
+        saveLibraryState();        
         fireAdded(destCategory,newMacro);
     }
 
