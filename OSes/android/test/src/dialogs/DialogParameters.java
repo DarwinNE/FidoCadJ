@@ -58,8 +58,13 @@ public class DialogParameters extends DialogFragment
 	private static boolean strict;
 	private static Vector<LayerDesc> layers;
 	
-	private static final int MAX = 400;
-	
+	//TODO: set in function of the screen size and density
+	int fieldWidth = 400;
+    int fieldHeight = 80;
+    int dialogWidth;
+    int dialogHeight;
+    //****//
+    
 	private static final int BORDER = 30;
 	private static final int MAX_LEN = 200;
 	// Maximum number of user interface elements of the same type present
@@ -193,7 +198,7 @@ public class DialogParameters extends DialogFragment
 			vh.setGravity(Gravity.FILL_HORIZONTAL);
 			vh.setGravity(Gravity.RIGHT);
 			
-			int background = Color.GREEN;
+			
 			
 			if (!(pd.parameter instanceof Boolean))
 				vh.addView(lab);
@@ -203,11 +208,11 @@ public class DialogParameters extends DialogFragment
 			if (pd.parameter instanceof PointG) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(background);
+				etv[ec].setBackgroundResource(R.drawable.field_background);
 				Integer x = Integer.valueOf(((PointG) (pd.parameter)).x);
 				etv[ec].setText(x.toString());
 				etv[ec].setMaxWidth(MAX_LEN);
-				etv[ec].setMinimumWidth(MAX/2);
+				etv[ec].setLayoutParams(new LayoutParams(fieldWidth/2,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
 				
@@ -217,9 +222,9 @@ public class DialogParameters extends DialogFragment
 				Integer y = Integer.valueOf(((PointG) (pd.parameter)).y);
 				etv[ec].setText(y.toString());
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(background);
+				etv[ec].setBackgroundResource(R.drawable.field_background);
 				etv[ec].setMaxWidth(MAX_LEN);
-				etv[ec].setMinimumWidth(MAX/2);
+				etv[ec].setLayoutParams(new LayoutParams(fieldWidth/2,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
 				
@@ -229,10 +234,10 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setGravity(Gravity.FILL_HORIZONTAL|
 					Gravity.CENTER_HORIZONTAL);
-				etv[ec].setBackgroundColor(background);
+				etv[ec].setBackgroundResource(R.drawable.field_background);
 				etv[ec].setText((String) (pd.parameter));
 				etv[ec].setMaxWidth(MAX_LEN);
-				etv[ec].setMinimumWidth(MAX);
+				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				
 				// If we have a String text field in the first position, its
@@ -246,7 +251,7 @@ public class DialogParameters extends DialogFragment
 				cbv[cc] = new CheckBox(context);
 				cbv[cc].setText(pd.description);
 				cbv[cc].setTextColor(Color.BLACK);
-				cbv[cc].setMinimumWidth(MAX);
+				cbv[cc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
 				
 				vh.setGravity(Gravity.RIGHT);
@@ -255,10 +260,10 @@ public class DialogParameters extends DialogFragment
 			} else if (pd.parameter instanceof Integer) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(background);
+				etv[ec].setBackgroundResource(R.drawable.field_background);
 				etv[ec].setText(((Integer) pd.parameter).toString());
 				etv[ec].setMaxWidth(MAX_LEN);
-				etv[ec].setMinimumWidth(MAX);
+				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
 				
@@ -267,11 +272,11 @@ public class DialogParameters extends DialogFragment
 
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
-				etv[ec].setBackgroundColor(background);
+				etv[ec].setBackgroundResource(R.drawable.field_background);
 				int dummy = java.lang.Math.round((Float) pd.parameter);
 				etv[ec].setText("  "+dummy);
 				etv[ec].setMaxWidth(MAX_LEN);
-				etv[ec].setMinimumWidth(MAX);
+				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				
 				vh.addView(etv[ec++]);
@@ -283,8 +288,8 @@ public class DialogParameters extends DialogFragment
 				ArrayAdapter<String> adapter = new ArrayAdapter<String> (
 						context, android.R.layout.simple_spinner_item , s);
 				spv[sc].setAdapter(adapter);
-				spv[sc].setBackgroundColor(background);
-				spv[sc].setMinimumWidth(MAX);
+				spv[sc].setBackgroundResource(R.drawable.field_background);
+				spv[sc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				
 				for (int i = 0; i < s.length; ++i) {
 					if (s[i].equals(((FontG) pd.parameter).getFamily()))
@@ -301,9 +306,9 @@ public class DialogParameters extends DialogFragment
 						R.layout.layer_spinner_item, layers);
 				
 				spv[sc].setAdapter(adapter);
-				spv[sc].setBackgroundColor(background);
+				spv[sc].setBackgroundResource(R.drawable.field_background);
 				spv[sc].setSelection(((LayerInfo) pd.parameter).layer);
-				spv[sc].setMinimumWidth(MAX);
+				spv[sc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				vh.addView(spv[sc++]);
 		    
 			} else if (pd.parameter instanceof ArrowInfo) {
@@ -319,10 +324,9 @@ public class DialogParameters extends DialogFragment
 						context, R.layout.arrow_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
-				spv[sc].setBackgroundColor(background);
+				spv[sc].setBackgroundResource(R.drawable.field_background);
 				spv[sc].setSelection(((ArrowInfo) pd.parameter).style);
-				spv[sc].setMinimumWidth(MAX);
-				spv[sc].setLayoutParams(new LayoutParams(MAX,60));
+				spv[sc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				vh.addView(spv[sc++]);
 				
 			} else if (pd.parameter instanceof DashInfo) {
@@ -336,9 +340,9 @@ public class DialogParameters extends DialogFragment
 						context, android.R.layout.simple_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
-				spv[sc].setBackgroundColor(background);
+				spv[sc].setBackgroundResource(R.drawable.field_background);
 				spv[sc].setSelection(((DashInfo) pd.parameter).style);
-				spv[sc].setMinimumWidth(MAX);
+				spv[sc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				
 				vh.addView(spv[sc++]);
 			}
@@ -368,8 +372,7 @@ public class DialogParameters extends DialogFragment
 					// update the contents of the parameter description array.
 
 					for (ycount = 0; ycount < vec.size(); ++ycount) {
-						if (ycount > MAX)
-							break;
+
 						pd = (ParameterDescription) vec.elementAt(ycount);
 
 						if (pd.parameter instanceof Point) {
@@ -488,7 +491,7 @@ public class DialogParameters extends DialogFragment
         	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
     		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
     						false);
-    		row.setBackgroundColor(Color.GREEN);
+    		row.setBackgroundColor(Color.WHITE);
     		
     		SurfaceView sv = (SurfaceView) row.findViewById(R.id.surface_view);
     		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
@@ -496,7 +499,7 @@ public class DialogParameters extends DialogFragment
     		TextView v = (TextView) row.findViewById(R.id.name_item);
             v.setText(layers.get(position).getDescription());
             v.setTextColor(Color.BLACK);
-            v.setBackgroundColor(Color.GREEN);
+            v.setBackgroundColor(Color.WHITE);
             
             return row;
         }
@@ -541,5 +544,6 @@ public class DialogParameters extends DialogFragment
         }
     }
 }
+
 
 
