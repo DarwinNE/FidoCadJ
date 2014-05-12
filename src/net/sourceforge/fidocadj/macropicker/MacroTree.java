@@ -475,6 +475,7 @@ public class MacroTree extends JPanel
             {
                 MacroDesc md;
                 md = macroTreeModel.getMacro(e.getPath());
+                
 
                 if(md!=null) {
                     previewPanel.setCirc(new StringBuffer(md.description));

@@ -427,6 +427,9 @@ public final class ExportGraphic
 			z=MapCoordinates.MIN_MAGNITUDE;
 		
 		newZoom.setMagnitudes(z,z);
+		// The zoom setting might have been rounded, or bounded.
+		z = newZoom.getYMagnitude();
+		
 		newZoom.setXCenter(org.x*z);
 		newZoom.setYCenter(org.y*z);
 	
