@@ -1,3 +1,7 @@
+Version 0.24.5
+--------------
+- Solved bug #56 (some components do not appear in the preview).
+
 Version 0.24.4
 --------------
 - Complete reorganization of the source code, to improve readability as well as modularity.

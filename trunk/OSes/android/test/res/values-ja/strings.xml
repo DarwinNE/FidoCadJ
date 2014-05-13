@@ -103,7 +103,7 @@
 	<string name="Zoom_fit">フィット表示</string>
 	<string name="Zoom">拡大:</string>
 	<string name="Anti_al">アンチエイリアス</string>
-	<string name="Profile">アクティブなプロファイル</string>
+	<string name="Profile">プロファイラを有効にする</string>
 	<string name="Grid_width">グリッド幅:</string>
 	<string name="lib_dir">ライブラリのディレクトリ:</string>
 	<string name="Select_lib_directory">ライブラリのディレクトリを選択して下さい.</string>
@@ -217,6 +217,16 @@
 	<string name="Save_split">非標準マクロを分離して保存</string>
 	<string name="Font_size_invalid">フォントサイズは正の値でなければなりません.</string>
 	<string name="lib_in_dir">ディレクトリ内のライブラリ:</string>
-	<string name="Origin">Origin</string>
-	<string name="Choose_browser">Choose the browser</string>
+	<string name="Origin">原点</string>
+	<string name="Choose_browser">ブラウザ選択</string>
+	<string name="remove_library_confirm">Really remove library</string>
+	<string name="remove_library">Remove library</string>
+	<string name="error">Error...</string>
+	<string name="remove_category_confirm">Really remove category</string>
+	<string name="remove_category">Remove category</string>
+	<string name="remove_macro_confirm">Really remove macro</string>
+	<string name="remove_macro">Remove macro</string>
+	<string name="new_macro_name">Please input new macro name.</string>
+	<string name="new_category_name">Please input new category name.</string>
+	<string name="new_library_name">Please input new library name.</string>
 </resources>

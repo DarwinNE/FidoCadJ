@@ -217,6 +217,16 @@
 	<string name="Save_split">Guarda y divide los símbulos no estándar.</string>
 	<string name="Font_size_invalid">El tamaño de las letras del texto asociado a los elementos gráficos debe ser positivo.</string>
 	<string name="lib_in_dir">Librerías en el directorio.</string>
-	<string name="Origin">Origin</string>
-	<string name="Choose_browser">Choose the browser</string>
+	<string name="Origin">Origen</string>
+	<string name="Choose_browser">Eliga el navegador web</string>
+	<string name="remove_library_confirm">Remover completamente la librería</string>
+	<string name="remove_library">Remover una librería</string>
+	<string name="error">Error...</string>
+	<string name="remove_category_confirm">¿Estás seguro de que realmente quieres remover la librería?</string>
+	<string name="remove_category">Remover categoría</string>
+	<string name="remove_macro_confirm">Remover completamente una macro</string>
+	<string name="remove_macro">Remover una macro</string>
+	<string name="new_macro_name">Por favor, introduzca un nombre para la macro</string>
+	<string name="new_category_name">Por favor, introduzca un nombre para la categoría</string>
+	<string name="new_library_name">Por favor, introduzca un nombre para la librería</string>
 </resources>
