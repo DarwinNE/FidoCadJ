@@ -217,6 +217,16 @@
 	<string name="Save_split">Uložit, rozdělit nestandardní makra</string>
 	<string name="Font_size_invalid">Velikost písma přiřazeného grafickým prvkům by měla být kladná.</string>
 	<string name="lib_in_dir">Knihovny v adresáři</string>
-	<string name="Origin">Origin</string>
-	<string name="Choose_browser">Choose the browser</string>
+	<string name="Origin">Počátek</string>
+	<string name="Choose_browser">Výběr prohlížeče</string>
+	<string name="remove_library_confirm">Opravdu odstranit knihovnu</string>
+	<string name="remove_library">Odstranit knihovnu</string>
+	<string name="error">Chyba...</string>
+	<string name="remove_category_confirm">Opravdu odstranit kategorii</string>
+	<string name="remove_category">Odstranit kategorii</string>
+	<string name="remove_macro_confirm">Opravdu odstranit makro</string>
+	<string name="remove_macro">Odstranit makro</string>
+	<string name="new_macro_name">Prosím vložte nové jméno makra.</string>
+	<string name="new_category_name">Prosím vložte nové jméno kategorie.</string>
+	<string name="new_library_name">Prosím vložte nové jméno knihovny.</string>
 </resources>

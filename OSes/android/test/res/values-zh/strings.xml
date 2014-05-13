@@ -219,4 +219,14 @@
 	<string name="lib_in_dir">Libraries in directory</string>
 	<string name="Origin">Origin</string>
 	<string name="Choose_browser">Choose the browser</string>
+	<string name="remove_library_confirm">Really remove library</string>
+	<string name="remove_library">Remove library</string>
+	<string name="error">Error...</string>
+	<string name="remove_category_confirm">Really remove category</string>
+	<string name="remove_category">Remove category</string>
+	<string name="remove_macro_confirm">Really remove macro</string>
+	<string name="remove_macro">Remove macro</string>
+	<string name="new_macro_name">Please input new macro name.</string>
+	<string name="new_category_name">Please input new category name.</string>
+	<string name="new_library_name">Please input new library name.</string>
 </resources>

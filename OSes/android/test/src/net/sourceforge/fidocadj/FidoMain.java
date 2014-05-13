@@ -13,6 +13,9 @@ import android.view.ContextMenu.*;
 import android.content.*;
 import android.hardware.*;
 import android.widget.ExpandableListView;
+import android.widget.ArrayAdapter;
+
+import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.AdapterView.*;
 
@@ -36,16 +39,21 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	/* Gyroscope gestures */
 	private SensorManager mSensorManager;
   	private Sensor mAccelerometer;
-  	float averagedAngleSpeedX;
-	float averagedAngleSpeedY;
-	float averagedAngleSpeedZ;
-	long holdoff;
-	List<Category> globalList;
+  	private float averagedAngleSpeedX;
+	private float averagedAngleSpeedY;
+	private float averagedAngleSpeedZ;
+	private long holdoff;
 	
-	ExpandableMacroListView listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader1;
-    HashMap<String, HashMap<String, List<String>>> listDataHeader2;
+	/* Loaded libraries and information */
+	private List<Category> globalList;
+	private List<Library> libsList;
+	private int currentLib;
+	
+	private Spinner librarySpinner;
+	private ExpandableMacroListView listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listDataHeader;
+    private HashMap<String, HashMap<String, List<String>>> listDataHeader2;
 
     HashMap<String, List<String>> listDataChild;
 	
@@ -72,7 +80,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         prepareListData(new LibraryModel(drawingPanel.getDrawingModel()));
  
         listAdapter = new ExpandableMacroListView(this, 
-        	listDataHeader1, listDataChild);
+        	listDataHeader, listDataChild);
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -96,6 +104,48 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         		 	return true;
         		 }
         	});
+        
+        librarySpinner =  (Spinner)findViewById(R.id.librarySpinner);
+        
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this,
+        	android.R.layout.simple_spinner_item, libsList);
+        librarySpinner.setAdapter(spinnerAdapter);
+        librarySpinner.setOnItemSelectedListener(
+        	new OnItemSelectedListener() {
+    			@Override
+   				public void onItemSelected(AdapterView<?> parentView, 
+   				 	View selectedItemView, int position, long id) 
+   				{
+   					listDataHeader.clear();
+        			listDataChild.clear();
+        			globalList.clear();
+
+        			currentLib=position;
+        			Library l = libsList.get(position);
+        			
+   					List<Category>catList = l.getAllCategories();
+        			for(Category c : catList) {
+        				listDataHeader.add(c.getName());
+						List<String> ts = new ArrayList<String>();
+        				List<MacroDesc> macroList = c.getAllMacros();
+        				for(MacroDesc m : macroList) {
+        					ts.add(m.name);
+        				}
+	        			listDataChild.put(c.getName(), ts);
+	        			globalList.add(c);
+        			}
+        			listAdapter.notifyDataSetChanged();   					
+    			}
+    			
+    			@Override
+    			public void onNothingSelected(AdapterView<?> parentView)
+    			{
+    				listDataChild.clear();
+        			listAdapter.notifyDataSetChanged(); 
+    			}
+    		});
+        
+        
         
         // TODO: this is method which works well, but it is discouraged by
         // modern Android APIs. It requires to redo the parsing, which for 
@@ -125,16 +175,17 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
      */
     private void prepareListData(LibraryModel lib) 
     {
-        listDataHeader1 = new ArrayList<String>();
+        listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
+        globalList=new ArrayList<Category>();
         
         // Adding child data
-        List<Library> libsList = lib.getAllLibraries();
-        globalList=new ArrayList<Category>();
-        for(Library l : libsList) {
+        libsList = lib.getAllLibraries();
+        
+        for(Library l : libsList) {        	
         	List<Category>catList = l.getAllCategories();
-        	for(Category c : catList) {
-        		listDataHeader1.add(c.getName());
+       /* 	for(Category c : catList) {
+        		listDataHeader.add(c.getName());
 				List<String> ts = new ArrayList<String>();
         		List<MacroDesc> macroList = c.getAllMacros();
         		for(MacroDesc m : macroList) {
@@ -142,7 +193,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         		}
         		listDataChild.put(c.getName(), ts);
         	}
-        	globalList.addAll(catList);
+        	globalList.addAll(catList);*/
         }
     }
     

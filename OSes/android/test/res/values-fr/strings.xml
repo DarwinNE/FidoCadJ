@@ -110,7 +110,7 @@
 	<string name="Format_invalid">Je ne peux pas lire un des numéros saisis.</string>
 	<string name="TextToolbar">Montrer le texte dans les boutons de la barre des outils</string>
 	<string name="SmallIcons">Utiliser des petites icônes dans la barre des outils</string>
-	<string name="strict_FC_comp">Modalité de compatibilité avec FidoCad</string>
+	<string name="strict_FC_comp">Modalité de compatibilité avec FidoCAD</string>
 	<string name="extFCJ_s">Activer extensions FidoCadJ pendant le sauvetage de fichier</string>
 	<string name="extFCJ_c">Activer extensions FidoCadJ pendant la copie d\'éléments</string>
 	<string name="Restart">Démarrage</string>
@@ -155,7 +155,7 @@
 	<string name="About_menu">Informations sur FidoCadJ</string>
 	<string name="About">Informations</string>
 	<string name="Version"></string>
-	<string name="programDescription1">Un éditeur FidoCad multiplateforme.</string>
+	<string name="programDescription1">Un éditeur FidoCAD multiplateforme.</string>
 	<string name="programDescription2">The FidoCadJ team, 2007-2014.</string>
 	<string name="programDescription3"></string>
 	<string name="ExportOptions">Options d\'exportation :</string>
@@ -219,4 +219,14 @@
 	<string name="lib_in_dir">Bibliothèques dans le répertoire</string>
 	<string name="Origin">Origine</string>
 	<string name="Choose_browser">Choisir le navigateur</string>
+	<string name="remove_library_confirm">Eliminer la bibliothèque</string>
+	<string name="remove_library">Eliminer la bibliothèque</string>
+	<string name="error">Un problème est survenu...</string>
+	<string name="remove_category_confirm">Eliminer le groupe</string>
+	<string name="remove_category">Eliminer le groupe</string>
+	<string name="remove_macro_confirm">Eliminer le symbole</string>
+	<string name="remove_macro">Eliminer le symbole</string>
+	<string name="new_macro_name">Insérer le nouveau nom pour le symbole.</string>
+	<string name="new_category_name">Insérer le nouveau nom pour le groupe.</string>
+	<string name="new_library_name">Insérer le nouveau nom pour la bibliothèque.</string>
 </resources>

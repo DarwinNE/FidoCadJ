@@ -217,6 +217,16 @@
 	<string name="Save_split">Speichern, Trennen nicht standardisierte Makros</string>
 	<string name="Font_size_invalid">Die Schriftgröße des Textes eines Grafikelementes muss positiv sein.</string>
 	<string name="lib_in_dir">Ordner mit Bibliotheken</string>
-	<string name="Origin">Origin</string>
-	<string name="Choose_browser">Choose the browser</string>
+	<string name="Origin">Ursprung</string>
+	<string name="Choose_browser">Wähl einen Browser aus</string>
+	<string name="remove_library_confirm">Löschen der Bibliothek bestätigen?</string>
+	<string name="remove_library">Bibliothek löschen</string>
+	<string name="error">Fehler...</string>
+	<string name="remove_category_confirm">Löschen der Klasse bestätigen?</string>
+	<string name="remove_category">Klasse löschen</string>
+	<string name="remove_macro_confirm">Löschen des Makros bestätigen?</string>
+	<string name="remove_macro">Makro löschen</string>
+	<string name="new_macro_name">Bitte einen neuen Namen fürs Makro eingeben.</string>
+	<string name="new_category_name">Bitte einen neuen Namen für die Klasse eingeben.</string>
+	<string name="new_library_name">Bitte einen neuen Namen für die Bibliothek eingeben.</string>
 </resources>

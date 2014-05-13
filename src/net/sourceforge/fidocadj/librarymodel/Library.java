@@ -109,4 +109,8 @@ public class Library
         return false;
     }
 
+	public String toString()
+	{
+		return getName();
+	}
 }

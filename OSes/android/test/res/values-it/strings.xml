@@ -11,7 +11,7 @@
 	<string name="Close">Chiudi</string>
 	<string name="Do_Not_Save">Non salvare</string>
 	<string name="Edit_menu">Composizione</string>
-	<string name="Undo">Cancella</string>
+	<string name="Undo">Annulla</string>
 	<string name="Redo">Ripristina</string>
 	<string name="Cut">Taglia</string>
 	<string name="Copy">Copia</string>
@@ -110,7 +110,7 @@
 	<string name="Profile">Attiva il profiler</string>
 	<string name="TextToolbar">Mostra il testo nei bottoni della toolbar</string>
 	<string name="SmallIcons">Usa le icone piccole nei bottoni della toolbar</string>
-	<string name="strict_FC_comp">Modalità di compatibilità con FidoCad</string>
+	<string name="strict_FC_comp">Modalità di compatibilità con FidoCAD</string>
 	<string name="extFCJ_s">Attiva estensioni FidoCadJ durante il salvataggio file</string>
 	<string name="extFCJ_c">Attiva estensioni FidoCadJ durante la copia di elementi</string>
 	<string name="Restart">Avvio</string>
@@ -219,4 +219,14 @@
 	<string name="lib_in_dir">Librerie nella directory</string>
 	<string name="Origin">Origine</string>
 	<string name="Choose_browser">Scegli il browser</string>
+	<string name="remove_library_confirm">Eliminare la libreria</string>
+	<string name="remove_library">Eliminare la libreria</string>
+	<string name="error">C\'è stato un problema...</string>
+	<string name="remove_category_confirm">Eliminare la categoria</string>
+	<string name="remove_category">Eliminare la categoria</string>
+	<string name="remove_macro_confirm">Eliminare il simbolo</string>
+	<string name="remove_macro">Eliminare il simbolo</string>
+	<string name="new_macro_name">Inserire il nuovo nome del simbolo.</string>
+	<string name="new_category_name">Inserire il nuovo nome della categoria.</string>
+	<string name="new_library_name">Inserire il nuovo nome della libreria.</string>
 </resources>
