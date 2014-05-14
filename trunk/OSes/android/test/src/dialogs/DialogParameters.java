@@ -9,19 +9,26 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -58,18 +65,20 @@ public class DialogParameters extends DialogFragment
 	private static boolean strict;
 	private static Vector<LayerDesc> layers;
 	
-	//TODO: set in function of the screen size and density
-	int fieldWidth = 400;
-    int fieldHeight = 80;
-    int dialogWidth;
-    int dialogHeight;
-    //****//
+	// Sizes
+	private int fieldWidth;
+    private int fieldHeight;
+    private int textSize;
     
+    //Dialog border
 	private static final int BORDER = 30;
+	
+	//maximum strings' length
 	private static final int MAX_LEN = 200;
+	
 	// Maximum number of user interface elements of the same type present
 	// in the dialog window.
-	private static final int MAX_ELEMENTS = 100;
+	private static final int MAX_ELEMENTS = 10;
 
 	// Text box array and counter
 	private EditText etv[];
@@ -79,12 +88,11 @@ public class DialogParameters extends DialogFragment
 	private CheckBox cbv[];
 	private int cc; 
 
+	// Spinner array and counter
 	private Spinner spv[];
 	private int sc; 
 	
 	private FidoEditor caller;
-	
-	//final Activity context = getActivity();
 	
 	/**
 	 * Get a ParameterDescription vector describing the characteristics modified
@@ -113,7 +121,7 @@ public class DialogParameters extends DialogFragment
         dialog.setArguments(args);
         dialog.setRetainInstance(true);
         dialog.caller=callback;
-		
+        
 		return dialog;
 	}
 	
@@ -140,17 +148,23 @@ public class DialogParameters extends DialogFragment
 		final Dialog dialog = new Dialog(context);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		
-    	LinearLayout vv = new LinearLayout(context);
+		 
+    	LinearLayout vv = new LinearLayout(context){	
+    		@Override
+    	    public boolean onTouchEvent(MotionEvent event) {
+    	        if( event.getAction() == MotionEvent.ACTION_DOWN) {
+    	        	InputMethodManager imm = (InputMethodManager) context.getSystemService(
+    	        		      Context.INPUT_METHOD_SERVICE);
+    	        		imm.hideSoftInputFromWindow(getWindowToken(), SYSTEM_UI_LAYOUT_FLAGS);
+    	        }
+    	        return true;
+    	    }
+    	};
     	
     	vv.setOrientation(LinearLayout.VERTICAL);
-    	/*vv.setMinimumHeight(getResources().
-			getDimensionPixelSize(R.dimen.large_dialog_height));*/
-    	vv.setMinimumWidth(getResources().
-			getDimensionPixelSize(R.dimen.normal_dialog_width));
     	vv.setBackgroundColor(getResources().
 			getColor(R.color.background_white));
-    	vv.setPadding(20, BORDER, BORDER, 15);
+    	vv.setPadding(BORDER, BORDER, BORDER, BORDER);
     	
     	etv = new EditText[MAX_ELEMENTS];
 		cbv = new CheckBox[MAX_ELEMENTS];
@@ -158,11 +172,16 @@ public class DialogParameters extends DialogFragment
     	
 		ParameterDescription pd;
 
-		TextView lab;
-
 		ec = 0;
 		cc = 0;
 		sc = 0;
+		
+		//Setting of the dialog sizes.
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int screenDensity = metrics.densityDpi;
+        int screenSize = getResources().getConfiguration().screenLayout & 
+        	    Configuration.SCREENLAYOUT_SIZE_MASK;
+        setSizeByScreen(screenSize, screenDensity);
 		
 		//Filter for the Integer EditText, 
 		//allows to write only digit in the filtered fields.
@@ -178,6 +197,7 @@ public class DialogParameters extends DialogFragment
 	                return null; 
 	        }
 		};
+		
 
 		// We process all parameter passed. Depending on its type, a
 		// corresponding interface element will be created.
@@ -186,20 +206,18 @@ public class DialogParameters extends DialogFragment
 
 			pd = (ParameterDescription) vec.elementAt(ycount);
     	
-			// We do not need to store label objects, since we do not need
-			// to retrieve data from them.
-
-			lab = new TextView(context);
-			lab.setTextColor(Color.BLACK);
-			lab.setText(pd.description);
-			lab.setPadding(0, 0, 10, 0);
-			
 			LinearLayout vh = new LinearLayout(context);
 			vh.setGravity(Gravity.FILL_HORIZONTAL);
 			vh.setGravity(Gravity.RIGHT);
 			
-			
-			
+			// We do not need to store label objects, since we do not need
+			// to retrieve data from them.
+			TextView lab = new TextView(context);
+			lab.setTextColor(Color.BLACK);
+			lab.setText(pd.description);
+			lab.setPadding(0, 0, 10, 0);
+			lab.setGravity(Gravity.CENTER);		
+			lab.setTextSize(textSize);
 			if (!(pd.parameter instanceof Boolean))
 				vh.addView(lab);
 			// Now, depending on the type of parameter we create interface
@@ -215,6 +233,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth/2,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
+				etv[ec].setTextSize(textSize);
 				
 				vh.addView(etv[ec++]);
 				
@@ -227,6 +246,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth/2,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
+				etv[ec].setTextSize(textSize);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
@@ -239,6 +259,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
+				etv[ec].setTextSize(textSize);
 				
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
@@ -253,6 +274,7 @@ public class DialogParameters extends DialogFragment
 				cbv[cc].setTextColor(Color.BLACK);
 				cbv[cc].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
+				cbv[cc].setTextSize(textSize);
 				
 				vh.setGravity(Gravity.RIGHT);
 				vh.addView(cbv[cc++]);
@@ -266,6 +288,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setFilters( new InputFilter[]{filter} );
+				etv[ec].setTextSize(textSize);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
@@ -278,6 +301,7 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setMaxWidth(MAX_LEN);
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
+				etv[ec].setTextSize(textSize);
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof FontG) {
@@ -500,6 +524,7 @@ public class DialogParameters extends DialogFragment
             v.setText(layers.get(position).getDescription());
             v.setTextColor(Color.BLACK);
             v.setBackgroundColor(Color.WHITE);
+            v.setTextSize(textSize);
             
             return row;
         }
@@ -543,6 +568,107 @@ public class DialogParameters extends DialogFragment
             return row;
         }
     }
+    
+	/** Adapts the various dialog's dimension at the screen density and size.
+	 * 
+	 * @param size, the physical screen size of the device.
+	 * @param density, the screen resolution of the device.
+	 */
+    private void setSizeByScreen( int size, int density )
+    {   
+    	//TODO: to manage other devices.
+        if( size == Configuration.SCREENLAYOUT_SIZE_SMALL ) {
+        	switch(density) {
+        		case DisplayMetrics.DENSITY_LOW:
+        			break;
+        		case DisplayMetrics.DENSITY_MEDIUM:
+        			break;
+        		case DisplayMetrics.DENSITY_HIGH:
+        			break;
+        		case DisplayMetrics.DENSITY_TV:
+        			break;
+        		case DisplayMetrics.DENSITY_XHIGH:
+        			break;
+        		case DisplayMetrics.DENSITY_XXHIGH:
+        			break;
+        		case DisplayMetrics.DENSITY_XXXHIGH:
+        			break;
+        		default:
+        			break;
+        	}
+        } else if( size == Configuration.SCREENLAYOUT_SIZE_NORMAL ) {
+        	switch(density) {
+    			case DisplayMetrics.DENSITY_LOW:
+    				break;
+    			case DisplayMetrics.DENSITY_MEDIUM:
+    				break;
+    			case DisplayMetrics.DENSITY_HIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_TV:
+    				break;
+    			case DisplayMetrics.DENSITY_XHIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_XXHIGH:
+    				//tested with nexus 5
+    				fieldWidth = 400;
+    				fieldHeight = 80;
+    				textSize = 10;
+    				break;
+    			case DisplayMetrics.DENSITY_XXXHIGH:
+    				break;
+    			default:
+    				break;
+        	}
+
+        } else if( size == Configuration.SCREENLAYOUT_SIZE_LARGE ) {
+        	switch(density) {
+    			case DisplayMetrics.DENSITY_LOW:
+    				break;
+    			case DisplayMetrics.DENSITY_MEDIUM:
+    				break;
+    			case DisplayMetrics.DENSITY_HIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_TV:
+            		//tested with nexus7 800x1280
+            		fieldWidth = 300;
+            		fieldHeight = 50;
+            		textSize = 16;
+    				break;
+    			case DisplayMetrics.DENSITY_XHIGH:
+            		//tested with nexus7 1200x1920
+            		fieldWidth = 450;
+            		fieldHeight = 80;
+            		textSize = 18;
+    				break;
+    			case DisplayMetrics.DENSITY_XXHIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_XXXHIGH:
+    				break;
+    			default:
+    				break;
+        	}	
+        } else if( size == Configuration.SCREENLAYOUT_SIZE_XLARGE ) {
+        	switch(density) {
+    			case DisplayMetrics.DENSITY_LOW:
+    				break;
+    			case DisplayMetrics.DENSITY_MEDIUM:
+    				break;
+    			case DisplayMetrics.DENSITY_HIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_TV:
+    				break;
+    			case DisplayMetrics.DENSITY_XHIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_XXHIGH:
+    				break;
+    			case DisplayMetrics.DENSITY_XXXHIGH:
+    				break;
+    			default:
+    				break;
+        	}
+        }	
+    }
+
 }
 
 
