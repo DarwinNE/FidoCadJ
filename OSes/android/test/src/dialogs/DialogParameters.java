@@ -14,10 +14,9 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -148,8 +146,9 @@ public class DialogParameters extends DialogFragment
 		final Dialog dialog = new Dialog(context);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		 
-    	LinearLayout vv = new LinearLayout(context){	
+  		
+    	LinearLayout vv = new LinearLayout(context){
+    		
     		@Override
     	    public boolean onTouchEvent(MotionEvent event) {
     	        if( event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -250,7 +249,18 @@ public class DialogParameters extends DialogFragment
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
-				etv[ec] = new EditText(context);
+				etv[ec] = new EditText(context){
+					@Override
+		    	    public boolean onTouchEvent(MotionEvent event) {
+		    	        if( event.getAction() == MotionEvent.ACTION_DOWN) {
+		    	        	setInputType(InputType.TYPE_CLASS_TEXT);
+		    	        	this.requestFocus();
+		    				InputMethodManager mgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		    				mgr.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+		    	        }
+		    	        return true;
+		    	    }
+				};
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setGravity(Gravity.FILL_HORIZONTAL|
 					Gravity.CENTER_HORIZONTAL);
@@ -260,6 +270,8 @@ public class DialogParameters extends DialogFragment
 				etv[ec].setLayoutParams(new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setTextSize(textSize);
+				etv[ec].setInputType(InputType.TYPE_NULL);
+				
 				
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
@@ -670,6 +682,7 @@ public class DialogParameters extends DialogFragment
     }
 
 }
+
 
 
 
