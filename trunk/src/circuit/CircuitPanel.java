@@ -289,6 +289,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
         	editSymbolize.addActionListener(this); // phylum
         	editUSymbolize.addActionListener(this); // phylum
         	
+        	// Patchwork for bug#54.
+        	// When mouse pointer enters into CircuitPanel with macro,
+        	// grab focus from macropicker.
+        	// NOTE: MouseListener.mouseEntered doesn't works stable.
+        	addMouseMotionListener(new MouseMotionAdapter() {
+				public void mouseMoved(MouseEvent e)
+				{
+					if(eea.isEnteringMacro() && !isFocusOwner()){
+						requestFocus();
+					}
+				}
+        	});
         }
     }
     
