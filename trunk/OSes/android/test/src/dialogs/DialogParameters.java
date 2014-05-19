@@ -59,6 +59,15 @@ import net.sourceforge.fidocadj.FidoEditor;
 
 public class DialogParameters extends DialogFragment 
 {
+	
+	private final static int DENSITY_LOW = 120;
+	private final static int DENSITY_MEDIUM = 160;
+	private final static int DENSITY_HIGH = 240;
+	private final static int DENSITY_TV = 213;
+	private final static int DENSITY_XHIGH = 320;
+	private final static int DENSITY_XXHIGH = 480;	
+	private final static int DENSITY_XXXHIGH = 640;
+	
 	private static Vector<ParameterDescription> vec;
 	private static boolean strict;
 	private static Vector<LayerDesc> layers;
@@ -591,42 +600,42 @@ public class DialogParameters extends DialogFragment
     	//TODO: to manage other devices.
         if( size == Configuration.SCREENLAYOUT_SIZE_SMALL ) {
         	switch(density) {
-        		case DisplayMetrics.DENSITY_LOW:
+        		case DENSITY_LOW:
         			break;
-        		case DisplayMetrics.DENSITY_MEDIUM:
+        		case DENSITY_MEDIUM:
         			break;
-        		case DisplayMetrics.DENSITY_HIGH:
+        		case DENSITY_HIGH:
         			break;
-        		case DisplayMetrics.DENSITY_TV:
+        		case DENSITY_TV:
         			break;
-        		case DisplayMetrics.DENSITY_XHIGH:
+        		case DENSITY_XHIGH:
         			break;
-        		case DisplayMetrics.DENSITY_XXHIGH:
+        		case DENSITY_XXHIGH:
         			break;
-        		case DisplayMetrics.DENSITY_XXXHIGH:
+        		case DENSITY_XXXHIGH:
         			break;
         		default:
         			break;
         	}
         } else if( size == Configuration.SCREENLAYOUT_SIZE_NORMAL ) {
         	switch(density) {
-    			case DisplayMetrics.DENSITY_LOW:
+    			case DENSITY_LOW:
     				break;
-    			case DisplayMetrics.DENSITY_MEDIUM:
+    			case DENSITY_MEDIUM:
     				break;
-    			case DisplayMetrics.DENSITY_HIGH:
+    			case DENSITY_HIGH:
     				break;
-    			case DisplayMetrics.DENSITY_TV:
+    			case DENSITY_TV:
     				break;
-    			case DisplayMetrics.DENSITY_XHIGH:
+    			case DENSITY_XHIGH:
     				break;
-    			case DisplayMetrics.DENSITY_XXHIGH:
+    			case DENSITY_XXHIGH:
     				//tested with nexus 5
     				fieldWidth = 400;
     				fieldHeight = 80;
     				textSize = 10;
     				break;
-    			case DisplayMetrics.DENSITY_XXXHIGH:
+    			case DENSITY_XXXHIGH:
     				break;
     			default:
     				break;
@@ -634,46 +643,46 @@ public class DialogParameters extends DialogFragment
 
         } else if( size == Configuration.SCREENLAYOUT_SIZE_LARGE ) {
         	switch(density) {
-    			case DisplayMetrics.DENSITY_LOW:
+    			case DENSITY_LOW:
     				break;
-    			case DisplayMetrics.DENSITY_MEDIUM:
+    			case DENSITY_MEDIUM:
     				break;
-    			case DisplayMetrics.DENSITY_HIGH:
+    			case DENSITY_HIGH:
     				break;
-    			case DisplayMetrics.DENSITY_TV:
+    			case DENSITY_TV:
             		//tested with nexus7 800x1280
             		fieldWidth = 300;
             		fieldHeight = 50;
             		textSize = 16;
     				break;
-    			case DisplayMetrics.DENSITY_XHIGH:
+    			case DENSITY_XHIGH:
             		//tested with nexus7 1200x1920
             		fieldWidth = 450;
             		fieldHeight = 80;
             		textSize = 18;
     				break;
-    			case DisplayMetrics.DENSITY_XXHIGH:
+    			case DENSITY_XXHIGH:
     				break;
-    			case DisplayMetrics.DENSITY_XXXHIGH:
+    			case DENSITY_XXXHIGH:
     				break;
     			default:
     				break;
         	}	
         } else if( size == Configuration.SCREENLAYOUT_SIZE_XLARGE ) {
         	switch(density) {
-    			case DisplayMetrics.DENSITY_LOW:
+    			case DENSITY_LOW:
     				break;
-    			case DisplayMetrics.DENSITY_MEDIUM:
+    			case DENSITY_MEDIUM:
     				break;
-    			case DisplayMetrics.DENSITY_HIGH:
+    			case DENSITY_HIGH:
     				break;
-    			case DisplayMetrics.DENSITY_TV:
+    			case DENSITY_TV:
     				break;
-    			case DisplayMetrics.DENSITY_XHIGH:
+    			case DENSITY_XHIGH:
     				break;
-    			case DisplayMetrics.DENSITY_XXHIGH:
+    			case DENSITY_XXHIGH:
     				break;
-    			case DisplayMetrics.DENSITY_XXXHIGH:
+    			case DENSITY_XXXHIGH:
     				break;
     			default:
     				break;
@@ -682,6 +691,7 @@ public class DialogParameters extends DialogFragment
     }
 
 }
+
 
 
 

@@ -108,7 +108,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
            
         dm.setLayers(layerDesc);
 		pa = new ParserActions(dm);
-        ParserActions pa = new ParserActions(dm);
 		ua = new UndoActions(pa);
 		ea = new EditorActions(dm, ua);
 		eea = new ContinuosMoveActions(dm, ua, ea);
@@ -156,6 +155,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
         dm.setTextFont("Courier New", 3, null);
     }
     
+    public String getText()
+    {
+    	return pa.getText(true).toString();
+    }
     /** Gets the EditorActions controller for the drawing.
     */
     public EditorActions getEditorActions()
@@ -778,6 +781,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
+
 
 
 

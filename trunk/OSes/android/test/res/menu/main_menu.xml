@@ -26,7 +26,7 @@
                 android:id="@+id/open_file"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/Open"
-        		android:visible="false" />
+        		android:visible="true" />
             <item
                 android:id="@+id/save"
         		android:showAsAction="ifRoom|withText"
@@ -36,7 +36,7 @@
                 android:id="@+id/save_with_name"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/SaveName"
-        		android:visible="false" />
+        		android:visible="true" />
             <item
                 android:id="@+id/export"
         		android:showAsAction="ifRoom|withText"

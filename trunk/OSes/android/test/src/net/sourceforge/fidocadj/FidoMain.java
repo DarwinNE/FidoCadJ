@@ -1,10 +1,12 @@
 package net.sourceforge.fidocadj;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.util.FloatMath;
+import android.util.Log;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -14,17 +16,15 @@ import android.content.*;
 import android.hardware.*;
 import android.widget.ExpandableListView;
 import android.widget.ArrayAdapter;
-
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.AdapterView.*;
-
-
 import dialogs.DialogAbout;
+import dialogs.DialogOpenFile;
+import dialogs.DialogSaveName;
 import net.sourceforge.fidocadj.macropicker.*;
 import net.sourceforge.fidocadj.librarymodel.*;
 import circuit.controllers.*;
-
 import primitives.*;
 import toolbars.*;
 import globals.*;
@@ -229,11 +229,15 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				drawingPanel.getUndoActions().redo();
 				status=true;
 				break;
-			case R.id.file: 			
-				status = file();
+			case R.id.save_with_name:
+				DialogSaveName dsn = DialogSaveName.newIstance(drawingPanel.getText());
+				dsn.show(fragmentManager, "");
+				status = true;
 				break;
-			case R.id.edit_menu: 
-				status = edit();
+			case R.id.open_file: 
+				DialogOpenFile dof = new DialogOpenFile();
+				dof.show(fragmentManager, "");
+				status = true;
 				break;
 				
 			case R.id.view: 
@@ -242,6 +246,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				
 			case R.id.about:
 				status = about();
+				DialogAbout da = new DialogAbout();   
+				da.show(fragmentManager, "");
+				status = true;
 				break;
 			default: 					
 				
@@ -252,11 +259,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		else
 			drawingPanel.invalidate();
 		return status;
-	}
-	
-	private boolean file()
-	{
-		return true;
 	}
 	
 	private boolean edit()
@@ -271,8 +273,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     	
 	private boolean about() 
 	{			
-		DialogAbout dialog = new DialogAbout();   
-		dialog.show(fragmentManager, "");
+
 	    return true;
 	}	
 	
@@ -447,6 +448,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
    
 }
+
 
 
 
