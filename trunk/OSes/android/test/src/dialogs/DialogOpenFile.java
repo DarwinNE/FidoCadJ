@@ -1,6 +1,11 @@
 package dialogs;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import net.sourceforge.fidocadj.FidoEditor;
 import net.sourceforge.fidocadj.R;
 import android.app.Activity;
 import android.app.Dialog;  
@@ -22,17 +27,22 @@ import android.widget.ListView;
  */
 public class DialogOpenFile extends DialogFragment 
 {  
+	private String[] files;
+	private  FidoEditor drawingPanel;
+	
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
 		final Activity context = getActivity();
 		final Dialog dialog = new Dialog(context);
 		
+		drawingPanel = (FidoEditor)context.findViewById(R.id.drawingPanel);
+		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.open_file);
 		
 		File dir = context.getFilesDir();
-		String[] files = dir.list();
+		files = dir.list();
 		
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  context, 
@@ -41,21 +51,44 @@ public class DialogOpenFile extends DialogFragment
 		
 		ListView list = (ListView) dialog.findViewById(R.id.fileList);
 		list.setAdapter(arrayAdapter);
+		list.setPadding(10, 10, 10, 10);
 		
 		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//TODO: open the file
 				
+				StringBuilder text = new StringBuilder();
+				text.append("[FIDOCAD]\n");
+				File file = new File(context.getFilesDir(),files[position]);
+				try {
+				    BufferedReader br = new BufferedReader(new FileReader(file));
+				    String line;
+
+				    while ((line = br.readLine()) != null) {
+				        text.append(line);
+				        text.append('\n');
+				    }
+				    br.close();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				drawingPanel.getParserActions().openFileName = files[position];
+				drawingPanel.getParserActions().parseString(new StringBuffer(text.toString()));
+				drawingPanel.getUndoActions().saveUndoState();
+				drawingPanel.invalidate();
+				
+				dialog.dismiss();		
 			}
 		};
 		list.setOnItemClickListener(clickListener);
 
-		
 		return dialog;
 	}
 }  
+
 
 
 
