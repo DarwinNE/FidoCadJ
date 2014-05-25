@@ -1,6 +1,5 @@
 package dialogs;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -11,7 +10,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;  
-import android.util.Log;
 import android.view.View;  
 import android.view.View.OnClickListener;  
 import android.view.Window;   
@@ -28,6 +26,7 @@ import android.widget.EditText;
 public class DialogSaveName extends DialogFragment 
 {  
 	private String circuit;
+	private FidoEditor drawingPanel;
 	
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
@@ -35,7 +34,7 @@ public class DialogSaveName extends DialogFragment
 		final Activity context = getActivity();
 		final Dialog dialog = new Dialog(context);
 		
-		FidoEditor drawingPanel = (FidoEditor)context
+		drawingPanel = (FidoEditor)context
 				.findViewById(R.id.drawingPanel);
 		circuit = drawingPanel.getText();
 		
@@ -49,18 +48,14 @@ public class DialogSaveName extends DialogFragment
 			public void onClick(View v) 
 			{  
 				FileOutputStream outputStream;
-				EditText editName = (EditText) dialog
-						.findViewById(R.id.editName);
+				EditText editName = (EditText) dialog.findViewById(R.id.editName);
 				editName.setPadding(10, 0, 0, 0);
 
 				String fileName = editName.getText().toString()+".fdc";
-				File file = new File(context.getFilesDir(),fileName);
-				
-				Log.i("Dante", context.getFilesDir().toString() + fileName);
+				drawingPanel.getParserActions().openFileName = fileName;
 				
 				try {
-				  outputStream = context.openFileOutput(fileName, 
-						Context.MODE_PRIVATE);
+				  outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 				  outputStream.write(circuit.getBytes());
 				  outputStream.close();
 				} catch (IOException e) {

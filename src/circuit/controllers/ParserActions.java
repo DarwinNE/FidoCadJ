@@ -51,7 +51,7 @@ public class ParserActions
     static final boolean useWindowsLineFeed=false;
     
     // Name of the last file opened
-    public String openFileName;
+    public String openFileName = null;
 
 	/** Standard constructor: provide the database class.
 	*/

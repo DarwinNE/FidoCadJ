@@ -44,6 +44,12 @@ public class DialogOpenFile extends DialogFragment
 		File dir = context.getFilesDir();
 		files = dir.list();
 		
+		if(files.length == 0){
+			files = new String[1];
+			files[0] = "No such file.";
+		}
+			
+		
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  context, 
                  R.layout.list_item, R.id.lblListItem,
