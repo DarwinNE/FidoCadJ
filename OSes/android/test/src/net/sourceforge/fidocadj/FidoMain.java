@@ -230,7 +230,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status=true;
 				break;
 			case R.id.save_with_name:
-				DialogSaveName dsn = DialogSaveName.newIstance(drawingPanel.getText());
+				DialogSaveName dsn = new DialogSaveName();
 				dsn.show(fragmentManager, "");
 				status = true;
 				break;
@@ -448,6 +448,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
    
 }
+
 
 
 
