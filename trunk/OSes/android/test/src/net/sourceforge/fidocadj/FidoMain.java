@@ -1,12 +1,11 @@
 package net.sourceforge.fidocadj;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.util.FloatMath;
-import android.util.Log;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -203,12 +202,16 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
-	
+    
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) 
 	{
 		boolean status=false;
-
+		/* dialogs */
+	    DialogSaveName dsn;
+	    DialogOpenFile dof;
+	    DialogAbout da;
+	    
 		if (onContextItemSelected(item))
 			return true;
 			
@@ -229,24 +232,43 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				drawingPanel.getUndoActions().redo();
 				status=true;
 				break;
-			case R.id.save_with_name:
-				DialogSaveName dsn = new DialogSaveName();
-				dsn.show(fragmentManager, "");
+			case R.id.new_drawing:
+				drawingPanel.getParserActions()
+					.parseString(new StringBuffer(""));
+				drawingPanel.getParserActions().openFileName = null;
+				drawingPanel.invalidate();
 				status = true;
 				break;
 			case R.id.open_file: 
-				DialogOpenFile dof = new DialogOpenFile();
+				dof = new DialogOpenFile();
 				dof.show(fragmentManager, "");
 				status = true;
 				break;
-				
-			case R.id.view: 
-				status = view();
+			case R.id.save: 
+				String fileName = drawingPanel.getParserActions().openFileName;
+				if(fileName == null) {
+					dsn = new DialogSaveName();
+					dsn.show(fragmentManager, "");
+				} else {
+					FileOutputStream outputStream;
+					
+					try {
+					  outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+					  outputStream.write(drawingPanel.getText().getBytes());
+					  outputStream.close();
+					} catch (IOException e) {
+					  e.printStackTrace();
+					}
+				}
+				status = true;
 				break;
-				
+			case R.id.save_with_name:
+				dsn = new DialogSaveName();
+				dsn.show(fragmentManager, "");
+				status = true;
+				break;
 			case R.id.about:
-				status = about();
-				DialogAbout da = new DialogAbout();   
+				da = new DialogAbout();   
 				da.show(fragmentManager, "");
 				status = true;
 				break;
@@ -260,23 +282,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			drawingPanel.invalidate();
 		return status;
 	}
-	
-	private boolean edit()
-	{
-		return true;
-	}
-	
-	private boolean view()
-	{
-		return true;
-	}
-    	
-	private boolean about() 
-	{			
-
-	    return true;
-	}	
-	
 
   	@Override
   	public final void onAccuracyChanged(Sensor sensor, int accuracy) 

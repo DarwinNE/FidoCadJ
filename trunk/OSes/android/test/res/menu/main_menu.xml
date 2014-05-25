@@ -21,7 +21,7 @@
                 android:id="@+id/new_drawing"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/New"
-        		android:visible="false" />
+        		android:visible="true" />
             <item
                 android:id="@+id/open_file"
         		android:showAsAction="ifRoom|withText"
@@ -31,7 +31,7 @@
                 android:id="@+id/save"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/Save"
-        		android:visible="false" />
+        		android:visible="true" />
             <item
                 android:id="@+id/save_with_name"
         		android:showAsAction="ifRoom|withText"
@@ -134,4 +134,5 @@
         android:title="@string/About"/>
     
 </menu>
+
 
