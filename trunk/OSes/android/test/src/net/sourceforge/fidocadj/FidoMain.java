@@ -253,7 +253,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 					FileOutputStream outputStream;
 					
 					try {
-					  outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+					  outputStream = openFileOutput(fileName, 
+					  	Context.MODE_PRIVATE);
 					  outputStream.write(drawingPanel.getText().getBytes());
 					  outputStream.close();
 					} catch (IOException e) {
@@ -451,7 +452,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		// If the string contains data, then the paste operation is done
 		return pasteData;
 	}
-   
 }
 
 
