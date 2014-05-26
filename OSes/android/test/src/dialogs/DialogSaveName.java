@@ -48,14 +48,18 @@ public class DialogSaveName extends DialogFragment
 			public void onClick(View v) 
 			{  
 				FileOutputStream outputStream;
-				EditText editName = (EditText) dialog.findViewById(R.id.editName);
+				EditText editName = (EditText) 
+					dialog.findViewById(R.id.editName);
 				editName.setPadding(10, 0, 0, 0);
 
-				String fileName = editName.getText().toString()+".fdc";
+				// TODO: add the extension only if it is not already present
+				// For example, check if the filename contains a "." or not.
+				String fileName = editName.getText().toString()+".fcd";
 				drawingPanel.getParserActions().openFileName = fileName;
 				
 				try {
-				  outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+				  outputStream = context.openFileOutput(fileName,
+				  	 Context.MODE_PRIVATE);
 				  outputStream.write(circuit.getBytes());
 				  outputStream.close();
 				} catch (IOException e) {
