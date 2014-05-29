@@ -116,7 +116,7 @@
                 android:id="@+id/layer"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/Layer_options"
-        		android:visible="false" />
+        		android:visible="true" />
         </menu>
     </item>
     
