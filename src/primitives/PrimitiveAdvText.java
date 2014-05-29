@@ -3,13 +3,9 @@ package primitives;
 import java.io.*;
 import java.util.*;
 
-/*
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.awt.*;
-import java.awt.event.*;
-*/
-
+import net.sourceforge.fidocadj.FidoEditor;
+import net.sourceforge.fidocadj.R;
+import android.app.Activity;
 import geom.*;
 import dialogs.*;
 import export.*;
@@ -251,8 +247,16 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 			} 
     		qq=(int)(ya/xyfactor);
 		}
-		g.drawAdvText(xyfactor, xa, ya, qq, h, w, h, needsStretching, 
-			orientation, mirror, txt);
+		
+		// not draws out of the drawingPanel (particularly in the toolsbar) while scrolling.
+		Activity context = (Activity) Globals.context; 
+		FidoEditor drawingPanel = (FidoEditor) context.findViewById(R.id.drawingPanel);
+		int deltaY = drawingPanel.getScrollY();
+		if( ya-deltaY > 0 && orientation == 0 || 
+			ya-deltaY-w > 0 && orientation != 0 ) 
+		//
+				g.drawAdvText(xyfactor, xa, ya, qq, h, w, h, needsStretching, 
+					orientation, mirror, txt);
 	}
 	
 	/**	Parse a token array and store the graphic data for a given primitive
