@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.AdapterView.*;
 import dialogs.DialogAbout;
+import dialogs.DialogLayer;
 import dialogs.DialogOpenFile;
 import dialogs.DialogSaveName;
 import net.sourceforge.fidocadj.macropicker.*;
@@ -210,6 +211,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		/* dialogs */
 	    DialogSaveName dsn;
 	    DialogOpenFile dof;
+	    DialogLayer dl;
 	    DialogAbout da;
 	    
 		if (onContextItemSelected(item))
@@ -266,6 +268,11 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			case R.id.save_with_name:
 				dsn = new DialogSaveName();
 				dsn.show(fragmentManager, "");
+				status = true;
+				break;
+			case R.id.layer:
+				dl = new DialogLayer();
+				dl.show(fragmentManager, "");
 				status = true;
 				break;
 			case R.id.about:
@@ -453,6 +460,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return pasteData;
 	}
 }
+
 
 
 

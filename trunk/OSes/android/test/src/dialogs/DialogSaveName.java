@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 /**
  * <pre>
+ * Shows a text field for entry the new file name, and save it in the file system.
  * </pre>
  *
  * @author Dante Loi
@@ -52,9 +53,10 @@ public class DialogSaveName extends DialogFragment
 					dialog.findViewById(R.id.editName);
 				editName.setPadding(10, 0, 0, 0);
 
-				// TODO: add the extension only if it is not already present
-				// For example, check if the filename contains a "." or not.
-				String fileName = editName.getText().toString()+".fcd";
+				String fileName = editName.getText().toString();
+				if( fileName.indexOf(".fcd\0") == -1 )
+					fileName += ".fcd";
+
 				drawingPanel.getParserActions().openFileName = fileName;
 				
 				try {
@@ -82,6 +84,7 @@ public class DialogSaveName extends DialogFragment
 		return dialog;
 	}
 }  
+
 
 
 
