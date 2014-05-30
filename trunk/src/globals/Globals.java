@@ -1,10 +1,10 @@
 package globals;
 
 import java.util.*;
+import java.io.*;
 
-import net.sourceforge.fidocadj.FidoMain;
-import android.content.Context;
-
+import layers.*;
+import graphic.*;
 
 /* Globals.java
 
@@ -111,9 +111,6 @@ public class Globals
 	
 	// The encoding to be used by FidoCadJ
 	public static final String encoding = "UTF8";
-	
-	// The main app's context 
-	public static Context context;
 	
 
     /**	Adjust a long string in order to cope with space limitations.
