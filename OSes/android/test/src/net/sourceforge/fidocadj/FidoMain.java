@@ -65,8 +65,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         setContentView(R.layout.main);
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
-        
-        Globals.context = this;
+
         Globals.messages = new AccessResources(this);
         tt.activateListeners(this, drawingPanel.eea);
         mSensorManager = (SensorManager) 
