@@ -41,6 +41,8 @@ public class GraphicsAndroid implements GraphicsInterface
 	// By default, we keep a "STROKE" paint. 
 	Paint paint;
 	
+	/** Standard constructor. 
+	*/
 	public GraphicsAndroid(Canvas c)
 	{
 		canvas=c;
@@ -54,11 +56,19 @@ public class GraphicsAndroid implements GraphicsInterface
         actual_dash = 0;
 	}
 	
+	/** Set the current drawing color.
+		@param c the color to be used. It must be an instance of ColorAndroid
+		in this context.
+	*/
 	public void setColor(ColorInterface c) 
 	{
 		ColorAndroid ca = (ColorAndroid)c;
 		paint.setColor(ca.getColorAndroid());
 	}
+	
+	/** Gets the color being used. 
+		@return the current color. It is an instance of ColorAndroid.
+	*/
 	public ColorInterface getColor()
 	{
 		return new ColorAndroid(paint.getColor());
@@ -124,7 +134,14 @@ public class GraphicsAndroid implements GraphicsInterface
 		canvas.drawRect(x, y, x+width, y+height, paint);
 		paint.setStyle(Style.STROKE);
 	}
-	
+	/** Fills a rounded rectangle on the current graphic context.
+		@param x the x coordinate of the uppermost left corner
+		@param y the y coordinate of the uppermost left corner
+		@param width the width of the rectangle
+		@param height the height of the rectangle
+		@param arcWidth the width of the arc of the round corners
+		@param arcHeight the height of the arc of the round corners
+	*/
     public void fillRoundRect(int x,
                                    int y,
                                    int width,
@@ -137,7 +154,13 @@ public class GraphicsAndroid implements GraphicsInterface
 			(float)arcWidth/2.0f, (float)arcHeight/2.0f, paint);
 		paint.setStyle(Style.STROKE);   
     }
-
+    
+	/** Checks whether the rectangle specified falls in a region which need
+		to be updated because it is "dirty" on the screen.
+		Implementing correctly this method is very important to achieve a good
+		redrawing speed because only "dirty" regions on the screen will be
+		actually redrawn.
+	*/
     public boolean hitClip(int x,
                        int y,
                        int width,
@@ -145,6 +168,13 @@ public class GraphicsAndroid implements GraphicsInterface
     {
     	return true;
     }
+    
+    /** Draws a segment between two points
+    	@param x1 first coordinate x value
+    	@param y1 first coordinate y value
+    	@param x2 second coordinate x value
+    	@param y2 second coordinate y value
+    */
 	public void drawLine(int x1,
                               int y1,
                               int x2,
@@ -165,7 +195,13 @@ public class GraphicsAndroid implements GraphicsInterface
 			canvas.drawPath(p, paint);
 		}
 	}
-                              
+    
+    /** Sets the current font for drawing text.
+    	@param name the name of the typeface to be used.
+    	@param size the size in pixels
+    	@param isItalic true if an italic variant should be used
+    	@param isBold true if a bold variant should be used
+    */                    
 	public void setFont(String name, int size, boolean isItalic, 
 		boolean isBold)
 	{
@@ -184,13 +220,19 @@ public class GraphicsAndroid implements GraphicsInterface
    		paint.setTextSize(size);
 	}
 	
+	/** Simple version. It sets the current font.
+		@param name the name of the typeface
+		@param size the vertical size in pixels
+	*/
 	public void setFont(String name, int size)
 	{
 
 		setFont(name, size, false, false);
 	}
 	
-
+	/** Gets the ascent metric of the current font.
+		@returns the value of the ascent, in pixels.
+	*/
 	public int getFontAscent()
 	{
 		// Note: an ascent is "going up", so it is negative 
@@ -198,17 +240,29 @@ public class GraphicsAndroid implements GraphicsInterface
 		// FidoCadJ requires a positive size, instead.
 		return -(int)paint.getFontMetrics().ascent;
 	}
-
+	
+	/** Gets the descent metric of the current font.
+		@returns the value of the descent, in pixels.
+	*/
 	public int getFontDescent()
 	{
 		return  (int)paint.getFontMetrics().descent;
 	}
 
+	/** Gets the width of the given string with the current font.
+		@param s the string to be used.
+		@return the width of the string, in pixels.
+	*/
 	public int getStringWidth(String s)
 	{
 		return (int)paint.measureText(s);
 	}
 
+	/** Draws a string on the current graphic context
+		@param str the string to be drawn
+		@param x the x coordinate of the starting point
+		@param y the y coordinate of the starting point
+	*/
 	public void drawString(String str,
                                 int x,
                                 int y)
@@ -219,11 +273,21 @@ public class GraphicsAndroid implements GraphicsInterface
 		paint.setStyle(Style.STROKE);
     }
     
+    /** Sets the transparency (alpha) of the current color.
+    	@param alpha the transparency, between 0.0 (transparent) and 1.0 
+    		(fully opaque).
+    */
     public void setAlpha(float alpha)
     {
 		paint.setAlpha((int)(alpha*255)); 
     }
 
+	/** Draws a completely filled oval in the current graphic context.
+		@param x the x coordinate of the starting point.
+		@param y the y coordinate of the starting point.
+		@param width the width of the oval.
+		@param height the height of the oval.
+	*/
     public void fillOval(int x,
                               int y,
                               int width,
@@ -233,13 +297,24 @@ public class GraphicsAndroid implements GraphicsInterface
 		canvas.drawOval(new RectF (x, y, x+width, y+height), paint);
 		paint.setStyle(Style.STROKE);
 	}
+	
+	/** Draws an enmpty oval in the current graphic context.
+		@param x the x coordinate of the starting point.
+		@param y the y coordinate of the starting point.
+		@param width the width of the oval.
+		@param height the height of the oval.
+	*/
 	public void drawOval(int x,
                               int y,
                               int width,
                               int height)
     {
 		canvas.drawOval(new RectF (x, y, x+width, y+height), paint);
-    }                          
+    }          
+    
+    /** Fills a given  shape.
+    	@param s the shape to be filled.
+	*/             
     public void fill(ShapeInterface s)
     {
 		ShapeAndroid ss = (ShapeAndroid) s;
@@ -247,11 +322,19 @@ public class GraphicsAndroid implements GraphicsInterface
     	canvas.drawPath(ss.getPath(), paint);
     	paint.setStyle(Style.STROKE);
     }
+    
+    /** Draws a given  shape.
+    	@param s the shape to be drawn.
+	*/ 
     public void draw(ShapeInterface s)
     {
 		ShapeAndroid ss = (ShapeAndroid) s;
     	canvas.drawPath(ss.getPath(), paint);
     }
+    
+    /** Fills a given  polygon.
+    	@param p the polygon to be filled.
+	*/ 
     public void fillPolygon(PolygonInterface p)
     {		
     	PolygonAndroid pp=(PolygonAndroid) p;
@@ -261,6 +344,10 @@ public class GraphicsAndroid implements GraphicsInterface
     	paint.setStyle(Style.STROKE);
 
     }
+    
+    /** Draws a given  polygon.
+    	@param p the polygon to be drawn.
+	*/
     public void drawPolygon(PolygonInterface p)
     {
 		PolygonAndroid pp=(PolygonAndroid) p;
@@ -268,11 +355,30 @@ public class GraphicsAndroid implements GraphicsInterface
     	canvas.drawPath(pp.getPath(), paint);
     }
     
+    /** Selects a color associated to selected elements.
+    	@param l the layer to which the selected element belongs.
+    */
     public void activateSelectColor(LayerDesc l)
     {
 		paint.setColor(Color.GREEN);
     }
     
+    /** Draws a string by allowing for a certain degree of flexibility in
+    	specifying how the text will be handled.
+    	@param xyfactor the text font is specified by giving its height in the 
+    		setFont() method. If the text should be stretched (i.e. its width 
+    		should be modified), this parameter gives the amount of stretching.
+    	@param xa the x coordinate of the point where the text will be placed.
+    	@param ya the y coordinate of the point where the text will be placed.
+    	@param qq not used: NOTE: TO REMOVE???
+    	@param h the height of the text, in pixels.
+    	@param w the width of the string, in pixels.
+    	@param th the total height of the text (ascent+descents).
+    	@param needsStretching true if some stretching is needed.
+    	@param orientation orientation in degrees of the text.
+    	@param mirror true if the text is mirrored.
+    	@param txt the string to be drawn.
+    */
     public void drawAdvText(double xyfactor, int xa, int ya,
   		int qq, int h, int w, int th, boolean needsStretching,
   		int orientation, boolean mirror,		
@@ -282,7 +388,6 @@ public class GraphicsAndroid implements GraphicsInterface
 		paint.setStyle(Style.FILL);
 		Path pp=new Path();
 		pp.moveTo(xa,ya);
-		
 		
 		if (mirror) {
 			canvas.save();
@@ -303,6 +408,10 @@ public class GraphicsAndroid implements GraphicsInterface
 		pp.rLineTo(1000*(float)Math.cos(orientationRad), 
 			1000*(float)Math.sin(orientationRad));
 		
+		// NOTE: there is an annoying bug in some versions of Android and 
+		// drawTextOnPath has a somewhat weird behavior while calculating the
+		// clipping area. This is true at least when the graphics HW
+		// acceleration is on.
 		canvas.drawTextOnPath(txt, pp, 0,th, paint);
 		
 		if (mirror) {
@@ -313,22 +422,39 @@ public class GraphicsAndroid implements GraphicsInterface
     	paint.setTextScaleX(1.0f);
   	}
     
+    /** Draw as efficiently as possible a grid on the current shown drawing 
+    	area. The grid shows the snapping point of the current MapCoordinates
+    	used for the drawing.
+    	@param cs the current MapCoordinates object used for the drawing.
+    	@param xmin the minimum x value (in pixel) of the viewport.
+    	@param ymin the minimum y value (in pixel) of the viewport.
+    	@param xmax the maximum x value (in pixel) of the viewport.
+    	@param ymax the maximum y value (in pixel) of the viewport.
+    */
     public void drawGrid(MapCoordinates cs, 
     	int xmin, int ymin, 
     	int xmax, int ymax)
     {
-    		// nothing to do
+    		// TODO: STILL TO BE IMPLEMENTED
     }
     	
-    	
+    /** Create a polygon object, compatible with GraphicsAndroid.
+    	@return a polygon object (instance of PolygonAndroid).
+    */
     public PolygonInterface createPolygon()
     {
     	return new PolygonAndroid();
     }
+    /** Create a color object, compatible with GraphicsAndroid.
+    	@return a color object (instance of ColorAndroid).
+    */
     public ColorInterface createColor()
     {
     	return new ColorAndroid();
     }
+    /** Create a shape object, compatible with GraphicsAndroid.
+    	@return a shape object (instance of ShapeAndroid).
+    */
 	public ShapeInterface createShape()
 	{
 		return new ShapeAndroid();
