@@ -166,7 +166,8 @@ public class GraphicsAndroid implements GraphicsInterface
                        int width,
                        int height)
     {
-    	return true;
+    	RectF rect=new RectF(x,y,x+width,y+height);
+    	return !canvas.quickReject (rect, Canvas.EdgeType.AA);
     }
     
     /** Draws a segment between two points
@@ -432,7 +433,7 @@ public class GraphicsAndroid implements GraphicsInterface
     		should be modified), this parameter gives the amount of stretching.
     	@param xa the x coordinate of the point where the text will be placed.
     	@param ya the y coordinate of the point where the text will be placed.
-    	@param qq not used: NOTE: TO REMOVE???
+    	@param qq
     	@param h the height of the text, in pixels.
     	@param w the width of the string, in pixels.
     	@param th the total height of the text (ascent+descents).

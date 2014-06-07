@@ -56,7 +56,11 @@ public class ShapeAndroid implements ShapeInterface
 
 	public RectangleG getBounds()
 	{
-		return new RectangleG(0,0,0,0);
+		RectF bounds = new RectF();
+		path.computeBounds(bounds, true);
+		return new RectangleG((int)bounds.left,(int)bounds.top,
+			(int)(bounds.right-bounds.left+1),
+			(int)(bounds.bottom-bounds.top+1));
 	}
 	
 	public void moveTo(float x, float y)
