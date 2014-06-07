@@ -364,7 +364,7 @@ public class GraphicsAndroid implements GraphicsInterface
     }
     
     /** Draws a string by allowing for a certain degree of flexibility in
-    	specifying how the text will be handled.
+    	specifying how the text will be handled. NOTE: TO BE REMOVED.
     	@param xyfactor the text font is specified by giving its height in the 
     		setFont() method. If the text should be stretched (i.e. its width 
     		should be modified), this parameter gives the amount of stretching.
@@ -379,11 +379,14 @@ public class GraphicsAndroid implements GraphicsInterface
     	@param mirror true if the text is mirrored.
     	@param txt the string to be drawn.
     */
-    public void drawAdvText(double xyfactor, int xa, int ya,
+    public void drawAdvTextPath(double xyfactor, int xa, int ya,
   		int qq, int h, int w, int th, boolean needsStretching,
   		int orientation, boolean mirror,		
   		String txt)
   	{
+  		// Note implementation using a path and drawTextOnPath (which is
+  		// buggy and probably a little slow...
+  		
   		applyStroke(1.0f, 0);
 		paint.setStyle(Style.FILL);
 		Path pp=new Path();
@@ -417,6 +420,54 @@ public class GraphicsAndroid implements GraphicsInterface
 		if (mirror) {
 			canvas.restore();
 		}
+		
+    	paint.setStyle(Style.STROKE);
+    	paint.setTextScaleX(1.0f);
+  	}
+  	
+  	/** Draws a string by allowing for a certain degree of flexibility in
+    	specifying how the text will be handled.
+    	@param xyfactor the text font is specified by giving its height in the 
+    		setFont() method. If the text should be stretched (i.e. its width 
+    		should be modified), this parameter gives the amount of stretching.
+    	@param xa the x coordinate of the point where the text will be placed.
+    	@param ya the y coordinate of the point where the text will be placed.
+    	@param qq not used: NOTE: TO REMOVE???
+    	@param h the height of the text, in pixels.
+    	@param w the width of the string, in pixels.
+    	@param th the total height of the text (ascent+descents).
+    	@param needsStretching true if some stretching is needed.
+    	@param orientation orientation in degrees of the text.
+    	@param mirror true if the text is mirrored.
+    	@param txt the string to be drawn.
+    */
+    public void drawAdvText(double xyfactor, int xa, int ya,
+  		int qq, int h, int w, int th, boolean needsStretching,
+  		int orientation, boolean mirror,		
+  		String txt)
+  	{
+  		applyStroke(1.0f, 0);
+		paint.setStyle(Style.FILL);
+		
+		canvas.save();
+		
+		if (mirror) {
+			canvas.scale(-1f, 1f, xa, ya);
+			orientation=-orientation;
+		}
+		
+		if(needsStretching) {
+			float size=paint.getTextSize();
+			paint.setTextScaleX((float)(1.0f/xyfactor));
+			paint.setTextSize(size*(float)xyfactor);
+			th=(int)(th*xyfactor);
+		} else
+			paint.setTextScaleX(1.0f);
+				
+		canvas.rotate(-orientation, xa, ya);
+		canvas.drawText(txt, xa,  ya+th, paint);
+	
+		canvas.restore();
 		
     	paint.setStyle(Style.STROKE);
     	paint.setTextScaleX(1.0f);
