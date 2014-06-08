@@ -275,6 +275,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				dl.show(fragmentManager, "");
 				status = true;
 				break;
+			case R.id.showgrid:
+				drawingPanel.setShowGrid(!drawingPanel.getShowGrid());
+				drawingPanel.invalidate();
+				item.setChecked(drawingPanel.getShowGrid());
+				status = true;
+				break;
 			case R.id.about:
 				da = new DialogAbout();   
 				da.show(fragmentManager, "");

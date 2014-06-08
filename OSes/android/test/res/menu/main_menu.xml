@@ -115,8 +115,15 @@
             <item
                 android:id="@+id/layer"
         		android:showAsAction="ifRoom|withText"
-        		android:title="@string/Layer_options"
+        		android:title="@string/tooltip_layerSel"
         		android:visible="true" />
+        	<item
+                android:id="@+id/showgrid"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/ShowGrid"
+        		android:visible="true"
+        		android:checkable="true"
+        		android:checked="true" />
         </menu>
     </item>
     
@@ -124,6 +131,7 @@
         android:id="@+id/circuit"
         android:showAsAction="ifRoom|withText"
         android:title="@string/Circuit_l"
+        android:visible="false"
          >
        
     </item>

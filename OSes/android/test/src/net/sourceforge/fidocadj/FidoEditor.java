@@ -86,6 +86,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private Context cc;
 	final Handler handler = new Handler(); 
 	
+	private boolean showGrid;
+	
 	/** Public constructor.
 	*/
     public FidoEditor(Context context, AttributeSet attrs) 
@@ -119,6 +121,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		eea.setActionSelected(ElementsEdtActions.SELECTION);
 		eea.setPrimitivesParListener(this);
 		
+		showGrid = true;
 		
 		BufferedReader stdLib = new BufferedReader(
 			new InputStreamReader(cc.getResources().openRawResource(
@@ -208,8 +211,30 @@ public class FidoEditor extends View implements PrimitivesParInterface
     protected void onDraw(Canvas canvas)
     {
     	canvas.drawARGB(255, 255, 255, 255);
-     		
-		GraphicsAndroid g = new GraphicsAndroid(canvas);
+    	GraphicsAndroid g = new GraphicsAndroid(canvas);
+		
+    	if(showGrid){  
+        	g.drawGrid(cs, (int)getScrollX(), (int)getScrollY(), 
+        		(int)(getScrollX()+getWidth()), 
+        		(int)(getScrollY()+getHeight()));
+        }
+        
+        
+        
+        // Show a sort of an arrow, to indicate that there is the library 
+        // hidden on the right.
+        Paint p= new Paint(Color.GRAY);
+        p.setStrokeWidth(3.0f);
+        p.setAntiAlias(true);
+        p.setStrokeCap(Cap.ROUND);
+        p.setStrokeJoin(Join.ROUND); 
+        float xs = getScrollX()+getWidth();
+        float ys = getScrollY()+getHeight()/2.0f;
+        
+        canvas.drawLine(xs, ys, xs-10.0f, ys-20.0f,p);
+        canvas.drawLine(xs, ys, xs-10.0f, ys+20.0f,p);
+
+     	// Draw the objects in the database
 		dd.draw(g, cs);
 		// Draw the handles of all selected primitives.
         dd.drawSelectedHandles(g, cs);
@@ -698,6 +723,23 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public MapCoordinates getMapCoordinates()
 	{
 		return cs;
+	}
+	
+	/** Sets whether the grid showing the editing points should be shown or
+		not.
+		@param s true if the grid is to be drawn.
+	*/
+	public void setShowGrid(boolean s)
+	{
+		showGrid=s;
+	}
+
+	/** Gets if the editing grid has to be shown.
+		@return true if the grid is drawn.
+	*/
+	public boolean getShowGrid()
+	{
+		return showGrid;
 	}
 
 	private class GestureListener extends 
