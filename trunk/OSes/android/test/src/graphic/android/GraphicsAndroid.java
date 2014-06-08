@@ -20,7 +20,7 @@ import globals.*;
     (at your option) any later version.
 
     FidoCadJ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY{} without even the implied warranty of
+    but WITHOUT ANY WARRANTY without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
@@ -33,13 +33,19 @@ import globals.*;
 
 public class GraphicsAndroid implements GraphicsInterface 
 {
-	Canvas canvas;
+	private Canvas canvas;
 	
-	float actual_w;
-	int actual_dash;
+	private float actual_w;
+	private int actual_dash;
 	
-	// By default, we keep a "STROKE" paint. 
+    private double oldZoom;
+    private Paint gridPaint;
+	
+	// We keep a Style.STROKE paint here
 	Paint paint;
+	
+	// We keep a Style.FILL_AND_STROKE paint here
+	Paint filled_stroke_paint;
 	
 	/** Standard constructor. 
 	*/
@@ -52,6 +58,14 @@ public class GraphicsAndroid implements GraphicsInterface
 		paint.setStrokeCap(Cap.ROUND);
 		paint.setStrokeJoin(Join.ROUND);        
         paint.setAntiAlias(true);
+        
+        filled_stroke_paint = new Paint();
+		filled_stroke_paint.setColor(Color.BLUE);
+        filled_stroke_paint.setStyle(Style.FILL_AND_STROKE);
+		filled_stroke_paint.setStrokeCap(Cap.ROUND);
+		filled_stroke_paint.setStrokeJoin(Join.ROUND);        
+        filled_stroke_paint.setAntiAlias(true);
+        
         actual_w=-1.0f;
         actual_dash = 0;
 	}
@@ -64,6 +78,7 @@ public class GraphicsAndroid implements GraphicsInterface
 	{
 		ColorAndroid ca = (ColorAndroid)c;
 		paint.setColor(ca.getColorAndroid());
+		filled_stroke_paint.setColor(ca.getColorAndroid());
 	}
 	
 	/** Gets the color being used. 
@@ -84,11 +99,15 @@ public class GraphicsAndroid implements GraphicsInterface
 		// We check if we need to change anything.
 		if(actual_w!=w || dashStyle!=actual_dash) {
 			paint.setStrokeWidth(w);
+			filled_stroke_paint.setStrokeWidth(w);
 			if (dashStyle==0) {
 				paint.setPathEffect(null);
+				filled_stroke_paint.setPathEffect(null);
 			} else {
 				paint.setPathEffect(new DashPathEffect(Globals.dash[dashStyle],	
 				 	0.0f));
+				filled_stroke_paint.setPathEffect(
+					new DashPathEffect(Globals.dash[dashStyle],	0.0f));
         	}
         	actual_dash = dashStyle;
         	actual_w = w;
@@ -130,9 +149,7 @@ public class GraphicsAndroid implements GraphicsInterface
 	*/
 	public void fillRect(int x, int y, int width, int height)
 	{
-		paint.setStyle(Style.FILL_AND_STROKE);
-		canvas.drawRect(x, y, x+width, y+height, paint);
-		paint.setStyle(Style.STROKE);
+		canvas.drawRect(x, y, x+width, y+height, filled_stroke_paint);
 	}
 	/** Fills a rounded rectangle on the current graphic context.
 		@param x the x coordinate of the uppermost left corner
@@ -149,10 +166,8 @@ public class GraphicsAndroid implements GraphicsInterface
                                    int arcWidth,
                                    int arcHeight)
     {
-		paint.setStyle(Style.FILL_AND_STROKE);
 		canvas.drawRoundRect(new RectF(x, y, x+width, y+height), 
-			(float)arcWidth/2.0f, (float)arcHeight/2.0f, paint);
-		paint.setStyle(Style.STROKE);   
+			(float)arcWidth/2.0f, (float)arcHeight/2.0f, filled_stroke_paint);
     }
     
 	/** Checks whether the rectangle specified falls in a region which need
@@ -281,6 +296,7 @@ public class GraphicsAndroid implements GraphicsInterface
     public void setAlpha(float alpha)
     {
 		paint.setAlpha((int)(alpha*255)); 
+		filled_stroke_paint.setAlpha((int)(alpha*255)); 
     }
 
 	/** Draws a completely filled oval in the current graphic context.
@@ -294,9 +310,8 @@ public class GraphicsAndroid implements GraphicsInterface
                               int width,
                               int height)
 	{
-		paint.setStyle(Style.FILL_AND_STROKE);
-		canvas.drawOval(new RectF (x, y, x+width, y+height), paint);
-		paint.setStyle(Style.STROKE);
+		canvas.drawOval(new RectF (x, y, x+width, y+height), 
+			filled_stroke_paint);
 	}
 	
 	/** Draws an enmpty oval in the current graphic context.
@@ -319,9 +334,7 @@ public class GraphicsAndroid implements GraphicsInterface
     public void fill(ShapeInterface s)
     {
 		ShapeAndroid ss = (ShapeAndroid) s;
-		paint.setStyle(Style.FILL_AND_STROKE);
-    	canvas.drawPath(ss.getPath(), paint);
-    	paint.setStyle(Style.STROKE);
+    	canvas.drawPath(ss.getPath(), filled_stroke_paint);
     }
     
     /** Draws a given  shape.
@@ -340,9 +353,7 @@ public class GraphicsAndroid implements GraphicsInterface
     {		
     	PolygonAndroid pp=(PolygonAndroid) p;
     	pp.close();
-		paint.setStyle(Style.FILL_AND_STROKE);
-    	canvas.drawPath(pp.getPath(), paint);
-    	paint.setStyle(Style.STROKE);
+    	canvas.drawPath(pp.getPath(), filled_stroke_paint);
 
     }
     
@@ -362,6 +373,8 @@ public class GraphicsAndroid implements GraphicsInterface
     public void activateSelectColor(LayerDesc l)
     {
 		paint.setColor(Color.GREEN);
+		filled_stroke_paint.setColor(Color.GREEN);
+		
     }
     
     /** Draws a string by allowing for a certain degree of flexibility in
@@ -474,20 +487,176 @@ public class GraphicsAndroid implements GraphicsInterface
     	paint.setTextScaleX(1.0f);
   	}
     
-    /** Draw as efficiently as possible a grid on the current shown drawing 
+    /** Draw the grid in the given graphic context.
+    	@param cs the coordinate map description
+        @param xmin the x (screen) coordinate of the upper left corner
+        @param ymin the y (screen) coordinate of the upper left corner
+        @param xmax the x (screen) coordinate of the bottom right corner
+        @param ymax the y (screen) coordinate of the bottom right corner  
+    */
+    public void drawGrid(MapCoordinates cs, 
+    	int xmin, int ymin, 
+    	int xmax, int ymax) 
+    {
+        // Drawing the grid seems easy, but it appears that setting a pixel
+        // takes a lot of time. Basically, we create a textured brush and we
+        // use it to paint the entire specified region.
+
+        int dx=cs.getXGridStep();
+        int dy=cs.getYGridStep();
+        int mul=1;
+        double toll=0.01;
+        double z=cs.getYMagnitude();
+        
+        double x;
+        double y;
+        
+        double width;
+        double height;
+        
+        double m=1.0;   
+
+        // Fabricate a new image only if necessary, to save time.   
+        if(oldZoom!=z || gridPaint == null) {
+            // It turns out that drawing the grid in an efficient way is not a 
+            // trivial problem. What it is done here is that the program tries
+            // to calculate the minimum common integer multiple of the dot 
+            // espacement to calculate the size of an image in order to be an 
+            // integer.
+            // The pattern filling (which is fast) is then used to replicate the
+            // image (very fast!) over the working surface.
+            
+            for (double l=1; l<105; ++l) {
+                if (Math.abs(l*z-Math.round(l*z))<toll) {
+                    mul=(int)l;
+                    break;
+                }
+            }
+            gridPaint = null;
+            double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+            double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+            int d=1;
+        
+            // This code applies a correction: draws bigger points if the pitch
+            // is very big, or draw much less points if it is too dense.
+            if (ddx>50 || ddy>50) {
+                d=2;
+            } else if (ddx<3 || ddy <3) {
+                dx=5*cs.getXGridStep();
+                dy=5*cs.getYGridStep();
+                ddx=Math.abs(cs.mapXr(dx,0)-cs.mapXr(0,0));
+            }
+                
+            width=Math.abs(cs.mapXr(mul*dx,0)-cs.mapXr(0,0));
+            if (width<=0) width=1;
+                
+            height=Math.abs(cs.mapYr(0,0)-cs.mapYr(0,mul*dy));
+            if (height<=0) height=1;
+        
+            /* Nowadays computers have generally a lot of memory, but this is 
+               not a good reason to waste it. If it turns out that the image
+               size is utterly impratical, use the standard dot by dot grid 
+               construction.
+               This should happen rarely, only for particular zoom sizes.
+            */
+            if (width>1000 || height>1000) {
+                drawGridSlowVersion(cs, xmin, ymin, xmax, ymax);
+                return;
+            }
+        
+        	Bitmap bitmapImage;
+            try {
+                // Create a buffered image in which to draw
+                bitmapImage = Bitmap.createBitmap((int) width, (int) height,
+                	Bitmap.Config.ARGB_8888);
+                
+            } catch (IllegalArgumentException E) {
+				android.util.Log.e("fidocadj", 
+					"Can not create bitmap for drawing the grid.");
+                return;
+            }
+        
+            // Create a graphics contents on the buffered image
+			Canvas cbitmap = new Canvas(bitmapImage);
+			cbitmap.drawARGB(255, 255, 255, 255);
+			Paint gridPoints = new Paint(Color.GRAY);
+			gridPoints.setStyle(Paint.Style.FILL_AND_STROKE);
+            
+            float sx, sy;
+            // Prepare the image with the grid.
+            for (x=0; x<=cs.unmapXsnap((int)width); x+=dx) {
+                for (y=0; y<=cs.unmapYsnap((int)height); y+=dy) {
+                	sx = (float)cs.mapXr(x,y);
+                	sy = (float)cs.mapYr(x,y);
+                    cbitmap.drawRect(sx, sy, sx+d, sy+d, gridPoints);
+                }
+            }
+            oldZoom=z;
+            BitmapShader fillBMPshader = new BitmapShader(bitmapImage, 
+            	Shader.TileMode.REPEAT, 
+            	Shader.TileMode.REPEAT);  
+  
+        	gridPaint = new Paint(Color.GRAY);  
+        	gridPaint.setStyle(Paint.Style.FILL);  
+        	gridPaint.setShader(fillBMPshader);  
+        }
+        
+        // Textured paint :-)
+        canvas.drawRect(xmin, ymin, xmax, ymax, gridPaint);
+	}
+
+    /** Draw a grid on the current shown drawing 
     	area. The grid shows the snapping point of the current MapCoordinates
-    	used for the drawing.
+    	used for the drawing. This is a slower version of the drawGrid routine, 
+    	used when everything else fails. The points are drawn one by one.
     	@param cs the current MapCoordinates object used for the drawing.
     	@param xmin the minimum x value (in pixel) of the viewport.
     	@param ymin the minimum y value (in pixel) of the viewport.
     	@param xmax the maximum x value (in pixel) of the viewport.
     	@param ymax the maximum y value (in pixel) of the viewport.
     */
-    public void drawGrid(MapCoordinates cs, 
+    public void drawGridSlowVersion(MapCoordinates cs, 
     	int xmin, int ymin, 
     	int xmax, int ymax)
     {
-    		// TODO: STILL TO BE IMPLEMENTED
+    	// NOTE: THIS IS AN INCREDIBLY SLOW CODE, ESPECIALLY FOR SOME ZOOM
+    	// SETTINGS! It happens the same thing with the Swing version of 
+    	// this class, the best way to proceed is to use the bit blitting
+    	// properties of modern graphics using some sort of tiled painting.
+    		
+    	float dx=cs.getXGridStep();
+        float dy=cs.getYGridStep();
+    	
+    	paint.setColor(Color.GRAY);
+    	paint.setStyle(Style.FILL_AND_STROKE);
+		
+		float x, y;
+		float sx, sy;
+		float d=1; // the size of the dot written
+		
+		double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+        double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
+        
+        // This code applies a correction: draws bigger points if the pitch
+        // is very big, or draw much less points if it is too dense.
+            if (ddx>50 || ddy>50) {
+                d=2;
+            } else if (ddx<3 || ddy <3) {
+                dx=5*cs.getXGridStep();
+                dy=5*cs.getYGridStep();
+                ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+            }
+    	
+        for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
+            for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
+            	sx=(float)cs.mapXr(x, y);
+            	sy=(float)cs.mapYr(x, y);
+            	
+            	canvas.drawRect(sx, sy, sx+d,sy+d, paint);
+            }
+        }
+		paint.setStyle(Style.STROKE);
+        
     }
     	
     /** Create a polygon object, compatible with GraphicsAndroid.
