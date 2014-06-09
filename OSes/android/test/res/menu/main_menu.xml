@@ -110,7 +110,7 @@
     <item
         android:id="@+id/view"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/View">
+        android:title="@string/Drawing">
         <menu>
             <item
                 android:id="@+id/layer"
@@ -128,6 +128,13 @@
                 android:id="@+id/snaptogrid"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/SnapToGrid"
+        		android:visible="true"
+        		android:checkable="true"
+        		android:checked="true" />
+        	<item
+                android:id="@+id/use_sensors_rotate_mirror"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/use_sensors_rotate_mirror"
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />

@@ -229,4 +229,5 @@
 	<string name="new_macro_name">Insérer le nouveau nom pour le symbole.</string>
 	<string name="new_category_name">Insérer le nouveau nom pour le groupe.</string>
 	<string name="new_library_name">Insérer le nouveau nom pour la bibliothèque.</string>
+	<string name="use_sensors_rotate_mirror">Utiliser le gyroscope pour retourner ou faire pivoter</string>
 </resources>

@@ -229,4 +229,5 @@
 	<string name="new_macro_name">Inserire il nuovo nome del simbolo.</string>
 	<string name="new_category_name">Inserire il nuovo nome della categoria.</string>
 	<string name="new_library_name">Inserire il nuovo nome della libreria.</string>
+	<string name="use_sensors_rotate_mirror">Usare il giroscopio per ruotare o specchiare</string>
 </resources>
