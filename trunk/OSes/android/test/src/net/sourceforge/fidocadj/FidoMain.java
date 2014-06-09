@@ -39,6 +39,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	private FragmentManager fragmentManager = getFragmentManager();
 	
 	/* Gyroscope gestures */
+	private boolean activateSensors;
 	private SensorManager mSensorManager;
   	private Sensor mAccelerometer;
   	private float averagedAngleSpeedX;
@@ -64,6 +65,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        activateSensors=true;
         setContentView(R.layout.main);
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
@@ -183,6 +185,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     	data.add(drawingPanel.eea.getSelectionState());
     	data.add(drawingPanel.getMapCoordinates());
     	data.add(Boolean.valueOf(drawingPanel.getShowGrid()));
+    	data.add(Boolean.valueOf(activateSensors));
 
     	return data;
 	}
@@ -200,6 +203,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     		drawingPanel.eea.setActionSelected((Integer) d.get(1));
     		drawingPanel.setMapCoordinates((MapCoordinates)d.get(2));
     		drawingPanel.setShowGrid(((Boolean)d.get(3)).booleanValue());
+    		activateSensors=((Boolean)d.get(4)).booleanValue();
     	}
 
 	}
@@ -240,6 +244,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		showGrid.setChecked(drawingPanel.getShowGrid());
 		MenuItem snapToGrid = menu.findItem(R.id.snaptogrid);
 		snapToGrid.setChecked(drawingPanel.getMapCoordinates().getSnap());
+		
+		MenuItem useSensors = menu.findItem(R.id.use_sensors_rotate_mirror);
+		useSensors.setChecked(activateSensors);
 		
 		return true;
 	}
@@ -328,6 +335,11 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				item.setChecked(mp.getSnap());
 				status = true;
 				break;
+			case R.id.use_sensors_rotate_mirror:
+				activateSensors=!activateSensors;
+				item.setChecked(activateSensors);
+				status = true;
+				break;
 			case R.id.about:			// Show the about dialog
 				da = new DialogAbout();   
 				da.show(fragmentManager, "");
@@ -355,6 +367,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
   	@Override
   	public final void onSensorChanged(SensorEvent event) 
   	{
+  		// Check if sensor gestures are active or not.
+  		if(!activateSensors)
+  			return;
+  			
     	// Get the gyroscope angles.
     	float xValue = event.values[0];
     	float yValue = event.values[1];

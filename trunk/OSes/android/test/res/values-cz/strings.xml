@@ -229,4 +229,5 @@
 	<string name="new_macro_name">Prosím vložte nové jméno makra.</string>
 	<string name="new_category_name">Prosím vložte nové jméno kategorie.</string>
 	<string name="new_library_name">Prosím vložte nové jméno knihovny.</string>
+	<string name="use_sensors_rotate_mirror">Use sensors gestures for rotate and mirror</string>
 </resources>

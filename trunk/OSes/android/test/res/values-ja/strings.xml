@@ -229,4 +229,5 @@
 	<string name="new_macro_name">Please input new macro name.</string>
 	<string name="new_category_name">Please input new category name.</string>
 	<string name="new_library_name">Please input new library name.</string>
+	<string name="use_sensors_rotate_mirror">Use sensors gestures for rotate and mirror</string>
 </resources>
