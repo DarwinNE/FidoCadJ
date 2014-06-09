@@ -22,7 +22,10 @@ README                      this file
 proTOxml.py                 creates the xml string resource files
 res/                 DIR    contains the Android project resources
 res.sh                      creates the Android project resources
-src                  DIR    contains all the project sources
+dimen.sh                    generates resource files for size conf.
+src/                 DIR    contains all the project sources
+gen/
+libs/
 -------------------------------------------------------------------------
 
 ---------

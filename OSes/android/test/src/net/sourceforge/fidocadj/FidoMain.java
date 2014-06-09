@@ -29,6 +29,7 @@ import primitives.*;
 import toolbars.*;
 import globals.*;
 import geom.MapCoordinates;
+import circuit.model.DrawingModel;
 
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	SensorEventListener
@@ -66,15 +67,25 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         setContentView(R.layout.main);
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
-
-        Globals.messages = new AccessResources(this);
-        tt.activateListeners(this, drawingPanel.eea);
-        mSensorManager = (SensorManager) 
-        	getSystemService(Context.SENSOR_SERVICE);
-    	mAccelerometer = mSensorManager.getDefaultSensor(
-    		Sensor.TYPE_GYROSCOPE);
+		tt.activateListeners(this, drawingPanel.eea);
 		
-		// get the listview
+        Globals.messages = new AccessResources(this);
+        
+		activateSensors();
+				
+		createLibraryDrawer();
+        
+        // TODO: this is method which works well, but it is discouraged by
+        // modern Android APIs.
+		reloadInstanceData(getLastNonConfigurationInstance());
+    }
+    
+    /** Create the drawer on the right of the Activity, showing the list of
+    	libraries when the user slides her finger.
+    */
+    public void createLibraryDrawer()
+    {
+    	// get the listview
         expListView = (ExpandableListView) findViewById(R.id.macroTree);
  
         // preparing list data
@@ -145,30 +156,52 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         			listAdapter.notifyDataSetChanged(); 
     			}
     		});
-        
-        
-        
-        // TODO: this is method which works well, but it is discouraged by
-        // modern Android APIs. It requires to redo the parsing, which for 
-        // *very* complex drawings can be a little waste of resources.
-        final Object data = getLastNonConfigurationInstance();
-    
-    	if (data != null) {
-    		List<Object> d = (List<Object>) data;
-    		drawingPanel.getParserActions().parseString((StringBuffer)d.get(0));
-    		drawingPanel.eea.setActionSelected((Integer) d.get(1));
-    	}
     }
     
+	/** Activate the sensors (gyroscope) which will then be used for actions
+		such as rotating and mirroring components.
+	*/
+    public void activateSensors()
+    {
+        mSensorManager = (SensorManager) 
+        	getSystemService(Context.SENSOR_SERVICE);
+    	mAccelerometer = mSensorManager.getDefaultSensor(
+    		Sensor.TYPE_GYROSCOPE);
+    }
+    
+    /** Saves the important data used in this instance, to be able to recover
+    	in a fast way when the user rotates the screen, for example.
+    	@return an array of useful data, used by reloadInstanceData(). 
+    */
     @Override
 	public Object onRetainNonConfigurationInstance() 
     {
     	List<Object> data = new ArrayList<Object>();
     	
+    	//data.add(drawingPanel.getDrawingModel()); // why is it not working?
     	data.add(drawingPanel.getParserActions().getText(true));
     	data.add(drawingPanel.eea.getSelectionState());
+    	data.add(drawingPanel.getMapCoordinates());
+    	data.add(Boolean.valueOf(drawingPanel.getShowGrid()));
 
     	return data;
+	}
+	
+	/** This routine does the opposite of onRetainNonConfigurationInstance()
+	*/
+	public void reloadInstanceData(Object data)
+	{
+		// Casting and order of objects is important
+    
+    	if (data != null) {
+    		List<Object> d = (List<Object>) data;
+    		//drawingPanel.setDrawingModel((DrawingModel)d.get(0));
+    		drawingPanel.getParserActions().parseString((StringBuffer)d.get(0));
+    		drawingPanel.eea.setActionSelected((Integer) d.get(1));
+    		drawingPanel.setMapCoordinates((MapCoordinates)d.get(2));
+    		drawingPanel.setShowGrid(((Boolean)d.get(3)).booleanValue());
+    	}
+
 	}
  
     /*
@@ -202,6 +235,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	public boolean onCreateOptionsMenu (Menu menu) 
 	{
 		getMenuInflater().inflate(R.menu.main_menu, menu);
+		// Set the correct checking state.
+		MenuItem showGrid = menu.findItem(R.id.showgrid);
+		showGrid.setChecked(drawingPanel.getShowGrid());
+		MenuItem snapToGrid = menu.findItem(R.id.snaptogrid);
+		snapToGrid.setChecked(drawingPanel.getMapCoordinates().getSnap());
+		
 		return true;
 	}
     

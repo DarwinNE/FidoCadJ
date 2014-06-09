@@ -204,6 +204,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	return dm;
     }
     
+    /** Set the DrawingModel object containing the drawing.
+    */
+    public void setDrawingModel(DrawingModel d)
+    {
+    	dm=d;
+    }
+    
 	/** Draw the drawing on the given canvas.
 		@param canvas the canvas where the drawing will be drawn.
 	*/
@@ -723,6 +730,14 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public MapCoordinates getMapCoordinates()
 	{
 		return cs;
+	}
+	
+	/** Set the current coordinate mapping object.
+    	@param c the current coordinate mapping object.
+    */
+    public void setMapCoordinates(MapCoordinates c)
+	{
+		cs=c;
 	}
 	
 	/** Sets whether the grid showing the editing points should be shown or
