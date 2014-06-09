@@ -28,6 +28,7 @@ import circuit.controllers.*;
 import primitives.*;
 import toolbars.*;
 import globals.*;
+import geom.MapCoordinates;
 
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	SensorEventListener
@@ -218,7 +219,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			return true;
 			
 		switch (item.getItemId()) {
-			case R.id.menu_copy_split:
+			case R.id.menu_copy_split:	// Copy and split nonstandard macros
 				// TODO: this is not yet working.
 				drawingPanel.getCopyPasteActions().copySelected(
 					true, true,
@@ -226,27 +227,27 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
                 	drawingPanel.getMapCoordinates().getYGridStep());
                 status=true;
 				break;
-			case R.id.menu_undo:
+			case R.id.menu_undo:	// Undo action
 				drawingPanel.getUndoActions().undo();
 				status=true;
 				break;
-			case R.id.menu_redo:
+			case R.id.menu_redo:	// Redo action
 				drawingPanel.getUndoActions().redo();
 				status=true;
 				break;
-			case R.id.new_drawing:
+			case R.id.new_drawing:	// New drawing
 				drawingPanel.getParserActions()
 					.parseString(new StringBuffer(""));
 				drawingPanel.getParserActions().openFileName = null;
 				drawingPanel.invalidate();
 				status = true;
 				break;
-			case R.id.open_file: 
+			case R.id.open_file: 	// Open an existing file
 				dof = new DialogOpenFile();
 				dof.show(fragmentManager, "");
 				status = true;
 				break;
-			case R.id.save: 
+			case R.id.save: 		// Save
 				String fileName = drawingPanel.getParserActions().openFileName;
 				if(fileName == null) {
 					dsn = new DialogSaveName();
@@ -265,29 +266,35 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				}
 				status = true;
 				break;
-			case R.id.save_with_name:
+			case R.id.save_with_name:	// Save with name
 				dsn = new DialogSaveName();
 				dsn.show(fragmentManager, "");
 				status = true;
 				break;
-			case R.id.layer:
+			case R.id.layer:			// Set the current layer
 				dl = new DialogLayer();
 				dl.show(fragmentManager, "");
 				status = true;
 				break;
-			case R.id.showgrid:
+			case R.id.showgrid:			// Toggle grid visibility
 				drawingPanel.setShowGrid(!drawingPanel.getShowGrid());
 				drawingPanel.invalidate();
 				item.setChecked(drawingPanel.getShowGrid());
 				status = true;
 				break;
-			case R.id.about:
+			case R.id.snaptogrid:		// Toggle snap to grid while editing
+				MapCoordinates mp = drawingPanel.getMapCoordinates();
+				mp.setSnap(!mp.getSnap());
+				drawingPanel.invalidate();
+				item.setChecked(mp.getSnap());
+				status = true;
+				break;
+			case R.id.about:			// Show the about dialog
 				da = new DialogAbout();   
 				da.show(fragmentManager, "");
 				status = true;
 				break;
-			default: 					
-				
+			default:		
 		}
 		if(!status)
 			android.util.Log.e("fidocadj", "menu not found: "+

@@ -124,6 +124,13 @@
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />
+        	<item
+                android:id="@+id/snaptogrid"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/SnapToGrid"
+        		android:visible="true"
+        		android:checkable="true"
+        		android:checked="true" />
         </menu>
     </item>
     
