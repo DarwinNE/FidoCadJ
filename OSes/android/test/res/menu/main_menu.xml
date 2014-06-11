@@ -38,6 +38,11 @@
         		android:title="@string/SaveName"
         		android:visible="true" />
             <item
+                android:id="@+id/delete"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Delete"
+        		android:visible="true" />
+            <item
                 android:id="@+id/export"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/Export"
@@ -156,5 +161,6 @@
         android:title="@string/About"/>
     
 </menu>
+
 
 

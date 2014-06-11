@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -264,21 +263,7 @@ public class DialogParameters extends DialogFragment
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof String) {
-				etv[ec] = new EditText(context){
-					@Override
-		    	    public boolean onTouchEvent(MotionEvent event) {
-		    	        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-		    	        	setInputType(InputType.TYPE_CLASS_TEXT);
-		    	        	this.requestFocus();
-		    				InputMethodManager mgr = (InputMethodManager) 
-							context.getSystemService(
-								Context.INPUT_METHOD_SERVICE);
-		    				mgr.showSoftInput(this, 
-		    					InputMethodManager.SHOW_IMPLICIT);
-		    	        }
-		    	        return true;
-		    	    }
-				};
+				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setGravity(Gravity.FILL_HORIZONTAL|
 					Gravity.CENTER_HORIZONTAL);
@@ -289,7 +274,7 @@ public class DialogParameters extends DialogFragment
 					new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setTextSize(textSize);
-				etv[ec].setInputType(InputType.TYPE_NULL);
+
 				
 				
 				// If we have a String text field in the first position, its
@@ -726,6 +711,7 @@ public class DialogParameters extends DialogFragment
         } 
     }
 }
+
 
 
 

@@ -10,6 +10,7 @@
 	<string name="Print">Print</string>
 	<string name="Close">Close</string>
 	<string name="Do_Not_Save">Do not save</string>
+	<string name="No_file_opened">No file opened.</string>
 	<string name="Edit_menu">Edit</string>
 	<string name="Undo">Undo</string>
 	<string name="Redo">Redo</string>
