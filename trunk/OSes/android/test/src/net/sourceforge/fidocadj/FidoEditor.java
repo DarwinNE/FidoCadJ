@@ -156,6 +156,9 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		// Courier New is the standard on PC, but it is not available on 
 		// Android. Here the system will find a substitute.
         dm.setTextFont("Courier New", 3, null);
+
+		//turn off hw accelerator 
+		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
     
     public String getText()

@@ -10,6 +10,7 @@
 	<string name="Print">Stampa</string>
 	<string name="Close">Chiudi</string>
 	<string name="Do_Not_Save">Non salvare</string>
+	<string name="No_file_opened">Nessun file aperto.</string>
 	<string name="Edit_menu">Composizione</string>
 	<string name="Undo">Annulla</string>
 	<string name="Redo">Ripristina</string>

@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.*;
 import dialogs.DialogAbout;
 import dialogs.DialogLayer;
@@ -255,6 +257,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	public boolean onOptionsItemSelected (MenuItem item) 
 	{
 		boolean status=false;
+		String fileName;
 		/* dialogs */
 	    DialogSaveName dsn;
 	    DialogOpenFile dof;
@@ -294,7 +297,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status = true;
 				break;
 			case R.id.save: 		// Save
-				String fileName = drawingPanel.getParserActions().openFileName;
+				fileName = drawingPanel.getParserActions().openFileName;
 				if(fileName == null) {
 					dsn = new DialogSaveName();
 					dsn.show(fragmentManager, "");
@@ -315,6 +318,20 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			case R.id.save_with_name:	// Save with name
 				dsn = new DialogSaveName();
 				dsn.show(fragmentManager, "");
+				status = true;
+				break;
+			case R.id.delete: 			//Delete a saved file
+				fileName = drawingPanel.getParserActions().openFileName;
+				if(fileName != null) {
+					deleteFile(drawingPanel.getParserActions().openFileName);
+					drawingPanel.getParserActions()
+						.parseString(new StringBuffer(""));
+					drawingPanel.getParserActions().openFileName = null;
+					drawingPanel.invalidate();
+				} else {
+					Toast toast = Toast.makeText(this, R.string.No_file_opened , 5);
+					toast.show();
+				}
 				status = true;
 				break;
 			case R.id.layer:			// Set the current layer
@@ -528,6 +545,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return pasteData;
 	}
 }
+
 
 
 
