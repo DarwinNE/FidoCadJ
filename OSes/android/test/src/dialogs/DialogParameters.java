@@ -39,6 +39,7 @@ import globals.Globals;
 import graphic.FontG;
 import graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;
+import net.sourceforge.fidocadj.storage.StaticStorage;
 
 
 /**
@@ -99,9 +100,7 @@ public class DialogParameters extends DialogFragment
 	// Spinner array and counter
 	private Spinner spv[];
 	private int sc; 
-	
-	private FidoEditor caller;
-	
+		
 	/**
 	 * Get a ParameterDescription vector describing the characteristics modified
 	 * by the user.
@@ -118,7 +117,7 @@ public class DialogParameters extends DialogFragment
 	 * @return a new istance of DialogParameters.
 	 */
 	public static DialogParameters newInstance(Vector<ParameterDescription> vec,
-			boolean strict, Vector<LayerDesc> layers, FidoEditor callback) 
+			boolean strict, Vector<LayerDesc> layers) 
 	{
 		DialogParameters dialog = new DialogParameters();	
 		
@@ -127,9 +126,7 @@ public class DialogParameters extends DialogFragment
         args.putBoolean("strict", strict);
         args.putSerializable("layers", layers);
         dialog.setArguments(args);
-        dialog.setRetainInstance(true);
-        dialog.caller=callback;
-        
+        dialog.setRetainInstance(true);        
 		return dialog;
 	}
 	
@@ -467,6 +464,8 @@ public class DialogParameters extends DialogFragment
 					t.setText(Globals.messages.getString("Format_invalid"));
 					t.show();
 				}
+				
+				FidoEditor caller = StaticStorage.getCurrentEditor();
 				caller.saveCharacteristics(vec);
 				dialog.dismiss();
 			}

@@ -34,6 +34,8 @@ import globals.*;
 import geom.MapCoordinates;
 import circuit.model.DrawingModel;
 
+import net.sourceforge.fidocadj.storage.*;
+
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	SensorEventListener
 {
@@ -72,6 +74,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         setContentView(R.layout.main);
         tt = new ToolbarTools();
         drawingPanel = (FidoEditor)findViewById(R.id.drawingPanel);
+        
+        StaticStorage.setCurrentEditor(drawingPanel);
 		tt.activateListeners(this, drawingPanel.eea);
 		
         Globals.messages = new AccessResources(this);
@@ -114,6 +118,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         		 		drawingPanel.getContinuosMoveActions();
         		 	if(md!=null){
         				eea.setState(ElementsEdtActions.MACRO, md.key);
+        				tt.clear(null);
                     } else {
                     	eea.setState(ElementsEdtActions.SELECTION, "");
                     }	
@@ -414,7 +419,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
     	// This is a delicate value: it should be enough to require a 
     	// deliberate action, but not too much.
-    	float threshold=0.75f;
+    	float threshold=1.0f;
     	
     	// X or Y action: mirror
     	if (averagedAngleSpeedX>threshold ||averagedAngleSpeedX<-threshold ||

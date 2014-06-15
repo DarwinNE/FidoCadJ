@@ -626,7 +626,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         }
         
         DialogParameters dp = DialogParameters.newInstance(v, 
-        	false, dm.getLayers(), this);
+        	false, dm.getLayers());
         dp.show( ((Activity)cc).getFragmentManager(), "");
 	}
 	
