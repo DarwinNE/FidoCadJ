@@ -201,6 +201,16 @@ public class ToolbarTools
 	*/
 	private void resetButtons(ToggleButton exc)
 	{
+		clear(exc);
+		eea.setActionSelected(ElementsEdtActions.NONE);
+	}
+	
+		/** Reset the state of all buttons, except the one specified.
+		@param exc the toggle button to exclude from the reset. It can
+			be null, if all buttons should be reset.
+	*/
+	public void clear(ToggleButton exc)
+	{
 		if(!selection.equals(exc))    selection.setChecked(false);
 		if(!line.equals(exc))         line.setChecked(false);
 		if(!advtext.equals(exc))      advtext.setChecked(false);
@@ -214,8 +224,6 @@ public class ToolbarTools
 		if(!pcbpad.equals(exc))       pcbpad.setChecked(false);
 		//if(!hand.equals(exc))         hand.setChecked(false);
 		//if(!zoom.equals(exc))		  zoom.setChecked(false);
-		
-		eea.setActionSelected(ElementsEdtActions.NONE);
 	}
 	
 	/** Associate all the ToggleButtons present in the resources to internal
