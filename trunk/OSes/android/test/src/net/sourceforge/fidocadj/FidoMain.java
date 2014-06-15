@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -188,11 +189,14 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     	data.add(drawingPanel.getMapCoordinates());
     	data.add(Boolean.valueOf(drawingPanel.getShowGrid()));
     	data.add(Boolean.valueOf(activateSensors));
+    	data.add(drawingPanel.getDrawingModel().getSelectionStateVector());
 
     	return data;
 	}
 	
-	/** This routine does the opposite of onRetainNonConfigurationInstance()
+	/** This routine does the opposite of onRetainNonConfigurationInstance().
+		@param data a List<Object> of different objects describing the
+		state of the app.
 	*/
 	public void reloadInstanceData(Object data)
 	{
@@ -206,12 +210,14 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     		drawingPanel.setMapCoordinates((MapCoordinates)d.get(2));
     		drawingPanel.setShowGrid(((Boolean)d.get(3)).booleanValue());
     		activateSensors=((Boolean)d.get(4)).booleanValue();
+    		drawingPanel.getDrawingModel().setSelectionStateVector(
+    			(Vector<Boolean>)d.get(5));
     	}
 
 	}
  
     /*
-     * Preparing the list data
+     * Preparing the list data.
      */
     private void prepareListData(LibraryModel lib) 
     {

@@ -630,9 +630,14 @@ public class FidoEditor extends View implements PrimitivesParInterface
         dp.show( ((Activity)cc).getFragmentManager(), "");
 	}
 	
+	/** This function is a callback which is used by DialogParameters to save
+		the useful data.
+	*/
 	public void saveCharacteristics(Vector<ParameterDescription> v)
 	{	
+		//android.util.Log.e("FidoCadJ", "saveCharacteristics: "+v);
 		GraphicPrimitive gp=ea.getFirstSelectedPrimitive();
+		android.util.Log.e("FidoCadJ", "saveCharacteristics this= "+this);
        	if (ea.isUniquePrimitiveSelected()) {
        	    gp.setControls(v);	
        	} else { 
