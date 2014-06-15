@@ -186,7 +186,7 @@ public class DrawingModel
         }
     }
 
-    /** Set the font of all macros.
+    /** Set the font of all elements.
         @param f the font name
         @param tsize the size
         @param ua the undo controller or null if not useful.
@@ -207,6 +207,36 @@ public class DrawingModel
         if(ua!=null) ua.setModified(true);
     }
     
+    /** Get an array describing the state of selection of the objects.
+    	@return a vector containing Boolean objects with the selection states
+    		of all objects in the database.
+    */
+    public Vector<Boolean> getSelectionStateVector()
+    {
+        int i;
+        Vector<Boolean> v = new Vector<Boolean>(getPrimitiveVector().size());
+   
+        for(GraphicPrimitive g : getPrimitiveVector()) {
+        	if(g.getSelected()) {
+        		v.add(Boolean.valueOf(true));
+        	} else {
+        		v.add(Boolean.valueOf(false));
+        	}
+        }
+        return v;
+    }
+    
+    /** Sets the state of the objects in the database according to the given
+    	vector.
+    */
+    public void setSelectionStateVector( Vector<Boolean> v)
+    {
+    	int i=0;
+        
+        for(GraphicPrimitive g : getPrimitiveVector()) {
+        	g.setSelected(v.get(i++).booleanValue());
+        }
+    }
     
     /** Get the font of all macros.
         @return the font name
