@@ -202,7 +202,6 @@ public class FidoMain
        	boolean nextLib=false;
    		String[] args=orArgs;
 	
-        
        	// called by jnlp        	
        	if (args[0].equalsIgnoreCase("-print")) {
        		// TODO: verify if this can happen in a operating system
@@ -225,8 +224,11 @@ public class FidoMain
        			if (args[i].trim().equalsIgnoreCase("-open")) {        				
        				continue;
        			}
-       			       			   
-       			if (args[i].startsWith("-n")) {
+       			if (args[i].startsWith("-k")) {
+      				// -k: show the current locale
+       				System.out.println("Detected locale: "+
+       					Locale.getDefault().getLanguage());
+       			} else if (args[i].startsWith("-n")) {
        				// -n indicates that FidoCadJ should run only with
        				// the command line interface, without showing any
        				// GUI.
@@ -345,7 +347,7 @@ public class FidoMain
     	// 80 characters.
     
     	String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-    	    "By Davide Bucci, 2007-2013.\n\n"+
+    	    "By Davide Bucci, 2007-2014.\n\n"+
     	    
     		"Use: java -jar fidocadj.jar [-options] [file] \n"+
     		"where options include:\n\n"+
@@ -375,6 +377,8 @@ public class FidoMain
     		
     		" -l     Force FidoCadJ to use a certain locale (the code might follow\n"+
     		"        immediately or be separated by an optional space).\n\n"+
+    		
+    		" -k     Show the current locale.\n\n"+
     		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
     		"        load at startup time.\n\n"+
