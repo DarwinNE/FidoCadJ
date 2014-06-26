@@ -7,16 +7,37 @@
     android:padding="10dp"
     android:orientation="vertical" >
 
-    <EditText
-    	android:id="@+id/editName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/active_dark"
-        android:background="@drawable/field_background"
-        android:paddingBottom="5dp"
-        android:cursorVisible="true"
-        android:ems="10" >
-    </EditText>
+    <LinearLayout
+    	android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:background="@color/background_white" >
+        
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+            android:text="@string/File_name"
+            android:textColor="@color/active_dark"
+        />
+        
+        <Space
+        	android:layout_width="5dp"
+        	android:layout_height="match_parent" />
+        
+    	<EditText
+    		android:id="@+id/editName"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textColor="@color/active_dark"
+        	android:background="@drawable/field_background"
+        	android:paddingBottom="5dp"
+        	android:paddingLeft="5dp"
+        	android:cursorVisible="true"
+        	android:ems="10" >
+    	</EditText>
+    	
+	</LinearLayout>
 
     <LinearLayout
     	android:layout_width="match_parent"
@@ -41,4 +62,5 @@
     </LinearLayout>
     
 </LinearLayout>
+
 

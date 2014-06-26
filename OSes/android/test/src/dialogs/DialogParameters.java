@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -153,9 +155,13 @@ public class DialogParameters extends DialogFragment
 		final Dialog dialog = new Dialog(context);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-  		
+		dialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams
+			    	.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		
     	LinearLayout vv = new LinearLayout(context){
     		
+    		//VKB hiding, with a touch on the dialog. 
     		@Override
     	    public boolean onTouchEvent(MotionEvent event) {
     	        if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -216,7 +222,7 @@ public class DialogParameters extends DialogFragment
     	
 			LinearLayout vh = new LinearLayout(context);
 			vh.setGravity(Gravity.FILL_HORIZONTAL);
-			vh.setGravity(Gravity.RIGHT);
+			vh.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
 			
 			// We do not need to store label objects, since we do not need
 			// to retrieve data from them.
@@ -290,7 +296,6 @@ public class DialogParameters extends DialogFragment
 				cbv[cc].setChecked(((Boolean) (pd.parameter)).booleanValue());
 				cbv[cc].setTextSize(textSize);
 				
-				vh.setGravity(Gravity.RIGHT);
 				vh.addView(cbv[cc++]);
 
 			} else if (pd.parameter instanceof Integer) {
@@ -363,7 +368,7 @@ public class DialogParameters extends DialogFragment
 				l.add(new ArrowInfo(3));
 				
 				ArrowSpinnerAdapter adapter = new ArrowSpinnerAdapter(
-						context, R.layout.arrow_spinner_item, l);
+						context, R.layout.spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
 				spv[sc].setBackgroundResource(R.drawable.field_background);
@@ -379,7 +384,9 @@ public class DialogParameters extends DialogFragment
 				for (int k = 0; k < Globals.dashNumber; ++k)
 					l.add(new DashInfo(k));
 				//TODO: customize the Arrayadapter.
-				ArrayAdapter<DashInfo> adapter = new ArrayAdapter<DashInfo>(
+				
+				
+				DashSpinnerAdapter  adapter = new DashSpinnerAdapter(
 						context, android.R.layout.simple_spinner_item, l);
 				
 				spv[sc].setAdapter(adapter);
@@ -583,10 +590,48 @@ public class DialogParameters extends DialogFragment
 								View convertView, ViewGroup parent) { 
         	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
     		LinearLayout row = (LinearLayout)inflater.
-				inflate(R.layout.arrow_spinner_item, parent, false);
+				inflate(R.layout.spinner_item, parent, false);
         	CellArrow ca = new CellArrow(context);
         	ca.setStyle(info.get(position));
     		row.addView(ca);
+    		
+            return row;
+        }
+    }
+    
+    private class DashSpinnerAdapter extends ArrayAdapter<DashInfo>
+    {
+    	private Context context;
+    	private List<DashInfo> info;
+    	
+    	public DashSpinnerAdapter(Context context, int textViewResourceId, 
+    			List<DashInfo> info) 
+    	{
+    		super(context, textViewResourceId, info);
+    		this.context = context;
+    		this.info = info;
+    	}
+
+    	@Override
+    	public View getView(int position, View convertView, ViewGroup parent) 
+    	{
+    		return getCustomView(position, convertView, parent);
+        }
+    	
+    	@Override
+        public View getDropDownView(int position, 
+								View convertView, ViewGroup parent){
+        	return getCustomView(position, convertView, parent);
+        }
+        
+        public View getCustomView(int position, 
+								View convertView, ViewGroup parent) { 
+        	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+    		LinearLayout row = (LinearLayout)inflater.
+				inflate(R.layout.spinner_item, parent, false);
+        	CellDash da = new CellDash(context);
+        	da.setStyle(info.get(position));
+    		row.addView(da);
     		
             return row;
         }
@@ -710,6 +755,7 @@ public class DialogParameters extends DialogFragment
         } 
     }
 }
+
 
 
 
