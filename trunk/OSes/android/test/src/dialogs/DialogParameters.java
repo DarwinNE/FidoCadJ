@@ -80,6 +80,8 @@ public class DialogParameters extends DialogFragment
 	private int fieldWidth;
     private int fieldHeight;
     private int textSize;
+	private int buttonWidth;
+	private int buttonHeight;
     
     //Dialog border
 	private static final int BORDER = 30;
@@ -406,6 +408,9 @@ public class DialogParameters extends DialogFragment
 		
 		Button ok = new Button(context);  
 		ok.setText(getResources().getText(R.string.Ok_btn));
+		ok.setTextSize(textSize);
+		ok.setLayoutParams(
+				new LayoutParams(buttonWidth,buttonHeight));
 		ok.setOnClickListener(new OnClickListener() 
 		{  
 			@Override  
@@ -482,6 +487,9 @@ public class DialogParameters extends DialogFragment
 		
 		Button cancel = new Button(context);  
 		cancel.setText(getResources().getText(R.string.Cancel_btn));
+		cancel.setTextSize(textSize);
+		cancel.setLayoutParams(
+				new LayoutParams(buttonWidth,buttonHeight));
 		cancel.setOnClickListener(new OnClickListener() 
 		{  
 			@Override  
@@ -648,9 +656,11 @@ public class DialogParameters extends DialogFragment
     	// DB, I agree, but make sort that at least something will be always 
     	// shown.
     	
-    	fieldWidth = 200;
-    	fieldHeight = 25;
-    	textSize = 10;
+		fieldWidth = 300;
+		fieldHeight = 50;
+		textSize = 15;
+		buttonWidth = 115;
+		buttonHeight = 60;
     	
     	android.util.Log.e("fidocadj", "size: "+size+" density: "+density);
 
@@ -694,8 +704,8 @@ public class DialogParameters extends DialogFragment
     		/*	case DENSITY_XXXHIGH:
     				break; */
     			default:
-    				fieldWidth = 200;
-    				fieldHeight = 25;
+    				fieldWidth = 300;
+    				fieldHeight = 50;
     				textSize = 10;
     				break;
         	}
@@ -755,6 +765,7 @@ public class DialogParameters extends DialogFragment
         } 
     }
 }
+
 
 
 

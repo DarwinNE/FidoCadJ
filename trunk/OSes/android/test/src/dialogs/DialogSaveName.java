@@ -54,6 +54,7 @@ public class DialogSaveName extends DialogFragment
 				editName.setPadding(10, 0, 0, 0);
 
 				String fileName = editName.getText().toString();
+				fileName += "\0";
 				if( fileName.indexOf(".fcd\0") == -1 )
 					fileName += ".fcd";
 
@@ -84,6 +85,7 @@ public class DialogSaveName extends DialogFragment
 		return dialog;
 	}
 }  
+
 
 
 
