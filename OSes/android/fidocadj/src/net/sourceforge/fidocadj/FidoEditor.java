@@ -241,8 +241,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         float xs = getScrollX()+getWidth();
         float ys = getScrollY()+getHeight()/2.0f;
         
-        canvas.drawLine(xs, ys, xs-10.0f, ys-20.0f,p);
-        canvas.drawLine(xs, ys, xs-10.0f, ys+20.0f,p);
+        canvas.drawLine(xs-12.0f, ys, xs-2.0f, ys-20.0f,p);
+        canvas.drawLine(xs-12.0f, ys, xs-2.0f, ys+20.0f,p);
 
      	// Draw the objects in the database
 		dd.draw(g, cs);
