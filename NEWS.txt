@@ -1,6 +1,8 @@
 Version 0.24.5
 --------------
 - Solved bug #56 (some components do not appear in the preview).
+- Czech translation associated to the correct locale.
+- Reintroduced the "-k" option to obtain the given locale.
 
 Version 0.24.4
 --------------
