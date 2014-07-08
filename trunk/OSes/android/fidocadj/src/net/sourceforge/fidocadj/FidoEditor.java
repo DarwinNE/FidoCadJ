@@ -143,8 +143,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         } catch (IOException E) {
         
         }
-        StringBuffer s=new StringBuffer(createTestPattern());	
-		pa.parseString(s);
+        //StringBuffer s=new StringBuffer(createTestPattern());	
+		//pa.parseString(s);
 		ua.saveUndoState();
 		cs = new MapCoordinates();
 		
