@@ -330,12 +330,15 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	            		double scale = newDist / oldDist;
 	            		scale = Math.min(1.11, scale);
 	            		scale = Math.max(1/1.11, scale);
-	            		if( scale*cs.getXMagnitude() < 6 && 
-	            				scale*cs.getXMagnitude() > 0.36 ) {
-	            			cs.setXMagnitude(scale*cs.getXMagnitude());
-	            			cs.setYMagnitude(scale*cs.getYMagnitude());
-	            			invalidate();
-	            		}
+	            		// NOTE: DB there is no need to check the size here,
+	            		// since a check is already done in geom.MapCoordinates
+	            		
+	            		//if(scale*cs.getXMagnitude() < 12 && 
+	            		//		scale*cs.getXMagnitude() > 0.36) {
+	            		cs.setXMagnitude(scale*cs.getXMagnitude());
+	            		cs.setYMagnitude(scale*cs.getYMagnitude());
+	            		invalidate();
+	            		//}
 	                } else {
                 		curX = (int)event.getX();
 	                	curY = (int)event.getY();
