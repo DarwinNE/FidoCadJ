@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.*;
+import android.support.v4.widget.DrawerLayout;
+
 import dialogs.DialogAbout;
 import dialogs.DialogLayer;
 import dialogs.DialogOpenFile;
@@ -110,19 +112,21 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         		 public boolean onChildClick(ExpandableListView parent, 
         		 	View v, int groupPosition, int childPosition, long id)
         		 {
-        		 	Category c= globalList.get(groupPosition);
-        		 	MacroDesc md=c.getAllMacros().
-        		 		get(childPosition);
+        		 	Category c = globalList.get(groupPosition);
+        		 	MacroDesc md = c.getAllMacros().get(childPosition);
         		 	
         		 	ContinuosMoveActions eea = 
         		 		drawingPanel.getContinuosMoveActions();
         		 	if(md!=null){
         				eea.setState(ElementsEdtActions.MACRO, md.key);
         				tt.clear(null);
+        				// NOTE: close the drawer here!
+        				DrawerLayout drawer = (DrawerLayout)
+        					findViewById(R.id.drawer_layout);
+        				drawer.closeDrawers();
                     } else {
                     	eea.setState(ElementsEdtActions.SELECTION, "");
                     }	
-        		 	
         		 	return true;
         		 }
         	});
@@ -218,7 +222,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     		drawingPanel.getDrawingModel().setSelectionStateVector(
     			(Vector<Boolean>)d.get(5));
     	}
-
 	}
  
     /*
