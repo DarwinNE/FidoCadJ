@@ -84,7 +84,7 @@ for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
   gpl-3.0.txt                 the GNU public licence v. 3
   icons/               DIR    contains all icons (made with Gimp)
   jar/                 DIR    contains fidocadj.jar as well as Quaqua
-  OSes/                DIR    contains files specific for some OS
+  OSes/                DIR    specific things for some OS (Android app here)
   manual/              DIR    all the LaTeX manuals sources
   profile                     launches a profiler (jip)
   rebuild                     does a clean and then runs FidoCadJ

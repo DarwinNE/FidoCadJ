@@ -1,6 +1,8 @@
 package net.sourceforge.fidocadj;
 
 import java.util.Vector;
+import java.util.Locale;
+import java.util.MissingResourceException;
 import java.io.*;
 
 import android.view.MotionEvent;
@@ -122,19 +124,47 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		eea.setPrimitivesParListener(this);
 		
 		showGrid = true;
+		BufferedReader stdLib;
+		BufferedReader ihram;
+		BufferedReader elettrotecnica;
+		BufferedReader pcb;
 		
-		BufferedReader stdLib = new BufferedReader(
-			new InputStreamReader(cc.getResources().openRawResource(
-			R.raw.fcdstdlib_en)));
-		BufferedReader ihram = new BufferedReader(
-			new InputStreamReader(cc.getResources().openRawResource(
-			R.raw.ihram_en)));
-		BufferedReader elettrotecnica = new BufferedReader(
-			new InputStreamReader(cc.getResources().openRawResource(
-			R.raw.elettrotecnica_en)));
-		BufferedReader pcb = new BufferedReader(
-			new InputStreamReader(cc.getResources().openRawResource(
-			R.raw.pcb_en)));
+		// Libraries are available in Italian or in English
+		
+		String lang="";
+		try {
+			lang=Locale.getDefault().getISO3Language();
+		} catch (MissingResourceException E) 
+		{
+			// Not a big issue. Show the English version of the libs.
+			lang="";
+		}
+		
+		if("ita".equals(lang)) {
+			// Italian version (only for italian locale)
+			stdLib = new BufferedReader(new InputStreamReader(cc.getResources()
+				.openRawResource(R.raw.fcdstdlib)));
+			ihram = new BufferedReader(new InputStreamReader(cc.getResources()
+				.openRawResource(R.raw.ihram)));
+			elettrotecnica=new BufferedReader(new InputStreamReader(
+				cc.getResources().openRawResource(R.raw.elettrotecnica)));
+			pcb = new BufferedReader(new InputStreamReader(cc.getResources()
+				.openRawResource(R.raw.pcb)));
+		} else {
+			// English version
+			stdLib = new BufferedReader(
+				new InputStreamReader(cc.getResources().openRawResource(
+				R.raw.fcdstdlib_en)));
+			ihram = new BufferedReader(
+				new InputStreamReader(cc.getResources().openRawResource(
+				R.raw.ihram_en)));
+			elettrotecnica = new BufferedReader(
+				new InputStreamReader(cc.getResources().openRawResource(
+				R.raw.elettrotecnica_en)));
+			pcb = new BufferedReader(
+				new InputStreamReader(cc.getResources().openRawResource(
+				R.raw.pcb_en)));
+		}
 		try {
 			pa.readLibraryBufferedReader(stdLib, "");
 			pa.readLibraryBufferedReader(pcb, "pcb");
