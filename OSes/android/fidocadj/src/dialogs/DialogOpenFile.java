@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.fidocadj.FidoEditor;
 import net.sourceforge.fidocadj.R;
@@ -44,16 +46,20 @@ public class DialogOpenFile extends DialogFragment
 		File dir = context.getFilesDir();
 		files = dir.list();
 		
-		if(files.length == 0){
-			files = new String[1];
-			files[0] = "No such file.";
-		}
-			
+		List<String> listFiles = new ArrayList<String>();
 		
+		for( String str:files)
+			if( str.indexOf("state.fcd.tmp") == -1 )
+				listFiles.add(str);
+		
+		if(listFiles.isEmpty())
+			listFiles.add("No such file.")
+				;
+			
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  context, 
                  R.layout.list_item, R.id.lblListItem,
-                 files );
+                 listFiles );
 		
 		ListView list = (ListView) dialog.findViewById(R.id.fileList);
 		list.setAdapter(arrayAdapter);
@@ -94,6 +100,7 @@ public class DialogOpenFile extends DialogFragment
 		return dialog;
 	}
 }  
+
 
 
 
