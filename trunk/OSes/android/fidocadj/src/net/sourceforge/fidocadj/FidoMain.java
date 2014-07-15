@@ -1,7 +1,9 @@
 package net.sourceforge.fidocadj;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import android.view.*;
 import android.view.ContextMenu.*;
 import android.content.*;
 import android.hardware.*;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -22,7 +25,6 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.*;
 import android.support.v4.widget.DrawerLayout;
-
 import dialogs.DialogAbout;
 import dialogs.DialogLayer;
 import dialogs.DialogOpenFile;
@@ -35,7 +37,6 @@ import toolbars.*;
 import globals.*;
 import geom.MapCoordinates;
 import circuit.model.DrawingModel;
-
 import net.sourceforge.fidocadj.storage.*;
 
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
@@ -86,6 +87,28 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				
 		createLibraryDrawer();
         
+		StringBuilder text = new StringBuilder();
+		text.append("[FIDOCAD]\n");
+		File file = new File(getFilesDir(),"state.fcd.tmp");
+		try {
+		    BufferedReader br = new BufferedReader(new FileReader(file));
+		    String line;
+
+		    while ((line = br.readLine()) != null) {
+		        text.append(line);
+		        text.append('\n');
+		    }
+		    br.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		drawingPanel.getParserActions().openFileName = "state.fcd.tmp";
+		drawingPanel.getParserActions().parseString(new StringBuffer(text.toString()));
+		drawingPanel.getUndoActions().saveUndoState();
+		drawingPanel.invalidate();
+		
         // TODO: this is method which works well, but it is discouraged by
         // modern Android APIs.
 		reloadInstanceData(getLastNonConfigurationInstance());
@@ -558,7 +581,26 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		// If the string contains data, then the paste operation is done
 		return pasteData;
 	}
+
+	@Override
+	public void onBackPressed() 
+	{
+		FileOutputStream outputStream;
+		String fileName = "state.fcd.tmp";
+		try {
+		  outputStream = openFileOutput(fileName,
+		  	 Context.MODE_PRIVATE);
+		  outputStream.write(drawingPanel.getText().getBytes());
+		  outputStream.close();
+		} catch (IOException e) {
+		  e.printStackTrace();
+		}
+		
+		finish();
+	}
+
 }
+
 
 
 
