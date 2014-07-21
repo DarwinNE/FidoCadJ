@@ -45,7 +45,8 @@ public abstract class GraphicPrimitive
 	// Tell that we want to perform a selection in a rectangular area
 	public static final int RECT_SELECTION=-3;
 	
-	// Handle dimension in pixels 
+	// Handle dimension. This is rescaled depending of the screen pixel
+	// density. It is the size in pixel for a 112 dpi monitor.
 	private static final int HANDLE_WIDTH=10;
 
 	// Maximum number of tokens
@@ -101,6 +102,7 @@ public abstract class GraphicPrimitive
         changed=true;
         name = "";
         value = "";
+        mult = 1.0f;
 		
 		setMacroFontSize(size);
 
@@ -716,6 +718,8 @@ public abstract class GraphicPrimitive
 		@param g the graphic context to be used.
 		@param cs the coordinate mapping used.
 	*/
+	
+	float mult;
 	public void drawHandles(GraphicsInterface g, MapCoordinates cs)
 	{
 		int xa;
@@ -723,6 +727,11 @@ public abstract class GraphicPrimitive
 		
 		g.setColor(g.getColor().red());
 		g.applyStroke(2.0f,0);
+		
+		mult=g.getScreenDensity()/112;
+		
+		int size_x=(int)Math.round(mult*HANDLE_WIDTH);
+		int size_y=(int)Math.round(mult*HANDLE_WIDTH);
 
 		for(int i=0;i<getControlPointNumber();++i) {
 		
@@ -733,14 +742,14 @@ public abstract class GraphicPrimitive
  			ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
 
- 			if(!g.hitClip(xa-HANDLE_WIDTH/2,ya-HANDLE_WIDTH/2,
- 							HANDLE_WIDTH,HANDLE_WIDTH))
+ 			if(!g.hitClip(xa-size_x/2,ya-size_y/2,
+ 							size_x,size_y))
  				continue;
  			
  			// A handle is a small red rectangle
  			
-	 		g.fillRect(xa-HANDLE_WIDTH/2,ya-HANDLE_WIDTH/2,
- 							HANDLE_WIDTH,HANDLE_WIDTH);
+	 		g.fillRect(xa-size_x/2,ya-size_y/2,
+ 							size_x,size_y);
  		}	
 	}
 	
@@ -758,9 +767,9 @@ public abstract class GraphicPrimitive
 		int xa;
 		int ya;
 		
-		int increase = 2;
-		int hw2=HANDLE_WIDTH/2;
-		int hl2=HANDLE_WIDTH/2;
+		int increase = 5;
+		int hw2=(int)Math.round(mult*HANDLE_WIDTH/2);
+		int hl2=(int)Math.round(mult*HANDLE_WIDTH/2);
 		
 		for(int i=0;i<getControlPointNumber();++i) {
 
@@ -773,11 +782,12 @@ public abstract class GraphicPrimitive
 			// Recognize if we have clicked on a handle. Basically, we check
 			// if the point lies inside the rectangle given by the handle.
 			
- 			if(GeometricDistances.pointInRectangle(xa-hw2-increase,
- 							ya-hl2-increase,
- 							HANDLE_WIDTH+2*increase,
- 							HANDLE_WIDTH+2*increase,
- 							px,py))
+ 			if(GeometricDistances.pointInRectangle(
+ 				xa-hw2-(int)Math.round(mult*increase),
+ 				ya-hl2-(int)Math.round(mult*increase),
+ 				(int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
+ 				(int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
+ 				px,py))
  				return i;
  			
 	 		

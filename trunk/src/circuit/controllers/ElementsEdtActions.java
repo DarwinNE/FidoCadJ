@@ -796,13 +796,16 @@ public class ElementsEdtActions
     {
     	int x, y;
 		g.setColor(g.getColor().red());
-		g.applyStroke(2.0f,0);
 		// The data here begins at index 1, due to the internal construction.
+		
+		int mult=(int)Math.round(g.getScreenDensity()/112);
+		g.applyStroke(2.0f*mult,0);
+		
 		for(int i=1; i<=clickNumber; ++i) {
 			x = cs.mapXi(xpoly[i], ypoly[i], false);
 			y = cs.mapYi(xpoly[i], ypoly[i], false);
-			g.drawLine(x-15, y, x+15, y);
-			g.drawLine(x, y-15, x, y+15);		
+			g.drawLine(x-15*mult, y, x+15*mult, y);
+			g.drawLine(x, y-15*mult, x, y+15*mult);		
 		}    
     }
     

@@ -439,7 +439,7 @@ public class GraphicsAndroid implements GraphicsInterface
     	paint.setTextScaleX(1.0f);
   	}
   	
-  	/** Draws a string by allowing for a certain degree of flexibility in
+  	/** Draw a string by allowing for a certain degree of flexibility in
     	specifying how the text will be handled.
     	@param xyfactor the text font is specified by giving its height in the 
     		setFont() method. If the text should be stretched (i.e. its width 
@@ -535,12 +535,12 @@ public class GraphicsAndroid implements GraphicsInterface
             gridPaint = null;
             double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-            int d=1;
+			float d=Math.round(getScreenDensity()/112); // dot size
         
             // This code applies a correction: draws bigger points if the pitch
             // is very big, or draw much less points if it is too dense.
             if (ddx>50 || ddy>50) {
-                d=2;
+                d*=2;
             } else if (ddx<3 || ddy <3) {
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
@@ -579,7 +579,8 @@ public class GraphicsAndroid implements GraphicsInterface
             // Create a graphics contents on the buffered image
 			Canvas cbitmap = new Canvas(bitmapImage);
 			cbitmap.drawARGB(255, 255, 255, 255);
-			Paint gridPoints = new Paint(Color.GRAY);
+			Paint gridPoints = new Paint();
+			gridPoints.setColor(Color.LTGRAY);
 			gridPoints.setStyle(Paint.Style.FILL_AND_STROKE);
             
             float sx, sy;
@@ -588,7 +589,8 @@ public class GraphicsAndroid implements GraphicsInterface
                 for (y=0; y<=cs.unmapYsnap((int)height); y+=dy) {
                 	sx = (float)cs.mapXr(x,y);
                 	sy = (float)cs.mapYr(x,y);
-                    cbitmap.drawRect(sx, sy, sx+d, sy+d, gridPoints);
+                    cbitmap.drawRect(sx-d/2, sy-d/2, 
+                    	sx+d/2, sy+d/2, gridPoints);
                 }
             }
             oldZoom=z;
@@ -627,12 +629,12 @@ public class GraphicsAndroid implements GraphicsInterface
     	float dx=cs.getXGridStep();
         float dy=cs.getYGridStep();
     	
-    	paint.setColor(Color.GRAY);
+    	paint.setColor(Color.LTGRAY);
     	paint.setStyle(Style.FILL_AND_STROKE);
 		
 		float x, y;
 		float sx, sy;
-		float d=1; // the size of the dot written
+		float d=Math.round(getScreenDensity()/112); // dot size
 		
 		double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
         double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
@@ -640,7 +642,7 @@ public class GraphicsAndroid implements GraphicsInterface
         // This code applies a correction: draws bigger points if the pitch
         // is very big, or draw much less points if it is too dense.
             if (ddx>50 || ddy>50) {
-                d=2;
+                d=2*getScreenDensity()/112;
             } else if (ddx<3 || ddy <3) {
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
@@ -652,7 +654,8 @@ public class GraphicsAndroid implements GraphicsInterface
             	sx=(float)cs.mapXr(x, y);
             	sy=(float)cs.mapYr(x, y);
             	
-            	canvas.drawRect(sx, sy, sx+d,sy+d, paint);
+            	canvas.drawRect(sx-d/2, sy-d/2, 
+                    	sx+d/2, sy+d/2, paint);
             }
         }
 		paint.setStyle(Style.STROKE);
@@ -680,4 +683,13 @@ public class GraphicsAndroid implements GraphicsInterface
 	{
 		return new ShapeAndroid();
 	}
+	
+	/** Retrieve the current screen density in dots-per-inch.
+		@return the screen resolution (density) in dots-per-inch.
+	*/
+	public float getScreenDensity()
+	{
+		return canvas.getDensity();
+		//getResources().getDisplayMetrics().densityDpi;
+	}	
 }

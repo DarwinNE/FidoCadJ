@@ -37,7 +37,7 @@ import circuit.model.*;
 public class EditorActions 
 {
     // Tolerance in pixels to select an object
-    public static final int SEL_TOLERANCE = 10; 
+    public int sel_tolerance = 10; 
 
 	private final DrawingModel P;
 	private final UndoActions ua;
@@ -50,7 +50,26 @@ public class EditorActions
 	{
 		P=pp;
 		ua=u;
+		sel_tolerance = 10;
 	}
+	
+	/** Set the current selection tolerance in pixels (the default when
+		the class is created is 10 pixels.
+		@param s the new tolerance.
+	*/
+	public void setSelectionTolerance(int s)
+	{
+		sel_tolerance = s;
+	}
+	
+	/** Get the selection tolerance in pixels.
+		@return the current selection tolerance.
+	*/
+	public int getSelectionTolerance()
+	{
+		return sel_tolerance;
+	}
+	
 
     /** Rotate all selected primitives. 
     */
@@ -270,7 +289,7 @@ public class EditorActions
     
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
-        int toll= cs.unmapXnosnap(x+SEL_TOLERANCE)-cs.unmapXnosnap(x);
+        int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
             
         if (toll<2) toll=2;
             
