@@ -118,6 +118,11 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		haa = new HandleActions(dm, ea, ua);
 		cpa=new CopyPasteActions(dm, ea, pa, ua, (FidoMain)cc);
 
+		// Specify a reasonable tolerance so you can select objects and handles
+		// with your finger.
+		ea.setSelectionTolerance(20*
+			getResources().getDisplayMetrics().densityDpi/112);
+			
 		cpa.setShiftCopyPaste(true);	
 	
 		eea.setActionSelected(ElementsEdtActions.SELECTION);
@@ -178,8 +183,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		ua.saveUndoState();
 		cs = new MapCoordinates();
 		
-		cs.setXMagnitude(3);
-		cs.setYMagnitude(3);
+		cs.setXMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
+		cs.setYMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
 		cs.setXGridStep(5);
 		cs.setYGridStep(5);
 
@@ -327,7 +332,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			// Handle selection events.
 	        switch (action) {
 	        	case MotionEvent.ACTION_DOWN:
-	        		haa.dragHandleStart(mx, my, EditorActions.SEL_TOLERANCE,
+	        		haa.dragHandleStart(mx, my, ea.getSelectionTolerance(),
 	        				false, cs);
 	        		break;
 	        	case MotionEvent.ACTION_MOVE:							
@@ -343,7 +348,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	        invalidate();
 	    }
     	
-	    if (eea.getSelectionState() == ElementsEdtActions.NONE )
+	    if (eea.getSelectionState() == ElementsEdtActions.NONE)
 	    {
 	    	//Handle Scrolling and zooming events
 	        switch (action) {
@@ -820,7 +825,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	rulerStartY = y;
         	rulerEndX = x;
         	rulerEndY = y;
-        	haa.dragHandleStart(x, y, EditorActions.SEL_TOLERANCE,
+        	haa.dragHandleStart(x, y, ea.getSelectionTolerance(),
             	false, cs);
             invalidate();
             return true;

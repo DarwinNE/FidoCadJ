@@ -159,7 +159,7 @@ public class Graphics2DSwing implements GraphicsInterface
 		return new ColorSwing(g.getColor());
 	}
 	
-	/** Draws a rectangle on the current graphic context.
+	/** Draw a rectangle on the current graphic context.
 		@param x the x coordinate of the uppermost left corner
 		@param y the y coordinate of the uppermost left corner
 		@param width the width of the rectangle
@@ -169,7 +169,7 @@ public class Graphics2DSwing implements GraphicsInterface
     {
     	g.drawRect(x,y,width,height);
     }
-    /** Fills a rectangle on the current graphic context.
+    /** Fill a rectangle on the current graphic context.
 		@param x the x coordinate of the uppermost left corner
 		@param y the y coordinate of the uppermost left corner
 		@param width the width of the rectangle
@@ -180,7 +180,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.fillRect(x,y,width,height);
     }
     
-	/** Fills a rounded rectangle on the current graphic context.
+	/** Fill a rounded rectangle on the current graphic context.
 		@param x the x coordinate of the uppermost left corner
 		@param y the y coordinate of the uppermost left corner
 		@param width the width of the rectangle
@@ -197,7 +197,7 @@ public class Graphics2DSwing implements GraphicsInterface
     {
     	g.fillRoundRect(x,y,width,height,arcWidth,arcHeight);
     }
-	/** Checks whether the rectangle specified falls in a region which need
+	/** Check whether the rectangle specified falls in a region which need
 		to be updated because it is "dirty" on the screen.
 		Implementing correctly this method is very important to achieve a good
 		redrawing speed because only "dirty" regions on the screen will be
@@ -210,7 +210,7 @@ public class Graphics2DSwing implements GraphicsInterface
     {
     	return g.hitClip(x,y,width,height);
     }
-    /** Draws a segment between two points
+    /** Draw a segment between two points
     	@param x1 first coordinate x value
     	@param y1 first coordinate y value
     	@param x2 second coordinate x value
@@ -224,7 +224,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.drawLine(x1,y1,x2,y2);
     }
 	
-	/** Sets the current font for drawing text.
+	/** Set the current font for drawing text.
     	@param name the name of the typeface to be used.
     	@param size the size in pixels
     	@param isItalic true if an italic variant should be used
@@ -253,7 +253,7 @@ public class Graphics2DSwing implements GraphicsInterface
 		setFont(name, size, false, false);
 	}
 	
-	/** Gets the ascent metric of the current font.
+	/** Get the ascent metric of the current font.
 		@returns the value of the ascent, in pixels.
 	*/
 	public int getFontAscent()
@@ -262,7 +262,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	return fm.getAscent();
 	}
 	
-	/** Gets the descent metric of the current font.
+	/** Get the descent metric of the current font.
 		@returns the value of the descent, in pixels.
 	*/
 	public int getFontDescent()
@@ -271,7 +271,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	return fm.getDescent();
 	}
 	
-	/** Gets the width of the given string with the current font.
+	/** Get the width of the given string with the current font.
 		@param s the string to be used.
 		@return the width of the string, in pixels.
 	*/
@@ -281,7 +281,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	return fm.stringWidth(s);
 	}
 
-	/** Draws a string on the current graphic context
+	/** Draw a string on the current graphic context
 		@param str the string to be drawn
 		@param x the x coordinate of the starting point
 		@param y the y coordinate of the starting point
@@ -293,7 +293,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.drawString(str,x,y);
     }
     
-    /** Sets the transparency (alpha) of the current color.
+    /** Set the transparency (alpha) of the current color.
     	@param alpha the transparency, between 0.0 (transparent) and 1.0 
     		(fully opaque).
     */
@@ -303,7 +303,7 @@ public class Graphics2DSwing implements GraphicsInterface
     		alpha));
     }
 
-	/** Draws a completely filled oval in the current graphic context.
+	/** Draw a completely filled oval in the current graphic context.
 		@param x the x coordinate of the starting point.
 		@param y the y coordinate of the starting point.
 		@param width the width of the oval.
@@ -317,7 +317,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.fillOval(x,y,width,height);
     }
     
-    /** Draws an enmpty oval in the current graphic context.
+    /** Draw an enmpty oval in the current graphic context.
 		@param x the x coordinate of the starting point.
 		@param y the y coordinate of the starting point.
 		@param width the width of the oval.
@@ -331,7 +331,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.drawOval(x,y,width,height);
     }
     
-     /** Fills a given  shape.
+    /** Fill a given  shape.
     	@param s the shape to be filled.
 	*/                   
     public void fill(ShapeInterface s)
@@ -340,7 +340,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.fill(ss.getShapeInSwing());
     }
     
-    /** Draws a given  shape.
+    /** Draw a given  shape.
     	@param s the shape to be drawn.
 	*/
     public void draw(ShapeInterface s)
@@ -349,7 +349,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.draw(ss.getShapeInSwing());
     }
     
-    /** Fills a given  polygon.
+    /** Fill a given  polygon.
     	@param p the polygon to be filled.
 	*/
     public void fillPolygon(PolygonInterface p)
@@ -358,7 +358,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	g.fillPolygon(pp.getSwingPolygon());
     }
     
-    /** Draws a given  polygon.
+    /** Draw a given  polygon.
     	@param p the polygon to be drawn.
 	*/
     public void drawPolygon(PolygonInterface p)
@@ -415,7 +415,7 @@ public class Graphics2DSwing implements GraphicsInterface
     	return color;
   	}
   	    
-  	/** Draws a string by allowing for a certain degree of flexibility in
+  	/** Draw a string by allowing for a certain degree of flexibility in
     	specifying how the text will be handled.
     	@param xyfactor the text font is specified by giving its height in the 
     		setFont() method. If the text should be stretched (i.e. its width 
@@ -659,5 +659,11 @@ public class Graphics2DSwing implements GraphicsInterface
 	{
 		return new ColorSwing(g.getColor());
 	}
-
+	/** Retrieve the current screen density in dots-per-inch.
+		@return the screen resolution (density) in dots-per-inch.
+	*/
+	public float getScreenDensity()
+	{
+		return java.awt.Toolkit.getDefaultToolkit().getScreenResolution();
+	}
 }

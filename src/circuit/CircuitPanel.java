@@ -778,7 +778,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
             !evt.isShiftDown()) { 
-            haa.dragHandleStart(px, py, EditorActions.SEL_TOLERANCE,
+            haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
             	toggle, cs);
         } else if(eea.actionSelected == ElementsEdtActions.SELECTION){ 
         	// Right click during selection

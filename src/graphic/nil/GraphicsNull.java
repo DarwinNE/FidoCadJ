@@ -231,4 +231,15 @@ public class GraphicsNull implements GraphicsInterface
 	{
 		return new ShapeNull();
 	}
+	
+	/** Retrieve the current screen density in dots-per-inch.
+		@return the screen resolution (density) in dots-per-inch.
+	*/
+	public float getScreenDensity()
+	{
+		// If GraphicsNull is used correctly, this magic number should not 
+		// be very important.
+		
+		return 72; 
+	}
 }
