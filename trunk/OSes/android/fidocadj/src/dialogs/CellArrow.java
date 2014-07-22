@@ -31,9 +31,13 @@ public class CellArrow extends View
 		ColorAndroid c = new ColorAndroid();
 		g.setColor(c.black());
 		
+		int mult=(int)Math.floor(g.getScreenDensity()/112);
+		if (mult<1) mult=1;
+		
 		g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
-		Arrow.drawArrow( g, getWidth()/3, getHeight()/2,
-				2*getWidth()/3, getHeight()/2, 10, 4, arrow.style);
+		Arrow.drawArrow(g, getWidth()/3, getHeight()/2,
+				2*getWidth()/3, getHeight()/2, mult*10, mult*4,
+				 arrow.style);
 
     }
 }
