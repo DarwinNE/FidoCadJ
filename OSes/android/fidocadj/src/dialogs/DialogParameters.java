@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Space;
 import net.sourceforge.fidocadj.R;
 import layers.LayerDesc;
 import globals.Globals;
@@ -407,6 +408,8 @@ public class DialogParameters extends DialogFragment
 		buttonView.setOrientation(LinearLayout.HORIZONTAL);
 		
 		Button ok = new Button(context);  
+		ok.setTextColor(getResources().getColor(R.color.active_light));
+		ok.setBackgroundColor(getResources().getColor(R.color.background_dark));
 		ok.setText(getResources().getText(R.string.Ok_btn));
 		ok.setTextSize(textSize);
 		ok.setLayoutParams(
@@ -485,11 +488,24 @@ public class DialogParameters extends DialogFragment
 		
 		buttonView.addView(ok);
 		
+		Space space = new Space(context);
+		
+		space.setLayoutParams(
+				new LayoutParams(5, buttonHeight));
+		
+		buttonView.addView(space);
+		
+		
+		
 		Button cancel = new Button(context);  
+		cancel.setTextColor(getResources().getColor(R.color.active_dark));
+		cancel.setBackgroundColor(getResources().getColor(
+							R.color.background_dark));
+
 		cancel.setText(getResources().getText(R.string.Cancel_btn));
 		cancel.setTextSize(textSize);
 		cancel.setLayoutParams(
-				new LayoutParams(buttonWidth,buttonHeight));
+				new LayoutParams(buttonWidth, buttonHeight));
 		cancel.setOnClickListener(new OnClickListener() 
 		{  
 			@Override  
