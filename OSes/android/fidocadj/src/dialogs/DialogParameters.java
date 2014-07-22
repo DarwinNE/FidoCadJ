@@ -667,42 +667,110 @@ public class DialogParameters extends DialogFragment
         if(size == Configuration.SCREENLAYOUT_SIZE_SMALL) {
         	switch(density) {
         		case DENSITY_LOW:
-        			break;
-        		case DENSITY_MEDIUM:
-        			break;
-        		case DENSITY_HIGH:
-        			break;
-        		case DENSITY_TV:
-        			break;
-        		case DENSITY_XHIGH:
-        			break;
-        		case DENSITY_XXHIGH:
-        			break;
-        		case DENSITY_XXXHIGH:
-        			break;
-        		default:
-        			break;
+    				// Not tested yet on a real device
+    				fieldWidth = 80;
+    				fieldHeight = 20;
+    				textSize = 7;
+    				buttonWidth = 100;
+					buttonHeight = 25;    			
+    				break;
+    			case DENSITY_MEDIUM:
+    				// Not tested on a real device yet!
+    				fieldWidth = 130;
+    				fieldHeight = 25;
+    				textSize = 9;
+    				buttonWidth = 120;
+					buttonHeight = 40;    			
+    				break;
+    			case DENSITY_HIGH: // no break
+    			case DENSITY_TV:
+    				// Not tested on a real device yet!
+    				fieldWidth = 300;
+    				fieldHeight = 60;
+    				textSize = 11;
+    				buttonWidth = 160;
+					buttonHeight = 60;    			
+    				break;
+    			case DENSITY_XHIGH:
+    				fieldWidth = 350;
+    				fieldHeight = 70;
+    				textSize = 13;
+    				buttonWidth = 170;
+					buttonHeight = 65;
+    				break;
+    			case DENSITY_XXHIGH: // D: around 480
+    				// Not tested on a real device yet!
+    				fieldWidth = 400;
+    				fieldHeight = 80;
+    				textSize = 14;
+    				buttonWidth = 200;
+					buttonHeight = 70;
+    				break;
+    			case DENSITY_XXXHIGH:
+    				// Not tested on a real device yet!
+    				fieldWidth = 450;
+    				fieldHeight = 95;
+    				textSize = 16;
+    				buttonWidth = 230;
+					buttonHeight = 90;
+    				break;	
+    			default:
+    				fieldWidth = 300;
+    				fieldHeight = 50;
+    				textSize = 10;
+    				break;
         	}
         } else if(size == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
         	switch(density) {
-    		/*	case DENSITY_LOW:
+    			case DENSITY_LOW:
+    				// Not tested on a real device yet!
+    				fieldWidth = 120;
+    				fieldHeight = 25;
+    				textSize = 8;
+    				buttonWidth = 120;
+					buttonHeight = 30;    			
     				break;
     			case DENSITY_MEDIUM:
+    				// Not tested on a real device yet!
+    				fieldWidth = 150;
+    				fieldHeight = 30;
+    				textSize = 9;
+    				buttonWidth = 150;
+					buttonHeight = 50;    			
     				break;
-    			case DENSITY_HIGH:
-    				break;
+    			case DENSITY_HIGH: // no break
     			case DENSITY_TV:
+    				// Not tested on a real device yet!
+    				fieldWidth = 350;
+    				fieldHeight = 70;
+    				textSize = 12;
+    				buttonWidth = 180;
+					buttonHeight = 70;    			
     				break;
     			case DENSITY_XHIGH:
-    				break;*/
-    			case DENSITY_XXHIGH:
-    				//tested with nexus 5
     				fieldWidth = 400;
     				fieldHeight = 80;
-    				textSize = 10;
+    				textSize = 14;
+    				buttonWidth = 200;
+					buttonHeight = 70;
     				break;
-    		/*	case DENSITY_XXXHIGH:
-    				break; */
+    			case DENSITY_XXHIGH: // D: around 480
+    				//tested with Google Nexus 5
+    				//tested with Samsung Galaxy S5 (real device)
+    				fieldWidth = 450;
+    				fieldHeight = 90;
+    				textSize = 15;
+    				buttonWidth = 225;
+					buttonHeight = 80;
+    				break;
+    			case DENSITY_XXXHIGH:
+    				// Not tested on a real device yet!
+    				fieldWidth = 550;
+    				fieldHeight = 110;
+    				textSize = 18;
+    				buttonWidth = 275;
+					buttonHeight = 100;
+    				break;	
     			default:
     				fieldWidth = 300;
     				fieldHeight = 50;
@@ -744,7 +812,7 @@ public class DialogParameters extends DialogFragment
     			case DENSITY_LOW:
     				break;
     			case DENSITY_MEDIUM:
-    				// Samsung Galaxy Note 10.1 v. 2013
+    				// Samsung Galaxy Note 10.1 v. 2013 (real device)
     				fieldWidth = 400;
             		fieldHeight = 40;
             		textSize = 16;
