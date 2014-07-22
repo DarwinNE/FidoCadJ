@@ -741,11 +741,12 @@ public class DialogParameters extends DialogFragment
     			case DENSITY_HIGH: // no break
     			case DENSITY_TV:
     				// Not tested on a real device yet!
-    				fieldWidth = 350;
-    				fieldHeight = 70;
+    				//Tested with Nexus S (VD)
+    				fieldWidth = 210;
+    				fieldHeight = 45;
     				textSize = 12;
-    				buttonWidth = 180;
-					buttonHeight = 70;    			
+    				buttonWidth = 80;
+					buttonHeight = 50;    			
     				break;
     			case DENSITY_XHIGH:
     				fieldWidth = 400;
@@ -833,6 +834,7 @@ public class DialogParameters extends DialogFragment
         } 
     }
 }
+
 
 
 
