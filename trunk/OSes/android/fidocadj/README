@@ -1,6 +1,6 @@
 		FidoCadJ for Android
 		
-By Davide Bucci, 2014
+By Davide Bucci,Giuseppe Amato 2014
 
 This folder contains the complete sources of the FidoCadJ for Android 
 application.
@@ -20,6 +20,7 @@ Useful scripts
 -------------------------------------------------------------------------
 README                      this file
 proTOxml.py                 creates the xml string resource files
+linkedResource.py           creates the xml string needed to eclipse on Win
 res/                 DIR    contains the Android project resources
 res.sh                      creates the Android project resources
 dimen.sh                    generates resource files for size conf.
@@ -35,3 +36,16 @@ Resources
 The primary resources are always those for the Swing application. For this 
 reason, if you need to add a string, modify the resource files of the
 Swing application (/bin/*.resources) and then run res.sh script.
+
+--------------------------------
+Building on Windows with Eclipse
+--------------------------------
+
+1. Import the existing project in eclipse.
+2. To use put this file in the fidocadj for android root directory and execute it.
+3. It will create a file named "linkedResources.xml".
+4. Copy the content of file "linkedResources.xml" and paste in the file ".project" 
+   created by eclipse, between tags "<projectDescription></projectDescription>".
+5. Refresh the project in eclipse.
+
+Be sure all the dependencies of Android SDK are fulfilled.
