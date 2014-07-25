@@ -266,16 +266,19 @@ public class FidoEditor extends View implements PrimitivesParInterface
         
         // Show a sort of an arrow, to indicate that there is the library 
         // hidden on the right.
+        
+        float xs = getScrollX()+getWidth();
+        float ys = getScrollY()+getHeight()/2.0f;
+        float mult=g.getScreenDensity()/112.0f;
+        
         Paint p= new Paint(Color.GRAY);
-        p.setStrokeWidth(3.0f);
+        p.setStrokeWidth(3.0f*mult);
         p.setAntiAlias(true);
         p.setStrokeCap(Cap.ROUND);
         p.setStrokeJoin(Join.ROUND); 
-        float xs = getScrollX()+getWidth();
-        float ys = getScrollY()+getHeight()/2.0f;
         
-        canvas.drawLine(xs-12.0f, ys, xs-2.0f, ys-20.0f,p);
-        canvas.drawLine(xs-12.0f, ys, xs-2.0f, ys+20.0f,p);
+        canvas.drawLine(xs-12.0f*mult, ys, xs-2.0f*mult, ys-20.0f*mult,p);
+        canvas.drawLine(xs-12.0f*mult, ys, xs-2.0f*mult, ys+20.0f*mult,p);
 
      	// Draw the objects in the database
 		dd.draw(g, cs);
@@ -288,7 +291,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	Paint rectPaint = new Paint();
         	rectPaint.setColor(Color.GREEN);
 			rectPaint.setStyle(Style.STROKE);
-			rectPaint.setStrokeWidth(g.getScreenDensity()/112.0f*1.3f);
+			rectPaint.setStrokeWidth(mult*1.3f);
         	canvas.drawRect(evidenceRect, rectPaint);
         } else {
         	evidenceRect = null;

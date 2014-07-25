@@ -698,7 +698,7 @@ public class DialogParameters extends DialogFragment
     				buttonWidth = 120;
 					buttonHeight = 40;    			
     				break;
-    			case DENSITY_HIGH: // no break
+    			case DENSITY_HIGH: // no break d:240
     			case DENSITY_TV:
     				// Not tested on a real device yet!
     				fieldWidth = 300;
@@ -708,6 +708,7 @@ public class DialogParameters extends DialogFragment
 					buttonHeight = 60;    			
     				break;
     			case DENSITY_XHIGH:
+    				// Not tested on a real device yet!
     				fieldWidth = 350;
     				fieldHeight = 70;
     				textSize = 13;
@@ -736,7 +737,7 @@ public class DialogParameters extends DialogFragment
     				textSize = 10;
     				break;
         	}
-        } else if(size == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+        } else if(size == Configuration.SCREENLAYOUT_SIZE_NORMAL) { //s:2
         	switch(density) {
     			case DENSITY_LOW:
     				// Not tested on a real device yet!
@@ -754,13 +755,13 @@ public class DialogParameters extends DialogFragment
     				buttonWidth = 150;
 					buttonHeight = 50;    			
     				break;
-    			case DENSITY_HIGH: // no break
+    			case DENSITY_HIGH: // no break d:240
     			case DENSITY_TV:
     				// Not tested on a real device yet!
     				//Tested with Nexus S (VD)
-    				fieldWidth = 210;
+    				fieldWidth = 190;
     				fieldHeight = 45;
-    				textSize = 12;
+    				textSize = 11;
     				buttonWidth = 80;
 					buttonHeight = 50;    			
     				break;
@@ -769,16 +770,16 @@ public class DialogParameters extends DialogFragment
     				fieldHeight = 80;
     				textSize = 14;
     				buttonWidth = 200;
-					buttonHeight = 70;
+					buttonHeight = 80;
     				break;
-    			case DENSITY_XXHIGH: // D: around 480
+    			case DENSITY_XXHIGH: // d: 480
     				//tested with Google Nexus 5
     				//tested with Samsung Galaxy S5 (real device)
     				fieldWidth = 450;
     				fieldHeight = 90;
     				textSize = 15;
     				buttonWidth = 225;
-					buttonHeight = 80;
+					buttonHeight = 100;
     				break;
     			case DENSITY_XXXHIGH:
     				// Not tested on a real device yet!
@@ -800,8 +801,8 @@ public class DialogParameters extends DialogFragment
     				break;
     			case DENSITY_MEDIUM:
     				break;
-    			case DENSITY_HIGH:
     				break;*/
+    			case DENSITY_HIGH: // no break, d:240
     			case DENSITY_TV:
             		//tested with nexus7 800x1280
             		fieldWidth = 300;
@@ -814,35 +815,69 @@ public class DialogParameters extends DialogFragment
             		fieldHeight = 80;
             		textSize = 18;
     				break;
-    		/*	case DENSITY_XXHIGH:
+    			case DENSITY_XXHIGH:
+    				// not tested yet
+    				fieldWidth = 500;
+            		fieldHeight = 100;
+            		textSize = 20;
     				break;
     			case DENSITY_XXXHIGH:
-    				break;*/
+    				// not tested yet
+    				fieldWidth = 550;
+            		fieldHeight = 110;
+            		textSize = 22;
+    				break;
     			default:
             		fieldWidth = 300;
             		fieldHeight = 50;
             		textSize = 16;
     				break;
         	}	
-        } else if(size == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+        } else if(size == Configuration.SCREENLAYOUT_SIZE_XLARGE) { // s: 4
         	switch(density) {
     			case DENSITY_LOW:
     				break;
-    			case DENSITY_MEDIUM:
+    			case DENSITY_MEDIUM: // d:160
     				// Samsung Galaxy Note 10.1 v. 2013 (real device)
     				fieldWidth = 400;
             		fieldHeight = 40;
             		textSize = 16;
+            		buttonWidth = 275;
+					buttonHeight = 70;
     				break;
-    			case DENSITY_HIGH:
-    				break;
-    			case DENSITY_TV:
+    			case DENSITY_TV: // no break here
+    			case DENSITY_HIGH:   // d:240
+    				// Not tested yet!
+    				fieldWidth = 600;
+            		fieldHeight = 70;
+            		textSize = 17;
+            		buttonWidth = 300;
+					buttonHeight = 100;
+    				
     				break;
     			case DENSITY_XHIGH:
+    				// Not tested yet!
+    				fieldWidth = 600;
+            		fieldHeight = 70;
+            		textSize = 18;
+            		buttonWidth = 320;
+					buttonHeight = 110;
     				break;
     			case DENSITY_XXHIGH:
+    				// Not tested yet!
+    				fieldWidth = 650;
+            		fieldHeight = 80;
+            		textSize = 20;
+            		buttonWidth = 350;
+					buttonHeight = 130;
     				break;
     			case DENSITY_XXXHIGH:
+    				// Not tested yet!
+    				fieldWidth = 700;
+            		fieldHeight = 90;
+            		textSize = 22;
+            		buttonWidth = 370;
+					buttonHeight = 140;
     				break;
     			default:
     				break;
