@@ -104,7 +104,8 @@ public final class PrimitiveOval extends GraphicPrimitive
 		@param coordSys the graphic coordinates system to be applied.
 		@param layerV the layer description.
 	*/
-	public void draw(GraphicsInterface g, MapCoordinates coordSys, Vector layerV)
+	public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+		Vector layerV)
 	{
 	
 		if(!selectLayer(g,layerV))
