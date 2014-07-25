@@ -1,6 +1,6 @@
-		FidoCadJ for Android
+		FidoCadJ for Android README file
 		
-By Davide Bucci,Giuseppe Amato 2014
+By Davide Bucci, Giuseppe Amato 2014
 
 This folder contains the complete sources of the FidoCadJ for Android 
 application.
@@ -17,7 +17,7 @@ This is because those files need some version-specific features.
 Useful scripts
 --------------
 
--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 README                      this file
 proTOxml.py                 creates the xml string resource files
 linkedResource.py           creates the xml string needed to eclipse on Win
@@ -27,7 +27,7 @@ dimen.sh                    generates resource files for size conf.
 src/                 DIR    contains all the project sources
 gen/
 libs/
--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 
 ---------
 Resources
@@ -42,10 +42,12 @@ Building on Windows with Eclipse
 --------------------------------
 
 1. Import the existing project in eclipse.
-2. To use put this file in the fidocadj for android root directory and execute it.
+2. Execute linkedResource.py file which is in the  fidocadj for android root 
+   directory.
 3. It will create a file named "linkedResources.xml".
-4. Copy the content of file "linkedResources.xml" and paste in the file ".project" 
-   created by eclipse, between tags "<projectDescription></projectDescription>".
+4. Copy the content of file "linkedResources.xml" and paste in the file 
+   ".project" created by eclipse, between tags 
+   "<projectDescription></projectDescription>".
 5. Refresh the project in eclipse.
 
 Be sure all the dependencies of Android SDK are fulfilled.

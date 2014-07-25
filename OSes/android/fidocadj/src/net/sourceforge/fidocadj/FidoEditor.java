@@ -264,8 +264,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
         		(int)(getScrollY()+getHeight()));
         }
         
-        
-        
         // Show a sort of an arrow, to indicate that there is the library 
         // hidden on the right.
         Paint p= new Paint(Color.GRAY);
@@ -290,6 +288,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	Paint rectPaint = new Paint();
         	rectPaint.setColor(Color.GREEN);
 			rectPaint.setStyle(Style.STROKE);
+			rectPaint.setStrokeWidth(g.getScreenDensity()/112.0f*1.3f);
         	canvas.drawRect(evidenceRect, rectPaint);
         } else {
         	evidenceRect = null;
@@ -635,10 +634,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 			"TY 265 110 4 3 0 0 0 Helvetica PCB\n"+
 			"MC 285 130 0 0 pcb.to92-45";
 
-
-
-
-	return s;
+		return s;
 	}
 
     /** Shows a dialog which allows the user modify the parameters of a given

@@ -535,7 +535,7 @@ public class GraphicsAndroid implements GraphicsInterface
             gridPaint = null;
             double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-			float d=Math.round(getScreenDensity()/112); // dot size
+			float d=Math.round(getScreenDensity()/112)+1; // dot size
         
             // This code applies a correction: draws bigger points if the pitch
             // is very big, or draw much less points if it is too dense.
@@ -634,8 +634,8 @@ public class GraphicsAndroid implements GraphicsInterface
 		
 		float x, y;
 		float sx, sy;
-		float d=Math.round(getScreenDensity()/112); // dot size
-		
+		float d=Math.round(getScreenDensity()/112)+1; // dot size
+
 		double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
         double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
         
