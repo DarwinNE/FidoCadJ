@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import 	android.widget.Toast;
+import android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -35,8 +35,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ScrollView;
 import android.widget.Space;
+
 import net.sourceforge.fidocadj.R;
+
 import layers.LayerDesc;
 import globals.Globals;
 import graphic.FontG;
@@ -517,8 +520,9 @@ public class DialogParameters extends DialogFragment
 		buttonView.addView(cancel);
 		
 		vv.addView(buttonView);
-		
-		dialog.setContentView((View)vv);  
+		ScrollView sv=new ScrollView(context);
+		sv.addView(vv);
+		dialog.setContentView((View)sv);  
 		
 		return dialog;
 	}
