@@ -28,6 +28,11 @@
         		android:title="@string/Open"
         		android:visible="true" />
             <item
+                android:id="@+id/open_file_deprecated"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Open_deprecated"
+        		android:visible="true" />
+            <item
                 android:id="@+id/save"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/Save"

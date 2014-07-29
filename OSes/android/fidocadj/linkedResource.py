@@ -9,7 +9,7 @@
 ## 5. Refresh the project in eclipse.
 ##
 ##Author: Giuseppe Amato
-##
+##License GPLv.3
 
 import os,os.path
 

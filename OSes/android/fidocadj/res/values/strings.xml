@@ -4,6 +4,7 @@
 	<string name="File">File</string>
 	<string name="New">New</string>
 	<string name="Open">Open file</string>
+	<string name="Open_deprecated">Open file (deprecated)</string>
 	<string name="Save">Save</string>
 	<string name="SaveName">Save as...</string>
 	<string name="Export">Export</string>
@@ -60,7 +61,7 @@
 	<string name="PDF_Font_error">Some fonts have not been exported. Use Helvetica, Courier, Times or Symbol.</string>
 	<string name="Illegal_filename">Invalid filename.</string>
 	<string name="File_not_found">File not found.</string>
-	<string name="Print_uncomplete">Cant end printing.</string>
+	<string name="Print_uncomplete">Cannot end printing.</string>
 	<string name="Open_error">File access error:</string>
 	<string name="Save_error">Unable to save:</string>
 	<string name="Time">Time elapsed</string>
@@ -231,4 +232,11 @@
 	<string name="new_category_name">Please input new category name.</string>
 	<string name="new_library_name">Please input new library name.</string>
 	<string name="use_sensors_rotate_mirror">Use sensors gestures for rotate and mirror</string>
+	
+	<!-- EXPLORER STRINGS -->
+	<string name="Path_lbl">Path:</string>
+	<string name="Default_filename">noname.fcd</string>
+	<string name="VOID">-</string>
+	<string name="LABEL_EXPLORER_BUTTON">Select folder</string>
+	<!-- -->
 </resources>
