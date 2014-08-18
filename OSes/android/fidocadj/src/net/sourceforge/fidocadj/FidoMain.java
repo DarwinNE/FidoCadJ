@@ -334,6 +334,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		case R.id.new_drawing: // New drawing
 			drawingPanel.getParserActions().parseString(new StringBuffer(""));
 			drawingPanel.getParserActions().openFileName = null;
+			drawingPanel.initLayers();
 			drawingPanel.invalidate();
 			status = true;
 			break;

@@ -230,4 +230,10 @@
 	<string name="new_category_name">Insérer le nouveau nom pour le groupe.</string>
 	<string name="new_library_name">Insérer le nouveau nom pour la bibliothèque.</string>
 	<string name="use_sensors_rotate_mirror">Utiliser le gyroscope pour retourner ou faire pivoter</string>
+	<string name="No_file_opened">No file opened.</string>
+	<string name="Open_deprecated">Open internal file (deprecated)</string>
+	<string name="Path_lbl">Path:</string>
+	<string name="Default_filename">noname.fcd</string>
+	<string name="VOID">-</string>
+	<string name="LABEL_EXPLORER_BUTTON">Select folder</string>
 </resources>

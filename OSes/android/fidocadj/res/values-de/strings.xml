@@ -229,5 +229,11 @@
 	<string name="new_macro_name">Bitte einen neuen Namen fürs Makro eingeben.</string>
 	<string name="new_category_name">Bitte einen neuen Namen für die Klasse eingeben.</string>
 	<string name="new_library_name">Bitte einen neuen Namen für die Bibliothek eingeben.</string>
-	<string name="use_sensors_rotate_mirror">Use sensors gestures for rotate and mirror</string>
+	<string name="use_sensors_rotate_mirror">Use sensors gestures to rotate and mirror</string>
+	<string name="No_file_opened">No file opened.</string>
+	<string name="Open_deprecated">Open internal file (deprecated)</string>
+	<string name="Path_lbl">Path:</string>
+	<string name="Default_filename">noname.fcd</string>
+	<string name="VOID">-</string>
+	<string name="LABEL_EXPLORER_BUTTON">Select folder</string>
 </resources>

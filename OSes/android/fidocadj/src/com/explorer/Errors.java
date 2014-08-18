@@ -8,9 +8,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**Manage the error log.
-*
+*  TODO: provide a license notice for this file
 */
-public class Errors {
+public class Errors 
+{
 
 	public static Context context=IO.context;
 	
@@ -18,8 +19,10 @@ public class Errors {
 	 * 
 	 * @param e the {@link Exception}
 	 */
-	public static void FileNotFound(FileNotFoundException e){
-		Toast.makeText(context, R.string.ERROR_FILE_NOT_FOUND,Toast.LENGTH_SHORT).show();
+	public static void FileNotFound(FileNotFoundException e)
+	{
+		Toast.makeText(context, 
+			R.string.ERROR_FILE_NOT_FOUND,Toast.LENGTH_SHORT).show();
 		e.printStackTrace();
 	}
 	
@@ -27,7 +30,8 @@ public class Errors {
 	 * 
 	 * @param e the {@link Exception}
 	 */
-	public static void IO(IOException e){
+	public static void IO(IOException e)
+	{
 		Toast.makeText(context, R.string.ERROR_IO,Toast.LENGTH_SHORT).show();
 		e.printStackTrace();
 	}
@@ -36,8 +40,10 @@ public class Errors {
 	 * 
 	 * @param e the {@link Exception}
 	 */
-	public static void Unexpected(Exception e){
-		Toast.makeText(context, R.string.ERROR_UNEXPECTED,Toast.LENGTH_SHORT).show();
+	public static void Unexpected(Exception e)
+	{
+		Toast.makeText(context, 
+			R.string.ERROR_UNEXPECTED,Toast.LENGTH_SHORT).show();
 		e.printStackTrace();
 	}
 	
@@ -45,7 +51,8 @@ public class Errors {
 	 * 
 	 * @param e the {@link Exception}
 	 */
-	public static void Silent(Exception e){
+	public static void Silent(Exception e)
+	{
 		//e.printStackTrace();
 	}
 }

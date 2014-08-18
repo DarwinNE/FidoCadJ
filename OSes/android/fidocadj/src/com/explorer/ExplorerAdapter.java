@@ -12,7 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ExplorerAdapter extends ArrayAdapter<String> {
+/**
+TODO: provide a license notice for this file, document class
+*/
+public class ExplorerAdapter extends ArrayAdapter<String> 
+{
 	private final Context context;
 	private final String[] items;
 	private final String parentDir;
@@ -20,7 +24,8 @@ public class ExplorerAdapter extends ArrayAdapter<String> {
 	/**
 	 * Constructor
 	 * */
-	public ExplorerAdapter(Context context, String[] values, String parent) {
+	public ExplorerAdapter(Context context, String[] values, String parent) 
+	{
 		super(context, R.layout.explorer_list_item, values);
 		this.context = context;
 		this.items = values;
@@ -32,7 +37,8 @@ public class ExplorerAdapter extends ArrayAdapter<String> {
 	 * 
 	 */
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) 
+	{
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.explorer_list_item, parent,

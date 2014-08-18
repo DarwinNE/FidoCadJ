@@ -12,9 +12,10 @@ import android.os.Environment;
 
 /**
  * Provides static function for reading/writing file.
- * 
+ *  TODO: provide a license notice for this file
  */
-public class IO {
+public class IO 
+{
 	public static String rootDir = android.os.Environment
 			.getExternalStorageDirectory().getAbsolutePath();
 	public static Context context;
@@ -26,7 +27,8 @@ public class IO {
 	 *            the file to open.
 	 * @return the {@link String} containing the text read.
 	 */
-	public static String readFile(String fileName) {
+	public static String readFile(String fileName) 
+	{
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		char[] inputBuffer = new char[255];
@@ -58,7 +60,8 @@ public class IO {
 	 *            the file to open.
 	 * @return the {@link String} containing the text read.
 	 */
-	public static String readFileFromSD(String fileName) {
+	public static String readFileFromSD(String fileName) 
+	{
 		FileInputStream fis = null;
 		String data = "";
 		byte[] buf = new byte[1024];
@@ -86,7 +89,8 @@ public class IO {
 	 * @param string
 	 *            the {@link String} containing the text to write.
 	 */
-	public static void writeFile(String fileName, String string) {
+	public static void writeFile(String fileName, String string) 
+	{
 		FileOutputStream fos = null;
 		try {
 			fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -108,7 +112,8 @@ public class IO {
 	 * @param string
 	 *            the {@link String} containing the text to write.
 	 */
-	public static void writeFileToSD(String fileName, String string) {
+	public static void writeFileToSD(String fileName, String string) 
+	{
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(new File(fileName));
@@ -129,7 +134,8 @@ public class IO {
 	 *            the file to check.
 	 * @return true if the file exists, false otherwise.
 	 */
-	public static boolean checkFile(String filename) {
+	public static boolean checkFile(String filename) 
+	{
 		File f = new File(context.getFilesDir(), filename);
 		if (f.exists())
 			return true;
@@ -143,7 +149,8 @@ public class IO {
 	 *            the absolute path of the file to check.
 	 * @return true if the file exists, false otherwise.
 	 */
-	public static boolean checkSDFile(String filename) {
+	public static boolean checkSDFile(String filename) 
+	{
 		
 		File f = new File(filename);
 		if (f.exists())
@@ -151,7 +158,8 @@ public class IO {
 		return false;
 	}
 
-	public static boolean[] checkEsternalStorage() {
+	public static boolean[] checkEsternalStorage() 
+	{
 		boolean mExternalStorageAvailable = false;
 		boolean mExternalStorageWriteable = false;
 		String state = Environment.getExternalStorageState();
@@ -175,7 +183,8 @@ public class IO {
 				mExternalStorageWriteable };
 	}
 
-	public static String joinPath(String[] mList) {
+	public static String joinPath(String[] mList) 
+	{
 		String result="";
 		for(String val : mList){
 			result+=val+File.separator;
