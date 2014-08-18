@@ -4,9 +4,11 @@ import android.graphics.*;
 
 import java.util.Vector;
 
-
+import android.content.Context;
+import android.content.res.Resources;
 import graphic.android.*;
 import layers.*;
+import net.sourceforge.fidocadj.*;
 
 
 /** 		ANDROID VERSION
@@ -43,10 +45,8 @@ public class StandardLayers
     private static Vector<LayerDesc> ll_dummy;
     
     /** Create the standard array containing the layer descriptions, colors
-    	and transparency. The name of the layers are read from the resources
-    	which may be initizialized. If Globals.messages==null, no description
-    	is given.
-    	
+    	and transparency. 
+    	    	    	
     	@return the list of the layers being created.
     */
 	public static Vector<LayerDesc> createStandardLayers()
@@ -72,7 +72,7 @@ public class StandardLayers
         	true,"8",1.0f));// 7
         
         layerDesc.add(new LayerDesc(new ColorAndroid(-6632142), 
-        	true, "9",1.0f));// 8
+        	true,"9",1.0f));// 8
         layerDesc.add(new LayerDesc(new ColorAndroid(-60269),
         	true,"10",1.0f));	// 9
         layerDesc.add(new LayerDesc(new ColorAndroid(-4875508),
@@ -87,7 +87,57 @@ public class StandardLayers
         layerDesc.add(new LayerDesc(new ColorAndroid(-10526881),
         	true,"15",0.9f));// 14
         layerDesc.add(new LayerDesc(new ColorAndroid(Color.BLACK),
-        	true, "16",1.0f));		// 15
+        	true, "16",1.0f));	// 15
+            
+        return layerDesc;
+	}
+    
+    /** Create the standard array containing the layer descriptions, colors
+    	and transparency. The name of the layers are read from the resources
+    	which are related to the given Context.
+    	    	    	
+    	@return the list of the layers being created.
+    */
+	public static Vector<LayerDesc> createStandardLayers(Context context)
+    {
+        Vector<LayerDesc> layerDesc=new Vector<LayerDesc>();
+        Resources resources = context.getResources();
+        
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.BLACK), true, 
+        	resources.getString(R.string.Circuit_l),1.0f));	// 0
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.rgb(0,0,128)),
+        	true, resources.getString(R.string.Bottom_copper),1.0f));	// 1
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.RED), true,
+        	resources.getString(R.string.Top_copper),1.0f));			// 2
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.rgb(0,128,128)),
+        	 true,resources.getString(R.string.Silkscreen),1.0f));// 3
+        
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.YELLOW), 
+        	true,resources.getString(R.string.Other_1),1.0f));		// 4
+        layerDesc.add(new LayerDesc(new ColorAndroid(-8388864),
+         	true,resources.getString(R.string.Other_2),1.0f));	// 5
+        layerDesc.add(new LayerDesc(new ColorAndroid(-16711681),
+        	true,resources.getString(R.string.Other_3),1.0f));// 6
+        layerDesc.add(new LayerDesc(new ColorAndroid(-16744448),
+        	true,resources.getString(R.string.Other_4),1.0f));// 7
+        
+        layerDesc.add(new LayerDesc(new ColorAndroid(-6632142), 
+        	true, resources.getString(R.string.Other_5),1.0f));// 8
+        layerDesc.add(new LayerDesc(new ColorAndroid(-60269),
+        	true,resources.getString(R.string.Other_6),1.0f));	// 9
+        layerDesc.add(new LayerDesc(new ColorAndroid(-4875508),
+        	true,resources.getString(R.string.Other_7),1.0f));	// 10
+        layerDesc.add(new LayerDesc(new ColorAndroid(-16678657),
+        	true,resources.getString(R.string.Other_8),1.0f));// 11
+        
+        layerDesc.add(new LayerDesc(new ColorAndroid(-1973791),
+        	true,resources.getString(R.string.Other_9),0.95f));// 12
+        layerDesc.add(new LayerDesc(new ColorAndroid(-6118750),
+        	true,resources.getString(R.string.Other_10),0.9f));	// 13
+        layerDesc.add(new LayerDesc(new ColorAndroid(-10526881),
+        	true,resources.getString(R.string.Other_11),0.9f));// 14
+        layerDesc.add(new LayerDesc(new ColorAndroid(Color.BLACK),
+        	true, resources.getString(R.string.Other_12),1.0f));	// 15
             
         return layerDesc;
     }

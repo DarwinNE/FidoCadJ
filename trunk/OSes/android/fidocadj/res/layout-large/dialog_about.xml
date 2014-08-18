@@ -63,7 +63,7 @@
         android:textSize="@dimen/large_text_size" />
     <Button
         android:id="@+id/link_button"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:background="@color/background_white"
         android:fitsSystemWindows="false"

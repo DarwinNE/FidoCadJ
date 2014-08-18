@@ -10,7 +10,6 @@
 	<string name="Print">Stampa</string>
 	<string name="Close">Chiudi</string>
 	<string name="Do_Not_Save">Non salvare</string>
-	<string name="No_file_opened">Nessun file aperto.</string>
 	<string name="Edit_menu">Composizione</string>
 	<string name="Undo">Annulla</string>
 	<string name="Redo">Ripristina</string>
@@ -231,4 +230,10 @@
 	<string name="new_category_name">Inserire il nuovo nome della categoria.</string>
 	<string name="new_library_name">Inserire il nuovo nome della libreria.</string>
 	<string name="use_sensors_rotate_mirror">Usare il giroscopio per ruotare o specchiare</string>
+	<string name="No_file_opened">Nessun file aperto.</string>
+	<string name="Open_deprecated">Open internal file (deprecated)</string>
+	<string name="Path_lbl">Path:</string>
+	<string name="Default_filename">noname.fcd</string>
+	<string name="VOID">-</string>
+	<string name="LABEL_EXPLORER_BUTTON">Select folder</string>
 </resources>

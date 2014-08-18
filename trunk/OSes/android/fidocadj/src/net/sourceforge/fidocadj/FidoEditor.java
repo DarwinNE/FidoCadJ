@@ -101,16 +101,26 @@ public class FidoEditor extends View implements PrimitivesParInterface
         gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
+	/** Adopt the standard layer description and color. The drawing model
+		should be already set when calling initLayers.
+	*/ 
+	public void initLayers()
+	{
+		Vector<LayerDesc> layerDesc = 
+			StandardLayers.createStandardLayers(cc);
+        dm.setLayers(layerDesc);	
+	}
+
 	/** Initialize the view and prepare everything for the drawing.
 	*/
     private void init()
     {
-        Vector<LayerDesc> layerDesc = StandardLayers.createStandardLayers();
         this.setMeasuredDimension(this.desiredWidth, this.desiredHeight);
         dm = new DrawingModel();
+        initLayers();
+
         dd = new Drawing(dm);
            
-        dm.setLayers(layerDesc);
 		pa = new ParserActions(dm);
 		ua = new UndoActions(pa);
 		ea = new EditorActions(dm, ua);

@@ -19,7 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ExplorerActivity extends ListActivity {
+/**
+TODO: provide a license notice for this file, document class and public methods
+*/
+
+public class ExplorerActivity extends ListActivity 
+{
 	/** Called when the activity is first created. */
 	public static String ROOT = IO.rootDir;
 	public String CURDIR = ROOT;
@@ -39,7 +44,8 @@ public class ExplorerActivity extends ListActivity {
 	public boolean FOLDER_SELECTION = false;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.explorer_list_view);
 
@@ -80,7 +86,8 @@ public class ExplorerActivity extends ListActivity {
 		showDir(ROOT);
 	}
 
-	public void doAction() {
+	public void doAction() 
+	{
 		Intent data = new Intent();
 		data.putExtra(FILENAME, _FILENAME);
 		data.putExtra(DIRECTORY, _DIRECTORY);
@@ -89,7 +96,8 @@ public class ExplorerActivity extends ListActivity {
 		this.finish();
 	}
 
-	protected void browseFile(String absolutePath) {
+	protected void browseFile(String absolutePath) 
+	{
 		Intent intent = new Intent();
 		intent.setType("*/*");
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -97,7 +105,8 @@ public class ExplorerActivity extends ListActivity {
 		startActivityForResult(intent, 1);
 	}
 
-	public String[] getList(String dir) {
+	public String[] getList(String dir) 
+	{
 		String[] listDir = new String[] {};
 		File aDir = new File(dir);
 		if (aDir.isDirectory()) {
@@ -115,7 +124,8 @@ public class ExplorerActivity extends ListActivity {
 		return defDir;
 	}
 
-	public String[] filterFiles(String[] list) {
+	public String[] filterFiles(String[] list) 
+	{
 		List<String> filtered = new ArrayList<String>();
 		for (String f : list) {
 			if (new File(CURDIR + "/" + f).isDirectory()) {
@@ -125,13 +135,15 @@ public class ExplorerActivity extends ListActivity {
 		return filtered.toArray(new String[] {});
 	}
 
-	public void showDir(String dir) {
+	public void showDir(String dir) 
+	{
 		CURDIR = dir;
 		File path = new File(dir);
 		setTitle(path.getAbsolutePath());
 		String[] listDir = getList(path.getAbsolutePath());
 		Arrays.sort(listDir, new Comparator<String>() {
-			public int compare(String o1, String o2) {
+			public int compare(String o1, String o2) 
+			{
 				return o1.compareTo(o2);
 			}
 		});
@@ -141,7 +153,8 @@ public class ExplorerActivity extends ListActivity {
 
 	}
 
-	public void OnSelectClick(View view) {
+	public void OnSelectClick(View view) 
+	{
 		_DIRECTORY = CURDIR;
 		Intent data = new Intent();
 		data.putExtra(FILENAME, _FILENAME);
@@ -149,7 +162,4 @@ public class ExplorerActivity extends ListActivity {
 		setResult(RESULT_OK, data);
 		this.finish();
 	}
-
-
-
 }
