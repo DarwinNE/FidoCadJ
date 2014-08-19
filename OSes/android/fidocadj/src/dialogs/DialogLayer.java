@@ -3,7 +3,6 @@ package dialogs;
 import java.util.List;
 import java.util.Vector;
 
-import layers.LayerDesc;
 import net.sourceforge.fidocadj.FidoEditor;
 import net.sourceforge.fidocadj.R;
 import android.app.Activity;
@@ -22,17 +21,23 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Button;
+
+import layers.LayerDesc;
+import graphic.android.ColorAndroid;
 
 /**
  * <pre>
  * </pre>
  *
  * @author Dante Loi
+ * TODO: comment public methods
  *
  */
 public class DialogLayer extends DialogFragment 
 {  
-	private  FidoEditor drawingPanel;
+	private FidoEditor drawingPanel;
+	private Button layerButton;
 	
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
@@ -41,11 +46,13 @@ public class DialogLayer extends DialogFragment
 		final Dialog dialog = new Dialog(context);
 		
 		drawingPanel = (FidoEditor)context.findViewById(R.id.drawingPanel);
+		layerButton= (Button)context.findViewById(R.id.layer);
 		
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.open_file);
 		
-		Vector<LayerDesc> layers = drawingPanel.getDrawingModel().getLayers();
+		final Vector<LayerDesc> layers = 
+			drawingPanel.getDrawingModel().getLayers();
 		
 		LayerAdapter adapter = new LayerAdapter(
 				context, 
@@ -59,9 +66,13 @@ public class DialogLayer extends DialogFragment
 		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+					int position, long id) 
+			{
 				
-			drawingPanel.eea.currentLayer = position;
+				drawingPanel.eea.currentLayer = position;
+				layerButton.setBackgroundColor(
+					((ColorAndroid)layers.get(position).getColor())
+					.getColorAndroid());
 				
 				dialog.dismiss();		
 			}
@@ -71,7 +82,7 @@ public class DialogLayer extends DialogFragment
 		return dialog;
 	}
 	
-	   private class LayerAdapter extends ArrayAdapter<LayerDesc>
+	private class LayerAdapter extends ArrayAdapter<LayerDesc>
 	    {
 	    	private Context context;
 	    	private List<LayerDesc> layers;
@@ -85,7 +96,8 @@ public class DialogLayer extends DialogFragment
 	    	}
 
 	    	@Override
-	    	public View getView(int position, View convertView, ViewGroup parent) 
+	    	public View getView(int position, View convertView, 
+	    		ViewGroup parent) 
 	    	{
 	    		return getCustomView(position, convertView, parent);
 	        }
@@ -97,13 +109,16 @@ public class DialogLayer extends DialogFragment
 	        }
 	        
 	        public View getCustomView(int position, 
-									View convertView, ViewGroup parent) { 
-	        	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+									View convertView, ViewGroup parent) 
+			{ 
+	        	LayoutInflater inflater = 
+	        		((Activity) context).getLayoutInflater();
 	    		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
-	    						false);
+	    			false);
 	    		row.setBackgroundColor(Color.WHITE);
 	    		
-	    		SurfaceView sv = (SurfaceView) row.findViewById(R.id.surface_view);
+	    		SurfaceView sv = 
+	    			(SurfaceView) row.findViewById(R.id.surface_view);
 	    		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
 	    		
 	    		TextView v = (TextView) row.findViewById(R.id.name_item);

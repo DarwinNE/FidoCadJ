@@ -46,6 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.Button;
 import circuit.controllers.ContinuosMoveActions;
 import circuit.controllers.ElementsEdtActions;
 
@@ -56,9 +57,12 @@ import dialogs.DialogAbout;
 import dialogs.DialogLayer;
 import dialogs.DialogOpenFile;
 import dialogs.DialogSaveName;
+import layers.LayerDesc;
+import graphic.android.ColorAndroid;
 
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
-		SensorEventListener {
+		SensorEventListener 
+{
 	private ToolbarTools tt;
 	private FidoEditor drawingPanel;
 	private FragmentManager fragmentManager = getFragmentManager();
@@ -89,7 +93,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		activateSensors = true;
 		setContentView(R.layout.main);
@@ -102,7 +107,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		Globals.messages = new AccessResources(this);
 
 		activateSensors();
-
 		createLibraryDrawer();
 
 		StringBuilder text = new StringBuilder();
@@ -131,13 +135,21 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		// modern Android APIs.
 		reloadInstanceData(getLastNonConfigurationInstance());
 		IO.context = this;
+		
+		Button layerButton= (Button)findViewById(R.id.layer);
+		Vector<LayerDesc> layers = 
+			drawingPanel.getDrawingModel().getLayers();
+		layerButton.setBackgroundColor(
+					((ColorAndroid)layers.get(0).getColor())
+					.getColorAndroid());
 	}
 
 	/**
 	 * Create the drawer on the right of the Activity, showing the list of
 	 * libraries when the user slides her finger.
 	 */
-	public void createLibraryDrawer() {
+	public void createLibraryDrawer() 
+	{
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.macroTree);
 
@@ -150,10 +162,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
 		expListView
-				.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+				.setOnChildClickListener(new 
+					ExpandableListView.OnChildClickListener() {
 					public boolean onChildClick(ExpandableListView parent,
 							View v, int groupPosition, int childPosition,
-							long id) {
+							long id) 
+					{
 						Category c = globalList.get(groupPosition);
 						MacroDesc md = c.getAllMacros().get(childPosition);
 
@@ -163,7 +177,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 							eea.setState(ElementsEdtActions.MACRO, md.key);
 							tt.clear(null);
 							// NOTE: close the drawer here!
-							DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+							DrawerLayout drawer = (DrawerLayout) 
+								findViewById(R.id.drawer_layout);
 							drawer.closeDrawers();
 						} else {
 							eea.setState(ElementsEdtActions.SELECTION, "");
@@ -180,7 +195,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		librarySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView,
-					View selectedItemView, int position, long id) {
+					View selectedItemView, int position, long id) 
+			{
 				listDataHeader.clear();
 				listDataChild.clear();
 				globalList.clear();
@@ -203,7 +219,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parentView) {
+			public void onNothingSelected(AdapterView<?> parentView) 
+			{
 				listDataChild.clear();
 				listAdapter.notifyDataSetChanged();
 			}
@@ -214,8 +231,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	 * Activate the sensors (gyroscope) which will then be used for actions such
 	 * as rotating and mirroring components.
 	 */
-	public void activateSensors() {
-		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	public void activateSensors() 
+	{
+		mSensorManager = (SensorManager) 
+			getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 	}
 
@@ -226,7 +245,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	 * @return an array of useful data, used by reloadInstanceData().
 	 */
 	@Override
-	public Object onRetainNonConfigurationInstance() {
+	public Object onRetainNonConfigurationInstance() 
+	{
 		List<Object> data = new ArrayList<Object>();
 
 		// data.add(drawingPanel.getDrawingModel()); // why is it not working?
@@ -247,7 +267,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	 *            a List<Object> of different objects describing the state of
 	 *            the app.
 	 */
-	public void reloadInstanceData(Object data) {
+	public void reloadInstanceData(Object data) 
+	{
 		// Casting and order of objects is important
 
 		if (data != null) {
@@ -267,7 +288,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	/*
 	 * Preparing the list data.
 	 */
-	private void prepareListData(LibraryModel lib) {
+	private void prepareListData(LibraryModel lib) 
+	{
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 		globalList = new ArrayList<Category>();
@@ -288,7 +310,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		// Set the correct checking state.
 		MenuItem showGrid = menu.findItem(R.id.showgrid);
@@ -303,7 +326,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
 		boolean status = false;
 		String fileName;
 		/* dialogs */
@@ -478,7 +502,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 		// Restore registering accelerometer events.
 		mSensorManager.registerListener(this, mAccelerometer,
@@ -486,7 +511,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause() 
+	{
 		super.onPause();
 		// Avoid registering accelerometer events when the application is
 		// paused.
@@ -506,7 +532,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	 * Called when the user selects something in the context menu.
 	 */
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(MenuItem item) 
+	{
 		boolean status = false;
 
 		// Get the action selected by the user and execute it.
@@ -560,15 +587,19 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return status;
 	}
 
-	public void copyText(String s) {
+	public void copyText(String s) 
+	{
 		// Gets a handle to the clipboard service.
-		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipboardManager clipboard = (ClipboardManager) 
+			getSystemService(Context.CLIPBOARD_SERVICE);
 		ClipData clip = ClipData.newPlainText("simple text", s.toString());
 		clipboard.setPrimaryClip(clip);
 	}
 
-	public String pasteText() {
-		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+	public String pasteText() 
+	{
+		ClipboardManager clipboard = (ClipboardManager) 
+			getSystemService(Context.CLIPBOARD_SERVICE);
 
 		String pasteData = "";
 		ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
@@ -581,7 +612,9 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, 
+		Intent data) 
+	{
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case ExplorerActivity.REQUEST_FILE:
@@ -602,7 +635,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	}
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		FileOutputStream outputStream;
 		String fileName = tempFileName;
 		try {
@@ -615,5 +649,4 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
 		finish();
 	}
-
 }
