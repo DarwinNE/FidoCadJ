@@ -140,15 +140,17 @@ public class DialogSaveName extends DialogFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
-			case ExplorerActivity.REQUEST_FOLDER:
-				if (data.hasExtra(ExplorerActivity.DIRECTORY)) {
-					String folder = data.getExtras().getString(
+				case ExplorerActivity.REQUEST_FOLDER:
+					if (data.hasExtra(ExplorerActivity.DIRECTORY)) {
+						String folder = data.getExtras().getString(
 							ExplorerActivity.DIRECTORY);
-					EditText editpath = (EditText) dialog
+						EditText editpath = (EditText) dialog
 							.findViewById(R.id.editPath);
-					editpath.setText(folder);
-				}
-				break;
+						editpath.setText(folder);
+					}
+					break;
+				default:
+					break;
 			}
 		}
 	}

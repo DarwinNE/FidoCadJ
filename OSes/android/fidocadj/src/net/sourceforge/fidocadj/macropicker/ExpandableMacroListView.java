@@ -18,8 +18,8 @@ import net.sourceforge.fidocadj.R;
 public class ExpandableMacroListView extends BaseExpandableListAdapter 
 {
  
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
+    private final Context _context;
+    private final List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
  
@@ -46,9 +46,9 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
  
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-            boolean isLastChild, View convertView, ViewGroup parent) 
+            boolean isLastChild, View t_convertView, ViewGroup parent) 
     {
- 
+ 		View convertView=t_convertView;
         final String childText = (String) getChild(groupPosition, 
         	childPosition);
  
@@ -92,8 +92,10 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
  
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
-            View convertView, ViewGroup parent) 
+            View t_convertView, ViewGroup parent) 
     {
+    	View convertView=t_convertView;
+
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context

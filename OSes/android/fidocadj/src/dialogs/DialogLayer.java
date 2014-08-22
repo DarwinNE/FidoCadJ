@@ -84,8 +84,8 @@ public class DialogLayer extends DialogFragment
 	
 	private class LayerAdapter extends ArrayAdapter<LayerDesc>
 	    {
-	    	private Context context;
-	    	private List<LayerDesc> layers;
+	    	private final Context context;
+	    	private final List<LayerDesc> layers;
 	    	
 	    	public LayerAdapter(Context context, int textViewResourceId, 
 	    			List<LayerDesc> layers) 
