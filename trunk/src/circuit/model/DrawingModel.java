@@ -218,9 +218,9 @@ public class DrawingModel
    
         for(GraphicPrimitive g : getPrimitiveVector()) {
         	if(g.getSelected()) {
-        		v.add(Boolean.valueOf(true));
+        		v.add(Boolean.TRUE);
         	} else {
-        		v.add(Boolean.valueOf(false));
+        		v.add(Boolean.FALSE);
         	}
         }
         return v;

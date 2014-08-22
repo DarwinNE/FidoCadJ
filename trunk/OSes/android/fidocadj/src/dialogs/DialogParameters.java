@@ -142,19 +142,19 @@ public class DialogParameters extends DialogFragment
 	{  
     	super.onCreate(savedInstanceState);
     	
-    	if(savedInstanceState != null){
-    		vec = (Vector<ParameterDescription>) savedInstanceState
-     			     				   .getSerializable("vec");
-            layers = (Vector<LayerDesc>) savedInstanceState
-									   .getSerializable("layers");
-			strict = savedInstanceState.getBoolean("strict");
-    	}
-        else{
-        	vec = (Vector<ParameterDescription>) getArguments()
+    	if(savedInstanceState == null){
+    		vec = (Vector<ParameterDescription>) getArguments()
 								   .getSerializable("vec");
         	layers = (Vector<LayerDesc>) getArguments()
 								   .getSerializable("layers");
         	strict = getArguments().getBoolean("strict");
+    		
+    	} else{
+        	vec = (Vector<ParameterDescription>) savedInstanceState
+     			     				   .getSerializable("vec");
+            layers = (Vector<LayerDesc>) savedInstanceState
+									   .getSerializable("layers");
+			strict = savedInstanceState.getBoolean("strict");
         }
     	
     	final Activity context = getActivity();
@@ -471,7 +471,6 @@ public class DialogParameters extends DialogFragment
 							pd.parameter = new DashInfo((Integer) spv[sc++]
 									.getSelectedItemPosition());
 						}
-						else {}
 					}
 				} catch (NumberFormatException E) {
 					// Error detected. Probably, the user has entered an
@@ -545,8 +544,8 @@ public class DialogParameters extends DialogFragment
 	//Customized item for the layout spinner.
     private class LayerSpinnerAdapter extends ArrayAdapter<LayerDesc>
     {
-    	private Context context;
-    	private List<LayerDesc> layers;
+    	private final Context context;
+    	private final List<LayerDesc> layers;
     	
     	public LayerSpinnerAdapter(Context context, int textViewResourceId, 
     			List<LayerDesc> layers) 
@@ -591,8 +590,8 @@ public class DialogParameters extends DialogFragment
   //Customized item for the arrow spinner.
     private class ArrowSpinnerAdapter extends ArrayAdapter<ArrowInfo>
     {
-    	private Context context;
-    	private List<ArrowInfo> info;
+    	private final Context context;
+    	private final List<ArrowInfo> info;
     	
     	public ArrowSpinnerAdapter(Context context, int textViewResourceId, 
     			List<ArrowInfo> info) 
@@ -629,8 +628,8 @@ public class DialogParameters extends DialogFragment
     
     private class DashSpinnerAdapter extends ArrayAdapter<DashInfo>
     {
-    	private Context context;
-    	private List<DashInfo> info;
+    	private final Context context;
+    	private final List<DashInfo> info;
     	
     	public DashSpinnerAdapter(Context context, int textViewResourceId, 
     			List<DashInfo> info) 

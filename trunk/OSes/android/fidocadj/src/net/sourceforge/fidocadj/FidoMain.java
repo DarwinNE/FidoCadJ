@@ -65,7 +65,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 {
 	private ToolbarTools tt;
 	private FidoEditor drawingPanel;
-	private FragmentManager fragmentManager = getFragmentManager();
+	private final FragmentManager fragmentManager = getFragmentManager();
 
 	/* Gyroscope gestures */
 	private boolean activateSensors;
@@ -79,7 +79,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	/* Loaded libraries and information */
 	private List<Category> globalList;
 	private List<Library> libsList;
-	private int currentLib;
+	//private int currentLib;
 
 	private Spinner librarySpinner;
 	private ExpandableMacroListView listAdapter;
@@ -201,7 +201,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				listDataChild.clear();
 				globalList.clear();
 
-				currentLib = position;
+				//currentLib = position;
 				Library l = libsList.get(position);
 
 				List<Category> catList = l.getAllCategories();
