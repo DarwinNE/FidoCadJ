@@ -80,9 +80,11 @@
         		android:title="@string/Redo" />
         	<item android:id="@+id/menu_cut"
         		android:showAsAction="ifRoom|withText"
+        		android:icon="@drawable/cut"
           		android:title="@string/Cut" />
 			<item android:id="@+id/menu_copy"	
 				android:showAsAction="ifRoom|withText"
+				android:icon="@drawable/copy"
           		android:title="@string/Copy" />
           	<detail>
           		Splitting the nonstandard macros requires to write stuff on a
@@ -95,6 +97,7 @@
         		android:visible="false"/>
         	<item android:id="@+id/menu_paste"
 				android:showAsAction="ifRoom|withText"
+				android:icon="@drawable/paste"
           		android:title="@string/Paste" />
         	<item
                 android:id="@+id/menu_define_clipboard"
@@ -107,11 +110,14 @@
         		android:title="@string/SelectAll" />
         	<item android:id="@+id/menu_delete"
         		android:showAsAction="ifRoom|withText"
+        		android:icon="@drawable/delete"
           		android:title="@string/Delete" />          
 			<item android:id="@+id/menu_rotate"
 				android:showAsAction="ifRoom|withText"
+				android:icon="@drawable/rotate"
           		android:title="@string/Rotate" />  
 			<item android:id="@+id/menu_mirror"
+				android:icon="@drawable/mirror"
 				android:showAsAction="ifRoom|withText"
           		android:title="@string/Mirror_E" />
         </menu>
