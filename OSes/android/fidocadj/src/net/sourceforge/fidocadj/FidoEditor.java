@@ -77,10 +77,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private int rulerEndX;
     private int rulerEndY;       
     
+    	// ***** ZOOM AND PANNING *****
     private int mx;
     private int my;
     private int oldDist;
     private int newDist;
+    private double origZoom;
     
     	// ********** EDITING *********
     	
@@ -337,8 +339,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     	int action = event.getAction() & MotionEvent.ACTION_MASK;
     	int curX, curY;
     	
-    	if( eea.getSelectionState() == ElementsEdtActions.SELECTION ) 
-		{
+    	if(eea.getSelectionState() == ElementsEdtActions.SELECTION) {
     		mx = (int) event.getX()+getScrollX();
     		my = (int) event.getY()+getScrollY();
 			// Handle selection events.
@@ -360,8 +361,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	        invalidate();
 	    }
     	
-	    if (eea.getSelectionState() == ElementsEdtActions.NONE)
-	    {
+	    if (eea.getSelectionState() == ElementsEdtActions.NONE) {
 	    	//Handle Scrolling and zooming events
 	        switch (action) {
 	            case MotionEvent.ACTION_DOWN:
@@ -369,23 +369,28 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	                my = (int)event.getY();
 	                break;
 	            case MotionEvent.ACTION_POINTER_DOWN:
-	            	oldDist = spacing(event);
+	            	if(event.getPointerCount() == 2) {	
+	            		// Begin of a zoom gesture
+	            		oldDist = spacing(event);
+	            	} else {
+	            		oldDist=-1; 	// This is just to be on the safe side
+	            	}
+	            	origZoom=cs.getXMagnitude();
 	            	break;
 	            case MotionEvent.ACTION_MOVE:
-	                if(event.getPointerCount() == 2) {
+	            	// Handle the zoom gesture.
+	                if(event.getPointerCount() == 2 && oldDist>0) {
 	            		newDist = spacing(event);
-	            		double scale = newDist / oldDist;
-	            		scale = Math.min(1.11, scale);
-	            		scale = Math.max(1/1.11, scale);
-	            		// NOTE: DB there is no need to check the size here,
-	            		// since a check is already done in geom.MapCoordinates
 	            		
-	            		//if(scale*cs.getXMagnitude() < 12 && 
-	            		//		scale*cs.getXMagnitude() > 0.36) {
-	            		cs.setXMagnitude(scale*cs.getXMagnitude());
-	            		cs.setYMagnitude(scale*cs.getYMagnitude());
+	            		double scale = (double)newDist / (double)oldDist;
+	            		// The new zoom is calculated from the original one
+	            		// saved in MotionEvent.ACTION_POINTER_DOWN.
+						double newZoom=scale*origZoom;
+	            		cs.setXMagnitude(newZoom);
+	            		cs.setYMagnitude(newZoom);
+	            		// It should be nice to centre the viewport if 
+	            		// possible.
 	            		invalidate();
-	            		//}
 	                } else {
                 		curX = (int)event.getX();
 	                	curY = (int)event.getY();
