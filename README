@@ -168,7 +168,7 @@ FidoCadJ should start.
 The following coding conventions have been applied for the FidoCadJ source 
 code:
 
-- the code should be compatible with Java 1.5
+- the code should be compatible with Java 1.7
 - tab set to 4 spaces
 - blocks delimited by curly braces are indented as follows:
 

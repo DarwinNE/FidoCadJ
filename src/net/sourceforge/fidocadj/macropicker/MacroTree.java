@@ -27,6 +27,7 @@ import javax.swing.tree.*;
 
 import circuit.CircuitPanel;
 import export.ExportGraphic;
+import geom.DrawingSize;
 import geom.MapCoordinates;
 import primitives.MacroDesc;
 import toolbars.ChangeSelectionListener;
@@ -480,7 +481,7 @@ public class MacroTree extends JPanel
                 if(md!=null) {
                     previewPanel.setCirc(new StringBuffer(md.description));
                     MapCoordinates m =
-                   		ExportGraphic.calculateZoomToFit(
+                   		DrawingSize.calculateZoomToFit(
                         	previewPanel.P,
                     		previewPanel.getSize().width*85/100, 
                     		previewPanel.getSize().height*85/100, true);

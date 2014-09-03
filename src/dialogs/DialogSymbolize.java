@@ -4,6 +4,7 @@ import export.ExportGraphic;
 import geom.MapCoordinates;
 import globals.Globals;
 import globals.LibUtils;
+import geom.DrawingSize;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
@@ -376,7 +377,7 @@ public class DialogSymbolize extends JDialog
 			new StringBuffer(macro.description), false);
 		// Calculate an optimum preview size in order to show all elements.
 		MapCoordinates m = 
-				ExportGraphic.calculateZoomToFit(cpanel.P, 
+				DrawingSize.calculateZoomToFit(cpanel.P, 
 				cpanel.getSize().width*80/100, cpanel.getSize().height*80/100, 
 				true);
 		m.setXCenter(-m.getXCenter()+10);

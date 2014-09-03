@@ -15,6 +15,7 @@ import export.*;
 import timer.*;
 import graphic.*;
 import layers.*;
+import geom.*;
 
 /** FidoMain.java 
 
@@ -180,7 +181,7 @@ public class FidoMain
             
             if (printSize) {
             	PointG o=new PointG(0,0);
-            	DimensionG d = ExportGraphic.getImageSize(P,1, true, o);
+            	DimensionG d = DrawingSize.getImageSize(P,1, true, o);
 				System.out.println(""+d.width+" "+d.height);	
             }
             

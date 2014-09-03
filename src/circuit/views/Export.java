@@ -67,7 +67,7 @@ public class Export
 		synchronized(this) {
         	if (header) {
         		PointG o=new PointG(0,0);
-         		DimensionG d = ExportGraphic.getImageSize(P, 1, true,o);
+         		DimensionG d = DrawingSize.getImageSize(P, 1, true,o);
 				d.width+=exportBorder;
 				d.height+=exportBorder;
 			

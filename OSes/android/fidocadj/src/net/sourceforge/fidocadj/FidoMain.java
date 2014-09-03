@@ -1,10 +1,5 @@
 package net.sourceforge.fidocadj;
 
-import geom.MapCoordinates;
-import globals.AccessResources;
-import globals.Globals;
-import globals.ProvidesCopyPasteInterface;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,13 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.fidocadj.librarymodel.Category;
-import net.sourceforge.fidocadj.librarymodel.Library;
-import net.sourceforge.fidocadj.librarymodel.LibraryModel;
-import net.sourceforge.fidocadj.macropicker.ExpandableMacroListView;
-import net.sourceforge.fidocadj.storage.StaticStorage;
-import primitives.MacroDesc;
-import toolbars.ToolbarTools;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ClipData;
@@ -47,8 +35,7 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.Button;
-import circuit.controllers.ContinuosMoveActions;
-import circuit.controllers.ElementsEdtActions;
+
 
 import com.explorer.ExplorerActivity;
 import com.explorer.IO;
@@ -59,6 +46,21 @@ import dialogs.DialogOpenFile;
 import dialogs.DialogSaveName;
 import layers.LayerDesc;
 import graphic.android.ColorAndroid;
+import geom.MapCoordinates;
+import geom.DrawingSize;
+import primitives.MacroDesc;
+import toolbars.ToolbarTools;
+import globals.AccessResources;
+import globals.Globals;
+import globals.ProvidesCopyPasteInterface;
+import circuit.controllers.ContinuosMoveActions;
+import circuit.controllers.ElementsEdtActions;
+
+import net.sourceforge.fidocadj.librarymodel.Category;
+import net.sourceforge.fidocadj.librarymodel.Library;
+import net.sourceforge.fidocadj.librarymodel.LibraryModel;
+import net.sourceforge.fidocadj.macropicker.ExpandableMacroListView;
+import net.sourceforge.fidocadj.storage.StaticStorage;
 
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		SensorEventListener 
@@ -335,6 +337,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		DialogOpenFile dof;
 		DialogLayer dl;
 		DialogAbout da;
+		MapCoordinates mp;
 
 		if (onContextItemSelected(item))
 			return true;
@@ -415,16 +418,27 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			status = true;
 			break;
 		case R.id.snaptogrid: // Toggle snap to grid while editing
-			MapCoordinates mp = drawingPanel.getMapCoordinates();
+			mp = drawingPanel.getMapCoordinates();
 			mp.setSnap(!mp.getSnap());
 			drawingPanel.invalidate();
 			item.setChecked(mp.getSnap());
 			status = true;
 			break;
-		case R.id.use_sensors_rotate_mirror:
+		case R.id.use_sensors_rotate_mirror: // Toggle "use sensors..."
 			activateSensors = !activateSensors;
 			item.setChecked(activateSensors);
 			status = true;
+			break;
+		case R.id.zoomtofit: // Zoom to fit
+			// At first get the size in which the drawing should be fit
+			int sizex=drawingPanel.getWidth();
+			int sizey=drawingPanel.getHeight();
+			// Calculate the zoom to fit scale
+			mp = DrawingSize.calculateZoomToFit(
+				drawingPanel.getDrawingModel(), sizex, sizey, true);
+			// Set the new coordinate system and force a redraw.
+			drawingPanel.setMapCoordinates(mp);
+			drawingPanel.invalidate();
 			break;
 		case R.id.about: // Show the about dialog
 			da = new DialogAbout();

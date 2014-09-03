@@ -1326,7 +1326,7 @@ public class FidoFrame extends JFrame implements
 
 		// Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {   
-        	MapCoordinates zoomm = ExportGraphic.calculateZoomToFit(CC.P, 
+        	MapCoordinates zoomm = DrawingSize.calculateZoomToFit(CC.P, 
                 (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
                     false);
             zoom=zoomm.getXMagnitude();
@@ -1338,7 +1338,7 @@ public class FidoFrame extends JFrame implements
         
         PointG o=new PointG(0,0);
         
-        int imageWidth = ExportGraphic.getImageSize(CC.P, zoom, false, o).width;
+        int imageWidth = DrawingSize.getImageSize(CC.P, zoom, false, o).width;
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
         
  		/*System.out.println("imageWidth="+imageWidth);
@@ -1806,7 +1806,7 @@ public class FidoFrame extends JFrame implements
         double oldz=CC.getMapCoordinates().getXMagnitude();
         
         // We calculate the zoom to fit factor here.
-        MapCoordinates m=ExportGraphic.calculateZoomToFit(CC.P,
+        MapCoordinates m=DrawingSize.calculateZoomToFit(CC.P,
             SC.getViewport().getExtentSize().width-35,
             SC.getViewport().getExtentSize().height-35,
             true);
