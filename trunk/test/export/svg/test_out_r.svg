@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8" standalone="no"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
 <svg width="800.0" height="559.0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<!-- Created by FidoCadJ ver. 0.24.5 alpha, export filter by Davide Bucci -->
+<!-- Created by FidoCadJ ver. 0.24.5 zeta, export filter by Davide Bucci -->
 <line x1="24.0" y1="145.0" x2="280.0" y2="145.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="24.0" y1="130.0" x2="280.0" y2="130.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="24.0" y1="115.0" x2="280.0" y2="115.0" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>

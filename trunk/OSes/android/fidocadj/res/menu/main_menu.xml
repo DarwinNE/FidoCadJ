@@ -134,6 +134,11 @@
         		android:title="@string/tooltip_layerSel"
         		android:visible="true" />
         	<item
+                android:id="@+id/zoomtofit"
+        		android:showAsAction="ifRoom|withText"
+        		android:title="@string/Zoom_fit"
+        		android:visible="true" />
+        	<item
                 android:id="@+id/showgrid"
         		android:showAsAction="ifRoom|withText"
         		android:title="@string/ShowGrid"

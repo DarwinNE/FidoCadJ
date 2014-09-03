@@ -612,7 +612,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // where the user has done the click.
         
         PointG origin=new PointG();
-        DimensionG d=ExportGraphic.getImageSize(P, 1.0, false, origin);
+        DimensionG d=DrawingSize.getImageSize(P, 1.0, false, origin);
     	double xs,ys;
     					
         xs=(double)xpos/(d.width+MARGIN);
