@@ -4,35 +4,79 @@ Copyright 2007-2014
 
 by Davide Bucci
 
+
+1 - Introduction
+  1.1 What is FidoCadJ?
+  1.2 Where can I find FidoCadJ?
+  1.3 How can I run FidoCadJ?
+  1.4 Where can I get help?
+2 - Source files and the FidoCadJ SVN directories
+3 - Working with FidoCadJ sources
+  3.1 Compile and run the sources on a MacOSX operating system (>=10.8) 
+  3.2 Compile and run the sources on an Unix system
+  3.3 Compile and run the sources on an Windows system
+  3.4 Coding conventions
+  3.5 Automatic tests
+  3.6 Static code analysis and the quality of the FidoCadJ source code
+  3.7 Android
+4 - Help wanted!
+  4.1 "I want to translate FidoCadJ in my language"
+  4.2 "I would like to participate to the coding activity"
+  4.3 Things to do
+  4.4 Checklist for committers
+5 - I found a bug...
+6 - Acknowledgments
+7 - Licensing
+  
+
 ----------------
 1 - Introduction
 ----------------
 
+1.1 What is FidoCadJ?
+---------------------
+
 FidoCadJ is a very easy to use editor, with a vast library of electrical 
 symbols and footprints (through hole and SMD). Its drawings can be exported
 in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if
-it is very simple and somewhat limited, FidoCadJ can be very useful as a basic
-schematic capture and electronic design automation (EDA) software. FidoCadJ 
-is inspired from FidoCAD (without "J"), which was a vector graphic editor 
-useful for electrical schematics and printed circuit boards. 
-FidoCAD used a file format containing UTF-8 text, very compact and 
+it is very simple to use, FidoCadJ can be very useful as a basic schematic 
+capture and electronic design automation (EDA) software. 
+FidoCadJ is inspired from the old FidoCAD (without "J"), which was a vector
+graphic editor for electrical schematics and printed circuit boards. 
+FidoCAD used a file format containing text, very compact and 
 perfect for copy and pasting from/into newsgroups and forum messages. 
 This determined its success among the italian Usenet community and forums, 
-from late '90s, as it is quite versatile for simple mechanical drawings as 
-well. FidoCadJ is the modern successor of FidoCAD.
+from late '90s, as it was quite versatile for simple mechanical drawings as 
+well. No netlist concept lies behind the drawings, so there is all the 
+graphical flexibility that a vector drawing software can offer (but no 
+simulation).
 
-No netlist concept lies behind the drawings, so there is all the graphical
-flexibility that a vector drawing software can offer (but no simulation).
+FidoCadJ is the modern, multiplatform successor of FidoCAD, with full 
+support of UTF-8 text, advanced features, internationalisation and a sleek, 
+polished user interface with anti-aliasing.
 
-FidoCadJ is internationalized and its manual is available in English, French, 
-Italian and Chinese translations. The user interface has been translated 
-into English, French, Italian, Spanish, German, Chinese, Dutch, Japanese, 
-Czech.
+FidoCadJ is internationalized and manuals are available in English, French, 
+Italian and Chinese. The user interface has been translated into English, 
+French, Italian, Spanish, German, Chinese, Dutch, Japanese and Czech.
 
-Here are a few useful sites about FidoCadJ:
+FidoCadJ runs on the following systems:
+- Windows XP, Vista, Seven, 8.
+- All major distributions of Linux.
+- MacOSX 10.8 and 10.9
+- Android 4.0 or more recent devices.
 
-    http://tinyurl.com/yavewp2
+Java 1.7 is required for Windows, Linux and MacOSX.
+
+1.2 Where can I find FidoCadJ?
+------------------------------
+
+Here are the two official FidoCadJ websites:
+
+    http://fidocadj.sourceforge.net
     http://sourceforge.net/projects/fidocadj/
+
+1.3 How can I run FidoCadJ?
+---------------------------
 
 If you own a PC running Linux or Windows (or any system supporting Java), you
 may download from the SourceForge repository the file fidocadj.jar. If Java
@@ -52,17 +96,39 @@ not seem to be very much prone to support Java, if you experience some
 problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac. This is particularly true if you are using
 the MacOSX Lion/Mountain Lion/Mavericks operating system. Normally, you will 
-have to download the Java runtime in a few clicks. We tried our best, but
+have to download the Java runtime in a few clicks. I tried my best, but
 the situation in 2007 was different from the actual one and Apple used to
-welcome Java developers back then...
+warmly welcome Java developers back then...
+
+For Android, we had to develop a completely new application: you should
+download and install the apk file containing it. Most devices complain loudly
+when you install a file which does not come from a store. Check carefully
+where you downloaded it: the ONLY official location where distribution files
+are put is on SourceForge.
 
 Remember that if there is a Greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
 Basically, you are warned: those versions may be unstable!
 
-----------------------------------------------
-2 - Files contained in the source distribution
-----------------------------------------------
+FidoCadJ is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+A PARTICULAR PURPOSE.
+
+1.4 Where can I get help?
+-------------------------
+
+If you feel lost, you can have a look at the manuals. There are several
+translations, language different from English might be a little outdated:
+
+https://sourceforge.net/projects/fidocadj/files/manuals/
+
+If you need help, you can post a question in the FidoCadJ forum:
+
+https://sourceforge.net/p/fidocadj/discussion/997486/
+
+-------------------------------------------------
+2 - Source files and the FidoCadJ SVN directories
+-------------------------------------------------
 
 In the following table you find a description of the trunk directory of 
 FidoCadJ source files. You may download the complete source repository by
@@ -113,8 +179,8 @@ If you prefer using some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :-)
 
-3.1 Compile and run the sources on a MacOSX operating system (>=1.4.11) 
------------------------------------------------------------------------
+3.1 Compile and run the sources on a MacOSX operating system (>=10.8) 
+---------------------------------------------------------------------
 
 If you are using MacOSX, just open up a terminal window, go into the 
 fidocadj/trunk directory and type:
@@ -261,7 +327,7 @@ The following table briefly describes the provided tests:
 Note that the way those tests are written, they compare the results of an
 operation involving FidoCadJ with a reference. In some cases, the reference
 can be improved or updated.
-In other cases, the differences might just contain unmeaningful data (such
+In other cases, the differences might just contain unimportant data (such
 as version numbers and so on). 
 
 3.6 Static code analysis and the quality of the FidoCadJ source code
@@ -293,23 +359,38 @@ http://www.cs.usask.ca/documents/techreports/2013/TR-2013-01.pdf
 If you work on FidoCadJ code, please do all your best to keep high the quality
 of the code you are writing.
 
+3.7 Android
+-----------
+Android deserves an application which is well separated from the one you 
+can use on a PC or on a Mac: a smartphone or a table is a quite different
+device than a laptop or a desktop computer. Therefore, a lot of effort had
+to be put in the development of an appropriate Android app.
+You can find the complete sources here:
+
+OSes/android/fidocadj
+
+and there is a separate README file which gives some relevant information.
+Great care has been put in sharing as much code as possible between the 
+computer application and the Android one. Therefore, you will always
+find the same release number synchronized between the two.
+
 ----------------
 4 - Help wanted!
 ----------------
 
 I am seeking for people interested in participating to the FidoCadJ project.
 If you spot a typo (I am not a native English speaker), or an error in the 
-manual or in the program, any correction is very welcome. I will be very happy 
-to know what do you think about FidoCadJ. I would be glad to receive some 
-help: if you know Java and you want to work on the source code you will be 
-welcome.
+manual or in the program, any correction is very welcome. I will be very 
+happy to know what do you think about FidoCadJ. I would be glad to receive 
+some help: if you know Java and you want to work on the source code you will 
+be welcome.
 If your Java coding is not fluent, you can participate to the project by 
 improving the manuals or translating the interface, or just giving an advice. 
 Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
 forums (the email address is valid without the nope part, but no 
 attachments, please). It is probably better to open a discussion in the 
 SourceForge forums, in order that the work can eventually be shared and
-organized between all developers:
+organised between all developers:
 
 http://sourceforge.net/p/fidocadj/discussion/997486/
 
@@ -341,7 +422,7 @@ follow:
 
     ...
 
-The resources strings are organized in the form key = value. For example,
+The resources strings are organised in the form key = value. For example,
 here is the head of the corresponding file for the interface in French, in 
 the file trunk/bin/MessagesBundle_fr.properties
 
@@ -371,7 +452,7 @@ yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
 in order to see if we can find an intersection between what you can do with 
 the FidoCadJ development strategy. The idea is to keep the work a little bit 
-organized and to know who does what. Have a peek to section 3.3 of this 
+organised and to know who does what. Have a peek to section 3.3 of this 
 README file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with SVN the source files and play *as you want* with
@@ -393,27 +474,24 @@ forums dedicated to FidoCadJ!
 ----------------------------------------------------------------------------
 Review on SourceForge or OhLoh    It is important that the users and 
                                   developers of FidoCadJ understand what is 
-                                  good and what is bad in their favorite 
+                                  good and what is bad in their favourite 
                                   software. Do not be shy to review FidoCadJ 
                                   on SourceForge or OhLoh!
 ----------------------------------------------------------------------------
 Translate user interface          Everything is done on FidoCadJ to make it 
                                   easy to translate its interface in any 
-                                  language. You can significatively 
-                                  contribute to the spread of FidoCadJ in 
-                                  your country!
+                                  language. You can contribute to spread 
+                                  FidoCadJ in your country!
 ----------------------------------------------------------------------------
 Translate manual                  This is an hard work, but it will be very 
                                   welcomed by the users of your country. You 
                                   will probably need an idea on how LaTeX
                                   works.
 ----------------------------------------------------------------------------
-YouTube video tutorial            I will put on the FidoCadJ's page a link to 
-                                  the best video tutorials about FidoCadJ on 
-                                  YouTube. Why don't you give it a try?
+YouTube video tutorial            People love YouTube videos!
 ----------------------------------------------------------------------------
-Report bugs                       Use the bug and artifact tracking system of
-                                  SourceForge or drop me an email.
+Report bugs                       Use the bug and artefact tracking system 
+                                  on SourceForge.
 ----------------------------------------------------------------------------
 Export in Gerber format           Exporting in graphical vector formats is 
                                   easy with FidoCadJ. If you want to add a 
@@ -422,14 +500,27 @@ Export in Gerber format           Exporting in graphical vector formats is
                                   highly requested by people working on 
                                   PCBs.
 ----------------------------------------------------------------------------
-Export in WMF/EMF formats         WMF/EMF are widely used in Windows and they 
-                                  may be useful for including drawings in 
-                                  vector format in Microsoft Word or Power 
-                                  Point.
+Unit testing                      Actually, only high level tests are 
+                                  available. Serious unit testing would be
+                                  much beneficial.
 ----------------------------------------------------------------------------
 Linux packaging                   FidoCadJ could be distributed as a deb or
                                   a RPM package. Can you prepare one?
 ----------------------------------------------------------------------------
+
+4.4 Checklist for committers
+----------------------------
+
+For the PC and Android app:
+[] - The code does not break the build for both PC and Android apps.
+[] - The coding style is conform to paragraph 3.4 of this README.
+[] - Comments have been added at the relevant places and are up-to date.
+
+For the PC app:
+[] - A jar file has been generated and automatic tests have been run.
+
+Optionally:
+[] - PMD analysis has been run on the code.
 
 
 --------------------
@@ -439,7 +530,7 @@ Linux packaging                   FidoCadJ could be distributed as a deb or
 Every program contains bugs and FidoCadJ is not an exception. Even if all 
 the people involved in the development of FidoCadJ pay a lot of attention
 at each release, some details could just go unnoticed.
-If you ar familiar with the SourceForge interface, do not hesitate to
+If you are familiar with the SourceForge interface, do not hesitate to
 fill a bug report at the following address:
 
 https://sourceforge.net/p/fidocadj/bugs/
@@ -479,11 +570,11 @@ Code snippets included in FidoCadJ:
     http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
     http://stackoverflow.com/questions/3775694/deleting-folder-from-java
     
-When possible, the authors of the snippets have been contacted to gain explicit
-permission of using the code in an open source project. If you own the 
-copyright of some of the reused code and you do not agree on its inclusion in 
-the FidoCadJ project, contact us via the SourceForge forum and we will remove
-the offending code as fast as we can.
+When possible, the authors of the snippets have been contacted to gain 
+explicit permission of using the code in an open source project. If you own 
+the copyright of some of the reused code and you do not agree on its 
+inclusion in the FidoCadJ project, contact us via the SourceForge forum and 
+we will remove the offending code as fast as we can.
 
 -------------
 7 - Licensing
