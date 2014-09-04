@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.NoSuchElementException;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -361,7 +362,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status = true;
 				break;
 			case R.id.menu_redo: // Redo action
-				drawingPanel.getUndoActions().redo();
+				try {
+					drawingPanel.getUndoActions().redo();
+				} catch (NoSuchElementException E) {
+					// Does nothing. Actually it is not a big issue.
+					android.util.Log.w("fidocadj", "Can not redo.");
+				}
 				status = true;
 				break;
 			case R.id.new_drawing: // New drawing
