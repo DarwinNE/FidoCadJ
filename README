@@ -70,14 +70,14 @@ using svn from the SourceForge repository. Check out the SF documentation
 for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
 
   File                        Comments
-  ----------------------------------------------------------------------------
+  ---------------------------------------------------------------------------
   README                      This file
   bin/                 DIR    Contains all the compiled classes and resources         
-  busy being born/     DIR    Contains screenshots of old versions of FidoCadJ
+  busy being born/     DIR    Contains old screenshots of FidoCadJ
   clean                       erases all the compiled classes
   cleanall                    does a clean, erases fidocadj.jar, Javadocs
   compile                     compile FidoCadJ
-  count                       does a wc (word count!) on all Java source files                    
+  count                       does a wc (word count!) on all Java sources                    
   createdoc                   runs Javadoc on all source files
   createjar                   prepares fidocadj.jar
   doc                         contains all Javadoc produced HTML files
@@ -99,10 +99,13 @@ for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
 3 - Instructions about compiling and running FidoCadJ
 -----------------------------------------------------
 
-Ok, you just checkout from SourceForge SVN the FidoCadJ source files. Good :-)
+Ok, you just did a checkout from SourceForge SVN the FidoCadJ source files. 
+
+			Good :-)
+
 FidoCadJ is a pure Java project, and for many reasons I prefer using a good
-text editor as well as a few command line scripts, in order to compile and run 
-the code on which I am working.
+text editor as well as a few command line scripts, in order to compile and 
+run the code on which I am working.
 You will thus find in the trunk directory (see section 2 of this 
 file) several scripts which will be useful for you, especially if you are
 working in an Unix-like environment.
@@ -126,8 +129,8 @@ following script to create a jar archive in the jar/ directory:
 3.2 Compile and run the sources on an Unix system
 -------------------------------------------------
 
-FidoCadJ can be compiled on an Unix system by using the following command into
-the fidocadj/trunk directory:
+FidoCadJ can be compiled on an Unix system by using the following command 
+into the fidocadj/trunk directory:
 
     ./rebuild
   
@@ -154,7 +157,7 @@ It must be used with the action to be accomplished, as an argument:
 Alternatively, you might handle manually the compilation with the following
 command, in fidocadj\trunk:
 
-    javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 .\src\FidoMain.java -d bin
+    javac  -g -O -sourcepath src -classpath bin .\src\FidoMain.java -d bin
 
 to launch the compiled program, you should type:
 
@@ -179,10 +182,28 @@ code:
     
 - methods are indented as follows:
 
-    void dummy (int i, int j) 
+    void dummy(int i, int j) 
     {   // put the starting brace here
         System.out.println("Indent code");
     }   // put the closing brace here
+
+- switches are indented as follows:
+
+	int dummy(int i)
+	{
+		int j;
+		switch(i) {
+			case 1:
+				j=3;
+				break;
+			case 2:
+				j=2;
+				break;
+			default:
+				j=0
+		}
+		return j;
+	} 
 
 - the class names always start with a capital letter, and so does methods
 - variables never start with a capital letter
