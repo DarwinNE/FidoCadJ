@@ -327,9 +327,15 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return true;
 	}
 
+	/** One of the most important functions for the user interface: handle 
+		all the menu events!
+	*/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
+		// status is a variable which will be used as a return value. It must
+		// be put to 'true' if the action is taken into account and handled
+		// properly.
 		boolean status = false;
 		String fileName;
 		/* dialogs */
@@ -343,109 +349,118 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			return true;
 
 		switch (item.getItemId()) {
-		case R.id.menu_copy_split: // Copy and split nonstandard macros
-			// TODO: this is not yet working.
-			drawingPanel.getCopyPasteActions().copySelected(true, true,
+			case R.id.menu_copy_split: // Copy and split nonstandard macros
+				// TODO: this is not yet working.
+				drawingPanel.getCopyPasteActions().copySelected(true, true,
 					drawingPanel.getMapCoordinates().getXGridStep(),
 					drawingPanel.getMapCoordinates().getYGridStep());
-			status = true;
-			break;
-		case R.id.menu_undo: // Undo action
-			drawingPanel.getUndoActions().undo();
-			status = true;
-			break;
-		case R.id.menu_redo: // Redo action
-			drawingPanel.getUndoActions().redo();
-			status = true;
-			break;
-		case R.id.new_drawing: // New drawing
-			drawingPanel.getParserActions().parseString(new StringBuffer(""));
-			drawingPanel.getParserActions().openFileName = null;
-			drawingPanel.initLayers();
-			drawingPanel.invalidate();
-			status = true;
-			break;
-		case R.id.open_file: // Open an existing file
-			Intent myIntent = new Intent(this, ExplorerActivity.class);
-			myIntent.putExtra(ExplorerActivity.DIRECTORY, false);
-			int requestCode = ExplorerActivity.REQUEST_FILE;
-			startActivityForResult(myIntent, requestCode);
-			break;
-		case R.id.open_file_deprecated: // Open an existing file
-			dof = new DialogOpenFile();
-			dof.show(fragmentManager, "");
-			status = true;
-			break;
-		case R.id.save: // Save
-			fileName = drawingPanel.getParserActions().openFileName;
-			if (fileName == null || fileName == tempFileName) {
+				status = true;
+				break;
+			case R.id.menu_undo: // Undo action
+				drawingPanel.getUndoActions().undo();
+				status = true;
+				break;
+			case R.id.menu_redo: // Redo action
+				drawingPanel.getUndoActions().redo();
+				status = true;
+				break;
+			case R.id.new_drawing: // New drawing
+				drawingPanel.getParserActions().parseString(
+					new StringBuffer(""));
+				drawingPanel.getParserActions().openFileName = null;
+				drawingPanel.initLayers();
+				drawingPanel.invalidate();
+				status = true;
+				break;
+			case R.id.open_file: // Open an existing file
+				Intent myIntent = new Intent(this, ExplorerActivity.class);
+				myIntent.putExtra(ExplorerActivity.DIRECTORY, false);
+				int requestCode = ExplorerActivity.REQUEST_FILE;
+				startActivityForResult(myIntent, requestCode);
+				break;
+			case R.id.open_file_deprecated: // Open an existing file
+				dof = new DialogOpenFile();
+				dof.show(fragmentManager, "");
+				status = true;
+				break;
+			case R.id.save: // Save
+				fileName = drawingPanel.getParserActions().openFileName;
+				if (fileName == null || fileName == tempFileName) {
+					dsn = new DialogSaveName();
+					dsn.show(fragmentManager, "");
+				} else {
+					IO.writeFileToSD(
+						drawingPanel.getParserActions().openFileName,
+						drawingPanel.getText());
+				}
+				status = true;
+				break;
+			case R.id.save_with_name: // Save with name
 				dsn = new DialogSaveName();
 				dsn.show(fragmentManager, "");
-			} else {
-				IO.writeFileToSD(drawingPanel.getParserActions().openFileName,
-						drawingPanel.getText());
-			}
-			status = true;
-			break;
-		case R.id.save_with_name: // Save with name
-			dsn = new DialogSaveName();
-			dsn.show(fragmentManager, "");
-			status = true;
-			break;
-		case R.id.delete: // Delete a saved file
-			fileName = drawingPanel.getParserActions().openFileName;
-			if (fileName != null) {
-				deleteFile(drawingPanel.getParserActions().openFileName);
-				drawingPanel.getParserActions().parseString(
+				status = true;
+				break;
+			case R.id.delete: // Delete a saved file
+				fileName = drawingPanel.getParserActions().openFileName;
+				if (fileName != null) {
+					deleteFile(drawingPanel.getParserActions().openFileName);
+					drawingPanel.getParserActions().parseString(
 						new StringBuffer(""));
-				drawingPanel.getParserActions().openFileName = null;
+					drawingPanel.getParserActions().openFileName = null;
+					drawingPanel.invalidate();
+				} else {
+					Toast toast = Toast.makeText(this, 
+						R.string.No_file_opened, 5);
+					toast.show();
+				}
+				status = true;
+				break;
+			case R.id.layer: // Set the current layer
+				dl = new DialogLayer();
+				dl.show(fragmentManager, "");
+				status = true;
+				break;
+			case R.id.showgrid: // Toggle grid visibility
+				drawingPanel.setShowGrid(!drawingPanel.getShowGrid());
 				drawingPanel.invalidate();
-			} else {
-				Toast toast = Toast.makeText(this, R.string.No_file_opened, 5);
-				toast.show();
-			}
-			status = true;
-			break;
-		case R.id.layer: // Set the current layer
-			dl = new DialogLayer();
-			dl.show(fragmentManager, "");
-			status = true;
-			break;
-		case R.id.showgrid: // Toggle grid visibility
-			drawingPanel.setShowGrid(!drawingPanel.getShowGrid());
-			drawingPanel.invalidate();
-			item.setChecked(drawingPanel.getShowGrid());
-			status = true;
-			break;
-		case R.id.snaptogrid: // Toggle snap to grid while editing
-			mp = drawingPanel.getMapCoordinates();
-			mp.setSnap(!mp.getSnap());
-			drawingPanel.invalidate();
-			item.setChecked(mp.getSnap());
-			status = true;
-			break;
-		case R.id.use_sensors_rotate_mirror: // Toggle "use sensors..."
-			activateSensors = !activateSensors;
-			item.setChecked(activateSensors);
-			status = true;
-			break;
-		case R.id.zoomtofit: // Zoom to fit
-			// At first get the size in which the drawing should be fit
-			int sizex=drawingPanel.getWidth();
-			int sizey=drawingPanel.getHeight();
-			// Calculate the zoom to fit scale
-			mp = DrawingSize.calculateZoomToFit(
-				drawingPanel.getDrawingModel(), sizex, sizey, true);
-			// Set the new coordinate system and force a redraw.
-			drawingPanel.setMapCoordinates(mp);
-			drawingPanel.invalidate();
-			break;
-		case R.id.about: // Show the about dialog
-			da = new DialogAbout();
-			da.show(fragmentManager, "");
-			status = true;
-			break;
-		default:
+				item.setChecked(drawingPanel.getShowGrid());
+				status = true;
+				break;
+			case R.id.snaptogrid: // Toggle snap to grid while editing
+				mp = drawingPanel.getMapCoordinates();
+				mp.setSnap(!mp.getSnap());
+				drawingPanel.invalidate();
+				item.setChecked(mp.getSnap());
+				status = true;
+				break;
+			case R.id.use_sensors_rotate_mirror: // Toggle "use sensors..."
+				activateSensors = !activateSensors;
+				item.setChecked(activateSensors);
+				status = true;
+				break;
+			case R.id.zoomtofit: // Zoom to fit
+				// At first get the size in which the drawing should be fit
+				int sizex=drawingPanel.getWidth();
+				int sizey=drawingPanel.getHeight();
+				// Calculate the zoom to fit scale
+				mp = DrawingSize.calculateZoomToFit(
+					drawingPanel.getDrawingModel(), sizex, sizey, true);
+				double z=mp.getXMagnitude();
+				// Set the new coordinate system and force a redraw.
+				drawingPanel.getMapCoordinates().setMagnitudes(z, z);
+				android.util.Log.e("fidocadj", "x: "+mp.getXCenter()+
+					"  y: "+mp.getYCenter());
+  
+				drawingPanel.setScrollX((int)mp.getXCenter());
+				drawingPanel.setScrollY((int)mp.getYCenter());
+				drawingPanel.invalidate();
+				break;
+			case R.id.about: // Show the about dialog
+				da = new DialogAbout();
+				da.show(fragmentManager, "");
+				status = true;
+				break;
+			default:
 		}
 		if (!status)
 			android.util.Log.e("fidocadj",
@@ -455,9 +470,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return status;
 	}
 
+	/** Do something here if sensor accuracy changes. */
 	@Override
-	public final void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// Do something here if sensor accuracy changes.
+	public final void onAccuracyChanged(Sensor sensor, int accuracy) 
+	{
+		// Normally it is not needed, but required for the interface
+		// implementation
 	}
 
 	/**
@@ -465,7 +483,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	 * gyroscope.
 	 */
 	@Override
-	public final void onSensorChanged(SensorEvent event) {
+	public final void onSensorChanged(SensorEvent event) 
+	{
 		// Check if sensor gestures are active or not.
 		if (!activateSensors)
 			return;
@@ -503,7 +522,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		}
 
 		// Z action: rotation.
-		if (averagedAngleSpeedZ > threshold || averagedAngleSpeedZ < -threshold) {
+		if (averagedAngleSpeedZ > threshold || 
+			averagedAngleSpeedZ <-threshold) {
 
 			holdoff = event.timestamp + 500000000l;
 			drawingPanel.getEditorActions().rotateAllSelected();
@@ -552,46 +572,46 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
 		// Get the action selected by the user and execute it.
 		switch (item.getItemId()) {
-		case R.id.menu_param:
-			drawingPanel.setPropertiesForPrimitive();
-			break;
-		case R.id.menu_cut:
-			drawingPanel.getCopyPasteActions().copySelected(true, false,
+			case R.id.menu_param:
+				drawingPanel.setPropertiesForPrimitive();
+				break;
+			case R.id.menu_cut:
+				drawingPanel.getCopyPasteActions().copySelected(true, false,
 					drawingPanel.getMapCoordinates().getXGridStep(),
 					drawingPanel.getMapCoordinates().getYGridStep());
-			drawingPanel.getEditorActions().deleteAllSelected(true);
-			status = true;
-			break;
-		case R.id.menu_copy:
-			drawingPanel.getCopyPasteActions().copySelected(true, false,
+				drawingPanel.getEditorActions().deleteAllSelected(true);
+				status = true;
+				break;
+			case R.id.menu_copy:
+				drawingPanel.getCopyPasteActions().copySelected(true, false,
 					drawingPanel.getMapCoordinates().getXGridStep(),
 					drawingPanel.getMapCoordinates().getYGridStep());
-			status = true;
-			break;
-		case R.id.menu_paste:
-			drawingPanel.getCopyPasteActions().paste(
+				status = true;
+				break;
+			case R.id.menu_paste:
+				drawingPanel.getCopyPasteActions().paste(
 					drawingPanel.getMapCoordinates().getXGridStep(),
 					drawingPanel.getMapCoordinates().getYGridStep());
-			status = true;
-			break;
-		case R.id.menu_selectall:
-			drawingPanel.getEditorActions().setSelectionAll(true);
-			status = true;
-			break;
-		case R.id.menu_delete:
-			drawingPanel.getEditorActions().deleteAllSelected(true);
-			status = true;
-			break;
-		case R.id.menu_rotate:
-			drawingPanel.getEditorActions().rotateAllSelected();
-			status = true;
-			break;
-		case R.id.menu_mirror:
-			drawingPanel.getEditorActions().mirrorAllSelected();
-			status = true;
-			break;
-		default:
-			break;
+				status = true;
+				break;
+			case R.id.menu_selectall:
+				drawingPanel.getEditorActions().setSelectionAll(true);
+				status = true;
+				break;
+			case R.id.menu_delete:
+				drawingPanel.getEditorActions().deleteAllSelected(true);
+				status = true;
+				break;
+			case R.id.menu_rotate:
+				drawingPanel.getEditorActions().rotateAllSelected();
+				status = true;
+				break;
+			case R.id.menu_mirror:
+				drawingPanel.getEditorActions().mirrorAllSelected();
+				status = true;
+				break;
+			default:
+				break;
 		}
 
 		// If something has changed, force a redraw.
