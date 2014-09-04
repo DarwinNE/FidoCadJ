@@ -83,6 +83,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private int oldDist;
     private int newDist;
     private double origZoom;
+    private int oldScrollX;
+    private int oldScrollY;
+    private int oldCenterX;
+    private int oldCenterY;
     
     	// ********** EDITING *********
     	
@@ -372,6 +376,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	            	if(event.getPointerCount() == 2) {	
 	            		// Begin of a zoom gesture
 	            		oldDist = spacing(event);
+	            		oldCenterX=(int)(event.getX(0) + event.getX(1))/2;
+	            		oldCenterY=(int)(event.getY(0) + event.getY(1))/2;
+	            		oldScrollX=getScrollX();
+	            		oldScrollY=getScrollY();
 	            	} else {
 	            		oldDist=-1; 	// This is just to be on the safe side
 	            	}
@@ -388,8 +396,18 @@ public class FidoEditor extends View implements PrimitivesParInterface
 						double newZoom=scale*origZoom;
 	            		cs.setXMagnitude(newZoom);
 	            		cs.setYMagnitude(newZoom);
-	            		// It should be nice to centre the viewport if 
-	            		// possible.
+	            		// There might be some roundup or limiting while
+	            		// setting the new zoom. This ensures that a coherent
+	            		// value for newZoom is used for what follows.
+	            		newZoom=cs.getXMagnitude();
+	            		
+	            		int corrX=(int)((oldCenterX)
+	            			/origZoom*newZoom)-oldCenterX;
+	            		int corrY=(int)((oldCenterY)
+	            			/origZoom*newZoom)-oldCenterY;
+	            		setScrollX((int)(oldScrollX/origZoom*newZoom)+corrX);
+	            		setScrollY((int)(oldScrollY/origZoom*newZoom)+corrY);
+	            		
 	            		invalidate();
 	                } else {
                 		curX = (int)event.getX();
