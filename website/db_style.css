@@ -5,15 +5,13 @@ body {
   	/*background-color:#ADA;#E9E0C9;*/
   	/*background-color: #CACACA;*/
   	
-background: #f7f7f7; /* Old browsers */
+background: #CACACA; /* Old browsers */
 background: -moz-linear-gradient(top,  #f7f7f7 2%, #d1d1d1 7%, #c9c9c9 99%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#f7f7f7), color-stop(7%,#d1d1d1), color-stop(99%,#c9c9c9)); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* Chrome10+,Safari5.1+ */
 background: -o-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* IE10+ */
 background: linear-gradient(to bottom,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#c9c9c9',GradientType=0 ); /* IE6-9 */
-
 
 }
 
@@ -54,7 +52,7 @@ div.titlepage {
 	/*background-color:#585; */
 	background-color:#E68A00;
 	color:#fff;	
-	font-weight: 10%;
+	font-weight: 200;
 	
  	padding:1em 1em;
  	
@@ -66,12 +64,13 @@ div.titlepage::before {
 	content: url("icona_fidocadj_128x128.png");
 	float:left;
 }
+
 H1 {
 	font-weight: 100;
 	font-size: 500%;
-	text-align:center
+	text-align:left;
 	padding: 0em 0em 0em 0em;
-	margin: 0em 0em 0em 0em
+	margin: 0em 0em 0em 0em;
 }
 
 H2 {
