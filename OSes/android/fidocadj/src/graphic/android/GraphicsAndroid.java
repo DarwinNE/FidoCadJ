@@ -514,6 +514,10 @@ public class GraphicsAndroid implements GraphicsInterface
         double width;
         double height;
         
+        Paint gridPoints = new Paint();
+		gridPoints.setColor(Color.LTGRAY);
+		gridPoints.setStyle(Paint.Style.FILL_AND_STROKE);
+        
         double m=1.0;   
 
         // Fabricate a new image only if necessary, to save time.   
@@ -544,6 +548,7 @@ public class GraphicsAndroid implements GraphicsInterface
             } else if (ddx<3 || ddy <3) {
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
+                gridPoints.setColor(Color.parseColor("#A5EDF2"));
                 ddx=Math.abs(cs.mapXr(dx,0)-cs.mapXr(0,0));
             }
                 
@@ -579,9 +584,7 @@ public class GraphicsAndroid implements GraphicsInterface
             // Create a graphics contents on the buffered image
 			Canvas cbitmap = new Canvas(bitmapImage);
 			cbitmap.drawARGB(255, 255, 255, 255);
-			Paint gridPoints = new Paint();
-			gridPoints.setColor(Color.LTGRAY);
-			gridPoints.setStyle(Paint.Style.FILL_AND_STROKE);
+
             
             float sx, sy;
             // Prepare the image with the grid.
@@ -646,6 +649,7 @@ public class GraphicsAndroid implements GraphicsInterface
             } else if (ddx<3 || ddy <3) {
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
+                paint.setColor(Color.parseColor("#A5EDF2"));
                 ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             }
     	
@@ -659,7 +663,6 @@ public class GraphicsAndroid implements GraphicsInterface
             }
         }
 		paint.setStyle(Style.STROKE);
-        
     }
     	
     /** Create a polygon object, compatible with GraphicsAndroid.

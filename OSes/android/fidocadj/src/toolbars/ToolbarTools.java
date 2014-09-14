@@ -2,10 +2,14 @@ package toolbars;
 
 import android.os.Bundle;
 import android.widget.ToggleButton;
+import android.widget.Button;
+import android.app.FragmentManager;
+
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.app.Activity;
 
+import dialogs.DialogLayer;
 import net.sourceforge.fidocadj.*;
 import circuit.controllers.ElementsEdtActions;
 
@@ -49,6 +53,9 @@ public class ToolbarTools
 	private ToggleButton pcbpad;
 	private ToggleButton hand;
 	private ToggleButton zoom;
+	private Button layer;
+	
+	private Activity aaParent;
 	
 	private ElementsEdtActions eea;
 	
@@ -59,6 +66,7 @@ public class ToolbarTools
 		eea=ee;
 		eea.setActionSelected(ElementsEdtActions.NONE);
 		getButtons(aa);
+		aaParent=aa;
 		
 		// Quite boring, but easy code. Each listener blanks the state
 		// of all buttons, except the one which has been clicked and
@@ -173,7 +181,7 @@ public class ToolbarTools
 					eea.setActionSelected(ElementsEdtActions.PCB_PAD);
 			}
 		});
-	/*	hand.setOnClickListener(new OnClickListener() {
+		hand.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				resetButtons(hand);
@@ -182,7 +190,7 @@ public class ToolbarTools
 				else
 					eea.setActionSelected(ElementsEdtActions.HAND);
 			}
-		});
+		}); /*
 		zoom.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -193,6 +201,15 @@ public class ToolbarTools
 					eea.setActionSelected(ElementsEdtActions.ZOOM);
 			}
 		});*/
+		
+		layer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// show layer dialog
+				DialogLayer dl = new DialogLayer();
+				dl.show(aaParent.getFragmentManager(), "");
+			}
+		});
 	}
 	
 	/** Reset the state of all buttons, except the one specified.
@@ -222,7 +239,7 @@ public class ToolbarTools
 		if(!connection.equals(exc))   connection.setChecked(false);
 		if(!pcbline.equals(exc))      pcbline.setChecked(false);
 		if(!pcbpad.equals(exc))       pcbpad.setChecked(false);
-		//if(!hand.equals(exc))         hand.setChecked(false);
+		if(!hand.equals(exc))         hand.setChecked(false);
 		//if(!zoom.equals(exc))		  zoom.setChecked(false);
 	}
 	
@@ -243,7 +260,8 @@ public class ToolbarTools
 		connection = (ToggleButton) aa.findViewById(R.id.connection);
 		pcbline = (ToggleButton) aa.findViewById(R.id.pcbline);
 		pcbpad = (ToggleButton) aa.findViewById(R.id.pcbpad);
-		//hand = (ToggleButton) aa.findViewById(R.id.hand);
+		hand = (ToggleButton) aa.findViewById(R.id.hand);
+		layer = (Button) aa.findViewById(R.id.layer);
 		//zoom = (ToggleButton) aa.findViewById(R.id.zoom);
 	}
 }
