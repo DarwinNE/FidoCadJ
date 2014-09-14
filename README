@@ -159,6 +159,7 @@ for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
   exclude_from_svn            excludes all binary generated files from svn
   sign.sh                     creates the signature for the applet
   test/                DIR    automatic tests for FidoCadJ
+  website/             DIR    all files for http://fidocadj.sourceforge.net
   winbuild.bat                build and run script for Windows (see par. 3.3)
 
 -----------------------------------------------------

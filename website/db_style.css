@@ -1,0 +1,127 @@
+
+body {
+  	/*background-color:#ADA;#E9E0C9;*/
+  	background-color: #CACACA;
+}
+
+div.main {
+	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    width: 50em;
+    background-color:#fff;
+    color: #444;
+     	
+    margin-left: auto;
+  	margin-right: auto;
+  	border-style:solid;
+	border-color:#E68A00;
+}
+
+p {
+	margin-left: 20px;
+  	margin-right: 20px;
+}
+
+A {
+	color: #00A000;
+	text-decoration:none;
+}
+
+A:visited {
+	color: #D57000;
+}
+
+
+div.titlepage {
+	/*background-color:#585; */
+	background-color:#E68A00;
+	color:#fff;	
+	font-weight: 10%;
+	
+ 	padding:1em 1em;
+ 	
+    margin-top: 0px;
+  	margin-bottom: 0px;
+}
+
+div.titlepage::before {
+	content: url("icona_fidocadj_128x128.png");
+	float:left;
+}
+H1 {
+	font-weight: 100;
+	font-size: 500%;
+	text-align:center
+	padding: 0em 0em 0em 0em;
+	margin: 0em 0em 0em 0em
+}
+
+H2 {
+	font-weight: 100;
+	padding: 0em 0em 0em 0em;
+	margin: 0em 0em 0em 0em
+}
+
+h3 {
+	text-align:center
+}
+
+TABLE.dtab {
+	font-size:96%;
+	line-height:1.3em;
+	color: #333;
+	background-color:#fff;
+	border-collapse:collapse;
+	text-align:center;
+	/*letter-spacing:.05em;*/
+	font-weight: lighter;
+	width:95%;
+	margin-left: 20px;
+  	margin-right: 20px;
+}
+
+TABLE.dtab TBODY TR TH {
+	border-right: 1px solid #fff;
+	padding-left:5px;
+	letter-spacing:0.1em;
+	text-align:center;
+	color: #fff;
+	background: #585;
+	font-weight: normal;
+}
+
+TABLE.dtab tbody th a {
+	color: white;
+}
+ 
+TABLE.dtab td, TABLE.dtab th {
+	padding:4px;
+}
+
+TABLE.dtab tbody tr , TABLE.dtab tbody tr {
+	border-bottom: 1px solid #090;
+}
+
+IMG.indisplay {
+		   border: 0px solid;
+           padding: 15px 5px 15px 5px;
+           display: block;
+   		   margin-left: auto;
+    	   margin-right: auto;}
+
+IMG.float {float: left;
+		   margin: 0px 0px 0px 0px;
+           border: 0px solid;
+           padding: 15px 15px 15px 15px;}
+           
+P.license {color: #111;
+		  font-size: 80%;
+ 	      font-family: monospace;
+	      border: 20px;
+	      margin-left: 20px;
+  		  margin-right: 20px;
+}
+
+SPAN.command {color: #99182C;
+			background: #DAFFDA; 
+ 	      font-family: monospace;
+ 	      font-size: 100%;}
