@@ -14,52 +14,52 @@
     
     <item
         android:id="@+id/file"
-        android:showAsAction="ifRoom|withText"
+        
         android:title="@string/File">
         <menu>
             <item
                 android:id="@+id/new_drawing"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/New"
         		android:visible="true" />
             <item
                 android:id="@+id/open_file"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Open"
         		android:visible="true" />
             <item
                 android:id="@+id/open_file_deprecated"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Open_deprecated"
         		android:visible="true" />
             <item
                 android:id="@+id/save"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Save"
         		android:visible="true" />
             <item
                 android:id="@+id/save_with_name"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/SaveName"
         		android:visible="true" />
             <item
                 android:id="@+id/delete"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Delete"
         		android:visible="true" />
             <item
                 android:id="@+id/export"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Export"
         		android:visible="false" />
             <item
                 android:id="@+id/print"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Print"
         		android:visible="false" />
             <item
                 android:id="@+id/options"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Circ_opt_t"
         		android:visible="false" />
         </menu>
@@ -67,23 +67,23 @@
     
     <item
         android:id="@+id/edit_menu"
-        android:showAsAction="ifRoom|withText"
+        
         android:title="@string/Edit_menu">
         <menu>
         	<item
                 android:id="@+id/menu_undo"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Undo"/>
         	<item
                 android:id="@+id/menu_redo"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Redo" />
         	<item android:id="@+id/menu_cut"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:icon="@drawable/cut"
           		android:title="@string/Cut" />
 			<item android:id="@+id/menu_copy"	
-				android:showAsAction="ifRoom|withText"
+				
 				android:icon="@drawable/copy"
           		android:title="@string/Copy" />
           	<detail>
@@ -92,69 +92,69 @@
           	</detail>
         	<item
                 android:id="@+id/menu_copy_split"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Copy_split" 
         		android:visible="false"/>
         	<item android:id="@+id/menu_paste"
-				android:showAsAction="ifRoom|withText"
+				
 				android:icon="@drawable/paste"
           		android:title="@string/Paste" />
         	<item
                 android:id="@+id/menu_define_clipboard"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/DefineClipboard"
         		android:visible="false" />
         	<item
                 android:id="@+id/menu_selectall"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/SelectAll" />
         	<item android:id="@+id/menu_delete"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:icon="@drawable/delete"
           		android:title="@string/Delete" />          
 			<item android:id="@+id/menu_rotate"
-				android:showAsAction="ifRoom|withText"
+				
 				android:icon="@drawable/rotate"
           		android:title="@string/Rotate" />  
 			<item android:id="@+id/menu_mirror"
 				android:icon="@drawable/mirror"
-				android:showAsAction="ifRoom|withText"
+				
           		android:title="@string/Mirror_E" />
         </menu>
     </item>
     
     <item
         android:id="@+id/view"
-        android:showAsAction="ifRoom|withText"
+        
         android:title="@string/Drawing">
         <menu>
             <item
                 android:id="@+id/layer"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/tooltip_layerSel"
         		android:visible="true" />
         	<item
                 android:id="@+id/zoomtofit"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/Zoom_fit"
         		android:visible="true" />
         	<item
                 android:id="@+id/showgrid"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/ShowGrid"
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />
         	<item
                 android:id="@+id/snaptogrid"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/SnapToGrid"
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />
         	<item
                 android:id="@+id/use_sensors_rotate_mirror"
-        		android:showAsAction="ifRoom|withText"
+        		
         		android:title="@string/use_sensors_rotate_mirror"
         		android:visible="true"
         		android:checkable="true"
@@ -164,7 +164,7 @@
     
     <item
         android:id="@+id/circuit"
-        android:showAsAction="ifRoom|withText"
+        
         android:title="@string/Circuit_l"
         android:visible="false"
          >
@@ -173,7 +173,7 @@
     
     <item
         android:id="@+id/about"
-        android:showAsAction="ifRoom|withText"
+        
         android:title="@string/About"/>
     
 </menu>

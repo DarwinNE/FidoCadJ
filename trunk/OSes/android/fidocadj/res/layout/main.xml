@@ -18,7 +18,15 @@
  		android:layout_width="wrap_content"
  		android:background="@color/background_light"
   		android:layout_weight="0.05">
-
+		<ToggleButton android:id="@+id/hand"
+  			android:textOn="@string/Hand"
+  			android:textOff="@string/Hand"
+  			android:background="@drawable/states"
+          	android:drawableTop="@drawable/move_zoom"
+          	android:layout_height="wrap_content"
+          	android:layout_width="wrap_content"
+          	android:textColor="@color/active_dark"
+          	android:adjustViewBounds="true"/> 
   		<ToggleButton android:id="@+id/selection"
   			android:textOn="@string/Selection"
   			android:textOff="@string/Selection"
@@ -39,16 +47,9 @@
           	android:layout_width="wrap_content"
           	android:textColor="@color/active_dark"
           	android:adjustViewBounds="true"/>
-        <ToggleButton android:id="@+id/hand"
-  			android:textOn="@string/Hand"
-  			android:textOff="@string/Hand"
-  			android:background="@drawable/states"
-          	android:drawableTop="@drawable/move"
-          	android:layout_height="wrap_content"
-          	android:layout_width="wrap_content"
-          	android:textColor="@color/active_dark"
-          	android:adjustViewBounds="true"/> 
 -->
+
+
 		<ToggleButton android:id="@+id/line"
 			android:textOn="@string/Line"
 			android:textOff="@string/Line"

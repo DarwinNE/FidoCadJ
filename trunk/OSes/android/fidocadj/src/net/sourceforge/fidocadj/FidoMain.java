@@ -63,6 +63,32 @@ import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 import net.sourceforge.fidocadj.macropicker.ExpandableMacroListView;
 import net.sourceforge.fidocadj.storage.StaticStorage;
 
+/** The main activity of the FidoCadJ application. Important things handled
+	here are:
+	
+	- Creation and destruction of the activity (app).
+	- Handling menu events (contextual and main menu).
+	
+<pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 by Davide Bucci, Dante Loi
+</pre>
+*/
+
 public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		SensorEventListener 
 {
@@ -70,7 +96,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	private FidoEditor drawingPanel;
 	private final FragmentManager fragmentManager = getFragmentManager();
 
-	/* Gyroscope gestures */
+	/* Gyroscope and sensors gestures */
 	private boolean activateSensors;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -82,7 +108,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	/* Loaded libraries and information */
 	private List<Category> globalList;
 	private List<Library> libsList;
-	//private int currentLib;
 
 	private Spinner librarySpinner;
 	private ExpandableMacroListView listAdapter;
@@ -114,6 +139,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
 		StringBuilder text = new StringBuilder();
 		text.append("[FIDOCAD]\n");
+		
+		// Now we read the current drawing which might be contained in the
+		// temporary file. If there is something meaningful, we perform a 
+		// zoom to fit operation. 
 		File file = new File(getFilesDir(), tempFileName);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -127,11 +156,14 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		// NOTE: DB: I am not completely sure that the following line is 
+		// needed.
 		drawingPanel.getParserActions().openFileName = tempFileName;
 		drawingPanel.getParserActions().parseString(
 				new StringBuffer(text.toString()));
 		drawingPanel.getUndoActions().saveUndoState();
+		
 		drawingPanel.invalidate();
 
 		// TODO: this is method which works well, but it is discouraged by
@@ -145,6 +177,11 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		layerButton.setBackgroundColor(
 					((ColorAndroid)layers.get(0).getColor())
 					.getColorAndroid());
+					
+		// Zoom to fit only if there is something to show.
+		if(!drawingPanel.getDrawingModel().isEmpty()) {
+			drawingPanel.panToFit();
+		}
 	}
 
 	/**
@@ -312,10 +349,14 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		}
 	}
 
+	/** Create the menus to be shown and ensure that the checkable items
+		do reflect the current state of the application.
+	*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		getMenuInflater().inflate(R.menu.main_menu, menu);
+		
 		// Set the correct checking state.
 		MenuItem showGrid = menu.findItem(R.id.showgrid);
 		showGrid.setChecked(drawingPanel.getShowGrid());
@@ -445,21 +486,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status = true;
 				break;
 			case R.id.zoomtofit: // Zoom to fit
-				// At first get the size in which the drawing should be fit
-				int sizex=drawingPanel.getWidth();
-				int sizey=drawingPanel.getHeight();
-				// Calculate the zoom to fit scale
-				mp = DrawingSize.calculateZoomToFit(
-					drawingPanel.getDrawingModel(), sizex, sizey, true);
-				double z=mp.getXMagnitude();
-				// Set the new coordinate system and force a redraw.
-				drawingPanel.getMapCoordinates().setMagnitudes(z, z);
-				android.util.Log.e("fidocadj", "x: "+mp.getXCenter()+
-					"  y: "+mp.getYCenter());
-  
-				drawingPanel.setScrollX((int)mp.getXCenter());
-				drawingPanel.setScrollY((int)mp.getYCenter());
-				drawingPanel.invalidate();
+				drawingPanel.zoomToFit();
 				break;
 			case R.id.about: // Show the about dialog
 				da = new DialogAbout();
@@ -541,6 +568,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		}
 	}
 
+	/** Reactivate the events needed by the FidoCadJ app when it is brought
+		on focus. This is in particular useful for the sensors gestures,
+		which need to be deactivated when the app is not on the top.
+	*/
 	@Override
 	protected void onResume() 
 	{
@@ -559,6 +590,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		mSensorManager.unregisterListener(this);
 	}
 
+	/** Create the contextual menu.
+	
+	*/
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -669,11 +704,13 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 					drawingPanel.invalidate();
 				}
 				break;
-
 			}
 		}
 	}
 
+	/** Saves the current state and finish the application.
+	
+	*/
 	@Override
 	public void onBackPressed() 
 	{
