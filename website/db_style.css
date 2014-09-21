@@ -15,6 +15,16 @@ background: linear-gradient(to bottom,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* W
 
 }
 
+div.code {
+	overflow: auto; 
+	width:20em; 
+	height:10em;
+	border-style:solid;
+	border-color:#E68A00;
+	padding: 5px 10px 5px 10px;	
+	border-width: 1px;
+}
+
 div.main {
 	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     width: 50em;
@@ -48,12 +58,12 @@ A:visited {
 }
 
 B.mainmenu {
-	vertical-align:0.3em;
+	vertical-align:5px;
 }
 A.mainmenu {
 	color: #FFFFFF;
 	text-decoration:none;
-	vertical-align:0.3em;
+	vertical-align:5px;
 }
 
 A.mainmenu:visited {
@@ -94,6 +104,11 @@ H2 {
 
 h3 {
 	text-align:center
+}
+
+h4 {
+	margin-left: 1em;
+	margin-right: 1em;
 }
 
 TABLE.dtab {
