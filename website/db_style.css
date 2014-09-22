@@ -90,6 +90,7 @@ div.titlepage::before {
 
 H1 {
 	font-weight: 100;
+	color:#FFFFFF;
 	font-size: 500%;
 	text-align:left;
 	padding: 0em 0em 0em 0em;
