@@ -18,8 +18,7 @@ import layers.*;
 import geom.*;
 
 /** FidoMain.java 
-
-	The starting point of FidoCadJ.
+	SWING App: The starting point of FidoCadJ.
 
 <pre>
     This file is part of FidoCadJ.
