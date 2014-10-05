@@ -43,6 +43,44 @@ public class ExplorerActivity extends ListActivity
 
 	public boolean FOLDER_SELECTION = false;
 
+	/**
+		The starting point of the Activity.
+		
+		The file explorer can be used to select files or folder. 
+		When you call the activity you must specify the request that can be
+		ExplorerActivity.REQUEST_FILE or ExplorerActivity.REQUEST_FOLDER. 
+		I.e.:
+		<pre>	
+			myIntent = new Intent(this, ExplorerActivity.class);
+			this.startActivityForResult(myIntent, 
+				ExplorerActivity.REQUEST_FILE);
+		</pre>
+				
+		And then in the onActivityResult you need to manage what to do with 
+		the directory retrieved.
+		<pre>
+			@Override
+			protected void onActivityResult(int requestCode, 
+				int resultCode, Intent data) 
+			{
+				if (resultCode == RESULT_OK) {
+					switch (requestCode) {
+						case ExplorerActivity.REQUEST_FOLDER:
+							// Put code here for handling a folder request
+							dir = data.getExtras().getString(
+								ExplorerActivity.DIRECTORY)
+							break;
+						case ExplorerActivity.REQUEST_FILE:
+							// Put code here for handling a file request
+							file = data.getExtras().getString(
+								ExplorerActivity.FILENAME);
+						default:
+							break;
+					}
+				}
+			}
+		</pre>
+	*/
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -82,7 +120,6 @@ public class ExplorerActivity extends ListActivity
 				}
 			}
 		});
-		// showDir("/");
 		showDir(ROOT);
 	}
 
@@ -135,6 +172,9 @@ public class ExplorerActivity extends ListActivity
 		return filtered.toArray(new String[] {});
 	}
 
+	/** Sets the current dir to be shown.
+		@param dir the dir to be shown.
+	*/
 	public void showDir(String dir) 
 	{
 		CURDIR = dir;
