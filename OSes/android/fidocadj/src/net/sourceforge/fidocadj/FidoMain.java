@@ -169,8 +169,13 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		drawingPanel.getParserActions().parseString(
 				new StringBuffer(text.toString()));
 		drawingPanel.getUndoActions().saveUndoState();
-		
 		drawingPanel.invalidate();
+		
+		File file_tm = new File(Environment.getExternalStorageDirectory(), 
+			"FidoCadJ/Libs");
+		Log.e("fidocadj", "read lib dir:"+file_tm.getAbsolutePath());
+		drawingPanel.getParserActions().loadLibraryDirectory(
+			file_tm.getAbsolutePath());
 
 		// TODO: this is method which works well, but it is discouraged by
 		// modern Android APIs.
