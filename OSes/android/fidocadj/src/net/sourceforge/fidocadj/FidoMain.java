@@ -22,7 +22,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
+import android.os.Environment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -36,7 +36,9 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.Button;
+import android.util.Log;
 
+import android.support.v4.widget.DrawerLayout;
 
 import com.explorer.ExplorerActivity;
 import com.explorer.IO;
@@ -128,6 +130,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		setContentView(R.layout.main);
 		tt = new ToolbarTools();
 		drawingPanel = (FidoEditor) findViewById(R.id.drawingPanel);
+		
+		// Create the standard directory for the drawings and libs, if needed:
+		createDirIfNotExists("FidoCadJ/Drawings");
+		createDirIfNotExists("FidoCadJ/Libs");
 
 		StaticStorage.setCurrentEditor(drawingPanel);
 		tt.activateListeners(this, drawingPanel.eea);
@@ -183,6 +189,29 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			drawingPanel.panToFit();
 		}
 	}
+	
+	/**
+		Check if a directory exists in the external storage directory,
+		and if not, create it. Source:
+		http://stackoverflow.com/questions/2130932
+		
+		@param path the directory name to be used
+		@return true if everything has been OK (either the directory exists
+			or it has been created). false if an error occurred.
+	*/
+	public static boolean createDirIfNotExists(String path)
+	{
+    	boolean ret = true;
+
+   	 	File file = new File(Environment.getExternalStorageDirectory(), path);
+    	if (!file.exists()) {
+        	if (!file.mkdirs()) {
+            	Log.e("fidocadj", "Problem creating output folder");
+            	ret = false;
+        	}
+    	}
+    	return ret;
+	}	
 
 	/**
 	 * Create the drawer on the right of the Activity, showing the list of
@@ -686,24 +715,31 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return pasteData;
 	}
 
+	/** Callback used when an Activity has finished and must send back data
+		to the original caller.
+		Here, it is used for the ExplorerActivity file browser, so we need
+		to check what to do
+	*/
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, 
 		Intent data) 
 	{
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case ExplorerActivity.REQUEST_FILE:
-				/** Manage the opening of file from SD card **/
-				if (data.hasExtra(ExplorerActivity.FILENAME)) {
-					String filename = data.getExtras().getString(
+				case ExplorerActivity.REQUEST_FILE:
+					/** Manage the opening of file from SD card **/
+					if (data.hasExtra(ExplorerActivity.FILENAME)) {
+						String filename = data.getExtras().getString(
 							ExplorerActivity.FILENAME);
-					drawingPanel.getParserActions().openFileName = filename;
-					drawingPanel.getParserActions().parseString(
+						drawingPanel.getParserActions().openFileName = filename;
+						drawingPanel.getParserActions().parseString(
 							new StringBuffer(IO.readFileFromSD(filename)));
-					drawingPanel.getUndoActions().saveUndoState();
-					drawingPanel.invalidate();
-				}
-				break;
+						drawingPanel.getUndoActions().saveUndoState();
+						drawingPanel.invalidate();
+					}
+					break;
+				default:
+					break;
 			}
 		}
 	}
