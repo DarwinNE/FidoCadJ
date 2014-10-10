@@ -407,7 +407,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
                 case 1:
                     vx=py-y1+100;
                     vy=px-x1+100;
-                    
                     break;
                 
                 case 2:
@@ -428,6 +427,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
                 default:
                     vx=0;
                     vy=0;
+                    break;
             }
         } else {
             switch(o){
@@ -454,6 +454,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
                 default:
                     vx= 0;
                     vy= 0;
+                    break;
             }
         }   
  		

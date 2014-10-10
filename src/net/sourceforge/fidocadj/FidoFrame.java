@@ -1018,20 +1018,14 @@ public class FidoFrame extends JFrame implements
             }
         	// Copy all selected elements in the clipboard
             if (arg.equals(Globals.messages.getString("Copy"))) {
-                cpa.copySelected(!CC.extStrict, false,
-                	CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
+                cpa.copySelected(!CC.extStrict, false);   
             }
             if (arg.equals(Globals.messages.getString("Copy_split"))) {
-                cpa.copySelected(!CC.extStrict, true,
-                	CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
+                cpa.copySelected(!CC.extStrict, true);   
             }
             // Cut all the selected elements
             if (arg.equals(Globals.messages.getString("Cut"))) {
-                cpa.copySelected(!CC.extStrict, false,
-                	CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
+                cpa.copySelected(!CC.extStrict, false);   
                 edt.deleteAllSelected(true);
                 repaint();
             }

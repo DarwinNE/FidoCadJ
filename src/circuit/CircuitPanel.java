@@ -127,13 +127,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     		
 	// ********** INTERFACE **********
     
-    
-
-    // Track the old mouse coordinates. This is useful during editing
-    // See mouseMoved method
-    private int oldx;
-    private int oldy;
-    
     // If this variable is different from null, the component will ensure that
     // the corresponding rectangle will be shown in a scroll panel during the
     // next redraw.
@@ -733,24 +726,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int xa=evt.getX();
         int ya=evt.getY();
  
-        /*  Important note: the technique used here is always the XOR 
-            combination as a toggle.
-        */
- 
-        // This transformation/antitrasformation is useful to take care
-        // of the snapping
-        int x=cs.mapX(cs.unmapXsnap(xa),0);
-        int y=cs.mapY(0,cs.unmapYsnap(ya));
-        
-        // If no action is needed, exit immediately.
-        if(x==oldx && y==oldy)
-            return;
-
-		if (eea.continuosMove(cs, x, y, xa, ya, evt.isControlDown()))
+		if (eea.continuosMove(cs, xa, ya, evt.isControlDown()))
 			repaint();
 
-        oldx=x;
-        oldy=y;
     }
 
     /** Mouse interface: dragging operations.
@@ -1383,14 +1361,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
 				setPropertiesForPrimitive();
             } else if (arg.equals(Globals.messages.getString("Copy"))) {
             	// Copy all selected elements in the clipboard
-                cpa.copySelected(!extStrict, false,
-                	getMapCoordinates().getXGridStep(), 
-                	getMapCoordinates().getYGridStep());   
+                cpa.copySelected(!extStrict, false);   
             } else if (arg.equals(Globals.messages.getString("Cut"))) {
             	// Cut elements
-                cpa.copySelected(!extStrict, false,
-                	getMapCoordinates().getXGridStep(), 
-                	getMapCoordinates().getYGridStep());   
+                cpa.copySelected(!extStrict, false);   
                 edt.deleteAllSelected(true);
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {

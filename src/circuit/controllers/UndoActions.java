@@ -58,7 +58,9 @@ public class UndoActions implements UndoActorListener
     private LibraryUndoListener libraryUndoListener;
     private HasChangedListener cl;     
 
-    	
+    /** Public constructor.
+    @param a a parser controller (undo snapshots are kept in text format).
+    */
 	public UndoActions(ParserActions a)
 	{
 		pa=a;
@@ -133,6 +135,7 @@ public class UndoActions implements UndoActorListener
     
     /** Save the undo state, in the case an editing operation
     	has been performed on a library.
+    	@param t the library directory to be used.
     */
     public void saveUndoLibrary(String t)
     {
@@ -148,6 +151,9 @@ public class UndoActions implements UndoActorListener
         um.undoPush(s);
     }
     
+    /** Define a listener for a undo operation involving libraries.
+    @param l the library undo listener.
+    */
     public void setLibraryUndoListener(LibraryUndoListener l)
    	{
    		libraryUndoListener = l;
@@ -183,7 +189,6 @@ public class UndoActions implements UndoActorListener
 	*/
 	public void doTheDishes()
 	{
-		//System.out.println("Do the dishes...");
 		for (int i=0; i<tempDir.size();++i) 
 		{	
 			try {

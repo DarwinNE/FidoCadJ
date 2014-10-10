@@ -182,10 +182,11 @@ public final class PrimitivePCBPad extends GraphicPrimitive
  				// Rounded corner rectangular pad 
  				g.fillRoundRect(xa-rrx2, ya-rry2,rrx,rry,rox,roy);
  				break;
- 			case 0:
+ 			case 0: //NOPMD
  			default:
  				// Oval Pad 
  				g.fillOval(xa-rrx2, ya-rry2,rrx,rry);
+ 				break;
  			}
  		} 
 	}

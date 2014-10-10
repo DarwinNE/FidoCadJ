@@ -2,7 +2,8 @@ package circuit.controllers;
 
 /**  PrimitivesParInterface specifies some actions useful to modify
 	characteristics of primitives.
-
+	They are usually provided by the editor component.
+	
 <pre> 
     This file is part of FidoCadJ.
 
