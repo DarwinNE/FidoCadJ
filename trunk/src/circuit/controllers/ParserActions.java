@@ -54,6 +54,7 @@ public class ParserActions
     public String openFileName = null;
 
 	/** Standard constructor: provide the database class.
+		@param pp the drawing model (database of the circuit).
 	*/
 	public ParserActions (DrawingModel pp)
 	{
@@ -179,11 +180,9 @@ public class ParserActions
             s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
-        
         // Check if the layers should be indicated    
         Vector<LayerDesc> standardLayers = 
         	StandardLayers.createStandardLayers();
-        
         
         for(int i=0; i<layerV.size();++i) {
             LayerDesc l = (LayerDesc)layerV.get(i);
@@ -610,8 +609,7 @@ public class ParserActions
             Globals.lineWidthCircles = newLineWidthCircles;
         }
         P.sortPrimitiveLayers();
-        }
-        
+        }      
     }
     
     private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, String[] tokens,
@@ -674,7 +672,6 @@ public class ParserActions
         return hasFCJ;
     }
 	
-
     /** Read all librairies contained in the given URL at the given prefix.
         This is particularly useful to read librairies shipped in a jar 
         file.
@@ -734,7 +731,6 @@ public class ParserActions
         String categoryName="";
         String libraryName="";
         int i;
-//        StringBuffer txt= new StringBuffer();    
         String line="";
         
         MacroDesc macroDesc;
@@ -880,7 +876,5 @@ public class ParserActions
                 	f.getName()+" "+E);
             }
         } 
-           
     }
-
 }

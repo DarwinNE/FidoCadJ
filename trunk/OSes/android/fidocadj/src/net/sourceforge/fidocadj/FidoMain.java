@@ -430,9 +430,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		switch (item.getItemId()) {
 			case R.id.menu_copy_split: // Copy and split nonstandard macros
 				// TODO: this is not yet working.
-				drawingPanel.getCopyPasteActions().copySelected(true, true,
-					drawingPanel.getMapCoordinates().getXGridStep(),
-					drawingPanel.getMapCoordinates().getYGridStep());
+				drawingPanel.getCopyPasteActions().copySelected(true, true);
 				status = true;
 				break;
 			case R.id.menu_undo: // Undo action
@@ -654,16 +652,12 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				drawingPanel.setPropertiesForPrimitive();
 				break;
 			case R.id.menu_cut:
-				drawingPanel.getCopyPasteActions().copySelected(true, false,
-					drawingPanel.getMapCoordinates().getXGridStep(),
-					drawingPanel.getMapCoordinates().getYGridStep());
+				drawingPanel.getCopyPasteActions().copySelected(true, false);
 				drawingPanel.getEditorActions().deleteAllSelected(true);
 				status = true;
 				break;
 			case R.id.menu_copy:
-				drawingPanel.getCopyPasteActions().copySelected(true, false,
-					drawingPanel.getMapCoordinates().getXGridStep(),
-					drawingPanel.getMapCoordinates().getYGridStep());
+				drawingPanel.getCopyPasteActions().copySelected(true, false);
 				status = true;
 				break;
 			case R.id.menu_paste:

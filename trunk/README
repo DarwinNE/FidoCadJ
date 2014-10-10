@@ -161,6 +161,17 @@ for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
   test/                DIR    automatic tests for FidoCadJ
   website/             DIR    all files for http://fidocadj.sourceforge.net
   winbuild.bat                build and run script for Windows (see par. 3.3)
+  ---------------------------------------------------------------------------
+
+If you want to study the FidoCadJ source code, run the ./createdoc script to
+obtain the Javadoc description. Important classes are: 
+
+- src/net/sourceforge/fidocadj/FidoMain.java the starting point, with "main"
+- src/circuit/CircuitPanel.java which is the Swing editor panel
+- src/net/sourceforge/fidocadj/FidoFrame.java the editor windows
+- src/primitives/*.java all the graphic primitives
+- src/dialogs/*.java all the Swing dialogs
+- src/circuit/* the low level editing classes (view/model/controller)
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ

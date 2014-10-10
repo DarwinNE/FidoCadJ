@@ -184,7 +184,6 @@ public class ElementsEdtActions
     /** Gets the default PCB pad style.
         @return     the style.
     */
-    
     public int getPCB_pad_style()
     {
         return PCB_pad_style;  
@@ -202,7 +201,6 @@ public class ElementsEdtActions
     /** Gets the default PCB pad drill size.
         @return     the drill size, in logical units.
     */
-    
     public int getPCB_pad_drill()
     {
         return PCB_pad_drill;
@@ -211,7 +209,6 @@ public class ElementsEdtActions
     /** Sets the default PCB track thickness.
         @param s the wanted thickness in logical units.
     */
-    
     public void setPCB_thickness(int s)
     {
         PCB_thickness=s;
@@ -220,7 +217,6 @@ public class ElementsEdtActions
     /** Gets the default PCB track thickness.
         @return     the track thickness in logical units.
     */
-    
     public int getPCB_thickness()
     {
         return PCB_thickness;
@@ -330,7 +326,6 @@ public class ElementsEdtActions
     */
     private void addMacro(int x, int y)
     {
-
         try {
             // Here we add a macro. There is a remote risk that the macro
             // we are inserting contains an error. This is not something
@@ -400,11 +395,14 @@ public class ElementsEdtActions
         }
         return cn;    
     }
-	/** Introduce an Bézier curve. You can introduce this with four clicks, so 
+    
+	/** Introduce a Bézier curve. You can introduce this with four clicks, so 
     	you should keep track of the number of clicks you received 
     	(clickNumber).
     	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value).
+    	needed on it (the return value). In other words, when using this 
+    	method, you are responsible of storing this value somewhere and
+    	providing it any time you need to call addBezier again.
     	
     	@param x coordinate of the click (logical)
     	@param y coordinate of the click (logical)
@@ -443,7 +441,7 @@ public class ElementsEdtActions
         }
         return cn;
 	}
-	/** Introduce rectangle. You can introduce this with two clicks, so 
+	/** Introduce a rectangle. You can introduce this with two clicks, so 
     	you should keep track of the number of clicks you received 
     	(clickNumber).
     	You must count the number of clicks and see if there is a modification

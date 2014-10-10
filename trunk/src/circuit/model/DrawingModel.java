@@ -83,7 +83,6 @@ public class DrawingModel
         
     public DrawingModel()
     {
-        //tokens=new String[MAX_TOKENS];
         setPrimitiveVector(new Vector<GraphicPrimitive>(25));
         layerV=new Vector<LayerDesc>(LayerDesc.MAX_LAYERS);
         library=new TreeMap<String, MacroDesc>();
@@ -106,7 +105,7 @@ public class DrawingModel
         return layerV;
     }
     
-    /** Set the layer description vector
+    /** Set the layer description vector.
     
         @param v a vector of LayerDesc describing layers.
     */
@@ -122,6 +121,9 @@ public class DrawingModel
         changed=true;
     }
     
+    /** Sets whether during the export a border should be added.
+    @param b true if a border must be added.
+    */
     public void setExportBorder(int b)
     {
     	exportBorder=b;
@@ -229,7 +231,7 @@ public class DrawingModel
     /** Sets the state of the objects in the database according to the given
     	vector.
     */
-    public void setSelectionStateVector( Vector<Boolean> v)
+    public void setSelectionStateVector(Vector<Boolean> v)
     {
     	int i=0;
         
@@ -251,14 +253,18 @@ public class DrawingModel
     */
     public int getTextFontSize()
     {   
-    	// TODO: not very elegant piece of code
-        if(getPrimitiveVector().size()>0){
-        	int size=((GraphicPrimitive)getPrimitiveVector().get(0))
-                    .getMacroFontSize();
+    	
+        if(getPrimitiveVector().isEmpty())
+        	return macroFontSize;
+        
+        // TODO: not very elegant piece of code.
+        // Basically, we grab the settings of the very first object stored.	
+     	int size=((GraphicPrimitive)getPrimitiveVector().get(0))
+                   .getMacroFontSize();
                     
-            if(size<=0) size=1;
-            macroFontSize=size;
-        }
+        if(size<=0) size=1;
+        macroFontSize=size;
+    
         return macroFontSize;
     }
    
@@ -351,7 +357,7 @@ public class DrawingModel
     */
     public boolean isEmpty()
     {
-        return getPrimitiveVector().size()==0;
+        return getPrimitiveVector().isEmpty();
     }
     
     

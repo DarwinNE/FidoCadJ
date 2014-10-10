@@ -61,7 +61,7 @@ public class MapCoordinates
     private int orientation;
     public boolean mirror;
     public boolean isMacro;
-    public boolean snapActive;
+    private boolean snapActive;
     
     public static final double MIN_MAGNITUDE=0.25;
     public static final double MAX_MAGNITUDE=20.0;
@@ -190,7 +190,6 @@ public class MapCoordinates
     	snapActive=s;
     }
     
-    
     /** Get the snapping state (used in the unmapping functions)
     	@return the current snapping state.
     */
@@ -206,7 +205,6 @@ public class MapCoordinates
     {
     	if (xg>0) 
     		xGridStep=xg;
-
     }
     /**	Set the Y grid step
     	@param yg the Y grid step
@@ -215,7 +213,6 @@ public class MapCoordinates
     {
     	if (yg>0) 
     		yGridStep=yg;
-
     }
     
     /**	Get the X grid step
@@ -273,7 +270,6 @@ public class MapCoordinates
     
     /**	Set the Y magnification factor
     	@param tym the Y magnification factor
-    
     */
     public final void setYMagnitude(double tym)
     {
@@ -289,7 +285,6 @@ public class MapCoordinates
     
     /**	Get the X magnification factor
     	@return the X magnification factor
-    
     */
     public final double getXCenter()
     {
@@ -299,7 +294,6 @@ public class MapCoordinates
     
     /**	Get the Y magnification factor
     	@return the Y magnification factor
-    
     */
     public final double getYCenter()
     {
@@ -507,20 +501,18 @@ public class MapCoordinates
             	case 0:
                 	vy=yc*yMagnitude;
         			break;
-        			
             	case 1:
                 	vy=xc*xMagnitude;
                 	break;
-            
             	case 2:
                 	vy=-yc*yMagnitude;
                 	break;
-            
             	case 3:
                 	vy=-xc*xMagnitude;
                 	break;
                 default:
                 	vy=0.0;
+                	break;
         	}
         } else {
         	vy=(double)yc*yMagnitude;
@@ -550,34 +542,29 @@ public class MapCoordinates
     
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
-        @param X the horizontal coordinate in the screen coordinate system.
+        @param x the horizontal coordinate in the screen coordinate system.
     */
-    public int unmapXnosnap(int X)
+    public int unmapXnosnap(int x)
     {
-        int xc;
-        xc=(int)((X-xCenter)/xMagnitude);
-        return xc;
+        return (int)((x-xCenter)/xMagnitude);
     }
 
     /** Un Map the Y screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
-        @param Y the horizontal coordinate in the screen coordinate system.
+        @param y the horizontal coordinate in the screen coordinate system.
     */
-    public int unmapYnosnap(int Y)
+    public int unmapYnosnap(int y)
     {
-        int yc;
-        yc=(int)((Y-yCenter)/yMagnitude);
-        return yc;
+        return (int)((y-yCenter)/yMagnitude);
     }
     
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
-        @param X the horizontal coordinate in the screen coordinate system.
+        @param x the horizontal coordinate in the screen coordinate system.
     */
-    public int unmapXsnap(int X)
+    public int unmapXsnap(int x)
     {
-        int xc;
-        xc=(int)((X-xCenter)/xMagnitude);
+        int xc=unmapXnosnap(x);
         // perform the snapping.
         if(snapActive) {
         	xc= (int)((double)xc/xGridStep+.5);
@@ -590,10 +577,10 @@ public class MapCoordinates
         If the snapping is active, it is applied here.
         @param Y the horizontal coordinate in the screen coordinate system.
     */
-    public int unmapYsnap(int Y)
+    public int unmapYsnap(int y)
     {
-        int yc;
-        yc=(int)((Y-yCenter)/yMagnitude);
+        int yc=unmapYnosnap(y);
+        // perform the snapping.
         if(snapActive) {
         	yc=(int)((double)yc/yGridStep+.5);
         	yc*=yGridStep;

@@ -36,7 +36,6 @@ import graphic.*;
 
 public class HandleActions 
 {
-
 	private final DrawingModel P;
 	private final EditorActions edt;
 	private final UndoActions ua;
@@ -65,6 +64,9 @@ public class HandleActions
         
 
 	/** Standard constructor: provide the database class.
+		@param pp the drawing model
+		@param e the editor controller
+		@param u the undo controller
 	*/
 	public HandleActions (DrawingModel pp, EditorActions e, UndoActions u)
 	{
@@ -126,8 +128,7 @@ public class HandleActions
     }
     
     /** Start dragging handle. Check if the pointer is on the handle of a 
-        primitive and if it is the case, enter the dragging state.
-        
+        primitive and if it is the case, enter the dragging state.       
         @param px the (screen) x coordinate of the pointer.
         @param py the (screen) y coordinate of the pointer.
         @param tolerance the tolerance (screen. i.e. no of pixel).
@@ -209,6 +210,7 @@ public class HandleActions
     }
     
     /** End dragging handle.
+       	@param CC the editor object
         @param px the (screen) x coordinate of the pointer.
         @param py the (screen) y coordinate of the pointer.
         @param multiple specifies whether multiple selection is active.
@@ -246,7 +248,8 @@ public class HandleActions
     }
     
             
-    /** Drag an handle.
+    /** Drag a handle.
+    	@param CC the editor object
         @param px the (screen) x coordinate of the pointer
         @param py the (screen) y coordinate of the pointer
         @param cs the coordinates mapping to be used

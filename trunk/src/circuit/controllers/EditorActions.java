@@ -79,17 +79,15 @@ public class EditorActions
         int iy=100;
         boolean firstPrimitive=true;
 
-        for (GraphicPrimitive g:P.getPrimitiveVector()){
+        for (GraphicPrimitive g:P.getPrimitiveVector()) {
             if(g.getSelected()) {
-            
-                // The rotation point is given by the first primitive
+                // The rotation point is extracted from the first primitive
                 if(firstPrimitive){ 
                     ix=g.getFirstPoint().x;
                     iy=g.getFirstPoint().y;
                 }
                 
                 firstPrimitive=false;
-            
                	g.rotatePrimitive(false, ix, iy);
             }
         }
@@ -97,10 +95,8 @@ public class EditorActions
     }
     
     /** Move all selected primitives.
-        
         @param dx relative x movement
         @param dy relative y movement
-        
     */
     public void moveAllSelected(int dx, int dy)
     {
@@ -130,8 +126,7 @@ public class EditorActions
                 }
                 
                 firstPrimitive=false;
-
-               g.mirrorPrimitive(ix);
+               	g.mirrorPrimitive(ix);
             }
         }
         if(ua!=null) ua.saveUndoState();
@@ -213,7 +208,6 @@ public class EditorActions
             	return true;
             }
         }
-        
         return false;
     }
     
@@ -359,6 +353,11 @@ public class EditorActions
     }
     
     /** Delete all selected primitives. 
+    	@param saveState true if the undo controller should save the state
+    		of the drawing, after the delete operation is done. It should
+    		be put to false, when the delete operation is part of a more
+    		complex operation which is not yet ended after the call to this
+    		method.
     */
     public void deleteAllSelected(boolean saveState)
     {
@@ -374,7 +373,9 @@ public class EditorActions
     }
     
     /** Obtain a string containing all the selected elements.
-    	@return the string
+    	@param extensions true if FidoCadJ extensions should be used.
+    	@param pa the parser controller.
+    	@return the string.
     */
     public StringBuffer getSelectedString(boolean extensions, ParserActions pa)
     {

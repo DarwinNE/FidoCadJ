@@ -40,13 +40,20 @@ public class ContinuosMoveActions extends ElementsEdtActions
 	// A coordinates listener
     private ChangeCoordinatesListener coordinatesListener=null;
 
+	private int oldx;
+	private int oldy;
 
 	/** Constructor
+	@param pp the DrawingModel to be associated to the controller
+	@param u undo controller, exploited here
+	@param e editor controller, exploited here
 	*/
 	public ContinuosMoveActions(DrawingModel pp, UndoActions u, 
 		EditorActions e)
 	{
 		super(pp, u, e);
+		oldx=-1;
+		oldy=-1;
 	}
 	
     /** Define the listener to be called when the coordinates of the mouse 
@@ -58,10 +65,33 @@ public class ContinuosMoveActions extends ElementsEdtActions
         coordinatesListener=c;
     }
 
+	/** Handle a continuous move of the pointer device. It can be the result 
+		of a mouse drag for a rectangular selection, or a component move.
+		@param cs the coordinate mapping which should be used
+		@param xa the pointer position (x), in screen coordinates
+		@param ya the pointer position (y), in screen coordinates
+		@param isControl true if the CTRL key is pressed. This modifies 
+			some behaviors (for example, when introducing an ellipse it is 
+			forced to be a circle and so on).
+		@return true if a repaint should be done
+	*/
 	public boolean continuosMove(MapCoordinates cs, 
-		int x, int y, int xa, int ya,
+		int xa, int ya,
 		boolean isControl)
 	{
+		// This transformation/antitrasformation is useful to take care
+        // of the snapping.
+        int x=cs.mapX(cs.unmapXsnap(xa),0);
+        int y=cs.mapY(0,cs.unmapYsnap(ya));
+        
+        // If there is anything interesting to do, leave immediately.
+        if(oldx==x && oldy==y)
+        	return false;
+        
+        oldx=x;
+        oldy=y;
+
+		// Notify the current pointer coordinates, if a listener is available.
 		if (coordinatesListener!=null)
             coordinatesListener.changeCoordinates(
                 cs.unmapXsnap(xa),
@@ -69,22 +99,13 @@ public class ContinuosMoveActions extends ElementsEdtActions
                 
 		boolean toRepaint=false;
 	    // This is the newer code: if primEdit is different from null, 
-        // it will
-        // be drawn in the paintComponent event
+        // it will be drawn in the paintComponent event
         // We need to differentiate this case since when we are entering a
 		// macro, primEdit contains some useful hints about the orientation
 		// and the mirroring
 		
         if (actionSelected !=ElementsEdtActions.MACRO) 
         	primEdit = null;
-       /* else if(primEdit!=null) {
-        	// This prevents that the R and S keys are sent to the search field
-        	// if it has the focus (this happens when the user has found 
-        	// something in the libraries with it).
-  	    	if(primitivesParListener!=null)
-				primitivesParListener.getFocus();
-  	    	
-        }*/
         
         /*  MACRO ***********************************************************
             
@@ -129,8 +150,6 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
         
         if (clickNumber == 0) {
-            //oldx=x;
-            //oldy=y;
             return toRepaint;
         }
                 
@@ -190,10 +209,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
                     (ypoly[1]-cs.unmapYsnap(ya))*
                     (ypoly[1]-cs.unmapYsnap(ya)));
                 coordinatesListener.changeInfos(
-                    Globals.messages.getString("length")+Globals.roundTo(w,2));
-                
-            }   
-        
+                    Globals.messages.getString("length")+Globals.roundTo(w,2));            
+            }
         }
         /*  BEZIER ************************************************************
                                 +3+
@@ -273,7 +290,6 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
  			toRepaint=true;
             successiveMove = true;
-
         }
         
         /*  RECTANGLE *********************************************************
@@ -328,9 +344,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
              
             toRepaint=true;
 			successiveMove = true;
-        }    
-
+        }
 		return toRepaint;
 	}
-
 }

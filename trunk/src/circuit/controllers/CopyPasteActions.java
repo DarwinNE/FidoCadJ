@@ -40,7 +40,12 @@ public class CopyPasteActions {
 
     // True if elements should be shifted when copy/pasted
     private boolean shiftCP;	
-	/** Standard constructor: provide the database class.
+	/** Standard constructor.
+		@param pp the drawing model.
+		@param ed an editor controller.
+		@param aa a parser controller (pasting implies parsing).
+		@param u an undo controller.
+		@param p an object with copy and paste methods available.
 	*/
 	public CopyPasteActions(DrawingModel pp, EditorActions ed, 
 		ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
@@ -75,11 +80,10 @@ public class CopyPasteActions {
     }
     
     /** Copy in the system clipboard all selected primitives.
-        @param extensions specify if FCJ extensions should be applied
-        @param splitNonStandard specify if non standard macros should be split
+        @param extensions specify if FCJ extensions should be applied.
+        @param splitNonStandard specify if non standard macros should be split.
     */
-    public void copySelected(boolean extensions, boolean splitNonStandard,
-    	int xstep, int ystep)
+    public void copySelected(boolean extensions, boolean splitNonStandard)
     {
         StringBuffer s = edt.getSelectedString(extensions, pa);
         

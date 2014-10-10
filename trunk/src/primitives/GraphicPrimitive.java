@@ -14,7 +14,6 @@ import graphic.*;
 /*
 	GraphicPrimitive is an abstract class implementing the basic behaviour
 	of a graphic primitive, which should be derived from it.
-	
 
 <pre>
 	This file is part of FidoCadJ.
@@ -32,7 +31,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2014 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci, phylum2
 </pre>
 
 */
@@ -45,10 +44,6 @@ public abstract class GraphicPrimitive
 	// Tell that we want to perform a selection in a rectangular area
 	public static final int RECT_SELECTION=-3;
 	
-	// Handle dimension. This is rescaled depending of the screen pixel
-	// density. It is the size in pixel for a 112 dpi monitor.
-	private static final int HANDLE_WIDTH=10;
-
 	// Maximum number of tokens
 	private static final int MAX_TOKENS=120;
 	
@@ -60,6 +55,20 @@ public abstract class GraphicPrimitive
 		
 	// The layer
 	public int layer;
+	
+	// The multiplication factor which is calculated for adjusting the screen
+	// resolution, so that the size of handles or other important graphic stuff
+	// is more or less the same.
+	private float mult;
+	
+	// This is the screen resolution of the laptop on which I do most of the
+	// development (DB), in dpi
+	private static final int BASE_RESOLUTION=112;
+	
+	// Handle dimension. This is rescaled depending of the screen pixel
+	// density. It is the size in pixel for a BASE_RESOLUTION dpi monitor.
+	private static final int HANDLE_WIDTH=10;
+
 		
 	// Array containing the points defining the primitive
 	public PointG[] virtualPoint;
@@ -416,6 +425,10 @@ public abstract class GraphicPrimitive
 	    return false;
   	}	
 	
+	/** Reads the TY line describing the "value" field
+		@param tokens the array of tokens to be parsed
+		@param N the number of tokens to be parsed.
+	*/
 	public void setValue(String[] tokens, int N)
 		throws IOException
 	{
@@ -455,6 +468,12 @@ public abstract class GraphicPrimitive
  		} 
  	
 	}	
+	
+	
+	/** Reads the TY line describing the "name" field
+		@param tokens the array of tokens to be parsed
+		@param N the number of tokens to be parsed.
+	*/
 	public void setName(String[] tokens, int N)
 		throws IOException
 	{
@@ -718,8 +737,6 @@ public abstract class GraphicPrimitive
 		@param g the graphic context to be used.
 		@param cs the coordinate mapping used.
 	*/
-	
-	float mult;
 	public void drawHandles(GraphicsInterface g, MapCoordinates cs)
 	{
 		int xa;
@@ -728,7 +745,8 @@ public abstract class GraphicPrimitive
 		g.setColor(g.getColor().red());
 		g.applyStroke(2.0f,0);
 		
-		mult=g.getScreenDensity()/112;
+		// Calculation of the reasonable multiplication factor.
+		mult=g.getScreenDensity()/BASE_RESOLUTION;
 		
 		int size_x=(int)Math.round(mult*HANDLE_WIDTH);
 		int size_y=(int)Math.round(mult*HANDLE_WIDTH);
@@ -788,11 +806,8 @@ public abstract class GraphicPrimitive
  				(int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
  				(int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
  				px,py))
- 				return i;
- 			
-	 		
- 		}	
- 		
+ 				return i;	
+ 		}
  		return NO_DRAG;
 	}
 
@@ -821,15 +836,20 @@ public abstract class GraphicPrimitive
  				return true;
  			}
 		}
-		
 		return false;
 	}
 	
+	/** Function to determine if the name field is set
+		@return true if the name field is set
+	*/
 	public boolean hasName()
 	{
 		return name!=null && name.length()!=0;
 	}
 	
+	/** Function to determine if the value field is set
+		@return true if the value field is set
+	*/
 	public boolean hasValue()
 	{
 		return value!=null && value.length()!=0;
@@ -840,7 +860,6 @@ public abstract class GraphicPrimitive
 		Are disabled in particular the handles associated to the name and 
 		value strings when they are not defined.
 		@return true if the handle is active
-	
 	*/
 	protected boolean testIfValidHandle(int i)
 	{
@@ -865,7 +884,8 @@ public abstract class GraphicPrimitive
 		
 		@return a vector of ParameterDescription containing each control
 				parameter.
-				The first parameters should always be the virtual points.	
+				The first parameters should always be the name and the
+				value fields, followed by the layer.	
 	*/
 	public Vector<ParameterDescription> getControls()
 	{
@@ -885,26 +905,7 @@ public abstract class GraphicPrimitive
 		pd.isExtension = true;
 
 		v.add(pd);
-		
-		// Preparing the 
-		/*
-		for (i=0;i<getControlPointNumber();++i) {
-			pd = new ParameterDescription();
-			pd.parameter=virtualPoint[i];
-			
-			if (i==getNameVirtualPointNumber()){
-				pd.isExtension = true;
-				pd.description=Globals.messages.getString("ctrl_name_point");
-			} else if (i==getValueVirtualPointNumber()){
-				pd.isExtension = true;
-				pd.description=Globals.messages.getString("ctrl_value_point");
-			} else {
-				pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
-			}
-
-			v.add(pd);
-		}
-		*/
+	
 		pd = new ParameterDescription();
 		pd.parameter=new LayerInfo(layer);
 		pd.description=Globals.messages.getString("ctrl_layer");
@@ -945,18 +946,6 @@ public abstract class GraphicPrimitive
 		else
 		 	System.out.println("Warning: unexpected parameter!"+pd);
 		
-		/*
-		for (;i<getControlPointNumber()+2;++i) {
-			pd = (ParameterDescription)v.get(i);
-			
-			// Check, just for sure...
-			if (pd.parameter instanceof PointG)
-				virtualPoint[i-2]=(PointG)pd.parameter;
-			else
-			 	System.out.println("Warning: unexpected parameter!");	
-		}
-		
-		++i;*/
 		pd = (ParameterDescription)v.get(i);
 		// Check, just for sure...
 		if (pd.parameter instanceof LayerInfo)
@@ -1005,11 +994,9 @@ public abstract class GraphicPrimitive
 		@param tokens the tokens to be processed. tokens[0] should be the
 		command of the actual primitive.
 		@param N the number of tokens present in the array
-		
 	*/
 	public abstract void parseTokens(String[] tokens, int N)
 		throws IOException;
-	
 	
 	/** Gets the distance (in primitive's coordinates space) between a 
 	    given point and the primitive. 
@@ -1070,7 +1057,11 @@ public abstract class GraphicPrimitive
 		}		
 		return new DimensionG(qx,qy);
 	}
-	public PointG getPosition() // phylum
+	
+	/** Get the minimum x and y values of all control points of the element.
+		@return the minimum x and y coordinates.
+	*/
+	public PointG getPosition() 
 	{        
 		GraphicPrimitive p = this;
 		int qx = Integer.MAX_VALUE;
