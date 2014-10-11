@@ -751,12 +751,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
             	} else {
             		android.util.Log.d("f", "long: "+longTap+" double: " 
             			+doubleTap);
-            		eea.handleClick(cs, x, y, longTap, false,doubleTap,false);    
+            		eea.handleClick(cs, x, y, longTap, false,doubleTap);    
             	}
         	} else {
         		android.util.Log.d("f", "long: "+longTap+" double: " 
             			+doubleTap);
-            	eea.handleClick(cs, x, y, longTap, false,doubleTap,false); 
+            	eea.handleClick(cs, x, y, longTap, false,doubleTap); 
         	}
         	invalidate();
 			return true;
