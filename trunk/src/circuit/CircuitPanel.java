@@ -725,8 +725,16 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         int xa=evt.getX();
         int ya=evt.getY();
+        
+        boolean toggle = false;
+        
+        if(Globals.useMetaForMultipleSelection) {
+        	toggle = evt.isMetaDown();
+    	} else {
+        	toggle = evt.isControlDown();
+        }
  
-		if (eea.continuosMove(cs, xa, ya, evt.isControlDown()))
+		if (eea.continuosMove(cs, xa, ya, toggle))
 			repaint();
 
     }
@@ -752,7 +760,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     	} else {
         	toggle = evt.isControlDown();
         }
-            
+                    
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
             !evt.isShiftDown()) { 
@@ -815,12 +823,29 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         boolean toRepaint = false;
         boolean toggle = false;
+        boolean button3 = false;
+        
+        System.out.println ("evt: "+evt);
         
         if(Globals.useMetaForMultipleSelection) {
         	toggle = evt.isMetaDown();
     	} else {
         	toggle = evt.isControlDown();
         }
+        
+    	// Key bindings are a little different with MacOSX.
+        if(Globals.weAreOnAMac) {
+        	if(evt.getButton()==MouseEvent.BUTTON3)
+        		button3=true;
+        	else if(evt.getButton()==MouseEvent.BUTTON1 && evt.isControlDown())
+        		button3=true;
+        } else {
+			button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
+            		InputEvent.BUTTON3_MASK;
+        }
+
+        
+        
         // If we are in the selection state, either we are ending the editing
         // of an element (and thus the dragging of a handle) or we are 
         // making a click.
@@ -833,17 +858,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
             	requestFocusInWindow();
 
             	toRepaint = eea.handleClick(cs,evt.getX(), evt.getY(), 
-            		(evt.getModifiers() & InputEvent.BUTTON3_MASK)==
-            		InputEvent.BUTTON3_MASK, toggle, evt.getClickCount() >= 2,
-            		evt.isControlDown());
+            		button3, toggle, evt.getClickCount() >= 2);
             }
            	repaint();
         } else {
             requestFocusInWindow();
             toRepaint=eea.handleClick(cs,evt.getX(), evt.getY(),
-            	(evt.getModifiers() & InputEvent.BUTTON3_MASK)==
-            	InputEvent.BUTTON3_MASK, toggle, evt.getClickCount() >= 2,
-            	evt.isControlDown());
+            	button3, toggle, evt.getClickCount() >= 2);
         }
         if (toRepaint)
         	repaint();

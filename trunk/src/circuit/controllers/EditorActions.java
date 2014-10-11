@@ -269,14 +269,14 @@ public class EditorActions
     	This method provides an interface to the {@link #selectPrimitive}
     	method, which is oriented towards a more low-level process.
     	
-    	@param x the x coordinate of the click (screen)
-    	@param y the y coordinate of the click (screen)
-        @param toggle select always if false, toggle selection on/off if true
+    	@param x the x coordinate of the click (screen).
+    	@param y the y coordinate of the click (screen).
+        @param toggle select always if false, toggle selection on/off if true.
+        @param addSelection if true, add the new selection to the current one.
     */
     public void handleSelection(MapCoordinates cs,
     	int x, int y, boolean toggle)
-    {
-            
+    {        
         // Deselect primitives if needed.       
         if(!toggle) 
             setSelectionAll(false);
@@ -346,7 +346,7 @@ public class EditorActions
     	@param state true if you want to select, false for deselect.  
     */
     public void setSelectionAll(boolean state)
-    {        
+    {
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
             g.setSelected(state);
         }   

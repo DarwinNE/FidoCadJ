@@ -539,24 +539,25 @@ public class ElementsEdtActions
 		@param x the x coordinate of the click (in screen coordinates)
 		@param y the y coordinate of the click (in screen coordinates)
 		@param button3 true if the alternate button has been pressed
-		@param toggle if true, circle the selection state
-		@param isControlDown if true, the control key (or equivalent) has
-			been held down during click
+		@param toggle if true, circle the selection state or activate alternate
+		 	input method (i.e. ellipses are forced to be circles, rectangles
+		 	squares and so on...)
 		@param doubleClick true if a double click has to be processed
 		@return true if a repaint is needed.
 	*/
     public boolean handleClick(MapCoordinates cs, 
     	int x, int y, boolean button3, boolean toggle,
-    	boolean doubleClick, boolean isControlDown)
+    	boolean doubleClick)
     {
         String cmd;
         int i;
         GraphicPrimitive g;
 		boolean repaint=false;
-
+		
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
             
+        
   //*************** coordinatesListener.changeInfos("");
 	
 		// We need to differentiate this case since when we are entering a
@@ -565,7 +566,8 @@ public class ElementsEdtActions
 		if (actionSelected !=MACRO) 
         	primEdit = null;
         
-        if( button3 && 
+        // Right-click in certain cases shows the parameters dialog.
+        if(button3 && 
             actionSelected!=NONE &&
             actionSelected!=SELECTION &&
             actionSelected!=ZOOM &&
@@ -577,42 +579,43 @@ public class ElementsEdtActions
         }
         
         switch(actionSelected) {        
-        // No action: ignore
-        case NONE:	
-            clickNumber = 0;
-            break;
+        	// No action: ignore
+        	case NONE:	
+            	clickNumber = 0;
+            	break;
                     
-        // Selection state
-        case SELECTION:
-            clickNumber = 0;
-            // Double click shows the Parameters dialog.
-            if(doubleClick&&primitivesParListener!=null) {
-				primitivesParListener.setPropertiesForPrimitive();
-                break;
-            } else  // Show a pop up menu if the user does a right-click
-            if(button3 && primitivesParListener!=null) {
-				primitivesParListener.showPopUpMenu(x,y);
-            } else {
-            	edt.handleSelection(cs, x, y, toggle);
-            }
-            break;
+        	// Selection state
+        	case SELECTION:
+            	clickNumber = 0;
+            	// Double click shows the Parameters dialog.
+            	if(doubleClick&&primitivesParListener!=null) {
+					primitivesParListener.setPropertiesForPrimitive();
+                	break;
+            	} else  // Show a pop up menu if the user does a right-click
+            	if(button3 && primitivesParListener!=null) {
+					primitivesParListener.showPopUpMenu(x,y);
+            	} else {	
+            		// Select elements
+            		edt.handleSelection(cs, x, y, toggle);
+            	}
+            	break;
         
-        // Zoom state
-        case ZOOM:
-        	if(primitivesParListener!=null) 
-				primitivesParListener.changeZoomByStep(!button3, x,y);
-            break;
+        	// Zoom state
+        	case ZOOM:
+        		if(primitivesParListener!=null) 
+					primitivesParListener.changeZoomByStep(!button3, x,y);
+            	break;
         
-        // Put a connection (easy: just one click is needed)
-        case CONNECTION:
-			addConnection(cs.unmapXsnap(x),cs.unmapXsnap(y));                   
-            repaint=true;
-            break;
+        	// Put a connection (easy: just one click is needed)
+        	case CONNECTION:
+				addConnection(cs.unmapXsnap(x),cs.unmapXsnap(y));                   
+            	repaint=true;
+            	break;
 
-        // Put a PCB pad (easy: just one click is needed)       
-        case PCB_PAD:
-            // Add a PCB pad primitive at the given point
-            g=new PrimitivePCBPad(cs.unmapXsnap(x),
+        	// Put a PCB pad (easy: just one click is needed)       
+        	case PCB_PAD:
+            	// Add a PCB pad primitive at the given point
+            	g=new PrimitivePCBPad(cs.unmapXsnap(x),
                                   cs.unmapYsnap(y), 
                                   PCB_pad_sizex,
                                   PCB_pad_sizey,                                                                                                                
@@ -621,155 +624,156 @@ public class ElementsEdtActions
                                   currentLayer,
                                   P.getTextFont(), P.getTextFontSize());
 
-            P.addPrimitive(g, true, ua);
-            repaint=true;
-            break;     
-         
-        // Add a line: two clicks needed
-        case LINE:
-            if (doubleClick) {
-           		clickNumber=0;
-        	} else {
-        		successiveMove=false;
-         		clickNumber=addLine(cs.unmapXsnap(x),
-                    cs.unmapYsnap(y), 
-                    ++clickNumber, 
-         			button3);
+            	P.addPrimitive(g, true, ua);
             	repaint=true;
-         	}
-            break; 
+            	break;     
+         
+        	// Add a line: two clicks needed
+        	case LINE:
+            	if (doubleClick) {
+           			clickNumber=0;
+        		} else {
+        			successiveMove=false;
+         			clickNumber=addLine(cs.unmapXsnap(x),
+                    	cs.unmapYsnap(y), 
+                    	++clickNumber, 
+         				button3);
+            		repaint=true;
+         		}
+            	break; 
             
-        // Add a text line: just one click is needed
-        case TEXT:
-            if (doubleClick && primitivesParListener!=null) {
-				primitivesParListener.selectAndSetProperties(x,y);
-                break;
-            }
-            PrimitiveAdvText newtext = new PrimitiveAdvText(cs.unmapXsnap(x),
+        	// Add a text line: just one click is needed
+        	case TEXT:
+            	if (doubleClick && primitivesParListener!=null) {
+					primitivesParListener.selectAndSetProperties(x,y);
+                	break;
+            	}
+            	PrimitiveAdvText newtext = 
+            		new PrimitiveAdvText(cs.unmapXsnap(x),
                                         cs.unmapYsnap(y), 
                                         3,4,P.getTextFont(),0,0,
                                         "String", currentLayer);
-            edt.setSelectionAll(false);
-            P.addPrimitive(newtext, true, ua);
-            newtext.setSelected(true);
-            repaint=true;
-            if(primitivesParListener!=null)
-				primitivesParListener.setPropertiesForPrimitive();
+            	edt.setSelectionAll(false);
+            	P.addPrimitive(newtext, true, ua);
+            	newtext.setSelected(true);
+            	repaint=true;
+            	if(primitivesParListener!=null)
+					primitivesParListener.setPropertiesForPrimitive();
             
-            break;
+            	break;
         
-        // Add a Bézier polygonal curve: we need four clicks.
-        case BEZIER:
-        	repaint=true;
-            if(button3) {
-            	clickNumber = 0;
-            } else {  
-            	if(doubleClick) successiveMove=false;
-                clickNumber=addBezier(cs.unmapXsnap(x),    
+        	// Add a Bézier polygonal curve: we need four clicks.
+        	case BEZIER:
+        		repaint=true;
+            	if(button3) {
+            		clickNumber = 0;
+            	} else {  
+            		if(doubleClick) successiveMove=false;
+                	clickNumber=addBezier(cs.unmapXsnap(x),    
                             	cs.unmapYsnap(y), ++clickNumber);
-            }
-            break;   
+            	}
+            	break;   
         
-        // Insert a polygon: continue until double click.
-        case POLYGON:        
-            // a polygon definition is ended with a double click
-            if (doubleClick) {
+        	// Insert a polygon: continue until double click.
+        	case POLYGON:        
+            	// a polygon definition is ended with a double click
+            	if (doubleClick) {
          
-                PrimitivePolygon poly=new PrimitivePolygon(false,
+                	PrimitivePolygon poly=new PrimitivePolygon(false,
                                          currentLayer,0,
                                          P.getTextFont(), P.getTextFontSize());
-                for(i=1; i<=clickNumber; ++i) 
-                    poly.addPoint(xpoly[i],ypoly[i]);
+                	for(i=1; i<=clickNumber; ++i) 
+                    	poly.addPoint(xpoly[i],ypoly[i]);
         
-                P.addPrimitive(poly, true,ua);
-                clickNumber = 0;
-                repaint=true;
-                break;
-            }
-            ++ clickNumber;
-            if(doubleClick) successiveMove=false;
-            // clickNumber == 0 means that no polygon is being drawn
-			// prevent that we exceed the number of allowed points
-            if (clickNumber==NPOLY)
-            	return false;
-			// prevent that we exceed the number of allowed points
-            if (clickNumber==NPOLY)
-            	return false;            
-            xpoly[clickNumber] = cs.unmapXsnap(x);
-            ypoly[clickNumber] = cs.unmapYsnap(y);
-            break;   
+                	P.addPrimitive(poly, true,ua);
+                	clickNumber = 0;
+                	repaint=true;
+                	break;
+            	}
+            	++ clickNumber;
+            	if(doubleClick) successiveMove=false;
+            	// clickNumber == 0 means that no polygon is being drawn
+				// prevent that we exceed the number of allowed points
+            	if (clickNumber==NPOLY)
+            		return false;
+				// prevent that we exceed the number of allowed points
+            	if (clickNumber==NPOLY)
+            		return false;            
+            	xpoly[clickNumber] = cs.unmapXsnap(x);
+            	ypoly[clickNumber] = cs.unmapYsnap(y);
+            	break;   
         
-        // Insert a complex curve: continue until double click.
-        case COMPLEXCURVE:     
-            // a polygon definition is ended with a double click
-            if (doubleClick) {
-                PrimitiveComplexCurve compc=new PrimitiveComplexCurve(false,
+        	// Insert a complex curve: continue until double click.
+        	case COMPLEXCURVE:     
+            	// a polygon definition is ended with a double click
+            	if (doubleClick) {
+               	 	PrimitiveComplexCurve compc=new PrimitiveComplexCurve(false,
                 						false,
                                         currentLayer,
             							false, false, 0, 3, 2, 0,
             							P.getTextFont(), P.getTextFontSize());
-                for(i=1; i<=clickNumber; ++i) 
-                    compc.addPoint(xpoly[i],ypoly[i]);
+                	for(i=1; i<=clickNumber; ++i) 
+                    	compc.addPoint(xpoly[i],ypoly[i]);
         
-                P.addPrimitive(compc, true,ua);
-                clickNumber = 0;
-                repaint=true;
-                break;
-            }
-            ++ clickNumber;
-            if(doubleClick) successiveMove=false;
-            // prevent that we exceed the number of allowed points
-            if (clickNumber==NPOLY)
-            	return false;
-            // clickNumber == 0 means that no polygon is being drawn
-            xpoly[clickNumber] = cs.unmapXsnap(x);
-            ypoly[clickNumber] = cs.unmapYsnap(y);
-            break;   
+                	P.addPrimitive(compc, true,ua);
+                	clickNumber = 0;
+                	repaint=true;
+                	break;
+            	}
+            	++ clickNumber;
+            	if(doubleClick) successiveMove=false;
+            	// prevent that we exceed the number of allowed points
+            	if (clickNumber==NPOLY)
+            		return false;
+            	// clickNumber == 0 means that no polygon is being drawn
+            	xpoly[clickNumber] = cs.unmapXsnap(x);
+            	ypoly[clickNumber] = cs.unmapYsnap(y);
+            	break;   
             
-        // Enter an ellipse: two clicks needed
-        case ELLIPSE:
-            // If control is hold, trace a circle
-            successiveMove=false;
+        	// Enter an ellipse: two clicks needed
+        	case ELLIPSE:
+            	// If control is hold, trace a circle
+            	successiveMove=false;
 
-            clickNumber=addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	++clickNumber,
-            	isControlDown&&clickNumber>0);
-			repaint=true;
-            break;   
+            	clickNumber=addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
+            		++clickNumber,
+            		toggle&&clickNumber>0);
+				repaint=true;
+            	break;   
         
-        // Enter a rectangle: two clicks needed
-        case RECTANGLE:
-            // If control is hold, trace a square
-            successiveMove=false;
-            clickNumber=addRectangle(cs.unmapXsnap(x), cs.unmapYsnap(y),
-            	++clickNumber,
-            	isControlDown&&clickNumber>0);
-            repaint=true;
-            break;   
+        	// Enter a rectangle: two clicks needed
+        	case RECTANGLE:
+            	// If control is hold, trace a square
+            	successiveMove=false;
+            	clickNumber=addRectangle(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            		++clickNumber,
+            		toggle&&clickNumber>0);
+            	repaint=true;
+            	break;   
             
-        // Insert a PCB line: two clicks needed.      
-        case PCB_LINE:
-			if (doubleClick) {
-                clickNumber = 0;
-                break;
-            }
-            successiveMove=false;
+        	// Insert a PCB line: two clicks needed.      
+        	case PCB_LINE:
+				if (doubleClick) {
+                	clickNumber = 0;
+                	break;
+            	}
+            	successiveMove=false;
             
-            clickNumber = addPCBLine(cs.unmapXsnap(x), cs.unmapYsnap(y),
-            	++clickNumber, 
-            	button3,
-            	PCB_thickness);
-            repaint=true;
-            break;  
+            	clickNumber = addPCBLine(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            		++clickNumber, 
+            		button3,
+            		PCB_thickness);
+            	repaint=true;
+            	break;  
             
-        // Enter a macro: just one click is needed.
-        case MACRO:
-        	successiveMove=false;
-        	addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y));
-        	repaint=true;
-            break;
-        default:
-        	break;
+        	// Enter a macro: just one click is needed.
+        	case MACRO:
+        		successiveMove=false;
+        		addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y));
+        		repaint=true;
+            	break;
+        	default:
+        		break;
         } 
         
     	return repaint;   

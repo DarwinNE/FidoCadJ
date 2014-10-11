@@ -190,7 +190,6 @@ public class HandleActions
         }
         // Verify if the whole primitive should be drag
         if (mindistance<sptol && handleBeingDragged<0){
-            
             primBeingDragged=(GraphicPrimitive)P.getPrimitiveVector().get(isel);
             if (!multiple && !primBeingDragged.getSelected())
                 edt.setSelectionAll(false);
