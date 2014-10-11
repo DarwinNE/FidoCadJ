@@ -41,7 +41,7 @@ import graphic.*;
 
 public class ParserActions 
 {
-	private final DrawingModel P;
+	private final DrawingModel model;
 
     // This is the maximum number of tokens which will be considered in a line
     static final int MAX_TOKENS=512;
@@ -58,7 +58,7 @@ public class ParserActions
 	*/
 	public ParserActions (DrawingModel pp)
 	{
-		P=pp;
+		model=pp;
 	}
 	
     /** Parse the circuit contained in the StringBuffer specified.
@@ -68,9 +68,9 @@ public class ParserActions
     */
     public void parseString(StringBuffer s) 
     {
-        P.getPrimitiveVector().clear();
+        model.getPrimitiveVector().clear();
         addString(s, false);
-        P.setChanged(true);
+        model.setChanged(true);
     }
     
     /** Renders a split version of the macros contained in the given string.
@@ -85,8 +85,8 @@ public class ParserActions
         StringBuffer txt= new StringBuffer("");    
 		
         DrawingModel Q=new DrawingModel();
-        Q.setLibrary(P.getLibrary());  // Inherit the library
-        Q.setLayers(P.getLayers());    // Inherit the layers
+        Q.setLibrary(model.getLibrary());  // Inherit the library
+        Q.setLayers(model.getLayers());    // Inherit the layers
             
         // from the obtained string, obtain the new Q object which will
         // be exported and then loaded into the clipboard.
@@ -143,7 +143,7 @@ public class ParserActions
         int i;
         StringBuffer s=registerConfiguration(extensions);
         
-        for (GraphicPrimitive g:P.getPrimitiveVector()){
+        for (GraphicPrimitive g:model.getPrimitiveVector()){
             s.append(g.toString(extensions));
             if(useWindowsLineFeed) 
                 s.append("\r");
@@ -154,19 +154,18 @@ public class ParserActions
         the beginning of the FidoCadJ file.
         @param extensions it is true when FidoCadJ should export using 
             its extensions.
-    
     */
     public StringBuffer registerConfiguration(boolean extensions)
     {
-    	Vector<LayerDesc> layerV=P.getLayers();
+    	Vector<LayerDesc> layerV=model.getLayers();
+    	StringBuffer s = new StringBuffer();
     	
     	// This is something which is not contemplated by the original
     	// FidoCAD for Windows. If extensions are not activated, just exit.
         if(!extensions) {
-        	return new StringBuffer();
+        	return s;
 		}
 		
-        StringBuffer s = new StringBuffer();
         // Here is the beginning of the output. We can eventually provide
         // some hints about the configuration of the software (if needed).
         
@@ -228,8 +227,8 @@ public class ParserActions
         boolean hasFCJ=false; // the last primitive has FCJ extensions
         StringBuffer token=new StringBuffer(); 
         
-        String macroFont = P.getTextFont();
-        int macroFontSize = P.getTextFontSize();
+        String macroFont = model.getTextFont();
+        int macroFontSize = model.getTextFontSize();
 
         GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
 
@@ -237,9 +236,6 @@ public class ParserActions
         String[] old_tokens=new String[MAX_TOKENS];
         String[] name=null;
         String[] value=null;
-        double newConnectionSize = -1.0;
-        double newLineWidth = -1.0;
-        double newLineWidthCircles = -1.0;
         
         int vn=0, vv=0;
         int old_j=0;
@@ -248,13 +244,13 @@ public class ParserActions
         
         token.ensureCapacity(256);
         
-        /*  This code is not very easy to read. If more extension of the
+        /*  This code is not very easy to read. If more extensions of the
             original FidoCAD format (performed with the FCJ tag) are to be 
             implemented, it can be interesting to rewrite the parser as a
             state machine.
         */
         synchronized(this) {
-    	Vector<LayerDesc> layerV=P.getLayers();
+    	Vector<LayerDesc> layerV=model.getLayers();
 
         int k;      
         char c='\n';
@@ -286,7 +282,7 @@ public class ParserActions
                     if(tokens[0].equals("FCJ")) {   // FidoCadJ extension!
                         if(hasFCJ && old_tokens[0].equals("MC")) {
                             macro_counter=2;
-                            g=new PrimitiveMacro(P.getLibrary(),layerV,
+                            g=new PrimitiveMacro(model.getLibrary(),layerV,
                             	macroFont, macroFontSize);
                             g.parseTokens(old_tokens, old_j+1);
                         } else if (hasFCJ && old_tokens[0].equals("LI")) {
@@ -302,7 +298,7 @@ public class ParserActions
                             if(old_j>5 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }
                      
                         } else if (hasFCJ && old_tokens[0].equals("BE")) {
@@ -317,7 +313,7 @@ public class ParserActions
                             if(old_j>5 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }
                             
                         } else if (hasFCJ && (old_tokens[0].equals("RV")||
@@ -333,7 +329,7 @@ public class ParserActions
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }                        
                         } else if (hasFCJ && (old_tokens[0].equals("EV")||
                             old_tokens[0].equals("EP"))) {
@@ -348,7 +344,7 @@ public class ParserActions
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }                        
                         } else if (hasFCJ && (old_tokens[0].equals("PV")||
                             old_tokens[0].equals("PP"))) {
@@ -363,7 +359,7 @@ public class ParserActions
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }     
     					} else if (hasFCJ && (old_tokens[0].equals("CV")||
                             old_tokens[0].equals("CP"))) {
@@ -379,7 +375,7 @@ public class ParserActions
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
-                                P.addPrimitive(g,false,null);
+                                model.addPrimitive(g,false,null);
                             }     
     					} else if (hasFCJ && old_tokens[0].equals("PL")) {
                     		macro_counter = 2;
@@ -391,55 +387,7 @@ public class ParserActions
                         hasFCJ=false;
                     
                     } else if(tokens[0].equals("FJC")) {
-                        // FidoCadJ Configuration
-                    
-                        if(tokens[1].equals("C")) {
-                            // Connection size
-                            newConnectionSize = 
-                                Double.parseDouble(tokens[2]);
-                        
-                        } else if(tokens[1].equals("L")) {
-                            // Layer configuration
-                            int layerNum = Integer.parseInt(tokens[2]);
-                            if (layerNum>=0&&layerNum<layerV.size()){
-                                int rgb=Integer.parseInt(tokens[3]);
-                                float alpha=Float.parseFloat(tokens[4]);
-                                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
-                                ll.getColor().setRGB(rgb);
-                                ll.setAlpha(alpha);
-                                ll.setModified(true);  
-                            }
-                                
-                        } else if(tokens[1].equals("N")) {
-                        	// Layer name
-                        	
-                        	int layerNum = Integer.parseInt(tokens[2]);
-                            if (layerNum>=0&&layerNum<layerV.size()){
-                                String lName="";
-                                
-                                StringBuffer temp=new StringBuffer(25);
-                                for(int t=3; t<j+1; ++t) {
-                                	temp.append(tokens[t]);
-                                	temp.append(" ");
-                                }
-                                
-                                lName=temp.toString();
-                                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
-                                ll.setDescription(lName);
-                                ll.setModified(true);  
-                            }
-                        
-                        } else if(tokens[1].equals("A")) {
-                            // Connection size
-                            newLineWidth = 
-                                Double.parseDouble(tokens[2]);
-                        
-                        } else if(tokens[1].equals("B")) {
-                            // Connection size
-                            newLineWidthCircles = 
-                                Double.parseDouble(tokens[2]);                      
-                        }
-                        
+                    	fidoConfig(tokens, j, layerV);
                     } else if(tokens[0].equals("LI")) {
                         // Save the tokenized line.
                         // We cannot create the macro until we parse the 
@@ -471,7 +419,7 @@ public class ParserActions
                         g=new PrimitiveAdvText();
                         g.parseTokens(tokens, j+1);
                         g.setSelected(selectNew);
-                        P.addPrimitive(g,false,null);
+                        model.addPrimitive(g,false,null);
                     } else if(tokens[0].equals("TY")) {
                         hasFCJ=false;
                         
@@ -490,13 +438,13 @@ public class ParserActions
                             g.setValue(value,vv+1);
 
                             g.setSelected(selectNew);
-                            P.addPrimitive(g, false,null);
+                            model.addPrimitive(g, false,null);
                             macro_counter=0;
                         } else {
                             g=new PrimitiveAdvText();
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                            P.addPrimitive(g,false,null);
+                            model.addPrimitive(g,false,null);
                          }
                     } else if(tokens[0].equals("PL")) {
                         hasFCJ=true;
@@ -574,8 +522,6 @@ public class ParserActions
                 tokens[j]=token.toString();
                 ++j;
                 if (j>=MAX_TOKENS) {
-                    //IOException e=new IOException("Too much tokens!");
-                    //throw e;
                     System.out.println("Too much tokens!");
                     System.out.println("string parsing line: "+lineNum);
                 }
@@ -596,6 +542,64 @@ public class ParserActions
                                      +lineNum);
         }
         
+
+        model.sortPrimitiveLayers();
+        }      
+    }
+    
+    /** Handle the FCJ command for the program configuration.
+    
+    */
+    private void fidoConfig(String[] tokens, int ntokens, 
+    	Vector<LayerDesc> layerV)
+    {
+    	double newConnectionSize = -1.0;
+        double newLineWidth = -1.0;
+        double newLineWidthCircles = -1.0;
+        
+    	// FidoCadJ Configuration
+                    
+       	if(tokens[1].equals("C")) {
+        	// Connection size
+            newConnectionSize = Double.parseDouble(tokens[2]);
+       	} else if(tokens[1].equals("L")) {
+            // Layer configuration
+            int layerNum = Integer.parseInt(tokens[2]);
+            if (layerNum>=0&&layerNum<layerV.size()){
+                int rgb=Integer.parseInt(tokens[3]);
+                float alpha=Float.parseFloat(tokens[4]);
+                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                ll.getColor().setRGB(rgb);
+                ll.setAlpha(alpha);
+                ll.setModified(true);  
+            }
+        } else if(tokens[1].equals("N")) {
+        	// Layer name
+                        	
+            int layerNum = Integer.parseInt(tokens[2]);
+            if (layerNum>=0&&layerNum<layerV.size()){
+                String lName="";
+                                
+                StringBuffer temp=new StringBuffer(25);
+                for(int t=3; t<ntokens+1; ++t) {
+                  	temp.append(tokens[t]);
+                   	temp.append(" ");
+                }
+                                
+                lName=temp.toString();
+                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                ll.setDescription(lName);
+                ll.setModified(true);  
+            }
+                        
+        } else if(tokens[1].equals("A")) {
+            // Connection size
+            newLineWidth = Double.parseDouble(tokens[2]);
+        } else if(tokens[1].equals("B")) {
+            // Connection size
+            newLineWidthCircles = Double.parseDouble(tokens[2]);                      
+        }
+        
         // If the schematics has some configuration information, we need
         // to set them up.
         if (newConnectionSize>0) {
@@ -607,26 +611,24 @@ public class ParserActions
         
         if (newLineWidthCircles>0) {
             Globals.lineWidthCircles = newLineWidthCircles;
-        }
-        P.sortPrimitiveLayers();
-        }      
+        }       
     }
     
     private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, String[] tokens,
         GraphicPrimitive gg, String[] old_tokens, int old_j, boolean selectNew)
         throws IOException
     {
-        String macroFont = P.getTextFont();
-        int macroFontSize = P.getTextFontSize();
-        Vector<GraphicPrimitive> primitiveVector=P.getPrimitiveVector();
-    	Vector<LayerDesc> layerV=P.getLayers();
+        String macroFont = model.getTextFont();
+        int macroFontSize = model.getTextFontSize();
+        Vector<GraphicPrimitive> primitiveVector=model.getPrimitiveVector();
+    	Vector<LayerDesc> layerV=model.getLayers();
 
     	GraphicPrimitive g=gg;
     	boolean hasFCJ=hasFCJ_t;
     	boolean addPrimitive = false;
         if(hasFCJ && !tokens[0].equals("FCJ")) {
             if (old_tokens[0].equals("MC")) {
-                g=new PrimitiveMacro(P.getLibrary(),
+                g=new PrimitiveMacro(model.getLibrary(),
                 	layerV, macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("LI")) {
@@ -666,7 +668,7 @@ public class ParserActions
         if(addPrimitive) {
             g.parseTokens(old_tokens, old_j+1);
             g.setSelected(selectNew);
-            P.addPrimitive(g,false,null);
+            model.addPrimitive(g,false,null);
             hasFCJ = false;        
         }
         return hasFCJ;
@@ -797,7 +799,7 @@ public class ParserActions
                         macroName=prefix+"."+macroName;
                     
                     macroName=macroName.toLowerCase(new Locale("en"));
-                    P.getLibrary().put(macroName, new 
+                    model.getLibrary().put(macroName, new 
                         MacroDesc(macroName,"","","","", prefix));
 					/*System.out.printf("-- macroName:%s | longName:%s | 
 						categoryName:%s | libraryName:%s | prefix:%s\n",
@@ -815,7 +817,7 @@ public class ParserActions
                 // other operating systems, we need to be waaay much
                 // careful, hence we convert the macro name to lower case.
                 macroName = macroName.toLowerCase(new Locale("en"));
-                macroDesc = P.getLibrary().get(macroName);
+                macroDesc = model.getLibrary().get(macroName);
                 if(macroDesc==null)
                 	return;
                 macroDesc.name = longName;

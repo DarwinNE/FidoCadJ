@@ -30,7 +30,13 @@ import globals.*;
 </pre>
 */
 
-public class DialogUtil {
+public final class DialogUtil 
+{
+
+	private DialogUtil()
+	{
+		// nothing
+	}
 	
 	/** Center the frame on the screen and set its height and width to half 
 		the screen size */

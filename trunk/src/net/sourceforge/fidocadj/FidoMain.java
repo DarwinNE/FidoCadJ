@@ -74,7 +74,8 @@ public class FidoMain
     private static boolean printTime=false;
     private static double resolution=1;               
     
-    
+    /** 
+    */
 	public FidoMain() 
 	{
 		// Nothing to do here. The entry point is the main method and all

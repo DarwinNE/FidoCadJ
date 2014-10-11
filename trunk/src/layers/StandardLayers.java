@@ -37,12 +37,18 @@ import globals.*;
 */
 
 
-public class StandardLayers
+public final class StandardLayers
 {
 	// A dummy list of layers.
     private static Vector<LayerDesc> ll_dummy;
     private final static Object lock = new Object();
-
+	
+	/** Private constructor, for Utility class pattern
+	*/
+	private StandardLayers ()
+	{
+		// nothing
+	}
 	/** Create the standard array containing the layer descriptions, colors
     	and transparency. The name of the layers are read from the resources
     	which may be initizialized. If Globals.messages==null, no description
