@@ -99,6 +99,11 @@ public class PolygonAndroid implements PolygonInterface
 		return yvector;	
 	}
 	
+	/** Checks whether the given point lies inside of the polygon
+		@param x the x coordinate of the point 
+		@param y the y coordinate of the point
+		@return true if the point is inside the polygon
+	*/
 	public boolean contains(int x, int y)
 	{
 		RectF rectF = new RectF();

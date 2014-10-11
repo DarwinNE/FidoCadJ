@@ -40,6 +40,8 @@ public final class Arrow
 	public static final int flagLimiter = 0x01;
 	public static final int flagEmpty = 0x02;
 	
+	/** Constructor is private since this is an utility class.
+	*/
 	private Arrow() 
 	{
 	
@@ -80,8 +82,6 @@ public final class Arrow
 			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 		else
 			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
-			
-		
 		
 		// Alpha is the angle of the arrow, against an horizontal line with
 		// the trigonometric convention (anti clockwise is positive).
@@ -128,5 +128,4 @@ public final class Arrow
  		}
  		return new PointG((int)(x0),(int)(y0));	
 	}
-	
 }

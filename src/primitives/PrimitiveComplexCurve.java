@@ -850,10 +850,13 @@ public final class PrimitiveComplexCurve
         // If the curve is not filled, we calculate the distance between the
         // given point and all the segments composing the curve and we 
         // take the smallest one.
+        
+        int [] xpoints=q.getXpoints();
+        int [] ypoints=q.getYpoints();
+        
         for(int i=0; i<q.getNpoints()-1; ++i) {
-        	int d=GeometricDistances.pointToSegment(q.getXpoints()[i],
-        		q.getYpoints()[i], q.getXpoints()[i+1],
-        		q.getYpoints()[i+1], px,py);
+        	int d=GeometricDistances.pointToSegment(xpoints[i], ypoints[i], 
+        		xpoints[i+1], ypoints[i+1], px,py);
         		
         	if(d<distance) 
         		distance = d;
@@ -863,7 +866,7 @@ public final class PrimitiveComplexCurve
 	}
 	
 	/** Obtain a string command descripion of the primitive.
-		@return the FIDOCAD command line.
+		@return the FidoCadJ command line.
 	*/
 	public String toString(boolean extensions)
 	{

@@ -336,7 +336,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public boolean onTouchEvent(MotionEvent event)
     {
     	gestureDetector.onTouchEvent(event);
-    	
     	if(event.getPointerCount()<=0)
     		return false;
     	
@@ -353,12 +352,12 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	        		haa.dragHandleStart(mx, my, ea.getSelectionTolerance(),
 	        				false, cs);
 	        		break;
-	        	case MotionEvent.ACTION_MOVE:							
+	        	case MotionEvent.ACTION_MOVE:
 	                haa.dragHandleDrag(this, mx, my, cs);
 	           		break;
 	        	case MotionEvent.ACTION_UP:
 	        	case MotionEvent.ACTION_CANCEL:
-	            	haa.dragHandleEnd(this, mx, my, false, cs);     	
+	            	haa.dragHandleEnd(this, mx, my, false, cs);
 	        		break;
 	           	default:
 	           		break;
@@ -704,8 +703,13 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	rulerStartY = y;
         	rulerEndX = x;
         	rulerEndY = y;
+        	
+        	long start = System.currentTimeMillis();
         	haa.dragHandleStart(x, y, ea.getSelectionTolerance(),
             	false, cs);
+            long millis=System.currentTimeMillis()-start;
+            android.util.Log.e("fidocadj", "dragHandleStart done in "+millis+
+            	" ms");
             invalidate();
             return true;
 		}
