@@ -517,12 +517,12 @@ public class MacroTree extends JPanel
                 MacroDesc md;
                 if (selectionListener!=null) {
                     md = macroTreeModel.getMacro(e.getPath());
-                    if(md!=null){
-                    	selectionListener.setSelectionState(
-                        	    ElementsEdtActions.MACRO, md.key);
-                    } else {
+                    if(md==null){
                     	selectionListener.setSelectionState(
                         	    ElementsEdtActions.SELECTION, "");
+                    } else {
+                    	selectionListener.setSelectionState(
+                        	    ElementsEdtActions.MACRO, md.key);
                     }
                 }
             }

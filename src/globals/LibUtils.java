@@ -47,12 +47,20 @@ import net.sourceforge.fidocadj.FidoMain;
 	Copyright 2012-2014 by phylum2, Davide Bucci
 </pre>
 
-@author phylum2
+@author phylum2, Davide Bucci
 */
 
 
-public class LibUtils {
+public final class LibUtils 
+{
 
+	/** Private constructor, for Utility class pattern
+	*/
+	private LibUtils ()
+	{
+		// nothing
+	}
+	
 	/** Extract all the macros belonging to a given library
 		
 		@param m the macro list

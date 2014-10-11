@@ -4,8 +4,15 @@ import java.io.*;
 import java.util.*;
 
 
-public class FileUtils 
+public final class FileUtils 
 {
+	/** Private constructor, for Utility class pattern
+	*/
+	private FileUtils ()
+	{
+		// nothing
+	}
+	
     /**
     http://subversivebytes.wordpress.com/2012/11/05/java-copy-directory-recursive-delete/
     */

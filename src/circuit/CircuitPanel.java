@@ -826,7 +826,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // making a click.
         
         if(eea.actionSelected==ElementsEdtActions.SELECTION) {
-            if(rulerStartX!=px || rulerStartY!=py)
+            if(rulerStartX!=px || rulerStartY!=py) // NOPMD
             	haa.dragHandleEnd(this, px, py, toggle, cs);
             else {
             	ruler=false;

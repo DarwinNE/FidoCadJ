@@ -36,8 +36,15 @@ import circuit.views.*;
   
     @author Davide Bucci
 */
-public class DrawingSize {
-
+public final class DrawingSize 
+{
+	/** Private constructor, for Utility class pattern
+	*/
+	private DrawingSize ()
+	{
+		// nothing
+	}
+	
     /**	Get the image size.
     	@param dm the model class containing the drawing.
     	@param unitperpixel the zoom set to be used.
