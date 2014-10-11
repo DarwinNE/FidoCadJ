@@ -36,9 +36,7 @@ public interface GraphicsInterface
 		@param dashStyle the style of the stroke
 	*/
 	public void applyStroke(float w, int dashStyle);
-	//public Stroke getStroke();
-	//public void setStroke(Stroke s);
-	
+
 	/** Draws a rectangle on the current graphic context.
 		@param x the x coordinate of the uppermost left corner
 		@param y the y coordinate of the uppermost left corner

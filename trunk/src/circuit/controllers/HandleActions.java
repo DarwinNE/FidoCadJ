@@ -161,7 +161,6 @@ public class HandleActions
         // Search for the closest primitive to the given point
         // Performs a cycle through all primitives and check their 
         // distance.
-        
         for (i=0; i<P.getPrimitiveVector().size(); ++i){
             gp=(GraphicPrimitive)P.getPrimitiveVector().get(i);
             layer= gp.getLayer();
