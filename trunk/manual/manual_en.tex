@@ -221,7 +221,7 @@ I thus decided to give a small contribution to the community
 by writing FidoCadJ (with the final J, this time). This editor is
 written in pure Java\index{Java} and it is completely multi-platform.
 FidoCadJ allows showing and modifying a drawing using the FidoCAD\index{FidoCAD}
-file format. Nowadays, I am fortunately not alone and FidoCadJ has become a full-fledged Open Source project, with contributions coming from all over the world.
+file format. Nowadays, I am fortunately not alone and FidoCadJ become a full-fledged Open Source project, with contributions coming from all over the world.
 
 Whoever used FidoCAD\index{FidoCAD} in the past should become acquainted
 with FidoCadJ very quickly, since many commands and procedures are
@@ -436,7 +436,7 @@ If you need to align carefully the elements, you may find useful to keep pressed
 
 \keyevidence{A} or \keyevidence{Spacebar} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
 \textsc{Select}\index{selection}  & Selects one or more graphic elements. Press \keyevidence{Control}
-(\keyevidence{Command} only on MacOSX) for multiple selections
+(\keyevidence{Command} on MacOSX) for multiple selections
 or to deselect only one element. Click and drag to select several
 elements in an area. Press \keyevidence{R} to rotate the selected
 elements. Press \keyevidence{S} to mirror the selected elements.
@@ -467,10 +467,9 @@ to terminate the insertion of new vertices.\tabularnewline
 Open or closed natural cubic spline curve. Double click or press \keyevidence{Esc},  to terminate the insertion of new vertices.\tabularnewline
 
 \keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
-\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} to
-draw a circle). \tabularnewline
+\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} or \keyevidence{Command} with MacOSX for a circle). \tabularnewline
 \keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
-\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty.\tabularnewline
+\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty (hold \keyevidence{Control} or \keyevidence{Command} with MacOSX  for a square). \tabularnewline
 \keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
 \textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
 \keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
@@ -1862,7 +1861,7 @@ Prerequisite: JRE\index{JRE} 6 from Sun\index{Sun} and/or OpenJDK\index{OpenJDK}
 specifications) must be installed. In paragraph \ref{inst_testo}
 the installation of the program using only commands from a terminal
 will be described. In paragraph \ref{inst_grafica}, the interaction
-with a graphical environment will be used instead. A poor configuration of your Java runtime environment will determine poor performances of FidoCadJ\footnote{N.d.c. I swear, it is true! \textit{Please}, do not insult me if your favorite Linux distribution comes with an higly unreliable version of Java.}
+with a graphical environment will be used instead. A poor configuration of your Java runtime environment will determine poor performances of FidoCadJ\footnote{N.d.c. I swear, it is true! \textit{Please}, do not insult me if your favorite Linux distribution comes with an higly unreliable version of Java.}.
 
 \subsection{Using any platform, from terminal}
 
@@ -1906,6 +1905,8 @@ and save the file in your \lstinline!/home/! directory.
 Let's create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
 
 \begin{lstlisting}
+$ su
+-> enter password
 # mkdir /usr/bin/fidocadj
 \end{lstlisting}
 
@@ -1932,7 +1933,6 @@ And now, we can execute the program:
 \begin{lstlisting}
 $ /usr/bin/fidocadj/fidocadj.jar
 \end{lstlisting}
-%
 
 \subsection{On a graphical system}
 \label{inst_grafica}
@@ -1980,12 +1980,23 @@ Very often, if you have Java installed, you just have to download the  \lstinlin
 
 \href{http://www.java.com/it/download/}{http://www.java.com/it/download/}
 
-%\manualmark 
-%\markboth{\spacedlowsmallcaps{\indexname}}% 
-%{\spacedlowsmallcaps{\indexname}} 
-%\refstepcounter{dummy} 
-%\pagestyle{scrheadings} 
-%\addcontentsline{toc}{chapter}{\tocEntry{\indexname}} 
+\section{Android}
+A specific version of FidoCadJ for Android is available. It shares much of the source code with the PC version, but all the graphical user interface code had to be rewritten. It should work on a variety of devices with at least Android 4.0: smartphones as well as tablets. For example, figure~\ref{fig_fidocadj_s5} shows the appearance of FidoCadJ for Android with a Samsung S5 smartphone.
+
+There are some minor differences between the Android application and the PC application described in the manual. They of course are perfectly compatible for the file format and can exchange drawings.
+\begin{figure}
+\centering
+\includegraphics[width=.8\textwidth]{fidocadj_s5}
+\caption{FidoCadJ for Android, running on a Samsung S5 smartphone.}
+\label{fig_fidocadj_s5}
+\end{figure}
+
+\begin{itemize}
+\item You can not create and edit user libraries, but you can use those built on a PC.
+\item You store the user libraries in the external filesystem (the ``SD card''), in the \lstinline!FidoCadJ/Libs! directory.
+\item The symbols are not shown all the time to save space: you have to sweep your finger on the right of the screen to show them.
+\item You have an additional button in the toolbar, which allows you to move and zoom the shown portion of the drawing. While in this ``Move'' state, touch the screen and move your finger to pan the drawing. Use two fingers and ``pinch'' them, to increase or decrease the zoom.
+\end{itemize}
 
 
 \chapter{FidoCadJ art} \label{chap_fidocadj_art} 
