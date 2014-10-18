@@ -1,4 +1,4 @@
-package toolbars;
+package net.sourceforge.fidocadj.toolbars;
 /**	Interface used to callback notify that the current selection state has 
 	changed
 	

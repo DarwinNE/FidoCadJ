@@ -30,7 +30,7 @@ import export.ExportGraphic;
 import geom.DrawingSize;
 import geom.MapCoordinates;
 import primitives.MacroDesc;
-import toolbars.ChangeSelectionListener;
+import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
 import circuit.controllers.ElementsEdtActions;
 import globals.Globals;
 

@@ -14,8 +14,8 @@ rm bin/geom/*.class
 rm bin/globals/*.class
 rm bin/layers/*.class
 rm bin/primitives/*.class
-rm bin/timer/*.class
-rm bin/toolbars/*.class
+rm bin/net/sourceforge/fidocadj/timer/*.class
+rm bin/net/sourceforge/fidocadj/toolbars/*.class
 rm bin/undo/*.class
 rm bin/graphic/*.class
 rm bin/graphic/swing/*.class

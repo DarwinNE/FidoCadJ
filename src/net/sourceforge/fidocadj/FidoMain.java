@@ -12,7 +12,7 @@ import circuit.*;
 import circuit.controllers.*;
 import circuit.model.*;
 import export.*;
-import timer.*;
+import net.sourceforge.fidocadj.timer.*;
 import graphic.*;
 import layers.*;
 import geom.*;

@@ -1,4 +1,4 @@
-package toolbars;
+package net.sourceforge.fidocadj.toolbars;
 
 import java.awt.*;
 import java.awt.event.*;
