@@ -3,4 +3,4 @@
 	as the interfaces needed for keeping track of the actions from the user.
 */
 
-package toolbars;
+package net.sourceforge.fidocadj.toolbars;

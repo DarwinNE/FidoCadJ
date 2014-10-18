@@ -2,4 +2,4 @@
   Timing classes for profiling code execution.
 */
 
-package timer;
+package package net.sourceforge.fidocadj.timer;

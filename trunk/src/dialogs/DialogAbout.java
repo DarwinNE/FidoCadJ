@@ -9,7 +9,7 @@ import javax.imageio.*;
 import java.net.*;
 
 import globals.*;
-import toolbars.*;
+import net.sourceforge.fidocadj.toolbars.*;
 
 /** 
 <pre>

@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import circuit.*;
-import toolbars.*;
+import net.sourceforge.fidocadj.toolbars.*;
 import circuit.controllers.ElementsEdtActions;
 
 

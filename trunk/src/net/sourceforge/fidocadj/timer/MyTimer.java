@@ -1,4 +1,4 @@
-package timer;
+package net.sourceforge.fidocadj.timer;
 
 import java.awt.*;
 import java.awt.image.*;
