@@ -32,7 +32,7 @@ import circuit.controllers.*;
 import graphic.*;
 import graphic.swing.*;
 import geom.*;
-import clipboard.*;
+import net.sourceforge.fidocadj.clipboard.*;
 import net.sourceforge.fidocadj.toolbars.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.macropicker.MacroTree;

@@ -1,4 +1,4 @@
-package clipboard;
+package net.sourceforge.fidocadj.clipboard;
 
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;

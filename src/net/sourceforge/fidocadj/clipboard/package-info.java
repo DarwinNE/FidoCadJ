@@ -2,4 +2,4 @@
   Handle clipboard (copy/paste) operations.
 */
 
-package clipboard;
+package net.sourceforge.fidocadj.clipboard;
