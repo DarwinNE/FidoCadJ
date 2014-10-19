@@ -22,7 +22,7 @@ import primitives.MacroDesc;
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
 
-import undo.*;
+import net.sourceforge.fidocadj.undo.*;
 
 import net.sourceforge.fidocadj.FidoMain;
 

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
-import undo.*;
+import net.sourceforge.fidocadj.undo.*;
 import circuit.*;
 import circuit.controllers.*;
 import globals.FileUtils;

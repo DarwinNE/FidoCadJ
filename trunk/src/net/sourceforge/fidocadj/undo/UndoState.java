@@ -1,4 +1,4 @@
-package undo;
+package net.sourceforge.fidocadj.undo;
 
 import java.util.*;
 
