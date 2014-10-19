@@ -11,7 +11,7 @@ import java.awt.event.*;
 */
 
 import geom.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import export.*;
 import globals.*;
 import graphic.*;

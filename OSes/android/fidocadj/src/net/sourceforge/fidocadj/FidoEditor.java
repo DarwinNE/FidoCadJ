@@ -21,7 +21,7 @@ import circuit.views.*;
 import circuit.controllers.*;
 import graphic.android.*;
 import layers.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 
 /** Android Editor view: draw the circuit inside this view. This is one of the
 	most important classes, as it is responsible of all editing actions.

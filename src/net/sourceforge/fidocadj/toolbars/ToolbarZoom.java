@@ -7,7 +7,7 @@ import javax.swing.event.*;
 import java.util.*;
 
 import globals.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import geom.*;
 import layers.*;
 

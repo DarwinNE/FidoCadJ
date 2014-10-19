@@ -8,7 +8,7 @@ import circuit.*;
 import circuit.controllers.*;
 import circuit.model.*;
 import circuit.views.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import export.*;
 import globals.*;
 import layers.*;

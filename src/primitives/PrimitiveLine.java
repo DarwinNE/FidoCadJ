@@ -5,7 +5,7 @@ import java.util.*;
 
 import globals.*;
 import geom.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import export.*;
 import graphic.*;
 

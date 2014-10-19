@@ -7,7 +7,7 @@ import com.apple.eawt.*;
 
 import net.sourceforge.fidocadj.*;
 import globals.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 
 
 /** The class AppleSpecific implements a few mechanism for interacting with
