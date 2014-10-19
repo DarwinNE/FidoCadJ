@@ -24,7 +24,7 @@ import java.util.zip.ZipInputStream;
 
 import net.sourceforge.fidocadj.FidoMain;
 import globals.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import layers.*;
 import export.*;
 import circuit.*;

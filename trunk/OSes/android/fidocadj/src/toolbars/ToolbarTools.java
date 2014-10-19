@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.app.Activity;
 
-import dialogs.DialogLayer;
+import net.sourceforge.fidocadj.dialogs.DialogLayer;
 import net.sourceforge.fidocadj.*;
 import circuit.controllers.ElementsEdtActions;
 

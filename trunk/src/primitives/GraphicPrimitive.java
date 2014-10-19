@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 import layers.*;
-import dialogs.ParameterDescription;
-import dialogs.LayerInfo;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.LayerInfo;
 import geom.*;
 import export.*;
 import globals.*;

@@ -43,10 +43,10 @@ import android.support.v4.widget.DrawerLayout;
 import com.explorer.ExplorerActivity;
 import com.explorer.IO;
 
-import dialogs.DialogAbout;
-import dialogs.DialogLayer;
-import dialogs.DialogOpenFile;
-import dialogs.DialogSaveName;
+import net.sourceforge.fidocadj.dialogs.DialogAbout;
+import net.sourceforge.fidocadj.dialogs.DialogLayer;
+import net.sourceforge.fidocadj.dialogs.DialogOpenFile;
+import net.sourceforge.fidocadj.dialogs.DialogSaveName;
 import layers.LayerDesc;
 import graphic.android.ColorAndroid;
 import geom.MapCoordinates;

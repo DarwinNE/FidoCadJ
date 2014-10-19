@@ -9,7 +9,7 @@ import java.io.*;
 
 import globals.*;
 import geom.*;
-import dialogs.*;
+import net.sourceforge.fidocadj.dialogs.*;
 import primitives.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.toolbars.*;
