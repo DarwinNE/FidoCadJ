@@ -14,7 +14,7 @@ import primitives.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.toolbars.*;
 import layers.*;
-import clipboard.*;
+import net.sourceforge.fidocadj.clipboard.*;
 import circuit.controllers.*;
 import circuit.views.*;
 import circuit.model.*;

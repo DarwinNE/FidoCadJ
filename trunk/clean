@@ -7,7 +7,7 @@ rm bin/net/sourceforge/fidocadj/macropicker/model/*.class
 rm bin/circuit/*.class
 rm bin/circuit/controllers/*.class
 rm bin/circuit/views/*.class
-rm bin/clipboard/*.class
+rm bin/net/sourceforge/fidocadj/clipboard/*.class
 rm bin/dialogs/*.class
 rm bin/export/*.class
 rm bin/geom/*.class
