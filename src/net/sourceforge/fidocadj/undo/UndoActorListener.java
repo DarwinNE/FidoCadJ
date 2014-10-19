@@ -1,4 +1,4 @@
-package undo;
+package net.sourceforge.fidocadj.undo;
 
 /**	Interface used to callback notify that an undo action on libraries should 
 	be performed.

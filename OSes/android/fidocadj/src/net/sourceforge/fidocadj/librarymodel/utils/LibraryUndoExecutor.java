@@ -23,7 +23,7 @@ import java.io.*;
 
 import globals.FileUtils;
 import globals.LibUtils;
-import undo.LibraryUndoListener;
+import net.sourceforge.fidocadj.undo.LibraryUndoListener;
 
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 

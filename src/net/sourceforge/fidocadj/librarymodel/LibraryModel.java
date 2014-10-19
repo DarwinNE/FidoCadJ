@@ -26,7 +26,7 @@ import circuit.model.DrawingModel;
 import primitives.MacroDesc;
 import globals.LibUtils;
 import globals.Globals;
-import undo.UndoActorListener;
+import net.sourceforge.fidocadj.undo.UndoActorListener;
 
 import net.sourceforge.fidocadj.librarymodel.event.*;
 
