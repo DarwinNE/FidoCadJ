@@ -49,18 +49,35 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
 
 
 /**
- * <pre>
- * 
- * Allows to create a generic dialog, capable of displaying and let the user
- * modify the parameters of a graphic primitive. The idea is that the dialog
- * uses a ParameterDescripion vector which contains all the elements, their
- * description as well as the type. Depending on the contents of the array, the
- * window will be created automatically.
- * 
- * </pre>
- *
- * @author Dante Loi
- *
+ 	Allows to create a generic dialog, capable of displaying and let the user
+ 	modify the parameters of a graphic primitive. The idea is that the dialog
+  	uses a ParameterDescripion vector which contains all the elements, their
+ 	description as well as the type. Depending on the contents of the array, 
+ 	the window will be created automatically.
+  
+   	<pre>
+ 
+ 	This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 by Dante Loi, Davide Bucci
+
+	</pre>
+	
+  	@author Dante Loi
+ 
  */
 
 public class DialogParameters extends DialogFragment 
@@ -138,6 +155,9 @@ public class DialogParameters extends DialogFragment
 		return dialog;
 	}
 	
+	/** Create the user interface by processing all the parameters given
+		during the construction of the class.
+	*/
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
     	super.onCreate(savedInstanceState);
@@ -541,7 +561,9 @@ public class DialogParameters extends DialogFragment
 	     super.onDestroyView();
 	 }
 	
-	//Customized item for the layout spinner.
+	/**
+		Customized item for the layout spinner.
+	*/
     private class LayerSpinnerAdapter extends ArrayAdapter<LayerDesc>
     {
     	private final Context context;
@@ -587,7 +609,8 @@ public class DialogParameters extends DialogFragment
         }
     }
     
-  //Customized item for the arrow spinner.
+  	/**	Customized item for the arrow spinner.
+  	*/
     private class ArrowSpinnerAdapter extends ArrayAdapter<ArrowInfo>
     {
     	private final Context context;
@@ -671,10 +694,7 @@ public class DialogParameters extends DialogFragment
 	 */
     private void setSizeByScreen(int size, int density)
     {   
-    	//TODO: to manage other devices.
-    	// DB, I agree, but make sort that at least something will be always 
-    	// shown.
-    	
+		// Default values (show something in any case).	
 		fieldWidth = 300;
 		fieldHeight = 50;
 		textSize = 15;

@@ -21,21 +21,44 @@ import com.explorer.ExplorerActivity;
 import com.explorer.IO;
 
 /**
- * <pre>
- * Shows a text field for entry the new file name, and save it in the file system.
- * </pre>
- * 
- * @author Dante Loi, Giuseppe Amato
- * 
+ 	Shows a text field for entry the new file name, and save it in the file 
+ 	system.
+ 	
+ 	<pre>
+ 
+ 	This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 by Dante Loi, Giuseppe Amato, Davide Bucci
+
+	</pre>
+	
+ 
+  	@author Dante Loi, Giuseppe Amato, Davide Bucci
+  
  */
 @SuppressLint("DefaultLocale")
-public class DialogSaveName extends DialogFragment {
+public class DialogSaveName extends DialogFragment 
+{
 	private String circuit;
 	private FidoEditor drawingPanel;
 	private Dialog dialog;
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) 
+	{
 		final Activity context = getActivity();
 		dialog = new Dialog(context);
 
@@ -50,7 +73,8 @@ public class DialogSaveName extends DialogFragment {
 		Button save = (Button) dialog.findViewById(R.id.save);
 		save.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				save();
 				dialog.dismiss();
 			}
@@ -59,14 +83,16 @@ public class DialogSaveName extends DialogFragment {
 		Button cancel = (Button) dialog.findViewById(R.id.cancel);
 		cancel.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				dialog.dismiss();
 			}
 		});
 
 		((ImageView) dialog.findViewById(R.id.explorerBt))
 				.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
+					public void onClick(View v) 
+					{
 						OnFolderClick(v);
 					}
 				});
@@ -74,7 +100,8 @@ public class DialogSaveName extends DialogFragment {
 		return dialog;
 	}
 
-	private void save() {
+	private void save() 
+	{
 		EditText editName = (EditText) dialog.findViewById(R.id.editName);
 		EditText editPath = (EditText) dialog.findViewById(R.id.editPath);
 
@@ -91,10 +118,12 @@ public class DialogSaveName extends DialogFragment {
 	 * 
 	 * @param filename the filename to write to
 	 */
-	private void writeFile(String filename) {
+	private void writeFile(String filename) 
+	{
 		drawingPanel.getParserActions().openFileName = filename;
 		if (IO.checkSDFile(drawingPanel.getParserActions().openFileName)) {			
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			AlertDialog.Builder builder = new 
+				AlertDialog.Builder(getActivity());
 			String msg = getResources().getString(R.string.Warning_overwrite);
 			builder.setMessage(msg)
 					.setCancelable(false)
@@ -103,16 +132,19 @@ public class DialogSaveName extends DialogFragment {
 					.setPositiveButton(R.string.Ok_btn,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int id) {
+										int id) 
+								{
 									IO.writeFileToSD(
-											drawingPanel.getParserActions().openFileName,
+											drawingPanel.getParserActions().
+											openFileName,
 											circuit);
 								}
 							})
 					.setNegativeButton(R.string.Cancel_btn,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int id) {
+										int id) 
+								{
 									dialog.cancel();
 								}
 							});
@@ -129,7 +161,8 @@ public class DialogSaveName extends DialogFragment {
 	 * 
 	 * @param v
 	 */
-	public void OnFolderClick(View v) {
+	public void OnFolderClick(View v) 
+	{
 		Intent myIntent = new Intent(getActivity(), ExplorerActivity.class);
 		myIntent.putExtra(ExplorerActivity.DIRECTORY, true);
 		int requestCode = ExplorerActivity.REQUEST_FOLDER;
@@ -137,7 +170,8 @@ public class DialogSaveName extends DialogFragment {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case ExplorerActivity.REQUEST_FOLDER:
