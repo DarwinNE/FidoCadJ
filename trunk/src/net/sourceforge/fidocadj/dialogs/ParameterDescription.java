@@ -20,7 +20,7 @@ package net.sourceforge.fidocadj.dialogs;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+	Copyright 2008-2014 by Davide Bucci
 </pre>
 
 	@author Davide Bucci
@@ -31,11 +31,12 @@ public class ParameterDescription {
 	public boolean isExtension; 	// is this parameter a extension of FidoCad?
 							// in the strict compatibility mode, this is 
 							// hide
-	public void ParameterDescription () {
+	public void ParameterDescription () 
+	{
 		isExtension = false;
 	}
 	
-	/** Optain a text representation of the object.
+	/** Obtain a text representation of the object.
 	*/
 	public String toString()
 	{
