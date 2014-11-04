@@ -13,7 +13,7 @@ import android.view.View;
 /** This class provides a view showing the different dash styles which
 	might be used in a spinner list.
     
-    <pre>
+<pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify

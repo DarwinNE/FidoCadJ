@@ -43,7 +43,7 @@ import graphic.android.ColorAndroid;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Dante Loi
+    Copyright 2014 by Dante Loi, Davide Bucci
   </pre>
  
   @author Dante Loi
@@ -55,6 +55,8 @@ public class DialogLayer extends DialogFragment
 	private FidoEditor drawingPanel;
 	private Button layerButton;
 	
+	/** Create the dialog where the user can choose the current layer.
+	*/
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
@@ -70,17 +72,22 @@ public class DialogLayer extends DialogFragment
 		final Vector<LayerDesc> layers = 
 			drawingPanel.getDrawingModel().getLayers();
 		
-		LayerAdapter adapter = new LayerAdapter(
+		// Here we create an adapter for the list. It is the custom class
+		// defined in this very file.
+		LayerAdapter customLayerAdapter = new LayerAdapter(
 				context, 
 				R.layout.layer_spinner_item, 
 				layers);
 		
+		// We associate the adapter with the 
 		ListView list = (ListView) dialog.findViewById(R.id.fileList);
-		list.setAdapter(adapter);
+		list.setAdapter(customLayerAdapter);
 		list.setPadding(10, 10, 10, 10);
 		
 		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
+			/** Function called when a click on a list element is received.
+			*/
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) 
 			{
@@ -98,54 +105,74 @@ public class DialogLayer extends DialogFragment
 		return dialog;
 	}
 	
+	/** Inner class which provides a custom-made view which will be
+		embedded in the list shown by the dialog.
+	*/
 	private class LayerAdapter extends ArrayAdapter<LayerDesc>
-	    {
-	    	private final Context context;
-	    	private final List<LayerDesc> layers;
+	{
+	   	private final Context context;
+	   	private final List<LayerDesc> layers;
 	    	
-	    	public LayerAdapter(Context context, int textViewResourceId, 
-	    			List<LayerDesc> layers) 
-	    	{
-	    		super(context, textViewResourceId, layers);
-	    		this.context = context;
-	    		this.layers = layers;
-	    	}
+	   	public LayerAdapter(Context context, int textViewResourceId, 
+	   			List<LayerDesc> layers) 
+	   	{
+	   		super(context, textViewResourceId, layers);
+	   		this.context = context;
+	   		this.layers = layers;
+	   	}
 
-	    	@Override
-	    	public View getView(int position, View convertView, 
-	    		ViewGroup parent) 
-	    	{
-	    		return getCustomView(position, convertView, parent);
-	        }
-	    	
-	    	@Override
-	        public View getDropDownView(int position, 
-									View convertView, ViewGroup parent){
-	        	return getCustomView(position, convertView, parent);
-	        }
-	        
-	        public View getCustomView(int position, 
-									View convertView, ViewGroup parent) 
-			{ 
-	        	LayoutInflater inflater = 
-	        		((Activity) context).getLayoutInflater();
-	    		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
-	    			false);
-	    		row.setBackgroundColor(Color.WHITE);
-	    		
-	    		SurfaceView sv = 
-	    			(SurfaceView) row.findViewById(R.id.surface_view);
-	    		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
-	    		
-	    		TextView v = (TextView) row.findViewById(R.id.name_item);
-	            v.setText(layers.get(position).getDescription());
-	            v.setTextColor(Color.BLACK);
-	            v.setBackgroundColor(Color.WHITE);
-	            v.setTextSize(20);
-	            
-	            return row;
-	        }
+	   	@Override
+	   	public View getView(int position, View convertView, 
+	   		ViewGroup parent) 
+	   	{
+	   		return getCustomView(position, convertView, parent);
 	    }
+	    	
+	   	@Override
+	    public View getDropDownView(int position, 
+							View convertView, ViewGroup parent){
+	    	return getCustomView(position, convertView, parent);
+	    }
+	        
+	        
+	    /** Get a custom View showing the useful information about the
+	      	layers: color and visibility.
+	       	@param position the ordinal position in the list (layer number)
+	       	@param convertView
+	       	@param parent the parent component.
+	    */
+	    public View getCustomView(int position, 
+								View convertView, ViewGroup parent) 
+		{ 
+        	LayoutInflater inflater = 
+        		((Activity) context).getLayoutInflater();
+    		View row = inflater.inflate(R.layout.layer_spinner_item, 
+    			parent, false);
+	    			
+    		row.setBackgroundColor(Color.WHITE);
+	    		
+    		// Here we show a small rectangle of the layer color
+    		SurfaceView sv = 
+    			(SurfaceView) row.findViewById(R.id.surface_view);
+    		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
+    		// A text element showing the layer name, in black if the
+    		// layer is visible or in gray if it is not.
+    		TextView v = (TextView) row.findViewById(R.id.name_item);
+            v.setText(layers.get(position).getDescription());
+            if(layers.get(position).isVisible)
+            	v.setTextColor(Color.BLACK);
+            else
+            	v.setTextColor(Color.GRAY);
+            v.setBackgroundColor(Color.WHITE);
+            v.setTextSize(20);
+            
+            // We have a button, but we do not need to modify it for the
+            // moment.
+    		// Button bb = (Button) row.findViewById(R.id.button_item);
+            
+            return row;
+        }
+    }
 }  
 
 
