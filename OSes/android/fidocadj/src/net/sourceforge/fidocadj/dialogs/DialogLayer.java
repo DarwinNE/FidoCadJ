@@ -22,6 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Switch;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CompoundButton;
 
 import layers.LayerDesc;
 import graphic.android.ColorAndroid;
@@ -54,6 +57,7 @@ public class DialogLayer extends DialogFragment
 {  
 	private FidoEditor drawingPanel;
 	private Button layerButton;
+	private Dialog diag;
 	
 	/** Create the dialog where the user can choose the current layer.
 	*/
@@ -83,25 +87,7 @@ public class DialogLayer extends DialogFragment
 		ListView list = (ListView) dialog.findViewById(R.id.fileList);
 		list.setAdapter(customLayerAdapter);
 		list.setPadding(10, 10, 10, 10);
-		
-		OnItemClickListener clickListener = new OnItemClickListener() {
-			@Override
-			/** Function called when a click on a list element is received.
-			*/
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) 
-			{
-				
-				drawingPanel.eea.currentLayer = position;
-				layerButton.setBackgroundColor(
-					((ColorAndroid)layers.get(position).getColor())
-					.getColorAndroid());
-				
-				dialog.dismiss();		
-			}
-		};
-		list.setOnItemClickListener(clickListener);
-
+		diag=dialog;
 		return dialog;
 	}
 	
@@ -130,10 +116,10 @@ public class DialogLayer extends DialogFragment
 	    	
 	   	@Override
 	    public View getDropDownView(int position, 
-							View convertView, ViewGroup parent){
+							View convertView, ViewGroup parent)
+		{
 	    	return getCustomView(position, convertView, parent);
 	    }
-	        
 	        
 	    /** Get a custom View showing the useful information about the
 	      	layers: color and visibility.
@@ -157,21 +143,86 @@ public class DialogLayer extends DialogFragment
     		sv.setBackgroundColor(layers.get(position).getColor().getRGB());
     		// A text element showing the layer name, in black if the
     		// layer is visible or in gray if it is not.
-    		TextView v = (TextView) row.findViewById(R.id.name_item);
-            v.setText(layers.get(position).getDescription());
-            if(layers.get(position).isVisible)
-            	v.setTextColor(Color.BLACK);
-            else
-            	v.setTextColor(Color.GRAY);
-            v.setBackgroundColor(Color.WHITE);
-            v.setTextSize(20);
+    		Button b = (Button) row.findViewById(R.id.name_item);
+            b.setText(layers.get(position).getDescription());
+            b.setOnClickListener(new specSelectCurrentLayer(drawingPanel,
+            	layerButton, layers, diag, position));
             
-            // We have a button, but we do not need to modify it for the
-            // moment.
-    		// Button bb = (Button) row.findViewById(R.id.button_item);
+            // We have a switch which determines whether a layer is visible
+            // or not.
+    		Switch ss = (Switch) row.findViewById(R.id.visibility_item);
+    		
+            ss.setChecked(layers.get(position).isVisible);
+            ss.setOnCheckedChangeListener(
+            	new specCheckedChangeListener(convertView,
+            		layers, position)); 
+            
+            b.setTextColor(Color.BLACK);
+            	
+            b.setBackgroundColor(Color.WHITE);
+            b.setTextSize(20);
             
             return row;
         }
+    }
+	/** Handle a click on the selection button
+    */
+    private class specSelectCurrentLayer implements View.OnClickListener
+    {
+    	private FidoEditor drawingPanel;
+    	private List<LayerDesc> layers;
+   		private Button layerButton;
+    	private int position;
+    	private Dialog dialog;
+    	
+    	public specSelectCurrentLayer(FidoEditor dp, Button lb, 
+    		List<LayerDesc> l, Dialog d, int pos)
+    	{
+    		drawingPanel=dp;
+    		layers=l;
+    		layerButton=lb;
+    		dialog=d;
+    		position=pos;
+    	}
+    	
+    	/** Handle a click on the visibility switch
+    	*/
+    	@Override
+		public void onClick(View v)
+		{
+    			drawingPanel.eea.currentLayer = position;
+				layerButton.setBackgroundColor(
+					((ColorAndroid)layers.get(position).getColor())
+					.getColorAndroid());
+				drawingPanel.invalidate();
+				dialog.dismiss();	
+		}
+    }
+
+    /** Handle the change of the visibility toggle switch.
+    */
+    private class specCheckedChangeListener implements OnCheckedChangeListener
+    {
+    	private int position;
+    	private List<LayerDesc> layers;
+    	private View parentView;
+    	
+    	public specCheckedChangeListener(View p, List<LayerDesc> l, int pos)
+    	{
+    		layers=l;
+    		position=pos;
+    		parentView=p;
+    	}
+    	
+    	/** Handle a click on the visibility switch
+    	*/
+    	@Override
+		public void onCheckedChanged(CompoundButton buttonView, 
+			boolean isChecked)
+		{
+    			layers.get(position).setVisible(isChecked);
+    			parentView.invalidate();
+		}
     }
 }  
 
