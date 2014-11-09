@@ -767,10 +767,3 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		} 
 	} 
 }
-
-
-
-
-
-
-
