@@ -162,6 +162,18 @@ public class DialogLayer extends DialogFragment
             b.setBackgroundColor(Color.WHITE);
             b.setTextSize(20);
             
+            Button edit = (Button) row.findViewById(R.id.edit_item);
+            edit.setOnClickListener(new View.OnClickListener()
+            {
+            	@Override
+            	public void onClick(View v)
+            	{
+            		// show layer dialog
+					DialogEditLayer dl = new DialogEditLayer();
+					dl.show(getFragmentManager(), "");
+            	}
+            });
+            
             return row;
         }
     }
