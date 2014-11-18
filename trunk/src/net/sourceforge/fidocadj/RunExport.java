@@ -36,15 +36,16 @@ import circuit.model.*;
     @author Davide Bucci
 */
 
-class RunExport implements Runnable {
-	File file; 
-	DrawingModel P; 
-	String format;
-	double unitPerPixel;
-	boolean antiAlias;
-	boolean blackWhite;
-	boolean ext;
-	JFrame parent;
+class RunExport implements Runnable 
+{
+	private File file; 
+	private DrawingModel P; 
+	private String format;
+	private double unitPerPixel;
+	private boolean antiAlias;
+	private boolean blackWhite;
+	private boolean ext;
+	private JFrame parent;
 	//boolean success;
 	
 	/** Setting up the parameters needed for the export
@@ -76,8 +77,10 @@ class RunExport implements Runnable {
 		parent=tparent;
 	}
 	
-	public void run() {
-		
+	/** Launch the export (in a new thread).
+	*/
+	public void run() 
+	{
 		try {
     		ExportGraphic.export(file, P, format, unitPerPixel,
 				antiAlias, blackWhite, ext, true);
@@ -91,5 +94,4 @@ class RunExport implements Runnable {
                Globals.messages.getString("Illegal_filename"));
         }
     }
-
 }

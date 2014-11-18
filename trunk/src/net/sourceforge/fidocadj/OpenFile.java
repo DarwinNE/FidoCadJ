@@ -33,10 +33,10 @@ import circuit.*;
     @author Davide Bucci
 */
 
-class OpenFile implements Runnable {
+class OpenFile implements Runnable 
+{
     
     private FidoFrame parent;
-    
     
     /** Set up the parent window object
     	@param tparent the FidoFrame parent asking for a file open.
@@ -95,8 +95,7 @@ class OpenFile implements Runnable {
                 return;
                     
             fin=fc.getSelectedFile().getName();
-            din=fc.getSelectedFile().getParentFile().getPath();
-            
+            din=fc.getSelectedFile().getParentFile().getPath();    
         }
         
         // We now have the directory as well as the file name, so we can

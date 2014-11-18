@@ -38,12 +38,14 @@ import net.sourceforge.fidocadj.dialogs.*;
 	
 */
 
-class AppleSpecific implements ApplicationListener{
+class AppleSpecific implements ApplicationListener
+{
 
 	/** Create an application listener able to respond to a few Finder events
 	
 	*/
-	public void answerFinder() {
+	public void answerFinder() 
+	{
 		Application app = new Application();
 		app.setEnabledPreferencesMenu(true);
 		app.getApplication().addApplicationListener(this);
@@ -71,7 +73,8 @@ class AppleSpecific implements ApplicationListener{
     /** Respond to an user double clicking on a FCD file
 	
 	*/
-    public void handleOpenFile(ApplicationEvent evt) {
+    public void handleOpenFile(ApplicationEvent evt) 
+    {
     	String file = evt.getFilename();
     	((FidoFrame)Globals.activeWindow).load(file);
     }

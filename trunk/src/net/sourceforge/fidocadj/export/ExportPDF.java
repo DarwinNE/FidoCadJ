@@ -155,7 +155,8 @@ public class ExportPDF implements ExportInterface {
 				"  <</Kids [4 0 R ]\n"+
 				"    /Count 1\n"+
 				"    /Type /Pages\n"+
-				"    /MediaBox [ 0 0  "+(int)(totalSize.width/res_mult+1+border)+" "+
+				"    /MediaBox [ 0 0  "+
+				(int)(totalSize.width/res_mult+1+border)+" "+
 				(int)(totalSize.height/res_mult+1+border)+" ]\n"+
 				"  >> endobj\n";
 
@@ -165,7 +166,8 @@ public class ExportPDF implements ExportInterface {
 		
 		actualColor = null;
 		actualWidth = -1;
-		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ "  cm\n");
+		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ 
+			"  cm\n");
 
 		outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
 
@@ -622,7 +624,6 @@ public class ExportPDF implements ExportInterface {
 			outt.write("  -1 0 0 -1 0 0 cm\n");
 		else
 			outt.write("  1 0 0 -1 0 0 cm\n");
-		
 	
 		double ratio;
 		
@@ -663,8 +664,6 @@ public class ExportPDF implements ExportInterface {
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-		
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
@@ -732,9 +731,7 @@ public class ExportPDF implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-
-		
+		@param strokeWidth the width of the pen to be used when drawing	
 	*/
 	
 	public void exportLine (double x1, double y1,
@@ -754,8 +751,7 @@ public class ExportPDF implements ExportInterface {
 		
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
-
-				  
+		  
 		outt.write("  "+x1+" "+y1+" m "+
 			x2+" "+y2+" l S\n");
 		
@@ -810,8 +806,6 @@ public class ExportPDF implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -822,7 +816,6 @@ public class ExportPDF implements ExportInterface {
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
-	
 		ellipse(x1,y1, x2, y2, isFilled);
 	}
 		
@@ -843,8 +836,7 @@ public class ExportPDF implements ExportInterface {
 		ColorInterface c=l.getColor();
 		checkColorAndWidth(c, width);
 		registerDash(0);
-
-				  
+			  
 		outt.write("  "+x1+" "+y1+" m "+
 			x2+" "+y2+" l S\n");
 	}
@@ -861,7 +853,6 @@ public class ExportPDF implements ExportInterface {
 		@param indiam the hole internal diameter
 		@param layer the layer that should be used
 	*/
-	
 	public void exportPCBPad(int x, int y, int style, int six, int siy, 
 		int indiam, int layer, boolean onlyHole) 
 		throws IOException
@@ -909,8 +900,6 @@ public class ExportPDF implements ExportInterface {
 		ellipse(x-indiam/2.0, y-indiam/2.0, 
 				x+indiam/2.0, y+indiam/2.0, true);
 		outt.write("f\n");
-				
-	
 	}
 	
 	/**	Called when exporting a Polygon primitive
@@ -921,9 +910,6 @@ public class ExportPDF implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
-	
 	*/
 	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -938,9 +924,7 @@ public class ExportPDF implements ExportInterface {
 		
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
-		
-		
-			
+	
 		outt.write("  "+vertices[0].x+" "+vertices[0].y+" m\n");
 		
 		for (int i=1; i<nVertices; ++i) 
@@ -951,8 +935,6 @@ public class ExportPDF implements ExportInterface {
 		} else {
 			outt.write("  s\n");	
 		}
-		
-	
 	}
 	/**	Called when exporting a Curve primitive
 	
@@ -992,8 +974,6 @@ public class ExportPDF implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -1006,7 +986,6 @@ public class ExportPDF implements ExportInterface {
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
 
-		
 		outt.write("  "+x1+" "+y1+" m\n");
 		outt.write("  "+x2+" "+y1+" l\n");
 		outt.write("  "+x2+" "+y2+" l\n");
@@ -1016,8 +995,6 @@ public class ExportPDF implements ExportInterface {
 		} else {
 			outt.write("s\n");	
 		}
-
-
 	}
 	
 	private void roundRect (double x1, double y1, double w, double h, 
@@ -1098,10 +1075,7 @@ public class ExportPDF implements ExportInterface {
 			outt.write(roundTo(xC)+" "
 				+ roundTo(yC)+" "+ roundTo(xD)+" "+ roundTo(yD)+" y\n");
 		}
-		outt.write("  "+(filled?"f\n":"s\n"));
-		
-		
-		
+		outt.write("  "+(filled?"f\n":"s\n"));	
 	}
 	
 	private String addLeadZeros(long n)
@@ -1153,6 +1127,15 @@ public class ExportPDF implements ExportInterface {
 		}
 	}
 	
+	/** Called when exporting an arrow.
+		@param x position of the tip of the arrow
+		@param y position of the tip of the arrow
+		@param xc direction of the tip of the arrow
+		@param yc direction of the tip of the arrow
+		@param l length of the arrow
+		@param h width of the arrow
+		@param style style of the arrow
+	*/
 	public void exportArrow(double x, double y, double xc, double yc, 
 		double l, double h, 
 		int style)
@@ -1213,6 +1196,5 @@ public class ExportPDF implements ExportInterface {
 			outt.write(""+roundTo(x3)+" "+roundTo(y3)+" m\n"+
 				roundTo(x4)+" "+roundTo(y4)+" l s\n"); 
  		}
- 		
 	}	
 }
