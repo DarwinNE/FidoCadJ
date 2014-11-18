@@ -7,7 +7,7 @@ import primitives.*;
 import layers.*;
 import circuit.model.*;
 import graphic.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 
 /** Export: export the FidoCadJ drawing. This is a view of the drawing.
     

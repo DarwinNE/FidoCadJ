@@ -1,20 +1,28 @@
-package export;
+package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
 
-import primitives.*;
-import globals.*;
 import layers.*;
+import primitives.*;
 import graphic.*;
 
+/** ExportInterface.java 
 
-/**
+	Interface which allows to export a FidoCad draw under an arbitrary format.
+	The primitive handling system of FidoCadJ will call each primitive export
+	function and provide every informations about the primitive state.
+	
+	Each coordinate is given in FidoCadJ coordinate space, which means that 
+	normally one unit corresponds to 5 mils (127 microns).
+	
+	I do not consider the export phase as a speed sensitive context. For this
+	reason, I try to write that interface in order to achieve the maximum ease
+	of use of the various parameters involving each primitive. 
+
+
 <pre>
-	Circuit export towards Cadsoft Eagle
-	
-	
+
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -37,44 +45,8 @@ import graphic.*;
     @author Davide Bucci
 */
 
-public class ExportEagle implements ExportInterface {
+public interface ExportInterface {
 
-	private final FileWriter fstream;
-	private BufferedWriter out;
-	private DimensionG dim;
-	private int oldtextsize;
-	private String macroList;
-	private String junctionList;
-		
-	static final double text_stretch = 0.73;
-	static final String EagleFidoLib = "FidoCadJLIB";
-	static final String ExportFormatString = "####.####";
-	
-	// Conversion between FidoCadJ units and Eagle units (1/10 inches)
-	
-	static double res=5e-2;
-	
-	/** double to integer conversion. In some cases, some processing might be
-		applied.
-	*/
-	public int cLe(double l)
-	{
-		return (int)l;
-	}
-	
-	
-	/** Constructor
-	
-		@param f the File object in which the export should be done.
-		
-	*/
-	
-	public ExportEagle (File f) throws IOException
-	{
-		macroList = "";	
-		junctionList = "";
-		fstream = new FileWriter(f);
-	}
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
 		there should be the code to write the header of the file on which
@@ -87,45 +59,16 @@ public class ExportEagle implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
-
 	*/
 	
 	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
 		int grid)  
-		throws IOException
-	{ 
-		
-		// We need to save layers informations, since we will use them later.
-		
-		//layerV=la;
-		dim=totalSize;
-	    out = new BufferedWriter(fstream);
-		oldtextsize=-1;
-		macroList = "";
-		junctionList = "";
-	    // A basic configuration of an Eagle script
-	    
-    	out.write("# Created by FidoCadJ "+Globals.version+
-			" by Davide Bucci\n");
-		out.write("Set Wire_Bend 2; \n");
-		out.write("Grid inch "+een(grid*res)+";\n");
-		out.write("Change font fixed;\n");
-		out.write("Set auto_junction off;\n");
-
-
-	} 
+		throws IOException;
 	
 	/** Called at the end of the export phase.
 	*/
-	public void exportEnd() 
-		throws IOException
-	{ 
-		out.write(macroList);
-		out.write(junctionList);
-		out.write("Window Fit; \n");
-		out.close();
-    
-	}
+	public void exportEnd()
+		throws IOException;
 
 	/** Called when exporting an Advanced Text primitive.
 	
@@ -145,26 +88,7 @@ public class ExportEagle implements ExportInterface {
 	public void exportAdvText (int x, int y, int sizex, int sizey,
 		String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
 		int orientation, int layer, String text) 
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		String mirror="";
-		
-		if(isMirrored) {
-			mirror="M";
-		}
-		
-		if(oldtextsize!=sizey)
-			out.write("Change size "+sizey*res*text_stretch+"\n");
-		oldtextsize=sizey;
-		
-		out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+" " 
-			+een((dim.height-y)*res)+");\n");
-
-			
-		
-	}
+		throws IOException;
 	
 	/** Called when exporting a Bézier primitive.
 	
@@ -186,7 +110,7 @@ public class ExportEagle implements ExportInterface {
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
+		
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
@@ -200,15 +124,7 @@ public class ExportEagle implements ExportInterface {
 		int arrowHalfWidth, 
 		int dashStyle,
 		double strokeWidth)
-		throws IOException	
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		
-		out.write("# Bézier export not implemented yet\n");
-
-
-	}
+		throws IOException;
 	
 	/** Called when exporting a Connection primitive.
 	
@@ -217,15 +133,8 @@ public class ExportEagle implements ExportInterface {
 		
 		@param layer the layer that should be used
 	*/
-	public void exportConnection (int x, int y, int layer, double size) 
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		junctionList += "Junction ("+een(x*res)+" "
-			+een((dim.height-y)*res)+");\n";
-
-	}
+	public void exportConnection (int x, int y, int layer, double size)
+		throws IOException;
 		
 	/** Called when exporting a Line primitive.
 	
@@ -257,16 +166,8 @@ public class ExportEagle implements ExportInterface {
 		int arrowHalfWidth, 
 		int dashStyle,
 		double strokeWidth)
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
+		throws IOException;
 		
-		//out.write("Layer "+layer);
-		out.write("Net ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
-			een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
-		
-	}
 	
 	/** Called when exporting a Macro call.
 		This function can just return false, to indicate that the macro should 
@@ -280,41 +181,21 @@ public class ExportEagle implements ExportInterface {
 		@param orientation the macro orientation in degrees
 		@param macroName the macro name
 		@param macroDesc the macro description, in the FidoCad format
-		@param tname the name shown
-		@param xn coordinate of the name shown 
-		@param yn coordinate of the name shown
+		@param name the shown name
+		@param xn coordinate of the shown name
+		@param yn coordinate of the shown name
 		@param value the shown value
-		@param xv coordinate of the value shown
-		@param yv coordinate of the value shown
+		@param xv coordinate of the shown value
+		@param yv coordinate of the shown value
 		@param font the used font
 		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
-		String tname, int xn, int yn, String value, int xv, int yv, String font,
+		String name, int xn, int yn, String value, int xv, int yv, String font,
 		int fontSize, Map<String, MacroDesc> m)
-		throws IOException
-	{
-		String mirror ="";
-		if (isMirrored)
-			mirror = "M";
-		
-		// The component name should not contain spaces. Substitute with
-		// the underline character.
-		Map<String, String> subst = new HashMap<String, String>();
-		subst.put(" ","_");
-		String name=Globals.substituteBizarreChars(tname, subst);
-		
-		macroList += "Add "+ macroName+"@"+EagleFidoLib+ " "+name+" "+mirror+"R"
-			+(-orientation)+" ("+een(x*res)+" "+een((dim.height-y)*res)+");\n";
-
-		macroList +="Value "+name+" "+value+";\n";
-		
-		// The macro will NOT be expanded into primitives.
-		return true; 
-	}
-	
+		throws IOException;
 	
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
@@ -332,18 +213,7 @@ public class ExportEagle implements ExportInterface {
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		String fill_pattern="";
-		
-		//out.write("Layer "+layer);
-		out.write("# Circle export not fully implemented\n");
-
-		out.write("Circle ("+een(x1*res)+" "+een((dim.height-y1)*res)+") (" 
-			+een((x2-x1)*res)+ " "+een((y2-y1)*res)+");");
-	}
+		throws IOException;
 		
 	/** Called when exporting a PCBLine primitive.
 	
@@ -355,15 +225,7 @@ public class ExportEagle implements ExportInterface {
 		@param layer the layer that should be used
 	*/
 	public void exportPCBLine(int x1, int y1, int x2, int y2, int width, 
-		int layer) 
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		
-		out.write("# PCBLine export not implemented yet\n");
-
-	}
+		int layer) throws IOException;
 		
 	
 	/** Called when exporting a PCBPad primitive.
@@ -379,31 +241,7 @@ public class ExportEagle implements ExportInterface {
 	*/
 	
 	public void exportPCBPad(int x, int y, int style, int six, int siy, 
-		int indiam, int layer, boolean onlyHole) 
-		throws IOException
-	{ 
-		double xdd;
-		double ydd;
-		
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		
-		// At first, draw the pad...
-		if(!onlyHole) {
-			switch (style) {
-				case 1:	// Square pad
-					break;
-				case 2:	// Rounded pad
-					break;
-				case 0: // Oval pad
-				default:
-					 break;
-			}
-		}
-		// ... then, drill the hole!
-		out.write("# PCBpad export not implemented yet\n");
-
-	}
+		int indiam, int layer, boolean onlyHole) throws IOException;
 	
 	/**	Called when exporting a Polygon primitive
 	
@@ -419,76 +257,9 @@ public class ExportEagle implements ExportInterface {
 	*/
 	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		String fill_pattern="";
+		throws IOException;
 		
-		/*if(isFilled) {
-			fill_pattern="fill=\"#"+
-				  convertToHex2(c.getRed())+
-				  convertToHex2(c.getGreen())+
-				  convertToHex2(c.getBlue())+"\"";
-		} else {
-			fill_pattern="fill=\"none\"";
 		
-		}*
-		int i;
-		
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		out.write("POLYGON ");
-		for (i=0; i<nVertices; ++i) {
-			out.write("("+vertices[i].x+" "+vertices[i].y+") ");
-		
-		}
-		out.write(";\n");
-		
-		*/
-		
-		out.write("# Polygon export not implemented yet\n");
-
-	}
-		
-	/** Called when exporting a Rectangle primitive.
-			
-		@param x1 the x position of the first corner
-		@param y1 the y position of the first corner
-		@param x2 the x position of the second corner
-		@param y2 the y position of the second corner
-		@param isFilled it is true if the rectangle should be filled
-		
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-
-
-	*/
-	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		
-		//LayerDesc l=(LayerDesc)layerV.get(layer);
-		//ColorInterface c=l.getColor();
-		
-		out.write("Layer 94;\n");
-		
-		if(isFilled) {
-			out.write("Rect ("+een(x1*res)+" "+een((dim.height-y1)*res)+
-				  ") ("+een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
-		} else {
-			out.write("Set Wire_Bend 0;\n");
-			out.write("Wire ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
-			een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
-			out.write("Wire ("+een(x2*res)+" "+een((dim.height-y2)*res)+") ("+
-			een(x1*res)+" "+een((dim.height-y1)*res)+");\n");
-			out.write("Set Wire_Bend 2;\n");
-		}
-		
-		out.write("Layer 91;\n");
-	}
-	
 	/**	Called when exporting a Curve primitive
 	
 		@param vertices array containing the position of each vertex
@@ -511,11 +282,26 @@ public class ExportEagle implements ExportInterface {
 		int arrowHalfWidth, 
 		int dashStyle,
 		double strokeWidth)
-		throws IOException
-	{
-		return false;
-	}
-	
+		throws IOException;	
+		
+	/** Called when exporting a Rectangle primitive.
+			
+		@param x1 the x position of the first corner
+		@param y1 the y position of the first corner
+		@param x2 the x position of the second corner
+		@param y2 the y position of the second corner
+		@param isFilled it is true if the rectangle should be filled
+		
+		@param layer the layer that should be used
+		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
+
+	*/
+	public void exportRectangle(int x1, int y1, int x2, int y2,
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
+		throws IOException;
+		
 	/** Called when exporting an arrow.
 		@param x 
 		@param y
@@ -528,25 +314,6 @@ public class ExportEagle implements ExportInterface {
 	public void exportArrow(double x, double y, double xc, double yc, 
 		double l, double h, 
 		int style)
-		throws IOException
-	{
-		// Does nothing, since it will not be useful here.
-	}
+		throws IOException;
 
-	/**	Export a number: truncate it to four decimals
-	
-	*/
-	private String een(double n)
-	{
-		// Force the Java system to use ALWAYS the dot as a decimal separator,
-		// regardless the locale settings (in Italy and France, the
-		// decimal separator is the comma).
-		
-		DecimalFormatSymbols separators = new DecimalFormatSymbols();
-		separators.setDecimalSeparator('.');
-
-        DecimalFormat exportFormat = new DecimalFormat(ExportFormatString,
-        	separators);
-        return exportFormat.format(n);
-	}
 }

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import geom.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import globals.*;
 import graphic.*;
 

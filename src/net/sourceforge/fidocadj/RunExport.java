@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.io.*;
 
 import globals.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import circuit.*;
 import circuit.model.*;
 
-/** RunExport.java 
+/** The RunExport class implements a runnable class which can be employed
+	to perform all exporting operations in a separate thread from the main
+	user interface one.
 
 <pre>  
     This file is part of FidoCadJ.

@@ -26,7 +26,7 @@ import javax.swing.text.*;
 import javax.swing.tree.*;
 
 import circuit.CircuitPanel;
-import export.ExportGraphic;
+import net.sourceforge.fidocadj.export.ExportGraphic;
 import geom.DrawingSize;
 import geom.MapCoordinates;
 import primitives.MacroDesc;

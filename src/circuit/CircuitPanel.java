@@ -20,7 +20,7 @@ import circuit.views.*;
 import circuit.model.*;
 import graphic.*;
 import graphic.swing.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 
     important components, as it is responsible of all editing actions.

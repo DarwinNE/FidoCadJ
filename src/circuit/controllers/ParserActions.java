@@ -5,7 +5,7 @@ import java.util.*;
 import java.net.*;
 
 import primitives.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import globals.*;
 import layers.*;
 import circuit.*;
