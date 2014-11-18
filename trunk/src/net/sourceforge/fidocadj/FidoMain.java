@@ -11,7 +11,7 @@ import globals.*;
 import circuit.*;
 import circuit.controllers.*;
 import circuit.model.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.timer.*;
 import graphic.*;
 import layers.*;

@@ -1,4 +1,4 @@
-package export;
+package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;

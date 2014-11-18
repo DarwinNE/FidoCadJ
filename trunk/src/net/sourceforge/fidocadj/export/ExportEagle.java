@@ -1,23 +1,20 @@
-package export;
+package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;
 import java.text.*;
 
+import primitives.*;
 import globals.*;
 import layers.*;
-import circuit.model.*;
-import circuit.controllers.*;
 import graphic.*;
 
-import primitives.*;
 
-
-/** 
-	Export towards FidoCad (!)
-	No pun intended :-) This is useful because we can split macros very easily.
-	
+/**
 <pre>
+	Circuit export towards Cadsoft Eagle
+	
+	
 	This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -34,31 +31,28 @@ import primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 	Copyright 2008-2014 by Davide Bucci
-</pre>
+   </pre>
 
     
     @author Davide Bucci
 */
 
-public class ExportFidoCad implements ExportInterface {
+public class ExportEagle implements ExportInterface {
 
-	private final BufferedWriter out;
-	private Vector<LayerDesc> layerV;
-	private boolean extensions;		// use FidoCadJ extensions
-	private boolean splitStandardMacros; // Split also the standard macros
-	private String textFont;
-	private int textFontSize;
-
-	public void setMacroFont(String f, int size)
-	{
-		textFont = f;
-		textFontSize = size;
-	}
-
-	public void setSplitStandardMacros(boolean s)
-	{
-		splitStandardMacros = s;
-	}
+	private final FileWriter fstream;
+	private BufferedWriter out;
+	private DimensionG dim;
+	private int oldtextsize;
+	private String macroList;
+	private String junctionList;
+		
+	static final double text_stretch = 0.73;
+	static final String EagleFidoLib = "FidoCadJLIB";
+	static final String ExportFormatString = "####.####";
+	
+	// Conversion between FidoCadJ units and Eagle units (1/10 inches)
+	
+	static double res=5e-2;
 	
 	/** double to integer conversion. In some cases, some processing might be
 		applied.
@@ -67,30 +61,19 @@ public class ExportFidoCad implements ExportInterface {
 	{
 		return (int)l;
 	}
-		
+	
+	
 	/** Constructor
 	
 		@param f the File object in which the export should be done.
 		
 	*/
 	
-	public ExportFidoCad (File f) throws IOException
-	{	
-		extensions = true;
-		splitStandardMacros=false;
-		textFont=Globals.defaultTextFont;
-		textFontSize=3;
-		OutputStreamWriter fstream = new OutputStreamWriter(
-			new FileOutputStream(f), 
-			Globals.encoding);
-	    out = new BufferedWriter(fstream);
-	}
-	
-	/** Specify whether the FidoCadJ extensions should be taken into account
-	*/
-	public void setExtensions(boolean e)
+	public ExportEagle (File f) throws IOException
 	{
-		extensions=e;
+		macroList = "";	
+		junctionList = "";
+		fstream = new FileWriter(f);
 	}
 	
 	/**	Called at the beginning of the export phase. Ideally, in this routine
@@ -104,33 +87,44 @@ public class ExportFidoCad implements ExportInterface {
 			drawing program having some kind of grid concept. You might use
 			this value to synchronize FidoCadJ's grid with the one used by
 			the target.
+
 	*/
 	
 	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
-		int grid)   
+		int grid)  
 		throws IOException
 	{ 
+		
 		// We need to save layers informations, since we will use them later.
 		
-		layerV=la;
-	    int wi=totalSize.width;
-	    int he=totalSize.height;
+		//layerV=la;
+		dim=totalSize;
+	    out = new BufferedWriter(fstream);
+		oldtextsize=-1;
+		macroList = "";
+		junctionList = "";
+	    // A basic configuration of an Eagle script
 	    
-		out.write("[FIDOCAD]\n");
-		
-		DrawingModel P = new DrawingModel();
-		ParserActions pa = new ParserActions(P);
-		P.setLayers(la);
-		out.write(new String(pa.registerConfiguration(extensions)));		
+    	out.write("# Created by FidoCadJ "+Globals.version+
+			" by Davide Bucci\n");
+		out.write("Set Wire_Bend 2; \n");
+		out.write("Grid inch "+een(grid*res)+";\n");
+		out.write("Change font fixed;\n");
+		out.write("Set auto_junction off;\n");
+
+
 	} 
 	
-
 	/** Called at the end of the export phase.
 	*/
 	public void exportEnd() 
 		throws IOException
 	{ 
+		out.write(macroList);
+		out.write(junctionList);
+		out.write("Window Fit; \n");
 		out.close();
+    
 	}
 
 	/** Called when exporting an Advanced Text primitive.
@@ -153,19 +147,22 @@ public class ExportFidoCad implements ExportInterface {
 		int orientation, int layer, String text) 
 		throws IOException
 	{ 
-		int style=0;
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		String mirror="";
 		
-		if (isBold)
-			style+=1;
-		if (isItalic)
-			style+=2;
-		if (isMirrored)
-			style+=4;
+		if(isMirrored) {
+			mirror="M";
+		}
+		
+		if(oldtextsize!=sizey)
+			out.write("Change size "+sizey*res*text_stretch+"\n");
+		oldtextsize=sizey;
+		
+		out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+" " 
+			+een((dim.height-y)*res)+");\n");
+
 			
-		out.write(new PrimitiveAdvText(cLe(x),
-			cLe(y), 
-			cLe(sizex), cLe(sizey), fontname, 
-			orientation, style,text, layer).toString(extensions)); 
 		
 	}
 	
@@ -188,7 +185,8 @@ public class ExportFidoCad implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
-		
+		@param strokeWidth the width of the pen to be used when drawing
+
 	*/
 	public void exportBezier (int x1, int y1,
 		int x2, int y2,
@@ -204,16 +202,12 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException	
 	{ 
-		out.write(new PrimitiveBezier(cLe(x1),
-			cLe(y1), cLe(x2),
-			cLe(y2), cLe(x3),
-			cLe(y3), cLe(x4),
-			cLe(y4), layer,arrowStart,
-			arrowEnd,arrowStyle,
-			cLe(arrowLength),
-			cLe(arrowHalfWidth),
-			dashStyle,
-			textFont, textFontSize).toString(extensions));			
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		
+		out.write("# Bézier export not implemented yet\n");
+
+
 	}
 	
 	/** Called when exporting a Connection primitive.
@@ -226,9 +220,11 @@ public class ExportFidoCad implements ExportInterface {
 	public void exportConnection (int x, int y, int layer, double size) 
 		throws IOException
 	{ 
-		out.write(new PrimitiveConnection(cLe(x),
-			cLe(y),layer,
-			textFont, textFontSize).toString(extensions));
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		junctionList += "Junction ("+een(x*res)+" "
+			+een((dim.height-y)*res)+");\n";
+
 	}
 		
 	/** Called when exporting a Line primitive.
@@ -247,9 +243,10 @@ public class ExportFidoCad implements ExportInterface {
 		@param arrowLength total lenght of arrows (if present)
 		@param arrowHalfWidth half width of arrows (if present)
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 		
 	*/
-	
 	public void exportLine (double x1, double y1,
 		double x2, double y2,
 		int layer,
@@ -262,18 +259,18 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{ 
-		out.write(new PrimitiveLine(cLe(x1),cLe(y1),
-			cLe(x2),cLe(y2),layer,arrowStart,
-			arrowEnd,arrowStyle,
-			cLe(arrowLength),
-			cLe(arrowHalfWidth),
-			dashStyle,
-			textFont, textFontSize).toString(extensions));
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		
+		//out.write("Layer "+layer);
+		out.write("Net ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
+			een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
+		
 	}
 	
 	/** Called when exporting a Macro call.
 		This function can just return false, to indicate that the macro should 
-		be rendered by means of calling other primitives. Please note that 
+		be rendered by means of calling the other primitives. Please note that 
 		a macro does not have a reference layer, since it is defined by its
 		components.
 		
@@ -283,68 +280,42 @@ public class ExportFidoCad implements ExportInterface {
 		@param orientation the macro orientation in degrees
 		@param macroName the macro name
 		@param macroDesc the macro description, in the FidoCad format
-		@param name the shown name
-		@param xn coordinate of the shown name
-		@param yn coordinate of the shown name
+		@param tname the name shown
+		@param xn coordinate of the name shown 
+		@param yn coordinate of the name shown
 		@param value the shown value
-		@param xv coordinate of the shown value
-		@param yv coordinate of the shown value
+		@param xv coordinate of the value shown
+		@param yv coordinate of the value shown
 		@param font the used font
 		@param fontSize the size of the font to be used
 		@param m the library
 	*/
 	public boolean exportMacro(int x, int y, boolean isMirrored, 
 		int orientation, String macroName, String macroDesc,
-		String name, int xn, int yn, String value, int xv, int yv, String font,
+		String tname, int xn, int yn, String value, int xv, int yv, String font,
 		int fontSize, Map<String, MacroDesc> m)
 		throws IOException
 	{
-		if(splitStandardMacros)
-			return false;
-			
-		boolean isStandard=false;
-		int dotpos=-1;
+		String mirror ="";
+		if (isMirrored)
+			mirror = "M";
 		
-		// A first way to determine if a macro is standard is to see if its
-		// name does not contains a dot (original FidoCAD standard library)
+		// The component name should not contain spaces. Substitute with
+		// the underline character.
+		Map<String, String> subst = new HashMap<String, String>();
+		subst.put(" ","_");
+		String name=Globals.substituteBizarreChars(tname, subst);
 		
-		if ((dotpos=macroName.indexOf("."))<0) { 
-			isStandard = true;
-		} else {
-			// If the name contains a dot, we might check whether we have 
-			// one of the new FidoCadJ standard libraries:
-			// pcb, ihram, elettrotecnica.
-			
-			// Obtain the library name
-			String library=macroName.substring(0,dotpos);
-			
-			// Check it
-			if(extensions && "pcb".equals(library)) { 
-				isStandard = true;
-			} else if (extensions && "ihram".equals(library)) {
-				isStandard = true;
-			} else if (extensions && "elettrotecnica".equals(library)) {
-				isStandard = true;
-			}
-		}
-			
-		// If the library is standard, we output the symbol just with a
-		// single MC command.
-		if(isStandard) {
-			out.write(new PrimitiveMacro(m, layerV, cLe(x), 
-				cLe(y), macroName, 
-		    	name, cLe(xn), cLe(yn), value, 
-		    	cLe(xv), cLe(yv), font, 
-		    	cLe(fontSize), orientation/90, 
-		    	isMirrored).toString(extensions));
-			return true;
-		} 
-		// If it is not standard, the macro will be expanded into primitives.
-		return false; 
+		macroList += "Add "+ macroName+"@"+EagleFidoLib+ " "+name+" "+mirror+"R"
+			+(-orientation)+" ("+een(x*res)+" "+een((dim.height-y)*res)+");\n";
+
+		macroList +="Value "+name+" "+value+";\n";
+		
+		// The macro will NOT be expanded into primitives.
+		return true; 
 	}
 	
 	
-
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
 		@param x1 the x position of the first corner
@@ -355,16 +326,23 @@ public class ExportFidoCad implements ExportInterface {
 		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
-		out.write(new PrimitiveOval(cLe(x1), 
-			cLe(y1), cLe(x2), cLe(y2), 
-			isFilled, layer, dashStyle,
-			textFont, textFontSize).toString(extensions));
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		String fill_pattern="";
+		
+		//out.write("Layer "+layer);
+		out.write("# Circle export not fully implemented\n");
+
+		out.write("Circle ("+een(x1*res)+" "+een((dim.height-y1)*res)+") (" 
+			+een((x2-x1)*res)+ " "+een((y2-y1)*res)+");");
 	}
 		
 	/** Called when exporting a PCBLine primitive.
@@ -380,10 +358,11 @@ public class ExportFidoCad implements ExportInterface {
 		int layer) 
 		throws IOException
 	{ 
-		out.write(new PrimitivePCBLine(cLe(x1),
-			cLe(y1),cLe(x2),cLe(y2),
-			cLe(width), cLe(layer),
-			textFont, textFontSize).toString(extensions));
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		
+		out.write("# PCBLine export not implemented yet\n");
+
 	}
 		
 	
@@ -397,20 +376,35 @@ public class ExportFidoCad implements ExportInterface {
 		@param siy the y size of the pad
 		@param indiam the hole internal diameter
 		@param layer the layer that should be used
-		@param onlyHole export only the hole
 	*/
 	
 	public void exportPCBPad(int x, int y, int style, int six, int siy, 
 		int indiam, int layer, boolean onlyHole) 
 		throws IOException
 	{ 
-		if(!onlyHole)
-			out.write(new PrimitivePCBPad(cLe(x),
-				cLe(y),cLe(six),
-				cLe(siy),cLe(indiam), style,
-				layer,
-				textFont, textFontSize).toString(extensions));	
+		double xdd;
+		double ydd;
+		
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		
+		// At first, draw the pad...
+		if(!onlyHole) {
+			switch (style) {
+				case 1:	// Square pad
+					break;
+				case 2:	// Rounded pad
+					break;
+				case 0: // Oval pad
+				default:
+					 break;
+			}
+		}
+		// ... then, drill the hole!
+		out.write("# PCBpad export not implemented yet\n");
+
 	}
+	
 	/**	Called when exporting a Polygon primitive
 	
 		@param vertices array containing the position of each vertex
@@ -418,6 +412,8 @@ public class ExportFidoCad implements ExportInterface {
 		@param isFilled true if the polygon is filled
 		@param layer the layer that should be used
 		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
 
 	
 	*/
@@ -425,17 +421,74 @@ public class ExportFidoCad implements ExportInterface {
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException
 	{ 
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		String fill_pattern="";
 		
-		PrimitivePolygon p=new PrimitivePolygon(isFilled, layer, dashStyle,
-			textFont, textFontSize);
+		/*if(isFilled) {
+			fill_pattern="fill=\"#"+
+				  convertToHex2(c.getRed())+
+				  convertToHex2(c.getGreen())+
+				  convertToHex2(c.getBlue())+"\"";
+		} else {
+			fill_pattern="fill=\"none\"";
 		
-		for (int i=0; i <nVertices; ++i) {
-			p.addPoint(cLe(vertices[i].x), 
-				cLe(vertices[i].y));
+		}*
+		int i;
+		
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		out.write("POLYGON ");
+		for (i=0; i<nVertices; ++i) {
+			out.write("("+vertices[i].x+" "+vertices[i].y+") ");
 		
 		}
-		out.write(p.toString(extensions));
+		out.write(";\n");
+		
+		*/
+		
+		out.write("# Polygon export not implemented yet\n");
+
 	}
+		
+	/** Called when exporting a Rectangle primitive.
+			
+		@param x1 the x position of the first corner
+		@param y1 the y position of the first corner
+		@param x2 the x position of the second corner
+		@param y2 the y position of the second corner
+		@param isFilled it is true if the rectangle should be filled
+		
+		@param layer the layer that should be used
+		@param dashStyle dashing style
+		@param strokeWidth the width of the pen to be used when drawing
+
+
+	*/
+	public void exportRectangle(int x1, int y1, int x2, int y2,
+		boolean isFilled, int layer, int dashStyle, double strokeWidth)
+		throws IOException
+	{ 
+		
+		//LayerDesc l=(LayerDesc)layerV.get(layer);
+		//ColorInterface c=l.getColor();
+		
+		out.write("Layer 94;\n");
+		
+		if(isFilled) {
+			out.write("Rect ("+een(x1*res)+" "+een((dim.height-y1)*res)+
+				  ") ("+een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
+		} else {
+			out.write("Set Wire_Bend 0;\n");
+			out.write("Wire ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
+			een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
+			out.write("Wire ("+een(x2*res)+" "+een((dim.height-y2)*res)+") ("+
+			een(x1*res)+" "+een((dim.height-y1)*res)+");\n");
+			out.write("Set Wire_Bend 2;\n");
+		}
+		
+		out.write("Layer 91;\n");
+	}
+	
 	/**	Called when exporting a Curve primitive
 	
 		@param vertices array containing the position of each vertex
@@ -460,45 +513,7 @@ public class ExportFidoCad implements ExportInterface {
 		double strokeWidth)
 		throws IOException
 	{
-		PrimitiveComplexCurve p=new PrimitiveComplexCurve(isFilled, isClosed,
-			layer, 
-			arrowStart,
-			arrowEnd,arrowStyle,
-			cLe(arrowLength),
-			cLe(arrowHalfWidth),
-			dashStyle,
-			textFont, textFontSize);
-		
-		for (int i=0; i <nVertices; ++i) {
-			p.addPoint(cLe(vertices[i].x), 
-				cLe(vertices[i].y));
-		}
-		out.write(p.toString(extensions));
-		
-		return true;
-	}
-	
-	/** Called when exporting a Rectangle primitive.
-			
-		@param x1 the x position of the first corner
-		@param y1 the y position of the first corner
-		@param x2 the x position of the second corner
-		@param y2 the y position of the second corner
-		@param isFilled it is true if the rectangle should be filled
-		
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-
-	*/
-	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		out.write(new PrimitiveRectangle(cLe(x1), 
-			cLe(y1), cLe(x2), 
-			cLe(y2), isFilled, 
-			layer, dashStyle,
-			textFont, textFontSize).toString(extensions));
+		return false;
 	}
 	
 	/** Called when exporting an arrow.
@@ -516,5 +531,22 @@ public class ExportFidoCad implements ExportInterface {
 		throws IOException
 	{
 		// Does nothing, since it will not be useful here.
+	}
+
+	/**	Export a number: truncate it to four decimals
+	
+	*/
+	private String een(double n)
+	{
+		// Force the Java system to use ALWAYS the dot as a decimal separator,
+		// regardless the locale settings (in Italy and France, the
+		// decimal separator is the comma).
+		
+		DecimalFormatSymbols separators = new DecimalFormatSymbols();
+		separators.setDecimalSeparator('.');
+
+        DecimalFormat exportFormat = new DecimalFormat(ExportFormatString,
+        	separators);
+        return exportFormat.format(n);
 	}
 }

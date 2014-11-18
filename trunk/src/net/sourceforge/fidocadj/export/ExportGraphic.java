@@ -1,4 +1,4 @@
-package export;
+package net.sourceforge.fidocadj.export;
 
 import javax.imageio.*;
 import java.io.*;

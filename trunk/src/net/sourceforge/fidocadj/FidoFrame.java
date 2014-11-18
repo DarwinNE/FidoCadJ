@@ -26,7 +26,7 @@ import net.sourceforge.fidocadj.FidoMain;
 import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import layers.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import circuit.*;
 import circuit.controllers.*;
 import graphic.*;

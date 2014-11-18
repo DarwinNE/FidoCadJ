@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import export.ExportGraphic;
+import net.sourceforge.fidocadj.export.ExportGraphic;
 import geom.MapCoordinates;
 import globals.Globals;
 import globals.LibUtils;

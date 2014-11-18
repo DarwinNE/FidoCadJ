@@ -12,7 +12,7 @@ import java.awt.event.*;
 
 import geom.*;
 import net.sourceforge.fidocadj.dialogs.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import globals.*;
 import graphic.*;
 import graphic.nil.*;

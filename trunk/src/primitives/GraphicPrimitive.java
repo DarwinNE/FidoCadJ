@@ -7,7 +7,7 @@ import layers.*;
 import net.sourceforge.fidocadj.dialogs.ParameterDescription;
 import net.sourceforge.fidocadj.dialogs.LayerInfo;
 import geom.*;
-import export.*;
+import net.sourceforge.fidocadj.export.*;
 import globals.*;
 import graphic.*;
 
