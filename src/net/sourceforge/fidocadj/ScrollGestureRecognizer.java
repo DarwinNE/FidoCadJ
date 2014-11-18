@@ -22,25 +22,30 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     private static ScrollGestureRecognizer instance = new 
     ScrollGestureRecognizer(); 
     
-    public ScrollGestureRecognizer(){ 
+    public ScrollGestureRecognizer()
+    { 
         start(); 
     } 
     
-    public static ScrollGestureRecognizer getInstance(){ 
+    public static ScrollGestureRecognizer getInstance()
+    { 
         return instance; 
     } 
     
     
-    void start(){ 
+    void start()
+    { 
     	Toolkit.getDefaultToolkit().addAWTEventListener(this, 
     	AWTEvent.MOUSE_EVENT_MASK); 
     } 
     
-    void stop(){ 
+    void stop()
+    { 
         Toolkit.getDefaultToolkit().removeAWTEventListener(this); 
     } 
     
-    public void eventDispatched(AWTEvent event){ 
+    public void eventDispatched(AWTEvent event)
+    { 
         MouseEvent me = (MouseEvent)event; 
         boolean isGesture = (SwingUtilities.isMiddleMouseButton(me) || 
         actionSelected==ElementsEdtActions.HAND) && 
@@ -75,7 +80,6 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     /** ChangeSelectionListener interface implementation */    
     public void setSelectionState(int s, String macro)
     {
- 
         actionSelected=s;
     }
     
@@ -92,12 +96,9 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     /** Get the current editing action (see the constants defined in this class)
     
         @return the current editing action
-    
     */
     public int getSelectionState()
     {
         return actionSelected;
-    }   
-    
-    
+    }
 }

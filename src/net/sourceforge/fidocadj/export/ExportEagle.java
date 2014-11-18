@@ -517,13 +517,13 @@ public class ExportEagle implements ExportInterface {
 	}
 	
 	/** Called when exporting an arrow.
-		@param x 
-		@param y
-		@param xc
-		@param yc
-		@param l
-		@param h
-		@param style
+		@param x position of the tip of the arrow
+		@param y position of the tip of the arrow
+		@param xc direction of the tip of the arrow
+		@param yc direction of the tip of the arrow
+		@param l length of the arrow
+		@param h width of the arrow
+		@param style style of the arrow
 	*/
 	public void exportArrow(double x, double y, double xc, double yc, 
 		double l, double h, 

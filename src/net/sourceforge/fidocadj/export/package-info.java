@@ -5,4 +5,4 @@
 	image size and so on).
 */
 
-package export;
+package net.sourceforge.fidocadj.export;

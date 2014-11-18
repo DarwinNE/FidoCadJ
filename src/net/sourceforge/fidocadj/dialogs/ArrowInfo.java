@@ -30,12 +30,13 @@ public class ArrowInfo
 {
     public int style;
     
+    /** Standard constructor: specify the style to be used.
+    */
     public ArrowInfo(int i)
     { style=i; }
     
     /** Obtain the style of the arrow.
     	@return the arrow style.
-    
     */
     public int getStyle()
     { return style; }

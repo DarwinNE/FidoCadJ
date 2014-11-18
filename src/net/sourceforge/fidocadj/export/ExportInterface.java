@@ -291,29 +291,25 @@ public interface ExportInterface {
 		@param x2 the x position of the second corner
 		@param y2 the y position of the second corner
 		@param isFilled it is true if the rectangle should be filled
-		
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
 	*/
 	public void exportRectangle(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
 		throws IOException;
 		
 	/** Called when exporting an arrow.
-		@param x 
-		@param y
-		@param xc
-		@param yc
-		@param l
-		@param h
-		@param style
+		@param x position of the tip of the arrow
+		@param y position of the tip of the arrow
+		@param xc direction of the tip of the arrow
+		@param yc direction of the tip of the arrow
+		@param l length of the arrow
+		@param h width of the arrow
+		@param style style of the arrow
 	*/
 	public void exportArrow(double x, double y, double xc, double yc, 
 		double l, double h, 
 		int style)
 		throws IOException;
-
 }

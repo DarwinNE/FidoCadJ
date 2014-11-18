@@ -38,7 +38,6 @@ public class CellArrow extends JPanel
 	private final boolean isSelected;
 	private final ArrowInfo arrow;
 	private final JList list;
-
 	
 	/** Constructor. The user should provide the list in which the element is 
     	used, information about the arrow style as well as the selection 
@@ -57,6 +56,9 @@ public class CellArrow extends JPanel
 		setPreferredSize(new Dimension(50,18));
 	}
 	
+	/** Paint the arrow in the panel, using the current style.
+		@param g the graphic context.
+	*/
 	public void paintComponent(Graphics g)
 	{
 		g.setColor(isSelected ? list.getSelectionBackground(): 
@@ -69,13 +71,5 @@ public class CellArrow extends JPanel
         g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
 		Arrow.drawArrow(new Graphics2DSwing(g), getWidth()/3, getHeight()/2,
 			2*getWidth()/3, getHeight()/2, 10, 4, arrow.style);
-		
-		
-		/*
-		g.drawString(layer.getDescription(), 5*getHeight()/4, 
-			(int)(3.8*getHeight()/5));
-		*/
-	}
-	
-	
+	}	
 }
