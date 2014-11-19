@@ -10,3 +10,4 @@ Exec=fidocadj %u
 Terminal=false
 MultipleArgs=false
 StartupNotify=false
+MimeType=application/x-fidocadj;
