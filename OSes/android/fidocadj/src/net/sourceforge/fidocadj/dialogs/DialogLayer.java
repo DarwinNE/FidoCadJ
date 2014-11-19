@@ -26,7 +26,7 @@ import android.widget.Switch;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 
-import layers.LayerDesc;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import graphic.android.ColorAndroid;
 
 /**

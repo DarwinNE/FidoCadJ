@@ -18,7 +18,8 @@
 package net.sourceforge.fidocadj.layermodel;
 
 import java.util.*;
-import layers.LayerDesc;
+
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import circuit.model.DrawingModel;
 
 /**

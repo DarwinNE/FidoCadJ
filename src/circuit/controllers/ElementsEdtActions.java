@@ -3,10 +3,10 @@ package circuit.controllers;
 import java.io.*;
 import java.util.Vector;
 
+import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
 import circuit.model.*;
-import layers.*;
 import graphic.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements

@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 
 /** 
 	

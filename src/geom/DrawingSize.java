@@ -1,10 +1,9 @@
 package geom;
 
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import graphic.*;
 import graphic.nil.*;
-
 import circuit.*;
 import circuit.controllers.*;
 import circuit.model.*;

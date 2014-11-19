@@ -1,4 +1,4 @@
-package layers;
+package net.sourceforge.fidocadj.layers;
 
 import android.graphics.*;
 
@@ -7,7 +7,6 @@ import java.util.Vector;
 import android.content.Context;
 import android.content.res.Resources;
 import graphic.android.*;
-import layers.*;
 import net.sourceforge.fidocadj.*;
 
 

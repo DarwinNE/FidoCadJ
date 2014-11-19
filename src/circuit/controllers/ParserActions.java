@@ -6,8 +6,8 @@ import java.net.*;
 
 import primitives.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import circuit.*;
 import circuit.model.*;
 import graphic.*;

@@ -2,7 +2,7 @@ package graphic.nil;
 
 import graphic.*;
 import geom.*;
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 
 import android.graphics.*;
 import android.graphics.Paint.*;

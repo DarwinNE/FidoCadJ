@@ -5,7 +5,7 @@ import android.graphics.Paint.*;
 
 import graphic.*;
 import geom.*;
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
 
 

@@ -1,21 +1,23 @@
 package net.sourceforge.fidocadj.export;
 
 import javax.imageio.*;
+
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.layers.*;
+
 import java.awt.event.*;
 import java.util.*;
 import java.lang.*; 
 
-
 import globals.*;
-import layers.*;
 import graphic.*;
 import graphic.swing.*;
 import graphic.nil.*;
-
 import geom.*;
 import circuit.*;
 import circuit.controllers.*;

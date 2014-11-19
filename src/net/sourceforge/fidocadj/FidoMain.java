@@ -1,6 +1,7 @@
 package net.sourceforge.fidocadj;
 
 import javax.swing.*;
+
 import java.util.prefs.*;
 import java.io.*;
 import java.util.*;
@@ -12,9 +13,9 @@ import circuit.*;
 import circuit.controllers.*;
 import circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.timer.*;
 import graphic.*;
-import layers.*;
 import geom.*;
 
 /** FidoMain.java 

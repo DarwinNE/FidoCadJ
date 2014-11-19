@@ -3,7 +3,7 @@ package globals;
 import java.util.*;
 import java.io.*;
 
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 import graphic.*;
 
 /* Globals.java

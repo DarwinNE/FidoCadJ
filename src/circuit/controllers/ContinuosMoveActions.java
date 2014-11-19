@@ -2,12 +2,11 @@ package circuit.controllers;
 
 import java.io.*;
 
+import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
 import circuit.model.*;
-import layers.StandardLayers;
 import globals.*;
-import layers.*;
 
 /** Extends ElementsEdtActions in order to support those events such as 
 	MouseMove, which require a continuous interaction and an immediate

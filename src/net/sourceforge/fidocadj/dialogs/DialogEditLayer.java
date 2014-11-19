@@ -3,14 +3,16 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.*;
+
 import javax.swing.event.*;
 import javax.swing.colorchooser.*;
 
-
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import graphic.*;
 import graphic.swing.*;
 

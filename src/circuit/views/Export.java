@@ -4,10 +4,10 @@ import java.io.*;
 
 import geom.*;
 import primitives.*;
-import layers.*;
 import circuit.model.*;
 import graphic.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 
 /** Export: export the FidoCadJ drawing. This is a view of the drawing.
     

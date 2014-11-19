@@ -2,11 +2,14 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.layers.*;
+
 import java.util.*;
 
 import globals.*;
-import layers.*;
 
 /** List and choose the layer to be edited.
     The class dialogLayer allows to choose which layers should be displayed,

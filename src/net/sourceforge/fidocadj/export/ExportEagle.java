@@ -4,9 +4,9 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
+import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import globals.*;
-import layers.*;
 import graphic.*;
 
 

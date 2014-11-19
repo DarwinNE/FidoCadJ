@@ -4,8 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import primitives.*;
 import graphic.*;
 import graphic.*;

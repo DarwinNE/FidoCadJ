@@ -1,4 +1,4 @@
-package layers;
+package net.sourceforge.fidocadj.layers;
 
 import graphic.*;
 

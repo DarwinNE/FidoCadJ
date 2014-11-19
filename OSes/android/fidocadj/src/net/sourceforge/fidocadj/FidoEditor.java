@@ -20,7 +20,7 @@ import geom.*;
 import circuit.views.*;
 import circuit.controllers.*;
 import graphic.android.*;
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.dialogs.*;
 
 /** Android Editor view: draw the circuit inside this view. This is one of the
