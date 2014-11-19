@@ -3,11 +3,11 @@ package primitives;
 import java.io.*;
 import java.util.*;
 
-import layers.*;
 import net.sourceforge.fidocadj.dialogs.ParameterDescription;
 import net.sourceforge.fidocadj.dialogs.LayerInfo;
 import geom.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
 import graphic.*;
 

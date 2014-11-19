@@ -3,7 +3,9 @@ package circuit;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.*;
 import java.io.*;
 
@@ -13,14 +15,14 @@ import net.sourceforge.fidocadj.dialogs.*;
 import primitives.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.toolbars.*;
-import layers.*;
 import net.sourceforge.fidocadj.clipboard.*;
-import circuit.controllers.*;
 import circuit.views.*;
+import circuit.controllers.*;
 import circuit.model.*;
 import graphic.*;
 import graphic.swing.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 
     important components, as it is responsible of all editing actions.

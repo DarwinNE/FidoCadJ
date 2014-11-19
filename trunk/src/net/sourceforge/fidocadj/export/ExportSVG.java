@@ -3,8 +3,8 @@ package net.sourceforge.fidocadj.export;
 import java.util.*;
 import java.io.*;
 
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import primitives.*;
 import graphic.*;
 

@@ -1,6 +1,7 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import net.sourceforge.fidocadj.export.ExportGraphic;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import geom.MapCoordinates;
 import globals.Globals;
 import globals.LibUtils;
@@ -12,7 +13,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
@@ -25,15 +25,13 @@ import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import layers.LayerDesc;
-
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
 import primitives.PrimitiveMacro;
 import circuit.CircuitPanel;
-import circuit.model.DrawingModel;
 import circuit.controllers.EditorActions;
 import circuit.controllers.ParserActions;
+import circuit.model.DrawingModel;
 
 
 /** Choose file format, size and options of the graphic exporting.

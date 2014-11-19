@@ -2,9 +2,12 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.layers.*;
+
 import java.util.*;
-import layers.*;
 
 /** The class LayerCellRenderer is used in the layer list in order to 
 	show the characteristics of each layer (visibility, color).

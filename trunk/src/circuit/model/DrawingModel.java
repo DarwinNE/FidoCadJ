@@ -2,12 +2,11 @@ package circuit.model;
 
 import java.util.*;
 
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
+import circuit.controllers.UndoActions;
 import primitives.*;
 import geom.*;
 import graphic.*;
-
-import circuit.controllers.UndoActions;
 
 /**
 	Database of the FidoCadJ drawing. This is the "model" in the 

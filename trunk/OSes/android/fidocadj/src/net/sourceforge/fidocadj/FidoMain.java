@@ -47,7 +47,7 @@ import net.sourceforge.fidocadj.dialogs.DialogAbout;
 import net.sourceforge.fidocadj.dialogs.DialogLayer;
 import net.sourceforge.fidocadj.dialogs.DialogOpenFile;
 import net.sourceforge.fidocadj.dialogs.DialogSaveName;
-import layers.LayerDesc;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import graphic.android.ColorAndroid;
 import geom.MapCoordinates;
 import geom.DrawingSize;

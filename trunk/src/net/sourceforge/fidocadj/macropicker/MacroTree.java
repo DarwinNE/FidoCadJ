@@ -20,20 +20,20 @@ package net.sourceforge.fidocadj.macropicker;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.tree.*;
 
 import circuit.CircuitPanel;
+import circuit.controllers.ElementsEdtActions;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import geom.DrawingSize;
 import geom.MapCoordinates;
 import primitives.MacroDesc;
 import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
-import circuit.controllers.ElementsEdtActions;
 import globals.Globals;
-
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 import net.sourceforge.fidocadj.librarymodel.Library;
 import net.sourceforge.fidocadj.librarymodel.Category;

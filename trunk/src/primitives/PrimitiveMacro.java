@@ -10,8 +10,8 @@ import circuit.model.*;
 import circuit.views.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import layers.*;
 import graphic.*;
 
 

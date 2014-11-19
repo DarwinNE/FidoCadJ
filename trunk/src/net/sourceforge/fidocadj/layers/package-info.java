@@ -4,4 +4,4 @@
   net.sourceforge.fidocadj.layermodel in the future.
 */
 
-package layers;
+package net.sourceforge.fidocadj.layers;

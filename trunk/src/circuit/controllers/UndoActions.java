@@ -6,9 +6,8 @@ import java.net.*;
 
 import net.sourceforge.fidocadj.undo.*;
 import circuit.*;
-import circuit.controllers.*;
 import globals.FileUtils;
-
+import circuit.controllers.*;
 import circuit.model.*;
 
 /** UndoActions: perform undo operations. Since some parsing operations are

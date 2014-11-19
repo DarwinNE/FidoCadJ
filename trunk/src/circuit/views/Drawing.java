@@ -2,8 +2,8 @@ package circuit.views;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.layers.*;
 import geom.*;
-import layers.*;
 import primitives.*;
 import globals.*;
 import graphic.*;

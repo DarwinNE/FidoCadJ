@@ -2,10 +2,11 @@ package graphic.nil;
 
 import graphic.*;
 import geom.*;
-import layers.*;
 
 import java.awt.*;
 import java.awt.image.*;
+
+import net.sourceforge.fidocadj.layers.*;
 
 
 /**			SWING VERSION

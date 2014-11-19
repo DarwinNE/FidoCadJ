@@ -1,7 +1,7 @@
 package graphic;
 
+import net.sourceforge.fidocadj.layers.*;
 import geom.*;
-import layers.*;
 
 /** Provides a general way to draw on the screen.
    

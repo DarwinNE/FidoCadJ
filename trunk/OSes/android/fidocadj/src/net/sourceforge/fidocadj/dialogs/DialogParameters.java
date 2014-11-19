@@ -40,7 +40,7 @@ import android.widget.Space;
 
 import net.sourceforge.fidocadj.R;
 
-import layers.LayerDesc;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import globals.Globals;
 import graphic.FontG;
 import graphic.PointG;

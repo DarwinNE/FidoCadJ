@@ -2,7 +2,7 @@ package circuit.controllers;
 
 import java.util.*;
 
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
 import circuit.*;

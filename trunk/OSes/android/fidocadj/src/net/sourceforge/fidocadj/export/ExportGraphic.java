@@ -6,7 +6,7 @@ import java.lang.*;
 
 
 import globals.*;
-import layers.*;
+import net.sourceforge.fidocadj.layers.*;
 import graphic.*;
 import graphic.nil.*;
 

@@ -2,15 +2,17 @@ package net.sourceforge.fidocadj;
 
 import java.awt.*;
 import java.applet.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.layers.*;
+
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-
 import circuit.*;
 import circuit.controllers.*;
-import layers.*;
 import globals.*;
 
 

@@ -25,7 +25,6 @@ import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
 import net.sourceforge.fidocadj.FidoFrame;
-
 import circuit.CircuitPanel;
 import circuit.controllers.ParserActions;
 import circuit.model.DrawingModel;

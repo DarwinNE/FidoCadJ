@@ -8,6 +8,7 @@ import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.awt.dnd.*;
 import java.awt.datatransfer.*;
 import java.io.*;
@@ -25,7 +26,6 @@ import java.util.zip.ZipInputStream;
 import net.sourceforge.fidocadj.FidoMain;
 import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
-import layers.*;
 import net.sourceforge.fidocadj.export.*;
 import circuit.*;
 import circuit.controllers.*;
@@ -38,6 +38,7 @@ import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.macropicker.MacroTree;
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 import net.sourceforge.fidocadj.layermodel.LayerModel;
+import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.librarymodel.utils.CircuitPanelUpdater;
 import net.sourceforge.fidocadj.librarymodel.utils.LibraryUndoExecutor;
 

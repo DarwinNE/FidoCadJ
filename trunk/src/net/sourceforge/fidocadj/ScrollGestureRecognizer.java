@@ -2,12 +2,13 @@ package net.sourceforge.fidocadj;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
 import circuit.*;
-import net.sourceforge.fidocadj.toolbars.*;
 import circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.toolbars.*;
 
 
 /** @author Santhosh Kumar T - santhosh@in.fiorano.com 
