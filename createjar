@@ -1,32 +1,6 @@
 #!/bin/bash
 cd bin
-jar cvfm fidocadj.jar ../jar/Manifest.txt *.class *.properties \
-	net/sourceforge/fidocadj/toolbars/icons16/*.* \
-	net/sourceforge/fidocadj/toolbars/icons32/*.* \
-	program_icons/*.* \
-	circuit/*.class \
-	circuit/controllers/*.class \
-	circuit/model/*.class \
-	circuit/views/*.class \
-	clipboard/*.class \
-	dialogs/*.class \
-	dialogs/program_icons/*.* \
-	net/sourceforge/fidocadj/export/*.class \
-	geom/*.class \
-	globals/*.class \
-	layers/*.class \
-	primitives/*.class \
-	net/sourceforge/fidocadj/timer/*.class net/sourceforge/fidocadj/toolbars/*.class \
-	undo/*.class graphic/*.class \
-	graphic/swing/*.class graphic/nil/*.class \
-	net/sourceforge/fidocadj/lib/*.* \
-	net/sourceforge/fidocadj/*.class \
-	net/sourceforge/fidocadj/layermodel/*.class \
-	net/sourceforge/fidocadj/librarymodel/*.class \
-	net/sourceforge/fidocadj/librarymodel/event/*.class \
-	net/sourceforge/fidocadj/librarymodel/utils/*.class \
-	net/sourceforge/fidocadj/macropicker/*.class \
-	net/sourceforge/fidocadj/macropicker/model/*.class
+jar cvfm fidocadj.jar ../jar/Manifest.txt * **/*
 	
 jar i fidocadj.jar
 mv fidocadj.jar ../jar
