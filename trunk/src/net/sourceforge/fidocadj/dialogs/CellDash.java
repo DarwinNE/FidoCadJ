@@ -80,7 +80,8 @@ public class CellDash extends JPanel
         BasicStroke dashed = new BasicStroke(1, 
                                           BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 
-                                          10.0f, Globals.dash[dash.style], 0.0f);
+                                          10.0f, Globals.dash[dash.style],
+                                          0.0f);
                                          
         ((Graphics2D) g).setStroke(dashed);
         g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
