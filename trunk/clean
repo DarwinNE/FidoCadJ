@@ -1,24 +1,5 @@
 #!/bin/bash
-rm bin/net/sourceforge/fidocadj/*.class
-rm bin/net/sourceforge/fidocadj/layermodel/*.class
-rm bin/net/sourceforge/fidocadj/librarymodel/*.class
-rm bin/net/sourceforge/fidocadj/librarymodel/util/*.class
-rm bin/net/sourceforge/fidocadj/macropicker/*.class
-rm bin/net/sourceforge/fidocadj/macropicker/model/*.class
-rm bin/circuit/*.class
-rm bin/circuit/controllers/*.class
-rm bin/circuit/views/*.class
-rm bin/net/sourceforge/fidocadj/clipboard/*.class
-rm bin/net/sourceforge/fidocadj/dialogs/*.class
-rm bin/net/sourceforge/fidocadj/export/*.class
-rm bin/geom/*.class
-rm bin/globals/*.class
-rm bin/layers/*.class
-rm bin/primitives/*.class
-rm bin/net/sourceforge/fidocadj/timer/*.class
-rm bin/net/sourceforge/fidocadj/toolbars/*.class
-rm bin/net/sourceforge/fidocadj/undo/*.class
-rm bin/graphic/*.class
-rm bin/graphic/swing/*.class
-rm bin/graphic/nil/*.class
 
+(cd bin
+ find -name *.class -delete
+)
