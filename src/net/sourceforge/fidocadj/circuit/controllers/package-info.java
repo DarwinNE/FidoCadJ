@@ -5,4 +5,4 @@
  undo operations (with some limitations when libraries are taken into account)
  as well as interaction with the pointing device.
  */
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;

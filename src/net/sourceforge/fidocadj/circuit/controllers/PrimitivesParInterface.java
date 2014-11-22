@@ -1,4 +1,4 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 /**  PrimitivesParInterface specifies some actions useful to modify
 	characteristics of primitives.

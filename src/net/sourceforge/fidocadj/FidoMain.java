@@ -9,9 +9,9 @@ import java.awt.*;
 import java.lang.reflect.*;
 
 import globals.*;
-import circuit.*;
-import circuit.controllers.*;
-import circuit.model.*;
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.timer.*;

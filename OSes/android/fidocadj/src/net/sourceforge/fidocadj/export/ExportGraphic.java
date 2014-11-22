@@ -11,10 +11,9 @@ import graphic.*;
 import graphic.nil.*;
 
 import geom.*;
-import circuit.*;
-import circuit.controllers.*;
-import circuit.model.*;
-import circuit.views.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.circuit.views.*;
 
 /** 		ANDROID VERSION - now empty!
 

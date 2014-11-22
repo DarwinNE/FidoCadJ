@@ -19,15 +19,15 @@
 
 package net.sourceforge.fidocadj.librarymodel.utils;
 
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
 import net.sourceforge.fidocadj.librarymodel.event.AddEvent;
 import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
 import net.sourceforge.fidocadj.FidoFrame;
-import circuit.CircuitPanel;
-import circuit.controllers.ParserActions;
-import circuit.model.DrawingModel;
 
 public class CircuitPanelUpdater implements LibraryListener
 {

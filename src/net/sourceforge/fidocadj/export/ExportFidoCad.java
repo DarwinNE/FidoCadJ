@@ -4,10 +4,10 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import circuit.controllers.*;
-import circuit.model.*;
 import graphic.*;
 import primitives.*;
 

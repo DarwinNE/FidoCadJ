@@ -1,13 +1,13 @@
-package circuit.views;
+package net.sourceforge.fidocadj.circuit.views;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
 import geom.*;
 import primitives.*;
 import globals.*;
 import graphic.*;
-import circuit.model.*;
 
 /** Drawing: draws the FidoCadJ drawing. This is a view of the drawing.
     

@@ -1,12 +1,12 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
-import circuit.*;
-import circuit.model.*;
 
 /** EditorActions: contains a controller which can perform basic editor actions
 	on a primitive database. Those actions include rotating and mirroring

@@ -1,15 +1,15 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 import java.util.*;
 import java.net.*;
 
 import primitives.*;
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.layers.*;
 import globals.*;
-import circuit.*;
-import circuit.model.*;
 import graphic.*;
 
 /** ParserActions: perform parsing of FidoCadJ code.

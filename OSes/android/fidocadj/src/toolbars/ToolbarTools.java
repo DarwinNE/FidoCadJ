@@ -11,7 +11,7 @@ import android.app.Activity;
 
 import net.sourceforge.fidocadj.dialogs.DialogLayer;
 import net.sourceforge.fidocadj.*;
-import circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
 
 
 /** ANDROID VERSION.
