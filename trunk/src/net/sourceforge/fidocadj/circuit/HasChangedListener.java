@@ -1,4 +1,4 @@
-package circuit;
+package net.sourceforge.fidocadj.circuit;
 
 /**	Interface used to callback notify that something has changed
 	<pre>

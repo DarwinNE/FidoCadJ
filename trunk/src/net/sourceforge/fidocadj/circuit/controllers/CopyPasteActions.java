@@ -1,7 +1,7 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
-import circuit.*;
-import circuit.model.*;
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import globals.*;
 
 

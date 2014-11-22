@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.*;
 
 import geom.*;
-import circuit.*;
-import circuit.controllers.*;
-import circuit.model.*;
-import circuit.views.*;
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.layers.*;

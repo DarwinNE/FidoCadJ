@@ -22,12 +22,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
-import circuit.model.DrawingModel;
+
 import primitives.MacroDesc;
 import globals.LibUtils;
 import globals.Globals;
 import net.sourceforge.fidocadj.undo.UndoActorListener;
-
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.librarymodel.event.*;
 
 // TODO: comment public methods

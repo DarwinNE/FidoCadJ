@@ -1,12 +1,12 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 import java.util.Vector;
 
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
-import circuit.model.*;
 import graphic.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements

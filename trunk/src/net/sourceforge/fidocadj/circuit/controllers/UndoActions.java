@@ -1,14 +1,14 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 import java.util.*;
 import java.net.*;
 
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.undo.*;
-import circuit.*;
 import globals.FileUtils;
-import circuit.controllers.*;
-import circuit.model.*;
 
 /** UndoActions: perform undo operations. Since some parsing operations are
 	to be done, this class requires the ParserActions controller.

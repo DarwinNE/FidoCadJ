@@ -56,8 +56,8 @@ import toolbars.ToolbarTools;
 import globals.AccessResources;
 import globals.Globals;
 import globals.ProvidesCopyPasteInterface;
-import circuit.controllers.ContinuosMoveActions;
-import circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.controllers.ContinuosMoveActions;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
 
 import net.sourceforge.fidocadj.librarymodel.Category;
 import net.sourceforge.fidocadj.librarymodel.Library;

@@ -1,11 +1,11 @@
-package circuit.views;
+package net.sourceforge.fidocadj.circuit.views;
 
 import java.io.*;
 
 import geom.*;
 import primitives.*;
-import circuit.model.*;
 import graphic.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.layers.*;
 

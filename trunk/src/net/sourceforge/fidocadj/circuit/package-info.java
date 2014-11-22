@@ -4,4 +4,4 @@
  packages for implementing things such as the graphical primitives to be
  drawn.
 */
-package circuit.model;
+package net.sourceforge.fidocadj.circuit;

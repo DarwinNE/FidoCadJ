@@ -6,12 +6,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+
 import java.util.*;
 import java.net.*;
 
 import globals.*;
-import circuit.*;
-import circuit.controllers.ElementsEdtActions;
 
 /** SWING VERSION.
  ToolbarTools class

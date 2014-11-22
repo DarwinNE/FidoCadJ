@@ -1,4 +1,4 @@
-package circuit;
+package net.sourceforge.fidocadj.circuit;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -15,10 +15,10 @@ import net.sourceforge.fidocadj.dialogs.*;
 import primitives.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.toolbars.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.clipboard.*;
-import circuit.views.*;
-import circuit.controllers.*;
-import circuit.model.*;
 import graphic.*;
 import graphic.swing.*;
 import net.sourceforge.fidocadj.export.*;

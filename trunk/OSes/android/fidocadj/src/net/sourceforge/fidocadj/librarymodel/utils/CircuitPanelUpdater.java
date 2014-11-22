@@ -25,8 +25,8 @@ import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
 
-import circuit.controllers.ParserActions;
-import circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 
 public class CircuitPanelUpdater implements LibraryListener
 {

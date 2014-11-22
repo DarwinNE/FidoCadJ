@@ -6,8 +6,8 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import circuit.*;
-import circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
 import net.sourceforge.fidocadj.toolbars.*;
 
 

@@ -8,6 +8,10 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.layers.*;
 
 import java.awt.event.*;
@@ -19,10 +23,6 @@ import graphic.*;
 import graphic.swing.*;
 import graphic.nil.*;
 import geom.*;
-import circuit.*;
-import circuit.controllers.*;
-import circuit.model.*;
-import circuit.views.*;
 
 /** ExportGraphic.java
 

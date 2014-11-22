@@ -2,13 +2,16 @@ package net.sourceforge.fidocadj.toolbars;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
+
+import net.sourceforge.fidocadj.circuit.*;
+
 import java.util.*;
 import java.net.*;
 
 import globals.*;
-import circuit.*;
 
 /**
  	ToolButton class

@@ -1,11 +1,11 @@
-package circuit.controllers;
+package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
 import primitives.*;
 import geom.*;
-import circuit.model.*;
 import globals.*;
 
 /** Extends ElementsEdtActions in order to support those events such as 

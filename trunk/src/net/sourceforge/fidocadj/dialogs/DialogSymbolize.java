@@ -1,5 +1,9 @@
 package net.sourceforge.fidocadj.dialogs;
 
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.layers.LayerDesc;
 import geom.MapCoordinates;
@@ -28,10 +32,6 @@ import javax.swing.border.Border;
 import primitives.GraphicPrimitive;
 import primitives.MacroDesc;
 import primitives.PrimitiveMacro;
-import circuit.CircuitPanel;
-import circuit.controllers.EditorActions;
-import circuit.controllers.ParserActions;
-import circuit.model.DrawingModel;
 
 
 /** Choose file format, size and options of the graphic exporting.

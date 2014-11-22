@@ -1,9 +1,9 @@
-package circuit.model;
+package net.sourceforge.fidocadj.circuit.model;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
 import net.sourceforge.fidocadj.layers.*;
-import circuit.controllers.UndoActions;
 import primitives.*;
 import geom.*;
 import graphic.*;
