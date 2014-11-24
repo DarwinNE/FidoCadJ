@@ -1,4 +1,4 @@
-package primitives;
+package net.sourceforge.fidocadj.primitives;
 /** Class MacroDesc provides a standard description of the macro. It provides
 	its name, its description and its category 
 

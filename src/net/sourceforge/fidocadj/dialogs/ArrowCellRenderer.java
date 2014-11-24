@@ -2,9 +2,12 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.primitives.*;
+
 import java.util.*;
-import primitives.*;
 
 /** The class ArrowCellRenderer is used in the arrow list.
 

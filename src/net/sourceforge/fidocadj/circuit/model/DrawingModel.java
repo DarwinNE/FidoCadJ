@@ -4,7 +4,7 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
 import net.sourceforge.fidocadj.layers.*;
-import primitives.*;
+import net.sourceforge.fidocadj.primitives.*;
 import geom.*;
 import graphic.*;
 

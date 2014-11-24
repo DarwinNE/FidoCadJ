@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.os.Handler;
 import android.app.Activity;
 import net.sourceforge.fidocadj.circuit.model.*;
-import primitives.*;
+import net.sourceforge.fidocadj.primitives.*;
 import geom.*;
 import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;

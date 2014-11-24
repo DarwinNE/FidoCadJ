@@ -4,8 +4,8 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.primitives.*;
 import geom.*;
-import primitives.*;
 import globals.*;
 import graphic.*;
 

@@ -1,4 +1,4 @@
-package primitives;
+package net.sourceforge.fidocadj.primitives;
 
 import java.io.*;
 import java.util.*;

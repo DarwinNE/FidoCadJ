@@ -6,6 +6,9 @@ import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
 import geom.MapCoordinates;
 import globals.Globals;
 import globals.LibUtils;
@@ -28,10 +31,6 @@ import java.util.LinkedList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-
-import primitives.GraphicPrimitive;
-import primitives.MacroDesc;
-import primitives.PrimitiveMacro;
 
 
 /** Choose file format, size and options of the graphic exporting.

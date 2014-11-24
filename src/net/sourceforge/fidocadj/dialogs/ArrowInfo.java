@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import primitives.*;
+import net.sourceforge.fidocadj.primitives.*;
 
 /** This class contains information about the arrow style. It is useful 
     for the automatic generation of the properties dialog.

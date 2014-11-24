@@ -16,14 +16,9 @@ import java.util.TreeSet;
 import java.util.prefs.Preferences;
 import java.util.Locale;
 
-import primitives.GraphicPrimitive;
-import primitives.MacroDesc;
-
-import primitives.GraphicPrimitive;
-import primitives.MacroDesc;
-
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 import net.sourceforge.fidocadj.undo.*;
-
 import net.sourceforge.fidocadj.FidoMain;
 
 /** Class to handle library files and databases.

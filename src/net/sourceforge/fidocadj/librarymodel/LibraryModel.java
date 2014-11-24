@@ -23,12 +23,13 @@ import java.io.IOException;
 
 
 
-import primitives.MacroDesc;
+
 import globals.LibUtils;
 import globals.Globals;
 import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.librarymodel.event.*;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 // TODO: comment public methods
 // NOTE: This model has no adding macro method.

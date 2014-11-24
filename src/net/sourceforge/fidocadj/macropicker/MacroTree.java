@@ -31,7 +31,6 @@ import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import geom.DrawingSize;
 import geom.MapCoordinates;
-import primitives.MacroDesc;
 import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
 import globals.Globals;
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
@@ -42,6 +41,7 @@ import net.sourceforge.fidocadj.librarymodel.event.LibraryListenerAdapter;
 import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
 import net.sourceforge.fidocadj.macropicker.model.MacroTreeModel;
 import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 /**
 * Library view component.<br>
