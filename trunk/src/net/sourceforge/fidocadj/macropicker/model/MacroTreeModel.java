@@ -18,12 +18,11 @@
 package net.sourceforge.fidocadj.macropicker.model;
 
 import java.util.*;
+
 import javax.swing.event.*;
 import javax.swing.tree.*;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalIconFactory;
-
-import primitives.MacroDesc;
 
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 import net.sourceforge.fidocadj.librarymodel.Library;
@@ -33,6 +32,7 @@ import net.sourceforge.fidocadj.librarymodel.event.AddEvent;
 import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 /**
 * JTree model for showing macro library.

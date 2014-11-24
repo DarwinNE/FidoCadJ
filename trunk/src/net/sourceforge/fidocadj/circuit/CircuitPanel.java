@@ -12,7 +12,7 @@ import java.io.*;
 import globals.*;
 import geom.*;
 import net.sourceforge.fidocadj.dialogs.*;
-import primitives.*;
+import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.toolbars.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;

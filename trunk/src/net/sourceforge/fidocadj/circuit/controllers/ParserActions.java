@@ -4,11 +4,11 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
-import primitives.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.primitives.*;
 import globals.*;
 import graphic.*;
 

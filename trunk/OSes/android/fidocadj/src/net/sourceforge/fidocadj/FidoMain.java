@@ -51,7 +51,7 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
 import graphic.android.ColorAndroid;
 import geom.MapCoordinates;
 import geom.DrawingSize;
-import primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 import toolbars.ToolbarTools;
 import globals.AccessResources;
 import globals.Globals;

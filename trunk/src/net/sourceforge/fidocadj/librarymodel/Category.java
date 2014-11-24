@@ -18,7 +18,8 @@
 package net.sourceforge.fidocadj.librarymodel;
 
 import java.util.*;
-import primitives.MacroDesc;
+
+import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 public class Category
 {

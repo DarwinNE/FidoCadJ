@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import net.sourceforge.fidocadj.layers.*;
-import primitives.*;
+import net.sourceforge.fidocadj.primitives.*;
 import graphic.*;
 
 /** ExportInterface.java 

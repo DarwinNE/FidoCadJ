@@ -7,9 +7,9 @@ import java.text.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.primitives.*;
 import globals.*;
 import graphic.*;
-import primitives.*;
 
 
 /** 

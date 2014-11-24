@@ -4,4 +4,4 @@
 	calculate their size and so on.
 */
 
-package primitives;
+package net.sourceforge.fidocadj.primitives;

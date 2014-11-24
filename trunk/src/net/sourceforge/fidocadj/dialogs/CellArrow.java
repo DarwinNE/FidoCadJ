@@ -2,10 +2,13 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.primitives.*;
+
 import java.util.*;
 
-import primitives.*;
 import graphic.*;
 import graphic.swing.*;
 

@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.dialogs;
 
 import graphic.android.ColorAndroid;
 import graphic.android.GraphicsAndroid;
-import primitives.Arrow;
+import net.sourceforge.fidocadj.primitives.Arrow;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
