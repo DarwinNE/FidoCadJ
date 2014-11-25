@@ -10,8 +10,8 @@ import java.util.*;
 
 import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
-import geom.*;
 
 
 /**

@@ -1,4 +1,4 @@
-package geom;
+package net.sourceforge.fidocadj.geom;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;

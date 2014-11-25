@@ -3,9 +3,9 @@ package net.sourceforge.fidocadj.circuit.controllers;
 import java.io.*;
 
 import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import geom.*;
 import globals.*;
 
 /** Extends ElementsEdtActions in order to support those events such as 

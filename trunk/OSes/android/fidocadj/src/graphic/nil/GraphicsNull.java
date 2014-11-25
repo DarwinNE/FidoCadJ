@@ -1,7 +1,7 @@
 package graphic.nil;
 
 import graphic.*;
-import geom.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 
 import android.graphics.*;

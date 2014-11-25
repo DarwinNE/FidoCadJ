@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.Vector;
 
 import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import geom.*;
 import graphic.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements

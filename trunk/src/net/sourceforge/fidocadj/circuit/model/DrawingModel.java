@@ -3,9 +3,9 @@ package net.sourceforge.fidocadj.circuit.model;
 import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import geom.*;
 import graphic.*;
 
 /**

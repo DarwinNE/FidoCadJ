@@ -1,11 +1,11 @@
 package graphic.nil;
 
 import graphic.*;
-import geom.*;
 
 import java.awt.*;
 import java.awt.image.*;
 
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 
 
