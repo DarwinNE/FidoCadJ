@@ -1,4 +1,4 @@
-package geom;
+package net.sourceforge.fidocadj.geom;
 
 /** 
 	Calculate geometric distances between a given point and a few

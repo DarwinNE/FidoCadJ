@@ -12,6 +12,7 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.circuit.views.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 
 import java.awt.event.*;
@@ -22,7 +23,6 @@ import globals.*;
 import graphic.*;
 import graphic.swing.*;
 import graphic.nil.*;
-import geom.*;
 
 /** ExportGraphic.java
 

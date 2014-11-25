@@ -1,4 +1,4 @@
-package geom;
+package net.sourceforge.fidocadj.geom;
 
 /**
     ChangeCoordinatesListener interface

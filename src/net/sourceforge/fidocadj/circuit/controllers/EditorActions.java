@@ -4,9 +4,9 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import geom.*;
 
 /** EditorActions: contains a controller which can perform basic editor actions
 	on a primitive database. Those actions include rotating and mirroring

@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import globals.*;
-import geom.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.geom.*;
 import graphic.*;
 
 /** Class to handle the ComplexCurve primitive.

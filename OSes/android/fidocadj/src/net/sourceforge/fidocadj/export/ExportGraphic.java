@@ -10,7 +10,7 @@ import net.sourceforge.fidocadj.layers.*;
 import graphic.*;
 import graphic.nil.*;
 
-import geom.*;
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.circuit.views.*;

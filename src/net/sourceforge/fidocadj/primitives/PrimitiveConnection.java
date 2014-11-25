@@ -3,8 +3,8 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import geom.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.geom.*;
 import globals.*;
 import graphic.*;
 
