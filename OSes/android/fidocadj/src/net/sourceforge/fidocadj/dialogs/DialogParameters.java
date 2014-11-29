@@ -41,7 +41,7 @@ import android.widget.Space;
 import net.sourceforge.fidocadj.R;
 
 import net.sourceforge.fidocadj.layers.LayerDesc;
-import globals.Globals;
+import net.sourceforge.fidocadj.globals.Globals;
 import graphic.FontG;
 import graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;

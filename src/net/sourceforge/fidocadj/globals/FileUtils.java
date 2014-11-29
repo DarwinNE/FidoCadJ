@@ -1,4 +1,4 @@
-package globals;
+package net.sourceforge.fidocadj.globals;
 
 import java.io.*;
 import java.util.*;

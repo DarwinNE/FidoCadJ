@@ -7,11 +7,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.globals.*;
 
 import java.util.*;
 import java.net.*;
-
-import globals.*;
 
 /**
  	ToolButton class

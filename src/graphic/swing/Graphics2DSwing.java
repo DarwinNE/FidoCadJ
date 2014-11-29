@@ -5,8 +5,8 @@ import java.awt.geom.*;
 import java.awt.image.*;	// Used in drawGrid
 
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import globals.*;
 import graphic.*;
 
 

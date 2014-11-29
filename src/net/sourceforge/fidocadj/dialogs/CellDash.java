@@ -5,11 +5,10 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.primitives.*;
 
 import java.util.*;
-
-import globals.*;
 
 
 /** The class CellArrow is a simple panel showing the dash style characteristics. 

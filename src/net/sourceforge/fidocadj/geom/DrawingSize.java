@@ -4,8 +4,8 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.circuit.views.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import globals.*;
 import graphic.*;
 import graphic.nil.*;
 

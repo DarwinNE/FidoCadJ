@@ -8,9 +8,9 @@ import javax.swing.event.*;
 
 import java.util.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 
 

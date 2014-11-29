@@ -3,11 +3,10 @@ package net.sourceforge.fidocadj;
 import javax.swing.*;
 
 import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.globals.*;
 
 import java.io.*;
 import java.awt.*;
-
-import globals.*;
 
 /** OpenFile.java 
 

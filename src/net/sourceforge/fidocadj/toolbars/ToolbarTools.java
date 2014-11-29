@@ -8,11 +8,10 @@ import javax.swing.event.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.globals.*;
 
 import java.util.*;
 import java.net.*;
-
-import globals.*;
 
 /** SWING VERSION.
  ToolbarTools class

@@ -2,11 +2,12 @@ package net.sourceforge.fidocadj;
 
 import javax.swing.*;
 import javax.swing.event.*;
+
+import net.sourceforge.fidocadj.globals.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-
-import globals.*;
 
 
 /** Based on snippets on:

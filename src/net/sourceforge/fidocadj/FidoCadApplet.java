@@ -2,13 +2,14 @@ package net.sourceforge.fidocadj;
 
 import java.awt.*;
 import java.applet.*;
+
 import javax.swing.*;
+
+import net.sourceforge.fidocadj.globals.*;
+
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
-
-import globals.*;
 
 
 

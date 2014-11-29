@@ -24,10 +24,11 @@ import java.io.IOException;
 
 
 
-import globals.LibUtils;
-import globals.Globals;
+
 import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.LibUtils;
 import net.sourceforge.fidocadj.librarymodel.event.*;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 

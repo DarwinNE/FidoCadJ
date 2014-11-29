@@ -24,10 +24,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import net.sourceforge.fidocadj.FidoMain;
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import graphic.*;
 import graphic.swing.*;
 import net.sourceforge.fidocadj.circuit.*;

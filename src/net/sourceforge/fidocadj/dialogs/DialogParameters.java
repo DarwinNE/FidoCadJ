@@ -7,9 +7,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.dialogs.OSKeybPanel.KEYBMODES;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import graphic.*;
 

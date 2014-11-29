@@ -4,9 +4,9 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import globals.*;
 import graphic.*;
 
 /** Drawing: draws the FidoCadJ drawing. This is a view of the drawing.

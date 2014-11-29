@@ -9,7 +9,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.Toolkit;
 import java.io.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 /**
 	Clipboard handling class.

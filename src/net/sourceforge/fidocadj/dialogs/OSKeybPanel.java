@@ -1,7 +1,5 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import globals.Globals;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
@@ -32,6 +30,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicBorders;
+
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** Create a small virtual keyboard for help inserting UTF-8 symbols such
 	as greek alphabet letters and so on.
