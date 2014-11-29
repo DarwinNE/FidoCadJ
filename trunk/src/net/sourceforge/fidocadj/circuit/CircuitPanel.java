@@ -59,7 +59,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                              ChangeGridState,
                                              ChangeZoomListener,
                                              ChangeSelectionListener,
-                                             PrimitivesParInterface
+                                             PrimitivesParInterface,
+                                             KeyListener,
+                                             MouseWheelListener
                                              
 { 
 
@@ -223,6 +225,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (isEditable) {
             addMouseListener(this);
             addMouseMotionListener(this);
+            addKeyListener(this);
             setFocusable(true);
             registerActiveKeys();
             //Create the popup menu.
@@ -1494,6 +1497,43 @@ public class CircuitPanel extends JPanel implements ActionListener,
    public void forcesRepaint(int a, int b, int c, int d)
    {
    		repaint(a, b, c, d);
+   }
+   
+   @Override
+   public void keyPressed(KeyEvent e)
+   {
+       if (e.getKeyCode() == KeyEvent.VK_CONTROL && !hasMouseWheelListener())
+           addMouseWheelListener(this);
+   }
+
+   @Override
+   public void keyReleased(KeyEvent e)
+   {
+       if (e.getKeyCode() == KeyEvent.VK_CONTROL && hasMouseWheelListener())
+           removeMouseWheelListener(this);
+   }
+
+   @Override
+   public void keyTyped(KeyEvent e)
+   {
+       // do nothing
+   }
+  
+   private boolean hasMouseWheelListener()
+   {
+       MouseWheelListener[] listeners = getMouseWheelListeners();
+       for (MouseWheelListener mouseWheelListener : listeners) {
+           if (mouseWheelListener.equals(this))
+               return true;
+       }
+       return false;
+   }
+
+   @Override
+   public void mouseWheelMoved(MouseWheelEvent e)
+   {
+       this.changeZoomByStep(e.getWheelRotation() < 0, 
+                             e.getX(), e.getY());
    }
    
 }
