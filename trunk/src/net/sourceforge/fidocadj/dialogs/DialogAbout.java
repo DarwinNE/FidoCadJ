@@ -3,12 +3,16 @@ package net.sourceforge.fidocadj.dialogs;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+
 import javax.swing.*;
+
 import java.io.*;
+
 import javax.imageio.*;
+
 import java.net.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.toolbars.*;
 
 /** 

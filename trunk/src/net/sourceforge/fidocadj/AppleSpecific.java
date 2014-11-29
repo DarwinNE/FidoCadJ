@@ -1,13 +1,14 @@
 package net.sourceforge.fidocadj;
 
 import javax.swing.*;
+
 import java.util.*;
 
 import com.apple.eawt.*;
 
 import net.sourceforge.fidocadj.*;
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /** The class AppleSpecific implements a few mechanism for interacting with

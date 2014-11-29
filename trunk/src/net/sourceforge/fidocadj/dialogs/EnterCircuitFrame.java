@@ -1,10 +1,12 @@
 package net.sourceforge.fidocadj.dialogs;
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.globals.*;
 
 /** EnterCircuitFrame.java 
 

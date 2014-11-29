@@ -4,9 +4,9 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import globals.*;
 
 /** Extends ElementsEdtActions in order to support those events such as 
 	MouseMove, which require a continuous interaction and an immediate

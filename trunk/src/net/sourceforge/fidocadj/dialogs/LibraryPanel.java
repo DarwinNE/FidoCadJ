@@ -4,13 +4,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 import javax.swing.plaf.metal.*;
+
+import net.sourceforge.fidocadj.globals.*;
+
 import java.awt.*;
 import java.io.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.util.*;
-
-import globals.*;
 
 /**
 * JFileChooser accessory panel for listing libraries description.

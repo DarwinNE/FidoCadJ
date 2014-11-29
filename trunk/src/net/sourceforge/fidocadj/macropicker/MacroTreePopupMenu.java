@@ -22,7 +22,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.librarymodel.Library;
 import net.sourceforge.fidocadj.librarymodel.Category;
 import net.sourceforge.fidocadj.primitives.MacroDesc;

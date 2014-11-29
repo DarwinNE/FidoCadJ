@@ -3,11 +3,12 @@ package net.sourceforge.fidocadj.macropicker;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.LineMetrics;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /**

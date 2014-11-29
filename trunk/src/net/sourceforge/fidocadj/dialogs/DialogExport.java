@@ -3,12 +3,15 @@ package net.sourceforge.fidocadj.dialogs;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+
 import javax.swing.*;
+
 import java.io.*;
+
 import javax.imageio.*;
 import javax.swing.border.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /** Choose file format, size and options of the graphic exporting.

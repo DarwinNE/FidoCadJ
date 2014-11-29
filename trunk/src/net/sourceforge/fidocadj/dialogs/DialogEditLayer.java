@@ -11,8 +11,8 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.colorchooser.*;
 
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import globals.*;
 import graphic.*;
 import graphic.swing.*;
 

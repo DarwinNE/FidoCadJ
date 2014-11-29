@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.circuit.controllers;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /** CopyPasteActions: contains a controller which can perform copy and paste 

@@ -21,8 +21,8 @@ package net.sourceforge.fidocadj.librarymodel.utils;
 
 import java.io.*;
 
-import globals.FileUtils;
-import globals.LibUtils;
+import net.sourceforge.fidocadj.globals.FileUtils;
+import net.sourceforge.fidocadj.globals.LibUtils;
 import net.sourceforge.fidocadj.undo.LibraryUndoListener;
 
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;

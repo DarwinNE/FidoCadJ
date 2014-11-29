@@ -4,10 +4,10 @@ import javax.swing.*;
 
 import java.io.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.globals.*;
 
 /** The RunExport class implements a runnable class which can be employed
 	to perform all exporting operations in a separate thread from the main

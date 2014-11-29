@@ -1,13 +1,15 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
+
 import java.awt.event.*;
 import java.io.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.globals.*;
 
 /** The dialogOptions class implements a modal dialog, which allows the user to 
 	choose which circuit drawing options (size, anti aliasing, profiling) should

@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import globals.Globals;
+import net.sourceforge.fidocadj.globals.Globals;
 import graphic.GraphicsInterface;
 import graphic.android.ColorAndroid;
 import graphic.android.GraphicsAndroid;

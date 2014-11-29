@@ -7,8 +7,8 @@ import java.net.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.globals.FileUtils;
 import net.sourceforge.fidocadj.undo.*;
-import globals.FileUtils;
 
 /** UndoActions: perform undo operations. Since some parsing operations are
 	to be done, this class requires the ParserActions controller.

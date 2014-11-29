@@ -10,8 +10,8 @@ import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import globals.*;
 import graphic.*;
 
 

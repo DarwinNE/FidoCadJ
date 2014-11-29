@@ -17,7 +17,7 @@ import android.util.DisplayMetrics;
 
 import android.widget.SeekBar;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
   
 
 /**

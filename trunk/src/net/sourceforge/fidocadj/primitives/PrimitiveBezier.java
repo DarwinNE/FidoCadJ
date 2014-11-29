@@ -3,10 +3,10 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import graphic.*;
 
 /** Class to handle the Bézier primitive.

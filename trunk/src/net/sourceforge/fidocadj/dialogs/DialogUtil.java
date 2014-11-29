@@ -2,9 +2,10 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.event.*;
 import java.awt.*;
+
 import javax.swing.*;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /* 	Some routines useful with dialog windows.

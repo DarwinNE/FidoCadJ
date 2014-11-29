@@ -53,9 +53,9 @@ import net.sourceforge.fidocadj.geom.MapCoordinates;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 import toolbars.ToolbarTools;
-import globals.AccessResources;
-import globals.Globals;
-import globals.ProvidesCopyPasteInterface;
+import net.sourceforge.fidocadj.globals.AccessResources;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.ProvidesCopyPasteInterface;
 import net.sourceforge.fidocadj.circuit.controllers.ContinuosMoveActions;
 import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
 

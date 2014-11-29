@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
-import globals.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.timer.*;
@@ -22,6 +21,7 @@ import graphic.*;
 import graphic.swing.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most 

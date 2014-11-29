@@ -13,13 +13,13 @@ import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 
 import java.awt.event.*;
 import java.util.*;
 import java.lang.*; 
 
-import globals.*;
 import graphic.*;
 import graphic.swing.*;
 import graphic.nil.*;

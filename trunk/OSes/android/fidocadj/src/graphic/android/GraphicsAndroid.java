@@ -6,7 +6,7 @@ import android.graphics.Paint.*;
 import graphic.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
 
 
 /** Android graphic class.

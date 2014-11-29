@@ -1,4 +1,4 @@
-package globals;
+package net.sourceforge.fidocadj.globals;
 
 import android.content.Context;
 import java.util.*;

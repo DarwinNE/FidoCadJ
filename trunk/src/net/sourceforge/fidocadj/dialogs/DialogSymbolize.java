@@ -7,12 +7,12 @@ import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.LibUtils;
 import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
-import globals.Globals;
-import globals.LibUtils;
 
 import java.awt.*;
 import java.awt.datatransfer.*;

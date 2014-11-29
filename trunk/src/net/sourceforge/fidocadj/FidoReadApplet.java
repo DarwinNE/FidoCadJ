@@ -7,13 +7,12 @@ import javax.swing.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
+import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
-import globals.*;
 
 
 /** FidoReadApplet.java v.2.0

@@ -3,10 +3,9 @@ package net.sourceforge.fidocadj.layers;
 import java.awt.*;
 import java.util.*;
 
-
+import net.sourceforge.fidocadj.globals.*;
 import graphic.*;
 import graphic.swing.*;
-import globals.*;
 
 /** 		SWING VERSION
 

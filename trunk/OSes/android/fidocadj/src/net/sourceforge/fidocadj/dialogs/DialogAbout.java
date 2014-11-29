@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.util.DisplayMetrics;
 
-import globals.*;
+import net.sourceforge.fidocadj.globals.*;
   
 
 /**
