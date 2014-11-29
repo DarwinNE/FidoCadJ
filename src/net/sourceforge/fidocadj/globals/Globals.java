@@ -33,10 +33,8 @@ But... who cares!!! (ehm... PMD does!)
 </pre>
 */
 
-
 public class Globals 
 {
-
 	// message bundle
     public static AccessResources messages;
     			  

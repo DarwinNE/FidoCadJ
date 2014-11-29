@@ -1499,17 +1499,29 @@ public class CircuitPanel extends JPanel implements ActionListener,
    		repaint(a, b, c, d);
    }
    
+   	/**	Windows and Linux users can use Ctrl+Wheel to zoom in and out.
+   		With MacOSX, however Ctrl+Wheel is associated to the full screen 
+   		zooming. Therefore, we use Command ("meta" with the Java terminology).
+   	*/
+   	private int getKeyForWheel()
+   	{
+   	   int keyCode=KeyEvent.VK_CONTROL;
+   	   if(Globals.weAreOnAMac)
+   	   	keyCode=KeyEvent.VK_META;
+   	   return keyCode;
+   	}
+   
    @Override
    public void keyPressed(KeyEvent e)
    {
-       if (e.getKeyCode() == KeyEvent.VK_CONTROL && !hasMouseWheelListener())
+       if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
            addMouseWheelListener(this);
    }
-
+   
    @Override
    public void keyReleased(KeyEvent e)
    {
-       if (e.getKeyCode() == KeyEvent.VK_CONTROL && hasMouseWheelListener())
+       if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
            removeMouseWheelListener(this);
    }
 
@@ -1529,6 +1541,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
        return false;
    }
 
+  	/* Handle zoom event via the wheel.
+  	*/
    @Override
    public void mouseWheelMoved(MouseWheelEvent e)
    {
