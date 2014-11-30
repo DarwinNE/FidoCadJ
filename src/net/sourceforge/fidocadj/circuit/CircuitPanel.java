@@ -1510,45 +1510,45 @@ public class CircuitPanel extends JPanel implements ActionListener,
    	   	keyCode=KeyEvent.VK_META;
    	   return keyCode;
    	}
-   
-   @Override
-   public void keyPressed(KeyEvent e)
-   {
-       if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
-           addMouseWheelListener(this);
-   }
-   
-   @Override
-   public void keyReleased(KeyEvent e)
-   {
-       if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
-           removeMouseWheelListener(this);
-   }
 
-   @Override
-   public void keyTyped(KeyEvent e)
-   {
-       // do nothing
-   }
-  
-   private boolean hasMouseWheelListener()
-   {
-       MouseWheelListener[] listeners = getMouseWheelListeners();
-       for (MouseWheelListener mouseWheelListener : listeners) {
-           if (mouseWheelListener.equals(this))
-               return true;
-       }
-       return false;
-   }
+    @Override
+    public void keyPressed(KeyEvent e) 
+    {
+	if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
+	    addMouseWheelListener(this);
+    }
 
-  	/* Handle zoom event via the wheel.
-  	*/
-   @Override
-   public void mouseWheelMoved(MouseWheelEvent e)
-   {
-       this.changeZoomByStep(e.getWheelRotation() < 0, 
-                             e.getX(), e.getY());
-   }
+    @Override
+    public void keyReleased(KeyEvent e) 
+    {
+	if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
+	    removeMouseWheelListener(this);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) 
+    {
+	// do nothing
+    }
+
+    private boolean hasMouseWheelListener() 
+    {
+	MouseWheelListener[] listeners = getMouseWheelListeners();
+	for (MouseWheelListener mouseWheelListener : listeners) {
+	    if (mouseWheelListener.equals(this))
+		return true;
+	}
+	return false;
+    }
+
+    /*
+     * Handle zoom event via the wheel.
+     */
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) 
+    {
+	this.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
+    }
    
 }
 
