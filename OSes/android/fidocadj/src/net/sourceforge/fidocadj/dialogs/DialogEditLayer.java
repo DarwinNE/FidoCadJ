@@ -54,6 +54,7 @@ public class DialogEditLayer extends DialogFragment implements
 	private SeekBar colorRbar;
 	private SeekBar colorGbar;
 	private SeekBar colorBbar;
+	private SeekBar colorAlphaBar;
 	
 	
 	@Override  
@@ -64,22 +65,35 @@ public class DialogEditLayer extends DialogFragment implements
 		dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_edit_layer);  
 		
+		// Get the bars corresponding to the R,G,B and alpha coefficients.
 		colorRbar=(SeekBar)context.findViewById(R.id.color_r);
 		colorGbar=(SeekBar)context.findViewById(R.id.color_g);
 		colorBbar=(SeekBar)context.findViewById(R.id.color_b);
+		colorBbar=(SeekBar)context.findViewById(R.id.color_alpha);
 		
-		//colorRbar.setOnSeekBarChangeListener(this);
-		//colorGbar.setOnSeekBarChangeListener(this);
-		//colorBbar.setOnSeekBarChangeListener(this);
+		// Set the listeners.
+		colorRbar.setOnSeekBarChangeListener(this);
+		colorGbar.setOnSeekBarChangeListener(this);
+		colorBbar.setOnSeekBarChangeListener(this);
+		colorAlphaBar.setOnSeekBarChangeListener(this);
 		
 		return dialog;
 	}
 	
-	    @Override
+	@Override
     public void onProgressChanged(SeekBar seekBar, 
     	int progress, boolean fromUser)
     {
-        android.util.Log.e("fidocadj", "value: "+progress);
+    	// Determine which color bar is being manipulated.
+    	if(seekBar.equals(colorRbar)) {
+    		android.util.Log.e("fidocadj", "R value: "+progress);
+    	} else if(seekBar.equals(colorGbar)) {
+    		android.util.Log.e("fidocadj", "G value: "+progress);
+    	} else if(seekBar.equals(colorBbar)) {
+    		android.util.Log.e("fidocadj", "B value: "+progress);
+    	} else {
+    		android.util.Log.e("fidocadj", "alpha value: "+progress);
+    	}
     }
 
     @Override
@@ -92,12 +106,17 @@ public class DialogEditLayer extends DialogFragment implements
     {
  	}
 	
-	
+	/** Called when the ok button is selected. It should save the important
+		data shown in the dialog.
+	*/
 	public void okSelected(View v)
 	{
 		dialog.dismiss();
 	}
 	
+	/** Called when the cancel button is selected. It should dismiss the 
+		dialog without saving any data.
+	*/
 	public void cancelSelected(View v)
 	{
 		dialog.dismiss();
