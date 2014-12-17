@@ -127,9 +127,10 @@ public class DialogLayer extends DialogFragment
 	       	@param convertView
 	       	@param parent the parent component.
 	    */
-	    public View getCustomView(int position, 
+	    public View getCustomView(int pos, 
 								View convertView, ViewGroup parent) 
-		{ 
+		{
+			final int position=pos;
         	LayoutInflater inflater = 
         		((Activity) context).getLayoutInflater();
     		View row = inflater.inflate(R.layout.layer_spinner_item, 
@@ -168,6 +169,7 @@ public class DialogLayer extends DialogFragment
             	@Override
             	public void onClick(View v)
             	{
+            		drawingPanel.eea.currentLayer = position;
             		// show layer dialog
 					DialogEditLayer dl = new DialogEditLayer();
 					dl.show(getFragmentManager(), "");

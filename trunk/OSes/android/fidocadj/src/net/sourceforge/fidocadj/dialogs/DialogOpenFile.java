@@ -45,7 +45,7 @@ import android.widget.ListView;
 public class DialogOpenFile extends DialogFragment 
 {  
 	private String[] files;
-	private  FidoEditor drawingPanel;
+	private FidoEditor drawingPanel;
 	
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
@@ -68,13 +68,12 @@ public class DialogOpenFile extends DialogFragment
 				listFiles.add(str);
 		
 		if(listFiles.isEmpty())
-			listFiles.add("No such file.")
-				;
+			listFiles.add("No such file.");
 			
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  context, 
                  R.layout.list_item, R.id.lblListItem,
-                 listFiles );
+                 listFiles);
 		
 		ListView list = (ListView) dialog.findViewById(R.id.fileList);
 		list.setAdapter(arrayAdapter);
@@ -83,13 +82,15 @@ public class DialogOpenFile extends DialogFragment
 		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+					int position, long id) 
+			{
 				
 				StringBuilder text = new StringBuilder();
 				text.append("[FIDOCAD]\n");
 				File file = new File(context.getFilesDir(),files[position]);
 				try {
-				    BufferedReader br = new BufferedReader(new FileReader(file));
+				    BufferedReader br = new BufferedReader(
+				    	new FileReader(file));
 				    String line;
 
 				    while ((line = br.readLine()) != null) {
@@ -97,13 +98,13 @@ public class DialogOpenFile extends DialogFragment
 				        text.append('\n');
 				    }
 				    br.close();
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				drawingPanel.getParserActions().openFileName = files[position];
-				drawingPanel.getParserActions().parseString(new StringBuffer(text.toString()));
+				drawingPanel.getParserActions().parseString(new 
+					StringBuffer(text.toString()));
 				drawingPanel.getUndoActions().saveUndoState();
 				drawingPanel.invalidate();
 				

@@ -1,6 +1,7 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import net.sourceforge.fidocadj.R;
+import java.util.Vector;
+
 import android.app.Activity;
 import android.app.Dialog;  
 import android.app.DialogFragment;
@@ -11,14 +12,20 @@ import android.os.Bundle;
 import android.view.View;  
 import android.view.View.OnClickListener;  
 import android.view.Window;   
+import android.view.SurfaceView;
 import android.widget.Button;  
 import android.widget.TextView;
 import android.util.DisplayMetrics;
-
+import android.graphics.Color;
 import android.widget.SeekBar;
+import android.widget.EditText;
 
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.*;
+import graphic.android.ColorAndroid;
   
+import net.sourceforge.fidocadj.R;
 
 /**
   	Allows to select the layer name, color and transparence.
@@ -56,6 +63,18 @@ public class DialogEditLayer extends DialogFragment implements
 	private SeekBar colorBbar;
 	private SeekBar colorAlphaBar;
 	
+	private SurfaceView preview;
+	
+	private EditText editLayerName;
+	
+	public int valueR;
+	public int valueG;
+	public int valueB;
+	public int valueAlpha;
+	
+	private FidoEditor drawingPanel;
+	private Vector<LayerDesc> layers;
+	private int currentLayer;
 	
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
@@ -66,16 +85,63 @@ public class DialogEditLayer extends DialogFragment implements
 		dialog.setContentView(R.layout.dialog_edit_layer);  
 		
 		// Get the bars corresponding to the R,G,B and alpha coefficients.
-		colorRbar=(SeekBar)context.findViewById(R.id.color_r);
-		colorGbar=(SeekBar)context.findViewById(R.id.color_g);
-		colorBbar=(SeekBar)context.findViewById(R.id.color_b);
-		colorBbar=(SeekBar)context.findViewById(R.id.color_alpha);
+		colorRbar=(SeekBar)dialog.findViewById(R.id.color_r);
+		colorGbar=(SeekBar)dialog.findViewById(R.id.color_g);
+		colorBbar=(SeekBar)dialog.findViewById(R.id.color_b);
+		colorAlphaBar=(SeekBar)dialog.findViewById(R.id.color_alpha);
+		// Get the preview area.
+		preview=(SurfaceView)dialog.findViewById(R.id.preview_surface);
+		editLayerName = (EditText)dialog.findViewById(R.id.edit_layername);
+
+		// Get the drawing panel.
+		drawingPanel = (FidoEditor)context.findViewById(R.id.drawingPanel);
+		
+		// Get the list of the layers.
+		layers = drawingPanel.getDrawingModel().getLayers();
+		currentLayer=drawingPanel.eea.currentLayer;
 		
 		// Set the listeners.
 		colorRbar.setOnSeekBarChangeListener(this);
 		colorGbar.setOnSeekBarChangeListener(this);
 		colorBbar.setOnSeekBarChangeListener(this);
 		colorAlphaBar.setOnSeekBarChangeListener(this);
+		
+		// Get the current layer data and set the cursors and the info
+		colorRbar.setProgress(layers.get(currentLayer).getColor().getRed());
+		colorGbar.setProgress(layers.get(currentLayer).getColor().getGreen());
+		colorBbar.setProgress(layers.get(currentLayer).getColor().getBlue());
+		colorAlphaBar.setProgress(
+			(int)(layers.get(currentLayer).getAlpha()*255.0));
+		editLayerName.setText(layers.get(currentLayer).getDescription());
+		
+		// Get the Ok and Cancel button and add a click handler.
+		Button okButton=(Button)dialog.findViewById(
+			R.id.dialog_edit_layer_ok);
+		okButton.setOnClickListener(new OnClickListener() {
+			@Override
+   			public void onClick(View v) 
+   			{
+   				layers.get(currentLayer).setColor(
+   					new ColorAndroid(
+   						Color.rgb(colorRbar.getProgress(),
+   						colorGbar.getProgress(), colorBbar.getProgress())));
+   				layers.get(currentLayer).setDescription(
+   					editLayerName.getText().toString());
+   				layers.get(currentLayer).setAlpha(
+   					(float)colorAlphaBar.getProgress()/255.0f);
+   				dialog.dismiss();
+   			}
+		});
+		
+		Button cancelButton=(Button)dialog.findViewById(
+			R.id.dialog_edit_layer_cancel);
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+   			public void onClick(View v) 
+   			{
+   				dialog.dismiss();
+   			}
+		});
 		
 		return dialog;
 	}
@@ -86,14 +152,16 @@ public class DialogEditLayer extends DialogFragment implements
     {
     	// Determine which color bar is being manipulated.
     	if(seekBar.equals(colorRbar)) {
-    		android.util.Log.e("fidocadj", "R value: "+progress);
+    		valueR=progress;
     	} else if(seekBar.equals(colorGbar)) {
-    		android.util.Log.e("fidocadj", "G value: "+progress);
+    		valueG=progress;
     	} else if(seekBar.equals(colorBbar)) {
-    		android.util.Log.e("fidocadj", "B value: "+progress);
+    		valueB=progress;
     	} else {
-    		android.util.Log.e("fidocadj", "alpha value: "+progress);
+    		valueAlpha=progress;
     	}
+    	preview.setBackgroundColor(Color.argb(valueAlpha, 
+    		valueR, valueG, valueB));
     }
 
     @Override
@@ -105,21 +173,5 @@ public class DialogEditLayer extends DialogFragment implements
     public void onStopTrackingTouch(SeekBar seekBar) 
     {
  	}
-	
-	/** Called when the ok button is selected. It should save the important
-		data shown in the dialog.
-	*/
-	public void okSelected(View v)
-	{
-		dialog.dismiss();
-	}
-	
-	/** Called when the cancel button is selected. It should dismiss the 
-		dialog without saving any data.
-	*/
-	public void cancelSelected(View v)
-	{
-		dialog.dismiss();
-	}
 }  
 
