@@ -62,7 +62,6 @@ public class DialogAbout extends DialogFragment
 		
 		TextView screenInfo = (TextView) dialog.findViewById(R.id.screen_info);
 
-
 		// Update a debug line with the screen codes.		
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 
