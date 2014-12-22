@@ -82,7 +82,6 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
 
 public class DialogParameters extends DialogFragment 
 {
-	
 	private final static int DENSITY_LOW = 120;
 	private final static int DENSITY_MEDIUM = 160;
 	private final static int DENSITY_HIGH = 240;
@@ -303,9 +302,7 @@ public class DialogParameters extends DialogFragment
 					new LayoutParams(fieldWidth,fieldHeight));
 				etv[ec].setSingleLine();
 				etv[ec].setTextSize(textSize);
-
-				
-				
+	
 				// If we have a String text field in the first position, its
 				// contents should be evidenced, since it is supposed to be
 				// the most important field (e.g. for the AdvText primitive)
@@ -511,7 +508,6 @@ public class DialogParameters extends DialogFragment
 		buttonView.addView(ok);
 		
 		Space space = new Space(context);
-		
 		space.setLayoutParams(
 				new LayoutParams(5, buttonHeight));
 		
@@ -585,15 +581,20 @@ public class DialogParameters extends DialogFragment
     	
     	@Override
         public View getDropDownView(int position, 
-								View convertView, ViewGroup parent){
+								View convertView, ViewGroup parent)
+		{
         	return getCustomView(position, convertView, parent);
         }
         
+        /** Get a custom view showing each layer in the spinner. Here the
+        	user is not supposed to edit the layers.
+        */
         public View getCustomView(int position, 
-								View convertView, ViewGroup parent) { 
+								View convertView, ViewGroup parent) 
+		{ 
         	LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-    		View row = inflater.inflate(R.layout.layer_spinner_item, parent,
-    						false);
+    		View row = inflater.inflate(R.layout.layer_spinner_item_noedit,
+    			 parent, false);
     		row.setBackgroundColor(Color.WHITE);
     		
     		SurfaceView sv = (SurfaceView) row.findViewById(R.id.surface_view);

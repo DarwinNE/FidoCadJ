@@ -179,6 +179,7 @@ public class DialogLayer extends DialogFragment
             return row;
         }
     }
+    
 	/** Handle a click on the selection button
     */
     private class specSelectCurrentLayer implements View.OnClickListener
