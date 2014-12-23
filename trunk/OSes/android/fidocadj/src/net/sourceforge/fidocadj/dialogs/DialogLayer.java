@@ -107,13 +107,16 @@ public class DialogLayer extends DialogFragment
 	   		this.layers = layers;
 	   	}
 
+		/** Obtain the custom view associated to the given position.
+		*/
 	   	@Override
 	   	public View getView(int position, View convertView, 
 	   		ViewGroup parent) 
 	   	{
 	   		return getCustomView(position, convertView, parent);
 	    }
-	    	
+	    /** Obtain the custom view associated to the given position.
+		*/
 	   	@Override
 	    public View getDropDownView(int position, 
 							View convertView, ViewGroup parent)
@@ -126,6 +129,7 @@ public class DialogLayer extends DialogFragment
 	       	@param position the ordinal position in the list (layer number)
 	       	@param convertView
 	       	@param parent the parent component.
+	       	@return the custom view.
 	    */
 	    public View getCustomView(int pos, 
 								View convertView, ViewGroup parent) 
@@ -133,7 +137,7 @@ public class DialogLayer extends DialogFragment
 			final int position=pos;
         	LayoutInflater inflater = 
         		((Activity) context).getLayoutInflater();
-    		View row = inflater.inflate(R.layout.layer_spinner_item, 
+    		final View row = inflater.inflate(R.layout.layer_spinner_item, 
     			parent, false);
 	    			
     		row.setBackgroundColor(Color.WHITE);
@@ -166,12 +170,14 @@ public class DialogLayer extends DialogFragment
             Button edit = (Button) row.findViewById(R.id.edit_item);
             edit.setOnClickListener(new View.OnClickListener()
             {
+            	/** Create a new layer editing dialog and show it.
+            	*/
             	@Override
             	public void onClick(View v)
             	{
             		drawingPanel.eea.currentLayer = position;
             		// show layer dialog
-					DialogEditLayer dl = new DialogEditLayer();
+					DialogEditLayer dl = new DialogEditLayer(position, row);
 					dl.show(getFragmentManager(), "");
             	}
             });
@@ -190,6 +196,8 @@ public class DialogLayer extends DialogFragment
     	private int position;
     	private Dialog dialog;
     	
+    	/** Creator.
+    	*/
     	public specSelectCurrentLayer(FidoEditor dp, Button lb, 
     		List<LayerDesc> l, Dialog d, int pos)
     	{

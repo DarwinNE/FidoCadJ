@@ -75,7 +75,20 @@ public class DialogEditLayer extends DialogFragment implements
 	private FidoEditor drawingPanel;
 	private Vector<LayerDesc> layers;
 	private int currentLayer;
+	private View currentView;
 	
+	
+	/** Creator
+	*/
+	public DialogEditLayer(int cl, View v)
+	{
+		currentLayer=cl;
+		currentView=v;
+	}
+	
+	/** Called when the dialog is being create, this method updates the
+		user interface.
+	*/
 	@Override  
 	public Dialog onCreateDialog(Bundle savedInstanceState) 
 	{  
@@ -98,7 +111,7 @@ public class DialogEditLayer extends DialogFragment implements
 		
 		// Get the list of the layers.
 		layers = drawingPanel.getDrawingModel().getLayers();
-		currentLayer=drawingPanel.eea.currentLayer;
+		//currentLayer=drawingPanel.eea.currentLayer;
 		
 		// Set the listeners.
 		colorRbar.setOnSeekBarChangeListener(this);
@@ -114,13 +127,14 @@ public class DialogEditLayer extends DialogFragment implements
 			(int)(layers.get(currentLayer).getAlpha()*255.0));
 		editLayerName.setText(layers.get(currentLayer).getDescription());
 		
-		// Get the Ok and Cancel button and add a click handler.
+		// Get the Ok button and add a click handler.
 		Button okButton=(Button)dialog.findViewById(
 			R.id.dialog_edit_layer_ok);
 		okButton.setOnClickListener(new OnClickListener() {
 			@Override
    			public void onClick(View v) 
    			{
+   				// Save the current state.
    				layers.get(currentLayer).setColor(
    					new ColorAndroid(
    						Color.rgb(colorRbar.getProgress(),
@@ -130,9 +144,11 @@ public class DialogEditLayer extends DialogFragment implements
    				layers.get(currentLayer).setAlpha(
    					(float)colorAlphaBar.getProgress()/255.0f);
    				dialog.dismiss();
+   			   	currentView.invalidate();
    			}
 		});
 		
+		// Get the Cancel button and add a click handler.
 		Button cancelButton=(Button)dialog.findViewById(
 			R.id.dialog_edit_layer_cancel);
 		cancelButton.setOnClickListener(new OnClickListener() {
@@ -146,6 +162,9 @@ public class DialogEditLayer extends DialogFragment implements
 		return dialog;
 	}
 	
+	/** This method is called when a slider is operated. In our case, this 
+		happens when the user changes a value for red, green, blue or alpha.
+	*/
 	@Override
     public void onProgressChanged(SeekBar seekBar, 
     	int progress, boolean fromUser)
