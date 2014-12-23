@@ -1,6 +1,8 @@
 package net.sourceforge.fidocadj;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -17,6 +19,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ContentResolver;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -37,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.Button;
 import android.util.Log;
+import android.net.Uri;
 
 import android.support.v4.widget.DrawerLayout;
 
@@ -126,6 +130,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
 		activateSensors = true;
 		setContentView(R.layout.main);
 		tt = new ToolbarTools();
@@ -185,6 +190,17 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		reloadInstanceData(getLastNonConfigurationInstance());
 		IO.context = this;
 		
+		Uri data = getIntent().getData();
+		if(data!=null) {
+			getIntent().setData(null);
+			//try {
+				importData(data);
+			/*} catch (Exception e) {
+				finish();
+				return;
+			}*/
+		}
+		
 		Button layerButton= (Button)findViewById(R.id.layer);
 		Vector<LayerDesc> layers = 
 			drawingPanel.getDrawingModel().getLayers();
@@ -195,6 +211,37 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		// Zoom to fit only if there is something to show.
 		if(!drawingPanel.getDrawingModel().isEmpty()) {
 			drawingPanel.panToFit();
+		}
+	}
+	
+	/** from
+http://richardleggett.co.uk/blog/2013/01/26/registering_for_file_types_in_android/
+	*/
+	private void importData(Uri data)
+	{
+		final String scheme = data.getScheme();
+		Log.e("fidocadj", "Got inside importData: "+data);
+		if(ContentResolver.SCHEME_FILE.equals(scheme)) {
+			try {
+				ContentResolver cr = getContentResolver();
+				InputStream is = cr.openInputStream(data);
+				if(is==null) return;
+				
+				StringBuffer buf = new StringBuffer();
+				BufferedReader reader = new BufferedReader(
+					new InputStreamReader(is));
+				String str;
+				if(is!=null) {
+					while((str = reader.readLine()) !=null) {
+						buf.append(str+"\n");
+					}
+				}
+				is.close();
+				Log.e("fidocadj", "file contents: "+buf);
+				drawingPanel.getParserActions().parseString(buf);
+			} catch (Exception e) {
+				Log.e("fidocadj", "error reading file: "+e.toString());
+			}
 		}
 	}
 	
@@ -692,6 +739,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		return status;
 	}
 
+	/** Stores the given String in the clipboard.
+	*/
 	public void copyText(String s) 
 	{
 		// Gets a handle to the clipboard service.
@@ -701,6 +750,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		clipboard.setPrimaryClip(clip);
 	}
 
+	/** Get the current data (as String) in the clipboard.
+	*/
 	public String pasteText() 
 	{
 		ClipboardManager clipboard = (ClipboardManager) 
