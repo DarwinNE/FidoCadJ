@@ -14,12 +14,11 @@
     
     <item
         android:id="@+id/file"
-        
+        android:showAsAction="ifRoom"
         android:title="@string/File">
         <menu>
             <item
                 android:id="@+id/new_drawing"
-        		
         		android:title="@string/New"
         		android:visible="true" />
             <item
@@ -27,11 +26,12 @@
         		
         		android:title="@string/Open"
         		android:visible="true" />
+            <detail>
             <item
                 android:id="@+id/open_file_deprecated"
-        		
         		android:title="@string/Open_deprecated"
         		android:visible="true" />
+        	</detail>
             <item
                 android:id="@+id/save"
         		
@@ -67,12 +67,12 @@
     
     <item
         android:id="@+id/edit_menu"
-        
+        android:showAsAction="ifRoom"
         android:title="@string/Edit_menu">
         <menu>
         	<item
                 android:id="@+id/menu_undo"
-        		
+        		android:icon="@drawable/cancel"
         		android:title="@string/Undo"/>
         	<item
                 android:id="@+id/menu_redo"
@@ -125,7 +125,7 @@
     
     <item
         android:id="@+id/view"
-        
+        android:showAsAction="ifRoom"
         android:title="@string/Drawing">
         <menu>
             <item
@@ -164,7 +164,7 @@
     
     <item
         android:id="@+id/circuit"
-        
+        android:showAsAction="ifRoom"
         android:title="@string/Circuit_l"
         android:visible="false"
          >
@@ -173,7 +173,7 @@
     
     <item
         android:id="@+id/about"
-        
+        android:showAsAction="ifRoom"
         android:title="@string/About"/>
     
 </menu>

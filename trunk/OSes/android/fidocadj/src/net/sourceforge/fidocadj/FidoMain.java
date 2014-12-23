@@ -399,11 +399,10 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		showGrid.setChecked(drawingPanel.getShowGrid());
 		MenuItem snapToGrid = menu.findItem(R.id.snaptogrid);
 		snapToGrid.setChecked(drawingPanel.getMapCoordinates().getSnap());
-
 		MenuItem useSensors = menu.findItem(R.id.use_sensors_rotate_mirror);
 		useSensors.setChecked(activateSensors);
 
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	/** One of the most important functions for the user interface: handle 
