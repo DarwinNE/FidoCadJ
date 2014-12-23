@@ -320,7 +320,6 @@ public class DialogParameters extends DialogFragment
 				cbv[cc].setTextSize(textSize);
 				
 				vh.addView(cbv[cc++]);
-
 			} else if (pd.parameter instanceof Integer) {
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
@@ -335,7 +334,6 @@ public class DialogParameters extends DialogFragment
 				
 				vh.addView(etv[ec++]);
 			} else if (pd.parameter instanceof Float) {
-
 				etv[ec] = new EditText(context);
 				etv[ec].setTextColor(Color.BLACK);
 				etv[ec].setBackgroundResource(R.drawable.field_background);
@@ -367,7 +365,6 @@ public class DialogParameters extends DialogFragment
 						spv[sc].setSelection(0);
 				}
 				vh.addView(spv[sc++]);
-				
 			} else if (pd.parameter instanceof LayerInfo) {
 				spv[sc] = new Spinner(context);
 				 
@@ -398,8 +395,7 @@ public class DialogParameters extends DialogFragment
 				spv[sc].setSelection(((ArrowInfo) pd.parameter).style);
 				spv[sc].setLayoutParams(
 					new LayoutParams(fieldWidth,fieldHeight));
-				vh.addView(spv[sc++]);
-				
+				vh.addView(spv[sc++]);		
 			} else if (pd.parameter instanceof DashInfo) {
 				spv[sc] = new Spinner(context);
 				
@@ -512,9 +508,7 @@ public class DialogParameters extends DialogFragment
 				new LayoutParams(5, buttonHeight));
 		
 		buttonView.addView(space);
-		
-		
-		
+
 		Button cancel = new Button(context);  
 		cancel.setTextColor(getResources().getColor(R.color.active_dark));
 		cancel.setBackgroundColor(getResources().getColor(
