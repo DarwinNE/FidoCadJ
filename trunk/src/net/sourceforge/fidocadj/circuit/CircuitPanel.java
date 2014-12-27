@@ -53,7 +53,7 @@ import net.sourceforge.fidocadj.layers.*;
     @author Davide Bucci
 */
 public class CircuitPanel extends JPanel implements ActionListener,
-											 MouseMotionListener,
+                                             MouseMotionListener,
                                              MouseListener,
                                              ChangeSelectedLayer,
                                              ChangeGridState,
@@ -65,33 +65,33 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                              
 { 
 
-	// *********** DRAWING ***********
+    // *********** DRAWING ***********
 
-	Graphics2DSwing graphicSwing; 
+    Graphics2DSwing graphicSwing; 
     
     // Coordinate system to be used.
     private transient MapCoordinates cs;
         
     // Use anti alias in drawings 
     public boolean antiAlias;  
-	
-	// Draw the grid
+    
+    // Draw the grid
     private boolean isGridVisible;
 
-	// Default background color
+    // Default background color
     private Color backgroundColor;
 
-	// Position of the rectangle used for the selection
+    // Position of the rectangle used for the selection
     private Rectangle evidenceRect;
 
-	// Margin size in pixels when calculating component sizes.
-	public static final int MARGIN=20;     
+    // Margin size in pixels when calculating component sizes.
+    public static final int MARGIN=20;     
                                     
-	// Color of elements during editing
+    // Color of elements during editing
     static final ColorSwing editingColor=new ColorSwing(Color.green);                                
 
-	// Font to be used to draw the ruler
-	private static final String rulerFont = "Lucida Sans Regular";
+    // Font to be used to draw the ruler
+    private static final String rulerFont = "Lucida Sans Regular";
     
     // Model:
 
@@ -104,44 +104,44 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public Drawing drawingAgent;
     
     // Controllers:
-    private final EditorActions edt;	
+    private final EditorActions edt;    
     private final CopyPasteActions cpa;
     private final HandleActions haa;
     private final ParserActions pa;
     private final UndoActions ua;
     private final ContinuosMoveActions eea;
     
-	// ********** PROFILING **********
+    // ********** PROFILING **********
 
-	// Specify that the profiling mode should be activated.
-    public boolean profileTime;		
+    // Specify that the profiling mode should be activated.
+    public boolean profileTime;     
     private double average;
     
     // Record time for the redrawing.
-    private double record;			
+    private double record;          
    
-	// Number of times the redraw has occourred.
+    // Number of times the redraw has occourred.
     private double runs;
     
     // Record time for mouse down handle event in selection.
-    private double record_c;		
+    private double record_c;        
     
     // Record time for click up event in selection.
-    private double record_d;		
-    		
-	// ********** INTERFACE **********
+    private double record_d;        
+            
+    // ********** INTERFACE **********
     
     // If this variable is different from null, the component will ensure that
     // the corresponding rectangle will be shown in a scroll panel during the
     // next redraw.
-	private Rectangle scrollRectangle;
+    private Rectangle scrollRectangle;
     
     // Strict FidoCad compatibility
     public boolean extStrict;
     
-	// ********** RULER **********
-	
-    private boolean ruler;	// Is it to be drawn?
+    // ********** RULER **********
+    
+    private boolean ruler;  // Is it to be drawn?
     private int rulerStartX;
     private int rulerStartY;
     private int rulerEndX;
@@ -171,7 +171,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     int menuy;
         
     
-	// ********** LISTENERS **********
+    // ********** LISTENERS **********
 
     private ChangeZoomListener zoomListener;
     private ChangeSelectionListener selectionListener;
@@ -195,7 +195,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         haa=new HandleActions(P, edt, ua);
         cpa=new CopyPasteActions(P, edt, pa, ua, new TextTransfer());
        
-       	graphicSwing = new Graphics2DSwing();
+        graphicSwing = new Graphics2DSwing();
         
         drawingAgent=new Drawing(P);
         
@@ -219,7 +219,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         runs = 0;
         average = 0;
     
-                	
+                    
         // This is unot seful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
@@ -229,84 +229,84 @@ public class CircuitPanel extends JPanel implements ActionListener,
             setFocusable(true);
             registerActiveKeys();
             //Create the popup menu.
-    		popup = new JPopupMenu();
-    		editProperties = new 
-    			JMenuItem(Globals.messages.getString("Param_opt"));
+            popup = new JPopupMenu();
+            editProperties = new 
+                JMenuItem(Globals.messages.getString("Param_opt"));
 
-    		editCut = new JMenuItem(Globals.messages.getString("Cut"));
-        	editCopy = new JMenuItem(Globals.messages.getString("Copy"));
-        	editSelectAll = new JMenuItem(
-        		Globals.messages.getString("SelectAll"));
-        	
-        	editPaste = new	JMenuItem(Globals.messages.getString("Paste"));
-        	editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
-    	    editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
-    	    
-    	    editSymbolize = 
-    	    	new JMenuItem(Globals.messages.getString("Symbolize"));
-    	    editUSymbolize = 
-    	    	new JMenuItem(Globals.messages.getString("Unsymbolize")); 
-    	    
-    	    editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
-    	    editRemoveNode = 	
-    	    	new JMenuItem(Globals.messages.getString("Remove_node"));
+            editCut = new JMenuItem(Globals.messages.getString("Cut"));
+            editCopy = new JMenuItem(Globals.messages.getString("Copy"));
+            editSelectAll = new JMenuItem(
+                Globals.messages.getString("SelectAll"));
+            
+            editPaste = new JMenuItem(Globals.messages.getString("Paste"));
+            editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
+            editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
+            
+            editSymbolize = 
+                new JMenuItem(Globals.messages.getString("Symbolize"));
+            editUSymbolize = 
+                new JMenuItem(Globals.messages.getString("Unsymbolize")); 
+            
+            editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
+            editRemoveNode =    
+                new JMenuItem(Globals.messages.getString("Remove_node"));
         
-        	popup.add(editProperties);
-        	popup.addSeparator();
-        	
-        	popup.add(editCut);
-        	popup.add(editCopy);
-        	popup.add(editPaste);
-        	popup.addSeparator();
-        	popup.add(editSelectAll);
-        	
-        	popup.addSeparator();
-        	popup.add(editRotate);
-        	popup.add(editMirror);
-        	
-        	popup.add(editAddNode);
-        	popup.add(editRemoveNode);
-        	
-        	popup.addSeparator();
-        	popup.add(editSymbolize); // by phylum
-        	popup.add(editUSymbolize); // phylum
-        	
-        	// Adding the action listener
-        	
-        	editProperties.addActionListener(this);
-        	editCut.addActionListener(this);
-        	editCopy.addActionListener(this);
-        	editSelectAll.addActionListener(this);
-        	editPaste.addActionListener(this);
-        	editRotate.addActionListener(this);
-        	editMirror.addActionListener(this);
-        	
-        	editAddNode.addActionListener(this);
-        	editRemoveNode.addActionListener(this);
-        	
-        	editSymbolize.addActionListener(this); // phylum
-        	editUSymbolize.addActionListener(this); // phylum
-        	
-        	// Patchwork for bug#54.
-        	// When mouse pointer enters into CircuitPanel with macro,
-        	// grab focus from macropicker.
-        	// NOTE: MouseListener.mouseEntered doesn't works stable.
-        	addMouseMotionListener(new MouseMotionAdapter() {
-				public void mouseMoved(MouseEvent e)
-				{
-					if(eea.isEnteringMacro() && !isFocusOwner()){
-						requestFocus();
-					}
-				}
-        	});
+            popup.add(editProperties);
+            popup.addSeparator();
+            
+            popup.add(editCut);
+            popup.add(editCopy);
+            popup.add(editPaste);
+            popup.addSeparator();
+            popup.add(editSelectAll);
+            
+            popup.addSeparator();
+            popup.add(editRotate);
+            popup.add(editMirror);
+            
+            popup.add(editAddNode);
+            popup.add(editRemoveNode);
+            
+            popup.addSeparator();
+            popup.add(editSymbolize); // by phylum
+            popup.add(editUSymbolize); // phylum
+            
+            // Adding the action listener
+            
+            editProperties.addActionListener(this);
+            editCut.addActionListener(this);
+            editCopy.addActionListener(this);
+            editSelectAll.addActionListener(this);
+            editPaste.addActionListener(this);
+            editRotate.addActionListener(this);
+            editMirror.addActionListener(this);
+            
+            editAddNode.addActionListener(this);
+            editRemoveNode.addActionListener(this);
+            
+            editSymbolize.addActionListener(this); // phylum
+            editUSymbolize.addActionListener(this); // phylum
+            
+            // Patchwork for bug#54.
+            // When mouse pointer enters into CircuitPanel with macro,
+            // grab focus from macropicker.
+            // NOTE: MouseListener.mouseEntered doesn't works stable.
+            addMouseMotionListener(new MouseMotionAdapter() {
+                public void mouseMoved(MouseEvent e)
+                {
+                    if(eea.isEnteringMacro() && !isFocusOwner()){
+                        requestFocus();
+                    }
+                }
+            });
         }
     }
     
-    /**	Register an action involving the editing
-    	@param actionString the action name to be associated to this action
-    	@param key the key to be used. It will be associated either in
-    		lower case as well as in upper case.
-    	@param state the wanted state to be used (see definitions INTERFACE).
+    /** Register an action involving the editing
+        @param actionString the action name to be associated to this action
+        @param key the key to be used. It will be associated either in
+            lower case as well as in upper case.
+        @param state the wanted state to be used (see definitions INTERFACE).
     */
     private void registerAction(String actionString, char key, final int state)
     {
@@ -323,7 +323,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         getActionMap().put(actionString, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
-            	// We now set the new editing state
+                // We now set the new editing state
                 setSelectionState(state,"");
                 // If we are entering or modifying a primitive or a macro,
                 // we should be sure it disappears when the state changes
@@ -342,22 +342,21 @@ public class CircuitPanel extends JPanel implements ActionListener,
         [T]                 Text
         [B]                 Bézier
         [P]                 Polygon
-        [O]					Complex curve
+        [O]                 Complex curve
         [E]                 Ellipse
         [G]                 Rectangle
         [C]                 Connection
         [I]                 PCB track
         [Z]                 PCB pad
-        [ESC]				Exit from current editing action
-        [DEL] or [BACKSPC]	Delete the selected objects
+        [ESC]               Exit from current editing action
+        [DEL] or [BACKSPC]  Delete the selected objects
     </pre>
     */
     public final void registerActiveKeys() 
     {
-    	
         registerAction("selection", 'a', ElementsEdtActions.SELECTION);
-   		getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-        	.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
             "selection");
         registerAction("line", 'l', ElementsEdtActions.LINE);
         registerAction("text", 't', ElementsEdtActions.TEXT);
@@ -396,10 +395,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
         getActionMap().put(escape, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
                 if(eea.clickNumber>0){
-                	// Here we need to clear the variables which are used 
-                	// during the primitive introduction and editing.
-                	// see mouseMoved method for details.
-                	
+                    // Here we need to clear the variables which are used 
+                    // during the primitive introduction and editing.
+                    // see mouseMoved method for details.
+                    
                     eea.successiveMove = false;
                     eea.clickNumber = 0;
                     eea.primEdit = null;
@@ -464,12 +463,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void getFocus()
     {
-    	requestFocusInWindow();
+        requestFocusInWindow();
     }
     
     /** ChangeSelectionListener interface implementation 
-    	@param s the selection state
-    	@param macro the macro key (if applies)
+        @param s the selection state
+        @param macro the macro key (if applies)
     */    
     public void setSelectionState(int s, String macro)
     {
@@ -480,19 +479,19 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         if (scrollGestureSelectionListener!=null) {
             scrollGestureSelectionListener.setSelectionState(s, 
-            	macro);
+                macro);
         }
         eea.setState(s, macro);
         selectCursor();
     }
     
     /** Set the rectangle which will be shown during the next redraw.
-    	@param r the rectangle to show.
+        @param r the rectangle to show.
     */
     public void setScrollRectangle(Rectangle r)
     {
-    	scrollRectangle = r;
-    	repaint();
+        scrollRectangle = r;
+        repaint();
     }
         
     /** Define the listener to be called when the zoom is changed
@@ -533,7 +532,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void setCurrentLayer(int cl)
     {
-    	int l=cl;
+        int l=cl;
         /* two little checks... */
         if (l<0)
             l=0;
@@ -552,7 +551,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** TODO: eliminate this method. 
-    	Get the circuit in the FidoCadJ format, without the [FIDOCAD] header
+        Get the circuit in the FidoCadJ format, without the [FIDOCAD] header
         @param extensions allow for FCJ extensions
         @return the circuit in the Fidocad format
     */
@@ -562,21 +561,21 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** Change the current layer state. Change the layer of all selected
-    	primitives.
+        primitives.
         @param s the layer to be selected
     */
     public void changeSelectedLayer(int s)
     {
-    	// Change the current layer
+        // Change the current layer
         eea.currentLayer=s;
         // Change also the layer of all selected primitives
         if(edt.setLayerForSelectedPrimitives(s)) {
-        	repaint();
+            repaint();
         }
     }
 
     /** The callback method which is called when the current grid visibility 
-    	has changed. 
+        has changed. 
         @param v is the wanted grid visibility state
     */
     public void setGridVisibility(boolean v)
@@ -586,7 +585,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** The callback method which is called when the current snap visibility 
-    	has changed. 
+        has changed. 
         @param v is the wanted snap state
     */
     public void setSnapState(boolean v)
@@ -594,11 +593,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
         cs.setSnap(v);
     }
     
-    
     /** Increase or decrease the zoom by a step of 33%
-    	@param increase if true, increase the zoom, if false decrease
-    	@param x coordinate to which center the viewport (screen coordinates)
-    	@param y coordinate to which center the viewport (screen coordinates)
+        @param increase if true, increase the zoom, if false decrease
+        @param x coordinate to which center the viewport (screen coordinates)
+        @param y coordinate to which center the viewport (screen coordinates)
     */
     public void changeZoomByStep(boolean increase, int x, int y)
     {
@@ -611,8 +609,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         PointG origin=new PointG();
         DimensionG d=DrawingSize.getImageSize(P, 1.0, false, origin);
-    	double xs,ys;
-    					
+        double xs,ys;
+                        
         xs=(double)xpos/(d.width+MARGIN);
         if(xs<0.0) xs=0.0;
         ys=(double)ypos/(d.height+MARGIN);
@@ -630,7 +628,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(z>20) z=20;
         if(z<.25) z=.25;
             
-       	z=Math.round(z*100.0)/100.0;
+        z=Math.round(z*100.0)/100.0;
         cs.setMagnitudes(z,z);
 
         // A little strong...
@@ -639,61 +637,61 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int height = father.getViewport().getExtentSize().height;
         
         Rectangle r=new Rectangle((int)(xpos*z-width/2),
-       			(int)(ypos*z-height/2),
-       			width, height);
-       	
-       	setScrollRectangle(r); 
+                (int)(ypos*z-height/2),
+                width, height);
+        
+        setScrollRectangle(r); 
 
     }
     
     /** Show a popup menu representing the actions that can be done on the
-    	selected context.
-    	@param x the x coordinate where the popup menu should be put
-    	@param y the y coordinate where the popup menu should be put
+        selected context.
+        @param x the x coordinate where the popup menu should be put
+        @param y the y coordinate where the popup menu should be put
     */
     public void showPopUpMenu(int x, int y)
     {
-    	menux=x; menuy=y;
-    	boolean s=false;
-    	boolean somethingSelected=edt.getFirstSelectedPrimitive()!=null;
-    	GraphicPrimitive g=edt.getFirstSelectedPrimitive();
-		
-		// A certain number of menu options are applied to selected 
-       	// primitives. We therefore check wether are there some 
-       	// of them available and in this case we activate what should
-       	// be activated in the pop up menu.
-     	s=somethingSelected;
+        menux=x; menuy=y;
+        boolean s=false;
+        boolean somethingSelected=edt.getFirstSelectedPrimitive()!=null;
+        GraphicPrimitive g=edt.getFirstSelectedPrimitive();
         
-       	editProperties.setEnabled(s);
-      	editCut.setEnabled(s);
+        // A certain number of menu options are applied to selected 
+        // primitives. We therefore check wether are there some 
+        // of them available and in this case we activate what should
+        // be activated in the pop up menu.
+        s=somethingSelected;
+        
+        editProperties.setEnabled(s);
+        editCut.setEnabled(s);
         editCopy.setEnabled(s);
         editRotate.setEnabled(s);
         editMirror.setEnabled(s);
-            	
+                
         if(g instanceof PrimitiveComplexCurve ||
             g instanceof PrimitivePolygon) {
             s=true;
-		} else
-			s=false;
-		
-		if (!edt.isUniquePrimitiveSelected())
-			s=false;
-		
-		editAddNode.setEnabled(s);
+        } else
+            s=false;
+        
+        if (!edt.isUniquePrimitiveSelected())
+            s=false;
+        
+        editAddNode.setEnabled(s);
         editRemoveNode.setEnabled(s);
         editAddNode.setVisible(s);
         editRemoveNode.setVisible(s);
-            	
+                
         // We just check if the clipboard is empty. It would be better
         // to see if there is some FidoCadJ code wich might be pasted
-            	
+                
         TextTransfer textTransfer = new TextTransfer();
-            	
+                
         if(textTransfer.getClipboardContents().equals(""))
             editPaste.setEnabled(false);
         else
             editPaste.setEnabled(true);
-            	
+                
         editSymbolize.setEnabled(somethingSelected);
         
         editUSymbolize.setEnabled(edt.selectionCanBeSplitted()); // phylum
@@ -713,7 +711,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** Get the current editing action (see the constants defined in this 
-    	class)
+        class)
     
         @return the current editing action
     */
@@ -734,45 +732,45 @@ public class CircuitPanel extends JPanel implements ActionListener,
         boolean toggle = false;
         
         if(Globals.useMetaForMultipleSelection) {
-        	toggle = evt.isMetaDown();
-    	} else {
-        	toggle = evt.isControlDown();
+            toggle = evt.isMetaDown();
+        } else {
+            toggle = evt.isControlDown();
         }
  
-		if (eea.continuosMove(cs, xa, ya, toggle))
-			repaint();
+        if (eea.continuosMove(cs, xa, ya, toggle))
+            repaint();
 
     }
 
-    /** Mouse interface: dragging operations.
+    /** Mouse interface: start of the dragging operations.
     */
     public void mousePressed(MouseEvent evt)
     {
-    	MyTimer mt = new MyTimer();
-		
+        MyTimer mt = new MyTimer();
+        
         int px=evt.getX();
         int py=evt.getY();
         
         ruler=false;
-		rulerStartX = px;
+        rulerStartX = px;
         rulerStartY = py;
         rulerEndX=px;
         rulerEndY=py;
         boolean toggle = false;
         
         if(Globals.useMetaForMultipleSelection) {
-        	toggle = evt.isMetaDown();
-    	} else {
-        	toggle = evt.isControlDown();
+            toggle = evt.isMetaDown();
+        } else {
+            toggle = evt.isControlDown();
         }
                     
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
             !evt.isShiftDown()) { 
             haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
-            	toggle, cs);
+                toggle, cs);
         } else if(eea.actionSelected == ElementsEdtActions.SELECTION){ 
-        	// Right click during selection
+            // Right click during selection
             ruler = true;
         }
         
@@ -782,21 +780,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 record_c=elapsed;
             }
             System.out.println("MP: Time elapsed: "+elapsed+
-               	"; record: "+record_c+" ms");
+                "; record: "+record_c+" ms");
         }    
 
     }
+    
+    /** Dragging event with the mouse.
+    */
     public void mouseDragged(MouseEvent evt)
     {
-		MyTimer mt = new MyTimer();
-		int px=evt.getX();
+        MyTimer mt = new MyTimer();
+        int px=evt.getX();
         int py=evt.getY();
         
         // Handle the ruler. Basically, we just save the coordinates and
         // we launch a repaint which will be done as soon as possible.
         // No graphical elements are drawn outside a repaint.
         if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 || 
-        	evt.isShiftDown()) {
+            evt.isShiftDown()) {
             rulerEndX=px;
             rulerEndY=py;
             repaint();
@@ -814,7 +815,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 record_d=elapsed;
             }
             System.out.println("MD: Time elapsed: "+elapsed+
-               	"; record: "+record_d+" ms");
+                "; record: "+record_d+" ms");
         }   
     }
     
@@ -822,34 +823,30 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void mouseReleased(MouseEvent evt)
     {
-    	MyTimer mt = new MyTimer();
+        MyTimer mt = new MyTimer();
         int px=evt.getX();
         int py=evt.getY();
         
         boolean toRepaint = false;
         boolean toggle = false;
         boolean button3 = false;
-        
-        System.out.println ("evt: "+evt);
-        
+                
         if(Globals.useMetaForMultipleSelection) {
-        	toggle = evt.isMetaDown();
-    	} else {
-        	toggle = evt.isControlDown();
-        }
-        
-    	// Key bindings are a little different with MacOSX.
-        if(Globals.weAreOnAMac) {
-        	if(evt.getButton()==MouseEvent.BUTTON3)
-        		button3=true;
-        	else if(evt.getButton()==MouseEvent.BUTTON1 && evt.isControlDown())
-        		button3=true;
+            toggle = evt.isMetaDown();
         } else {
-			button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
-            		InputEvent.BUTTON3_MASK;
+            toggle = evt.isControlDown();
         }
-
         
+        // Key bindings are a little different with MacOSX.
+        if(Globals.weAreOnAMac) {
+            if(evt.getButton()==MouseEvent.BUTTON3)
+                button3=true;
+            else if(evt.getButton()==MouseEvent.BUTTON1 && evt.isControlDown())
+                button3=true;
+        } else {
+            button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
+                    InputEvent.BUTTON3_MASK;
+        }
         
         // If we are in the selection state, either we are ending the editing
         // of an element (and thus the dragging of a handle) or we are 
@@ -857,22 +854,22 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
         if(eea.actionSelected==ElementsEdtActions.SELECTION) {
             if(rulerStartX!=px || rulerStartY!=py) // NOPMD
-            	haa.dragHandleEnd(this, px, py, toggle, cs);
+                haa.dragHandleEnd(this, px, py, toggle, cs);
             else {
-            	ruler=false;
-            	requestFocusInWindow();
+                ruler=false;
+                requestFocusInWindow();
 
-            	toRepaint = eea.handleClick(cs,evt.getX(), evt.getY(), 
-            		button3, toggle, evt.getClickCount() >= 2);
+                toRepaint = eea.handleClick(cs,evt.getX(), evt.getY(), 
+                    button3, toggle, evt.getClickCount() >= 2);
             }
-           	repaint();
+            repaint();
         } else {
             requestFocusInWindow();
             toRepaint=eea.handleClick(cs,evt.getX(), evt.getY(),
-            	button3, toggle, evt.getClickCount() >= 2);
+                button3, toggle, evt.getClickCount() >= 2);
         }
         if (toRepaint)
-        	repaint();
+            repaint();
         
         // Having an idea of the release time is useful for the optimization
         // of the click event handling. The most time-consuming operation 
@@ -885,17 +882,20 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 record_d=elapsed;
             }
             System.out.println("MR: Time elapsed: "+elapsed+
-               	"; record: "+record_d+" ms");
+                "; record: "+record_d+" ms");
         }    
     }
-
+    
+    /** The mouse pointer enters into the control. This method changes the
+        cursor associated to it.
+    */
     public void mouseEntered(MouseEvent evt)
     {
         selectCursor();
     }
     
     /**
-    	Define the icon used for the mouse cursor, depending on the current
+        Define the icon used for the mouse cursor, depending on the current
         editing action.
     */
     public void selectCursor()
@@ -918,13 +918,16 @@ public class CircuitPanel extends JPanel implements ActionListener,
             case ElementsEdtActions.PCB_PAD:       
                 setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                 break;
-			case ElementsEdtActions.SELECTION:
+            case ElementsEdtActions.SELECTION:
             default:
                 setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 break;
         }
     }
     
+    /** The mouse pointer has exited the control. This method changes the
+        cursor associated and restores the default one.
+    */
     public void mouseExited(MouseEvent evt)
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -938,7 +941,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     /** The zoom listener
         @param tz the zoom factor to be used
     */
-    
     public void changeZoom(double tz) 
     {
         double z=Math.round(tz*100.0)/100.0;
@@ -968,7 +970,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void setEvidenceRect(int lx, int ly, int w, int h)
     {
-    	evidenceRect = new Rectangle();
+        evidenceRect = new Rectangle();
         evidenceRect.x=lx;
         evidenceRect.y=ly;
         evidenceRect.height=h;
@@ -976,14 +978,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
 
     /** Repaint the panel.
-    	This method performs the following operations:
-    	1. set the anti aliasing on (or off, depending on antiAlias).
-    	2. paint in white the background and draw the grid.
-    	3. call drawingAgent draw
-    	4. draw all active handles
-    	5. if needed, draw the primitive being edited
-    	6. draw the ruler, if needed
-    	7. if requested, print information about redraw speed
+        This method performs the following operations:
+        1. set the anti aliasing on (or off, depending on antiAlias).
+        2. paint in white the background and draw the grid.
+        3. call drawingAgent draw
+        4. draw all active handles
+        5. if needed, draw the primitive being edited
+        6. draw the ruler, if needed
+        7. if requested, print information about redraw speed
     
     */
     public void paintComponent(Graphics g) 
@@ -991,26 +993,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
         super.paintComponent(g);
         MyTimer mt;
         mt = new MyTimer();
-        
-        
+         
         Graphics2D g2 = (Graphics2D)g; 
-       	graphicSwing.setGraphicContext(g2);
-       
-                
+        graphicSwing.setGraphicContext(g2);
+                   
         // Activate anti-aliasing when necessary.
         
         if (antiAlias) {
-        	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-             	RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
+                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
                 RenderingHints.VALUE_RENDER_QUALITY);
-        	g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
+            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, 
                 RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        	g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
                 RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        	g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, 
+            g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, 
                 RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         } else {
           // Faster graphic (??? true??? I do not think so on modern systems)
@@ -1052,15 +1052,15 @@ public class CircuitPanel extends JPanel implements ActionListener,
         g2.setStroke(new BasicStroke(1));
 
         if(evidenceRect!=null && eea.actionSelected == 
-        	ElementsEdtActions.SELECTION)
-        	g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
-            	evidenceRect.height);
+            ElementsEdtActions.SELECTION)
+            g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,   
+                evidenceRect.height);
         else
-        	evidenceRect = null;
-		
-		// If there is a primitive or a macro being edited, draws it.
-		//graphicSwing.setGraphicContext(g2);
-		eea.drawPrimEdit(graphicSwing, cs);
+            evidenceRect = null;
+        
+        // If there is a primitive or a macro being edited, draws it.
+        //graphicSwing.setGraphicContext(g2);
+        eea.drawPrimEdit(graphicSwing, cs);
 
 
         // If a ruler is active, draw it.
@@ -1077,9 +1077,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         }
         
         if(scrollRectangle!=null) {
-        	Rectangle r=scrollRectangle;
-        	scrollRectangle = null;
-  	   		scrollRectToVisible(r);
+            Rectangle r=scrollRectangle;
+            scrollRectangle = null;
+            scrollRectToVisible(r);
         }
         
         
@@ -1107,27 +1107,27 @@ public class CircuitPanel extends JPanel implements ActionListener,
         }   
                
     }
-        
+    
+    /** Update the current size of the object, given the current size of the
+        drawing.
+    */
     public void validate()
     {
-		if (cs.getXMax()>0 && 
-            cs.getYMax()>0){
-            //System.out.println("Validate: "+(cs.getXMax()
-            //    +MARGIN)+"x"+(cs.getYMax()+MARGIN));
-    		setPreferredSize(new Dimension(cs.getXMax()
+        if (cs.getXMax()>0 && 
+            cs.getYMax()>0) {
+            setPreferredSize(new Dimension(cs.getXMax()
                 +MARGIN,cs.getYMax()+MARGIN));
-        }        
+        }
         super.validate();
-        
     }
  
     /** Draws a ruler to ease measuring distances.
-    	@param g the graphic context
-    	@param sx the x position of the starting corner
-    	@param sy the y position of the starting corner
-    	@param ex the x position of the end corner
-    	@param ey the y position of the end corner
-    	
+        @param g the graphic context
+        @param sx the x position of the starting corner
+        @param sy the y position of the starting corner
+        @param ex the x position of the end corner
+        @param ey the y position of the end corner
+        
     */
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
@@ -1154,7 +1154,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (sx==ex)
             alpha = Math.PI/2.0+(ey-sy<0?0:Math.PI);
         else
-        	alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
+            alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
         
         alpha += ex-sx>0?0:Math.PI;
         
@@ -1227,83 +1227,83 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** Get the current instance of EditorActions controller class
-    	@return the class
+        @return the class
     */
     public EditorActions getEditorActions()
     {
-    	return edt;
+        return edt;
     }
  
     /** Get the current instance of CopyPasteActions controller class
-    	@return the class
+        @return the class
     */
     public CopyPasteActions getCopyPasteActions()
     {
-    	return cpa;
+        return cpa;
     }
     
     /** Get the current instance of ParserActions controller class
-    	@return the class
+        @return the class
     */
     public ParserActions getParserActions()
     {
-    	return pa;
+        return pa;
     }
     
     /** Get the current instance of UndoActions controller class
-    	@return the class
+        @return the class
     */
     public UndoActions getUndoActions()
     {
-    	return ua;
+        return ua;
     }
     /** Get the current instance of ElementsEdtActions controller class
-    	@return the class
+        @return the class
     */
     public ContinuosMoveActions getContinuosMoveActions()
     {
-    	return eea;
+        return eea;
     } 
      
     /** Shows a dialog which allows the user modify the parameters of a given
-    	primitive. If more than one primitive is selected, modify only the
-    	layer of all selected primitives.
+        primitive. If more than one primitive is selected, modify only the
+        layer of all selected primitives.
     */
     public void setPropertiesForPrimitive()
-    {    	
+    {       
         GraphicPrimitive gp=edt.getFirstSelectedPrimitive();
         if (gp==null) 
-        	return;
-        	
+            return;
+            
         Vector<ParameterDescription> v;
         if (edt.isUniquePrimitiveSelected()) {
-           	v=gp.getControls();
+            v=gp.getControls();
         } else {
-          	// If more than a primitive is selected, 
-           	v=new Vector<ParameterDescription>(1);
-           	ParameterDescription pd = new ParameterDescription();
-			pd.parameter=new LayerInfo(gp.getLayer());
-			pd.description=Globals.messages.getString("ctrl_layer");
-			v.add(pd);
+            // If more than a primitive is selected, 
+            v=new Vector<ParameterDescription>(1);
+            ParameterDescription pd = new ParameterDescription();
+            pd.parameter=new LayerInfo(gp.getLayer());
+            pd.description=Globals.messages.getString("ctrl_layer");
+            v.add(pd);
         }
         DialogParameters dp = new DialogParameters(
-           	(JFrame)Globals.activeWindow,
-           	v, extStrict, 
+            (JFrame)Globals.activeWindow,
+            v, extStrict, 
             P.getLayers());
         dp.setVisible(true);
         if(dp.active) {
-        	if (edt.isUniquePrimitiveSelected()) {
-        	    gp.setControls(dp.getCharacteristics());	
-        	} else { 
-        		ParameterDescription pd=(ParameterDescription)v.get(0);
-        		v=dp.getCharacteristics();
-        		if (pd.parameter instanceof LayerInfo) {
-					int l=((LayerInfo)pd.parameter).getLayer();
-					edt.setLayerForSelectedPrimitives(l);
-				} else {
-		 			System.out.println(
-		 				"Warning: unexpected parameter! (layer)");
-		 		}
+            if (edt.isUniquePrimitiveSelected()) {
+                gp.setControls(dp.getCharacteristics());    
+            } else { 
+                ParameterDescription pd=(ParameterDescription)v.get(0);
+                v=dp.getCharacteristics();
+                if (pd.parameter instanceof LayerInfo) {
+                    int l=((LayerInfo)pd.parameter).getLayer();
+                    edt.setLayerForSelectedPrimitives(l);
+                } else {
+                    System.out.println(
+                        "Warning: unexpected parameter! (layer)");
+                }
             }
             P.setChanged(true);
                 
@@ -1318,10 +1318,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** Selects the closest object to the given point (in logical coordinates)
-    	and pops up a dialog for the editing of its Param_opt.
-    	
-    	@param x the x logical coordinate of the point used for the selection
-    	@param y the y logical coordinate of the point used for the selection
+        and pops up a dialog for the editing of its Param_opt.
+        
+        @param x the x logical coordinate of the point used for the selection
+        @param y the y logical coordinate of the point used for the selection
     
     */
     public void selectAndSetProperties(int x, int y)
@@ -1344,143 +1344,143 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
     
     /** Set if the strict FidoCAD compatibility mode is active
-   		@param strict true if the compatibility with FidoCAD should be 
-   		obtained.
-   	
-   	*/
-   	public void setStrictCompatibility(boolean strict)
-   	{
-   		extStrict=strict;
-   	}
+        @param strict true if the compatibility with FidoCAD should be 
+        obtained.
+    
+    */
+    public void setStrictCompatibility(boolean strict)
+    {
+        extStrict=strict;
+    }
     
     
     /** Change the current coordinate mapping.
-    	@param m the new coordinate mapping to be adopted.
+        @param m the new coordinate mapping to be adopted.
     */
     public void setMapCoordinates(MapCoordinates m)
     {
-    	cs=m;
-    	// Force an in-depth redraw.
-    	P.setChanged(true);
+        cs=m;
+        // Force an in-depth redraw.
+        P.setChanged(true);
     }
     
     /** Get the current coordinate mapping.
-    	@return the current coordinate mapping
+        @return the current coordinate mapping
     */
     public MapCoordinates getMapCoordinates()
     {
-    	return cs;
+        return cs;
     }
     
     /** The action listener. Recognize menu events and behaves consequently.
     */
     public void actionPerformed(ActionEvent evt)
     {
-    	// TODO: Avoid some copy/paste of code from FidoFrame class
-    	
+        // TODO: Avoid some copy/paste of code from FidoFrame class
+        
         // Recognize and handle popup menu events
         if(evt.getSource() instanceof JMenuItem) 
         {
             String arg=evt.getActionCommand();                        
-			
-			if (arg.equals(Globals.messages.getString("Param_opt"))) {
-				setPropertiesForPrimitive();
+            
+            if (arg.equals(Globals.messages.getString("Param_opt"))) {
+                setPropertiesForPrimitive();
             } else if (arg.equals(Globals.messages.getString("Copy"))) {
-            	// Copy all selected elements in the clipboard
+                // Copy all selected elements in the clipboard
                 cpa.copySelected(!extStrict, false);   
             } else if (arg.equals(Globals.messages.getString("Cut"))) {
-            	// Cut elements
+                // Cut elements
                 cpa.copySelected(!extStrict, false);   
                 edt.deleteAllSelected(true);
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {
-            	// Paste elements from the clipboard
+                // Paste elements from the clipboard
                 cpa.paste(getMapCoordinates().getXGridStep(), 
-                	getMapCoordinates().getYGridStep());   
+                    getMapCoordinates().getYGridStep());   
                 repaint();
             } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
-            	// Select all in the drawing.
-            	edt.setSelectionAll(true);   
+                // Select all in the drawing.
+                edt.setSelectionAll(true);   
                 // Even if the drawing is not changed, a repaint operation is 
                 // needed since all selected elements are rendered in green.
                 repaint();
             }else if (arg.equals(Globals.messages.getString("Rotate"))) {
-            	// Rotate the selected element
+                // Rotate the selected element
                 if(eea.isEnteringMacro())
-                	eea.rotateMacro();
+                    eea.rotateMacro();
                 else
-                	edt.rotateAllSelected();
+                    edt.rotateAllSelected();
                 repaint();
             } else if(arg.equals(Globals.messages.getString("Mirror_E"))) {
-            	// Mirror the selected element
-            	if(eea.isEnteringMacro())
-                	eea.mirrorMacro();
+                // Mirror the selected element
+                if(eea.isEnteringMacro())
+                    eea.mirrorMacro();
                 else
-                	edt.mirrorAllSelected();
-                	          
+                    edt.mirrorAllSelected();
+                              
                 repaint();
             } 
             
-            else if (arg.equals(Globals.messages.getString("Symbolize"))) { 	
-            	if (edt.getFirstSelectedPrimitive() == null) return;
-				DialogSymbolize s = new DialogSymbolize(this,P);
-				s.setModal(true);
-				s.setVisible(true);	
-				try {
-					LibUtils.saveLibraryState(ua);
-				} catch (IOException e) {
-					System.out.println("Exception: "+e);
-		
-				}
-				repaint();
-			}  
+            else if (arg.equals(Globals.messages.getString("Symbolize"))) {     
+                if (edt.getFirstSelectedPrimitive() == null) return;
+                DialogSymbolize s = new DialogSymbolize(this,P);
+                s.setModal(true);
+                s.setVisible(true); 
+                try {
+                    LibUtils.saveLibraryState(ua);
+                } catch (IOException e) {
+                    System.out.println("Exception: "+e);
+        
+                }
+                repaint();
+            }  
             
             else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
-            	StringBuffer s=edt.getSelectedString(true, pa);
-            	edt.deleteAllSelected(false);
-           		pa.addString(pa.splitMacros(s,  true),true);
-            	ua.saveUndoState();
-            	repaint(); 
-			}              
+                StringBuffer s=edt.getSelectedString(true, pa);
+                edt.deleteAllSelected(false);
+                pa.addString(pa.splitMacros(s,  true),true);
+                ua.saveUndoState();
+                repaint(); 
+            }              
             
             else if(arg.equals(Globals.messages.getString("Remove_node"))) {
-            	if(edt.getFirstSelectedPrimitive() 
-            		instanceof PrimitivePolygon) {
-            		PrimitivePolygon poly=
-            			(PrimitivePolygon)edt.getFirstSelectedPrimitive();
-            		poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
-            			getMapCoordinates().unmapYnosnap(menuy),1);
-            		ua.saveUndoState();
-            		repaint();
-            	} else if(edt.getFirstSelectedPrimitive() 
-            		instanceof PrimitiveComplexCurve) {
-            		PrimitiveComplexCurve curve=
-            			(PrimitiveComplexCurve)edt.getFirstSelectedPrimitive();
-            		curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
-            			getMapCoordinates().unmapYnosnap(menuy),1);
-            		ua.saveUndoState();
-            		repaint();
-            	}
+                if(edt.getFirstSelectedPrimitive() 
+                    instanceof PrimitivePolygon) {
+                    PrimitivePolygon poly=
+                        (PrimitivePolygon)edt.getFirstSelectedPrimitive();
+                    poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
+                        getMapCoordinates().unmapYnosnap(menuy),1);
+                    ua.saveUndoState();
+                    repaint();
+                } else if(edt.getFirstSelectedPrimitive() 
+                    instanceof PrimitiveComplexCurve) {
+                    PrimitiveComplexCurve curve=
+                        (PrimitiveComplexCurve)edt.getFirstSelectedPrimitive();
+                    curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
+                        getMapCoordinates().unmapYnosnap(menuy),1);
+                    ua.saveUndoState();
+                    repaint();
+                }
             } else if(arg.equals(Globals.messages.getString("Add_node"))) {
-            	if(edt.getFirstSelectedPrimitive() 
-            		instanceof PrimitivePolygon) {
-            		PrimitivePolygon poly=
-            			(PrimitivePolygon)edt.getFirstSelectedPrimitive();
-            		poly.addPointClosest(
-            			getMapCoordinates().unmapXsnap(menux),
-            			getMapCoordinates().unmapYsnap(menuy));
-            		ua.saveUndoState();
-            		repaint();
-            	} else if(edt.getFirstSelectedPrimitive() instanceof 
-            		PrimitiveComplexCurve) {
-            		PrimitiveComplexCurve poly=
-            			(PrimitiveComplexCurve)edt.getFirstSelectedPrimitive();
-            		poly.addPointClosest(
-            			getMapCoordinates().unmapXsnap(menux),
-            			getMapCoordinates().unmapYsnap(menuy));
-            		ua.saveUndoState();
-            		repaint();
-            	}
+                if(edt.getFirstSelectedPrimitive() 
+                    instanceof PrimitivePolygon) {
+                    PrimitivePolygon poly=
+                        (PrimitivePolygon)edt.getFirstSelectedPrimitive();
+                    poly.addPointClosest(
+                        getMapCoordinates().unmapXsnap(menux),
+                        getMapCoordinates().unmapYsnap(menuy));
+                    ua.saveUndoState();
+                    repaint();
+                } else if(edt.getFirstSelectedPrimitive() instanceof 
+                    PrimitiveComplexCurve) {
+                    PrimitiveComplexCurve poly=
+                        (PrimitiveComplexCurve)edt.getFirstSelectedPrimitive();
+                    poly.addPointClosest(
+                        getMapCoordinates().unmapXsnap(menux),
+                        getMapCoordinates().unmapYsnap(menuy));
+                    ua.saveUndoState();
+                    repaint();
+                }
             }      
        }
    }
@@ -1489,66 +1489,75 @@ public class CircuitPanel extends JPanel implements ActionListener,
    */
    public void forcesRepaint()
    {
-   		repaint();
+        repaint();
    }
    
    /** Forces a repaint.
    */
    public void forcesRepaint(int a, int b, int c, int d)
    {
-   		repaint(a, b, c, d);
+        repaint(a, b, c, d);
    }
    
-   	/**	Windows and Linux users can use Ctrl+Wheel to zoom in and out.
-   		With MacOSX, however Ctrl+Wheel is associated to the full screen 
-   		zooming. Therefore, we use Command ("meta" with the Java terminology).
-   	*/
-   	private int getKeyForWheel()
-   	{
-   	   int keyCode=KeyEvent.VK_CONTROL;
-   	   if(Globals.weAreOnAMac)
-   	   	keyCode=KeyEvent.VK_META;
-   	   return keyCode;
-   	}
+    /** Windows and Linux users can use Ctrl+Wheel to zoom in and out.
+        With MacOSX, however Ctrl+Wheel is associated to the full screen 
+        zooming. Therefore, we use Command ("meta" with the Java terminology).
+    */
+    private int getKeyForWheel()
+    {
+        int keyCode=KeyEvent.VK_CONTROL;
+        if(Globals.weAreOnAMac)
+            keyCode=KeyEvent.VK_META;
+        return keyCode;
+    }
 
+    /** Intercepts the moment when the Ctrl or Command key is pressed (see the
+        note for getKeyForWheel(), so that the wheel listener is added.
+    */
     @Override
     public void keyPressed(KeyEvent e) 
     {
-	if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
-	    addMouseWheelListener(this);
+        if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
+            addMouseWheelListener(this);
     }
-
+    
+    /** Intercepts the moment when the Ctrl or Command key is released (see the
+        note for getKeyForWheel(), so that the wheel listener is removed.
+    */
     @Override
     public void keyReleased(KeyEvent e) 
     {
-	if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
-	    removeMouseWheelListener(this);
+        if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
+            removeMouseWheelListener(this);
     }
 
+    /** Required by the KeyListener interface.
+    */
     @Override
     public void keyTyped(KeyEvent e) 
     {
-	// do nothing
+        // do nothing
     }
 
+    /** Determines wether in the wheel listener there is this class.
+    */
     private boolean hasMouseWheelListener() 
     {
-	MouseWheelListener[] listeners = getMouseWheelListeners();
-	for (MouseWheelListener mouseWheelListener : listeners) {
-	    if (mouseWheelListener.equals(this))
-		return true;
-	}
-	return false;
+        MouseWheelListener[] listeners = getMouseWheelListeners();
+        for (MouseWheelListener mouseWheelListener : listeners) {
+            if (mouseWheelListener.equals(this))
+            return true;
+        }
+        return false;
     }
 
-    /*
+    /**
      * Handle zoom event via the wheel.
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) 
     {
-	this.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
+        this.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
     }
-   
 }
 

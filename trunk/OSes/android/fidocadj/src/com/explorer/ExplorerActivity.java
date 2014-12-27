@@ -44,7 +44,6 @@ TODO:  document class and public methods
 
 public class ExplorerActivity extends ListActivity 
 {
-	/** Called when the activity is first created. */
 	public static String ROOT = IO.rootDir;
 	public String CURDIR = ROOT;
 	public String PARENT = ROOT;
@@ -119,7 +118,8 @@ public class ExplorerActivity extends ListActivity
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+					int position, long id) 
+			{
 				String item = (String) ((TextView) view
 						.findViewById(R.id.explorer_tv)).getText();
 				if (item == "." || item == "..") {

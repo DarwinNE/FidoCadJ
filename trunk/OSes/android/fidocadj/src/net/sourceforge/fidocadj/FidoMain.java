@@ -125,7 +125,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
 	HashMap<String, List<String>> listDataChild;
 
-	/** Called when the activity is first created. */
+	/** Called when the activity is first created. 
+	*/
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -146,14 +147,62 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		Globals.messages = new AccessResources(this);
 
 		activateSensors();
-		
+		readAllLibraries();
+		createLibraryDrawer();
 
-		StringBuilder text = new StringBuilder();
-		text.append("[FIDOCAD]\n");
+		// TODO: this is method which works well, but it is discouraged by
+		// modern Android APIs.
+		reloadInstanceData(getLastNonConfigurationInstance());
+		IO.context = this;
 		
+		// Process the intents. It is useful when a file has to be opened.
+		Uri data = getIntent().getData();
+		boolean readPrevious=false;
+		if(data!=null) {
+			getIntent().setData(null);
+			readPrevious=importData(data);
+		}
+		if(readPrevious)
+			readTempFile();
+		
+		// Update the color of the layer button.
+		Button layerButton= (Button)findViewById(R.id.layer);
+		Vector<LayerDesc> layers = 
+			drawingPanel.getDrawingModel().getLayers();
+		layerButton.setBackgroundColor(
+					((ColorAndroid)layers.get(0).getColor())
+					.getColorAndroid());
+					
+		// Zoom to fit only if there is something to show.
+		if(!drawingPanel.getDrawingModel().isEmpty()) {
+			drawingPanel.panToFit();
+		}
+	}
+	
+	/** Read all libraries in the FidoCadJ/Libs directory. 
+	*/
+	private void readAllLibraries()
+	{
+		// Get the path of the external storage directory. For example,
+		// in most cases it will be /storage/sdcard0/.
+		// Therefore, the lib dir will be /storage/sdcard0/FidoCadJ/Libs
+		File file_tm = new File(Environment.getExternalStorageDirectory(), 
+			"FidoCadJ/Libs");
+		Log.e("fidocadj", "read lib dir:"+file_tm.getAbsolutePath());
+		drawingPanel.getParserActions().loadLibraryDirectory(
+			file_tm.getAbsolutePath());			
+	}
+
+	/** Read the drawing stored in the temporary file
+	*/
+	private void readTempFile()
+	{	
 		// Now we read the current drawing which might be contained in the
 		// temporary file. If there is something meaningful, we perform a 
 		// zoom to fit operation. 
+		StringBuilder text = new StringBuilder();
+		text.append("[FIDOCAD]\n");
+		
 		File file = new File(getFilesDir(), tempFileName);
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -174,59 +223,29 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		drawingPanel.getParserActions().parseString(
 				new StringBuffer(text.toString()));
 		drawingPanel.getUndoActions().saveUndoState();
-		drawingPanel.invalidate();
-		
-		// Read all libraries in the FidoCadJ/Libs directory.
-		File file_tm = new File(Environment.getExternalStorageDirectory(), 
-			"FidoCadJ/Libs");
-		Log.e("fidocadj", "read lib dir:"+file_tm.getAbsolutePath());
-		drawingPanel.getParserActions().loadLibraryDirectory(
-			file_tm.getAbsolutePath());
-			
-		createLibraryDrawer();
-
-		// TODO: this is method which works well, but it is discouraged by
-		// modern Android APIs.
-		reloadInstanceData(getLastNonConfigurationInstance());
-		IO.context = this;
-		
-		Uri data = getIntent().getData();
-		if(data!=null) {
-			getIntent().setData(null);
-			//try {
-				importData(data);
-			/*} catch (Exception e) {
-				finish();
-				return;
-			}*/
-		}
-		
-		Button layerButton= (Button)findViewById(R.id.layer);
-		Vector<LayerDesc> layers = 
-			drawingPanel.getDrawingModel().getLayers();
-		layerButton.setBackgroundColor(
-					((ColorAndroid)layers.get(0).getColor())
-					.getColorAndroid());
-					
-		// Zoom to fit only if there is something to show.
-		if(!drawingPanel.getDrawingModel().isEmpty()) {
-			drawingPanel.panToFit();
-		}
+		drawingPanel.invalidate();	
 	}
 	
-	/** from
-http://richardleggett.co.uk/blog/2013/01/26/registering_for_file_types_in_android/
+	/** Inspired from
+		
+		http://richardleggett.co.uk/blog/2013/01/26/
+		registering_for_file_types_in_android/
+		
+		detects if in the data there is a file indication, open it and
+		load its contents.
+		@return true if something has been loaded, false otherwise
 	*/
-	private void importData(Uri data)
+	private boolean importData(Uri data)
 	{
 		final String scheme = data.getScheme();
-		Log.e("fidocadj", "Got inside importData: "+data);
+		// Check wether there is a file in the data provided.
 		if(ContentResolver.SCHEME_FILE.equals(scheme)) {
 			try {
 				ContentResolver cr = getContentResolver();
 				InputStream is = cr.openInputStream(data);
-				if(is==null) return;
+				if(is==null) return false;
 				
+				// Read the contents of the file.
 				StringBuffer buf = new StringBuffer();
 				BufferedReader reader = new BufferedReader(
 					new InputStreamReader(is));
@@ -237,12 +256,13 @@ http://richardleggett.co.uk/blog/2013/01/26/registering_for_file_types_in_androi
 					}
 				}
 				is.close();
-				Log.e("fidocadj", "file contents: "+buf);
-				drawingPanel.getParserActions().parseString(buf);
+				return true;
 			} catch (Exception e) {
-				Log.e("fidocadj", "error reading file: "+e.toString());
+				Log.e("fidocadj", "FidoMain.ImportData, Error reading file: "+
+					e.toString());
 			}
 		}
+		return false;
 	}
 	
 	/**
