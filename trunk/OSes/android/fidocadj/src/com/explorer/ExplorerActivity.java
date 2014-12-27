@@ -11,6 +11,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,17 +39,17 @@ TODO:  document class and public methods
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Cronos80
+    Copyright 2014 by Cronos80, Davide Bucci
 </pre>
 */
 
 public class ExplorerActivity extends ListActivity 
 {
 	public static String ROOT = IO.rootDir;
-	public String CURDIR = ROOT;
-	public String PARENT = ROOT;
-	public static String FILENAME = "filename";
-	public static String DIRECTORY = "directory";
+	public String curDir = ROOT;
+	public String parentDir = ROOT;
+	public static final String FILENAME = "filename";
+	public static final String DIRECTORY = "directory";
 
 	public static final int REQUEST_FILE = 0;
 	public static final int REQUEST_FOLDER = 1;
@@ -108,7 +109,12 @@ public class ExplorerActivity extends ListActivity
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
 		context = this;
-
+		
+		String path="FidoCadJ/Drawings";
+		File file = new File(Environment.getExternalStorageDirectory(), path);
+		curDir=file.getAbsolutePath();
+		parentDir=curDir;
+		
 		FOLDER_SELECTION = getIntent().getBooleanExtra(DIRECTORY, false);
 		if (!FOLDER_SELECTION) {
 			LinearLayout ll=(LinearLayout)findViewById(R.id.explorer_layout);
@@ -117,19 +123,19 @@ public class ExplorerActivity extends ListActivity
 		}
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
+			public void onItemClick(AdapterView<?> parentDir, View view,
 					int position, long id) 
 			{
 				String item = (String) ((TextView) view
 						.findViewById(R.id.explorer_tv)).getText();
 				if (item == "." || item == "..") {
 					if (item == ".") {
-						showDir((new File(CURDIR)).getAbsolutePath());
+						showDir((new File(curDir)).getAbsolutePath());
 					} else {
-						showDir((new File(CURDIR)).getParent());
+						showDir((new File(curDir)).getParent());
 					}
 				} else {
-					File path = new File(CURDIR + "/" + item);
+					File path = new File(curDir + "/" + item);
 					if (path.isDirectory()) {
 						showDir(path.getAbsolutePath());
 					} else {
@@ -139,7 +145,7 @@ public class ExplorerActivity extends ListActivity
 				}
 			}
 		});
-		showDir(ROOT);
+		showDir(curDir);
 	}
 
 	public void doAction() 
@@ -161,6 +167,10 @@ public class ExplorerActivity extends ListActivity
 		startActivityForResult(intent, 1);
 	}
 
+	/** Get all the files included in the current directory.
+		@param dir the path of the directory to be listed
+		@return an array containing all the contents of the given dir.
+	*/
 	public String[] getList(String dir) 
 	{
 		String[] listDir = new String[] {};
@@ -180,11 +190,17 @@ public class ExplorerActivity extends ListActivity
 		return defDir;
 	}
 
+	/** Eliminate all the elements in the given list, which correspond to
+		files and not to directories.
+		@param list the array containing the content of a directory
+		@return a list where all the files have been filtered out (so that
+			just the directories are present).
+	*/
 	public String[] filterFiles(String[] list) 
 	{
 		List<String> filtered = new ArrayList<String>();
 		for (String f : list) {
-			if (new File(CURDIR + "/" + f).isDirectory()) {
+			if (new File(curDir + "/" + f).isDirectory()) {
 				filtered.add(f);
 			}
 		}
@@ -196,7 +212,7 @@ public class ExplorerActivity extends ListActivity
 	*/
 	public void showDir(String dir) 
 	{
-		CURDIR = dir;
+		curDir = dir;
 		File path = new File(dir);
 		setTitle(path.getAbsolutePath());
 		String[] listDir = getList(path.getAbsolutePath());
@@ -209,12 +225,13 @@ public class ExplorerActivity extends ListActivity
 
 		setListAdapter(new ExplorerAdapter(this, listDir,
 				path.getAbsolutePath()));
-
 	}
 
+	/** Perform a selection of a file.
+	*/
 	public void OnSelectClick(View view) 
 	{
-		_DIRECTORY = CURDIR;
+		_DIRECTORY = curDir;
 		Intent data = new Intent();
 		data.putExtra(FILENAME, _FILENAME);
 		data.putExtra(DIRECTORY, _DIRECTORY);

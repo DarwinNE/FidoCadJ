@@ -23,7 +23,6 @@
         		android:visible="true" />
             <item
                 android:id="@+id/open_file"
-        		
         		android:title="@string/Open"
         		android:visible="true" />
             <detail>
@@ -34,32 +33,26 @@
         	</detail>
             <item
                 android:id="@+id/save"
-        		
         		android:title="@string/Save"
         		android:visible="true" />
             <item
                 android:id="@+id/save_with_name"
-        		
         		android:title="@string/SaveName"
         		android:visible="true" />
             <item
                 android:id="@+id/delete"
-        		
         		android:title="@string/Delete"
         		android:visible="true" />
             <item
                 android:id="@+id/export"
-        		
         		android:title="@string/Export"
         		android:visible="false" />
             <item
                 android:id="@+id/print"
-        		
         		android:title="@string/Print"
         		android:visible="false" />
             <item
                 android:id="@+id/options"
-        		
         		android:title="@string/Circ_opt_t"
         		android:visible="false" />
         </menu>
@@ -76,14 +69,12 @@
         		android:title="@string/Undo"/>
         	<item
                 android:id="@+id/menu_redo"
-        		
+                android:icon="@drawable/redo"
         		android:title="@string/Redo" />
         	<item android:id="@+id/menu_cut"
-        		
         		android:icon="@drawable/cut"
           		android:title="@string/Cut" />
 			<item android:id="@+id/menu_copy"	
-				
 				android:icon="@drawable/copy"
           		android:title="@string/Copy" />
           	<detail>
@@ -92,28 +83,22 @@
           	</detail>
         	<item
                 android:id="@+id/menu_copy_split"
-        		
         		android:title="@string/Copy_split" 
         		android:visible="false"/>
         	<item android:id="@+id/menu_paste"
-				
 				android:icon="@drawable/paste"
           		android:title="@string/Paste" />
         	<item
                 android:id="@+id/menu_define_clipboard"
-        		
         		android:title="@string/DefineClipboard"
         		android:visible="false" />
         	<item
                 android:id="@+id/menu_selectall"
-        		
         		android:title="@string/SelectAll" />
         	<item android:id="@+id/menu_delete"
-        		
         		android:icon="@drawable/delete"
           		android:title="@string/Delete" />          
 			<item android:id="@+id/menu_rotate"
-				
 				android:icon="@drawable/rotate"
           		android:title="@string/Rotate" />  
 			<item android:id="@+id/menu_mirror"
@@ -130,31 +115,26 @@
         <menu>
             <item
                 android:id="@+id/layer"
-        		
         		android:title="@string/tooltip_layerSel"
         		android:visible="true" />
         	<item
                 android:id="@+id/zoomtofit"
-        		
         		android:title="@string/Zoom_fit"
         		android:visible="true" />
         	<item
                 android:id="@+id/showgrid"
-        		
         		android:title="@string/ShowGrid"
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />
         	<item
                 android:id="@+id/snaptogrid"
-        		
         		android:title="@string/SnapToGrid"
         		android:visible="true"
         		android:checkable="true"
         		android:checked="true" />
         	<item
                 android:id="@+id/use_sensors_rotate_mirror"
-        		
         		android:title="@string/use_sensors_rotate_mirror"
         		android:visible="true"
         		android:checkable="true"
