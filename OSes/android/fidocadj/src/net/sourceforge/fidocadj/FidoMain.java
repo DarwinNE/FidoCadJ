@@ -109,18 +109,23 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 	private float averagedAngleSpeedX;
 	private float averagedAngleSpeedY;
 	private float averagedAngleSpeedZ;
+	
+	// Sort of a counter to specify a sort of a "dead time" after a sensor
+	// gesture has been triggered.
 	private long holdoff;
 
 	/* Loaded libraries and information */
 	private List<Category> globalList;
 	private List<Library> libsList;
-
-	private Spinner librarySpinner;
-	private ExpandableMacroListView listAdapter;
-	private ExpandableListView expListView;
 	private List<String> listDataHeader;
 	private HashMap<String, HashMap<String, List<String>>> listDataHeader2;
 
+	// Elements of the graphic interface.
+	private Spinner librarySpinner;
+	private ExpandableMacroListView listAdapter;
+	private ExpandableListView expListView;
+	
+	// Name of the temporary file employed for saving the current drawing.
 	private final String tempFileName = "state.fcd.tmp";
 
 	HashMap<String, List<String>> listDataChild;
@@ -162,7 +167,11 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			getIntent().setData(null);
 			readPrevious=importData(data);
 		}
-		if(readPrevious)
+		
+		// If a file has not been opened, read the content of the previous 
+		// session and try to restore the drawing, as contained in the 
+		// temporary file. 
+		if(!readPrevious)
 			readTempFile();
 		
 		// Update the color of the layer button.
@@ -682,19 +691,19 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
+	/** Called when the Activity is put in the "pause" state.
+	*/
 	@Override
 	protected void onPause() 
 	{
 		super.onPause();
-		// Avoid registering accelerometer events when the application is
+		// Avoid registering accelerometer events when the activity is
 		// paused.
 		mSensorManager.unregisterListener(this);
 	}
 
 	/** Create the contextual menu.
-	
 	*/
-	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -816,8 +825,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		}
 	}
 
-	/** Saves the current state and finish the application.
-	
+	/** Save the current state and finish the application.
 	*/
 	@Override
 	public void onBackPressed() 
@@ -831,7 +839,6 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		finish();
 	}
 }
