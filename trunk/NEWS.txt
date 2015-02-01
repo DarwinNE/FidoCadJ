@@ -1,8 +1,11 @@
 Version 0.24.5
 --------------
-- Solved bug #56 (some components do not appear in the preview).
+- Fixed bug #56 (some components do not appear in the preview).
+- Fixed bug #61 (multiple selection using Commands on MacOSX).
+- Fixed bug #62 (wrong UTF-8 tag in SVN export).
 - Czech translation associated to the correct locale.
 - Reintroduced the "-k" option to obtain the given locale.
+- Android porting.
 
 Version 0.24.4
 --------------
@@ -11,7 +14,7 @@ Version 0.24.4
 - More ergonomic editing of the libraries. No more drag&drop, but copy/paste for symbols. Better search.
 - The layer of more than one primitive can be selected at once: either with the Parameters dialog or just by choosing a layer when elements are selected.
 - New zoom levels in the list.
-- Many bug corrected.
+- Many bugs corrected.
 
 Version 0.24.3
 --------------
