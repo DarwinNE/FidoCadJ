@@ -27,7 +27,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2014 by Davide Bucci
+	Copyright 2008-2015 by Davide Bucci
 </pre>
 
     
@@ -99,7 +99,8 @@ public class ExportSVG implements ExportInterface {
 	    
 	    // A dumb, basic header of the SVG file
 	    
-    	out.write("<?xml version=\"1.0\" encoding=\""+Globals.encoding+"\" " + 			
+	    // Globals.encoding
+    	out.write("<?xml version=\"1.0\" encoding=\""+"UTF-8"+"\" " + 			
 			"standalone=\"no\"?> \n<!DOCTYPE svg PUBLIC"+
 			" \"-//W3C//Dtd SVG 1.1//EN\" " + 
 			"\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
