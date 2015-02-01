@@ -129,7 +129,7 @@ public class FidoMain
         		System.exit(1);
         	}
         	
-            // Reads the standard librarie
+            // Reads the standard libraries
         	readLibrariesProbeDirectory(P, false, libDirectory);
         	
         	StringBuffer txt=new StringBuffer();    
@@ -458,7 +458,17 @@ public class FidoMain
                	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/PCB.fcl"), "pcb");
     	}
-           	
+    	if (new File(Globals.createCompleteFileName(
+        	libDirectory,"EY_Libraries.fcl")).exists()) {
+           	System.out.println("Standard EY_Libraries got from external file");
+        } else {
+        	if(englishLibraries)
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/EY_Libraries.fcl"), "EY_Libraries");
+           	else
+               	pa.loadLibraryInJar(FidoFrame.class.getResource(
+               		"lib/EY_Libraries.fcl"), "EY_Libraries");
+    	}
         if (new File(Globals.createCompleteFileName(
         	libDirectory,"elettrotecnica.fcl")).exists()) {
            	System.out.println(

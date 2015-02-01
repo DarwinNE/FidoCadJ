@@ -1,5 +1,6 @@
 Version 0.24.5
 --------------
+- Contains the new EY library of components.
 - Fixed bug #56 (some components do not appear in the preview).
 - Fixed bug #61 (multiple selection using Commands on MacOSX).
 - Fixed bug #62 (wrong UTF-8 tag in SVN export).
