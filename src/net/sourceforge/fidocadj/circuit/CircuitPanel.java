@@ -157,6 +157,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     JMenuItem editCut;
     JMenuItem editCopy;
     JMenuItem editPaste;
+    JMenuItem editDuplicate;
     JMenuItem editSelectAll;
     JMenuItem editRotate;
     JMenuItem editMirror;
@@ -218,8 +219,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         setOpaque(true);
         runs = 0;
         average = 0;
-    
-                    
+              
         // This is unot seful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
@@ -228,64 +228,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
             addKeyListener(this);
             setFocusable(true);
             registerActiveKeys();
+            
             //Create the popup menu.
-            popup = new JPopupMenu();
-            editProperties = new 
-                JMenuItem(Globals.messages.getString("Param_opt"));
-
-            editCut = new JMenuItem(Globals.messages.getString("Cut"));
-            editCopy = new JMenuItem(Globals.messages.getString("Copy"));
-            editSelectAll = new JMenuItem(
-                Globals.messages.getString("SelectAll"));
-            
-            editPaste = new JMenuItem(Globals.messages.getString("Paste"));
-            editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
-            editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
-            
-            editSymbolize = 
-                new JMenuItem(Globals.messages.getString("Symbolize"));
-            editUSymbolize = 
-                new JMenuItem(Globals.messages.getString("Unsymbolize")); 
-            
-            editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
-            editRemoveNode =    
-                new JMenuItem(Globals.messages.getString("Remove_node"));
-        
-            popup.add(editProperties);
-            popup.addSeparator();
-            
-            popup.add(editCut);
-            popup.add(editCopy);
-            popup.add(editPaste);
-            popup.addSeparator();
-            popup.add(editSelectAll);
-            
-            popup.addSeparator();
-            popup.add(editRotate);
-            popup.add(editMirror);
-            
-            popup.add(editAddNode);
-            popup.add(editRemoveNode);
-            
-            popup.addSeparator();
-            popup.add(editSymbolize); // by phylum
-            popup.add(editUSymbolize); // phylum
-            
-            // Adding the action listener
-            
-            editProperties.addActionListener(this);
-            editCut.addActionListener(this);
-            editCopy.addActionListener(this);
-            editSelectAll.addActionListener(this);
-            editPaste.addActionListener(this);
-            editRotate.addActionListener(this);
-            editMirror.addActionListener(this);
-            
-            editAddNode.addActionListener(this);
-            editRemoveNode.addActionListener(this);
-            
-            editSymbolize.addActionListener(this); // phylum
-            editUSymbolize.addActionListener(this); // phylum
+            popup=definePopupMenu();
             
             // Patchwork for bug#54.
             // When mouse pointer enters into CircuitPanel with macro,
@@ -300,6 +245,72 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 }
             });
         }
+    }
+    
+    /** Create the popup menu.
+    */
+    private JPopupMenu definePopupMenu()
+    {
+    	JPopupMenu pp = new JPopupMenu();
+        editProperties = new 
+            JMenuItem(Globals.messages.getString("Param_opt"));
+
+        editCut = new JMenuItem(Globals.messages.getString("Cut"));
+        editCopy = new JMenuItem(Globals.messages.getString("Copy"));
+        editSelectAll = new JMenuItem(Globals.messages.getString("SelectAll"));
+            
+        editPaste = new JMenuItem(Globals.messages.getString("Paste"));
+        editDuplicate = new JMenuItem(Globals.messages.getString("Duplicate"));
+        editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
+        editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
+            
+        editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
+        editUSymbolize = 
+        	new JMenuItem(Globals.messages.getString("Unsymbolize")); 
+            
+        editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
+        editRemoveNode =
+        	new JMenuItem(Globals.messages.getString("Remove_node"));
+        
+        pp.add(editProperties);
+        pp.addSeparator();
+            
+        pp.add(editCut);
+        pp.add(editCopy);
+        pp.add(editPaste);
+        pp.add(editDuplicate);
+        pp.addSeparator();
+        pp.add(editSelectAll);
+            
+        pp.addSeparator();
+        pp.add(editRotate);
+        pp.add(editMirror);
+            
+        pp.add(editAddNode);
+        pp.add(editRemoveNode);
+            
+        pp.addSeparator();
+        pp.add(editSymbolize); // by phylum
+        pp.add(editUSymbolize); // phylum
+            
+        // Adding the action listener
+            
+        editProperties.addActionListener(this);
+        editCut.addActionListener(this);
+        editCopy.addActionListener(this);
+        editSelectAll.addActionListener(this);
+        editPaste.addActionListener(this);
+        editDuplicate.addActionListener(this);
+        editRotate.addActionListener(this);
+        editMirror.addActionListener(this);
+            
+        editAddNode.addActionListener(this);
+        editRemoveNode.addActionListener(this);
+            
+        editSymbolize.addActionListener(this); // phylum
+    	editUSymbolize.addActionListener(this); // phylum
+    	
+    	return pp;
     }
     
     /** Register an action involving the editing
@@ -667,6 +678,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         editCopy.setEnabled(s);
         editRotate.setEnabled(s);
         editMirror.setEnabled(s);
+        editDuplicate.setEnabled(s);
                 
         if(g instanceof PrimitiveComplexCurve ||
             g instanceof PrimitivePolygon) {
@@ -1394,6 +1406,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 edt.deleteAllSelected(true);
                 repaint();
             } else if (arg.equals(Globals.messages.getString("Paste"))) {
+                // Paste elements from the clipboard
+                cpa.paste(getMapCoordinates().getXGridStep(), 
+                    getMapCoordinates().getYGridStep());   
+                repaint();
+            } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
+                // Copy all selected elements in the clipboard
+                cpa.copySelected(!extStrict, false);
                 // Paste elements from the clipboard
                 cpa.paste(getMapCoordinates().getXGridStep(), 
                     getMapCoordinates().getYGridStep());   
