@@ -143,12 +143,40 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		eea.setPrimitivesParListener(this);
 		
 		showGrid = true;
+		readInternalLibraries();
+		
+		
+        //StringBuffer s=new StringBuffer(createTestPattern());	
+		//pa.parseString(s);
+		ua.saveUndoState();
+		cs = new MapCoordinates();
+		
+		cs.setXMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
+		cs.setYMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
+		cs.setXGridStep(5);
+		cs.setYGridStep(5);
+
+		// Courier New is the standard on PC, but it is not available on 
+		// Android. Here the system will find a substitute.
+        dm.setTextFont("Courier New", 3, null);
+
+		//turn off hw accelerator 
+		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    }
+    
+    /** Read the internal libraries (specified as raw resources).
+    */
+    private void readInternalLibraries()
+    {
+    	
 		BufferedReader stdLib;
 		BufferedReader ihram;
 		BufferedReader elettrotecnica;
 		BufferedReader pcb;
+		BufferedReader eylib;
 		
-		// Libraries are available in Italian or in English
+    
+    	// Libraries are available in Italian or in English
 		
 		String lang="";
 		try {
@@ -184,30 +212,18 @@ public class FidoEditor extends View implements PrimitivesParInterface
 				new InputStreamReader(cc.getResources().openRawResource(
 				R.raw.pcb_en)));
 		}
+		eylib = new BufferedReader(
+				new InputStreamReader(cc.getResources().openRawResource(
+				R.raw.ey_libraries)));
 		try {
 			pa.readLibraryBufferedReader(stdLib, "");
 			pa.readLibraryBufferedReader(pcb, "pcb");
 			pa.readLibraryBufferedReader(ihram, "ihram");
 			pa.readLibraryBufferedReader(elettrotecnica, "elettrotecnica");
+			pa.readLibraryBufferedReader(eylib, "ey_libraries");
         } catch (IOException E) {
         
         }
-        //StringBuffer s=new StringBuffer(createTestPattern());	
-		//pa.parseString(s);
-		ua.saveUndoState();
-		cs = new MapCoordinates();
-		
-		cs.setXMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
-		cs.setYMagnitude(3*getResources().getDisplayMetrics().densityDpi/112);
-		cs.setXGridStep(5);
-		cs.setYGridStep(5);
-
-		// Courier New is the standard on PC, but it is not available on 
-		// Android. Here the system will find a substitute.
-        dm.setTextFont("Courier New", 3, null);
-
-		//turn off hw accelerator 
-		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
     
     public String getText()
