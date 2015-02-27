@@ -23,7 +23,6 @@ public class RenameEvent
 	final private Object parentNode;
 	final private String oldName;
 
-
 	public RenameEvent(Object parentNode,Object renamedNode,String oldName)
 	{
 		this.parentNode = parentNode;

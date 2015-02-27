@@ -21,10 +21,6 @@ import java.util.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
-
-
-
 import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.globals.Globals;
