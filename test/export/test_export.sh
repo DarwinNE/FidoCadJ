@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# All the tests are being run in the headless mode. This avoid some kind of appearing and
+# All the tests are being run in the headless mode. This avoid some kind of 
+# appearing and
 # disappearing icon in the dock and it makes Java startup a little faster.
 
 echo "Test script for graphical export facility of FidoCadJ"
@@ -39,6 +40,16 @@ cd ..
 echo ""
 echo "LaTeX test file for PGF export compiled."
 echo
+
+echo "Check sanity of the command line inputs."
+# In the first test, the extension is wrong and the file should not be
+# created.
+java -jar ../../jar/fidocadj.jar -n -c r2 png this_file_should_not_be_created.pdf original/test_pattern.fcd >output_sanity1.txt 2>expected_error.txt
+
+# In the second test, the extension is wrong but the -f option is provided.
+# The exported file should be created anyway, even with the wrong extension.
+java -jar ../../jar/fidocadj.jar -n -f -c r2 png this_file_should_have_wrong_extension.pdf original/test_pattern.fcd >output_sanity2.txt 
+
 
 ./check.sh
 exit $?

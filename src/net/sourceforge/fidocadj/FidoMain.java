@@ -56,6 +56,11 @@ public class FidoMain
 	// If this is true, the GUI will not be loaded and FidoCadJ will run as
     // a command line utility:
     private static boolean commandLineOnly = false;
+    
+    // Force FidoCadJ to skip some sanity tests during the command line
+    // option processing.
+	private static boolean forceMode=false;
+
        	
     // The standard behavior implies that FidoCadJ tries to activate some
     // optimizations or settings which depends on the platform and should
@@ -165,6 +170,15 @@ public class FidoMain
             }
                
         	if (convertFile) {
+        		// We check if the output file has a correct
+            	// extension, coherent with the file format chosen.
+            	if(!Globals.checkExtension(outputFile, exportFormat) &&
+            		    !forceMode) {
+               		System.err.println(
+               			"File extension is not coherent with the "+
+               			"export output format! Use -f to skip this test.");
+               		System.exit(1);
+            	}
         		try {
         			if (resolutionBasedExport) {
         				ExportGraphic.export(new File(outputFile),  P, 
@@ -241,6 +255,10 @@ public class FidoMain
        				// of the library directory. The previous library 
        				// directory will be ignored.
        				nextLib=true;
+       			} else if (args[i].startsWith("-f")) {
+       				// -f forces FidoCadJ to skip some of the sanity checks
+       				// for example in file extensions while exporting.
+       				forceMode=true;
        			} else if (args[i].startsWith("-c")) {
        				// -c indicates that FidoCadJ should read and convert
        				// the given file. The structure of the command must 
@@ -269,9 +287,9 @@ public class FidoMain
        					}
        					exportFormat=args[++i];
        					outputFile=args[++i];
+
        					convertFile=true;
-       					headlessMode = true;
-        					
+       					headlessMode = true;	
        				} catch (Exception E) {
        					System.err.println("Unable to read the parameters"+
        						" given to -c");
@@ -366,7 +384,9 @@ public class FidoMain
     		"        file to convert.\n"+
     		"        An alternative is to specify the resolution in pixels per logical unit\n"+
     		"        by preceding it by the letter 'r' (without spaces), instead of giving\n"+
-    		"        sx and sy.\n\n"+
+    		"        sx and sy.\n"+
+    		"        NOTE: the coherence of the file extension is checked, unless the -f\n"+
+    		"        option is specified.\n\n"+
     		
     		" -s     Print the size  of the specified file in logical coordinates.\n\n"+
     		
@@ -381,6 +401,8 @@ public class FidoMain
     		"        immediately or be separated by an optional space).\n\n"+
     		
     		" -k     Show the current locale.\n\n"+
+    		
+    		" -f     Force FidoCadJ to skip some tests about sanity of the inputs.\n\n"+
     		
     		" [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
     		"        load at startup time.\n\n"+

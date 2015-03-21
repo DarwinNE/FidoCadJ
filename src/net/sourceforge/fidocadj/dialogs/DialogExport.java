@@ -56,7 +56,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     private static final int PDF_INDEX=5;       // Combo list index: pgf format
     private static final int SCR_INDEX=6;       // idem: Eagle scr format
 
-    private static final double EPS=1E-5;      // Resolution comparison precision
+    private static final double EPS=1E-5;   // Resolution comparison precision
     
     // Swing elements
     private JComboBox<String> resolution;       // Resolution combo box
@@ -233,7 +233,6 @@ public class DialogExport extends JDialog implements ComponentListener,
         if(index==4) return 6.00;
         
         return 0.36;
-        
     }
     
     /** Sets the default export format. 
@@ -391,7 +390,11 @@ public class DialogExport extends JDialog implements ComponentListener,
         return panel;
     }
     
-    
+    /** Event handling routine for the user interface.
+    	For the moment, it does not do much, except setting the enabled
+    	state of buttons and elements of the UI, depending on which kind
+    	of export is being done.
+    */
     public void actionPerformed(ActionEvent evt)
     {
 		JComboBox<String> source = 
@@ -414,8 +417,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     		blackWhite_CB.setEnabled(true);  // Black and white checkbox
     		multiplySizes.setEnabled(true); // Size multiplications
 		}
-	}
-        
+	}   
     
     /** Standard constructor: it needs the parent frame.
         @param p the dialog's parent
@@ -577,10 +579,5 @@ public class DialogExport extends JDialog implements ComponentListener,
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
-
     }
-    
-    
-
-
 }

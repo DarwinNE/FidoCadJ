@@ -8,6 +8,7 @@ Version 0.24.5
 - Czech translation associated to the correct locale.
 - Reintroduced the "-k" option to obtain the given locale.
 - Android porting.
+- Check for correctness of the file extension while export. That should be enough to avoid to overwrite .fcd files when the file names are written in a wrong order during an export from CLI. Added the -f option to skip this test.
 
 Version 0.24.4
 --------------
