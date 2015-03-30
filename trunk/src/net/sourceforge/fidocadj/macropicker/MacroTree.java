@@ -271,6 +271,10 @@ public class MacroTree extends JPanel
         }
     }
 
+	/**
+    * Renames a category.
+    * @param category Category to rename.
+    */
     public void rename(Category category)
     {
         String newName;
@@ -293,7 +297,10 @@ public class MacroTree extends JPanel
                 JOptionPane.ERROR_MESSAGE);
         }
     }
-
+	/**
+    * Renames a library.
+    * @param library Library to rename.
+    */
     public void rename(Library library)
     {
         String newName;
@@ -694,11 +701,8 @@ public class MacroTree extends JPanel
 
 
         /**
-
         * Returns the value of copyAvailable.
-
         */
-
         public boolean isCopyAvailable()
         {
             return copyAvailable;

@@ -4,6 +4,7 @@ Version 0.24.5
 - Fixed bug #56 (some components do not appear in the preview).
 - Fixed bug #61 (multiple selection using Commands on MacOSX).
 - Fixed bug #62 (wrong UTF-8 tag in SVN export).
+- Fixed bug #49 (PDF export does not support UTF-8 characters) with some limitations.
 - Added the "Duplicate" command associated to Ctrl+D, Ctrl+G now shows the drawing code (it once was Ctrl+D).
 - Czech translation associated to the correct locale.
 - Reintroduced the "-k" option to obtain the given locale.

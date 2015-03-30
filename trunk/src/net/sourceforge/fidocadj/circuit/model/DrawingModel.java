@@ -277,7 +277,6 @@ public class DrawingModel
         int i;
         GraphicPrimitive t,g,gg;
         boolean cont=true;
-        //MyTimer mt=new MyTimer();
         maxLayer = 0;
         
         // Indexes
