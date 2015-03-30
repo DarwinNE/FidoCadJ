@@ -6,6 +6,8 @@ import java.text.*;
 
 import javax.swing.*;
 
+import java.net.URL;
+
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
@@ -30,7 +32,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2014 by Davide Bucci
+	Copyright 2008-2015 by Davide Bucci
 </pre>
     
     @author Davide Bucci
@@ -44,6 +46,23 @@ public class ExportPDF implements ExportInterface {
 	private BufferedWriter out;
 	private BufferedWriter outt;
 	private boolean fontWarning;
+	private String userfont;
+	
+	private GraphicsInterface gi;
+	
+	// Well, this is a complex stuff. In practice, in the PDF format we have to
+	// map the UTF8 code to the Adobe name of glyphs in a font. This is
+	// accomplished by reading a file presenting the correspondance between
+	// the standard UTF8 code and the glyph name. This file is from Adobe and
+	// it is called glyphlist.txt available here:
+	// https://github.com/adobe-type-tools/agl-aglfn
+	// The Map is completed in the exportStart method of this class.
+	// During the export of text (exportAdvText), a list of unicode chars 
+	// whose encoding will be considered in the PDF is filled.
+	// At the end of the export, an encoding mapping will be created.
+	private Map<Integer, String> unicodeToGlyph;
+	private Map<Integer, Integer> uncodeCharsNeeded;
+	private int unicodeCharIndex;
 	
 	// The file header
 	private String head;
@@ -76,29 +95,22 @@ public class ExportPDF implements ExportInterface {
 	}
 	
 	/** Constructor
-	
 		@param f the File object in which the export should be done.
-		
 	*/
 	
-	public ExportPDF (File f) throws IOException
+	static final String encoding="UTF8";//"8859_1";
+	
+	public ExportPDF (File f, GraphicsInterface gg) throws IOException
 	{
-		
-		/** From what I have seen, it appears that the standard PDF fonts
-			are not available with the UTF-8 encoding. This means that to
-			use it we should embed the fonts we are using, that have this
-			encoding. This might be something to be done in the future, but
-			for the moment we just restrict ourselves to the Latin-1 encoding
-			which is the standard encoding supported by the PDF format.
-		*/
+		gi=gg;
 
-		fstream =  new OutputStreamWriter(new FileOutputStream(f), "8859_1");
+		fstream =  new OutputStreamWriter(new FileOutputStream(f), encoding);
 		
     	temp = File.createTempFile("real",".howto");
 		temp.deleteOnExit();
 
 		fstreamt =  new OutputStreamWriter(new FileOutputStream(temp), 
-			"8859_1");
+			encoding);
 			
 		obj_PDF = new String[numOfObjects];
 
@@ -122,6 +134,50 @@ public class ExportPDF implements ExportInterface {
 		throws IOException
 	{ 
 		
+		// The glyphlist.txt file has about 4300 lines, therefore starting 
+		// with a size of 5000 seems reasonable.
+		unicodeToGlyph = new HashMap<Integer, String>(5000);
+		
+		// 128 chars for the moment will suffice.
+		uncodeCharsNeeded = new HashMap<Integer, Integer>(128);
+		
+		// The mapping of Unicode chars will be done starting from code 128
+		// up to 256. For the moment it will suffice.
+		unicodeCharIndex=127;
+		
+		// Read the glyphlist.txt file and store its contents in the hash
+		// map for easy retrieval during the calculation of encoding needs.		
+		BufferedReader br= new BufferedReader(new InputStreamReader(
+                      getClass().getResourceAsStream("glyphlist.txt"),
+                      encoding));
+        try{
+        	String line = br.readLine();
+        	String glyph;
+        	Integer code;
+        	String codeStr;
+        	int p,q;
+        	while (line != null) {
+            	//System.out.println(line);
+            	if(!line.startsWith("#")) {
+            		p=line.indexOf(';');
+            		q=line.indexOf(' ');
+            		glyph=line.substring(0,p);
+            		if(q<0)
+            			codeStr=line.substring(p+1);
+            		else
+            			codeStr=line.substring(p+1,q);
+            		code=Integer.decode("0x"+codeStr);
+            		//System.out.println(glyph+"  "+code);
+            		unicodeToGlyph.put(Integer.valueOf(code), glyph);
+            		//System.out.println("line:" +line+"    glyph:"
+            		//	+glyph+" code:"+codeStr);
+            	}
+            	line = br.readLine();
+        	}
+    	} finally {
+    		br.close();
+    	}
+		
 		// We need to save layers informations, since we will use them later.
 		
 		layerV=la;
@@ -138,7 +194,7 @@ public class ExportPDF implements ExportInterface {
 	    int wi=totalSize.width;
 	    int he=totalSize.height;
 	    
-	    // An header of the EPS file
+	    // A header of the EPS file
 	    
 	   	// 200 dpi is the internal resolution of FidoCadJ
 	   	// 72 dpi is the internal resolution of the Postscript coordinates
@@ -180,7 +236,6 @@ public class ExportPDF implements ExportInterface {
 	*/
 	public void exportEnd() 
 		throws IOException
-	
 	{ 
 		//DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		//Date date = new Date();
@@ -188,7 +243,6 @@ public class ExportPDF implements ExportInterface {
 		outt.close();
 		
 		fileLength=temp.length();
-
 
 		writeFontDescription();
 		
@@ -216,6 +270,7 @@ public class ExportPDF implements ExportInterface {
 				"  /F6 12 0 R\n"+
 				"  /F7 13 0 R\n"+
 				"  /F8 14 0 R\n"+
+				"  /F9 15 0 R\n"+
 				">>\n"+
 				"/ProcSet 2 0 R\n"+
 				">>\n"+
@@ -227,7 +282,7 @@ public class ExportPDF implements ExportInterface {
 				"[ /PDF /Text  ]\n"+
 				"endobj\n";
 				
-		// Object 1 is just 
+		// Object 1 is just a header
 		obj_PDF[1]="1 0 obj\n"+
 				"<<\n"+
 				"  /Creator (FidoCadJ"+Globals.version+
@@ -245,33 +300,34 @@ public class ExportPDF implements ExportInterface {
 				">>\n"+
 				"endobj\n";
 		
-		
-		BufferedInputStream bufRead = new 
-			BufferedInputStream(new FileInputStream(temp));
-                
-        int c=0;
-        
-        // Copy all the contents of the temporary file into the pdf file
-        c =bufRead.read();
-        while (c!=-1){
-           	out.write(c);
-        	c =bufRead.read();
-        }
-            
-        bufRead.close();
+		BufferedReader br= new BufferedReader(new InputStreamReader(
+                      new FileInputStream(temp), encoding));
+        try{
+        	String line = br.readLine();
+        	while (line != null) {
+            	out.write(line+"\n");
+            	line = br.readLine();
+        	}
+    	} finally {
+    		br.close();
+    	}
 		closeObject="endstream\n"+"endobj\n";
 
 		out.write(closeObject+obj_PDF[4]+obj_PDF[2]+obj_PDF[1]+
 			obj_PDF[3]+obj_PDF[9]+obj_PDF[10]+obj_PDF[11]+obj_PDF[12]+
-			obj_PDF[13]+obj_PDF[14]);
+			obj_PDF[13]+obj_PDF[14]+obj_PDF[15]+obj_PDF[16]);
 			
 		writeCrossReferenceTable();
 				  
 		out.close();
 		
 		if (fontWarning) {
-			JOptionPane.showMessageDialog(null,
-				Globals.messages.getString("PDF_Font_error"));
+			if (java.awt.GraphicsEnvironment.isHeadless()) {
+				System.err.println("Some fonts were not available!");
+			} else {
+				JOptionPane.showMessageDialog(null,
+					Globals.messages.getString("PDF_Font_error"));
+			}
 		}	
     
 	}
@@ -286,68 +342,131 @@ public class ExportPDF implements ExportInterface {
 		F6 - Helvetica Bold
 		F7 - Symbol
 		F8 - Symbol
+		F9 - Undefinite
 		
 	*/
 	private void writeFontDescription() throws java.io.IOException
 	{
+		
 		obj_PDF[6]=	"6 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F1\n" +
-				"    /BaseFont /Courier\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				"    /BaseFont /Courier\n" +
+				calcWidthsIndex("Courier")+
+				"    /Encoding 16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[7]="7 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F2\n" +
+		//		"    /Name /F2\n" +
 				"    /BaseFont /Courier-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				calcWidthsIndex("Courier-Bold")+
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		
 		obj_PDF[9]="9 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F3\n" +
+		//		"    /Name /F3\n" +
 				"    /BaseFont /Times-Roman\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				calcWidthsIndex("Times-Roman")+
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[10]="10 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F4\n" +
-				"    /BaseFont /Times-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+		//		"    /Name /F4\n" +
+				"    /BaseFont /Times-Bold\n" +
+				calcWidthsIndex("Times-Bold")+ 
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[11]="11 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F5\n" +
+		//		"    /Name /F5\n" +
 				"    /BaseFont /Helvetica\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				calcWidthsIndex("Helvetica")+
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[12]="12 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F6\n" +
+		//		"    /Name /F6\n" +
 				"    /BaseFont /Helvetica-Bold\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				calcWidthsIndex("Helvetica-Bold")+
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[13]="13 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F7\n" +
+		//		"    /Name /F7\n" +
 				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				calcWidthsIndex("Symbol")+
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
 		obj_PDF[14]="14 0 obj\n" +
 				"  <<	/Type /Font\n" +
 				"    /Subtype /Type1\n" +
-				"    /Name /F8\n" +
+				calcWidthsIndex("Symbol")+
+		//		"    /Name /F8\n" +
 				"    /BaseFont /Symbol\n" + 
-				"    /Encoding /WinAnsiEncoding\n" +
+				"    /Encoding  16 0 R\n" +
 				"  >> endobj\n";
-
+				
+		obj_PDF[15]="15 0 obj\n" +
+				"  <<	/Type /Font\n" +
+				"    /Subtype /Type1\n" +
+				calcWidthsIndex(userfont)+
+				"    /BaseFont /"+userfont+"\n" + 
+				"    /Encoding  16 0 R\n" +
+				"  >> endobj\n";
+			
+		obj_PDF[16]="16 0 obj\n"+
+				"   <<  /Type /Encoding\n"+
+				"    /BaseEncoding /WinAnsiEncoding\n"+
+				"    /Differences [";
+			
+		for (Integer code : uncodeCharsNeeded.keySet()) {
+			String glyph=unicodeToGlyph.get(uncodeCharsNeeded.get(code));
+			/*System.out.println("code: "+code+"  UTF8: "
+				+uncodeCharsNeeded.get(code)+ "  glyph: "+
+				glyph);*/
+				
+			obj_PDF[16]+=""+code+"/"+unicodeToGlyph.get(	
+				uncodeCharsNeeded.get(code))+" ";
+		}
+		obj_PDF[16]+="]\n"+
+				"  >> endobj\n";
+	}
+	
+	private String calcWidthsIndex(String font)
+	{
+		String charWidths;
+		
+		gi.setFont(font, 24);
+		int basewidth=gi.getStringWidth("M");
+		
+		charWidths=
+			"    /FirstChar 32\n"+
+			"    /LastChar "+unicodeCharIndex+"\n"+
+			"    /Widths [";
+		
+		int calcwidth;
+		int mwidth=900;
+		
+		for (int i=32; i<128;++i) {
+			calcwidth=mwidth*gi.getStringWidth(""+(char)i)/basewidth;
+			charWidths+=""+calcwidth+ " ";
+		}
+		
+		for (Integer code : uncodeCharsNeeded.keySet()) {
+			calcwidth=mwidth*gi.getStringWidth(""+
+				(char)uncodeCharsNeeded.get(code).intValue())/basewidth;
+			charWidths+=""+calcwidth+ " ";
+		}
+		charWidths+="]\n";
+		
+		return charWidths;
 	}
 		
 	
@@ -515,11 +634,50 @@ public class ExportPDF implements ExportInterface {
 		  obj_PDF[11].length()+
 		  obj_PDF[12].length()+
 		  obj_PDF[13].length())+
-		  " 00000 n \n"); 		// 14
+		  " 00000 n \n"+ 		// 14
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length()+
+		  obj_PDF[12].length()+
+		  obj_PDF[13].length()+
+		  obj_PDF[14].length())+
+		  " 00000 n \n"+ 		// 15
+		  
+		  addLeadZeros(head.length()+
+		  obj_PDF[5].length()+
+		  obj_PDF[6].length()+
+		  obj_PDF[7].length()+
+		  obj_PDF[8].length()+ 
+		  fileLength + 
+		  closeObject.length()+
+		  obj_PDF[4].length()+
+		  obj_PDF[2].length()+
+		  obj_PDF[1].length()+
+		  obj_PDF[3].length()+
+		  obj_PDF[9].length()+
+		  obj_PDF[10].length()+
+		  obj_PDF[11].length()+
+		  obj_PDF[12].length()+
+		  obj_PDF[13].length()+
+		  obj_PDF[14].length()+
+		  obj_PDF[15].length())+
+		  " 00000 n \n"); 		// 16
 		  
 		  out.write("trailer\n"+
 				"<<\n"+
-				"  /Size 15\n"+
+				"  /Size 16\n"+
 				"  /Root 3 0 R\n"+
 				"  /Info 1 0 R\n"+
 				">>\n"+
@@ -540,7 +698,9 @@ public class ExportPDF implements ExportInterface {
 		  obj_PDF[11].length()+
 		  obj_PDF[12].length()+
 		  obj_PDF[13].length()+
-		  obj_PDF[14].length())+
+		  obj_PDF[14].length()+
+		  obj_PDF[15].length()+
+		  obj_PDF[16].length())+
 		  "\n%%EOF");
 				
 	}
@@ -606,7 +766,8 @@ public class ExportPDF implements ExportInterface {
 				outt.write("/F7"+" "+ys+" Tf\n");       
 		} else {
 			fontWarning = true;
-			outt.write("/F4"+" "+ys+" Tf\n");
+			userfont=fontname;
+			outt.write("/F9"+" "+ys+" Tf\n");
 		}
 
 		outt.write("q\n");
@@ -639,8 +800,36 @@ public class ExportPDF implements ExportInterface {
 		subst.put("(","\\050");
 		subst.put(")","\\051");
 		text=Globals.substituteBizarreChars(text, subst);
+		
+		//outt.write("  ("+text+") Tj\n");
+		
+		outt.write(" <");
+		int ch;
+		int codechar;
+		for(int i=0; i<text.length();++i) {
+			ch=(int)text.charAt(i);
 			
-		outt.write("  ("+text+") Tj\n");
+			// Proceed to encode UTF-8 characters as much as possible.
+			if(ch>127) {
+				if(uncodeCharsNeeded.containsKey(ch)) {
+					ch=uncodeCharsNeeded.get(ch);
+				} else {
+					++unicodeCharIndex;
+					if(unicodeCharIndex<256) {
+						uncodeCharsNeeded.put(unicodeCharIndex,ch);
+						ch=unicodeCharIndex;
+					} else {
+						System.err.println("Too many Unicode chars! "+
+							"The present version of the PDF export filter "+
+							"handles up to 128 Unicode chars in one file.");
+					}	
+				}
+			}
+			outt.write(Integer.toHexString(ch));
+			outt.write(" ");
+		}
+		outt.write("> Tj\n");
+		
 		outt.write("Q\nET\n");
 		
 	}

@@ -134,7 +134,7 @@ public final class PrimitiveConnection
 			
 		// When the circle is very small, it is better to set a single pixel
 		// than trying to fill the oval.
-		if(ni>=1)
+		if(ni>1)
 			g.fillOval(xa1, ya1, ni, ni);
 		else
 			g.fillRect(xa1, ya1, ni, ni);
@@ -206,12 +206,18 @@ public final class PrimitiveConnection
 	*/
 	public String toString(boolean extensions)
 	{
-		String s= "SA "+virtualPoint[0].x+" "+virtualPoint[0].y+
-			" "+getLayer()+"\n";
-			
-		s+=saveText(extensions);
+		StringBuffer s=new StringBuffer(100);
+		s.append("SA ");
+		s.append(virtualPoint[0].x);
+		s.append(" ");
+		s.append(virtualPoint[0].y);
+		s.append(" ");
+		s.append(getLayer());
+		s.append("\n");
 		
-		return s;
+		s.append(saveText(extensions));
+		
+		return s.toString();
 	}
 	
 		/** The export routine

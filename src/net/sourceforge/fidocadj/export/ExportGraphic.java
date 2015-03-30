@@ -275,7 +275,7 @@ public final class ExportGraphic
     		ExportPGF ef = new ExportPGF(file);
     		new Export(P).exportDrawing(ef, true, false, m);
     	} else if("pdf".equals(format)) {
-    		ExportPDF ef = new ExportPDF(file);
+    		ExportPDF ef = new ExportPDF(file, new GraphicsNull());
     		new Export(P).exportDrawing(ef, true, false, m);
     	} else if("scr".equals(format)) {
     		ExportEagle ef = new ExportEagle(file);
