@@ -423,6 +423,13 @@ public final class PrimitiveLine extends GraphicPrimitive
     */
     public String toString(boolean extensions)
     {
+    	// A single point line without anything is not worth converting.
+		if (name.length()==0 && value.length()==0 && 
+			virtualPoint[0].x==virtualPoint[1].x &&
+			virtualPoint[0].y==virtualPoint[1].y) {
+			return "";
+		} 
+    
         String s= "LI "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
             getLayer()+"\n";

@@ -27,7 +27,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2011-2014 by Davide Bucci
+	Copyright 2011-2015 by Davide Bucci
 	
 	Spline calculations by Tim Lambert
 	http://www.cse.unsw.edu.au/~lambert/splines/
@@ -132,6 +132,10 @@ public final class PrimitiveComplexCurve
 		setLayer(layer);
 	}
 	
+	/** Add the given point to the closest part of the curve.
+		@param px the x coordinate of the point to add
+		@param py the y coordinate of the point to add
+	*/
 	public void addPointClosest(int px, int py)
 	{
 		int[] xp=new int[N_POINTS];
@@ -143,7 +147,7 @@ public final class PrimitiveComplexCurve
         	xp[k]=virtualPoint[k].x;
             yp[k]=virtualPoint[k].y;
         }     
-	    // we calculate the distance between the
+	    // Calculate the distance between the
         // given point and all the segments composing the polygon and we 
         // take the smallest one.
         
@@ -189,7 +193,8 @@ public final class PrimitiveComplexCurve
         changed = true;
 	}
 	
-	/** Add a point at the current ComplexCurve
+	/** Add a point at the current ComplexCurve. The point is always added
+		at the end of the already existing path.
 		@param x the x coordinate of the point.
 		@param y the y coordinate of the point.
 	*/
@@ -635,10 +640,16 @@ public final class PrimitiveComplexCurve
         	else
         		isClosed = false;
         	// Then we have the points defining the curve
-      		while(j<N-1){
+      		while(j<N-1) {
       		    if (j+1<N-1 && tokens[j+1].equals("FCJ")) 
       		    	break;
       			x1 =Integer.parseInt(tokens[j++]);
+      			
+      			// Check if the following point is available 
+      			if(j>=N-1) {
+      				IOException E=new IOException("bad arguments on CP/CV");
+					throw E;
+      			}
      			y1 =Integer.parseInt(tokens[j++]);
      			++i;
      			addPoint(x1,y1);
@@ -671,8 +682,8 @@ public final class PrimitiveComplexCurve
 						dashStyle=0;
  				}
  			}
-  		
 			
+			// See if the curve should be filled (command CP) or empty (CV)
  			if (tokens[0].equals("CP"))
  				isFilled=true;
  			else
@@ -870,6 +881,11 @@ public final class PrimitiveComplexCurve
 	*/
 	public String toString(boolean extensions)
 	{
+		// A single point curve without anything is not worth converting.
+		if (name.length()==0 && value.length()==0 && nPoints==1) {
+			return "";
+		} 
+	
 		StringBuffer temp=new StringBuffer(25);
 
 		if(isFilled)

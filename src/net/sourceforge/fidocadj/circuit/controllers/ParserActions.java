@@ -35,7 +35,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
 */
 
@@ -223,8 +223,8 @@ public class ParserActions
         //throws IOException
     {
         int i; // Character pointer within the string 
-        int j; // token counter within the string
-        boolean hasFCJ=false; // the last primitive has FCJ extensions
+        int j; // Token counter within the string
+        boolean hasFCJ=false; // The last primitive had FCJ extensions
         StringBuffer token=new StringBuffer(); 
         
         String macroFont = model.getTextFont();
@@ -232,13 +232,23 @@ public class ParserActions
 
         GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
 
+		// The tokenized command string.
         String[] tokens=new String[MAX_TOKENS];
-        String[] old_tokens=new String[MAX_TOKENS];
+        
+        // Name and value fields for a primitive. Those arrays will contain
+        // the tokenized TJ commands which follow an appropriate FCJ modifier.
         String[] name=null;
         String[] value=null;
         
         int vn=0, vv=0;
+        
+        // Since the modifier FCJ follow the command, we need to save the
+        // tokens of the line previously read, as well as the number of 
+        // tokens found in it.
+        String[] old_tokens=new String[MAX_TOKENS];
         int old_j=0;
+        
+        
         int macro_counter=0;
         int l;
         
@@ -256,15 +266,27 @@ public class ParserActions
         char c='\n';
         int len;
 		
-		// Actual line number. This is useful to indicate errors.
+		// Actual line number. This is useful to indicate where errors are.
     	int lineNum=1;
-        j=0;    // A fairy simple tokenizer
+    	
+    	
+        j=0;    
         token.setLength(0);
         len=s.length();
         
+        // The purpose of this code is to tokenize the lines. Things are
+        // made more complicated by the FCJ mechanism which acts as a 
+        // modifier for the previous command.
+        
         for(i=0; i<len;++i){
             c=s.charAt(i);
-            if(c=='\n' || c=='\r'|| i==len-1) { //The string finished
+            /*
+            System.out.print("\u001B[31m");
+            System.out.print(c);
+            System.out.print("\u001B[0m");
+            */
+            
+            if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
                 if(i==len-1 && c!='\n' && c!=' '){
                     token.append(c);
                 }
@@ -274,12 +296,27 @@ public class ParserActions
                     j--;
                 
                 try{
+                	// When we enter here, we have tokenized the current line
+                	// and we kept in memory also the previous one.
+                	
+                	// The first possibility is that the current line does not
+                	// contain a FCJ modifier. In this case, process the
+                	// previous line since we have all the information needed
+                	// for doing that.
+                	
                     if(hasFCJ && !tokens[0].equals("FCJ")) {
+                    
                         hasFCJ = registerPrimitivesWithFCJ(hasFCJ, tokens, g, 
                             old_tokens, old_j, selectNew);
-                    }
+                            
+                    } 
                     
-                    if(tokens[0].equals("FCJ")) {   // FidoCadJ extension!
+                    if(tokens[0].equals("FCJ")) { 
+                    	// FidoCadJ extension!
+                    	// Here the FCJ modifier changes something on the 
+                    	// previous command. So ve check case by case what
+                    	// has to be modified.
+                    	
                         if(hasFCJ && old_tokens[0].equals("MC")) {
                             macro_counter=2;
                             g=new PrimitiveMacro(model.getLibrary(),layerV,
@@ -288,10 +325,18 @@ public class ParserActions
                         } else if (hasFCJ && old_tokens[0].equals("LI")) {
                             g=new PrimitiveLine(macroFont, macroFontSize);
                             
+                            // We concatenate the two lines in a single array
+                            // of tokens (the same code will be repeated several
+                            // times for other commands also).
+                            
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
                             
+                            // Update the number of tokens
                             old_j+=j+1;
+                            
+                            // The actual parsing of the tokens is relegated
+                            // to the primitive.
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
 
@@ -372,6 +417,10 @@ public class ParserActions
                             old_j+=j+1;
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
+                            // If we have a name/value following, we
+                            // put macro_counter (successively used by
+                            // TY to determine that we are in a case in which
+                            // TY commands must not be considered as separate).
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
                             	macro_counter = 2;
                             } else {
@@ -421,6 +470,10 @@ public class ParserActions
                         g.setSelected(selectNew);
                         model.addPrimitive(g,false,null);
                     } else if(tokens[0].equals("TY")) {
+                    	// The TY command is somewhat special, because
+                    	// it can be used to specify the name and the value
+                    	// of a primitive or a macro. Therefore, we try
+                    	// to understand in which case we are
                         hasFCJ=false;
                         
                         if(macro_counter==2) {
@@ -441,6 +494,8 @@ public class ParserActions
                             model.addPrimitive(g, false,null);
                             macro_counter=0;
                         } else {
+                        	// If we are in the classical case of a simple
+                        	// isolated TY command, we process it.
                             g=new PrimitiveAdvText();
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
@@ -508,13 +563,21 @@ public class ParserActions
                 } catch(IOException E) {
                     System.out.println("Error encountered: "+E.toString());
                     System.out.println("string parsing line: "+lineNum);
-                    hasFCJ = false;
+                    hasFCJ = true;
                     macro_counter = 0;
+                    
+                    for(l=0; l<j+1; ++l)
+                    	old_tokens[l]=tokens[l];
+                    
+                    old_j=j;
                 } catch(NumberFormatException F) {
                     System.out.println("I could not read a number at line: "
                                        +lineNum);
-                    hasFCJ = false;
-                    macro_counter = 0;                  
+                    hasFCJ = true;
+                    macro_counter = 0;
+                    for(l=0; l<j+1; ++l)
+                    	old_tokens[l]=tokens[l];
+                    old_j=j;
                 }
                 j=0;
                 token.setLength(0);
@@ -531,6 +594,8 @@ public class ParserActions
             }
         }
        
+       	// We need to process the very last line, which is contained in
+       	// the tokens currently read.
         try{
             registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
                 selectNew);
