@@ -1,5 +1,7 @@
 README file for FidoCadJ
 
+Version 0.24.5
+
 Copyright 2007-2015
 
 by Davide Bucci
@@ -555,12 +557,12 @@ lines to davbucciNOPE@tiscali.it
 -------------------
 
 Code: 
-    Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp
+    Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
 
 Beta testers: 
-    Stefano Martini, F. Bertolazzi, Emanuele Baggetta, Celsius,
-    Andrea D'Amore, Olaf Marzocchi, Werner Randelshofer, Zeno Martini,
-    Electrodomus, IsidoroKZ, Gustavo, Kagliostro
+    Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi, 
+    Emanuele Baggetta, Celsius, Andrea D'Amore, Olaf Marzocchi, Werner 
+    Randelshofer, Zeno Martini, Electrodomus, IsidoroKZ, Gustavo
     
     ... and many others!
 
@@ -571,7 +573,8 @@ Translations:
     Pietro Baima (it), simo85 (es)
     
 Libraries:
-    Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group
+    Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group,
+    EY group coordinated by simo85
 
 Code snippets included in FidoCadJ:
     http://www.centerkey.com/java/browser/

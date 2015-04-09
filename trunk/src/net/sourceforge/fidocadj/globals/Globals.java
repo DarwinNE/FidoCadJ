@@ -88,9 +88,9 @@ public class Globals
 	public static Object lastCGrp;	
   								
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.5 mu";
+    public static final String version = "0.24.5";
     // Is it a beta version?
-    public static final boolean isBeta = true;	
+    public static final boolean isBeta = false;	
     
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";	
@@ -319,7 +319,6 @@ public class Globals
     	@param n the number to be represented
  		@param ch the number of decimal digits to be retained
  		@return a string containing the result
-    
     */
     public static String roundTo(double n, int ch)
     {
