@@ -94,11 +94,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private static final String rulerFont = "Lucida Sans Regular";
     
     // Model:
-
     // Maybe, should it be kept private?
     public transient DrawingModel P;
     
+    // Scrolling pane data
     public JScrollPane father;
+    private static final int MINSIZEX=1000;
+    private static final int MINSIZEY=1000;
+    
     
     // Views:
     public Drawing drawingAgent;
@@ -615,17 +618,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int ypos = cs.unmapYnosnap(y);
         double z=cs.getXMagnitude();
         
-        // Calculate the scroll position to center the scroll
-        // where the user has done the click.
-        
-        PointG origin=new PointG();
-        DimensionG d=DrawingSize.getImageSize(P, 1.0, false, origin);
-        double xs,ys;
-                        
-        xs=(double)xpos/(d.width+MARGIN);
-        if(xs<0.0) xs=0.0;
-        ys=(double)ypos/(d.height+MARGIN);
-        if(ys<0.0) ys=0.0;
+        System.out.println("xpos="+xpos+" ypos="+ypos+" used");
                     
         // Click+Meta reduces the zoom
         // Click raises the zoom
@@ -640,6 +633,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if(z<.25) z=.25;
             
         z=Math.round(z*100.0)/100.0;
+        
+        if (Math.abs(oldz-z)<1e-5)
+        	return;
+        	
         cs.setMagnitudes(z,z);
 
         // A little strong...
@@ -647,12 +644,48 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int width = father.getViewport().getExtentSize().width;
         int height = father.getViewport().getExtentSize().height;
         
-        Rectangle r=new Rectangle((int)(xpos*z-width/2),
-                (int)(ypos*z-height/2),
-                width, height);
+        Point rr=father.getViewport().getViewPosition();
         
-        setScrollRectangle(r); 
+        /*int corrx=width/2;
+        int corry=height/2;*/
+        
+        System.out.println("x="+x+", rr.x="+rr.x);
+        
+        int corrx=x-rr.x;
+        int corry=y-rr.y;
+        
+        
+        Rectangle r=new Rectangle(cs.mapXi(xpos,ypos,false)-corrx,
+                cs.mapYi(xpos,ypos,false)-corry,
+                width, height);
+                
+        updateSizeOfScrollBars(r);
+        
+        //setScrollRectangle(r);
+    }
+        
+    /** Calculate the size of the image and update the size of the 
+    	scroll bars, with the current zoom.
+    
+    */
+    public void updateSizeOfScrollBars(Rectangle r)
+    {
+    	PointG origin=new PointG();
+        DimensionG d=DrawingSize.getImageSize(P, cs.getXMagnitude(), 
+        		false, origin);
+        	
+        int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
+        int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+            
+        Dimension dd=new Dimension(Math.max(d.width
+               +MARGIN, minx),Math.max(d.height+MARGIN, miny));
+        	
+        setPreferredSize(dd);
+        if(r!=null)
+        	scrollRectangle = r;
 
+        revalidate();
+        repaint();
     }
     
     /** Show a popup menu representing the actions that can be done on the
@@ -945,7 +978,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if(eea.successiveMove) {
             eea.successiveMove = false;
-            //eea.primEdit = null;
             repaint();
         }
     }
@@ -988,7 +1020,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         evidenceRect.height=h;
         evidenceRect.width=w;        
     }
-
+    
     /** Repaint the panel.
         This method performs the following operations:
         1. set the anti aliasing on (or off, depending on antiAlias).
@@ -1008,6 +1040,17 @@ public class CircuitPanel extends JPanel implements ActionListener,
          
         Graphics2D g2 = (Graphics2D)g; 
         graphicSwing.setGraphicContext(g2);
+        
+        Rectangle t= new Rectangle();
+        //g.getClipBounds(t);
+        
+        //System.out.println("x="+t.x+" y="+t.y+" w="+t.width+" h="+t.height);
+        
+        /*if(scrollRectangle!=null) {
+            Rectangle r=scrollRectangle;
+            scrollRectangle = null;
+            scrollRectToVisible(r);
+        }*/
                    
         // Activate anti-aliasing when necessary.
         
@@ -1036,7 +1079,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 RenderingHints.VALUE_DITHER_DISABLE);
          }
      
-
         // Draw all the primitives.
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
@@ -1049,7 +1091,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         g.setColor(Color.black);
         
         // Perform the drawing operation.
-        drawingAgent.draw(graphicSwing, cs);
+       	drawingAgent.draw(graphicSwing, cs);
+        
        
         if (zoomListener!=null) 
             zoomListener.changeZoom(cs.getXMagnitude());
@@ -1058,9 +1101,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         drawingAgent.drawSelectedHandles(graphicSwing, cs);
     
         // If an evidence rectangle is active, draw it.
-        
         g.setColor(editingColor.getColorSwing());
-
         g2.setStroke(new BasicStroke(1));
 
         if(evidenceRect!=null && eea.actionSelected == 
@@ -1079,22 +1120,33 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (ruler) {    
             drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
         }
-                
-       
-        if (cs.getXMax()>0 && 
-            cs.getYMax()>0){
-            setPreferredSize(new Dimension(cs.getXMax()
-               +MARGIN,cs.getYMax()+MARGIN));
-            revalidate();
-        }
         
-        if(scrollRectangle!=null) {
+        // Set the new size if needed.
+        
+        Dimension d=new Dimension(cs.getXMax(), cs.getYMax());
+        
+        if (d.width>0 && d.height>0){
+            int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
+            int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+            
+            //System.out.println("minx,y"+minx+", "+miny);
+            Dimension dd=new Dimension(Math.max(d.width
+               +MARGIN, minx),Math.max(d.height+MARGIN, miny));
+            Dimension nn=getPreferredSize();
+            
+            //System.out.println("width1,2: "+dd.width+", "+nn.width);
+               
+            if(dd.width!=nn.width || dd.height!=nn.height) {
+            	setPreferredSize(dd);
+            	revalidate();
+            }
+        } 
+             
+    	if(scrollRectangle!=null) {
             Rectangle r=scrollRectangle;
             scrollRectangle = null;
             scrollRectToVisible(r);
-        }
-        
-        
+        }   
         // Since the redraw speed is a capital parameter which determines the
         // perceived speed, we monitor it very carefully if the program
         // profiling is active.
@@ -1116,8 +1168,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 average/runs+
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
-        }   
-               
+        }
     }
     
     /** Update the current size of the object, given the current size of the
@@ -1125,11 +1176,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void validate()
     {
-        if (cs.getXMax()>0 && 
-            cs.getYMax()>0) {
-            setPreferredSize(new Dimension(cs.getXMax()
-                +MARGIN,cs.getYMax()+MARGIN));
+    
+    	int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
+        int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+            
+        Dimension dd=new Dimension(Math.max(cs.getXMax()
+           +MARGIN, minx),Math.max(cs.getYMax()+MARGIN, miny));
+        Dimension nn=getPreferredSize();
+                           
+    	if(dd.width!=nn.width || dd.height!=nn.height) {
+          	setPreferredSize(dd);
         }
+    	
         super.validate();
     }
  

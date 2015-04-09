@@ -289,15 +289,24 @@ public class FidoFrame extends JFrame implements
         openFileDirectory = prefs.get("OPEN_DIR", "");
         
         // The icon size
+        
+        String defaultSize="";
+        
+        // Check the screen resolution. Now (April 2015), a lot of very high
+        // resolution screens begin to be widespread. So, if the pixel 
+        // density is greater than 150 dpi, bigger icons are used by at the
+        // very first time FidoCadJ is run.
+        if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
+        	defaultSize="false";
+        } else {
+        	defaultSize="true";
+        }
+        
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
-            	"true").equals("true");
+            	defaultSize).equals("true");
         // Presence of the text description in the toolbar
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
-        
-        // FidoCadJ extensions when saving, or copy/pasting
-        //extFCJ_s = prefs.get("FCJ_EXT_SAVE", "true").equals("true");
-        //extFCJ_c = prefs.get("FCJ_EXT_COPY", "true").equals("true");
-        
+    
         // Export preferences
 		exportFormat = prefs.get("EXPORT_FORMAT", "png");
 		exportUnitPerPixel= Double.parseDouble(
@@ -1849,7 +1858,7 @@ public class FidoFrame extends JFrame implements
     */
     public void zoomToFit()
     {
-        double oldz=CC.getMapCoordinates().getXMagnitude();
+        //double oldz=CC.getMapCoordinates().getXMagnitude();
         
         // We calculate the zoom to fit factor here.
         MapCoordinates m=DrawingSize.calculateZoomToFit(CC.P,
@@ -1868,7 +1877,8 @@ public class FidoFrame extends JFrame implements
    			(int)(m.getYCenter()), 
    			SC.getViewport().getExtentSize().width, 
    			SC.getViewport().getExtentSize().height);
-   		CC.setScrollRectangle(r);
+   			
+   		CC.updateSizeOfScrollBars(r);
     }
     
     /** We notify the user that something has changed by putting an asterisk
