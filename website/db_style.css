@@ -1,10 +1,5 @@
 
-
-
 body {
-  	/*background-color:#ADA;#E9E0C9;*/
-  	/*background-color: #CACACA;*/
-  	
 background: #CACACA; /* Old browsers */
 background: -moz-linear-gradient(top,  #f7f7f7 2%, #d1d1d1 7%, #c9c9c9 99%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#f7f7f7), color-stop(7%,#d1d1d1), color-stop(99%,#c9c9c9)); /* Chrome,Safari4+ */
@@ -27,7 +22,7 @@ div.code {
 
 div.main {
 	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-    width: 50em;
+    max-width: 50em;
     background-color:#fff;
     color: #444;
      	
@@ -72,7 +67,6 @@ A.mainmenu:visited {
 
 
 div.titlepage {
-	/*background-color:#585; */
 	background-color:#E68A00;
 	color:#fff;	
 	font-weight: 200;
@@ -149,11 +143,13 @@ TABLE.dtab tbody tr, TABLE.dtab tbody tr {
 }
 
 IMG.indisplay {
-		   border: 0px solid;
+	border: 0px solid;
            padding: 1em 0.2em 0.2em 0.2em;
            display: block;
    		   margin-left: auto;
-    	   margin-right: auto;}
+    	   margin-right: auto;
+	max-width: 100%
+}
 
 IMG.float {float: left;
 		   margin: 0px 0px 0px 0px;
