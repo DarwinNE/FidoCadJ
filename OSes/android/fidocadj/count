@@ -1,8 +1,0 @@
-#!/bin/sh
-
-cd src
-
-wc *.java globals/*.* circuit/*.* circuit/views/*.java circuit/model/*.java circuit/controllers/*.*  layers/*.* primitives/*.* dialogs/*.* graphic/*.java export/*.* geom/*.*   undo/*.*
-
-cd ..
-

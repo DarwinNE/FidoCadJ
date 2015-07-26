@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<color name="active_dark">#111111</color>
-	<color name="active_light">#EEFFEE</color>
-	<color name="background_light">#B1BEB9</color>
-	<color name="background_dark">#709070</color>
-	<color name="background_white">#FFFFFF</color>
-	<color name="link_blue">#0000FF</color>
-</resources>

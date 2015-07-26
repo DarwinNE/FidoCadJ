@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="ERROR_FILE_NOT_FOUND">File not found error.</string>
-    <string name="ERROR_IO">Input/output error.</string>
-    <string name="ERROR_UNEXPECTED">Unexpected error.</string>    
-</resources>
