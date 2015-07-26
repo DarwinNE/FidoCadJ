@@ -12,7 +12,7 @@ by Davide Bucci
   1.2 Where can I find FidoCadJ?
   1.3 How can I run FidoCadJ?
   1.4 Where can I get help?
-2 - Source files and the FidoCadJ SVN directories
+2 - Source files and the FidoCadJ Git directories
 3 - Working with FidoCadJ sources
   3.1 Compile and run the sources on a MacOSX operating system (>=10.8) 
   3.2 Compile and run the sources on an Unix system
@@ -74,14 +74,14 @@ Java 1.7 is required for Windows, Linux and MacOSX.
 
 Here are the two official FidoCadJ websites:
 
-    http://fidocadj.sourceforge.net
+    http://darwinne.github.io/FidoCadJ/index.html
     https://github.com/DarwinNE/FidoCadJ
 
 1.3 How can I run FidoCadJ?
 ---------------------------
 
 If you own a PC running Linux or Windows (or any system supporting Java), you
-may download from the SourceForge repository the file fidocadj.jar. If Java
+may download from the GitHub repository the file fidocadj.jar. If Java
 is correctly installed on your machine, you may just double click on it to 
 run FidoCadJ. If you are a command line wizard, you may go to the directory
 where the file fidocadj.jar has been saved and type:
@@ -106,7 +106,7 @@ For Android, we had to develop a completely new application: you should
 download and install the apk file containing it. Most devices complain loudly
 when you install a file which does not come from a store. Check carefully
 where you downloaded it: the ONLY official location where distribution files
-are put is on SourceForge.
+are put is on GitHub.
 
 Remember that if there is a Greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program. 
@@ -129,13 +129,12 @@ If you need help, you can post a question in the FidoCadJ forum:
 https://sourceforge.net/p/fidocadj/discussion/997486/
 
 -------------------------------------------------
-2 - Source files and the FidoCadJ SVN directories
+2 - Source files and the FidoCadJ Git directories
 -------------------------------------------------
 
 In the following table you find a description of the trunk directory of 
 FidoCadJ source files. You may download the complete source repository by
-using svn from the SourceForge repository. Check out the SF documentation
-for doing this: https://sourceforge.net/p/fidocadj/code/HEAD/tree/6
+using svn from the GitHub repository.
 
   File                        Comments
   ---------------------------------------------------------------------------
@@ -179,7 +178,7 @@ obtain the Javadoc description. Important classes are:
 3 - Instructions about compiling and running FidoCadJ
 -----------------------------------------------------
 
-Ok, you just did a checkout from SourceForge SVN the FidoCadJ source files. 
+Ok, you just did a clone from GitHub Git the FidoCadJ source files. 
 
 			Good :-)
 
@@ -400,13 +399,11 @@ some help: if you know Java and you want to work on the source code you will
 be welcome.
 If your Java coding is not fluent, you can participate to the project by 
 improving the manuals or translating the interface, or just giving an advice. 
-Feel free to contact me at davbucciNOPE@tiscali.it, or in the SourceForge 
-forums (the email address is valid without the nope part, but no 
-attachments, please). It is probably better to open a discussion in the 
-SourceForge forums, in order that the work can eventually be shared and
-organised between all developers:
-
-http://sourceforge.net/p/fidocadj/discussion/997486/
+Feel free to contact me at davbucciNOPE@tiscali.it, or in the GitHub 
+discussions (the email address is valid without the nope part, but no 
+attachments, please). It is probably better to open a discussion on GitHub,
+in order that the work can eventually be shared and organised between all 
+developers.
 
 4.1 "I want to translate FidoCadJ in my language"
 -------------------------------------------------
@@ -469,7 +466,7 @@ the FidoCadJ development strategy. The idea is to keep the work a little bit
 organised and to know who does what. Have a peek to section 3.3 of this 
 README file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
-for, you can download with SVN the source files and play *as you want* with
+for, you can download with Git the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
 FidoCadJ main stream, you MUST keep in touch with us in the SF forums and you
 must discuss about what are you willing to do. 
@@ -479,18 +476,12 @@ to get a HTML description of all classes used in FidoCadJ. You will find that
 useful to understand the underpinnings of the program. To do that, you can
 run the trunk/createdoc.sh script, if you are in a Unix system.
 
-Then comes the hard work... We can help you! Please come to the SourceForge
-forums dedicated to FidoCadJ!
+Then comes the hard work... We can help you! Please come to the GitHub
+discussions dedicated to FidoCadJ!
 
 4.3 Things to do
 ----------------
 
-----------------------------------------------------------------------------
-Review on SourceForge or OhLoh    It is important that the users and 
-                                  developers of FidoCadJ understand what is 
-                                  good and what is bad in their favourite 
-                                  software. Do not be shy to review FidoCadJ 
-                                  on SourceForge or OhLoh!
 ----------------------------------------------------------------------------
 Translate user interface          Everything is done on FidoCadJ to make it 
                                   easy to translate its interface in any 
@@ -505,7 +496,7 @@ Translate manual                  This is an hard work, but it will be very
 YouTube video tutorial            People love YouTube videos!
 ----------------------------------------------------------------------------
 Report bugs                       Use the bug and artefact tracking system 
-                                  on SourceForge.
+                                  on GitHub.
 ----------------------------------------------------------------------------
 Export in Gerber format           Exporting in graphical vector formats is 
                                   easy with FidoCadJ. If you want to add a 
@@ -544,13 +535,10 @@ Optionally:
 Every program contains bugs and FidoCadJ is not an exception. Even if all 
 the people involved in the development of FidoCadJ pay a lot of attention
 at each release, some details could just go unnoticed.
-If you are familiar with the SourceForge interface, do not hesitate to
+If you are familiar with the GitHub interface, do not hesitate to
 fill a bug report at the following address:
 
-https://sourceforge.net/p/fidocadj/bugs/
-
-If you feel uncomfortable with the SourceForge system, please drop a few 
-lines to davbucciNOPE@tiscali.it
+https://github.com/DarwinNE/FidoCadJ/issues
 
 -------------------
 6 - Acknowledgments
