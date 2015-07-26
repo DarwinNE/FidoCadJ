@@ -1,0 +1,5 @@
+#!/bin/bash
+
+javadoc -public -d doc -sourcepath src -subpackages .
+
+# javadoc -d doc -sourcepath src net.sourceforge.fidocadj circuit circuit.controllers circuit.model circuit.views clipboard dialogs export geom globals graphic layers primitives timer toolbars undo src/FidoFrame.java src/*.java

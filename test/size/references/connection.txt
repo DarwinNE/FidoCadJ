@@ -1,0 +1,2 @@
+Warning: Image has a zerosized image
+100 100

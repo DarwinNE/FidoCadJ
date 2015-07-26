@@ -1,0 +1,31 @@
+#!/bin/sh
+
+cd src
+
+wc /net/sourceforge/fidocadj/*.java \
+	/net/sourceforge/fidocadj/layermodel/*.java \
+	/net/sourceforge/fidocadj/librarymodel/*.java \
+	/net/sourceforge/fidocadj/macropicker/*.java \
+	globals/*.* \
+	circuit/*.* \
+	circuit/views/*.java \
+	circuit/model/*.java \
+	circuit/controllers/*.*  \
+	layers/*.* \
+	clipboard/*.*  \
+	primitives/*.* \
+	dialogs/*.* \
+	timer/*.* \
+	graphic/*.java \
+	graphic/nil/*.java \
+	graphic/swing/*.java \
+	export/*.*  \
+	toolbars/*.* \
+	geom/*.*   \
+	undo/*.* \
+	../bin/*.properties \
+	graphic/swing/*.java \
+	graphic/nil/*.java
+
+
+cd ..

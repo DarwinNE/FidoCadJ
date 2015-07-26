@@ -1,0 +1,94 @@
+Version 0.24.5
+--------------
+- Contains the new EY library of components.
+- Fixed bug #56 (some components do not appear in the preview).
+- Fixed bug #61 (multiple selection using Commands on MacOSX).
+- Fixed bug #62 (wrong UTF-8 tag in SVN export).
+- Fixed bug #60 (PDF export does not support UTF-8 characters) with some limitations.
+- Better zoom handling.
+- Added the "Duplicate" command associated to Ctrl+D, Ctrl+G now shows the drawing code (it once was Ctrl+D).
+- Czech translation associated to the correct locale.
+- Reintroduced the "-k" option to obtain the given locale.
+- Android porting.
+- Check for correctness of the file extension while export. That should be enough to avoid to overwrite .fcd files when the file names are written in a wrong order during an export from CLI. Added the -f option to skip this test.
+
+Version 0.24.4
+--------------
+- Complete reorganization of the source code, to improve readability as well as modularity.
+- Started the porting towards Android devices. The port shares a lot of code with the original Swing application.
+- More ergonomic editing of the libraries. No more drag&drop, but copy/paste for symbols. Better search.
+- The layer of more than one primitive can be selected at once: either with the Parameters dialog or just by choosing a layer when elements are selected.
+- New zoom levels in the list.
+- Many bugs corrected.
+
+Version 0.24.3
+--------------
+- You can navigate through search results in the library using the Return key and not just the arrow keys (by Mancuso Raffaele).
+- Czech translation of the user interface (by Chemik582)
+- Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
+- Corrected bug #45 "Color Print instead of Black and White print (or exported file)"
+- Corrected bug #43 and #44 "Wrong component font when using a personally created component"
+- The "Split non standard macros while saving" modal option has been replaced by an immediate menu item. It always works similarly to "save as..."
+- The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir. Many thanks to 
+- Added "Select All" to the contextual popup menu (part of request #36).
+- Corrected the undo bug #47.
+
+Version 0.24.2
+--------------
+- The user can now create new library symbols and edit existing libraries.
+- Standard and non standard libraries are identified by different icons.
+- Macros can be split (select one, then right click and "split macro").
+- Removed the "Show origin for macros" which is now useless.
+- Macros can be moved through user defined libraries via drag and drop in the library tree.
+- When running on Linux, the sun.java2d.opengl option is no longer activated.
+- Corrected bug #41 ("Components' shapes disappear").
+- Corrected bug #20 ("Negative zoom reading file from command line").
+- Japanese translation of the user interface.
+- When introducing text, a list of some UTF-8 characters (maths symbols, greek letters...) is now available and very easy to use.
+- Corrected a bug with the standard font used for the text associated to elements.
+- The "Split non standard macros while copy/pasting" modal option has been replaced by an immediate menu item.
+- Rough centering of the drawing under the mouse pointer while doing a zoom.
+- Corrected a bug concerning the library directory choice and the Cancel action while working on MacOSX.
+
+Version 0.24.1
+--------------
+
+- Added a link to the Sourceforge project page in the About dialog (request #3531298).
+- Now Java 1.5 is needed for compiling FidoCadJ.
+- The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
+- The "Strict compatibility with FidoCAD" mode is more reliable and the options about the "FidoCadJ extensions" have been eliminated.
+- More precise selection of very close elements without "name" and "value" tags.
+- Popup menu accessible with right click in the selection mode (cut, copy, paste, rotate, mirror request #3409656). Un-useful menu items are disabled if nothing is selected.
+- Open a file is now faster and requires less memory.
+- Added a Dutch translation of the user interface.
+- Added the -l option to the command line interface.
+- It is now easier to come back from an editing mode, to a macro that was previously selected.
+- Selected objects appear in green, with different shades depending on their original color.
+- More precise rendering of the spline curves.
+- User can add and remove points to splines and polygons.
+- The FidoCadJ project updated to the new version of the SourceForge software.
+- Diagonal shift of the selected element done during copy/paste is now done during paste and not during copy. The shift can be disabled by turning off an option.
+- Check and eventually auto complete the extension when loading FidoCadJ files.
+- Some information about graphical file export are now saved on exit.
+
+Version 0.24
+------------
+
+- Added the support for italic text lines
+- The length of the segment being entered is expressed also in millimeters.
+- Slight adjustment of the arrow style when they are associated to lines.
+- Added the new "curve" primitive (cubic spline).
+- Spanish translation of the user interface (thanks to Gohan "sbcne").
+- Bug #3484904 corrected.
+- Layer names are saved, if nonstandard.
+- The grid pitch is saved (bug #3468917).
+- More accurate automatic test scripts.
+- All language resource files for the user interface are encoded in UTF-8.
+- Chinese translation of the user interface, by Miles Qin "qhg007".
+- The maximum number of points in a polygon and in a curve has been increased to 256
+- The control point coordinates are no longer shown while changing characteristics of a graphic element.
+- Bugs #3522962 and #3522951 corrected on the export towards vector formats.
+- IHRaM library updated to v. 3.1.
+- Wrong file encoding has been corrected in some libraries.
+- Feature request #3526600 accepted and implemented.
+- Corrected bug #3529024.

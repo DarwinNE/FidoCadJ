@@ -1,0 +1,4 @@
+#!/bin/bash
+./clean
+./compile "$1"
+./run

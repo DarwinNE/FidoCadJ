@@ -1,0 +1,169 @@
+
+body {
+background: #CACACA; /* Old browsers */
+background: -moz-linear-gradient(top,  #f7f7f7 2%, #d1d1d1 7%, #c9c9c9 99%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#f7f7f7), color-stop(7%,#d1d1d1), color-stop(99%,#c9c9c9)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* IE10+ */
+background: linear-gradient(to bottom,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* W3C */
+
+}
+
+div.code {
+	overflow: auto; 
+	width:20em; 
+	height:10em;
+	border-style:solid;
+	border-color:#E68A00;
+	padding: 5px 10px 5px 10px;	
+	border-width: 1px;
+}
+
+div.main {
+	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    max-width: 50em;
+    background-color:#fff;
+    color: #444;
+     	
+    margin-left: auto;
+  	margin-right: auto;
+  	border-style:solid;
+	border-color:#E68A00;
+	font-weight: lighter;
+}
+
+p {
+	margin-left: 1em;
+  	margin-right: 1em;
+}
+
+B {
+	font-weight: 500;
+	color: #101010;
+}
+
+A {
+	color: #00A000;
+	text-decoration:none;
+}
+
+A:visited {
+	color: #D57000;
+}
+
+B.mainmenu {
+	vertical-align:5px;
+}
+A.mainmenu {
+	color: #FFFFFF;
+	text-decoration:none;
+	vertical-align:5px;
+}
+
+A.mainmenu:visited {
+	color: #EEEEEE;
+}
+
+
+div.titlepage {
+	background-color:#E68A00;
+	color:#fff;	
+	font-weight: 200;
+	
+ 	padding:1em 1em;
+ 	
+    margin-top: 0px;
+  	margin-bottom: 0px;
+}
+
+div.titlepage::before {
+	content: url("icona_fidocadj_128x128.png");
+	float:left;
+}
+
+H1 {
+	font-weight: 100;
+	color:#FFFFFF;
+	font-size: 500%;
+	text-align:left;
+	padding: 0em 0em 0em 0em;
+	margin: 0em 0em 0em 0em;
+}
+
+H2 {
+	font-weight: 100;
+	padding: 0em 0em 0em 0em;
+	margin: 0em 0em 0em 0em
+}
+
+h3 {
+	text-align:center
+}
+
+h4 {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+TABLE.dtab {
+	font-size:96%;
+	line-height:1.3em;
+	color: #333;
+	background-color:#fff;
+	border-collapse:collapse;
+	text-align:center;
+	/*letter-spacing:.05em;*/
+	font-weight: lighter;
+	width:95%;
+	margin-left: 1em;
+  	margin-right: 1em;
+}
+
+TABLE.dtab TBODY TR TH {
+	border-right: 5px solid #fff;
+	padding-left:2px;
+	letter-spacing:1px;
+	text-align:center;
+	color: #fff;
+	background: #585;
+	font-weight: normal;
+}
+
+TABLE.dtab tbody th a {
+	color: white;
+}
+ 
+TABLE.dtab td, TABLE.dtab th {
+	padding:5px;
+}
+
+TABLE.dtab tbody tr, TABLE.dtab tbody tr {
+	border-bottom: 1px solid #090;
+}
+
+IMG.indisplay {
+	border: 0px solid;
+           padding: 1em 0.2em 0.2em 0.2em;
+           display: block;
+   		   margin-left: auto;
+    	   margin-right: auto;
+	max-width: 100%
+}
+
+IMG.float {float: left;
+		   margin: 0px 0px 0px 0px;
+           border: 0px solid;
+           padding: 1em 1em 1em 1em;}
+           
+P.license {color: #111;
+		  font-size: 80%;
+ 	      font-family: monospace;
+	      border: 1em;
+	      margin-left: 1em;
+  		  margin-right: 1em;
+}
+
+SPAN.command {color: #D57000;
+ 	      font-family: monospace;
+ 	      font-size: 120%;}
