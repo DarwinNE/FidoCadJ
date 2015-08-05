@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="db_style.css">
-<meta charset="UTF-8">
-<meta name=viewport content="width=device-width, initial-scale=1">
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet'>
+		<link href="db_style.css" rel="stylesheet">
+		<meta charset="UTF-8">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<title>FidoCadJ</title>
+	</head>
 
-<title>FidoCadJ</title>
-</head>
 <body>
+	<div class="main">
 
-<div class="main">
+		<div class="titlepage">
+			<a href="index.html"><h1>FidoCadJ</h1></a>
+			<h2>a free graphical editor for (more than) electronics</h2>
+			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="https://twitter.com/share?via=davbucci" class="twitter-share-button">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			<a href="index.html" class="mainmenu">[About]</a>
+			&nbsp;
+			<a href="download.html" class="mainmenu">[Download]</a>
+			&nbsp;
+			<a href="scrn.html" class="mainmenu">[Screenshots]</a>
+			&nbsp;
+			<a href="libs.html" class="mainmenu">[Libraries]</a>
+			&nbsp;
+			<a href="faq.html" class="mainmenu">[FAQ]</a>
+			&nbsp;
+			<b class="mainmenu">[Examples]</b>
+		</div>
 
-<div class="titlepage">
-<a href="index.html"><H1>FidoCadJ</H1></a>
-<H2>a free graphical editor for (more than) electronics</H2>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://twitter.com/share?via=davbucci" class="twitter-share-button">Tweet</a>
-	<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-	
-	<a href="index.html" class="mainmenu">[About]</a>
-	&nbsp; 
-	<a href="download.html" class="mainmenu">[Download]</a>
-	&nbsp; 
-	<a href="scrn.html" class="mainmenu">[Screenshots]</a>
-	&nbsp;
-	<a href="libs.html" class="mainmenu">[Libraries]</a>
-	&nbsp; 
-	<a href="faq.html" class="mainmenu">[FAQ]</a>
-	&nbsp; 
-	<b class="mainmenu">[Examples]</b>
-</div>
-
-<h3>Copy the code and paste it in FidoCadJ</h3>
-<table>
-<tr>
-<td  align="center">
-<a href="examples/differential_amplifier.png"><img src="examples/differential_amplifier.png" alt="A differential amplifier" width="60%"></a>
-</td>
-<td>
-<div class="code"><pre>[FIDOCAD]
+		<h3>Copy the code and paste it in FidoCadJ</h3>
+			<table>
+				<tr>
+					<td  align="center">
+						<a href="examples/differential_amplifier.png"><img src="examples/differential_amplifier.png" alt="A differential amplifier" width="60%"></a>
+					</td>
+					<td>
+						<div class="code">
+							<pre>
+[FIDOCAD]
 FJC B 0.5
 MC 30 60 0 0 280
 FCJ
 TY 50 50 4 3 0 0 0 Helvetica Q1
-TY 40 65 4 3 0 0 0 Helvetica 
+TY 40 65 4 3 0 0 0 Helvetica
 MC 100 60 0 1 280
 FCJ
 TY 75 50 4 3 0 0 0 Helvetica Q2
-TY 110 65 4 3 0 0 0 Helvetica 
+TY 110 65 4 3 0 0 0 Helvetica
 LI 65 70 65 115 0
 MC 50 125 0 0 280
 FCJ
 TY 67 122 4 3 0 0 0 Helvetica Q5
-TY 60 130 4 3 0 0 0 Helvetica 
+TY 60 130 4 3 0 0 0 Helvetica
 MC 95 85 0 0 280
 FCJ
 TY 114 74 4 3 0 0 0 Helvetica Q3
-TY 105 90 4 3 0 0 0 Helvetica 
+TY 105 90 4 3 0 0 0 Helvetica
 MC 165 85 0 1 280
 FCJ
 TY 140 75 4 3 0 0 0 Helvetica Q4
-TY 175 90 4 3 0 0 0 Helvetica 
+TY 175 90 4 3 0 0 0 Helvetica
 LI 130 95 130 115 0
 MC 145 125 0 1 280
 FCJ
 TY 122 122 4 3 0 0 0 Helvetica Q6
-TY 155 130 4 3 0 0 0 Helvetica 
+TY 155 130 4 3 0 0 0 Helvetica
 LI 65 135 130 135 0
 LI 110 75 110 30 0
 LI 20 10 220 10 0
@@ -94,31 +94,31 @@ MC 10 100 2 0 000
 MC 110 15 1 0 ihram.res
 FCJ
 TY 115 20 4 3 0 0 0 Helvetica 1kΩ
-TY 120 20 4 3 0 0 0 Helvetica 
+TY 120 20 4 3 0 0 0 Helvetica
 MC 150 15 1 0 ihram.res
 FCJ
 TY 155 20 4 3 0 0 0 Helvetica 1kΩ
-TY 160 20 4 3 0 0 0 Helvetica 
+TY 160 20 4 3 0 0 0 Helvetica
 LI 110 10 110 15 0
 LI 150 10 150 15 0
 MC 50 70 0 0 ihram.res
 FCJ
 TY 52 63 4 3 0 0 0 Helvetica 20Ω
-TY 60 75 4 3 0 0 0 Helvetica 
+TY 60 75 4 3 0 0 0 Helvetica
 LI 50 70 45 70 0
 MC 80 70 0 1 ihram.res
 FCJ
 TY 69 63 4 3 0 0 0 Helvetica 20Ω
-TY 90 75 4 3 0 0 0 Helvetica 
+TY 90 75 4 3 0 0 0 Helvetica
 LI 85 70 80 70 0
 MC 170 45 0 0 280
 FCJ
 TY 187 42 4 3 0 0 0 Helvetica Q8
-TY 180 50 4 3 0 0 0 Helvetica 
+TY 180 50 4 3 0 0 0 Helvetica
 MC 190 35 0 0 280
 FCJ
 TY 208 32 4 3 0 0 0 Helvetica Q9
-TY 200 40 4 3 0 0 0 Helvetica 
+TY 200 40 4 3 0 0 0 Helvetica
 LI 185 35 185 10 0
 SA 185 10 0
 LI 205 25 205 10 0
@@ -126,15 +126,15 @@ SA 205 10 0
 MC 185 70 1 0 ihram.res
 FCJ
 TY 188 75 4 3 0 0 0 Helvetica 4.5kΩ
-TY 195 75 4 3 0 0 0 Helvetica 
+TY 195 75 4 3 0 0 0 Helvetica
 MC 205 70 1 0 ihram.res
 FCJ
 TY 208 75 4 3 0 0 0 Helvetica 4.5kΩ
-TY 215 75 4 3 0 0 0 Helvetica 
+TY 215 75 4 3 0 0 0 Helvetica
 MC 110 155 0 1 280
 FCJ
 TY 86 152 4 3 0 0 0 Helvetica Q7
-TY 120 160 4 3 0 0 0 Helvetica 
+TY 120 160 4 3 0 0 0 Helvetica
 LI 95 135 95 145 0
 LI 110 155 170 155 0
 MC 170 165 1 0 220
@@ -146,11 +146,11 @@ SA 170 155 0
 MC 170 135 1 0 ihram.res
 FCJ
 TY 175 140 4 3 0 0 0 Helvetica 470Ω
-TY 180 140 4 3 0 0 0 Helvetica 
+TY 180 140 4 3 0 0 0 Helvetica
 MC 170 55 1 0 ihram.res
 FCJ
 TY 158 60 4 3 0 0 0 Helvetica 1kΩ
-TY 180 60 4 3 0 0 0 Helvetica 
+TY 180 60 4 3 0 0 0 Helvetica
 LI 170 55 170 10 0
 SA 170 10 0
 SA 170 125 0
@@ -161,7 +161,7 @@ MC 95 180 0 0 045
 MC 95 165 1 0 ihram.res
 FCJ
 TY 100 170 4 3 0 0 0 Helvetica 120Ω
-TY 105 170 4 3 0 0 0 Helvetica 
+TY 105 170 4 3 0 0 0 Helvetica
 MC 185 85 0 0 045
 MC 205 85 0 0 045
 LI 205 45 205 70 0
@@ -171,11 +171,11 @@ LI 15 155 10 155 0
 MC 145 95 0 1 ihram.res
 FCJ
 TY 135 88 4 3 0 0 0 Helvetica 20Ω
-TY 155 100 4 3 0 0 0 Helvetica 
+TY 155 100 4 3 0 0 0 Helvetica
 MC 115 95 0 0 ihram.res
 FCJ
 TY 115 88 4 3 0 0 0 Helvetica 20Ω
-TY 125 100 4 3 0 0 0 Helvetica 
+TY 125 100 4 3 0 0 0 Helvetica
 LI 110 95 115 95 0
 LI 145 95 150 95 0
 MC 30 180 0 0 045
@@ -183,15 +183,15 @@ MC 30 155 2 0 200
 MC 30 165 1 0 ihram.res
 FCJ
 TY 35 170 4 3 0 0 0 Helvetica 1kΩ
-TY 40 170 4 3 0 0 0 Helvetica 
+TY 40 170 4 3 0 0 0 Helvetica
 MC 30 130 1 0 ihram.res
 FCJ
 TY 35 135 4 3 0 0 0 Helvetica 4.7kΩ
-TY 40 135 4 3 0 0 0 Helvetica 
+TY 40 135 4 3 0 0 0 Helvetica
 MC 30 105 1 0 ihram.res
 FCJ
 TY 35 110 4 3 0 0 0 Helvetica 2.2kΩ
-TY 40 110 4 3 0 0 0 Helvetica 
+TY 40 110 4 3 0 0 0 Helvetica
 LI 30 60 10 60 0
 LI 30 105 30 10 0
 SA 30 10 0
@@ -206,15 +206,20 @@ LI 205 50 225 50 0
 LI 185 65 225 65 0
 MC 225 65 0 0 000
 SA 185 65 0
-SA 205 50 0</pre>
-</div>
-</td>
-</tr>
-<tr>
-<td  align="center">
-<a href="examples/nixie_clock.png"><img src="examples/nixie_clock.png" width="60%" alt="Nixie clock PCB"></a>
-</td>
-<td><div class="code"><pre>[FIDOCAD]
+SA 205 50 0
+						</pre>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td  align="center">
+					<a href="examples/nixie_clock.png"><img src="examples/nixie_clock.png" width="60%" alt="Nixie clock PCB"></a>
+				</td>
+				<td>
+					<div class="code">
+						<pre>
+[FIDOCAD]
 FJC C 1.5
 FJC A 1.0
 FJC B 1.0
@@ -969,33 +974,31 @@ TY 185 430 14 8 0 0 3 * R25
 TY 180 460 14 8 0 0 3 * R26
 TY 165 485 14 8 0 0 3 * C11
 TY 270 415 14 8 0 0 3 * Q11
-TY 70 225 14 8 0 0 3 * C12</pre></div>
-</td>
+TY 70 225 14 8 0 0 3 * C12
+								</pre>
+							</div>
+						</td>
+					</tr>
+				</table>
 
-</TR>
+			 	<p>October, 5, 2014</p><br>
 
-</table>
+				<h3>License</h3>
+				<img src="logos/gplv3-127x51.png" alt="GPL v. 3" class="float">
+				<P class="license">--------
+				Copyright (C) 2007-2014  Davide Bucci davbucci at tiscali dot it and others.<br>
+				This program is free software: you can redistribute it and/or modify
+				it under the terms of the GNU General Public License as published by
+				the Free Software Foundation, version 3 of the License.
 
-<p>October, 5, 2014</p><br>
+				This program is distributed in the hope that it will be useful,
+				but WITHOUT ANY WARRANTY; without even the implied warranty of
+				MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+				GNU General Public License for more details.
 
-
-<H3>License</H3>
-<img src="logos/gplv3-127x51.png" alt="GPL v. 3" class="float">
-<P class="license">--------   
-Copyright (C) 2007-2014  Davide Bucci davbucci at tiscali dot it and others.<br>        
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, version 3 of the License.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <A href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A>.
-</p>
-</div>
-</body>
+				You should have received a copy of the GNU General Public License
+				along with this program.  If not, see <A href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A>.
+				</p>
+		</div>
+	</body>
 </html>
-
