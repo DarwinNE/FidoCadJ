@@ -17,7 +17,7 @@ div.code {
 	padding: 5px 10px 5px 10px;
 	border-width: 1px;
 }
-div.main {
+#main {
 	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   max-width: 50em;
   background-color:#fff;
