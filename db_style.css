@@ -54,7 +54,7 @@ a.mainmenu {
 a.mainmenu:visited {
 	color: #EEEEEE;
 }
-div.titlepage {
+#titlepage {
 	background-color:#E68A00;
 	color:#fff;
 	font-weight: 200;
@@ -62,7 +62,7 @@ div.titlepage {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-div.titlepage::before {
+#titlepage::before {
 	content: url("icona_fidocadj_128x128.png");
 	float:left;
 }
