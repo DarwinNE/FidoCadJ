@@ -144,3 +144,16 @@ span.command {
  	font-family: monospace;
  	font-size: 120%;
 }
+#faq_index a{
+	color:#444;
+	line-height: 2em;
+	text-decoration: underline;
+}
+.faq_title{
+	color:#444;
+}
+.go_top_label{
+	float: right;
+	margin-right: 20px;
+	font-size: 1em;
+}
