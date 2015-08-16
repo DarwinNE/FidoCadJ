@@ -63,7 +63,7 @@ a.mainmenu:visited {
   margin-bottom: 0px;
 }
 #titlepage::before {
-	content: url("icona_fidocadj_128x128.png");
+	content: url("images/icona_fidocadj_128x128.png");
 	float:left;
 }
 h1 {
