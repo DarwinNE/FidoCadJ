@@ -87,7 +87,7 @@
 \pdfbookmark[1]{Licence}{Licence}
 
 
-\clearpage{} \pdfbookmark[1]{Licence}{Licence} This work is covered
+\clearpage{} \pdfbookmark[1]{Licence}{Licence} This manual is covered
 by the Creative Commons Public License version 2.5 or more recent.
 The entire text of this licence is available at the address\\
  \href{http://creativecommons.org/licenses/by-nc-nd/3.0/}{http://creativecommons.org/licenses/by-nc-nd/3.0/}.
@@ -126,6 +126,7 @@ very simple electronic schematics and their printed circuit boards.
 The manual will end with a detailed description of the FidoCadJ (and
 thus FidoCAD) format. Finally, we will give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
 
+This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the development aspects.
 \endgroup
 
 
@@ -133,7 +134,7 @@ thus FidoCAD) format. Finally, we will give some hints about downloading and ins
 
 \pdfbookmark[1]{Aknowledgements}{Aknowledgements}
 
-A number of people used this software from its first versions and
+A number of people used this software since its first versions and
 helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
 newsgroup\index{newsgroup} participants for their very fruitful discussions.
 
@@ -148,23 +149,25 @@ CadSoft Eagle\index{Eagle} compatibility library, useful to export
 FidoCadJ drawings to Eagle. Many thanks to ``Celsius'', who tested
 the software functionalities for PCB realization, as well as its libraries.
 Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
-aspect on the Apple Macintosh, from the 0.21.1 version. I would like to thank 
-Roby IZ1CYN for the useful discussions about libraries and to have written 
-section~\ref{installazione_linux} of this manual, about the Linux\index{Linux} 
+aspect on the Apple Macintosh, since version 0.21.1. I would like to thank 
+Roby IZ1CYN for the useful discussions about libraries and for having written 
+section~\ref{installazione_linux} of this manual, dealing with the Linux\index{Linux} 
 installation.
-Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, from Werner Randelshofer. 
-Werner has given several useful advices about FidoCadJ's user interface: thanks!
+Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, provided by Werner Randelshofer. 
+Werner has also given several useful advices about FidoCadJ's user interface: thanks for that!
 
 Part of this manual has been translated to English by ``Pasu''. I would like to thank him for his work. I would like to thank Miles ``qhg007'' as well, for the careful check and his very useful remarks.  
 
-In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It silently runs on the server and it is used to automagically convert drawings posted by users of the forum.
+In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It now silently runs on the server and it automagically converts drawings posted by users of the forum.
 I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all other users of this site as they gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced which deserves to be fully explored. More recently, the FidoReadPHP class has been prepared in order to read and interpret FidoCadJ drawings on a PHP server. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} and \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it} websites thanks to Arniek, Sstrix and Stan. Kudos to them!
+
+Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Baggetta. Sergio Juanez also greatly contributed to it, improving technical aspects and organization of website elements.
 
 \chapter*{FidoCadJ License}
 
 \pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
 
-Copyright \copyright\ 2007-2014 Davide Bucci \href{mailto:davbucci@tiscali.it}{davbucci@tiscali.it}
+Copyright \copyright\ 2007-2015 the FidoCadJ development team. 
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -196,58 +199,52 @@ along with this program. If not, see \href{http://www.gnu.org/licenses/}{http://
 \chapter{Introduction} \pagenumbering{arabic} In this chapter,
 we will briefly introduce FidoCadJ. In particular, we will give a
 description of the philosophy behind this software, as well as a brief
-history of its development.
+history of its development. 
+If you need to install and run FidoCadJ, jump to appendix~\ref{specifics}, that   describes how to install FidoCadJ on the most widespread operating systems.
+
 
 
 \section{FidoCadJ's philosophy}
 
 FidoCAD\index{FidoCAD} (without the J at the end) was a vectorial
 drawing software particularly suited for electrical schematics\index{electrical schematic} as well
-as printed circuit boards\index{PCB}. It was widespread in particular in the italian Usenet community from late 1990s.
+as printed circuit boards\index{PCB}. It was employed by the italian Usenet community during the late 1990s.
 
 It can be freely downloaded (a Windows\index{Windows} version nationalized
 in Italian language) from Lorenzo Lutti's page\index{Lorenzo Lutti}:
 
 \href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
 
-The output files generated by this software was a very compact textual
-description. This feature made it very easy to include drawings in
-text messages, such as those used in non binary Usenet groups\index{Usenet group}.
+The output files generated by this software was a very compact text code. This feature made it very easy to include drawings in
+text messages, such as those used in non-binary Usenet groups\index{Usenet group}.
 
 Unfortunately, FidoCAD existed only in a Windows\index{Windows} version.
-Who uses Linux could run it using WInE\index{WInE}, but for those using
+Who used Linux could run it using WInE\index{WInE}, but for those relying on
 other platforms like me (I use MacOSX) had to find a different solution.
 I thus decided to give a small contribution to the community
 by writing FidoCadJ (with the final J, this time). This editor is
 written in pure Java\index{Java} and it is completely multi-platform.
 FidoCadJ allows showing and modifying a drawing using the FidoCAD\index{FidoCAD}
-file format. Nowadays, I am fortunately not alone and FidoCadJ become a full-fledged Open Source project, with contributions coming from all over the world.
+file format. Nowadays, I am fortunately not alone and FidoCadJ is a full-fledged Open Source project, with contributions coming from all over the world.
 
 Whoever used FidoCAD\index{FidoCAD} in the past should become acquainted
 with FidoCadJ very quickly, since many commands and procedures are
 quite similar to the original application. At the time of writing,
 to the best of my knowledge, FidoCadJ is almost completely compatible
-with the original FidoCAD, apart from a few details. The goal of a complete compatibility has been pursued until possible, but recently the needs of the new users have pushed towards some extensions to the original format.
+with the original FidoCAD, apart from a few details. The goal of a complete compatibility has been pursued until possible, but the needs of the new users have pushed towards some extensions to the original format.
 
 Among the features offered by FidoCadJ and not present in the original
 FidoCAD are the export possibilities offered. Since I am a \LaTeX{}
 user, I decided to include an export feature for a number of vectorial
 formats, including Encapsulated PostScript (\textsc{EPS}\index{EPS}). Of course, FidoCadJ can export towards the very well known \textsc{PDF}\index{PDF} format.
-Another file format useful for electronic schematics is the CadSoft
-Eagle script\index{CadSoft Eagle}, which is available from version
-0.21 of FidoCadJ. In this way, a schematics drawn with FidoCadJ can
-be exported to Eagle.
-The appendix~\ref{specifics} briefly describes how to install FidoCadJ on 
-the most widespread operating systems.
-
 
 \section{History of this software}
 
 I have long been interested in electronic circuits. When I began following
 several dedicated italian Usenet newsgroups\index{newsgroups}, I
 noticed that many schematics were provided using the FidoCAD for Windows
-format\index{FidoCAD}. This avoided awkward ASCII drawings. Since
-I do not use Windows since a few years ago, it was almost impossible
+format\index{FidoCAD}. This was much better than awkward ASCII drawings. Since
+I do not use Windows, it was almost impossible
 for me to look at them and I wanted to try to do something to solve
 this problem. \marginpar{By the way, I think that it is better to
 work at a solution rather claim that an operating system different
@@ -271,13 +268,11 @@ and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
 Since I had an interpreter\index{interpreter} of the FidoCAD format,
 it was interesting to continue the work in order to obtain a complete
 editor\marginpar{To be honest, I made a first attempt at writing
-a 2D vectorial drawing system around 1993.} The most part of the
-work was done in several steps, between January and July 2008. FidoCadJ
+a 2D vectorial drawing system around 1993.}. Much of the initial work was done in several steps, between January and July 2008: FidoCadJ
 is not an adaptation or a porting of FidoCAD for Windows, but it is
-a completely rewritten program.
+a new program, rewritten from scratch.
 
-The choice of using Java\index{Java} is due to the fact that in the
-last few years I changed a lot of operating systems. Spending time
+The choice of using Java\index{Java} is due to the fact that I currently use a lot of different operating systems. Spending time
 and energies on something which is not completely portable does not
 appeal to me anymore. The effort of learning the Cocoa framework would
 have probably given a better result on MacOSX, but it would have
@@ -286,7 +281,7 @@ time I spend to program is time taken away from my electronics interests.
 In fact, a simple analysis of the FidoCadJ code source shows that
 I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
 purist and I am sure that several solutions could be found that are
-more practical than elegant.
+more practical than elegant. However, the overall code quality has been appreciated by feedbacks I received and FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}.
 
 What matters is the end user impressions while using the program,
 more than the choice of a particular language. For this reason, I
@@ -298,18 +293,16 @@ which are not very well integrated with the user desktop.
 
 % La parte interamente tradotta da Pasu comincia qui.
 
-
-Without aiming for perfection and knowing my programming skills limitations,
+Without aiming for perfection and knowing the limits of my programming skills,
 my intent is to make sure that FidoCadJ will NOT be another poor quality
 application. For this reason any bug report or comment on the program's
 usability will be more than welcome.
 
 Since november 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. 
-From this page, you can download all executables, manuals as well as the source
-code. You can actively participate to FidoCadJ development working on the 
-source code using Subversion (SVN), or the SVN browser provided by SourceForge:
+From this page, you could download all executables, manuals as well as the source code. You could actively participate to FidoCadJ development working on the source code using Subversion (SVN).
+A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment.
 
- \href{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/}{http://fidocadj.svn.sourceforge.net/viewvc/fidocadj/} 
+Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015 the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub. Nowadays, the development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the code. 
 
 If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the 
 manuals in a new language, check carefully the existing manuals for inconsistencies, typos and
@@ -320,10 +313,9 @@ There is also work to be done to translate the libraries (at least
 the standard ones) and of course this manual.%
 You can also work on the standard library\dots\
 Consider that only half of the spare time I dedicate to FidoCadJ is in reality dedicated to the coding activity. The rest is spent answering questions from users, writing and improving the documentation and so on.
-On SourceForge\index{SourceForge}, you can participate to the forums, write a 
-program review as well as suggest improvements or give a bug report:
+On GitHub\index{GitHub}, you can participate to the discussions, as well as suggest improvements or give a bug report:
 
-\href{http://sourceforge.net/projects/fidocadj/}{http://sourceforge.net/projects/fidocadj/}
+\href{https://github.com/DarwinNE/FidoCadJ}{https://github.com/DarwinNE/FidoCadJ}
 
 \section{FidoCadJ and the future}
 
@@ -373,13 +365,12 @@ primitives)\index{primitive} which compose a FidoCadJ drawing. %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_macosx.png} 
 
-\caption{A typical FidoCadJ session running on MacOSX Tiger\index{MacOSX}.
+\caption{A FidoCadJ session running on a vintage MacOSX Tiger\index{MacOSX}.
 Appendix~\ref{specifics} describes the peculiarities of the version
-specific for Macintosh\index{Macintosh}.}
+specific for Macintosh\index{Macintosh}. More recent versions provide the quick search in the library, shown in figure~\ref{fig_ricerca}.}
 
 \label{fig_fidocadj} 
 \end{figure}
-
 
 %
 \begin{figure}
@@ -430,17 +421,17 @@ If you need to align carefully the elements, you may find useful to keep pressed
 
 %
 \begin{table}
-\centering \begin{tabular}{clp{0.5\textwidth}}
-\toprule Key & Comando  & Use\tabularnewline
+\centering \begin{tabular}{clp{0.6\textwidth}}
+\toprule Key & Command  & Use\tabularnewline
 \midrule
-
-\keyevidence{A} or \keyevidence{Spacebar} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
+\keyevidence{A} or\newline \keyevidence{Spacebar} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
 \textsc{Select}\index{selection}  & Selects one or more graphic elements. Press \keyevidence{Control}
 (\keyevidence{Command} on MacOSX) for multiple selections
 or to deselect only one element. Click and drag to select several
 elements in an area. Press \keyevidence{R} to rotate the selected
 elements. Press \keyevidence{S} to mirror the selected elements.
-Double-click on an element to modify its properties.\tabularnewline
+Double-click on an element to modify its properties.
+\tabularnewline
  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/magnifier}}
 \textsc{Zoom}\index{zoom}  & Left-click to increase the level of zoom. Right-click to decrease
 it.\tabularnewline
@@ -497,8 +488,8 @@ an element from the library, we only need to select it from the list
 an click on the drawing. FidoCAD\index{FidoCAD} libraries include
 all standard symbols used in electrical schematics\index{electrical schematic} and a wide selection of footprints\index{PCB!footprint} for drawing PCBs.
 
-You can also do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}) 
-By typing up and down arrow keys, you can navigate through the results found.
+You can also do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}). 
+By typing return, you can navigate through the results.
 
 \begin{figure}
 \centering
@@ -510,8 +501,7 @@ By typing up and down arrow keys, you can navigate through the results found.
 \begin{figure}
 \centering \includegraphics[width=0.7\textwidth,]{param_testo} 
 
-\caption{Dialog for the text's parameters in a FidoCadJ drawing.}
-
+\caption{Dialog for the text's parameters in a FidoCadJ drawing. The operating system is Mac OS X Yosemite (10.10.4) in French.}
 
 \label{fig_param_testo} 
 \end{figure}
@@ -659,8 +649,7 @@ in figure~\ref{fig_fidocadj_fase5}.
 As a curiosity, this is how the code\index{code} which describes
 the circuit of our example looks like. To access this code, it is
 sufficient to select {}``Insert Circuit'' from the menu {}``Circuit''.
-We are now ready to copy and paste our circuit on an e-mail message
-\index{e-mail}, in a newsgroup\index{newsgroup}, or in a forum\index{forum}.
+We are now ready to copy and paste our circuit on an e-mail message\index{e-mail}, in a newsgroup\index{newsgroup}, or in a forum\index{forum}.
 \begin{lstlisting}
 [FIDOCAD]
 MC 95 65 0 0 280
@@ -700,7 +689,7 @@ we can simply select the entire drawing, copy it (by selecting ``edit/copy''
 or by pressing \keyevidence{Ctrl+C} ) and paste it onto the message
 we are writing and the code will be added automatically\index{code}.
 
-Depending on the current settings, FidoCadJ can apply or not a diagonal shift\index{diagonal shift} to the copied elements. The $x$ and $y$ width and height are equal to the grid pitch. The default behaviour is to proceed in such a way, in order to differentiate the pasted elements from the original ones. Since in some situations this can be unuseful and problematic, the settings can be changed in the ``Options''.
+Depending on the current settings, FidoCadJ can apply or not a diagonal shift\index{diagonal shift} to the copied elements. The $x$ and $y$ width and height are equal to the grid pitch. The default behaviour is to proceed in such a way, in order to differentiate the pasted elements from the original ones. Since in some situations this can be problematic, the settings can be changed in the ``Options''.
 
 
 \section{The layers}
@@ -754,7 +743,7 @@ idea to be developed with the use of the computer.}
 To practice what we learnt so far, we will see how to design a simple
 PCB. Unlike other software for electronic CAD which are very
 powerful but sometimes quite hard to manage, FidoCadJ provides in
-practice an electronic version of the good old R41 transfers\index{R41 transfers}.
+practice an electronic version of the good old R41 transfers\index{R41 transfers}, or the tape on mylar sheets.
 Obviously, working on a computer allows us to benefit from all the
 flexibility offered by the machine.
 
@@ -769,7 +758,7 @@ very simple, yet complete, one.
 
 I would suggest to start with a clear idea of where to place each
 component and how to draw all the tracks so that they will cross each
-other as less as possible \index{crossing of tracks}.
+other as less as possible\index{crossing of tracks}.
 
 Here we will cheat a little and we will start from the result we want
 to obtain, as shown in figure~\ref{fig_amplificateur}. It is a simple
@@ -789,7 +778,6 @@ a common emitter configuration.}
 
 \label{fig_amplificateur} 
 \end{figure}
-
 
 The first thing I would suggest to do is to place all the components
 as best as possible. In our example these would be the transistor
@@ -979,9 +967,9 @@ When drawing a PCB, it is often useful to measure distances in the working area.
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows you to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
 
-A few stroke styles\index{stroke styles} are now available for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
+A few stroke styles\index{stroke styles} are also available, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences.
 
 \begin{figure}
@@ -1113,7 +1101,7 @@ FidoCadJ will be run and it will try to open the file \lstinline!~/FidoCadJ/test
 
 There are some other interesting things FidoCadJ can do.
 Option \lstinline!-h! shows a listing of the FidoCadJ options:
-\lstset{basicstyle=\scriptsize\ttfamily}
+\lstset{language={},basicstyle=\scriptsize\ttfamily}
 	 	 
 \begin{lstlisting}
 [davidebucci@davide-bucci-portable-2]$ java -jar fidocadj.jar -h
@@ -1132,7 +1120,7 @@ where options include:
 
  -c     Convert the given file to a graphical format.
         Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
-        If you use this command line option, you *must* specify a FidoCadJ
+        If you use this command line option, you must specify a FidoCadJ
         file to convert.
         An alternative is to specify the resolution in pixels per logical unit
         by preceding it by the letter 'r' (without spaces), instead of giving
@@ -1299,7 +1287,7 @@ A few menu actions are available on symbols in the library tree. Once you select
 \item ``Delete''\index{Delete (library symbol)} will throw away the symbol. Be careful with this: if a drawing contains the symbol, it will be invalidated and disappear.
 \item ``Change key''\index{Change key} is useful to modify the key associated to the symbol. Once again, this is something which must be done when the symbol has not been used in the drawing.
 \end{itemize}
-By using drag and drop\index{Drag and drop} , you might change the library or the category on which a symbol is categorized. Take into account that a symbol complete identification tag is composed by the library name, followed by the key of the symbol. Thus, moving a symbol from one library to another will invalidate drawings containing it.
+By using drag and drop\index{Drag and drop}, you might change the library or the category on which a symbol is categorized. Take into account that a symbol complete identification tag is composed by the library name, followed by the key of the symbol. Thus, moving a symbol from one library to another will invalidate drawings containing it.
 
 All library operations are undoable, exactly as drawing operations. Bear in mind that empty libraries or groups are not shown.
 
@@ -1810,7 +1798,7 @@ in many situations, provided that specific libraries are available.
 The advantages of a free program is that it is completely open
 to its user community. For this reason, your feedback is very
 important (at least to understand if the project is worth to be developed
-further, and in which direction). To contact me, you can participate to the forum of SourceForge dedicated to FidoCadJ.\footnote{\href{https://sourceforge.net/projects/fidocadj/forums/forum/997486}{https://sourceforge.net/projects/fidocadj/forums/forum/997486}}
+further, and in which direction). To contact me, open an issue on the GitHub FidoCadJ  project.\footnote{\href{https://github.com/DarwinNE/FidoCadJ/issues}{https://github.com/DarwinNE/FidoCadJ/issues}}
 
 \appendix
 
@@ -1848,7 +1836,7 @@ Under the hood, FidoCadJ needs at least the 1.7 version of Java. For marketing r
 Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
 {\small
-\href{http://sourceforge.net/projects/fidocadj/files/FidoCadJ_MacOSX.dmg/download}{http://sourceforge.net/projects/fidocadj/files/FidoCadJ\_ MacOSX.dmg/download}}\\
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ\_MacOSX.dmg}}\\
 You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
 
 
@@ -1872,7 +1860,7 @@ with a graphical environment will be used instead. A poor configuration of your 
 %	basicstyle=\tiny\ttfamily}
 	
 \begin{lstlisting}
-$ wget http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
+$ wget https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar
 --00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
            => `fidocadj.jar?use_mirror=garr'
 Resolution of downloads.sourceforge.net is being done... 216.34.181.59
@@ -1896,7 +1884,7 @@ $
 
 Alternatively, or if you are experiencing problems, you can download the file from any browser from the following URL:
 
-\href{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}{http://sourceforge.net/projects/fidocadj/files/fidocadj.jar/download}
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}
 
 and save the file in your \lstinline!/home/! directory.
 	
