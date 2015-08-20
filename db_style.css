@@ -144,9 +144,11 @@ span.command {
  	font-family: monospace;
  	font-size: 120%;
 }
+#faq_index{
+	list-style-position:inside;
+}
 #faq_index a{
 	line-height: 2em;
-	margin-left: 1em;
 }
 .faq_title{
 	color:#444;
