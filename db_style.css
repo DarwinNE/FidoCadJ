@@ -7,26 +7,28 @@ body {
 	background: -o-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* IE10+ */
 	background: linear-gradient(to bottom,  #f7f7f7 2%,#d1d1d1 7%,#c9c9c9 99%); /* W3C */
-}
-div.code {
-	overflow: auto;
-	width:20em;
-	height:10em;
-	border-style:solid;
-	border-color:#E68A00;
-	padding: 5px 10px 5px 10px;
-	border-width: 1px;
-}
-#main {
 	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  max-width: 50em;
-  background-color:#fff;
-  color: #444;
-  margin-left: auto;
-	margin-right: auto;
+	max-width: 50em;
+	font-weight: lighter;
+	margin: 0 auto;
+	color: #444;
+}
+header {
+	background-color:#E68A00;
+	color:#fff;
+	font-weight: 200;
+ 	padding:1em 1em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+header::before {
+	content: url("images/icona_fidocadj_128x128.png");
+	float:left;
+}
+#content {
 	border-style:solid;
 	border-color:#E68A00;
-	font-weight: lighter;
+	background-color:#fff;
 }
 p {
 	margin-left: 1em;
@@ -54,17 +56,15 @@ a.mainmenu {
 a.mainmenu:visited {
 	color: #EEEEEE;
 }
-#titlepage {
-	background-color:#E68A00;
-	color:#fff;
-	font-weight: 200;
- 	padding:1em 1em;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-#titlepage::before {
-	content: url("images/icona_fidocadj_128x128.png");
-	float:left;
+
+div.code {
+	overflow: auto;
+	width:20em;
+	height:10em;
+	border-style:solid;
+	border-color:#E68A00;
+	padding: 5px 10px 5px 10px;
+	border-width: 1px;
 }
 h1 {
 	font-weight: 100;
@@ -131,7 +131,7 @@ img.float {
   border: 0px solid;
   padding: 1em 1em 1em 1em;
 }
-p.license {
+#license {
 	color: #111;
 	font-size: 80%;
  	font-family: monospace;
