@@ -11,9 +11,24 @@ the users of the FidoCadJ project. The purpose of the site is to show
 an introduction to the software for the unexperienced user and provide
 links to develop it.
 
+<<<<<<< HEAD
 The website is not oriented towards developers, but it should steer
 them to the GitHub project page, so that they can fork the project and
 participate to the development.
+=======
+Translations: 
+    Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
+    Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
+    DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja), Chemik582 (cs),
+    Pietro Baima (it), simo85 (es)
+    
+Libraries:
+    Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group,
+    EY group coordinated by simo85
+    
+Website:
+    Davide Bucci, Federica Garin, Emanuele Baggetta, Sergio Juanez
+>>>>>>> DarwinNE/master
 
 As for FidoCadJ, the guidelines for the website are oriented towards
 the KISS phylosophy: Keep It Simple Stupid.
