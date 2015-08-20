@@ -145,9 +145,8 @@ span.command {
  	font-size: 120%;
 }
 #faq_index a{
-	color:#444;
 	line-height: 2em;
-	text-decoration: underline;
+	margin-left: 1em;
 }
 .faq_title{
 	color:#444;
