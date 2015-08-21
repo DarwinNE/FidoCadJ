@@ -223,34 +223,10 @@ public final class LibUtils
 	{
 		String szlib=tlib.library;
 		String szfn=tlib.filename;
-		
-//		System.out.println("filename: "+szfn);
-		
+				
 		if(szlib==null)
 			return false;
-		/*
-		String[] libs = {"Standard library","Electrical symbols",
-			"IHRAM 3.1","PCB Footprints",
-			"Libreria standard","Simboli Elettrotecnica"};
-			
-		String[] files = {"ihram","elettrotecnica",
-			"pcb","stdlib"};
-			
-		
-		boolean check=false;
-		
-		
-		for (String s : libs)
-			if (s.toLowerCase().trim().equalsIgnoreCase(		
-				szlib.toLowerCase().trim())) 
-				check=true;
-		
-		for (String s : files)
-			if (s.toLowerCase().trim().equalsIgnoreCase(		
-				szfn.toLowerCase().trim())) 
-				check=true;
-		*/
-		
+
 		boolean isStandard=false;
 		int dotpos=-1;
 		boolean extensions=true;
@@ -336,13 +312,13 @@ public final class LibUtils
 	*/
 	public static boolean checkLibrary(String library)
 	{
-		if(library.contains("]")||library.contains(".")||
+		if (library == null) return false;
+	
+		return library.contains("[")||library.contains(".")||
 		   library.contains("/")||library.contains("\\")||
 		   library.contains("~")||library.contains("&")||
 		   library.contains(",")||library.contains(";")||
-		   library.contains("]")||library.contains("\""))
-			return true;
-		return false;
+		   library.contains("]")||library.contains("\"");
 	}
 	
 	/** Rename a library file

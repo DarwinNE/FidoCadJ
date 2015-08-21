@@ -125,7 +125,7 @@ public class FidoFrame extends JFrame implements
     private boolean smallIconsToolbar;
     
     // Drag and drop target
-    private DropTarget dt;
+    // private DropTarget dt;
     
     // Show macro origin (menu item).
     private JCheckBoxMenuItem optionMacroOrigin;
@@ -430,7 +430,7 @@ public class FidoFrame extends JFrame implements
         CC=new CircuitPanel(true);
         CC.getParserActions().openFileName = "";
                         	
-        dt = new DropTarget(CC, this);
+        DropTarget dt = new DropTarget(CC, this);
         
         // If FidoCadJ runs as a standalone application, we must read the 
         // content of the current library directory.
