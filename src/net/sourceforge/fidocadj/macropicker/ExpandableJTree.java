@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 // 
-// Copyright 2014 Kohta Ozaki
+// Copyright 2014-2015 Kohta Ozaki, Davide Bucci
 
 package net.sourceforge.fidocadj.macropicker;
 
@@ -26,11 +26,17 @@ import java.awt.Graphics;
 * Features:<BR>
 * * Expands or collapses all nodes on paint event if specified.<BR>
 * * Selects leaf cyclic.<BR>
-* @author Kohta Ozaki
+* @author Kohta Ozaki, Davide Bucci
 */
 public class ExpandableJTree extends JTree
 {
+	// runOnce = true means that a change in the expansion state of the tree
+	// has been requested and it should be taken into account during the next
+	// painting event.
 	private boolean runOnce = false;
+	
+	// direction = true means that during the next repaint the tree should be
+	// expanded.
 	private boolean direction = false;
 	
 	private void fillExpandState(boolean expand)
@@ -47,18 +53,28 @@ public class ExpandableJTree extends JTree
 		}
 	}
 	
+	/** During the next repaint of the JTree, nodes will be expanded.
+	*/
 	public void expandOnce()
 	{
 		runOnce = true;
 		direction = true;
 	}
 	
+	
+	/** During the next repaint of the JTree, nodes will be collapsed.
+	*/
 	public void collapseOnce()
 	{
 		runOnce = true;
 		direction = false;
 	}
 	
+	/** Select the next leaf, i.e. the one immediately after the one which
+		is currently selected.
+		If this is not possible (for example because the currently selected
+		leaf is the last one available), it does nothing.
+	*/
 	public void selectNextLeaf()
 	{
 		int nextRow = searchNextLeaf(true);
@@ -69,6 +85,12 @@ public class ExpandableJTree extends JTree
 		}
 	}
 	
+	
+	/** Select the previous leaf, i.e. the one immediately above the one which
+		is currently selected.
+		If this is not possible (for example because the currently selected
+		leaf is the first one available), it does nothing.
+	*/
 	public void selectPrevLeaf()
 	{
 		int nextRow = searchNextLeaf(false);
@@ -77,8 +99,14 @@ public class ExpandableJTree extends JTree
 			setSelectionRow(nextRow);
 			scrollRowToVisible(nextRow);
 		}
-	}	
+	}
 
+	/** Get the currently selected row in the JTree.
+		If more than one selected row is present, return the index of the
+		first one found.
+		@return the index of the first selected row, or -1 if no selection
+			is available.
+	*/
 	private int getSelectedRow()
 	{
 		int selectedRow = -1;
@@ -95,6 +123,12 @@ public class ExpandableJTree extends JTree
 		return selectedRow;		
 	}
 	
+	/** Search for the next leaf in a tree.
+		@param searchForward true if the search is in the forward direction, 
+			false otherwise.
+		@return the index (row number) of the next leaf, or -1 if no leaf 
+			has been found.
+	*/
 	private int searchNextLeaf(boolean searchForward)
 	{
 		int nextRow = getSelectedRow();
@@ -106,9 +140,9 @@ public class ExpandableJTree extends JTree
 				nextRow--;
 			}
 			
+			// Circular search
 			if(nextRow < 0){
 				nextRow = getRowCount();
-				//System.out.println(nextRow);
 				continue;
 			} else if(getRowCount() <= nextRow){
 				nextRow = -1;
@@ -124,6 +158,9 @@ public class ExpandableJTree extends JTree
 		return -1;
 	}
 	
+	/** Standard method for painting the node. 
+		Determines wether the nodes should be expanded or not.
+	*/
 	public void paint(Graphics g)
 	{
 		if(runOnce) {
