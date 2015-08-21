@@ -154,7 +154,5 @@ span.command {
 	color:#444;
 }
 .go_top_label{
-	float: right;
-	margin-right: 20px;
-	font-size: 1em;
+	text-align: right;
 }
