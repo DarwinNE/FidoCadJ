@@ -602,6 +602,6 @@ FidoCadJ is distributed with the GPL v. 3 license:
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 The file glyphlist.txt employed for the export towards the PDF format is
-distributed using the Adobe license 2.0. You may obtain a copy of the License 
+distributed using the Apache license 2.0. You may obtain a copy of the License 
 at: http://www.apache.org/licenses/LICENSE-2.0.html
 
