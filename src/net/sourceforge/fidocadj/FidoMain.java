@@ -48,7 +48,7 @@ public class FidoMain
 {   
     private static CommandLineParser clp;
     
-    /** 
+    /** Standard constructor.
     */
 	public FidoMain() 
 	{
@@ -59,7 +59,7 @@ public class FidoMain
     /** The main method. Process the command line options and if necessary
     	shows an instance of FidoFrame.
     */
-    public static void main(String[] args)
+    public static void main(String... args)
     {
     	clp = new CommandLineParser();
     	

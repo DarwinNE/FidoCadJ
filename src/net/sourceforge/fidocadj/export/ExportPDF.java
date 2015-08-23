@@ -82,6 +82,9 @@ public class ExportPDF implements ExportInterface {
 	private double actualWidth;
 	private int actualDash;
 	
+	static final String encoding="UTF8";//"8859_1";
+
+	
 	
 	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
 		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
@@ -96,10 +99,7 @@ public class ExportPDF implements ExportInterface {
 	
 	/** Constructor
 		@param f the File object in which the export should be done.
-	*/
-	
-	static final String encoding="UTF8";//"8859_1";
-	
+	*/	
 	public ExportPDF (File f, GraphicsInterface gg) throws IOException
 	{
 		gi=gg;

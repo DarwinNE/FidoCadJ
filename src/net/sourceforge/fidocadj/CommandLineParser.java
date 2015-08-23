@@ -88,7 +88,7 @@ public class CommandLineParser
 	/** Read the current command line arguments and parse it.
 		@param orArgs the command line arguments, as provided to the main.
 	*/
-    public void processArguments(String[] orArgs)
+    public void processArguments(String... orArgs)
     {
        	int i;
        	boolean loaded=false;
@@ -264,7 +264,7 @@ public class CommandLineParser
     		"        NOTE: the coherence of the file extension is checked, unless the -f\n"+
     		"        option is specified.\n\n"+
     		
-    		" -s     Print the size  of the specified file in logical coordinates.\n\n"+
+    		" -s     Print the size of the specified file in logical units.\n\n"+
     		
     		" -h     Print this help and exit.\n\n"+
     		
@@ -296,36 +296,62 @@ public class CommandLineParser
     	System.out.println(help);
     }
     
+    /** Check if a file conversion (export) should be done.
+    	@return true if an export should be done.
+    */
     public boolean shouldConvertFile()
     {
     	return convertFile;
     }
     
+    /** Return a string describing the file format. 
+    	@return the description of the file format, as provided by the user,
+    	 	or "" if nothing has been specified.
+    */    
     public String getExportFormat()
     {
     	return exportFormat;
 	}
 	
+	/** Get the name of the output file 
+    	@return the name of the output file, or "" if nothing has been 
+    		specified.
+    */  
 	public String getOutputFile()
 	{
 		return outputFile;
 	}
 	
+	/** Get the width of the export
+		@return the width in pixels of the image to be exported.
+	*/
 	public int getXSize()
 	{
 		return totx;
 	}
 	
+	
+	/** Get the height of the export
+		@return the heght in pixels of the image to be exported.
+	*/
 	public int getYSize()
 	{
 		return toty;
 	}
 	
+	/** Check if the headless mode (no UI) should be active.
+		@return true if the Java headless mode should be activated.
+	*/
 	public boolean getHeadlessMode()
 	{
 		return headlessMode;
 	}
 	
+	/** Check if the export should be done on a resolution based and not
+		by creating an image of a given height and width.
+		@return true if the export should be done calculating the image
+			size by taking into account the desired resolution.
+	*/
 	public boolean getResolutionBasedExport()
 	{
 		return resolutionBasedExport;
@@ -340,26 +366,44 @@ public class CommandLineParser
     	return currentLocale;
     }
     
+    /** Check if the size of the drawing (in logical units) has to be printed.
+    	@return true if the size has to be printed.
+    */
     public boolean getHasToPrintSize()
     {
     	return printSize;
     }
     
+    /** Check if the time employed to perform an action has to be printed.
+    	@return true if the time has to be printed.
+    */
     public boolean getHasToPrintTime()
     {
     	return printTime;
     }
     
+    /** Get the resolution to be employed for the graphic export.
+    	@return the resolution in pixels for logical unit.
+    */
     public double getResolution()
     {
     	return resolution;
     }
     
+    /** Check if some sanity checks over the options should be skipped.
+    	@return true if the command line should be interpreted as is, even
+    		it contains something strange such as a wrong file extension and
+    		so on.
+    */
     public boolean getForceMode()
     {
     	return forceMode;
     }
     
+    /** Check if only the command line interface should be used.
+    	@return true if only the command line interface is to be used (i.e.
+    		no GUI will be started).
+    */
     public boolean getCommandLineOnly()
     {
     	return commandLineOnly;
