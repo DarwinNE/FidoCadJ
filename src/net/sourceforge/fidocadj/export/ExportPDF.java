@@ -146,11 +146,14 @@ public class ExportPDF implements ExportInterface {
 		unicodeCharIndex=127;
 		
 		// Read the glyphlist.txt file and store its contents in the hash
-		// map for easy retrieval during the calculation of encoding needs.		
-		BufferedReader br= new BufferedReader(new InputStreamReader(
-                      getClass().getResourceAsStream("glyphlist.txt"),
-                      encoding));
+		// map for easy retrieval during the calculation of encoding needs.	
+		BufferedReader br=null;            
         try{
+			InputStreamReader isr = new InputStreamReader(
+                      getClass().getResourceAsStream("glyphlist.txt"),
+                      encoding);
+  			br = new BufferedReader(isr);
+
         	String line = br.readLine();
         	String glyph;
         	Integer code;
@@ -167,16 +170,22 @@ public class ExportPDF implements ExportInterface {
             		else
             			codeStr=line.substring(p+1,q);
             		code=Integer.decode("0x"+codeStr);
-            		//System.out.println(glyph+"  "+code);
             		unicodeToGlyph.put(Integer.valueOf(code), glyph);
-            		//System.out.println("line:" +line+"    glyph:"
-            		//	+glyph+" code:"+codeStr);
             	}
             	line = br.readLine();
         	}
+    	} catch(Exception E) {	
+        	System.err.println("We could not access glyphlist.txt. A standard"+
+        		" matching of glyphs is attempted.");
+        	for(int i=32; i<128; ++i) {
+        		unicodeToGlyph.put(Integer.valueOf(i), ""+i);
+        	}
     	} finally {
-    		br.close();
+    		if (br!=null) 
+    			br.close();
     	}
+    	
+
 		
 		// We need to save layers informations, since we will use them later.
 		
