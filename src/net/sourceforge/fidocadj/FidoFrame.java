@@ -265,9 +265,6 @@ public class FidoFrame extends JFrame implements
         	exportBlackWhite=false;
         
         	exportFormat = "";
-        	//extFCJ_s = true;
-        	//extFCJ_c = true;
-
         }
         // some standard configurations
         exportFileName="";
