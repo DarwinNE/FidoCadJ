@@ -7,8 +7,7 @@ import java.text.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** 
 	Drawing export in Encapsulated Postscript

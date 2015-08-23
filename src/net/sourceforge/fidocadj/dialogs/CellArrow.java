@@ -9,8 +9,8 @@ import net.sourceforge.fidocadj.primitives.*;
 
 import java.util.*;
 
-import graphic.*;
-import graphic.swing.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.swing.*;
 
 /** The class CellArrow is a simple panel showing the arrow characteristics. 
 	To be used with ArrowCellRenderer.

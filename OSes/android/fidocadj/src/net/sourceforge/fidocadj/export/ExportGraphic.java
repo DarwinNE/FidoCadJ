@@ -7,8 +7,8 @@ import java.lang.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
-import graphic.nil.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.nil.*;
 
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;

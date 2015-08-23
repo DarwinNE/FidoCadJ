@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.timer.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** FidoMain.java 
 	SWING App: The starting point of FidoCadJ.

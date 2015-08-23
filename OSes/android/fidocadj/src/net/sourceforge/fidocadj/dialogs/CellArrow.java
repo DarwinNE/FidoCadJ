@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import graphic.android.ColorAndroid;
-import graphic.android.GraphicsAndroid;
+import net.sourceforge.fidocadj.graphic.android.ColorAndroid;
+import net.sourceforge.fidocadj.graphic.android.GraphicsAndroid;
 import net.sourceforge.fidocadj.primitives.Arrow;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,7 +27,7 @@ import android.view.View;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Dante Loi, Davide Bucci
+    Copyright 2014-2015 by Dante Loi, Davide Bucci
 </pre>
     
     */

@@ -6,7 +6,7 @@ import java.util.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 
 /** Class to handle the Connection primitive.

@@ -9,7 +9,7 @@ import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /*
 	GraphicPrimitive is an abstract class implementing the basic behaviour
@@ -31,7 +31,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2014 by Davide Bucci, phylum2
+	Copyright 2008-2015 by Davide Bucci, phylum2
 </pre>
 
 */

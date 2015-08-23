@@ -2,7 +2,8 @@ package net.sourceforge.fidocadj.primitives;
 
 import java.io.*;
 import java.util.*;
-import graphic.*;
+
+import net.sourceforge.fidocadj.graphic.*;
 
 /**
     Arrow class: draws an arrow of the given size, style and direction.
@@ -26,7 +27,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009-2014 by Davide Bucci
+    Copyright 2009-2015 by Davide Bucci
    </pre>
    
 */

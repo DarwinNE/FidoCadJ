@@ -42,8 +42,8 @@ import net.sourceforge.fidocadj.R;
 
 import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.globals.Globals;
-import graphic.FontG;
-import graphic.PointG;
+import net.sourceforge.fidocadj.graphic.FontG;
+import net.sourceforge.fidocadj.graphic.PointG;
 import net.sourceforge.fidocadj.FidoEditor;
 import net.sourceforge.fidocadj.storage.StaticStorage;
 
@@ -72,7 +72,7 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Dante Loi, Davide Bucci
+    Copyright 2014-2015 by Dante Loi, Davide Bucci
 
 	</pre>
 	

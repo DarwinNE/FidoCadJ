@@ -9,8 +9,8 @@ import net.sourceforge.fidocadj.layers.*;
 
 import java.util.*;
 
-import graphic.*;
-import graphic.swing.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.swing.*;
 
 
 /** The class CellLayer is a simple panel showing the color, the visibility

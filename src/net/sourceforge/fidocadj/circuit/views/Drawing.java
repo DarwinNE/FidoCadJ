@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** Drawing: draws the FidoCadJ drawing. This is a view of the drawing.
     

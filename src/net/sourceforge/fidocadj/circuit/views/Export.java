@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.circuit.views;
 
 import java.io.*;
 
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;

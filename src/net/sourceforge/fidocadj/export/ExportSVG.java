@@ -6,7 +6,7 @@ import java.io.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** 
 	Export drawing in the Scalable Vector Graphics format.

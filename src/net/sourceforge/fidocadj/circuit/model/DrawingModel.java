@@ -6,7 +6,7 @@ import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /**
 	Database of the FidoCadJ drawing. This is the "model" in the 

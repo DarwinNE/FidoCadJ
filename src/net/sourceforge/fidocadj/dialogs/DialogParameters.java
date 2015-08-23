@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.dialogs.OSKeybPanel.KEYBMODES;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /**
  * Allows to create a generic dialog, capable of displaying and let the user
@@ -37,7 +37,7 @@ import graphic.*;
  *     You should have received a copy of the GNU General Public License
  *     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * 	Copyright 2007-2014 by Davide Bucci
+ * 	Copyright 2007-2015 by Davide Bucci
  * </pre>
  */
 

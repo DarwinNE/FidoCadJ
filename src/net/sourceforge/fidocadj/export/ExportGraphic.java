@@ -15,14 +15,13 @@ import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.swing.*;
+import net.sourceforge.fidocadj.graphic.nil.*;
 
 import java.awt.event.*;
 import java.util.*;
 import java.lang.*; 
-
-import graphic.*;
-import graphic.swing.*;
-import graphic.nil.*;
 
 /** ExportGraphic.java
 
@@ -47,7 +46,7 @@ import graphic.nil.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2014 by Davide Bucci
+	Copyright 2007-2015 by Davide Bucci
 </pre>   
   
 	@author Davide Bucci

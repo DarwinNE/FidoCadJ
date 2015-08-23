@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements
 	to a drawing model.
@@ -28,7 +28,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2015 by Davide Bucci
 </pre>
 
     @author Davide Bucci

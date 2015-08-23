@@ -9,7 +9,7 @@ import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 
 /** 

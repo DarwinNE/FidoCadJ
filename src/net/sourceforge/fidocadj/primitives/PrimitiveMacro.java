@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 
 /** Class to handle the macro primitive. Code is somewhat articulated since

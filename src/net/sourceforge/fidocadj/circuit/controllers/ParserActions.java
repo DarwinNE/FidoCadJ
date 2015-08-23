@@ -10,7 +10,7 @@ import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** ParserActions: perform parsing of FidoCadJ code.
 	In general, those routines are constructed such as they are relatively 

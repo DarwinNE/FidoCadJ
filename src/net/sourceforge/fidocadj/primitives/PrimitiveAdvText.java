@@ -7,8 +7,8 @@ import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.globals.*;
-import graphic.*;
-import graphic.nil.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.nil.*;
 
 /** Class to handle the advanced text primitive.
 

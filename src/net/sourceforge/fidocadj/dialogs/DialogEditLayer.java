@@ -13,8 +13,8 @@ import javax.swing.colorchooser.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
-import graphic.swing.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.swing.*;
 
 
 /** The class dialogEditLayer allows to choose the style, visibility and

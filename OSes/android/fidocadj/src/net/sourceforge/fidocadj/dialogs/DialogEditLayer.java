@@ -23,7 +23,7 @@ import android.widget.EditText;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.*;
-import graphic.android.ColorAndroid;
+import net.sourceforge.fidocadj.graphic.android.ColorAndroid;
   
 import net.sourceforge.fidocadj.R;
 
@@ -46,7 +46,7 @@ import net.sourceforge.fidocadj.R;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2015 by Davide Bucci
  	</pre>
  	
   	@author Davide Bucci

@@ -11,7 +11,7 @@ import java.net.URL;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** 
 	Export towards the Adobe Portable Document File

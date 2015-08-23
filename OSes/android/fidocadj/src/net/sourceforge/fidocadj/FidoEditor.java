@@ -19,7 +19,7 @@ import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.circuit.views.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
-import graphic.android.*;
+import net.sourceforge.fidocadj.graphic.android.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.dialogs.*;
 
@@ -42,7 +42,7 @@ import net.sourceforge.fidocadj.dialogs.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Davide Bucci, Dante Loi
+    Copyright 2014-2015 by Davide Bucci, Dante Loi
 </pre>
    The circuit panel will contain the whole drawing.
 

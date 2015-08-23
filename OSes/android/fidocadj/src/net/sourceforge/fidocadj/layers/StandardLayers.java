@@ -6,7 +6,8 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.content.res.Resources;
-import graphic.android.*;
+
+import net.sourceforge.fidocadj.graphic.android.*;
 import net.sourceforge.fidocadj.*;
 
 
@@ -30,7 +31,7 @@ import net.sourceforge.fidocadj.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2014 by Davide Bucci
+	Copyright 2008-2015 by Davide Bucci
 
 </pre>
 

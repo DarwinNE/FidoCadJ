@@ -27,7 +27,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 
 import net.sourceforge.fidocadj.layers.LayerDesc;
-import graphic.android.ColorAndroid;
+import net.sourceforge.fidocadj.graphic.android.ColorAndroid;
 
 /**
   <pre>
@@ -46,7 +46,7 @@ import graphic.android.ColorAndroid;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Dante Loi, Davide Bucci
+    Copyright 2014-2015 by Dante Loi, Davide Bucci
   </pre>
  
   @author Dante Loi

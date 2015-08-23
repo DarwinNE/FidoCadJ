@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
 	move actions on a primitive database
@@ -28,7 +28,7 @@ import graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2015 by Davide Bucci
 </pre>
 
     @author Davide Bucci

@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import net.sourceforge.fidocadj.layers.*;
-import graphic.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /* Globals.java
 

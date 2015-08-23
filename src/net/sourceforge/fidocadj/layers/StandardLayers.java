@@ -4,8 +4,8 @@ import java.awt.*;
 import java.util.*;
 
 import net.sourceforge.fidocadj.globals.*;
-import graphic.*;
-import graphic.swing.*;
+import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.swing.*;
 
 /** 		SWING VERSION
 

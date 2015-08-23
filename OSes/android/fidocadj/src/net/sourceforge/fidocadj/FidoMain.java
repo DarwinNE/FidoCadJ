@@ -52,7 +52,7 @@ import net.sourceforge.fidocadj.dialogs.DialogLayer;
 import net.sourceforge.fidocadj.dialogs.DialogOpenFile;
 import net.sourceforge.fidocadj.dialogs.DialogSaveName;
 import net.sourceforge.fidocadj.layers.LayerDesc;
-import graphic.android.ColorAndroid;
+import net.sourceforge.fidocadj.graphic.android.ColorAndroid;
 import net.sourceforge.fidocadj.geom.MapCoordinates;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
@@ -91,7 +91,7 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 by Davide Bucci, Dante Loi
+    Copyright 2014-2015 by Davide Bucci, Dante Loi
 </pre>
 */
 
