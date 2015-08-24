@@ -33,7 +33,6 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     */
     public LibraryPanel(JFileChooser fc) 
     {
-
         this.fc = fc;
         fc.addPropertyChangeListener(this);
         fc.setAccessory(this);
@@ -133,9 +132,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     * Shows only JFileChooser with this LibraryPanel.
     * @param args
     */
-    public static void main(String[] args) 
+    public static void main(String... args) 
     {
-
         SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() 
@@ -157,8 +155,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     * And provide library name and filename to JList component.
     */
     public class LibraryListModel implements ListModel<LibraryDesc>
-    {
-    	    
+    {  
         final private ArrayList<ListDataListener> listeners;
     	final private ArrayList<LibraryDesc> libraryList;
     	private File currentDir;
@@ -226,7 +223,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 					// String.compareToIgnoreCase
 					return ld1.filename.compareTo(ld2.filename);
 				}
-				@Override
+				/*@Override
 				public boolean equals(Object obj) 
 				{	// DB. FindBugs complains that this methods always 
 					// returns "false". It considers it a quite high priority
@@ -234,7 +231,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
 					// this must return false?
 					// return false;
 					return this == obj;
-				}
+				}*/
     		});
     	}
     	

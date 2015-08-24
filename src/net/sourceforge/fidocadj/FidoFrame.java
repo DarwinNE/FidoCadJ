@@ -85,13 +85,13 @@ public class FidoFrame extends JFrame implements
     private JScrollPane SC;
     
     // Layer model
-    private LayerModel layerModel;
+    //private LayerModel layerModel;
     
     // Macro library model
     private LibraryModel libraryModel;
  
-	private ExportTools et;
-	private PrintTools pt;
+	final private ExportTools et;
+	final private PrintTools pt;
           
     // Open/save default properties
     public String openFileDirectory;
@@ -506,7 +506,7 @@ public class FidoFrame extends JFrame implements
     	MacroTree macroLib;
 		
         libraryModel = new LibraryModel(CC.P);
-        layerModel = new LayerModel(CC.P);
+        LayerModel layerModel = new LayerModel(CC.P);
         macroLib = new MacroTree(libraryModel,layerModel);
         macroLib.setSelectionListener(CC);
         

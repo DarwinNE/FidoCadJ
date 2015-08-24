@@ -45,7 +45,7 @@ public class ExportTools
     private boolean exportBlackWhite;
     private double exportUnitPerPixel;
     private double exportMagnification;
-    private Preferences prefs;
+    final private Preferences prefs;
     
     /** Standard constructor. 
     	@param p the preferences object which will be used to save or
