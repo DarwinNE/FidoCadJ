@@ -70,7 +70,6 @@ The class describing the main frame in which FidoCadJ runs.
 
 public class FidoFrame extends JFrame implements 
                                             ActionListener,
-                                            DropTargetListener,
                                             ZoomToFitListener,
                                             HasChangedListener,
                                             WindowFocusListener
@@ -88,6 +87,7 @@ public class FidoFrame extends JFrame implements
 	final private ExportTools et;
 	final private PrintTools pt;
 	final private MenuTools mt;
+	final private DragDropTools dt;
 	
     // Open/save default properties
     public String openFileDirectory;
@@ -254,6 +254,7 @@ public class FidoFrame extends JFrame implements
         }
         pt = new PrintTools();
         mt = new MenuTools();
+        dt = new DragDropTools(this);
     }
     
     
@@ -399,8 +400,9 @@ public class FidoFrame extends JFrame implements
 		
         CC=new CircuitPanel(true);
         CC.getParserActions().openFileName = "";
-                        	
-        DropTarget dt = new DropTarget(CC, this);
+        
+          	
+        DropTarget drt = new DropTarget(CC, dt);
         
         // If FidoCadJ runs as a standalone application, we must read the 
         // content of the current library directory.
@@ -666,157 +668,6 @@ public class FidoFrame extends JFrame implements
         return popFrame;
 	}
 
-
-    /**  This implementation of the DropTargetListener interface is heavily 
-        inspired on the example given here:
-        http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
-    */
-    public void dragEnter(DropTargetDragEvent dtde) 
-    {
-    	// does nothing
-    }
-
-    public void dragExit(DropTargetEvent dte) 
-    {
-    	// does nothing
-    }
-
-    public void dragOver(DropTargetDragEvent dtde) 
-    {
-    	// does nothing
-    }
-
-    public void dropActionChanged(DropTargetDragEvent dtde) 
-    {
-    	// does nothing
-    }
-
-	/** This routine is called when a drag and drop of an useful file is done
-		on an open instance of FidoCadJ. The difficulty is that depending on
-		the operating system flavor, the files are handled differently. 
-		For that reason, we check a few things and we need to differentiate
-		several cases.
-	*/
-    public void drop(DropTargetDropEvent dtde) 
-    {
-        try {
-            Transferable tr = dtde.getTransferable();
-            DataFlavor[] flavors = tr.getTransferDataFlavors();
-            if (flavors==null)
-            	return;
-            	
-            for (int i = 0; i < flavors.length; i++) {
-            	// try to avoid problematic situations
-            	if(flavors[i]==null)
-            		return;
-            	// check the correct type of the drop flavor
-                if (flavors[i].isFlavorJavaFileListType()) {
-                    // Great!  Accept copy drops...
-                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-    
-                    // And add the list of file names to our text area
-                    java.util.List list = 
-                        (java.util.List)tr.getTransferData(flavors[i]);
-                    
-                    FidoFrame popFrame;
-                    
-                    if(CC.getUndoActions().getModified()) {
-                        popFrame = createNewInstance();
-                    } else {
-                        popFrame=this;
-                    }
-                    
-                    // Only the first file of the list will be opened
-                    popFrame.CC.getParserActions().openFileName=
-                    	((File)(list.get(0))).getAbsolutePath();
-                    popFrame.openFile();
-                    // If we made it this far, everything worked.
-                    dtde.dropComplete(true);
-                    return;
-                }
-                // Ok, is it another Java object?
-                else if (flavors[i].isFlavorSerializedObjectType()) {
-                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                    Object o = tr.getTransferData(flavors[i]);
-                    // If there is a valid FidoCad code, try to draw it.
-                    FidoFrame popFrame;
-                    
-                    if(CC.getUndoActions().getModified()) {
-                        popFrame = createNewInstance();
-                    } else {
-                        popFrame=this;
-                    }
-                    
-                    popFrame.CC.setCirc(new StringBuffer(o.toString()));
-                    popFrame.CC.getUndoActions().saveUndoState();
-                    popFrame.CC.getUndoActions().setModified(false);
-
-                    dtde.dropComplete(true);
-                    popFrame.CC.repaint();
-                    return;
-                }
-                // How about an input stream? In some Linux flavors, it contains
-                // the file name, with a few substitutions.
-                
-                else if (flavors[i].isRepresentationClassInputStream()) {
-             		// Everything seems to be ok here, so we proceed handling
-             		// the file
-             		dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-             		InputStreamReader reader=new InputStreamReader(
-             			(InputStream)tr.getTransferData(flavors[i]));
-                    BufferedReader in=new BufferedReader(reader);
-
-                    String line="";
-                    int k;
-                    while (line != null){
-                        line = in.readLine();
-                        if (line!=null &&
-                        	(k=line.toString().indexOf("file://"))>=0) {
-                            FidoFrame popFrame;
-                            
-                            if(CC.getUndoActions().getModified()) {
-                                popFrame=createNewInstance();
-                            } else {
-                                popFrame=this;
-                            }
-
-                            popFrame.CC.getParserActions().openFileName = 
-                                line.toString().substring(k+7);
-                            
-                            // Deprecated! It should indicate the encoding. But
-                            // WE WANT the encoding using being the same of the
-                            // host system.
-                            
-                            popFrame.CC.getParserActions().openFileName = 
-                                java.net.URLDecoder.decode(
-                                popFrame.CC.getParserActions().openFileName);
-                            
-                            // After we set the current file name, we just open
-                            // it.
-                            popFrame.openFile();
-                            popFrame.CC.getUndoActions().saveUndoState();
-                            popFrame.CC.getUndoActions().setModified(false);
-                        
-                            break;
-                        }
-                    }
-                    in.close();
-                    reader.close();
-                    CC.repaint();
-                    
-                    dtde.dropComplete(true);
-                    return;
-                }
-            }
-            // Hmm, the user must not have dropped a file list
-            System.out.println("Drop failed: " + dtde);
-            dtde.rejectDrop();
-        } catch (Exception e) {
-            e.printStackTrace();
-            dtde.rejectDrop();
-        }
-    }
-    
     /** Open the current file
     */
     public void openFile() 
