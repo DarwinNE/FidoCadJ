@@ -30,7 +30,6 @@ import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.graphic.swing.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.clipboard.*;
 import net.sourceforge.fidocadj.toolbars.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.macropicker.MacroTree;
@@ -70,7 +69,6 @@ The class describing the main frame in which FidoCadJ runs.
 */
 
 public class FidoFrame extends JFrame implements 
-                                            MenuListener, 
                                             ActionListener,
                                             DropTargetListener,
                                             ZoomToFitListener,
@@ -84,15 +82,13 @@ public class FidoFrame extends JFrame implements
     // ... which is contained in a scroll pane.
     private JScrollPane SC;
     
-    // Layer model
-    //private LayerModel layerModel;
-    
     // Macro library model
     private LibraryModel libraryModel;
  
 	final private ExportTools et;
 	final private PrintTools pt;
-          
+	final private MenuTools mt;
+	
     // Open/save default properties
     public String openFileDirectory;
 
@@ -109,12 +105,7 @@ public class FidoFrame extends JFrame implements
     private boolean textToolbar;
     // Small (16x16 pixel) icons instead of standard (32x32 pixel)
     private boolean smallIconsToolbar;
-    
-    // Drag and drop target
-    // private DropTarget dt;
-    
-    
-    
+
     // Show macro origin (menu item).
     private JCheckBoxMenuItem optionMacroOrigin;
     
@@ -132,6 +123,17 @@ public class FidoFrame extends JFrame implements
    	{
    		return currentLocale;
    	}
+    
+    
+	public ExportTools getExportTools()
+	{
+		return et;
+	}
+	
+	public PrintTools getPrintTools()
+	{
+		return pt;
+	}
     
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
@@ -251,6 +253,7 @@ public class FidoFrame extends JFrame implements
         	textToolbar = true;
         }
         pt = new PrintTools();
+        mt = new MenuTools();
     }
     
     
@@ -390,11 +393,6 @@ public class FidoFrame extends JFrame implements
     	// second one under the window title).
     	ToolbarZoom toolZoom;
 
-        // I wanted to measure the library loading time, in order to ensure
-        // that it is reasonably fast (it is, on any reasonable hardware).
-        // A measurement is done only if Globals.isBeta is true.
-        		    	        
-        MyTimer mt;
         Container contentPane=getContentPane();
         
 		//((JComponent)getContentPane()).setOpaque(true);
@@ -493,7 +491,7 @@ public class FidoFrame extends JFrame implements
  		toolZoom.setFloatable(false);
         toolZoom.setRollover(false);
 		
-		JMenuBar menuBar=defineMenuBar();
+		JMenuBar menuBar=mt.defineMenuBar(this);
 		setJMenuBar(menuBar);
 
         // The initial state is the selection one.
@@ -585,77 +583,9 @@ public class FidoFrame extends JFrame implements
         CC.getUndoActions().setModified(false);
     }
     
-    /** Create all the menus and associate to them all the needed listeners.
-    */
-    private JMenuBar defineMenuBar()
-    {
-    // Menu creation
-        JMenuBar menuBar=new JMenuBar();
-    
-        menuBar.add(defineFileMenu());
-        menuBar.add(defineEditMenu());
-        menuBar.add(defineViewMenu());
-
-        
-        menuBar.add(defineCircuitMenu());
-        
-        // phylum      
-        /*  DB: there is no need to change the language from the GUI.
-        ActionListener langAct = new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				String lang = e.getActionCommand();
-				lang = lang.substring(lang.indexOf("(")+1
-					).replace(")","").trim();								
-				currentLocale = new Locale(lang);
-				if (!checkIfToBeSaved()) return;
-				((FidoFrame)Globals.activeWindow).CC.getUndoActions()
-					.doTheDishes();				
-				Globals.activeWindow.dispose();					
-	        	SwingUtilities.invokeLater(new 
-	        		CreateSwingInterface(libDirectory, 
-	            		"", currentLocale));
-			}
-		};
-		
-        JMenu langMenu=new JMenu(Globals.messages.getString("Language"));
-        JMenuItem langsubCircuit;
-        
-        for (int i = 0;i<LibUtils.Languages.length;i++)
-        {
-        	URL u = FidoMain.class.getResource("MessagesBundle_" + 
-        		LibUtils.Languages[i][0]  + ".properties");
-        	if (u==null) continue; 
-        	langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" + 
-        		LibUtils.Languages[i][0] + ")");
-        	langsubCircuit.addActionListener(langAct);
-        	langMenu.add(langsubCircuit);        	
-        }               
-        
-        // In the final versions (non beta), the user might change the locale 
-        // only via the command line, since there is no reason to use a locale
-        // different from the one of the operating system.
-        
-        if(Globals.isBeta) 
-        	menuBar.add(langMenu);
-        */
-
-        // On a MacOSX system, this menu is associated to preferences menu
-        // in the application menu. We do not need to show it in bar.
-        // This needs the AppleSpecific extensions to be active.
-        
-        JMenu about = defineAboutMenu();
-        if(!Globals.weAreOnAMac)
-            menuBar.add(about);
-            
-        return menuBar;
-    }
-   
-    
     /** Ask the user if the current file should be saved and do it if yes.
     	@return true if the window should be closed or false if the closing
     		action has been cancelled.
-    	
     */
     public boolean checkIfToBeSaved()
     {
@@ -707,239 +637,6 @@ public class FidoFrame extends JFrame implements
     	return shouldExit;
     }
     
-    /** Create the main File menu
-    */
-    private JMenu defineFileMenu()
-    {
-    	JMenu fileMenu=new JMenu(Globals.messages.getString("File"));
-        JMenuItem fileNew = new JMenuItem(Globals.messages.getString("New"));
-        fileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-            Globals.shortcutKey));
-        JMenuItem fileOpen = new JMenuItem(Globals.messages.getString("Open"));
-        fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-            Globals.shortcutKey));
-        JMenuItem fileSave = new 
-            JMenuItem(Globals.messages.getString("Save"));
-        fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-            Globals.shortcutKey));
-        JMenuItem fileSaveName = new 
-            JMenuItem(Globals.messages.getString("SaveName"));
-        fileSaveName.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-            Globals.shortcutKey | InputEvent.SHIFT_MASK));
-        
-        JMenuItem fileSaveNameSplit = new 
-            JMenuItem(Globals.messages.getString("Save_split"));
-            
-        JMenuItem fileExport = new 
-            JMenuItem(Globals.messages.getString("Export"));
-        
-        fileExport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
-            Globals.shortcutKey));
-        
-        
-        JMenuItem filePrint = new 
-            JMenuItem(Globals.messages.getString("Print"));
-            
-        filePrint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
-            Globals.shortcutKey));
-            
-        JMenuItem fileClose = new 
-            JMenuItem(Globals.messages.getString("Close"));
-        
-        fileClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
-            Globals.shortcutKey));
-        
-        JMenuItem options = new 
-            JMenuItem(Globals.messages.getString("Circ_opt"));
-	
-        // Add the items in the file menu.
-        
-        fileMenu.add(fileNew);
-        fileMenu.add(fileOpen);
-        fileMenu.add(fileSave);
-        fileMenu.add(fileSaveName);
-        fileMenu.addSeparator();
-        fileMenu.add(fileSaveNameSplit);
-        fileMenu.addSeparator();
-        
-        fileMenu.add(fileExport);
-        fileMenu.add(filePrint);
-        fileMenu.addSeparator();
-
-        // On a MacOSX system, options is associated to preferences menu
-        // in the application menu. We do not need to show it in File.
-        // This needs the AppleSpecific extensions to be active.
-
-
-    	if(!Globals.weAreOnAMac) {
-        	fileMenu.add(options);
-        	fileMenu.addSeparator();
-        }
-        fileMenu.add(fileClose);
-        
-        // Define all the action listeners
-
-        fileNew.addActionListener((ActionListener)this);
-        fileOpen.addActionListener((ActionListener)this);
-        fileExport.addActionListener((ActionListener)this);
-        filePrint.addActionListener((ActionListener)this);
-        fileClose.addActionListener((ActionListener)this);
-    
-        fileSave.addActionListener((ActionListener)this);
-        fileSaveName.addActionListener((ActionListener)this);
-        fileSaveNameSplit.addActionListener((ActionListener)this);
-    
-        options.addActionListener((ActionListener)this);
-        
-        return fileMenu;
-    }
-    
-    /** Define the Edit main menu
-    */
-    private JMenu defineEditMenu()
-    {
-    	JMenu editMenu = new JMenu(Globals.messages.getString("Edit_menu"));
-        
-        JMenuItem editUndo = new 
-            JMenuItem(Globals.messages.getString("Undo"));
-        editUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-            Globals.shortcutKey));
-        //editUndo.setEnabled(false);
-        JMenuItem editRedo = new 
-            JMenuItem(Globals.messages.getString("Redo"));
-        editRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-            Globals.shortcutKey | InputEvent.SHIFT_MASK));
-        //editRedo.setEnabled(false);
-        JMenuItem editCut = new 
-            JMenuItem(Globals.messages.getString("Cut"));
-        editCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-            Globals.shortcutKey));
-            
-        JMenuItem editCopy = new 
-            JMenuItem(Globals.messages.getString("Copy"));
-        editCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-            Globals.shortcutKey));
-        
-        JMenuItem editCopySplit = new 
-            JMenuItem(Globals.messages.getString("Copy_split"));
-        editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
-            Globals.shortcutKey));
-        
-        JMenuItem editPaste = new 
-            JMenuItem(Globals.messages.getString("Paste"));
-        editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-            Globals.shortcutKey));
-        JMenuItem clipboardCircuit = new 
-            JMenuItem(Globals.messages.getString("DefineClipboard"));
-            
-        JMenuItem editSelectAll = new 
-            JMenuItem(Globals.messages.getString("SelectAll"));
-        editSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-            Globals.shortcutKey));
- 		
- 		JMenuItem editDuplicate = new 
-            JMenuItem(Globals.messages.getString("Duplicate"));
-        editDuplicate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-            Globals.shortcutKey));
- 
-        JMenuItem editRotate = new 
-            JMenuItem(Globals.messages.getString("Rotate"));
-        editRotate.setAccelerator(KeyStroke.getKeyStroke("R"));
-        
-        JMenuItem editMirror = new 
-            JMenuItem(Globals.messages.getString("Mirror_E"));
-        editMirror.setAccelerator(KeyStroke.getKeyStroke("S"));
- 
-        editUndo.addActionListener((ActionListener)this);
-        editRedo.addActionListener((ActionListener)this);
-        editCut.addActionListener((ActionListener)this);
-        editCopy.addActionListener((ActionListener)this);
-        editCopySplit.addActionListener((ActionListener)this);
-        editPaste.addActionListener((ActionListener)this);
-        editSelectAll.addActionListener((ActionListener)this);
-        editDuplicate.addActionListener((ActionListener)this);
-        editMirror.addActionListener((ActionListener)this);
-        editRotate.addActionListener((ActionListener)this);
-        clipboardCircuit.addActionListener((ActionListener)this);
-        
-        editMenu.add(editUndo);
-        editMenu.add(editRedo);
-        editMenu.addSeparator();
-        
-        editMenu.add(editCut);
-        editMenu.add(editCopy);
-        editMenu.add(editCopySplit);
-        editMenu.add(editPaste);
-        editMenu.add(clipboardCircuit);
-        editMenu.add(editDuplicate);
-
-        editMenu.addSeparator();
-    
-        editMenu.add(editSelectAll);
-        editMenu.addSeparator();
-        editMenu.add(editRotate);
-        editMenu.add(editMirror);
-        
-        return editMenu;
-    }
-    
-    /** Define the main View menu.
-    */
-    private JMenu defineViewMenu()
-    {
-    	JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
-        JMenuItem layerOptions = new 
-            JMenuItem(Globals.messages.getString("Layer_opt"));
-            
-        layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
-            Globals.shortcutKey));
-               
-        viewMenu.add(layerOptions);
-        
-
-        layerOptions.addActionListener((ActionListener)this);
-		return viewMenu;
-	}
-	
-	/** Define the main Circuit menu.
-	*/
-	private JMenu defineCircuitMenu()
-	{
-		JMenu circuitMenu=new JMenu(Globals.messages.getString("Circuit"));
-        JMenuItem defineCircuit = new 
-            JMenuItem(Globals.messages.getString("Define"));
-        
-        defineCircuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
-            Globals.shortcutKey));
-            
-        circuitMenu.add(defineCircuit);
-
-        JMenuItem updateLibraries = new 
-            JMenuItem(Globals.messages.getString("LibraryUpdate"));
-        
-        updateLibraries.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
-            Globals.shortcutKey));
-            
-        circuitMenu.add(updateLibraries);
-      	defineCircuit.addActionListener((ActionListener)this);
-        updateLibraries.addActionListener((ActionListener)this);
-		
-		return circuitMenu;
-	}
-	
-	/** Define the main About menu. 
-	*/
-	private JMenu defineAboutMenu()
-	{
-		JMenu about = new JMenu(Globals.messages.getString("About"));
-        JMenuItem aboutMenu = new 
-            JMenuItem(Globals.messages.getString("About_menu"));
-        about.add(aboutMenu);
-        
-        aboutMenu.addActionListener((ActionListener)this);
-        
-        return about;
-	}
     
     /** The action listener. Recognize menu events and behaves consequently.
     
@@ -948,199 +645,9 @@ public class FidoFrame extends JFrame implements
     {
         // Recognize and handle menu events
         if(evt.getSource() instanceof JMenuItem) 
-        {
-            String arg=evt.getActionCommand();
-            EditorActions edt=CC.getEditorActions();
-            CopyPasteActions cpa=CC.getCopyPasteActions();
-            ElementsEdtActions eea = CC.getContinuosMoveActions();
-            
-			// Edit the FidoCadJ code of the drawing
-            if (arg.equals(Globals.messages.getString("Define"))) {
-                EnterCircuitFrame circuitDialog=new EnterCircuitFrame(this,
-                    CC.getCirc(!CC.extStrict).toString());
-                circuitDialog.setVisible(true);
-                
-                CC.setCirc(new StringBuffer(circuitDialog.getStringCircuit()));
-                CC.getUndoActions().saveUndoState();
-                repaint();
-            }
-            // Update libraries
-            if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
-           		loadLibraries();
-           		show();
-            }
-            // Options for the current drawing
-            if (arg.equals(Globals.messages.getString("Circ_opt"))) {
-                showPrefs();
-            }
-            // Options for the layers
-            if (arg.equals(Globals.messages.getString("Layer_opt"))) {
-                DialogLayer layerDialog=new DialogLayer(this,CC.P.getLayers());
-                layerDialog.setVisible(true);
-                
-                // It is important that we force a complete recalculation of 
-                // all details in the drawing, otherwise the buffered setup
-                // will not be responsive to the changes in the layer editing.
-                
-                CC.P.setChanged(true);
-                repaint();
-            }
-			// Print the current drawing
-            if (arg.equals(Globals.messages.getString("Print"))) {
-				pt.printDrawing(this, CC);
-            }
-            // Save with name
-            if (arg.equals(Globals.messages.getString("SaveName"))) {
-                saveWithName(false);
-            }
-            // Save with name, split non standard macros
-            if (arg.equals(Globals.messages.getString("Save_split"))) {
-                saveWithName(true);
-            }
-            // Save with the current name (if available)
-            if (arg.equals(Globals.messages.getString("Save"))) {
-                save(false);   
-            }
-            // New drawing
-            if (arg.equals(Globals.messages.getString("New"))) {
-                createNewInstance();
-            }
-            // Undo the last action
-            if (arg.equals(Globals.messages.getString("Undo"))) {
-                CC.getUndoActions().undo();
-                repaint();
-            }
-            // Redo the last action
-            if (arg.equals(Globals.messages.getString("Redo"))) {
-                CC.getUndoActions().redo();
-                repaint();
-            }
-            // Show the about menu
-            if (arg.equals(Globals.messages.getString("About_menu"))) {
-                DialogAbout d=new DialogAbout(this);
-                d.setVisible(true);
-            }
-            // Open a file
-            if (arg.equals(Globals.messages.getString("Open"))) {
-				OpenFile openf=new OpenFile();
-				openf.setParam(this);
-				SwingUtilities.invokeLater(openf);
-				/*
-           		The following code would require a thread safe implementation
-           		of some of the inner classes (such as CircuitModel), which was 
-           		indeed not the case... Now, yes!
-           		*/
-				/*Thread thread = new Thread(openf);
-				thread.setDaemon(true);
-				// Start the thread
-				thread.start();*/
-				
-            }
-            // Export the current drawing
-            if (arg.equals(Globals.messages.getString("Export"))) {
-				et.launchExport(this, CC, openFileDirectory);
-            }
-            // Select all elements in the current drawing
-            if (arg.equals(Globals.messages.getString("SelectAll"))) {
-                edt.setSelectionAll(true);   
-                // Even if the drawing is not changed, a repaint operation is 
-                // needed since all selected elements are rendered in green.
-                repaint();
-            }
-        	// Copy all selected elements in the clipboard
-            if (arg.equals(Globals.messages.getString("Copy"))) {
-                cpa.copySelected(!CC.extStrict, false);   
-            }
-            if (arg.equals(Globals.messages.getString("Copy_split"))) {
-                cpa.copySelected(!CC.extStrict, true);   
-            }
-            // Cut all the selected elements
-            if (arg.equals(Globals.messages.getString("Cut"))) {
-                cpa.copySelected(!CC.extStrict, false);   
-                edt.deleteAllSelected(true);
-                repaint();
-            }
-            // Mirror all the selected elements
-            if (arg.equals(Globals.messages.getString("Mirror_E"))) {
-                if(eea.isEnteringMacro())
-                	eea.mirrorMacro();   
-                else
-                	edt.mirrorAllSelected();            
-                repaint();
-            }
-            // 90 degrees rotation of all selected elements
-            if (arg.equals(Globals.messages.getString("Rotate"))) { 
-                if(eea.isEnteringMacro())
-                	eea.rotateMacro();
-                else
-                	edt.rotateAllSelected();
-                repaint();
-            }
-            // Duplicate
-            if (arg.equals(Globals.messages.getString("Duplicate"))) {
-                cpa.copySelected(!CC.extStrict, false);
-                cpa.paste(CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());
-                repaint();
-            }
-            // Paste as a new circuit
-            if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
-                TextTransfer textTransfer = new TextTransfer();
-                FidoFrame popFrame;
-                if(CC.getUndoActions().getModified()) {
-                    popFrame = createNewInstance();
-                } else {
-                    popFrame=this;
-                }
-                popFrame.CC.setCirc(new 
-                        StringBuffer(textTransfer.getClipboardContents()));
-                repaint();
-            }
-            // Paste some graphical elements 
-            if (arg.equals(Globals.messages.getString("Paste"))) {
-                cpa.paste(CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
-                repaint();
-            }
-            // Close the current window
-            if (arg.equals(Globals.messages.getString("Close"))) {
-                if(!checkIfToBeSaved()) {
-                   	return;
-                }
-                    
-                setVisible(false);
-                CC.getUndoActions().doTheDishes();
-                dispose();
-                Globals.openWindows.remove(this);
-
-                --Globals.openWindowsNumber;
-                    
-                if (Globals.openWindowsNumber<1)
-                    System.exit(0);
-            }
-        }
+        	mt.processMenuActions(evt, this);
     }
     
-    /** The menuSelected method, useful for the MenuListener interface.
-    */
-    public void menuSelected(MenuEvent evt)
-    {
-    	// does nothing
-    }
-    
-    /** The menuDeselected method, useful for the MenuListener interface.
-    */
-    public void menuDeselected(MenuEvent evt)
-    {
-        	// does nothing
-    }
-    
-    /** The menuCanceled method, useful for the MenuListener interface.
-    */
-    public void menuCanceled(MenuEvent evt)
-    {
-    	// does nothing
-    }
     
     /**	Create a new instance of the window.
     	@return the created instance
@@ -1519,7 +1026,6 @@ public class FidoFrame extends JFrame implements
         // if the user clicks on "Ok".
         options.setVisible(true);
         
-       
         
         // Now, we can update the properties.
         CC.profileTime=options.profileTime;
@@ -1671,77 +1177,3 @@ public class FidoFrame extends JFrame implements
     	// Nothing to do
     }
 }
-
-/** This class (currently not used) implements a sliding ruler which could be
-	possibly used in conjunction with the scroll panel used for the viewing 
-	area.
-*/
-class RulerPanel extends JPanel implements SwingConstants
-{
-	// PMD suggests that those fields might be final. This can be changed
-	// if  RulerPanel is effectively adopted in FidoCadJ
-    private final int dir;
-    private final int increment;
-    private final MapCoordinates sc;
-    
-    public RulerPanel(int direction, int width, int height, int incr,
-        MapCoordinates m)
-    {
-        increment=incr;
-        sc = m;
-        dir = direction;
-        setPreferredSize(new Dimension(width, height));
-    }
-
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        
-        //g.setClip(null);
-        Rectangle d = g.getClipBounds();
-        //Dimension d = getPreferredSize();
-        g.setColor(Color.white);
-        g.fillRect(d.x, d.y, d.width, d.height);
-        g.setColor(Color.black);
-
-        if (dir==HORIZONTAL) {
-            int x=0;
-  
-            for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=increment) {
-                    
-                g.drawLine(sc.mapXi(x,0,false), 
-                            sc.mapYi(x,0,false),
-                            sc.mapXi(x,0,false),
-                            sc.mapYi(x,0,false)+ d.height*4/10);
-            }
-            
-            for (x=0; x<sc.unmapXnosnap(sc.getXMax());x+=5*increment) {
-                    
-                g.drawLine(sc.mapXi(x,0,false), 
-                            sc.mapYi(x,0,false),
-                            sc.mapXi(x,0,false),
-                            sc.mapYi(x,0,false)+ d.height*6/10);
-            }
-            for (x=0; x<sc.getXMax(); x+=10*increment) {
-                g.drawString(""+x,sc.mapXi(x,0,false), d.height); 
-
-                g.drawLine(sc.mapXi(x,0,false), 
-                            sc.mapYi(x,0,false),
-                            sc.mapXi(x,0,false),
-                            sc.mapYi(x,0,false)+ d.height);   
-            }    
-        } else {
-            int y=0;
-            int inc=sc.mapYi(increment, increment, false)-sc.mapYi(0,0,false);
-            for (y=0; y<d.height;y+=inc) {
-                g.drawLine(0, y, d.width*4/10, y);
-            }
-        
-            for (y=0; y<d.height;y+=5*inc) {
-                g.drawLine(0, y, d.width*8/10, y);
-            }
-        }
-    }
-}
-
-
