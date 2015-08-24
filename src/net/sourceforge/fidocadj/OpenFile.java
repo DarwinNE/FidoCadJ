@@ -26,7 +26,7 @@ import java.awt.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012-2014 by Davide Bucci
+    Copyright 2012-2015 by Davide Bucci
 </pre>
 
     The OpenFile class allows to open a new file by using threads.
@@ -61,7 +61,7 @@ class OpenFile implements Runnable
             // Vastly better on MacOSX
             FileDialog fd = new FileDialog(parent, 
                	Globals.messages.getString("Open"));
-            fd.setDirectory(parent.openFileDirectory);
+            fd.setDirectory(parent.getFileTools().openFileDirectory);
             fd.setFilenameFilter(new FilenameFilter(){
                 public boolean accept(File dir, String name)
                 {
@@ -78,7 +78,8 @@ class OpenFile implements Runnable
             // Better on Linux
                     
             JFileChooser fc = new JFileChooser();
-            fc.setCurrentDirectory(new File(parent.openFileDirectory));
+            fc.setCurrentDirectory(
+            	new File(parent.getFileTools().openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("Open"));
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){ 
             	public boolean accept(File f)
@@ -153,8 +154,8 @@ class OpenFile implements Runnable
                 if (parent.runsAsApplication)
                    	parent.prefs.put("OPEN_DIR", din);  
 
-                popFrame.openFileDirectory=din;
-                popFrame.openFile();
+                popFrame.getFileTools().openFileDirectory=din;
+                popFrame.getFileTools().openFile();
                 popFrame.CC.getUndoActions().saveUndoState();
                 popFrame.CC.getUndoActions().setModified(false);
                

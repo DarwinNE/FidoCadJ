@@ -69,7 +69,7 @@ class AppleSpecific implements ApplicationListener
     {
     	String file = evt.getFilename();
     	if(file!=null)
-    	  ((FidoFrame)Globals.activeWindow).load(file);
+    	  ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
     /** Respond to an user double clicking on a FCD file
 	
@@ -77,7 +77,7 @@ class AppleSpecific implements ApplicationListener
     public void handleOpenFile(ApplicationEvent evt) 
     {
     	String file = evt.getFilename();
-    	((FidoFrame)Globals.activeWindow).load(file);
+    	((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
     
     /** Respond to an user clicking on the Preferences menu.
@@ -105,7 +105,8 @@ class AppleSpecific implements ApplicationListener
 		//Create a iterator
     	Iterator iterator = Globals.openWindows.iterator();     
     	while (iterator.hasNext()){
-      		if(!((FidoFrame)iterator.next()).checkIfToBeSaved()) {
+      		if(!((FidoFrame)iterator.next()).getFileTools().checkIfToBeSaved())
+      		{
       			ca = false;
       		}
     	}

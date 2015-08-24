@@ -404,13 +404,13 @@ public class MenuTools implements MenuListener
 			pt.printDrawing(fff, CC);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
-            fff.saveWithName(false);
+            fff.getFileTools().saveWithName(false);
         } else if (arg.equals(Globals.messages.getString("Save_split"))) {
             // Save with name, split non standard macros
-            fff.saveWithName(true);
+            fff.getFileTools().saveWithName(true);
         } else if (arg.equals(Globals.messages.getString("Save"))) {
             // Save with the current name (if available)
-            fff.save(false);   
+            fff.getFileTools().save(false);   
         } else if (arg.equals(Globals.messages.getString("New"))) {
             // New drawing
             fff.createNewInstance();
@@ -443,7 +443,7 @@ public class MenuTools implements MenuListener
 				
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-			et.launchExport(fff, CC, fff.openFileDirectory);
+			et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
             edt.setSelectionAll(true);   
@@ -500,7 +500,7 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Close"))) {
         	// Close the current window
-            if(!fff.checkIfToBeSaved()) {
+            if(!fff.getFileTools().checkIfToBeSaved()) {
                	return;
             }     
             fff.setVisible(false);

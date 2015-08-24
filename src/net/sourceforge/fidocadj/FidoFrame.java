@@ -88,10 +88,8 @@ public class FidoFrame extends JFrame implements
 	final private PrintTools pt;
 	final private MenuTools mt;
 	final private DragDropTools dt;
+	final private FileTools ft;
 	
-    // Open/save default properties
-    public String openFileDirectory;
-
     // Libraries properties
     public String libDirectory;
     public Preferences prefs;
@@ -133,6 +131,11 @@ public class FidoFrame extends JFrame implements
 	public PrintTools getPrintTools()
 	{
 		return pt;
+	}
+	
+	public FileTools getFileTools()
+	{
+		return ft;
 	}
     
     /** The standard constructor: create the frame elements and set up all
@@ -240,21 +243,23 @@ public class FidoFrame extends JFrame implements
         	// Prepare the preferences associated to the FidoMain class
         	FidoMain fm=new FidoMain();
             prefs = Preferences.userNodeForPackage(fm.getClass());
-            et=new ExportTools(prefs);
-     	 	readPreferences();
         } else {
         
         	// If we can not access to the preferences, we inizialize those
         	// configuration variables with default values.
         	libDirectory = System.getProperty("user.home");
-        	et=new ExportTools(null);
-        	openFileDirectory = "";
         	smallIconsToolbar = true;
         	textToolbar = true;
+        	prefs=null;
         }
+        et = new ExportTools(prefs);
         pt = new PrintTools();
         mt = new MenuTools();
         dt = new DragDropTools(this);
+        ft = new FileTools(this, prefs);
+        
+        if(runsAsApplication)
+        	readPreferences();
     }
     
     
@@ -266,11 +271,8 @@ public class FidoFrame extends JFrame implements
 		// The library directory
        	libDirectory = prefs.get("DIR_LIBS", "");       	
        	
-       	// The open file directory
-        openFileDirectory = prefs.get("OPEN_DIR", "");
         
         // The icon size
-        
         String defaultSize="";
         
         // Check the screen resolution. Now (April 2015), a lot of very high
@@ -556,7 +558,7 @@ public class FidoFrame extends JFrame implements
             {
                 public void windowClosing(WindowEvent e)
                 {
-                    if(!checkIfToBeSaved()) {
+                    if(!ft.checkIfToBeSaved()) {
                     	return;
                     }
                     
@@ -585,61 +587,7 @@ public class FidoFrame extends JFrame implements
         CC.getUndoActions().setModified(false);
     }
     
-    /** Ask the user if the current file should be saved and do it if yes.
-    	@return true if the window should be closed or false if the closing
-    		action has been cancelled.
-    */
-    public boolean checkIfToBeSaved()
-    {
-    	boolean shouldExit = true;
-        if (CC.getUndoActions().getModified()) {
-            Object[] options = {
-                Globals.messages.getString("Save"),
-                Globals.messages.getString("Do_Not_Save"),
-                Globals.messages.getString("Cancel_btn")};
-            
-            // We try to show in the title bar of the dialog the file name of 
-           	// the drawing to which the dialog refers to. If not, we just
-           	// write Warning!
-           
-            String filename=Globals.messages.getString("Warning");
-            if(!"".equals(CC.getParserActions().openFileName)) {
-            	filename=CC.getParserActions().openFileName;
-			}
-           	int choice=JOptionPane.showOptionDialog(this, 
-                Globals.messages.getString("Warning_unsaved"),
-                Globals.prettifyPath(filename,35),
-                JOptionPane.YES_NO_CANCEL_OPTION, 
-                JOptionPane.QUESTION_MESSAGE, 
-                null,
-                options,  //the titles of buttons
-    	 		options[0]); //default button title)
-    						
-    		// Those constant names does not reflect the actual 
-    		// message shown on the buttons. 
-            if(choice==JOptionPane.YES_OPTION) { 
-               	//  Save and exit
-               	//System.out.println("Save and exit.");
-               	if(!save(false))
-               		shouldExit=false;
-            } /*else if (choice==JOptionPane.NO_OPTION) { 
-               	// Don't save, exit
-               	//System.out.println("Do not save and exit.");
-            }*/ else if (choice==JOptionPane.CANCEL_OPTION) {
-               	// Don't exit
-               	//System.out.println("Do not exit.");
-               	shouldExit = false;
-            }
-                      
-        }
-        
-        if(shouldExit)
-        	CC.getUndoActions().doTheDishes();
-        	
-    	return shouldExit;
-    }
-    
-    
+
     /** The action listener. Recognize menu events and behaves consequently.
     
     */
@@ -668,176 +616,6 @@ public class FidoFrame extends JFrame implements
         return popFrame;
 	}
 
-    /** Open the current file
-    */
-    public void openFile() 
-        throws IOException
-    {
-        
-        BufferedReader bufRead = new BufferedReader(
-        	new InputStreamReader(new FileInputStream(
-        		CC.getParserActions().openFileName), 
-        	Globals.encoding));   
-                
-        StringBuffer txt= new StringBuffer();    
-        
-        String line =bufRead.readLine();
-        while (line != null){
-            txt.append(line);
-            txt.append("\n");
-            line =bufRead.readLine();
-        }
-            
-        bufRead.close();
-                        
-        // Here txt contains the new circuit: draw it!
-        CC.setCirc(new StringBuffer(txt.toString()));
-
-		// Calculate the zoom to fit     
-        zoomToFit();
-        CC.getUndoActions().saveUndoState();
-        CC.getUndoActions().setModified(false);
-
-        repaint();
-    }  
-    
-    /** Show the file dialog and save with a new name name.
-    	This routine makes use of the standard dialogs (either the Swing or the
-    	native one, depending on the host operating system), in order to let 
-    	the user choose a new name for the file to be saved.
-    	@return true if the save operation has gone well.
-    	@param splitNonStandardMacro_s decides whether the non standard macros
-    	       should be split during the save operation.
-
-    */
-    boolean saveWithName(boolean splitNonStandardMacro_s)
-    {
-        String fin;
-        String din;
-                       
-        if(Globals.useNativeFileDialogs) {
-                
-            // File chooser provided by the host system.
-            // Vastly better on MacOSX, but probably not such on other
-            // operating systems.
-                    
-            FileDialog fd = new FileDialog(this, 
-                Globals.messages.getString("SaveName"),
-                FileDialog.SAVE);
-            fd.setDirectory(openFileDirectory);
-            fd.setFilenameFilter(new FilenameFilter(){
-                public boolean accept(File dir, String name)
-                {
-                    return name.toLowerCase(getLocale()).endsWith(".fcd");
-                }
-            });
-            fd.setVisible(true);
-            fin=fd.getFile();
-            din=fd.getDirectory();
-        } else {
-            // File chooser provided by Swing.
-            // Better on Linux
-                    
-            JFileChooser fc = new JFileChooser();
-            fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
-                public boolean accept(File f)
-                {
-                    return f.getName().toLowerCase().endsWith(".fcd") ||
-                        f.isDirectory();
-                }
-                public String getDescription()
-                {
-                    return "FidoCadJ (.fcd)";
-                }
-            });
-            
-            // Set the current working directory as well as the file name.
-            fc.setCurrentDirectory(new File(openFileDirectory));
-            fc.setDialogTitle(Globals.messages.getString("SaveName"));
-            if(fc.showSaveDialog(this)!=JFileChooser.APPROVE_OPTION)
-                return false;
-      
-            fin=fc.getSelectedFile().getName();
-            din=fc.getSelectedFile().getParentFile().getPath();             
-        }
-                 
-        if(fin== null) {
-        	return false;
-        } else {
-            CC.getParserActions().openFileName= 
-            	Globals.createCompleteFileName(din, fin);
-            CC.getParserActions().openFileName = Globals.adjustExtension(
-            	CC.getParserActions().openFileName, 
-                    Globals.DEFAULT_EXTENSION);
-            if (runsAsApplication)
-            	prefs.put("OPEN_DIR", din);   
-            
-            openFileDirectory=din;
-            
-            // Here everything is ready for saving the current drawing.     
-            return save(splitNonStandardMacro_s);
-        }
-    }
-    
-    /** Save the current file.
-    	@param splitNonStandardMacro_s decides whether the non standard macros
-    	       should be split during the save operation.
-    	@return true if the save operation has gone well.
-    */
-    boolean save(boolean splitNonStandardMacro_s)
-    {
-    	// If there is not a name currently defined, we use instead the 
-    	// save with name function.
-    	if("".equals(CC.getParserActions().openFileName)) {
-            return saveWithName(splitNonStandardMacro_s);
-        }
-        try {
-            if (splitNonStandardMacro_s) {
-                /*  In fact, splitting the nonstandard macro when saving a file
-                    is indeed an export operation. This ease the job, since
-                    while exporting in a vector graphic format one has 
-                    indeed to split macros.
-                */
-                ExportGraphic.export(new File(
-                	CC.getParserActions().openFileName),  CC.P, 
-                    "fcd", 1.0,true,false, !CC.extStrict, false);
-                CC.getUndoActions().setModified(false);
-    
-            } else {
-                // Create file 
-                BufferedWriter output = new BufferedWriter(new 
-                	OutputStreamWriter(new FileOutputStream(
-                	CC.getParserActions().openFileName), 
-                	Globals.encoding));
-                
-                output.write("[FIDOCAD]\n");
-                output.write(CC.getCirc(!CC.extStrict).toString());
-                output.close();
-                CC.getUndoActions().setModified(false);
-            
-            }
-        } catch (IOException fnfex) {
-            JOptionPane.showMessageDialog(this,
-            Globals.messages.getString("Save_error")+fnfex);
-            return false;
-        }
-        return true;
-    }
-    
-    /** Load the given file
-		@param s the name of the file to be loaded.    
-    */
-    void load(String s)
-    {
-        CC.getParserActions().openFileName= s;     
-        try {
-            openFile();
-        } catch (IOException fnfex) {
-            JOptionPane.showMessageDialog(this,
-            Globals.messages.getString("Open_error")+fnfex);
-        }
-    }
-    
     /** Show the FidoCadJ preferences panel
     */
     void showPrefs()

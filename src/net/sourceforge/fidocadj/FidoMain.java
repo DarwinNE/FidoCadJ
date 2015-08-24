@@ -422,7 +422,7 @@ class CreateSwingInterface implements Runnable {
         // If a file should be loaded, load it now, since popFrame has been
         // created and initialized.
         if(!"".equals(loadFile))
-			popFrame.load(loadFile);
+			popFrame.getFileTools().load(loadFile);
 				
 		// We force a global validation of the window size, by including 
 		// this time the tree containing the various libraries and the

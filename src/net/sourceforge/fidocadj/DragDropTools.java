@@ -101,7 +101,7 @@ public class DragDropTools implements DropTargetListener
                     // Only the first file of the list will be opened
                     popFrame.CC.getParserActions().openFileName=
                     	((File)(list.get(0))).getAbsolutePath();
-                    popFrame.openFile();
+                    popFrame.getFileTools().openFile();
                     // If we made it this far, everything worked.
                     dtde.dropComplete(true);
                     return;
@@ -165,7 +165,7 @@ public class DragDropTools implements DropTargetListener
                             
                             // After we set the current file name, we just open
                             // it.
-                            popFrame.openFile();
+                            popFrame.getFileTools().openFile();
                             popFrame.CC.getUndoActions().saveUndoState();
                             popFrame.CC.getUndoActions().setModified(false);
                         
