@@ -4,8 +4,7 @@ import java.awt.*;
 import java.awt.List;
 import java.awt.event.*;
 
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -15,7 +14,6 @@ import java.io.*;
 import java.security.CodeSource;
 import java.util.*;
 import java.net.*;
-import java.awt.print.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
@@ -74,7 +72,6 @@ The class describing the main frame in which FidoCadJ runs.
 public class FidoFrame extends JFrame implements 
                                             MenuListener, 
                                             ActionListener,
-                                            Printable,
                                             DropTargetListener,
                                             ZoomToFitListener,
                                             HasChangedListener,
@@ -94,11 +91,7 @@ public class FidoFrame extends JFrame implements
     private LibraryModel libraryModel;
  
 	private ExportTools et;
-    
-    // Settings related to the printing mode.
-    private boolean printMirror;
-    private boolean printFitToPage;
-    private boolean printLandscape;
+	private PrintTools pt;
           
     // Open/save default properties
     public String openFileDirectory;
@@ -120,7 +113,7 @@ public class FidoFrame extends JFrame implements
     // Drag and drop target
     // private DropTarget dt;
     
-    private boolean printBlackWhite;
+    
     
     // Show macro origin (menu item).
     private JCheckBoxMenuItem optionMacroOrigin;
@@ -257,16 +250,9 @@ public class FidoFrame extends JFrame implements
         	smallIconsToolbar = true;
         	textToolbar = true;
         }
-        
-        
-        
-        // some standard configurations
-
-        
-        printMirror = false;
-        printFitToPage = false;
-        printLandscape = false;  
+        pt = new PrintTools();
     }
+    
     
     /** Read the preferences settings (mainly at startup or when a new 
     	editing window is created.
@@ -1001,7 +987,7 @@ public class FidoFrame extends JFrame implements
             }
 			// Print the current drawing
             if (arg.equals(Globals.messages.getString("Print"))) {
-				printDrawing();
+				pt.printDrawing(this, CC);
             }
             // Save with name
             if (arg.equals(Globals.messages.getString("SaveName"))) {
@@ -1156,64 +1142,6 @@ public class FidoFrame extends JFrame implements
     	// does nothing
     }
     
-    /** Print the current drawing.
-    */
-    public void printDrawing()
-    {
-        DialogPrint dp=new DialogPrint(this);
-        dp.setMirror(printMirror);
-        dp.setFit(printFitToPage);
-        dp.setBW(printBlackWhite);
-        dp.setLandscape(printLandscape);
-        dp.setVisible(true);
-                
-        // Get some information about the printing options.
-        printMirror = dp.getMirror();
-        printFitToPage = dp.getFit();
-        printLandscape = dp.getLandscape();
-        printBlackWhite=dp.getBW();
-        
-        Vector<LayerDesc> ol=CC.P.getLayers();
-        if (dp.shouldPrint()) {
-            if(printBlackWhite) {
-                Vector<LayerDesc> v=new Vector<LayerDesc>();
-                        
-                // Here we create an alternative array of layers in 
-                // which all colors are pitch black. This may be
-                // useful for PCB's.
-                        
-                for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
-                    v.add(new LayerDesc(new ColorSwing(Color.black), 
-                        ((LayerDesc)ol.get(i)).getVisible(),
-                         "B/W",((LayerDesc)ol.get(i)).getAlpha()));        
-                CC.P.setLayers(v);
-            }
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(this);
-            boolean ok = job.printDialog();
-            if (ok) {
-                try {
-                    PrintRequestAttributeSet aset = new 
-                    	HashPrintRequestAttributeSet();
-                    // Set the correct printing orientation.
-                    if (printLandscape) {
-                        aset.add(OrientationRequested.LANDSCAPE);
-                    } else {
-                        aset.add(OrientationRequested.PORTRAIT);
-                    }
-                    job.print(aset);
-                } catch (PrinterException ex) {
-                // The job did not successfully complete
-                    JOptionPane.showMessageDialog(this,
-                        Globals.messages.getString("Print_uncomplete"));
-                }
-            }
-        CC.P.setLayers(ol);
-                
-        }
-    }
-    
-    
     /**	Create a new instance of the window.
     	@return the created instance
     */
@@ -1231,81 +1159,7 @@ public class FidoFrame extends JFrame implements
         return popFrame;
 	}
 
-    /** The printing interface 
-    */
-    public int print(Graphics g, PageFormat pf, int page) throws
-                                                   PrinterException 
-    {
-        int npages = 0;
-        
-        // This might be explained as follows: 
-		// 1 - The Java printing system normally works with an internal 
-		// resolution which is 72 dpi (probably inspired by Postscript).
-		// 2 - To have a sufficient resolution, this is increased by 16 times,
-		// by using the scale method of the graphic object associated to the 
-		// printer. This gives a 72 dpi * 16=1152 dpi resolution.
-		// 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi 
-		// resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
 
-        double xscale = 1.0/16; // Set 1152 logical units for an inch
-        double yscale = 1.0/16; // as the standard resolution is 72
-        double zoom = 5.76;     // act in a 1152 dpi resolution as 1:1
-               
-        Graphics2D g2d = (Graphics2D)g;
-
-        // User (0,0) is typically outside the imageable area, so we must
-        // translate by the X and Y values in the PageFormat to avoid clipping
-         
-        if (printMirror) {
-            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
-                pf.getImageableY());
-            g2d.scale(-xscale,yscale); 
-            
-        } else {
-            g2d.translate(pf.getImageableX(), pf.getImageableY());
-            g2d.scale(xscale,yscale); 
-        }   
-       
-        int printerWidth = (int)pf.getImageableWidth()*16;
-
-		// Perform an adjustement if we need to fit the drawing to the page.
-        if (printFitToPage) {   
-        	MapCoordinates zoomm = DrawingSize.calculateZoomToFit(CC.P, 
-                (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                    false);
-            zoom=zoomm.getXMagnitude();
-        }
-         
-        MapCoordinates m=new MapCoordinates();
-        
-        m.setMagnitudes(zoom, zoom);
-        
-        PointG o=new PointG(0,0);
-        
-        int imageWidth = DrawingSize.getImageSize(CC.P, zoom, false, o).width;
-        npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
-        
- 		/*System.out.println("imageWidth="+imageWidth);
- 		System.out.println("printerWidth="+printerWidth);
-
- 		System.out.println("npages="+npages);*/
- 
-        // Check if we need more than one page
-        if (printerWidth<imageWidth) {
-            g2d.translate(-(printerWidth*page),0);
-        }
-        
-        // Check if printing is finished.
-        if(page>npages) {
-            return NO_SUCH_PAGE;
-        } 
-        // Now we perform our rendering 
-        CC.drawingAgent.draw(new Graphics2DSwing(g2d), m);
-        
-        /* tell the caller that this page is part of the printed document */
-        return PAGE_EXISTS;
-    }
-    
     /**  This implementation of the DropTargetListener interface is heavily 
         inspired on the example given here:
         http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
