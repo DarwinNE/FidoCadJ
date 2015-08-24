@@ -44,9 +44,7 @@ import net.sourceforge.fidocadj.librarymodel.utils.LibraryUndoExecutor;
 
 /** FidoFrame.java 
 
-Probably, it would be a very good idea to implement the editor with a 
-model/vista/controller paradigm. Anyway, it would be a lot of code rearranging
-work... I will do it for my NEXT vector drawing program :-D
+The class describing the main frame in which FidoCadJ runs.
 
 <pre>  
     This file is part of FidoCadJ.
@@ -64,7 +62,7 @@ work... I will do it for my NEXT vector drawing program :-D
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2015 by Davide Bucci
 </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -95,12 +93,7 @@ public class FidoFrame extends JFrame implements
     // Macro library model
     private LibraryModel libraryModel;
  
-    // Export default properties
-    private String exportFileName;
-    private String exportFormat;
-    private boolean exportBlackWhite;
-    private double exportUnitPerPixel;
-    private double exportMagnification;
+	private ExportTools et;
     
     // Settings related to the printing mode.
     private boolean printMirror;
@@ -179,7 +172,6 @@ public class FidoFrame extends JFrame implements
         getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
         	Boolean.TRUE);
 
-		exportMagnification=1.0;
         	
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
@@ -247,27 +239,27 @@ public class FidoFrame extends JFrame implements
             setIconImage(icon);
         }
                 
-        
         if (runsAsApplication) {
         	// Prepare the preferences associated to the FidoMain class
         	FidoMain fm=new FidoMain();
             prefs = Preferences.userNodeForPackage(fm.getClass());
+            et=new ExportTools(prefs);
      	 	readPreferences();
         } else {
         
         	// If we can not access to the preferences, we inizialize those
         	// configuration variables with default values.
         	libDirectory = System.getProperty("user.home");
-        	
+        	et=new ExportTools(null);
         	openFileDirectory = "";
         	smallIconsToolbar = true;
         	textToolbar = true;
-        	exportBlackWhite=false;
-        
-        	exportFormat = "";
         }
+        
+        
+        
         // some standard configurations
-        exportFileName="";
+
         
         printMirror = false;
         printFitToPage = false;
@@ -305,12 +297,7 @@ public class FidoFrame extends JFrame implements
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
     
         // Export preferences
-		exportFormat = prefs.get("EXPORT_FORMAT", "png");
-		exportUnitPerPixel= Double.parseDouble(
-			prefs.get("EXPORT_UNITPERPIXEL", "1"));
-		exportMagnification = Double.parseDouble(
-			prefs.get("EXPORT_MAGNIFICATION", "1"));
-		exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
+        et.readPrefs();
 		
 		// Element sizes
        	Globals.lineWidth=Double.parseDouble(
@@ -1063,7 +1050,7 @@ public class FidoFrame extends JFrame implements
             }
             // Export the current drawing
             if (arg.equals(Globals.messages.getString("Export"))) {
-				export();
+				et.launchExport(this, CC, openFileDirectory);
             }
             // Select all elements in the current drawing
             if (arg.equals(Globals.messages.getString("SelectAll"))) {
@@ -1174,7 +1161,7 @@ public class FidoFrame extends JFrame implements
         DialogPrint dp=new DialogPrint(this);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
-        dp.setBW(exportBlackWhite);
+        dp.setBW(et.getExportBlackWhite());
         dp.setLandscape(printLandscape);
         dp.setVisible(true);
                 
@@ -1182,11 +1169,11 @@ public class FidoFrame extends JFrame implements
         printMirror = dp.getMirror();
         printFitToPage = dp.getFit();
         printLandscape = dp.getLandscape();
-        exportBlackWhite= dp.getBW();
+        et.setExportBlackWhite(dp.getBW());
         
         Vector<LayerDesc> ol=CC.P.getLayers();
         if (dp.shouldPrint()) {
-            if(exportBlackWhite) {
+            if(et.getExportBlackWhite()) {
                 Vector<LayerDesc> v=new Vector<LayerDesc>();
                         
                 // Here we create an alternative array of layers in 
@@ -1224,103 +1211,6 @@ public class FidoFrame extends JFrame implements
         }
     }
     
-    /** Export the current drawing
-    */
-    public void export()
-    {                 
-    	// At first, we create and configure the dialog allowing the user
-    	// to choose the exporting options
-    	DialogExport export=new DialogExport(this);
-        export.setAntiAlias(true);
-        export.setFormat(exportFormat);
-        // The default export directory is the same where the FidoCadJ file
-        // are opened.
-        if("".equals(exportFileName)) {
-        	exportFileName=openFileDirectory;
-        }
-        export.setFileName(exportFileName);
-        export.setUnitPerPixel(exportUnitPerPixel);
-        export.setBlackWhite(exportBlackWhite);
-        export.setMagnification(exportMagnification);
-                
-        // Once configured, we show the modal dialog
-        export.setVisible(true);      
-        if (export.shouldExport()) {
-	    	exportFileName=export.getFileName();
-            exportFormat=export.getFormat();
-            // The resolution based export should be used only for bitmap
-            // file formats
-            if("png".equals(exportFormat) ||
-               "jpg".equals(exportFormat))
-            	exportUnitPerPixel=export.getUnitPerPixel();
-            else
-            	exportUnitPerPixel = export.getMagnification();
-            
-            exportBlackWhite=export.getBlackWhite();
-            exportMagnification = export.getMagnification();
-            
-            File f = new File(exportFileName);
-            // We first check if the file is a directory
-            if(f.isDirectory()) {
-           		JOptionPane.showMessageDialog(null, 
-           			Globals.messages.getString("Warning_noname"),
-           			Globals.messages.getString("Warning"), 
-           			JOptionPane.INFORMATION_MESSAGE );
-            	return;
-            }
-            
-            int selection;
-            
-            // We first check if the file name chosen by the user has a correct
-            // file extension, coherent with the file format chosen.
-            if(!Globals.checkExtension(exportFileName, exportFormat)) {
-               	selection = JOptionPane.showConfirmDialog(null, 
-                	Globals.messages.getString("Warning_extension"),
-                	Globals.messages.getString("Warning"),
-                	JOptionPane.YES_NO_OPTION, 
-                	JOptionPane.WARNING_MESSAGE);
-                // If useful, we correct the extension.
-            	if(selection==JOptionPane.OK_OPTION) 
-                	exportFileName = Globals.adjustExtension(
-                		exportFileName, exportFormat);
-                	f = new File(exportFileName);
-            }
-
-            // If the file already exists, we asks for confirmation
-            if(f.exists()) {
-               	selection = JOptionPane.showConfirmDialog(null, 
-                    Globals.messages.getString("Warning_overwrite"),
-                    Globals.messages.getString("Warning"),
-                    JOptionPane.OK_CANCEL_OPTION, 
-                    JOptionPane.WARNING_MESSAGE);
-                if(selection!=JOptionPane.OK_OPTION)
-                   	return;
-             }
-          	// We do the export
-           	RunExport doExport = new RunExport();
-			// Here we try to use the multithreaded structure of Java.
-			doExport.setParam(new File(exportFileName),  CC.P, 
-               	exportFormat, exportUnitPerPixel, 
-               	export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
-               	this);
-               
-           	SwingUtilities.invokeLater(doExport);
-           	prefs.put("EXPORT_FORMAT", exportFormat);
-            prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
-            prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
-            prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
-           	/*
-           		The following code would require a thread safe implementation
-           		of some of the inner classes (such as CircuitModel), which is 
-           		indeed not the case...
-           		
-           	Thread thread = new Thread(doExport);
-			thread.setDaemon(true);
-			// Start the thread
-			thread.start();
-			*/
-         }
-    }
     
     /**	Create a new instance of the window.
     	@return the created instance
