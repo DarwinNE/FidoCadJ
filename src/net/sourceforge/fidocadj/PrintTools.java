@@ -65,10 +65,11 @@ public class PrintTools implements Printable
     /** Show a dialog for printing the current drawing.
     	@param fff the parent frame which will be used for dialogs and message
     		boxes.
-    	@param CC the CircuitPanel containing the drawing to be exported.
+    	@param CCr the CircuitPanel containing the drawing to be exported.
 	*/  
-    public void printDrawing(JFrame fff, CircuitPanel CC)
+    public void printDrawing(JFrame fff, CircuitPanel CCr)
     {
+    	CC=CCr;
         DialogPrint dp=new DialogPrint(fff);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);

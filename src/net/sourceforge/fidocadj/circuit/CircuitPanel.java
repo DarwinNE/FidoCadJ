@@ -1041,7 +1041,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         Graphics2D g2 = (Graphics2D)g; 
         graphicSwing.setGraphicContext(g2);
         
-        Rectangle t= new Rectangle();
+        //Rectangle t= new Rectangle();
         //g.getClipBounds(t);
         
         //System.out.println("x="+t.x+" y="+t.y+" w="+t.width+" h="+t.height);
