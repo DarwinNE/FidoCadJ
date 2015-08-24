@@ -10,8 +10,6 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 
-
-
 /** ExportTools.java 
 
 	Class performing interface operations for launching export operations.
@@ -36,7 +34,6 @@ import net.sourceforge.fidocadj.globals.*;
     Copyright 2015 by Davide Bucci
 </pre>
 
-    
     @author Davide Bucci
 */
 
@@ -50,16 +47,10 @@ public class ExportTools
     private double exportMagnification;
     private Preferences prefs;
     
-    public boolean getExportBlackWhite()
-    {
-    	return exportBlackWhite;
-    }
-    
-    public void setExportBlackWhite(boolean s)
-    {
-    	exportBlackWhite=s;
-    }
-    
+    /** Standard constructor. 
+    	@param p the preferences object which will be used to save or
+    	retrieve the settings. If null, preferences will not be stored.
+    */
     public ExportTools(Preferences p)
     {
     	exportFileName="";
@@ -69,6 +60,8 @@ public class ExportTools
         exportFormat = "";
     }
     
+    /** Read the preferences regarding the export.
+    */
     public void readPrefs()
     {
     	if(prefs!=null) {
@@ -81,10 +74,16 @@ public class ExportTools
 		}
 	}
     
-    /** Export the current drawing
+    /** Show a dialog for exporting the current drawing.
+    	@param fff the parent frame which will be used for dialogs and message
+    		boxes.
+    	@param CC the CircuitPanel containing the drawing to be exported.
+    	@param openFileDirectory the directory where to search if no file
+    		name has been already defined for the export (for example, because
+    		it is the first time an export is done).
     */
-    public void launchExport(JFrame fff, CircuitPanel CC, String 
-    	openFileDirectory)
+    public void launchExport(JFrame fff, CircuitPanel CC, 
+    	String openFileDirectory)
     {                 
     	// At first, we create and configure the dialog allowing the user
     	// to choose the exporting options
@@ -182,5 +181,4 @@ public class ExportTools
 			*/
          }
     }
-    
 }

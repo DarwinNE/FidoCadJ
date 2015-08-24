@@ -120,6 +120,8 @@ public class FidoFrame extends JFrame implements
     // Drag and drop target
     // private DropTarget dt;
     
+    private boolean printBlackWhite;
+    
     // Show macro origin (menu item).
     private JCheckBoxMenuItem optionMacroOrigin;
     
@@ -1161,7 +1163,7 @@ public class FidoFrame extends JFrame implements
         DialogPrint dp=new DialogPrint(this);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
-        dp.setBW(et.getExportBlackWhite());
+        dp.setBW(printBlackWhite);
         dp.setLandscape(printLandscape);
         dp.setVisible(true);
                 
@@ -1169,11 +1171,11 @@ public class FidoFrame extends JFrame implements
         printMirror = dp.getMirror();
         printFitToPage = dp.getFit();
         printLandscape = dp.getLandscape();
-        et.setExportBlackWhite(dp.getBW());
+        printBlackWhite=dp.getBW();
         
         Vector<LayerDesc> ol=CC.P.getLayers();
         if (dp.shouldPrint()) {
-            if(et.getExportBlackWhite()) {
+            if(printBlackWhite) {
                 Vector<LayerDesc> v=new Vector<LayerDesc>();
                         
                 // Here we create an alternative array of layers in 
