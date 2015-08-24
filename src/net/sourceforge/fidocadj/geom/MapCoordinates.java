@@ -21,7 +21,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2014 by Davide Bucci
+	Copyright 2007-2015 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -206,6 +206,7 @@ public class MapCoordinates
     	if (xg>0) 
     		xGridStep=xg;
     }
+    
     /**	Set the Y grid step
     	@param yg the Y grid step
     */
@@ -221,16 +222,16 @@ public class MapCoordinates
     public final int getXGridStep()
     {	
     	return xGridStep;
-
     }
+    
     /**	Get the Y grid step
     	@return the Y grid step used
     */
     public final int getYGridStep()
     {	
     	return yGridStep;
-
     }
+    
     /**	Get the X magnification factor
     	@return the X magnification factor
     
@@ -240,16 +241,13 @@ public class MapCoordinates
         return xMagnitude;
     }
     
-    
     /**	Get the Y magnification factor
     	@return the Y magnification factor
-    
     */
     public final double getYMagnitude()
     {
         return yMagnitude;
     }
-    
     
     /**	Set the X magnification factor
     	@param txm the X magnification factor
@@ -266,7 +264,6 @@ public class MapCoordinates
     	
         xMagnitude=xm;
     }
-    
     
     /**	Set the Y magnification factor
     	@param tym the Y magnification factor
@@ -291,7 +288,6 @@ public class MapCoordinates
         return xCenter;
     }
     
-    
     /**	Get the Y magnification factor
     	@return the Y magnification factor
     */
@@ -300,7 +296,6 @@ public class MapCoordinates
         return yCenter;
     }
     
-    
     /**	Set the X center in pixel
     	@param xm the X center in pixel
     */
@@ -308,7 +303,6 @@ public class MapCoordinates
     {
         xCenter=xm;
     }
-    
     
     /**	Set the Y magnification factor
     	@param ym the Y magnification factor
@@ -335,6 +329,7 @@ public class MapCoordinates
     {
         return xMax;
     }
+    
     /**	Get the maximum tracked Y coordinate
     	@return the maximum tracked Y coordinate
     */
@@ -342,6 +337,7 @@ public class MapCoordinates
     {
         return yMax;
     }
+    
     /**	Get the minimum tracked X coordinate
     	@return the minimum tracked X coordinate
     */
@@ -382,7 +378,6 @@ public class MapCoordinates
     */
     public final int mapXi(double xc,double yc, boolean track)
     {
-    
         ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
         	to the lowest integer. We need to round correctly; */
 
@@ -437,15 +432,12 @@ public class MapCoordinates
                 	case 1:
                 	    vx=-yc*yMagnitude;
                		    break;
-                
                 	case 2:
                 	    vx=-xc*xMagnitude;
                 	    break;
-                
             	    case 3:
             	        vx=yc*yMagnitude;
             	        break;
-    
             	    default:
             	        vx=xc*xMagnitude;
                 	    break;
@@ -466,6 +458,7 @@ public class MapCoordinates
     {
 		return mapYi(xc, yc, true);
     }
+    
     /** Map the xc,yc coordinate given in the Y pixel coordinate. 
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
@@ -485,6 +478,7 @@ public class MapCoordinates
     	}
         return ivy;
     }
+    
    	/** Map the xc,yc coordinate given in the Y pixel coordinate. The results
    		are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
@@ -520,6 +514,7 @@ public class MapCoordinates
         
         return vy+yCenter;   
     }
+    
     /** Add a point in the min/max tracking system. The point should be 
         specified in the SCREEN coordinates.
         @param xp the X coordinate of the point being tracked.

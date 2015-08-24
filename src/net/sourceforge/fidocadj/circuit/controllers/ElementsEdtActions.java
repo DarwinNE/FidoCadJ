@@ -148,6 +148,7 @@ public class ElementsEdtActions
     {
         PCB_pad_sizex=s;
     }
+    
     /** Gets the default PCB pad size x.
         @return     the x size in logical units.
     */
@@ -155,10 +156,10 @@ public class ElementsEdtActions
     {
         return PCB_pad_sizex;
     }
+    
     /** Sets the default PCB pad size y.
         @param s    the wanted size in logical units.
     */
-
     public void setPCB_pad_sizey(int s)
     {
         PCB_pad_sizey=s;
@@ -167,7 +168,6 @@ public class ElementsEdtActions
     /** Gets the default PCB pad size y.
         @return     the size in logical units.
     */
-    
     public int getPCB_pad_sizey()
     {
         return PCB_pad_sizey;
@@ -188,7 +188,6 @@ public class ElementsEdtActions
     {
         return PCB_pad_style;  
     }
-    
     
     /** Sets the default PCB pad drill size.
         @param s    the wanted drill size, in logical units.
@@ -230,6 +229,9 @@ public class ElementsEdtActions
     }
     
     /** Chooses the entering state.
+    	@param s the new state to be set.
+    	@param macro the current macro key if a applicable, which means that
+    		a macro is being entered.
     */
     public void setState(int s, String macro)
     {
@@ -247,8 +249,7 @@ public class ElementsEdtActions
     	if(primEdit instanceof PrimitiveMacro) {
     		primEdit.rotatePrimitive(false, 
     			primEdit.getFirstPoint().x, primEdit.getFirstPoint().y);
-    	}
-    	
+    	}	
     }
     
     /** Mirror the macro being edited around the x coordinate of the first 
@@ -291,12 +292,13 @@ public class ElementsEdtActions
     	int cn=clickNumber;
         
         // clickNumber == 0 means that no line is being drawn  
-            	
         xpoly[clickNumber] = x;
         ypoly[clickNumber] = y;
+        
         if (clickNumber == 2 || altButton) {
             // Here we know the two points needed for creating
-            // the line. The object is thus added to the database.
+            // the line (clickNumber=2 means that). 
+            // The object is thus added to the database.
             PrimitiveLine g= new PrimitiveLine(xpoly[1],
                                  ypoly[1],
                                  xpoly[2],
@@ -308,7 +310,10 @@ public class ElementsEdtActions
                                  P.getTextFont(), 
                                  P.getTextFontSize());
             P.addPrimitive(g, true, ua);
-                        
+        	// Check if the user has clicked with the right button.
+        	// In this case, the introduction is stopped, or we continue
+        	// with a second line (segment) continuous to the one just 
+        	// introduced.
             if(altButton) {
              	cn = 0;
             } else {

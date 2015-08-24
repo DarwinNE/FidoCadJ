@@ -229,6 +229,7 @@ public class DrawingModel
     
     /** Sets the state of the objects in the database according to the given
     	vector.
+    	@param v the vector containing the selection state of elements
     */
     public void setSelectionStateVector(Vector<Boolean> v)
     {

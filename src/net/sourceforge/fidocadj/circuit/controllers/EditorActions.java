@@ -301,45 +301,38 @@ public class EditorActions
     private boolean selectPrimitive(int px, int py, int tolerance, 
         boolean toggle)
     {    
-        int i;
         int distance;
         int mindistance=Integer.MAX_VALUE;
-        int isel=0;
         int layer;
         GraphicPrimitive gp;
-        
+        GraphicPrimitive gpsel=null;
         Vector<LayerDesc> layerV=P.getLayers();
-        Vector<GraphicPrimitive> v=P.getPrimitiveVector();
+        
         /*  The search method is very simple: we compute the distance of the
             given point from each primitive and we retain the minimum value, if
             it is less than a given tolerance.   
         */
-        for (i=0; i<P.getPrimitiveVector().size(); ++i){
-            layer= v.get(i).getLayer();
-                       
-            if(layerV.get(layer).isVisible || v.get(i) 
-                	instanceof PrimitiveMacro) {
-                distance=v.get(i).getDistanceToPoint(px,py);
+        for  (GraphicPrimitive g: P.getPrimitiveVector()) {
+            layer = g.getLayer();           
+            if(layerV.get(layer).isVisible || g	instanceof PrimitiveMacro) {
+                distance=g.getDistanceToPoint(px,py);
                 if (distance<=mindistance) {
-                   isel=i;
-                    mindistance=distance;
+                   	gpsel=g;
+                	mindistance=distance;
                 }
             }
         }
         
         // Check if we found something!
-        if (mindistance<tolerance){
-            gp=v.get(isel);
+        if (mindistance<tolerance && gpsel!=null) {
             if(toggle) {
-                boolean sel=gp.getSelected();
-                gp.setSelected(!sel);
+                gpsel.setSelected(!gpsel.getSelected());
             } else {
-                gp.setSelected(true);
+                gpsel.setSelected(true);
             }  
             return true;
-        } else {
-        	return false;
-        }
+        } 
+        return false;
     }    
     
     /** Select/deselect all primitives.

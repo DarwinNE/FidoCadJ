@@ -103,28 +103,23 @@ public class HandleActions
             return;
 
         // Here we adjust the new positions for all selected elements...
-        for (int i=0; i<P.getPrimitiveVector().size(); ++i){               
-            primBeingDragged=(GraphicPrimitive)P.getPrimitiveVector().get(i);
-            if(primBeingDragged.getSelected()) {
-            
+        for (GraphicPrimitive g : P.getPrimitiveVector()){               
+            if(g.getSelected()) {            
                 // This code is needed to ensure that all layer are printed
                 // when dragging a component (it solves bug #24)
-                if (primBeingDragged instanceof PrimitiveMacro) {
-                    ((PrimitiveMacro)primBeingDragged).setDrawOnlyLayer(-1);
+                if (g instanceof PrimitiveMacro) {
+                    ((PrimitiveMacro)g).setDrawOnlyLayer(-1);
                 }
-                primBeingDragged.setChanged(true);
-
-                if(!firstDrag){
-                    CC.forcesRepaint();
-                }
-                for(int j=0; j<primBeingDragged.getControlPointNumber();++j){
-                    
-                    primBeingDragged.virtualPoint[j].x+=dx;
-                    primBeingDragged.virtualPoint[j].y+=dy;
+            
+                for(int j=0; j<g.getControlPointNumber();++j){
+                    g.virtualPoint[j].x+=dx;
+                    g.virtualPoint[j].y+=dy;
                     // Here we show the new place of the primitive.
                 }
+                g.setChanged(true);
             }
         }
+        CC.forcesRepaint();
     }
     
     /** Start dragging handle. Check if the pointer is on the handle of a 

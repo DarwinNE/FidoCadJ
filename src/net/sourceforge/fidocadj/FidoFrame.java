@@ -84,6 +84,8 @@ public class FidoFrame extends JFrame implements
     // Macro library model
     private LibraryModel libraryModel;
  
+ 	// Objects which regroup a certain number of actions somewhat related
+ 	// to the FidoFrame object in different domains.
 	final private ExportTools et;
 	final private PrintTools pt;
 	final private MenuTools mt;

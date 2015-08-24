@@ -87,7 +87,6 @@ public class UndoActions implements UndoActorListener
         pa.openFileName = r.fileName;
         
         if(cl!=null) cl.somethingHasChanged();
-
     }
     
     /** Redo the last undo action

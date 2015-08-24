@@ -103,27 +103,26 @@ public class ParserActions
             else
             	frm = "fcd";
                   
-            ExportGraphic.export(temp,  Q, frm, 1,true,false, 
-                true,false);
+            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false);
                 
             FileInputStream input = new FileInputStream(temp);
             BufferedReader bufRead = new BufferedReader(
                 new InputStreamReader(input, Globals.encoding));
                 
-            String line="";
-                        
-            txt = new StringBuffer(bufRead.readLine());
-                        
-            txt.append("\n");
-                        
-            while (line != null){
-                line =bufRead.readLine();
-                if (line==null)
-                 	break;
-                txt.append(line);
-                txt.append("\n");
+            String line=bufRead.readLine();
+            if (line==null) {
+            	bufRead.close();
+            	return new StringBuffer("");
             }
             
+            txt = new StringBuffer();
+                        
+            do {
+                txt.append(line);
+                txt.append("\n");
+                line =bufRead.readLine();
+            } while (line != null);
+        	
             bufRead.close();
                 
         } catch(IOException e) {
@@ -157,7 +156,6 @@ public class ParserActions
     */
     public StringBuffer registerConfiguration(boolean extensions)
     {
-    	Vector<LayerDesc> layerV=model.getLayers();
     	StringBuffer s = new StringBuffer();
     	
     	// This is something which is not contemplated by the original
@@ -179,26 +177,7 @@ public class ParserActions
             s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
-        // Check if the layers should be indicated    
-        Vector<LayerDesc> standardLayers = 
-        	StandardLayers.createStandardLayers();
-        
-        for(int i=0; i<layerV.size();++i) {
-            LayerDesc l = (LayerDesc)layerV.get(i);
-            String defaultName=
-        	   	((LayerDesc)standardLayers.get(i)).getDescription();
-            if (l.getModified()) {
-                int rgb=l.getColor().getRGB();
-                float alpha=l.getAlpha();
-                s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
-                // We compare the layers to the standard configuration.
-              	// If the name has been modified, the layer configuration 
-               	// is saved.
-                if (!l.getDescription().equals(defaultName)) {
-                  	s.append("FJC N "+i+" "+l.getDescription()+"\n");
-                }
-            }
-        }
+        s.append(checkAndRegisterLayers());
         
         // Check if the line widths should be indicated
         if(Math.abs(Globals.lineWidth -
@@ -211,7 +190,36 @@ public class ParserActions
        	}
        
         return s;
-    }    
+    }
+    
+    /** Check if the layers should be indicated.
+    */
+    private StringBuffer checkAndRegisterLayers()
+    {
+    	StringBuffer s=new StringBuffer();
+    	Vector<LayerDesc> layerV=model.getLayers();
+        Vector<LayerDesc> standardLayers = 
+        	StandardLayers.createStandardLayers();
+        
+        for(int i=0; i<layerV.size();++i) {
+            LayerDesc l = (LayerDesc)layerV.get(i);
+            
+            if (l.getModified()) {
+                int rgb=l.getColor().getRGB();
+                float alpha=l.getAlpha();
+                s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
+                // We compare the layers to the standard configuration.
+              	// If the name has been modified, the name configuration 
+               	// is also saved.
+               	String defaultName=
+        	   		((LayerDesc)standardLayers.get(i)).getDescription();
+                if (!l.getDescription().equals(defaultName)) {
+                  	s.append("FJC N "+i+" "+l.getDescription()+"\n");
+                }
+            }
+        }
+        return s;
+    }
     
     /** Parse the circuit contained in the StringBuffer specified.
         this funcion add the circuit to the current primitive database.
@@ -679,6 +687,11 @@ public class ParserActions
         }       
     }
     
+    /** This method checks if a primitive may have FCJ 	modifiers following.
+    	If no further FCJ tokens are present, the primitive is created 
+    	immediately. If a FCJ token follows, we proceed to further parsing
+    	what follows.
+    */
     private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, String[] tokens,
         GraphicPrimitive gg, String[] old_tokens, int old_j, boolean selectNew)
         throws IOException
@@ -758,7 +771,6 @@ public class ParserActions
         } catch (IOException E) {
             System.out.println("Problems reading library: "+s.toString());
         }
-           
     }
     
     /** Read the library contained in a file
@@ -891,11 +903,8 @@ public class ParserActions
                 macroDesc.library = libraryName;
                 macroDesc.filename = prefix;
                 
-               
                 macroDesc.description = macroDesc.description + "\n" + 
                 		line;
-                
-                // Is it OK to use prefix as the macro filename? Yes!
             }                
         } 
     }
