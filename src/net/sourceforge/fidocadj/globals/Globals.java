@@ -136,6 +136,36 @@ public class Globals
     	
     	return R;
     }
+    
+    /** Determine what is the current platform and configures some interface
+    	details such as the key to be used for shortcuts (Command/Meta for Mac
+    	and Ctrl for Linux and Windows).
+    */
+    public static void configureInterfaceDetailsFromPlatform(int metaCode, 
+    	int ctrlCode)
+    {
+        useNativeFileDialogs=false;
+        useMetaForMultipleSelection=false;
+        
+        if (System.getProperty("os.name").startsWith("Mac")) {
+            // From what I know, only Mac users expect to use the Command (meta)
+            // key for shortcuts, while others will use Control.
+            shortcutKey=metaCode;
+            useMetaForMultipleSelection=true;
+            
+            // Standard dialogs are vastly better on MacOSX than the Swing ones
+            useNativeFileDialogs=true;
+            // The order of the OK and Cancel buttons differs in Windows and
+            // MacOSX. How about the most common Window Managers in Linux?
+            okCancelWinOrder = false;
+
+        } else {
+        	// This solves the bug #3076513
+            okCancelWinOrder = true;
+            shortcutKey=ctrlCode;
+        }
+    }
+    
     /** Check if an extension is present in a file name and, if it is not the
     	case, add or adjust it in order to obtain the specified extension.
     	If the string contains " somewhere, this character is removed and the

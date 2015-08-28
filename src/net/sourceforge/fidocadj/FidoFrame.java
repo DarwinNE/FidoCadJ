@@ -135,7 +135,7 @@ public class FidoFrame extends JFrame implements
         super("FidoCadJ "+Globals.version);
 		runsAsApplication = appl;
 		
-		registerLocale(loc);
+		currentLocale = registerLocale(loc);
 		
         // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
@@ -146,7 +146,8 @@ public class FidoFrame extends JFrame implements
         	Boolean.TRUE);
 
 		prepareLanguageResources();
-		configureInterfaceDetailsFromPlatform();
+		Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
+			InputEvent.CTRL_MASK);
 		
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
@@ -181,49 +182,6 @@ public class FidoFrame extends JFrame implements
        	readPreferences();
     }
     
-    /** Retrieve the program icon and associate it to the window.
-    */
-    private void setIconForApplication()
-    {
-		URL url=DialogAbout.class.getResource(
-           "icona_fidocadj_128x128.png");
-        
-        if (url == null) {
-        	System.err.println("Could not retrieve the FidoCadJ icon!");
-        } else {
-        	Image icon = Toolkit.getDefaultToolkit().getImage(url);
-            setIconImage(icon);
-        }
-    }
-    
-    /** Determine what is the current platform and configures some interface
-    	details such as the key to be used for shortcuts (Command/Meta for Mac
-    	and Ctrl for Linux and Windows).
-    */
-    private void configureInterfaceDetailsFromPlatform()
-    {
-        Globals.useNativeFileDialogs=false;
-        Globals.useMetaForMultipleSelection=false;
-        
-        if (System.getProperty("os.name").startsWith("Mac")) {
-            // From what I know, only Mac users expect to use the Command (meta)
-            // key for shortcuts, while others will use Control.
-            Globals.shortcutKey=InputEvent.META_MASK;
-            Globals.useMetaForMultipleSelection=true;
-            
-            // Standard dialogs are vastly better on MacOSX than the Swing ones
-            Globals.useNativeFileDialogs=true;
-            // The order of the OK and Cancel buttons differs in Windows and
-            // MacOSX. How about the most common Window Managers in Linux?
-            Globals.okCancelWinOrder = false;
-
-        } else {
-        	// This solves the bug #3076513
-            Globals.okCancelWinOrder = true;
-            Globals.shortcutKey=InputEvent.CTRL_MASK;
-        }
-    }
-    
     /** Obtain the language resources associated to the current locale.
     	If the current locale is available, then load the appropriate 
     	LanguageResources file. If the current locale is not found, the
@@ -254,23 +212,41 @@ public class FidoFrame extends JFrame implements
         }        
     }
     
+    /** Retrieve the program icon and associate it to the window.
+    */
+    private void setIconForApplication()
+    {
+		URL url=DialogAbout.class.getResource(
+           "icona_fidocadj_128x128.png");
+        
+        if (url == null) {
+        	System.err.println("Could not retrieve the FidoCadJ icon!");
+        } else {
+        	Image icon = Toolkit.getDefaultToolkit().getImage(url);
+            setIconImage(icon);
+        }
+    }
+    
     /** Check if a locale has been specified. If not, get the operating
     	system's locale and employ this as the current locale.
     	@param loc the desired locale, or null if the system one has to be
     		employed.
     */
-    private void registerLocale(Locale loc)
+    private Locale registerLocale(Locale loc)
     {
     	String systemLanguage = Locale.getDefault().getLanguage();
+    	Locale newLocale;
 		
 		if(loc==null) {
 			// Make sort that only the language is used for the current 
-        	currentLocale = new Locale(systemLanguage);
+        	newLocale = new Locale(systemLanguage);
         } else {
-        	currentLocale = loc;
+        	newLocale = loc;
         	System.out.println("Forced the locale to be: " +loc+ 
         		" instead of: "+systemLanguage);
 		}
+		
+		return newLocale;
 	}    
     
     /** Get the locale employed by this instance.

@@ -118,8 +118,7 @@ public class PrintTools implements Printable
                         Globals.messages.getString("Print_uncomplete"));
                 }
             }
-        CC.P.setLayers(ol);
-                
+        	CC.P.setLayers(ol);   
         }
     }
     
@@ -191,6 +190,5 @@ public class PrintTools implements Printable
         
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
-    }
-    
+    } 
 }
