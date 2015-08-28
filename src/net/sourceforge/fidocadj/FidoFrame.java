@@ -116,29 +116,6 @@ public class FidoFrame extends JFrame implements
     
     // Useful for automatic scrolling in panning mode.
     private ScrollGestureRecognizer sgr;
-   
-   	/** Gets the current locale.
-   	*/
-   	public Locale getLocale()
-   	{
-   		return currentLocale;
-   	}
-    
-    
-	public ExportTools getExportTools()
-	{
-		return et;
-	}
-	
-	public PrintTools getPrintTools()
-	{
-		return pt;
-	}
-	
-	public FileTools getFileTools()
-	{
-		return ft;
-	}
     
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
@@ -146,7 +123,9 @@ public class FidoFrame extends JFrame implements
         set the configuration variables available for FidoFrame.
         
         @param appl should be true if FidoCadJ is run as a standalone 
-        	application.
+        	application or false if it is run as an applet. In this case, some
+        	local settings are not accessed because they would raise an
+        	exception.
         @param loc the locale which should be used. If it is null, the current
         	locale is automatically determined and FidoCadJ will try to use
         	it for its user interface.
@@ -156,50 +135,73 @@ public class FidoFrame extends JFrame implements
         super("FidoCadJ "+Globals.version);
 		runsAsApplication = appl;
 		
-		String systemLanguage = Locale.getDefault().getLanguage();
+		registerLocale(loc);
 		
-		if(loc==null) {
-			// Make sort that only the language is used for the current 
-        	currentLocale = new Locale(systemLanguage);
-        } else {
-        	currentLocale = loc;
-        	System.out.println("Forced the locale to be: " +loc+ 
-        		" instead of: "+systemLanguage);
-		}
         // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        // No! It is actually need to make all the window movable when clicking
-        // in the toolbar.
+        // No! It is actually needed to make all the window movable when 
+        // clicking in the toolbar.
         
         getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
         	Boolean.TRUE);
 
-        	
-        // The following code has changed from version 0.20.1.
-        // This way, it should tolerate systems in which resource file for the
-        // current locale is not available. The English interface will be shown.
+		prepareLanguageResources();
+		configureInterfaceDetailsFromPlatform();
+		
+        DialogUtil.center(this, .75,.75,800,500);
+        setDefaultCloseOperation(
+            javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
+
+		// We need to keep track of the number of open windows. If the last
+		// one is closed, we exit from the program.
+		
+        ++Globals.openWindowsNumber;
+        Globals.openWindows.add(this);
+
+        setIconForApplication();
+                
+        if (runsAsApplication) {
+        	// Prepare the preferences associated to the FidoMain class
+        	FidoMain fm=new FidoMain();
+            prefs = Preferences.userNodeForPackage(fm.getClass());
+        } else {
+        	// If we can not access to the preferences, we inizialize those
+        	// configuration variables with default values.
+        	libDirectory = System.getProperty("user.home");
+        	smallIconsToolbar = true;
+        	textToolbar = true;
+        	prefs=null;
+        }
+        et = new ExportTools(prefs);
+        pt = new PrintTools();
+        mt = new MenuTools();
+        dt = new DragDropTools(this);
+        ft = new FileTools(this, prefs);
         
-        try {
-            // Try to load the program with the current locale
-            Globals.messages = new 
-            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
-               currentLocale));                             
-            
-        } catch(MissingResourceException mre) {
-            try {
-                // If it does not work, try to use the standard English
-                Globals.messages = new 
-            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
-                    new Locale("en", "US")));
-                System.out.println("No locale available, sorry... "+
-                	"interface will be in English");
-            } catch(MissingResourceException mre1) {
-                // Give up!!!
-                JOptionPane.showMessageDialog(null,
-                    "Unable to find language localization files: " + mre1);
-                System.exit(1);
-            }
-        }        
+       	readPreferences();
+    }
+    
+    /** Retrieve the program icon and associate it to the window.
+    */
+    private void setIconForApplication()
+    {
+		URL url=DialogAbout.class.getResource(
+           "icona_fidocadj_128x128.png");
+        
+        if (url == null) {
+        	System.err.println("Could not retrieve the FidoCadJ icon!");
+        } else {
+        	Image icon = Toolkit.getDefaultToolkit().getImage(url);
+            setIconImage(icon);
+        }
+    }
+    
+    /** Determine what is the current platform and configures some interface
+    	details such as the key to be used for shortcuts (Command/Meta for Mac
+    	and Ctrl for Linux and Windows).
+    */
+    private void configureInterfaceDetailsFromPlatform()
+    {
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
         
@@ -218,61 +220,104 @@ public class FidoFrame extends JFrame implements
         } else {
         	// This solves the bug #3076513
             Globals.okCancelWinOrder = true;
-
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
-        
-        DialogUtil.center(this, .75,.75,800,500);
-        setDefaultCloseOperation(
-            javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
-
-		// We need to keep track of the number of open windows. If the last
-		// one is closed, we exit from the program.
-		
-        ++Globals.openWindowsNumber;
-        Globals.openWindows.add(this);
-
-        URL url=DialogAbout.class.getResource(
-            "program_icons/icona_fidocadj_128x128.png");
-        
-        // Set icon
-        if (url != null) {
-            Image icon = Toolkit.getDefaultToolkit().getImage(url);
-            setIconImage(icon);
-        }
-                
-        if (runsAsApplication) {
-        	// Prepare the preferences associated to the FidoMain class
-        	FidoMain fm=new FidoMain();
-            prefs = Preferences.userNodeForPackage(fm.getClass());
-        } else {
-        
-        	// If we can not access to the preferences, we inizialize those
-        	// configuration variables with default values.
-        	libDirectory = System.getProperty("user.home");
-        	smallIconsToolbar = true;
-        	textToolbar = true;
-        	prefs=null;
-        }
-        et = new ExportTools(prefs);
-        pt = new PrintTools();
-        mt = new MenuTools();
-        dt = new DragDropTools(this);
-        ft = new FileTools(this, prefs);
-        
-        if(runsAsApplication)
-        	readPreferences();
     }
     
+    /** Obtain the language resources associated to the current locale.
+    	If the current locale is available, then load the appropriate 
+    	LanguageResources file. If the current locale is not found, the
+    	en-US language resources file is employed, thus showing an interface
+    	in American English.
+    */
+    private void prepareLanguageResources()
+    {
+        try {
+            // Try to load the messages resources with the current locale
+            Globals.messages = new 
+            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
+               currentLocale));                             
+        } catch(MissingResourceException mre) {
+            try {
+                // If it does not work, try to use the standard English
+                Globals.messages = new 
+            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
+                    new Locale("en", "US")));
+                System.out.println("No locale available, sorry... "+
+                	"interface will be in English");
+            } catch(MissingResourceException mre1) {
+                // Give up!!!
+                JOptionPane.showMessageDialog(null,
+                    "Unable to find any language localization files: " + mre1);
+                System.exit(1);
+            }
+        }        
+    }
+    
+    /** Check if a locale has been specified. If not, get the operating
+    	system's locale and employ this as the current locale.
+    	@param loc the desired locale, or null if the system one has to be
+    		employed.
+    */
+    private void registerLocale(Locale loc)
+    {
+    	String systemLanguage = Locale.getDefault().getLanguage();
+		
+		if(loc==null) {
+			// Make sort that only the language is used for the current 
+        	currentLocale = new Locale(systemLanguage);
+        } else {
+        	currentLocale = loc;
+        	System.out.println("Forced the locale to be: " +loc+ 
+        		" instead of: "+systemLanguage);
+		}
+	}    
+    
+    /** Get the locale employed by this instance.
+   		@return the current locale.
+   	*/
+   	public Locale getLocale()
+   	{
+   		return currentLocale;
+   	}
+    
+    /** Get the ExportTools object (containing the code related to interface
+    	for exporting files).
+    	@return the ExportTools object.
+    */
+	public ExportTools getExportTools()
+	{
+		return et;
+	}
+	
+	/** Get the PrintTools object (containing the code related to interface
+    	for printing drawings).
+    	@return the PrintTools object.
+    */
+	public PrintTools getPrintTools()
+	{
+		return pt;
+	}
+	
+	/** Get the FileTools object (containing the code related to interface
+    	for loading and saving drawings).
+    	@return the FileTools object.
+    */
+	public FileTools getFileTools()
+	{
+		return ft;
+	}
     
     /** Read the preferences settings (mainly at startup or when a new 
     	editing window is created.
+    	If no preferences settings are accessible, does nothing.
     */
     public final void readPreferences()
     {
+    	if(prefs==null)
+    		return;
 		// The library directory
-       	libDirectory = prefs.get("DIR_LIBS", "");       	
-       	
+       	libDirectory = prefs.get("DIR_LIBS", "");
         
         // The icon size
         String defaultSize="";
@@ -352,7 +397,6 @@ public class FidoFrame extends JFrame implements
         CC.P.resetLibrary();
         ParserActions pa=CC.getParserActions();
         
-        
         if(runsAsApplication) {
     		FidoMain.readLibrariesProbeDirectory(CC.P, 
     			englishLibraries, libDirectory);
@@ -371,6 +415,8 @@ public class FidoFrame extends JFrame implements
             		"lib/PCB_en.fcl"), "pcb");
             	pa.loadLibraryInJar(FidoFrame.class.getResource(
             		"lib/elettrotecnica_en.fcl"), "elettrotecnica");
+            	pa.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/EY_Libraries.fcl"), "EY_Libraries");
         	} else {
         		// Read the italian version of the libraries
             	pa.loadLibraryInJar(FidoFrame.class.getResource(
@@ -381,6 +427,8 @@ public class FidoFrame extends JFrame implements
             		"lib/PCB.fcl"), "pcb");
             	pa.loadLibraryInJar(FidoFrame.class.getResource(
             		"lib/elettrotecnica.fcl"), "elettrotecnica");
+            	pa.loadLibraryInJar(FidoFrame.class.getResource(
+            		"lib/EY_Libraries.fcl"), "EY_Libraries");
       		}
  		}
  		libraryModel.forceUpdate();
@@ -388,7 +436,6 @@ public class FidoFrame extends JFrame implements
     
     /** Perform some initialization tasks: in particular, it reads the library
     	directory and it creates the user interface.
-    
     */
     public void init()
     {
@@ -398,14 +445,10 @@ public class FidoFrame extends JFrame implements
     	// second one under the window title).
     	ToolbarZoom toolZoom;
 
-        Container contentPane=getContentPane();
-        
-		//((JComponent)getContentPane()).setOpaque(true);
-		
+        Container contentPane=getContentPane();		
         CC=new CircuitPanel(true);
         CC.getParserActions().openFileName = "";
         
-          	
         DropTarget drt = new DropTarget(CC, dt);
         
         // If FidoCadJ runs as a standalone application, we must read the 
@@ -546,7 +589,6 @@ public class FidoFrame extends JFrame implements
         CC.setFocusable(true);
         SC.setFocusable(true);   
         
-        
         {
             /*  Add a window listener to close the application when the frame is
                 closed. This behavior is platform dependent, for example a 
@@ -588,10 +630,9 @@ public class FidoFrame extends JFrame implements
 
         CC.getUndoActions().setModified(false);
     }
-    
 
     /** The action listener. Recognize menu events and behaves consequently.
-    
+    	@param evt the event to be processed.
     */
     public void actionPerformed(ActionEvent evt)
     {
@@ -620,7 +661,7 @@ public class FidoFrame extends JFrame implements
 
     /** Show the FidoCadJ preferences panel
     */
-    void showPrefs()
+    public void showPrefs()
     {
     	String oldDirectory = libDirectory;
     	CopyPasteActions cpa = CC.getCopyPasteActions();

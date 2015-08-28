@@ -105,7 +105,7 @@ public class DialogAbout extends JFrame implements ComponentListener
         contentPane.setLayout(bgl);
 
         URL url=DialogAbout.class.getResource(
-            "program_icons/icona_fidocadj_128x128.png");
+            "icona_fidocadj_128x128.png");
         JLabel icon=new JLabel("");
         constraints.weightx=100;
         constraints.weighty=100;
