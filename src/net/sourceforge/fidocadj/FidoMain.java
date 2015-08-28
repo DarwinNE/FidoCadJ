@@ -37,9 +37,8 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2015 by Davide Bucci
 </pre>
-
     
     @author Davide Bucci
 */
@@ -55,8 +54,8 @@ public class FidoMain
 		// Nothing to do here. The entry point is the main method and all
 		// important settings here are static.
 	}
-
-    /** The main method. Process the command line options and if necessary
+	
+	/** The main method. Process the command line options and if necessary
     	shows an instance of FidoFrame.
     */
     public static void main(String... args)
@@ -66,33 +65,8 @@ public class FidoMain
         if (args.length>=1) 
         	clp.processArguments(args);
         
-        if(!clp.getStripOptimization() && 
-        	System.getProperty("os.name").startsWith("Mac")) {
-        	// CAREFUL**************************************************
-        	// In all MacOSX systems I tried, this greatly increases the
-        	// redrawing speed. *HOWEVER* the default value for Java 1.6
-        	// as distributed by Apple is "false" (whereas it was "true"
-        	// for Java 1.5).  This might mean that in a future this can
-        	// be not very useful, or worse slowdown the performances.
-        	// CAREFUL**************************************************
-        	// NOTE: this does not seem to have any effect!
-			System.setProperty("apple.awt.graphics.UseQuartz", "true");
-		}
-		
-		/* if(!stripOptimization &&
-        	System.getProperty("os.name").toLowerCase().startsWith("linux")) {
-        	// CAREFUL**************************************************
-			// Various sources  reports that  this option  will increase
-			// the redrawing speed using Linux. It might happen, however
-			// that the  performances  can be somewhat  degraded in some 
-			// systems.
-			// CAREFUL**************************************************
-			// We tested that in version 0.24.1. In fact, activating this 
-			// option renders the software inusable in some systems (Nvidia
-			// graphic software?)
-           	// System.setProperty("sun.java2d.opengl", "true");
-           	// See for example this discussion: http://tinyurl.com/axoxqcb
-        }   */
+        applyOptimizationSettings(clp);
+
         // Now we proceed with all the operations: opening files, converting...
         if(clp.getHeadlessMode()) {
         	// Creates a circuit object
@@ -106,64 +80,22 @@ public class FidoMain
         	
             // Reads the standard libraries
         	readLibrariesProbeDirectory(P, false, clp.getLibDirectory());
+        	P.setLayers(StandardLayers.createStandardLayers());
+        	ParserActions pa=new ParserActions(P);
         	
-        	StringBuffer txt=new StringBuffer();    
 			MyTimer mt = new MyTimer();
 			try {
-        		// Read the input file.
-        		FileReader input = new FileReader(clp.getLoadFileName());
-        		BufferedReader bufRead = new BufferedReader(input);
-                
-        		String line="";
-        		txt = new StringBuffer(bufRead.readLine());
-                        
-        		txt.append("\n");
-                        
-        		while (line != null){
-            		line =bufRead.readLine();
-            		txt.append(line);
-            		txt.append("\n");
-        		}
-            
-        		bufRead.close();
-				
-        		P.setLayers(StandardLayers.createStandardLayers());
-                        
+        		String txt = readFile(clp.getLoadFileName());
       			// Here txt contains the new circuit: parse it!
-				ParserActions pa=new ParserActions(P);
-      			pa.parseString(new StringBuffer(txt.toString()));       
-	 	
+      			pa.parseString(new StringBuffer(txt));
             } catch(IllegalArgumentException iae) {
                 System.err.println("Illegal filename");
             } catch(Exception e) {
-            	System.err.println("Unable to export: "+e);
+            	System.err.println("Unable to process: "+e);
             }
-               
+
         	if (clp.shouldConvertFile()) {
-        		// We check if the output file has a correct
-            	// extension, coherent with the file format chosen.
-            	if(!Globals.checkExtension(clp.getOutputFile(), 
-            		clp.getExportFormat()) && !clp.getForceMode()) {
-               		System.err.println(
-               			"File extension is not coherent with the "+
-               			"export output format! Use -f to skip this test.");
-               		System.exit(1);
-            	}
-        		try {
-        			if (clp.getResolutionBasedExport()) {
-        				ExportGraphic.export(new File(clp.getOutputFile()),  P, 
-                    		clp.getExportFormat(), clp.getResolution(),
-                    		true,false,true, true);
-        			} else {
-                		ExportGraphic.exportSize(new File(clp.getOutputFile()),
-                			P, clp.getExportFormat(), 
-                			clp.getXSize(), clp.getYSize(), 
-                    		true,false,true,true);
-                	}
-                	System.out.println("Export completed");
-            	} catch(IOException ioe) {
-                	System.err.println("Export error: "+ioe);
-                }
+        		doConvert(clp, P);
             }
             
             if (clp.getHasToPrintSize()) {
@@ -181,6 +113,98 @@ public class FidoMain
         	SwingUtilities.invokeLater(new CreateSwingInterface(
         		clp.getLibDirectory(), 
         		clp.getLoadFileName(), clp.getWantedLocale()));
+        }
+    }
+
+
+	/** Apply optimisation settings which are platform-dependent.
+		@param clp command-line arguments may deactivate some optimisations.
+	*/
+	private static void applyOptimizationSettings(CommandLineParser clp)
+	{
+	    if(!clp.getStripOptimization() && 
+        	System.getProperty("os.name").startsWith("Mac")) {
+        	// CAREFUL**************************************************
+        	// In all MacOSX systems I tried, this greatly increases the
+        	// redrawing speed. *HOWEVER* the default value for Java 1.6
+        	// as distributed by Apple is "false" (whereas it was "true"
+        	// for Java 1.5).  This might mean that in a future this can
+        	// be not very useful, or worse slowdown the performances.
+        	// CAREFUL**************************************************
+        	// NOTE: this does not seem to have any effect!
+			System.setProperty("apple.awt.graphics.UseQuartz", "true");
+		}
+		
+		/* if(!clp.getStripOptimization() &&
+        	System.getProperty("os.name").toLowerCase().startsWith("linux")) {
+        	// CAREFUL**************************************************
+			// Various sources  reports that  this option  will increase
+			// the redrawing speed using Linux. It might happen, however
+			// that the  performances  can be somewhat  degraded in some 
+			// systems.
+			// CAREFUL**************************************************
+			// We tested that in version 0.24.1. In fact, activating this 
+			// option renders the software inusable in some systems (Nvidia
+			// graphic software?) So this option is definitively turned off.
+           	// System.setProperty("sun.java2d.opengl", "true");
+           	// See for example this discussion: http://tinyurl.com/axoxqcb
+        }   */
+	}
+	
+	/** Read an input file.
+		@param filename the complete path and filename of the file to read.
+		@return the file contents.
+	*/
+	private static String readFile(String filename) throws IOException
+	{
+		FileReader input = new FileReader(filename);
+    	BufferedReader bufRead = new BufferedReader(input);
+                
+        String line="";
+        StringBuffer txt = new StringBuffer(bufRead.readLine());
+                        
+        txt.append("\n");
+                        
+        while (line != null){
+        	line =bufRead.readLine();
+        	txt.append(line);
+        	txt.append("\n");
+        }   
+        bufRead.close();
+        return txt.toString();
+	}
+	    
+    /** Perform a conversion into a graphic file, from command line parameters.
+    	A file should have already been loaded and parsed into P.
+    	This routine also checks if the output file has a correct extension, 
+    	coherent with the file format chosen.
+    	
+    	@param clp command-line arguments.
+    	@param P the model containing the drawing.
+    */
+    private static void doConvert(CommandLineParser clp, DrawingModel P)
+    {
+        if(!Globals.checkExtension(clp.getOutputFile(), 
+        	clp.getExportFormat()) && !clp.getForceMode()) {
+        	System.err.println(
+            	"File extension is not coherent with the "+
+               	"export output format! Use -f to skip this test.");
+            System.exit(1);
+        }
+        		
+        try {
+        	if (clp.getResolutionBasedExport()) {
+        		ExportGraphic.export(new File(clp.getOutputFile()),  P, 
+                	clp.getExportFormat(), clp.getResolution(),
+                	true,false,true, true);
+        	} else {
+                ExportGraphic.exportSize(new File(clp.getOutputFile()),
+            		P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(), 
+                    true,false,true,true);
+            }
+            System.out.println("Export completed");
+        } catch(IOException ioe) {
+           	System.err.println("Export error: "+ioe);
         }
     }
     
@@ -342,11 +366,10 @@ public class FidoMain
     }
 }
 
-
 /** Creates the Swing elements needed for the interface.
 */
-class CreateSwingInterface implements Runnable {
-
+class CreateSwingInterface implements Runnable 
+{
 	String libDirectory;
 	String loadFile;
 	Locale currentLocale;
