@@ -184,8 +184,7 @@ public class FidoMain
         }
     }
     
-
-	/** Read the libraries, eventually by inspecting the directory specified
+	/** Read all libraries, eventually by inspecting the directory specified
 		by the user. There are three standard directories: IHRAM.FCL, 
 		FCDstdlib.fcl and PCB.fcl. If those files are found in the external 
 		directory specified, the internal version is not loaded. Other files
@@ -204,9 +203,29 @@ public class FidoMain
 		ParserActions pa = new ParserActions(P);
 		
 		synchronized(P) {
-		if (libDirectory == null || libDirectory.length()<3) 
-			libDirectory = System.getProperty("user.home");	
+			if (libDirectory == null || libDirectory.length()<3) 
+				libDirectory = System.getProperty("user.home");
 			
+			readIHRAM(englishLibraries, libDirectory, pa);
+            readFCDstdlib(englishLibraries, libDirectory, pa);
+            readPCBlib(englishLibraries, libDirectory, pa);
+            readEY_Libraries(englishLibraries, libDirectory, pa);           
+            readElecLib(englishLibraries, libDirectory, pa);
+        }
+	}    
+    
+    /** Read the internal IHRAM library, unless a file called 
+    	IHRAM.FCL is present in the library directory
+    	
+    	@param libDirectory path where to search for the library.
+    	@param englishLibraries specify if the English version of the lib
+    		should be loaded instead of the Italian one.
+    	@param pa the object by which the library will be crunched.
+    */
+    private static void readIHRAM(boolean englishLibraries, 
+    	String libDirectory,
+    	ParserActions pa)
+    {
 		pa.loadLibraryDirectory(libDirectory);
 	    if (new File(Globals.createCompleteFileName(
 	    	libDirectory,"IHRAM.FCL")).exists()) {
@@ -219,8 +238,21 @@ public class FidoMain
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                 	"lib/IHRAM.FCL"), "ihram");
         }
-            
-       	if (new File(Globals.createCompleteFileName(
+    }
+    
+    /** Read the internal FCDstdlib library, unless a file called 
+    	FCDstdlib.fcl is present in the library directory
+    	
+    	@param libDirectory path where to search for the library.
+    	@param englishLibraries specify if the English version of the lib
+    		should be loaded instead of the Italian one.
+    	@param pa the object by which the library will be crunched.
+    */
+    private static void readFCDstdlib(boolean englishLibraries, 
+    	String libDirectory,
+    	ParserActions pa)
+    {
+    	if (new File(Globals.createCompleteFileName(
        		libDirectory,"FCDstdlib.fcl")).exists()) {
            	System.out.println("Standard library got from external file");
         } else {        
@@ -231,8 +263,21 @@ public class FidoMain
                	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/FCDstdlib.fcl"), "");
         }
-        
-        if (new File(Globals.createCompleteFileName(
+    }
+		
+	/** Read the internal PCB library, unless a file called 
+    	PCB.fcl is present in the library directory
+    	
+    	@param libDirectory path where to search for the library.
+    	@param englishLibraries specify if the English version of the lib
+    		should be loaded instead of the Italian one.
+    	@param pa the object by which the library will be crunched.
+    */
+    private static void readPCBlib(boolean englishLibraries, 
+    	String libDirectory,
+    	ParserActions pa)
+    {
+		if (new File(Globals.createCompleteFileName(
         	libDirectory,"PCB.fcl")).exists()) {
            	System.out.println("Standard PCB library got from external file");
         } else {
@@ -243,6 +288,20 @@ public class FidoMain
                	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/PCB.fcl"), "pcb");
     	}
+    }
+    
+    /** Read the internal EY_Libraries library, unless a file called 
+    	EY_Libraries.fcl is present in the library directory
+    	
+    	@param libDirectory path where to search for the library.
+    	@param englishLibraries specify if the English version of the lib
+    		should be loaded instead of the Italian one.
+    	@param pa the object by which the library will be crunched.
+    */
+    private static void readEY_Libraries(boolean englishLibraries, 
+    	String libDirectory,
+    	ParserActions pa)
+    {
     	if (new File(Globals.createCompleteFileName(
         	libDirectory,"EY_Libraries.fcl")).exists()) {
            	System.out.println("Standard EY_Libraries got from external file");
@@ -254,7 +313,21 @@ public class FidoMain
                	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/EY_Libraries.fcl"), "EY_Libraries");
     	}
-        if (new File(Globals.createCompleteFileName(
+    }
+    
+    /** Read the internal elettrotecnica library, unless a file called 
+    	elettrotecnica.fcl is present in the library directory
+    	
+    	@param libDirectory path where to search for the library.
+    	@param englishLibraries specify if the English version of the lib
+    		should be loaded instead of the Italian one.
+    	@param pa the object by which the library will be crunched.
+    */
+    private static void readElecLib(boolean englishLibraries, 
+    	String libDirectory,
+    	ParserActions pa)
+    {
+    	if (new File(Globals.createCompleteFileName(
         	libDirectory,"elettrotecnica.fcl")).exists()) {
            	System.out.println(
            		"Electrotechnics library got from external file");   
@@ -266,8 +339,7 @@ public class FidoMain
                	pa.loadLibraryInJar(FidoFrame.class.getResource(
                		"lib/elettrotecnica.fcl"), "elettrotecnica");
     	}
-	}
-	}
+    }
 }
 
 
@@ -293,7 +365,6 @@ class CreateSwingInterface implements Runnable {
 	}
 
 	/** Standard constructor.
-	
 	*/
 	public CreateSwingInterface ()
 	{

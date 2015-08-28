@@ -17,9 +17,7 @@ import java.awt.image.*;
 
 	@author Santhosh Kumar T - santhosh@in.fiorano.com 
 
-
 	Autorization requested and obtained.
-
 */
 
 
@@ -170,7 +168,6 @@ class MouseScrollIcon implements Icon
 		gfx.fillPolygon(arrow3);
 		gfx.fillPolygon(arrow4);
 
-			
 		gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 			RenderingHints.VALUE_ANTIALIAS_DEFAULT);
 	}

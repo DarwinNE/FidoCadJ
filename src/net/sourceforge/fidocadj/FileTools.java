@@ -38,7 +38,6 @@ import net.sourceforge.fidocadj.export.*;
 
 public class FileTools 
 {
-
 	final private FidoFrame fff;
 	final private Preferences prefs;
    	
@@ -122,7 +121,7 @@ public class FileTools
     	return shouldExit;
     }
     
-        /** Open the current file
+    /** Open the current file
     */
     public void openFile() 
         throws IOException
