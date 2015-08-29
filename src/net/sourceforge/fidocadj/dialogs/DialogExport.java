@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
     @author Davide Bucci
     
@@ -178,7 +178,6 @@ public class DialogExport extends JDialog implements ComponentListener,
     public void setAntiAlias(boolean a)
     {
         antiAlias_CB.setSelected(a);
-
     }
 
     /** Sets the actual black and white state
@@ -187,7 +186,6 @@ public class DialogExport extends JDialog implements ComponentListener,
     public void setBlackWhite(boolean a)
     {
         blackWhite_CB.setSelected(a);
-
     }
     
     /** Set the default unit per pixel value
@@ -213,6 +211,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     {      
         multiplySizes.setText(""+d);
     }
+    
     /** Get the magnification factor for vector format export
         @return the unit per pixel value
     */
@@ -220,6 +219,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     {      
         return Double.parseDouble(multiplySizes.getText());
     }
+    
     /** Get the default unit per pixel value 
         @return the unit per pixel value
     */
@@ -236,7 +236,6 @@ public class DialogExport extends JDialog implements ComponentListener,
     }
     
     /** Sets the default export format. 
-    
         @param s The export format. If the format string is not
             recognized (valid strings are {"png"|"jpg"}), use the png format. 
     */
@@ -263,6 +262,10 @@ public class DialogExport extends JDialog implements ComponentListener,
         }
     }
     
+    /** Create a JPanel containing the interface elements needed for 
+    	the configuration of export operation.
+    	@return the created panel.
+    */
     private JPanel createInterfacePanel()
     {
     	JPanel panel = new JPanel();
@@ -280,12 +283,7 @@ public class DialogExport extends JDialog implements ComponentListener,
 
         panel.add(resolutionLabel, constraints);
         
-        resolution=new JComboBox<String>();
-        resolution.addItem("72x72 dpi");
-        resolution.addItem("150x150 dpi");
-        resolution.addItem("300x300 dpi");
-        resolution.addItem("600x600 dpi");
-        resolution.addItem("1200x1200 dpi");
+		resolution = createResolutionComboBox();
         
    		constraints = DialogUtil.createConst(2,0,1,1,100,100,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
@@ -348,7 +346,16 @@ public class DialogExport extends JDialog implements ComponentListener,
 
         panel.add(browse, constraints);
 
-        browse.addActionListener(new ActionListener()
+		browse.addActionListener(createBrowseActionListener());        
+        return panel;
+    }
+    
+    /** Create an action listener which handle clicking on the 'browse' button.
+    	@return the ActionListener
+    */
+    private ActionListener createBrowseActionListener()
+    {
+        return new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
             {
@@ -385,9 +392,22 @@ public class DialogExport extends JDialog implements ComponentListener,
                     }   
                 } 
             }
-        });  
+        };
+    }
+    
+    /** Create a JComboBox containing the resolutions, described as strings.
+    	@return the JComboBox created.
+    */
+    private JComboBox<String> createResolutionComboBox()
+    {
+        JComboBox<String> res=new JComboBox<String>();
+        res.addItem("72x72 dpi");
+        res.addItem("150x150 dpi");
+        res.addItem("300x300 dpi");
+        res.addItem("600x600 dpi");
+        res.addItem("1200x1200 dpi");
         
-        return panel;
+        return res;
     }
     
     /** Event handling routine for the user interface.
@@ -424,7 +444,6 @@ public class DialogExport extends JDialog implements ComponentListener,
     */
     public DialogExport (JFrame p)
     {
-    
         super(p,Globals.messages.getString("Circ_exp_t"), true);
  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
   		// as a document modal sheet
