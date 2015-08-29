@@ -321,7 +321,8 @@ public final class PrimitiveComplexCurve
     	
     	Used here with permissions (hey, thanks a lot, Tim!)
     */
-    Cubic[] calcNaturalCubic(int n, double[] x) {
+    Cubic[] calcNaturalCubic(int n, double... x) 
+    {
   	  	
 		if(n<1) return null;
 		
@@ -379,8 +380,8 @@ public final class PrimitiveComplexCurve
      	C[0].a + C[0].b*u + C[0].c*u^2 + C[0].d*u^3 0<=u <1
      	the other segments are in C[1], C[2], ...  C[n] */
 
-  	Cubic[] calcNaturalCubicClosed(int n, double[] x) {
-  		
+  	Cubic[] calcNaturalCubicClosed(int n, double... x) 
+  	{	
 		if(n<1) return null;
 		
     	double[] w = new double[n+1];
@@ -425,7 +426,6 @@ public final class PrimitiveComplexCurve
       		D[k] = y[k] - v[k+1]*D[k+1] - w[k+1]*D[n];
     	}
 
-
     	/* now compute the coefficients of the cubics */
     	Cubic[] C = new Cubic[n+1];
     	for (k = 0; k < n; ++k) {
@@ -454,7 +454,6 @@ public final class PrimitiveComplexCurve
 	*/
 	public void removePoint(int x, int y, double tolerance)
 	{
-	
 		// We can not have a spline with less than three vertices
 		if (nPoints<=3)
 			return;
@@ -475,7 +474,6 @@ public final class PrimitiveComplexCurve
 			}
 		}
 		
-		
 		// Check if the control node losest to the given coordinates
 		// is closer than the given tolerance
 		if(min_distance<=tolerance){
@@ -489,8 +487,7 @@ public final class PrimitiveComplexCurve
 				}
 				changed=true;
 			}
-		}	
-		
+		}
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -599,7 +596,8 @@ public final class PrimitiveComplexCurve
 			if (arrowEnd&&!isClosed) {
 				Arrow.drawArrow(g, p.getXpoints()[p.getNpoints()-1], 
 				p.getYpoints()[p.getNpoints()-1],
-					p.getXpoints()[p.getNpoints()-2], p.getYpoints()[p.getNpoints()-2],l, h, 
+					p.getXpoints()[p.getNpoints()-2], 
+					p.getYpoints()[p.getNpoints()-2],l, h, 
 					arrowStyle);	
 			}
 		}
@@ -1071,27 +1069,28 @@ public final class PrimitiveComplexCurve
 	{
 		return nPoints+1;
 	}
-	
 }
 
 /** this class represents a cubic polynomial, by Tim Lambert */
 
-class Cubic {
+class Cubic 
+{
+  	double a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
+  	public double d1, d2;		// Derivatives
 
-  double a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
-  public double d1, d2;		// Derivatives
-
-  public Cubic(double a, double b, double c, double d){
-    this.a = a;
-    this.b = b;
-    this.c = c;
-    this.d = d;
-  }
+  	public Cubic(double a, double b, double c, double d)
+  	{
+    	this.a = a;
+    	this.b = b;
+    	this.c = c;
+    	this.d = d;
+  	}
   
-  /** evaluate cubic */
-  public double eval(double u) {
-    return ((d*u + c)*u + b)*u + a;
-  }
+  	/** evaluate cubic */
+  	public double eval(double u) 
+  	{
+    	return ((d*u + c)*u + b)*u + a;
+  	}
 }
 
 /** The curve is stored in two vectors. 
@@ -1100,7 +1099,8 @@ class Cubic {
 	The second has as much as elements as the number of control vertices and
 	stores only the derivatives.
 */
-class CurveStorage {
+class CurveStorage 
+{
 	Vector<PointDouble> pp;	// Curve as a polygon (relatively big)
 	Vector<PointDouble> dd;	// Derivatives 
 	

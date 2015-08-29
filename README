@@ -351,8 +351,8 @@ miracles, but it is an useful way to avoid common errors. Two tools are
 routinely used to ensure that FidoCadJ is of the highest quality possible.
 They are PMD and FindBugs:
 
-http://pmd.sourceforge.net
-http://findbugs.sourceforge.net
+ https://pmd.github.io
+ http://findbugs.sourceforge.net
 
 Those programs are different and somewhat complementary.
 PMD works on the source files directly (see the pmd.sh script) and the results

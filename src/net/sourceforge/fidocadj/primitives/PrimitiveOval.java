@@ -356,5 +356,4 @@ public final class PrimitiveOval extends GraphicPrimitive
 	{
 		return 3;
 	}
-	
 }

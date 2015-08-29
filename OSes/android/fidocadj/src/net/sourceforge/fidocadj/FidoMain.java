@@ -742,7 +742,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status = true;
 				break;
 			case R.id.menu_selectall:
-				drawingPanel.getEditorActions().setSelectionAll(true);
+				drawingPanel.getDrawingModel().setSelectionAll(true);
 				status = true;
 				break;
 			case R.id.menu_delete:

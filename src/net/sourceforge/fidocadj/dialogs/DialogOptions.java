@@ -16,7 +16,6 @@ import net.sourceforge.fidocadj.globals.*;
 	be activated.
 
   <pre>
-
                                      
 	This file is part of FidoCadJ.
 
@@ -33,7 +32,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+	Copyright 2007-2015 by Davide Bucci
 </pre>
 */
 public class DialogOptions extends JDialog implements ComponentListener 
@@ -227,20 +226,12 @@ public class DialogOptions extends JDialog implements ComponentListener
 				quaquaActive=quaquaActive_CB.isSelected();
 				extStrict = extStrict_CB.isSelected();
 				macroFont = (String)comboFont.getSelectedItem();
+				int s=0;
 		
-				
+				boolean invalidData=false;
 				try{
-					int s=Integer.parseInt(macroSize.getText().trim());
+					s=Integer.parseInt(macroSize.getText().trim());
   					
-  					if(s<=0) {
-  						JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Font_size_invalid"),
-                        "",
-                        JOptionPane.INFORMATION_MESSAGE);
-                        return;
-                    } else {
-  						macroSize_i=s;
-  					}
 					ng=Integer.parseInt(gridWidth.getText().trim());
 					libDirectory=libD.getText().trim();
 					
@@ -259,25 +250,33 @@ public class DialogOptions extends JDialog implements ComponentListener
 					stroke_size_straight_i=Double.parseDouble(
   						stroke_size_straight.getText().trim());
 					
-					//stroke_size_oval_i=Double.parseDouble(
-  					//	stroke_size_oval.getText().trim());
-					
 					connectionSize_i=Double.parseDouble(
   						connectionSize.getText().trim());
   						
-  					
 				} catch (NumberFormatException E) 
 				{
-					// ng will remain equal to -1, which is invalid	 
+					invalidData=true;
 				}
-				if(ng>0) 
+				if(ng>0 & !invalidData) 
 					gridSize=ng;
-				else
+				else {
 					JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("Format_invalid"),
                         "",
                         JOptionPane.INFORMATION_MESSAGE);
-                        
+                    return;
+                }
+                
+                if(s<=0 & !invalidData) {
+  					JOptionPane.showMessageDialog(null,
+                        Globals.messages.getString("Font_size_invalid"),
+                        "",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                } else {
+  					macroSize_i=s;
+  				}
+                      
 				setVisible(false);
 			}
 		});

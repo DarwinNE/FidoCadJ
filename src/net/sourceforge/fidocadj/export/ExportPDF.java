@@ -48,7 +48,7 @@ public class ExportPDF implements ExportInterface {
 	private boolean fontWarning;
 	private String userfont;
 	
-	private GraphicsInterface gi;
+	private final GraphicsInterface gi;
 	
 	// Well, this is a complex stuff. In practice, in the PDF format we have to
 	// map the UTF8 code to the Adobe name of glyphs in a font. This is

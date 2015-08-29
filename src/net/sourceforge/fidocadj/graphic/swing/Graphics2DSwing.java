@@ -49,7 +49,6 @@ public class Graphics2DSwing implements GraphicsInterface
     private int height;
     
     private BasicStroke[] strokeList;
-	private BasicStroke stroke;
 	private float actual_w;
 	
 	private	AffineTransform at;
@@ -93,8 +92,7 @@ public class Graphics2DSwing implements GraphicsInterface
 		@param dashStyle the style of the stroke
 	*/
 	public void applyStroke(float w, int dashStyle)
-	{
-		
+	{	
 		if (w!=actual_w && w>0) {
 			strokeList = new BasicStroke[Globals.dashNumber];
 			
@@ -116,7 +114,7 @@ public class Graphics2DSwing implements GraphicsInterface
 		
 		// Here we retrieve the stroke style corresponding to the given 
 		// dashStyle
-		stroke=(BasicStroke)strokeList[dashStyle];
+		BasicStroke stroke=(BasicStroke)strokeList[dashStyle];
 		
 		// Apparently, on some systems (like my iMac G5 with MacOSX 10.4.11)
         // setting the stroke takes a lot of time!

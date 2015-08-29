@@ -489,5 +489,4 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         return 3;
     }
-    
 }

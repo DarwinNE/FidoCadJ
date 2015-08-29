@@ -167,7 +167,7 @@ Starting at line 119 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 50 line (294 tokens) duplication in the following files: 
 Starting at line 193 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 786 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 784 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 
 		pd=(ParameterDescription)v.get(i++);
 		if (pd.parameter instanceof Boolean)
@@ -312,7 +312,7 @@ Starting at line 236 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 51 line (268 tokens) duplication in the following files: 
 Starting at line 143 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 721 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 719 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 132 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 
 		ParameterDescription pd = new ParameterDescription();
@@ -622,7 +622,7 @@ Starting at line 109 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
  				yb=y2;
  			}
 =====================================================================
-Found a 58 line (174 tokens) duplication in the following files: 
+Found a 55 line (174 tokens) duplication in the following files: 
 Starting at line 444 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
@@ -639,7 +639,6 @@ Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourcef
 	*/
 	public void removePoint(int x, int y, double tolerance)
 	{
-	
 		// We can not have a spline with less than three vertices
 		if (nPoints<=3)
 			return;
@@ -660,7 +659,6 @@ Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourcef
 			}
 		}
 		
-		
 		// Check if the control node losest to the given coordinates
 		// is closer than the given tolerance
 		if(min_distance<=tolerance){
@@ -674,8 +672,7 @@ Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourcef
 				}
 				changed=true;
 			}
-		}	
-		
+		}
 	}
 	
 	/** Draw the graphic primitive on the given graphic context.
@@ -896,7 +893,7 @@ Starting at line 206 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             if(N>6 && tokens[6].equals("FCJ")) {
 =====================================================================
 Found a 35 line (133 tokens) duplication in the following files: 
-Starting at line 747 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 745 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 227 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 391 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 Starting at line 254 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
@@ -1303,7 +1300,7 @@ Starting at line 131 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 		}
 =====================================================================
 Found a 40 line (118 tokens) duplication in the following files: 
-Starting at line 300 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
+Starting at line 299 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 Starting at line 176 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogPrint.java
 
 		DialogUtil.addCancelEscape (this, cancelAction);
@@ -1377,7 +1374,7 @@ Starting at line 139 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         
         int d;
 =====================================================================
-Found a 26 line (115 tokens) duplication in the following files: 
+Found a 25 line (115 tokens) duplication in the following files: 
 Starting at line 335 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 362 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
@@ -1405,7 +1402,6 @@ Starting at line 362 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 	{
 		return 3;
 	}
-	
 }
 =====================================================================
 Found a 16 line (114 tokens) duplication in the following files: 
@@ -1494,7 +1490,7 @@ Starting at line 578 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 24 line (112 tokens) duplication in the following files: 
 Starting at line 528 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
-Starting at line 195 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
+Starting at line 194 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 
         constraints.insets=new Insets(20,20,20,20);
         
@@ -1582,7 +1578,7 @@ Starting at line 1135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourc
 		registerDash(dashStyle);
 =====================================================================
 Found a 23 line (111 tokens) duplication in the following files: 
-Starting at line 195 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
+Starting at line 194 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 Starting at line 549 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
 			new Insets(6,20,20,20));
