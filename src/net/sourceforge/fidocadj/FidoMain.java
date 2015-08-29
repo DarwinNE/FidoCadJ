@@ -46,14 +46,6 @@ import net.sourceforge.fidocadj.graphic.*;
 public class FidoMain 
 {   
     private static CommandLineParser clp;
-    
-    /** Standard constructor.
-    */
-	public FidoMain() 
-	{
-		// Nothing to do here. The entry point is the main method and all
-		// important settings here are static.
-	}
 	
 	/** The main method. Process the command line options and if necessary
     	shows an instance of FidoFrame.
@@ -85,7 +77,7 @@ public class FidoMain
         	
 			MyTimer mt = new MyTimer();
 			try {
-        		String txt = readFile(clp.getLoadFileName());
+        		String txt = FileUtils.readFile(clp.getLoadFileName());
       			// Here txt contains the new circuit: parse it!
       			pa.parseString(new StringBuffer(txt));
             } catch(IllegalArgumentException iae) {
@@ -149,29 +141,6 @@ public class FidoMain
            	// System.setProperty("sun.java2d.opengl", "true");
            	// See for example this discussion: http://tinyurl.com/axoxqcb
         }   */
-	}
-	
-	/** Read an input file.
-		@param filename the complete path and filename of the file to read.
-		@return the file contents.
-	*/
-	private static String readFile(String filename) throws IOException
-	{
-		FileReader input = new FileReader(filename);
-    	BufferedReader bufRead = new BufferedReader(input);
-                
-        String line="";
-        StringBuffer txt = new StringBuffer(bufRead.readLine());
-                        
-        txt.append("\n");
-                        
-        while (line != null){
-        	line =bufRead.readLine();
-        	txt.append(line);
-        	txt.append("\n");
-        }   
-        bufRead.close();
-        return txt.toString();
 	}
 	    
     /** Perform a conversion into a graphic file, from command line parameters.

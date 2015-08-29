@@ -13,6 +13,29 @@ public final class FileUtils
 		// nothing
 	}
 	
+		/** Read an input file.
+		@param filename the complete path and filename of the file to read.
+		@return the file contents.
+	*/
+	public static String readFile(String filename) throws IOException
+	{
+		FileReader input = new FileReader(filename);
+    	BufferedReader bufRead = new BufferedReader(input);
+                
+        String line="";
+        StringBuffer txt = new StringBuffer(bufRead.readLine());
+                        
+        txt.append("\n");
+                        
+        while (line != null){
+        	line =bufRead.readLine();
+        	txt.append(line);
+        	txt.append("\n");
+        }   
+        bufRead.close();
+        return txt.toString();
+	}
+	
     /**
     http://subversivebytes.wordpress.com/2012/11/05/java-copy-directory-recursive-delete/
     */
