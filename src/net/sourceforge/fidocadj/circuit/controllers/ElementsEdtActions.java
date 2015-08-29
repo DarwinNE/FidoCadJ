@@ -338,7 +338,7 @@ public class ElementsEdtActions
             // library this means it is available, but we need to use
             // the block try anyway.
             	
-            edt.setSelectionAll(false);
+            P.setSelectionAll(false);
                 
             int orientation = 0;
             boolean mirror = false;
@@ -658,7 +658,7 @@ public class ElementsEdtActions
                                         cs.unmapYsnap(y), 
                                         3,4,P.getTextFont(),0,0,
                                         "String", currentLayer);
-            	edt.setSelectionAll(false);
+            	P.setSelectionAll(false);
             	P.addPrimitive(newtext, true, ua);
             	newtext.setSelected(true);
             	repaint=true;

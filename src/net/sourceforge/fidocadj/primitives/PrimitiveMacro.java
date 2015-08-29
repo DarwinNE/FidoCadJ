@@ -201,12 +201,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
 			macro.setChanged(true);
 		}
 		
-		EditorActions edt = new EditorActions(macro, null);
 		if(getSelected()) {
- 			edt.setSelectionAll(true);
+ 			macro.setSelectionAll(true);
  			selected = true;
 		} else if (selected) {
-			edt.setSelectionAll(false);
+			macro.setSelectionAll(false);
 			selected = false;
 		}
 
@@ -734,9 +733,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macroCoord.isMacro=true;
  					 			
  		macro.setDrawOnlyLayer(drawOnlyLayer);
- 		EditorActions edt=new EditorActions(macro, null);
+
 		if(getSelected())
- 			edt.setSelectionAll(true);
+ 			macro.setSelectionAll(true);
  			 
  		macro.setDrawOnlyPads(drawOnlyPads);
  		new Export(macro).exportDrawing(exp, false, exportInvisible,

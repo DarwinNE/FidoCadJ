@@ -446,7 +446,7 @@ public class MenuTools implements MenuListener
 			et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
-            edt.setSelectionAll(true);   
+            CC.P.setSelectionAll(true);   
             // Even if the drawing is not changed, a repaint operation is 
             // needed since all selected elements are rendered in green.
             fff.repaint();

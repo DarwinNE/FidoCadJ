@@ -170,10 +170,9 @@ public final class ExportGraphic
 		
 		// obtain drawing size
 		MapCoordinates m=new MapCoordinates();
-		EditorActions edt = new EditorActions(P, null);
 		
 		// This solves bug #3299281
-		edt.setSelectionAll(false);
+		P.setSelectionAll(false);
 
 		PointG org=new PointG(0,0);
 		

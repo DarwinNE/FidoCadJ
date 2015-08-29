@@ -79,7 +79,6 @@ public class DrawingModel
         fact that it allocates memory of a few internal objects and reset all
         state flags.
     */
-        
     public DrawingModel()
     {
         setPrimitiveVector(new Vector<GraphicPrimitive>(25));
@@ -94,29 +93,62 @@ public class DrawingModel
         changed=true;
     }
     
-    /** Get the layer description vector
+    /** Get the first selected primitive
+        @return the selected primitive, null if none.
+    */
+    public GraphicPrimitive getFirstSelectedPrimitive()
+    {
+        for (GraphicPrimitive g: primitiveVector) {
+            if (g.getSelected())
+                return g;
+        }
+        return null;
+    }
     
+    /** Apply an action to all elements contained in the model.
+    	@tt the method containing the action to be performed 
+    */
+    public void applyToAllElements(ProcessElementsInterface tt)
+    {
+    	for (GraphicPrimitive g:primitiveVector){
+    		tt.doAction(g);
+    	}
+    }
+    
+    /** Apply an action to selected elements contained in the model.
+    	@tt the method containing the action to be performed
+    */
+    public void applyToSelectedElements(ProcessElementsInterface tt)
+    {
+    	for (GraphicPrimitive g:primitiveVector){
+    		if (g.getSelected())
+    			tt.doAction(g);
+    	}
+    }    
+    
+    /** Get the layer description vector
         @return a vector of LayerDesc describing layers.
     */
-
     public Vector<LayerDesc> getLayers()
     {
         return layerV;
     }
     
     /** Set the layer description vector.
-    
         @param v a vector of LayerDesc describing layers.
     */
-    public void setLayers(Vector<LayerDesc> v)
+    public void setLayers(final Vector<LayerDesc> v)
     {
         layerV=v;
-        for (int i=0; i<getPrimitiveVector().size(); ++i) {
-            GraphicPrimitive g= (GraphicPrimitive)getPrimitiveVector().get(i);
-            if (g instanceof PrimitiveMacro) {
-            	((PrimitiveMacro) g).setLayers(v);
-            }
-        }
+        applyToAllElements(new ProcessElementsInterface()
+        {
+        	public void doAction(GraphicPrimitive g)
+        	{
+        		if (g instanceof PrimitiveMacro) {
+            		((PrimitiveMacro) g).setLayers(v);
+            	}
+        	}
+        });
         changed=true;
     }
     
@@ -194,15 +226,13 @@ public class DrawingModel
     */
     public void setTextFont(String f, int tsize, UndoActions ua)
     {
-        int i;
         int size=tsize;
 
         macroFont=f;
         macroFontSize = size;
 
-        for (i=0; i<getPrimitiveVector().size(); ++i){
-            ((GraphicPrimitive)getPrimitiveVector().get(i)).setMacroFont(
-            	f, size);
+        for (GraphicPrimitive g:getPrimitiveVector()){
+           g.setMacroFont(f, size);
         }
         changed=true;
         if(ua!=null) ua.setModified(true);
@@ -225,6 +255,16 @@ public class DrawingModel
         	}
         }
         return v;
+    }
+    
+    /** Select/deselect all primitives.
+    	@param state true if you want to select, false for deselect.  
+    */
+    public void setSelectionAll(boolean state)
+    {
+        for (GraphicPrimitive g: getPrimitiveVector()) {
+            g.setSelected(state);
+        }   
     }
     
     /** Sets the state of the objects in the database according to the given
@@ -253,7 +293,6 @@ public class DrawingModel
     */
     public int getTextFontSize()
     {   
-    	
         if(getPrimitiveVector().isEmpty())
         	return macroFontSize;
         
@@ -358,7 +397,6 @@ public class DrawingModel
     {
         return getPrimitiveVector().isEmpty();
     }
-    
     
     /** Set the change state of the class. Changed just means that we want 
     	to  recalculate everything in deep during the following redraw.

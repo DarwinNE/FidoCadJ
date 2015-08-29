@@ -656,7 +656,7 @@ public class DialogSymbolize extends JDialog
        	EditorActions edt=new EditorActions(cp, null);
        	
 		// Check if there is anything selected.
-		if (edt.getFirstSelectedPrimitive() == null) 
+		if (cp.getFirstSelectedPrimitive() == null) 
 			return null;
 										
 		// Move the selected primitives around the origin just
@@ -673,7 +673,7 @@ public class DialogSymbolize extends JDialog
 					pa.addString(new StringBuffer(g.toString(true)), true);	
 				}					
 			}		
-			edt.setSelectionAll(true);
+			cp.setSelectionAll(true);
 		} catch (Exception e){ 
 			e.printStackTrace(); 
 		}				

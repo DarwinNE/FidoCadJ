@@ -64,10 +64,10 @@ public class CopyPasteActions {
     */
     public void paste(int xstep, int ystep)
     {
-        edt.setSelectionAll(false);
+        P.setSelectionAll(false);
         
         try {
-        	pa.addString(new  StringBuffer(cpi.pasteText()), true);
+        	pa.addString(new StringBuffer(cpi.pasteText()), true);
         } catch (Exception E) {
         	System.out.println("Warning: paste operation has gone wrong.");
         }

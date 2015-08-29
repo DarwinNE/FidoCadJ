@@ -186,7 +186,7 @@ public class HandleActions
         if (mindistance<sptol && handleBeingDragged<0){
             primBeingDragged=(GraphicPrimitive)P.getPrimitiveVector().get(isel);
             if (!multiple && !primBeingDragged.getSelected())
-                edt.setSelectionAll(false);
+                P.setSelectionAll(false);
             if(!multiple) {
                 primBeingDragged.setSelected(true);
             }
@@ -221,7 +221,7 @@ public class HandleActions
         		int ya=Math.min(oldpy, cs.unmapYnosnap(py));
         		int xb=Math.max(oldpx, cs.unmapXnosnap(px));
         		int yb=Math.max(oldpy, cs.unmapYnosnap(py));
-        		if(!multiple) edt.setSelectionAll(false);
+        		if(!multiple) P.setSelectionAll(false);
         		edt.selectRect(xa, ya, xb-xa, yb-ya); 
         	}
         	// Test if we are anyway dragging an entire primitive

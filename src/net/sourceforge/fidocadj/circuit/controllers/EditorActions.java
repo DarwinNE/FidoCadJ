@@ -75,22 +75,22 @@ public class EditorActions
     */
     public void rotateAllSelected()
     {
-        int ix=100; // rotation point
-        int iy=100;
-        boolean firstPrimitive=true;
+        GraphicPrimitive g = P.getFirstSelectedPrimitive();
+        
+        if(g==null)
+        	return;
+        	
+        final int ix = g.getFirstPoint().x;
+        final int iy = g.getFirstPoint().y;
+        
+        P.applyToSelectedElements(new ProcessElementsInterface() 
+        {
+        	public void doAction(GraphicPrimitive g)
+        	{
+             	g.rotatePrimitive(false, ix, iy);
+        	}
+        });
 
-        for (GraphicPrimitive g:P.getPrimitiveVector()) {
-            if(g.getSelected()) {
-                // The rotation point is extracted from the first primitive
-                if(firstPrimitive){ 
-                    ix=g.getFirstPoint().x;
-                    iy=g.getFirstPoint().y;
-                }
-                
-                firstPrimitive=false;
-               	g.rotatePrimitive(false, ix, iy);
-            }
-        }
         if(ua!=null) ua.saveUndoState();
     }
     
@@ -98,14 +98,16 @@ public class EditorActions
         @param dx relative x movement
         @param dy relative y movement
     */
-    public void moveAllSelected(int dx, int dy)
+    public void moveAllSelected(final int dx, final int dy)
     {
-        int i;
-
-        for (GraphicPrimitive g:P.getPrimitiveVector()){
-            if(g.getSelected())
-               g.movePrimitive(dx, dy);
-        }
+        P.applyToSelectedElements(new ProcessElementsInterface()
+        {
+        	public void doAction(GraphicPrimitive g)
+        	{
+           		g.movePrimitive(dx, dy);
+        	}
+        });
+        
         if(ua!=null) ua.saveUndoState();
     }
     
@@ -113,22 +115,19 @@ public class EditorActions
     */
     public void mirrorAllSelected()
     {
-        int ix=100;
-        boolean firstPrimitive=true;
+        GraphicPrimitive g = P.getFirstSelectedPrimitive();
+        if(g==null)
+        	return;
+        	
+        final int ix = g.getFirstPoint().x;
+        
+        P.applyToSelectedElements(new ProcessElementsInterface(){
+        	public void doAction(GraphicPrimitive g)
+        	{
+             	g.mirrorPrimitive(ix);
+        	}
+        });
 
-        for (GraphicPrimitive g:P.getPrimitiveVector()){
-            if(g.getSelected()) {
-
-                // The mirror point is given by the first primitive found
-                // among selected elements.
-                if(firstPrimitive){ 
-                    ix=g.getFirstPoint().x;
-                }
-                
-                firstPrimitive=false;
-               	g.mirrorPrimitive(ix);
-            }
-        }
         if(ua!=null) ua.saveUndoState();
     }
     
@@ -158,18 +157,6 @@ public class EditorActions
                 s=true;
         }
         return s;
-    }
-    
-    /** Get the first selected primitive
-        @return the selected primitive, null if none.
-    */
-    public GraphicPrimitive getFirstSelectedPrimitive()
-    {
-        for (GraphicPrimitive g: P.getPrimitiveVector()) {
-            if (g.getSelected())
-                return g;
-        }
-        return null;
     }
     
     /** Determine if only one primitive has been selected
@@ -210,6 +197,26 @@ public class EditorActions
         }
         return false;
     }
+    
+    /** Delete all selected primitives. 
+    	@param saveState true if the undo controller should save the state
+    		of the drawing, after the delete operation is done. It should
+    		be put to false, when the delete operation is part of a more
+    		complex operation which is not yet ended after the call to this
+    		method.
+    */
+    public void deleteAllSelected(boolean saveState)
+    {
+        int i;
+		Vector<GraphicPrimitive> v=P.getPrimitiveVector();
+		
+        for (i=0; i<v.size(); ++i){
+            if(v.get(i).getSelected())
+                v.remove(v.get(i--));
+        }
+        if (saveState && ua!=null) 
+        	ua.saveUndoState();   
+    }    
     
     /** Sets the layer for all selected primitives.
     	@param l the wanted layer index.
@@ -274,19 +281,17 @@ public class EditorActions
         @param toggle select always if false, toggle selection on/off if true.
         @param addSelection if true, add the new selection to the current one.
     */
-    public void handleSelection(MapCoordinates cs,
-    	int x, int y, boolean toggle)
+    public void handleSelection(MapCoordinates cs, int x, int y, 
+    	boolean toggle)
     {        
         // Deselect primitives if needed.       
         if(!toggle) 
-            setSelectionAll(false);
+            P.setSelectionAll(false);
     
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
         int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
-            
         if (toll<2) toll=2;
-            
     	selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
     }
     
@@ -333,36 +338,6 @@ public class EditorActions
             return true;
         } 
         return false;
-    }    
-    
-    /** Select/deselect all primitives.
-    	@param state true if you want to select, false for deselect.  
-    */
-    public void setSelectionAll(boolean state)
-    {
-        for (GraphicPrimitive g: P.getPrimitiveVector()) {
-            g.setSelected(state);
-        }   
-    }
-    
-    /** Delete all selected primitives. 
-    	@param saveState true if the undo controller should save the state
-    		of the drawing, after the delete operation is done. It should
-    		be put to false, when the delete operation is part of a more
-    		complex operation which is not yet ended after the call to this
-    		method.
-    */
-    public void deleteAllSelected(boolean saveState)
-    {
-        int i;
-		Vector<GraphicPrimitive> v=P.getPrimitiveVector();
-		
-        for (i=0; i<v.size(); ++i){
-            if(v.get(i).getSelected())
-                v.remove(v.get(i--));
-        }
-        if (saveState && ua!=null) 
-        	ua.saveUndoState();   
     }
     
     /** Obtain a string containing all the selected elements.

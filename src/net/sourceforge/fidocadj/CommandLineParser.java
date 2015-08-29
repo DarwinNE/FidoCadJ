@@ -330,7 +330,6 @@ public class CommandLineParser
 		return totx;
 	}
 	
-	
 	/** Get the height of the export
 		@return the heght in pixels of the image to be exported.
 	*/

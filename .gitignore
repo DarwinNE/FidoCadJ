@@ -139,3 +139,4 @@ bin/net/sourceforge/fidocadj/undo/
 test/export/eps/test_out.eps
 test/export/pdf/test_out.pdf
 test/export/pgf/output_latex.tex
+doc/

@@ -1,0 +1,57 @@
+Usage: cpd [options]
+  Options:
+        --encoding
+       Character encoding to use when processing files
+        --exclude
+       Files to be excluded from CPD check
+        --files
+       List of files and directories to process
+        --format
+       Report format. Default value is text
+    --help, -h
+       Print help text
+       Default: false
+        --ignore-annotations
+       Ignore language annotations when comparing text
+       Default: false
+        --ignore-identifiers
+       Ignore constant and variable names when comparing text
+       Default: false
+        --ignore-literals
+       Ignore number values and string contents when comparing text
+       Default: false
+        --language
+       Sources code language. Default value is java
+  *     --minimum-tokens
+       The minimum token length which should be reported as a duplicate.
+       Default: 0
+        --no-skip-blocks
+       Do not skip code blocks marked with --skip-blocks-pattern (e.g. #if 0
+       until #endif)
+       Default: false
+        --non-recursive
+       Don't scan subdirectiories
+       Default: false
+        --skip-blocks-pattern
+       Pattern to find the blocks to skip. Start and End pattern separated by |.
+       Default is "#if 0|#endif".
+       Default: #if 0|#endif
+        --skip-duplicate-files
+       Ignore multiple copies of files of the same name and length in comparison
+       Default: false
+        --skip-lexical-errors
+       Skip files which can't be tokenized due to invalid characters instead of
+       aborting CPD
+       Default: false
+        --uri
+       URI to process
+
+ For example on Windows:
+ C:\>pmd-bin-5.3.3\bin\cpd.bat --minimum-tokens 100 --files c:\jdk18\src\java
+
+ For example on *nix:
+ $ pmd-bin-5.3.3/bin/run.sh cpd --minimum-tokens 100 --files /path/to/java/code
+
+ Supported languages: [python, objectivec, jsp, ecmascript, fortran, cpp, ruby, php, java, matlab, scala, plsql, go, cs]
+ Formats: [csv, csv_with_linecount_per_file, text, vs, xml]
+
