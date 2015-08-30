@@ -24,7 +24,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -36,6 +36,7 @@ public class CopyPasteActions {
 	private final EditorActions edt;
 	private final ParserActions pa;
 	private final UndoActions ua;
+	private final SelectionActions sa;
 	private final ProvidesCopyPasteInterface cpi;
 
     // True if elements should be shifted when copy/pasted
@@ -44,15 +45,18 @@ public class CopyPasteActions {
 		@param pp the drawing model.
 		@param ed an editor controller.
 		@param aa a parser controller (pasting implies parsing).
+		@param sa a selection controller
 		@param u an undo controller.
 		@param p an object with copy and paste methods available.
 	*/
 	public CopyPasteActions(DrawingModel pp, EditorActions ed, 
+		SelectionActions s,
 		ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
 	{
 		P=pp;
 		edt=ed;
 		pa=aa;
+		sa=s;
 		ua=u;
 		cpi=p;
 		shiftCP=false;
@@ -64,7 +68,7 @@ public class CopyPasteActions {
     */
     public void paste(int xstep, int ystep)
     {
-        P.setSelectionAll(false);
+        sa.setSelectionAll(false);
         
         try {
         	pa.addString(new StringBuffer(cpi.pasteText()), true);

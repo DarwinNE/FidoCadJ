@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj.dialogs;
 import net.sourceforge.fidocadj.circuit.CircuitPanel;
 import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
 import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.geom.DrawingSize;
@@ -653,10 +654,11 @@ public class DialogSymbolize extends JDialog
 			String mygrp, String myprefix, Point origin) 
 	{
        	StringBuilder ss = new StringBuilder();
-       	EditorActions edt=new EditorActions(cp, null);
+       	SelectionActions sa = new SelectionActions(cp);
+       	EditorActions edt=new EditorActions(cp, sa, null);
        	
 		// Check if there is anything selected.
-		if (cp.getFirstSelectedPrimitive() == null) 
+		if (sa.getFirstSelectedPrimitive() == null) 
 			return null;
 										
 		// Move the selected primitives around the origin just
@@ -673,7 +675,7 @@ public class DialogSymbolize extends JDialog
 					pa.addString(new StringBuffer(g.toString(true)), true);	
 				}					
 			}		
-			cp.setSelectionAll(true);
+			sa.setSelectionAll(true);
 		} catch (Exception e){ 
 			e.printStackTrace(); 
 		}				

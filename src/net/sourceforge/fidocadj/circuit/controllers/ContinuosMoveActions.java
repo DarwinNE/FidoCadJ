@@ -43,14 +43,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
 	private int oldy;
 
 	/** Constructor
-	@param pp the DrawingModel to be associated to the controller
-	@param u undo controller, exploited here
-	@param e editor controller, exploited here
+		@param pp the DrawingModel to be associated to the controller
+		@param s the selection controller.
+		@param u undo controller, exploited here
+		@param e editor controller, exploited here
 	*/
-	public ContinuosMoveActions(DrawingModel pp, UndoActions u, 
+	public ContinuosMoveActions(DrawingModel pp, SelectionActions s,
+		UndoActions u, 
 		EditorActions e)
 	{
-		super(pp, u, e);
+		super(pp, s, u, e);
 		oldx=-1;
 		oldy=-1;
 	}

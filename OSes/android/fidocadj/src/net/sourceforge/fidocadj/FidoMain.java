@@ -408,7 +408,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 		data.add(drawingPanel.getMapCoordinates());
 		data.add(Boolean.valueOf(drawingPanel.getShowGrid()));
 		data.add(Boolean.valueOf(activateSensors));
-		data.add(drawingPanel.getDrawingModel().getSelectionStateVector());
+		data.add(drawingPanel.getSelectionActions().getSelectionStateVector());
 
 		return data;
 	}
@@ -433,7 +433,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 			drawingPanel.setMapCoordinates((MapCoordinates) d.get(2));
 			drawingPanel.setShowGrid(((Boolean) d.get(3)).booleanValue());
 			activateSensors = ((Boolean) d.get(4)).booleanValue();
-			drawingPanel.getDrawingModel().setSelectionStateVector(
+			drawingPanel.getSelectionActions().setSelectionStateVector(
 					(Vector<Boolean>) d.get(5));
 		}
 	}
@@ -742,7 +742,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 				status = true;
 				break;
 			case R.id.menu_selectall:
-				drawingPanel.getDrawingModel().setSelectionAll(true);
+				drawingPanel.getSelectionActions().setSelectionAll(true);
 				status = true;
 				break;
 			case R.id.menu_delete:

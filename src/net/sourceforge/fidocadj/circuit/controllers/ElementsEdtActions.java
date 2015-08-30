@@ -39,6 +39,7 @@ public class ElementsEdtActions
 	protected final DrawingModel P;
 	protected final UndoActions ua;
 	protected final EditorActions edt;
+	final SelectionActions sa;
 	
 	// The current layer being edited
 	public int currentLayer;
@@ -96,16 +97,19 @@ public class ElementsEdtActions
 
 	/** Standard constructor: provide the database class.
 		@param pp the Model containing the database.
+		@param s the selection controller.
 		@param u the Undo controller, to ease undo operations.
 		@param e the Basic editing controller, for handling selection 
 			operations.
 	*/
-	public ElementsEdtActions (DrawingModel pp, UndoActions u, 
+	public ElementsEdtActions (DrawingModel pp, SelectionActions s,
+		UndoActions u, 
 		EditorActions e)
 	{
 		P=pp;
 		ua=u;
 		edt=e;
+		sa=s;
 		xpoly = new int[NPOLY];
         ypoly = new int[NPOLY];
         currentLayer=0;
@@ -338,7 +342,7 @@ public class ElementsEdtActions
             // library this means it is available, but we need to use
             // the block try anyway.
             	
-            P.setSelectionAll(false);
+            sa.setSelectionAll(false);
                 
             int orientation = 0;
             boolean mirror = false;
@@ -658,7 +662,7 @@ public class ElementsEdtActions
                                         cs.unmapYsnap(y), 
                                         3,4,P.getTextFont(),0,0,
                                         "String", currentLayer);
-            	P.setSelectionAll(false);
+            	sa.setSelectionAll(false);
             	P.addPrimitive(newtext, true, ua);
             	newtext.setSelected(true);
             	repaint=true;

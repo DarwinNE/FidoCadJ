@@ -172,7 +172,8 @@ public final class ExportGraphic
 		MapCoordinates m=new MapCoordinates();
 		
 		// This solves bug #3299281
-		P.setSelectionAll(false);
+		
+		new SelectionActions(P).setSelectionAll(false);
 
 		PointG org=new PointG(0,0);
 		

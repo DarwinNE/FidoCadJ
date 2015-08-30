@@ -44,7 +44,7 @@ import net.sourceforge.fidocadj.layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
    The circuit panel will contain the whole drawing.
     This class is able to perform its profiling, which is in particular
@@ -113,6 +113,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private final ParserActions pa;
     private final UndoActions ua;
     private final ContinuosMoveActions eea;
+    private final SelectionActions sa;
     
     // ********** PROFILING **********
 
@@ -189,15 +190,18 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public CircuitPanel (boolean isEditable) 
     {
         backgroundColor=Color.white; 
-        P=new DrawingModel();
-        pa=new ParserActions(P);
-        ua=new UndoActions(pa);
-        edt=new EditorActions(P, ua);
-        eea = new ContinuosMoveActions(P, ua, edt);
-        eea. setPrimitivesParListener(this);
+        P = new DrawingModel();
+        sa = new SelectionActions(P);
+        pa =new ParserActions(P);
+        ua = new UndoActions(pa);
+        edt = new EditorActions(P, sa, ua);
+        eea = new ContinuosMoveActions(P, sa, ua, edt);
+        eea.setPrimitivesParListener(this);
         
-        haa=new HandleActions(P, edt, ua);
-        cpa=new CopyPasteActions(P, edt, pa, ua, new TextTransfer());
+        haa=new HandleActions(P, edt, sa, ua);
+        cpa=new CopyPasteActions(P, edt, sa, pa, ua, new TextTransfer());
+        
+        
        
         graphicSwing = new Graphics2DSwing();
         
@@ -697,8 +701,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         menux=x; menuy=y;
         boolean s=false;
-        boolean somethingSelected=P.getFirstSelectedPrimitive()!=null;
-        GraphicPrimitive g=P.getFirstSelectedPrimitive();
+        GraphicPrimitive g=sa.getFirstSelectedPrimitive();
+        boolean somethingSelected=g!=null;
+        
         
         // A certain number of menu options are applied to selected 
         // primitives. We therefore check wether are there some 
@@ -1296,6 +1301,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
         
     }
     
+    /** Get the current instance of SelectionActions controller class
+        @return the class
+    */
+    public SelectionActions getSelectionActions()
+    {
+        return sa;
+    } 
     /** Get the current instance of EditorActions controller class
         @return the class
     */
@@ -1341,7 +1353,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void setPropertiesForPrimitive()
     {       
-        GraphicPrimitive gp=P.getFirstSelectedPrimitive();
+        GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
         if (gp==null) 
             return;
             
@@ -1396,7 +1408,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void selectAndSetProperties(int x, int y)
     {
-        P.setSelectionAll(false);
+        sa.setSelectionAll(false);
         edt.handleSelection(cs, x, y, false);
         repaint();
         setPropertiesForPrimitive();
@@ -1477,7 +1489,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 repaint();
             } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
                 // Select all in the drawing.
-                P.setSelectionAll(true);   
+                sa.setSelectionAll(true);   
                 // Even if the drawing is not changed, a repaint operation is 
                 // needed since all selected elements are rendered in green.
                 repaint();
@@ -1499,7 +1511,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             } 
             
             else if (arg.equals(Globals.messages.getString("Symbolize"))) {     
-                if (P.getFirstSelectedPrimitive() == null) return;
+                if (sa.getFirstSelectedPrimitive() == null) return;
                 DialogSymbolize s = new DialogSymbolize(this,P);
                 s.setModal(true);
                 s.setVisible(true); 
@@ -1521,37 +1533,37 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }              
             
             else if(arg.equals(Globals.messages.getString("Remove_node"))) {
-                if(P.getFirstSelectedPrimitive() 
+                if(sa.getFirstSelectedPrimitive() 
                     instanceof PrimitivePolygon) {
                     PrimitivePolygon poly=
-                        (PrimitivePolygon)P.getFirstSelectedPrimitive();
+                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
                     poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
                         getMapCoordinates().unmapYnosnap(menuy),1);
                     ua.saveUndoState();
                     repaint();
-                } else if(P.getFirstSelectedPrimitive() 
+                } else if(sa.getFirstSelectedPrimitive() 
                     instanceof PrimitiveComplexCurve) {
                     PrimitiveComplexCurve curve=
-                        (PrimitiveComplexCurve)P.getFirstSelectedPrimitive();
+                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
                     curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
                         getMapCoordinates().unmapYnosnap(menuy),1);
                     ua.saveUndoState();
                     repaint();
                 }
             } else if(arg.equals(Globals.messages.getString("Add_node"))) {
-                if(P.getFirstSelectedPrimitive() 
+                if(sa.getFirstSelectedPrimitive() 
                     instanceof PrimitivePolygon) {
                     PrimitivePolygon poly=
-                        (PrimitivePolygon)P.getFirstSelectedPrimitive();
+                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(
                         getMapCoordinates().unmapXsnap(menux),
                         getMapCoordinates().unmapYsnap(menuy));
                     ua.saveUndoState();
                     repaint();
-                } else if(P.getFirstSelectedPrimitive() instanceof 
+                } else if(sa.getFirstSelectedPrimitive() instanceof 
                     PrimitiveComplexCurve) {
                     PrimitiveComplexCurve poly=
-                        (PrimitiveComplexCurve)P.getFirstSelectedPrimitive();
+                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(
                         getMapCoordinates().unmapXsnap(menux),
                         getMapCoordinates().unmapYsnap(menuy));

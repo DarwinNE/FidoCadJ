@@ -369,7 +369,7 @@ Starting at line 132 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 43 line (233 tokens) duplication in the following files: 
 Starting at line 508 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
-Starting at line 530 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
+Starting at line 531 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
         panel.setBorder(titled);
 
@@ -1449,7 +1449,7 @@ Starting at line 694 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 36 line (113 tokens) duplication in the following files: 
 Starting at line 912 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
-Starting at line 578 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java
+Starting at line 580 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java
 
 		v.add(pd);
 		
@@ -1579,7 +1579,7 @@ Starting at line 1135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourc
 =====================================================================
 Found a 23 line (111 tokens) duplication in the following files: 
 Starting at line 194 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
-Starting at line 549 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
+Starting at line 550 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
 			new Insets(6,20,20,20));
 	

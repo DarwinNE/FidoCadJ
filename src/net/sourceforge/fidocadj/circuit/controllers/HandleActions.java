@@ -39,6 +39,7 @@ public class HandleActions
 	private final DrawingModel P;
 	private final EditorActions edt;
 	private final UndoActions ua;
+	private final SelectionActions sa;
 
 
     // ******** DRAG & INTERFACE *********
@@ -66,13 +67,17 @@ public class HandleActions
 	/** Standard constructor: provide the database class.
 		@param pp the drawing model
 		@param e the editor controller
+		@param s the selection controller
 		@param u the undo controller
 	*/
-	public HandleActions (DrawingModel pp, EditorActions e, UndoActions u)
+	public HandleActions (DrawingModel pp, EditorActions e, 
+		SelectionActions s,
+		UndoActions u)
 	{
 		P=pp;
 		edt=e;
 		ua=u;
+		sa=s;
 	    firstDrag=false;
 		handleBeingDragged=GraphicPrimitive.NO_DRAG;
 	}
@@ -186,7 +191,7 @@ public class HandleActions
         if (mindistance<sptol && handleBeingDragged<0){
             primBeingDragged=(GraphicPrimitive)P.getPrimitiveVector().get(isel);
             if (!multiple && !primBeingDragged.getSelected())
-                P.setSelectionAll(false);
+                sa.setSelectionAll(false);
             if(!multiple) {
                 primBeingDragged.setSelected(true);
             }
@@ -221,7 +226,7 @@ public class HandleActions
         		int ya=Math.min(oldpy, cs.unmapYnosnap(py));
         		int xb=Math.max(oldpx, cs.unmapXnosnap(px));
         		int yb=Math.max(oldpy, cs.unmapYnosnap(py));
-        		if(!multiple) P.setSelectionAll(false);
+        		if(!multiple) sa.setSelectionAll(false);
         		edt.selectRect(xa, ya, xb-xa, yb-ya); 
         	}
         	// Test if we are anyway dragging an entire primitive

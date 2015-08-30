@@ -36,20 +36,24 @@ import net.sourceforge.fidocadj.primitives.*;
 
 public class EditorActions 
 {
-    // Tolerance in pixels to select an object
-    public int sel_tolerance = 10; 
-
 	private final DrawingModel P;
 	private final UndoActions ua;
+	private final SelectionActions sa;
+	
+	// Tolerance in pixels to select an object
+    public int sel_tolerance = 10; 
+
 
 	/** Standard constructor: provide the database class.
 		@param pp the Model containing the database.
+		@param sa the SelectionActions controller
 		@param u the Undo controller, to ease undo operations.
 	*/
-	public EditorActions (DrawingModel pp, UndoActions u)
+	public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
 	{
 		P=pp;
 		ua=u;
+		sa=s;
 		sel_tolerance = 10;
 	}
 	
@@ -70,12 +74,11 @@ public class EditorActions
 		return sel_tolerance;
 	}
 	
-
     /** Rotate all selected primitives. 
     */
     public void rotateAllSelected()
     {
-        GraphicPrimitive g = P.getFirstSelectedPrimitive();
+        GraphicPrimitive g = sa.getFirstSelectedPrimitive();
         
         if(g==null)
         	return;
@@ -83,7 +86,7 @@ public class EditorActions
         final int ix = g.getFirstPoint().x;
         final int iy = g.getFirstPoint().y;
         
-        P.applyToSelectedElements(new ProcessElementsInterface() 
+        sa.applyToSelectedElements(new ProcessElementsInterface() 
         {
         	public void doAction(GraphicPrimitive g)
         	{
@@ -100,7 +103,7 @@ public class EditorActions
     */
     public void moveAllSelected(final int dx, final int dy)
     {
-        P.applyToSelectedElements(new ProcessElementsInterface()
+        sa.applyToSelectedElements(new ProcessElementsInterface()
         {
         	public void doAction(GraphicPrimitive g)
         	{
@@ -111,17 +114,17 @@ public class EditorActions
         if(ua!=null) ua.saveUndoState();
     }
     
-    /** Mirror all selected primitives.    
+    /** Mirror all selected primitives.
     */
     public void mirrorAllSelected()
     {
-        GraphicPrimitive g = P.getFirstSelectedPrimitive();
+        GraphicPrimitive g = sa.getFirstSelectedPrimitive();
         if(g==null)
         	return;
         	
         final int ix = g.getFirstPoint().x;
         
-        P.applyToSelectedElements(new ProcessElementsInterface(){
+        sa.applyToSelectedElements(new ProcessElementsInterface(){
         	public void doAction(GraphicPrimitive g)
         	{
              	g.mirrorPrimitive(ix);
@@ -129,34 +132,6 @@ public class EditorActions
         });
 
         if(ua!=null) ua.saveUndoState();
-    }
-    
-    /** Select primitives in a rectangular region (given in logical coordinates)
-        @param px the x coordinate of the top left point.
-        @param py the y coordinate of the top left point.
-        @param w the width of the region
-        @param h the height of the region
-        @return true if at least a primitive has been selected
-    */
-    public boolean selectRect(int px, int py, int w, int h)
-    {
-        int layer;
-        boolean s=false;
-        
-        // Avoid processing a trivial case.
-        if(w<1 || h <1)
-            return false;
-        
-        Vector<LayerDesc> layerV=P.getLayers();
-        // Process every primitive, if the corresponding layer is visible.
-        for (GraphicPrimitive g: P.getPrimitiveVector()){
-            layer= g.getLayer();
-            if((layer>=layerV.size() || 
-            	layerV.get(layer).isVisible ||
-                g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
-                s=true;
-        }
-        return s;
     }
     
     /** Determine if only one primitive has been selected
@@ -286,7 +261,7 @@ public class EditorActions
     {        
         // Deselect primitives if needed.       
         if(!toggle) 
-            P.setSelectionAll(false);
+        	sa.setSelectionAll(false);
     
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
@@ -339,6 +314,35 @@ public class EditorActions
         } 
         return false;
     }
+    /** Select primitives in a rectangular region (given in logical 
+    	coordinates)
+        @param px the x coordinate of the top left point.
+        @param py the y coordinate of the top left point.
+        @param w the width of the region
+        @param h the height of the region
+        @return true if at least a primitive has been selected
+    */
+    public boolean selectRect(int px, int py, int w, int h)
+    {
+        int layer;
+        boolean s=false;
+        
+        // Avoid processing a trivial case.
+        if(w<1 || h <1)
+            return false;
+        
+        Vector<LayerDesc> layerV=P.getLayers();
+        // Process every primitive, if the corresponding layer is visible.
+        for (GraphicPrimitive g: P.getPrimitiveVector()){
+            layer= g.getLayer();
+            if((layer>=layerV.size() || 
+            	layerV.get(layer).isVisible ||
+                g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
+                s=true;
+        }
+        return s;
+    }
+
     
     /** Obtain a string containing all the selected elements.
     	@param extensions true if FidoCadJ extensions should be used.

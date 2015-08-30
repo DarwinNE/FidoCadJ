@@ -202,10 +202,10 @@ public final class PrimitiveMacro extends GraphicPrimitive
 		}
 		
 		if(getSelected()) {
- 			macro.setSelectionAll(true);
+			new SelectionActions(macro).setSelectionAll(true);
  			selected = true;
 		} else if (selected) {
-			macro.setSelectionAll(false);
+			new SelectionActions(macro).setSelectionAll(false);
 			selected = false;
 		}
 
@@ -461,7 +461,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
  			System.out.println("1-Unrecognized macro "+
  			        "WARNING this can be a programming problem...");
  		else {
-			EditorActions edt=new EditorActions(macro, null);
+ 			SelectionActions sa = new SelectionActions(macro);
+			EditorActions edt=new EditorActions(macro, sa, null);
  			return Math.min(edt.distancePrimitive(vx, vy), dt);
 		}
 		return Integer.MAX_VALUE;
@@ -479,7 +480,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 	{
 		// Here is a trick: if there is at least one active layer, 
 		// distancePrimitive will return a value less than the maximum.
-		EditorActions edt=new EditorActions(macro, null);	
+		SelectionActions sa = new SelectionActions(macro);
+		EditorActions edt=new EditorActions(macro, sa, null);	
 		if (edt.distancePrimitive(0, 0)<Integer.MAX_VALUE) {
 			return super.selectRect(px, py, w, h);
 		} else {
@@ -735,7 +737,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
  		macro.setDrawOnlyLayer(drawOnlyLayer);
 
 		if(getSelected())
- 			macro.setSelectionAll(true);
+ 			new SelectionActions(macro).setSelectionAll(true);
+
  			 
  		macro.setDrawOnlyPads(drawOnlyPads);
  		new Export(macro).exportDrawing(exp, false, exportInvisible,

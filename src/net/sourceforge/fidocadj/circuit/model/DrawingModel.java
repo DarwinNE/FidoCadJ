@@ -93,17 +93,6 @@ public class DrawingModel
         changed=true;
     }
     
-    /** Get the first selected primitive
-        @return the selected primitive, null if none.
-    */
-    public GraphicPrimitive getFirstSelectedPrimitive()
-    {
-        for (GraphicPrimitive g: primitiveVector) {
-            if (g.getSelected())
-                return g;
-        }
-        return null;
-    }
     
     /** Apply an action to all elements contained in the model.
     	@tt the method containing the action to be performed 
@@ -114,17 +103,6 @@ public class DrawingModel
     		tt.doAction(g);
     	}
     }
-    
-    /** Apply an action to selected elements contained in the model.
-    	@tt the method containing the action to be performed
-    */
-    public void applyToSelectedElements(ProcessElementsInterface tt)
-    {
-    	for (GraphicPrimitive g:primitiveVector){
-    		if (g.getSelected())
-    			tt.doAction(g);
-    	}
-    }    
     
     /** Get the layer description vector
         @return a vector of LayerDesc describing layers.
@@ -236,48 +214,6 @@ public class DrawingModel
         }
         changed=true;
         if(ua!=null) ua.setModified(true);
-    }
-    
-    /** Get an array describing the state of selection of the objects.
-    	@return a vector containing Boolean objects with the selection states
-    		of all objects in the database.
-    */
-    public Vector<Boolean> getSelectionStateVector()
-    {
-        int i;
-        Vector<Boolean> v = new Vector<Boolean>(getPrimitiveVector().size());
-   
-        for(GraphicPrimitive g : getPrimitiveVector()) {
-        	if(g.getSelected()) {
-        		v.add(Boolean.TRUE);
-        	} else {
-        		v.add(Boolean.FALSE);
-        	}
-        }
-        return v;
-    }
-    
-    /** Select/deselect all primitives.
-    	@param state true if you want to select, false for deselect.  
-    */
-    public void setSelectionAll(boolean state)
-    {
-        for (GraphicPrimitive g: getPrimitiveVector()) {
-            g.setSelected(state);
-        }   
-    }
-    
-    /** Sets the state of the objects in the database according to the given
-    	vector.
-    	@param v the vector containing the selection state of elements
-    */
-    public void setSelectionStateVector(Vector<Boolean> v)
-    {
-    	int i=0;
-        
-        for(GraphicPrimitive g : getPrimitiveVector()) {
-        	g.setSelected(v.get(i++).booleanValue());
-        }
     }
     
     /** Get the font of all macros.

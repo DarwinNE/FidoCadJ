@@ -140,3 +140,5 @@ test/export/eps/test_out.eps
 test/export/pdf/test_out.pdf
 test/export/pgf/output_latex.tex
 doc/
+.DS_Store
+jar/.DS_Store

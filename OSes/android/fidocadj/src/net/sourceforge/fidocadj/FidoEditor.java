@@ -66,6 +66,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     public ContinuosMoveActions eea;
     private HandleActions haa;
     private CopyPasteActions cpa;
+    private SelectionActions sa;
     
     	// ********** RULER **********
 	
@@ -127,10 +128,11 @@ public class FidoEditor extends View implements PrimitivesParInterface
            
 		pa = new ParserActions(dm);
 		ua = new UndoActions(pa);
-		ea = new EditorActions(dm, ua);
-		eea = new ContinuosMoveActions(dm, ua, ea);
-		haa = new HandleActions(dm, ea, ua);
-		cpa=new CopyPasteActions(dm, ea, pa, ua, (FidoMain)cc);
+		sa = new SelectionActions(dm);
+		ea = new EditorActions(dm, sa, ua);
+		eea = new ContinuosMoveActions(dm, sa, ua, ea);
+		haa = new HandleActions(dm, ea, sa, ua);
+		cpa=new CopyPasteActions(dm, ea, sa, pa, ua, (FidoMain)cc);
 
 		// Specify a reasonable tolerance so you can select objects and handles
 		// with your finger.
@@ -266,6 +268,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
     
     /** Get the DrawingModel object containing the drawing.
+    	@return the drawing model.
     */
     public DrawingModel getDrawingModel()
     {
@@ -278,6 +281,14 @@ public class FidoEditor extends View implements PrimitivesParInterface
     {
     	dm=d;
     }
+    
+    /** Get the current selection controller
+   		@return the selection controller 
+    */
+    public SelectionActions getSelectionActions()
+    {
+    	return sa;
+	}
     
 	/** Draw the drawing on the given canvas.
 		@param canvas the canvas where the drawing will be drawn.
@@ -505,7 +516,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     */
     public void setPropertiesForPrimitive()
     {    	
-        GraphicPrimitive gp=dm.getFirstSelectedPrimitive();
+        GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
         if (gp==null) 
         	return;
         	
@@ -532,7 +543,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 	public void saveCharacteristics(Vector<ParameterDescription> v)
 	{	
 		//android.util.Log.e("FidoCadJ", "saveCharacteristics: "+v);
-		GraphicPrimitive gp=dm.getFirstSelectedPrimitive();
+		GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
 		android.util.Log.e("FidoCadJ", "saveCharacteristics this= "+this);
        	if (ea.isUniquePrimitiveSelected()) {
        	    gp.setControls(v);	
@@ -566,7 +577,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     */
     public void selectAndSetProperties(int x, int y)
     {
-        dm.setSelectionAll(false);
+        sa.setSelectionAll(false);
         ea.handleSelection(cs, x, y, false);
         invalidate();
         setPropertiesForPrimitive();

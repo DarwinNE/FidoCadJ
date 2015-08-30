@@ -371,6 +371,7 @@ public class MenuTools implements MenuListener
         EditorActions edt=CC.getEditorActions();
         CopyPasteActions cpa=CC.getCopyPasteActions();
         ElementsEdtActions eea = CC.getContinuosMoveActions();
+        SelectionActions sa = CC.getSelectionActions();
             
 		// Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
@@ -446,7 +447,7 @@ public class MenuTools implements MenuListener
 			et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
-            CC.P.setSelectionAll(true);   
+            sa.setSelectionAll(true);   
             // Even if the drawing is not changed, a repaint operation is 
             // needed since all selected elements are rendered in green.
             fff.repaint();
