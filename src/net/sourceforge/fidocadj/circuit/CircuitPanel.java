@@ -724,7 +724,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         } else
             s=false;
         
-        if (!edt.isUniquePrimitiveSelected())
+        if (!sa.isUniquePrimitiveSelected())
             s=false;
         
         editAddNode.setEnabled(s);
@@ -744,7 +744,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 
         editSymbolize.setEnabled(somethingSelected);
         
-        editUSymbolize.setEnabled(edt.selectionCanBeSplitted()); // phylum
+        editUSymbolize.setEnabled(sa.selectionCanBeSplitted()); // phylum
         
         popup.show(this, x, y);
     }
@@ -1358,7 +1358,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             return;
             
         Vector<ParameterDescription> v;
-        if (edt.isUniquePrimitiveSelected()) {
+        if (sa.isUniquePrimitiveSelected()) {
             v=gp.getControls();
         } else {
             // If more than a primitive is selected, 
@@ -1374,7 +1374,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             P.getLayers());
         dp.setVisible(true);
         if(dp.active) {
-            if (edt.isUniquePrimitiveSelected()) {
+            if (sa.isUniquePrimitiveSelected()) {
                 gp.setControls(dp.getCharacteristics());    
             } else { 
                 ParameterDescription pd=(ParameterDescription)v.get(0);
@@ -1525,7 +1525,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }  
             
             else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
-                StringBuffer s=edt.getSelectedString(true, pa);
+                StringBuffer s=sa.getSelectedString(true, pa);
                 edt.deleteAllSelected(false);
                 pa.addString(pa.splitMacros(s,  true),true);
                 ua.saveUndoState();

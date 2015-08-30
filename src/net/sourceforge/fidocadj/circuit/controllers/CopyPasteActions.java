@@ -89,7 +89,7 @@ public class CopyPasteActions {
     */
     public void copySelected(boolean extensions, boolean splitNonStandard)
     {
-        StringBuffer s = edt.getSelectedString(extensions, pa);
+        StringBuffer s = sa.getSelectedString(extensions, pa);
         
         /*  If we have to split non standard macros, we need to work on a 
             temporary file, since the splitting works on the basis of the 

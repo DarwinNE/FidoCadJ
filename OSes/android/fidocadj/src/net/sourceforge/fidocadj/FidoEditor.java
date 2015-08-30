@@ -521,7 +521,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         	return;
         	
         Vector<ParameterDescription> v;
-        if (ea.isUniquePrimitiveSelected()) {
+        if (sa.isUniquePrimitiveSelected()) {
            	v=gp.getControls();
         } else {
           	// If more than a primitive is selected, 
@@ -545,7 +545,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 		//android.util.Log.e("FidoCadJ", "saveCharacteristics: "+v);
 		GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
 		android.util.Log.e("FidoCadJ", "saveCharacteristics this= "+this);
-       	if (ea.isUniquePrimitiveSelected()) {
+       	if (sa.isUniquePrimitiveSelected()) {
        	    gp.setControls(v);	
        	} else { 
        		ParameterDescription pd=(ParameterDescription)v.get(0);

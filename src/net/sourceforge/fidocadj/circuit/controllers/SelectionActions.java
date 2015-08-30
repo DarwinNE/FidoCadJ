@@ -4,10 +4,13 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.*;
 
 /** SelectionActions: contains a controller which handles those actions
 	which involve selection operations or which apply to selected elements.
+	The actions proposed by this class involve selected elements. However,
+	no action proposes a change of the characteristics of the elements, at
+	least directly.
     
 <pre>
     This file is part of FidoCadJ.
@@ -97,4 +100,61 @@ public class SelectionActions
         	g.setSelected(v.get(i++).booleanValue());
         }
     } 
+    
+    /** Determine if only one primitive has been selected
+    	@return true if only one primitive is selected, false otherwise (which
+    		means that either more than several primitives or no primitive are
+    		selected).
+    */
+    public boolean isUniquePrimitiveSelected()
+    {
+    	boolean isUnique=true;
+    	boolean hasFound=false;
+    	
+    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            if (g.getSelected()) {
+            	if(hasFound)
+            		isUnique = false;
+            		
+                hasFound = true;
+            }
+        }
+        
+        return hasFound && isUnique;
+    }
+    
+    /** Determine if the selection can be splitted
+    	@return true if the selection contains at least a macro, or some of
+    		its elements have a name or a value (which are separated).
+    */
+    public boolean selectionCanBeSplitted()
+    {
+    	
+    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            if (g.getSelected() && 
+            	(g instanceof PrimitiveMacro ||
+            	 g.hasName() || g.hasValue())) {
+            	return true;
+            }
+        }
+        return false;
+    }
+    
+    /** Obtain a string containing all the selected elements.
+    	@param extensions true if FidoCadJ extensions should be used.
+    	@param pa the parser controller.
+    	@return the string.
+    */
+    public StringBuffer getSelectedString(boolean extensions, ParserActions pa)
+    {
+    	StringBuffer s=new StringBuffer("[FIDOCAD]\n");
+        
+        s.append(pa.registerConfiguration(extensions));
+
+        for (GraphicPrimitive g: P.getPrimitiveVector()){
+            if(g.getSelected())
+                s.append(g.toString(extensions));
+        }       
+        return s;
+    }        
 }
