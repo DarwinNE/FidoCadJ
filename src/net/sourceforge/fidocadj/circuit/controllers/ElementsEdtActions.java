@@ -40,6 +40,7 @@ public class ElementsEdtActions
 	protected final UndoActions ua;
 	protected final EditorActions edt;
 	final SelectionActions sa;
+	private final AddElements ae;
 	
 	// The current layer being edited
 	public int currentLayer;
@@ -108,6 +109,7 @@ public class ElementsEdtActions
 	{
 		P=pp;
 		ua=u;
+		ae=new AddElements(P,ua);
 		edt=e;
 		sa=s;
 		xpoly = new int[NPOLY];
@@ -267,281 +269,7 @@ public class ElementsEdtActions
     }
     
 	
-    /** Add a connection primitive at the given point.
-    	@param x the x coordinate of the connection (logical) 
-    	@param y the y coordinate of the connection (logical) 
-    */
-    private void addConnection(int x, int y)
-    {    
-        PrimitiveConnection g=new PrimitiveConnection(x, y, currentLayer,
-            P.getTextFont(), P.getTextFontSize());
-    	g.setMacroFont(P.getTextFont(), P.getTextFontSize());
 
-        P.addPrimitive(g, true, ua);
-    }	
-	
-	/** Introduce a line. You can introduce lines point by point, so you
-    	should keep track of the number of clicks you received (clickNumber).
-    	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value).
-    	
-    	@param x coordinate of the click (logical)
-    	@param y coordinate of the click (logical)
-    	@param clickNumber the click number: 1 is the first click, 2 is the 
-    		second (and final) one.
-    	@return the new value of clickNumber.
-    */
-    private int addLine(int x, int y, int clickNumber, boolean altButton)
-    {            
-    	int cn=clickNumber;
-        
-        // clickNumber == 0 means that no line is being drawn  
-        xpoly[clickNumber] = x;
-        ypoly[clickNumber] = y;
-        
-        if (clickNumber == 2 || altButton) {
-            // Here we know the two points needed for creating
-            // the line (clickNumber=2 means that). 
-            // The object is thus added to the database.
-            PrimitiveLine g= new PrimitiveLine(xpoly[1],
-                                 ypoly[1],
-                                 xpoly[2],
-                                 ypoly[2],
-                                 currentLayer,
-                                 false,
-                                 false,
-                                 0,3,2,0,
-                                 P.getTextFont(), 
-                                 P.getTextFontSize());
-            P.addPrimitive(g, true, ua);
-        	// Check if the user has clicked with the right button.
-        	// In this case, the introduction is stopped, or we continue
-        	// with a second line (segment) continuous to the one just 
-        	// introduced.
-            if(altButton) {
-             	cn = 0;
-            } else {
-                cn = 1;
-                xpoly[1] = xpoly[2];
-                ypoly[1] = ypoly[2];
-            }
-        }
-        return cn;
-    }
-    
-    /** Introduce the macro being edited at the given coordinate.
-    	@param x the x coordinate (logical)
-    	@param y the y coordinate (logical)
-    */
-    private void addMacro(int x, int y)
-    {
-        try {
-            // Here we add a macro. There is a remote risk that the macro
-            // we are inserting contains an error. This is not something
-            // which would happen frequently, since if the macro is in the
-            // library this means it is available, but we need to use
-            // the block try anyway.
-            	
-            sa.setSelectionAll(false);
-                
-            int orientation = 0;
-            boolean mirror = false;
-            	
-            if (primEdit instanceof PrimitiveMacro)  {
-            	orientation = ((PrimitiveMacro)primEdit).getOrientation();
-				mirror = ((PrimitiveMacro)primEdit).isMirrored();
-            }
-            P.addPrimitive(new PrimitiveMacro(P.getLibrary(), 
-                    P.getLayers(), x, y, macroKey,"",
-                    x+10, y+5, "", x+10, y+10,
-                    P.getTextFont(),
-                    P.getTextFontSize(), orientation, mirror), true, ua);
-            primEdit=null;
-                    
-        } catch (IOException G) {
-        	// A simple error message on the console will be enough
-            System.out.println(G);
-        }                
-    }
-    
-    /** Introduce an ellipse. You can introduce ellipses with two clicks, so 
-    	you should keep track of the number of clicks you received 
-    	(clickNumber).
-    	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value).
-    	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
-    	@param clickNumber the click number: 1 is the first click, 2 is the 
-    		second (and final) one.
-    	@param isCircle if true, force the ellipse to be a circle
-    	@return the new value of clickNumber.
-    */
-    private int addEllipse(int x, int ty, int clickNumber, boolean isCircle)
-    {
-    	int y=ty;
-    	int cn=clickNumber;
-		if(isCircle) 
-            y=ypoly[1]+x-xpoly[1];
-
-        // clickNumber == 0 means that no ellipse is being drawn
-            
-        xpoly[clickNumber] = x;
-	   	ypoly[clickNumber] = y;
-        if (cn == 2) {
-            PrimitiveOval g=new PrimitiveOval(xpoly[1],
-                                         ypoly[1],
-                                         xpoly[2],
-                                         ypoly[2],
-                                         false,
-                                         currentLayer,0,
-                                         P.getTextFont(), P.getTextFontSize());
-
-            P.addPrimitive(g, true, ua);
-        
-            cn = 0;
-              
-        }
-        return cn;    
-    }
-    
-	/** Introduce a Bézier curve. You can introduce this with four clicks, so 
-    	you should keep track of the number of clicks you received 
-    	(clickNumber).
-    	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value). In other words, when using this 
-    	method, you are responsible of storing this value somewhere and
-    	providing it any time you need to call addBezier again.
-    	
-    	@param x coordinate of the click (logical)
-    	@param y coordinate of the click (logical)
-    	@param clickNumber the click number: 1 is the first click, 2 is the 
-    		second one, and so on...
-    	@return the new value of clickNumber.
-    */
-	private int addBezier(int x, int y, int clickNumber)
-	{
-		int cn=clickNumber;
-                    
-        // clickNumber == 0 means that no bezier is being drawn
-                             
-    	xpoly[clickNumber] = x;
-        ypoly[clickNumber] = y;
-        // a polygon definition is ended with a double click
-        if (clickNumber == 4) {
-          	PrimitiveBezier g=new PrimitiveBezier(xpoly[1],
-                                  		ypoly[1],
-                                    	xpoly[2],
-                                        ypoly[2],
-                                        xpoly[3],
-                                        ypoly[3],
-                                        xpoly[4],
-                                        ypoly[4],
-                                        currentLayer,
-                                        false,
-                                        false,
-                                        0,3,2,0,
-                                        P.getTextFont(), 
-                                        P.getTextFontSize());
-
-            P.addPrimitive(g, true, ua);
-        
-    	   	cn = 0;
-        }
-        return cn;
-	}
-	/** Introduce a rectangle. You can introduce this with two clicks, so 
-    	you should keep track of the number of clicks you received 
-    	(clickNumber).
-    	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value).
-    	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
-    	@param clickNumber the click number: 1 is the first click, 2 is the 
-    		second (and final) one.
-    	@param isSquare force the rectangle to be a square.
-    	@return the new value of clickNumber.
-    */
-	private int addRectangle(int x, int ty, int clickNumber, boolean isSquare)
-	{
-		int y=ty;
-		int cn=clickNumber;
-		if(isSquare)
-            y=ypoly[1]+x-xpoly[1];
-        
-        // clickNumber == 0 means that no rectangle is being drawn
-           
-        xpoly[clickNumber] = x;
-        ypoly[clickNumber] = y;
-        if (cn == 2) {
-            // The second click ends the rectangle introduction.
-            // We thus create the primitive and store it.
-            PrimitiveRectangle g=new PrimitiveRectangle(xpoly[1],
-                                         ypoly[1],
-                                         xpoly[2],
-                                         ypoly[2],
-                                         false,
-                                         currentLayer,0,
-                                         P.getTextFont(), P.getTextFontSize());
-
-            P.addPrimitive(g, true, ua);
-            cn = 0;              
-        }
-        if (cn>=2) cn = 0;
-        return cn;	
-	}
-	
-	/** Introduce a PCB line. You can introduce this with two clicks, so 
-    	you should keep track of the number of clicks you received 
-    	(clickNumber).
-    	You must count the number of clicks and see if there is a modification
-    	needed on it (the return value).
-    	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
-    	@param clickNumber the click number: 1 is the first click, 2 is the 
-    		second (and final) one.
-    	@param altButton if true, the introduction of PCBlines should be 
-    		stopped.
-    	@param thickness the thickness of the PCB line.
-    	@return the new value of clickNumber.
-    */	
-	private int addPCBLine(int x, int y, int clickNumber, boolean altButton,
-		float thickness)
-	{           
-        int cn=clickNumber;
-        // clickNumber == 0 means that no pcb line is being drawn
-            
-        xpoly[cn] = x;
-        ypoly[cn] = y;
-        if (cn == 2|| altButton) {
-            // Here is the end of the PCB line introduction: we create the
-            // primitive.
-            PrimitivePCBLine g=new PrimitivePCBLine(xpoly[1],
-                                         ypoly[1],
-                                         xpoly[2],
-                                         ypoly[2],
-                                         thickness,
-                                         currentLayer,
-                                         P.getTextFont(), P.getTextFontSize());
-            P.addPrimitive(g, true,ua);
-                
-            // Check if the user has clicked with the right button.
-            if(altButton) {
-                // We stop the PCB line here
-                cn = 0;
-            } else {
-            	// We then make sort that a new PCB line will be beginning
-                // exactly at the same coordinates at which the previous 
-                // one was stopped.
-                cn = 1;
-                xpoly[1] = xpoly[2];
-                ypoly[1] = ypoly[2];
-            }
-        }
-        return cn;	
-	}
 	
 	/** Here we analyze and handle the mouse click. The behaviour is 
 		different depending on which selection state we are.
@@ -617,7 +345,8 @@ public class ElementsEdtActions
         
         	// Put a connection (easy: just one click is needed)
         	case CONNECTION:
-				addConnection(cs.unmapXsnap(x),cs.unmapXsnap(y));                   
+				ae.addConnection(cs.unmapXsnap(x),cs.unmapXsnap(y),
+					currentLayer);                   
             	repaint=true;
             	break;
 
@@ -643,10 +372,13 @@ public class ElementsEdtActions
            			clickNumber=0;
         		} else {
         			successiveMove=false;
-         			clickNumber=addLine(cs.unmapXsnap(x),
+         			clickNumber=ae.addLine(cs.unmapXsnap(x),
                     	cs.unmapYsnap(y), 
                     	++clickNumber, 
-         				button3);
+                    	xpoly,
+                    	ypoly,
+         				button3,
+         				currentLayer);
             		repaint=true;
          		}
             	break; 
@@ -678,8 +410,9 @@ public class ElementsEdtActions
             		clickNumber = 0;
             	} else {  
             		if(doubleClick) successiveMove=false;
-                	clickNumber=addBezier(cs.unmapXsnap(x),    
-                            	cs.unmapYsnap(y), ++clickNumber);
+                	clickNumber=ae.addBezier(cs.unmapXsnap(x),    
+                            	cs.unmapYsnap(y), xpoly, ypoly, 
+                            	currentLayer, ++clickNumber);
             	}
             	break;   
         
@@ -744,8 +477,9 @@ public class ElementsEdtActions
             	// If control is hold, trace a circle
             	successiveMove=false;
 
-            	clickNumber=addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
+            	clickNumber=ae.addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
             		++clickNumber,
+            		xpoly, ypoly, currentLayer,
             		toggle&&clickNumber>0);
 				repaint=true;
             	break;   
@@ -754,7 +488,9 @@ public class ElementsEdtActions
         	case RECTANGLE:
             	// If control is hold, trace a square
             	successiveMove=false;
-            	clickNumber=addRectangle(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            	clickNumber=ae.addRectangle(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            		xpoly, ypoly,
+            		currentLayer,
             		++clickNumber,
             		toggle&&clickNumber>0);
             	repaint=true;
@@ -768,7 +504,8 @@ public class ElementsEdtActions
             	}
             	successiveMove=false;
             
-            	clickNumber = addPCBLine(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            	clickNumber = ae.addPCBLine(cs.unmapXsnap(x), cs.unmapYsnap(y),
+            		xpoly, ypoly, currentLayer,
             		++clickNumber, 
             		button3,
             		PCB_thickness);
@@ -778,7 +515,8 @@ public class ElementsEdtActions
         	// Enter a macro: just one click is needed.
         	case MACRO:
         		successiveMove=false;
-        		addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y));
+        		primEdit=ae.addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y), 
+        			sa, primEdit, macroKey);
         		repaint=true;
             	break;
         	default:
