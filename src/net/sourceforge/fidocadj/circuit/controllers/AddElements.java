@@ -47,6 +47,8 @@ public class AddElements
     /** Add a connection primitive at the given point.
     	@param x the x coordinate of the connection (logical) 
     	@param y the y coordinate of the connection (logical) 
+    	@param currentLayer the layer on which the primitive should
+    		be put.
     */
     public void addConnection(int x, int y, int currentLayer)
     {    
@@ -64,12 +66,18 @@ public class AddElements
     	
     	@param x coordinate of the click (logical)
     	@param y coordinate of the click (logical)
+    	@param xpoly the array of x coordinates of points to be introduced.
+    	@param ypoly the array of x coordinates of points to be introduced.
+    	@param currentLayer the layer on which the primitive should be put.
     	@param clickNumber the click number: 1 is the first click, 2 is the 
     		second (and final) one.
+    	@param altButton true if the alternate button is pressed (the
+    		introduction of lines is thus stopped).
     	@return the new value of clickNumber.
+    	
     */
-    public int addLine(int x, int y, int clickNumber, int[] xpoly, 
-    	int[] ypoly, boolean altButton, int currentLayer)
+    public int addLine(int x, int y, int[] xpoly, 
+    	int[] ypoly, int currentLayer, int clickNumber, boolean altButton)
     {            
     	int cn=clickNumber;
         
@@ -110,7 +118,11 @@ public class AddElements
     /** Introduce the macro being edited at the given coordinate.
     	@param x the x coordinate (logical).
     	@param y the y coordinate (logical).
+    	@param sa the SelectionActions controller to handle the selection
+    		state of the whole drawing, which will be unselected.
     	@param pe the current primitive being edited.
+    	@param macroKey the macro key of the macro to insert (maybe it should 
+    		be obtained directly from pe).
     	@return the new primitive being edited.
     */
     public GraphicPrimitive addMacro(int x, int y, SelectionActions sa, 
@@ -153,15 +165,19 @@ public class AddElements
     	You must count the number of clicks and see if there is a modification
     	needed on it (the return value).
     	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
+    	@param x coordinate of the click (logical).
+    	@param ty coordinate of the click (logical).
+    	@param xpoly the array of x coordinates of points to be introduced.
+    	@param ypoly the array of x coordinates of points to be introduced.
+    	@param currentLayer the layer on which the primitive should be put.
     	@param clickNumber the click number: 1 is the first click, 2 is the 
     		second (and final) one.
     	@param isCircle if true, force the ellipse to be a circle
     	@return the new value of clickNumber.
     */
-    public int addEllipse(int x, int ty, int clickNumber, 
+    public int addEllipse(int x, int ty, 
     	int xpoly[], int ypoly[], int currentLayer,
+    	int clickNumber, 
     	boolean isCircle)
     {
     	int y=ty;
@@ -200,6 +216,9 @@ public class AddElements
     	
     	@param x coordinate of the click (logical)
     	@param y coordinate of the click (logical)
+    	@param xpoly the array of x coordinates of points to be introduced.
+    	@param ypoly the array of x coordinates of points to be introduced.
+    	@param currentLayer the layer on which the primitive should be put.
     	@param clickNumber the click number: 1 is the first click, 2 is the 
     		second one, and so on...
     	@return the new value of clickNumber.
@@ -243,8 +262,11 @@ public class AddElements
     	You must count the number of clicks and see if there is a modification
     	needed on it (the return value).
     	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
+    	@param x coordinate of the click (logical).
+    	@param ty coordinate of the click (logical).
+    	@param xpoly the array of x coordinates of points to be introduced.
+    	@param ypoly the array of x coordinates of points to be introduced.
+    	@param currentLayer the layer on which the primitive should be put.
     	@param clickNumber the click number: 1 is the first click, 2 is the 
     		second (and final) one.
     	@param isSquare force the rectangle to be a square.
@@ -287,8 +309,11 @@ public class AddElements
     	You must count the number of clicks and see if there is a modification
     	needed on it (the return value).
     	
-    	@param x coordinate of the click (logical)
-    	@param ty coordinate of the click (logical)
+    	@param x coordinate of the click (logical).
+    	@param ty coordinate of the click (logical).
+    	@param xpoly the array of x coordinates of points to be introduced.
+    	@param ypoly the array of x coordinates of points to be introduced.
+    	@param currentLayer the layer on which the primitive should be put.
     	@param clickNumber the click number: 1 is the first click, 2 is the 
     		second (and final) one.
     	@param altButton if true, the introduction of PCBlines should be 

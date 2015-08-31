@@ -374,11 +374,11 @@ public class ElementsEdtActions
         			successiveMove=false;
          			clickNumber=ae.addLine(cs.unmapXsnap(x),
                     	cs.unmapYsnap(y), 
-                    	++clickNumber, 
-                    	xpoly,
+         				xpoly,
                     	ypoly,
-         				button3,
-         				currentLayer);
+                    	currentLayer,
+                    	++clickNumber, 
+         				button3);
             		repaint=true;
          		}
             	break; 
@@ -478,8 +478,8 @@ public class ElementsEdtActions
             	successiveMove=false;
 
             	clickNumber=ae.addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            		++clickNumber,
             		xpoly, ypoly, currentLayer,
+            		++clickNumber,
             		toggle&&clickNumber>0);
 				repaint=true;
             	break;   
