@@ -40,7 +40,7 @@ public class ElementsEdtActions
 	protected final UndoActions ua;
 	protected final EditorActions edt;
 	final SelectionActions sa;
-	private final AddElements ae;
+	final AddElements ae;
 	
 	// The current layer being edited
 	public int currentLayer;
@@ -70,12 +70,6 @@ public class ElementsEdtActions
     // Maximum number of polygon vertices
     public static final int NPOLY=256;
     
-    // Default sizes for PCB elements
-    public int PCB_pad_sizex;
-    public int PCB_pad_sizey;
-    public int PCB_pad_style;  
-    public int PCB_pad_drill;
-    public int PCB_thickness;    
 
     // Selection states
     public static final int NONE = 0;
@@ -115,18 +109,12 @@ public class ElementsEdtActions
 		xpoly = new int[NPOLY];
         ypoly = new int[NPOLY];
         currentLayer=0;
-        
-        PCB_thickness = 5;
-        PCB_pad_sizex=5;
-        PCB_pad_sizey=5;
-        PCB_pad_drill=2;   
-	
+    
 		primEdit = null;
 		primitivesParListener=null;
 		
 		actionSelected = SELECTION;
 	}
-	
 	
 	/** Sets the action mode.
 		@param a the wanted editing mode. 
@@ -139,6 +127,11 @@ public class ElementsEdtActions
 		actionSelected = a;
 	}
 	
+	public AddElements getAddElements()
+	{
+		return ae;
+	}
+	
 	/** Set the listener for showing popups and editing actions which are
 		platform-dependent.
 	*/
@@ -146,87 +139,7 @@ public class ElementsEdtActions
 	{
 		primitivesParListener=l;
 	}
-	
-	/** Sets the default PCB pad size x.
-        @param s    the wanted size in logical units.
-    */
-    public void setPCB_pad_sizex(int s)
-    {
-        PCB_pad_sizex=s;
-    }
-    
-    /** Gets the default PCB pad size x.
-        @return     the x size in logical units.
-    */
-    public int getPCB_pad_sizex()
-    {
-        return PCB_pad_sizex;
-    }
-    
-    /** Sets the default PCB pad size y.
-        @param s    the wanted size in logical units.
-    */
-    public void setPCB_pad_sizey(int s)
-    {
-        PCB_pad_sizey=s;
-    }
-    
-    /** Gets the default PCB pad size y.
-        @return     the size in logical units.
-    */
-    public int getPCB_pad_sizey()
-    {
-        return PCB_pad_sizey;
-    }
-    
-    /** Sets the default PCB pad style.
-        @param s    the style.
-    */
-    public void setPCB_pad_style(int s)
-    {
-        PCB_pad_style=s;  
-    }
-    
-    /** Gets the default PCB pad style.
-        @return     the style.
-    */
-    public int getPCB_pad_style()
-    {
-        return PCB_pad_style;  
-    }
-    
-    /** Sets the default PCB pad drill size.
-        @param s    the wanted drill size, in logical units.
-    */
-    public void setPCB_pad_drill(int s)
-    {
-        PCB_pad_drill=s;
-    }
-    
-    /** Gets the default PCB pad drill size.
-        @return     the drill size, in logical units.
-    */
-    public int getPCB_pad_drill()
-    {
-        return PCB_pad_drill;
-    }
-    
-    /** Sets the default PCB track thickness.
-        @param s the wanted thickness in logical units.
-    */
-    public void setPCB_thickness(int s)
-    {
-        PCB_thickness=s;
-    }
-    
-    /** Gets the default PCB track thickness.
-        @return     the track thickness in logical units.
-    */
-    public int getPCB_thickness()
-    {
-        return PCB_thickness;
-    }
-    
+	    
     /** Determine wether the current primitive being added is a macro.
     */
     public boolean isEnteringMacro()
@@ -353,16 +266,9 @@ public class ElementsEdtActions
         	// Put a PCB pad (easy: just one click is needed)       
         	case PCB_PAD:
             	// Add a PCB pad primitive at the given point
-            	g=new PrimitivePCBPad(cs.unmapXsnap(x),
-                                  cs.unmapYsnap(y), 
-                                  PCB_pad_sizex,
-                                  PCB_pad_sizey,                                                                                                                
-                                  PCB_pad_drill,
-                                  PCB_pad_style,
-                                  currentLayer,
-                                  P.getTextFont(), P.getTextFontSize());
-
-            	P.addPrimitive(g, true, ua);
+            	ae.addPCBPad(cs.unmapXsnap(x),
+                                  cs.unmapYsnap(y), currentLayer);
+                                  
             	repaint=true;
             	break;     
          
@@ -508,7 +414,7 @@ public class ElementsEdtActions
             		xpoly, ypoly, currentLayer,
             		++clickNumber, 
             		button3,
-            		PCB_thickness);
+            		ae.getPCB_thickness());
             	repaint=true;
             	break;  
             

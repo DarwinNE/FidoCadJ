@@ -199,7 +199,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
         if (actionSelected == ElementsEdtActions.PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1], 
             	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	PCB_thickness, 0, P.getTextFont(), P.getTextFontSize());
+            	ae.getPCB_thickness(), 0, P.getTextFont(), P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;    

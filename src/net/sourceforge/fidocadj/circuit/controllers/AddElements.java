@@ -38,11 +38,106 @@ public class AddElements
 	final private DrawingModel P;
 	final private UndoActions ua;
 	
+	// Default sizes for PCB elements
+    public int PCB_pad_sizex;
+    public int PCB_pad_sizey;
+    public int PCB_pad_style;  
+    public int PCB_pad_drill;
+    public int PCB_thickness;    
+
+	
 	public AddElements(DrawingModel pp, UndoActions u)
 	{
 		P=pp;
 		ua=u;
+		
+		PCB_thickness = 5;
+        PCB_pad_sizex=5;
+        PCB_pad_sizey=5;
+        PCB_pad_drill=2;   
+	
 	}
+	
+	/** Sets the default PCB pad size x.
+        @param s    the wanted size in logical units.
+    */
+    public void setPCB_pad_sizex(int s)
+    {
+        PCB_pad_sizex=s;
+    }
+    
+    /** Gets the default PCB pad size x.
+        @return     the x size in logical units.
+    */
+    public int getPCB_pad_sizex()
+    {
+        return PCB_pad_sizex;
+    }
+    
+    /** Sets the default PCB pad size y.
+        @param s    the wanted size in logical units.
+    */
+    public void setPCB_pad_sizey(int s)
+    {
+        PCB_pad_sizey=s;
+    }
+    
+    /** Gets the default PCB pad size y.
+        @return     the size in logical units.
+    */
+    public int getPCB_pad_sizey()
+    {
+        return PCB_pad_sizey;
+    }
+    
+    /** Sets the default PCB pad style.
+        @param s    the style.
+    */
+    public void setPCB_pad_style(int s)
+    {
+        PCB_pad_style=s;  
+    }
+    
+    /** Gets the default PCB pad style.
+        @return     the style.
+    */
+    public int getPCB_pad_style()
+    {
+        return PCB_pad_style;  
+    }
+    
+    /** Sets the default PCB pad drill size.
+        @param s    the wanted drill size, in logical units.
+    */
+    public void setPCB_pad_drill(int s)
+    {
+        PCB_pad_drill=s;
+    }
+    
+    /** Gets the default PCB pad drill size.
+        @return     the drill size, in logical units.
+    */
+    public int getPCB_pad_drill()
+    {
+        return PCB_pad_drill;
+    }
+    
+    /** Sets the default PCB track thickness.
+        @param s the wanted thickness in logical units.
+    */
+    public void setPCB_thickness(int s)
+    {
+        PCB_thickness=s;
+    }
+    
+    /** Gets the default PCB track thickness.
+        @return     the track thickness in logical units.
+    */
+    public int getPCB_thickness()
+    {
+        return PCB_thickness;
+    }
+
 	
     /** Add a connection primitive at the given point.
     	@param x the x coordinate of the connection (logical) 
@@ -310,7 +405,7 @@ public class AddElements
     	needed on it (the return value).
     	
     	@param x coordinate of the click (logical).
-    	@param ty coordinate of the click (logical).
+    	@param y coordinate of the click (logical).
     	@param xpoly the array of x coordinates of points to be introduced.
     	@param ypoly the array of x coordinates of points to be introduced.
     	@param currentLayer the layer on which the primitive should be put.
@@ -334,7 +429,7 @@ public class AddElements
         if (cn == 2|| altButton) {
             // Here is the end of the PCB line introduction: we create the
             // primitive.
-            PrimitivePCBLine g=new PrimitivePCBLine(xpoly[1],
+            final PrimitivePCBLine g=new PrimitivePCBLine(xpoly[1],
                                          ypoly[1],
                                          xpoly[2],
                                          ypoly[2],
@@ -358,4 +453,22 @@ public class AddElements
         }
         return cn;	
 	}
+	
+	/** Introduce a new PCB pad. 
+    	@param x coordinate of the click (logical).
+    	@param y coordinate of the click (logical).
+    	@param currentLayer the layer on which the primitive should be put.
+    */
+	public void addPCBPad(int x, int y, int currentLayer)
+	{
+		final PrimitivePCBPad g=new PrimitivePCBPad(x, y,
+                                  PCB_pad_sizex,
+                                  PCB_pad_sizey,                                                                                                                
+                                  PCB_pad_drill,
+                                  PCB_pad_style,
+                                  currentLayer,
+                                  P.getTextFont(), P.getTextFontSize());
+
+        P.addPrimitive(g, true, ua);
+    }
 }

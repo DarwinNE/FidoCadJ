@@ -346,14 +346,14 @@ public class FidoFrame extends JFrame implements
         cpa.setShiftCopyPaste(prefs.get("SHIFT_CP", 
         		"true").equals("true"));
 		
-		ElementsEdtActions eea = CC.getContinuosMoveActions();
+		AddElements ae = CC.getContinuosMoveActions().getAddElements();
 		
 		// Default PCB sizes (pad/line)
- 		eea.PCB_pad_sizex = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
- 		eea.PCB_pad_sizey = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
- 		eea.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
- 		eea.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
- 		eea.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));	
+ 		ae.PCB_pad_sizex = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
+ 		ae.PCB_pad_sizey = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
+ 		ae.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
+ 		ae.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
+ 		ae.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));	
     }
     
     /* Load the standard libraries according to the locale.
@@ -642,6 +642,7 @@ public class FidoFrame extends JFrame implements
     	String oldDirectory = libDirectory;
     	CopyPasteActions cpa = CC.getCopyPasteActions();
     	ElementsEdtActions eea = CC.getContinuosMoveActions();
+    	AddElements ae =eea.getAddElements();
     	
     	// At first, we create the preference panel. This kind of code is 
     	// probably not very easy to read and reutilize. This is probably
@@ -655,10 +656,10 @@ public class FidoFrame extends JFrame implements
             libDirectory,
             textToolbar,
             smallIconsToolbar,
-            eea.getPCB_thickness(),
-            eea.getPCB_pad_sizex(),
-            eea.getPCB_pad_sizey(),
-            eea.getPCB_pad_drill(),
+            ae.getPCB_thickness(),
+            ae.getPCB_pad_sizex(),
+            ae.getPCB_pad_sizey(),
+            ae.getPCB_pad_drill(),
             Globals.quaquaActive,
             CC.getStrictCompatibility(),
             CC.P.getTextFont(),
@@ -686,10 +687,10 @@ public class FidoFrame extends JFrame implements
         CC.getMapCoordinates().setXGridStep(options.gridSize); 
         CC.getMapCoordinates().setYGridStep(options.gridSize); 
                 
-        eea.setPCB_thickness(options.pcblinewidth_i);
-        eea.setPCB_pad_sizex(options.pcbpadwidth_i);
-        eea.setPCB_pad_sizey(options.pcbpadheight_i);
-        eea.setPCB_pad_drill(options.pcbpadintw_i);
+        ae.setPCB_thickness(options.pcblinewidth_i);
+        ae.setPCB_pad_sizex(options.pcbpadwidth_i);
+        ae.setPCB_pad_sizey(options.pcbpadheight_i);
+        ae.setPCB_pad_drill(options.pcbpadintw_i);
         
         CC.P.setTextFont(options.macroFont,
         	options.macroSize_i,
@@ -736,11 +737,11 @@ public class FidoFrame extends JFrame implements
             prefs.put("GRID_SIZE", ""+CC.getMapCoordinates().getXGridStep());
             
             // Save default PCB characteristics            
-            prefs.put("PCB_pad_sizex", ""+eea.PCB_pad_sizex);
-            prefs.put("PCB_pad_sizey", ""+eea.PCB_pad_sizey);
-			prefs.put("PCB_pad_style", ""+eea.PCB_pad_style);
-            prefs.put("PCB_pad_drill", ""+eea.PCB_pad_drill);
-            prefs.put("PCB_thickness", ""+eea.PCB_thickness);
+            prefs.put("PCB_pad_sizex", ""+ae.PCB_pad_sizex);
+            prefs.put("PCB_pad_sizey", ""+ae.PCB_pad_sizey);
+			prefs.put("PCB_pad_style", ""+ae.PCB_pad_style);
+            prefs.put("PCB_pad_drill", ""+ae.PCB_pad_drill);
+            prefs.put("PCB_thickness", ""+ae.PCB_thickness);
             prefs.put("SHIFT_CP", (cpa.getShiftCopyPaste()?"true":"false"));
 
         }
