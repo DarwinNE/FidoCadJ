@@ -29,10 +29,8 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012-2014 by Davide Bucci
+    Copyright 2012-2015 by Davide Bucci
 </pre>
-
-    Class which realizes the export of a file towards a graphical format.
     
     @author Davide Bucci
 */
@@ -47,7 +45,6 @@ class RunExport implements Runnable
 	private boolean blackWhite;
 	private boolean ext;
 	private JFrame parent;
-	//boolean success;
 	
 	/** Setting up the parameters needed for the export
 	@param tfile the file name
@@ -93,6 +90,13 @@ class RunExport implements Runnable
         } catch(IllegalArgumentException iae) {
             JOptionPane.showMessageDialog(parent,
                Globals.messages.getString("Illegal_filename"));
+        } catch(java.lang.OutOfMemoryError|
+        	java.lang.NegativeArraySizeException om) {
+        	// It is not entirely clear to me (DB) why a negative array size
+        	// exception occours when there are memory issues creating the
+        	// images.
+        	JOptionPane.showMessageDialog(parent,
+               Globals.messages.getString("Eport_Memory_Error"));
         }
     }
 }

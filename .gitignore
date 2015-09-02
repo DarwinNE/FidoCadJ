@@ -142,3 +142,4 @@ test/export/pgf/output_latex.tex
 doc/
 .DS_Store
 jar/.DS_Store
+test/export/pgf/test_out.pdf

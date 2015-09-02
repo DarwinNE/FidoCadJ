@@ -36,7 +36,7 @@ public class ArrowInfo
     { style=i; }
     
     /** Obtain the style of the arrow.
-    	@return the arrow style.
+        @return the arrow style.
     */
     public int getStyle()
     { return style; }

@@ -1303,45 +1303,45 @@ Found a 40 line (118 tokens) duplication in the following files:
 Starting at line 299 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 Starting at line 176 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogPrint.java
 
-		DialogUtil.addCancelEscape (this, cancelAction);
-		pack();
-      	DialogUtil.center(this);
-		getRootPane().setDefaultButton(ok);
-  	}
+        DialogUtil.addCancelEscape (this, cancelAction);
+        pack();
+        DialogUtil.center(this);
+        getRootPane().setDefaultButton(ok);
+    }
   
-  	/** Ensure that the dialog can not be resized to a size smaller than
-  		a certain limit (see MIN_WIDTH and MIN_HEIGHT constants).
-  	
-  	*/
-  	public void componentResized(ComponentEvent e) 
-  	{
-     	int width = getWidth();
+    /** Ensure that the dialog can not be resized to a size smaller than
+        a certain limit (see MIN_WIDTH and MIN_HEIGHT constants).
+    
+    */
+    public void componentResized(ComponentEvent e) 
+    {
+        int width = getWidth();
         int height = getHeight();
         
         boolean resize = false;
         if (width < MIN_WIDTH) {
-        	resize = true;
+            resize = true;
             width = MIN_WIDTH;
          }
          if (height < MIN_HEIGHT) {
-         	resize = true;
+            resize = true;
             height = MIN_HEIGHT;
          }
          if (resize) {
-         	setSize(width, height);
+            setSize(width, height);
          }
-	}
+    }
     public void componentMoved(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
 =====================================================================
 Found a 25 line (116 tokens) duplication in the following files: 
@@ -1581,29 +1581,29 @@ Found a 23 line (111 tokens) duplication in the following files:
 Starting at line 194 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 Starting at line 550 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
-			new Insets(6,20,20,20));
-	
-		// Put the OK and Cancel buttons and make them active.
+            new Insets(6,20,20,20));
+    
+        // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
-		ok.setPreferredSize(cancel.getPreferredSize());
+        ok.setPreferredSize(cancel.getPreferredSize());
 
-		if (Globals.okCancelWinOrder) {
-			b.add(ok);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(cancel);
-		
-		} else {
-			b.add(cancel);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(ok);
-		}
-		contentPane.add(b, constraints);			// Add cancel button	
-		
-		ok.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt)
-			{
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        contentPane.add(b, constraints);            // Add cancel button    
+        
+        ok.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
 =====================================================================
 Found a 35 line (111 tokens) duplication in the following files: 
 Starting at line 363 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEPS.java

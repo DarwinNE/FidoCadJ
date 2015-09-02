@@ -231,6 +231,12 @@ public final class ExportGraphic
 	
         	// Create a buffered image in which to draw
 
+			/*	To get an error, try to export this in png at 1200 dpi:
+			
+				[FIDOCAD]
+				RP 25 15 11000 95000 2
+				
+			*/
 			try {
         		bufferedImage = new BufferedImage(width, height, 
         								  BufferedImage.TYPE_INT_RGB);
@@ -254,16 +260,9 @@ public final class ExportGraphic
         		ImageIO.write(bufferedImage, format, file);
         		// Graphics context no longer needed so dispose it
         		g2d.dispose();
-        	} catch (java.lang.OutOfMemoryError E) {
-        		IOException D=new IOException("Memory Error");
-       			
-       			P.setLayers(ol);
-    			throw D;
-        	} catch (Exception E) {
-        		IOException D=new IOException("Size error"+E);
-       			P.setLayers(ol);
-    			throw D;
-			}
+        	} finally {
+        		P.setLayers(ol);
+        	}
     	} else if("svg".equals(format)) {
     		ExportSVG es = new ExportSVG(file);
     		new Export(P).exportDrawing(es, true, false, m);
