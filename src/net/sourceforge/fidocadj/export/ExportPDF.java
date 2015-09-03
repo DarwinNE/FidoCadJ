@@ -489,228 +489,228 @@ public class ExportPDF implements ExportInterface {
     private void writeCrossReferenceTable()  throws java.io.IOException
     {
         out.write("xref \n"+
-          "0 15\n"+
-          "0000000000 65535 f \n"+          // header
+            "0 15\n"+
+            "0000000000 65535 f \n"+          // header
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength+ 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length())+  
+            " 00000 n \n"+        // 1
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length())+ 
+            " 00000 n \n"+        // 2
+            addLeadZeros(head.length() +
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length())+  
+            " 00000 n \n"+        // 3
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length())+
+            " 00000 n \n"+        // 4
+            
+            addLeadZeros(head.length())+ 
+            " 00000 n \n"+        // 5
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length())+  
+            " 00000 n \n"+        // 6
                   
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength+ 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length())+  
-          " 00000 n \n"+        // 1
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length())+ 
-          " 00000 n \n"+        // 2
-          addLeadZeros(head.length() +
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length())+  
-          " 00000 n \n"+        // 3
-              
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length())+
-          " 00000 n \n"+        // 4
-              
-          addLeadZeros(head.length())+ 
-          " 00000 n \n"+        // 5
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length())+  
-          " 00000 n \n"+        // 6
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length())+
+            " 00000 n \n"+        // 7
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length())+ 
+            " 00000 n \n"+        // 8
                   
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length())+
-          " 00000 n \n"+        // 7
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length())+  
+            " 00000 n \n"+        // 9
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length())+  
+            " 00000 n \n"+        // 10
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length())+
+            " 00000 n \n"+        // 11
+            
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length())+
+            " 00000 n \n"+        // 12
+            
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length()+
+            obj_PDF[12].length())+
+            " 00000 n \n"+        // 13
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length()+
+            obj_PDF[12].length()+
+            obj_PDF[13].length())+
+            " 00000 n \n"+        // 14
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length()+
+            obj_PDF[12].length()+
+            obj_PDF[13].length()+
+            obj_PDF[14].length())+
+            " 00000 n \n"+        // 15
+            
+            addLeadZeros(head.length()+
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length()+
+            obj_PDF[12].length()+
+            obj_PDF[13].length()+
+            obj_PDF[14].length()+
+            obj_PDF[15].length())+
+            " 00000 n \n");       // 16
           
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length())+ 
-          " 00000 n \n"+        // 8
-                  
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length())+  
-          " 00000 n \n"+        // 9
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length())+  
-          " 00000 n \n"+        // 10
-                  
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length())+
-          " 00000 n \n"+        // 11
-          
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length())+
-          " 00000 n \n"+        // 12
-                  
-                  
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length()+
-          obj_PDF[12].length())+
-          " 00000 n \n"+        // 13
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length()+
-          obj_PDF[12].length()+
-          obj_PDF[13].length())+
-          " 00000 n \n"+        // 14
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length()+
-          obj_PDF[12].length()+
-          obj_PDF[13].length()+
-          obj_PDF[14].length())+
-          " 00000 n \n"+        // 15
-          
-          addLeadZeros(head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length()+
-          obj_PDF[12].length()+
-          obj_PDF[13].length()+
-          obj_PDF[14].length()+
-          obj_PDF[15].length())+
-          " 00000 n \n");       // 16
-          
-          out.write("trailer\n"+
-                "<<\n"+
+        out.write("trailer\n"+
+            "<<\n"+
                 "  /Size 16\n"+
                 "  /Root 3 0 R\n"+
                 "  /Info 1 0 R\n"+
                 ">>\n"+
                 "startxref\n"+
                 (head.length()+
-          obj_PDF[5].length()+
-          obj_PDF[6].length()+
-          obj_PDF[7].length()+
-          obj_PDF[8].length()+ 
-          fileLength + 
-          closeObject.length()+
-          obj_PDF[4].length()+
-          obj_PDF[2].length()+
-          obj_PDF[1].length()+
-          obj_PDF[3].length()+
-          obj_PDF[9].length()+
-          obj_PDF[10].length()+
-          obj_PDF[11].length()+
-          obj_PDF[12].length()+
-          obj_PDF[13].length()+
-          obj_PDF[14].length()+
-          obj_PDF[15].length()+
-          obj_PDF[16].length())+
-          "\n%%EOF");
+            obj_PDF[5].length()+
+            obj_PDF[6].length()+
+            obj_PDF[7].length()+
+            obj_PDF[8].length()+ 
+            fileLength + 
+            closeObject.length()+
+            obj_PDF[4].length()+
+            obj_PDF[2].length()+
+            obj_PDF[1].length()+
+            obj_PDF[3].length()+
+            obj_PDF[9].length()+
+            obj_PDF[10].length()+
+            obj_PDF[11].length()+
+            obj_PDF[12].length()+
+            obj_PDF[13].length()+
+            obj_PDF[14].length()+
+            obj_PDF[15].length()+
+            obj_PDF[16].length())+
+            "\n%%EOF");
                 
     }
 

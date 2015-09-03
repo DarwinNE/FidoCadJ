@@ -174,19 +174,19 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             g.fillOval(xa-rix2, ya-riy2,rix,riy);
         } else {
             switch(sty) {
-            case 1:
-                // Rectangular pad 
-                g.fillRect(xa-rrx2, ya-rry2,rrx,rry);
-                break;
-            case 2:
-                // Rounded corner rectangular pad 
-                g.fillRoundRect(xa-rrx2, ya-rry2,rrx,rry,rox,roy);
-                break;
-            case 0: //NOPMD
-            default:
-                // Oval Pad 
-                g.fillOval(xa-rrx2, ya-rry2,rrx,rry);
-                break;
+                case 1:
+                    // Rectangular pad 
+                    g.fillRect(xa-rrx2, ya-rry2,rrx,rry);
+                    break;
+                case 2:
+                    // Rounded corner rectangular pad 
+                    g.fillRoundRect(xa-rrx2, ya-rry2,rrx,rry,rox,roy);
+                    break;
+                case 0: //NOPMD
+                default:
+                    // Oval Pad 
+                    g.fillOval(xa-rrx2, ya-rry2,rrx,rry);
+                    break;
             }
         } 
     }

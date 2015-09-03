@@ -444,37 +444,37 @@ public class ExportSVG implements ExportInterface {
             // At first, draw the pad...
             switch (style) {
                 case 1: // Square pad
-                        xdd=cLe((double)x-six/2.0);
-                        ydd=cLe((double)y-siy/2.0);
+                    xdd=cLe((double)x-six/2.0);
+                    ydd=cLe((double)y-siy/2.0);
                     
-                        out.write("<rect x=\""+xdd+"\" y=\""+
-                            ydd+    "\" rx=\"0\" ry=\"0\" "+
-                            "width=\""+cLe(six)+"\" height=\""+
-                            cLe(siy)+"\" style=\"stroke:#"+
-                            convertToHex2(c.getRed())+
-                            convertToHex2(c.getGreen())+
-                            convertToHex2(c.getBlue())+
-                            ";stroke-width:"+strokeWidth+"\" fill=\"#"+
-                            convertToHex2(c.getRed())+
-                            convertToHex2(c.getGreen())+
-                            convertToHex2(c.getBlue())+"\"/>\n");
+                    out.write("<rect x=\""+xdd+"\" y=\""+
+                        ydd+    "\" rx=\"0\" ry=\"0\" "+
+                        "width=\""+cLe(six)+"\" height=\""+
+                        cLe(siy)+"\" style=\"stroke:#"+
+                        convertToHex2(c.getRed())+
+                        convertToHex2(c.getGreen())+
+                        convertToHex2(c.getBlue())+
+                        ";stroke-width:"+strokeWidth+"\" fill=\"#"+
+                        convertToHex2(c.getRed())+
+                        convertToHex2(c.getGreen())+
+                        convertToHex2(c.getBlue())+"\"/>\n");
                 
                     break;
                 case 2: // Rounded pad
-                        xdd=cLe((double)x-six/2.0);
-                        ydd=cLe((double)y-siy/2.0);
-                        double rd = cLe(2.5);
-                        out.write("<rect x=\""+xdd+"\" y=\""+ydd+
-                            "\" rx=\""+rd+"\" ry=\""+rd+"\" "+
-                            "width=\""+cLe(six)+"\" height=\""+
-                            cLe(siy)+"\" style=\"stroke:#"+
-                            convertToHex2(c.getRed())+
-                            convertToHex2(c.getGreen())+
-                            convertToHex2(c.getBlue())+
-                            ";stroke-width:"+strokeWidth+"\" fill=\"#"+
-                            convertToHex2(c.getRed())+
-                            convertToHex2(c.getGreen())+
-                            convertToHex2(c.getBlue())+"\"/>\n");
+                    xdd=cLe((double)x-six/2.0);
+                    ydd=cLe((double)y-siy/2.0);
+                    double rd = cLe(2.5);
+                    out.write("<rect x=\""+xdd+"\" y=\""+ydd+
+                        "\" rx=\""+rd+"\" ry=\""+rd+"\" "+
+                        "width=\""+cLe(six)+"\" height=\""+
+                        cLe(siy)+"\" style=\"stroke:#"+
+                        convertToHex2(c.getRed())+
+                        convertToHex2(c.getGreen())+
+                        convertToHex2(c.getBlue())+
+                        ";stroke-width:"+strokeWidth+"\" fill=\"#"+
+                        convertToHex2(c.getRed())+
+                        convertToHex2(c.getGreen())+
+                        convertToHex2(c.getBlue())+"\"/>\n");
                     break;
                 case 0: // Oval pad
                 default:

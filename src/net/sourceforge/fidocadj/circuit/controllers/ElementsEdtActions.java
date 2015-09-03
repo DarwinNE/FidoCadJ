@@ -241,8 +241,8 @@ public class ElementsEdtActions
                 if(doubleClick&&primitivesParListener!=null) {
                     primitivesParListener.setPropertiesForPrimitive();
                     break;
-                } else  // Show a pop up menu if the user does a right-click
-                if(button3 && primitivesParListener!=null) {
+                } else if(button3 && primitivesParListener!=null) {
+                    // Show a pop up menu if the user does a right-click
                     primitivesParListener.showPopUpMenu(x,y);
                 } else {    
                     // Select elements

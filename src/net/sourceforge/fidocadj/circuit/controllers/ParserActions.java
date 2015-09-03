@@ -268,355 +268,364 @@ public class ParserActions
             state machine.
         */
         synchronized(this) {
-        Vector<LayerDesc> layerV=model.getLayers();
+            Vector<LayerDesc> layerV=model.getLayers();
 
-        int k;      
-        char c='\n';
-        int len;
+            int k;      
+            char c='\n';
+            int len;
         
-        // Actual line number. This is useful to indicate where errors are.
-        int lineNum=1;
+            // Actual line number. This is useful to indicate where errors are.
+            int lineNum=1;
         
         
-        j=0;    
-        token.setLength(0);
-        len=s.length();
+            j=0;    
+            token.setLength(0);
+            len=s.length();
         
-        // The purpose of this code is to tokenize the lines. Things are
-        // made more complicated by the FCJ mechanism which acts as a 
-        // modifier for the previous command.
+            // The purpose of this code is to tokenize the lines. Things are
+            // made more complicated by the FCJ mechanism which acts as a 
+            // modifier for the previous command.
         
-        for(i=0; i<len;++i){
-            c=s.charAt(i);
-            /*
-            System.out.print("\u001B[31m");
-            System.out.print(c);
-            System.out.print("\u001B[0m");
-            */
+            for(i=0; i<len;++i){
+                c=s.charAt(i);
+                /*
+                System.out.print("\u001B[31m");
+                System.out.print(c);
+                System.out.print("\u001B[0m");
+                */
             
-            if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
-                if(i==len-1 && c!='\n' && c!=' '){
-                    token.append(c);
-                }
-                ++lineNum;
-                tokens[j]=token.toString();
-                if (token.length()==0)  // Avoids trailing spaces
-                    j--;
+                if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
+                    if(i==len-1 && c!='\n' && c!=' '){
+                        token.append(c);
+                    }
+                    ++lineNum;
+                    tokens[j]=token.toString();
+                    if (token.length()==0)  // Avoids trailing spaces
+                        j--;
                 
-                try{
-                    // When we enter here, we have tokenized the current line
-                    // and we kept in memory also the previous one.
+                    try{
+                        // When we enter here, we have tokenized the current 
+                        // line
+                        // and we kept in memory also the previous one.
                     
-                    // The first possibility is that the current line does not
-                    // contain a FCJ modifier. In this case, process the
-                    // previous line since we have all the information needed
-                    // for doing that.
+                        // The first possibility is that the current line does
+                        // not
+                        // contain a FCJ modifier. In this case, process the
+                        // previous line since we have all the information 
+                        // needed
+                        // for doing that.
                     
-                    if(hasFCJ && !tokens[0].equals("FCJ")) {
+                        if(hasFCJ && !tokens[0].equals("FCJ")) {
+                            hasFCJ = registerPrimitivesWithFCJ(hasFCJ,
+                                tokens, g, old_tokens, old_j, selectNew);
+                        } 
                     
-                        hasFCJ = registerPrimitivesWithFCJ(hasFCJ, tokens, g, 
-                            old_tokens, old_j, selectNew);
-                            
-                    } 
-                    
-                    if(tokens[0].equals("FCJ")) { 
-                        // FidoCadJ extension!
-                        // Here the FCJ modifier changes something on the 
-                        // previous command. So ve check case by case what
-                        // has to be modified.
+                        if(tokens[0].equals("FCJ")) { 
+                            // FidoCadJ extension!
+                            // Here the FCJ modifier changes something on the 
+                            // previous command. So ve check case by case what
+                            // has to be modified.
                         
-                        if(hasFCJ && old_tokens[0].equals("MC")) {
-                            macro_counter=2;
-                            g=new PrimitiveMacro(model.getLibrary(),layerV,
-                                macroFont, macroFontSize);
-                            g.parseTokens(old_tokens, old_j+1);
-                        } else if (hasFCJ && old_tokens[0].equals("LI")) {
-                            g=new PrimitiveLine(macroFont, macroFontSize);
+                            if(hasFCJ && old_tokens[0].equals("MC")) {
+                                macro_counter=2;
+                                g=new PrimitiveMacro(model.getLibrary(),layerV,
+                                    macroFont, macroFontSize);
+                                g.parseTokens(old_tokens, old_j+1);
+                            } else if (hasFCJ && old_tokens[0].equals("LI")) {
+                                g=new PrimitiveLine(macroFont, macroFontSize);
                             
-                            // We concatenate the two lines in a single array
-                            // of tokens (the same code will be repeated several
-                            // times for other commands also).
+                                // We concatenate the two lines in a single 
+                                // array
+                                // of tokens (the same code will be repeated 
+                                // several
+                                // times for other commands also).
                             
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
                             
-                            // Update the number of tokens
-                            old_j+=j+1;
+                                // Update the number of tokens
+                                old_j+=j+1;
                             
-                            // The actual parsing of the tokens is relegated
-                            // to the primitive.
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
+                                // The actual parsing of the tokens is 
+                                // relegated
+                                // to the primitive.
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
 
-                            if(old_j>5 && old_tokens[old_j].equals("1")) {
-                                macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
-                            }
+                                if(old_j>5 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }
                      
-                        } else if (hasFCJ && old_tokens[0].equals("BE")) {
-                            g=new PrimitiveBezier(macroFont, macroFontSize);
+                            } else if (hasFCJ && old_tokens[0].equals("BE")) {
+                                g=new PrimitiveBezier(macroFont, macroFontSize);
                             
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
                             
-                            old_j+=j+1;
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
-                            if(old_j>5 && old_tokens[old_j].equals("1")) {
+                                old_j+=j+1;
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
+                                if(old_j>5 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }
+                            
+                            } else if (hasFCJ && (old_tokens[0].equals("RV")||
+                                old_tokens[0].equals("RP"))) {
+                                g=new PrimitiveRectangle(macroFont, 
+                                    macroFontSize);
+                            
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
+                            
+                                old_j+=j+1;
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
+                                if(old_j>2 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }                        
+                            } else if (hasFCJ && (old_tokens[0].equals("EV")||
+                                old_tokens[0].equals("EP"))) {
+                                g=new PrimitiveOval(macroFont, macroFontSize);
+                            
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
+                            
+                                old_j+=j+1;
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
+                                if(old_j>2 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }                        
+                            } else if (hasFCJ && (old_tokens[0].equals("PV")||
+                                old_tokens[0].equals("PP"))) {
+                                g=new PrimitivePolygon(macroFont, 
+                                    macroFontSize);
+                            
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
+                            
+                                old_j+=j+1;
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
+                                if(old_j>2 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }     
+                            } else if (hasFCJ && (old_tokens[0].equals("CV")||
+                                old_tokens[0].equals("CP"))) {
+                                g=new PrimitiveComplexCurve(macroFont,
+                                    macroFontSize);
+                            
+                                for(l=0; l<j+1; ++l)
+                                    old_tokens[l+old_j+1]=tokens[l];
+                            
+                                old_j+=j+1;
+                                g.parseTokens(old_tokens, old_j+1);
+                                g.setSelected(selectNew);
+                                // If we have a name/value following, we
+                                // put macro_counter (successively used by
+                                // TY to determine that we are in a case in 
+                                // which
+                                // TY commands must not be considered as 
+                                // separate).
+                                if(old_j>2 && old_tokens[old_j].equals("1")) {
+                                    macro_counter = 2;
+                                } else {
+                                    model.addPrimitive(g,false,null);
+                                }     
+                            } else if (hasFCJ && old_tokens[0].equals("PL")) {
                                 macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
+                            } else if (hasFCJ && old_tokens[0].equals("PA")) {
+                                macro_counter = 2;
+                            } else if (hasFCJ && old_tokens[0].equals("SA")) {
+                                macro_counter = 2;                       
                             }
-                            
-                        } else if (hasFCJ && (old_tokens[0].equals("RV")||
-                            old_tokens[0].equals("RP"))) {
-                            g=new PrimitiveRectangle(macroFont, macroFontSize);
-                            
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
-                            
-                            old_j+=j+1;
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
-                            if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
-                            }                        
-                        } else if (hasFCJ && (old_tokens[0].equals("EV")||
-                            old_tokens[0].equals("EP"))) {
-                            g=new PrimitiveOval(macroFont, macroFontSize);
-                            
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
-                            
-                            old_j+=j+1;
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
-                            if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
-                            }                        
-                        } else if (hasFCJ && (old_tokens[0].equals("PV")||
-                            old_tokens[0].equals("PP"))) {
-                            g=new PrimitivePolygon(macroFont, macroFontSize);
-                            
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
-                            
-                            old_j+=j+1;
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
-                            if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
-                            }     
-                        } else if (hasFCJ && (old_tokens[0].equals("CV")||
-                            old_tokens[0].equals("CP"))) {
-                            g=new PrimitiveComplexCurve(macroFont,
-                                macroFontSize);
-                            
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l+old_j+1]=tokens[l];
-                            
-                            old_j+=j+1;
-                            g.parseTokens(old_tokens, old_j+1);
-                            g.setSelected(selectNew);
-                            // If we have a name/value following, we
-                            // put macro_counter (successively used by
-                            // TY to determine that we are in a case in which
-                            // TY commands must not be considered as separate).
-                            if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                macro_counter = 2;
-                            } else {
-                                model.addPrimitive(g,false,null);
-                            }     
-                        } else if (hasFCJ && old_tokens[0].equals("PL")) {
-                            macro_counter = 2;
-                        } else if (hasFCJ && old_tokens[0].equals("PA")) {
-                            macro_counter = 2;
-                        } else if (hasFCJ && old_tokens[0].equals("SA")) {
-                            macro_counter = 2;                       
-                        }
-                        hasFCJ=false;
+                            hasFCJ=false;
                     
-                    } else if(tokens[0].equals("FJC")) {
-                        fidoConfig(tokens, j, layerV);
-                    } else if(tokens[0].equals("LI")) {
-                        // Save the tokenized line.
-                        // We cannot create the macro until we parse the 
-                        // following line (which can be FCJ)
-                        macro_counter=0;
-    
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-        
-                    } else if(tokens[0].equals("BE")) {
-                        macro_counter=0;
-    
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-                    } else if(tokens[0].equals("MC")) {
-                        // Save the tokenized line.
-                        macro_counter=0;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-                    } else if(tokens[0].equals("TE")) {
-                        hasFCJ=false;
-                        macro_counter=0;
-                        g=new PrimitiveAdvText();
-                        g.parseTokens(tokens, j+1);
-                        g.setSelected(selectNew);
-                        model.addPrimitive(g,false,null);
-                    } else if(tokens[0].equals("TY")) {
-                        // The TY command is somewhat special, because
-                        // it can be used to specify the name and the value
-                        // of a primitive or a macro. Therefore, we try
-                        // to understand in which case we are
-                        hasFCJ=false;
-                        
-                        if(macro_counter==2) {
-                            macro_counter--;
-                            name=new String[j+1];
-                            for(l=0; l<j+1;++l)
-                                name[l]=tokens[l];
-                            vn=j;                                
-                        } else if(macro_counter==1) {
-                            value=new String[j+1];
-                            for(l=0; l<j+1;++l)
-                                value[l]=tokens[l];
-                            vv=j;       
-                            if (name!=null) g.setName(name,vn+1);
-                            g.setValue(value,vv+1);
-
-                            g.setSelected(selectNew);
-                            model.addPrimitive(g, false,null);
+                        } else if(tokens[0].equals("FJC")) {
+                            fidoConfig(tokens, j, layerV);
+                        } else if(tokens[0].equals("LI")) {
+                            // Save the tokenized line.
+                            // We cannot create the macro until we parse the 
+                            // following line (which can be FCJ)
                             macro_counter=0;
-                        } else {
-                            // If we are in the classical case of a simple
-                            // isolated TY command, we process it.
+    
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+        
+                        } else if(tokens[0].equals("BE")) {
+                            macro_counter=0;
+    
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        } else if(tokens[0].equals("MC")) {
+                            // Save the tokenized line.
+                            macro_counter=0;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        } else if(tokens[0].equals("TE")) {
+                            hasFCJ=false;
+                            macro_counter=0;
                             g=new PrimitiveAdvText();
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
                             model.addPrimitive(g,false,null);
-                         }
-                    } else if(tokens[0].equals("PL")) {
-                        hasFCJ=true;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
+                        } else if(tokens[0].equals("TY")) {
+                            // The TY command is somewhat special, because
+                            // it can be used to specify the name and the value
+                            // of a primitive or a macro. Therefore, we try
+                            // to understand in which case we are
+                            hasFCJ=false;
+                        
+                            if(macro_counter==2) {
+                                macro_counter--;
+                                name=new String[j+1];
+                                for(l=0; l<j+1;++l)
+                                    name[l]=tokens[l];
+                                vn=j;                                
+                            } else if(macro_counter==1) {
+                                value=new String[j+1];
+                                for(l=0; l<j+1;++l)
+                                    value[l]=tokens[l];
+                                vv=j;       
+                                if (name!=null) g.setName(name,vn+1);
+                                g.setValue(value,vv+1);
+
+                                g.setSelected(selectNew);
+                                model.addPrimitive(g, false,null);
+                                macro_counter=0;
+                            } else {
+                                // If we are in the classical case of a simple
+                                // isolated TY command, we process it.
+                                g=new PrimitiveAdvText();
+                                g.parseTokens(tokens, j+1);
+                                g.setSelected(selectNew);
+                                model.addPrimitive(g,false,null);
+                             }
+                        } else if(tokens[0].equals("PL")) {
+                            hasFCJ=true;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
                             
-                        macro_counter=0;
-                        old_j=j;
-                        g=new PrimitivePCBLine(macroFont, macroFontSize);
-                        g.parseTokens(tokens, j+1);
-                        g.setSelected(selectNew);
-                        //addPrimitive(g,false,false);
-                    } else if(tokens[0].equals("PA")) {
-                        hasFCJ=true;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        macro_counter=0;
-                        g=new PrimitivePCBPad(macroFont, macroFontSize);
-                        old_j=j;
-                        g.parseTokens(tokens, j+1);
-                        g.setSelected(selectNew);
-                        //addPrimitive(g,false,false);
-                    } else if(tokens[0].equals("SA")) {
-                        hasFCJ=true;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        macro_counter=0;
-                        g=new PrimitiveConnection(macroFont, macroFontSize);
-                        g.parseTokens(tokens, j+1);
-                        g.setSelected(selectNew);
-                        //addPrimitive(g,false,false);
-                    }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
-                        macro_counter=0;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-                    } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
-                        macro_counter=0;
+                            macro_counter=0;
+                            old_j=j;
+                            g=new PrimitivePCBLine(macroFont, macroFontSize);
+                            g.parseTokens(tokens, j+1);
+                            g.setSelected(selectNew);
+                            //addPrimitive(g,false,false);
+                        } else if(tokens[0].equals("PA")) {
+                            hasFCJ=true;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            macro_counter=0;
+                            g=new PrimitivePCBPad(macroFont, macroFontSize);
+                            old_j=j;
+                            g.parseTokens(tokens, j+1);
+                            g.setSelected(selectNew);
+                            //addPrimitive(g,false,false);
+                        } else if(tokens[0].equals("SA")) {
+                            hasFCJ=true;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            macro_counter=0;
+                            g=new PrimitiveConnection(macroFont, macroFontSize);
+                            g.parseTokens(tokens, j+1);
+                            g.setSelected(selectNew);
+                            //addPrimitive(g,false,false);
+                        }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
+                            macro_counter=0;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
+                            macro_counter=0;
     
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-                    } else if(tokens[0].equals("PV")||tokens[0].equals("PP")) {
-                        macro_counter=0;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        } else if(tokens[0].equals("PV")||tokens[0].equals("PP")) {
+                            macro_counter=0;
     
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
-                        hasFCJ=true;
-                    } else if(tokens[0].equals("CV")||tokens[0].equals("CP")) {
-                        macro_counter=0;
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        } else if(tokens[0].equals("CV")||tokens[0].equals("CP")) {
+                            macro_counter=0;
     
+                            for(l=0; l<j+1; ++l)
+                                old_tokens[l]=tokens[l];
+                            old_j=j;
+                            hasFCJ=true;
+                        }
+                    } catch(IOException E) {
+                        System.out.println("Error encountered: "+E.toString());
+                        System.out.println("string parsing line: "+lineNum);
+                        hasFCJ = true;
+                        macro_counter = 0;
+                    
+                        for(l=0; l<j+1; ++l)
+                            old_tokens[l]=tokens[l];
+                    
+                        old_j=j;
+                    } catch(NumberFormatException F) {
+                        System.out.println(
+                            "I could not read a number at line: "
+                            +lineNum);
+                        hasFCJ = true;
+                        macro_counter = 0;
                         for(l=0; l<j+1; ++l)
                             old_tokens[l]=tokens[l];
                         old_j=j;
-                        hasFCJ=true;
                     }
-                } catch(IOException E) {
-                    System.out.println("Error encountered: "+E.toString());
-                    System.out.println("string parsing line: "+lineNum);
-                    hasFCJ = true;
-                    macro_counter = 0;
-                    
-                    for(l=0; l<j+1; ++l)
-                        old_tokens[l]=tokens[l];
-                    
-                    old_j=j;
-                } catch(NumberFormatException F) {
-                    System.out.println("I could not read a number at line: "
-                                       +lineNum);
-                    hasFCJ = true;
-                    macro_counter = 0;
-                    for(l=0; l<j+1; ++l)
-                        old_tokens[l]=tokens[l];
-                    old_j=j;
+                    j=0;
+                    token.setLength(0);
+                } else if (c==' '){ // Ready for next token
+                    tokens[j]=token.toString();
+                    ++j;
+                    if (j>=MAX_TOKENS) {
+                        System.out.println("Too much tokens!");
+                        System.out.println("string parsing line: "+lineNum);
+                    }
+                    token.setLength(0);
+                } else {
+                    token.append(c);
                 }
-                j=0;
-                token.setLength(0);
-            } else if (c==' '){ // Ready for next token
-                tokens[j]=token.toString();
-                ++j;
-                if (j>=MAX_TOKENS) {
-                    System.out.println("Too much tokens!");
-                    System.out.println("string parsing line: "+lineNum);
-                }
-                token.setLength(0);
-            } else {
-                token.append(c);
             }
-        }
        
-        // We need to process the very last line, which is contained in
-        // the tokens currently read.
-        try{
-            registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
-                selectNew);
-        } catch(IOException E) {
-            System.out.println("Error encountered: "+E.toString());
-            System.out.println("string parsing line: "+lineNum);
-        } catch(NumberFormatException F) {
-            System.out.println("I could not read a number at line: "
-                                     +lineNum);
-        }
+            // We need to process the very last line, which is contained in
+            // the tokens currently read.
+            try{
+                registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
+                    selectNew);
+            } catch(IOException E) {
+                System.out.println("Error encountered: "+E.toString());
+                System.out.println("string parsing line: "+lineNum);
+            } catch(NumberFormatException F) {
+                System.out.println("I could not read a number at line: "
+                                         +lineNum);
+            }
         
 
-        model.sortPrimitiveLayers();
+            model.sortPrimitiveLayers();
         }      
     }
     

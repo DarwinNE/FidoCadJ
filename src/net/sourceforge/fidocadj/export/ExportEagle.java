@@ -203,8 +203,6 @@ public class ExportEagle implements ExportInterface {
         //ColorInterface c=l.getColor();
         
         out.write("# Bézier export not implemented yet\n");
-
-
     }
     
     /** Called when exporting a Connection primitive.
@@ -221,7 +219,6 @@ public class ExportEagle implements ExportInterface {
         //ColorInterface c=l.getColor();
         junctionList += "Junction ("+een(x*res)+" "
             +een((dim.height-y)*res)+");\n";
-
     }
         
     /** Called when exporting a Line primitive.
@@ -324,8 +321,6 @@ public class ExportEagle implements ExportInterface {
         @param layer the layer that should be used
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
-
     */  
     public void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)

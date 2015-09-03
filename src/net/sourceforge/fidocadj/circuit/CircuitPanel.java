@@ -62,7 +62,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                              PrimitivesParInterface,
                                              KeyListener,
                                              MouseWheelListener
-                                             
 { 
 
     // *********** DRAWING ***********
@@ -332,12 +331,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // We need to make this indipendent to the case. So we start by
         // registering the action for the upper case
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)), 
-            actionString);
+                .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)), 
+                actionString);
         // And then we repeat the operation for the lower case
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)), 
-            actionString);
+                .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)), 
+                actionString);
         
         getActionMap().put(actionString, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored) {
@@ -374,8 +373,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         registerAction("selection", 'a', ElementsEdtActions.SELECTION);
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
-            "selection");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false), 
+                "selection");
         registerAction("line", 'l', ElementsEdtActions.LINE);
         registerAction("text", 't', ElementsEdtActions.TEXT);
         registerAction("bezier", 'b', ElementsEdtActions.BEZIER);
@@ -391,13 +390,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     
         // Delete key
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("DELETE"), delete);
+                .put(KeyStroke.getKeyStroke("DELETE"), delete);
     
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
+                .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
             
         getActionMap().put(delete, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 edt.deleteAllSelected(true);
                 repaint();
             }
@@ -463,8 +463,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 repaint();
             }
         });
-         final String down = "ldown";
-         // down key
+        final String down = "ldown";
+        // down key
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
             java.awt.event.InputEvent.ALT_MASK,false), down);
@@ -1082,7 +1082,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
             g2.setRenderingHint(RenderingHints.KEY_DITHERING, 
                 RenderingHints.VALUE_DITHER_DISABLE);
-         }
+        }
      
         // Draw all the primitives.
         g.setColor(backgroundColor);
@@ -1136,7 +1136,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             //System.out.println("minx,y"+minx+", "+miny);
             Dimension dd=new Dimension(Math.max(d.width
-               +MARGIN, minx),Math.max(d.height+MARGIN, miny));
+                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
             Dimension nn=getPreferredSize();
             
             //System.out.println("width1,2: "+dd.width+", "+nn.width);
@@ -1181,21 +1181,20 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     public void validate()
     {
-    
         int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
         int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
-            
+        
         Dimension dd=new Dimension(Math.max(cs.getXMax()
-           +MARGIN, minx),Math.max(cs.getYMax()+MARGIN, miny));
+            +MARGIN, minx),Math.max(cs.getYMax()+MARGIN, miny));
         Dimension nn=getPreferredSize();
-                           
+        
         if(dd.width!=nn.width || dd.height!=nn.height) {
             setPreferredSize(dd);
         }
         
         super.validate();
     }
- 
+    
     /** Draws a ruler to ease measuring distances.
         @param g the graphic context
         @param sx the x position of the starting corner
@@ -1519,10 +1518,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     LibUtils.saveLibraryState(ua);
                 } catch (IOException e) {
                     System.out.println("Exception: "+e);
-        
                 }
                 repaint();
-            }  
+            }
             
             else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
                 StringBuffer s=sa.getSelectedString(true, pa);
@@ -1530,7 +1528,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 pa.addString(pa.splitMacros(s,  true),true);
                 ua.saveUndoState();
                 repaint(); 
-            }              
+            }
             
             else if(arg.equals(Globals.messages.getString("Remove_node"))) {
                 if(sa.getFirstSelectedPrimitive() 
@@ -1560,8 +1558,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                         getMapCoordinates().unmapYsnap(menuy));
                     ua.saveUndoState();
                     repaint();
-                } else if(sa.getFirstSelectedPrimitive() instanceof 
-                    PrimitiveComplexCurve) {
+                } else if(sa.getFirstSelectedPrimitive() instanceof
+                    PrimitiveComplexCurve) 
+                {
                     PrimitiveComplexCurve poly=
                         (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(
@@ -1570,24 +1569,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     ua.saveUndoState();
                     repaint();
                 }
-            }      
-       }
-   }
-   
-   /** Forces a repaint.
-   */
-   public void forcesRepaint()
-   {
+            }
+        }
+    }
+    
+    /** Forces a repaint.
+    */
+    public void forcesRepaint()
+    {
         repaint();
-   }
-   
-   /** Forces a repaint.
-   */
-   public void forcesRepaint(int a, int b, int c, int d)
-   {
+    }
+    
+    /** Forces a repaint.
+    */
+    public void forcesRepaint(int a, int b, int c, int d)
+    {
         repaint(a, b, c, d);
-   }
-   
+    }
+    
     /** Windows and Linux users can use Ctrl+Wheel to zoom in and out.
         With MacOSX, however Ctrl+Wheel is associated to the full screen 
         zooming. Therefore, we use Command ("meta" with the Java terminology).
@@ -1599,12 +1598,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
             keyCode=KeyEvent.VK_META;
         return keyCode;
     }
-
-    /** Intercepts the moment when the Ctrl or Command key is pressed (see the
+    
+   /** Intercepts the moment when the Ctrl or Command key is pressed (see the
         note for getKeyForWheel(), so that the wheel listener is added.
     */
     @Override
-    public void keyPressed(KeyEvent e) 
+    public void keyPressed(KeyEvent e)
     {
         if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
             addMouseWheelListener(this);
@@ -1623,7 +1622,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     /** Required by the KeyListener interface.
     */
     @Override
-    public void keyTyped(KeyEvent e) 
+    public void keyTyped(KeyEvent e)
     {
         // do nothing
     }
@@ -1635,7 +1634,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         MouseWheelListener[] listeners = getMouseWheelListeners();
         for (MouseWheelListener mouseWheelListener : listeners) {
             if (mouseWheelListener.equals(this))
-            return true;
+                return true;
         }
         return false;
     }
@@ -1644,7 +1643,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
      * Handle zoom event via the wheel.
      */
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e) 
+    public void mouseWheelMoved(MouseWheelEvent e)
     {
         this.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
     }

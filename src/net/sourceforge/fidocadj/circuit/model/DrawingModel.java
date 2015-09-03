@@ -210,7 +210,7 @@ public class DrawingModel
         macroFontSize = size;
 
         for (GraphicPrimitive g:getPrimitiveVector()){
-           g.setMacroFont(f, size);
+            g.setMacroFont(f, size);
         }
         changed=true;
         if(ua!=null) ua.setModified(true);
@@ -265,7 +265,7 @@ public class DrawingModel
             for(j = l; j< getPrimitiveVector().size(); ++j) {
                 for(i=j-l; i>=0; i-=l) {
                     if(((GraphicPrimitive)getPrimitiveVector().get(i+l)).layer>=
-                      ((GraphicPrimitive)getPrimitiveVector().get(i)).layer)
+                        ((GraphicPrimitive)getPrimitiveVector().get(i)).layer)
                         break;
                     else {
                         // Swap

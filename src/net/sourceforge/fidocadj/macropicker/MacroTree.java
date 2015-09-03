@@ -150,14 +150,14 @@ public class MacroTree extends JPanel
 
         type = macroTreeModel.getNodeType(path);
         switch(type) {
-        case MacroTreeModel.LIBRARY:
-            return LIBRARY;
-        case MacroTreeModel.CATEGORY:
-            return CATEGORY;
-        case MacroTreeModel.MACRO:
-            return MACRO;
-        default:
-            return -1;
+            case MacroTreeModel.LIBRARY:
+                return LIBRARY;
+            case MacroTreeModel.CATEGORY:
+                return CATEGORY;
+            case MacroTreeModel.MACRO:
+                return MACRO;
+            default:
+                return -1;
         }
     }
 
@@ -560,14 +560,14 @@ public class MacroTree extends JPanel
         treeScrollPane.setPreferredSize(new Dimension(350, 600));
 
         treeComponent.getSelectionModel().addTreeSelectionListener(
-        new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                updateOperationPermission();
-                for(ChangeListener l:changeListeners) {
-                    l.stateChanged(new ChangeEvent(this));
+            new TreeSelectionListener() {
+                public void valueChanged(TreeSelectionEvent e) {
+                    updateOperationPermission();
+                    for(ChangeListener l:changeListeners) {
+                        l.stateChanged(new ChangeEvent(this));
+                    }
                 }
-            }
-        });
+            });
     }
 
     /**
