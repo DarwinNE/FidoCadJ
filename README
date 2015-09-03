@@ -138,30 +138,34 @@ using svn from the GitHub repository.
 
   File                        Comments
   ---------------------------------------------------------------------------
+  NEWS.txt                    The big news, for each version tagged
   README                      This file
-  bin/                 DIR    Contains all the compiled classes and resources         
-  busy being born/     DIR    Contains old screenshots of FidoCadJ
-  clean                       erases all the compiled classes
-  cleanall                    does a clean, erases fidocadj.jar, Javadocs
-  compile                     compile FidoCadJ
-  count                       does a wc (word count!) on all Java sources                    
-  createdoc                   runs Javadoc on all source files
-  createjar                   prepares fidocadj.jar
-  doc                         contains all Javadoc produced HTML files
-  gpl-3.0.txt                 the GNU public licence v. 3
-  icons/               DIR    contains all icons (made with Gimp)
-  jar/                 DIR    contains fidocadj.jar as well as Quaqua
-  OSes/                DIR    specific things for some OS (Android app here)
-  manual/              DIR    all the LaTeX manuals sources
-  profile                     launches a profiler (jip)
-  rebuild                     does a clean and then runs FidoCadJ
-  run                         run FidoCadJ
-  src/                 DIR    contains all the Java source files
-  exclude_from_svn            excludes all binary generated files from svn
-  sign.sh                     creates the signature for the applet
-  test/                DIR    automatic tests for FidoCadJ
-  website/             DIR    all files for http://fidocadj.sourceforge.net
-  winbuild.bat                build and run script for Windows (see par. 3.3)
+  bin/                 DIR    All the compiled classes and resources         
+  busy being born/     DIR    Old screenshots of FidoCadJ
+  checkstyle.sh               Launch Checkstyle with rules in rules.xml
+  clean                       Erase all the compiled classes
+  cleanall                    Do a clean, erases fidocadj.jar, Javadocs
+  compile                     Compile FidoCadJ
+  count                       Do a wc (word count!) on all Java sources                    
+  createdoc                   Run Javadoc on all source files
+  createjar                   Prepare fidocadj.jar
+  doc/          	   DIR    Contain all Javadoc produced HTML files
+  fidocadj_check.txt          Current result of checkstyle.sh
+  fidocadj_cpd.txt            Current result of copy/paste detector (pmd)
+  fidocadj_pmd.html           Current result of pmd checks
+  gpl-3.0.txt                 GNU public licence v. 3
+  icons/               DIR    All icons (made with Gimp)
+  jar/                 DIR    Contains fidocadj.jar as well as Quaqua
+  OSes/                DIR    Specific things for some OS (Android app here)
+  manual/              DIR    All the LaTeX manuals sources
+  pmd.sh                      Launch pmd for warnings and copy/paste detector.
+  profile                     Launch a profiler (jip)
+  rebuild                     Do a clean and then runs FidoCadJ
+  run                         Run FidoCadJ
+  src/                 DIR    Contain all the Java source files
+  sign.sh                     Creates the signature for the applet
+  test/                DIR    Automatic tests for FidoCadJ
+  winbuild.bat                Build and run script for Windows (see par. 3.3)
   ---------------------------------------------------------------------------
 
 If you want to study the FidoCadJ source code, run the ./createdoc script to
@@ -251,8 +255,8 @@ The following coding conventions have been applied for the FidoCadJ source
 code:
 
 - the code should be compatible with Java 1.7
-- indent set to 4 spaces
-- no tabulation character allowed in sources
+* indent properly, using 4 spaces
+* no tabulation character allowed in sources
 - blocks delimited by curly braces are indented as follows:
 
     for(i=0; i<10; ++i) {   // starting brace here
@@ -267,7 +271,7 @@ code:
         System.out.println("Indent code");
     }   // put the closing brace here
 
-- switches are indented as follows:
+* switches are indented as follows:
 
     int dummy(int i)
     {
@@ -289,7 +293,7 @@ code:
 - variables never start with a capital letter
 - an instance of the class does have its first letter in lower case
 - public classes and methods should be documented with Javadoc syntax
-- no lines longer than 80 characters
+* no lines longer than 80 characters
 - commits should not break the build
 - each commit *MUST* include a log 
 - predilect simplicity to unnecessary complication
@@ -298,7 +302,9 @@ code:
 - documentation is important. Try to improve it and keep it up-to-date
 
 A checkstyle rule sets (called rules.xml) is being progressively employed so
-that those rules will be automatically checked.
+that those rules will be automatically checked. Points for which a rule has
+been activated have been marked with a "*" instead of a "-" in the previous 
+list.
 
 3.5 Automatic tests
 -------------------
@@ -361,7 +367,9 @@ Those programs are different and somewhat complementary.
 PMD works on the source files directly (see the pmd.sh script) and the results
 are contained in the file fidocadj_pmd.html. This file is contained in the
 source file repository and it provides a sort of a traceable metric of the
-overall code quality.
+overall code quality. A copy/paste detection in the code is performed too
+and the results are stored in fidocadj_cpd.txt
+Effort will be done to reduce the size of those files in the future.
 
 FindBugs runs interactively and analyzes the jar file resulting after the 
 compilation and packaging.
