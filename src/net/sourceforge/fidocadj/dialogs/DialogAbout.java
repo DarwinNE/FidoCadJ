@@ -62,14 +62,14 @@ public class DialogAbout extends JFrame implements ComponentListener
         if (width < MIN_WIDTH) {
             resize = true;
             width = MIN_WIDTH;
-         }
-         if (height < MIN_HEIGHT) {
+        }
+        if (height < MIN_HEIGHT) {
             resize = true;
             height = MIN_HEIGHT;
-         }
-         if (resize) {
+        }
+        if (resize) {
             setSize(width, height);
-         }
+        }
     }
     public void componentMoved(ComponentEvent e) 
     {
@@ -178,7 +178,7 @@ public class DialogAbout extends JFrame implements ComponentListener
         class OpenUrlAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 BareBonesBrowserLaunch.openURL(
-                "https://sourceforge.net/projects/fidocadj/");
+                    "https://sourceforge.net/projects/fidocadj/");
                 
             // The following code works only in Java v. 1.6 and for the moment
             // the minimum requirements for FidoCadJ are Java 1.5
@@ -191,7 +191,8 @@ public class DialogAbout extends JFrame implements ComponentListener
         }
         
         JButton link=new JButton(
-            "<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">http://sourceforge.net/projects/fidocadj/</a></HTML>");
+            "<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">"+
+            "http://sourceforge.net/projects/fidocadj/</a></HTML>");
         constraints.gridx=0;
         constraints.gridy=6;
         constraints.gridwidth=1;

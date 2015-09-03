@@ -45,9 +45,9 @@ public interface PrimitivesParInterface
     */
     public void forcesRepaint();
     
-   /** Forces a repaint, specify the region to be updated.
-   */
-   public void forcesRepaint(int a, int b, int c, int d);
+    /** Forces a repaint, specify the region to be updated.
+    */
+    public void forcesRepaint(int a, int b, int c, int d);
     
     /** Activate and sets an evidence rectangle which will be put on screen
         at the next redraw. All sizes are given in pixel.

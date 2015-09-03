@@ -1,24 +1,4 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:519: warning: else rcurly au niveau d'indentation 29 n'est pas indenté correctement (28)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:551: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:557: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:564: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:571: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:744: warning: if rcurly au niveau d'indentation 13 n'est pas indenté correctement (12)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:745: warning: old_tokens au niveau d'indentation 16 n'est pas indenté correctement (17)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50: warning: method def modifier au niveau d'indentation 3 n'est pas indenté correctement (4)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:14: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:42: warning: Le fils de method call au niveau d'identation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:51: warning: Le fils de method call au niveau d'identation 24 n'est pas indenté correctement (28)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:58: warning: if au niveau d'indentation 20 n'est pas indenté correctement (24)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:65: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:66: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:69: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:70: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:72: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:181: warning: "https://sourceforge.net/projects/fidocadj/" au niveau d'indentation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:181: warning: Le fils de method call au niveau d'identation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:194: warning: La ligne excède 80 caractères.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:72: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:73: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:76: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
@@ -174,26 +154,6 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:65: warning: ( au niveau d'indentation 8 n'est pas indenté correctement (12)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:66: warning: me au niveau d'indentation 8 n'est pas indenté correctement (12)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:74: warning: me au niveau d'indentation 8 n'est pas indenté correctement (12)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:519: warning: else rcurly au niveau d'indentation 29 n'est pas indenté correctement (28)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:551: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:557: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:564: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:571: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:744: warning: if rcurly au niveau d'indentation 13 n'est pas indenté correctement (12)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:745: warning: old_tokens au niveau d'indentation 16 n'est pas indenté correctement (17)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50: warning: method def modifier au niveau d'indentation 3 n'est pas indenté correctement (4)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:14: warning: La ligne excède 80 caractères.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:42: warning: Le fils de method call au niveau d'identation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:51: warning: Le fils de method call au niveau d'identation 24 n'est pas indenté correctement (28)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/BareBonesBrowserLaunch.java:58: warning: if au niveau d'indentation 20 n'est pas indenté correctement (24)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:65: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:66: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:69: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:70: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:72: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:181: warning: "https://sourceforge.net/projects/fidocadj/" au niveau d'indentation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:181: warning: Le fils de method call au niveau d'identation 16 n'est pas indenté correctement (20)
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:194: warning: La ligne excède 80 caractères.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:72: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:73: warning: if au niveau d'indentation 9 n'est pas indenté correctement (8)
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:76: warning: if rcurly au niveau d'indentation 9 n'est pas indenté correctement (8)

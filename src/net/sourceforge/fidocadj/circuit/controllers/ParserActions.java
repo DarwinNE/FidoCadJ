@@ -516,7 +516,7 @@ public class ParserActions
                                 g.parseTokens(tokens, j+1);
                                 g.setSelected(selectNew);
                                 model.addPrimitive(g,false,null);
-                             }
+                            }
                         } else if(tokens[0].equals("PL")) {
                             hasFCJ=true;
                             for(l=0; l<j+1; ++l)
@@ -548,29 +548,36 @@ public class ParserActions
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
                             //addPrimitive(g,false,false);
-                        }  else if(tokens[0].equals("EV")||tokens[0].equals("EP")) {
+                        }  else if(tokens[0].equals("EV")
+                            ||tokens[0].equals("EP")) 
+                        {
                             macro_counter=0;
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l]=tokens[l];
                             old_j=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
+                        } else if(tokens[0].equals("RV")
+                            ||tokens[0].equals("RP")) 
+                        {
                             macro_counter=0;
     
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l]=tokens[l];
                             old_j=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("PV")||tokens[0].equals("PP")) {
+                        } else if(tokens[0].equals("PV")
+                            ||tokens[0].equals("PP")) 
+                        {
                             macro_counter=0;
     
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l]=tokens[l];
                             old_j=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("CV")||tokens[0].equals("CP")) {
+                        } else if(tokens[0].equals("CV")
+                            ||tokens[0].equals("CP")) 
+                        {
                             macro_counter=0;
-    
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l]=tokens[l];
                             old_j=j;
@@ -734,15 +741,16 @@ public class ParserActions
                 old_tokens[0].equals("EV")) {
                 g=new PrimitiveOval(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("PP")||
-                old_tokens[0].equals("PV")) {
+            } else if (old_tokens[0].equals("PP")
+                ||old_tokens[0].equals("PV")) {
                 g=new PrimitivePolygon(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if(old_tokens[0].equals("PL")) {
                 g=new PrimitivePCBLine(macroFont, macroFontSize);
                 addPrimitive = true;
-             } else if (old_tokens[0].equals("CP")||
-                old_tokens[0].equals("CV")) {
+            } else if (old_tokens[0].equals("CP")
+                ||old_tokens[0].equals("CV"))
+            {
                 g=new PrimitiveComplexCurve(macroFont, macroFontSize);
                 addPrimitive = true;
             }  else if(old_tokens[0].equals("PA")) {
