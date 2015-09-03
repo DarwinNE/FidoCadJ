@@ -29,17 +29,17 @@ import net.sourceforge.fidocadj.primitives.*;
     */
 public class DashInfo 
 {
-	// Here we store the dash style
+    // Here we store the dash style
     public int style;
     
     /** Creator.
-    	@param i the style to be stored
+        @param i the style to be stored
     */
     public DashInfo(int i)
     { style=i; }
     
     /** Retrieve the style.
-    	@return the style.
+        @return the style.
     */
     public int getStyle()
     { return style; }

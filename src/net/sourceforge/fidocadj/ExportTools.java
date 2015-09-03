@@ -12,8 +12,8 @@ import net.sourceforge.fidocadj.globals.*;
 
 /** ExportTools.java 
 
-	Class performing interface operations for launching export operations.
-	It also reads and stores preferences.
+    Class performing interface operations for launching export operations.
+    It also reads and stores preferences.
 
 <pre>  
     This file is part of FidoCadJ.
@@ -48,15 +48,15 @@ public class ExportTools
     final private Preferences prefs;
     
     /** Standard constructor. 
-    	@param p the preferences object which will be used to save or
-    	retrieve the settings. If null, preferences will not be stored.
+        @param p the preferences object which will be used to save or
+        retrieve the settings. If null, preferences will not be stored.
     */
     public ExportTools(Preferences p)
     {
-    	exportFileName="";
-    	exportMagnification=1.0;
-    	prefs=p;
-    	exportBlackWhite=false;
+        exportFileName="";
+        exportMagnification=1.0;
+        prefs=p;
+        exportBlackWhite=false;
         exportFormat = "";
     }
     
@@ -64,36 +64,36 @@ public class ExportTools
     */
     public void readPrefs()
     {
-    	if(prefs!=null) {
-    		exportFormat = prefs.get("EXPORT_FORMAT", "png");
-			exportUnitPerPixel= Double.parseDouble(
-				prefs.get("EXPORT_UNITPERPIXEL", "1"));
-			exportMagnification = Double.parseDouble(
-				prefs.get("EXPORT_MAGNIFICATION", "1"));
-			exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
-		}
-	}
+        if(prefs!=null) {
+            exportFormat = prefs.get("EXPORT_FORMAT", "png");
+            exportUnitPerPixel= Double.parseDouble(
+                prefs.get("EXPORT_UNITPERPIXEL", "1"));
+            exportMagnification = Double.parseDouble(
+                prefs.get("EXPORT_MAGNIFICATION", "1"));
+            exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
+        }
+    }
     
     /** Show a dialog for exporting the current drawing.
-    	@param fff the parent frame which will be used for dialogs and message
-    		boxes.
-    	@param CC the CircuitPanel containing the drawing to be exported.
-    	@param openFileDirectory the directory where to search if no file
-    		name has been already defined for the export (for example, because
-    		it is the first time an export is done).
+        @param fff the parent frame which will be used for dialogs and message
+            boxes.
+        @param CC the CircuitPanel containing the drawing to be exported.
+        @param openFileDirectory the directory where to search if no file
+            name has been already defined for the export (for example, because
+            it is the first time an export is done).
     */
     public void launchExport(JFrame fff, CircuitPanel CC, 
-    	String openFileDirectory)
+        String openFileDirectory)
     {                 
-    	// At first, we create and configure the dialog allowing the user
-    	// to choose the exporting options
-    	DialogExport export=new DialogExport(fff);
+        // At first, we create and configure the dialog allowing the user
+        // to choose the exporting options
+        DialogExport export=new DialogExport(fff);
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
         // The default export directory is the same where the FidoCadJ file
         // are opened.
         if("".equals(exportFileName)) {
-        	exportFileName=openFileDirectory;
+            exportFileName=openFileDirectory;
         }
         export.setFileName(exportFileName);
         export.setUnitPerPixel(exportUnitPerPixel);
@@ -103,15 +103,15 @@ public class ExportTools
         // Once configured, we show the modal dialog
         export.setVisible(true);      
         if (export.shouldExport()) {
-	    	exportFileName=export.getFileName();
+            exportFileName=export.getFileName();
             exportFormat=export.getFormat();
             // The resolution based export should be used only for bitmap
             // file formats
             if("png".equals(exportFormat) ||
                "jpg".equals(exportFormat))
-            	exportUnitPerPixel=export.getUnitPerPixel();
+                exportUnitPerPixel=export.getUnitPerPixel();
             else
-            	exportUnitPerPixel = export.getMagnification();
+                exportUnitPerPixel = export.getMagnification();
             
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
@@ -119,11 +119,11 @@ public class ExportTools
             File f = new File(exportFileName);
             // We first check if the file is a directory
             if(f.isDirectory()) {
-           		JOptionPane.showMessageDialog(null, 
-           			Globals.messages.getString("Warning_noname"),
-           			Globals.messages.getString("Warning"), 
-           			JOptionPane.INFORMATION_MESSAGE );
-            	return;
+                JOptionPane.showMessageDialog(null, 
+                    Globals.messages.getString("Warning_noname"),
+                    Globals.messages.getString("Warning"), 
+                    JOptionPane.INFORMATION_MESSAGE );
+                return;
             }
             
             int selection;
@@ -131,54 +131,54 @@ public class ExportTools
             // We first check if the file name chosen by the user has a correct
             // file extension, coherent with the file format chosen.
             if(!Globals.checkExtension(exportFileName, exportFormat)) {
-               	selection = JOptionPane.showConfirmDialog(null, 
-                	Globals.messages.getString("Warning_extension"),
-                	Globals.messages.getString("Warning"),
-                	JOptionPane.YES_NO_OPTION, 
-                	JOptionPane.WARNING_MESSAGE);
+                selection = JOptionPane.showConfirmDialog(null, 
+                    Globals.messages.getString("Warning_extension"),
+                    Globals.messages.getString("Warning"),
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
-            	if(selection==JOptionPane.OK_OPTION) 
-                	exportFileName = Globals.adjustExtension(
-                		exportFileName, exportFormat);
-                	f = new File(exportFileName);
+                if(selection==JOptionPane.OK_OPTION) 
+                    exportFileName = Globals.adjustExtension(
+                        exportFileName, exportFormat);
+                    f = new File(exportFileName);
             }
 
             // If the file already exists, we asks for confirmation
             if(f.exists()) {
-               	selection = JOptionPane.showConfirmDialog(null, 
+                selection = JOptionPane.showConfirmDialog(null, 
                     Globals.messages.getString("Warning_overwrite"),
                     Globals.messages.getString("Warning"),
                     JOptionPane.OK_CANCEL_OPTION, 
                     JOptionPane.WARNING_MESSAGE);
                 if(selection!=JOptionPane.OK_OPTION)
-                   	return;
+                    return;
              }
-          	// We do the export
-           	RunExport doExport = new RunExport();
-			// Here we use the multithreaded structure of Java.
-			doExport.setParam(new File(exportFileName),  CC.P, 
-               	exportFormat, exportUnitPerPixel, 
-               	export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
-               	fff);
+            // We do the export
+            RunExport doExport = new RunExport();
+            // Here we use the multithreaded structure of Java.
+            doExport.setParam(new File(exportFileName),  CC.P, 
+                exportFormat, exportUnitPerPixel, 
+                export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                fff);
                
-           	SwingUtilities.invokeLater(doExport);
-           	
-           	if(prefs!=null) {
-           		prefs.put("EXPORT_FORMAT", exportFormat);
-            	prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
-            	prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
-            	prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
+            SwingUtilities.invokeLater(doExport);
+            
+            if(prefs!=null) {
+                prefs.put("EXPORT_FORMAT", exportFormat);
+                prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+                prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+                prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
             }
-           	/*
-           		The following code would require a thread safe implementation
-           		of some of the inner classes (such as CircuitModel), which is 
-           		indeed not the case...
-           		
-           	Thread thread = new Thread(doExport);
-			thread.setDaemon(true);
-			// Start the thread
-			thread.start();
-			*/
+            /*
+                The following code would require a thread safe implementation
+                of some of the inner classes (such as CircuitModel), which is 
+                indeed not the case...
+                
+            Thread thread = new Thread(doExport);
+            thread.setDaemon(true);
+            // Start the thread
+            thread.start();
+            */
          }
     }
 }

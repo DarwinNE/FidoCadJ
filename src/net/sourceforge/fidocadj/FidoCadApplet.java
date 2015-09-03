@@ -42,15 +42,15 @@ This is the main file for the FidoCadJ reader applet.
 
 public class FidoCadApplet extends JApplet implements ActionListener
 {
-	// Increment this version number each time an important modification of
-	// this class has been done.
-	private static final long serialVersionUID = 10L;
-	
-	private FidoFrame popFrame;
+    // Increment this version number each time an important modification of
+    // this class has been done.
+    private static final long serialVersionUID = 10L;
+    
+    private FidoFrame popFrame;
 
-	
-	public void init()
-	{
+    
+    public void init()
+    {
         // Here we create the main window object
         Button fidoButton = new Button("Launch FidoCadJapplet");
         fidoButton.addActionListener(this);
@@ -71,17 +71,17 @@ public class FidoCadApplet extends JApplet implements ActionListener
         try {
             // Try to load the program with the current locale
             Globals.messages = new 
-            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
+                AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
                popFrame.currentLocale));                             
             
         } catch(MissingResourceException mre) {
             try {
                 // If it does not work, try to use the standard English
                 Globals.messages = new 
-            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
+                AccessResources (ResourceBundle.getBundle("MessagesBundle",
                     new Locale("en", "US")));
                 System.out.println("No locale available, sorry... "+
-                	"interface will be in English");
+                    "interface will be in English");
             } catch(MissingResourceException mre1) {
                 // Give up!!!
                 JOptionPane.showMessageDialog(null,
@@ -113,15 +113,15 @@ public class FidoCadApplet extends JApplet implements ActionListener
         
         popFrame.init();
     }
-	
+    
 
-	public void actionPerformed(ActionEvent evt)
-	{
-		if(popFrame.isVisible()) 	
-			popFrame.setVisible(false);
-		else
-			popFrame.setVisible(true);
-		
-	}
-	
+    public void actionPerformed(ActionEvent evt)
+    {
+        if(popFrame.isVisible())    
+            popFrame.setVisible(false);
+        else
+            popFrame.setVisible(true);
+        
+    }
+    
 }

@@ -18,8 +18,8 @@ import net.sourceforge.fidocadj.layers.*;
 
 /** PrintTools.java 
 
-	Class performing interface operations for launching print operations.
-	It also reads and stores preferences.
+    Class performing interface operations for launching print operations.
+    It also reads and stores preferences.
 
 <pre>  
     This file is part of FidoCadJ.
@@ -56,20 +56,20 @@ public class PrintTools implements Printable
     */
     public PrintTools()
     {
-    	// some standard configurations
+        // some standard configurations
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;  
     }
 
     /** Show a dialog for printing the current drawing.
-    	@param fff the parent frame which will be used for dialogs and message
-    		boxes.
-    	@param CCr the CircuitPanel containing the drawing to be exported.
-	*/  
+        @param fff the parent frame which will be used for dialogs and message
+            boxes.
+        @param CCr the CircuitPanel containing the drawing to be exported.
+    */  
     public void printDrawing(JFrame fff, CircuitPanel CCr)
     {
-    	CC=CCr;
+        CC=CCr;
         DialogPrint dp=new DialogPrint(fff);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
@@ -104,7 +104,7 @@ public class PrintTools implements Printable
             if (ok) {
                 try {
                     PrintRequestAttributeSet aset = new 
-                    	HashPrintRequestAttributeSet();
+                        HashPrintRequestAttributeSet();
                     // Set the correct printing orientation.
                     if (printLandscape) {
                         aset.add(OrientationRequested.LANDSCAPE);
@@ -118,7 +118,7 @@ public class PrintTools implements Printable
                         Globals.messages.getString("Print_uncomplete"));
                 }
             }
-        	CC.P.setLayers(ol);   
+            CC.P.setLayers(ol);   
         }
     }
     
@@ -130,13 +130,13 @@ public class PrintTools implements Printable
         int npages = 0;
         
         // This might be explained as follows: 
-		// 1 - The Java printing system normally works with an internal 
-		// resolution which is 72 dpi (probably inspired by Postscript).
-		// 2 - To have a sufficient resolution, this is increased by 16 times,
-		// by using the scale method of the graphic object associated to the 
-		// printer. This gives a 72 dpi * 16=1152 dpi resolution.
-		// 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi 
-		// resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
+        // 1 - The Java printing system normally works with an internal 
+        // resolution which is 72 dpi (probably inspired by Postscript).
+        // 2 - To have a sufficient resolution, this is increased by 16 times,
+        // by using the scale method of the graphic object associated to the 
+        // printer. This gives a 72 dpi * 16=1152 dpi resolution.
+        // 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi 
+        // resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
 
         double xscale = 1.0/16; // Set 1152 logical units for an inch
         double yscale = 1.0/16; // as the standard resolution is 72
@@ -159,11 +159,11 @@ public class PrintTools implements Printable
        
         int printerWidth = (int)pf.getImageableWidth()*16;
 
-		// Perform an adjustement if we need to fit the drawing to the page.
+        // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {   
-        	MapCoordinates zoomm = DrawingSize.calculateZoomToFit(CC.P, 
-                (int)pf.getImageableWidth()*16, (int)pf.getImageableHeight()*16, 
-                    false);
+            MapCoordinates zoomm = DrawingSize.calculateZoomToFit(CC.P, 
+                (int)pf.getImageableWidth()*16,(int)pf.getImageableHeight()*16, 
+                false);
             zoom=zoomm.getXMagnitude();
         }
          

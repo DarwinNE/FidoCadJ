@@ -6,7 +6,7 @@ import java.awt.datatransfer.*;
 
 /** DragDropTools.java 
 
-	Class handling the drag & drop operations.
+    Class handling the drag & drop operations.
 
 <pre>  
     This file is part of FidoCadJ.
@@ -32,56 +32,56 @@ import java.awt.datatransfer.*;
 
 public class DragDropTools implements DropTargetListener
 {
-	FidoFrame fff;
-	
-	public DragDropTools(FidoFrame f)
-	{
-		fff=f;
-	}
-	
+    FidoFrame fff;
+    
+    public DragDropTools(FidoFrame f)
+    {
+        fff=f;
+    }
+    
     /**  This implementation of the DropTargetListener interface is heavily 
         inspired on the example given here:
         http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
     */
     public void dragEnter(DropTargetDragEvent dtde) 
     {
-    	// does nothing
+        // does nothing
     }
 
     public void dragExit(DropTargetEvent dte) 
     {
-    	// does nothing
+        // does nothing
     }
 
     public void dragOver(DropTargetDragEvent dtde) 
     {
-    	// does nothing
+        // does nothing
     }
 
     public void dropActionChanged(DropTargetDragEvent dtde) 
     {
-    	// does nothing
+        // does nothing
     }
 
-	/** This routine is called when a drag and drop of an useful file is done
-		on an open instance of FidoCadJ. The difficulty is that depending on
-		the operating system flavor, the files are handled differently. 
-		For that reason, we check a few things and we need to differentiate
-		several cases.
-	*/
+    /** This routine is called when a drag and drop of an useful file is done
+        on an open instance of FidoCadJ. The difficulty is that depending on
+        the operating system flavor, the files are handled differently. 
+        For that reason, we check a few things and we need to differentiate
+        several cases.
+    */
     public void drop(DropTargetDropEvent dtde) 
     {
         try {
             Transferable tr = dtde.getTransferable();
             DataFlavor[] flavors = tr.getTransferDataFlavors();
             if (flavors==null)
-            	return;
-            	
+                return;
+                
             for (int i = 0; i < flavors.length; ++i) {
-            	// try to avoid problematic situations
-            	if(flavors[i]==null)
-            		return;
-            	// check the correct type of the drop flavor
+                // try to avoid problematic situations
+                if(flavors[i]==null)
+                    return;
+                // check the correct type of the drop flavor
                 if (flavors[i].isFlavorJavaFileListType()) {
                     // Great!  Accept copy drops...
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
@@ -100,7 +100,7 @@ public class DragDropTools implements DropTargetListener
                     
                     // Only the first file of the list will be opened
                     popFrame.CC.getParserActions().openFileName=
-                    	((File)(list.get(0))).getAbsolutePath();
+                        ((File)(list.get(0))).getAbsolutePath();
                     popFrame.getFileTools().openFile();
                     // If we made it this far, everything worked.
                     dtde.dropComplete(true);
@@ -131,11 +131,11 @@ public class DragDropTools implements DropTargetListener
                 // the file name, with a few substitutions.
                 
                 else if (flavors[i].isRepresentationClassInputStream()) {
-             		// Everything seems to be ok here, so we proceed handling
-             		// the file
-             		dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-             		InputStreamReader reader=new InputStreamReader(
-             			(InputStream)tr.getTransferData(flavors[i]));
+                    // Everything seems to be ok here, so we proceed handling
+                    // the file
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+                    InputStreamReader reader=new InputStreamReader(
+                        (InputStream)tr.getTransferData(flavors[i]));
                     BufferedReader in=new BufferedReader(reader);
 
                     String line="";
@@ -143,7 +143,7 @@ public class DragDropTools implements DropTargetListener
                     while (line != null){
                         line = in.readLine();
                         if (line!=null &&
-                        	(k=line.toString().indexOf("file://"))>=0) {
+                            (k=line.toString().indexOf("file://"))>=0) {
                             FidoFrame popFrame;
                             
                             if(fff.CC.getUndoActions().getModified()) {

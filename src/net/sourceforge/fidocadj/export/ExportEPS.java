@@ -472,8 +472,6 @@ public class ExportEPS implements ExportInterface {
 		// The macro will be expanded into primitives.
 		return false; 
 	}
-	
-	
 
 	/** Called when exporting an Oval primitive. Specify the bounding box.
 			
@@ -486,8 +484,6 @@ public class ExportEPS implements ExportInterface {
 		@param layer the layer that should be used
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
-
-
 	*/	
 	public void exportOval(int x1, int y1, int x2, int y2,
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -534,11 +530,9 @@ public class ExportEPS implements ExportInterface {
 		out.write(""+x1+" "+y1+" moveto "+
 			x2+" "+y2+" lineto stroke\n");
 		
-	}
-		
+	}	
 	
 	/** Called when exporting a PCBPad primitive.
-	
 		@param x the x position of the pad 
 		@param y the y position of the pad
 		@param style the style of the pad (0: oval, 1: square, 2: rounded 
@@ -614,8 +608,6 @@ public class ExportEPS implements ExportInterface {
 		@param dashStyle dashing style
 		@param strokeWidth the width of the pen to be used when drawing
 
-
-	
 	*/
 	public void exportPolygon(PointDouble[] vertices, int nVertices, 
 		boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -697,9 +689,6 @@ public class ExportEPS implements ExportInterface {
 	
 		checkColorAndWidth(c, strokeWidth);
 		registerDash(dashStyle);
-
-		
-		
 		out.write("newpath\n");
 		out.write(""+roundTo(x1,PREC)+" "+roundTo(y1,PREC)+" moveto\n");
 		out.write(""+roundTo(x2,PREC)+" "+roundTo(y1,PREC)+" lineto\n");
@@ -711,8 +700,6 @@ public class ExportEPS implements ExportInterface {
 		} else {
 			out.write("stroke\n");	
 		}
-
-
 	}
 	
 	private String roundTo(double n, int ch)
@@ -777,5 +764,4 @@ public class ExportEPS implements ExportInterface {
 
 		}
 	}
-
 }

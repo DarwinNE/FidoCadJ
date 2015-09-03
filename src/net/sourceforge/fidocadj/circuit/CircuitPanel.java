@@ -88,8 +88,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public static final int MARGIN=20;     
                                     
     // Color of elements during editing
-    static final ColorSwing editingColor=new ColorSwing(Color.green);                                
-
+    static final ColorSwing editingColor=new ColorSwing(Color.green);
+    
     // Font to be used to draw the ruler
     private static final String rulerFont = "Lucida Sans Regular";
     
@@ -258,7 +258,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     */
     private JPopupMenu definePopupMenu()
     {
-    	JPopupMenu pp = new JPopupMenu();
+        JPopupMenu pp = new JPopupMenu();
         editProperties = new 
             JMenuItem(Globals.messages.getString("Param_opt"));
 
@@ -273,11 +273,11 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
         editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
         editUSymbolize = 
-        	new JMenuItem(Globals.messages.getString("Unsymbolize")); 
+            new JMenuItem(Globals.messages.getString("Unsymbolize")); 
             
         editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
         editRemoveNode =
-        	new JMenuItem(Globals.messages.getString("Remove_node"));
+            new JMenuItem(Globals.messages.getString("Remove_node"));
         
         pp.add(editProperties);
         pp.addSeparator();
@@ -315,9 +315,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         editRemoveNode.addActionListener(this);
             
         editSymbolize.addActionListener(this); // phylum
-    	editUSymbolize.addActionListener(this); // phylum
-    	
-    	return pp;
+        editUSymbolize.addActionListener(this); // phylum
+        
+        return pp;
     }
     
     /** Register an action involving the editing
@@ -639,8 +639,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         z=Math.round(z*100.0)/100.0;
         
         if (Math.abs(oldz-z)<1e-5)
-        	return;
-        	
+            return;
+            
         cs.setMagnitudes(z,z);
 
         // A little strong...
@@ -669,24 +669,24 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
         
     /** Calculate the size of the image and update the size of the 
-    	scroll bars, with the current zoom.
+        scroll bars, with the current zoom.
     
     */
     public void updateSizeOfScrollBars(Rectangle r)
     {
-    	PointG origin=new PointG();
+        PointG origin=new PointG();
         DimensionG d=DrawingSize.getImageSize(P, cs.getXMagnitude(), 
-        		false, origin);
-        	
+                false, origin);
+            
         int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
         int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
             
         Dimension dd=new Dimension(Math.max(d.width
                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
-        	
+            
         setPreferredSize(dd);
         if(r!=null)
-        	scrollRectangle = r;
+            scrollRectangle = r;
 
         revalidate();
         repaint();
@@ -1096,7 +1096,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         g.setColor(Color.black);
         
         // Perform the drawing operation.
-       	drawingAgent.draw(graphicSwing, cs);
+        drawingAgent.draw(graphicSwing, cs);
         
        
         if (zoomListener!=null) 
@@ -1142,12 +1142,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
             //System.out.println("width1,2: "+dd.width+", "+nn.width);
                
             if(dd.width!=nn.width || dd.height!=nn.height) {
-            	setPreferredSize(dd);
-            	revalidate();
+                setPreferredSize(dd);
+                revalidate();
             }
         } 
              
-    	if(scrollRectangle!=null) {
+        if(scrollRectangle!=null) {
             Rectangle r=scrollRectangle;
             scrollRectangle = null;
             scrollRectToVisible(r);
@@ -1182,17 +1182,17 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void validate()
     {
     
-    	int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
+        int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
         int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
             
         Dimension dd=new Dimension(Math.max(cs.getXMax()
            +MARGIN, minx),Math.max(cs.getYMax()+MARGIN, miny));
         Dimension nn=getPreferredSize();
                            
-    	if(dd.width!=nn.width || dd.height!=nn.height) {
-          	setPreferredSize(dd);
+        if(dd.width!=nn.width || dd.height!=nn.height) {
+            setPreferredSize(dd);
         }
-    	
+        
         super.validate();
     }
  

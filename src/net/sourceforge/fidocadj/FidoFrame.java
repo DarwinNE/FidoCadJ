@@ -84,14 +84,14 @@ public class FidoFrame extends JFrame implements
     // Macro library model
     private LibraryModel libraryModel;
  
- 	// Objects which regroup a certain number of actions somewhat related
- 	// to the FidoFrame object in different domains.
-	final private ExportTools et;
-	final private PrintTools pt;
-	final private MenuTools mt;
-	final private DragDropTools dt;
-	final private FileTools ft;
-	
+    // Objects which regroup a certain number of actions somewhat related
+    // to the FidoFrame object in different domains.
+    final private ExportTools et;
+    final private PrintTools pt;
+    final private MenuTools mt;
+    final private DragDropTools dt;
+    final private FileTools ft;
+    
     // Libraries properties
     public String libDirectory;
     public Preferences prefs;
@@ -99,7 +99,7 @@ public class FidoFrame extends JFrame implements
     // Toolbar properties
     // The toolbar dedicated to the available tools (the first one under 
     // thewindow title).
-	private ToolbarTools toolBar;
+    private ToolbarTools toolBar;
     
     // Text description under icons
     private boolean textToolbar;
@@ -123,55 +123,55 @@ public class FidoFrame extends JFrame implements
         set the configuration variables available for FidoFrame.
         
         @param appl should be true if FidoCadJ is run as a standalone 
-        	application or false if it is run as an applet. In this case, some
-        	local settings are not accessed because they would raise an
-        	exception.
+            application or false if it is run as an applet. In this case, some
+            local settings are not accessed because they would raise an
+            exception.
         @param loc the locale which should be used. If it is null, the current
-        	locale is automatically determined and FidoCadJ will try to use
-        	it for its user interface.
+            locale is automatically determined and FidoCadJ will try to use
+            it for its user interface.
     */
     public FidoFrame (boolean appl, Locale loc)
     {
         super("FidoCadJ "+Globals.version);
-		runsAsApplication = appl;
-		
-		currentLocale = registerLocale(loc);
-		
+        runsAsApplication = appl;
+        
+        currentLocale = registerLocale(loc);
+        
         // Those lines allow a better Cocoa-like integration
         // under Leopard. Is it overridden by the use of the Quaqua L&F?
         // No! It is actually needed to make all the window movable when 
         // clicking in the toolbar.
         
-        getRootPane().putClientProperty("apple.awt.brushMetalLook", 	
-        	Boolean.TRUE);
+        getRootPane().putClientProperty("apple.awt.brushMetalLook",     
+            Boolean.TRUE);
 
-		prepareLanguageResources();
-		Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
-			InputEvent.CTRL_MASK);
-		
+        prepareLanguageResources();
+        Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
+            InputEvent.CTRL_MASK);
+        
         DialogUtil.center(this, .75,.75,800,500);
         setDefaultCloseOperation(
             javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
 
-		// We need to keep track of the number of open windows. If the last
-		// one is closed, we exit from the program.
-		
+        // We need to keep track of the number of open windows. If the last
+        // one is closed, we exit from the program.
+        
         ++Globals.openWindowsNumber;
         Globals.openWindows.add(this);
 
         setIconForApplication();
                 
         if (runsAsApplication) {
-        	// Prepare the preferences associated to the FidoMain class
-        	FidoMain fm=new FidoMain();
+            // Prepare the preferences associated to the FidoMain class
+            FidoMain fm=new FidoMain();
             prefs = Preferences.userNodeForPackage(fm.getClass());
         } else {
-        	// If we can not access to the preferences, we inizialize those
-        	// configuration variables with default values.
-        	libDirectory = System.getProperty("user.home");
-        	smallIconsToolbar = true;
-        	textToolbar = true;
-        	prefs=null;
+            // If we can not access to the preferences, we inizialize those
+            // configuration variables with default values.
+            libDirectory = System.getProperty("user.home");
+            smallIconsToolbar = true;
+            textToolbar = true;
+            prefs=null;
         }
         et = new ExportTools(prefs);
         pt = new PrintTools();
@@ -179,30 +179,30 @@ public class FidoFrame extends JFrame implements
         dt = new DragDropTools(this);
         ft = new FileTools(this, prefs);
         
-       	readPreferences();
+        readPreferences();
     }
     
     /** Obtain the language resources associated to the current locale.
-    	If the current locale is available, then load the appropriate 
-    	LanguageResources file. If the current locale is not found, the
-    	en-US language resources file is employed, thus showing an interface
-    	in American English.
+        If the current locale is available, then load the appropriate 
+        LanguageResources file. If the current locale is not found, the
+        en-US language resources file is employed, thus showing an interface
+        in American English.
     */
     private void prepareLanguageResources()
     {
         try {
             // Try to load the messages resources with the current locale
             Globals.messages = new 
-            	AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
+                AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
                currentLocale));                             
         } catch(MissingResourceException mre) {
             try {
                 // If it does not work, try to use the standard English
                 Globals.messages = new 
-            	AccessResources (ResourceBundle.getBundle("MessagesBundle",
+                AccessResources (ResourceBundle.getBundle("MessagesBundle",
                     new Locale("en", "US")));
                 System.out.println("No locale available, sorry... "+
-                	"interface will be in English");
+                    "interface will be in English");
             } catch(MissingResourceException mre1) {
                 // Give up!!!
                 JOptionPane.showMessageDialog(null,
@@ -216,84 +216,84 @@ public class FidoFrame extends JFrame implements
     */
     private void setIconForApplication()
     {
-		URL url=DialogAbout.class.getResource(
+        URL url=DialogAbout.class.getResource(
            "icona_fidocadj_128x128.png");
         
         if (url == null) {
-        	System.err.println("Could not retrieve the FidoCadJ icon!");
+            System.err.println("Could not retrieve the FidoCadJ icon!");
         } else {
-        	Image icon = Toolkit.getDefaultToolkit().getImage(url);
+            Image icon = Toolkit.getDefaultToolkit().getImage(url);
             setIconImage(icon);
         }
     }
     
     /** Check if a locale has been specified. If not, get the operating
-    	system's locale and employ this as the current locale.
-    	@param loc the desired locale, or null if the system one has to be
-    		employed.
+        system's locale and employ this as the current locale.
+        @param loc the desired locale, or null if the system one has to be
+            employed.
     */
     private Locale registerLocale(Locale loc)
     {
-    	String systemLanguage = Locale.getDefault().getLanguage();
-    	Locale newLocale;
-		
-		if(loc==null) {
-			// Make sort that only the language is used for the current 
-        	newLocale = new Locale(systemLanguage);
+        String systemLanguage = Locale.getDefault().getLanguage();
+        Locale newLocale;
+        
+        if(loc==null) {
+            // Make sort that only the language is used for the current 
+            newLocale = new Locale(systemLanguage);
         } else {
-        	newLocale = loc;
-        	System.out.println("Forced the locale to be: " +loc+ 
-        		" instead of: "+systemLanguage);
-		}
-		
-		return newLocale;
-	}    
+            newLocale = loc;
+            System.out.println("Forced the locale to be: " +loc+ 
+                " instead of: "+systemLanguage);
+        }
+        
+        return newLocale;
+    }    
     
     /** Get the locale employed by this instance.
-   		@return the current locale.
-   	*/
-   	public Locale getLocale()
-   	{
-   		return currentLocale;
-   	}
+        @return the current locale.
+    */
+    public Locale getLocale()
+    {
+        return currentLocale;
+    }
     
     /** Get the ExportTools object (containing the code related to interface
-    	for exporting files).
-    	@return the ExportTools object.
+        for exporting files).
+        @return the ExportTools object.
     */
-	public ExportTools getExportTools()
-	{
-		return et;
-	}
-	
-	/** Get the PrintTools object (containing the code related to interface
-    	for printing drawings).
-    	@return the PrintTools object.
+    public ExportTools getExportTools()
+    {
+        return et;
+    }
+    
+    /** Get the PrintTools object (containing the code related to interface
+        for printing drawings).
+        @return the PrintTools object.
     */
-	public PrintTools getPrintTools()
-	{
-		return pt;
-	}
-	
-	/** Get the FileTools object (containing the code related to interface
-    	for loading and saving drawings).
-    	@return the FileTools object.
+    public PrintTools getPrintTools()
+    {
+        return pt;
+    }
+    
+    /** Get the FileTools object (containing the code related to interface
+        for loading and saving drawings).
+        @return the FileTools object.
     */
-	public FileTools getFileTools()
-	{
-		return ft;
-	}
+    public FileTools getFileTools()
+    {
+        return ft;
+    }
     
     /** Read the preferences settings (mainly at startup or when a new 
-    	editing window is created.
-    	If no preferences settings are accessible, does nothing.
+        editing window is created.
+        If no preferences settings are accessible, does nothing.
     */
     public final void readPreferences()
     {
-    	if(prefs==null)
-    		return;
-		// The library directory
-       	libDirectory = prefs.get("DIR_LIBS", "");
+        if(prefs==null)
+            return;
+        // The library directory
+        libDirectory = prefs.get("DIR_LIBS", "");
         
         // The icon size
         String defaultSize="";
@@ -303,70 +303,70 @@ public class FidoFrame extends JFrame implements
         // density is greater than 150 dpi, bigger icons are used by at the
         // very first time FidoCadJ is run.
         if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
-        	defaultSize="false";
+            defaultSize="false";
         } else {
-        	defaultSize="true";
+            defaultSize="true";
         }
         
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR", 
-            	defaultSize).equals("true");
+                defaultSize).equals("true");
         // Presence of the text description in the toolbar
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
     
         // Export preferences
         et.readPrefs();
-		
-		// Element sizes
-       	Globals.lineWidth=Double.parseDouble(
-       	 		prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
-		Globals.lineWidthCircles=Double.parseDouble(
-				prefs.get("STROKE_SIZE_OVAL", "0.35"));		
-		Globals.diameterConnection=Double.parseDouble(
-				prefs.get("CONNECTION_SIZE", "2.0"));	
+        
+        // Element sizes
+        Globals.lineWidth=Double.parseDouble(
+                prefs.get("STROKE_SIZE_STRAIGHT", "0.5"));
+        Globals.lineWidthCircles=Double.parseDouble(
+                prefs.get("STROKE_SIZE_OVAL", "0.35"));     
+        Globals.diameterConnection=Double.parseDouble(
+                prefs.get("CONNECTION_SIZE", "2.0"));   
 
     }
 
-	/* Load the saved configuration for the grid.
+    /* Load the saved configuration for the grid.
     */
-	public void readGridSettings()
-	{
-		CC.getMapCoordinates().setXGridStep(Integer.parseInt(
-			prefs.get("GRID_SIZE", "5"))); 
+    public void readGridSettings()
+    {
+        CC.getMapCoordinates().setXGridStep(Integer.parseInt(
+            prefs.get("GRID_SIZE", "5"))); 
         CC.getMapCoordinates().setYGridStep(Integer.parseInt(
-        	prefs.get("GRID_SIZE", "5"))); 
-	}
+            prefs.get("GRID_SIZE", "5"))); 
+    }
     
     /* Load the saved configuration for the drawing primitives.
     */
-	public void readDrawingSettings()
-	{
-		CopyPasteActions cpa = CC.getCopyPasteActions();
-		
- 		// Shift elements when copy/pasting them
+    public void readDrawingSettings()
+    {
+        CopyPasteActions cpa = CC.getCopyPasteActions();
+        
+        // Shift elements when copy/pasting them
         cpa.setShiftCopyPaste(prefs.get("SHIFT_CP", 
-        		"true").equals("true"));
-		
-		AddElements ae = CC.getContinuosMoveActions().getAddElements();
-		
-		// Default PCB sizes (pad/line)
- 		ae.PCB_pad_sizex = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
- 		ae.PCB_pad_sizey = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
- 		ae.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
- 		ae.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
- 		ae.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));	
+                "true").equals("true"));
+        
+        AddElements ae = CC.getContinuosMoveActions().getAddElements();
+        
+        // Default PCB sizes (pad/line)
+        ae.PCB_pad_sizex = Integer.parseInt(prefs.get("PCB_pad_sizex", "10"));
+        ae.PCB_pad_sizey = Integer.parseInt(prefs.get("PCB_pad_sizey", "10"));
+        ae.PCB_pad_style = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
+        ae.PCB_pad_drill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
+        ae.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));   
     }
     
     /* Load the standard libraries according to the locale.
     */
     public void loadLibraries()
     {
-    	// Check if we are using the english libraries. Basically, since the 
+        // Check if we are using the english libraries. Basically, since the 
         // only other language available other than english is italian, I
         // suppose that people are less uncomfortable with the current Internet
         // standard...
         
         boolean englishLibraries = !currentLocale.getLanguage().equals(new 
-        	Locale("it", "", "").getLanguage());
+            Locale("it", "", "").getLanguage());
         
         // This is useful if this is not the first time that libraries are 
         // being loaded.
@@ -374,54 +374,54 @@ public class FidoFrame extends JFrame implements
         ParserActions pa=CC.getParserActions();
         
         if(runsAsApplication) {
-    		FidoMain.readLibrariesProbeDirectory(CC.P, 
-    			englishLibraries, libDirectory);
+            FidoMain.readLibrariesProbeDirectory(CC.P, 
+                englishLibraries, libDirectory);
         } else {
-        	// This code is useful when FidoCadJ is used whithout having access
-        	// to the user file system, for example because it is run as an
-        	// applet. In this case, the only accesses will be internal to
-        	// the jar file in order to respect security restrictions.
-        	if(englishLibraries) {
-        		// Read the english version of the libraries
-        	    pa.loadLibraryInJar(FidoFrame.class.getResource(
-        	    	"lib/IHRAM_en.FCL"), "ihram");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/FCDstdlib_en.fcl"), "");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/PCB_en.fcl"), "pcb");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/elettrotecnica_en.fcl"), "elettrotecnica");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/EY_Libraries.fcl"), "EY_Libraries");
-        	} else {
-        		// Read the italian version of the libraries
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/IHRAM.FCL"), "ihram");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/FCDstdlib.fcl"), "");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/PCB.fcl"), "pcb");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/elettrotecnica.fcl"), "elettrotecnica");
-            	pa.loadLibraryInJar(FidoFrame.class.getResource(
-            		"lib/EY_Libraries.fcl"), "EY_Libraries");
-      		}
- 		}
- 		libraryModel.forceUpdate();
- 	}
+            // This code is useful when FidoCadJ is used whithout having access
+            // to the user file system, for example because it is run as an
+            // applet. In this case, the only accesses will be internal to
+            // the jar file in order to respect security restrictions.
+            if(englishLibraries) {
+                // Read the english version of the libraries
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/IHRAM_en.FCL"), "ihram");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/FCDstdlib_en.fcl"), "");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/PCB_en.fcl"), "pcb");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/elettrotecnica_en.fcl"), "elettrotecnica");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/EY_Libraries.fcl"), "EY_Libraries");
+            } else {
+                // Read the italian version of the libraries
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/IHRAM.FCL"), "ihram");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/FCDstdlib.fcl"), "");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/PCB.fcl"), "pcb");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/elettrotecnica.fcl"), "elettrotecnica");
+                pa.loadLibraryInJar(FidoFrame.class.getResource(
+                    "lib/EY_Libraries.fcl"), "EY_Libraries");
+            }
+        }
+        libraryModel.forceUpdate();
+    }
     
     /** Perform some initialization tasks: in particular, it reads the library
-    	directory and it creates the user interface.
+        directory and it creates the user interface.
     */
     public void init()
     {
 
-    	// The second toolbar dedicated to the zoom factors and other niceties 
-    	// (the
-    	// second one under the window title).
-    	ToolbarZoom toolZoom;
+        // The second toolbar dedicated to the zoom factors and other niceties 
+        // (the
+        // second one under the window title).
+        ToolbarZoom toolZoom;
 
-        Container contentPane=getContentPane();		
+        Container contentPane=getContentPane();     
         CC=new CircuitPanel(true);
         CC.getParserActions().openFileName = "";
         
@@ -432,13 +432,13 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-        	CC.setStrictCompatibility(prefs.get("FCJ_EXT_STRICT", 
-        		"false").equals("true"));
-        	CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
-        		Integer.parseInt(prefs.get("MACRO_SIZE", "3")), 
-        		CC.getUndoActions());
-        	readGridSettings();
-        	readDrawingSettings();
+            CC.setStrictCompatibility(prefs.get("FCJ_EXT_STRICT", 
+                "false").equals("true"));
+            CC.P.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont), 
+                Integer.parseInt(prefs.get("MACRO_SIZE", "3")), 
+                CC.getUndoActions());
+            readGridSettings();
+            readDrawingSettings();
         }
         
         // Here we set the approximate size of the control at startup. This is 
@@ -450,13 +450,13 @@ public class FidoFrame extends JFrame implements
         CC.father=SC;
         
         SC.setHorizontalScrollBarPolicy(
-        	JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         SC.setVerticalScrollBarPolicy(
-        	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        	
-		// I planned to add rulers at the borders of the scroll panel.
-		// Unfortunately, they does not seem to work as expected and this 
-		// feature will be implemented when possible.
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            
+        // I planned to add rulers at the borders of the scroll panel.
+        // Unfortunately, they does not seem to work as expected and this 
+        // feature will be implemented when possible.
         /*RulerPanel vertRuler = new RulerPanel(
             SwingConstants.VERTICAL, 20, 20, 5,
             CC.getMapCoordinates());
@@ -468,10 +468,10 @@ public class FidoFrame extends JFrame implements
         SC.setRowHeaderView(vertRuler);
         SC.setColumnHeaderView(horRuler);*/
         if (runsAsApplication) {
-        	sgr = new ScrollGestureRecognizer();
-        	CC.addScrollGestureSelectionListener(sgr);
-        	sgr.getInstance();
-		}
+            sgr = new ScrollGestureRecognizer();
+            CC.addScrollGestureSelectionListener(sgr);
+            sgr.getInstance();
+        }
         
         SC.getVerticalScrollBar().setUnitIncrement(20);
         SC.getHorizontalScrollBar().setUnitIncrement(20);
@@ -483,7 +483,7 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
         // I followed merely the FidoCad tradition.
-		Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
+        Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
         CC.P.setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
@@ -513,11 +513,11 @@ public class FidoFrame extends JFrame implements
 
         b.add(toolZoom);
         
- 		toolZoom.setFloatable(false);
+        toolZoom.setFloatable(false);
         toolZoom.setRollover(false);
-		
-		JMenuBar menuBar=mt.defineMenuBar(this);
-		setJMenuBar(menuBar);
+        
+        JMenuBar menuBar=mt.defineMenuBar(this);
+        setJMenuBar(menuBar);
 
         // The initial state is the selection one.
         
@@ -525,9 +525,9 @@ public class FidoFrame extends JFrame implements
 
         contentPane.add(b,"North");
 
-    	// Macro picker component
-    	MacroTree macroLib;
-		
+        // Macro picker component
+        MacroTree macroLib;
+        
         libraryModel = new LibraryModel(CC.P);
         LayerModel layerModel = new LayerModel(CC.P);
         macroLib = new MacroTree(libraryModel,layerModel);
@@ -536,15 +536,15 @@ public class FidoFrame extends JFrame implements
         libraryModel.setUndoActorListener(CC.getUndoActions());
         libraryModel.addLibraryListener(new CircuitPanelUpdater(this));
         CC.getUndoActions().setLibraryUndoListener(
-        	                       new LibraryUndoExecutor(this,libraryModel));
+                                   new LibraryUndoExecutor(this,libraryModel));
         
-		try {
-			LibUtils.saveLibraryState(CC.getUndoActions());
-		} catch (IOException e) {
-			System.out.println("Exception: "+e);
-		
-		}
-		
+        try {
+            LibUtils.saveLibraryState(CC.getUndoActions());
+        } catch (IOException e) {
+            System.out.println("Exception: "+e);
+        
+        }
+        
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         
         // Useful for Quaqua with MacOSX.
@@ -579,11 +579,11 @@ public class FidoFrame extends JFrame implements
                 public void windowClosing(WindowEvent e)
                 {
                     if(!ft.checkIfToBeSaved()) {
-                    	return;
+                        return;
                     }
                     
                     setVisible(false);
-					CC.getUndoActions().doTheDishes();
+                    CC.getUndoActions().doTheDishes();
                     dispose();
                     Globals.openWindows.remove(FidoFrame.this);
 
@@ -601,54 +601,55 @@ public class FidoFrame extends JFrame implements
                 
         // This is WAY too invasive!!!
         
-        //getRootPane().putClientProperty("apple.awt.draggableWindowBackground", 	
-        //	Boolean.TRUE);
+        //getRootPane().putClientProperty("apple.awt.draggableWindowBackground"
+        // ,    
+        //  Boolean.TRUE);
 
         CC.getUndoActions().setModified(false);
     }
 
     /** The action listener. Recognize menu events and behaves consequently.
-    	@param evt the event to be processed.
+        @param evt the event to be processed.
     */
     public void actionPerformed(ActionEvent evt)
     {
         // Recognize and handle menu events
         if(evt.getSource() instanceof JMenuItem) 
-        	mt.processMenuActions(evt, this);
+            mt.processMenuActions(evt, this);
     }
     
     
-    /**	Create a new instance of the window.
-    	@return the created instance
+    /** Create a new instance of the window.
+        @return the created instance
     */
     public FidoFrame createNewInstance()
     {
-    	FidoFrame popFrame=new FidoFrame(runsAsApplication, currentLocale);
+        FidoFrame popFrame=new FidoFrame(runsAsApplication, currentLocale);
         popFrame.init();
                 
         popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),       
-    	    popFrame.getHeight());
+            popFrame.getHeight());
     
-    	popFrame.loadLibraries();
+        popFrame.loadLibraries();
         popFrame.setVisible(true);
         
         return popFrame;
-	}
+    }
 
     /** Show the FidoCadJ preferences panel
     */
     public void showPrefs()
     {
-    	String oldDirectory = libDirectory;
-    	CopyPasteActions cpa = CC.getCopyPasteActions();
-    	ElementsEdtActions eea = CC.getContinuosMoveActions();
-    	AddElements ae =eea.getAddElements();
-    	
-    	// At first, we create the preference panel. This kind of code is 
-    	// probably not very easy to read and reutilize. This is probably
-    	// justified, since the preference panel is after all very specific
-    	// to the particular program to which it is referred, i.e. in this
-    	// case FidoCadJ...
+        String oldDirectory = libDirectory;
+        CopyPasteActions cpa = CC.getCopyPasteActions();
+        ElementsEdtActions eea = CC.getContinuosMoveActions();
+        AddElements ae =eea.getAddElements();
+        
+        // At first, we create the preference panel. This kind of code is 
+        // probably not very easy to read and reutilize. This is probably
+        // justified, since the preference panel is after all very specific
+        // to the particular program to which it is referred, i.e. in this
+        // case FidoCadJ...
         DialogOptions options=new DialogOptions(this,
             CC.getMapCoordinates().getXMagnitude(),
             CC.profileTime,CC.antiAlias,
@@ -693,8 +694,8 @@ public class FidoFrame extends JFrame implements
         ae.setPCB_pad_drill(options.pcbpadintw_i);
         
         CC.P.setTextFont(options.macroFont,
-        	options.macroSize_i,
-        	CC.getUndoActions());
+            options.macroSize_i,
+            CC.getUndoActions());
 
         CC.setStrictCompatibility(options.extStrict);
         toolBar.setStrictCompatibility(options.extStrict);
@@ -715,40 +716,40 @@ public class FidoFrame extends JFrame implements
         // very restrictive security model applied by default to applets.
         
         if (runsAsApplication) {
-       	 	prefs.put("DIR_LIBS", libDirectory);
-       	 	prefs.put("MACRO_FONT", CC.P.getTextFont());
-       	 	prefs.put("MACRO_SIZE", ""+CC.P.getTextFontSize());
-       	 	
-       	 	prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
-       	 	prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
-       	 	prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
-       	 	
-        	prefs.put("SMALL_ICON_TOOLBAR", 
-            	(smallIconsToolbar?"true":"false"));
+            prefs.put("DIR_LIBS", libDirectory);
+            prefs.put("MACRO_FONT", CC.P.getTextFont());
+            prefs.put("MACRO_SIZE", ""+CC.P.getTextFontSize());
             
-        	prefs.put("TEXT_TOOLBAR",
-            	(textToolbar?"true":"false"));
+            prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
+            prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
+            prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
+            
+            prefs.put("SMALL_ICON_TOOLBAR", 
+                (smallIconsToolbar?"true":"false"));
+            
+            prefs.put("TEXT_TOOLBAR",
+                (textToolbar?"true":"false"));
      
-        	prefs.put("QUAQUA",
-            	(Globals.quaquaActive?"true":"false"));
-        	prefs.put("FCJ_EXT_STRICT",
-            	(CC.getStrictCompatibility()?"true":"false"));
-            	
+            prefs.put("QUAQUA",
+                (Globals.quaquaActive?"true":"false"));
+            prefs.put("FCJ_EXT_STRICT",
+                (CC.getStrictCompatibility()?"true":"false"));
+                
             prefs.put("GRID_SIZE", ""+CC.getMapCoordinates().getXGridStep());
             
             // Save default PCB characteristics            
             prefs.put("PCB_pad_sizex", ""+ae.PCB_pad_sizex);
             prefs.put("PCB_pad_sizey", ""+ae.PCB_pad_sizey);
-			prefs.put("PCB_pad_style", ""+ae.PCB_pad_style);
+            prefs.put("PCB_pad_style", ""+ae.PCB_pad_style);
             prefs.put("PCB_pad_drill", ""+ae.PCB_pad_drill);
             prefs.put("PCB_thickness", ""+ae.PCB_thickness);
             prefs.put("SHIFT_CP", (cpa.getShiftCopyPaste()?"true":"false"));
 
         }
-     	if(!libDirectory.equals(oldDirectory)) {
-     		loadLibraries();
-           	show();
-     	}	
+        if(!libDirectory.equals(oldDirectory)) {
+            loadLibraries();
+            show();
+        }   
         repaint();
     }
     
@@ -767,50 +768,50 @@ public class FidoFrame extends JFrame implements
         double z=m.getXMagnitude();
         
         // We apply the zoom factor to the coordinate transform
-        CC.getMapCoordinates().setMagnitudes(z, z);     		 		
-	    	
-       	// We make the scroll pane show the interesting part of
-       	// the drawing.
-       	Rectangle r= new Rectangle((int)(m.getXCenter()), 
-   			(int)(m.getYCenter()), 
-   			SC.getViewport().getExtentSize().width, 
-   			SC.getViewport().getExtentSize().height);
-   			
-   		CC.updateSizeOfScrollBars(r);
+        CC.getMapCoordinates().setMagnitudes(z, z);                     
+            
+        // We make the scroll pane show the interesting part of
+        // the drawing.
+        Rectangle r= new Rectangle((int)(m.getXCenter()), 
+            (int)(m.getYCenter()), 
+            SC.getViewport().getExtentSize().width, 
+            SC.getViewport().getExtentSize().height);
+            
+        CC.updateSizeOfScrollBars(r);
     }
     
     /** We notify the user that something has changed by putting an asterisk
-     	in the file name.
-     	We also show here in the titlebar the (eventually stretched) file name
-     	of the drawing being modified or shown.
+        in the file name.
+        We also show here in the titlebar the (eventually stretched) file name
+        of the drawing being modified or shown.
     */
     public void somethingHasChanged()
     {
         if (Globals.weAreOnAMac) {
-			
-			// Apparently, this does not work as expected in MacOSX 10.4 Tiger.
-			// Those are MacOSX >= 10.5 Leopard features.
-			// We thus leave also the classic Window-based asterisk when
-			// the file has been modified.
-			
-			getRootPane().putClientProperty("Window.documentModified", 
-				Boolean.valueOf(CC.getUndoActions().getModified()));
-				
-			// On MacOSX >= 10.5, associate an icon and a file proxy to the
-			// title bar.
-			getRootPane( ).putClientProperty( "Window.documentFile", 
-				new File(CC.getParserActions().openFileName));
-					
-			setTitle("FidoCadJ "+Globals.version+" "+ 
+            
+            // Apparently, this does not work as expected in MacOSX 10.4 Tiger.
+            // Those are MacOSX >= 10.5 Leopard features.
+            // We thus leave also the classic Window-based asterisk when
+            // the file has been modified.
+            
+            getRootPane().putClientProperty("Window.documentModified", 
+                Boolean.valueOf(CC.getUndoActions().getModified()));
+                
+            // On MacOSX >= 10.5, associate an icon and a file proxy to the
+            // title bar.
+            getRootPane( ).putClientProperty( "Window.documentFile", 
+                new File(CC.getParserActions().openFileName));
+                    
+            setTitle("FidoCadJ "+Globals.version+" "+ 
             Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
             (CC.getUndoActions().getModified()?" *":""));
-		} else {
-			setTitle("FidoCadJ "+Globals.version+" "+ 
+        } else {
+            setTitle("FidoCadJ "+Globals.version+" "+ 
             Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
             (CC.getUndoActions().getModified()?" *":""));
         
-		}	
-	}
+        }   
+    }
     
     /** The current window has gained focus
     */
@@ -823,6 +824,6 @@ public class FidoFrame extends JFrame implements
     */
     public void windowLostFocus(WindowEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
 }

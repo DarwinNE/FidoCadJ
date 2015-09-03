@@ -42,12 +42,12 @@ public class CellDash extends JPanel
 
     
     /** Constructor. The user should provide the list in which the element is 
-    	used, information about the dashing style as well as the selection 
-    	state
+        used, information about the dashing style as well as the selection 
+        state
     
-    	@param la the dashing style to be used
-    	@param l the JList in which the element is used
-    	@param is the selection state which will be used for the background
+        @param la the dashing style to be used
+        @param l the JList in which the element is used
+        @param is the selection state which will be used for the background
     */
     CellDash(DashInfo la,JList l, boolean is)
     {
@@ -59,12 +59,12 @@ public class CellDash extends JPanel
     }
     
     /** This routine is called by the callback system when there is the need
-    	to draw on the screen the element.
+        to draw on the screen the element.
     
     */
     public void paintComponent(Graphics g)
-    {	
-    	// Show the dashing styles in a list.
+    {   
+        // Show the dashing styles in a list.
         g.setColor(isSelected ? list.getSelectionBackground(): 
                                 list.getBackground());
         
@@ -75,10 +75,10 @@ public class CellDash extends JPanel
         g.setColor(isSelected ? list.getSelectionForeground(): 
                                 list.getForeground());
 
-		// We then proceed by drawing an horisontal line showing the dashing 
-		// style corresponding to the element
-		
-		// Maybe just applyStroke of the GraphicsSwing object can be enough?
+        // We then proceed by drawing an horisontal line showing the dashing 
+        // style corresponding to the element
+        
+        // Maybe just applyStroke of the GraphicsSwing object can be enough?
         BasicStroke dashed = new BasicStroke(1, 
                                           BasicStroke.CAP_BUTT, 
                                           BasicStroke.JOIN_MITER, 

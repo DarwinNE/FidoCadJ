@@ -1,8 +1,8 @@
 package net.sourceforge.fidocadj.circuit;
 
-/**	Interface used to callback notify that something has changed
-	<pre>
-		This file is part of FidoCadJ.
+/** Interface used to callback notify that something has changed
+    <pre>
+        This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@ package net.sourceforge.fidocadj.circuit;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	</pre>
-	@version 1.0
-	@author Davide Bucci
+    </pre>
+    @version 1.0
+    @author Davide Bucci
 */
 
 public interface HasChangedListener 
 {
-	public void somethingHasChanged();
+    public void somethingHasChanged();
 
 }

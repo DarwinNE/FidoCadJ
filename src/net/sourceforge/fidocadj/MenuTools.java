@@ -12,9 +12,9 @@ import net.sourceforge.fidocadj.clipboard.*;
 
 /** MenuTools.java 
 
-	Class creating and handling the main menu of FidoCadJ. It contains the
-	methods to create the menu, as well as an event handling system for 
-	menu-related operations.
+    Class creating and handling the main menu of FidoCadJ. It contains the
+    methods to create the menu, as well as an event handling system for 
+    menu-related operations.
 
 <pre>  
     This file is part of FidoCadJ.
@@ -41,7 +41,7 @@ import net.sourceforge.fidocadj.clipboard.*;
 public class MenuTools implements MenuListener
 {
 
-	/** Create all the menus and associate to them all the needed listeners.
+    /** Create all the menus and associate to them all the needed listeners.
     */
     public JMenuBar defineMenuBar(ActionListener al)
     {
@@ -56,34 +56,34 @@ public class MenuTools implements MenuListener
         // phylum      
         /*  DB: there is no need to change the language from the GUI.
         ActionListener langAct = new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				String lang = e.getActionCommand();
-				lang = lang.substring(lang.indexOf("(")+1
-					).replace(")","").trim();								
-				currentLocale = new Locale(lang);
-				if (!checkIfToBeSaved()) return;
-				((FidoFrame)Globals.activeWindow).CC.getUndoActions()
-					.doTheDishes();				
-				Globals.activeWindow.dispose();					
-	        	SwingUtilities.invokeLater(new 
-	        		CreateSwingInterface(libDirectory, 
-	            		"", currentLocale));
-			}
-		};
-		
+            
+            public void actionPerformed(ActionEvent e) {
+                String lang = e.getActionCommand();
+                lang = lang.substring(lang.indexOf("(")+1
+                    ).replace(")","").trim();                               
+                currentLocale = new Locale(lang);
+                if (!checkIfToBeSaved()) return;
+                ((FidoFrame)Globals.activeWindow).CC.getUndoActions()
+                    .doTheDishes();             
+                Globals.activeWindow.dispose();                 
+                SwingUtilities.invokeLater(new 
+                    CreateSwingInterface(libDirectory, 
+                        "", currentLocale));
+            }
+        };
+        
         JMenu langMenu=new JMenu(Globals.messages.getString("Language"));
         JMenuItem langsubCircuit;
         
         for (int i = 0;i<LibUtils.Languages.length;i++)
         {
-        	URL u = FidoMain.class.getResource("MessagesBundle_" + 
-        		LibUtils.Languages[i][0]  + ".properties");
-        	if (u==null) continue; 
-        	langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" + 
-        		LibUtils.Languages[i][0] + ")");
-        	langsubCircuit.addActionListener(langAct);
-        	langMenu.add(langsubCircuit);        	
+            URL u = FidoMain.class.getResource("MessagesBundle_" + 
+                LibUtils.Languages[i][0]  + ".properties");
+            if (u==null) continue; 
+            langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" + 
+                LibUtils.Languages[i][0] + ")");
+            langsubCircuit.addActionListener(langAct);
+            langMenu.add(langsubCircuit);           
         }               
         
         // In the final versions (non beta), the user might change the locale 
@@ -91,7 +91,7 @@ public class MenuTools implements MenuListener
         // different from the one of the operating system.
         
         if(Globals.isBeta) 
-        	menuBar.add(langMenu);
+            menuBar.add(langMenu);
         */
 
         // On a MacOSX system, this menu is associated to preferences menu
@@ -105,32 +105,32 @@ public class MenuTools implements MenuListener
         return menuBar;
     }
    
-	/** The menuSelected method, useful for the MenuListener interface.
+    /** The menuSelected method, useful for the MenuListener interface.
     */
     public void menuSelected(MenuEvent evt)
     {
-    	// does nothing
+        // does nothing
     }
     
     /** The menuDeselected method, useful for the MenuListener interface.
     */
     public void menuDeselected(MenuEvent evt)
     {
-        	// does nothing
+            // does nothing
     }
     
     /** The menuCanceled method, useful for the MenuListener interface.
     */
     public void menuCanceled(MenuEvent evt)
     {
-    	// does nothing
+        // does nothing
     }
     
-	/** Create the main File menu
+    /** Create the main File menu
     */
     public JMenu defineFileMenu(ActionListener al)
     {
-    	JMenu fileMenu=new JMenu(Globals.messages.getString("File"));
+        JMenu fileMenu=new JMenu(Globals.messages.getString("File"));
         JMenuItem fileNew = new JMenuItem(Globals.messages.getString("New"));
         fileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
             Globals.shortcutKey));
@@ -170,7 +170,7 @@ public class MenuTools implements MenuListener
         
         JMenuItem options = new 
             JMenuItem(Globals.messages.getString("Circ_opt"));
-	
+    
         // Add the items in the file menu.
         
         fileMenu.add(fileNew);
@@ -190,9 +190,9 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
 
-    	if(!Globals.weAreOnAMac) {
-        	fileMenu.add(options);
-        	fileMenu.addSeparator();
+        if(!Globals.weAreOnAMac) {
+            fileMenu.add(options);
+            fileMenu.addSeparator();
         }
         fileMenu.add(fileClose);
         
@@ -217,7 +217,7 @@ public class MenuTools implements MenuListener
     */
     public JMenu defineEditMenu(ActionListener al)
     {
-    	JMenu editMenu = new JMenu(Globals.messages.getString("Edit_menu"));
+        JMenu editMenu = new JMenu(Globals.messages.getString("Edit_menu"));
         
         JMenuItem editUndo = new 
             JMenuItem(Globals.messages.getString("Undo"));
@@ -255,8 +255,8 @@ public class MenuTools implements MenuListener
             JMenuItem(Globals.messages.getString("SelectAll"));
         editSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
             Globals.shortcutKey));
- 		
- 		JMenuItem editDuplicate = new 
+        
+        JMenuItem editDuplicate = new 
             JMenuItem(Globals.messages.getString("Duplicate"));
         editDuplicate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
             Globals.shortcutKey));
@@ -306,7 +306,7 @@ public class MenuTools implements MenuListener
     */
     public JMenu defineViewMenu(ActionListener al)
     {
-    	JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
+        JMenu viewMenu=new JMenu(Globals.messages.getString("View"));
         JMenuItem layerOptions = new 
             JMenuItem(Globals.messages.getString("Layer_opt"));
             
@@ -317,14 +317,14 @@ public class MenuTools implements MenuListener
         
 
         layerOptions.addActionListener(al);
-		return viewMenu;
-	}
-	
-	/** Define the main Circuit menu.
-	*/
-	public JMenu defineCircuitMenu(ActionListener al)
-	{
-		JMenu circuitMenu=new JMenu(Globals.messages.getString("Circuit"));
+        return viewMenu;
+    }
+    
+    /** Define the main Circuit menu.
+    */
+    public JMenu defineCircuitMenu(ActionListener al)
+    {
+        JMenu circuitMenu=new JMenu(Globals.messages.getString("Circuit"));
         JMenuItem defineCircuit = new 
             JMenuItem(Globals.messages.getString("Define"));
         
@@ -340,17 +340,17 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
             
         circuitMenu.add(updateLibraries);
-      	defineCircuit.addActionListener(al);
+        defineCircuit.addActionListener(al);
         updateLibraries.addActionListener(al);
-		
-		return circuitMenu;
-	}
-	
-	/** Define the main About menu. 
-	*/
-	public JMenu defineAboutMenu(ActionListener al)
-	{
-		JMenu about = new JMenu(Globals.messages.getString("About"));
+        
+        return circuitMenu;
+    }
+    
+    /** Define the main About menu. 
+    */
+    public JMenu defineAboutMenu(ActionListener al)
+    {
+        JMenu about = new JMenu(Globals.messages.getString("About"));
         JMenuItem aboutMenu = new 
             JMenuItem(Globals.messages.getString("About_menu"));
         about.add(aboutMenu);
@@ -358,22 +358,22 @@ public class MenuTools implements MenuListener
         aboutMenu.addActionListener(al);
         
         return about;
-	}  
-	
-	/** Process the menu events.
-	*/
-	public void processMenuActions(ActionEvent evt, FidoFrame fff)
-	{
-		ExportTools et = fff.getExportTools();
-		PrintTools pt = fff.getPrintTools();
-		CircuitPanel CC = fff.CC;
-		String arg=evt.getActionCommand();
+    }  
+    
+    /** Process the menu events.
+    */
+    public void processMenuActions(ActionEvent evt, FidoFrame fff)
+    {
+        ExportTools et = fff.getExportTools();
+        PrintTools pt = fff.getPrintTools();
+        CircuitPanel CC = fff.CC;
+        String arg=evt.getActionCommand();
         EditorActions edt=CC.getEditorActions();
         CopyPasteActions cpa=CC.getCopyPasteActions();
         ElementsEdtActions eea = CC.getContinuosMoveActions();
         SelectionActions sa = CC.getSelectionActions();
             
-		// Edit the FidoCadJ code of the drawing
+        // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
             EnterCircuitFrame circuitDialog=new EnterCircuitFrame(fff,
                 CC.getCirc(!CC.extStrict).toString());
@@ -383,9 +383,9 @@ public class MenuTools implements MenuListener
             CC.getUndoActions().saveUndoState();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
-        	// Update libraries
-           	fff.loadLibraries();
-           	fff.show();
+            // Update libraries
+            fff.loadLibraries();
+            fff.show();
         } else if (arg.equals(Globals.messages.getString("Circ_opt"))) {
             // Options for the current drawing
             fff.showPrefs();
@@ -402,7 +402,7 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
-			pt.printDrawing(fff, CC);
+            pt.printDrawing(fff, CC);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
             fff.getFileTools().saveWithName(false);
@@ -429,22 +429,22 @@ public class MenuTools implements MenuListener
             d.setVisible(true);
         } else if (arg.equals(Globals.messages.getString("Open"))) {
             // Open a file
-			OpenFile openf=new OpenFile();
-			openf.setParam(fff);
-			SwingUtilities.invokeLater(openf);
-			/*
-           		The following code would require a thread safe implementation
-           		of some of the inner classes (such as CircuitModel), which was 
-           		indeed not the case... Now, yes!
-           	*/
-			/*Thread thread = new Thread(openf);
-			thread.setDaemon(true);
-			// Start the thread
-			thread.start();*/
-				
+            OpenFile openf=new OpenFile();
+            openf.setParam(fff);
+            SwingUtilities.invokeLater(openf);
+            /*
+                The following code would require a thread safe implementation
+                of some of the inner classes (such as CircuitModel), which was 
+                indeed not the case... Now, yes!
+            */
+            /*Thread thread = new Thread(openf);
+            thread.setDaemon(true);
+            // Start the thread
+            thread.start();*/
+                
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-			et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
+            et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
             sa.setSelectionAll(true);   
@@ -455,11 +455,11 @@ public class MenuTools implements MenuListener
             // Copy all selected elements in the clipboard
             cpa.copySelected(!CC.extStrict, false);   
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
-        	// Copy elements, splitting non standard macros
+            // Copy elements, splitting non standard macros
                 cpa.copySelected(!CC.extStrict, true);   
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
-        	cpa.copySelected(!CC.extStrict, false);   
+            cpa.copySelected(!CC.extStrict, false);   
             edt.deleteAllSelected(true);
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Mirror_E"))) {
@@ -467,20 +467,20 @@ public class MenuTools implements MenuListener
             if(eea.isEnteringMacro())
                 eea.mirrorMacro();   
             else
-            	edt.mirrorAllSelected();            
+                edt.mirrorAllSelected();            
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Rotate"))) { 
             // 90 degrees rotation of all selected elements
             if(eea.isEnteringMacro())
                 eea.rotateMacro();
             else
-            	edt.rotateAllSelected();
+                edt.rotateAllSelected();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate
             cpa.copySelected(!CC.extStrict, false);
             cpa.paste(CC.getMapCoordinates().getXGridStep(), 
-            	CC.getMapCoordinates().getYGridStep());
+                CC.getMapCoordinates().getYGridStep());
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
             // Paste as a new circuit
@@ -497,12 +497,12 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("Paste"))) {
             // Paste some graphical elements
             cpa.paste(CC.getMapCoordinates().getXGridStep(), 
-                	CC.getMapCoordinates().getYGridStep());   
+                    CC.getMapCoordinates().getYGridStep());   
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Close"))) {
-        	// Close the current window
+            // Close the current window
             if(!fff.getFileTools().checkIfToBeSaved()) {
-               	return;
+                return;
             }     
             fff.setVisible(false);
             CC.getUndoActions().doTheDishes();
@@ -514,5 +514,5 @@ public class MenuTools implements MenuListener
             if (Globals.openWindowsNumber<1)
                 System.exit(0);
         }
-	}
+    }
 }

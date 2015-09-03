@@ -50,7 +50,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     private static final int MIN_WIDTH=500;
     private static final int MIN_HEIGHT=450;
     static final int ALPHA_MIN = 0;
-	static final int ALPHA_MAX = 100;
+    static final int ALPHA_MAX = 100;
     
     private JButton color;  
     private final JColorChooser tcc;
@@ -58,7 +58,7 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     private final JTextField description;
     private final JSlider opacity;
     private boolean active;             // true if the user selected ok
-	private final LayerDesc ll;
+    private final LayerDesc ll;
 
     public void componentResized(ComponentEvent e) 
     {
@@ -80,15 +80,15 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     
     /** Standard constructor.
@@ -111,33 +111,33 @@ public class DialogEditLayer extends JDialog implements ComponentListener
         contentPane.setLayout(bgl);
         constraints.insets.right=30;
         ColorSwing c = (ColorSwing) l.getColor();
-	    tcc = new JColorChooser(c.getColorSwing());
+        tcc = new JColorChooser(c.getColorSwing());
         constraints = DialogUtil.createConst(0,0,3,1,100,100,
-			GridBagConstraints.CENTER, GridBagConstraints.NONE, 
-			new Insets(20,20,6,20));
-			
+            GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+            new Insets(20,20,6,20));
+            
         contentPane.add(tcc, constraints);
         
         JLabel descrLabel=new JLabel(Globals.messages.getString("Description"));
-		constraints = DialogUtil.createConst(1,1,1,1,100,100,
-			GridBagConstraints.EAST, GridBagConstraints.NONE, 
-			new Insets(0,20,0,0));
+        constraints = DialogUtil.createConst(1,1,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE, 
+            new Insets(0,20,0,0));
         
         contentPane.add(descrLabel, constraints);
         
         description=new JTextField();
         description.setText(l.getDescription());
         constraints = DialogUtil.createConst(2,1,1,1,100,0,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,0,120));
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,0,0,120));
             
         contentPane.add(description, constraints);
-		
-		JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
-		constraints = DialogUtil.createConst(1,3,1,1,100,0,
-			GridBagConstraints.EAST, GridBagConstraints.NONE, 
-			new Insets(0,0,0,20));
-		
+        
+        JLabel opacityLbl=new JLabel(Globals.messages.getString("Opacity"));
+        constraints = DialogUtil.createConst(1,3,1,1,100,0,
+            GridBagConstraints.EAST, GridBagConstraints.NONE, 
+            new Insets(0,0,0,20));
+        
         contentPane.add(opacityLbl, constraints);
         
         
@@ -145,50 +145,50 @@ public class DialogEditLayer extends JDialog implements ComponentListener
                                       ALPHA_MIN, ALPHA_MAX, 
                                       Math.round(l.getAlpha()*100.0f));
 
-		//Turn on labels at major tick marks.
-		opacity.setMajorTickSpacing(20);
-		opacity.setMinorTickSpacing(1);
-		opacity.setPaintTicks(true);
-		opacity.setPaintLabels(true);
-		
-		constraints = DialogUtil.createConst(2,3,1,1,100,0,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,0,120));
-			
-		contentPane.add(opacity, constraints);
+        //Turn on labels at major tick marks.
+        opacity.setMajorTickSpacing(20);
+        opacity.setMinorTickSpacing(1);
+        opacity.setPaintTicks(true);
+        opacity.setPaintLabels(true);
+        
+        constraints = DialogUtil.createConst(2,3,1,1,100,0,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,0,0,120));
+            
+        contentPane.add(opacity, constraints);
         
         visibility=new JCheckBox(Globals.messages.getString("IsVisible"));
         visibility.setSelected(l.getVisible());
         
         constraints = DialogUtil.createConst(2,4,1,1,100,0,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,20,120));
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,0,20,120));
         
         contentPane.add(visibility, constraints);
         
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
     
-    	// Put the OK and Cancel buttons and make them active.
+        // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
-		ok.setPreferredSize(cancel.getPreferredSize());
+        ok.setPreferredSize(cancel.getPreferredSize());
 
-		if (Globals.okCancelWinOrder) {
-			b.add(ok);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(cancel);
-		
-		} else {
-			b.add(cancel);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(ok);
-		}
-		
-		constraints = DialogUtil.createConst(0,5,3,1,100,0,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,20,20,20));
-			
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        
+        constraints = DialogUtil.createConst(0,5,3,1,100,0,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,20,20,20));
+            
         contentPane.add(b, constraints);
         
         ok.addActionListener(new ActionListener()
@@ -223,16 +223,16 @@ public class DialogEditLayer extends JDialog implements ComponentListener
 
         pack();
         DialogUtil.center(this);
-	}
+    }
     
     /** Get the layer description as specified in the layer edit dialog
     */
     public void acceptLayer()
     {
-    	// It is important that here we use exactly the same layer which has
-    	// been specified at the beginning. In this way, every reference to 
-    	// that layer will be modified.
-    	
+        // It is important that here we use exactly the same layer which has
+        // been specified at the beginning. In this way, every reference to 
+        // that layer will be modified.
+        
         ll.setVisible(visibility.isSelected());
         ll.setDescription(description.getText());
         ll.setColor(new ColorSwing(tcc.getColor()));

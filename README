@@ -251,7 +251,8 @@ The following coding conventions have been applied for the FidoCadJ source
 code:
 
 - the code should be compatible with Java 1.7
-- tab set to 4 spaces
+- indent set to 4 spaces
+- no tabulation character allowed in sources
 - blocks delimited by curly braces are indented as follows:
 
     for(i=0; i<10; ++i) {   // starting brace here
@@ -296,6 +297,8 @@ code:
 - discuss what you want to do BEFORE start coding
 - documentation is important. Try to improve it and keep it up-to-date
 
+A checkstyle rule sets (called rules.xml) is being progressively employed so
+that those rules will be automatically checked.
 
 3.5 Automatic tests
 -------------------

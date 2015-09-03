@@ -40,33 +40,33 @@ class OpenFile implements Runnable
     private FidoFrame parent;
     
     /** Set up the parent window object
-    	@param tparent the FidoFrame parent asking for a file open.
+        @param tparent the FidoFrame parent asking for a file open.
     */
     public void setParam(FidoFrame tparent)
     {
-    	parent=tparent;
+        parent=tparent;
     }
     
     /** Open a new file, eventually in a new window if the current one
-    	contains some unsaved elements.
-    	We pay attention to show the file chooser dialog which appears to be
-    	the best looking one on each operating system.
+        contains some unsaved elements.
+        We pay attention to show the file chooser dialog which appears to be
+        the best looking one on each operating system.
     */
     public void run()
     {
-		String fin;
+        String fin;
         String din;
         if(Globals.useNativeFileDialogs) {             
-        	// File chooser provided by the host system.
+            // File chooser provided by the host system.
             // Vastly better on MacOSX
             FileDialog fd = new FileDialog(parent, 
-               	Globals.messages.getString("Open"));
+                Globals.messages.getString("Open"));
             fd.setDirectory(parent.getFileTools().openFileDirectory);
             fd.setFilenameFilter(new FilenameFilter(){
                 public boolean accept(File dir, String name)
                 {
                     return name.toLowerCase(
-                    	parent.getLocale()).endsWith(".fcd");
+                        parent.getLocale()).endsWith(".fcd");
                 }
             });
                     
@@ -79,10 +79,10 @@ class OpenFile implements Runnable
                     
             JFileChooser fc = new JFileChooser();
             fc.setCurrentDirectory(
-            	new File(parent.getFileTools().openFileDirectory));
+                new File(parent.getFileTools().openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("Open"));
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){ 
-            	public boolean accept(File f)
+                public boolean accept(File f)
                 {
                     return f.getName().toLowerCase().endsWith(".fcd")||
                             f.isDirectory();
@@ -93,7 +93,7 @@ class OpenFile implements Runnable
                 }
             });
                     
-	        if(fc.showOpenDialog(parent)!=JFileChooser.APPROVE_OPTION)
+            if(fc.showOpenDialog(parent)!=JFileChooser.APPROVE_OPTION)
                 return;
                     
             fin=fc.getSelectedFile().getName();
@@ -103,40 +103,40 @@ class OpenFile implements Runnable
         // We now have the directory as well as the file name, so we can
         // open it!
         if(fin!= null) {   
-        	File f=new File(Globals.createCompleteFileName(din, fin));
+            File f=new File(Globals.createCompleteFileName(din, fin));
         
-			// We first check if the file name chosen by the user has a correct
-        	// file extension, coherent with the file format chosen.
-        	// In reality, a confirm is asked to the user only if the selected 
-        	// file exists and if it has a non standard extension.
-        	if(!Globals.checkExtension(fin, Globals.DEFAULT_EXTENSION)) {
-        		int selection;
-  		      	if(f.exists()) {
-  	        		selection = JOptionPane.showConfirmDialog(null, 
-  	    	      		Globals.messages.getString("Warning_extension"),
-    	        		Globals.messages.getString("Warning"),
-            			JOptionPane.YES_NO_OPTION, 
-            			JOptionPane.WARNING_MESSAGE);
-   		        } else {
-            		selection=JOptionPane.OK_OPTION;
-            	}
-            	// If useful, we correct the extension.
-          		if(selection==JOptionPane.OK_OPTION) 
-            	   	fin = Globals.adjustExtension(
-            	   		fin, Globals.DEFAULT_EXTENSION);
-        	}        
-       	 	try {
-       	 		// DOUBT: this might be done not on a new thread, but in the
-       	 		// normal Swing one.
-       	 	
-            	FidoFrame popFrame;
+            // We first check if the file name chosen by the user has a correct
+            // file extension, coherent with the file format chosen.
+            // In reality, a confirm is asked to the user only if the selected 
+            // file exists and if it has a non standard extension.
+            if(!Globals.checkExtension(fin, Globals.DEFAULT_EXTENSION)) {
+                int selection;
+                if(f.exists()) {
+                    selection = JOptionPane.showConfirmDialog(null, 
+                        Globals.messages.getString("Warning_extension"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
+                } else {
+                    selection=JOptionPane.OK_OPTION;
+                }
+                // If useful, we correct the extension.
+                if(selection==JOptionPane.OK_OPTION) 
+                    fin = Globals.adjustExtension(
+                        fin, Globals.DEFAULT_EXTENSION);
+            }        
+            try {
+                // DOUBT: this might be done not on a new thread, but in the
+                // normal Swing one.
+            
+                FidoFrame popFrame;
                 if(parent.CC.getUndoActions().getModified() || 
-                	!parent.CC.P.isEmpty()) {
-                  	// Here we create a new window in order to display
-                   	// the file.
-                        	
+                    !parent.CC.P.isEmpty()) {
+                    // Here we create a new window in order to display
+                    // the file.
+                            
                     popFrame=new FidoFrame(parent.runsAsApplication, 
-                    	parent.getLocale());
+                        parent.getLocale());
                     popFrame.init();
                     popFrame.setBounds(parent.getX()+20, parent.getY()+20,    
                     popFrame.getWidth(),        
@@ -150,9 +150,9 @@ class OpenFile implements Runnable
                     popFrame=parent;
                 }
                 popFrame.CC.getParserActions().openFileName= 
-                   	Globals.createCompleteFileName(din, fin);
+                    Globals.createCompleteFileName(din, fin);
                 if (parent.runsAsApplication)
-                   	parent.prefs.put("OPEN_DIR", din);  
+                    parent.prefs.put("OPEN_DIR", din);  
 
                 popFrame.getFileTools().openFileDirectory=din;
                 popFrame.getFileTools().openFile();
@@ -164,7 +164,7 @@ class OpenFile implements Runnable
             } catch (IOException fnfex) {
                 JOptionPane.showMessageDialog(parent,
                     Globals.messages.getString("Open_error")+fnfex);
-			}
+            }
         }         
     }
 }
