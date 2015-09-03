@@ -14,10 +14,10 @@ import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 /** 
-	Export towards the Adobe Portable Document File
-	
+    Export towards the Adobe Portable Document File
+    
 <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2015 by Davide Bucci
 </pre>
     
     @author Davide Bucci
@@ -40,1360 +40,1360 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class ExportPDF implements ExportInterface {
 
-	private final File temp;
-	private final OutputStreamWriter fstream;
-	private final OutputStreamWriter fstreamt;
-	private BufferedWriter out;
-	private BufferedWriter outt;
-	private boolean fontWarning;
-	private String userfont;
-	
-	private final GraphicsInterface gi;
-	
-	// Well, this is a complex stuff. In practice, in the PDF format we have to
-	// map the UTF8 code to the Adobe name of glyphs in a font. This is
-	// accomplished by reading a file presenting the correspondance between
-	// the standard UTF8 code and the glyph name. This file is from Adobe and
-	// it is called glyphlist.txt available here:
-	// https://github.com/adobe-type-tools/agl-aglfn
-	// The Map is completed in the exportStart method of this class.
-	// During the export of text (exportAdvText), a list of unicode chars 
-	// whose encoding will be considered in the PDF is filled.
-	// At the end of the export, an encoding mapping will be created.
-	private Map<Integer, String> unicodeToGlyph;
-	private Map<Integer, Integer> uncodeCharsNeeded;
-	private int unicodeCharIndex;
-	
-	// The file header
-	private String head;
-	
-	// An array which will contain String elements representing all the 
-	// objects present in the PDF file.
-	private String obj_PDF[];
-	
-	// The maximum number of objects contained in the PDF file.
-	private static final int numOfObjects = 20;
-		
-	private String closeObject;
-	private long fileLength;
-	
-	private Vector layerV;
-	private ColorInterface actualColor;
-	private double actualWidth;
-	private int actualDash;
-	
-	static final String encoding="UTF8";//"8859_1";
+    private final File temp;
+    private final OutputStreamWriter fstream;
+    private final OutputStreamWriter fstreamt;
+    private BufferedWriter out;
+    private BufferedWriter outt;
+    private boolean fontWarning;
+    private String userfont;
+    
+    private final GraphicsInterface gi;
+    
+    // Well, this is a complex stuff. In practice, in the PDF format we have to
+    // map the UTF8 code to the Adobe name of glyphs in a font. This is
+    // accomplished by reading a file presenting the correspondance between
+    // the standard UTF8 code and the glyph name. This file is from Adobe and
+    // it is called glyphlist.txt available here:
+    // https://github.com/adobe-type-tools/agl-aglfn
+    // The Map is completed in the exportStart method of this class.
+    // During the export of text (exportAdvText), a list of unicode chars 
+    // whose encoding will be considered in the PDF is filled.
+    // At the end of the export, an encoding mapping will be created.
+    private Map<Integer, String> unicodeToGlyph;
+    private Map<Integer, Integer> uncodeCharsNeeded;
+    private int unicodeCharIndex;
+    
+    // The file header
+    private String head;
+    
+    // An array which will contain String elements representing all the 
+    // objects present in the PDF file.
+    private String obj_PDF[];
+    
+    // The maximum number of objects contained in the PDF file.
+    private static final int numOfObjects = 20;
+        
+    private String closeObject;
+    private long fileLength;
+    
+    private Vector layerV;
+    private ColorInterface actualColor;
+    private double actualWidth;
+    private int actualDash;
+    
+    static final String encoding="UTF8";//"8859_1";
 
-	
-	
-	static final String dash[]={"[5.0 10]", "[2.5 2.5]",
-		"[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
-		
-	/** double to integer conversion. In some cases, some processing might be
-		applied.
-	*/
-	public int cLe(double l)
-	{
-		return (int)l;
-	}
-	
-	/** Constructor
-		@param f the File object in which the export should be done.
-	*/	
-	public ExportPDF (File f, GraphicsInterface gg) throws IOException
-	{
-		gi=gg;
+    
+    
+    static final String dash[]={"[5.0 10]", "[2.5 2.5]",
+        "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
+        
+    /** double to integer conversion. In some cases, some processing might be
+        applied.
+    */
+    public int cLe(double l)
+    {
+        return (int)l;
+    }
+    
+    /** Constructor
+        @param f the File object in which the export should be done.
+    */  
+    public ExportPDF (File f, GraphicsInterface gg) throws IOException
+    {
+        gi=gg;
 
-		fstream =  new OutputStreamWriter(new FileOutputStream(f), encoding);
-		
-    	temp = File.createTempFile("real",".howto");
-		temp.deleteOnExit();
+        fstream =  new OutputStreamWriter(new FileOutputStream(f), encoding);
+        
+        temp = File.createTempFile("real",".howto");
+        temp.deleteOnExit();
 
-		fstreamt =  new OutputStreamWriter(new FileOutputStream(temp), 
-			encoding);
-			
-		obj_PDF = new String[numOfObjects];
+        fstreamt =  new OutputStreamWriter(new FileOutputStream(temp), 
+            encoding);
+            
+        obj_PDF = new String[numOfObjects];
 
-	}
-	
-	/**	Called at the beginning of the export phase. Ideally, in this routine
-		there should be the code to write the header of the file on which
-		the drawing should be exported.
-			
-		@param totalSize the size of the image. Useful to calculate for example
-		the	bounding box.
-		@param la a vector describing the attributes of each layer.
-		@param grid the grid size. This is useful when exporting to another 
-			drawing program having some kind of grid concept. You might use
-			this value to synchronize FidoCadJ's grid with the one used by
-			the target.
-	*/
-	
-	public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
-		int grid)  
-		throws IOException
-	{ 
-		
-		// The glyphlist.txt file has about 4300 lines, therefore starting 
-		// with a size of 5000 seems reasonable.
-		unicodeToGlyph = new HashMap<Integer, String>(5000);
-		
-		// 128 chars for the moment will suffice.
-		uncodeCharsNeeded = new HashMap<Integer, Integer>(128);
-		
-		// The mapping of Unicode chars will be done starting from code 128
-		// up to 256. For the moment it will suffice.
-		unicodeCharIndex=127;
-		
-		// Read the glyphlist.txt file and store its contents in the hash
-		// map for easy retrieval during the calculation of encoding needs.	
-		BufferedReader br=null;            
+    }
+    
+    /** Called at the beginning of the export phase. Ideally, in this routine
+        there should be the code to write the header of the file on which
+        the drawing should be exported.
+            
+        @param totalSize the size of the image. Useful to calculate for example
+        the bounding box.
+        @param la a vector describing the attributes of each layer.
+        @param grid the grid size. This is useful when exporting to another 
+            drawing program having some kind of grid concept. You might use
+            this value to synchronize FidoCadJ's grid with the one used by
+            the target.
+    */
+    
+    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+        int grid)  
+        throws IOException
+    { 
+        
+        // The glyphlist.txt file has about 4300 lines, therefore starting 
+        // with a size of 5000 seems reasonable.
+        unicodeToGlyph = new HashMap<Integer, String>(5000);
+        
+        // 128 chars for the moment will suffice.
+        uncodeCharsNeeded = new HashMap<Integer, Integer>(128);
+        
+        // The mapping of Unicode chars will be done starting from code 128
+        // up to 256. For the moment it will suffice.
+        unicodeCharIndex=127;
+        
+        // Read the glyphlist.txt file and store its contents in the hash
+        // map for easy retrieval during the calculation of encoding needs. 
+        BufferedReader br=null;            
         try{
-			InputStreamReader isr = new InputStreamReader(
+            InputStreamReader isr = new InputStreamReader(
                       getClass().getResourceAsStream("glyphlist.txt"),
                       encoding);
-  			br = new BufferedReader(isr);
+            br = new BufferedReader(isr);
 
-        	String line = br.readLine();
-        	String glyph;
-        	Integer code;
-        	String codeStr;
-        	int p,q;
-        	while (line != null) {
-            	//System.out.println(line);
-            	if(!line.startsWith("#")) {
-            		p=line.indexOf(';');
-            		q=line.indexOf(' ');
-            		glyph=line.substring(0,p);
-            		if(q<0)
-            			codeStr=line.substring(p+1);
-            		else
-            			codeStr=line.substring(p+1,q);
-            		code=Integer.decode("0x"+codeStr);
-            		unicodeToGlyph.put(Integer.valueOf(code), glyph);
-            	}
-            	line = br.readLine();
-        	}
-    	} catch(Exception E) {	
-        	System.err.println("We could not access glyphlist.txt. A standard"+
-        		" matching of glyphs is attempted.");
-        	for(int i=32; i<128; ++i) {
-        		unicodeToGlyph.put(Integer.valueOf(i), ""+i);
-        	}
-    	} finally {
-    		if (br!=null) 
-    			br.close();
-    	}
-    	
+            String line = br.readLine();
+            String glyph;
+            Integer code;
+            String codeStr;
+            int p,q;
+            while (line != null) {
+                //System.out.println(line);
+                if(!line.startsWith("#")) {
+                    p=line.indexOf(';');
+                    q=line.indexOf(' ');
+                    glyph=line.substring(0,p);
+                    if(q<0)
+                        codeStr=line.substring(p+1);
+                    else
+                        codeStr=line.substring(p+1,q);
+                    code=Integer.decode("0x"+codeStr);
+                    unicodeToGlyph.put(Integer.valueOf(code), glyph);
+                }
+                line = br.readLine();
+            }
+        } catch(Exception E) {  
+            System.err.println("We could not access glyphlist.txt. A standard"+
+                " matching of glyphs is attempted.");
+            for(int i=32; i<128; ++i) {
+                unicodeToGlyph.put(Integer.valueOf(i), ""+i);
+            }
+        } finally {
+            if (br!=null) 
+                br.close();
+        }
+        
 
-		
-		// We need to save layers informations, since we will use them later.
-		
-		layerV=la;
-	    out = new BufferedWriter(fstream);
-	    
-	    fontWarning=false;
-	    // To track the block sizes, we will first write all graphic elements
-	    // in a temporary file, whose stream is called outt instead of out.
-	    // At the end, the contents of the temporary file will be copied in 
-	    // the definitive destination file.
-	    
-	    outt = new BufferedWriter(fstreamt);
-	    	    
-	    int wi=totalSize.width;
-	    int he=totalSize.height;
-	    
-	    // A header of the EPS file
-	    
-	   	// 200 dpi is the internal resolution of FidoCadJ
-	   	// 72 dpi is the internal resolution of the Postscript coordinates
-	   	
-	    double res_mult=200.0/72.0;
+        
+        // We need to save layers informations, since we will use them later.
+        
+        layerV=la;
+        out = new BufferedWriter(fstream);
+        
+        fontWarning=false;
+        // To track the block sizes, we will first write all graphic elements
+        // in a temporary file, whose stream is called outt instead of out.
+        // At the end, the contents of the temporary file will be copied in 
+        // the definitive destination file.
+        
+        outt = new BufferedWriter(fstreamt);
+                
+        int wi=totalSize.width;
+        int he=totalSize.height;
+        
+        // A header of the EPS file
+        
+        // 200 dpi is the internal resolution of FidoCadJ
+        // 72 dpi is the internal resolution of the Postscript coordinates
+        
+        double res_mult=200.0/72.0;
    
    
-		int border = 5;
-		
-		head = "%PDF-1.4\n";
-		
-		// Object 5 is a single page of the appropriate size, containing
-		// as a child object 4.
-		obj_PDF[5]=	"5 0 obj\n"+
-				"  <</Kids [4 0 R ]\n"+
-				"    /Count 1\n"+
-				"    /Type /Pages\n"+
-				"    /MediaBox [ 0 0  "+
-				(int)(totalSize.width/res_mult+1+border)+" "+
-				(int)(totalSize.height/res_mult+1+border)+" ]\n"+
-				"  >> endobj\n";
+        int border = 5;
+        
+        head = "%PDF-1.4\n";
+        
+        // Object 5 is a single page of the appropriate size, containing
+        // as a child object 4.
+        obj_PDF[5]= "5 0 obj\n"+
+                "  <</Kids [4 0 R ]\n"+
+                "    /Count 1\n"+
+                "    /Type /Pages\n"+
+                "    /MediaBox [ 0 0  "+
+                (int)(totalSize.width/res_mult+1+border)+" "+
+                (int)(totalSize.height/res_mult+1+border)+" ]\n"+
+                "  >> endobj\n";
 
-		// Since in a postscript drawing, the origin is at the bottom left,
-		// we introduce a coordinate transformation to have it at the top
-		// left of the drawing.
-		
-		actualColor = null;
-		actualWidth = -1;
-		outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ 
-			"  cm\n");
+        // Since in a postscript drawing, the origin is at the bottom left,
+        // we introduce a coordinate transformation to have it at the top
+        // left of the drawing.
+        
+        actualColor = null;
+        actualWidth = -1;
+        outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+ 
+            "  cm\n");
 
-		outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
+        outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
 
-		outt.write("1 J\n");
-		
-	} 
-	
-	/** Called at the end of the export phase.
-	*/
-	public void exportEnd() 
-		throws IOException
-	{ 
-		//DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		//Date date = new Date();
+        outt.write("1 J\n");
+        
+    } 
+    
+    /** Called at the end of the export phase.
+    */
+    public void exportEnd() 
+        throws IOException
+    { 
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //Date date = new Date();
 
-		outt.close();
-		
-		fileLength=temp.length();
+        outt.close();
+        
+        fileLength=temp.length();
 
-		writeFontDescription();
-		
-		obj_PDF[8]="8 0 obj\n" +
-				"  <<\n" +
-				"    /Length "+fileLength+"\n" +		
-				"  >>\n"+
-				"  stream\n";
-				
-		out.write(head+obj_PDF[5]+obj_PDF[6]+obj_PDF[7]+obj_PDF[8]);
-	
-		// Object 4 is a font container. The objects corresponding to fonts
-		// F1--F8 will be objects 6 to 14 (except object 8).
-		obj_PDF[4] = "4 0 obj\n"+
-				"<<	\n"+
-				"  /Type /Page\n"+
-				"  /Parent 5 0 R\n"+
-				"  /Resources <<\n"+
-				"  /Font <<\n"+
-				"  /F1 6 0 R\n"+
-				"  /F2 7 0 R\n"+
-				"  /F3 9 0 R\n"+
-				"  /F4 10 0 R\n"+
-				"  /F5 11 0 R\n"+
-				"  /F6 12 0 R\n"+
-				"  /F7 13 0 R\n"+
-				"  /F8 14 0 R\n"+
-				"  /F9 15 0 R\n"+
-				">>\n"+
-				"/ProcSet 2 0 R\n"+
-				">>\n"+
-				"  /Contents 8 0 R\n"+
-				">>\n"+
-				"endobj\n";
-		
-		obj_PDF[2] =	"2 0 obj\n"+
-				"[ /PDF /Text  ]\n"+
-				"endobj\n";
-				
-		// Object 1 is just a header
-		obj_PDF[1]="1 0 obj\n"+
-				"<<\n"+
-				"  /Creator (FidoCadJ"+Globals.version+
-				", PDF export filter by Davide Bucci)\n"+
-		//		"  /CreationDate ("+dateFormat.format(date)+")\n"+
-				"  /Author ("+System.getProperty("user.name")+")\n"+
-				"  /Producer (FidoCadJ)\n"+
-				">>\n"+
-				"endobj\n";
-			
-		obj_PDF[3] = "3 0 obj\n"+
-				"<<\n"+
-				"  /Pages 5 0 R\n"+
-				"  /Type /Catalog\n"+
-				">>\n"+
-				"endobj\n";
-		
-		BufferedReader br= new BufferedReader(new InputStreamReader(
+        writeFontDescription();
+        
+        obj_PDF[8]="8 0 obj\n" +
+                "  <<\n" +
+                "    /Length "+fileLength+"\n" +        
+                "  >>\n"+
+                "  stream\n";
+                
+        out.write(head+obj_PDF[5]+obj_PDF[6]+obj_PDF[7]+obj_PDF[8]);
+    
+        // Object 4 is a font container. The objects corresponding to fonts
+        // F1--F8 will be objects 6 to 14 (except object 8).
+        obj_PDF[4] = "4 0 obj\n"+
+                "<< \n"+
+                "  /Type /Page\n"+
+                "  /Parent 5 0 R\n"+
+                "  /Resources <<\n"+
+                "  /Font <<\n"+
+                "  /F1 6 0 R\n"+
+                "  /F2 7 0 R\n"+
+                "  /F3 9 0 R\n"+
+                "  /F4 10 0 R\n"+
+                "  /F5 11 0 R\n"+
+                "  /F6 12 0 R\n"+
+                "  /F7 13 0 R\n"+
+                "  /F8 14 0 R\n"+
+                "  /F9 15 0 R\n"+
+                ">>\n"+
+                "/ProcSet 2 0 R\n"+
+                ">>\n"+
+                "  /Contents 8 0 R\n"+
+                ">>\n"+
+                "endobj\n";
+        
+        obj_PDF[2] =    "2 0 obj\n"+
+                "[ /PDF /Text  ]\n"+
+                "endobj\n";
+                
+        // Object 1 is just a header
+        obj_PDF[1]="1 0 obj\n"+
+                "<<\n"+
+                "  /Creator (FidoCadJ"+Globals.version+
+                ", PDF export filter by Davide Bucci)\n"+
+        //      "  /CreationDate ("+dateFormat.format(date)+")\n"+
+                "  /Author ("+System.getProperty("user.name")+")\n"+
+                "  /Producer (FidoCadJ)\n"+
+                ">>\n"+
+                "endobj\n";
+            
+        obj_PDF[3] = "3 0 obj\n"+
+                "<<\n"+
+                "  /Pages 5 0 R\n"+
+                "  /Type /Catalog\n"+
+                ">>\n"+
+                "endobj\n";
+        
+        BufferedReader br= new BufferedReader(new InputStreamReader(
                       new FileInputStream(temp), encoding));
         try{
-        	String line = br.readLine();
-        	while (line != null) {
-            	out.write(line+"\n");
-            	line = br.readLine();
-        	}
-    	} finally {
-    		br.close();
-    	}
-		closeObject="endstream\n"+"endobj\n";
+            String line = br.readLine();
+            while (line != null) {
+                out.write(line+"\n");
+                line = br.readLine();
+            }
+        } finally {
+            br.close();
+        }
+        closeObject="endstream\n"+"endobj\n";
 
-		out.write(closeObject+obj_PDF[4]+obj_PDF[2]+obj_PDF[1]+
-			obj_PDF[3]+obj_PDF[9]+obj_PDF[10]+obj_PDF[11]+obj_PDF[12]+
-			obj_PDF[13]+obj_PDF[14]+obj_PDF[15]+obj_PDF[16]);
-			
-		writeCrossReferenceTable();
-				  
-		out.close();
-		
-		if (fontWarning) {
-			if (java.awt.GraphicsEnvironment.isHeadless()) {
-				System.err.println("Some fonts were not available!");
-			} else {
-				JOptionPane.showMessageDialog(null,
-					Globals.messages.getString("PDF_Font_error"));
-			}
-		}	
-    
-	}
-	
-	/** This routine creates the eight definition of the fonts currently 
-		available:
-		F1 - Courier 
-		F2 - Courier Bold
-		F3 - Times Roman
-		F4 - Times Bold
-		F5 - Helvetica
-		F6 - Helvetica Bold
-		F7 - Symbol
-		F8 - Symbol
-		F9 - Undefinite
-		
-	*/
-	private void writeFontDescription() throws java.io.IOException
-	{
-		
-		obj_PDF[6]=	"6 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				"    /BaseFont /Courier\n" +
-				calcWidthsIndex("Courier")+
-				"    /Encoding 16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[7]="7 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F2\n" +
-				"    /BaseFont /Courier-Bold\n" + 
-				calcWidthsIndex("Courier-Bold")+
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		
-		obj_PDF[9]="9 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F3\n" +
-				"    /BaseFont /Times-Roman\n" + 
-				calcWidthsIndex("Times-Roman")+
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[10]="10 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F4\n" +
-				"    /BaseFont /Times-Bold\n" +
-				calcWidthsIndex("Times-Bold")+ 
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[11]="11 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F5\n" +
-				"    /BaseFont /Helvetica\n" + 
-				calcWidthsIndex("Helvetica")+
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[12]="12 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F6\n" +
-				"    /BaseFont /Helvetica-Bold\n" + 
-				calcWidthsIndex("Helvetica-Bold")+
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[13]="13 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-		//		"    /Name /F7\n" +
-				"    /BaseFont /Symbol\n" + 
-				calcWidthsIndex("Symbol")+
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-		obj_PDF[14]="14 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				calcWidthsIndex("Symbol")+
-		//		"    /Name /F8\n" +
-				"    /BaseFont /Symbol\n" + 
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-				
-		obj_PDF[15]="15 0 obj\n" +
-				"  <<	/Type /Font\n" +
-				"    /Subtype /Type1\n" +
-				calcWidthsIndex(userfont)+
-				"    /BaseFont /"+userfont+"\n" + 
-				"    /Encoding  16 0 R\n" +
-				"  >> endobj\n";
-			
-		obj_PDF[16]="16 0 obj\n"+
-				"   <<  /Type /Encoding\n"+
-				"    /BaseEncoding /WinAnsiEncoding\n"+
-				"    /Differences [";
-			
-		for (Integer code : uncodeCharsNeeded.keySet()) {
-			String glyph=unicodeToGlyph.get(uncodeCharsNeeded.get(code));
-			/*System.out.println("code: "+code+"  UTF8: "
-				+uncodeCharsNeeded.get(code)+ "  glyph: "+
-				glyph);*/
-				
-			obj_PDF[16]+=""+code+"/"+unicodeToGlyph.get(	
-				uncodeCharsNeeded.get(code))+" ";
-		}
-		obj_PDF[16]+="]\n"+
-				"  >> endobj\n";
-	}
-	
-	private String calcWidthsIndex(String font)
-	{
-		String charWidths;
-		
-		gi.setFont(font, 24);
-		int basewidth=gi.getStringWidth("M");
-		
-		charWidths=
-			"    /FirstChar 32\n"+
-			"    /LastChar "+unicodeCharIndex+"\n"+
-			"    /Widths [";
-		
-		int calcwidth;
-		int mwidth=900;
-		
-		for (int i=32; i<128;++i) {
-			calcwidth=mwidth*gi.getStringWidth(""+(char)i)/basewidth;
-			charWidths+=""+calcwidth+ " ";
-		}
-		
-		for (Integer code : uncodeCharsNeeded.keySet()) {
-			calcwidth=mwidth*gi.getStringWidth(""+
-				(char)uncodeCharsNeeded.get(code).intValue())/basewidth;
-			charWidths+=""+calcwidth+ " ";
-		}
-		charWidths+="]\n";
-		
-		return charWidths;
-	}
-		
-	
-	/** Here we create the cross reference table for the PDF file, as well as
-		the trailer.
-		Order of the objects: 
-		header, 5, 6, 7, 8, file, closeObject, 4, 2, 1, 3 
-		
-		This is probably among the most boring code in FidoCadJ.
-	*/
-	private void writeCrossReferenceTable()  throws java.io.IOException
-	{
-		out.write("xref \n"+
-		  "0 15\n"+
-		  "0000000000 65535 f \n"+			// header
-				  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength+ 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length())+  
-		  " 00000 n \n"+ 		// 1
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length())+ 
-		  " 00000 n \n"+		// 2
-		  addLeadZeros(head.length() +
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length())+  
-		  " 00000 n \n"+ 		// 3
-			  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length())+
-		  " 00000 n \n"+ 		// 4
-			  
-		  addLeadZeros(head.length())+ 
-		  " 00000 n \n"+ 		// 5
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length())+  
-		  " 00000 n \n"+ 		// 6
-				  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length())+
-		  " 00000 n \n"+ 		// 7
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length())+ 
-		  " 00000 n \n"+ 		// 8
-				  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length())+  
-		  " 00000 n \n"+ 		// 9
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length())+  
-		  " 00000 n \n"+ 		// 10
-				  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length())+
-		  " 00000 n \n"+ 		// 11
-		  
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length())+
-		  " 00000 n \n"+ 		// 12
-				  
-				  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length()+
-		  obj_PDF[12].length())+
-		  " 00000 n \n"+ 		// 13
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length()+
-		  obj_PDF[12].length()+
-		  obj_PDF[13].length())+
-		  " 00000 n \n"+ 		// 14
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length()+
-		  obj_PDF[12].length()+
-		  obj_PDF[13].length()+
-		  obj_PDF[14].length())+
-		  " 00000 n \n"+ 		// 15
-		  
-		  addLeadZeros(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length()+
-		  obj_PDF[12].length()+
-		  obj_PDF[13].length()+
-		  obj_PDF[14].length()+
-		  obj_PDF[15].length())+
-		  " 00000 n \n"); 		// 16
-		  
-		  out.write("trailer\n"+
-				"<<\n"+
-				"  /Size 16\n"+
-				"  /Root 3 0 R\n"+
-				"  /Info 1 0 R\n"+
-				">>\n"+
-				"startxref\n"+
-				(head.length()+
-		  obj_PDF[5].length()+
-		  obj_PDF[6].length()+
-		  obj_PDF[7].length()+
-		  obj_PDF[8].length()+ 
-		  fileLength + 
-		  closeObject.length()+
-		  obj_PDF[4].length()+
-		  obj_PDF[2].length()+
-		  obj_PDF[1].length()+
-		  obj_PDF[3].length()+
-		  obj_PDF[9].length()+
-		  obj_PDF[10].length()+
-		  obj_PDF[11].length()+
-		  obj_PDF[12].length()+
-		  obj_PDF[13].length()+
-		  obj_PDF[14].length()+
-		  obj_PDF[15].length()+
-		  obj_PDF[16].length())+
-		  "\n%%EOF");
-				
-	}
-
-	/** Called when exporting an Advanced Text primitive.
-	
-		@param x the x position of the beginning of the string to be written
-		@param y the y position of the beginning of the string to be written
-		@param sizex the x size of the font to be used
-		@param sizey the y size of the font to be used
-		@param fontname the font to be used
-		@param isBold true if the text should be written with a boldface font
-		@param isMirrored true if the text should be mirrored
-		@param isItalic true if the text should be written with an italic font
-		@param orientation angle of orientation (degrees)
-		@param layer the layer that should be used
-		@param text_t the text that should be written
-	*/
-	
-	public void exportAdvText (int x, int y, int sizex, int sizey,
-		String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
-		int orientation, int layer, String text_t) 
-		throws IOException
-	{ 
-		String text=text_t;
-		if ("".equals(text))
-			return;
-			
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		String bold=""; 
-		
-		checkColorAndWidth(c, .33);
+        out.write(closeObject+obj_PDF[4]+obj_PDF[2]+obj_PDF[1]+
+            obj_PDF[3]+obj_PDF[9]+obj_PDF[10]+obj_PDF[11]+obj_PDF[12]+
+            obj_PDF[13]+obj_PDF[14]+obj_PDF[15]+obj_PDF[16]);
+            
+        writeCrossReferenceTable();
+                  
+        out.close();
         
-   		outt.write("BT\n");
-		int ys = (int)(sizex*12.0/7.0+.5);
+        if (fontWarning) {
+            if (java.awt.GraphicsEnvironment.isHeadless()) {
+                System.err.println("Some fonts were not available!");
+            } else {
+                JOptionPane.showMessageDialog(null,
+                    Globals.messages.getString("PDF_Font_error"));
+            }
+        }   
+    
+    }
+    
+    /** This routine creates the eight definition of the fonts currently 
+        available:
+        F1 - Courier 
+        F2 - Courier Bold
+        F3 - Times Roman
+        F4 - Times Bold
+        F5 - Helvetica
+        F6 - Helvetica Bold
+        F7 - Symbol
+        F8 - Symbol
+        F9 - Undefinite
+        
+    */
+    private void writeFontDescription() throws java.io.IOException
+    {
+        
+        obj_PDF[6]= "6 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+                "    /BaseFont /Courier\n" +
+                calcWidthsIndex("Courier")+
+                "    /Encoding 16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[7]="7 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F2\n" +
+                "    /BaseFont /Courier-Bold\n" + 
+                calcWidthsIndex("Courier-Bold")+
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        
+        obj_PDF[9]="9 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F3\n" +
+                "    /BaseFont /Times-Roman\n" + 
+                calcWidthsIndex("Times-Roman")+
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[10]="10 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F4\n" +
+                "    /BaseFont /Times-Bold\n" +
+                calcWidthsIndex("Times-Bold")+ 
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[11]="11 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F5\n" +
+                "    /BaseFont /Helvetica\n" + 
+                calcWidthsIndex("Helvetica")+
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[12]="12 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F6\n" +
+                "    /BaseFont /Helvetica-Bold\n" + 
+                calcWidthsIndex("Helvetica-Bold")+
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[13]="13 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+        //      "    /Name /F7\n" +
+                "    /BaseFont /Symbol\n" + 
+                calcWidthsIndex("Symbol")+
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+        obj_PDF[14]="14 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+                calcWidthsIndex("Symbol")+
+        //      "    /Name /F8\n" +
+                "    /BaseFont /Symbol\n" + 
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+                
+        obj_PDF[15]="15 0 obj\n" +
+                "  <<   /Type /Font\n" +
+                "    /Subtype /Type1\n" +
+                calcWidthsIndex(userfont)+
+                "    /BaseFont /"+userfont+"\n" + 
+                "    /Encoding  16 0 R\n" +
+                "  >> endobj\n";
+            
+        obj_PDF[16]="16 0 obj\n"+
+                "   <<  /Type /Encoding\n"+
+                "    /BaseEncoding /WinAnsiEncoding\n"+
+                "    /Differences [";
+            
+        for (Integer code : uncodeCharsNeeded.keySet()) {
+            String glyph=unicodeToGlyph.get(uncodeCharsNeeded.get(code));
+            /*System.out.println("code: "+code+"  UTF8: "
+                +uncodeCharsNeeded.get(code)+ "  glyph: "+
+                glyph);*/
+                
+            obj_PDF[16]+=""+code+"/"+unicodeToGlyph.get(    
+                uncodeCharsNeeded.get(code))+" ";
+        }
+        obj_PDF[16]+="]\n"+
+                "  >> endobj\n";
+    }
+    
+    private String calcWidthsIndex(String font)
+    {
+        String charWidths;
+        
+        gi.setFont(font, 24);
+        int basewidth=gi.getStringWidth("M");
+        
+        charWidths=
+            "    /FirstChar 32\n"+
+            "    /LastChar "+unicodeCharIndex+"\n"+
+            "    /Widths [";
+        
+        int calcwidth;
+        int mwidth=900;
+        
+        for (int i=32; i<128;++i) {
+            calcwidth=mwidth*gi.getStringWidth(""+(char)i)/basewidth;
+            charWidths+=""+calcwidth+ " ";
+        }
+        
+        for (Integer code : uncodeCharsNeeded.keySet()) {
+            calcwidth=mwidth*gi.getStringWidth(""+
+                (char)uncodeCharsNeeded.get(code).intValue())/basewidth;
+            charWidths+=""+calcwidth+ " ";
+        }
+        charWidths+="]\n";
+        
+        return charWidths;
+    }
+        
+    
+    /** Here we create the cross reference table for the PDF file, as well as
+        the trailer.
+        Order of the objects: 
+        header, 5, 6, 7, 8, file, closeObject, 4, 2, 1, 3 
+        
+        This is probably among the most boring code in FidoCadJ.
+    */
+    private void writeCrossReferenceTable()  throws java.io.IOException
+    {
+        out.write("xref \n"+
+          "0 15\n"+
+          "0000000000 65535 f \n"+          // header
+                  
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength+ 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length())+  
+          " 00000 n \n"+        // 1
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length())+ 
+          " 00000 n \n"+        // 2
+          addLeadZeros(head.length() +
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length())+  
+          " 00000 n \n"+        // 3
+              
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length())+
+          " 00000 n \n"+        // 4
+              
+          addLeadZeros(head.length())+ 
+          " 00000 n \n"+        // 5
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length())+  
+          " 00000 n \n"+        // 6
+                  
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length())+
+          " 00000 n \n"+        // 7
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length())+ 
+          " 00000 n \n"+        // 8
+                  
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length())+  
+          " 00000 n \n"+        // 9
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length())+  
+          " 00000 n \n"+        // 10
+                  
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length())+
+          " 00000 n \n"+        // 11
+          
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length())+
+          " 00000 n \n"+        // 12
+                  
+                  
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length()+
+          obj_PDF[12].length())+
+          " 00000 n \n"+        // 13
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length()+
+          obj_PDF[12].length()+
+          obj_PDF[13].length())+
+          " 00000 n \n"+        // 14
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length()+
+          obj_PDF[12].length()+
+          obj_PDF[13].length()+
+          obj_PDF[14].length())+
+          " 00000 n \n"+        // 15
+          
+          addLeadZeros(head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length()+
+          obj_PDF[12].length()+
+          obj_PDF[13].length()+
+          obj_PDF[14].length()+
+          obj_PDF[15].length())+
+          " 00000 n \n");       // 16
+          
+          out.write("trailer\n"+
+                "<<\n"+
+                "  /Size 16\n"+
+                "  /Root 3 0 R\n"+
+                "  /Info 1 0 R\n"+
+                ">>\n"+
+                "startxref\n"+
+                (head.length()+
+          obj_PDF[5].length()+
+          obj_PDF[6].length()+
+          obj_PDF[7].length()+
+          obj_PDF[8].length()+ 
+          fileLength + 
+          closeObject.length()+
+          obj_PDF[4].length()+
+          obj_PDF[2].length()+
+          obj_PDF[1].length()+
+          obj_PDF[3].length()+
+          obj_PDF[9].length()+
+          obj_PDF[10].length()+
+          obj_PDF[11].length()+
+          obj_PDF[12].length()+
+          obj_PDF[13].length()+
+          obj_PDF[14].length()+
+          obj_PDF[15].length()+
+          obj_PDF[16].length())+
+          "\n%%EOF");
+                
+    }
+
+    /** Called when exporting an Advanced Text primitive.
+    
+        @param x the x position of the beginning of the string to be written
+        @param y the y position of the beginning of the string to be written
+        @param sizex the x size of the font to be used
+        @param sizey the y size of the font to be used
+        @param fontname the font to be used
+        @param isBold true if the text should be written with a boldface font
+        @param isMirrored true if the text should be mirrored
+        @param isItalic true if the text should be written with an italic font
+        @param orientation angle of orientation (degrees)
+        @param layer the layer that should be used
+        @param text_t the text that should be written
+    */
+    
+    public void exportAdvText (int x, int y, int sizex, int sizey,
+        String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
+        int orientation, int layer, String text_t) 
+        throws IOException
+    { 
+        String text=text_t;
+        if ("".equals(text))
+            return;
+            
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        String bold=""; 
+        
+        checkColorAndWidth(c, .33);
+        
+        outt.write("BT\n");
+        int ys = (int)(sizex*12.0/7.0+.5);
 
 
-		if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
-			if(isBold)
-				outt.write("/F2"+" "+ys+" Tf\n");       
-			else
-				outt.write("/F1"+" "+ys+" Tf\n");       
-		} else if("Times".equals(fontname) || 
-			"Times New Roman".equals(fontname) ||
-			"Times Roman".equals(fontname)) {
-			if(isBold)
-				outt.write("/F4"+" "+ys+" Tf\n");       
-			else
-				outt.write("/F3"+" "+ys+" Tf\n");       
-		      
-		} else if("Helvetica".equals(fontname) || 
-			"Arial".equals(fontname)) {
-			if(isBold)
-				outt.write("/F6"+" "+ys+" Tf\n");       
-			else
-				outt.write("/F5"+" "+ys+" Tf\n");       
-	      
-		} else if("Symbol".equals(fontname)) {
-			if(isBold)
-				outt.write("/F8"+" "+ys+" Tf\n");       
-			else
-				outt.write("/F7"+" "+ys+" Tf\n");       
-		} else {
-			fontWarning = true;
-			userfont=fontname;
-			outt.write("/F9"+" "+ys+" Tf\n");
-		}
+        if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
+            if(isBold)
+                outt.write("/F2"+" "+ys+" Tf\n");       
+            else
+                outt.write("/F1"+" "+ys+" Tf\n");       
+        } else if("Times".equals(fontname) || 
+            "Times New Roman".equals(fontname) ||
+            "Times Roman".equals(fontname)) {
+            if(isBold)
+                outt.write("/F4"+" "+ys+" Tf\n");       
+            else
+                outt.write("/F3"+" "+ys+" Tf\n");       
+              
+        } else if("Helvetica".equals(fontname) || 
+            "Arial".equals(fontname)) {
+            if(isBold)
+                outt.write("/F6"+" "+ys+" Tf\n");       
+            else
+                outt.write("/F5"+" "+ys+" Tf\n");       
+          
+        } else if("Symbol".equals(fontname)) {
+            if(isBold)
+                outt.write("/F8"+" "+ys+" Tf\n");       
+            else
+                outt.write("/F7"+" "+ys+" Tf\n");       
+        } else {
+            fontWarning = true;
+            userfont=fontname;
+            outt.write("/F9"+" "+ys+" Tf\n");
+        }
 
-		outt.write("q\n");
-		
-		outt.write("  1 0 0 1 "+ roundTo(x)+" "+ roundTo(y)+" cm\n");
+        outt.write("q\n");
+        
+        outt.write("  1 0 0 1 "+ roundTo(x)+" "+ roundTo(y)+" cm\n");
 
-		
-		if(orientation !=0) {
-			double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
-			outt.write("  "+roundTo(Math.cos(alpha))+" "
-			+ roundTo(Math.sin(alpha))+ " "
-				+(roundTo(-Math.sin(alpha)))+ 
-				" "+roundTo(Math.cos(alpha))+" 0 0 cm\n");
-		}
-		if(isMirrored)
-			outt.write("  -1 0 0 -1 0 0 cm\n");
-		else
-			outt.write("  1 0 0 -1 0 0 cm\n");
-	
-		double ratio;
-		
-		if(sizey/sizex == 10/7){
-			ratio = 1.0;
-   		} else {
-   			ratio=(double)sizey/(double)sizex*22.0/40.0;
-   		}
-		outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
-		
-		Map<String, String> subst = new HashMap<String, String>();
-		subst.put("(","\\050");
-		subst.put(")","\\051");
-		text=Globals.substituteBizarreChars(text, subst);
-		
-		//outt.write("  ("+text+") Tj\n");
-		
-		outt.write(" <");
-		int ch;
-		int codechar;
-		for(int i=0; i<text.length();++i) {
-			ch=(int)text.charAt(i);
-			
-			// Proceed to encode UTF-8 characters as much as possible.
-			if(ch>127) {
-				if(uncodeCharsNeeded.containsKey(ch)) {
-					ch=uncodeCharsNeeded.get(ch);
-				} else {
-					++unicodeCharIndex;
-					if(unicodeCharIndex<256) {
-						uncodeCharsNeeded.put(unicodeCharIndex,ch);
-						ch=unicodeCharIndex;
-					} else {
-						System.err.println("Too many Unicode chars! "+
-							"The present version of the PDF export filter "+
-							"handles up to 128 Unicode chars in one file.");
-					}	
-				}
-			}
-			outt.write(Integer.toHexString(ch));
-			outt.write(" ");
-		}
-		outt.write("> Tj\n");
-		
-		outt.write("Q\nET\n");
-		
-	}
-	
-	/** Called when exporting a Bézier primitive.
-	
-		@param x1 the x position of the first point of the trace
-		@param y1 the y position of the first point of the trace
-		@param x2 the x position of the second point of the trace
-		@param y2 the y position of the second point of the trace
-		@param x3 the x position of the third point of the trace
-		@param y3 the y position of the third point of the trace
-		@param x4 the x position of the fourth point of the trace
-		@param y4 the y position of the fourth point of the trace
-		@param layer the layer that should be used
-		
-				// from 0.22.1
-		
-		@param arrowStart specify if an arrow is present at the first point
-		@param arrowEnd specify if an arrow is present at the second point
-		@param arrowLength total lenght of arrows (if present)
-		@param arrowHalfWidth half width of arrows (if present)
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-	*/
-	public void exportBezier (int x1, int y1,
-		int x2, int y2,
-		int x3, int y3,
-		int x4, int y4,
-		int layer,
-		boolean arrowStart, 
-		boolean arrowEnd, 
-		int arrowStyle, 
-		int arrowLength, 
-		int arrowHalfWidth, 
-		int dashStyle,
-		double strokeWidth)
-		throws IOException	
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		checkColorAndWidth(c, strokeWidth);
-		registerDash(dashStyle);
-				  
-		outt.write(""+x1+" "+y1+" m \n");
-		outt.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" c S\n");
-		
-		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
-			arrowHalfWidth, arrowStyle);
-		if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
-			arrowHalfWidth, arrowStyle);
-	}
-	
-	/** Called when exporting a Connection primitive.
-	
-		@param x the x position of the position of the connection
-		@param y the y position of the position of the connection
-		
-		@param layer the layer that should be used
-	*/
-	public void exportConnection (int x, int y, int layer, double node_size) 
-		throws IOException
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
+        
+        if(orientation !=0) {
+            double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
+            outt.write("  "+roundTo(Math.cos(alpha))+" "
+            + roundTo(Math.sin(alpha))+ " "
+                +(roundTo(-Math.sin(alpha)))+ 
+                " "+roundTo(Math.cos(alpha))+" 0 0 cm\n");
+        }
+        if(isMirrored)
+            outt.write("  -1 0 0 -1 0 0 cm\n");
+        else
+            outt.write("  1 0 0 -1 0 0 cm\n");
+    
+        double ratio;
+        
+        if(sizey/sizex == 10/7){
+            ratio = 1.0;
+        } else {
+            ratio=(double)sizey/(double)sizex*22.0/40.0;
+        }
+        outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
+        
+        Map<String, String> subst = new HashMap<String, String>();
+        subst.put("(","\\050");
+        subst.put(")","\\051");
+        text=Globals.substituteBizarreChars(text, subst);
+        
+        //outt.write("  ("+text+") Tj\n");
+        
+        outt.write(" <");
+        int ch;
+        int codechar;
+        for(int i=0; i<text.length();++i) {
+            ch=(int)text.charAt(i);
+            
+            // Proceed to encode UTF-8 characters as much as possible.
+            if(ch>127) {
+                if(uncodeCharsNeeded.containsKey(ch)) {
+                    ch=uncodeCharsNeeded.get(ch);
+                } else {
+                    ++unicodeCharIndex;
+                    if(unicodeCharIndex<256) {
+                        uncodeCharsNeeded.put(unicodeCharIndex,ch);
+                        ch=unicodeCharIndex;
+                    } else {
+                        System.err.println("Too many Unicode chars! "+
+                            "The present version of the PDF export filter "+
+                            "handles up to 128 Unicode chars in one file.");
+                    }   
+                }
+            }
+            outt.write(Integer.toHexString(ch));
+            outt.write(" ");
+        }
+        outt.write("> Tj\n");
+        
+        outt.write("Q\nET\n");
+        
+    }
+    
+    /** Called when exporting a Bézier primitive.
+    
+        @param x1 the x position of the first point of the trace
+        @param y1 the y position of the first point of the trace
+        @param x2 the x position of the second point of the trace
+        @param y2 the y position of the second point of the trace
+        @param x3 the x position of the third point of the trace
+        @param y3 the y position of the third point of the trace
+        @param x4 the x position of the fourth point of the trace
+        @param y4 the y position of the fourth point of the trace
+        @param layer the layer that should be used
+        
+                // from 0.22.1
+        
+        @param arrowStart specify if an arrow is present at the first point
+        @param arrowEnd specify if an arrow is present at the second point
+        @param arrowLength total lenght of arrows (if present)
+        @param arrowHalfWidth half width of arrows (if present)
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing
+    */
+    public void exportBezier (int x1, int y1,
+        int x2, int y2,
+        int x3, int y3,
+        int x4, int y4,
+        int layer,
+        boolean arrowStart, 
+        boolean arrowEnd, 
+        int arrowStyle, 
+        int arrowLength, 
+        int arrowHalfWidth, 
+        int dashStyle,
+        double strokeWidth)
+        throws IOException  
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        checkColorAndWidth(c, strokeWidth);
+        registerDash(dashStyle);
+                  
+        outt.write(""+x1+" "+y1+" m \n");
+        outt.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" c S\n");
+        
+        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+            arrowHalfWidth, arrowStyle);
+        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
+            arrowHalfWidth, arrowStyle);
+    }
+    
+    /** Called when exporting a Connection primitive.
+    
+        @param x the x position of the position of the connection
+        @param y the y position of the position of the connection
+        
+        @param layer the layer that should be used
+    */
+    public void exportConnection (int x, int y, int layer, double node_size) 
+        throws IOException
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
 
-		checkColorAndWidth(c, .33);
+        checkColorAndWidth(c, .33);
 
 
-		ellipse(x-node_size/2.0, y-node_size/2.0, 
-				x+node_size/2.0, y+node_size/2.0, true);
-		//outt.write("f\n");
-		
-	}
-		
-	/** Called when exporting a Line primitive.
-	
-		@param x1 the x position of the first point of the segment
-		@param y1 the y position of the first point of the segment
-		@param x2 the x position of the second point of the segment
-		@param y2 the y position of the second point of the segment
-		
-		@param layer the layer that should be used
-		
-		// from 0.22.1
-		
-		@param arrowStart specify if an arrow is present at the first point
-		@param arrowEnd specify if an arrow is present at the second point
-		@param arrowLength total lenght of arrows (if present)
-		@param arrowHalfWidth half width of arrows (if present)
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing	
-	*/
-	
-	public void exportLine (double x1, double y1,
-		double x2, double y2,
-		int layer,
-		boolean arrowStart, 
-		boolean arrowEnd, 
-		int arrowStyle, 
-		int arrowLength, 
-		int arrowHalfWidth, 
-		int dashStyle,
-		double strokeWidth)
-		throws IOException
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		
-		checkColorAndWidth(c, strokeWidth);
-		registerDash(dashStyle);
-		  
-		outt.write("  "+x1+" "+y1+" m "+
-			x2+" "+y2+" l S\n");
-		
-		if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
-			arrowHalfWidth, arrowStyle);
-		if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
-			arrowHalfWidth, arrowStyle);
-		
-	}
-	
-	/** Called when exporting a Macro call.
-		This function can just return false, to indicate that the macro should 
-		be rendered by means of calling the other primitives. Please note that 
-		a macro does not have a reference layer, since it is defined by its
-		components.
-		
-		@param x the x position of the position of the macro
-		@param y the y position of the position of the macro
-		@param isMirrored true if the macro is mirrored
-		@param orientation the macro orientation in degrees
-		@param macroName the macro name
-		@param macroDesc the macro description, in the FidoCad format
-		@param name the shown name
-		@param xn coordinate of the shown name
-		@param yn coordinate of the shown name
-		@param value the shown value
-		@param xv coordinate of the shown value
-		@param yv coordinate of the shown value
-		@param font the used font
-		@param fontSize the size of the font to be used
-		@param m the library
-	*/
-	public boolean exportMacro(int x, int y, boolean isMirrored, 
-		int orientation, String macroName, String macroDesc,
-		String name, int xn, int yn, String value, int xv, int yv, String font,
-		int fontSize, Map m)
-		throws IOException
-	{
-		// The macro will be expanded into primitives.
-		return false; 
-	}
-	
+        ellipse(x-node_size/2.0, y-node_size/2.0, 
+                x+node_size/2.0, y+node_size/2.0, true);
+        //outt.write("f\n");
+        
+    }
+        
+    /** Called when exporting a Line primitive.
+    
+        @param x1 the x position of the first point of the segment
+        @param y1 the y position of the first point of the segment
+        @param x2 the x position of the second point of the segment
+        @param y2 the y position of the second point of the segment
+        
+        @param layer the layer that should be used
+        
+        // from 0.22.1
+        
+        @param arrowStart specify if an arrow is present at the first point
+        @param arrowEnd specify if an arrow is present at the second point
+        @param arrowLength total lenght of arrows (if present)
+        @param arrowHalfWidth half width of arrows (if present)
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing 
+    */
+    
+    public void exportLine (double x1, double y1,
+        double x2, double y2,
+        int layer,
+        boolean arrowStart, 
+        boolean arrowEnd, 
+        int arrowStyle, 
+        int arrowLength, 
+        int arrowHalfWidth, 
+        int dashStyle,
+        double strokeWidth)
+        throws IOException
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        
+        checkColorAndWidth(c, strokeWidth);
+        registerDash(dashStyle);
+          
+        outt.write("  "+x1+" "+y1+" m "+
+            x2+" "+y2+" l S\n");
+        
+        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+            arrowHalfWidth, arrowStyle);
+        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
+            arrowHalfWidth, arrowStyle);
+        
+    }
+    
+    /** Called when exporting a Macro call.
+        This function can just return false, to indicate that the macro should 
+        be rendered by means of calling the other primitives. Please note that 
+        a macro does not have a reference layer, since it is defined by its
+        components.
+        
+        @param x the x position of the position of the macro
+        @param y the y position of the position of the macro
+        @param isMirrored true if the macro is mirrored
+        @param orientation the macro orientation in degrees
+        @param macroName the macro name
+        @param macroDesc the macro description, in the FidoCad format
+        @param name the shown name
+        @param xn coordinate of the shown name
+        @param yn coordinate of the shown name
+        @param value the shown value
+        @param xv coordinate of the shown value
+        @param yv coordinate of the shown value
+        @param font the used font
+        @param fontSize the size of the font to be used
+        @param m the library
+    */
+    public boolean exportMacro(int x, int y, boolean isMirrored, 
+        int orientation, String macroName, String macroDesc,
+        String name, int xn, int yn, String value, int xv, int yv, String font,
+        int fontSize, Map m)
+        throws IOException
+    {
+        // The macro will be expanded into primitives.
+        return false; 
+    }
+    
 
-	/** Called when exporting an Oval primitive. Specify the bounding box.
-			
-		@param x1 the x position of the first corner
-		@param y1 the y position of the first corner
-		@param x2 the x position of the second corner
-		@param y2 the y position of the second corner
-		@param isFilled it is true if the oval should be filled
-		
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-	*/	
-	public void exportOval(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		checkColorAndWidth(c, strokeWidth);
-		registerDash(dashStyle);
+    /** Called when exporting an Oval primitive. Specify the bounding box.
+            
+        @param x1 the x position of the first corner
+        @param y1 the y position of the first corner
+        @param x2 the x position of the second corner
+        @param y2 the y position of the second corner
+        @param isFilled it is true if the oval should be filled
+        
+        @param layer the layer that should be used
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing
+    */  
+    public void exportOval(int x1, int y1, int x2, int y2,
+        boolean isFilled, int layer, int dashStyle, double strokeWidth)
+        throws IOException
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        checkColorAndWidth(c, strokeWidth);
+        registerDash(dashStyle);
 
-		ellipse(x1,y1, x2, y2, isFilled);
-	}
-		
-	/** Called when exporting a PCBLine primitive.
-	
-		@param x1 the x position of the first point of the segment
-		@param y1 the y position of the first point of the segment
-		@param x2 the x position of the second point of the segment
-		@param y2 the y position of the second point of the segment
-		@param width the width ot the line
-		@param layer the layer that should be used
-	*/
-	public void exportPCBLine(int x1, int y1, int x2, int y2, int width, 
-		int layer) 
-		throws IOException
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		checkColorAndWidth(c, width);
-		registerDash(0);
-			  
-		outt.write("  "+x1+" "+y1+" m "+
-			x2+" "+y2+" l S\n");
-	}
-		
-	
-	/** Called when exporting a PCBPad primitive.
-	
-		@param x the x position of the pad 
-		@param y the y position of the pad
-		@param style the style of the pad (0: oval, 1: square, 2: rounded 
-			square)
-		@param six the x size of the pad
-		@param siy the y size of the pad
-		@param indiam the hole internal diameter
-		@param layer the layer that should be used
-	*/
-	public void exportPCBPad(int x, int y, int style, int six, int siy, 
-		int indiam, int layer, boolean onlyHole) 
-		throws IOException
-	{ 
-		double xdd;
-		double ydd;
-		
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		
-		checkColorAndWidth(c, 0.33);
+        ellipse(x1,y1, x2, y2, isFilled);
+    }
+        
+    /** Called when exporting a PCBLine primitive.
+    
+        @param x1 the x position of the first point of the segment
+        @param y1 the y position of the first point of the segment
+        @param x2 the x position of the second point of the segment
+        @param y2 the y position of the second point of the segment
+        @param width the width ot the line
+        @param layer the layer that should be used
+    */
+    public void exportPCBLine(int x1, int y1, int x2, int y2, int width, 
+        int layer) 
+        throws IOException
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        checkColorAndWidth(c, width);
+        registerDash(0);
+              
+        outt.write("  "+x1+" "+y1+" m "+
+            x2+" "+y2+" l S\n");
+    }
+        
+    
+    /** Called when exporting a PCBPad primitive.
+    
+        @param x the x position of the pad 
+        @param y the y position of the pad
+        @param style the style of the pad (0: oval, 1: square, 2: rounded 
+            square)
+        @param six the x size of the pad
+        @param siy the y size of the pad
+        @param indiam the hole internal diameter
+        @param layer the layer that should be used
+    */
+    public void exportPCBPad(int x, int y, int style, int six, int siy, 
+        int indiam, int layer, boolean onlyHole) 
+        throws IOException
+    { 
+        double xdd;
+        double ydd;
+        
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        
+        checkColorAndWidth(c, 0.33);
 
-		
-		// At first, draw the pad...
-		if(!onlyHole) {
-			switch (style) {
-				case 2: // Rounded pad 
-					roundRect(x-six/2.0, y-siy/2.0, 
-							six, siy, 4, true);
-					break;
-				case 1:	// Square pad
-					xdd=(double)x-six/2.0;
-					ydd=(double)y-siy/2.0;
-					outt.write(""+xdd+" "+ydd+" m\n");
-					outt.write(""+(xdd+six)+" "+ydd+" l\n");
-					outt.write(""+(xdd+six)+" "+(ydd+siy)+" l\n");
-					outt.write(""+xdd+" "+(ydd+siy)+" l\n");
-					outt.write("B\n");	
-					
-					break;
-				case 0: // Oval pad
-				default:
-					ellipse(x-six/2.0, y-siy/2.0, 
-							x+six/2.0, y+siy/2.0, true);	
-				
-					outt.write("f\n");	
+        
+        // At first, draw the pad...
+        if(!onlyHole) {
+            switch (style) {
+                case 2: // Rounded pad 
+                    roundRect(x-six/2.0, y-siy/2.0, 
+                            six, siy, 4, true);
+                    break;
+                case 1: // Square pad
+                    xdd=(double)x-six/2.0;
+                    ydd=(double)y-siy/2.0;
+                    outt.write(""+xdd+" "+ydd+" m\n");
+                    outt.write(""+(xdd+six)+" "+ydd+" l\n");
+                    outt.write(""+(xdd+six)+" "+(ydd+siy)+" l\n");
+                    outt.write(""+xdd+" "+(ydd+siy)+" l\n");
+                    outt.write("B\n");  
+                    
+                    break;
+                case 0: // Oval pad
+                default:
+                    ellipse(x-six/2.0, y-siy/2.0, 
+                            x+six/2.0, y+siy/2.0, true);    
+                
+                    outt.write("f\n");  
 
-					 break;
-			}
-		}		
-			// ... then, drill the hole!
-		
-		checkColorAndWidth(c.white(), .33);
-		
-		ellipse(x-indiam/2.0, y-indiam/2.0, 
-				x+indiam/2.0, y+indiam/2.0, true);
-		outt.write("f\n");
-	}
-	
-	/**	Called when exporting a Polygon primitive
-	
-		@param vertices array containing the position of each vertex
-		@param nVertices number of vertices
-		@param isFilled true if the polygon is filled
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-	*/
-	public void exportPolygon(PointDouble[] vertices, int nVertices, 
-		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		String fill_pattern="";
-		
-		if (nVertices<1)
-			return;
-		
-		checkColorAndWidth(c, strokeWidth);
-		registerDash(dashStyle);
-	
-		outt.write("  "+vertices[0].x+" "+vertices[0].y+" m\n");
-		
-		for (int i=1; i<nVertices; ++i) 
-			outt.write("  "+vertices[i].x+" "+vertices[i].y+" l\n");
-		
-		if(isFilled) {
-			outt.write("  f*\n");	
-		} else {
-			outt.write("  s\n");	
-		}
-	}
-	/**	Called when exporting a Curve primitive
-	
-		@param vertices array containing the position of each vertex
-		@param nVertices number of vertices
-		@param isFilled true if the polygon is filled
-		@param isClosed true if the curve is closed
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-		
-		@return false if the curve should be rendered using a polygon, true
-			if it is handled by the function.
-	*/
-	public boolean exportCurve(PointDouble[] vertices, int nVertices, 
-		boolean isFilled, boolean isClosed, int layer, 
-		boolean arrowStart, 
-		boolean arrowEnd, 
-		int arrowStyle, 
-		int arrowLength, 
-		int arrowHalfWidth, 
-		int dashStyle,
-		double strokeWidth)
-		throws IOException
-	{
-		return false;
-	}
-	
-	/** Called when exporting a Rectangle primitive.
-			
-		@param x1 the x position of the first corner
-		@param y1 the y position of the first corner
-		@param x2 the x position of the second corner
-		@param y2 the y position of the second corner
-		@param isFilled it is true if the rectangle should be filled
-		
-		@param layer the layer that should be used
-		@param dashStyle dashing style
-		@param strokeWidth the width of the pen to be used when drawing
-	*/
-	public void exportRectangle(int x1, int y1, int x2, int y2,
-		boolean isFilled, int layer, int dashStyle, double strokeWidth)
-		throws IOException
-	{ 
-		
-		LayerDesc l=(LayerDesc)layerV.get(layer);
-		ColorInterface c=l.getColor();
-		
-		checkColorAndWidth(c, strokeWidth);
-		registerDash(dashStyle);
+                     break;
+            }
+        }       
+            // ... then, drill the hole!
+        
+        checkColorAndWidth(c.white(), .33);
+        
+        ellipse(x-indiam/2.0, y-indiam/2.0, 
+                x+indiam/2.0, y+indiam/2.0, true);
+        outt.write("f\n");
+    }
+    
+    /** Called when exporting a Polygon primitive
+    
+        @param vertices array containing the position of each vertex
+        @param nVertices number of vertices
+        @param isFilled true if the polygon is filled
+        @param layer the layer that should be used
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing
+    */
+    public void exportPolygon(PointDouble[] vertices, int nVertices, 
+        boolean isFilled, int layer, int dashStyle, double strokeWidth)
+        throws IOException
+    { 
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        String fill_pattern="";
+        
+        if (nVertices<1)
+            return;
+        
+        checkColorAndWidth(c, strokeWidth);
+        registerDash(dashStyle);
+    
+        outt.write("  "+vertices[0].x+" "+vertices[0].y+" m\n");
+        
+        for (int i=1; i<nVertices; ++i) 
+            outt.write("  "+vertices[i].x+" "+vertices[i].y+" l\n");
+        
+        if(isFilled) {
+            outt.write("  f*\n");   
+        } else {
+            outt.write("  s\n");    
+        }
+    }
+    /** Called when exporting a Curve primitive
+    
+        @param vertices array containing the position of each vertex
+        @param nVertices number of vertices
+        @param isFilled true if the polygon is filled
+        @param isClosed true if the curve is closed
+        @param layer the layer that should be used
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing
+        
+        @return false if the curve should be rendered using a polygon, true
+            if it is handled by the function.
+    */
+    public boolean exportCurve(PointDouble[] vertices, int nVertices, 
+        boolean isFilled, boolean isClosed, int layer, 
+        boolean arrowStart, 
+        boolean arrowEnd, 
+        int arrowStyle, 
+        int arrowLength, 
+        int arrowHalfWidth, 
+        int dashStyle,
+        double strokeWidth)
+        throws IOException
+    {
+        return false;
+    }
+    
+    /** Called when exporting a Rectangle primitive.
+            
+        @param x1 the x position of the first corner
+        @param y1 the y position of the first corner
+        @param x2 the x position of the second corner
+        @param y2 the y position of the second corner
+        @param isFilled it is true if the rectangle should be filled
+        
+        @param layer the layer that should be used
+        @param dashStyle dashing style
+        @param strokeWidth the width of the pen to be used when drawing
+    */
+    public void exportRectangle(int x1, int y1, int x2, int y2,
+        boolean isFilled, int layer, int dashStyle, double strokeWidth)
+        throws IOException
+    { 
+        
+        LayerDesc l=(LayerDesc)layerV.get(layer);
+        ColorInterface c=l.getColor();
+        
+        checkColorAndWidth(c, strokeWidth);
+        registerDash(dashStyle);
 
-		outt.write("  "+x1+" "+y1+" m\n");
-		outt.write("  "+x2+" "+y1+" l\n");
-		outt.write("  "+x2+" "+y2+" l\n");
-		outt.write("  "+x1+" "+y2+" l\n");
-		if(isFilled) {
-			outt.write("f\n");	
-		} else {
-			outt.write("s\n");	
-		}
-	}
-	
-	private void roundRect (double x1, double y1, double w, double h, 
-		double r, boolean filled)
-		throws IOException
-	{
-		outt.write(""+ (x1+r) + " " +(y1)+" m\n");
-		outt.write(""+ (x1+w-r) + " " +(y1)+" l\n");
-		outt.write(""+ (x1+w) + " " +(y1)+" "+ (x1+w) + " " +(y1+r)+" y\n");
-		
-		outt.write(""+ (x1+w) + " " +(y1+h-r)+" l\n");
-		outt.write(""+ (x1+w) + " " +(y1+h)+" "+ (x1+w-r) + " " +(y1+h)+" y\n");
-		
-		outt.write(""+ (x1+r) + " " +(y1+h)+" l\n");
-		outt.write(""+ (x1) + " " +(y1+h)+" "+ (x1) + " " +(y1+h-r)+" y\n");
-		
-		outt.write(""+ (x1) + " " +(y1+r)+" l\n");
-		outt.write(""+ (x1) + " " +(y1)+" "+ (x1+r) + " " +(y1)+" y \n");
-		
-		outt.write("  "+(filled?"f\n":"s\n"));
-	}
-	
-	private void ellipse(double x1, double y1, double x2, double y2, 
-		boolean filled)
-		throws IOException
-	{
-		int i;
-		
-		double cx = (x1+x2)/2.0;
-		double cy = (y1+y2)/2.0;
-		
-		double rx = Math.abs(x2-x1)/2.0;
-		double ry = Math.abs(y2-y1)/2.0;
-		
-		final int NMAX=32;
-		
-		double xA;
-		double yA;
-		
-		double xB;
-		double yB;
-		
-		double xC;
-		double yC;
-		
-		double xD;
-		double yD;
-		
-		double alpha;
-		
-		final double rr = 1.02;
-		final double tt = 1.01;
-		
-		outt.write("  "+ roundTo(cx+rx)+" "+ roundTo(cy)+" m\n");
-		
-		for(i=0; i<NMAX; ++i) {
-		
-			alpha = 2.0*Math.PI*(double)i/(double)NMAX;
-			xA = cx + rx * Math.cos(alpha);
-			yA = cy + ry * Math.sin(alpha);
-			
-			alpha += 2.0*Math.PI/(double)NMAX/3.0;
-			
-			xB = cx + rr*rx * Math.cos(alpha);
-			yB = cy + rr*ry * Math.sin(alpha);
-			
-			alpha += 2.0*Math.PI/(double)NMAX/3.0;
-			
-			xC = cx + tt*rx * Math.cos(alpha);
-			yC = cy + tt*ry * Math.sin(alpha);
-	
-			alpha += 2.0*Math.PI/(double)NMAX/3.0;
+        outt.write("  "+x1+" "+y1+" m\n");
+        outt.write("  "+x2+" "+y1+" l\n");
+        outt.write("  "+x2+" "+y2+" l\n");
+        outt.write("  "+x1+" "+y2+" l\n");
+        if(isFilled) {
+            outt.write("f\n");  
+        } else {
+            outt.write("s\n");  
+        }
+    }
+    
+    private void roundRect (double x1, double y1, double w, double h, 
+        double r, boolean filled)
+        throws IOException
+    {
+        outt.write(""+ (x1+r) + " " +(y1)+" m\n");
+        outt.write(""+ (x1+w-r) + " " +(y1)+" l\n");
+        outt.write(""+ (x1+w) + " " +(y1)+" "+ (x1+w) + " " +(y1+r)+" y\n");
+        
+        outt.write(""+ (x1+w) + " " +(y1+h-r)+" l\n");
+        outt.write(""+ (x1+w) + " " +(y1+h)+" "+ (x1+w-r) + " " +(y1+h)+" y\n");
+        
+        outt.write(""+ (x1+r) + " " +(y1+h)+" l\n");
+        outt.write(""+ (x1) + " " +(y1+h)+" "+ (x1) + " " +(y1+h-r)+" y\n");
+        
+        outt.write(""+ (x1) + " " +(y1+r)+" l\n");
+        outt.write(""+ (x1) + " " +(y1)+" "+ (x1+r) + " " +(y1)+" y \n");
+        
+        outt.write("  "+(filled?"f\n":"s\n"));
+    }
+    
+    private void ellipse(double x1, double y1, double x2, double y2, 
+        boolean filled)
+        throws IOException
+    {
+        int i;
+        
+        double cx = (x1+x2)/2.0;
+        double cy = (y1+y2)/2.0;
+        
+        double rx = Math.abs(x2-x1)/2.0;
+        double ry = Math.abs(y2-y1)/2.0;
+        
+        final int NMAX=32;
+        
+        double xA;
+        double yA;
+        
+        double xB;
+        double yB;
+        
+        double xC;
+        double yC;
+        
+        double xD;
+        double yD;
+        
+        double alpha;
+        
+        final double rr = 1.02;
+        final double tt = 1.01;
+        
+        outt.write("  "+ roundTo(cx+rx)+" "+ roundTo(cy)+" m\n");
+        
+        for(i=0; i<NMAX; ++i) {
+        
+            alpha = 2.0*Math.PI*(double)i/(double)NMAX;
+            xA = cx + rx * Math.cos(alpha);
+            yA = cy + ry * Math.sin(alpha);
+            
+            alpha += 2.0*Math.PI/(double)NMAX/3.0;
+            
+            xB = cx + rr*rx * Math.cos(alpha);
+            yB = cy + rr*ry * Math.sin(alpha);
+            
+            alpha += 2.0*Math.PI/(double)NMAX/3.0;
+            
+            xC = cx + tt*rx * Math.cos(alpha);
+            yC = cy + tt*ry * Math.sin(alpha);
+    
+            alpha += 2.0*Math.PI/(double)NMAX/3.0;
 
-			xD = cx + rx * Math.cos(alpha);
-			yD = cy + ry * Math.sin(alpha);
-			
-			
-			outt.write(roundTo(xC)+" "
-				+ roundTo(yC)+" "+ roundTo(xD)+" "+ roundTo(yD)+" y\n");
-		}
-		outt.write("  "+(filled?"f\n":"s\n"));	
-	}
-	
-	private String addLeadZeros(long n)
-	{
-		String s=""+n;
-		
-		// simple and inefficient.
-		while (s.length()<10) {
-			s="0"+s;
-		}
-		
-		return s;
-	}
-	
-	private String roundTo(double n)
-	{
-		int ch = 2;
-		return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
-	}
+            xD = cx + rx * Math.cos(alpha);
+            yD = cy + ry * Math.sin(alpha);
+            
+            
+            outt.write(roundTo(xC)+" "
+                + roundTo(yC)+" "+ roundTo(xD)+" "+ roundTo(yD)+" y\n");
+        }
+        outt.write("  "+(filled?"f\n":"s\n"));  
+    }
+    
+    private String addLeadZeros(long n)
+    {
+        String s=""+n;
+        
+        // simple and inefficient.
+        while (s.length()<10) {
+            s="0"+s;
+        }
+        
+        return s;
+    }
+    
+    private String roundTo(double n)
+    {
+        int ch = 2;
+        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
+    }
 
-	private void checkColorAndWidth(ColorInterface c, double wl)
-		throws IOException
-	{
-		if(!c.equals(actualColor)) {
-			outt.write("  "+roundTo(c.getRed()/255.0)+" "+
-				roundTo(c.getGreen()/255.0)+ " "
-				+roundTo(c.getBlue()/255.0)+	" rg\n");
-			outt.write("  "+roundTo(c.getRed()/255.0)+" "+
-				roundTo(c.getGreen()/255.0)+ " "
-				+roundTo(c.getBlue()/255.0)+	" RG\n");
-			actualColor=c;
-		}
-		if(wl != actualWidth) {
-			outt.write("  " +wl+" w\n");
-			actualWidth = wl;
-		}
-	}
+    private void checkColorAndWidth(ColorInterface c, double wl)
+        throws IOException
+    {
+        if(!c.equals(actualColor)) {
+            outt.write("  "+roundTo(c.getRed()/255.0)+" "+
+                roundTo(c.getGreen()/255.0)+ " "
+                +roundTo(c.getBlue()/255.0)+    " rg\n");
+            outt.write("  "+roundTo(c.getRed()/255.0)+" "+
+                roundTo(c.getGreen()/255.0)+ " "
+                +roundTo(c.getBlue()/255.0)+    " RG\n");
+            actualColor=c;
+        }
+        if(wl != actualWidth) {
+            outt.write("  " +wl+" w\n");
+            actualWidth = wl;
+        }
+    }
 
-	private void registerDash(int dashStyle)
-		throws IOException
-	{
-		if(actualDash!=dashStyle) {
-			actualDash=dashStyle;
-			if(dashStyle==0) 
-				outt.write("[] 0 d\n");
-			else
-				outt.write(""+dash[dashStyle]+" 0 d\n");
+    private void registerDash(int dashStyle)
+        throws IOException
+    {
+        if(actualDash!=dashStyle) {
+            actualDash=dashStyle;
+            if(dashStyle==0) 
+                outt.write("[] 0 d\n");
+            else
+                outt.write(""+dash[dashStyle]+" 0 d\n");
 
-		}
-	}
-	
-	/** Called when exporting an arrow.
-		@param x position of the tip of the arrow
-		@param y position of the tip of the arrow
-		@param xc direction of the tip of the arrow
-		@param yc direction of the tip of the arrow
-		@param l length of the arrow
-		@param h width of the arrow
-		@param style style of the arrow
-	*/
-	public void exportArrow(double x, double y, double xc, double yc, 
-		double l, double h, 
-		int style)
-		throws IOException
-	{
-		double s;
-		double alpha;
-		double x0;
-		double y0;
-		double x1;
-		double y1;
-		double x2;
-		double y2;
-		
-		// At first we need the angle giving the direction of the arrow
-		// a little bit of trigonometry :-)
-		
-		if (x==xc)
-			alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
-		else
-			alpha = Math.atan((double)(y-yc)/(double)(x-xc));
-		
-		alpha += x-xc>0.0?0.0:Math.PI;
-	
-		// Then, we calculate the points for the polygon
-		x0 = x - l*Math.cos(alpha);
-		y0 = y - l*Math.sin(alpha);
-		
-		x1 = x0 - h*Math.sin(alpha);
-		y1 = y0 + h*Math.cos(alpha);
-		
-		x2 = x0 + h*Math.sin(alpha);
-		y2 = y0 - h*Math.cos(alpha);
-		
-		// Arrows are always done with dash 0
-		registerDash(0);
+        }
+    }
+    
+    /** Called when exporting an arrow.
+        @param x position of the tip of the arrow
+        @param y position of the tip of the arrow
+        @param xc direction of the tip of the arrow
+        @param yc direction of the tip of the arrow
+        @param l length of the arrow
+        @param h width of the arrow
+        @param style style of the arrow
+    */
+    public void exportArrow(double x, double y, double xc, double yc, 
+        double l, double h, 
+        int style)
+        throws IOException
+    {
+        double s;
+        double alpha;
+        double x0;
+        double y0;
+        double x1;
+        double y1;
+        double x2;
+        double y2;
+        
+        // At first we need the angle giving the direction of the arrow
+        // a little bit of trigonometry :-)
+        
+        if (x==xc)
+            alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
+        else
+            alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+        
+        alpha += x-xc>0.0?0.0:Math.PI;
+    
+        // Then, we calculate the points for the polygon
+        x0 = x - l*Math.cos(alpha);
+        y0 = y - l*Math.sin(alpha);
+        
+        x1 = x0 - h*Math.sin(alpha);
+        y1 = y0 + h*Math.cos(alpha);
+        
+        x2 = x0 + h*Math.sin(alpha);
+        y2 = y0 - h*Math.cos(alpha);
+        
+        // Arrows are always done with dash 0
+        registerDash(0);
 
-			
-     	outt.write(""+roundTo(x)+" "+	roundTo(y)+" m\n");
-      	outt.write(""+roundTo(x1)+" "+roundTo(y1)+" l\n");
-      	outt.write(""+roundTo(x2)+" "+roundTo(y2)+" l\n");
-      	
+            
+        outt.write(""+roundTo(x)+" "+   roundTo(y)+" m\n");
+        outt.write(""+roundTo(x1)+" "+roundTo(y1)+" l\n");
+        outt.write(""+roundTo(x2)+" "+roundTo(y2)+" l\n");
+        
         if ((style & Arrow.flagEmpty) == 0)
-			outt.write("  f*\n");
- 		else
-			outt.write("  s\n");
- 			
- 		if ((style & Arrow.flagLimiter) != 0) {
- 			double x3;
-			double y3;
-			double x4;
-			double y4;
-			x3 = x - h*Math.sin(alpha);
-			y3 = y + h*Math.cos(alpha);
-		
-			x4 = x + h*Math.sin(alpha);
-			y4 = y - h*Math.cos(alpha);
-			outt.write(""+roundTo(x3)+" "+roundTo(y3)+" m\n"+
-				roundTo(x4)+" "+roundTo(y4)+" l s\n"); 
- 		}
-	}	
+            outt.write("  f*\n");
+        else
+            outt.write("  s\n");
+            
+        if ((style & Arrow.flagLimiter) != 0) {
+            double x3;
+            double y3;
+            double x4;
+            double y4;
+            x3 = x - h*Math.sin(alpha);
+            y3 = y + h*Math.cos(alpha);
+        
+            x4 = x + h*Math.sin(alpha);
+            y4 = y - h*Math.cos(alpha);
+            outt.write(""+roundTo(x3)+" "+roundTo(y3)+" m\n"+
+                roundTo(x4)+" "+roundTo(y4)+" l s\n"); 
+        }
+    }   
 }

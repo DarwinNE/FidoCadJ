@@ -180,7 +180,7 @@ obtain the Javadoc description. Important classes are:
 
 Ok, you just did a clone from GitHub Git the FidoCadJ source files. 
 
-			Good :-)
+            Good :-)
 
 FidoCadJ is a pure Java project, and for many reasons I prefer using a good
 text editor as well as a few command line scripts, in order to compile and 
@@ -269,21 +269,21 @@ code:
 
 - switches are indented as follows:
 
-	int dummy(int i)
-	{
-		int j;
-		switch(i) {
-			case 1:
-				j=3;
-				break;
-			case 2:
-				j=2;
-				break;
-			default:
-				j=0
-		}
-		return j;
-	} 
+    int dummy(int i)
+    {
+        int j;
+        switch(i) {
+            case 1:
+                j=3;
+                break;
+            case 2:
+                j=2;
+                break;
+            default:
+                j=0
+        }
+        return j;
+    } 
 
 - the class names always start with a capital letter, and so does methods
 - variables never start with a capital letter

@@ -4,11 +4,11 @@ import java.awt.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 
-/**		SWING VERSION
+/**     SWING VERSION
 
 
-	PolygonInterface specifies methods for handling a polygon.
-	TODO: reduce dependency on java.awt.*;
+    PolygonInterface specifies methods for handling a polygon.
+    TODO: reduce dependency on java.awt.*;
 
 <pre>
     This file is part of FidoCadJ.
@@ -32,39 +32,39 @@ import net.sourceforge.fidocadj.graphic.*;
 public class PolygonNull implements PolygonInterface
 {
 
-	private final Polygon p;
-	
-	public PolygonNull()
-	{
-		p=new Polygon();
-	}
+    private final Polygon p;
+    
+    public PolygonNull()
+    {
+        p=new Polygon();
+    }
 
-	public void addPoint(int x, int y) 
-	{
-		p.addPoint(x,y);
-	}
+    public void addPoint(int x, int y) 
+    {
+        p.addPoint(x,y);
+    }
 
-	public void reset()
-	{
-		p.reset();
-	}
-	public int getNpoints()
-	{
-		return p.npoints;
-	}
-	
-	public int[] getXpoints()
-	{
-		return p.xpoints;
-	}
-	
-	public int[] getYpoints()
-	{
-		return p.ypoints;
-	}
-	
-	public boolean contains(int x, int y)
-	{
-		return p.contains(x,y);
-	}
+    public void reset()
+    {
+        p.reset();
+    }
+    public int getNpoints()
+    {
+        return p.npoints;
+    }
+    
+    public int[] getXpoints()
+    {
+        return p.xpoints;
+    }
+    
+    public int[] getYpoints()
+    {
+        return p.ypoints;
+    }
+    
+    public boolean contains(int x, int y)
+    {
+        return p.contains(x,y);
+    }
 }

@@ -3,11 +3,11 @@ package net.sourceforge.fidocadj.graphic.nil;
 import net.sourceforge.fidocadj.graphic.*;
 
 
-/** 		SWING VERSION
+/**         SWING VERSION
 
-	Null color class. Does nothing :-)
-	
-	    
+    Null color class. Does nothing :-)
+    
+        
 <pre>
     This file is part of FidoCadJ.
 
@@ -30,59 +30,59 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class ColorNull implements ColorInterface
 {
-	
-	public ColorNull()
-	{
-		// Does nothing.
-	}
-	
-	
-	public ColorInterface white() 
-	{	
-		return new ColorNull();
-	}
+    
+    public ColorNull()
+    {
+        // Does nothing.
+    }
+    
+    
+    public ColorInterface white() 
+    {   
+        return new ColorNull();
+    }
 
-	public ColorInterface gray() 
-	{
-		return new ColorNull();
-	}
+    public ColorInterface gray() 
+    {
+        return new ColorNull();
+    }
 
-	public ColorInterface green() 
-	{
-		return new ColorNull();
-	}
-	
-	public ColorInterface red() 
-	{
-		return new ColorNull();
-	}
-	
-	public ColorInterface black() 
-	{
-		return new ColorNull();
-	}
-	
-	public int getRed()
-	{
-		return 0;
-	}
+    public ColorInterface green() 
+    {
+        return new ColorNull();
+    }
+    
+    public ColorInterface red() 
+    {
+        return new ColorNull();
+    }
+    
+    public ColorInterface black() 
+    {
+        return new ColorNull();
+    }
+    
+    public int getRed()
+    {
+        return 0;
+    }
 
-	public int getGreen()
-	{
-		return 0;
-	}
+    public int getGreen()
+    {
+        return 0;
+    }
 
-	public int getBlue()
-	{
-		return 0;
-	}	
-	
-	public int getRGB()
-	{
-		return 0;
-	}
-	public void setRGB(int rgb)
-	{
-		// Does nothing.
-	}
+    public int getBlue()
+    {
+        return 0;
+    }   
+    
+    public int getRGB()
+    {
+        return 0;
+    }
+    public void setRGB(int rgb)
+    {
+        // Does nothing.
+    }
 }

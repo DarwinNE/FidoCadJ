@@ -50,9 +50,9 @@ public class Library
         return filename;
     }
 
-	/** Gets all the categories contained in the library.
-		@return a list containing all categories.
-	*/
+    /** Gets all the categories contained in the library.
+        @return a list containing all categories.
+    */
     public List<Category> getAllCategories()
     {
         return categories;
@@ -109,8 +109,8 @@ public class Library
         return false;
     }
 
-	public String toString()
-	{
-		return getName();
-	}
+    public String toString()
+    {
+        return getName();
+    }
 }

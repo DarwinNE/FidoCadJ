@@ -5,8 +5,8 @@ import java.util.*;
 
 <pre>
     @author D. Bucci                               
-	
-	This file is part of FidoCadJ.
+    
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ import java.util.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -44,16 +44,16 @@ import java.util.*;
 
 </pre>
 
- 	This class allows to concatenate a translation with the xCenter and yCenter
- 	variables. This should NOT be used to scroll the actual drawing in the 
- 	viewport, since this is done by using the JScrollPane Swing control.
- 	This is indeed very useful when exporting or when drawing macros.
+    This class allows to concatenate a translation with the xCenter and yCenter
+    variables. This should NOT be used to scroll the actual drawing in the 
+    viewport, since this is done by using the JScrollPane Swing control.
+    This is indeed very useful when exporting or when drawing macros.
 */
 
 
 public class MapCoordinates
 {
-	// Every member should be made private sooner or later...
+    // Every member should be made private sooner or later...
     private double xCenter;
     private double yCenter;
     private double xMagnitude;
@@ -67,9 +67,9 @@ public class MapCoordinates
     public static final double MAX_MAGNITUDE=20.0;
 
     private double vx;
-    private int ivx;	// NOPMD this is not a local variable for efficiency
+    private int ivx;    // NOPMD this is not a local variable for efficiency
     private double vy;
-	private int ivy;	// NOPMD this is not a local variable for efficiency
+    private int ivy;    // NOPMD this is not a local variable for efficiency
 
     private int xMin;
     private int xMax;
@@ -97,61 +97,61 @@ public class MapCoordinates
         stack = new Stack<MapCoordinates>();
     }
     
-    /**	Change the current orientation
-    	@param o the wanted orientation (comprised between 0 and 3).
-    	NOTE: if o is greater than 3, it will be 
+    /** Change the current orientation
+        @param o the wanted orientation (comprised between 0 and 3).
+        NOTE: if o is greater than 3, it will be 
     */
     public void setOrientation(int o)
     {
-    	orientation=o;
-    	
-    	// Check for sanity
-    	if (orientation<0) 
-    		orientation=0;
+        orientation=o;
+        
+        // Check for sanity
+        if (orientation<0) 
+            orientation=0;
 
-		if (orientation>3)
-			orientation=3;    	
+        if (orientation>3)
+            orientation=3;      
     }
     
     /** Get the current orientation.
-    	@return the current orientation.
+        @return the current orientation.
     */
     public int getOrientation()
     {
-		return orientation;
-	}
-	
-	/** Get the current mirroring state
-    	@return the current mirroring state.
+        return orientation;
+    }
+    
+    /** Get the current mirroring state
+        @return the current mirroring state.
     */
     public boolean getMirror()
     {
-		return mirror;
-	}
-	
+        return mirror;
+    }
+    
     
     /** Save in a stack the current coordinate state.
     
     */
     public void push()
     {
-    	MapCoordinates m = new MapCoordinates();
-    	m.xCenter=xCenter;
-   		m.yCenter=yCenter;
-    	m.xMagnitude=xMagnitude;
-    	m.yMagnitude=yMagnitude;
-    	m.orientation=orientation;
-    	m.mirror=mirror;
-    	m.isMacro=isMacro;
-    	m.snapActive=snapActive;
-   		m.xMin=xMin;
-    	m.xMax=xMax;
-    	m.yMin=yMin;
-    	m.yMax=yMax;
+        MapCoordinates m = new MapCoordinates();
+        m.xCenter=xCenter;
+        m.yCenter=yCenter;
+        m.xMagnitude=xMagnitude;
+        m.yMagnitude=yMagnitude;
+        m.orientation=orientation;
+        m.mirror=mirror;
+        m.isMacro=isMacro;
+        m.snapActive=snapActive;
+        m.xMin=xMin;
+        m.xMax=xMax;
+        m.yMin=yMin;
+        m.yMax=yMax;
     
-    	m.xGridStep=xGridStep;
-    	m.yGridStep=yGridStep;
-    	stack.push(m);
+        m.xGridStep=xGridStep;
+        m.yGridStep=yGridStep;
+        stack.push(m);
     }
     
     /** Pop from a stack the coordinate state.
@@ -159,81 +159,81 @@ public class MapCoordinates
     */
     public void pop()
     {
-    	if(stack.empty()) {
-    	 	System.out.println("Warning: I can not pop the coordinate state "+
-    	 		"out of an empty stack!");
-    	} else {
-    		MapCoordinates m=(MapCoordinates) stack.pop();
-    		xCenter=m.xCenter;
-   			yCenter=m.yCenter;
-    		xMagnitude=m.xMagnitude;
-    		yMagnitude=m.yMagnitude;
-    		orientation=m.orientation;
-    		mirror=m.mirror;
-    		isMacro=m.isMacro;
-    		snapActive=m.snapActive;
-   			xMin=m.xMin;
-    		xMax=m.xMax;
-    		yMin=m.yMin;
-    		yMax=m.yMax;
+        if(stack.empty()) {
+            System.out.println("Warning: I can not pop the coordinate state "+
+                "out of an empty stack!");
+        } else {
+            MapCoordinates m=(MapCoordinates) stack.pop();
+            xCenter=m.xCenter;
+            yCenter=m.yCenter;
+            xMagnitude=m.xMagnitude;
+            yMagnitude=m.yMagnitude;
+            orientation=m.orientation;
+            mirror=m.mirror;
+            isMacro=m.isMacro;
+            snapActive=m.snapActive;
+            xMin=m.xMin;
+            xMax=m.xMax;
+            yMin=m.yMin;
+            yMax=m.yMax;
     
-    		xGridStep=m.xGridStep;
-    		yGridStep=m.yGridStep;
-    	} 
+            xGridStep=m.xGridStep;
+            yGridStep=m.yGridStep;
+        } 
     }
     
     /** Set the snapping state (used in the unmapping functions)
-    	@param s the wanted state.
+        @param s the wanted state.
     */
     public final void setSnap(boolean s)
     {
-    	snapActive=s;
+        snapActive=s;
     }
     
     /** Get the snapping state (used in the unmapping functions)
-    	@return the current snapping state.
+        @return the current snapping state.
     */
     public final boolean getSnap()
     {
-    	return snapActive;
+        return snapActive;
     }
     
-    /**	Set the X grid step
-    	@param xg the X grid step
+    /** Set the X grid step
+        @param xg the X grid step
     */
     public final void setXGridStep(int xg)
     {
-    	if (xg>0) 
-    		xGridStep=xg;
+        if (xg>0) 
+            xGridStep=xg;
     }
     
-    /**	Set the Y grid step
-    	@param yg the Y grid step
+    /** Set the Y grid step
+        @param yg the Y grid step
     */
     public final void setYGridStep(int yg)
     {
-    	if (yg>0) 
-    		yGridStep=yg;
+        if (yg>0) 
+            yGridStep=yg;
     }
     
-    /**	Get the X grid step
-    	@return the X grid step used
+    /** Get the X grid step
+        @return the X grid step used
     */
     public final int getXGridStep()
-    {	
-    	return xGridStep;
+    {   
+        return xGridStep;
     }
     
-    /**	Get the Y grid step
-    	@return the Y grid step used
+    /** Get the Y grid step
+        @return the Y grid step used
     */
     public final int getYGridStep()
-    {	
-    	return yGridStep;
+    {   
+        return yGridStep;
     }
     
-    /**	Get the X magnification factor
-    	@return the X magnification factor
+    /** Get the X magnification factor
+        @return the X magnification factor
     
     */
     public final double getXMagnitude()
@@ -241,80 +241,80 @@ public class MapCoordinates
         return xMagnitude;
     }
     
-    /**	Get the Y magnification factor
-    	@return the Y magnification factor
+    /** Get the Y magnification factor
+        @return the Y magnification factor
     */
     public final double getYMagnitude()
     {
         return yMagnitude;
     }
     
-    /**	Set the X magnification factor
-    	@param txm the X magnification factor
+    /** Set the X magnification factor
+        @param txm the X magnification factor
     
     */
     public final void setXMagnitude(double txm)
     {
-    	double xm=txm;
-    	if (Math.abs(xm)<MIN_MAGNITUDE)
-    		xm=MIN_MAGNITUDE;
-    	
-    	if (Math.abs(xm)>MAX_MAGNITUDE)
-    		xm=MAX_MAGNITUDE;
-    	
+        double xm=txm;
+        if (Math.abs(xm)<MIN_MAGNITUDE)
+            xm=MIN_MAGNITUDE;
+        
+        if (Math.abs(xm)>MAX_MAGNITUDE)
+            xm=MAX_MAGNITUDE;
+        
         xMagnitude=xm;
     }
     
-    /**	Set the Y magnification factor
-    	@param tym the Y magnification factor
+    /** Set the Y magnification factor
+        @param tym the Y magnification factor
     */
     public final void setYMagnitude(double tym)
     {
-    	double ym=tym;
-    	if (Math.abs(ym)<MIN_MAGNITUDE)
-    		ym=MIN_MAGNITUDE;
-    	
-    	if (Math.abs(ym)>MAX_MAGNITUDE)
-    		ym=MAX_MAGNITUDE;
-    	
+        double ym=tym;
+        if (Math.abs(ym)<MIN_MAGNITUDE)
+            ym=MIN_MAGNITUDE;
+        
+        if (Math.abs(ym)>MAX_MAGNITUDE)
+            ym=MAX_MAGNITUDE;
+        
         yMagnitude=ym;
     }
     
-    /**	Get the X magnification factor
-    	@return the X magnification factor
+    /** Get the X magnification factor
+        @return the X magnification factor
     */
     public final double getXCenter()
     {
         return xCenter;
     }
     
-    /**	Get the Y magnification factor
-    	@return the Y magnification factor
+    /** Get the Y magnification factor
+        @return the Y magnification factor
     */
     public final double getYCenter()
     {
         return yCenter;
     }
     
-    /**	Set the X center in pixel
-    	@param xm the X center in pixel
+    /** Set the X center in pixel
+        @param xm the X center in pixel
     */
     public final void setXCenter(double xm)
     {
         xCenter=xm;
     }
     
-    /**	Set the Y magnification factor
-    	@param ym the Y magnification factor
+    /** Set the Y magnification factor
+        @param ym the Y magnification factor
     */
     public final void setYCenter(double ym)
     {
         yCenter=ym;
     }
 
-    /**	Set both X and Y magnification factors
-    	@param xm the X magnification factor
-    	@param ym the Y magnification factor
+    /** Set both X and Y magnification factors
+        @param xm the X magnification factor
+        @param ym the Y magnification factor
     */
     public final void setMagnitudes(double xm, double ym)
     {
@@ -322,24 +322,24 @@ public class MapCoordinates
         setYMagnitude(ym);
     }
     
-    /**	Get the maximum tracked X coordinate
-    	@return the maximum tracked X coordinate
+    /** Get the maximum tracked X coordinate
+        @return the maximum tracked X coordinate
     */
     public final int getXMax()
     {
         return xMax;
     }
     
-    /**	Get the maximum tracked Y coordinate
-    	@return the maximum tracked Y coordinate
+    /** Get the maximum tracked Y coordinate
+        @return the maximum tracked Y coordinate
     */
     public final int getYMax()
     {
         return yMax;
     }
     
-    /**	Get the minimum tracked X coordinate
-    	@return the minimum tracked X coordinate
+    /** Get the minimum tracked X coordinate
+        @return the minimum tracked X coordinate
     */
     public final int getXMin()
     {
@@ -347,7 +347,7 @@ public class MapCoordinates
     }
     
     /** Get the minimum tracked Y coordinate
-    	@return the minimum tracked Y coordinate
+        @return the minimum tracked Y coordinate
     */
     public final int getYMin()
     {
@@ -362,13 +362,13 @@ public class MapCoordinates
     }
    
     /** Map the xc,yc coordinate given in the X pixel coordinate. The tracking
-    	is active
+        is active
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
     public final int mapX(double xc,double yc)
     {
-    	return mapXi(xc, yc, true);
+        return mapXi(xc, yc, true);
     }
  
     /** Map the xc,yc coordinate given in the X pixel coordinate.
@@ -379,84 +379,84 @@ public class MapCoordinates
     public final int mapXi(double xc,double yc, boolean track)
     {
         ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
-        	to the lowest integer. We need to round correctly; */
+            to the lowest integer. We need to round correctly; */
 
         if(track) {
-        	if(ivx<xMin)
-            	xMin=ivx;
-        	if(ivx>xMax)
-            	xMax=ivx;
-       	}
+            if(ivx<xMin)
+                xMin=ivx;
+            if(ivx>xMax)
+                xMax=ivx;
+        }
        
         return ivx;
     }
    
-   	/** Map the txc,tyc coordinate given in the X pixel coordinate. The results
-   		are given as double precision. Tracking is not active.
+    /** Map the txc,tyc coordinate given in the X pixel coordinate. The results
+        are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
         @param tyc the vertical coordinate in the drawing coordinate system.
     */
     public final double mapXr(double txc,double tyc)
     {
-    	double xc=txc, yc=tyc;
+        double xc=txc, yc=tyc;
         // The orientation data is not used outside a macro
         if(isMacro){
             xc-=100.0;
             yc-=100.0;
                
-        	if(mirror) {
-            	switch(orientation){
-                	case 0:
-                	    vx=-xc*xMagnitude;
-             	       	break;
-                	case 1:
-                    	vx=yc*yMagnitude;
-                    	break;
-                	case 2:
-                    	vx=xc*xMagnitude;
-                    	break;
+            if(mirror) {
+                switch(orientation){
+                    case 0:
+                        vx=-xc*xMagnitude;
+                        break;
+                    case 1:
+                        vx=yc*yMagnitude;
+                        break;
+                    case 2:
+                        vx=xc*xMagnitude;
+                        break;
                 
-                	case 3:
-                    	vx=-yc*yMagnitude;
-                    	break;
+                    case 3:
+                        vx=-yc*yMagnitude;
+                        break;
     
-                	default:
-                	    vx=-xc*xMagnitude;
-             	       	break;
-            	}
-        	} else {
-            	switch(orientation){
-            	    case 0:
-            	        vx=xc*xMagnitude;
-                	    break;
-                	case 1:
-                	    vx=-yc*yMagnitude;
-               		    break;
-                	case 2:
-                	    vx=-xc*xMagnitude;
-                	    break;
-            	    case 3:
-            	        vx=yc*yMagnitude;
-            	        break;
-            	    default:
-            	        vx=xc*xMagnitude;
-                	    break;
-            	}
-        	}   
+                    default:
+                        vx=-xc*xMagnitude;
+                        break;
+                }
+            } else {
+                switch(orientation){
+                    case 0:
+                        vx=xc*xMagnitude;
+                        break;
+                    case 1:
+                        vx=-yc*yMagnitude;
+                        break;
+                    case 2:
+                        vx=-xc*xMagnitude;
+                        break;
+                    case 3:
+                        vx=yc*yMagnitude;
+                        break;
+                    default:
+                        vx=xc*xMagnitude;
+                        break;
+                }
+            }   
         } else {
-        	vx=(double)xc*xMagnitude;
+            vx=(double)xc*xMagnitude;
         }
         return vx+xCenter;  
     }
 
     /** Map the xc,yc coordinate given in the Y pixel coordinate. The tracking
-    	is active.
+        is active.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
     */
     public final int mapY(double xc,double yc)
     {
-		return mapYi(xc, yc, true);
+        return mapYi(xc, yc, true);
     }
     
     /** Map the xc,yc coordinate given in the Y pixel coordinate. 
@@ -467,49 +467,49 @@ public class MapCoordinates
     public final int mapYi(double xc,double yc, boolean track)
     {
         ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals 
-        	to the lowest integer. We need to round correctly; */
+            to the lowest integer. We need to round correctly; */
         
         if(track) {
-        	if(ivy<yMin)
-            	yMin=ivy;
+            if(ivy<yMin)
+                yMin=ivy;
             
-        	if(ivy>yMax)
-            	yMax=ivy;
-    	}
+            if(ivy>yMax)
+                yMax=ivy;
+        }
         return ivy;
     }
     
-   	/** Map the xc,yc coordinate given in the Y pixel coordinate. The results
-   		are given as double precision. Tracking is not active.
+    /** Map the xc,yc coordinate given in the Y pixel coordinate. The results
+        are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
         @param tyc the vertical coordinate in the drawing coordinate system.
     */       
     public final double mapYr(double txc,double tyc)
     {  
-    	double xc=txc, yc=tyc;
+        double xc=txc, yc=tyc;
         if(isMacro){
             xc-=100.0;
             yc-=100.0;
-        	      
-        	switch(orientation){
-            	case 0:
-                	vy=yc*yMagnitude;
-        			break;
-            	case 1:
-                	vy=xc*xMagnitude;
-                	break;
-            	case 2:
-                	vy=-yc*yMagnitude;
-                	break;
-            	case 3:
-                	vy=-xc*xMagnitude;
-                	break;
+                  
+            switch(orientation){
+                case 0:
+                    vy=yc*yMagnitude;
+                    break;
+                case 1:
+                    vy=xc*xMagnitude;
+                    break;
+                case 2:
+                    vy=-yc*yMagnitude;
+                    break;
+                case 3:
+                    vy=-xc*xMagnitude;
+                    break;
                 default:
-                	vy=0.0;
-                	break;
-        	}
+                    vy=0.0;
+                    break;
+            }
         } else {
-        	vy=(double)yc*yMagnitude;
+            vy=(double)yc*yMagnitude;
         }
         
         return vy+yCenter;   
@@ -562,8 +562,8 @@ public class MapCoordinates
         int xc=unmapXnosnap(x);
         // perform the snapping.
         if(snapActive) {
-        	xc= (int)((double)xc/xGridStep+.5);
-        	xc*=xGridStep;
+            xc= (int)((double)xc/xGridStep+.5);
+            xc*=xGridStep;
         }
         return xc;
     }
@@ -577,35 +577,35 @@ public class MapCoordinates
         int yc=unmapYnosnap(y);
         // perform the snapping.
         if(snapActive) {
-        	yc=(int)((double)yc/yGridStep+.5);
-        	yc*=yGridStep;
+            yc=(int)((double)yc/yGridStep+.5);
+            yc*=yGridStep;
         }
         return yc;
     }
     
     /** Create a string containing all possibly interesting info about the 
-    	internal state of this class.    
+        internal state of this class.    
     */
     public String toString()
     {
-    	String s="";
+        String s="";
         s+="[xCenter="+ xCenter;
-    	s+="|yCenter="+ yCenter;
-	    s+="|xMagnitude="+xMagnitude;
-	    s+="|yMagnitude="+yMagnitude;
-	    s+="|orientation="+orientation;
-	    s+="|mirror="+ mirror;
-	    s+="|isMacro="+isMacro;
-	    s+="|snapActive="+snapActive;
+        s+="|yCenter="+ yCenter;
+        s+="|xMagnitude="+xMagnitude;
+        s+="|yMagnitude="+yMagnitude;
+        s+="|orientation="+orientation;
+        s+="|mirror="+ mirror;
+        s+="|isMacro="+isMacro;
+        s+="|snapActive="+snapActive;
     
-	    s+="|xMin="+ xMin;
-	    s+="|xMax="+xMax;
-	    s+="|yMin="+yMin;
-	    s+="|yMax="+yMax;
+        s+="|xMin="+ xMin;
+        s+="|xMax="+xMax;
+        s+="|yMin="+yMin;
+        s+="|yMax="+yMax;
     
-	    s+="|xGridStep="+xGridStep;
-	    s+="|yGridStep="+ yGridStep+"]";
+        s+="|xGridStep="+xGridStep;
+        s+="|yGridStep="+ yGridStep+"]";
     
-    	return s;
+        return s;
     }
 }

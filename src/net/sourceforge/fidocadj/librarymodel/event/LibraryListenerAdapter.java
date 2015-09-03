@@ -22,24 +22,24 @@ package net.sourceforge.fidocadj.librarymodel.event;
  */
 public class LibraryListenerAdapter implements LibraryListener
 {
-	public void libraryLoaded()
-	{
-		// Nothing to do.
-	}
-	public void libraryNodeRenamed(RenameEvent e)
-	{
-		// Nothing to do.
-	}
-	public void libraryNodeRemoved(RemoveEvent e)
-	{
-		// Nothing to do.
-	}
-	public void libraryNodeAdded(AddEvent e)
-	{
-		// Nothing to do.
-	}
-	public void libraryNodeKeyChanged(KeyChangeEvent e)
-	{
-		// Nothing to do.
-	}
+    public void libraryLoaded()
+    {
+        // Nothing to do.
+    }
+    public void libraryNodeRenamed(RenameEvent e)
+    {
+        // Nothing to do.
+    }
+    public void libraryNodeRemoved(RemoveEvent e)
+    {
+        // Nothing to do.
+    }
+    public void libraryNodeAdded(AddEvent e)
+    {
+        // Nothing to do.
+    }
+    public void libraryNodeKeyChanged(KeyChangeEvent e)
+    {
+        // Nothing to do.
+    }
 }

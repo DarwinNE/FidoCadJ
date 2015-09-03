@@ -9,9 +9,9 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 
 /** EditorActions: contains a controller which can perform basic editor actions
-	on a primitive database. Those actions include rotating and mirroring
-	objects and selecting/deselecting them.
-	
+    on a primitive database. Those actions include rotating and mirroring
+    objects and selecting/deselecting them.
+    
 <pre>
     This file is part of FidoCadJ.
 
@@ -36,44 +36,44 @@ import net.sourceforge.fidocadj.primitives.*;
 
 public class EditorActions 
 {
-	private final DrawingModel P;
-	private final UndoActions ua;
-	private final SelectionActions sa;
-	
-	// Tolerance in pixels to select an object
+    private final DrawingModel P;
+    private final UndoActions ua;
+    private final SelectionActions sa;
+    
+    // Tolerance in pixels to select an object
     public int sel_tolerance = 10; 
 
 
-	/** Standard constructor: provide the database class.
-		@param pp the Model containing the database.
-		@param sa the SelectionActions controller
-		@param u the Undo controller, to ease undo operations.
-	*/
-	public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
-	{
-		P=pp;
-		ua=u;
-		sa=s;
-		sel_tolerance = 10;
-	}
-	
-	/** Set the current selection tolerance in pixels (the default when
-		the class is created is 10 pixels.
-		@param s the new tolerance.
-	*/
-	public void setSelectionTolerance(int s)
-	{
-		sel_tolerance = s;
-	}
-	
-	/** Get the selection tolerance in pixels.
-		@return the current selection tolerance.
-	*/
-	public int getSelectionTolerance()
-	{
-		return sel_tolerance;
-	}
-	
+    /** Standard constructor: provide the database class.
+        @param pp the Model containing the database.
+        @param sa the SelectionActions controller
+        @param u the Undo controller, to ease undo operations.
+    */
+    public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
+    {
+        P=pp;
+        ua=u;
+        sa=s;
+        sel_tolerance = 10;
+    }
+    
+    /** Set the current selection tolerance in pixels (the default when
+        the class is created is 10 pixels.
+        @param s the new tolerance.
+    */
+    public void setSelectionTolerance(int s)
+    {
+        sel_tolerance = s;
+    }
+    
+    /** Get the selection tolerance in pixels.
+        @return the current selection tolerance.
+    */
+    public int getSelectionTolerance()
+    {
+        return sel_tolerance;
+    }
+    
     /** Rotate all selected primitives. 
     */
     public void rotateAllSelected()
@@ -81,17 +81,17 @@ public class EditorActions
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
         
         if(g==null)
-        	return;
-        	
+            return;
+            
         final int ix = g.getFirstPoint().x;
         final int iy = g.getFirstPoint().y;
         
         sa.applyToSelectedElements(new ProcessElementsInterface() 
         {
-        	public void doAction(GraphicPrimitive g)
-        	{
-             	g.rotatePrimitive(false, ix, iy);
-        	}
+            public void doAction(GraphicPrimitive g)
+            {
+                g.rotatePrimitive(false, ix, iy);
+            }
         });
 
         if(ua!=null) ua.saveUndoState();
@@ -105,10 +105,10 @@ public class EditorActions
     {
         sa.applyToSelectedElements(new ProcessElementsInterface()
         {
-        	public void doAction(GraphicPrimitive g)
-        	{
-           		g.movePrimitive(dx, dy);
-        	}
+            public void doAction(GraphicPrimitive g)
+            {
+                g.movePrimitive(dx, dy);
+            }
         });
         
         if(ua!=null) ua.saveUndoState();
@@ -120,62 +120,62 @@ public class EditorActions
     {
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
         if(g==null)
-        	return;
-        	
+            return;
+            
         final int ix = g.getFirstPoint().x;
         
         sa.applyToSelectedElements(new ProcessElementsInterface(){
-        	public void doAction(GraphicPrimitive g)
-        	{
-             	g.mirrorPrimitive(ix);
-        	}
+            public void doAction(GraphicPrimitive g)
+            {
+                g.mirrorPrimitive(ix);
+            }
         });
 
         if(ua!=null) ua.saveUndoState();
     }
     
     /** Delete all selected primitives. 
-    	@param saveState true if the undo controller should save the state
-    		of the drawing, after the delete operation is done. It should
-    		be put to false, when the delete operation is part of a more
-    		complex operation which is not yet ended after the call to this
-    		method.
+        @param saveState true if the undo controller should save the state
+            of the drawing, after the delete operation is done. It should
+            be put to false, when the delete operation is part of a more
+            complex operation which is not yet ended after the call to this
+            method.
     */
     public void deleteAllSelected(boolean saveState)
     {
         int i;
-		Vector<GraphicPrimitive> v=P.getPrimitiveVector();
-		
+        Vector<GraphicPrimitive> v=P.getPrimitiveVector();
+        
         for (i=0; i<v.size(); ++i){
             if(v.get(i).getSelected())
                 v.remove(v.get(i--));
         }
         if (saveState && ua!=null) 
-        	ua.saveUndoState();   
+            ua.saveUndoState();   
     }    
     
     /** Sets the layer for all selected primitives.
-    	@param l the wanted layer index.
-    	@return true if at least a layer has been changed.
+        @param l the wanted layer index.
+        @return true if at least a layer has been changed.
     */
     public boolean setLayerForSelectedPrimitives(int l)
     {
-    	boolean toRedraw=false;
-    	// Search for all selected primitives.
-    	for (GraphicPrimitive g: P.getPrimitiveVector()) {
-    		// If selected, change the layer. Macros must be always associated
-    		// to layer 0.
+        boolean toRedraw=false;
+        // Search for all selected primitives.
+        for (GraphicPrimitive g: P.getPrimitiveVector()) {
+            // If selected, change the layer. Macros must be always associated
+            // to layer 0.
             if (g.getSelected() && ! (g instanceof PrimitiveMacro)) {
-            	g.setLayer(l);
-            	toRedraw=true;
+                g.setLayer(l);
+                toRedraw=true;
             }
-		}
-		if(toRedraw) {
-			P.sortPrimitiveLayers();
-			P.setChanged(true);
-			ua.saveUndoState();
-		}
-		return toRedraw;
+        }
+        if(toRedraw) {
+            P.sortPrimitiveLayers();
+            P.setChanged(true);
+            ua.saveUndoState();
+        }
+        return toRedraw;
     }
     
     /** Calculates the minimum distance between the given point and
@@ -208,27 +208,27 @@ public class EditorActions
     }
     
     /** Handle the selection (or deselection) of objects. Search the closest
-    	graphical objects to the given (screen) coordinates.
-    	This method provides an interface to the {@link #selectPrimitive}
-    	method, which is oriented towards a more low-level process.
-    	
-    	@param x the x coordinate of the click (screen).
-    	@param y the y coordinate of the click (screen).
+        graphical objects to the given (screen) coordinates.
+        This method provides an interface to the {@link #selectPrimitive}
+        method, which is oriented towards a more low-level process.
+        
+        @param x the x coordinate of the click (screen).
+        @param y the y coordinate of the click (screen).
         @param toggle select always if false, toggle selection on/off if true.
         @param addSelection if true, add the new selection to the current one.
     */
     public void handleSelection(MapCoordinates cs, int x, int y, 
-    	boolean toggle)
+        boolean toggle)
     {        
         // Deselect primitives if needed.       
         if(!toggle) 
-        	sa.setSelectionAll(false);
+            sa.setSelectionAll(false);
     
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
         int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
         if (toll<2) toll=2;
-    	selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
+        selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
     }
     
     /** Select primitives close to the given point. Every parameter is given in
@@ -255,11 +255,11 @@ public class EditorActions
         */
         for  (GraphicPrimitive g: P.getPrimitiveVector()) {
             layer = g.getLayer();           
-            if(layerV.get(layer).isVisible || g	instanceof PrimitiveMacro) {
+            if(layerV.get(layer).isVisible || g instanceof PrimitiveMacro) {
                 distance=g.getDistanceToPoint(px,py);
                 if (distance<=mindistance) {
-                   	gpsel=g;
-                	mindistance=distance;
+                    gpsel=g;
+                    mindistance=distance;
                 }
             }
         }
@@ -276,7 +276,7 @@ public class EditorActions
         return false;
     }
     /** Select primitives in a rectangular region (given in logical 
-    	coordinates)
+        coordinates)
         @param px the x coordinate of the top left point.
         @param py the y coordinate of the top left point.
         @param w the width of the region
@@ -297,7 +297,7 @@ public class EditorActions
         for (GraphicPrimitive g: P.getPrimitiveVector()){
             layer= g.getLayer();
             if((layer>=layerV.size() || 
-            	layerV.get(layer).isVisible ||
+                layerV.get(layer).isVisible ||
                 g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
                 s=true;
         }

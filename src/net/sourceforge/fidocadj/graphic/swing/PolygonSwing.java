@@ -27,43 +27,43 @@ import net.sourceforge.fidocadj.graphic.*;
 */
 public class PolygonSwing implements PolygonInterface
 {
-	private final Polygon p;
+    private final Polygon p;
 
-	public PolygonSwing()
-	{
-		p=new Polygon();
-	}
+    public PolygonSwing()
+    {
+        p=new Polygon();
+    }
 
-	public void addPoint(int x, int y) 
-	{
-		p.addPoint(x,y);
-	}
-	
-	public Polygon getSwingPolygon()
-	{
-		return p;
-	}
-	public void reset()
-	{
-		p.reset();
-	}
-	public int getNpoints()
-	{
-		return p.npoints;
-	}
-	
-	public int[] getXpoints()
-	{
-		return p.xpoints;
-	}
-	
-	public int[] getYpoints()
-	{
-		return p.ypoints;
-	}
-	
-	public boolean contains(int x, int y)
-	{
-		return p.contains(x,y);
-	}
+    public void addPoint(int x, int y) 
+    {
+        p.addPoint(x,y);
+    }
+    
+    public Polygon getSwingPolygon()
+    {
+        return p;
+    }
+    public void reset()
+    {
+        p.reset();
+    }
+    public int getNpoints()
+    {
+        return p.npoints;
+    }
+    
+    public int[] getXpoints()
+    {
+        return p.xpoints;
+    }
+    
+    public int[] getYpoints()
+    {
+        return p.ypoints;
+    }
+    
+    public boolean contains(int x, int y)
+    {
+        return p.contains(x,y);
+    }
 }

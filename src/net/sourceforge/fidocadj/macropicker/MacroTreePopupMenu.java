@@ -34,210 +34,210 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
 * @author Kohta Ozaki, Davide Bucci
 */
 public class MacroTreePopupMenu extends JPopupMenu implements
-			ChangeListener
+            ChangeListener
 {
-	final private MacroTree macroTree;
-	
-	// Element employed to check the kind of actions which can be done on
-	// an element (permissions).
-	final private MacroTree.OperationPermission permission;
-	
-	final private JMenuItem copyMenu;
-	final private JMenuItem pasteMenu;
-	final private JMenuItem renameMenu;
-	final private JMenuItem removeMenu;
-	final private JMenuItem renkeyMenu;
-	
-	/** Create the popupmenu.
-		@param macroTree the tree on which the menu has to be associated.
-	*/
-	public MacroTreePopupMenu(MacroTree macroTree)
-	{
-		this.macroTree = macroTree;
-		permission = macroTree.getOperationPermission();
-		
-		copyMenu = new JMenuItem(Globals.messages.getString("Copy"));
-		pasteMenu = new JMenuItem(Globals.messages.getString("Paste"));
-		removeMenu = new JMenuItem(Globals.messages.getString("Delete"));
-		renameMenu = new JMenuItem(Globals.messages.getString("Rename"));
-		renkeyMenu = new JMenuItem(Globals.messages.getString("RenKey"));
+    final private MacroTree macroTree;
+    
+    // Element employed to check the kind of actions which can be done on
+    // an element (permissions).
+    final private MacroTree.OperationPermission permission;
+    
+    final private JMenuItem copyMenu;
+    final private JMenuItem pasteMenu;
+    final private JMenuItem renameMenu;
+    final private JMenuItem removeMenu;
+    final private JMenuItem renkeyMenu;
+    
+    /** Create the popupmenu.
+        @param macroTree the tree on which the menu has to be associated.
+    */
+    public MacroTreePopupMenu(MacroTree macroTree)
+    {
+        this.macroTree = macroTree;
+        permission = macroTree.getOperationPermission();
+        
+        copyMenu = new JMenuItem(Globals.messages.getString("Copy"));
+        pasteMenu = new JMenuItem(Globals.messages.getString("Paste"));
+        removeMenu = new JMenuItem(Globals.messages.getString("Delete"));
+        renameMenu = new JMenuItem(Globals.messages.getString("Rename"));
+        renkeyMenu = new JMenuItem(Globals.messages.getString("RenKey"));
 
-		this.add(copyMenu);
-		this.add(pasteMenu);
-		this.add(removeMenu);
-		this.add(renameMenu);
-		this.add(renkeyMenu);
+        this.add(copyMenu);
+        this.add(pasteMenu);
+        this.add(removeMenu);
+        this.add(renameMenu);
+        this.add(renkeyMenu);
 
-		copyMenu.addActionListener(createCopyActionListener());
-		pasteMenu.addActionListener(createPasteActionListener());
-		removeMenu.addActionListener(createRemoveActionListener());
-		renameMenu.addActionListener(createRenameActionListener());
-		renkeyMenu.addActionListener(createRenkeyActionListener());
-	}
-	
-	/** Update all the "enabled" states of the menu items, depending on which
-		element is currently selected.
-	*/
-	public void stateChanged(ChangeEvent e)
-	{
-		copyMenu.setEnabled(permission.isCopyAvailable());
-		pasteMenu.setEnabled(permission.isPasteAvailable());
-		removeMenu.setEnabled(permission.isRemoveAvailable());
-		renameMenu.setEnabled(permission.isRenameAvailable());
-		renkeyMenu.setEnabled(permission.isRenKeyAvailable());
-	}
-	
-	/** Enable or disable all the items in the menu.
-		@param b enable all elements if b=true, disable them otherwise.
-	*/
-	private void enableAllMenu(boolean b)
-	{
-		copyMenu.setEnabled(b);
-		pasteMenu.setEnabled(b);
-		removeMenu.setEnabled(b);
-		renameMenu.setEnabled(b);
-		renkeyMenu.setEnabled(b);
-	}
-	
-	/** Create an action listener associated to the menu, reacting to 
-		the different elements presented. This action listener is associated
-		to the renaming action.
-		@return the ActionListener created by the routine.
-	*/
-	private ActionListener createRenameActionListener()
-	{
-		final MacroTree mt = macroTree;
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				switch(mt.getSelectedType()) {
-					case MacroTree.MACRO:
-						MacroDesc m = mt.getSelectedMacro();
-						if(m!=null){
-							mt.rename(m);
-						}
-						break;
-					case MacroTree.CATEGORY:
-						Category c = mt.getSelectedCategory();
-						if(c!=null){
-							mt.rename(c);
-						}
-						break;
-					case MacroTree.LIBRARY:
-						Library l = mt.getSelectedLibrary();
-						if(l!=null){
-							mt.rename(l);
-						}
-						break;
-					default:
-						break;
-				}
-			}
-		};
-		return al;
-	}
-	
-	/** Create an action listener associated to the menu, reacting to 
-		the different elements presented. This action listener is associated
-		to the delete/remove action on an element.
-		@return the ActionListener created by the routine.
-	*/
-	private ActionListener createRemoveActionListener()
-	{
-		final MacroTree mt = macroTree;
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				switch(mt.getSelectedType()) {
-					case MacroTree.MACRO:
-						MacroDesc m = mt.getSelectedMacro();
-						if(m!=null){
-							mt.remove(m);
-						}
-						break;
-					case MacroTree.CATEGORY:
-						Category c = mt.getSelectedCategory();
-						if(c!=null){
-							mt.remove(c);
-						}
-						break;
-					case MacroTree.LIBRARY:
-						Library l = mt.getSelectedLibrary();
-						if(l!=null){
-							mt.remove(l);
-						}
-						break;
-					default:
-						break;
-				}
-			}
-		};
-		return al;
-	}
-	/** Create an action listener associated to the menu, reacting to 
-		the different elements presented. This action listener is associated
-		to the action of changing the key of a macro. It does not have any
-		effect on categories or libraries since there is no key associated to
-		them.
-		@return the ActionListener created by the routine.
-	*/
-	private ActionListener createRenkeyActionListener()
-	{
-		final MacroTree mt = macroTree;
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				switch(mt.getSelectedType()) {
-					case MacroTree.MACRO:
-						MacroDesc m = mt.getSelectedMacro();
-						if(m!=null){
-							mt.changeKey(m);
-						}
-						break;
-					case MacroTree.CATEGORY:
-						//NOP
-						break;
-					case MacroTree.LIBRARY:
-						//NOP
-						break;
-					default:
-						break;
-				}
-			}
-		};
-		return al;
-	}
-	
-	/** Create an action listener associated to the menu, reacting to 
-		the different elements presented. This action listener is associated
-		to the copy action.
-		@return the ActionListener created by the routine.
-	*/
-	private ActionListener createCopyActionListener()
-	{
-		final MacroTree mt = macroTree;
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				mt.setSelectedNodeToCopyTarget();
-			}
-		};
-		return al;
-	}
+        copyMenu.addActionListener(createCopyActionListener());
+        pasteMenu.addActionListener(createPasteActionListener());
+        removeMenu.addActionListener(createRemoveActionListener());
+        renameMenu.addActionListener(createRenameActionListener());
+        renkeyMenu.addActionListener(createRenkeyActionListener());
+    }
+    
+    /** Update all the "enabled" states of the menu items, depending on which
+        element is currently selected.
+    */
+    public void stateChanged(ChangeEvent e)
+    {
+        copyMenu.setEnabled(permission.isCopyAvailable());
+        pasteMenu.setEnabled(permission.isPasteAvailable());
+        removeMenu.setEnabled(permission.isRemoveAvailable());
+        renameMenu.setEnabled(permission.isRenameAvailable());
+        renkeyMenu.setEnabled(permission.isRenKeyAvailable());
+    }
+    
+    /** Enable or disable all the items in the menu.
+        @param b enable all elements if b=true, disable them otherwise.
+    */
+    private void enableAllMenu(boolean b)
+    {
+        copyMenu.setEnabled(b);
+        pasteMenu.setEnabled(b);
+        removeMenu.setEnabled(b);
+        renameMenu.setEnabled(b);
+        renkeyMenu.setEnabled(b);
+    }
+    
+    /** Create an action listener associated to the menu, reacting to 
+        the different elements presented. This action listener is associated
+        to the renaming action.
+        @return the ActionListener created by the routine.
+    */
+    private ActionListener createRenameActionListener()
+    {
+        final MacroTree mt = macroTree;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                switch(mt.getSelectedType()) {
+                    case MacroTree.MACRO:
+                        MacroDesc m = mt.getSelectedMacro();
+                        if(m!=null){
+                            mt.rename(m);
+                        }
+                        break;
+                    case MacroTree.CATEGORY:
+                        Category c = mt.getSelectedCategory();
+                        if(c!=null){
+                            mt.rename(c);
+                        }
+                        break;
+                    case MacroTree.LIBRARY:
+                        Library l = mt.getSelectedLibrary();
+                        if(l!=null){
+                            mt.rename(l);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        return al;
+    }
+    
+    /** Create an action listener associated to the menu, reacting to 
+        the different elements presented. This action listener is associated
+        to the delete/remove action on an element.
+        @return the ActionListener created by the routine.
+    */
+    private ActionListener createRemoveActionListener()
+    {
+        final MacroTree mt = macroTree;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                switch(mt.getSelectedType()) {
+                    case MacroTree.MACRO:
+                        MacroDesc m = mt.getSelectedMacro();
+                        if(m!=null){
+                            mt.remove(m);
+                        }
+                        break;
+                    case MacroTree.CATEGORY:
+                        Category c = mt.getSelectedCategory();
+                        if(c!=null){
+                            mt.remove(c);
+                        }
+                        break;
+                    case MacroTree.LIBRARY:
+                        Library l = mt.getSelectedLibrary();
+                        if(l!=null){
+                            mt.remove(l);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        return al;
+    }
+    /** Create an action listener associated to the menu, reacting to 
+        the different elements presented. This action listener is associated
+        to the action of changing the key of a macro. It does not have any
+        effect on categories or libraries since there is no key associated to
+        them.
+        @return the ActionListener created by the routine.
+    */
+    private ActionListener createRenkeyActionListener()
+    {
+        final MacroTree mt = macroTree;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                switch(mt.getSelectedType()) {
+                    case MacroTree.MACRO:
+                        MacroDesc m = mt.getSelectedMacro();
+                        if(m!=null){
+                            mt.changeKey(m);
+                        }
+                        break;
+                    case MacroTree.CATEGORY:
+                        //NOP
+                        break;
+                    case MacroTree.LIBRARY:
+                        //NOP
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        return al;
+    }
+    
+    /** Create an action listener associated to the menu, reacting to 
+        the different elements presented. This action listener is associated
+        to the copy action.
+        @return the ActionListener created by the routine.
+    */
+    private ActionListener createCopyActionListener()
+    {
+        final MacroTree mt = macroTree;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                mt.setSelectedNodeToCopyTarget();
+            }
+        };
+        return al;
+    }
 
-	/** Create an action listener associated to the menu, reacting to 
-		the different elements presented. This action listener is associated
-		to the paste action.
-		@return the ActionListener created by the routine.
-	*/
-	private ActionListener createPasteActionListener()
-	{
-		final MacroTree mt = macroTree;
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				mt.pasteIntoSelectedNode();
-			}
-		};
-		return al;
-	}	
+    /** Create an action listener associated to the menu, reacting to 
+        the different elements presented. This action listener is associated
+        to the paste action.
+        @return the ActionListener created by the routine.
+    */
+    private ActionListener createPasteActionListener()
+    {
+        final MacroTree mt = macroTree;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                mt.pasteIntoSelectedNode();
+            }
+        };
+        return al;
+    }   
 }
 

@@ -7,7 +7,7 @@ package net.sourceforge.fidocadj.geom;
     @version 1.0, June 2008
  
 <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,21 +22,21 @@ package net.sourceforge.fidocadj.geom;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008 by Davide Bucci
+    Copyright 2008 by Davide Bucci
 </pre>
    
 */
 
 public interface ChangeCoordinatesListener {
-	/** Callback when the coordinates are changed.
-		@param x the x coordinate of the mouse pointer
-		@param y the y coordinate of the mouse pointer
-	*/
-	public void changeCoordinates(int x, int y);
-	
-	/** Callback useful when some infos are to be shown.
-	
-	*/
+    /** Callback when the coordinates are changed.
+        @param x the x coordinate of the mouse pointer
+        @param y the y coordinate of the mouse pointer
+    */
+    public void changeCoordinates(int x, int y);
+    
+    /** Callback useful when some infos are to be shown.
+    
+    */
     public void changeInfos(String s);
 
 }

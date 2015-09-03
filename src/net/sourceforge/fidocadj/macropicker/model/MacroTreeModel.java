@@ -56,8 +56,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     
     private String filterWord;
 
-	/** Constructor.
-	*/
+    /** Constructor.
+    */
     public MacroTreeModel(LibraryModel libraryModel)
     {
         this.libraryModel = libraryModel;
@@ -102,7 +102,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     
     private void resetSearchMode()
     {
-    	filterWord = null;
+        filterWord = null;
     }
 
     public boolean isSearchMode()
@@ -255,30 +255,30 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     
     private TreePath createAbsolutePath(TreeNode lastNode)
     {
-    	TreeNode parentNode = lastNode.getParent();
-    	if(parentNode==null){
-    		return new TreePath(lastNode);
-    	} else {
-    		return createAbsolutePath(parentNode).pathByAddingChild(lastNode);
-    	}
+        TreeNode parentNode = lastNode.getParent();
+        if(parentNode==null){
+            return new TreePath(lastNode);
+        } else {
+            return createAbsolutePath(parentNode).pathByAddingChild(lastNode);
+        }
     }
 
     public void libraryNodeRenamed(RenameEvent e)
     {
-    	Object renamedNode = e.getRenamedNode();
+        Object renamedNode = e.getRenamedNode();
         TreePath renamedPath;
-        TreeNode renamedMacroTreeNode;       	
+        TreeNode renamedMacroTreeNode;          
 
         if(renamedNode==null) {
             fireTreeNodeChanged(new TreePath(rootNode));
         } else {
-			for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-				if(path.getLastPathComponent()==renamedNode){
-					renamedMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
-					renamedPath = createAbsolutePath(renamedMacroTreeNode);
-					fireTreeNodeChanged(renamedPath);
-				}
-			}
+            for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
+                if(path.getLastPathComponent()==renamedNode){
+                    renamedMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
+                    renamedPath = createAbsolutePath(renamedMacroTreeNode);
+                    fireTreeNodeChanged(renamedPath);
+                }
+            }
         }
     }
 
@@ -295,14 +295,14 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         if(parentNode==null) {
             fireTreeStructureChanged(new TreePath(rootNode));
         } else {
-			for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-				if(path.getLastPathComponent()==parentNode){
-					parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
-					parentPath = createAbsolutePath(parentMacroTreeNode);
-					fireTreeStructureChanged(parentPath);
-					System.out.println("deleted in:"+parentPath);
-				}
-			}
+            for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
+                if(path.getLastPathComponent()==parentNode){
+                    parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
+                    parentPath = createAbsolutePath(parentMacroTreeNode);
+                    fireTreeStructureChanged(parentPath);
+                    System.out.println("deleted in:"+parentPath);
+                }
+            }
         }
     }
 
@@ -319,27 +319,27 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         if(parentNode==null) {
             fireTreeStructureChanged(new TreePath(rootNode));
         } else {
-			for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-				if(path.getLastPathComponent()==parentNode){
-					parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
-					parentPath = createAbsolutePath(parentMacroTreeNode);
-					fireTreeStructureChanged(parentPath);
-					System.out.println("added in:"+parentPath);
-				}
-			}
+            for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
+                if(path.getLastPathComponent()==parentNode){
+                    parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
+                    parentPath = createAbsolutePath(parentMacroTreeNode);
+                    fireTreeStructureChanged(parentPath);
+                    System.out.println("added in:"+parentPath);
+                }
+            }
         }
     }
 
     public void libraryNodeKeyChanged(KeyChangeEvent e) 
     {
-    	// Nothing to do here
+        // Nothing to do here
     }
 
-	/** To be called when a new library has been loaded.
-	*/
+    /** To be called when a new library has been loaded.
+    */
     public void libraryLoaded()
     {
-    	resetSearchMode();
+        resetSearchMode();
         synchronizeTree(null);
         fireChanged();
     }
@@ -364,23 +364,23 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     
     private void fireTreeStructureChanged(TreePath path)
     {
-    	if(path!=null){
-    		for(TreeModelListener l:listeners) {
-    			l.treeStructureChanged(new TreeModelEvent(this, path));
-    		}
-    	}
+        if(path!=null){
+            for(TreeModelListener l:listeners) {
+                l.treeStructureChanged(new TreeModelEvent(this, path));
+            }
+        }
     }
     
     
     /** Performs a synchronization of the library tree with the current
-    	contents of the library model. It can be called when a research is 
-    	done, to obtain the results shown in the tree.
-    	
-    	@param filter filtering rules to be applied.
+        contents of the library model. It can be called when a research is 
+        done, to obtain the results shown in the tree.
+        
+        @param filter filtering rules to be applied.
     */
     private void synchronizeTree(NodeFilterInterface filter)
     {
-    	LibraryNode ln;
+        LibraryNode ln;
         CategoryNode cn;
         MacroNode mn;
 
@@ -393,7 +393,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         libraryNodeMap.clear();
 
         if(rootNode==null){
-        	rootNode = new RootNode();
+            rootNode = new RootNode();
         }
         
         if(filter==null) {
@@ -405,13 +405,13 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         rootNode.clearChildNodes();
         
         for(Library library:libraryModel.getAllLibraries()) {
-        	libraryPath = new TreePath(library);
-        	if(libraryNodeMap.containsKey(libraryPath)){
-        		ln = (LibraryNode)tmpMap.get(libraryPath);
-        		ln.clearChildNodes();
-        	} else {
-        		ln = new LibraryNode(library);
-        	}
+            libraryPath = new TreePath(library);
+            if(libraryNodeMap.containsKey(libraryPath)){
+                ln = (LibraryNode)tmpMap.get(libraryPath);
+                ln.clearChildNodes();
+            } else {
+                ln = new LibraryNode(library);
+            }
 
             for(Category category:library.getAllCategories()) {
                 if(category.isHidden()) {
@@ -419,25 +419,25 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                 }
                 categoryPath = libraryPath.pathByAddingChild(category);
                 if(tmpMap.containsKey(categoryPath)){
-                	cn = (CategoryNode)tmpMap.get(categoryPath);
-                	cn.clearChildNodes();
+                    cn = (CategoryNode)tmpMap.get(categoryPath);
+                    cn.clearChildNodes();
                 } else {
-                	cn = new CategoryNode(category);
+                    cn = new CategoryNode(category);
                 }
                 
                 for(MacroDesc macro:category.getAllMacros()) {
-                	macroPath = categoryPath.pathByAddingChild(macro);
-                	if(tmpMap.containsKey(macroPath)){
-                		mn = (MacroNode)tmpMap.get(macroPath);
-                	} else {
-                		mn = new MacroNode(macro);
-                	}
+                    macroPath = categoryPath.pathByAddingChild(macro);
+                    if(tmpMap.containsKey(macroPath)){
+                        mn = (MacroNode)tmpMap.get(macroPath);
+                    } else {
+                        mn = new MacroNode(macro);
+                    }
 
                     if(filter!=null && !filter.accept(mn)) {
-                    	continue;
+                        continue;
                     }
-					cn.addMacroNode(mn);
-					libraryNodeMap.put(macroPath,mn);
+                    cn.addMacroNode(mn);
+                    libraryNodeMap.put(macroPath,mn);
                 }
                 
                 if(filter!=null && cn.getChildCount()==0) {
@@ -487,7 +487,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         
         public void setLabel(String label)
         {
-        	this.label = label;
+            this.label = label;
         }
     }
 
@@ -534,14 +534,14 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         /** Inherit the behavior of compareTo.
         */
-		public String toString()
-		{
+        public String toString()
+        {
             return library.getName();
         }
         
         public boolean equals(LibraryNode node)
         {
-        	return compareTo(node)==0;
+            return compareTo(node)==0;
         }
     }
 
@@ -577,7 +577,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         public String toString()
         {
-        	return category.getName();
+            return category.getName();
         }
 
         /** Inherit the behavior of compareTo.

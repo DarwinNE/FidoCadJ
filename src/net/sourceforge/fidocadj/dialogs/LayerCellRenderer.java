@@ -10,10 +10,10 @@ import net.sourceforge.fidocadj.layers.*;
 import java.util.*;
 
 /** The class LayerCellRenderer is used in the layer list in order to 
-	show the characteristics of each layer (visibility, color).
+    show the characteristics of each layer (visibility, color).
 
 <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,23 +29,23 @@ import java.util.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 </pre>
 
-	@author Davide Bucci
-	@version 1.0 December 2007 - February 2014
-	
-	*/
+    @author Davide Bucci
+    @version 1.0 December 2007 - February 2014
+    
+    */
 public class LayerCellRenderer implements ListCellRenderer<LayerDesc> 
 {
-	/** Method required for the ListCellRenderer interface; it draws
-		a layer element in the cell and adds its event listeners */
-	public Component getListCellRendererComponent(
-		final JList<? extends LayerDesc> list, 
-		final LayerDesc value, final int index, final boolean isSelected, 
-		final boolean cellHasFocus)
-	{
-		final LayerDesc layer=(LayerDesc) value;
-		
-		return new CellLayer(layer, list, isSelected);
-		
-	}
-	
+    /** Method required for the ListCellRenderer interface; it draws
+        a layer element in the cell and adds its event listeners */
+    public Component getListCellRendererComponent(
+        final JList<? extends LayerDesc> list, 
+        final LayerDesc value, final int index, final boolean isSelected, 
+        final boolean cellHasFocus)
+    {
+        final LayerDesc layer=(LayerDesc) value;
+        
+        return new CellLayer(layer, list, isSelected);
+        
+    }
+    
 }

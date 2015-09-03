@@ -23,10 +23,10 @@ package net.sourceforge.fidocadj.graphic;
 */
 public interface PolygonInterface
 {
-	public void addPoint(int x, int y);
-	public int getNpoints();
-	public void reset();
-	public int[] getXpoints();
-	public int[] getYpoints();
-	public boolean contains(int x, int y);
+    public void addPoint(int x, int y);
+    public int getNpoints();
+    public void reset();
+    public int[] getXpoints();
+    public int[] getYpoints();
+    public boolean contains(int x, int y);
 }

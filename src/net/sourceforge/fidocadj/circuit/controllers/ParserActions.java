@@ -13,11 +13,11 @@ import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 /** ParserActions: perform parsing of FidoCadJ code.
-	In general, those routines are constructed such as they are relatively 
-	fault-tolerant. If an error is detected in the file, the parsing is 
-	continued anyway and just an error message is sent to the console. Most
-	of the times, the user will not see the error and this is probably OK
-	since he/she will not be interested in it.
+    In general, those routines are constructed such as they are relatively 
+    fault-tolerant. If an error is detected in the file, the parsing is 
+    continued anyway and just an error message is sent to the console. Most
+    of the times, the user will not see the error and this is probably OK
+    since he/she will not be interested in it.
     
 <pre>
     This file is part of FidoCadJ.
@@ -41,7 +41,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class ParserActions 
 {
-	private final DrawingModel model;
+    private final DrawingModel model;
 
     // This is the maximum number of tokens which will be considered in a line
     static final int MAX_TOKENS=512;
@@ -53,14 +53,14 @@ public class ParserActions
     // Name of the last file opened
     public String openFileName = null;
 
-	/** Standard constructor: provide the database class.
-		@param pp the drawing model (database of the circuit).
-	*/
-	public ParserActions (DrawingModel pp)
-	{
-		model=pp;
-	}
-	
+    /** Standard constructor: provide the database class.
+        @param pp the drawing model (database of the circuit).
+    */
+    public ParserActions (DrawingModel pp)
+    {
+        model=pp;
+    }
+    
     /** Parse the circuit contained in the StringBuffer specified.
         This function resets the primitive database and then parses the circuit.
         
@@ -74,16 +74,16 @@ public class ParserActions
     }
     
     /** Renders a split version of the macros contained in the given string.
-    	@param s a string containing macros to be splitted.
-    	@param splitStandardMacros if it is true, even the standard macros 
-    		will be split.
-    	@return the split macros.
+        @param s a string containing macros to be splitted.
+        @param splitStandardMacros if it is true, even the standard macros 
+            will be split.
+        @return the split macros.
     */
     public StringBuffer splitMacros(StringBuffer s, 
-    	boolean splitStandardMacros)
+        boolean splitStandardMacros)
     {
         StringBuffer txt= new StringBuffer("");    
-		
+        
         DrawingModel Q=new DrawingModel();
         Q.setLibrary(model.getLibrary());  // Inherit the library
         Q.setLayers(model.getLayers());    // Inherit the layers
@@ -99,9 +99,9 @@ public class ParserActions
             temp.deleteOnExit();
             String frm="";
             if(splitStandardMacros) 
-            	frm = "fcda";
+                frm = "fcda";
             else
-            	frm = "fcd";
+                frm = "fcd";
                   
             ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false);
                 
@@ -111,8 +111,8 @@ public class ParserActions
                 
             String line=bufRead.readLine();
             if (line==null) {
-            	bufRead.close();
-            	return new StringBuffer("");
+                bufRead.close();
+                return new StringBuffer("");
             }
             
             txt = new StringBuffer();
@@ -122,7 +122,7 @@ public class ParserActions
                 txt.append("\n");
                 line =bufRead.readLine();
             } while (line != null);
-        	
+            
             bufRead.close();
                 
         } catch(IOException e) {
@@ -156,14 +156,14 @@ public class ParserActions
     */
     public StringBuffer registerConfiguration(boolean extensions)
     {
-    	StringBuffer s = new StringBuffer();
-    	
-    	// This is something which is not contemplated by the original
-    	// FidoCAD for Windows. If extensions are not activated, just exit.
+        StringBuffer s = new StringBuffer();
+        
+        // This is something which is not contemplated by the original
+        // FidoCAD for Windows. If extensions are not activated, just exit.
         if(!extensions) {
-        	return s;
-		}
-		
+            return s;
+        }
+        
         // Here is the beginning of the output. We can eventually provide
         // some hints about the configuration of the software (if needed).
         
@@ -181,13 +181,13 @@ public class ParserActions
         
         // Check if the line widths should be indicated
         if(Math.abs(Globals.lineWidth -
-           	Globals.lineWidthDefault)>1e-5) {         
-           	s.append("FJC A "+Globals.lineWidth+"\n");
+            Globals.lineWidthDefault)>1e-5) {         
+            s.append("FJC A "+Globals.lineWidth+"\n");
         }
         if(Math.abs(Globals.lineWidthCircles -
-           	Globals.lineWidthCirclesDefault)>1e-5) {          
-           	s.append("FJC B "+Globals.lineWidthCircles+"\n");
-       	}
+            Globals.lineWidthCirclesDefault)>1e-5) {          
+            s.append("FJC B "+Globals.lineWidthCircles+"\n");
+        }
        
         return s;
     }
@@ -196,10 +196,10 @@ public class ParserActions
     */
     private StringBuffer checkAndRegisterLayers()
     {
-    	StringBuffer s=new StringBuffer();
-    	Vector<LayerDesc> layerV=model.getLayers();
+        StringBuffer s=new StringBuffer();
+        Vector<LayerDesc> layerV=model.getLayers();
         Vector<LayerDesc> standardLayers = 
-        	StandardLayers.createStandardLayers();
+            StandardLayers.createStandardLayers();
         
         for(int i=0; i<layerV.size();++i) {
             LayerDesc l = (LayerDesc)layerV.get(i);
@@ -209,12 +209,12 @@ public class ParserActions
                 float alpha=l.getAlpha();
                 s.append("FJC L "+i+" "+rgb+" "+alpha+"\n");
                 // We compare the layers to the standard configuration.
-              	// If the name has been modified, the name configuration 
-               	// is also saved.
-               	String defaultName=
-        	   		((LayerDesc)standardLayers.get(i)).getDescription();
+                // If the name has been modified, the name configuration 
+                // is also saved.
+                String defaultName=
+                    ((LayerDesc)standardLayers.get(i)).getDescription();
                 if (!l.getDescription().equals(defaultName)) {
-                  	s.append("FJC N "+i+" "+l.getDescription()+"\n");
+                    s.append("FJC N "+i+" "+l.getDescription()+"\n");
                 }
             }
         }
@@ -240,7 +240,7 @@ public class ParserActions
 
         GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
 
-		// The tokenized command string.
+        // The tokenized command string.
         String[] tokens=new String[MAX_TOKENS];
         
         // Name and value fields for a primitive. Those arrays will contain
@@ -268,16 +268,16 @@ public class ParserActions
             state machine.
         */
         synchronized(this) {
-    	Vector<LayerDesc> layerV=model.getLayers();
+        Vector<LayerDesc> layerV=model.getLayers();
 
         int k;      
         char c='\n';
         int len;
-		
-		// Actual line number. This is useful to indicate where errors are.
-    	int lineNum=1;
-    	
-    	
+        
+        // Actual line number. This is useful to indicate where errors are.
+        int lineNum=1;
+        
+        
         j=0;    
         token.setLength(0);
         len=s.length();
@@ -304,14 +304,14 @@ public class ParserActions
                     j--;
                 
                 try{
-                	// When we enter here, we have tokenized the current line
-                	// and we kept in memory also the previous one.
-                	
-                	// The first possibility is that the current line does not
-                	// contain a FCJ modifier. In this case, process the
-                	// previous line since we have all the information needed
-                	// for doing that.
-                	
+                    // When we enter here, we have tokenized the current line
+                    // and we kept in memory also the previous one.
+                    
+                    // The first possibility is that the current line does not
+                    // contain a FCJ modifier. In this case, process the
+                    // previous line since we have all the information needed
+                    // for doing that.
+                    
                     if(hasFCJ && !tokens[0].equals("FCJ")) {
                     
                         hasFCJ = registerPrimitivesWithFCJ(hasFCJ, tokens, g, 
@@ -320,15 +320,15 @@ public class ParserActions
                     } 
                     
                     if(tokens[0].equals("FCJ")) { 
-                    	// FidoCadJ extension!
-                    	// Here the FCJ modifier changes something on the 
-                    	// previous command. So ve check case by case what
-                    	// has to be modified.
-                    	
+                        // FidoCadJ extension!
+                        // Here the FCJ modifier changes something on the 
+                        // previous command. So ve check case by case what
+                        // has to be modified.
+                        
                         if(hasFCJ && old_tokens[0].equals("MC")) {
                             macro_counter=2;
                             g=new PrimitiveMacro(model.getLibrary(),layerV,
-                            	macroFont, macroFontSize);
+                                macroFont, macroFontSize);
                             g.parseTokens(old_tokens, old_j+1);
                         } else if (hasFCJ && old_tokens[0].equals("LI")) {
                             g=new PrimitiveLine(macroFont, macroFontSize);
@@ -349,7 +349,7 @@ public class ParserActions
                             g.setSelected(selectNew);
 
                             if(old_j>5 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }
@@ -364,7 +364,7 @@ public class ParserActions
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
                             if(old_j>5 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }
@@ -380,7 +380,7 @@ public class ParserActions
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }                        
@@ -395,7 +395,7 @@ public class ParserActions
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }                        
@@ -410,14 +410,14 @@ public class ParserActions
                             g.parseTokens(old_tokens, old_j+1);
                             g.setSelected(selectNew);
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }     
-    					} else if (hasFCJ && (old_tokens[0].equals("CV")||
+                        } else if (hasFCJ && (old_tokens[0].equals("CV")||
                             old_tokens[0].equals("CP"))) {
                             g=new PrimitiveComplexCurve(macroFont,
-                            	macroFontSize);
+                                macroFontSize);
                             
                             for(l=0; l<j+1; ++l)
                                 old_tokens[l+old_j+1]=tokens[l];
@@ -430,21 +430,21 @@ public class ParserActions
                             // TY to determine that we are in a case in which
                             // TY commands must not be considered as separate).
                             if(old_j>2 && old_tokens[old_j].equals("1")) {
-                            	macro_counter = 2;
+                                macro_counter = 2;
                             } else {
                                 model.addPrimitive(g,false,null);
                             }     
-    					} else if (hasFCJ && old_tokens[0].equals("PL")) {
-                    		macro_counter = 2;
-                    	} else if (hasFCJ && old_tokens[0].equals("PA")) {
-                    		macro_counter = 2;
-						} else if (hasFCJ && old_tokens[0].equals("SA")) {                    
-                    		macro_counter = 2;                       
+                        } else if (hasFCJ && old_tokens[0].equals("PL")) {
+                            macro_counter = 2;
+                        } else if (hasFCJ && old_tokens[0].equals("PA")) {
+                            macro_counter = 2;
+                        } else if (hasFCJ && old_tokens[0].equals("SA")) {                    
+                            macro_counter = 2;                       
                         }
                         hasFCJ=false;
                     
                     } else if(tokens[0].equals("FJC")) {
-                    	fidoConfig(tokens, j, layerV);
+                        fidoConfig(tokens, j, layerV);
                     } else if(tokens[0].equals("LI")) {
                         // Save the tokenized line.
                         // We cannot create the macro until we parse the 
@@ -478,20 +478,20 @@ public class ParserActions
                         g.setSelected(selectNew);
                         model.addPrimitive(g,false,null);
                     } else if(tokens[0].equals("TY")) {
-                    	// The TY command is somewhat special, because
-                    	// it can be used to specify the name and the value
-                    	// of a primitive or a macro. Therefore, we try
-                    	// to understand in which case we are
+                        // The TY command is somewhat special, because
+                        // it can be used to specify the name and the value
+                        // of a primitive or a macro. Therefore, we try
+                        // to understand in which case we are
                         hasFCJ=false;
                         
                         if(macro_counter==2) {
                             macro_counter--;
                             name=new String[j+1];
-        					for(l=0; l<j+1;++l)
+                            for(l=0; l<j+1;++l)
                                 name[l]=tokens[l];
                             vn=j;                                
                         } else if(macro_counter==1) {
-                        	value=new String[j+1];
+                            value=new String[j+1];
                             for(l=0; l<j+1;++l)
                                 value[l]=tokens[l];
                             vv=j;       
@@ -502,8 +502,8 @@ public class ParserActions
                             model.addPrimitive(g, false,null);
                             macro_counter=0;
                         } else {
-                        	// If we are in the classical case of a simple
-                        	// isolated TY command, we process it.
+                            // If we are in the classical case of a simple
+                            // isolated TY command, we process it.
                             g=new PrimitiveAdvText();
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
@@ -546,7 +546,7 @@ public class ParserActions
                             old_tokens[l]=tokens[l];
                         old_j=j;
                         hasFCJ=true;
-                	} else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
+                    } else if(tokens[0].equals("RV")||tokens[0].equals("RP")) {
                         macro_counter=0;
     
                         for(l=0; l<j+1; ++l)
@@ -575,7 +575,7 @@ public class ParserActions
                     macro_counter = 0;
                     
                     for(l=0; l<j+1; ++l)
-                    	old_tokens[l]=tokens[l];
+                        old_tokens[l]=tokens[l];
                     
                     old_j=j;
                 } catch(NumberFormatException F) {
@@ -584,7 +584,7 @@ public class ParserActions
                     hasFCJ = true;
                     macro_counter = 0;
                     for(l=0; l<j+1; ++l)
-                    	old_tokens[l]=tokens[l];
+                        old_tokens[l]=tokens[l];
                     old_j=j;
                 }
                 j=0;
@@ -602,8 +602,8 @@ public class ParserActions
             }
         }
        
-       	// We need to process the very last line, which is contained in
-       	// the tokens currently read.
+        // We need to process the very last line, which is contained in
+        // the tokens currently read.
         try{
             registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
                 selectNew);
@@ -624,18 +624,18 @@ public class ParserActions
     
     */
     private void fidoConfig(String[] tokens, int ntokens, 
-    	Vector<LayerDesc> layerV)
+        Vector<LayerDesc> layerV)
     {
-    	double newConnectionSize = -1.0;
+        double newConnectionSize = -1.0;
         double newLineWidth = -1.0;
         double newLineWidthCircles = -1.0;
         
-    	// FidoCadJ Configuration
+        // FidoCadJ Configuration
                     
-       	if(tokens[1].equals("C")) {
-        	// Connection size
+        if(tokens[1].equals("C")) {
+            // Connection size
             newConnectionSize = Double.parseDouble(tokens[2]);
-       	} else if(tokens[1].equals("L")) {
+        } else if(tokens[1].equals("L")) {
             // Layer configuration
             int layerNum = Integer.parseInt(tokens[2]);
             if (layerNum>=0&&layerNum<layerV.size()){
@@ -647,16 +647,16 @@ public class ParserActions
                 ll.setModified(true);  
             }
         } else if(tokens[1].equals("N")) {
-        	// Layer name
-                        	
+            // Layer name
+                            
             int layerNum = Integer.parseInt(tokens[2]);
             if (layerNum>=0&&layerNum<layerV.size()){
                 String lName="";
                                 
                 StringBuffer temp=new StringBuffer(25);
                 for(int t=3; t<ntokens+1; ++t) {
-                  	temp.append(tokens[t]);
-                   	temp.append(" ");
+                    temp.append(tokens[t]);
+                    temp.append(" ");
                 }
                                 
                 lName=temp.toString();
@@ -687,10 +687,10 @@ public class ParserActions
         }       
     }
     
-    /** This method checks if a primitive may have FCJ 	modifiers following.
-    	If no further FCJ tokens are present, the primitive is created 
-    	immediately. If a FCJ token follows, we proceed to further parsing
-    	what follows.
+    /** This method checks if a primitive may have FCJ  modifiers following.
+        If no further FCJ tokens are present, the primitive is created 
+        immediately. If a FCJ token follows, we proceed to further parsing
+        what follows.
     */
     private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, String[] tokens,
         GraphicPrimitive gg, String[] old_tokens, int old_j, boolean selectNew)
@@ -699,15 +699,15 @@ public class ParserActions
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
         Vector<GraphicPrimitive> primitiveVector=model.getPrimitiveVector();
-    	Vector<LayerDesc> layerV=model.getLayers();
+        Vector<LayerDesc> layerV=model.getLayers();
 
-    	GraphicPrimitive g=gg;
-    	boolean hasFCJ=hasFCJ_t;
-    	boolean addPrimitive = false;
+        GraphicPrimitive g=gg;
+        boolean hasFCJ=hasFCJ_t;
+        boolean addPrimitive = false;
         if(hasFCJ && !tokens[0].equals("FCJ")) {
             if (old_tokens[0].equals("MC")) {
                 g=new PrimitiveMacro(model.getLibrary(),
-                	layerV, macroFont, macroFontSize);
+                    layerV, macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("LI")) {
                 g=new PrimitiveLine(macroFont, macroFontSize);
@@ -751,20 +751,20 @@ public class ParserActions
         }
         return hasFCJ;
     }
-	
+    
     /** Read all librairies contained in the given URL at the given prefix.
         This is particularly useful to read librairies shipped in a jar 
         file.
     */
     public void loadLibraryInJar(URL s, String prefix_s)
     {
-    	String prefix=prefix_s;
-    	if(s==null) {
-    		if (prefix==null)
-    			prefix="";
-    		System.out.println("Resource not found! "+prefix);
-    		return; 
-    	}
+        String prefix=prefix_s;
+        if(s==null) {
+            if (prefix==null)
+                prefix="";
+            System.out.println("Resource not found! "+prefix);
+            return; 
+        }
         try {
             readLibraryBufferedReader(new BufferedReader(new 
                 InputStreamReader(s.openStream(), Globals.encoding)), prefix);
@@ -802,7 +802,7 @@ public class ParserActions
             using a non standard macro.
     */
     public void readLibraryBufferedReader(BufferedReader bufRead, 
-    	String prefix)
+        String prefix)
         throws IOException
     {
         String macroName="";
@@ -837,8 +837,8 @@ public class ParserActions
                 }
                 categoryName=temp.toString().trim();
                 if(i==line.length()) {
-                	IOException e=new IOException(
-                		"Category non terminated with }.");
+                    IOException e=new IOException(
+                        "Category non terminated with }.");
                     throw e;
                 }
                 continue;
@@ -863,8 +863,8 @@ public class ParserActions
                 }
                 longName=temp.toString();
                 if(j==line.length()) {
-                	IOException e=new IOException(
-                		"Macro name non terminated with ].");
+                    IOException e=new IOException(
+                        "Macro name non terminated with ].");
                     throw e;
                 }
                 
@@ -878,9 +878,9 @@ public class ParserActions
                     macroName=macroName.toLowerCase(new Locale("en"));
                     model.getLibrary().put(macroName, new 
                         MacroDesc(macroName,"","","","", prefix));
-					/*System.out.printf("-- macroName:%s | longName:%s | 
-						categoryName:%s | libraryName:%s | prefix:%s\n",
-						macroName,longName,categoryName,libraryName,prefix);*/                    
+                    /*System.out.printf("-- macroName:%s | longName:%s | 
+                        categoryName:%s | libraryName:%s | prefix:%s\n",
+                        macroName,longName,categoryName,libraryName,prefix);*/                    
                     continue;
                 }
             }
@@ -896,7 +896,7 @@ public class ParserActions
                 macroName = macroName.toLowerCase(new Locale("en"));
                 macroDesc = model.getLibrary().get(macroName);
                 if(macroDesc==null)
-                	return;
+                    return;
                 macroDesc.name = longName;
                 macroDesc.key = macroName;
                 macroDesc.category = categoryName;
@@ -904,7 +904,7 @@ public class ParserActions
                 macroDesc.filename = prefix;
                 
                 macroDesc.description = macroDesc.description + "\n" + 
-                		line;
+                        line;
             }                
         } 
     }
@@ -936,7 +936,7 @@ public class ParserActions
                 System.out.println(s);
             }
             System.out.println(
-            	"Activated FidoCadJ internal libraries and symbols.");
+                "Activated FidoCadJ internal libraries and symbols.");
             return;
         }
         // We read all the directory content, file by file 
@@ -949,7 +949,7 @@ public class ParserActions
                 readLibraryFile(f.getPath());
             } catch (IOException E) {
                 System.out.println("Problems reading library "+
-                	f.getName()+" "+E);
+                    f.getName()+" "+E);
             }
         } 
     }

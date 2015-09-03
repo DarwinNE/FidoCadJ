@@ -10,7 +10,7 @@ import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
-	move actions on a primitive database
+    move actions on a primitive database
     
 <pre>
     This file is part of FidoCadJ.
@@ -36,10 +36,10 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class HandleActions 
 {
-	private final DrawingModel P;
-	private final EditorActions edt;
-	private final UndoActions ua;
-	private final SelectionActions sa;
+    private final DrawingModel P;
+    private final EditorActions edt;
+    private final UndoActions ua;
+    private final SelectionActions sa;
 
 
     // ******** DRAG & INTERFACE *********
@@ -64,25 +64,25 @@ public class HandleActions
     private int oldpy;
         
 
-	/** Standard constructor: provide the database class.
-		@param pp the drawing model
-		@param e the editor controller
-		@param s the selection controller
-		@param u the undo controller
-	*/
-	public HandleActions (DrawingModel pp, EditorActions e, 
-		SelectionActions s,
-		UndoActions u)
-	{
-		P=pp;
-		edt=e;
-		ua=u;
-		sa=s;
-	    firstDrag=false;
-		handleBeingDragged=GraphicPrimitive.NO_DRAG;
-	}
-	
-	/** Drag all the selected primitives during a drag operation. 
+    /** Standard constructor: provide the database class.
+        @param pp the drawing model
+        @param e the editor controller
+        @param s the selection controller
+        @param u the undo controller
+    */
+    public HandleActions (DrawingModel pp, EditorActions e, 
+        SelectionActions s,
+        UndoActions u)
+    {
+        P=pp;
+        edt=e;
+        ua=u;
+        sa=s;
+        firstDrag=false;
+        handleBeingDragged=GraphicPrimitive.NO_DRAG;
+    }
+    
+    /** Drag all the selected primitives during a drag operation. 
         Position the primitives in the given (screen) position
         
         @param px the x position (screen coordinates).
@@ -90,7 +90,7 @@ public class HandleActions
         @param cs the coordinate mapping.
     */
     public void dragPrimitives(PrimitivesParInterface CC, int px, int py,
-    	MapCoordinates cs)
+        MapCoordinates cs)
     {
         // Check if we are effectively dragging the whole primitive...
         if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE)
@@ -137,7 +137,7 @@ public class HandleActions
     
     */
     public void dragHandleStart(int px, int py, int tolerance, boolean multiple,
-    	MapCoordinates cs)
+        MapCoordinates cs)
     {
         int i;
         int isel=0;
@@ -167,7 +167,7 @@ public class HandleActions
                        
             // Does not allow for selecting an invisible primitive
             if(layer<layerV.size() && 
-            	!((LayerDesc)layerV.get(layer)).isVisible &&
+                !((LayerDesc)layerV.get(layer)).isVisible &&
                 !(gp instanceof PrimitiveMacro))
                 continue;
             
@@ -208,31 +208,31 @@ public class HandleActions
     }
     
     /** End dragging handle.
-       	@param CC the editor object
+        @param CC the editor object
         @param px the (screen) x coordinate of the pointer.
         @param py the (screen) y coordinate of the pointer.
         @param multiple specifies whether multiple selection is active.
         @param cs the coordinate mapping to be used.
     */
     public void dragHandleEnd(PrimitivesParInterface CC, int px, int py, 
-    	boolean multiple,
-    	MapCoordinates cs)
+        boolean multiple,
+        MapCoordinates cs)
     {
         // Check if we are effectively dragging something...
         CC.setEvidenceRect(0,0,-1,-1);
         if(handleBeingDragged<0){
-        	if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){        		
-        		int xa=Math.min(oldpx, cs.unmapXnosnap(px));
-        		int ya=Math.min(oldpy, cs.unmapYnosnap(py));
-        		int xb=Math.max(oldpx, cs.unmapXnosnap(px));
-        		int yb=Math.max(oldpy, cs.unmapYnosnap(py));
-        		if(!multiple) sa.setSelectionAll(false);
-        		edt.selectRect(xa, ya, xb-xa, yb-ya); 
-        	}
-        	// Test if we are anyway dragging an entire primitive
-        	if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE && 
-        		hasMoved && ua!=null) 
-        		ua.saveUndoState();
+            if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){                
+                int xa=Math.min(oldpx, cs.unmapXnosnap(px));
+                int ya=Math.min(oldpy, cs.unmapYnosnap(py));
+                int xb=Math.max(oldpx, cs.unmapXnosnap(px));
+                int yb=Math.max(oldpy, cs.unmapYnosnap(py));
+                if(!multiple) sa.setSelectionAll(false);
+                edt.selectRect(xa, ya, xb-xa, yb-ya); 
+            }
+            // Test if we are anyway dragging an entire primitive
+            if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE && 
+                hasMoved && ua!=null) 
+                ua.saveUndoState();
 
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
             return;
@@ -247,13 +247,13 @@ public class HandleActions
     
             
     /** Drag a handle.
-    	@param CC the editor object
+        @param CC the editor object
         @param px the (screen) x coordinate of the pointer
         @param py the (screen) y coordinate of the pointer
         @param cs the coordinates mapping to be used
     */
     public void dragHandleDrag(PrimitivesParInterface CC, 
-    	int px, int py, MapCoordinates cs)
+        int px, int py, MapCoordinates cs)
     {
         hasMoved=true;
         boolean flip=false;
@@ -300,7 +300,7 @@ public class HandleActions
                     if (flip) 
                         CC.forcesRepaint();
                     else
-                    	CC.forcesRepaint(a,b,c+10,d+10);
+                        CC.forcesRepaint(a,b,c+10,d+10);
                    
                     return;
                 }

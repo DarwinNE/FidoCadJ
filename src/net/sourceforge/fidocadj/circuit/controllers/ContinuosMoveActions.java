@@ -9,9 +9,9 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 
 /** Extends ElementsEdtActions in order to support those events such as 
-	MouseMove, which require a continuous interaction and an immediate
-	rendering.
-	 	
+    MouseMove, which require a continuous interaction and an immediate
+    rendering.
+        
 <pre>
     This file is part of FidoCadJ.
 
@@ -36,27 +36,27 @@ import net.sourceforge.fidocadj.primitives.*;
 
 public class ContinuosMoveActions extends ElementsEdtActions
 {
-	// A coordinates listener
+    // A coordinates listener
     private ChangeCoordinatesListener coordinatesListener=null;
 
-	private int oldx;
-	private int oldy;
+    private int oldx;
+    private int oldy;
 
-	/** Constructor
-		@param pp the DrawingModel to be associated to the controller
-		@param s the selection controller.
-		@param u undo controller, exploited here
-		@param e editor controller, exploited here
-	*/
-	public ContinuosMoveActions(DrawingModel pp, SelectionActions s,
-		UndoActions u, 
-		EditorActions e)
-	{
-		super(pp, s, u, e);
-		oldx=-1;
-		oldy=-1;
-	}
-	
+    /** Constructor
+        @param pp the DrawingModel to be associated to the controller
+        @param s the selection controller.
+        @param u undo controller, exploited here
+        @param e editor controller, exploited here
+    */
+    public ContinuosMoveActions(DrawingModel pp, SelectionActions s,
+        UndoActions u, 
+        EditorActions e)
+    {
+        super(pp, s, u, e);
+        oldx=-1;
+        oldy=-1;
+    }
+    
     /** Define the listener to be called when the coordinates of the mouse 
         cursor are changed
         @param c the new coordinates listener
@@ -66,47 +66,47 @@ public class ContinuosMoveActions extends ElementsEdtActions
         coordinatesListener=c;
     }
 
-	/** Handle a continuous move of the pointer device. It can be the result 
-		of a mouse drag for a rectangular selection, or a component move.
-		@param cs the coordinate mapping which should be used
-		@param xa the pointer position (x), in screen coordinates
-		@param ya the pointer position (y), in screen coordinates
-		@param isControl true if the CTRL key is pressed. This modifies 
-			some behaviors (for example, when introducing an ellipse it is 
-			forced to be a circle and so on).
-		@return true if a repaint should be done
-	*/
-	public boolean continuosMove(MapCoordinates cs, 
-		int xa, int ya,
-		boolean isControl)
-	{
-		// This transformation/antitrasformation is useful to take care
+    /** Handle a continuous move of the pointer device. It can be the result 
+        of a mouse drag for a rectangular selection, or a component move.
+        @param cs the coordinate mapping which should be used
+        @param xa the pointer position (x), in screen coordinates
+        @param ya the pointer position (y), in screen coordinates
+        @param isControl true if the CTRL key is pressed. This modifies 
+            some behaviors (for example, when introducing an ellipse it is 
+            forced to be a circle and so on).
+        @return true if a repaint should be done
+    */
+    public boolean continuosMove(MapCoordinates cs, 
+        int xa, int ya,
+        boolean isControl)
+    {
+        // This transformation/antitrasformation is useful to take care
         // of the snapping.
         int x=cs.mapX(cs.unmapXsnap(xa),0);
         int y=cs.mapY(0,cs.unmapYsnap(ya));
         
         // If there is anything interesting to do, leave immediately.
         if(oldx==x && oldy==y)
-        	return false;
+            return false;
         
         oldx=x;
         oldy=y;
 
-		// Notify the current pointer coordinates, if a listener is available.
-		if (coordinatesListener!=null)
+        // Notify the current pointer coordinates, if a listener is available.
+        if (coordinatesListener!=null)
             coordinatesListener.changeCoordinates(
                 cs.unmapXsnap(xa),
                 cs.unmapYsnap(ya));
                 
-		boolean toRepaint=false;
-	    // This is the newer code: if primEdit is different from null, 
+        boolean toRepaint=false;
+        // This is the newer code: if primEdit is different from null, 
         // it will be drawn in the paintComponent event
         // We need to differentiate this case since when we are entering a
-		// macro, primEdit contains some useful hints about the orientation
-		// and the mirroring
-		
+        // macro, primEdit contains some useful hints about the orientation
+        // and the mirroring
+        
         if (actionSelected !=ElementsEdtActions.MACRO) 
-        	primEdit = null;
+            primEdit = null;
         
         /*  MACRO ***********************************************************
             
@@ -124,13 +124,13 @@ public class ContinuosMoveActions extends ElementsEdtActions
             try {
                 int orientation = 0;
                 boolean mirror = false;
-            	
-            	if (primEdit instanceof PrimitiveMacro)  {
-            		orientation = ((PrimitiveMacro)primEdit).getOrientation();
-					mirror = ((PrimitiveMacro)primEdit).isMirrored();
-            	}
-            	
-            	PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
+                
+                if (primEdit instanceof PrimitiveMacro)  {
+                    orientation = ((PrimitiveMacro)primEdit).getOrientation();
+                    mirror = ((PrimitiveMacro)primEdit).isMirrored();
+                }
+                
+                PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(), 
                     StandardLayers.createEditingLayerArray(), cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
@@ -138,14 +138,14 @@ public class ContinuosMoveActions extends ElementsEdtActions
                     P.getTextFont(),
                     P.getTextFontSize(), orientation, mirror);
                 n.setDrawOnlyLayer(-1);
-				primEdit = n;
+                primEdit = n;
                 toRepaint=true;
                 successiveMove = true;
 
             } catch (IOException E) {
                 // Here we do not do nothing.
                 System.out.println("Warning: exception while handling macro: "
-                	+E);
+                    +E);
             }
         }    
 
@@ -166,16 +166,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.LINE) {
      
-     		primEdit = new PrimitiveLine(xpoly[1], 
-            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
-            	false, false, 0, 3, 2, 0, P.getTextFont(), P.getTextFontSize());
+            primEdit = new PrimitiveLine(xpoly[1], 
+                ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
+                false, false, 0, 3, 2, 0, P.getTextFont(), P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;  
                    
             if (coordinatesListener!=null){
                 double w = Math.sqrt((xpoly[1]-
-                	cs.unmapXsnap(xa))*
+                    cs.unmapXsnap(xa))*
                     (xpoly[1]-cs.unmapXsnap(xa))+
                     (ypoly[1]-cs.unmapYsnap(ya))*
                     (ypoly[1]-cs.unmapYsnap(ya)));
@@ -198,14 +198,14 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1], 
-            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-            	ae.getPCB_thickness(), 0, P.getTextFont(), P.getTextFontSize());
+                ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
+                ae.getPCB_thickness(), 0, P.getTextFont(), P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;    
             if (coordinatesListener!=null){
                 double w = Math.sqrt((xpoly[1]-
-                	cs.unmapXsnap(xa))*
+                    cs.unmapXsnap(xa))*
                     (xpoly[1]-cs.unmapXsnap(xa))+
                     (ypoly[1]-cs.unmapYsnap(ya))*
                     (ypoly[1]-cs.unmapYsnap(ya)));
@@ -224,20 +224,20 @@ public class ContinuosMoveActions extends ElementsEdtActions
                         
         */
         if (actionSelected == ElementsEdtActions.BEZIER) {
-        	// Since we do not know how to fabricate a cubic curve with less
-        	// than four points, we use a polygon instead.
-        	
-            primEdit = new PrimitivePolygon(false, 0, 0, 
-            		P.getTextFont(), P.getTextFontSize());
+            // Since we do not know how to fabricate a cubic curve with less
+            // than four points, we use a polygon instead.
             
-			for(int i=1; i<=clickNumber; ++i)
- 				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
- 			
- 			
- 			((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), 
- 				cs.unmapYsnap(y));
+            primEdit = new PrimitivePolygon(false, 0, 0, 
+                    P.getTextFont(), P.getTextFontSize());
+            
+            for(int i=1; i<=clickNumber; ++i)
+                ((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
+            
+            
+            ((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), 
+                cs.unmapYsnap(y));
 
- 			toRepaint=true;
+            toRepaint=true;
             successiveMove = true;
     
         }
@@ -253,17 +253,17 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.POLYGON) {
             primEdit = new PrimitivePolygon(false, 0, 0,
-            		P.getTextFont(), P.getTextFontSize());
+                    P.getTextFont(), P.getTextFontSize());
             
             
-			for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
- 				((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
- 			
- 			
- 			((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), 
- 				cs.unmapYsnap(y));
+            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
+                ((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
+            
+            
+            ((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x), 
+                cs.unmapYsnap(y));
 
- 			toRepaint=true;
+            toRepaint=true;
             successiveMove = true;
 
         }
@@ -280,16 +280,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.COMPLEXCURVE) {
             primEdit = new PrimitiveComplexCurve(false, false, 0,
-            	false, false, 0, 3, 2, 0, P.getTextFont(),P.getTextFontSize());
+                false, false, 0, 3, 2, 0, P.getTextFont(),P.getTextFontSize());
             
-			for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
- 				((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
- 			
- 			
- 			((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x), 
- 				cs.unmapYsnap(y));
+            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
+                ((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
+            
+            
+            ((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x), 
+                cs.unmapYsnap(y));
 
- 			toRepaint=true;
+            toRepaint=true;
             successiveMove = true;
         }
         
@@ -304,16 +304,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
                         
        */
         if (actionSelected == ElementsEdtActions.RECTANGLE) {
-        	// If control is hold, trace a square
-        	int ymm;
+            // If control is hold, trace a square
+            int ymm;
             if(isControl&&clickNumber>0) {
                 ymm=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             } else {
-            	ymm=y;
+                ymm=y;
             }
             primEdit = new PrimitiveRectangle(xpoly[1], 
-            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm), 
-            	false,	0, 0, P.getTextFont(), P.getTextFontSize());
+                ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm), 
+                false,  0, 0, P.getTextFont(), P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;
@@ -336,16 +336,16 @@ public class ContinuosMoveActions extends ElementsEdtActions
             if(isControl&&clickNumber>0) {
                 ymm=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             } else {
-            	ymm=y;
+                ymm=y;
             }
                
-			primEdit = new PrimitiveOval(xpoly[1], 
-            	ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm), 
-            	false,	0, 0, P.getTextFont(), P.getTextFontSize());
+            primEdit = new PrimitiveOval(xpoly[1], 
+                ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm), 
+                false,  0, 0, P.getTextFont(), P.getTextFontSize());
              
             toRepaint=true;
-			successiveMove = true;
+            successiveMove = true;
         }
-		return toRepaint;
-	}
+        return toRepaint;
+    }
 }

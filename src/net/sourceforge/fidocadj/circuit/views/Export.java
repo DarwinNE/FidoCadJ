@@ -32,16 +32,16 @@ import net.sourceforge.fidocadj.primitives.*;
 */
 public class Export 
 {
-	private final DrawingModel P;
-	
-	// Border to be used in the export in logical coordinates
+    private final DrawingModel P;
+    
+    // Border to be used in the export in logical coordinates
     public static final int exportBorder=6;
 
-	/** Creator
-	*/
+    /** Creator
+    */
     public Export(DrawingModel pp)
     {
-    	P=pp;
+        P=pp;
     }
 
     /** Export the file using the given interface
@@ -61,100 +61,100 @@ public class Export
         int j;
         
         GraphicPrimitive g;
-		// If it is needed, we should write the header of the file. This is 
-		// not to be done for example when we are exporting a macro and this
-		// routine is called recursively.
-		synchronized(this) {
-        	if (header) {
-        		PointG o=new PointG(0,0);
-         		DimensionG d = DrawingSize.getImageSize(P, 1, true,o);
-				d.width+=exportBorder;
-				d.height+=exportBorder;
-			
-        		// We remeber that getImageSize works only with logical 
-        		// coordinates so we may trasform them:
-        	
-        		d.width *= mp.getXMagnitude();
-        		d.height *= mp.getYMagnitude();
-        	
-        		// We finally write the header
-            	exp.exportStart(d, P.layerV, mp.getXGridStep());
-        	}
+        // If it is needed, we should write the header of the file. This is 
+        // not to be done for example when we are exporting a macro and this
+        // routine is called recursively.
+        synchronized(this) {
+            if (header) {
+                PointG o=new PointG(0,0);
+                DimensionG d = DrawingSize.getImageSize(P, 1, true,o);
+                d.width+=exportBorder;
+                d.height+=exportBorder;
+            
+                // We remeber that getImageSize works only with logical 
+                // coordinates so we may trasform them:
+            
+                d.width *= mp.getXMagnitude();
+                d.height *= mp.getYMagnitude();
+            
+                // We finally write the header
+                exp.exportStart(d, P.layerV, mp.getXGridStep());
+            }
         
-        	if(P.drawOnlyLayer>=0 && !P.drawOnlyPads){
-            	for (i=0; i<P.getPrimitiveVector().size(); ++i){
-                	g=(GraphicPrimitive)P.getPrimitiveVector().get(i);
-                	l=g.getLayer();
-                	if(l==P.drawOnlyLayer && 
-                    	!(g instanceof PrimitiveMacro)) {
-                    	if(((LayerDesc)(P.layerV.get(l))).isVisible||
-                    		exportInvisible)
-                        	g.export(exp, mp);
+            if(P.drawOnlyLayer>=0 && !P.drawOnlyPads){
+                for (i=0; i<P.getPrimitiveVector().size(); ++i){
+                    g=(GraphicPrimitive)P.getPrimitiveVector().get(i);
+                    l=g.getLayer();
+                    if(l==P.drawOnlyLayer && 
+                        !(g instanceof PrimitiveMacro)) {
+                        if(((LayerDesc)(P.layerV.get(l))).isVisible||
+                            exportInvisible)
+                            g.export(exp, mp);
                     
-                	} else if(g instanceof PrimitiveMacro) {
+                    } else if(g instanceof PrimitiveMacro) {
  
-                    	((PrimitiveMacro)g).setDrawOnlyLayer(P.drawOnlyLayer);
-                    	((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+                        ((PrimitiveMacro)g).setDrawOnlyLayer(P.drawOnlyLayer);
+                        ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
  
-                    	if(((LayerDesc)(P.layerV.get(l))).isVisible||
-                    		exportInvisible)
-                        	g.export(exp, mp); 
-                	}
-            	}
-            	return;
-        	} else if (!P.drawOnlyPads) {
-            	for(j=0;j<P.layerV.size(); ++j) {
-                	for (i=0; i<P.getPrimitiveVector().size(); ++i){
+                        if(((LayerDesc)(P.layerV.get(l))).isVisible||
+                            exportInvisible)
+                            g.export(exp, mp); 
+                    }
+                }
+                return;
+            } else if (!P.drawOnlyPads) {
+                for(j=0;j<P.layerV.size(); ++j) {
+                    for (i=0; i<P.getPrimitiveVector().size(); ++i){
                 
-                    	g=(GraphicPrimitive)P.getPrimitiveVector().get(i);
-                    	l=g.getLayer();         
+                        g=(GraphicPrimitive)P.getPrimitiveVector().get(i);
+                        l=g.getLayer();         
 
-                    	if(l==j && !(g instanceof PrimitiveMacro)){
-                        	if(((LayerDesc)(P.layerV.get(l))).isVisible||
-                        		exportInvisible)
-                            	g.export(exp, mp);
+                        if(l==j && !(g instanceof PrimitiveMacro)){
+                            if(((LayerDesc)(P.layerV.get(l))).isVisible||
+                                exportInvisible)
+                                g.export(exp, mp);
                         
-                    	} else if(g instanceof PrimitiveMacro) {
+                        } else if(g instanceof PrimitiveMacro) {
 
-                        	((PrimitiveMacro)g).setDrawOnlyLayer(j);
-                        	((PrimitiveMacro)g).setExportInvisible(
-                        		exportInvisible);
+                            ((PrimitiveMacro)g).setDrawOnlyLayer(j);
+                            ((PrimitiveMacro)g).setExportInvisible(
+                                exportInvisible);
     
-                        	if(((LayerDesc)(P.layerV.get(l))).isVisible||
-                        		exportInvisible)
-                            	g.export(exp, mp);
-                    	}
-                	}
-            	}
-        	}
+                            if(((LayerDesc)(P.layerV.get(l))).isVisible||
+                                exportInvisible)
+                                g.export(exp, mp);
+                        }
+                    }
+                }
+            }
         
-        	// Export in a second time only the PCB pads, in order to ensure
-        	// that the drills are always open.
+            // Export in a second time only the PCB pads, in order to ensure
+            // that the drills are always open.
         
-        	for (i=0; i<P.getPrimitiveVector().size(); ++i){
-            	if ((g=(GraphicPrimitive)P.getPrimitiveVector().get(i)) 
-            		instanceof 
-                	PrimitivePCBPad) {
-                	((PrimitivePCBPad)g).setDrawOnlyPads(true);
-                	l=g.getLayer();
+            for (i=0; i<P.getPrimitiveVector().size(); ++i){
+                if ((g=(GraphicPrimitive)P.getPrimitiveVector().get(i)) 
+                    instanceof 
+                    PrimitivePCBPad) {
+                    ((PrimitivePCBPad)g).setDrawOnlyPads(true);
+                    l=g.getLayer();
     
-                	if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
-                   		g.export(exp, mp);
-                	((PrimitivePCBPad)g).setDrawOnlyPads(false);
-            	} else if (g instanceof PrimitiveMacro) { 
-            		// Uhm... not beautiful
-                	((PrimitiveMacro)g).setExportInvisible(exportInvisible);
-                	((PrimitiveMacro)g).setDrawOnlyPads(true);
-                	l=g.getLayer();
-                	if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
-                    	g.export(exp, mp);
-                	((PrimitiveMacro)g).setDrawOnlyPads(false);
-                	((PrimitiveMacro)g).resetExport();
-            	}
-        	}   
+                    if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
+                        g.export(exp, mp);
+                    ((PrimitivePCBPad)g).setDrawOnlyPads(false);
+                } else if (g instanceof PrimitiveMacro) { 
+                    // Uhm... not beautiful
+                    ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+                    ((PrimitiveMacro)g).setDrawOnlyPads(true);
+                    l=g.getLayer();
+                    if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
+                        g.export(exp, mp);
+                    ((PrimitiveMacro)g).setDrawOnlyPads(false);
+                    ((PrimitiveMacro)g).resetExport();
+                }
+            }   
         
-        	if (header)
-            	exp.exportEnd();
+            if (header)
+                exp.exportEnd();
         }
     }
             

@@ -60,11 +60,11 @@ public class SearchField extends JTextField implements FocusListener
     }
 
     /** We need to override the paintComponent method. For some reason,
-    	on MacOSX systems the background is not painted when the text field
-    	is rounded and appears like a standard search text field. This is
-    	quite embarassing when using an unified toolbar style like in Leopard
-    	and Snow Leopard. For this reason, here we paint the background if
-    	needed.
+        on MacOSX systems the background is not painted when the text field
+        is rounded and appears like a standard search text field. This is
+        quite embarassing when using an unified toolbar style like in Leopard
+        and Snow Leopard. For this reason, here we paint the background if
+        needed.
     */
     public void paintComponent(Graphics g)
     {
@@ -277,7 +277,7 @@ public class SearchField extends JTextField implements FocusListener
             // the mouse is somewhere in the border.
 
             Rectangle innerArea = 
-            	SwingUtilities.calculateInnerArea(SearchField.this, null);
+                SwingUtilities.calculateInnerArea(SearchField.this, null);
             return !innerArea.contains(e.getPoint());
         }
 

@@ -11,7 +11,8 @@ import net.sourceforge.fidocadj.primitives.*;
 import java.util.*;
 
 
-/** The class CellArrow is a simple panel showing the dash style characteristics. 
+/** The class CellArrow is a simple panel showing the dash style 
+	characteristics. 
     To be used with ArrowCellRenderer.
 
     @author Davide Bucci

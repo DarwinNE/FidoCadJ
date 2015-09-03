@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.graphic;
 
 /** PointG is a class implementing a point with its coordinates (integer).
-	P.S. why are you smirking?
+    P.S. why are you smirking?
 
 <pre>
     This file is part of FidoCadJ.
@@ -24,17 +24,17 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class PointG
 {
-	public int x;
-	public int y;
-	public PointG(int x, int y)
-	{
-		this.x=x; 
-		this.y=y;
-	}
+    public int x;
+    public int y;
+    public PointG(int x, int y)
+    {
+        this.x=x; 
+        this.y=y;
+    }
 
-	public PointG()
-	{
-		this.x=0; 
-		this.y=0;
-	}
+    public PointG()
+    {
+        this.x=0; 
+        this.y=0;
+    }
 }

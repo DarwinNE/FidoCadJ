@@ -19,41 +19,41 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
 public class RenameEvent
 {
-	final private Object renamedNode;
-	final private Object parentNode;
-	final private String oldName;
+    final private Object renamedNode;
+    final private Object parentNode;
+    final private String oldName;
 
-	public RenameEvent(Object parentNode,Object renamedNode,String oldName)
-	{
-		this.parentNode = parentNode;
-		this.renamedNode = renamedNode;
-		this.oldName = oldName;
-	}
+    public RenameEvent(Object parentNode,Object renamedNode,String oldName)
+    {
+        this.parentNode = parentNode;
+        this.renamedNode = renamedNode;
+        this.oldName = oldName;
+    }
 
-	/**
-	 * Returns the value of renamedNode.
-	 */
+    /**
+     * Returns the value of renamedNode.
+     */
 
-	public Object getRenamedNode()
-	{
-		return renamedNode;
-	}
+    public Object getRenamedNode()
+    {
+        return renamedNode;
+    }
 
-	/**
-	 * Returns the value of parentNode.
-	 */
+    /**
+     * Returns the value of parentNode.
+     */
 
-	public Object getParentNode()
-	{
-		return parentNode;
-	}
+    public Object getParentNode()
+    {
+        return parentNode;
+    }
 
-	/**
-	 * Returns the value of oldName.
-	 */
+    /**
+     * Returns the value of oldName.
+     */
 
-	public String getOldName()
-	{
-		return oldName;
-	}
+    public String getOldName()
+    {
+        return oldName;
+    }
 }

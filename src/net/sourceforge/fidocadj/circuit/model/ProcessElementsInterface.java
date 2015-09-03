@@ -3,7 +3,7 @@ package net.sourceforge.fidocadj.circuit.model;
 import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 
 /** Provides a general way to apply an action to a graphic element.
-	    
+        
 <pre>
     This file is part of FidoCadJ.
 
@@ -26,5 +26,5 @@ import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 
 public interface ProcessElementsInterface 
 {
-	public void doAction(GraphicPrimitive g);
+    public void doAction(GraphicPrimitive g);
 }

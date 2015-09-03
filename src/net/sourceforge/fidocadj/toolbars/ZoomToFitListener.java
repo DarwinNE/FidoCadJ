@@ -5,7 +5,7 @@ package net.sourceforge.fidocadj.toolbars;
     @author Davide Bucci
  
 <pre>
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,16 +20,16 @@ package net.sourceforge.fidocadj.toolbars;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2008-2012 by Davide Bucci
+    Copyright 2008-2012 by Davide Bucci
 </pre>
    
 */
 
 public interface ZoomToFitListener {
 
-	/** Set the current zoom to fit
-	
-	*/
-	public void zoomToFit();
-	
+    /** Set the current zoom to fit
+    
+    */
+    public void zoomToFit();
+    
 }

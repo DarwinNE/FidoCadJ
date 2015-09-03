@@ -240,7 +240,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys, 
-    	Vector layerV)
+        Vector layerV)
     {
         
         if(!selectLayer(g,layerV))
@@ -423,12 +423,12 @@ public final class PrimitiveLine extends GraphicPrimitive
     */
     public String toString(boolean extensions)
     {
-    	// A single point line without anything is not worth converting.
-		if (name.length()==0 && value.length()==0 && 
-			virtualPoint[0].x==virtualPoint[1].x &&
-			virtualPoint[0].y==virtualPoint[1].y) {
-			return "";
-		} 
+        // A single point line without anything is not worth converting.
+        if (name.length()==0 && value.length()==0 && 
+            virtualPoint[0].x==virtualPoint[1].x &&
+            virtualPoint[0].y==virtualPoint[1].y) {
+            return "";
+        } 
     
         String s= "LI "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+

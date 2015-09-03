@@ -9,11 +9,11 @@ import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 /**
-	Database of the FidoCadJ drawing. This is the "model" in the 
-	model/view/controller pattern. Offers methods to modify its contents,
-	but they are relatively low level and database-oriented. More high-level
-	operations can be done via the controllers operating on this class.
-	
+    Database of the FidoCadJ drawing. This is the "model" in the 
+    model/view/controller pattern. Offers methods to modify its contents,
+    but they are relatively low level and database-oriented. More high-level
+    operations can be done via the controllers operating on this class.
+    
 <pre>
    
     This file is part of FidoCadJ.
@@ -63,7 +63,7 @@ public class DrawingModel
     // that during the first redraw a in-depth calculation of all coordinates
     // will be done. For performance reasons, this is indeed done only when
     // necessary.
-    public boolean changed;		// TODO: should be private
+    public boolean changed;     // TODO: should be private
     
     // ******* PRIMITIVE DATABASE ********
     
@@ -95,13 +95,13 @@ public class DrawingModel
     
     
     /** Apply an action to all elements contained in the model.
-    	@tt the method containing the action to be performed 
+        @tt the method containing the action to be performed 
     */
     public void applyToAllElements(ProcessElementsInterface tt)
     {
-    	for (GraphicPrimitive g:primitiveVector){
-    		tt.doAction(g);
-    	}
+        for (GraphicPrimitive g:primitiveVector){
+            tt.doAction(g);
+        }
     }
     
     /** Get the layer description vector
@@ -120,12 +120,12 @@ public class DrawingModel
         layerV=v;
         applyToAllElements(new ProcessElementsInterface()
         {
-        	public void doAction(GraphicPrimitive g)
-        	{
-        		if (g instanceof PrimitiveMacro) {
-            		((PrimitiveMacro) g).setLayers(v);
-            	}
-        	}
+            public void doAction(GraphicPrimitive g)
+            {
+                if (g instanceof PrimitiveMacro) {
+                    ((PrimitiveMacro) g).setLayers(v);
+                }
+            }
         });
         changed=true;
     }
@@ -135,7 +135,7 @@ public class DrawingModel
     */
     public void setExportBorder(int b)
     {
-    	exportBorder=b;
+        exportBorder=b;
     }
     
     /** Get the current library
@@ -168,32 +168,32 @@ public class DrawingModel
         @param p the primitive to be added.
         @param sort if true, sort the primitive layers
         @param ua if different from <pre>null</pre>, the operation will be
-        	undoable.
+            undoable.
     */
     public void addPrimitive(GraphicPrimitive p, boolean sort,
-    	UndoActions ua)
+        UndoActions ua)
     {   
         // The primitive database MUST be ordered. The idea is that we insert
         // primitives without ordering them and then we call a sorter.
         synchronized(this) {        
-        	getPrimitiveVector().add(p);
+            getPrimitiveVector().add(p);
 
-        	// We check if the primitives should be sorted depending of 
-        	// their layer
-        	// If there are more than a few primitives to insert, it is wise to
-        	// sort only once, at the end of the insertion process.
-        	if (sort)
-            	sortPrimitiveLayers();
+            // We check if the primitives should be sorted depending of 
+            // their layer
+            // If there are more than a few primitives to insert, it is wise to
+            // sort only once, at the end of the insertion process.
+            if (sort)
+                sortPrimitiveLayers();
             
-        	// Check if it should be undoable.
-        	if (ua!=null) {
-        		ua.saveUndoState();
-        		ua.setModified(true);
-        		// We now have to track that something has changed. This 
-        		// forces all the
-        		// caching system used by the drawing routines to be refreshed.
-        		changed=true;
-        	}
+            // Check if it should be undoable.
+            if (ua!=null) {
+                ua.saveUndoState();
+                ua.setModified(true);
+                // We now have to track that something has changed. This 
+                // forces all the
+                // caching system used by the drawing routines to be refreshed.
+                changed=true;
+            }
         }
     }
 
@@ -230,11 +230,11 @@ public class DrawingModel
     public int getTextFontSize()
     {   
         if(getPrimitiveVector().isEmpty())
-        	return macroFontSize;
+            return macroFontSize;
         
         // TODO: not very elegant piece of code.
-        // Basically, we grab the settings of the very first object stored.	
-     	int size=((GraphicPrimitive)getPrimitiveVector().get(0))
+        // Basically, we grab the settings of the very first object stored. 
+        int size=((GraphicPrimitive)getPrimitiveVector().get(0))
                    .getMacroFontSize();
                     
         if(size<=0) size=1;
@@ -271,7 +271,7 @@ public class DrawingModel
                         // Swap
                         s = (GraphicPrimitive)getPrimitiveVector().get(i);
                         getPrimitiveVector().set(i,
-                        	getPrimitiveVector().get(i+l));
+                            getPrimitiveVector().get(i+l));
                         getPrimitiveVector().set(i+l, s);
                     }
                 }
@@ -335,9 +335,9 @@ public class DrawingModel
     }
     
     /** Set the change state of the class. Changed just means that we want 
-    	to  recalculate everything in deep during the following redraw.
-    	This is different from being "modified", since "modified" implies 
-    	that the current drawing has not been saved yet. 
+        to  recalculate everything in deep during the following redraw.
+        This is different from being "modified", since "modified" implies 
+        that the current drawing has not been saved yet. 
     
         @param c if true, force a deep recalculation of all primitive 
             parameters at the first redraw.
@@ -348,21 +348,21 @@ public class DrawingModel
         changed=c;
     }
 
-	/** Obtains a vector containing all elements.
-		@return the vector containing all graphical objects.
-	*/
-	public Vector<GraphicPrimitive> getPrimitiveVector() 
-	{
-		return primitiveVector;
-	}
+    /** Obtains a vector containing all elements.
+        @return the vector containing all graphical objects.
+    */
+    public Vector<GraphicPrimitive> getPrimitiveVector() 
+    {
+        return primitiveVector;
+    }
 
-	/** Sets a vector containing all elements.
-		@param primitiveVector the vector containing all graphical objects.
-	*/
-	public void setPrimitiveVector(Vector<GraphicPrimitive> primitiveVector) 
-	{
-		this.primitiveVector = primitiveVector;
-	}
+    /** Sets a vector containing all elements.
+        @param primitiveVector the vector containing all graphical objects.
+    */
+    public void setPrimitiveVector(Vector<GraphicPrimitive> primitiveVector) 
+    {
+        this.primitiveVector = primitiveVector;
+    }
 
     /** Specify that the drawing process should only draw holes of the pcb
         pad

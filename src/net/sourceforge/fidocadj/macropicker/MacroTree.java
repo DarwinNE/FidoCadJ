@@ -174,7 +174,7 @@ public class MacroTree extends JPanel
         }
 
         result = JOptionPane.showConfirmDialog(null, 
-        		Globals.messages.getString("remove_library_confirm")+
+                Globals.messages.getString("remove_library_confirm")+
                 library.getName() + "?",
                 Globals.messages.getString("remove_library"),
                 JOptionPane.YES_NO_OPTION);
@@ -202,7 +202,7 @@ public class MacroTree extends JPanel
         }
 
         result=JOptionPane.showConfirmDialog(null, 
-        		Globals.messages.getString("remove_category_confirm")+
+                Globals.messages.getString("remove_category_confirm")+
                 category.getName() + "?",
                 Globals.messages.getString("remove_category"),
                 JOptionPane.YES_NO_OPTION);
@@ -211,7 +211,7 @@ public class MacroTree extends JPanel
                 libraryModel.remove(category);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
-                	Globals.messages.getString("error"),
+                    Globals.messages.getString("error"),
                     JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -230,7 +230,7 @@ public class MacroTree extends JPanel
         }
 
         result=JOptionPane.showConfirmDialog(null, 
-        		Globals.messages.getString("remove_macro_confirm")+
+                Globals.messages.getString("remove_macro_confirm")+
                 macro.name + "?",
                 Globals.messages.getString("remove_macro"),
                 JOptionPane.YES_NO_OPTION);
@@ -239,12 +239,12 @@ public class MacroTree extends JPanel
                 libraryModel.remove(macro);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
-                	Globals.messages.getString("error"),
+                    Globals.messages.getString("error"),
                     JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-	/**
+    /**
     * Renames macro.
     * @param macro MacroDesc to rename.
     */
@@ -257,7 +257,7 @@ public class MacroTree extends JPanel
         }
 
         newName = JOptionPane.showInputDialog(null,
-        	Globals.messages.getString("new_macro_name"),
+            Globals.messages.getString("new_macro_name"),
             macro.name);
         if(newName==null || newName.equals(macro.name)) {
             return;
@@ -266,12 +266,12 @@ public class MacroTree extends JPanel
             libraryModel.rename(macro,newName);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), 
-            	Globals.messages.getString("error"),
-				JOptionPane.ERROR_MESSAGE);
+                Globals.messages.getString("error"),
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
-	/**
+    /**
     * Renames a category.
     * @param category Category to rename.
     */
@@ -284,7 +284,7 @@ public class MacroTree extends JPanel
         }
 
         newName = JOptionPane.showInputDialog(null,
-        	Globals.messages.getString("new_category_name"),
+            Globals.messages.getString("new_category_name"),
             category.getName());
         if(newName==null || newName.equals(category.getName())) {
             return;
@@ -293,11 +293,11 @@ public class MacroTree extends JPanel
             libraryModel.rename(category,newName);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), 
-            	Globals.messages.getString("error"),
+                Globals.messages.getString("error"),
                 JOptionPane.ERROR_MESSAGE);
         }
     }
-	/**
+    /**
     * Renames a library.
     * @param library Library to rename.
     */
@@ -310,7 +310,7 @@ public class MacroTree extends JPanel
         }
 
         newName = JOptionPane.showInputDialog(null,
-        	Globals.messages.getString("new_library_name"),
+            Globals.messages.getString("new_library_name"),
             library.getName());
         if(newName==null || newName.equals(library.getName())) {
             return;
@@ -319,17 +319,17 @@ public class MacroTree extends JPanel
             libraryModel.rename(library,newName);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), 
-            	Globals.messages.getString("error"),
+                Globals.messages.getString("error"),
                 JOptionPane.ERROR_MESSAGE);
         }
     }
 
-	/** Ask to the user to change the key of the given macro.
-	@param macro the macro to be modified. 
-	*/
+    /** Ask to the user to change the key of the given macro.
+    @param macro the macro to be modified. 
+    */
     public void changeKey(MacroDesc macro)
     {
-    	String oldKey;
+        String oldKey;
         String newKey;
 
         if(macro==null) {
@@ -337,17 +337,17 @@ public class MacroTree extends JPanel
         }
         
         int n = JOptionPane.showConfirmDialog(null,
-        	Globals.messages.getString("ChangeKeyWarning"),
-        	Globals.messages.getString("RenKey"),
-        	JOptionPane.YES_NO_OPTION);
+            Globals.messages.getString("ChangeKeyWarning"),
+            Globals.messages.getString("RenKey"),
+            JOptionPane.YES_NO_OPTION);
         
         if(n==JOptionPane.NO_OPTION) {
-        	return;
+            return;
         }        
        
         oldKey = LibraryModel.getPlainMacroKey(macro);
         newKey = JOptionPane.showInputDialog(null,
-        	                                 Globals.messages.getString("Key"),
+                                             Globals.messages.getString("Key"),
                                              oldKey);
         if(newKey==null || newKey.equals(oldKey)) {
             return;
@@ -356,58 +356,58 @@ public class MacroTree extends JPanel
             libraryModel.changeKey(macro,newKey);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(),
-            	 Globals.messages.getString("error"),
+                 Globals.messages.getString("error"),
                  JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void setSelectedNodeToCopyTarget()
     {
-    	copyTarget = treeComponent.getSelectionPath();
+        copyTarget = treeComponent.getSelectionPath();
     }
     
     public void pasteIntoSelectedNode()
     {
-    	if(copyTarget==null){
-    		return;
-    	}
-    	
-    	int copyTargetType = macroTreeModel.getNodeType(copyTarget);
-    	int selectedNodeType = getSelectedType();
-    	
-    	if(copyTargetType==MacroTreeModel.CATEGORY && 
-    		selectedNodeType==LIBRARY){
-    		copyCategoryIntoLibrary();
-    	} else 	if(copyTargetType==MacroTreeModel.MACRO && 
-    		selectedNodeType==CATEGORY){
-    		copyMacroIntoCategory();
-		}
-		
-		copyTarget = null;
-		updateOperationPermission();
-	}
-	
-	private void copyCategoryIntoLibrary()
-	{
-		Category targetCategory;
-		Library destLibrary;
-		
-		destLibrary = getSelectedLibrary();
-		targetCategory = macroTreeModel.getCategory(copyTarget);
-		
-		libraryModel.copy(targetCategory,destLibrary);
-	}
-	
-	private void copyMacroIntoCategory()
-	{
-		MacroDesc targetMacro;
-		Category destCategory;
-		
-		destCategory = getSelectedCategory();
-		targetMacro = macroTreeModel.getMacro(copyTarget);
-		
-		libraryModel.copy(targetMacro,destCategory);
-	}
+        if(copyTarget==null){
+            return;
+        }
+        
+        int copyTargetType = macroTreeModel.getNodeType(copyTarget);
+        int selectedNodeType = getSelectedType();
+        
+        if(copyTargetType==MacroTreeModel.CATEGORY && 
+            selectedNodeType==LIBRARY){
+            copyCategoryIntoLibrary();
+        } else  if(copyTargetType==MacroTreeModel.MACRO && 
+            selectedNodeType==CATEGORY){
+            copyMacroIntoCategory();
+        }
+        
+        copyTarget = null;
+        updateOperationPermission();
+    }
+    
+    private void copyCategoryIntoLibrary()
+    {
+        Category targetCategory;
+        Library destLibrary;
+        
+        destLibrary = getSelectedLibrary();
+        targetCategory = macroTreeModel.getCategory(copyTarget);
+        
+        libraryModel.copy(targetCategory,destLibrary);
+    }
+    
+    private void copyMacroIntoCategory()
+    {
+        MacroDesc targetMacro;
+        Category destCategory;
+        
+        destCategory = getSelectedCategory();
+        targetMacro = macroTreeModel.getMacro(copyTarget);
+        
+        libraryModel.copy(targetMacro,destCategory);
+    }
     
     private void createPermissionObject()
     {
@@ -442,15 +442,15 @@ public class MacroTree extends JPanel
         if(!macroTreeModel.isSearchMode()) {
             //paste permission
             if(copyTarget!=null && lib!=null && !lib.isStdLib()){
-            	copyTargetType = macroTreeModel.getNodeType(copyTarget);
-            	if(copyTargetType==MacroTreeModel.CATEGORY && 
-            		                                    selectedType==LIBRARY){
-	            	permissionObject.pasteAvailable = true;
-	            } else if (copyTargetType==MacroTreeModel.MACRO &&
-	            	                                   selectedType==CATEGORY){
-	            	permissionObject.pasteAvailable = true;
-	            }
-	        }
+                copyTargetType = macroTreeModel.getNodeType(copyTarget);
+                if(copyTargetType==MacroTreeModel.CATEGORY && 
+                                                        selectedType==LIBRARY){
+                    permissionObject.pasteAvailable = true;
+                } else if (copyTargetType==MacroTreeModel.MACRO &&
+                                                       selectedType==CATEGORY){
+                    permissionObject.pasteAvailable = true;
+                }
+            }
 
             //rename/renkey permission
             if(lib!=null && !lib.isStdLib()) {
@@ -488,10 +488,10 @@ public class MacroTree extends JPanel
                 if(md!=null) {
                     previewPanel.setCirc(new StringBuffer(md.description));
                     MapCoordinates m =
-                   		DrawingSize.calculateZoomToFit(
-                        	previewPanel.P,
-                    		previewPanel.getSize().width*85/100, 
-                    		previewPanel.getSize().height*85/100, true);
+                        DrawingSize.calculateZoomToFit(
+                            previewPanel.P,
+                            previewPanel.getSize().width*85/100, 
+                            previewPanel.getSize().height*85/100, true);
                     m.setXCenter(-m.getXCenter()+10);
                     m.setYCenter(-m.getYCenter()+10);
 
@@ -525,11 +525,11 @@ public class MacroTree extends JPanel
                 if (selectionListener!=null) {
                     md = macroTreeModel.getMacro(e.getPath());
                     if(md==null){
-                    	selectionListener.setSelectionState(
-                        	    ElementsEdtActions.SELECTION, "");
+                        selectionListener.setSelectionState(
+                                ElementsEdtActions.SELECTION, "");
                     } else {
-                    	selectionListener.setSelectionState(
-                        	    ElementsEdtActions.MACRO, md.key);
+                        selectionListener.setSelectionState(
+                                ElementsEdtActions.MACRO, md.key);
                     }
                 }
             }
@@ -767,13 +767,13 @@ public class MacroTree extends JPanel
                               expanded, leaf, row,
                               hasFocus);
             if(value instanceof MacroTreeNode) {
-            	Icon icon = ((MacroTreeNode)value).getIcon();
+                Icon icon = ((MacroTreeNode)value).getIcon();
 
-           	 	if(icon == null) {
-                	return c;
-            	} else {
-                	setIcon(icon);
-            	}
+                if(icon == null) {
+                    return c;
+                } else {
+                    setIcon(icon);
+                }
             }
             
             return this;

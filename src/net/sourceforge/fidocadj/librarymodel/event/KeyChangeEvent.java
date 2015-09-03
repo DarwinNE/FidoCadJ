@@ -19,37 +19,37 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
 public class KeyChangeEvent
 {
-	final private Object keyChangedNode;
-	final private Object parentNode;
-	final private String oldKey;
+    final private Object keyChangedNode;
+    final private Object parentNode;
+    final private String oldKey;
 
-	public KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
-	{
-		this.parentNode = parentNode;
-		this.keyChangedNode = keyChangedNode;
-		this.oldKey = oldKey;
-	}
-	
-	/**
-	 * Returns the value of renamedNode.
-	 */
+    public KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
+    {
+        this.parentNode = parentNode;
+        this.keyChangedNode = keyChangedNode;
+        this.oldKey = oldKey;
+    }
+    
+    /**
+     * Returns the value of renamedNode.
+     */
 
-	public Object getKeyChangedNode()
-	{
-		return keyChangedNode;
-	}
+    public Object getKeyChangedNode()
+    {
+        return keyChangedNode;
+    }
 
-	/**
-	 * Returns the value of parentNode.
-	 */
+    /**
+     * Returns the value of parentNode.
+     */
 
-	public Object getParentNode()
-	{
-		return parentNode;
-	}
-	
-	public String getOldKey()
-	{
-		return oldKey;
-	}
+    public Object getParentNode()
+    {
+        return parentNode;
+    }
+    
+    public String getOldKey()
+    {
+        return oldKey;
+    }
 }

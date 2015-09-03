@@ -23,17 +23,17 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class DimensionG
 {
-	public int width;
-	public int height;
-	public DimensionG(int width, int height)
-	{
-		this.width=width; 
-		this.height=height;
-	}
+    public int width;
+    public int height;
+    public DimensionG(int width, int height)
+    {
+        this.width=width; 
+        this.height=height;
+    }
 
-	public DimensionG()
-	{
-		this.width=0; 
-		this.height=0;
-	}
+    public DimensionG()
+    {
+        this.width=0; 
+        this.height=0;
+    }
 }

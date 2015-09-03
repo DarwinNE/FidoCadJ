@@ -85,10 +85,10 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final HashMap<JToggleButton, Integer> circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
-     	constructor to create the toolbar, but will need to be accessed by the 
-     	<code>ToolButton</code> class to create each button.
+        constructor to create the toolbar, but will need to be accessed by the 
+        <code>ToolButton</code> class to create each button.
      
-     	@return base    
+        @return base    
     */
     public static String getBase() 
     {
@@ -96,10 +96,10 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** <code>showText</code> is passed to the <code>ToolbarTools</code> 
-     	constructor to create the toolbar, but will need to be accessed by the 
-     	<code>ToolButton</code> class to create each button.
+        constructor to create the toolbar, but will need to be accessed by the 
+        <code>ToolButton</code> class to create each button.
      
-     	@return showText
+        @return showText
      */
     
     public static boolean getShowText() 
@@ -109,9 +109,9 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     /** This method effectively adds the defined button to the toolbar.
      
-     	@param button - Name of the button to be added to the toolbar.
-     	@param circuitPanelConstant - Determines its function, see 
-     	<code>circuitPanel</code> class.
+        @param button - Name of the button to be added to the toolbar.
+        @param circuitPanelConstant - Determines its function, see 
+        <code>circuitPanel</code> class.
     */
     public void addToolButton(JToggleButton button, int circuitPanelConstant) 
     {
@@ -119,16 +119,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         group.add(button);
         toolButtonsList.add(button);
         circuitPanelConstants.put(button, 
-        	Integer.valueOf(circuitPanelConstant));
+            Integer.valueOf(circuitPanelConstant));
     }
     
     /** Class Constructor 
-     	Creates the toolbar, consisting of all the buttons, which are displayed
-     	from left to right, in the order they were added.
+        Creates the toolbar, consisting of all the buttons, which are displayed
+        from left to right, in the order they were added.
      
-     	@param showText - True if the name of the tool is to be displayed 
-     	underneath the icon.
-     	@param smallIcons - True if 16x16 size icons are to be displayed.
+        @param showText - True if the name of the tool is to be displayed 
+        underneath the icon.
+        @param smallIcons - True if 16x16 size icons are to be displayed.
     */
     public ToolbarTools (boolean showText, boolean smallIcons) 
     {
@@ -412,8 +412,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Add a selection listener (object implementing the ChangeSelection 
-     	interface) whose change method will be called when the current
-     	selected action should be changed.
+        interface) whose change method will be called when the current
+        selected action should be changed.
     */
     
     public void addSelectionListener(ChangeSelectionListener c)
@@ -424,7 +424,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     
     /** This method finds the button selected at the moment.
      
-     	@return selectedButton
+        @return selectedButton
     */
     
     public JToggleButton getSelectedButton()
@@ -440,18 +440,18 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** Get the current selection state. Required for implementing the
-     	ChangeSelectionListener interface.
+        ChangeSelectionListener interface.
      
-     	@return the actual selection state (see the CircuitPanel class for the
-     	definition of the constants used here).
+        @return the actual selection state (see the CircuitPanel class for the
+        definition of the constants used here).
     */
     
     public int getSelectionState()
     {
         JToggleButton selectedButton = getSelectedButton();
         if(selectedButton==null) {
-        	// No button is selected. There is a specific state for that.
-        	return ElementsEdtActions.NONE;
+            // No button is selected. There is a specific state for that.
+            return ElementsEdtActions.NONE;
         } else {
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(selectedButton));
@@ -459,22 +459,22 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         }
     }
     
-   	/** Set if the strict FidoCAD compatibility mode is active
-   		@param strict true if the compatibility with FidoCAD should be 
-   		obtained.
-   	
-   	*/
+    /** Set if the strict FidoCAD compatibility mode is active
+        @param strict true if the compatibility with FidoCAD should be 
+        obtained.
+    
+    */
     public void setStrictCompatibility(boolean strict)
     {
-    	complexcurve.setEnabled(!strict);
+        complexcurve.setEnabled(!strict);
     }
     
     /** Set the current selection state. Required for implementing the
-     	ChangeSelectionListener interface
+        ChangeSelectionListener interface
      
-     	@param s the selection state (see the CircuitPanel class for the
-     	definition of the constants used here).
-     	@param m not used here (useful when playing with macros).
+        @param s the selection state (see the CircuitPanel class for the
+        definition of the constants used here).
+        @param m not used here (useful when playing with macros).
     */
     
     public void setSelectionState(int s, String m)
@@ -486,7 +486,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         }*/
         for(int i=0; i<toolButtonsList.size(); ++i) {
             if(s == ElementsEdtActions.NONE || s == ElementsEdtActions.MACRO)
-            	break;
+                break;
             JToggleButton button = (JToggleButton) toolButtonsList.get(i);
             Integer circuitPanelConstantInteger = 
                 (Integer)(circuitPanelConstants.get(button));

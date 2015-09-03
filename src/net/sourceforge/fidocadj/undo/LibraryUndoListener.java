@@ -1,10 +1,10 @@
 package net.sourceforge.fidocadj.undo;
 
-/**	Interface used to callback notify that an undo action on libraries should 
-	be performed.
-	
-	<pre>
-		This file is part of FidoCadJ.
+/** Interface used to callback notify that an undo action on libraries should 
+    be performed.
+    
+    <pre>
+        This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@ package net.sourceforge.fidocadj.undo;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	</pre>
-	@author Davide Bucci
+    </pre>
+    @author Davide Bucci
 */
 
 public interface LibraryUndoListener
 {
-	public void undoLibrary(String s);
+    public void undoLibrary(String s);
 }

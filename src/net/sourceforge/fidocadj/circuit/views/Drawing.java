@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.graphic.*;
 */
 public class Drawing 
 {
-	private final DrawingModel P;
+    private final DrawingModel P;
 
     // True if the drawing needs holes. This implies that the redrawing
     // step must include a cycle at the end to draw all holes.
@@ -53,7 +53,7 @@ public class Drawing
         
     public Drawing (DrawingModel pp)
     {
-    	P=pp;
+        P=pp;
     }
 
     /** Draw the handles of all selected primitives
@@ -78,72 +78,72 @@ public class Drawing
     */
     public void draw(GraphicsInterface G, MapCoordinates cs)
     {   
-		if(cs==null) {
-			System.out.println(
-				"DrawingModel.draw: ouch... cs not initialized :-(");
-			return;
-		}
-		
-		synchronized (this) {
-        	// At first, we check if the current view has changed. 
-        	if(P.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
-        		oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
-            	oZ=cs.getXMagnitude();
-            	oX=cs.getXCenter();
-            	oY=cs.getYCenter();
-            	oO=cs.getOrientation();
-            	P.changed = false;
-            
-            	// Here we force for a global refresh of graphic data at the 
-            	// primitive level. 
-            	for (GraphicPrimitive gp : P.getPrimitiveVector()) 
-            		gp.setChanged(true);
-            		
-            	if (!P.drawOnlyPads) 
-                	cs.resetMinMax();
-        	}
+        if(cs==null) {
+            System.out.println(
+                "DrawingModel.draw: ouch... cs not initialized :-(");
+            return;
+        }
         
-        	needHoles=P.drawOnlyPads;
+        synchronized (this) {
+            // At first, we check if the current view has changed. 
+            if(P.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
+                oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
+                oZ=cs.getXMagnitude();
+                oX=cs.getXCenter();
+                oY=cs.getYCenter();
+                oO=cs.getOrientation();
+                P.changed = false;
+            
+                // Here we force for a global refresh of graphic data at the 
+                // primitive level. 
+                for (GraphicPrimitive gp : P.getPrimitiveVector()) 
+                    gp.setChanged(true);
+                    
+                if (!P.drawOnlyPads) 
+                    cs.resetMinMax();
+            }
+        
+            needHoles=P.drawOnlyPads;
        
-        	/* First possibility: we need to draw only one layer (for example 
-           		in a macro). This is indicated by the fact that drawOnlyLayer
-           		is non negative.
-        	*/
-        	if(P.drawOnlyLayer>=0 && !P.drawOnlyPads){
+            /* First possibility: we need to draw only one layer (for example 
+                in a macro). This is indicated by the fact that drawOnlyLayer
+                is non negative.
+            */
+            if(P.drawOnlyLayer>=0 && !P.drawOnlyPads){
             
-            	// At first, we check if the layer is effectively used in the
-            	// drawing. If not, we exit directly.
+                // At first, we check if the layer is effectively used in the
+                // drawing. If not, we exit directly.
             
-            	if(!P.layersUsed[P.drawOnlyLayer])
-                	return;
+                if(!P.layersUsed[P.drawOnlyLayer])
+                    return;
             
-            	drawPrimitives(P.drawOnlyLayer, G, cs);
-            	return;
-        	} else if (!P.drawOnlyPads) {
-            	// If we want to draw all layers, we need to process with order.
-            	for(j_index=0;j_index<LayerDesc.MAX_LAYERS; ++j_index) {
-                	if(!P.layersUsed[j_index])
-                    	continue;
-                	drawPrimitives(j_index, G,cs);             
-            	}
-        	}
-        	// Draw in a second time only the PCB pads, in order to ensure that
-        	// the drills are always open.
-        	if(needHoles) {
-            	for (i_index=0; i_index<P.getPrimitiveVector().size(); 
-            		++i_index){
+                drawPrimitives(P.drawOnlyLayer, G, cs);
+                return;
+            } else if (!P.drawOnlyPads) {
+                // If we want to draw all layers, we need to process with order.
+                for(j_index=0;j_index<LayerDesc.MAX_LAYERS; ++j_index) {
+                    if(!P.layersUsed[j_index])
+                        continue;
+                    drawPrimitives(j_index, G,cs);             
+                }
+            }
+            // Draw in a second time only the PCB pads, in order to ensure that
+            // the drills are always open.
+            if(needHoles) {
+                for (i_index=0; i_index<P.getPrimitiveVector().size(); 
+                    ++i_index){
                 
-                	// We will process only primitive which require holes (pads
-                	// as well as macros containing pads).
+                    // We will process only primitive which require holes (pads
+                    // as well as macros containing pads).
                 
-                	if ((gg=(GraphicPrimitive)P.getPrimitiveVector().
-                		get(i_index)).needsHoles()) {
-                    	gg.setDrawOnlyPads(true);
-                    	gg.draw(G, cs, P.layerV);
-                    	gg.setDrawOnlyPads(false);
-                	} 
-            	}
-        	}
+                    if ((gg=(GraphicPrimitive)P.getPrimitiveVector().
+                        get(i_index)).needsHoles()) {
+                        gg.setDrawOnlyPads(true);
+                        gg.draw(G, cs, P.layerV);
+                        gg.setDrawOnlyPads(false);
+                    } 
+                }
+            }
         }
     }    
     
@@ -163,7 +163,7 @@ public class Drawing
         @param G the graphic context in which to draw.
     */
     private void drawPrimitives(int j_index, GraphicsInterface graphic, 
-    	MapCoordinates cs)
+        MapCoordinates cs)
     {
         GraphicPrimitive gg;
         int i_index;

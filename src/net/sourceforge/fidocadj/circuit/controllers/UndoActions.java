@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.globals.FileUtils;
 import net.sourceforge.fidocadj.undo.*;
 
 /** UndoActions: perform undo operations. Since some parsing operations are
-	to be done, this class requires the ParserActions controller.
+    to be done, this class requires the ParserActions controller.
     
 <pre>
     This file is part of FidoCadJ.
@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.undo.*;
 
 public class UndoActions implements UndoActorListener
 {
-	private final ParserActions pa;
+    private final ParserActions pa;
 
     
     // Undo manager
@@ -53,21 +53,21 @@ public class UndoActions implements UndoActorListener
     private String tempLibraryDirectory="";
 
 
-	// Listeners
+    // Listeners
     private LibraryUndoListener libraryUndoListener;
     private HasChangedListener cl;     
 
     /** Public constructor.
     @param a a parser controller (undo snapshots are kept in text format).
     */
-	public UndoActions(ParserActions a)
-	{
-		pa=a;
-		um=new UndoManager(MAX_UNDO);
+    public UndoActions(ParserActions a)
+    {
+        pa=a;
+        um=new UndoManager(MAX_UNDO);
         libraryUndoListener=null;
         tempDir=new Vector<String>(); 
         cl =null;
-	}
+    }
     /** Undo the last editing action
     */
     public void undo()
@@ -76,12 +76,12 @@ public class UndoActions implements UndoActorListener
             
         // Check if it is an operation involving libraries.
         if(um.isNextOperationOnALibrary() && libraryUndoListener!=null) {
-          	libraryUndoListener.undoLibrary(r.libraryDir);
+            libraryUndoListener.undoLibrary(r.libraryDir);
         } 
             
         if(!"".equals(r.text)) {
-           	StringBuffer s=new StringBuffer(r.text);
-          	pa.parseString(s);
+            StringBuffer s=new StringBuffer(r.text);
+            pa.parseString(s);
         }
         isModified = r.isModified;
         pa.openFileName = r.fileName;
@@ -95,12 +95,12 @@ public class UndoActions implements UndoActorListener
     {
         UndoState r = (UndoState)um.undoRedo();
         if(r.libraryOperation && libraryUndoListener!=null) {
-          	libraryUndoListener.undoLibrary(r.libraryDir);
+            libraryUndoListener.undoLibrary(r.libraryDir);
         } 
             
         if(!"".equals(r.text)) {
-           	StringBuffer s=new StringBuffer(r.text);
-          	pa.parseString(s);
+            StringBuffer s=new StringBuffer(r.text);
+            pa.parseString(s);
         }
             
         isModified = r.isModified;
@@ -111,7 +111,7 @@ public class UndoActions implements UndoActorListener
     
     
     /** Save the undo state, in the case an editing operation
-    	has been done on the drawing.
+        has been done on the drawing.
     */
     public void saveUndoState()
     {
@@ -132,14 +132,14 @@ public class UndoActions implements UndoActorListener
     }
     
     /** Save the undo state, in the case an editing operation
-    	has been performed on a library.
-    	@param t the library directory to be used.
+        has been performed on a library.
+        @param t the library directory to be used.
     */
     public void saveUndoLibrary(String t)
     {
-    	tempLibraryDirectory=t;
-    	UndoState s = new UndoState();
-    	s.text=pa.getText(true).toString();
+        tempLibraryDirectory=t;
+        UndoState s = new UndoState();
+        s.text=pa.getText(true).toString();
         s.libraryDir=tempLibraryDirectory;
         s.isModified=isModified;
         s.fileName=pa.openFileName;
@@ -153,9 +153,9 @@ public class UndoActions implements UndoActorListener
     @param l the library undo listener.
     */
     public void setLibraryUndoListener(LibraryUndoListener l)
-   	{
-   		libraryUndoListener = l;
-   	}
+    {
+        libraryUndoListener = l;
+    }
    
     /** Determine if the drawing has been modified.
         @return the state.
@@ -182,18 +182,18 @@ public class UndoActions implements UndoActorListener
         cl = l;
     }
     
-    /**	Clear all temporary files and directories created by the library undo
-		system.
-	*/
-	public void doTheDishes()
-	{
-		for (int i=0; i<tempDir.size();++i) 
-		{	
-			try {
-				FileUtils.deleteDirectory(new File(tempDir.get(i)));
-			} catch (IOException E) {
-				System.out.println("Warning: "+E);
-			}
-		}
-	}	
+    /** Clear all temporary files and directories created by the library undo
+        system.
+    */
+    public void doTheDishes()
+    {
+        for (int i=0; i<tempDir.size();++i) 
+        {   
+            try {
+                FileUtils.deleteDirectory(new File(tempDir.get(i)));
+            } catch (IOException E) {
+                System.out.println("Warning: "+E);
+            }
+        }
+    }   
 }

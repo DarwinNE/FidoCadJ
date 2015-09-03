@@ -10,7 +10,7 @@ import net.sourceforge.fidocadj.globals.*;
 
 /** EnterCircuitFrame.java 
 
-	This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
 <pre>
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-	Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2012 by Davide Bucci
 </pre>
 
 
@@ -49,19 +49,19 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     private String stringCircuit;
       
     /** Defines the string containing the FidoCadJ code.
-    	@param s the string
+        @param s the string
     */  
     public void setStringCircuit(String s)
     {
-    	stringCircuit = s;
+        stringCircuit = s;
     }
     
     /** Gets the string containing the FidoCadJ code.
-    	@return the string.
+        @return the string.
     */
     public String getStringCircuit()
     {
-    	return stringCircuit;
+        return stringCircuit;
     }
     
     /** Impose a minimum size for this dialog.
@@ -86,15 +86,15 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
 
     
@@ -106,15 +106,15 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     {
         super(parent, Globals.messages.getString("Enter_code"), true);
         addComponentListener(this); 
-		
-  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
-  		// as a document modal sheet
-  		
-  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
-				Boolean.TRUE);
-				
-				
-		GridBagConstraints constraints;
+        
+        // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+        // as a document modal sheet
+        
+        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+                Boolean.TRUE);
+                
+                
+        GridBagConstraints constraints;
         Container contentPane=getContentPane();
         contentPane.setLayout(new GridBagLayout());
         
@@ -124,36 +124,36 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         textArea=new JTextArea(stringCircuit,2,10);
         JScrollPane scrollPane=new JScrollPane(textArea);
         
-   		constraints = DialogUtil.createConst(0,0,1,1,100,100,
-			GridBagConstraints.WEST, GridBagConstraints.BOTH, 
-			new Insets(20,20,12,20));
+        constraints = DialogUtil.createConst(0,0,1,1,100,100,
+            GridBagConstraints.WEST, GridBagConstraints.BOTH, 
+            new Insets(20,20,12,20));
 
         contentPane.add(scrollPane, constraints);
                
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
-		JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
+        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
         
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
-		ok.setPreferredSize(cancel.getPreferredSize());
+        ok.setPreferredSize(cancel.getPreferredSize());
 
-		if (Globals.okCancelWinOrder) {
-			b.add(ok);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(cancel);
-		
-		} else {
-			b.add(cancel);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(ok);
-		}
-		b.add(Box.createHorizontalStrut(20));
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        b.add(Box.createHorizontalStrut(20));
 
-		constraints = DialogUtil.createConst(0,1,1,1,100,0,
-			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,0,20,0));
-		
+        constraints = DialogUtil.createConst(0,1,1,1,100,0,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,0,20,0));
+        
         contentPane.add(b, constraints);
 
         ok.addActionListener(new ActionListener()

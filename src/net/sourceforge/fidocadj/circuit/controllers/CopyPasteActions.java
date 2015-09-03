@@ -6,7 +6,7 @@ import net.sourceforge.fidocadj.globals.*;
 
 
 /** CopyPasteActions: contains a controller which can perform copy and paste 
-	actions on a primitive database.
+    actions on a primitive database.
     
 <pre>
     This file is part of FidoCadJ.
@@ -32,52 +32,52 @@ import net.sourceforge.fidocadj.globals.*;
 
 public class CopyPasteActions {
 
-	private final DrawingModel P;
-	private final EditorActions edt;
-	private final ParserActions pa;
-	private final UndoActions ua;
-	private final SelectionActions sa;
-	private final ProvidesCopyPasteInterface cpi;
+    private final DrawingModel P;
+    private final EditorActions edt;
+    private final ParserActions pa;
+    private final UndoActions ua;
+    private final SelectionActions sa;
+    private final ProvidesCopyPasteInterface cpi;
 
     // True if elements should be shifted when copy/pasted
-    private boolean shiftCP;	
-	/** Standard constructor.
-		@param pp the drawing model.
-		@param ed an editor controller.
-		@param aa a parser controller (pasting implies parsing).
-		@param sa a selection controller
-		@param u an undo controller.
-		@param p an object with copy and paste methods available.
-	*/
-	public CopyPasteActions(DrawingModel pp, EditorActions ed, 
-		SelectionActions s,
-		ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
-	{
-		P=pp;
-		edt=ed;
-		pa=aa;
-		sa=s;
-		ua=u;
-		cpi=p;
-		shiftCP=false;
-	}
-		
-	/** Paste from the system clipboard
-    	@param xstep if the shift should be applied, this is the x shift
-    	@param ystep if the shift should be applied, this is the y shift
+    private boolean shiftCP;    
+    /** Standard constructor.
+        @param pp the drawing model.
+        @param ed an editor controller.
+        @param aa a parser controller (pasting implies parsing).
+        @param sa a selection controller
+        @param u an undo controller.
+        @param p an object with copy and paste methods available.
+    */
+    public CopyPasteActions(DrawingModel pp, EditorActions ed, 
+        SelectionActions s,
+        ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
+    {
+        P=pp;
+        edt=ed;
+        pa=aa;
+        sa=s;
+        ua=u;
+        cpi=p;
+        shiftCP=false;
+    }
+        
+    /** Paste from the system clipboard
+        @param xstep if the shift should be applied, this is the x shift
+        @param ystep if the shift should be applied, this is the y shift
     */
     public void paste(int xstep, int ystep)
     {
         sa.setSelectionAll(false);
         
         try {
-        	pa.addString(new StringBuffer(cpi.pasteText()), true);
+            pa.addString(new StringBuffer(cpi.pasteText()), true);
         } catch (Exception E) {
-        	System.out.println("Warning: paste operation has gone wrong.");
+            System.out.println("Warning: paste operation has gone wrong.");
         }
         
         if(shiftCP)
-        	edt.moveAllSelected(xstep, ystep);
+            edt.moveAllSelected(xstep, ystep);
         
         ua.saveUndoState();
         P.setChanged(true);
@@ -97,7 +97,7 @@ public class CopyPasteActions {
             The temporary file will then be loaded in the clipboard.
         */
         if (splitNonStandard) {
-			s=pa.splitMacros(s,  false);
+            s=pa.splitMacros(s,  false);
         }
         
         cpi.copyText(s.toString());
@@ -108,14 +108,14 @@ public class CopyPasteActions {
     */
     public boolean getShiftCopyPaste()
     {
-    	return shiftCP;
+        return shiftCP;
     }
     
     /** Determines if the elements are to be shifted when copy/pasted
-    	@param s true if the elements should be shifted
+        @param s true if the elements should be shifted
     */
     public void setShiftCopyPaste(boolean s)
     {
-    	shiftCP=s;
+        shiftCP=s;
     }
 }    

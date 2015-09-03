@@ -112,7 +112,7 @@ public class LibraryModel
     public void remove(Library library)
     throws IllegalLibraryAccessException
     {
-    	// NOTE: We must consider this method contains deleting file.
+        // NOTE: We must consider this method contains deleting file.
 
         if(library==null) {
             return;
@@ -126,12 +126,12 @@ public class LibraryModel
         libraries.remove(library);
         synchronizeMasterLibrary();
         try{
-        	LibUtils.deleteLib(library.getFileName());
+            LibUtils.deleteLib(library.getFileName());
         } catch (FileNotFoundException e){
-        	System.out.println("library not found:"+library.getFileName());
+            System.out.println("library not found:"+library.getFileName());
         } catch (IOException e) {
-			System.out.println("Exception: "+e);
-		}
+            System.out.println("Exception: "+e);
+        }
         saveLibraryState(); 
         fireRemoved(null,library);
     }
@@ -225,7 +225,7 @@ public class LibraryModel
 
         if(category.getParentLibrary().isStdLib()) {
             throw new IllegalLibraryAccessException(
-            	 "A category in standard library can't be renamed.");
+                 "A category in standard library can't be renamed.");
         }
 
         if(!Category.isValidName(newName)) {
@@ -282,7 +282,7 @@ public class LibraryModel
      */
     public void copy(MacroDesc macro, Category destCategory)
     {
-    	//TODO: Standard library check.    	
+        //TODO: Standard library check.     
         MacroDesc newMacro;
         System.out.println("copy:"+macro+destCategory);
 
@@ -332,7 +332,7 @@ public class LibraryModel
      */
     public void copy(Category category, Library destLibrary)
     {
-		//TODO: Standard library check.
+        //TODO: Standard library check.
         Category newCategory;
 
         if(category==null || destLibrary==null) {
@@ -477,26 +477,26 @@ public class LibraryModel
         }
     }
 
-	/**
-	 * Sets UndoActorListener.
-	 * @param undoActorListener UndoActorListener.
-	 */
+    /**
+     * Sets UndoActorListener.
+     * @param undoActorListener UndoActorListener.
+     */
     public void setUndoActorListener(UndoActorListener undoActorListener)
     {
-    	this.undoActorListener = undoActorListener;
+        this.undoActorListener = undoActorListener;
     }
 
-	/**
-	 * Returns true if macro is in standard library.
-	 * This method will be removed in the future.
-	 * @param macro MacroDesc
-	 */
+    /**
+     * Returns true if macro is in standard library.
+     * This method will be removed in the future.
+     * @param macro MacroDesc
+     */
     private boolean isStdLib(MacroDesc macro)
     {
-    	// An alternative way to see if a macro is standard or not
-    	// is to extract the prefix from the key and to see if the
-    	// prefix is "" or the one of the standard libraries.
-    	
+        // An alternative way to see if a macro is standard or not
+        // is to extract the prefix from the key and to see if the
+        // prefix is "" or the one of the standard libraries.
+        
         for(Library l:getAllLibraries()) {
             if(l.isStdLib()) {
                 for(Category c:l.getAllCategories()) {
@@ -589,17 +589,17 @@ public class LibraryModel
      */
     public void save()
     {
-    	//TODO: throw necessary exceptions. 
-    	for(Library library:libraries){
-    		try{
-				if(!library.isStdLib()){	
-					LibUtils.save(masterLibrary,
-					LibUtils.getLibPath(library.getFileName()),
-					library.getName().trim(), library.getFileName());
-				}
-			} catch (FileNotFoundException e) {
-			}
-    	}
+        //TODO: throw necessary exceptions. 
+        for(Library library:libraries){
+            try{
+                if(!library.isStdLib()){    
+                    LibUtils.save(masterLibrary,
+                    LibUtils.getLibPath(library.getFileName()),
+                    library.getName().trim(), library.getFileName());
+                }
+            } catch (FileNotFoundException e) {
+            }
+        }
     }
 
     /**
@@ -607,10 +607,10 @@ public class LibraryModel
      */
     public void saveLibraryState()
     {
-    	try {
-        	LibUtils.saveLibraryState(undoActorListener);
+        try {
+            LibUtils.saveLibraryState(undoActorListener);
         } catch (IOException e) {
-        	System.out.println("Exception: "+e);
+            System.out.println("Exception: "+e);
         }
     }
 

@@ -38,7 +38,7 @@ import java.util.*;
     
 public class DialogLayer extends JDialog implements ComponentListener 
 {
-	// Miniumum size for the window.
+    // Miniumum size for the window.
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
@@ -46,7 +46,7 @@ public class DialogLayer extends JDialog implements ComponentListener
     public JList<LayerDesc> layerList;
     
     /** Ensure that the dialog does not have a size smaller than the limits
-    	specified above.
+        specified above.
     */
     public void componentResized(ComponentEvent e) 
     {
@@ -68,15 +68,15 @@ public class DialogLayer extends JDialog implements ComponentListener
     }
     public void componentMoved(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentShown(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     public void componentHidden(ComponentEvent e) 
     {
-    	// Nothing to do
+        // Nothing to do
     }
     
     /** Standard constructor.
@@ -91,11 +91,11 @@ public class DialogLayer extends JDialog implements ComponentListener
         addComponentListener(this); 
         layers=l;
         
-  		// Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
-  		// as a document modal sheet
-  		
-  		getRootPane().putClientProperty("apple.awt.documentModalSheet", 
-				Boolean.TRUE);
+        // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+        // as a document modal sheet
+        
+        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+                Boolean.TRUE);
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints;
         Container contentPane=getContentPane();
@@ -106,9 +106,9 @@ public class DialogLayer extends JDialog implements ComponentListener
         
         layerList.setCellRenderer(new LayerCellRenderer());
 
-		constraints = DialogUtil.createConst(0,0,1,1,100,100,
-			GridBagConstraints.EAST, GridBagConstraints.BOTH, 
-			new Insets(20,20,6,20));
+        constraints = DialogUtil.createConst(0,0,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+            new Insets(20,20,6,20));
         
         contentPane.add(sl, constraints);
         
@@ -116,26 +116,26 @@ public class DialogLayer extends JDialog implements ComponentListener
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
         JButton edit = new JButton(Globals.messages.getString("Edit"));
         
-    	// Put the OK and Cancel buttons and make them active.
+        // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(edit);
         b.add(Box.createHorizontalGlue());
-		ok.setPreferredSize(cancel.getPreferredSize());
+        ok.setPreferredSize(cancel.getPreferredSize());
 
-		if (Globals.okCancelWinOrder) {
-			b.add(ok);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(cancel);
-		
-		} else {
-			b.add(cancel);
-			b.add(Box.createHorizontalStrut(12));
-			b.add(ok);
-		}
-		
-		constraints = DialogUtil.createConst(0,1,1,1,100,0,
-			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
-			new Insets(0,20,20,20));
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        
+        constraints = DialogUtil.createConst(0,1,1,1,100,0,
+            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+            new Insets(0,20,20,20));
 
         contentPane.add(b,constraints);         // Add cancel button    
         layerList.addMouseListener(new ActionDClick(this));
@@ -178,16 +178,16 @@ public class DialogLayer extends JDialog implements ComponentListener
     }
     
     /** Check if the layer index is non negative and then show the dialog for
-    	the editing of the selected layer.
-    	@param index the index of the layer to be modified.
-	*/
-	public void activateLayerEditor(int index)
-	{
-		if (index>=0) {
+        the editing of the selected layer.
+        @param index the index of the layer to be modified.
+    */
+    public void activateLayerEditor(int index)
+    {
+        if (index>=0) {
             DialogEditLayer del=new DialogEditLayer(null, 
                 (LayerDesc) layers.get(layerList.getSelectedIndex()));
             del.setVisible(true);
-        	if (del.getActive()){
+            if (del.getActive()){
                 del.acceptLayer();
                 repaint();
             }
@@ -197,34 +197,34 @@ public class DialogLayer extends JDialog implements ComponentListener
                 Globals.messages.getString("Layer_editor"),
                 JOptionPane.INFORMATION_MESSAGE, null);
         }
-	}
+    }
 }
 
 /** ActionDClick is a class which activates the layer editor when the user
-	double clicks into the layerList JList object contained in the 
-	DialogLayer object. If in Java there was a "friend" class specificator 
-	like the one in C++, I would probably define this class as a friend of 
-	DialogLayer, thus avoiding of having to make layerList public.
+    double clicks into the layerList JList object contained in the 
+    DialogLayer object. If in Java there was a "friend" class specificator 
+    like the one in C++, I would probably define this class as a friend of 
+    DialogLayer, thus avoiding of having to make layerList public.
 
 */
 class ActionDClick extends MouseAdapter{
-  	
-  	private final DialogLayer dl;
     
- 	public ActionDClick(DialogLayer i)
- 	{
-  		dl = i;
-   	}
+    private final DialogLayer dl;
+    
+    public ActionDClick(DialogLayer i)
+    {
+        dl = i;
+    }
   
   
-  	public void mouseClicked(MouseEvent e)
-  	{
-   		if(e.getClickCount() == 2){
-     		int t = dl.layerList.locationToIndex(e.getPoint());
-     		dl.layerList.ensureIndexIsVisible(t);
-     		dl.activateLayerEditor(t);
-	 	}
-   	}
+    public void mouseClicked(MouseEvent e)
+    {
+        if(e.getClickCount() == 2){
+            int t = dl.layerList.locationToIndex(e.getPoint());
+            dl.layerList.ensureIndexIsVisible(t);
+            dl.activateLayerEditor(t);
+        }
+    }
 }
 
 

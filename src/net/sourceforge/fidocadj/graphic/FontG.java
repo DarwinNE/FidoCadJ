@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.graphic;
 
 /** FontG is a class containing font information.
-	
+    
 <pre>
     This file is part of FidoCadJ.
 
@@ -23,16 +23,16 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class FontG
 {
-	public String fontFamily;
-	
-	public FontG(String n)
-	{
-		fontFamily=n;
-	}
-	
-	public String getFamily()
-	{
-		return fontFamily;
-	}
-	
+    public String fontFamily;
+    
+    public FontG(String n)
+    {
+        fontFamily=n;
+    }
+    
+    public String getFamily()
+    {
+        return fontFamily;
+    }
+    
 }

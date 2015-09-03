@@ -29,21 +29,21 @@ import net.sourceforge.fidocadj.FidoFrame;
 
 public class LibraryUndoExecutor implements LibraryUndoListener
 {
-	FidoFrame fidoFrame;
-	LibraryModel libraryModel;
-	
-	public LibraryUndoExecutor(FidoFrame frame, LibraryModel model)
-	{
-		fidoFrame = frame;
-		libraryModel = model;
-	}
-	
-	public void undoLibrary(String s){
+    FidoFrame fidoFrame;
+    LibraryModel libraryModel;
+    
+    public LibraryUndoExecutor(FidoFrame frame, LibraryModel model)
+    {
+        fidoFrame = frame;
+        libraryModel = model;
+    }
+    
+    public void undoLibrary(String s){
         try {
-        	File sourceDir = new File(s);
-        	String d=LibUtils.getLibDir();
-        	File destinationDir = new File(d);
-        	//System.out.println("undo: copy from "+s+" to "+d);
+            File sourceDir = new File(s);
+            String d=LibUtils.getLibDir();
+            File destinationDir = new File(d);
+            //System.out.println("undo: copy from "+s+" to "+d);
             FileUtils.copyDirectory(sourceDir, destinationDir);
             fidoFrame.loadLibraries();
             libraryModel.forceUpdate();

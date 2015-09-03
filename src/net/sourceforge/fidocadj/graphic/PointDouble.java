@@ -23,17 +23,17 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class PointDouble
 {
-	public double x;
-	public double y;
-	public PointDouble(double x, double y)
-	{
-		this.x=x; 
-		this.y=y;
-	}
+    public double x;
+    public double y;
+    public PointDouble(double x, double y)
+    {
+        this.x=x; 
+        this.y=y;
+    }
 
-	public PointDouble()
-	{
-		this.x=0; 
-		this.y=0;
-	}
+    public PointDouble()
+    {
+        this.x=0; 
+        this.y=0;
+    }
 }
