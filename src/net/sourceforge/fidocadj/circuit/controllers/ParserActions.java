@@ -438,7 +438,7 @@ public class ParserActions
                             macro_counter = 2;
                         } else if (hasFCJ && old_tokens[0].equals("PA")) {
                             macro_counter = 2;
-                        } else if (hasFCJ && old_tokens[0].equals("SA")) {                    
+                        } else if (hasFCJ && old_tokens[0].equals("SA")) {
                             macro_counter = 2;                       
                         }
                         hasFCJ=false;
@@ -670,7 +670,7 @@ public class ParserActions
             newLineWidth = Double.parseDouble(tokens[2]);
         } else if(tokens[1].equals("B")) {
             // Connection size
-            newLineWidthCircles = Double.parseDouble(tokens[2]);                      
+            newLineWidthCircles = Double.parseDouble(tokens[2]);
         }
         
         // If the schematics has some configuration information, we need
@@ -688,12 +688,14 @@ public class ParserActions
     }
     
     /** This method checks if a primitive may have FCJ  modifiers following.
-        If no further FCJ tokens are present, the primitive is created 
+        If no further FCJ tokens are present, the primitive is created
         immediately. If a FCJ token follows, we proceed to further parsing
         what follows.
     */
-    private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, String[] tokens,
-        GraphicPrimitive gg, String[] old_tokens, int old_j, boolean selectNew)
+    private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t, 
+        String[] tokens,
+        GraphicPrimitive gg, String[] old_tokens, int old_j,
+        boolean selectNew)
         throws IOException
     {
         String macroFont = model.getTextFont();
@@ -880,7 +882,7 @@ public class ParserActions
                         MacroDesc(macroName,"","","","", prefix));
                     /*System.out.printf("-- macroName:%s | longName:%s | 
                         categoryName:%s | libraryName:%s | prefix:%s\n",
-                        macroName,longName,categoryName,libraryName,prefix);*/                    
+                        macroName,longName,categoryName,libraryName,prefix);*/
                     continue;
                 }
             }

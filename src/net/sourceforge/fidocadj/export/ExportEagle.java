@@ -159,11 +159,8 @@ public class ExportEagle implements ExportInterface {
             out.write("Change size "+sizey*res*text_stretch+"\n");
         oldtextsize=sizey;
         
-        out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+" " 
-            +een((dim.height-y)*res)+");\n");
-
-            
-        
+        out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+
+            " "+een((dim.height-y)*res)+");\n");
     }
     
     /** Called when exporting a Bézier primitive.

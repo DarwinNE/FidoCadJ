@@ -168,7 +168,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
      
             primEdit = new PrimitiveLine(xpoly[1], 
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
-                false, false, 0, 3, 2, 0, P.getTextFont(), P.getTextFontSize());
+                false, false, 0, 3, 2, 0, P.getTextFont(), 
+                P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;  
@@ -199,7 +200,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
         if (actionSelected == ElementsEdtActions.PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1], 
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 
-                ae.getPCB_thickness(), 0, P.getTextFont(), P.getTextFontSize());
+                ae.getPCB_thickness(), 0, P.getTextFont(), 
+                P.getTextFontSize());
             
             toRepaint=true;
             successiveMove = true;    
@@ -210,7 +212,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
                     (ypoly[1]-cs.unmapYsnap(ya))*
                     (ypoly[1]-cs.unmapYsnap(ya)));
                 coordinatesListener.changeInfos(
-                    Globals.messages.getString("length")+Globals.roundTo(w,2));            
+                    Globals.messages.getString("length")+
+                    Globals.roundTo(w,2));
             }
         }
         /*  BEZIER ************************************************************

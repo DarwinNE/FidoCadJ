@@ -11,12 +11,17 @@
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
-        <module name="FileTabCharacter">
-            <property name="eachLine" value="true"/>
-        </module>
-
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+	<module name="SuppressionCommentFilter">
+		<property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)"/>
+		<property name="onCommentFormat" value="CHECKSTYLE.ON\: ([\w\|]+)"/>
+		<property name="checkFormat" value="$1"/>
+	</module>	
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
+        <module name="FileContentsHolder"/>
         <module name="LineLength">
             <property name="max" value="80"/>
             <property name="ignorePattern" 

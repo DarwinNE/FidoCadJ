@@ -221,7 +221,7 @@ public class HandleActions
         // Check if we are effectively dragging something...
         CC.setEvidenceRect(0,0,-1,-1);
         if(handleBeingDragged<0){
-            if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){                
+            if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){
                 int xa=Math.min(oldpx, cs.unmapXnosnap(px));
                 int ya=Math.min(oldpy, cs.unmapYnosnap(py));
                 int xb=Math.max(oldpx, cs.unmapXnosnap(px));

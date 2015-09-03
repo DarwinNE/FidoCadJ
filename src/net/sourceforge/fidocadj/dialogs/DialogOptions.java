@@ -479,7 +479,7 @@ public class DialogOptions extends JDialog implements ComponentListener
             new Insets(6,6,6,20));
             
         if(Globals.isBeta)
-            drawingOptPanel.add(profile_CB, constraints);   // Add profiler cb      
+            drawingOptPanel.add(profile_CB, constraints);   // Add profiler cb
         
         JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
         
@@ -529,7 +529,7 @@ public class DialogOptions extends JDialog implements ComponentListener
             GridBagConstraints.WEST, GridBagConstraints.NONE, 
             new Insets(6,6,6,6));
             
-        drawingOptPanel.add(stroke_size_straight, constraints);     
+        drawingOptPanel.add(stroke_size_straight, constraints);
         
 /*      JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
             "stroke_size_oval"));
@@ -599,7 +599,7 @@ public class DialogOptions extends JDialog implements ComponentListener
             GridBagConstraints.WEST, GridBagConstraints.NONE, 
             new Insets(6,6,6,40));
             
-        drawingOptPanel.add(antiAlias_CB, constraints);     // Add antialias cb     
+        drawingOptPanel.add(antiAlias_CB, constraints);     // Add antialias cb
         
         shiftCP_CB=new JCheckBox(Globals.messages.getString("Shift_cp"));
         shiftCP_CB.setSelected(shiftCP);

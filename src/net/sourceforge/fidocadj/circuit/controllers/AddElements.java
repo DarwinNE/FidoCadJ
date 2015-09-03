@@ -463,7 +463,7 @@ public class AddElements
     {
         final PrimitivePCBPad g=new PrimitivePCBPad(x, y,
                                   PCB_pad_sizex,
-                                  PCB_pad_sizey,                                                                                                                
+                                  PCB_pad_sizey,
                                   PCB_pad_drill,
                                   PCB_pad_style,
                                   currentLayer,

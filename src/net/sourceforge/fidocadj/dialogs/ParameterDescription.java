@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.dialogs;
 /**
-    The user should check the parameter type before using. The allowed parameter 
-    types are: (Integer|Double|String|Boolean|Point).
+    The user should check the parameter type before using. The allowed 
+    parameter types are: (Integer|Double|String|Boolean|Point).
     
 
 <pre>

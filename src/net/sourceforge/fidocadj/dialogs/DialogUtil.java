@@ -63,7 +63,8 @@ public final class DialogUtil
         given proportion of the screen size */
     public static void center(Window frame, double propX, double propY) 
     {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsEnvironment ge =
+             GraphicsEnvironment.getLocalGraphicsEnvironment();
         Point center = ge.getCenterPoint();
         Rectangle bounds = ge.getMaximumWindowBounds();
         int w = Math.max((int)(bounds.width*propX), Math.min(frame.getWidth(),
@@ -85,7 +86,8 @@ public final class DialogUtil
     public static void center(Window frame, double propX, double propY,
         int minx, int miny) 
     {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsEnvironment ge = 
+            GraphicsEnvironment.getLocalGraphicsEnvironment();
         Point center = ge.getCenterPoint();
         Rectangle bounds = ge.getMaximumWindowBounds();
         int w = Math.max((int)(bounds.width*propX), Math.min(frame.getWidth(),

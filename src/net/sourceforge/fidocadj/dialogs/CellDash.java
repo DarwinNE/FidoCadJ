@@ -12,7 +12,7 @@ import java.util.*;
 
 
 /** The class CellArrow is a simple panel showing the dash style 
-	characteristics. 
+    characteristics. 
     To be used with ArrowCellRenderer.
 
     @author Davide Bucci

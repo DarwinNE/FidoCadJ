@@ -242,6 +242,7 @@ public class CommandLineParser
         // Here, exceptionally, the lenght of the code lines might exceed
         // 80 characters.
     
+        //CHECKSTYLE.OFF: LineLength
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
             "By Davide Bucci, 2007-2014.\n\n"+
             
@@ -292,7 +293,8 @@ public class CommandLineParser
             "  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
             "Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
             "  java -jar fidocadj.jar -l zh\n\n";
-                    
+        
+        //CHECKSTYLE.ON: LineLength
         System.out.println(help);
     }
     

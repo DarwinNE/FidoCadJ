@@ -108,30 +108,30 @@ public class OSKeybPanel extends JPanel
 
         ActionListener al = new ActionListener() {
             
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                JDialog jd = (JDialog) txt;         
+                JDialog jd = (JDialog) txt;
                 // We must find a target for the results of the keyboard
                 // actions.
                 if (!(jd.getMostRecentFocusOwner() instanceof JTextField))
                     return;
-                JTextField jfd = (JTextField)jd.getMostRecentFocusOwner();          
+                JTextField jfd = (JTextField)jd.getMostRecentFocusOwner();
                 if (jfd.getSelectedText()!=null) 
                 {
                     String ee = jfd.getText().replace(
                         jfd.getSelectedText(), "");
                     jfd.setText(ee);
-                } 
+                }
                 int p = jfd.getCaretPosition();
                 if (p<0)
                     jfd.setText(jfd.getText()+e.getActionCommand());
                 else
                 {
                     String s = jfd.getText().substring(0,p);
-                    String t = jfd.getText().substring(p);                                          
+                    String t = jfd.getText().substring(p);
                     jfd.setText(s+e.getActionCommand()+t);
                     jfd.setCaretPosition(++p);
-                }   
+                }
                 
                 jfd.requestFocus();
             }

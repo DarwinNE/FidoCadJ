@@ -51,11 +51,10 @@ public class Export
         @param exportInvisible specify that the primitives on invisible layers
         should be exported
     */
-    public void exportDrawing(ExportInterface exp, boolean header, 
+    public void exportDrawing(ExportInterface exp, boolean header,
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
-        
         int l;
         int i;
         int j;
@@ -71,7 +70,7 @@ public class Export
                 d.width+=exportBorder;
                 d.height+=exportBorder;
             
-                // We remeber that getImageSize works only with logical 
+                // We remeber that getImageSize works only with logical
                 // coordinates so we may trasform them:
             
                 d.width *= mp.getXMagnitude();
@@ -92,7 +91,6 @@ public class Export
                             g.export(exp, mp);
                     
                     } else if(g instanceof PrimitiveMacro) {
- 
                         ((PrimitiveMacro)g).setDrawOnlyLayer(P.drawOnlyLayer);
                         ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
  
@@ -137,25 +135,28 @@ public class Export
                     PrimitivePCBPad) {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
                     l=g.getLayer();
-    
-                    if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
+                    if(((LayerDesc)(P.layerV.get(l))).isVisible
+                        ||exportInvisible)
+                    {
                         g.export(exp, mp);
+                    }
                     ((PrimitivePCBPad)g).setDrawOnlyPads(false);
                 } else if (g instanceof PrimitiveMacro) { 
                     // Uhm... not beautiful
                     ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
                     ((PrimitiveMacro)g).setDrawOnlyPads(true);
                     l=g.getLayer();
-                    if(((LayerDesc)(P.layerV.get(l))).isVisible||exportInvisible)
+                    if(((LayerDesc)(P.layerV.get(l))).isVisible
+                        ||exportInvisible)
+                    {
                         g.export(exp, mp);
+                    }
                     ((PrimitiveMacro)g).setDrawOnlyPads(false);
                     ((PrimitiveMacro)g).resetExport();
                 }
-            }   
-        
+            }
             if (header)
                 exp.exportEnd();
         }
     }
-            
 }
