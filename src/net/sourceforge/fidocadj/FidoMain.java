@@ -66,7 +66,7 @@ public class FidoMain
             
             if("".equals(clp.getLoadFileName())) {
                 System.err.println("You should specify a FidoCadJ file to"+
-                "read");
+                    "read");
                 System.exit(1);
             }
             

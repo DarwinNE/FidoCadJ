@@ -314,7 +314,7 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             ri=((Integer)pd.parameter).intValue();
         else
             System.out.println("Warning: unexpected parameter!"+pd);
-         pd=(ParameterDescription)v.get(i);
+        pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
         if (pd.parameter instanceof Integer)

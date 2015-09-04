@@ -131,7 +131,8 @@ class OpenFile implements Runnable
             
                 FidoFrame popFrame;
                 if(parent.CC.getUndoActions().getModified() || 
-                    !parent.CC.P.isEmpty()) {
+                    !parent.CC.P.isEmpty()) 
+                {
                     // Here we create a new window in order to display
                     // the file.
                             
@@ -139,8 +140,8 @@ class OpenFile implements Runnable
                         parent.getLocale());
                     popFrame.init();
                     popFrame.setBounds(parent.getX()+20, parent.getY()+20,    
-                    popFrame.getWidth(),        
-                    popFrame.getHeight());
+                        popFrame.getWidth(),        
+                        popFrame.getHeight());
                     popFrame.loadLibraries();
                     popFrame.setVisible(true);                    
                 } else {

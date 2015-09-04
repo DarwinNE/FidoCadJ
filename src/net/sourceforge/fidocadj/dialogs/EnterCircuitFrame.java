@@ -75,14 +75,14 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         if (width < MIN_WIDTH) {
             resize = true;
             width = MIN_WIDTH;
-         }
-         if (height < MIN_HEIGHT) {
+        }
+        if (height < MIN_HEIGHT) {
             resize = true;
             height = MIN_HEIGHT;
-         }
-         if (resize) {
+        }
+        if (resize) {
             setSize(width, height);
-         }
+        }
     }
     public void componentMoved(ComponentEvent e) 
     {

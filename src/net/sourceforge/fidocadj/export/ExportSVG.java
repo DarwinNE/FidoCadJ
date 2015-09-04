@@ -489,7 +489,7 @@ public class ExportSVG implements ExportInterface {
                         convertToHex2(c.getRed())+
                         convertToHex2(c.getGreen())+
                         convertToHex2(c.getBlue())+"\"/>\n");
-                     break;
+                    break;
             }
         } 
         
@@ -634,17 +634,18 @@ public class ExportSVG implements ExportInterface {
         
         //if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
         //if(true) {
+        {
             out.write("style=\"stroke:#"+
-                  convertToHex2(c.getRed())+
-                  convertToHex2(c.getGreen())+
-                  convertToHex2(c.getBlue()));
+                convertToHex2(c.getRed())+
+                convertToHex2(c.getGreen())+
+                convertToHex2(c.getBlue()));
         
             if (dashStyle>0)
                 out.write(";stroke-dasharray: "+dash[dashStyle]);
 
             out.write(";stroke-width:"+strokeWidth+
                   ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
-        
+        }
             // Saving old values.
             //oc=c;
             //owl=strokeWidth;

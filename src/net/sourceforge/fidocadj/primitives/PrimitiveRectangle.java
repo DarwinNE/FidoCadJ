@@ -319,7 +319,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         if(isFilled) {
             if(GeometricDistances.pointInRectangle(xa,ya, xb-xa, yb-ya,px,py))
                 return DISTANCE_IN;
-         else
+            else
                 return DISTANCE_OUT;
         }
         return GeometricDistances.pointToRectangle(xa,ya, xb-xa, yb-ya,px,py);

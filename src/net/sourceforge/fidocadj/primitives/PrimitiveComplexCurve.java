@@ -595,7 +595,7 @@ public final class PrimitiveComplexCurve
             
             if (arrowEnd&&!isClosed) {
                 Arrow.drawArrow(g, p.getXpoints()[p.getNpoints()-1], 
-                p.getYpoints()[p.getNpoints()-1],
+                    p.getYpoints()[p.getNpoints()-1],
                     p.getXpoints()[p.getNpoints()-2], 
                     p.getYpoints()[p.getNpoints()-2],l, h, 
                     arrowStyle);    
@@ -763,7 +763,7 @@ public final class PrimitiveComplexCurve
     */
     public int setControls(Vector<ParameterDescription> v)
     {
-        int i=super.setControls(v);             
+        int i=super.setControls(v);
         ParameterDescription pd;
         
         pd=(ParameterDescription)v.get(i);
@@ -781,7 +781,7 @@ public final class PrimitiveComplexCurve
         else
             System.out.println("Warning: unexpected parameter!"+pd);
         
-                pd=(ParameterDescription)v.get(i++);
+        pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
             arrowStart=((Boolean)pd.parameter).booleanValue();
         else
@@ -918,7 +918,7 @@ public final class PrimitiveComplexCurve
                 if (name.length()!=0 || value.length()!=0) 
                     text = "1";
                 cmd+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                arrowHalfWidth+" "+dashStyle+" "+text+"\n";
+                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
         }
         // The false is needed since saveText should not write the FCJ tag.

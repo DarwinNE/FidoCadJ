@@ -250,7 +250,7 @@ public final class ExportGraphic
                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
-                    }
+                }
                 g2d.setColor(Color.white);
                 g2d.fillRect(0,0, width, height);
                 // Save bitmap

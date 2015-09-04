@@ -521,7 +521,7 @@ public class ExportPGF implements ExportInterface {
                         "]{\\pgfxy("+x+","+y+")}{\\pgfxy("+
                         (six/2.0)+",0)}{\\pgfxy(0,"+
                         (siy/2.0)+")}\n");
-                     break;
+                    break;
             }
         }
     }
@@ -635,7 +635,7 @@ public class ExportPGF implements ExportInterface {
         }
         if (strokeWidth > 0 && actualWidth!=strokeWidth) {
             out.write("\\pgfsetlinewidth{"+strokeWidth
-            +"pt}\n");
+                +"pt}\n");
             actualWidth = strokeWidth;
         }
     }

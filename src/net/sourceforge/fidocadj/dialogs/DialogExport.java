@@ -75,14 +75,14 @@ public class DialogExport extends JDialog implements ComponentListener,
         if (width < MIN_WIDTH) {
             resize = true;
             width = MIN_WIDTH;
-         }
-         if (height < MIN_HEIGHT) {
+        }
+        if (height < MIN_HEIGHT) {
             resize = true;
             height = MIN_HEIGHT;
-         }
-         if (resize) {
+        }
+        if (resize) {
             setSize(width, height);
-         }
+        }
     }
     public void componentMoved(ComponentEvent e) 
     {
@@ -151,7 +151,8 @@ public class DialogExport extends JDialog implements ComponentListener,
             
             default:
                 System.out.println (
-                "dialogExport.getExportFormat Warning: file format set to png");
+                    "dialogExport.getExportFormat Warning:"+
+                    " file format set to png");
                 return "png";
         }
     }
@@ -366,8 +367,8 @@ public class DialogExport extends JDialog implements ComponentListener,
                 
                     // Native file dialog
                     FileDialog fd = new FileDialog(parent, 
-                    Globals.messages.getString("Select_file_export"),
-                                               FileDialog.SAVE);
+                        Globals.messages.getString("Select_file_export"),
+                        FileDialog.SAVE);
                     String filen;
                 
                     // Set defaults and make visible.

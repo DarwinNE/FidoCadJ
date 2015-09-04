@@ -306,11 +306,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 psx = virtualPoint[0].x;
                 psy = virtualPoint[0].y;                
                 if(virtualPoint[0].x!=virtualPoint[1].x ||
-                   virtualPoint[0].y!=virtualPoint[1].y) {
+                    virtualPoint[0].y!=virtualPoint[1].y) 
+                {
                     pex = virtualPoint[1].x;
                     pey = virtualPoint[1].y;
                 } else if(virtualPoint[0].x!=virtualPoint[2].x ||
-                   virtualPoint[2].y!=virtualPoint[1].y) {
+                    virtualPoint[2].y!=virtualPoint[1].y) 
+                {
                     pex = virtualPoint[2].x;
                     pey = virtualPoint[2].y;
                 } else {
@@ -332,11 +334,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 psx = virtualPoint[3].x;
                 psy = virtualPoint[3].y;
                 if(virtualPoint[3].x!=virtualPoint[2].x ||
-                   virtualPoint[3].y!=virtualPoint[2].y) {
+                    virtualPoint[3].y!=virtualPoint[2].y) 
+                {
                     pex = virtualPoint[2].x;
                     pey = virtualPoint[2].y;
                 } else if(virtualPoint[3].x!=virtualPoint[1].x ||
-                   virtualPoint[3].y!=virtualPoint[1].y) {
+                    virtualPoint[3].y!=virtualPoint[1].y) 
+                {
                     pex = virtualPoint[1].x;
                     pey = virtualPoint[1].y;
                 } else {
@@ -465,7 +469,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 if (name.length()!=0 || value.length()!=0) 
                     text = "1";
                 s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                arrowHalfWidth+" "+dashStyle+" "+text+"\n";
+                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
         }
         

@@ -21,7 +21,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     
     
     private static ScrollGestureRecognizer instance = new 
-    ScrollGestureRecognizer(); 
+        ScrollGestureRecognizer(); 
     
     public ScrollGestureRecognizer()
     { 
@@ -37,7 +37,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     void start()
     { 
         Toolkit.getDefaultToolkit().addAWTEventListener(this, 
-        AWTEvent.MOUSE_EVENT_MASK); 
+            AWTEvent.MOUSE_EVENT_MASK); 
     } 
     
     void stop()
@@ -49,8 +49,8 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     { 
         MouseEvent me = (MouseEvent)event; 
         boolean isGesture = (SwingUtilities.isMiddleMouseButton(me) || 
-        actionSelected==ElementsEdtActions.HAND) && 
-        me.getID()==MouseEvent.MOUSE_PRESSED; 
+            actionSelected==ElementsEdtActions.HAND) && 
+            me.getID()==MouseEvent.MOUSE_PRESSED; 
            
         Component co=me.getComponent();
            
@@ -62,8 +62,8 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
             return; 
     
         JViewport viewPort = 
-        (JViewport)SwingUtilities.getAncestorOfClass(JViewport.class, 
-        me.getComponent()); 
+            (JViewport)SwingUtilities.getAncestorOfClass(JViewport.class, 
+            me.getComponent()); 
         if(viewPort==null) 
             return; 
         JRootPane rootPane = SwingUtilities.getRootPane(viewPort); 
@@ -71,7 +71,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
             return; 
     
         Point location = SwingUtilities.convertPoint(me.getComponent(), 
-        me.getPoint(), rootPane.getGlassPane()); 
+            me.getPoint(), rootPane.getGlassPane()); 
         ScrollGlassPane glassPane=new ScrollGlassPane(rootPane.getGlassPane(), 
             viewPort, location); 
         rootPane.setGlassPane(glassPane); 

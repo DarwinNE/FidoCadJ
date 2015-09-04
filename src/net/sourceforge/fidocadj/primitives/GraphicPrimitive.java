@@ -279,7 +279,8 @@ public abstract class GraphicPrimitive
                 (int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
         /* The if's have been added thanks to this information:
-         http://sourceforge.net/projects/fidocadj/forums/forum/997486/topic/3474689?message=7798139
+         http://sourceforge.net/projects/fidocadj/forums/forum/997486
+            /topic/3474689?message=7798139
         */
         if (name!=null && name.length()!=0) {
             g.drawString(name,xa,ya+h);
@@ -306,10 +307,10 @@ public abstract class GraphicPrimitive
             StringBuffer s1=new StringBuffer("");
             
             for (int i=0; i<macroFont.length(); ++i) {
-            if(macroFont.charAt(i)==' ') 
-                s1.append("++");
-            else
-                s1.append(macroFont.charAt(i));
+                if(macroFont.charAt(i)==' ') 
+                    s1.append("++");
+                else
+                    s1.append(macroFont.charAt(i));
             }
             subsFont=s1.toString();
         }
@@ -371,7 +372,7 @@ public abstract class GraphicPrimitive
         double size=
             Math.abs(cs.mapXr(macroFontSize,macroFontSize)-cs.mapXr(0,0));
         
-        // Export the text associated to the name and value of the macro            
+        // Export the text associated to the name and value of the macro
         if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
             if(name!=null && !name.equals(""))
                 exp.exportAdvText (cs.mapX(
@@ -953,7 +954,7 @@ public abstract class GraphicPrimitive
         else
             System.out.println("Warning: unexpected parameter! (layer)");
          
-         return ++i;
+        return ++i;
     }
     
     /** This function should be redefined if the graphic primitive needs holes.
@@ -1046,13 +1047,17 @@ public abstract class GraphicPrimitive
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
                     || i == p.getValueVirtualPointNumber())
+            {
                 continue;
+            }
             for (int j = i + 1; j < p.getControlPointNumber(); j++) {
                 if (j == p.getNameVirtualPointNumber()
                         || j == p.getValueVirtualPointNumber())
+                {
                     continue;
-                    qx = Math.abs(p.virtualPoint[i].x - p.virtualPoint[j].x);
-                    qy = Math.abs(p.virtualPoint[i].y - p.virtualPoint[j].y);
+                }
+                qx = Math.abs(p.virtualPoint[i].x - p.virtualPoint[j].x);
+                qy = Math.abs(p.virtualPoint[i].y - p.virtualPoint[j].y);
             }
         }       
         return new DimensionG(qx,qy);

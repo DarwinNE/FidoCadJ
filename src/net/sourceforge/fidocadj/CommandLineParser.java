@@ -105,7 +105,7 @@ public class CommandLineParser
                     System.getProperty("file.separator"))+1);
             }
             args = ("-n -c r72 pdf "+filename+".pdf " // NOPMD
-                +args[1]).split(" "); // NOPMD  suppressed PMD false positive           
+                +args[1]).split(" "); // NOPMD  suppressed PMD false positive
         }
 
         for(i=0; i<args.length; ++i) {
@@ -113,7 +113,7 @@ public class CommandLineParser
                 // It is an option
                 
                 // phylum                   
-                if (args[i].trim().equalsIgnoreCase("-open")) {                     
+                if (args[i].trim().equalsIgnoreCase("-open")) {
                     continue;
                 }
                 if (args[i].startsWith("-k")) {

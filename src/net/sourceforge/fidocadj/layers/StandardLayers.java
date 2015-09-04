@@ -62,7 +62,8 @@ public final class StandardLayers
             String s="";
         
             layerDesc=new Vector<LayerDesc>();
-            if(Globals.messages!=null) s=Globals.messages.getString("Circuit_l");
+            if(Globals.messages!=null) 
+                s=Globals.messages.getString("Circuit_l");
             layerDesc.add(new LayerDesc(new ColorSwing(Color.black), true, 
                 s,1.0f));   // 0
             if(Globals.messages!=null) 

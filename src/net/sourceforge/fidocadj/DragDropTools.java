@@ -41,7 +41,8 @@ public class DragDropTools implements DropTargetListener
     
     /**  This implementation of the DropTargetListener interface is heavily 
         inspired on the example given here:
-        http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-drop-functionality-in-your-applic.html
+        http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-
+            drop-functionality-in-your-applic.html
     */
     public void dragEnter(DropTargetDragEvent dtde) 
     {

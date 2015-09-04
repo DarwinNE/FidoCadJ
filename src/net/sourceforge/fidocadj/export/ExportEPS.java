@@ -723,11 +723,11 @@ public class ExportEPS implements ExportInterface {
         
         out.write(""+(x1+w) + " " +(y1+h-r)+" lineto\n");
         out.write(""+(x1+w) + " " +(y1+h)+" "+(x1+w) + " " +(y1+h)+
-        " "+(x1+w-r)+" "+(y1+h)+" curveto\n");
+            " "+(x1+w-r)+" "+(y1+h)+" curveto\n");
         
         out.write(""+ (x1+r) + " " +(y1+h)+" lineto\n");
         out.write(""+ x1+ " " +(y1+h)+" "+ x1+ " " +(y1+h)+
-        " "+ (x1) + " " +(y1+h-r)+" curveto\n");
+            " "+ (x1) + " " +(y1+h-r)+" curveto\n");
         
         out.write(""+ (x1) + " " +(y1+r)+" lineto\n");
         out.write(""+(x1) + " " +(y1)+" "+(x1) + " " +(y1)+" "+

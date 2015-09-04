@@ -217,7 +217,7 @@ public class FidoFrame extends JFrame implements
     private void setIconForApplication()
     {
         URL url=DialogAbout.class.getResource(
-           "icona_fidocadj_128x128.png");
+            "icona_fidocadj_128x128.png");
         
         if (url == null) {
             System.err.println("Could not retrieve the FidoCadJ icon!");
@@ -803,12 +803,12 @@ public class FidoFrame extends JFrame implements
                 new File(CC.getParserActions().openFileName));
                     
             setTitle("FidoCadJ "+Globals.version+" "+ 
-            Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
-            (CC.getUndoActions().getModified()?" *":""));
+                Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
+                (CC.getUndoActions().getModified()?" *":""));
         } else {
             setTitle("FidoCadJ "+Globals.version+" "+ 
-            Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
-            (CC.getUndoActions().getModified()?" *":""));
+                Globals.prettifyPath(CC.getParserActions().openFileName,45)+ 
+                (CC.getUndoActions().getModified()?" *":""));
         
         }   
     }

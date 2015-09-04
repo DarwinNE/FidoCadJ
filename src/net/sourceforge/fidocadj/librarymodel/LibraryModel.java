@@ -594,8 +594,8 @@ public class LibraryModel
             try{
                 if(!library.isStdLib()){    
                     LibUtils.save(masterLibrary,
-                    LibUtils.getLibPath(library.getFileName()),
-                    library.getName().trim(), library.getFileName());
+                        LibUtils.getLibPath(library.getFileName()),
+                        library.getName().trim(), library.getFileName());
                 }
             } catch (FileNotFoundException e) {
             }

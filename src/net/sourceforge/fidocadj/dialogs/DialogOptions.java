@@ -315,14 +315,14 @@ public class DialogOptions extends JDialog implements ComponentListener
         if (width < MIN_WIDTH) {
             resize = true;
             width = MIN_WIDTH;
-         }
-         if (height < MIN_HEIGHT) {
+        }
+        if (height < MIN_HEIGHT) {
             resize = true;
             height = MIN_HEIGHT;
-         }
-         if (resize) {
+        }
+        if (resize) {
             setSize(width, height);
-         }
+        }
     }
     public void componentMoved(ComponentEvent e) 
     {
@@ -379,8 +379,8 @@ public class DialogOptions extends JDialog implements ComponentListener
                 if(Globals.useNativeFileDialogs) {
                     // Use the native (AWT) file dialogs instead of Swing's
                     FileDialog fd = new FileDialog(parent, 
-                    Globals.messages.getString("Select_lib_directory"),
-                                               FileDialog.LOAD);
+                        Globals.messages.getString("Select_lib_directory"),
+                        FileDialog.LOAD);
                     String openFileName;
                 
                     fd.setDirectory(libD.getText());
@@ -397,7 +397,7 @@ public class DialogOptions extends JDialog implements ComponentListener
                 } else {
                     // Use Swing's file dialog.
                     JFileChooser fc = new JFileChooser(
-                    new File(libD.getText()).getPath());
+                        new File(libD.getText()).getPath());
                     fc.setDialogTitle(
                         Globals.messages.getString("Select_lib_directory"));
                     fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

@@ -122,7 +122,7 @@ public final class GeometricDistances {
         }
         
         if(y<ymin-MIN_DISTANCE || y>ymax+MIN_DISTANCE)
-           return MIN_DISTANCE;
+            return MIN_DISTANCE;
         
         dx=xb-xa;
         dy=yb-ya;
@@ -173,7 +173,7 @@ public final class GeometricDistances {
             ixmin = xa; ixmax = xb;
         }
         if(x<ixmin-MIN_DISTANCE || x>ixmax+MIN_DISTANCE)
-           return MIN_DISTANCE;
+            return MIN_DISTANCE;
     
         if(ya>yb) {
             iymin = yb; iymax = ya;
@@ -182,7 +182,7 @@ public final class GeometricDistances {
         }       
         
         if(y<iymin-MIN_DISTANCE || y>iymax+MIN_DISTANCE)
-           return MIN_DISTANCE;
+            return MIN_DISTANCE;
 
         if (xb==xa && yb==ya) {
             idx=x-xa;
@@ -257,7 +257,7 @@ public final class GeometricDistances {
         //Shortcut
         if( dx > w/2.0 || dy > h/2.0) {
             return false;
-         }
+        }
 
         // Calculate the semi-latus rectum of the ellipse at the given point
         // The multiplication by four is mandatory as the principal axis of an 

@@ -456,7 +456,7 @@ public class MenuTools implements MenuListener
             cpa.copySelected(!CC.extStrict, false);   
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
             // Copy elements, splitting non standard macros
-                cpa.copySelected(!CC.extStrict, true);   
+            cpa.copySelected(!CC.extStrict, true);   
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
             cpa.copySelected(!CC.extStrict, false);   

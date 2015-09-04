@@ -183,8 +183,8 @@ public class MacroTree extends JPanel
                 libraryModel.remove(library);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
-                Globals.messages.getString("error"),
-                JOptionPane.ERROR_MESSAGE);
+                    Globals.messages.getString("error"),
+                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -478,28 +478,28 @@ public class MacroTree extends JPanel
     {
         // Relate with JTree.
         treeComponent.getSelectionModel().
-        addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) 
-            {
-                MacroDesc md;
-                md = macroTreeModel.getMacro(e.getPath());
+            addTreeSelectionListener(new TreeSelectionListener() {
+                public void valueChanged(TreeSelectionEvent e) 
+                {
+                    MacroDesc md;
+                    md = macroTreeModel.getMacro(e.getPath());
                 
 
-                if(md!=null) {
-                    previewPanel.setCirc(new StringBuffer(md.description));
-                    MapCoordinates m =
-                        DrawingSize.calculateZoomToFit(
-                            previewPanel.P,
-                            previewPanel.getSize().width*85/100, 
-                            previewPanel.getSize().height*85/100, true);
-                    m.setXCenter(-m.getXCenter()+10);
-                    m.setYCenter(-m.getYCenter()+10);
+                    if(md!=null) {
+                        previewPanel.setCirc(new StringBuffer(md.description));
+                        MapCoordinates m =
+                            DrawingSize.calculateZoomToFit(
+                                previewPanel.P,
+                                previewPanel.getSize().width*85/100, 
+                                previewPanel.getSize().height*85/100, true);
+                        m.setXCenter(-m.getXCenter()+10);
+                        m.setYCenter(-m.getYCenter()+10);
 
-                    previewPanel.setMapCoordinates(m);
-                    previewPanel.repaint();
+                        previewPanel.setMapCoordinates(m);
+                        previewPanel.repaint();
+                    }
                 }
-            }
-        });
+            });
 
         // Relate with library model.
         LibraryListener l = new LibraryListenerAdapter() {
@@ -519,21 +519,21 @@ public class MacroTree extends JPanel
     {
         selectionListener=l;
         treeComponent.getSelectionModel().
-        addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                MacroDesc md;
-                if (selectionListener!=null) {
-                    md = macroTreeModel.getMacro(e.getPath());
-                    if(md==null){
-                        selectionListener.setSelectionState(
-                                ElementsEdtActions.SELECTION, "");
-                    } else {
-                        selectionListener.setSelectionState(
-                                ElementsEdtActions.MACRO, md.key);
+            addTreeSelectionListener(new TreeSelectionListener() {
+                public void valueChanged(TreeSelectionEvent e) {
+                    MacroDesc md;
+                    if (selectionListener!=null) {
+                        md = macroTreeModel.getMacro(e.getPath());
+                        if(md==null){
+                            selectionListener.setSelectionState(
+                                    ElementsEdtActions.SELECTION, "");
+                        } else {
+                            selectionListener.setSelectionState(
+                                    ElementsEdtActions.MACRO, md.key);
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     /**

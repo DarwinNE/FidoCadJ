@@ -45,7 +45,6 @@ import net.sourceforge.fidocadj.FidoMain;
 @author phylum2, Davide Bucci
 */
 
-
 public final class LibUtils 
 {
 
@@ -176,7 +175,8 @@ public final class LibUtils
         if (s == null || s.length()==0) {
             throw new FileNotFoundException();          
         }
-        if (!s.endsWith(System.getProperty("file.separator"))) s+=System.getProperty("file.separator");     
+        if (!s.endsWith(System.getProperty("file.separator"))) 
+            s+=System.getProperty("file.separator");     
         return s;       
     }
     

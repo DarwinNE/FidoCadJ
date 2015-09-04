@@ -108,7 +108,7 @@ public class ExportTools
             // The resolution based export should be used only for bitmap
             // file formats
             if("png".equals(exportFormat) ||
-               "jpg".equals(exportFormat))
+                "jpg".equals(exportFormat))
                 exportUnitPerPixel=export.getUnitPerPixel();
             else
                 exportUnitPerPixel = export.getMagnification();
@@ -140,7 +140,7 @@ public class ExportTools
                 if(selection==JOptionPane.OK_OPTION) 
                     exportFileName = Globals.adjustExtension(
                         exportFileName, exportFormat);
-                    f = new File(exportFileName);
+                f = new File(exportFileName);
             }
 
             // If the file already exists, we asks for confirmation
@@ -152,7 +152,7 @@ public class ExportTools
                     JOptionPane.WARNING_MESSAGE);
                 if(selection!=JOptionPane.OK_OPTION)
                     return;
-             }
+            }
             // We do the export
             RunExport doExport = new RunExport();
             // Here we use the multithreaded structure of Java.
@@ -179,6 +179,6 @@ public class ExportTools
             // Start the thread
             thread.start();
             */
-         }
+        }
     }
 }

@@ -97,22 +97,19 @@ public class FileTools
                 options,  //the titles of buttons
                 options[0]); //default button title)
                             
-            // Those constant names does not reflect the actual 
-            // message shown on the buttons. 
-            if(choice==JOptionPane.YES_OPTION) { 
+            // Those constant names does not reflect the actual
+            // message shown on the buttons.
+            if(choice==JOptionPane.YES_OPTION) {
                 //  Save and exit
                 //System.out.println("Save and exit.");
                 if(!save(false))
                     shouldExit=false;
-            } /*else if (choice==JOptionPane.NO_OPTION) { 
-                // Don't save, exit
-                //System.out.println("Do not save and exit.");
-            }*/ else if (choice==JOptionPane.CANCEL_OPTION) {
+            } else if (choice==JOptionPane.CANCEL_OPTION) {
                 // Don't exit
                 //System.out.println("Do not exit.");
                 shouldExit = false;
             }
-                      
+            
         }
         
         if(shouldExit)
@@ -289,7 +286,7 @@ public class FileTools
             openFile();
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(fff,
-            Globals.messages.getString("Open_error")+fnfex);
+                Globals.messages.getString("Open_error")+fnfex);
         }
     }
 }

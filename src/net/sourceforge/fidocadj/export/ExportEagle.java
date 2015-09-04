@@ -9,7 +9,6 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-
 /**
 <pre>
     Circuit export towards Cadsoft Eagle
@@ -389,7 +388,7 @@ public class ExportEagle implements ExportInterface {
                     break;
                 case 0: // Oval pad
                 default:
-                     break;
+                    break;
             }
         }
         // ... then, drill the hole!
@@ -472,9 +471,9 @@ public class ExportEagle implements ExportInterface {
         } else {
             out.write("Set Wire_Bend 0;\n");
             out.write("Wire ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
-            een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
+                een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
             out.write("Wire ("+een(x2*res)+" "+een((dim.height-y2)*res)+") ("+
-            een(x1*res)+" "+een((dim.height-y1)*res)+");\n");
+                een(x1*res)+" "+een((dim.height-y1)*res)+");\n");
             out.write("Set Wire_Bend 2;\n");
         }
         

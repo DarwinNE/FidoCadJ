@@ -141,9 +141,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         if(!selectLayer(g,layerV))
             return;
             
-        // For this:
-        // http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=274886&atid=1167997
-        // we are now checking if the text is "" before printing it.
+        /* For this:
+           http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=
+                274886&atid=1167997
+           we are now checking if the text is "" before printing it. */
             
         if(txt.length()==0)
             return;     
@@ -644,10 +645,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             // All spaces are substituted with "++" in order to avoid problems
             // during the parsing phase
             for (int i=0; i<fontName.length(); ++i) {
-            if(fontName.charAt(i)==' ') 
-                s.append("++");
-            else
-                s.append(fontName.charAt(i));   
+                if(fontName.charAt(i)==' ') 
+                    s.append("++");
+                else
+                    s.append(fontName.charAt(i));   
             }
             subsFont=s.toString();
         }

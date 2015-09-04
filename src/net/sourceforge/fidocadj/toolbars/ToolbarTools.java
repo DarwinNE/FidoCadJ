@@ -85,7 +85,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final HashMap<JToggleButton, Integer> circuitPanelConstants;
     
     /** <code>base</code> is passed to the <code>ToolbarTools</code> 
-        constructor to create the toolbar, but will need to be accessed by the 
+        constructor to create the toolbar, but will need to be accessed by the
         <code>ToolButton</code> class to create each button.
      
         @return base    
@@ -96,7 +96,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
     
     /** <code>showText</code> is passed to the <code>ToolbarTools</code> 
-        constructor to create the toolbar, but will need to be accessed by the 
+        constructor to create the toolbar, but will need to be accessed by the
         <code>ToolButton</code> class to create each button.
      
         @return showText
@@ -161,7 +161,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         selection = selectionToolButton.getToolButton();
         addToolButton(selection, ElementsEdtActions.SELECTION);
         
-        selection.addActionListener(new ActionListener() {                                                         
+        selection.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {   
                 Integer circuitPanelConstantInteger = 
@@ -181,7 +181,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         zoom = zoomToolButton.getToolButton();
         addToolButton(zoom, ElementsEdtActions.ZOOM);
         
-        zoom.addActionListener(new ActionListener() {                                                         
+        zoom.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                     
                 Integer circuitPanelConstantInteger = (Integer)
@@ -200,7 +200,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         hand = handToolButton.getToolButton();
         addToolButton(hand, ElementsEdtActions.HAND);
         
-        hand.addActionListener(new ActionListener() {                                                         
+        hand.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -219,7 +219,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         line = lineToolButton.getToolButton();
         addToolButton(line, ElementsEdtActions.LINE);
         
-        line.addActionListener(new ActionListener() {                                                         
+        line.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -238,7 +238,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         advtext = advtextToolButton.getToolButton();
         addToolButton(advtext, ElementsEdtActions.TEXT);
         
-        advtext.addActionListener(new ActionListener() {                                                         
+        advtext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -257,7 +257,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         bezier = bezierToolButton.getToolButton();
         addToolButton(bezier, ElementsEdtActions.BEZIER);
         
-        bezier.addActionListener(new ActionListener() {                                                         
+        bezier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -276,7 +276,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         polygon = polygonToolButton.getToolButton();
         addToolButton(polygon, ElementsEdtActions.POLYGON);
         
-        polygon.addActionListener(new ActionListener() {                                                         
+        polygon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -296,7 +296,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         complexcurve = complexCurveToolButton.getToolButton();
         addToolButton(complexcurve, ElementsEdtActions.COMPLEXCURVE);
         
-        complexcurve.addActionListener(new ActionListener() {                                                         
+        complexcurve.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -315,7 +315,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         ellipse = ellipseToolButton.getToolButton();
         addToolButton(ellipse, ElementsEdtActions.ELLIPSE);
         
-        ellipse.addActionListener(new ActionListener() {                                                         
+        ellipse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -334,7 +334,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         rectangle = rectangleToolButton.getToolButton();
         addToolButton(rectangle, ElementsEdtActions.RECTANGLE);
         
-        rectangle.addActionListener(new ActionListener() {                                                         
+        rectangle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -353,7 +353,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         connection = connectionToolButton.getToolButton();
         addToolButton(connection, ElementsEdtActions.CONNECTION);
         
-        connection.addActionListener(new ActionListener() {                                                         
+        connection.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -372,7 +372,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         pcbline = pcblineToolButton.getToolButton();
         addToolButton(pcbline, ElementsEdtActions.PCB_LINE);
         
-        pcbline.addActionListener(new ActionListener() {                                                         
+        pcbline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -391,7 +391,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         pcbpad = pcbpadToolButton.getToolButton();
         addToolButton(pcbpad, ElementsEdtActions.PCB_PAD);
         
-        pcbpad.addActionListener(new ActionListener() {                                                         
+        pcbpad.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev)               
             {                                                        
                 Integer circuitPanelConstantInteger = (Integer)
@@ -402,7 +402,6 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
                 setSelectionState(circuitPanelConstant,"");
             }                                                        
         });  
-        
         
         add(Box.createGlue());  
         

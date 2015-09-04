@@ -86,17 +86,17 @@ class RunExport implements Runnable
                 Globals.messages.getString("Export_completed"));
         }  catch(IOException ioe) {
             JOptionPane.showMessageDialog(parent,
-               Globals.messages.getString("Export_error")+ioe);
+                Globals.messages.getString("Export_error")+ioe);
         } catch(IllegalArgumentException iae) {
             JOptionPane.showMessageDialog(parent,
-               Globals.messages.getString("Illegal_filename"));
+                Globals.messages.getString("Illegal_filename"));
         } catch(java.lang.OutOfMemoryError|
             java.lang.NegativeArraySizeException om) {
             // It is not entirely clear to me (DB) why a negative array size
             // exception occours when there are memory issues creating the
             // images.
             JOptionPane.showMessageDialog(parent,
-               Globals.messages.getString("Eport_Memory_Error"));
+                Globals.messages.getString("Eport_Memory_Error"));
         }
     }
 }

@@ -787,7 +787,7 @@ public class ExportPDF implements ExportInterface {
         if(orientation !=0) {
             double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
             outt.write("  "+roundTo(Math.cos(alpha))+" "
-            + roundTo(Math.sin(alpha))+ " "
+                + roundTo(Math.sin(alpha))+ " "
                 +(roundTo(-Math.sin(alpha)))+ 
                 " "+roundTo(Math.cos(alpha))+" 0 0 cm\n");
         }
@@ -1068,8 +1068,8 @@ public class ExportPDF implements ExportInterface {
         // At first, draw the pad...
         if(!onlyHole) {
             switch (style) {
-                case 2: // Rounded pad 
-                    roundRect(x-six/2.0, y-siy/2.0, 
+                case 2: // Rounded pad
+                    roundRect(x-six/2.0, y-siy/2.0,
                             six, siy, 4, true);
                     break;
                 case 1: // Square pad
@@ -1084,19 +1084,18 @@ public class ExportPDF implements ExportInterface {
                     break;
                 case 0: // Oval pad
                 default:
-                    ellipse(x-six/2.0, y-siy/2.0, 
-                            x+six/2.0, y+siy/2.0, true);    
+                    ellipse(x-six/2.0, y-siy/2.0,
+                            x+six/2.0, y+siy/2.0, true);
                 
-                    outt.write("f\n");  
-
-                     break;
+                    outt.write("f\n");
+                    break;
             }
         }       
             // ... then, drill the hole!
         
         checkColorAndWidth(c.white(), .33);
         
-        ellipse(x-indiam/2.0, y-indiam/2.0, 
+        ellipse(x-indiam/2.0, y-indiam/2.0,
                 x+indiam/2.0, y+indiam/2.0, true);
         outt.write("f\n");
     }

@@ -42,7 +42,7 @@ import net.sourceforge.fidocadj.graphic.*;
  */
 
 public class DialogParameters extends JDialog implements ComponentListener
- {
+{
     private int MIN_WIDTH = 450;
     private int MIN_HEIGHT = 350;
     private static final int MAX = 20;

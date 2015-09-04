@@ -170,10 +170,9 @@ public final class PrimitiveLine extends GraphicPrimitive
     }
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-        
         @param v a vector of ParameterDescription containing each control
                 parameter.
-                The first parameters should always be the virtual points.             
+                The first parameters should always be the virtual points.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -445,7 +444,7 @@ public final class PrimitiveLine extends GraphicPrimitive
                 if (hasName() || hasValue()) 
                     text = "1";
                 s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                arrowHalfWidth+" "+dashStyle+" "+text+"\n";
+                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
         
         }
