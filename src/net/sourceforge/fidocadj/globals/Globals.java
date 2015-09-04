@@ -6,13 +6,13 @@ import java.io.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-/* Globals.java
+/** Globals.java
 
-What? Global variables should not be used?
+    What? Global variables should not be used?
 
-But... who cares!!! (ehm... PMD does!)
+    But... who cares!!! (ehm... PMD does!)
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -30,9 +30,8 @@ But... who cares!!! (ehm... PMD does!)
 
     Copyright 2008-2015 by Davide Bucci
 
-</pre>
+    </pre>
 */
-
 public class Globals 
 {
     // message bundle

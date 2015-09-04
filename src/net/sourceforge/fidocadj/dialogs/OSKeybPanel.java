@@ -59,9 +59,6 @@ import net.sourceforge.fidocadj.globals.Globals;
 
 @author phylum2
 */
-
-@SuppressWarnings("serial")
-
 public class OSKeybPanel extends JPanel 
 {
     
@@ -86,6 +83,9 @@ public class OSKeybPanel extends JPanel
         txt = o;        
     }
     
+    /** Types of keyboard available.
+        
+    */
     public enum KEYBMODES {GREEK, MATH, MISC};
     
     /** Create the keyboard panel of the selected type.

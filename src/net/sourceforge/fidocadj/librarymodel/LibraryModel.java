@@ -1,20 +1,3 @@
-// This file is part of FidoCadJ.
-// 
-// FidoCadJ is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// FidoCadJ is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Copyright 2014 Kohta Ozaki
-
 package net.sourceforge.fidocadj.librarymodel;
 
 import java.util.*;
@@ -30,9 +13,26 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 // TODO: comment public methods
 // NOTE: This model has no adding macro method.
-/**
- * Model class for macro operation.
- */
+
+/** Model class for macro operation.
+ 
+    This file is part of FidoCadJ.
+ 
+   FidoCadJ is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   
+   FidoCadJ is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+   
+   Copyright 2014 Kohta Ozaki
+*/
 public class LibraryModel
 {
     final private ArrayList<LibraryListener> libraryListeners;
@@ -694,8 +694,8 @@ public class LibraryModel
     }
 
     /**
-     * Exception for library operation error.
-     */
+        Exception for library operation error.
+    */
     public class LibraryException extends Exception
     {
         LibraryException(String message)
@@ -703,7 +703,9 @@ public class LibraryModel
             super(message);
         }
     }
-
+    /**
+        Exception for an illegal name (when searching, etc...)
+    */
     public class IllegalNameException extends LibraryException
     {
         IllegalNameException(String message)
@@ -711,6 +713,10 @@ public class LibraryModel
             super(message);
         }
     }
+    /**
+        Exception for an illegal library access (i.e. non existant,
+        most of the times).
+    */
     public class IllegalLibraryAccessException extends LibraryException
     {
         IllegalLibraryAccessException(String message)
@@ -718,6 +724,9 @@ public class LibraryModel
             super(message);
         }
     }
+    /**
+        Exception for an illegal key in a library.
+    */
     public class IllegalKeyException extends LibraryException
     {
         IllegalKeyException(String message)

@@ -11,8 +11,7 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-/*
-    GraphicPrimitive is an abstract class implementing the basic behaviour
+/** GraphicPrimitive is an abstract class implementing the basic behaviour
     of a graphic primitive, which should be derived from it.
 
 <pre>

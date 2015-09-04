@@ -1,20 +1,3 @@
-// This file is part of FidoCadJ.
-// 
-// FidoCadJ is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// FidoCadJ is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Copyright 2014 Kohta Ozaki, Davide Bucci
-
 package net.sourceforge.fidocadj.macropicker;
 
 import java.util.*;
@@ -43,14 +26,31 @@ import net.sourceforge.fidocadj.macropicker.model.MacroTreeModel;
 import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 
-/**
-* Library view component.<br>
-* Features:<BR>
-* * Shows macros of libraries as tree and previews.<BR>
-* * Notice selected macro to related components.<BR>
-* * Provides interfaces of renaming, removing, moving and changing key for
-* library.<BR>
-* @author Kohta Ozaki
+/** Library view component.<br>
+    Features:<BR>
+    Shows macros of libraries as tree and previews.<BR>
+    Notice selected macro to related components.<BR>
+    Provides interfaces of renaming, removing, moving and changing key for
+    library.<BR>
+    
+    This file is part of FidoCadJ.
+ 
+   FidoCadJ is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   
+   FidoCadJ is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+   
+   Copyright 2014 Kohta Ozaki
+
+    @author Kohta Ozaki
 */
 public class MacroTree extends JPanel
 {
@@ -691,6 +691,8 @@ public class MacroTree extends JPanel
         return macroTreeModel.getLibrary(path);
     }
 
+    /** Describe which permissions are available.
+    */
     public class OperationPermission
     {
         private boolean copyAvailable;

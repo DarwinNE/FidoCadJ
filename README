@@ -292,7 +292,8 @@ code:
 - the class names always start with a capital letter, and so does methods
 - variables never start with a capital letter
 - an instance of the class does have its first letter in lower case
-- public classes and methods should be documented with Javadoc syntax
+* public classes must be documented with Javadoc syntax
+- public methods must be documented with Javadoc syntax
 * no lines longer than 80 characters
 - commits should not break the build
 - each commit *MUST* include a log 
