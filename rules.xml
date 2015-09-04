@@ -11,6 +11,7 @@
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
+    <module name="JavadocPackage"/>
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
@@ -20,6 +21,9 @@
 		<property name="checkFormat" value="$1"/>
 	</module>	
     <module name="TreeWalker">
+    	<module name="JavadocType">
+   			<property name="scope" value="public"/>
+		</module>
         <module name="OuterTypeFilename"/>
         <module name="FileContentsHolder"/>
         <module name="LineLength">

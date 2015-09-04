@@ -7,8 +7,7 @@ import javax.swing.*;
 
 import net.sourceforge.fidocadj.globals.*;
 
-
-/*  Some routines useful with dialog windows.
+/**  Some routines useful with dialog windows.
 
 <pre>
 
@@ -30,10 +29,8 @@ import net.sourceforge.fidocadj.globals.*;
     Copyright 2007-2013 by Davide Bucci
 </pre>
 */
-
 public final class DialogUtil 
 {
-
     private DialogUtil()
     {
         // nothing
