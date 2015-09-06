@@ -762,13 +762,20 @@ public final class PrimitiveMacro extends GraphicPrimitive
         return 2;
     }
 
-
-    public String getMacroDesc() {
+    /** Get the current macro description string.
+        @return the macro description string.
+    */
+    public String getMacroDesc() 
+    {
         return macroDesc;
     }
 
 
-    public void setMacroDesc(String macroDesc) {
+    /** Set the current macro description string.
+        @param macroDesc the macro description string.
+    */
+    public void setMacroDesc(String macroDesc) 
+    {
         this.macroDesc = macroDesc;
     }
     

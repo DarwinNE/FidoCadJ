@@ -25,11 +25,10 @@ package net.sourceforge.fidocadj.toolbars;
    
 */
 
-public interface ZoomToFitListener {
-
+public interface ZoomToFitListener 
+{
     /** Set the current zoom to fit
     
     */
     public void zoomToFit();
-    
 }

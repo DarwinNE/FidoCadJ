@@ -24,8 +24,8 @@ import java.util.*;
 
 @author Davide Bucci
 */
-public class UndoState {
-    
+public class UndoState 
+{    
     // Contains a textual description of the drawing
     public String text;
     // Is true if there has been a modification of the drawing: something
@@ -50,6 +50,10 @@ public class UndoState {
         libraryDir="";
     }
 
+    /** Convert to string the undo operation represented by this object.
+        This method is useful mainly for debug purposes.
+        @return a String completely describing the object.
+    */
     public String toString() 
     {
         String s="text="+text+"\nfileName="+fileName+
@@ -57,5 +61,4 @@ public class UndoState {
             "\nlibraryDir="+libraryDir;
         return s;
     }
-    
 }

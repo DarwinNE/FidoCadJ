@@ -55,19 +55,17 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportPGF implements ExportInterface {
-
+public class ExportPGF implements ExportInterface 
+{
     private final FileWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
     private ColorInterface actualColor;
     private int actualDash;
     private double actualWidth;
-
     
     static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
         "{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
-    
     
 
     /** Constructor

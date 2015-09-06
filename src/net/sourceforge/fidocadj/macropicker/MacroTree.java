@@ -520,7 +520,8 @@ public class MacroTree extends JPanel
         selectionListener=l;
         treeComponent.getSelectionModel().
             addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) {
+                public void valueChanged(TreeSelectionEvent e) 
+                {
                     MacroDesc md;
                     if (selectionListener!=null) {
                         md = macroTreeModel.getMacro(e.getPath());
@@ -561,7 +562,8 @@ public class MacroTree extends JPanel
 
         treeComponent.getSelectionModel().addTreeSelectionListener(
             new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) {
+                public void valueChanged(TreeSelectionEvent e) 
+                {
                     updateOperationPermission();
                     for(ChangeListener l:changeListeners) {
                         l.stateChanged(new ChangeEvent(this));
@@ -601,16 +603,20 @@ public class MacroTree extends JPanel
     {
         DocumentListener searchFieldListener = new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {
+            public void changedUpdate(DocumentEvent e) 
+            {
                 // Nothing to do
             }
-            public void removeUpdate(DocumentEvent e) {
+            public void removeUpdate(DocumentEvent e) 
+            {
                 setWord(e);
             }
-            public void insertUpdate(DocumentEvent e) {
+            public void insertUpdate(DocumentEvent e) 
+            {
                 setWord(e);
             }
-            private void setWord(DocumentEvent e) {
+            private void setWord(DocumentEvent e) 
+            {
                 String word = null;
                 Document d = e.getDocument();
                 try {
@@ -633,13 +639,14 @@ public class MacroTree extends JPanel
 
         searchField.addKeyListener(new KeyListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e) 
+            {
                 // Nothing to do
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-                //System.out.println("keyreleased"+System.currentTimeMillis());
+            public void keyReleased(KeyEvent e) 
+            {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(e.isShiftDown()) {
                         treeComponent.selectPrevLeaf();
@@ -651,7 +658,8 @@ public class MacroTree extends JPanel
             }
 
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e) 
+            {
                 // Nothing to do
             }
         });

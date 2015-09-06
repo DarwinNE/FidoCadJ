@@ -207,16 +207,20 @@ public class DialogLayer extends JDialog implements ComponentListener
     DialogLayer, thus avoiding of having to make layerList public.
 
 */
-class ActionDClick extends MouseAdapter{
-    
+class ActionDClick extends MouseAdapter
+{    
     private final DialogLayer dl;
     
+    /** Method handling a double click event.
+        @param i the DialogLayer object which has been clicked.
+    */
     public ActionDClick(DialogLayer i)
     {
         dl = i;
     }
-  
-  
+    /** Handle a click of the mouse.
+        @param e the mouse event object.
+    */
     public void mouseClicked(MouseEvent e)
     {
         if(e.getClickCount() == 2){
@@ -226,5 +230,3 @@ class ActionDClick extends MouseAdapter{
         }
     }
 }
-
-

@@ -38,8 +38,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportPDF implements ExportInterface {
-
+public class ExportPDF implements ExportInterface 
+{
     private final File temp;
     private final OutputStreamWriter fstream;
     private final OutputStreamWriter fstreamt;

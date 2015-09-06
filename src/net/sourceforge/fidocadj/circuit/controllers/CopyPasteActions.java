@@ -30,8 +30,8 @@ import net.sourceforge.fidocadj.globals.*;
     @author Davide Bucci
 */
 
-public class CopyPasteActions {
-
+public class CopyPasteActions 
+{
     private final DrawingModel P;
     private final EditorActions edt;
     private final ParserActions pa;

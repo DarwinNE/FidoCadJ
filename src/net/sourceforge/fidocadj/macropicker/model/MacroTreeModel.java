@@ -83,7 +83,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             final String chainedWord =
                 filterWord.toLowerCase(new Locale("en"));
             synchronizeTree(new NodeFilterInterface() {
-                public boolean accept(MacroTreeNode node) {
+                public boolean accept(MacroTreeNode node) 
+                {
                     String[] words = chainedWord.trim().split(" ");
                     int matched=0;
                     for(String word:words) {

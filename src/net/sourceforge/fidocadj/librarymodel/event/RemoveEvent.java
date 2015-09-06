@@ -32,16 +32,16 @@ public class RemoveEvent
     /**
      * Returns the value of renamedNode.
      */
-
-    public Object getRemovedNode() {
+    public Object getRemovedNode() 
+    {
         return removedNode;
     }
 
     /**
      * Returns the value of parentNode.
      */
-
-    public Object getParentNode() {
+    public Object getParentNode() 
+    {
         return parentNode;
     }
 }

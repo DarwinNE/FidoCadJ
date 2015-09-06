@@ -17,7 +17,8 @@ import java.util.Arrays;
     Public Domain Software -- Free to Use as You Like
     @version 3.1, June 6, 2010
 */
-public final class BareBonesBrowserLaunch {
+public final class BareBonesBrowserLaunch 
+{
 
     static final String[] browsers = { "google-chrome", "firefox", "opera",
         "epiphany", "konqueror", "conkeror", "midori", "kazehakase", 

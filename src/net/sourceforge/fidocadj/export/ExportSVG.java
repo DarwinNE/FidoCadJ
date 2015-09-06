@@ -34,8 +34,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportSVG implements ExportInterface {
-
+public class ExportSVG implements ExportInterface 
+{
     //private File fileExp;
     final private OutputStreamWriter fstream;
     private BufferedWriter out;

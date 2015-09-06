@@ -27,7 +27,8 @@ package net.sourceforge.fidocadj.geom;
    
 */
 
-public interface ChangeCoordinatesListener {
+public interface ChangeCoordinatesListener 
+{
     /** Callback when the coordinates are changed.
         @param x the x coordinate of the mouse pointer
         @param y the y coordinate of the mouse pointer
@@ -38,5 +39,4 @@ public interface ChangeCoordinatesListener {
     
     */
     public void changeInfos(String s);
-
 }

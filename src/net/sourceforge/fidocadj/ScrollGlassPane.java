@@ -93,7 +93,8 @@ public class ScrollGlassPane extends JPanel implements ActionListener,
         mousePressed(e); 
     } 
     
-    public void mouseMoved(MouseEvent e) { 
+    public void mouseMoved(MouseEvent e) 
+    { 
         mouseLocation = e.getPoint(); 
     } 
     

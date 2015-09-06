@@ -26,7 +26,8 @@ package net.sourceforge.fidocadj.toolbars;
     @author Davide Bucci
 */
 
-public interface ChangeSelectionListener {
+public interface ChangeSelectionListener 
+{
     /** The callback method which is called when the current selection state
         has changed. 
         @param s the actual selection state (see the CircuitPanel class for the
@@ -48,6 +49,5 @@ public interface ChangeSelectionListener {
         definition of the constants used here).
     
     */
-    public int getSelectionState();
-    
+    public int getSelectionState(); 
 }

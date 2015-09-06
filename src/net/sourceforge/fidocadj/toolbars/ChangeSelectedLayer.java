@@ -5,7 +5,8 @@ package net.sourceforge.fidocadj.toolbars;
     @author Davide Bucci
 */
 
-public interface ChangeSelectedLayer {
+public interface ChangeSelectedLayer 
+{
     /** The callback method which is called when the current layer has changed. 
     
     */

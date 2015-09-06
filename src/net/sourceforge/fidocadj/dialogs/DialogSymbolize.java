@@ -404,14 +404,16 @@ public class DialogSymbolize extends JDialog
         
         libFilename.addItemListener(new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent arg0) {
+            public void itemStateChanged(ItemEvent arg0) 
+            {
                 listGroups();
             }
         });
         
         libFilename.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(ActionEvent arg0) 
+            {
                 listGroups();
             }
         });
@@ -715,7 +717,8 @@ public class DialogSymbolize extends JDialog
     /** Sets the drawing database on which to work
         @param p the database
     */
-    public void setCircuit(DrawingModel p) {
+    public void setCircuit(DrawingModel p) 
+    {
         this.cp = p;
     }
 }

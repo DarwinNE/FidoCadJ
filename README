@@ -259,17 +259,24 @@ code:
 * no tabulation character allowed in sources
 - blocks delimited by curly braces are indented as follows:
 
-    for(i=0; i<10; ++i) {   // starting brace here
+    for(i=0; i<10; ++i) {   // Curly brace here
         // indented code (4 spaces)
         System.out.println("I counted up to "+i);
     }   // close brace here at the same level of the 'for'
     
-- methods are indented as follows:
+* methods are indented as follows:
 
     void dummy(int i, int j) 
     {   // put the starting brace here
         System.out.println("Indent code");
     }   // put the closing brace here
+
+* classes and interfaces are indented as follows:
+	
+	class Dummy
+	{				// Curly brace here.
+		// the rest of the class.
+	}
 
 * switches are indented as follows:
 

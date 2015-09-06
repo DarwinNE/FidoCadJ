@@ -39,7 +39,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportFidoCad implements ExportInterface {
+public class ExportFidoCad implements ExportInterface 
+{
 
     private final BufferedWriter out;
     private Vector<LayerDesc> layerV;

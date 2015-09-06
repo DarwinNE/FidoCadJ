@@ -26,12 +26,10 @@ package net.sourceforge.fidocadj.toolbars;
    
 */
 
-public interface ChangeZoomListener {
-
+public interface ChangeZoomListener 
+{
     /** Set the current zoom to the given parameter.
         @param z the new zoom
     */
     public void changeZoom(double z);
-    
-
 }

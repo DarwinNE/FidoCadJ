@@ -13,7 +13,6 @@ import net.sourceforge.fidocadj.graphic.*;
 <pre>
     Circuit export towards Cadsoft Eagle
     
-    
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -36,8 +35,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportEagle implements ExportInterface {
-
+public class ExportEagle implements ExportInterface 
+{
     private final FileWriter fstream;
     private BufferedWriter out;
     private DimensionG dim;

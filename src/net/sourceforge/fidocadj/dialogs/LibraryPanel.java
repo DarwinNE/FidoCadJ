@@ -248,7 +248,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
             }
         }
         
-        private String getLibraryName(File f) {
+        private String getLibraryName(File f) 
+        {
             // if there is a public api for reading library name direct,
             // rewrite this section.
             
@@ -347,7 +348,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         public String libraryName;
         
         @Override
-        public String toString() {
+        public String toString() 
+        {
             return String.format("%s (%s)", filename, libraryName);
         }
     }

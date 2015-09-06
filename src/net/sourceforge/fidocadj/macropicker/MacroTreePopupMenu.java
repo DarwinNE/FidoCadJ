@@ -146,7 +146,8 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         ActionListener al = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e)
+            {
                 switch(mt.getSelectedType()) {
                     case MacroTree.MACRO:
                         MacroDesc m = mt.getSelectedMacro();
@@ -184,7 +185,8 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         ActionListener al = new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e)
+            {
                 switch(mt.getSelectedType()) {
                     case MacroTree.MACRO:
                         MacroDesc m = mt.getSelectedMacro();

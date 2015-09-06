@@ -141,7 +141,8 @@ public class SearchField extends JTextField implements FocusListener
     private void initKeyListener()
     {
         addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(KeyEvent e) 
+            {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancel();
                 } else if (sendsNotificationForEachKeystroke) {
@@ -149,7 +150,8 @@ public class SearchField extends JTextField implements FocusListener
                 }
 
             }
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e) 
+            {
                 // If the search field has the focus, it will be te only
                 // recipient of the key strokes (solves bug #50).
                 // Do this only for R and S keys.

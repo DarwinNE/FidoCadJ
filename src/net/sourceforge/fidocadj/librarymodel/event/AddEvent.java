@@ -32,14 +32,16 @@ public class AddEvent
     /**
      * Returns the value of renamedNode.
      */
-    public Object getAddedNode() {
+    public Object getAddedNode() 
+    {
         return addedNode;
     }
 
     /**
      * Returns the value of parentNode.
      */
-    public Object getParentNode() {
+    public Object getParentNode() 
+    {
         return parentNode;
     }
 }

@@ -5,7 +5,8 @@ package net.sourceforge.fidocadj.toolbars;
     @author Davide Bucci
 */
 
-public interface ChangeGridState {
+public interface ChangeGridState 
+{
     /** The callback method which is called when the current grid visibility 
         has changed. 
         @param v is the wanted grid visibility state

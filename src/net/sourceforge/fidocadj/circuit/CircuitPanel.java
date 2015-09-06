@@ -339,7 +339,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 actionString);
         
         getActionMap().put(actionString, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 // We now set the new editing state
                 setSelectionState(state,"");
                 // If we are entering or modifying a primitive or a macro,
@@ -411,7 +412,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             .put(KeyStroke.getKeyStroke("ESCAPE"), escape);
     
         getActionMap().put(escape, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 if(eea.clickNumber>0){
                     // Here we need to clear the variables which are used 
                     // during the primitive introduction and editing.
@@ -433,7 +435,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             java.awt.event.InputEvent.ALT_MASK,false), left);
                 
         getActionMap().put(left, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 edt.moveAllSelected(-1,0);
                 repaint();
             }
@@ -445,7 +448,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             java.awt.event.InputEvent.ALT_MASK,false), right);
                 
         getActionMap().put(right, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 edt.moveAllSelected(1,0);
                 repaint();
             }
@@ -458,7 +462,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             java.awt.event.InputEvent.ALT_MASK,false), up);
                 
         getActionMap().put(up, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 edt.moveAllSelected(0,-1);
                 repaint();
             }
@@ -470,7 +475,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             java.awt.event.InputEvent.ALT_MASK,false), down);
                 
         getActionMap().put(down, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored) {
+            public void actionPerformed(ActionEvent ignored) 
+            {
                 edt.moveAllSelected(0,1);
                 repaint();
             }

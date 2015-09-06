@@ -33,8 +33,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportEPS implements ExportInterface {
-
+public class ExportEPS implements ExportInterface 
+{
     private final FileWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
@@ -42,13 +42,11 @@ public class ExportEPS implements ExportInterface {
     private ColorInterface actualColor;
     private int actualDash;
     
-    
     // Number of digits to be used when representing coordinates
     static final int PREC = 3;
     // Dash patterns
     static final String dash[]={"[5.0 10]", "[2.5 2.5]",
         "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
-    
     
     /** double to integer conversion. In some cases, some processing might be
         applied.
@@ -86,7 +84,6 @@ public class ExportEPS implements ExportInterface {
         int grid)  
         throws IOException
     { 
-        
         // We need to save layers informations, since we will use them later.
         
         layerV=la;

@@ -175,8 +175,10 @@ public class DialogAbout extends JFrame implements ComponentListener
         contentPane.add(programDescription3, constraints);
         
                 
-        class OpenUrlAction implements ActionListener {
-            public void actionPerformed(ActionEvent e) {
+        class OpenUrlAction implements ActionListener 
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
                 BareBonesBrowserLaunch.openURL(
                     "https://sourceforge.net/projects/fidocadj/");
                 

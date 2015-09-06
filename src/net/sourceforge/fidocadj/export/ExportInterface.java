@@ -20,7 +20,6 @@ import net.sourceforge.fidocadj.graphic.*;
     reason, I try to write that interface in order to achieve the maximum ease
     of use of the various parameters involving each primitive. 
 
-
 <pre>
 
     This file is part of FidoCadJ.
@@ -45,8 +44,8 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public interface ExportInterface {
-
+public interface ExportInterface 
+{
     
     /** Called at the beginning of the export phase. Ideally, in this routine
         there should be the code to write the header of the file on which

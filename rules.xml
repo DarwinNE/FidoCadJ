@@ -35,5 +35,9 @@
     		<property name="caseIndent" value="4"/>
     		<property name="braceAdjustment" value="0"/>
 		</module>
+		<module name="LeftCurly">
+			<property name="option" value="nl"/>
+			<property name="tokens" value="CLASS_DEF,INTERFACE_DEF,METHOD_DEF"/>
+		</module>
     </module>
 </module>

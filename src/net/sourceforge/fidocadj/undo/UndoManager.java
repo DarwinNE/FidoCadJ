@@ -36,8 +36,8 @@ import java.io.*;
 @author Davide Bucci
 */
 
-public class UndoManager {
-    
+public class UndoManager 
+{    
     private final Vector<UndoState> undoBuffer;
     private int pointer;
     private boolean isRedoable;
@@ -152,5 +152,4 @@ public class UndoManager {
         
         return o;
     }
-
 }

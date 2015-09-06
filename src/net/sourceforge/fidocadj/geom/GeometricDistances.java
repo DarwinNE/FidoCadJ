@@ -27,7 +27,8 @@ package net.sourceforge.fidocadj.geom;
     @author Davide Bucci
 */
 
-public final class GeometricDistances {
+public final class GeometricDistances 
+{
 
     public static final int MIN_DISTANCE = 100;
 

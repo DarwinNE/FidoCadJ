@@ -353,7 +353,8 @@ public class DialogParameters extends JDialog implements ComponentListener
         JButton keybd = new JButton("\u00B6\u2211\u221A");// phylum
         keybd.setFocusable(false);
         keybd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 // If at this point, the keyboard is not visible, this means
                 // that it will become visible in a while. It is better to
                 // resize first and then show up the keyboard.
@@ -408,7 +409,8 @@ public class DialogParameters extends JDialog implements ComponentListener
         contentPane.add(keyb, constraints);
 
         ok.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) 
+            {
                 try {
                     int ycount;
                     ParameterDescription pd;
@@ -472,7 +474,8 @@ public class DialogParameters extends JDialog implements ComponentListener
             }
         });
         cancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) 
+            {
                 //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
                 keyb.setVisible(false);
@@ -481,7 +484,8 @@ public class DialogParameters extends JDialog implements ComponentListener
         // Here is an action in which the dialog is closed
 
         AbstractAction cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
                 keyb.setVisible(false);
@@ -490,7 +494,8 @@ public class DialogParameters extends JDialog implements ComponentListener
         DialogUtil.addCancelEscape(this, cancelAction);
 
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e) 
+            {
                 //Globals.activeWindow.setEnabled(true);
                 keyb.setVisible(false);
             }
@@ -507,15 +512,18 @@ public class DialogParameters extends JDialog implements ComponentListener
      * 
      * @return a ParameterDescription vector describing each parameter.
      */
-    public Vector<ParameterDescription> getCharacteristics() {
+    public Vector<ParameterDescription> getCharacteristics() 
+    {
         return v;
     }
 
-    public void componentResized(ComponentEvent e) {
+    public void componentResized(ComponentEvent e) 
+    {
         adjustSize();
     }
 
-    private void adjustSize() {
+    private void adjustSize() 
+    {
 /*      int width = getWidth();
         int height = getHeight();
         

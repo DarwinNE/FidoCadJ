@@ -46,8 +46,8 @@ import java.net.*;
  
 */
 
-public class ToolButton {
-    
+public class ToolButton 
+{    
     private final JToggleButton toolButton;
     
     /** Class Constructor: Creates a new <code>JToggleButton</code> that has 
