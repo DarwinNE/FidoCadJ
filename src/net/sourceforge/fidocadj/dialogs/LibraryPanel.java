@@ -118,11 +118,13 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     {
             
         if (evt.getPropertyName().equals(
-            JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
+            JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) 
+        {
             listModel.setDirectory(fc.getSelectedFile());
         }
         if (evt.getPropertyName().equals(
-            JFileChooser.DIRECTORY_CHANGED_PROPERTY)) {
+            JFileChooser.DIRECTORY_CHANGED_PROPERTY)) 
+        {
             listModel.setDirectory(fc.getCurrentDirectory());
         }
     }
@@ -179,7 +181,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
             
             clearList();
             if (currentDir != null && currentDir.canRead() && 
-                 currentDir.isDirectory()) {
+                 currentDir.isDirectory()) 
+            {
                 // Permission check
                 refreshList();
             }
@@ -197,7 +200,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
                 public boolean accept(File f) 
                 {
                     if (f.isFile() &&
-                        f.getName().toLowerCase().matches("^.*\\.fcl$")) {
+                        f.getName().toLowerCase().matches("^.*\\.fcl$")) 
+                    {
                         return true;
                     }
                     // DB -> KO check if it is correct. I removed a "}"

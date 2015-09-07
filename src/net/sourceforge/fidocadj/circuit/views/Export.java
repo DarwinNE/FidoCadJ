@@ -85,7 +85,8 @@ public class Export
                     g=(GraphicPrimitive)P.getPrimitiveVector().get(i);
                     l=g.getLayer();
                     if(l==P.drawOnlyLayer && 
-                        !(g instanceof PrimitiveMacro)) {
+                        !(g instanceof PrimitiveMacro)) 
+                    {
                         if(((LayerDesc)(P.layerV.get(l))).isVisible||
                             exportInvisible)
                             g.export(exp, mp);
@@ -96,7 +97,9 @@ public class Export
  
                         if(((LayerDesc)(P.layerV.get(l))).isVisible||
                             exportInvisible)
-                            g.export(exp, mp); 
+                        {
+                            g.export(exp, mp);
+                        }
                     }
                 }
                 return;
@@ -110,17 +113,19 @@ public class Export
                         if(l==j && !(g instanceof PrimitiveMacro)){
                             if(((LayerDesc)(P.layerV.get(l))).isVisible||
                                 exportInvisible)
+                            {
                                 g.export(exp, mp);
-                        
+                            }
                         } else if(g instanceof PrimitiveMacro) {
-
                             ((PrimitiveMacro)g).setDrawOnlyLayer(j);
                             ((PrimitiveMacro)g).setExportInvisible(
                                 exportInvisible);
     
                             if(((LayerDesc)(P.layerV.get(l))).isVisible||
                                 exportInvisible)
+                            {
                                 g.export(exp, mp);
+                            }
                         }
                     }
                 }
@@ -131,8 +136,8 @@ public class Export
         
             for (i=0; i<P.getPrimitiveVector().size(); ++i){
                 if ((g=(GraphicPrimitive)P.getPrimitiveVector().get(i)) 
-                    instanceof 
-                    PrimitivePCBPad) {
+                    instanceof PrimitivePCBPad) 
+                {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
                     l=g.getLayer();
                     if(((LayerDesc)(P.layerV.get(l))).isVisible

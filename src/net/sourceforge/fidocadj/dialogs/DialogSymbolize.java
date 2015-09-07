@@ -253,7 +253,8 @@ public class DialogSymbolize extends JDialog
             MacroDesc md = e.getValue();
             // Add only non standard libs.
             if(!lst.contains(md.filename) && 
-                !LibUtils.isStdLib(md)) {
+                !LibUtils.isStdLib(md)) 
+            {
                 libFilename.addItem(md.filename);
                 lst.add(md.filename);
             }
@@ -584,7 +585,8 @@ public class DialogSymbolize extends JDialog
                 
                 } else if(LibUtils.checkKey(cp.getLibrary(),
                         getPrefix().trim(),
-                        getPrefix().trim()+"."+key.getText().trim())) { 
+                        getPrefix().trim()+"."+key.getText().trim())) 
+                { 
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("DupKey"),
                         Globals.messages.getString("Symbolize"),    

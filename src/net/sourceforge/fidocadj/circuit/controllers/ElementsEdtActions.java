@@ -222,7 +222,8 @@ public class ElementsEdtActions
             actionSelected!=SELECTION &&
             actionSelected!=ZOOM &&
             actionSelected!=TEXT &&
-            primitivesParListener!=null){
+            primitivesParListener!=null)
+        {
             
             primitivesParListener.selectAndSetProperties(x,y);
             return false;

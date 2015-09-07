@@ -755,14 +755,16 @@ public class ExportPDF implements ExportInterface
                 outt.write("/F1"+" "+ys+" Tf\n");       
         } else if("Times".equals(fontname) || 
             "Times New Roman".equals(fontname) ||
-            "Times Roman".equals(fontname)) {
+            "Times Roman".equals(fontname)) 
+        {
             if(isBold)
                 outt.write("/F4"+" "+ys+" Tf\n");       
             else
                 outt.write("/F3"+" "+ys+" Tf\n");       
               
         } else if("Helvetica".equals(fontname) || 
-            "Arial".equals(fontname)) {
+            "Arial".equals(fontname)) 
+        {
             if(isBold)
                 outt.write("/F6"+" "+ys+" Tf\n");       
             else

@@ -173,7 +173,8 @@ public class ParserActions
         // We consider that a difference of 1e-5 is small enough 
 
         if(Math.abs(Globals.diameterConnectionDefault-
-            Globals.diameterConnection)>1e-5) {           
+            Globals.diameterConnection)>1e-5) 
+        {           
             s.append("FJC C "+Globals.diameterConnection+"\n");
         }
         
@@ -181,11 +182,13 @@ public class ParserActions
         
         // Check if the line widths should be indicated
         if(Math.abs(Globals.lineWidth -
-            Globals.lineWidthDefault)>1e-5) {         
+            Globals.lineWidthDefault)>1e-5) 
+        {
             s.append("FJC A "+Globals.lineWidth+"\n");
         }
         if(Math.abs(Globals.lineWidthCircles -
-            Globals.lineWidthCirclesDefault)>1e-5) {          
+            Globals.lineWidthCirclesDefault)>1e-5)
+        {
             s.append("FJC B "+Globals.lineWidthCircles+"\n");
         }
        
@@ -374,7 +377,8 @@ public class ParserActions
                                 }
                             
                             } else if (hasFCJ && (old_tokens[0].equals("RV")||
-                                old_tokens[0].equals("RP"))) {
+                                old_tokens[0].equals("RP"))) 
+                            {
                                 g=new PrimitiveRectangle(macroFont, 
                                     macroFontSize);
                             
@@ -390,7 +394,8 @@ public class ParserActions
                                     model.addPrimitive(g,false,null);
                                 }                        
                             } else if (hasFCJ && (old_tokens[0].equals("EV")||
-                                old_tokens[0].equals("EP"))) {
+                                old_tokens[0].equals("EP"))) 
+                            {
                                 g=new PrimitiveOval(macroFont, macroFontSize);
                             
                                 for(l=0; l<j+1; ++l)
@@ -405,7 +410,8 @@ public class ParserActions
                                     model.addPrimitive(g,false,null);
                                 }                        
                             } else if (hasFCJ && (old_tokens[0].equals("PV")||
-                                old_tokens[0].equals("PP"))) {
+                                old_tokens[0].equals("PP")))
+                            {
                                 g=new PrimitivePolygon(macroFont, 
                                     macroFontSize);
                             
@@ -421,7 +427,8 @@ public class ParserActions
                                     model.addPrimitive(g,false,null);
                                 }     
                             } else if (hasFCJ && (old_tokens[0].equals("CV")||
-                                old_tokens[0].equals("CP"))) {
+                                old_tokens[0].equals("CP"))) 
+                            {
                                 g=new PrimitiveComplexCurve(macroFont,
                                     macroFontSize);
                             
@@ -734,15 +741,18 @@ public class ParserActions
                 g=new PrimitiveBezier(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("RP")||
-                old_tokens[0].equals("RV")) {
+                old_tokens[0].equals("RV")) 
+            {
                 g=new PrimitiveRectangle(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("EP")||
-                old_tokens[0].equals("EV")) {
+                old_tokens[0].equals("EV")) 
+            {
                 g=new PrimitiveOval(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if (old_tokens[0].equals("PP")
-                ||old_tokens[0].equals("PV")) {
+                ||old_tokens[0].equals("PV")) 
+            {
                 g=new PrimitivePolygon(macroFont, macroFontSize);
                 addPrimitive = true;
             } else if(old_tokens[0].equals("PL")) {

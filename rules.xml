@@ -39,5 +39,9 @@
 			<property name="option" value="nl"/>
 			<property name="tokens" value="CLASS_DEF,INTERFACE_DEF,METHOD_DEF"/>
 		</module>
+		<module name="LeftCurly">
+			<property name="option" value="nlow"/>
+			<property name="tokens" value="LITERAL_IF"/>
+		</module>
     </module>
 </module>

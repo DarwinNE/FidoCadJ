@@ -90,7 +90,8 @@ public final class DrawingSize
         
         
         if (m.getXMax() > m.getXMin() && 
-            m.getYMax() > m.getYMin()) {
+            m.getYMax() > m.getYMin()) 
+        {
             origin.x=m.getXMin();
             origin.y=m.getYMin();
         } else {
@@ -125,7 +126,8 @@ public final class DrawingSize
     
         // Verify that the image size is correct
         if (m.getXMax() >= m.getXMin() && 
-            m.getYMax() >= m.getYMin()){
+            m.getYMax() >= m.getYMin())
+        {
             originx=m.getXMin();
             originy=m.getYMin();
         } else {

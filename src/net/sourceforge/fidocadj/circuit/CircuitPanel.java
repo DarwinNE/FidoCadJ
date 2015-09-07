@@ -725,7 +725,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         editDuplicate.setEnabled(s);
                 
         if(g instanceof PrimitiveComplexCurve ||
-            g instanceof PrimitivePolygon) {
+            g instanceof PrimitivePolygon) 
+        {
             s=true;
         } else
             s=false;
@@ -822,7 +823,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
             (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
-            !evt.isShiftDown()) { 
+            !evt.isShiftDown()) 
+        { 
             haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
                 toggle, cs);
         } else if(eea.actionSelected == ElementsEdtActions.SELECTION){ 
@@ -837,8 +839,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             }
             System.out.println("MP: Time elapsed: "+elapsed+
                 "; record: "+record_c+" ms");
-        }    
-
+        }
     }
     
     /** Dragging event with the mouse.
@@ -853,7 +854,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // we launch a repaint which will be done as soon as possible.
         // No graphical elements are drawn outside a repaint.
         if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 || 
-            evt.isShiftDown()) {
+            evt.isShiftDown()) 
+        {
             rulerEndX=px;
             rulerEndY=py;
             repaint();
@@ -1466,8 +1468,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         // TODO: Avoid some copy/paste of code from FidoFrame class
         
         // Recognize and handle popup menu events
-        if(evt.getSource() instanceof JMenuItem) 
-        {
+        if(evt.getSource() instanceof JMenuItem) {
             String arg=evt.getActionCommand();                        
             
             if (arg.equals(Globals.messages.getString("Param_opt"))) {
@@ -1538,7 +1539,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
             
             else if(arg.equals(Globals.messages.getString("Remove_node"))) {
                 if(sa.getFirstSelectedPrimitive() 
-                    instanceof PrimitivePolygon) {
+                    instanceof PrimitivePolygon) 
+                {
                     PrimitivePolygon poly=
                         (PrimitivePolygon)sa.getFirstSelectedPrimitive();
                     poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
@@ -1546,7 +1548,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     ua.saveUndoState();
                     repaint();
                 } else if(sa.getFirstSelectedPrimitive() 
-                    instanceof PrimitiveComplexCurve) {
+                    instanceof PrimitiveComplexCurve) 
+                {
                     PrimitiveComplexCurve curve=
                         (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
                     curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
@@ -1556,7 +1559,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 }
             } else if(arg.equals(Globals.messages.getString("Add_node"))) {
                 if(sa.getFirstSelectedPrimitive() 
-                    instanceof PrimitivePolygon) {
+                    instanceof PrimitivePolygon) 
+                {
                     PrimitivePolygon poly=
                         (PrimitivePolygon)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(

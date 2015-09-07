@@ -425,7 +425,8 @@ public final class PrimitiveLine extends GraphicPrimitive
         // A single point line without anything is not worth converting.
         if (name.length()==0 && value.length()==0 && 
             virtualPoint[0].x==virtualPoint[1].x &&
-            virtualPoint[0].y==virtualPoint[1].y) {
+            virtualPoint[0].y==virtualPoint[1].y) 
+        {
             return "";
         } 
     
@@ -437,7 +438,8 @@ public final class PrimitiveLine extends GraphicPrimitive
             int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
                         
             if (arrows>0 || dashStyle>0 || name!=null && name.length()!=0 
-                || value!=null && value.length()!=0) {
+                || value!=null && value.length()!=0) 
+            {
                 String text = "0";
                 // We take into account that there may be some text associated
                 // to that primitive.
@@ -446,7 +448,6 @@ public final class PrimitiveLine extends GraphicPrimitive
                 s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
                     arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
-        
         }
         
         // The false is needed since saveText should not write the FCJ tag.

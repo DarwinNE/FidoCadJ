@@ -956,8 +956,8 @@ public final class PrimitiveComplexCurve
                 arrowStart, arrowEnd, arrowStyle, 
                 (int)(arrowLength*cs.getXMagnitude()), 
                 (int)(arrowHalfWidth*cs.getXMagnitude()), 
-                dashStyle, Globals.lineWidth*cs.getXMagnitude())) {
-            
+                dashStyle, Globals.lineWidth*cs.getXMagnitude())) 
+        {
             exportAsPolygonInterface(xPoints, yPoints, vertices, exp, cs);
                 
             int totalnP=q.getNpoints();

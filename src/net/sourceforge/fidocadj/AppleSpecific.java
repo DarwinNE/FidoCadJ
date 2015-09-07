@@ -105,7 +105,8 @@ class AppleSpecific implements ApplicationListener
         //Create a iterator
         Iterator iterator = Globals.openWindows.iterator();     
         while (iterator.hasNext()){
-            if(!((FidoFrame)iterator.next()).getFileTools().checkIfToBeSaved())
+            if(!((FidoFrame)iterator.next()).getFileTools().
+                checkIfToBeSaved())
             {
                 ca = false;
             }

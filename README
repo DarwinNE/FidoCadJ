@@ -295,9 +295,10 @@ code:
         }
         return j;
     } 
-
-- the class names always start with a capital letter, and so does methods
-- variables never start with a capital letter
+* if an "if" condition spans over multiple lines, put the brace on the 
+  following line
+- the class names always start with a capital letter
+- variables never start with a capital letter and so methods
 - an instance of the class does have its first letter in lower case
 * public classes must be documented with Javadoc syntax
 - public methods must be documented with Javadoc syntax

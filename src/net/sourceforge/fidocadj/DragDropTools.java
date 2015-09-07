@@ -144,7 +144,8 @@ public class DragDropTools implements DropTargetListener
                     while (line != null){
                         line = in.readLine();
                         if (line!=null &&
-                            (k=line.toString().indexOf("file://"))>=0) {
+                            (k=line.toString().indexOf("file://"))>=0)
+                        {
                             FidoFrame popFrame;
                             
                             if(fff.CC.getUndoActions().getModified()) {

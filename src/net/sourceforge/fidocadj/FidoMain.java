@@ -115,7 +115,8 @@ public class FidoMain
     private static void applyOptimizationSettings(CommandLineParser clp)
     {
         if(!clp.getStripOptimization() && 
-            System.getProperty("os.name").startsWith("Mac")) {
+            System.getProperty("os.name").startsWith("Mac")) 
+        {
             // CAREFUL**************************************************
             // In all MacOSX systems I tried, this greatly increases the
             // redrawing speed. *HOWEVER* the default value for Java 1.6
@@ -154,7 +155,8 @@ public class FidoMain
     private static void doConvert(CommandLineParser clp, DrawingModel P)
     {
         if(!Globals.checkExtension(clp.getOutputFile(), 
-            clp.getExportFormat()) && !clp.getForceMode()) {
+            clp.getExportFormat()) && !clp.getForceMode()) 
+        {
             System.err.println(
                 "File extension is not coherent with the "+
                 "export output format! Use -f to skip this test.");
@@ -163,12 +165,12 @@ public class FidoMain
                 
         try {
             if (clp.getResolutionBasedExport()) {
-                ExportGraphic.export(new File(clp.getOutputFile()),  P, 
+                ExportGraphic.export(new File(clp.getOutputFile()),  P,
                     clp.getExportFormat(), clp.getResolution(),
                     true,false,true, true);
             } else {
                 ExportGraphic.exportSize(new File(clp.getOutputFile()),
-                    P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(), 
+                    P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),
                     true,false,true,true);
             }
             System.out.println("Export completed");
@@ -221,7 +223,8 @@ public class FidoMain
     {
         pa.loadLibraryDirectory(libDirectory);
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"IHRAM.FCL")).exists()) {
+            libDirectory,"IHRAM.FCL")).exists()) 
+        {
             System.out.println("IHRAM library got from external file");
         } else {
             if(englishLibraries)
@@ -246,7 +249,8 @@ public class FidoMain
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"FCDstdlib.fcl")).exists()) {
+            libDirectory,"FCDstdlib.fcl")).exists()) 
+        {
             System.out.println("Standard library got from external file");
         } else {        
             if(englishLibraries)
@@ -271,7 +275,8 @@ public class FidoMain
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"PCB.fcl")).exists()) {
+            libDirectory,"PCB.fcl")).exists()) 
+        {
             System.out.println("Standard PCB library got from external file");
         } else {
             if(englishLibraries)
@@ -296,7 +301,8 @@ public class FidoMain
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"EY_Libraries.fcl")).exists()) {
+            libDirectory,"EY_Libraries.fcl")).exists()) 
+        {
             System.out.println("Standard EY_Libraries got from external file");
         } else {
             if(englishLibraries)
@@ -321,7 +327,8 @@ public class FidoMain
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"elettrotecnica.fcl")).exists()) {
+            libDirectory,"elettrotecnica.fcl")).exists())
+        {
             System.out.println(
                 "Electrotechnics library got from external file");   
         } else {

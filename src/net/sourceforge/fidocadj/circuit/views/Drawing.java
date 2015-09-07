@@ -87,7 +87,8 @@ public class Drawing
         synchronized (this) {
             // At first, we check if the current view has changed. 
             if(P.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() || 
-                oY!=cs.getYCenter() || oO!=cs.getOrientation()) {
+                oY!=cs.getYCenter() || oO!=cs.getOrientation()) 
+            {
                 oZ=cs.getXMagnitude();
                 oX=cs.getXCenter();
                 oY=cs.getYCenter();
@@ -137,7 +138,8 @@ public class Drawing
                     // as well as macros containing pads).
                 
                     if ((gg=(GraphicPrimitive)P.getPrimitiveVector().
-                        get(i_index)).needsHoles()) {
+                        get(i_index)).needsHoles()) 
+                    {
                         gg.setDrawOnlyPads(true);
                         gg.draw(G, cs, P.layerV);
                         gg.setDrawOnlyPads(false);

@@ -133,7 +133,8 @@ public class SelectionActions
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
             if (g.getSelected() && 
                 (g instanceof PrimitiveMacro ||
-                 g.hasName() || g.hasValue())) {
+                 g.hasName() || g.hasValue())) 
+            {
                 return true;
             }
         }

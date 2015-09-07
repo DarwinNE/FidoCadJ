@@ -316,7 +316,8 @@ public abstract class GraphicPrimitive
         
         // Write down the extensions only if needed
         if (name!=null && !"".equals(name) || 
-            value!=null && !"".equals(value)) {
+            value!=null && !"".equals(value)) 
+        {
             if(extensions) 
                 s2.append("FCJ\n");
             

@@ -116,17 +116,15 @@ public class OSKeybPanel extends JPanel
                 if (!(jd.getMostRecentFocusOwner() instanceof JTextField))
                     return;
                 JTextField jfd = (JTextField)jd.getMostRecentFocusOwner();
-                if (jfd.getSelectedText()!=null) 
-                {
+                if (jfd.getSelectedText()!=null) {
                     String ee = jfd.getText().replace(
                         jfd.getSelectedText(), "");
                     jfd.setText(ee);
                 }
                 int p = jfd.getCaretPosition();
-                if (p<0)
+                if (p<0) {
                     jfd.setText(jfd.getText()+e.getActionCommand());
-                else
-                {
+                } else {
                     String s = jfd.getText().substring(0,p);
                     String t = jfd.getText().substring(p);
                     jfd.setText(s+e.getActionCommand()+t);

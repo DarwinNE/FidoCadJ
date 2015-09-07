@@ -159,7 +159,8 @@ public class SearchField extends JTextField implements FocusListener
                 // About this bug.
                 // The top component takes all key events regardless of focus???
                 if(isFocusOwner() && (e.getKeyCode() == KeyEvent.VK_R ||
-                                      e.getKeyCode() == KeyEvent.VK_S)) {
+                                      e.getKeyCode() == KeyEvent.VK_S)) 
+                {
                     e.consume();
                 }
             }

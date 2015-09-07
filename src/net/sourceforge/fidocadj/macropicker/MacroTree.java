@@ -376,10 +376,12 @@ public class MacroTree extends JPanel
         int selectedNodeType = getSelectedType();
         
         if(copyTargetType==MacroTreeModel.CATEGORY && 
-            selectedNodeType==LIBRARY){
+            selectedNodeType==LIBRARY)
+        {
             copyCategoryIntoLibrary();
         } else  if(copyTargetType==MacroTreeModel.MACRO && 
-            selectedNodeType==CATEGORY){
+            selectedNodeType==CATEGORY)
+        {
             copyMacroIntoCategory();
         }
         
@@ -444,10 +446,12 @@ public class MacroTree extends JPanel
             if(copyTarget!=null && lib!=null && !lib.isStdLib()){
                 copyTargetType = macroTreeModel.getNodeType(copyTarget);
                 if(copyTargetType==MacroTreeModel.CATEGORY && 
-                                                        selectedType==LIBRARY){
+                    selectedType==LIBRARY)
+                {
                     permissionObject.pasteAvailable = true;
                 } else if (copyTargetType==MacroTreeModel.MACRO &&
-                                                       selectedType==CATEGORY){
+                    selectedType==CATEGORY)
+                {
                     permissionObject.pasteAvailable = true;
                 }
             }
@@ -483,7 +487,6 @@ public class MacroTree extends JPanel
                 {
                     MacroDesc md;
                     md = macroTreeModel.getMacro(e.getPath());
-                
 
                     if(md!=null) {
                         previewPanel.setCirc(new StringBuffer(md.description));

@@ -216,7 +216,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
         drawingAgent.draw(g,macroCoord);
         
         if (macroCoord.getXMax()>macroCoord.getXMin() && 
-            macroCoord.getYMax()>macroCoord.getYMin()) {
+            macroCoord.getYMax()>macroCoord.getYMin()) 
+        {
             coordSys.trackPoint(macroCoord.getXMax(),macroCoord.getYMax());
             coordSys.trackPoint(macroCoord.getXMin(),macroCoord.getYMin()); 
         }
@@ -712,7 +713,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
             macroFont, 
             (int)(cs.mapYr(getMacroFontSize(),getMacroFontSize())-
                 cs.mapYr(0,0)),
-            library)) {
+            library)) 
+        {
             alreadyExported = true;
             return;
         }

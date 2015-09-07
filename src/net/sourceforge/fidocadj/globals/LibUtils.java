@@ -273,7 +273,8 @@ public final class LibUtils
         for (MacroDesc md : libref.values()) {
             if (md.category.equalsIgnoreCase(tgrp)
                     && md.library.trim().equalsIgnoreCase(
-                            tlib.trim())) {
+                            tlib.trim())) 
+            {
                 md.category = newname;
                 prefix = md.filename; 
             }
@@ -361,7 +362,8 @@ public final class LibUtils
         {
             MacroDesc md = smd.getValue();          
             if (md.library.trim().equalsIgnoreCase(tlib) && 
-                    md.category.equalsIgnoreCase(tgrp)) {   
+                    md.category.equalsIgnoreCase(tgrp)) 
+            {   
                 m.remove(md.key);
                 prefix = md.filename;
             }
@@ -381,7 +383,8 @@ public final class LibUtils
         List<String> lst = new LinkedList<String>();
         for (MacroDesc md : m.values()) {
             if (!lst.contains(md.category)
-                && prefix.trim().equalsIgnoreCase(md.filename.trim()))  {
+                && prefix.trim().equalsIgnoreCase(md.filename.trim()))
+            {
                 lst.add(md.category);
             }
         }
@@ -396,7 +399,8 @@ public final class LibUtils
         List lst = new LinkedList();
         for (MacroDesc md : m.values()) {
             if (!lst.contains(md.category)
-                && prefix.trim().equalsIgnoreCase(md.filename.trim()))  {
+                && prefix.trim().equalsIgnoreCase(md.filename.trim()))
+            {
                 return md.library;
             }
         }

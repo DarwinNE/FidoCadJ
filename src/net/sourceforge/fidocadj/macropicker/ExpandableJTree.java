@@ -150,7 +150,8 @@ public class ExpandableJTree extends JTree
             }
             
             if(getModel().isLeaf(getPathForRow(nextRow).
-                getLastPathComponent())) {
+                getLastPathComponent())) 
+            {
                 return nextRow;
             }
         }
