@@ -4,10 +4,10 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** layerDesc.java
 
-    
+
    Provide a complete description of each layer (color, visibility).
 <pre>
-  
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -27,35 +27,35 @@ import net.sourceforge.fidocadj.graphic.*;
 
 </pre>
 
-   
+
 
     @author Davide Bucci
 
 */
-    
-public class LayerDesc 
+
+public class LayerDesc
 {
-     
+
     // Number of layers to be treated:
     public static final int MAX_LAYERS=16;
 
 
     // The color of the layer:
     private ColorInterface layerColor;
-    
+
     // isVisible is true if the layer should be drawn:
     public boolean isVisible;
-    
+
     // is Modified is true if a redraw is needed:
     private boolean isModified;
-    
+
     // Name or description of the layer:
     private String LayerDescription;
-    
+
     // Transparency
     private float alpha;
-    
-    /** Standard constructor: obtain a visible layer with a black color and no 
+
+    /** Standard constructor: obtain a visible layer with a black color and no
         description.
     */
     public LayerDesc()
@@ -63,27 +63,27 @@ public class LayerDesc
         layerColor=null;
         isVisible=true;
         LayerDescription="";
-    
+
     }
-    
+
     /** Standard constructor
-        
+
         @param c the color which should be used
         @param v the visibility of the layer
         @param d the layer description
     */
-    
+
     public LayerDesc(ColorInterface c, boolean v, String d, float a)
     {
         layerColor=c;
         isVisible=v;
         LayerDescription=d;
         alpha = a;
-    
+
     }
     /** This method allows to obtain the color in which this layer should be
         drawn.
-        
+
         @return the color to be used
     */
     final public ColorInterface getColor()
@@ -92,18 +92,18 @@ public class LayerDesc
     }
 
     /** This method allows to obtain the alpha channel of the current layer.
-        
-        @return the alpha blend 
+
+        @return the alpha blend
     */
-    
+
     final public float getAlpha()
     {
         return alpha;
     }
-    
-    
+
+
     /** This method returns true if this layer should be traced
-        
+
         @return a boolean value indicating if the layer should be drawn
     */
     final public boolean getVisible()
@@ -112,7 +112,7 @@ public class LayerDesc
     }
 
     /** This method returns true if this layer has been modified
-        
+
         @return a boolean value indicating that the layer has been modified
     */
     final public boolean getModified()
@@ -120,56 +120,56 @@ public class LayerDesc
         return isModified;
     }
 
-    
+
     /** This method allows to obtain the color in which this layer should be
         drawn.
-        
+
         @return the color to be used
     */
     public String getDescription()
     {
         return LayerDescription;
     }
-    
-    
+
+
     /** This method allows to set the layer description.
-        
+
         @param s the layer description
     */
     final public void setDescription(String s)
     {
         LayerDescription=s;
     }
-    
+
     /** This method allows to set the layer visibility.
-        
+
         @param v the layer visibility.
     */
     final public void setVisible(boolean v)
     {
         isVisible=v;
     }
-    
+
     /** This method allows to indicate that the layer has been modified.
-        
+
         @param v true if the layer should be considered as modified
     */
     final public void setModified(boolean v)
     {
         isModified=v;
     }
-  
+
     /** This method allows to set the layer color.
-        
+
         @param c the layer color
     */
     final public void setColor(ColorInterface c)
     {
         layerColor=c;
     }
-    
+
      /** This method allows to set the alpha blend.
-        
+
         @param a the alpha blend
     */
     final public void setAlpha(float a)

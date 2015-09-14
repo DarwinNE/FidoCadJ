@@ -41,23 +41,23 @@ public final class PrimitiveOval extends GraphicPrimitive
     static final int N_POINTS=4;
     private boolean isFilled;
     private int dashStyle;
-    
-    // Those are data which are kept for the fast redraw of this primitive. 
+
+    // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
     private int xa, ya, xb, yb;
     private int x1, x2, y1, y2;
     private float w;
-    
+
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
-    */  
+    */
     public int getControlPointNumber()
     {
         return N_POINTS;
     }
-    
+
     /** Standard constructor.
     */
     public PrimitiveOval(String f, int size)
@@ -71,18 +71,18 @@ public final class PrimitiveOval extends GraphicPrimitive
         @param y1 the start y coordinate (logical unit).
         @param x2 the end x coordinate (logical unit).
         @param y2 the end y coordinate (logical unit).
-        @param f specifies if the ellipse should be filled. 
+        @param f specifies if the ellipse should be filled.
         @param layer the layer to be used.
         @param dashSt the style of the dashing to be used.
-        
+
     */
-    
-    public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer, 
+
+    public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer,
         int dashSt, String font, int size)
     {
         super();
         initPrimitive(-1, font, size);
-            
+
         virtualPoint[0].x=x1;
         virtualPoint[0].y=y1;
         virtualPoint[1].x=x2;
@@ -90,32 +90,32 @@ public final class PrimitiveOval extends GraphicPrimitive
         virtualPoint[getNameVirtualPointNumber()].x=x1+5;
         virtualPoint[getNameVirtualPointNumber()].y=y1+5;
         virtualPoint[getValueVirtualPointNumber()].x=x1+5;
-        virtualPoint[getValueVirtualPointNumber()].y=y1+10;     
-        
+        virtualPoint[getValueVirtualPointNumber()].y=y1+10;
+
         isFilled=f;
         dashStyle =dashSt;
-        
+
         setLayer(layer);
-        
+
     }
-    
+
     /** Draw the graphic primitive on the given graphic context.
         @param g the graphic context in which the primitive should be drawn.
         @param coordSys the graphic coordinates system to be applied.
         @param layerV the layer description.
     */
-    public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+    public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-    
+
         if(!selectLayer(g,layerV))
             return;
-            
+
         drawText(g, coordSys, layerV, -1);
-        
+
         // in the oval primitive, the first two virtual points represent
-        // the two corners of the oval diagonal 
-        
+        // the two corners of the oval diagonal
+
         if(changed) {
             changed=false;
             x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
@@ -139,16 +139,16 @@ public final class PrimitiveOval extends GraphicPrimitive
                 yb=y2;
             }
             coordSys.trackPoint(xa,ya);
-            coordSys.trackPoint(xb,yb);         
+            coordSys.trackPoint(xb,yb);
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
             if (w<D_MIN) w=D_MIN;
         }
 
         if(!g.hitClip(xa,ya, xb-xa,yb-ya))
             return;
-        
+
         g.applyStroke(w, dashStyle);
-        
+
         // Draw the oval, filled or not.
         if (isFilled)
             g.fillOval(xa,ya,xb-xa,yb-ya);
@@ -156,16 +156,16 @@ public final class PrimitiveOval extends GraphicPrimitive
             g.drawOval(xa,ya,xb-xa,yb-ya);
         }
     }
-    
+
     /** Parse a token array and store the graphic data for a given primitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-        
+
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array
-        
+
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -182,12 +182,12 @@ public final class PrimitiveOval extends GraphicPrimitive
             int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
             virtualPoint[1].x=Integer.parseInt(tokens[3]);
             virtualPoint[1].y=Integer.parseInt(tokens[4]);
-            
+
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
-            virtualPoint[getValueVirtualPointNumber()].y=y1+10;     
-            
+            virtualPoint[getValueVirtualPointNumber()].y=y1+10;
+
             if(N>5) parseLayer(tokens[5]);
             if(tokens[0].equals("EP"))
                 isFilled=true;
@@ -206,16 +206,16 @@ public final class PrimitiveOval extends GraphicPrimitive
                                           " programming error?");
             throw E;
         }
-        
-        
+
+
     }
-    
+
     /** Get the control parameters of the given primitive.
-        
+
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-                
+
     */
     public Vector<ParameterDescription> getControls()
     {
@@ -233,20 +233,20 @@ public final class PrimitiveOval extends GraphicPrimitive
 
         return v;
     }
-    
+
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-        
+
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-                
+
     */
     public int setControls(Vector<ParameterDescription> v)
     {
-        int i=super.setControls(v);             
+        int i=super.setControls(v);
         ParameterDescription pd;
-        
+
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
@@ -259,21 +259,21 @@ public final class PrimitiveOval extends GraphicPrimitive
             dashStyle=((DashInfo)pd.parameter).style;
         else
             System.out.println("Warning: unexpected parameter!"+pd);
-        
+
         // Parameters validation and correction
         if(dashStyle>=Globals.dashNumber)
             dashStyle=Globals.dashNumber-1;
         if(dashStyle<0)
             dashStyle=0;
-            
+
         return i;
-        
+
     }
 
-    
-    /** Gets the distance (in primitive's coordinates space) between a 
-        given point and the primitive. 
-        When it is reasonable, the behaviour can be binary (polygons, 
+
+    /** Gets the distance (in primitive's coordinates space) between a
+        given point and the primitive.
+        When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
         @param px the x coordinate of the given point
         @param py the y coordinate of the given point
@@ -281,15 +281,15 @@ public final class PrimitiveOval extends GraphicPrimitive
     public int getDistanceToPoint(int px, int py)
     {
         // Here we check if the given point lies inside the text areas
-        
+
         if(checkText(px, py))
             return 0;
-            
+
         int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
         int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
         int yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
-     
+
         if(isFilled){
             if(GeometricDistances.pointInEllipse(xa,ya,xb-xa,yb-ya,px,py))
                 return 0;
@@ -299,23 +299,23 @@ public final class PrimitiveOval extends GraphicPrimitive
             return GeometricDistances.pointToEllipse(xa,ya,
                 xb-xa,yb-ya,px,py);
     }
-    
+
     /** Obtain a string command descripion of the primitive.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
     {
         String cmd;
-        
+
         if (isFilled)
             cmd="EP ";
         else
             cmd="EV ";
-        
+
         cmd+=virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
             getLayer()+"\n";
-            
+
         if(extensions && (dashStyle>0 || hasName() || hasValue())) {
             String text = "0";
             if (name.length()!=0 || value.length()!=0)
@@ -324,11 +324,11 @@ public final class PrimitiveOval extends GraphicPrimitive
         }
         // The false is needed since saveText should not write the FCJ tag.
         cmd+=saveText(false);
-        
+
         return cmd;
     }
-    
-    public void export(ExportInterface exp, MapCoordinates cs) 
+
+    public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
         exportText(exp, cs, -1);
@@ -339,7 +339,7 @@ public final class PrimitiveOval extends GraphicPrimitive
                        isFilled,
                        getLayer(),
                        dashStyle,
-                       Globals.lineWidth*cs.getXMagnitude()); 
+                       Globals.lineWidth*cs.getXMagnitude());
     }
     /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
@@ -348,7 +348,7 @@ public final class PrimitiveOval extends GraphicPrimitive
     {
         return 2;
     }
-    
+
     /** Get the number of the virtual point associated to the Value property
         @return the number of the virtual point associated to the Value property
     */

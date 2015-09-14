@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.layers.*;
     Except... calculating text size correctly!
 
     Yes. There is a reason for that.
-        
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -37,27 +37,27 @@ import net.sourceforge.fidocadj.layers.*;
 </pre>
 */
 
-public class GraphicsNull implements GraphicsInterface 
+public class GraphicsNull implements GraphicsInterface
 {
     private Font f;
     private FontMetrics fm;
     Graphics g;
-    
+
     public GraphicsNull()
     {
-        // Unfortunately, to get the image size, we need to redraw it.  
+        // Unfortunately, to get the image size, we need to redraw it.
         // I do not like it, even if here we are not in a speed sensitive
         // context!
         // Create a dummy image on which the drawing will be done
-        BufferedImage bufferedImage = new BufferedImage(10, 10, 
+        BufferedImage bufferedImage = new BufferedImage(10, 10,
                                           BufferedImage.TYPE_INT_RGB);
-        
+
         // Create a graphics contents on the buffered image
         g = bufferedImage.createGraphics();
         fm = g.getFontMetrics();
     }
-    
-    public void setColor(ColorInterface c) 
+
+    public void setColor(ColorInterface c)
     {
         // nothing to do
     }
@@ -65,7 +65,7 @@ public class GraphicsNull implements GraphicsInterface
     {
         return new ColorNull();
     }
-    
+
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
         @param w the width in pixel
@@ -75,7 +75,7 @@ public class GraphicsNull implements GraphicsInterface
     {
         // nothing to do
     }
-    
+
     /** Draws a rectangle on the current graphic context.
         @param x the x coordinate of the uppermost left corner
         @param y the y coordinate of the uppermost left corner
@@ -86,7 +86,7 @@ public class GraphicsNull implements GraphicsInterface
     {
         // nothing to do
     }
-    
+
     /** Fills a rectangle on the current graphic context.
         @param x the x coordinate of the uppermost left corner
         @param y the y coordinate of the uppermost left corner
@@ -95,9 +95,9 @@ public class GraphicsNull implements GraphicsInterface
     */
     public void fillRect(int x, int y, int width, int height)
     {
-        // nothing to do    
+        // nothing to do
     }
-    
+
     public void fillRoundRect(int x,
                                    int y,
                                    int width,
@@ -105,7 +105,7 @@ public class GraphicsNull implements GraphicsInterface
                                    int arcWidth,
                                    int arcHeight)
     {
-        // nothing to do    
+        // nothing to do
     }
 
     public boolean hitClip(int x,
@@ -119,25 +119,25 @@ public class GraphicsNull implements GraphicsInterface
                               int y1,
                               int x2,
                               int y2)
-    {       
+    {
         // nothing to do
     }
-                              
-    public void setFont(String name, int size, boolean isItalic, 
+
+    public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
     {
-        Font f = new Font(name, 
-            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 
+        Font f = new Font(name,
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
             size);
-            
+
         fm=g.getFontMetrics(f);
     }
-    
+
     public void setFont(String name, int size)
     {
         setFont(name, size, false, false);
     }
-    
+
     /** TODO: is there a way to implement something without a graphic context?
     */
     public int getFontAscent()
@@ -156,17 +156,17 @@ public class GraphicsNull implements GraphicsInterface
     {
         return fm.stringWidth(s);
     }
-    
+
     public void drawString(String str,
                                 int x,
                                 int y)
     {
         // nothing to do
     }
-    
+
     public void setAlpha(float alpha)
     {
-        // nothing to do    
+        // nothing to do
     }
 
     public void fillOval(int x,
@@ -174,7 +174,7 @@ public class GraphicsNull implements GraphicsInterface
                               int width,
                               int height)
     {
-        // nothing to do    
+        // nothing to do
     }
     public void drawOval(int x,
                               int y,
@@ -182,7 +182,7 @@ public class GraphicsNull implements GraphicsInterface
                               int height)
     {
         // nothing to do
-    }                          
+    }
     public void fill(ShapeInterface s)
     {
         // nothing to do
@@ -192,34 +192,34 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
     public void fillPolygon(PolygonInterface p)
-    {       
+    {
         // nothing to do
     }
     public void drawPolygon(PolygonInterface p)
     {
-        // nothing to do    
+        // nothing to do
     }
-    
+
     public void activateSelectColor(LayerDesc l)
     {
-        // nothing to do    
+        // nothing to do
     }
-    
+
     public void drawAdvText(double xyfactor, int xa, int ya,
         int qq, int h, int w, int th, boolean needsStretching,
-        int orientation, boolean mirror,        
+        int orientation, boolean mirror,
         String txt)
     {
         // nothing to do
     }
-    
-    public void drawGrid(MapCoordinates cs, 
-        int xmin, int ymin, 
+
+    public void drawGrid(MapCoordinates cs,
+        int xmin, int ymin,
         int xmax, int ymax)
     {
             // nothing to do
     }
-        
+
     public PolygonInterface createPolygon()
     {
         return new PolygonNull();
@@ -232,15 +232,15 @@ public class GraphicsNull implements GraphicsInterface
     {
         return new ShapeNull();
     }
-    
+
     /** Retrieve the current screen density in dots-per-inch.
         @return the screen resolution (density) in dots-per-inch.
     */
     public float getScreenDensity()
     {
-        // If GraphicsNull is used correctly, this magic number should not 
+        // If GraphicsNull is used correctly, this magic number should not
         // be very important.
-        
-        return 72; 
+
+        return 72;
     }
 }

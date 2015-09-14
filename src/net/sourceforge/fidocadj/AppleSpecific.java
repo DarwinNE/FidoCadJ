@@ -12,10 +12,10 @@ import net.sourceforge.fidocadj.globals.*;
 
 
 /** The class AppleSpecific implements a few mechanism for interacting with
-    the MacOSX operating system. This class will only be used if the program 
+    the MacOSX operating system. This class will only be used if the program
     detects it is being run on a MacOSX operating system.
-    This can be a problem when the program is not compiled on a MacOSX 
-    operating system, since the com.apple.eawt package is made available 
+    This can be a problem when the program is not compiled on a MacOSX
+    operating system, since the com.apple.eawt package is made available
     only under this platform. You should thus remove each reference to the
     AppleSpecific class in the code when compiling under an alternative
     system. See the README file.
@@ -36,26 +36,26 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009-2010 by Davide Bucci
-    
+
 */
 
 class AppleSpecific implements ApplicationListener
 {
 
     /** Create an application listener able to respond to a few Finder events
-    
+
     */
-    public void answerFinder() 
+    public void answerFinder()
     {
         Application app = new Application();
         app.setEnabledPreferencesMenu(true);
         app.getApplication().addApplicationListener(this);
     }
-    
+
     /** Respond to an user clicking on an About menu.
-    
+
     */
-    public void handleAbout(ApplicationEvent evt) 
+    public void handleAbout(ApplicationEvent evt)
     {
         DialogAbout d=new DialogAbout((JFrame)Globals.activeWindow);
         d.setVisible(true);
@@ -63,47 +63,47 @@ class AppleSpecific implements ApplicationListener
 
     }
     /** Respond to an user opening the application.
-    
+
     */
-    public void handleOpenApplication(ApplicationEvent evt) 
+    public void handleOpenApplication(ApplicationEvent evt)
     {
         String file = evt.getFilename();
         if(file!=null)
           ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
     /** Respond to an user double clicking on a FCD file
-    
+
     */
-    public void handleOpenFile(ApplicationEvent evt) 
+    public void handleOpenFile(ApplicationEvent evt)
     {
         String file = evt.getFilename();
         ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
-    
+
     /** Respond to an user clicking on the Preferences menu.
-    
+
     */
-    public void handlePreferences(ApplicationEvent evt) 
-    {   
+    public void handlePreferences(ApplicationEvent evt)
+    {
         ((FidoFrame)Globals.activeWindow).showPrefs();
     }
-    
+
     /** Respond to an user wanting to print a particular file.
     */
-    public void handlePrintFile(ApplicationEvent evt) 
+    public void handlePrintFile(ApplicationEvent evt)
     {
         // does nothing
     }
-    
+
     /** Ask for confirmation when quitting.
-    
+
     */
-    public void handleQuit(ApplicationEvent evt) 
+    public void handleQuit(ApplicationEvent evt)
     {
-        boolean ca = true;      
+        boolean ca = true;
 
         //Create a iterator
-        Iterator iterator = Globals.openWindows.iterator();     
+        Iterator iterator = Globals.openWindows.iterator();
         while (iterator.hasNext()){
             if(!((FidoFrame)iterator.next()).getFileTools().
                 checkIfToBeSaved())
@@ -113,8 +113,8 @@ class AppleSpecific implements ApplicationListener
         }
         evt.setHandled(ca);
     }
-    
-    public void handleReOpenApplication(ApplicationEvent evt) 
+
+    public void handleReOpenApplication(ApplicationEvent evt)
     {
         // does nothing
     }

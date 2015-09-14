@@ -1,8 +1,8 @@
 package net.sourceforge.fidocadj.undo;
 
-/** Interface used to callback notify that an undo action on libraries should 
+/** Interface used to callback notify that an undo action on libraries should
     be performed.
-    
+
     <pre>
         This file is part of FidoCadJ.
 

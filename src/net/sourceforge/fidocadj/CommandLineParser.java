@@ -5,7 +5,7 @@ import java.util.Locale;
 import net.sourceforge.fidocadj.globals.*;
 
 
-/** CommandLineParser.java 
+/** CommandLineParser.java
     Parse the command line recognizing options, commands and files.
 
 <pre>
@@ -35,39 +35,39 @@ public class CommandLineParser
     // If this is true, the GUI will not be loaded and FidoCadJ will run as
     // a command line utility:
     private boolean commandLineOnly = false;
-    
+
     // Force FidoCadJ to skip some sanity tests during the command line
     // option processing.
     private boolean forceMode=false;
 
-    // The following variable will be true if one requests to convert a 
+    // The following variable will be true if one requests to convert a
     // file:
     private boolean convertFile = false;
     private int totx=0, toty=0;
     private String exportFormat="";
     private String outputFile="";
     private boolean headlessMode = false;
-    private boolean resolutionBasedExport = false;  
+    private boolean resolutionBasedExport = false;
     private boolean printSize=false;
     private boolean printTime=false;
     private double resolution=1;
     private Locale currentLocale=null;
-    
+
     // Filename to open or a particular library directory to be considered
     private String loadFile="";
     private String libDirectory="";
-    
+
     // The standard behavior implies that FidoCadJ tries to activate some
     // optimizations or settings which depends on the platform and should
     // increase things such as the redrawing speed and other stuff. In some
     // cases ("-p" option) they might be deactivated:
-    private static boolean stripOptimization=false;         
-    
+    private static boolean stripOptimization=false;
+
     public boolean getStripOptimization()
     {
         return stripOptimization;
     }
-    
+
     /** Get the name (completed with the given path) of the filename to read.
         @return the file name, or "" if no file has been given
     */
@@ -76,15 +76,15 @@ public class CommandLineParser
         return loadFile;
     }
 
-    /** Get the name (completed with the given path) of the directory 
-        containing the libraries to be loaded. 
+    /** Get the name (completed with the given path) of the directory
+        containing the libraries to be loaded.
         @return the path, or "" if no dir has been given.
     */
     public String getLibDirectory()
     {
         return libDirectory;
     }
-    
+
     /** Read the current command line arguments and parse it.
         @param orArgs the command line arguments, as provided to the main.
     */
@@ -94,12 +94,12 @@ public class CommandLineParser
         boolean loaded=false;
         boolean nextLib=false;
         String[] args=orArgs;
-    
-        // called by jnlp           
+
+        // called by jnlp
         if (args[0].equalsIgnoreCase("-print")) {
             // TODO: verify if this can happen in a operating system
-            // with case sensitive file system! Windows only code?  
-            String filename = args[1].toLowerCase().replace(".fcd", "");  
+            // with case sensitive file system! Windows only code?
+            String filename = args[1].toLowerCase().replace(".fcd", "");
             if (filename.lastIndexOf(System.getProperty("file.separator"))>0) {
                 filename = filename.substring(filename.lastIndexOf(
                     System.getProperty("file.separator"))+1);
@@ -111,8 +111,8 @@ public class CommandLineParser
         for(i=0; i<args.length; ++i) {
             if (args[i].startsWith("-")) {
                 // It is an option
-                
-                // phylum                   
+
+                // phylum
                 if (args[i].trim().equalsIgnoreCase("-open")) {
                     continue;
                 }
@@ -128,7 +128,7 @@ public class CommandLineParser
                     System.setProperty("java.awt.headless", "true");
                 } else if (args[i].startsWith("-d")) {
                     // -d indicates that the following argument is the path
-                    // of the library directory. The previous library 
+                    // of the library directory. The previous library
                     // directory will be ignored.
                     nextLib=true;
                 } else if (args[i].startsWith("-f")) {
@@ -137,16 +137,16 @@ public class CommandLineParser
                     forceMode=true;
                 } else if (args[i].startsWith("-c")) {
                     // -c indicates that FidoCadJ should read and convert
-                    // the given file. The structure of the command must 
+                    // the given file. The structure of the command must
                     // be as follows:
                     // -c 800 600 png test.png
-                    // which is the total width and height in pixel, the 
+                    // which is the total width and height in pixel, the
                     // format required (SVG, EPS, PGF, PNG, PDF, EPS, SCH)
                     // and the file name to be used.
-                    // The second possibility is that the -c option is 
+                    // The second possibility is that the -c option is
                     // followed by the r option, followed by a number
                     // specifying the number of pixels for logical units.
-                    
+
                     try {
                         if (args[++i].startsWith("r")) {
                             resolution = Double.parseDouble(
@@ -165,13 +165,13 @@ public class CommandLineParser
                         outputFile=args[++i];
 
                         convertFile=true;
-                        headlessMode = true;    
+                        headlessMode = true;
                     } catch (Exception E) {
                         System.err.println("Unable to read the parameters"+
                             " given to -c");
                         System.exit(1);
                     }
-                    
+
                     convertFile=true;
                 } else if (args[i].startsWith("-h")) { // Zu Hilfe!
                     showCommandLineHelp();
@@ -182,22 +182,22 @@ public class CommandLineParser
                 } else if (args[i].startsWith("-t")) { // Timer
                     printTime=true;
                 } else if (args[i].startsWith("-p")) { // No optimizations
-                    stripOptimization=true;                 
+                    stripOptimization=true;
                 } else if (args[i].startsWith("-l")) { // Locale
                     // Extract the code corresponding to the wanted locale
                     String loc;
                     if(args[i].length()==2) {
                         // In this case, the -l xx form is used, where
-                        // xx indicates the wanted locale. A space 
+                        // xx indicates the wanted locale. A space
                         // separates "-l" from the wanted locale.
-                            
+
                         // At first, check if the user forgot the locale
                         if(i==args.length-1 || args[i+1].startsWith("-")) {
                             System.err.println("-l option requires a "+
                                 "locale language code.");
                             System.exit(1);
                         }
-                        loc=args[++i];                          
+                        loc=args[++i];
                     } else {
                         // In this case, the -lxx form is used, where
                         // xx indicates the wanted locale. No space is
@@ -205,14 +205,14 @@ public class CommandLineParser
                         loc=args[i].substring(2);
                     }
                     currentLocale=new Locale(loc);
- 
+
                 } else {
                     System.err.println("Unrecognized option: "+args[i]);
                     showCommandLineHelp();
                     System.exit(1);
                 }
             } else {
-                // We should process now the arguments of the different 
+                // We should process now the arguments of the different
                 // options (if it applies).
                 if (nextLib) {
                     // This is -d: read the new library directory
@@ -224,7 +224,7 @@ public class CommandLineParser
                         System.err.println("Only one file can be"+
                             " specified in the command line");
                     }
-                    // We can not load the file now, since the main frame 
+                    // We can not load the file now, since the main frame
                     // has not been initialized yet.
                     loadFile=args[i];
                     loaded=true;
@@ -233,7 +233,7 @@ public class CommandLineParser
             }
         }
     }
-    
+
     /** Print a short summary of each option available for launching
         FidoCadJ.
     */
@@ -241,20 +241,20 @@ public class CommandLineParser
     {
         // Here, exceptionally, the lenght of the code lines might exceed
         // 80 characters.
-    
+
         //CHECKSTYLE.OFF: LineLength
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
             "By Davide Bucci, 2007-2014.\n\n"+
-            
+
             "Use: java -jar fidocadj.jar [-options] [file] \n"+
             "where options include:\n\n"+
-            
+
             " -n     Do not start the graphical user interface (headless mode)\n\n"+
-            
+
             " -d     Set the extern library directory\n"+
             "        Usage: -d dir\n"+
             "        where 'dir' is the path of the directory you want to use.\n\n"+
-                         
+
             " -c     Convert the given file to a graphical format.\n"+
             "        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
             "        If you use this command line option, you *must* specify a FidoCadJ\n"+
@@ -264,40 +264,40 @@ public class CommandLineParser
             "        sx and sy.\n"+
             "        NOTE: the coherence of the file extension is checked, unless the -f\n"+
             "        option is specified.\n\n"+
-            
+
             " -s     Print the size of the specified file in logical units.\n\n"+
-            
+
             " -h     Print this help and exit.\n\n"+
-            
+
             " -t     Print the time used by FidoCadJ for the specified operation.\n\n"+
-            
+
             " -p     Do not activate some platform-dependent optimizations. You might try\n"+
             "        this option if FidoCadJ hangs or is painfully slow.\n\n"+
-            
+
             " -l     Force FidoCadJ to use a certain locale (the code might follow\n"+
             "        immediately or be separated by an optional space).\n\n"+
-            
+
             " -k     Show the current locale.\n\n"+
-            
+
             " -f     Force FidoCadJ to skip some tests about sanity of the inputs.\n\n"+
-            
+
             " [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
             "        load at startup time.\n\n"+
-            
+
             "Example: load and convert a FidoCadJ drawing to a 800x600 pixel png file\n"+
             "        without using the GUI.\n"+
             "  java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd\n\n"+
-            "Example: load and convert a FidoCadJ drawing to a png file without using the\n"+ 
+            "Example: load and convert a FidoCadJ drawing to a png file without using the\n"+
             "        graphic user interface (the so called headless mode).\n"+
             "        Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
             "  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
             "Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
             "  java -jar fidocadj.jar -l zh\n\n";
-        
+
         //CHECKSTYLE.ON: LineLength
         System.out.println(help);
     }
-    
+
     /** Check if a file conversion (export) should be done.
         @return true if an export should be done.
     */
@@ -305,25 +305,25 @@ public class CommandLineParser
     {
         return convertFile;
     }
-    
-    /** Return a string describing the file format. 
+
+    /** Return a string describing the file format.
         @return the description of the file format, as provided by the user,
             or "" if nothing has been specified.
-    */    
+    */
     public String getExportFormat()
     {
         return exportFormat;
     }
-    
-    /** Get the name of the output file 
-        @return the name of the output file, or "" if nothing has been 
+
+    /** Get the name of the output file
+        @return the name of the output file, or "" if nothing has been
             specified.
-    */  
+    */
     public String getOutputFile()
     {
         return outputFile;
     }
-    
+
     /** Get the width of the export
         @return the width in pixels of the image to be exported.
     */
@@ -331,7 +331,7 @@ public class CommandLineParser
     {
         return totx;
     }
-    
+
     /** Get the height of the export
         @return the heght in pixels of the image to be exported.
     */
@@ -339,7 +339,7 @@ public class CommandLineParser
     {
         return toty;
     }
-    
+
     /** Check if the headless mode (no UI) should be active.
         @return true if the Java headless mode should be activated.
     */
@@ -347,7 +347,7 @@ public class CommandLineParser
     {
         return headlessMode;
     }
-    
+
     /** Check if the export should be done on a resolution based and not
         by creating an image of a given height and width.
         @return true if the export should be done calculating the image
@@ -357,7 +357,7 @@ public class CommandLineParser
     {
         return resolutionBasedExport;
     }
-    
+
      /** Get the wanted locale.
         @return the wanted locale object, or null if no hint about it has
             been given in the command line.
@@ -366,7 +366,7 @@ public class CommandLineParser
     {
         return currentLocale;
     }
-    
+
     /** Check if the size of the drawing (in logical units) has to be printed.
         @return true if the size has to be printed.
     */
@@ -374,7 +374,7 @@ public class CommandLineParser
     {
         return printSize;
     }
-    
+
     /** Check if the time employed to perform an action has to be printed.
         @return true if the time has to be printed.
     */
@@ -382,7 +382,7 @@ public class CommandLineParser
     {
         return printTime;
     }
-    
+
     /** Get the resolution to be employed for the graphic export.
         @return the resolution in pixels for logical unit.
     */
@@ -390,7 +390,7 @@ public class CommandLineParser
     {
         return resolution;
     }
-    
+
     /** Check if some sanity checks over the options should be skipped.
         @return true if the command line should be interpreted as is, even
             it contains something strange such as a wrong file extension and
@@ -400,7 +400,7 @@ public class CommandLineParser
     {
         return forceMode;
     }
-    
+
     /** Check if only the command line interface should be used.
         @return true if only the command line interface is to be used (i.e.
             no GUI will be started).

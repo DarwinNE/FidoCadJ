@@ -31,9 +31,9 @@ Version   Date           Author       Remarks
                                      - Mirrored text and size handling
 1.2     January 2008    D. Bucci    Improved speed
                                     Supports layer
-1.3     February 2008   D. Bucci    Use a scroll pane       
+1.3     February 2008   D. Bucci    Use a scroll pane
 2.0     march 30, 2010  D. Bucci    Upgraded to up to date FidoCadJ version
-                                     
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -61,13 +61,13 @@ public class FidoReadApplet extends JApplet
     // Increment this version number each time an important modification of
     // this class has been done.
     private static final long serialVersionUID = 10L;
-    
+
     CircuitPanel CC;
     Color backgroundColor;
     JScrollPane SC;
 
     /** Init the applet
-    
+
     */
     public void init()
     {
@@ -81,7 +81,7 @@ public class FidoReadApplet extends JApplet
 
         CC.profileTime=false;
         CC.antiAlias=true;
-        
+
         // Reads the standard libraries
         ParserActions pa = CC.getParserActions();
         pa.loadLibraryInJar(FidoReadApplet.class.getResource(
@@ -90,18 +90,18 @@ public class FidoReadApplet extends JApplet
             "lib/FCDstdlib.fcl"), "");
         pa.loadLibraryInJar(FidoReadApplet.class.getResource(
             "lib/PCB_en.fcl"), "pcb");
-    
+
         CC.P.setLayers(StandardLayers.createStandardLayers());
 
         Container contentPane;
         contentPane=getContentPane();
-        
+
         contentPane.add(SC,"Center");
     }
-    
-    
+
+
     /** Draw the schematic
-    
+
         @param c the string containing the circuit to be drawn
         @param zoom the wanted zoom (pixels per logical unit).
     */
@@ -112,9 +112,9 @@ public class FidoReadApplet extends JApplet
         repaint();
         getToolkit().sync();
     }
-    
+
     /** Set or reset the anti aliasing option
-    
+
     */
     public void setAntiAlias(boolean aa)
     {
@@ -122,16 +122,16 @@ public class FidoReadApplet extends JApplet
     }
 
     /** Set the profiler
-    
+
     */
     public void setProfileTime(boolean pp)
-    {   
+    {
         CC.profileTime=pp;
     }
-    
+
     /** Set the background color.
         @param color the color code (see the old MS-DOS color codes).
-    
+
     */
     public void backColor(int color)
     {
@@ -184,7 +184,7 @@ public class FidoReadApplet extends JApplet
             case 15:
             default:
                 backgroundColor=Color.white;
-                break;      
+                break;
         }
         CC.setBackground(backgroundColor);
     }

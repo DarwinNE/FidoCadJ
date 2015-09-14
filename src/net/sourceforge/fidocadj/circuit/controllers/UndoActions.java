@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.undo.*;
 
 /** UndoActions: perform undo operations. Since some parsing operations are
     to be done, this class requires the ParserActions controller.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -37,25 +37,25 @@ public class UndoActions implements UndoActorListener
 {
     private final ParserActions pa;
 
-    
+
     // Undo manager
     private final UndoManager um;
-    
+
     // Database of the temporary directories
     private final Vector<String> tempDir;
-    
+
     // Maximum number of levels to be retained for undo operations.
     private static final int MAX_UNDO=100;
-            
+
     // A drawing modification flag. If true, there are unsaved changes.
     private boolean isModified;
-    
+
     private String tempLibraryDirectory="";
 
 
     // Listeners
     private LibraryUndoListener libraryUndoListener;
-    private HasChangedListener cl;     
+    private HasChangedListener cl;
 
     /** Public constructor.
     @param a a parser controller (undo snapshots are kept in text format).
@@ -65,7 +65,7 @@ public class UndoActions implements UndoActorListener
         pa=a;
         um=new UndoManager(MAX_UNDO);
         libraryUndoListener=null;
-        tempDir=new Vector<String>(); 
+        tempDir=new Vector<String>();
         cl =null;
     }
     /** Undo the last editing action
@@ -73,22 +73,22 @@ public class UndoActions implements UndoActorListener
     public void undo()
     {
         UndoState r = (UndoState)um.undoPop();
-            
+
         // Check if it is an operation involving libraries.
         if(um.isNextOperationOnALibrary() && libraryUndoListener!=null) {
             libraryUndoListener.undoLibrary(r.libraryDir);
-        } 
-            
+        }
+
         if(!"".equals(r.text)) {
             StringBuffer s=new StringBuffer(r.text);
             pa.parseString(s);
         }
         isModified = r.isModified;
         pa.openFileName = r.fileName;
-        
+
         if(cl!=null) cl.somethingHasChanged();
     }
-    
+
     /** Redo the last undo action
     */
     public void redo()
@@ -96,27 +96,27 @@ public class UndoActions implements UndoActorListener
         UndoState r = (UndoState)um.undoRedo();
         if(r.libraryOperation && libraryUndoListener!=null) {
             libraryUndoListener.undoLibrary(r.libraryDir);
-        } 
-            
+        }
+
         if(!"".equals(r.text)) {
             StringBuffer s=new StringBuffer(r.text);
             pa.parseString(s);
         }
-            
+
         isModified = r.isModified;
         pa.openFileName = r.fileName;
-        
+
         if(cl!=null) cl.somethingHasChanged();
     }
-    
-    
+
+
     /** Save the undo state, in the case an editing operation
         has been done on the drawing.
     */
     public void saveUndoState()
     {
         UndoState s = new UndoState();
-        
+
         // In fact, the whole drawing is stored as a text.
         // In this way, we can easily store it on a string.
         s.text=pa.getText(true).toString();
@@ -130,7 +130,7 @@ public class UndoActions implements UndoActorListener
         isModified = true;
         if(cl!=null) cl.somethingHasChanged();
     }
-    
+
     /** Save the undo state, in the case an editing operation
         has been performed on a library.
         @param t the library directory to be used.
@@ -145,10 +145,10 @@ public class UndoActions implements UndoActorListener
         s.fileName=pa.openFileName;
         s.libraryOperation=true;
         tempDir.add(t);
-        
+
         um.undoPush(s);
     }
-    
+
     /** Define a listener for a undo operation involving libraries.
     @param l the library undo listener.
     */
@@ -156,7 +156,7 @@ public class UndoActions implements UndoActorListener
     {
         libraryUndoListener = l;
     }
-   
+
     /** Determine if the drawing has been modified.
         @return the state.
     */
@@ -173,7 +173,7 @@ public class UndoActions implements UndoActorListener
         isModified = s;
         if(cl!=null) cl.somethingHasChanged();
     }
-    
+
     /** Set the listener of the state change.
         @param l the new listener.
     */
@@ -181,19 +181,19 @@ public class UndoActions implements UndoActorListener
     {
         cl = l;
     }
-    
+
     /** Clear all temporary files and directories created by the library undo
         system.
     */
     public void doTheDishes()
     {
-        for (int i=0; i<tempDir.size();++i) 
-        {   
+        for (int i=0; i<tempDir.size();++i)
+        {
             try {
                 FileUtils.deleteDirectory(new File(tempDir.get(i)));
             } catch (IOException E) {
                 System.out.println("Warning: "+E);
             }
         }
-    }   
+    }
 }

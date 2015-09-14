@@ -1,10 +1,10 @@
 package net.sourceforge.fidocadj.toolbars;
 /**
     ChangeZoomListener interface
-    
+
     @author Davide Bucci
     @version 1.0, June 2008
- 
+
  <pre>
     This file is part of FidoCadJ.
 
@@ -23,10 +23,10 @@ package net.sourceforge.fidocadj.toolbars;
 
     Copyright 2008 by Davide Bucci
 </pre>
-   
+
 */
 
-public interface ChangeZoomListener 
+public interface ChangeZoomListener
 {
     /** Set the current zoom to the given parameter.
         @param z the new zoom

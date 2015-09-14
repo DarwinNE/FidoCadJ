@@ -15,8 +15,8 @@ import java.net.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.toolbars.*;
 
-/** 
-Shows a rather standard "About" dialog. Nothing more exotic than showing the 
+/**
+Shows a rather standard "About" dialog. Nothing more exotic than showing the
 nice icon of the program, its name as well as three lines of description.
 <pre>
     This file is part of FidoCadJ.
@@ -37,27 +37,27 @@ nice icon of the program, its name as well as three lines of description.
     Copyright 2007-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
-    
+
 */
-    
-public class DialogAbout extends JFrame implements ComponentListener 
+
+public class DialogAbout extends JFrame implements ComponentListener
 {
     // The minimu size in pixels.
     private static final int MIN_WIDTH=300;
     private static final int MIN_HEIGHT=250;
-    
-    
+
+
     private boolean export;     // Indicates that the export should be done
-  
+
     /** Required for the implementation of the ComponentListener interface.
         In this case, prevents from resizing the dialog in a size which is
         too small.
     */
-    public void componentResized(ComponentEvent e) 
+    public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -71,21 +71,21 @@ public class DialogAbout extends JFrame implements ComponentListener
             setSize(width, height);
         }
     }
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
-    
+
     /** Standard constructor: it needs the parent frame.
-    
+
         @param parent the dialog's parent
     */
     public DialogAbout (JFrame parent)
@@ -94,11 +94,11 @@ public class DialogAbout extends JFrame implements ComponentListener
         super("");
         DialogUtil.center(this, .30,.35,350,300);
         setResizable(false);
-        addComponentListener(this); 
-        
+        addComponentListener(this);
+
         // Shows the icon of the program and then three lines read from the
         // resources which describe the software and give the credits.
-        
+
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();
@@ -117,13 +117,13 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(10,20,0,20);
 
         if (url != null) icon.setIcon(new ImageIcon(url));
-        contentPane.add(icon, constraints); 
-        
-        
+        contentPane.add(icon, constraints);
+
+
         JLabel programName=new JLabel("FidoCadJ");
-        
+
         Font f=new Font("Lucida Grande",Font.BOLD,18);
-        
+
         programName.setFont(f);
         constraints.gridx=0;
         constraints.gridy=1;
@@ -131,9 +131,9 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.CENTER;
         constraints.insets=new Insets(0,20,0,20);
-        contentPane.add(programName, constraints);  
-        
-        
+        contentPane.add(programName, constraints);
+
+
         JLabel programVersion=new JLabel(
             Globals.messages.getString("Version")+Globals.version);
         constraints.gridx=0;
@@ -142,7 +142,7 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(programVersion, constraints);
-        
+
         JLabel programDescription1=new JLabel(
             Globals.messages.getString("programDescription1"));
         constraints.gridx=0;
@@ -151,7 +151,7 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.CENTER;
         contentPane.add(programDescription1, constraints);
-        
+
         JLabel programDescription2=new JLabel(
             Globals.messages.getString("programDescription2"));
         constraints.gridx=0;
@@ -162,7 +162,7 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
 
         contentPane.add(programDescription2, constraints);
-        
+
         JLabel programDescription3=new JLabel(
             Globals.messages.getString("programDescription3"));
         constraints.gridx=0;
@@ -173,15 +173,15 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.insets=new Insets(0,20,20,20);
 
         contentPane.add(programDescription3, constraints);
-        
-                
-        class OpenUrlAction implements ActionListener 
+
+
+        class OpenUrlAction implements ActionListener
         {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
                 BareBonesBrowserLaunch.openURL(
                     "https://sourceforge.net/projects/fidocadj/");
-                
+
             // The following code works only in Java v. 1.6 and for the moment
             // the minimum requirements for FidoCadJ are Java 1.5
             /*  if (Desktop.isDesktopSupported()) {
@@ -191,7 +191,7 @@ public class DialogAbout extends JFrame implements ComponentListener
                  } else { /* TODO: error handling * }*/
             }
         }
-        
+
         JButton link=new JButton(
             "<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">"+
             "http://sourceforge.net/projects/fidocadj/</a></HTML>");
@@ -201,11 +201,11 @@ public class DialogAbout extends JFrame implements ComponentListener
         constraints.gridheight=2;
         constraints.anchor=GridBagConstraints.CENTER;
         constraints.insets=new Insets(0,20,20,20);
-        
+
         link.setBorderPainted(false);
 
         link.addActionListener(new OpenUrlAction());
         contentPane.add(link, constraints);
-        pack(); 
+        pack();
     }
 }

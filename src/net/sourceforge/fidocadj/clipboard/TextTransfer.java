@@ -14,7 +14,7 @@ import net.sourceforge.fidocadj.globals.*;
 /**
     Clipboard handling class.
 <pre>
-    
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.globals.*;
     @author Davide Bucci
 */
 
-public final class TextTransfer implements ClipboardOwner, 
+public final class TextTransfer implements ClipboardOwner,
     ProvidesCopyPasteInterface
 {
     /** Perform a copy operation of the text specified as an argument.
@@ -46,11 +46,11 @@ public final class TextTransfer implements ClipboardOwner,
          // get the system clipboard
         Clipboard systemClipboard =Toolkit.getDefaultToolkit()
             .getSystemClipboard();
-        
+
         Transferable transferableText = new StringSelection(s);
         systemClipboard.setContents(transferableText,null);
     }
-    
+
     /** Perform a paste operation of the copied test. The pasted text is
         returned. In other words, do a read in the clipboard.
         @return the pasted test.
@@ -65,7 +65,7 @@ public final class TextTransfer implements ClipboardOwner,
     /**
         Empty implementation of the ClipboardOwner interface.
     */
-    public void lostOwnership(Clipboard aClipboard, Transferable aContents) 
+    public void lostOwnership(Clipboard aClipboard, Transferable aContents)
     {
         // does nothing
     }
@@ -86,7 +86,7 @@ public final class TextTransfer implements ClipboardOwner,
         @return any text found on the Clipboard; if none found, return an
         empty String.
     */
-    public String getClipboardContents() 
+    public String getClipboardContents()
     {
         String result = "";
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -109,4 +109,4 @@ public final class TextTransfer implements ClipboardOwner,
         }
         return result;
     }
-} 
+}

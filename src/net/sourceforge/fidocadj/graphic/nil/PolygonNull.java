@@ -33,13 +33,13 @@ public class PolygonNull implements PolygonInterface
 {
 
     private final Polygon p;
-    
+
     public PolygonNull()
     {
         p=new Polygon();
     }
 
-    public void addPoint(int x, int y) 
+    public void addPoint(int x, int y)
     {
         p.addPoint(x,y);
     }
@@ -52,17 +52,17 @@ public class PolygonNull implements PolygonInterface
     {
         return p.npoints;
     }
-    
+
     public int[] getXpoints()
     {
         return p.xpoints;
     }
-    
+
     public int[] getYpoints()
     {
         return p.ypoints;
     }
-    
+
     public boolean contains(int x, int y)
     {
         return p.contains(x,y);

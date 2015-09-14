@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements
     to a drawing model.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -41,35 +41,35 @@ public class ElementsEdtActions
     protected final EditorActions edt;
     final SelectionActions sa;
     final AddElements ae;
-    
+
     // The current layer being edited
     public int currentLayer;
-    
+
     // Array used to keep track of the insertion of elements which require
     // more than one click (logical coordinates). Index begins at 1 to
     // clickNumber.
-    public int[] xpoly; 
+    public int[] xpoly;
     public int[] ypoly;
 
     // used when entering a macro
-    public String macroKey;               
-    
+    public String macroKey;
+
     // Nuber of clicks done when entering an object.
-    public int clickNumber;     
+    public int clickNumber;
 
     // The primitive being edited
     public transient GraphicPrimitive primEdit;
-    
+
     // editing action being done
     public int actionSelected;
-    
+
     // Track wether an editing action is being made.
     public boolean successiveMove;
-    
+
     // TO IMPROVE: this must be synchronized with the value in PrimitivePolygon
     // Maximum number of polygon vertices
     public static final int NPOLY=256;
-    
+
 
     // Selection states
     public static final int NONE = 0;
@@ -87,18 +87,18 @@ public class ElementsEdtActions
     public static final int PCB_PAD = 12;
     public static final int MACRO = 13;
     public static final int COMPLEXCURVE = 14;
-    
+
     protected PrimitivesParInterface primitivesParListener;
 
     /** Standard constructor: provide the database class.
         @param pp the Model containing the database.
         @param s the selection controller.
         @param u the Undo controller, to ease undo operations.
-        @param e the Basic editing controller, for handling selection 
+        @param e the Basic editing controller, for handling selection
             operations.
     */
     public ElementsEdtActions (DrawingModel pp, SelectionActions s,
-        UndoActions u, 
+        UndoActions u,
         EditorActions e)
     {
         P=pp;
@@ -109,29 +109,29 @@ public class ElementsEdtActions
         xpoly = new int[NPOLY];
         ypoly = new int[NPOLY];
         currentLayer=0;
-    
+
         primEdit = null;
         primitivesParListener=null;
-        
+
         actionSelected = SELECTION;
     }
-    
+
     /** Sets the action mode.
-        @param a the wanted editing mode. 
+        @param a the wanted editing mode.
     */
     public void setActionSelected(int a)
     {
         if (a!=actionSelected)
             clickNumber=0;
-            
+
         actionSelected = a;
     }
-    
+
     public AddElements getAddElements()
     {
         return ae;
     }
-    
+
     /** Set the listener for showing popups and editing actions which are
         platform-dependent.
     */
@@ -139,14 +139,14 @@ public class ElementsEdtActions
     {
         primitivesParListener=l;
     }
-        
+
     /** Determine wether the current primitive being added is a macro.
     */
     public boolean isEnteringMacro()
     {
         return primEdit instanceof PrimitiveMacro;
     }
-    
+
     /** Chooses the entering state.
         @param s the new state to be set.
         @param macro the current macro key if a applicable, which means that
@@ -159,32 +159,32 @@ public class ElementsEdtActions
         successiveMove=false;
         macroKey=macro;
     }
-    
-    /** Rotate the macro being edited around its first control point 
+
+    /** Rotate the macro being edited around its first control point
         (90 degrees clockwise rotation).
     */
     public void rotateMacro()
     {
         if(primEdit instanceof PrimitiveMacro) {
-            primEdit.rotatePrimitive(false, 
+            primEdit.rotatePrimitive(false,
                 primEdit.getFirstPoint().x, primEdit.getFirstPoint().y);
-        }   
+        }
     }
-    
-    /** Mirror the macro being edited around the x coordinate of the first 
+
+    /** Mirror the macro being edited around the x coordinate of the first
         control point.
     */
     public void mirrorMacro()
     {
         if(primEdit instanceof PrimitiveMacro) {
             primEdit.mirrorPrimitive(primEdit.getFirstPoint().x);
-        }   
+        }
     }
-    
-    
 
-    
-    /** Here we analyze and handle the mouse click. The behaviour is 
+
+
+
+    /** Here we analyze and handle the mouse click. The behaviour is
         different depending on which selection state we are.
         @param x the x coordinate of the click (in screen coordinates)
         @param y the y coordinate of the click (in screen coordinates)
@@ -195,7 +195,7 @@ public class ElementsEdtActions
         @param doubleClick true if a double click has to be processed
         @return true if a repaint is needed.
     */
-    public boolean handleClick(MapCoordinates cs, 
+    public boolean handleClick(MapCoordinates cs,
         int x, int y, boolean button3, boolean toggle,
         boolean doubleClick)
     {
@@ -203,38 +203,38 @@ public class ElementsEdtActions
         int i;
         GraphicPrimitive g;
         boolean repaint=false;
-        
+
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
-            
-        
+
+
   //*************** coordinatesListener.changeInfos("");
-    
+
         // We need to differentiate this case since when we are entering a
-        // macro, primEdit already contains some useful hints about the 
+        // macro, primEdit already contains some useful hints about the
         // orientation and the mirroring, so we need to keep it.
-        if (actionSelected !=MACRO) 
+        if (actionSelected !=MACRO)
             primEdit = null;
-        
+
         // Right-click in certain cases shows the parameters dialog.
-        if(button3 && 
+        if(button3 &&
             actionSelected!=NONE &&
             actionSelected!=SELECTION &&
             actionSelected!=ZOOM &&
             actionSelected!=TEXT &&
             primitivesParListener!=null)
         {
-            
+
             primitivesParListener.selectAndSetProperties(x,y);
             return false;
         }
-        
-        switch(actionSelected) {        
+
+        switch(actionSelected) {
             // No action: ignore
-            case NONE:  
+            case NONE:
                 clickNumber = 0;
                 break;
-                    
+
             // Selection state
             case SELECTION:
                 clickNumber = 0;
@@ -245,34 +245,34 @@ public class ElementsEdtActions
                 } else if(button3 && primitivesParListener!=null) {
                     // Show a pop up menu if the user does a right-click
                     primitivesParListener.showPopUpMenu(x,y);
-                } else {    
+                } else {
                     // Select elements
                     edt.handleSelection(cs, x, y, toggle);
                 }
                 break;
-        
+
             // Zoom state
             case ZOOM:
-                if(primitivesParListener!=null) 
+                if(primitivesParListener!=null)
                     primitivesParListener.changeZoomByStep(!button3, x,y);
                 break;
-        
+
             // Put a connection (easy: just one click is needed)
             case CONNECTION:
                 ae.addConnection(cs.unmapXsnap(x),cs.unmapXsnap(y),
-                    currentLayer);                   
+                    currentLayer);
                 repaint=true;
                 break;
 
-            // Put a PCB pad (easy: just one click is needed)       
+            // Put a PCB pad (easy: just one click is needed)
             case PCB_PAD:
                 // Add a PCB pad primitive at the given point
                 ae.addPCBPad(cs.unmapXsnap(x),
                                   cs.unmapYsnap(y), currentLayer);
-                                  
+
                 repaint=true;
-                break;     
-         
+                break;
+
             // Add a line: two clicks needed
             case LINE:
                 if (doubleClick) {
@@ -280,25 +280,25 @@ public class ElementsEdtActions
                 } else {
                     successiveMove=false;
                     clickNumber=ae.addLine(cs.unmapXsnap(x),
-                        cs.unmapYsnap(y), 
+                        cs.unmapYsnap(y),
                         xpoly,
                         ypoly,
                         currentLayer,
-                        ++clickNumber, 
+                        ++clickNumber,
                         button3);
                     repaint=true;
                 }
-                break; 
-            
+                break;
+
             // Add a text line: just one click is needed
             case TEXT:
                 if (doubleClick && primitivesParListener!=null) {
                     primitivesParListener.selectAndSetProperties(x,y);
                     break;
                 }
-                PrimitiveAdvText newtext = 
+                PrimitiveAdvText newtext =
                     new PrimitiveAdvText(cs.unmapXsnap(x),
-                                        cs.unmapYsnap(y), 
+                                        cs.unmapYsnap(y),
                                         3,4,P.getTextFont(),0,0,
                                         "String", currentLayer);
                 sa.setSelectionAll(false);
@@ -307,33 +307,33 @@ public class ElementsEdtActions
                 repaint=true;
                 if(primitivesParListener!=null)
                     primitivesParListener.setPropertiesForPrimitive();
-            
+
                 break;
-        
+
             // Add a Bézier polygonal curve: we need four clicks.
             case BEZIER:
                 repaint=true;
                 if(button3) {
                     clickNumber = 0;
-                } else {  
+                } else {
                     if(doubleClick) successiveMove=false;
-                    clickNumber=ae.addBezier(cs.unmapXsnap(x),    
-                                cs.unmapYsnap(y), xpoly, ypoly, 
+                    clickNumber=ae.addBezier(cs.unmapXsnap(x),
+                                cs.unmapYsnap(y), xpoly, ypoly,
                                 currentLayer, ++clickNumber);
                 }
-                break;   
-        
+                break;
+
             // Insert a polygon: continue until double click.
-            case POLYGON:        
+            case POLYGON:
                 // a polygon definition is ended with a double click
                 if (doubleClick) {
-         
+
                     PrimitivePolygon poly=new PrimitivePolygon(false,
                                          currentLayer,0,
                                          P.getTextFont(), P.getTextFontSize());
-                    for(i=1; i<=clickNumber; ++i) 
+                    for(i=1; i<=clickNumber; ++i)
                         poly.addPoint(xpoly[i],ypoly[i]);
-        
+
                     P.addPrimitive(poly, true,ua);
                     clickNumber = 0;
                     repaint=true;
@@ -347,13 +347,13 @@ public class ElementsEdtActions
                     return false;
                 // prevent that we exceed the number of allowed points
                 if (clickNumber==NPOLY)
-                    return false;            
+                    return false;
                 xpoly[clickNumber] = cs.unmapXsnap(x);
                 ypoly[clickNumber] = cs.unmapYsnap(y);
-                break;   
-        
+                break;
+
             // Insert a complex curve: continue until double click.
-            case COMPLEXCURVE:     
+            case COMPLEXCURVE:
                 // a polygon definition is ended with a double click
                 if (doubleClick) {
                     PrimitiveComplexCurve compc=new PrimitiveComplexCurve(false,
@@ -361,9 +361,9 @@ public class ElementsEdtActions
                                         currentLayer,
                                         false, false, 0, 3, 2, 0,
                                         P.getTextFont(), P.getTextFontSize());
-                    for(i=1; i<=clickNumber; ++i) 
+                    for(i=1; i<=clickNumber; ++i)
                         compc.addPoint(xpoly[i],ypoly[i]);
-        
+
                     P.addPrimitive(compc, true,ua);
                     clickNumber = 0;
                     repaint=true;
@@ -377,20 +377,20 @@ public class ElementsEdtActions
                 // clickNumber == 0 means that no polygon is being drawn
                 xpoly[clickNumber] = cs.unmapXsnap(x);
                 ypoly[clickNumber] = cs.unmapYsnap(y);
-                break;   
-            
+                break;
+
             // Enter an ellipse: two clicks needed
             case ELLIPSE:
                 // If control is hold, trace a circle
                 successiveMove=false;
 
-                clickNumber=ae.addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y), 
+                clickNumber=ae.addEllipse(cs.unmapXsnap(x), cs.unmapYsnap(y),
                     xpoly, ypoly, currentLayer,
                     ++clickNumber,
                     toggle&&clickNumber>0);
                 repaint=true;
-                break;   
-        
+                break;
+
             // Enter a rectangle: two clicks needed
             case RECTANGLE:
                 // If control is hold, trace a square
@@ -401,40 +401,40 @@ public class ElementsEdtActions
                     ++clickNumber,
                     toggle&&clickNumber>0);
                 repaint=true;
-                break;   
-            
-            // Insert a PCB line: two clicks needed.      
+                break;
+
+            // Insert a PCB line: two clicks needed.
             case PCB_LINE:
                 if (doubleClick) {
                     clickNumber = 0;
                     break;
                 }
                 successiveMove=false;
-            
+
                 clickNumber = ae.addPCBLine(cs.unmapXsnap(x), cs.unmapYsnap(y),
                     xpoly, ypoly, currentLayer,
-                    ++clickNumber, 
+                    ++clickNumber,
                     button3,
                     ae.getPCB_thickness());
                 repaint=true;
-                break;  
-            
+                break;
+
             // Enter a macro: just one click is needed.
             case MACRO:
                 successiveMove=false;
-                primEdit=ae.addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y), 
+                primEdit=ae.addMacro(cs.unmapXsnap(x), cs.unmapYsnap(y),
                     sa, primEdit, macroKey);
                 repaint=true;
                 break;
             default:
                 break;
-        } 
-        
-        return repaint;   
-    }  
+        }
+
+        return repaint;
+    }
 
     /** Draws the current editing primitive.
-    
+
     */
     public void drawPrimEdit(GraphicsInterface g, MapCoordinates cs)
     {
@@ -443,8 +443,8 @@ public class ElementsEdtActions
             primEdit.draw(g, cs, StandardLayers.createEditingLayerArray());
         }
     }
-    
-    /** Shows the clicks done by the user 
+
+    /** Shows the clicks done by the user
         @param g the graphic context where one should write.
         @param cs the current coordinate mapping.
     */
@@ -453,35 +453,35 @@ public class ElementsEdtActions
         int x, y;
         g.setColor(g.getColor().red());
         // The data here begins at index 1, due to the internal construction.
-        
+
         int mult=(int)Math.round(g.getScreenDensity()/112);
         g.applyStroke(2.0f*mult,0);
-        
+
         for(int i=1; i<=clickNumber; ++i) {
             x = cs.mapXi(xpoly[i], ypoly[i], false);
             y = cs.mapYi(xpoly[i], ypoly[i], false);
             g.drawLine(x-15*mult, y, x+15*mult, y);
-            g.drawLine(x, y-15*mult, x, y+15*mult);     
-        }    
+            g.drawLine(x, y-15*mult, x, y+15*mult);
+        }
     }
-    
-    /** Get the current editing action (see the constants defined in this 
+
+    /** Get the current editing action (see the constants defined in this
         class)
-    
+
         @return the current editing action
     */
     public int getSelectionState()
     {
         return actionSelected;
-    }  
-    
+    }
+
     /** Sets the current editing primitive
     */
     public void setPrimEdit(GraphicPrimitive gp)
     {
         primEdit=gp;
     }
-    
+
     /** Gets the current editing primitive
     */
     public GraphicPrimitive getPrimEdit(GraphicPrimitive gp)

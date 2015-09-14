@@ -2,12 +2,12 @@ package net.sourceforge.fidocadj.dialogs;
 
 import net.sourceforge.fidocadj.primitives.*;
 
-/** This class contains information about the arrow style. It is useful 
+/** This class contains information about the arrow style. It is useful
     for the automatic generation of the properties dialog.
 
 
     @author Davide Bucci
-    
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -24,17 +24,17 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009 by Davide Bucci
-    
+
 */
-public class ArrowInfo 
+public class ArrowInfo
 {
     public int style;
-    
+
     /** Standard constructor: specify the style to be used.
     */
     public ArrowInfo(int i)
     { style=i; }
-    
+
     /** Obtain the style of the arrow.
         @return the arrow style.
     */

@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 
 /** ShapeSwing is a wrapper around the Shape Swing class.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -30,18 +30,18 @@ import net.sourceforge.fidocadj.graphic.*;
 public class ShapeSwing implements ShapeInterface
 {
     Shape s;
-    
+
     public ShapeSwing()
     {
         s=null;
     }
-    
-    public void createCubicCurve(int x0, int y0, int x1, int y1, 
+
+    public void createCubicCurve(int x0, int y0, int x1, int y1,
         int x2, int y2, int x3, int y3)
     {
         s = new CubicCurve2D.Float(x0, y0, x1, y1, x2, y2, x3, y3);
     }
-    
+
     public void createGeneralPath(int npoints)
     {
         s = new GeneralPath(GeneralPath.WIND_EVEN_ODD, npoints);
@@ -52,21 +52,21 @@ public class ShapeSwing implements ShapeInterface
         Rectangle r=s.getBounds();
         return new RectangleG(r.x, r.y, r.width, r.height);
     }
-    
+
     public void moveTo(float x, float y)
     {
         GeneralPath gp=(GeneralPath)s;
         gp.moveTo(x,y);
     }
 
-    
+
     public void curveTo(float x0, float y0, float x1, float y1,
-        float x2, float y2) 
+        float x2, float y2)
     {
         GeneralPath gp=(GeneralPath)s;
         gp.curveTo(x0, y0,x1, y1,x2, y2);
     }
-    
+
     public void closePath()
     {
         GeneralPath gp=(GeneralPath)s;
@@ -77,8 +77,8 @@ public class ShapeSwing implements ShapeInterface
     {
         return s;
     }
-    
-    
-    
+
+
+
 
 }

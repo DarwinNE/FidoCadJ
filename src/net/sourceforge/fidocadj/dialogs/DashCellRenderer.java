@@ -12,7 +12,7 @@ import java.util.*;
 /** The class ArrowCellRenderer is used in the arrow list.
 
     @author Davide Bucci
-    
+
     <pre>
     This file is part of FidoCadJ.
 
@@ -31,20 +31,20 @@ import java.util.*;
 
     Copyright 2009 by Davide Bucci
 </pre>
-    
+
     */
-public class DashCellRenderer implements ListCellRenderer 
+public class DashCellRenderer implements ListCellRenderer
 {
     /** Method required for the ListCellRenderer interface; it draws
         a layer element in the cell and adds its event listeners */
-    public Component getListCellRendererComponent(final JList list, 
-        final Object value, final int index, final boolean isSelected, 
+    public Component getListCellRendererComponent(final JList list,
+        final Object value, final int index, final boolean isSelected,
         final boolean cellHasFocus)
     {
         final DashInfo arrow=(DashInfo) value;
-        
+
         return new CellDash(arrow, list, isSelected);
-        
+
     }
-    
+
 }

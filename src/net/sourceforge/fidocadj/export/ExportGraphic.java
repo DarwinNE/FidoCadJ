@@ -21,14 +21,14 @@ import net.sourceforge.fidocadj.graphic.nil.*;
 
 import java.awt.event.*;
 import java.util.*;
-import java.lang.*; 
+import java.lang.*;
 
 /** ExportGraphic.java
 
     Handle graphic export of a Fidocad file
     This class should be used to export the circuit under different graphic
     formats.
-    
+
 <pre>
 
     This file is part of FidoCadJ.
@@ -47,21 +47,21 @@ import java.lang.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2015 by Davide Bucci
-</pre>   
-  
+</pre>
+
     @author Davide Bucci
 */
-public final class ExportGraphic 
+public final class ExportGraphic
 {
 
     private ExportGraphic()
     {
         // Nothing to do.
     }
-    
-    /** Exports the circuit contained in circ using the specified parsing 
+
+    /** Exports the circuit contained in circ using the specified parsing
         class.
-        
+
         @param file the file name of the graphic file which will be created.
         @param P the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
@@ -73,8 +73,8 @@ public final class ExportGraphic
 
 
     */
-    public static void export(File file, 
-                        DrawingModel P, 
+    public static void export(File file,
+                        DrawingModel P,
                         String format,
                         double unitPerPixel,
                         boolean antiAlias,
@@ -83,8 +83,8 @@ public final class ExportGraphic
                         boolean shiftMin)
     throws IOException
     {
-        exportSizeP( file, 
-                         P, 
+        exportSizeP( file,
+                         P,
                          format,
                          0,
                          0,
@@ -94,11 +94,11 @@ public final class ExportGraphic
                          blackWhite,
                          ext,
                          shiftMin);
-    }   
-    
-    /** Exports the circuit contained in circ using the specified parsing 
+    }
+
+    /** Exports the circuit contained in circ using the specified parsing
         class.
-        
+
         @param file the file name of the graphic file which will be created.
         @param P the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
@@ -110,8 +110,8 @@ public final class ExportGraphic
         @param shiftMin shift the exported image at the origin.
 
     */
-    public static void exportSize(File file, 
-                        DrawingModel P, 
+    public static void exportSize(File file,
+                        DrawingModel P,
                         String format,
                         int width,
                         int height,
@@ -121,8 +121,8 @@ public final class ExportGraphic
                         boolean shiftMin)
     throws IOException
     {
-        exportSizeP( file, 
-                         P, 
+        exportSizeP( file,
+                         P,
                          format,
                          width,
                          height,
@@ -133,17 +133,17 @@ public final class ExportGraphic
                          ext,
                          shiftMin);
     }
-    
-    /** Exports the circuit contained in circ using the specified parsing 
+
+    /** Exports the circuit contained in circ using the specified parsing
         class.
-        
+
         @param file the file name of the graphic file which will be created.
         @param P the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
         @param unitperpixel the number of unit for each graphic pixel.
         @param width the image width in pixels (raster images only)
         @param heith the image heigth in pixels (raster images only)
-        @param setSize if true, calculate resolution from size. If false, it 
+        @param setSize if true, calculate resolution from size. If false, it
             does the opposite strategy.
         @param antiAlias specify whether the anti alias option should be on.
         @param blackWhite specify that the export should be done in B/W.
@@ -151,8 +151,8 @@ public final class ExportGraphic
         @param shiftMin shift the exported image at the origin.
 
     */
-    private static void exportSizeP(File file, 
-                        DrawingModel P, 
+    private static void exportSizeP(File file,
+                        DrawingModel P,
                         String format,
                         int width_t,
                         int height_t,
@@ -167,45 +167,45 @@ public final class ExportGraphic
         int width=width_t;
         int height=height_t;
         double unitPerPixel=unitPerPixel_t;
-        
+
         // obtain drawing size
         MapCoordinates m=new MapCoordinates();
-        
+
         // This solves bug #3299281
-        
+
         new SelectionActions(P).setSelectionAll(false);
 
         PointG org=new PointG(0,0);
-        
+
         DimensionG d = DrawingSize.getImageSize(P, 1,true,org);
         if (setSize) {
             // In this case, the image size is set and so we need to calculate
-            // the correct zoom factor in order to fit the drawing in the 
+            // the correct zoom factor in order to fit the drawing in the
             // specified area.
-            
+
 
             d.width+=Export.exportBorder;
             d.height+=Export.exportBorder;
-                        
-            unitPerPixel = Math.min((double)width/(double)d.width, 
+
+            unitPerPixel = Math.min((double)width/(double)d.width,
                 (double)height/(double)d.height);
         } else {
             // In this situation, we do have to calculate the size from the
             // specified resolution.
-                        
+
             width=(int)((d.width+Export.exportBorder)*unitPerPixel);
             height=(int)((d.height+Export.exportBorder)*unitPerPixel);
         }
         org.x *=unitPerPixel;
         org.y *=unitPerPixel;
-        
+
         org.x -= Export.exportBorder*unitPerPixel/2.0;
         org.y -= Export.exportBorder*unitPerPixel/2.0;
-        
+
         Vector<LayerDesc> ol=P.getLayers();
 
         BufferedImage bufferedImage;
-        
+
         // To print in black and white, we only need to create a single layer
         // in which all layers will be exported and drawn.
         // Clearly, the choosen color will be black.
@@ -215,36 +215,36 @@ public final class ExportGraphic
                 v.add(new LayerDesc((new ColorSwing()).black(), // NOPMD
                     ((LayerDesc)ol.get(i)).getVisible(),
                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
-            
+
             P.setLayers(v);
         }
 
         // Center the drawing in the given space.
-        
+
         m.setMagnitudes(unitPerPixel, unitPerPixel);
-        
+
         if(shiftMin) {
             m.setXCenter(-org.x);
             m.setYCenter(-org.y);
-        }          
+        }
         if ("png".equals(format)||"jpg".equals(format)) {
-    
+
             // Create a buffered image in which to draw
 
             /*  To get an error, try to export this in png at 1200 dpi:
-            
+
                 [FIDOCAD]
                 RP 25 15 11000 95000 2
-                
+
             */
             try {
-                bufferedImage = new BufferedImage(width, height, 
+                bufferedImage = new BufferedImage(width, height,
                                           BufferedImage.TYPE_INT_RGB);
-    
+
                 // Create a graphics contents on the buffered image
-                Graphics2D g2d = 
+                Graphics2D g2d =
                     (Graphics2D)bufferedImage.createGraphics();
-        
+
                 if(antiAlias) {
                     g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -256,7 +256,7 @@ public final class ExportGraphic
                 // Save bitmap
                 Drawing drawingAgent = new Drawing(P);
                 drawingAgent.draw(new Graphics2DSwing(g2d),m);
-            
+
                 ImageIO.write(bufferedImage, format, file);
                 // Graphics context no longer needed so dispose it
                 g2d.dispose();
@@ -293,8 +293,8 @@ public final class ExportGraphic
                 "Wrong file format");
             throw E;
         }
-        
+
         P.setLayers(ol);
     }
-    
+
 }

@@ -24,8 +24,8 @@ import java.util.*;
 
 @author Davide Bucci
 */
-public class UndoState 
-{    
+public class UndoState
+{
     // Contains a textual description of the drawing
     public String text;
     // Is true if there has been a modification of the drawing: something
@@ -38,10 +38,10 @@ public class UndoState
     // True if an editing operation on the libraries has
     // been performed.
     public boolean libraryOperation;
-    
+
     // The tempory directory where the libraries are be stored.
     public String libraryDir;
-    
+
     public UndoState()
     {
         text="";
@@ -54,7 +54,7 @@ public class UndoState
         This method is useful mainly for debug purposes.
         @return a String completely describing the object.
     */
-    public String toString() 
+    public String toString()
     {
         String s="text="+text+"\nfileName="+fileName+
             "\nOperation on a library: "+libraryOperation+

@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 
 
 <pre>
-  
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ public final class StandardLayers
     // A dummy list of layers.
     private static Vector<LayerDesc> ll_dummy;
     private final static Object lock = new Object();
-    
+
     /** Private constructor, for Utility class pattern
     */
     private StandardLayers ()
@@ -52,7 +52,7 @@ public final class StandardLayers
         and transparency. The name of the layers are read from the resources
         which may be initizialized. If Globals.messages==null, no description
         is given.
-        
+
         @return the list of the layers being created.
     */
     public static Vector<LayerDesc> createStandardLayers()
@@ -60,13 +60,13 @@ public final class StandardLayers
         Vector<LayerDesc> layerDesc;
         synchronized(lock) {
             String s="";
-        
+
             layerDesc=new Vector<LayerDesc>();
-            if(Globals.messages!=null) 
+            if(Globals.messages!=null)
                 s=Globals.messages.getString("Circuit_l");
-            layerDesc.add(new LayerDesc(new ColorSwing(Color.black), true, 
+            layerDesc.add(new LayerDesc(new ColorSwing(Color.black), true,
                 s,1.0f));   // 0
-            if(Globals.messages!=null) 
+            if(Globals.messages!=null)
                 s=Globals.messages.getString("Bottom_copper");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(0,0,128)),
                 true, s,1.0f)); // 1
@@ -78,9 +78,9 @@ public final class StandardLayers
                 getString("Silkscreen");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(0,128,128)),
                  true,s,1.0f));// 3
-        
+
             if(Globals.messages!=null) s=Globals.messages.getString("Other_1");
-            layerDesc.add(new LayerDesc(new ColorSwing(Color.orange), 
+            layerDesc.add(new LayerDesc(new ColorSwing(Color.orange),
                 true,s,1.0f));      // 4
             if(Globals.messages!=null) s=Globals.messages.getString("Other_2");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(-8388864)),
@@ -91,9 +91,9 @@ public final class StandardLayers
             if(Globals.messages!=null) s=Globals.messages.getString("Other_4");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(-16744448)),
                 true,s,1.0f));// 7
-        
+
             if(Globals.messages!=null) s=Globals.messages.getString("Other_5");
-            layerDesc.add(new LayerDesc(new ColorSwing(new Color(-6632142)), 
+            layerDesc.add(new LayerDesc(new ColorSwing(new Color(-6632142)),
                 true, s,1.0f));// 8
             if(Globals.messages!=null) s=Globals.messages.getString("Other_6");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(-60269)),
@@ -104,7 +104,7 @@ public final class StandardLayers
             if(Globals.messages!=null) s=Globals.messages.getString("Other_8");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(-16678657)),
                 true,s,1.0f));// 11
-        
+
             if(Globals.messages!=null) s=Globals.messages.getString("Other_9");
             layerDesc.add(new LayerDesc(new ColorSwing(new Color(-1973791)),
                 true,s,0.95f));// 12
@@ -120,10 +120,10 @@ public final class StandardLayers
         }
         return layerDesc;
     }
-    
+
     /**  Create a fictionous Array List.
-         
-         @return an Vector composed by LayerDesc.MAX_LAYERS opaque layers in 
+
+         @return an Vector composed by LayerDesc.MAX_LAYERS opaque layers in
             green.
     */
     public static Vector<LayerDesc> createEditingLayerArray()

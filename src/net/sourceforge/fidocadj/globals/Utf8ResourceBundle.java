@@ -10,42 +10,42 @@ import java.util.ResourceBundle;
 
 */
 
-public abstract class Utf8ResourceBundle 
-{   
+public abstract class Utf8ResourceBundle
+{
     public Utf8ResourceBundle()
     {
         // Nothing to do.
     }
-    public static final ResourceBundle getBundle(String baseName) 
+    public static final ResourceBundle getBundle(String baseName)
     {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName);
         return createUtf8PropertyResourceBundle(bundle);
     }
 
-    public static final ResourceBundle getBundle(String baseName, 
-        Locale locale)  
+    public static final ResourceBundle getBundle(String baseName,
+        Locale locale)
     {
-        ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale); 
+        ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale);
         return createUtf8PropertyResourceBundle(bundle);
     }
 
     public static ResourceBundle getBundle(String baseName, Locale locale,
-        ClassLoader loader) 
+        ClassLoader loader)
     {
-        ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale, 
-            loader); 
+        ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale,
+            loader);
         return createUtf8PropertyResourceBundle(bundle);
     }
 
     private static ResourceBundle createUtf8PropertyResourceBundle(
-        ResourceBundle bundle) 
+        ResourceBundle bundle)
     {
         if (!(bundle instanceof PropertyResourceBundle)) return bundle;
 
         return new Utf8PropertyResourceBundle((PropertyResourceBundle)bundle);
     }
 
-    private static class Utf8PropertyResourceBundle extends ResourceBundle 
+    private static class Utf8PropertyResourceBundle extends ResourceBundle
     {
         PropertyResourceBundle bundle;
 
@@ -56,14 +56,14 @@ public abstract class Utf8ResourceBundle
         /* (non-Javadoc)
         * @see java.util.ResourceBundle#getKeys()
         */
-        public Enumeration<String> getKeys() 
+        public Enumeration<String> getKeys()
         {
             return bundle.getKeys();
         }
         /* (non-Javadoc)
         * @see java.util.ResourceBundle#handleGetObject(java.lang.String)
         */
-        protected Object handleGetObject(String key) 
+        protected Object handleGetObject(String key)
         {
             String value = (String)bundle.getString(key);
             // FindBugs suggests the following test is redundant.

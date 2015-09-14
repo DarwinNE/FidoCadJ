@@ -257,6 +257,7 @@ code:
 - the code should be compatible with Java 1.7
 * indent properly, using 4 spaces
 * no tabulation character allowed in sources
+* no trailing spaces
 - blocks delimited by curly braces are indented as follows:
 
     for(i=0; i<10; ++i) {   // Curly brace here

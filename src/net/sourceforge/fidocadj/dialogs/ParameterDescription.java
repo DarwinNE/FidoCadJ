@@ -1,8 +1,8 @@
 package net.sourceforge.fidocadj.dialogs;
 /**
-    The user should check the parameter type before using. The allowed 
+    The user should check the parameter type before using. The allowed
     parameter types are: (Integer|Double|String|Boolean|Point).
-    
+
 
 <pre>
     This file is part of FidoCadJ.
@@ -25,18 +25,18 @@ package net.sourceforge.fidocadj.dialogs;
 
     @author Davide Bucci
 */
-public class ParameterDescription 
+public class ParameterDescription
 {
     public Object   parameter;      // the parameter to be passed
     public String   description;    // string describing the parameter
     public boolean isExtension;     // is this parameter a extension of FidoCad?
-                            // in the strict compatibility mode, this is 
+                            // in the strict compatibility mode, this is
                             // hide
-    public void ParameterDescription () 
+    public void ParameterDescription ()
     {
         isExtension = false;
     }
-    
+
     /** Obtain a text representation of the object.
     */
     public String toString()

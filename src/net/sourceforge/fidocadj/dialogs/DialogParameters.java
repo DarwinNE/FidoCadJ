@@ -19,24 +19,24 @@ import net.sourceforge.fidocadj.graphic.*;
  * uses a ParameterDescripion vector which contains all the elements, their
  * description as well as the type. Depending on the contents of the array, the
  * window will be created automagically.
- * 
+ *
  * <pre>
- * 
+ *
  *  This file is part of FidoCadJ.
- * 
+ *
  *     FidoCadJ is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
- * 
+ *
  *     FidoCadJ is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
- * 
+ *
  *     You should have received a copy of the GNU General Public License
  *     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  *  Copyright 2007-2015 by Davide Bucci
  * </pre>
  */
@@ -73,7 +73,7 @@ public class DialogParameters extends JDialog implements ComponentListener
      * Programmatically build a dialog frame containing the appropriate
      * elements, in order to let the user modify the characteristics of a
      * graphic primitive.
-     * 
+     *
      * @param vec
      *            a ParameterDescription array containing the value and the
      *            description of each parameter that should be edited by the
@@ -93,12 +93,12 @@ public class DialogParameters extends JDialog implements ComponentListener
         keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
         keyb2 = new OSKeybPanel(KEYBMODES.MISC);
         keyb1.setField(this);
-        keyb2.setField(this);       
+        keyb2.setField(this);
         keyb.addTab("Greek", keyb1);
         keyb.addTab("Misc", keyb2);
         keyb.setVisible(false);
         v = vec;
-        
+
 
         int ycount = 0;
 
@@ -247,11 +247,11 @@ public class DialogParameters extends JDialog implements ComponentListener
                 jtf[tc].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof Float) {
-                // TODO. 
-                // WARNING: (DB) this is supposed to be temporary. In fact, I 
+                // TODO.
+                // WARNING: (DB) this is supposed to be temporary. In fact, I
                 // am planning to upgrade some of the parameters from int
                 // to float. But for a few months, the users should not be
-                // aware of that, even if the internal representation is 
+                // aware of that, even if the internal representation is
                 // slowing being adapted.
                 jtf[tc] = new JTextField(24);
                 int dummy = java.lang.Math.round((Float) pd.parameter);
@@ -325,7 +325,7 @@ public class DialogParameters extends JDialog implements ComponentListener
                 contentPane.add(jco[co++], constraints);
 
             } else if (pd.parameter instanceof DashInfo) {
-            
+
                 jco[co] = new JComboBox<DashInfo>();
 
                 for (int k = 0; k < Globals.dashNumber; ++k) {
@@ -353,7 +353,7 @@ public class DialogParameters extends JDialog implements ComponentListener
         JButton keybd = new JButton("\u00B6\u2211\u221A");// phylum
         keybd.setFocusable(false);
         keybd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
                 // If at this point, the keyboard is not visible, this means
                 // that it will become visible in a while. It is better to
@@ -368,7 +368,7 @@ public class DialogParameters extends JDialog implements ComponentListener
                 }
                 //setSize(MIN_WIDTH, MIN_HEIGHT);
                 keyb.setVisible(!keyb.isVisible());
-                pack(); 
+                pack();
             }
         });
 
@@ -409,7 +409,7 @@ public class DialogParameters extends JDialog implements ComponentListener
         contentPane.add(keyb, constraints);
 
         ok.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) 
+            public void actionPerformed(ActionEvent evt)
             {
                 try {
                     int ycount;
@@ -474,7 +474,7 @@ public class DialogParameters extends JDialog implements ComponentListener
             }
         });
         cancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) 
+            public void actionPerformed(ActionEvent evt)
             {
                 //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
@@ -484,7 +484,7 @@ public class DialogParameters extends JDialog implements ComponentListener
         // Here is an action in which the dialog is closed
 
         AbstractAction cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
                 //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
@@ -494,7 +494,7 @@ public class DialogParameters extends JDialog implements ComponentListener
         DialogUtil.addCancelEscape(this, cancelAction);
 
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) 
+            public void windowClosing(WindowEvent e)
             {
                 //Globals.activeWindow.setEnabled(true);
                 keyb.setVisible(false);
@@ -509,24 +509,24 @@ public class DialogParameters extends JDialog implements ComponentListener
     /**
      * Get a ParameterDescription vector describing the characteristics modified
      * by the user.
-     * 
+     *
      * @return a ParameterDescription vector describing each parameter.
      */
-    public Vector<ParameterDescription> getCharacteristics() 
+    public Vector<ParameterDescription> getCharacteristics()
     {
         return v;
     }
 
-    public void componentResized(ComponentEvent e) 
+    public void componentResized(ComponentEvent e)
     {
         adjustSize();
     }
 
-    private void adjustSize() 
+    private void adjustSize()
     {
 /*      int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -540,20 +540,20 @@ public class DialogParameters extends JDialog implements ComponentListener
             setSize(width, height);
         } */
         pack();
-        
+
     }
 
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // does nothing
     }
 
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // does nothing
     }
 
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // does nothing
     }

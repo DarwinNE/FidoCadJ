@@ -1,9 +1,9 @@
 package net.sourceforge.fidocadj.toolbars;
 /**
     ZoomToFitListener interface
-    
+
     @author Davide Bucci
- 
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -22,13 +22,13 @@ package net.sourceforge.fidocadj.toolbars;
 
     Copyright 2008-2012 by Davide Bucci
 </pre>
-   
+
 */
 
-public interface ZoomToFitListener 
+public interface ZoomToFitListener
 {
     /** Set the current zoom to fit
-    
+
     */
     public void zoomToFit();
 }

@@ -32,22 +32,22 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     Notice selected macro to related components.<BR>
     Provides interfaces of renaming, removing, moving and changing key for
     library.<BR>
-    
+
     This file is part of FidoCadJ.
- 
+
    FidoCadJ is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    FidoCadJ is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-   
+
    Copyright 2014 Kohta Ozaki
 
     @author Kohta Ozaki
@@ -139,7 +139,7 @@ public class MacroTree extends JPanel
 
     /**
     * Returns node type of selected.
-    * @return int A constant of LIBRARY or CATEGORY or MACRO or -1(other). 
+    * @return int A constant of LIBRARY or CATEGORY or MACRO or -1(other).
     */
     public int getSelectedType()
     {
@@ -173,7 +173,7 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result = JOptionPane.showConfirmDialog(null, 
+        result = JOptionPane.showConfirmDialog(null,
                 Globals.messages.getString("remove_library_confirm")+
                 library.getName() + "?",
                 Globals.messages.getString("remove_library"),
@@ -182,7 +182,7 @@ public class MacroTree extends JPanel
             try {
                 libraryModel.remove(library);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                     Globals.messages.getString("error"),
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -201,7 +201,7 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result=JOptionPane.showConfirmDialog(null, 
+        result=JOptionPane.showConfirmDialog(null,
                 Globals.messages.getString("remove_category_confirm")+
                 category.getName() + "?",
                 Globals.messages.getString("remove_category"),
@@ -210,7 +210,7 @@ public class MacroTree extends JPanel
             try {
                 libraryModel.remove(category);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                     Globals.messages.getString("error"),
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -229,7 +229,7 @@ public class MacroTree extends JPanel
             return;
         }
 
-        result=JOptionPane.showConfirmDialog(null, 
+        result=JOptionPane.showConfirmDialog(null,
                 Globals.messages.getString("remove_macro_confirm")+
                 macro.name + "?",
                 Globals.messages.getString("remove_macro"),
@@ -238,7 +238,7 @@ public class MacroTree extends JPanel
             try {
                 libraryModel.remove(macro);
             } catch (LibraryModel.IllegalLibraryAccessException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                     Globals.messages.getString("error"),
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -265,7 +265,7 @@ public class MacroTree extends JPanel
         try {
             libraryModel.rename(macro,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            JOptionPane.showMessageDialog(null, e.getMessage(),
                 Globals.messages.getString("error"),
                 JOptionPane.ERROR_MESSAGE);
         }
@@ -292,7 +292,7 @@ public class MacroTree extends JPanel
         try {
             libraryModel.rename(category,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            JOptionPane.showMessageDialog(null, e.getMessage(),
                 Globals.messages.getString("error"),
                 JOptionPane.ERROR_MESSAGE);
         }
@@ -318,14 +318,14 @@ public class MacroTree extends JPanel
         try {
             libraryModel.rename(library,newName);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), 
+            JOptionPane.showMessageDialog(null, e.getMessage(),
                 Globals.messages.getString("error"),
                 JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /** Ask to the user to change the key of the given macro.
-    @param macro the macro to be modified. 
+    @param macro the macro to be modified.
     */
     public void changeKey(MacroDesc macro)
     {
@@ -335,16 +335,16 @@ public class MacroTree extends JPanel
         if(macro==null) {
             return;
         }
-        
+
         int n = JOptionPane.showConfirmDialog(null,
             Globals.messages.getString("ChangeKeyWarning"),
             Globals.messages.getString("RenKey"),
             JOptionPane.YES_NO_OPTION);
-        
+
         if(n==JOptionPane.NO_OPTION) {
             return;
-        }        
-       
+        }
+
         oldKey = LibraryModel.getPlainMacroKey(macro);
         newKey = JOptionPane.showInputDialog(null,
                                              Globals.messages.getString("Key"),
@@ -365,52 +365,52 @@ public class MacroTree extends JPanel
     {
         copyTarget = treeComponent.getSelectionPath();
     }
-    
+
     public void pasteIntoSelectedNode()
     {
         if(copyTarget==null){
             return;
         }
-        
+
         int copyTargetType = macroTreeModel.getNodeType(copyTarget);
         int selectedNodeType = getSelectedType();
-        
-        if(copyTargetType==MacroTreeModel.CATEGORY && 
+
+        if(copyTargetType==MacroTreeModel.CATEGORY &&
             selectedNodeType==LIBRARY)
         {
             copyCategoryIntoLibrary();
-        } else  if(copyTargetType==MacroTreeModel.MACRO && 
+        } else  if(copyTargetType==MacroTreeModel.MACRO &&
             selectedNodeType==CATEGORY)
         {
             copyMacroIntoCategory();
         }
-        
+
         copyTarget = null;
         updateOperationPermission();
     }
-    
+
     private void copyCategoryIntoLibrary()
     {
         Category targetCategory;
         Library destLibrary;
-        
+
         destLibrary = getSelectedLibrary();
         targetCategory = macroTreeModel.getCategory(copyTarget);
-        
+
         libraryModel.copy(targetCategory,destLibrary);
     }
-    
+
     private void copyMacroIntoCategory()
     {
         MacroDesc targetMacro;
         Category destCategory;
-        
+
         destCategory = getSelectedCategory();
         targetMacro = macroTreeModel.getMacro(copyTarget);
-        
+
         libraryModel.copy(targetMacro,destCategory);
     }
-    
+
     private void createPermissionObject()
     {
         permissionObject = new OperationPermission();
@@ -426,7 +426,7 @@ public class MacroTree extends JPanel
         TreePath selectedPath;
         int selectedType;
         int copyTargetType;
-        
+
         Library lib = getSelectedLibrary();
         Category cat = getSelectedCategory();
         MacroDesc macro = getSelectedMacro();
@@ -445,7 +445,7 @@ public class MacroTree extends JPanel
             //paste permission
             if(copyTarget!=null && lib!=null && !lib.isStdLib()){
                 copyTargetType = macroTreeModel.getNodeType(copyTarget);
-                if(copyTargetType==MacroTreeModel.CATEGORY && 
+                if(copyTargetType==MacroTreeModel.CATEGORY &&
                     selectedType==LIBRARY)
                 {
                     permissionObject.pasteAvailable = true;
@@ -483,7 +483,7 @@ public class MacroTree extends JPanel
         // Relate with JTree.
         treeComponent.getSelectionModel().
             addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) 
+                public void valueChanged(TreeSelectionEvent e)
                 {
                     MacroDesc md;
                     md = macroTreeModel.getMacro(e.getPath());
@@ -493,7 +493,7 @@ public class MacroTree extends JPanel
                         MapCoordinates m =
                             DrawingSize.calculateZoomToFit(
                                 previewPanel.P,
-                                previewPanel.getSize().width*85/100, 
+                                previewPanel.getSize().width*85/100,
                                 previewPanel.getSize().height*85/100, true);
                         m.setXCenter(-m.getXCenter()+10);
                         m.setYCenter(-m.getYCenter()+10);
@@ -506,7 +506,7 @@ public class MacroTree extends JPanel
 
         // Relate with library model.
         LibraryListener l = new LibraryListenerAdapter() {
-            public void libraryLoaded() 
+            public void libraryLoaded()
             {
                 previewPanel.P.setLibrary(libraryModel.getAllMacros());
             }
@@ -523,7 +523,7 @@ public class MacroTree extends JPanel
         selectionListener=l;
         treeComponent.getSelectionModel().
             addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) 
+                public void valueChanged(TreeSelectionEvent e)
                 {
                     MacroDesc md;
                     if (selectionListener!=null) {
@@ -565,7 +565,7 @@ public class MacroTree extends JPanel
 
         treeComponent.getSelectionModel().addTreeSelectionListener(
             new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e) 
+                public void valueChanged(TreeSelectionEvent e)
                 {
                     updateOperationPermission();
                     for(ChangeListener l:changeListeners) {
@@ -606,19 +606,19 @@ public class MacroTree extends JPanel
     {
         DocumentListener searchFieldListener = new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) 
+            public void changedUpdate(DocumentEvent e)
             {
                 // Nothing to do
             }
-            public void removeUpdate(DocumentEvent e) 
+            public void removeUpdate(DocumentEvent e)
             {
                 setWord(e);
             }
-            public void insertUpdate(DocumentEvent e) 
+            public void insertUpdate(DocumentEvent e)
             {
                 setWord(e);
             }
-            private void setWord(DocumentEvent e) 
+            private void setWord(DocumentEvent e)
             {
                 String word = null;
                 Document d = e.getDocument();
@@ -642,13 +642,13 @@ public class MacroTree extends JPanel
 
         searchField.addKeyListener(new KeyListener() {
             @Override
-            public void keyPressed(KeyEvent e) 
+            public void keyPressed(KeyEvent e)
             {
                 // Nothing to do
             }
 
             @Override
-            public void keyReleased(KeyEvent e) 
+            public void keyReleased(KeyEvent e)
             {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(e.isShiftDown()) {
@@ -661,7 +661,7 @@ public class MacroTree extends JPanel
             }
 
             @Override
-            public void keyTyped(KeyEvent e) 
+            public void keyTyped(KeyEvent e)
             {
                 // Nothing to do
             }
@@ -788,7 +788,7 @@ public class MacroTree extends JPanel
                     setIcon(icon);
                 }
             }
-            
+
             return this;
         }
     }

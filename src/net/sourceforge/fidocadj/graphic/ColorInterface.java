@@ -2,12 +2,12 @@ package net.sourceforge.fidocadj.graphic;
 
 /** Provides a general way to access colors.
 <P>
-    D.B.: WHY THE HELL THERE ARE TWO DIFFERENT CLASSES java.awt.Color AND   
-    android.graphics.Color. TWO DIFFERENT INCOMPATIBLE THINGS TO DO 
-    EXACTLY THE SAME STUFF. 
+    D.B.: WHY THE HELL THERE ARE TWO DIFFERENT CLASSES java.awt.Color AND
+    android.graphics.Color. TWO DIFFERENT INCOMPATIBLE THINGS TO DO
+    EXACTLY THE SAME STUFF.
     SHAME SHAME SHAME!
 </P>
-        
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -28,21 +28,21 @@ package net.sourceforge.fidocadj.graphic;
 </pre>
 */
 
-public interface ColorInterface 
+public interface ColorInterface
 {
-    public ColorInterface white(); 
+    public ColorInterface white();
     public ColorInterface gray();
     public ColorInterface green();
     public ColorInterface red();
     public ColorInterface black();
-    
-    
+
+
     public int getGreen();
     public int getRed();
-    public int getBlue();   
-    
+    public int getBlue();
+
     public int getRGB();
     public void setRGB(int rgb);
-    
+
     //public PolygonInterface createPolygon();
 }

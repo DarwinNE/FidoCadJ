@@ -34,11 +34,11 @@ public class PolygonSwing implements PolygonInterface
         p=new Polygon();
     }
 
-    public void addPoint(int x, int y) 
+    public void addPoint(int x, int y)
     {
         p.addPoint(x,y);
     }
-    
+
     public Polygon getSwingPolygon()
     {
         return p;
@@ -51,17 +51,17 @@ public class PolygonSwing implements PolygonInterface
     {
         return p.npoints;
     }
-    
+
     public int[] getXpoints()
     {
         return p.xpoints;
     }
-    
+
     public int[] getYpoints()
     {
         return p.ypoints;
     }
-    
+
     public boolean contains(int x, int y)
     {
         return p.contains(x,y);

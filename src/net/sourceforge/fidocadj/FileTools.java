@@ -10,11 +10,11 @@ import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.export.*;
 
-/** FileTools.java 
+/** FileTools.java
 
     Class performing high level user interface operation involving files.
 
-<pre>  
+<pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -36,19 +36,19 @@ import net.sourceforge.fidocadj.export.*;
     @author Davide Bucci
 */
 
-public class FileTools 
+public class FileTools
 {
     final private FidoFrame fff;
     final private Preferences prefs;
-    
+
     // Open/save default properties
     public String openFileDirectory;
 
     /** Standard constructor.
         @param f the frame which should be associated to those file operations.
-        @param p the preferences where to read/write settings (or null if 
+        @param p the preferences where to read/write settings (or null if
             they should not be saved).
-    
+
     */
     public FileTools (FidoFrame f, Preferences p)
     {
@@ -56,7 +56,7 @@ public class FileTools
         prefs=p;
         openFileDirectory = "";
     }
-    
+
     /** Read the preferences associated to file behaviour (if a preference
         element is available).
     */
@@ -66,7 +66,7 @@ public class FileTools
         if (prefs!=null)
             openFileDirectory = prefs.get("OPEN_DIR", "");
     }
-    
+
     /** Ask the user if the current file should be saved and do it if yes.
         @return true if the window should be closed or false if the closing
             action has been cancelled.
@@ -79,24 +79,24 @@ public class FileTools
                 Globals.messages.getString("Save"),
                 Globals.messages.getString("Do_Not_Save"),
                 Globals.messages.getString("Cancel_btn")};
-            
-            // We try to show in the title bar of the dialog the file name of 
+
+            // We try to show in the title bar of the dialog the file name of
             // the drawing to which the dialog refers to. If not, we just
             // write Warning!
-           
+
             String filename=Globals.messages.getString("Warning");
             if(!"".equals(fff.CC.getParserActions().openFileName)) {
                 filename=fff.CC.getParserActions().openFileName;
             }
-            int choice=JOptionPane.showOptionDialog(fff, 
+            int choice=JOptionPane.showOptionDialog(fff,
                 Globals.messages.getString("Warning_unsaved"),
                 Globals.prettifyPath(filename,35),
-                JOptionPane.YES_NO_CANCEL_OPTION, 
-                JOptionPane.QUESTION_MESSAGE, 
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,  //the titles of buttons
                 options[0]); //default button title)
-                            
+
             // Those constant names does not reflect the actual
             // message shown on the buttons.
             if(choice==JOptionPane.YES_OPTION) {
@@ -109,51 +109,51 @@ public class FileTools
                 //System.out.println("Do not exit.");
                 shouldExit = false;
             }
-            
+
         }
-        
+
         if(shouldExit)
             fff.CC.getUndoActions().doTheDishes();
-            
+
         return shouldExit;
     }
-    
+
     /** Open the current file
     */
-    public void openFile() 
+    public void openFile()
         throws IOException
     {
-        
+
         BufferedReader bufRead = new BufferedReader(
             new InputStreamReader(new FileInputStream(
-                fff.CC.getParserActions().openFileName), 
-            Globals.encoding));   
-                
-        StringBuffer txt= new StringBuffer();    
-        
+                fff.CC.getParserActions().openFileName),
+            Globals.encoding));
+
+        StringBuffer txt= new StringBuffer();
+
         String line =bufRead.readLine();
         while (line != null){
             txt.append(line);
             txt.append("\n");
             line =bufRead.readLine();
         }
-            
+
         bufRead.close();
-                        
+
         // Here txt contains the new circuit: draw it!
         fff.CC.setCirc(new StringBuffer(txt.toString()));
 
-        // Calculate the zoom to fit     
+        // Calculate the zoom to fit
         fff.zoomToFit();
         fff.CC.getUndoActions().saveUndoState();
         fff.CC.getUndoActions().setModified(false);
 
         fff.repaint();
-    }  
-    
+    }
+
     /** Show the file dialog and save with a new name name.
         This routine makes use of the standard dialogs (either the Swing or the
-        native one, depending on the host operating system), in order to let 
+        native one, depending on the host operating system), in order to let
         the user choose a new name for the file to be saved.
         @return true if the save operation has gone well.
         @param splitNonStandardMacro_s decides whether the non standard macros
@@ -164,14 +164,14 @@ public class FileTools
     {
         String fin;
         String din;
-                       
+
         if(Globals.useNativeFileDialogs) {
-                
+
             // File chooser provided by the host system.
             // Vastly better on MacOSX, but probably not such on other
             // operating systems.
-                    
-            FileDialog fd = new FileDialog(fff, 
+
+            FileDialog fd = new FileDialog(fff,
                 Globals.messages.getString("SaveName"),
                 FileDialog.SAVE);
             fd.setDirectory(openFileDirectory);
@@ -187,7 +187,7 @@ public class FileTools
         } else {
             // File chooser provided by Swing.
             // Better on Linux
-                    
+
             JFileChooser fc = new JFileChooser();
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
                 public boolean accept(File f)
@@ -200,35 +200,35 @@ public class FileTools
                     return "FidoCadJ (.fcd)";
                 }
             });
-            
+
             // Set the current working directory as well as the file name.
             fc.setCurrentDirectory(new File(openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("SaveName"));
             if(fc.showSaveDialog(fff)!=JFileChooser.APPROVE_OPTION)
                 return false;
-      
+
             fin=fc.getSelectedFile().getName();
-            din=fc.getSelectedFile().getParentFile().getPath();             
+            din=fc.getSelectedFile().getParentFile().getPath();
         }
-                 
+
         if(fin== null) {
             return false;
         } else {
-            fff.CC.getParserActions().openFileName= 
+            fff.CC.getParserActions().openFileName=
                 Globals.createCompleteFileName(din, fin);
             fff.CC.getParserActions().openFileName = Globals.adjustExtension(
-                fff.CC.getParserActions().openFileName, 
+                fff.CC.getParserActions().openFileName,
                     Globals.DEFAULT_EXTENSION);
             if (prefs!=null)
-                prefs.put("OPEN_DIR", din);   
-            
+                prefs.put("OPEN_DIR", din);
+
             openFileDirectory=din;
-            
-            // Here everything is ready for saving the current drawing.     
+
+            // Here everything is ready for saving the current drawing.
             return save(splitNonStandardMacro_s);
         }
     }
-    
+
     /** Save the current file.
         @param splitNonStandardMacro_s decides whether the non standard macros
                should be split during the save operation.
@@ -237,8 +237,8 @@ public class FileTools
     public boolean save(boolean splitNonStandardMacro_s)
     {
         CircuitPanel CC=fff.CC;
-        
-        // If there is not a name currently defined, we use instead the 
+
+        // If there is not a name currently defined, we use instead the
         // save with name function.
         if("".equals(CC.getParserActions().openFileName)) {
             return saveWithName(splitNonStandardMacro_s);
@@ -247,26 +247,26 @@ public class FileTools
             if (splitNonStandardMacro_s) {
                 /*  In fact, splitting the nonstandard macro when saving a file
                     is indeed an export operation. This ease the job, since
-                    while exporting in a vector graphic format one has 
+                    while exporting in a vector graphic format one has
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(
-                    CC.getParserActions().openFileName),  CC.P, 
+                    CC.getParserActions().openFileName),  CC.P,
                     "fcd", 1.0,true,false, !CC.extStrict, false);
                 CC.getUndoActions().setModified(false);
-    
+
             } else {
-                // Create file 
-                BufferedWriter output = new BufferedWriter(new 
+                // Create file
+                BufferedWriter output = new BufferedWriter(new
                     OutputStreamWriter(new FileOutputStream(
-                    CC.getParserActions().openFileName), 
+                    CC.getParserActions().openFileName),
                     Globals.encoding));
-                
+
                 output.write("[FIDOCAD]\n");
                 output.write(CC.getCirc(!CC.extStrict).toString());
                 output.close();
                 CC.getUndoActions().setModified(false);
-            
+
             }
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(fff,
@@ -275,13 +275,13 @@ public class FileTools
         }
         return true;
     }
-    
+
     /** Load the given file
-        @param s the name of the file to be loaded.    
+        @param s the name of the file to be loaded.
     */
     public void load(String s)
     {
-        fff.CC.getParserActions().openFileName= s;     
+        fff.CC.getParserActions().openFileName= s;
         try {
             openFile();
         } catch (IOException fnfex) {

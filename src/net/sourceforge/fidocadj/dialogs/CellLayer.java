@@ -17,7 +17,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     and the description of each layer. To be used with LayerCellRenderer
 
     @author Davide Bucci
-    
+
     <pre>
         This file is part of FidoCadJ.
 
@@ -43,11 +43,11 @@ public class CellLayer extends JPanel
     private final boolean isSelected;
     private final LayerDesc layer;
     //private JCheckBox cb;
-    
-    /** Constructor. The user should provide the list in which the element is 
-        used, information about the layer as well as the selection 
+
+    /** Constructor. The user should provide the list in which the element is
+        used, information about the layer as well as the selection
         state
-    
+
         @param la the layer to be used
         @param l the JList in which the element is used
         @param is the selection state which will be used for the background
@@ -69,40 +69,40 @@ public class CellLayer extends JPanel
         constraints.anchor=GridBagConstraints.LINE_START;
         constraints.fill=GridBagConstraints.NONE;
         constraints.weightx=1.0;
-        
+
         constraints.insets=new Insets(0,0,0,0);
-        
+
         //add(cb, constraints);*/
         setPreferredSize(new Dimension(150,18));
     }
-    
+
     /** Here we draw the layer description. A coloured box followed by the
         name of the layer. We need to take care if the element is selected
         or not. In this case, we change accordingly the background of the part
         where we are writing the layer name.
-    
+
     */
     public void paintComponent(Graphics g)
     {
         //cb.setSelected(layer.isVisible);
-        g.setColor(isSelected ? list.getSelectionBackground(): 
+        g.setColor(isSelected ? list.getSelectionBackground():
                                 list.getBackground());
         g.fillRect(0,0, getWidth(), getHeight());
         ColorSwing c=(ColorSwing) layer.getColor();
         g.setColor(c.getColorSwing());
         g.fillRect(2,2, getHeight(), getHeight()-4);
-        
+
         if(layer.getVisible()) {
-            if (isSelected) 
-                g.setColor(isSelected ? list.getSelectionForeground(): 
-                                list.getForeground());  
+            if (isSelected)
+                g.setColor(isSelected ? list.getSelectionForeground():
+                                list.getForeground());
         } else {
             g.setColor(SystemColor.textInactiveText);
         }
-        g.drawString(layer.getDescription(), 6*getHeight()/4, 
+        g.drawString(layer.getDescription(), 6*getHeight()/4,
             (int)(3.8*getHeight()/5));
-                        
-        
+
+
     }
-    
+
 }

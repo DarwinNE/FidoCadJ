@@ -1,18 +1,18 @@
 // This file is part of FidoCadJ.
-// 
+//
 // FidoCadJ is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // FidoCadJ is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // Copyright 2014-2015 Kohta Ozaki, Davide Bucci
 
 package net.sourceforge.fidocadj.macropicker;
@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 /**
 * PopupMenu for MacroTree.<BR>
-* This class checks the appropriate menu state for items by 
+* This class checks the appropriate menu state for items by
 * OperationPermission class of MacroTree.
 * @author Kohta Ozaki, Davide Bucci
 */
@@ -37,17 +37,17 @@ public class MacroTreePopupMenu extends JPopupMenu implements
             ChangeListener
 {
     final private MacroTree macroTree;
-    
+
     // Element employed to check the kind of actions which can be done on
     // an element (permissions).
     final private MacroTree.OperationPermission permission;
-    
+
     final private JMenuItem copyMenu;
     final private JMenuItem pasteMenu;
     final private JMenuItem renameMenu;
     final private JMenuItem removeMenu;
     final private JMenuItem renkeyMenu;
-    
+
     /** Create the popupmenu.
         @param macroTree the tree on which the menu has to be associated.
     */
@@ -55,7 +55,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         this.macroTree = macroTree;
         permission = macroTree.getOperationPermission();
-        
+
         copyMenu = new JMenuItem(Globals.messages.getString("Copy"));
         pasteMenu = new JMenuItem(Globals.messages.getString("Paste"));
         removeMenu = new JMenuItem(Globals.messages.getString("Delete"));
@@ -74,7 +74,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         renameMenu.addActionListener(createRenameActionListener());
         renkeyMenu.addActionListener(createRenkeyActionListener());
     }
-    
+
     /** Update all the "enabled" states of the menu items, depending on which
         element is currently selected.
     */
@@ -86,7 +86,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         renameMenu.setEnabled(permission.isRenameAvailable());
         renkeyMenu.setEnabled(permission.isRenKeyAvailable());
     }
-    
+
     /** Enable or disable all the items in the menu.
         @param b enable all elements if b=true, disable them otherwise.
     */
@@ -98,8 +98,8 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         renameMenu.setEnabled(b);
         renkeyMenu.setEnabled(b);
     }
-    
-    /** Create an action listener associated to the menu, reacting to 
+
+    /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the renaming action.
         @return the ActionListener created by the routine.
@@ -136,8 +136,8 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         };
         return al;
     }
-    
-    /** Create an action listener associated to the menu, reacting to 
+
+    /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the delete/remove action on an element.
         @return the ActionListener created by the routine.
@@ -174,7 +174,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         };
         return al;
     }
-    /** Create an action listener associated to the menu, reacting to 
+    /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the action of changing the key of a macro. It does not have any
         effect on categories or libraries since there is no key associated to
@@ -207,8 +207,8 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         };
         return al;
     }
-    
-    /** Create an action listener associated to the menu, reacting to 
+
+    /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the copy action.
         @return the ActionListener created by the routine.
@@ -225,7 +225,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         return al;
     }
 
-    /** Create an action listener associated to the menu, reacting to 
+    /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the paste action.
         @return the ActionListener created by the routine.
@@ -240,6 +240,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
             }
         };
         return al;
-    }   
+    }
 }
 

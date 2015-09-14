@@ -18,7 +18,7 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.timer.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-/** FidoMain.java 
+/** FidoMain.java
     SWING App: The starting point of FidoCadJ.
 
 <pre>
@@ -39,42 +39,42 @@ import net.sourceforge.fidocadj.graphic.*;
 
     Copyright 2008-2015 by Davide Bucci
 </pre>
-    
+
     @author Davide Bucci
 */
 
-public class FidoMain 
-{   
+public class FidoMain
+{
     private static CommandLineParser clp;
-    
+
     /** The main method. Process the command line options and if necessary
         shows an instance of FidoFrame.
     */
     public static void main(String... args)
     {
         clp = new CommandLineParser();
-        
-        if (args.length>=1) 
+
+        if (args.length>=1)
             clp.processArguments(args);
-        
+
         applyOptimizationSettings(clp);
 
         // Now we proceed with all the operations: opening files, converting...
         if(clp.getHeadlessMode()) {
             // Creates a circuit object
             DrawingModel P = new DrawingModel();
-            
+
             if("".equals(clp.getLoadFileName())) {
                 System.err.println("You should specify a FidoCadJ file to"+
                     "read");
                 System.exit(1);
             }
-            
+
             // Reads the standard libraries
             readLibrariesProbeDirectory(P, false, clp.getLibDirectory());
             P.setLayers(StandardLayers.createStandardLayers());
             ParserActions pa=new ParserActions(P);
-            
+
             MyTimer mt = new MyTimer();
             try {
                 String txt = FileUtils.readFile(clp.getLoadFileName());
@@ -89,13 +89,13 @@ public class FidoMain
             if (clp.shouldConvertFile()) {
                 doConvert(clp, P);
             }
-            
+
             if (clp.getHasToPrintSize()) {
                 PointG o=new PointG(0,0);
                 DimensionG d = DrawingSize.getImageSize(P,1, true, o);
-                System.out.println(""+d.width+" "+d.height);    
+                System.out.println(""+d.width+" "+d.height);
             }
-            
+
             if (clp.getHasToPrintTime()) {
                 System.out.println("Elapsed time: "+mt.getElapsed()+" ms.");
             }
@@ -103,7 +103,7 @@ public class FidoMain
 
         if (!clp.getCommandLineOnly()) {
             SwingUtilities.invokeLater(new CreateSwingInterface(
-                clp.getLibDirectory(), 
+                clp.getLibDirectory(),
                 clp.getLoadFileName(), clp.getWantedLocale()));
         }
     }
@@ -114,8 +114,8 @@ public class FidoMain
     */
     private static void applyOptimizationSettings(CommandLineParser clp)
     {
-        if(!clp.getStripOptimization() && 
-            System.getProperty("os.name").startsWith("Mac")) 
+        if(!clp.getStripOptimization() &&
+            System.getProperty("os.name").startsWith("Mac"))
         {
             // CAREFUL**************************************************
             // In all MacOSX systems I tried, this greatly increases the
@@ -127,42 +127,42 @@ public class FidoMain
             // NOTE: this does not seem to have any effect!
             System.setProperty("apple.awt.graphics.UseQuartz", "true");
         }
-        
+
         /* if(!clp.getStripOptimization() &&
             System.getProperty("os.name").toLowerCase().startsWith("linux")) {
             // CAREFUL**************************************************
             // Various sources  reports that  this option  will increase
             // the redrawing speed using Linux. It might happen, however
-            // that the  performances  can be somewhat  degraded in some 
+            // that the  performances  can be somewhat  degraded in some
             // systems.
             // CAREFUL**************************************************
-            // We tested that in version 0.24.1. In fact, activating this 
+            // We tested that in version 0.24.1. In fact, activating this
             // option renders the software inusable in some systems (Nvidia
             // graphic software?) So this option is definitively turned off.
             // System.setProperty("sun.java2d.opengl", "true");
             // See for example this discussion: http://tinyurl.com/axoxqcb
         }   */
     }
-        
+
     /** Perform a conversion into a graphic file, from command line parameters.
         A file should have already been loaded and parsed into P.
-        This routine also checks if the output file has a correct extension, 
+        This routine also checks if the output file has a correct extension,
         coherent with the file format chosen.
-        
+
         @param clp command-line arguments.
         @param P the model containing the drawing.
     */
     private static void doConvert(CommandLineParser clp, DrawingModel P)
     {
-        if(!Globals.checkExtension(clp.getOutputFile(), 
-            clp.getExportFormat()) && !clp.getForceMode()) 
+        if(!Globals.checkExtension(clp.getOutputFile(),
+            clp.getExportFormat()) && !clp.getForceMode())
         {
             System.err.println(
                 "File extension is not coherent with the "+
                 "export output format! Use -f to skip this test.");
             System.exit(1);
         }
-                
+
         try {
             if (clp.getResolutionBasedExport()) {
                 ExportGraphic.export(new File(clp.getOutputFile()),  P,
@@ -178,52 +178,52 @@ public class FidoMain
             System.err.println("Export error: "+ioe);
         }
     }
-    
+
     /** Read all libraries, eventually by inspecting the directory specified
-        by the user. There are three standard directories: IHRAM.FCL, 
-        FCDstdlib.fcl and PCB.fcl. If those files are found in the external 
+        by the user. There are three standard directories: IHRAM.FCL,
+        FCDstdlib.fcl and PCB.fcl. If those files are found in the external
         directory specified, the internal version is not loaded. Other files
         on the external directory are loaded.
-        
+
         @param P the parsing class in which the libraries should be loaded
-        @param englishLibraries a flag to specify if the internal libraries 
+        @param englishLibraries a flag to specify if the internal libraries
             should be loaded in English or in Italian.
         @param libDirectoryO the path of the external directory.
 
     */
-    public static void readLibrariesProbeDirectory(DrawingModel P, 
+    public static void readLibrariesProbeDirectory(DrawingModel P,
         boolean englishLibraries, String libDirectoryO)
     {
         String libDirectory=libDirectoryO;
         ParserActions pa = new ParserActions(P);
-        
+
         synchronized(P) {
-            if (libDirectory == null || libDirectory.length()<3) 
+            if (libDirectory == null || libDirectory.length()<3)
                 libDirectory = System.getProperty("user.home");
-            
+
             readIHRAM(englishLibraries, libDirectory, pa);
             readFCDstdlib(englishLibraries, libDirectory, pa);
             readPCBlib(englishLibraries, libDirectory, pa);
-            readEY_Libraries(englishLibraries, libDirectory, pa);           
+            readEY_Libraries(englishLibraries, libDirectory, pa);
             readElecLib(englishLibraries, libDirectory, pa);
         }
-    }    
-    
-    /** Read the internal IHRAM library, unless a file called 
+    }
+
+    /** Read the internal IHRAM library, unless a file called
         IHRAM.FCL is present in the library directory
-        
+
         @param libDirectory path where to search for the library.
         @param englishLibraries specify if the English version of the lib
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readIHRAM(boolean englishLibraries, 
+    private static void readIHRAM(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
         pa.loadLibraryDirectory(libDirectory);
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"IHRAM.FCL")).exists()) 
+            libDirectory,"IHRAM.FCL")).exists())
         {
             System.out.println("IHRAM library got from external file");
         } else {
@@ -235,24 +235,24 @@ public class FidoMain
                     "lib/IHRAM.FCL"), "ihram");
         }
     }
-    
-    /** Read the internal FCDstdlib library, unless a file called 
+
+    /** Read the internal FCDstdlib library, unless a file called
         FCDstdlib.fcl is present in the library directory
-        
+
         @param libDirectory path where to search for the library.
         @param englishLibraries specify if the English version of the lib
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readFCDstdlib(boolean englishLibraries, 
+    private static void readFCDstdlib(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"FCDstdlib.fcl")).exists()) 
+            libDirectory,"FCDstdlib.fcl")).exists())
         {
             System.out.println("Standard library got from external file");
-        } else {        
+        } else {
             if(englishLibraries)
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/FCDstdlib_en.fcl"), "");
@@ -261,21 +261,21 @@ public class FidoMain
                     "lib/FCDstdlib.fcl"), "");
         }
     }
-        
-    /** Read the internal PCB library, unless a file called 
+
+    /** Read the internal PCB library, unless a file called
         PCB.fcl is present in the library directory
-        
+
         @param libDirectory path where to search for the library.
         @param englishLibraries specify if the English version of the lib
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readPCBlib(boolean englishLibraries, 
+    private static void readPCBlib(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"PCB.fcl")).exists()) 
+            libDirectory,"PCB.fcl")).exists())
         {
             System.out.println("Standard PCB library got from external file");
         } else {
@@ -287,21 +287,21 @@ public class FidoMain
                     "lib/PCB.fcl"), "pcb");
         }
     }
-    
-    /** Read the internal EY_Libraries library, unless a file called 
+
+    /** Read the internal EY_Libraries library, unless a file called
         EY_Libraries.fcl is present in the library directory
-        
+
         @param libDirectory path where to search for the library.
         @param englishLibraries specify if the English version of the lib
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readEY_Libraries(boolean englishLibraries, 
+    private static void readEY_Libraries(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
         if (new File(Globals.createCompleteFileName(
-            libDirectory,"EY_Libraries.fcl")).exists()) 
+            libDirectory,"EY_Libraries.fcl")).exists())
         {
             System.out.println("Standard EY_Libraries got from external file");
         } else {
@@ -313,16 +313,16 @@ public class FidoMain
                     "lib/EY_Libraries.fcl"), "EY_Libraries");
         }
     }
-    
-    /** Read the internal elettrotecnica library, unless a file called 
+
+    /** Read the internal elettrotecnica library, unless a file called
         elettrotecnica.fcl is present in the library directory
-        
+
         @param libDirectory path where to search for the library.
         @param englishLibraries specify if the English version of the lib
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readElecLib(boolean englishLibraries, 
+    private static void readElecLib(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
@@ -330,7 +330,7 @@ public class FidoMain
             libDirectory,"elettrotecnica.fcl")).exists())
         {
             System.out.println(
-                "Electrotechnics library got from external file");   
+                "Electrotechnics library got from external file");
         } else {
             if(englishLibraries)
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
@@ -344,12 +344,12 @@ public class FidoMain
 
 /** Creates the Swing elements needed for the interface.
 */
-class CreateSwingInterface implements Runnable 
+class CreateSwingInterface implements Runnable
 {
     String libDirectory;
     String loadFile;
     Locale currentLocale;
-    
+
     /** Constructor where we specify some details concerning the library
         directory, the file to load (if needed) as well as the locale.
         @param ld the library directory
@@ -370,48 +370,48 @@ class CreateSwingInterface implements Runnable
         libDirectory = "";
         loadFile = "";
     }
-    
+
     /** Run the thread.
     */
-    public void run() 
+    public void run()
     {
         /*******************************************************************
             PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
         *******************************************************************/
         if (System.getProperty("os.name").startsWith("Mac")) {
             Globals g=new Globals();
-        
-            Preferences prefs_static = 
+
+            Preferences prefs_static =
                 Preferences.userNodeForPackage(g.getClass());
-            
-            Globals.quaquaActive = prefs_static.get("QUAQUA", 
+
+            Globals.quaquaActive = prefs_static.get("QUAQUA",
                 "true").equals("true");
-        
+
             Globals.weAreOnAMac =true;
-            
+
             // These settings allows to obtain menus on the right place
             System.setProperty("com.apple.macos.useScreenMenuBar","true");
             // This is for JVM < 1.5 It won't harm on higher versions.
-            System.setProperty("apple.laf.useScreenMenuBar","true"); 
+            System.setProperty("apple.laf.useScreenMenuBar","true");
             // This is for having the good application name in the menu
             System.setProperty(
-                "com.apple.mrj.application.apple.menu.about.name", 
+                "com.apple.mrj.application.apple.menu.about.name",
                 "FidoCadJ");
-            
-            try { 
+
+            try {
                 //Globals.quaquaActive=true;
                 //System.setProperty("Quaqua.Debug.showVisualBounds","true");
                 //System.setProperty("Quaqua.Debug.showClipBounds","true");
-                if(Globals.quaquaActive) { 
+                if(Globals.quaquaActive) {
                     UIManager.setLookAndFeel(
                         "ch.randelshofer.quaqua.QuaquaLookAndFeel");
-                
+
                     System.out.println("Quaqua look and feel active");
                 }
-                
+
             } catch (Exception e) {
                 // Quaqua is not active. Just continue!
-            
+
                 System.out.println(
                     "The Quaqua look and feel is not available");
                 System.out.println(
@@ -419,8 +419,8 @@ class CreateSwingInterface implements Runnable
             }
         } else if (System.getProperty("os.name").startsWith("Win")) {
             /* If the host system is a window system, select the Windows
-               look and feel. This is a way to encourage people to use 
-               FidoCadJ even on a Windows system, forgotting about Java. 
+               look and feel. This is a way to encourage people to use
+               FidoCadJ even on a Windows system, forgotting about Java.
             */
             try {
                 UIManager.setLookAndFeel(
@@ -432,9 +432,9 @@ class CreateSwingInterface implements Runnable
         } else {
             Globals.quaquaActive=false;
         }
-        
+
         // Un-comment to try to use the Metal LAF
-        
+
         /*
         try {
             UIManager.setLookAndFeel(
@@ -445,21 +445,21 @@ class CreateSwingInterface implements Runnable
         /*******************************************************************
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
-        
+
         if(Globals.weAreOnAMac) {
             // Here we use the reflection provided by Java to understand
             // if the AppleSpecific class is available on the system.
-            // This class should be compiled separately from the main 
+            // This class should be compiled separately from the main
             // program since the compilation can be successful only on
             // a MacOSX system.
-          
+
             try {
                 Class<?> a = Class.forName(
                     "net.sourceforge.fidocadj.AppleSpecific");
                 Object b = a.newInstance();
                 Method m = a.getMethod("answerFinder");
                 m.invoke(b);
-            
+
             } catch (Exception exc) {
                 Globals.weAreOnAMac = false;
                 System.out.println("It seems that this software has been "+
@@ -472,9 +472,9 @@ class CreateSwingInterface implements Runnable
         }
 
         // Here we create the main window object
-        
+
         FidoFrame popFrame=new FidoFrame(true, currentLocale);
-        
+
         if (!"".equals(libDirectory)) {
             popFrame.libDirectory = libDirectory;
         }
@@ -482,9 +482,9 @@ class CreateSwingInterface implements Runnable
         popFrame.init();
 
         // We begin by showing immediately the window. This improves the
-        // perception of speed given to the user, since the libraries 
+        // perception of speed given to the user, since the libraries
         // are not yet loaded
-        popFrame.setVisible(true); 
+        popFrame.setVisible(true);
 
         // We load the libraries (this does not take so long in modern
         // systems).
@@ -493,8 +493,8 @@ class CreateSwingInterface implements Runnable
         // created and initialized.
         if(!"".equals(loadFile))
             popFrame.getFileTools().load(loadFile);
-                
-        // We force a global validation of the window size, by including 
+
+        // We force a global validation of the window size, by including
         // this time the tree containing the various libraries and the
         // macros.
         popFrame.setVisible(true);

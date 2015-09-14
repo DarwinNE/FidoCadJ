@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
     move actions on a primitive database
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class HandleActions 
+public class HandleActions
 {
     private final DrawingModel P;
     private final EditorActions edt;
@@ -43,26 +43,26 @@ public class HandleActions
 
 
     // ******** DRAG & INTERFACE *********
-    
+
     // True if we are at the beginning of a dragging operation.
     private boolean firstDrag;
-    
+
     // The graphic primitive being treated.
     private GraphicPrimitive primBeingDragged;
     // The handle of the active graphic primitive being treated.
     private int handleBeingDragged;
-   
+
     // Old cursor position for handle drag.
     private int opx;
     private int opy;
-    
+
     // True if the primitive has moved while dragging.
     private boolean hasMoved;
-    
+
     // Other old cursor position for handle drag...
     private int oldpx;
     private int oldpy;
-        
+
 
     /** Standard constructor: provide the database class.
         @param pp the drawing model
@@ -70,7 +70,7 @@ public class HandleActions
         @param s the selection controller
         @param u the undo controller
     */
-    public HandleActions (DrawingModel pp, EditorActions e, 
+    public HandleActions (DrawingModel pp, EditorActions e,
         SelectionActions s,
         UndoActions u)
     {
@@ -81,10 +81,10 @@ public class HandleActions
         firstDrag=false;
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
     }
-    
-    /** Drag all the selected primitives during a drag operation. 
+
+    /** Drag all the selected primitives during a drag operation.
         Position the primitives in the given (screen) position
-        
+
         @param px the x position (screen coordinates).
         @param py the y position (screen coordinates).
         @param cs the coordinate mapping.
@@ -95,27 +95,27 @@ public class HandleActions
         // Check if we are effectively dragging the whole primitive...
         if(handleBeingDragged!=GraphicPrimitive.DRAG_PRIMITIVE)
             return;
-        
+
         firstDrag=false;
-        
+
         int dx=cs.unmapXsnap(px)-oldpx;
         int dy=cs.unmapYsnap(py)-oldpy;
-        
+
         oldpx=cs.unmapXsnap(px);
         oldpy=cs.unmapXsnap(py);
-        
+
         if(dx==0 && dy==0)
             return;
 
         // Here we adjust the new positions for all selected elements...
-        for (GraphicPrimitive g : P.getPrimitiveVector()){               
-            if(g.getSelected()) {            
+        for (GraphicPrimitive g : P.getPrimitiveVector()){
+            if(g.getSelected()) {
                 // This code is needed to ensure that all layer are printed
                 // when dragging a component (it solves bug #24)
                 if (g instanceof PrimitiveMacro) {
                     ((PrimitiveMacro)g).setDrawOnlyLayer(-1);
                 }
-            
+
                 for(int j=0; j<g.getControlPointNumber();++j){
                     g.virtualPoint[j].x+=dx;
                     g.virtualPoint[j].y+=dy;
@@ -126,15 +126,15 @@ public class HandleActions
         }
         CC.forcesRepaint();
     }
-    
-    /** Start dragging handle. Check if the pointer is on the handle of a 
-        primitive and if it is the case, enter the dragging state.       
+
+    /** Start dragging handle. Check if the pointer is on the handle of a
+        primitive and if it is the case, enter the dragging state.
         @param px the (screen) x coordinate of the pointer.
         @param py the (screen) y coordinate of the pointer.
         @param tolerance the tolerance (screen. i.e. no of pixel).
         @param multiple specifies whether multiple selection is active.
         @param cs the coordinate mapping to be used.
-    
+
     */
     public void dragHandleStart(int px, int py, int tolerance, boolean multiple,
         MapCoordinates cs)
@@ -144,47 +144,47 @@ public class HandleActions
         int mindistance=Integer.MAX_VALUE;
         int distance=mindistance;
         int layer;
-        
+
         hasMoved=false;
-        
+
         GraphicPrimitive gp;
         Vector<LayerDesc> layerV=P.getLayers();
-        
+
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);
 
         firstDrag=true;
-        
+
         int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
-        if (sptol<2) sptol=2; 
-        
+        if (sptol<2) sptol=2;
+
         // Search for the closest primitive to the given point
-        // Performs a cycle through all primitives and check their 
+        // Performs a cycle through all primitives and check their
         // distance.
         for (i=0; i<P.getPrimitiveVector().size(); ++i){
             gp=(GraphicPrimitive)P.getPrimitiveVector().get(i);
             layer= gp.getLayer();
-                       
+
             // Does not allow for selecting an invisible primitive
-            if(layer<layerV.size() && 
+            if(layer<layerV.size() &&
                 !((LayerDesc)layerV.get(layer)).isVisible &&
                 !(gp instanceof PrimitiveMacro))
                 continue;
-            
+
             if(gp.selectedState){
                 // Verify if the pointer is on a handle
                 handleBeingDragged=gp.onHandle(cs, px, py);
-                
+
                 if(handleBeingDragged!=GraphicPrimitive.NO_DRAG){
                     primBeingDragged=gp;
-                    
+
                     continue;
-                } 
+                }
             }
             distance=gp.getDistanceToPoint(oldpx,oldpy);
             if (distance<=mindistance) {
                 isel=i;
-                mindistance=distance;   
+                mindistance=distance;
             }
         }
         // Verify if the whole primitive should be drag
@@ -199,14 +199,14 @@ public class HandleActions
             firstDrag=true;
             oldpx=cs.unmapXsnap(px);
             oldpy=cs.unmapXsnap(py);
-        } else if (handleBeingDragged<0) { 
+        } else if (handleBeingDragged<0) {
             // We want to select things in a rectangular area
             oldpx=cs.unmapXsnap(px);
             oldpy=cs.unmapXsnap(py);
             handleBeingDragged=GraphicPrimitive.RECT_SELECTION;
         }
     }
-    
+
     /** End dragging handle.
         @param CC the editor object
         @param px the (screen) x coordinate of the pointer.
@@ -214,7 +214,7 @@ public class HandleActions
         @param multiple specifies whether multiple selection is active.
         @param cs the coordinate mapping to be used.
     */
-    public void dragHandleEnd(PrimitivesParInterface CC, int px, int py, 
+    public void dragHandleEnd(PrimitivesParInterface CC, int px, int py,
         boolean multiple,
         MapCoordinates cs)
     {
@@ -227,11 +227,11 @@ public class HandleActions
                 int xb=Math.max(oldpx, cs.unmapXnosnap(px));
                 int yb=Math.max(oldpy, cs.unmapYnosnap(py));
                 if(!multiple) sa.setSelectionAll(false);
-                edt.selectRect(xa, ya, xb-xa, yb-ya); 
+                edt.selectRect(xa, ya, xb-xa, yb-ya);
             }
             // Test if we are anyway dragging an entire primitive
-            if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE && 
-                hasMoved && ua!=null) 
+            if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE &&
+                hasMoved && ua!=null)
                 ua.saveUndoState();
 
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
@@ -244,15 +244,15 @@ public class HandleActions
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         if(ua!=null) ua.saveUndoState();
     }
-    
-            
+
+
     /** Drag a handle.
         @param CC the editor object
         @param px the (screen) x coordinate of the pointer
         @param py the (screen) y coordinate of the pointer
         @param cs the coordinates mapping to be used
     */
-    public void dragHandleDrag(PrimitivesParInterface CC, 
+    public void dragHandleDrag(PrimitivesParInterface CC,
         int px, int py, MapCoordinates cs)
     {
         hasMoved=true;
@@ -262,7 +262,7 @@ public class HandleActions
         if(handleBeingDragged<0){
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE)
                 dragPrimitives(CC, px, py, cs);
-                
+
             // if not, we are performing a rectangular selection
             if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION) {
 
@@ -270,26 +270,26 @@ public class HandleActions
                 int ya = cs.mapYi(oldpx, oldpy, false);
                 int xb = opx;
                 int yb = opy;
-                
+
                 if(opx>xa && px<xa)
                     flip=true;
                 if(opy>ya && py<ya)
                     flip=true;
-                
+
                 if(!firstDrag) {
                     int a,b,c,d;
-      
+
                     a = Math.min(xa,xb);
                     b = Math.min(ya,yb);
                     c = Math.abs(xb-xa);
                     d = Math.abs(yb-ya);
-    
+
                     xb=px;
                     yb=py;
                     opx=px;
                     opy=py;
-                    
-                    CC.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb), 
+
+                    CC.setEvidenceRect(Math.min(xa,xb), Math.min(ya,yb),
                            Math.abs(xb-xa), Math.abs(yb-ya));
 
                     a=Math.min(a, Math.min(xa,xb));
@@ -297,11 +297,11 @@ public class HandleActions
                     c=Math.max(c, Math.abs(xb-xa));
                     d=Math.max(d, Math.abs(yb-ya));
 
-                    if (flip) 
+                    if (flip)
                         CC.forcesRepaint();
                     else
                         CC.forcesRepaint(a,b,c+10,d+10);
-                   
+
                     return;
                 }
                 xb=px;

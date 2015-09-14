@@ -27,13 +27,13 @@ public class PointDouble
     public double y;
     public PointDouble(double x, double y)
     {
-        this.x=x; 
+        this.x=x;
         this.y=y;
     }
 
     public PointDouble()
     {
-        this.x=0; 
+        this.x=0;
         this.y=0;
     }
 }

@@ -86,7 +86,7 @@ public class SearchField extends JTextField implements FocusListener
         // Once the new background is drawn, we can proceed with the rest of
         // the component.
         super.paintComponent(g);
-        
+
         // At previous code, this document model had returned placeholder text
         // when waiting focus.
         // The model must be return zero length string in the situation.
@@ -141,7 +141,7 @@ public class SearchField extends JTextField implements FocusListener
     private void initKeyListener()
     {
         addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) 
+            public void keyReleased(KeyEvent e)
             {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancel();
@@ -150,16 +150,16 @@ public class SearchField extends JTextField implements FocusListener
                 }
 
             }
-            public void keyPressed(KeyEvent e) 
+            public void keyPressed(KeyEvent e)
             {
                 // If the search field has the focus, it will be te only
                 // recipient of the key strokes (solves bug #50).
                 // Do this only for R and S keys.
-                
+
                 // About this bug.
                 // The top component takes all key events regardless of focus???
                 if(isFocusOwner() && (e.getKeyCode() == KeyEvent.VK_R ||
-                                      e.getKeyCode() == KeyEvent.VK_S)) 
+                                      e.getKeyCode() == KeyEvent.VK_S))
                 {
                     e.consume();
                 }
@@ -279,7 +279,7 @@ public class SearchField extends JTextField implements FocusListener
             // In lieu of proper hit-testing for the circle, check that
             // the mouse is somewhere in the border.
 
-            Rectangle innerArea = 
+            Rectangle innerArea =
                 SwingUtilities.calculateInnerArea(SearchField.this, null);
             return !innerArea.contains(e.getPoint());
         }

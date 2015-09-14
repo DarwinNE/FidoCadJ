@@ -8,7 +8,7 @@ import java.awt.event.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 
-/** EnterCircuitFrame.java 
+/** EnterCircuitFrame.java
 
     This file is part of FidoCadJ.
 
@@ -33,29 +33,29 @@ import net.sourceforge.fidocadj.globals.*;
     A dialog useful to past the FidoCadJ code.
 
     @author Davide Bucci
-    
+
 
 */
-public class EnterCircuitFrame extends JDialog implements ComponentListener 
+public class EnterCircuitFrame extends JDialog implements ComponentListener
 {
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
 
     private final JTextArea textArea;
-    
+
     /* The stringCircuit property gives the modified string
         if the user selected the Ok button.
     */
     private String stringCircuit;
-      
+
     /** Defines the string containing the FidoCadJ code.
         @param s the string
-    */  
+    */
     public void setStringCircuit(String s)
     {
         stringCircuit = s;
     }
-    
+
     /** Gets the string containing the FidoCadJ code.
         @return the string.
     */
@@ -63,14 +63,14 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     {
         return stringCircuit;
     }
-    
+
     /** Impose a minimum size for this dialog.
     */
-    public void componentResized(ComponentEvent e) 
+    public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -84,55 +84,55 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
 
-    
-    /** The constructor. 
+
+    /** The constructor.
         @param parent the parent frame
         @param circuit the circuit Fidocad code
     */
     public EnterCircuitFrame (JFrame parent, String circuit)
     {
         super(parent, Globals.messages.getString("Enter_code"), true);
-        addComponentListener(this); 
-        
+        addComponentListener(this);
+
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
-        
-        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+
+        getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
-                
-                
+
+
         GridBagConstraints constraints;
         Container contentPane=getContentPane();
         contentPane.setLayout(new GridBagLayout());
-        
+
         DialogUtil.center(this,.5,.5);
 
         stringCircuit="[FIDOCAD]\n"+circuit;
         textArea=new JTextArea(stringCircuit,2,10);
         JScrollPane scrollPane=new JScrollPane(textArea);
-        
+
         constraints = DialogUtil.createConst(0,0,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.BOTH, 
+            GridBagConstraints.WEST, GridBagConstraints.BOTH,
             new Insets(20,20,12,20));
 
         contentPane.add(scrollPane, constraints);
-               
+
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-        
+
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
@@ -142,7 +142,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-        
+
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -151,9 +151,9 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         b.add(Box.createHorizontalStrut(20));
 
         constraints = DialogUtil.createConst(0,1,1,1,100,0,
-            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(0,0,20,0));
-        
+
         contentPane.add(b, constraints);
 
         ok.addActionListener(new ActionListener()
@@ -171,7 +171,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
                 setVisible(false);
             }
         });
-        
+
         // Here is an action in which the dialog is closed
 
         AbstractAction cancelAction = new AbstractAction ()
@@ -182,9 +182,9 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             }
         };
         DialogUtil.addCancelEscape (this, cancelAction);
-        
+
     }
-  
+
 
 
 }

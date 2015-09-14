@@ -23,7 +23,7 @@ package net.sourceforge.fidocadj.globals;
 
     </pre>
 */
-public interface ProvidesCopyPasteInterface 
+public interface ProvidesCopyPasteInterface
 {
     public void copyText(String s);
     public String pasteText();

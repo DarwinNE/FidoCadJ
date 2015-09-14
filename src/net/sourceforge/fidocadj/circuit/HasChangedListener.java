@@ -22,7 +22,7 @@ package net.sourceforge.fidocadj.circuit;
     @author Davide Bucci
 */
 
-public interface HasChangedListener 
+public interface HasChangedListener
 {
     public void somethingHasChanged();
 

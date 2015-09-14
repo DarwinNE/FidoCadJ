@@ -45,7 +45,7 @@ import net.sourceforge.fidocadj.FidoMain;
 @author phylum2, Davide Bucci
 */
 
-public final class LibUtils 
+public final class LibUtils
 {
 
     /** Private constructor, for Utility class pattern
@@ -54,33 +54,33 @@ public final class LibUtils
     {
         // nothing
     }
-    
+
     /** Extract all the macros belonging to a given library
-        
+
         @param m the macro list
         @param libfile the file name of the wanted library
         @return the library.
-    
+
     */
     public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
         String libfile)
     {
         //System.out.println("libfile:"+libfile);
         Map<String,MacroDesc> mm = new TreeMap<String,MacroDesc>();
-        MacroDesc md;       
+        MacroDesc md;
         for (Entry<String, MacroDesc> e : m.entrySet())
-        {           
+        {
             md = e.getValue();
-            
+
             // The most reliable way to discriminate the macros is to watch
-            // at the prefix in the key, i.e. everything which comes 
+            // at the prefix in the key, i.e. everything which comes
             // before the dot in the complete key.
-            
+
             int dotPos = md.key.lastIndexOf(".");
-            
+
             // If no dot is found, this is by definition the original FidoCad
             // standard library (immutable).
-            
+
             if(dotPos<0)
                 continue;
             String lib = md.key.substring(0,dotPos).trim();
@@ -88,30 +88,30 @@ public final class LibUtils
                 mm.put(e.getKey(), md);
             }
         }
-        return mm;      
+        return mm;
     }
-    
+
     /** Prepare an header and collect text for creating a complete library.
         @param m the macro map associated to the library
         @param name the name of the library
         @return the library description in FidoCadJ code.
-    
+
     */
-    public static String prepareText(Map<String,MacroDesc> m, String name) 
-    {   
-        StringBuffer sb = new StringBuffer();       
+    public static String prepareText(Map<String,MacroDesc> m, String name)
+    {
+        StringBuffer sb = new StringBuffer();
         String prev = null;
         int u;
-        MacroDesc md;   
+        MacroDesc md;
         // Header
         sb.append("[FIDOLIB " + name + "]\n");
-        for (Entry<String,MacroDesc> e : m.entrySet()) {              
+        for (Entry<String,MacroDesc> e : m.entrySet()) {
             md = e.getValue();
             // Category (check if it is changed)
             if (prev == null || !prev.equalsIgnoreCase(md.category.trim())) {
-                sb.append("{"+md.category+"}\n"); 
-                prev = md.category.toLowerCase(new Locale("en")).trim(); 
-            }           
+                sb.append("{"+md.category+"}\n");
+                prev = md.category.toLowerCase(new Locale("en")).trim();
+            }
             sb.append("[");
             // When the macros are written in the library, they contain only
             // the last part of the key, since the first part (before the .)
@@ -123,48 +123,48 @@ public final class LibUtils
             sb.append("]");
             u = md.description.codePointAt(0) == '\n'?1:0;
             sb.append("\n");
-            sb.append(md.description.substring(u)); 
+            sb.append(md.description.substring(u));
             sb.append("\n");
         }
-        return sb.toString();       
+        return sb.toString();
     }
-    
+
     /** Save to a file a string respecting the global encoding settings.
-        @param file the file name 
+        @param file the file name
         @param text the string to be written
     */
-    public static void saveToFile(String file, String text) 
+    public static void saveToFile(String file, String text)
         throws FileNotFoundException
-    {       
+    {
         System.out.println("file: "+file);
-        
+
         PrintWriter pw;
         try {
             pw = new PrintWriter(file, Globals.encoding);
             pw.print(text);
             pw.flush();
             pw.close();
-        } catch (UnsupportedEncodingException e) { 
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }               
+        }
     }
-    
+
     /** Save a library in a file.
         @param m the map containing the library.
         @param file the file name.
         @param libname the name of the library.
         @param prefix the prefix to be used for the keys.
     */
-    public static void save(Map<String,MacroDesc> m, String file, 
-        String libname, String prefix) 
+    public static void save(Map<String,MacroDesc> m, String file,
+        String libname, String prefix)
     {
         try {
-            LibUtils.saveToFile(file + ".fcl", 
+            LibUtils.saveToFile(file + ".fcl",
                 LibUtils.prepareText(
                 LibUtils.getLibrary(m, prefix), libname));
-        } catch (FileNotFoundException e) { 
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }       
+        }
     }
 
     public static String getLibDir() throws FileNotFoundException
@@ -173,19 +173,19 @@ public final class LibUtils
         Preferences prefs = Preferences.userNodeForPackage(FidoMain.class);
         String s = prefs.get("DIR_LIBS", "");
         if (s == null || s.length()==0) {
-            throw new FileNotFoundException();          
+            throw new FileNotFoundException();
         }
-        if (!s.endsWith(System.getProperty("file.separator"))) 
-            s+=System.getProperty("file.separator");     
-        return s;       
+        if (!s.endsWith(System.getProperty("file.separator")))
+            s+=System.getProperty("file.separator");
+        return s;
     }
-    
+
     /** Returns full path to lib file.
       @param lib Library name.
      */
-    public static String getLibPath(String lib) throws FileNotFoundException 
-    {       
-        return getLibDir()+lib.trim();      
+    public static String getLibPath(String lib) throws FileNotFoundException
+    {
+        return getLibDir()+lib.trim();
     }
 
     /** Eliminates a library.
@@ -195,26 +195,26 @@ public final class LibUtils
         IOException
     {
         File f = new File(getLibDir()+s+".fcl");
-        if(!f.delete()) 
-            throw new IOException("Can not delete library.");       
+        if(!f.delete())
+            throw new IOException("Can not delete library.");
     }
-    
+
     /** Get all the library in the current library directory.
         @return a list containing all the library files.
-    
+
     */
     public static List<File> getLibs() throws FileNotFoundException
     {
         File lst = new File(LibUtils.getLibDir());
         List<File> l = new ArrayList<File>();
-        if (!lst.exists()) 
+        if (!lst.exists())
             return null;
         for (File f : lst.listFiles()) {
-            if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);           
+            if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);
         }
-        return l;               
+        return l;
     }
-    
+
     /** Determine whether a library is standard or not.
         @param tlib the name (better prefix?) of the library
         @return true if the specified library is standard
@@ -223,29 +223,29 @@ public final class LibUtils
     {
         String szlib=tlib.library;
         String szfn=tlib.filename;
-                
+
         if(szlib==null)
             return false;
 
         boolean isStandard=false;
         int dotpos=-1;
         boolean extensions=true;
-        
+
         // A first way to determine if a macro is standard is to see if its
         // name does not contains a dot (original FidoCAD standard library)
-        
-        if ((dotpos=tlib.key.indexOf("."))<0) { 
+
+        if ((dotpos=tlib.key.indexOf("."))<0) {
             isStandard = true;
         } else {
-            // If the name contains a dot, we might check whether we have 
+            // If the name contains a dot, we might check whether we have
             // one of the new FidoCadJ standard libraries:
             // pcb, ihram, elettrotecnica.
-            
+
             // Obtain the library name
             String library=tlib.key.substring(0,dotpos);
-            
+
             // Check it
-            if(extensions && "pcb".equals(library)) { 
+            if(extensions && "pcb".equals(library)) {
                 isStandard = true;
             } else if (extensions && "ihram".equals(library)) {
                 isStandard = true;
@@ -253,16 +253,16 @@ public final class LibUtils
                 isStandard = true;
             }
         }
-            
+
         return isStandard;
     }
-    
+
     /** Rename a group inside a library
         @param libref the map containing the library
         @param tlib the name of the library
         @param tgrp the name of the group to be renamed
         @param newname the new name of the group
-        
+
         DB: what if a group is not present?
 
     */
@@ -273,17 +273,17 @@ public final class LibUtils
         for (MacroDesc md : libref.values()) {
             if (md.category.equalsIgnoreCase(tgrp)
                     && md.library.trim().equalsIgnoreCase(
-                            tlib.trim())) 
+                            tlib.trim()))
             {
                 md.category = newname;
-                prefix = md.filename; 
+                prefix = md.filename;
             }
         }
         if ("".equals(prefix))
             return;
         save(libref, getLibPath(tlib), tlib.trim(), prefix);
     }
-    
+
     /** Check whether a key is used in a given library or it is available.
         Also check for strange characters.
         @param libref the map containing the library
@@ -291,8 +291,8 @@ public final class LibUtils
         @param key the key to be checked
         @return false if the key is available, true if it is used.
     */
-    public static boolean checkKey(Map<String, MacroDesc> libref, 
-        String tlib,String key) 
+    public static boolean checkKey(Map<String, MacroDesc> libref,
+        String tlib,String key)
     {
         for (MacroDesc md : libref.values()) {
             if (md.library.equalsIgnoreCase(tlib) &&
@@ -301,12 +301,12 @@ public final class LibUtils
         }
         if(key.contains("]"))
             return true;
-            
+
         return false;
     }
-    
+
     /** Check if a library name is acceptable. Since the library name is used
-        also as a file name, it must not contain characters which would 
+        also as a file name, it must not contain characters which would
         be in conflict with the rules of file names in the various operating
         systems.
         @return true if something strange is found.
@@ -314,45 +314,45 @@ public final class LibUtils
     public static boolean checkLibrary(String library)
     {
         if (library == null) return false;
-    
+
         return library.contains("[")||library.contains(".")||
            library.contains("/")||library.contains("\\")||
            library.contains("~")||library.contains("&")||
            library.contains(",")||library.contains(";")||
            library.contains("]")||library.contains("\"");
     }
-    
+
     /** Rename a library file
         @param m the map containing the library
         @param file the name of the file to be written
-        @param libname the previous name of the library 
+        @param libname the previous name of the library
         @param libname2 the library new name
     */
     public static void renameLib(Map<String, MacroDesc> m, String file,
-            String libname, String libname2) 
+            String libname, String libname2)
     {
         try {
-            //file = file.replace(libname, libname2);                   
-            LibUtils.saveToFile(file + ".fcl", 
+            //file = file.replace(libname, libname2);
+            LibUtils.saveToFile(file + ".fcl",
                        LibUtils.prepareText(
-                               LibUtils.getLibrary(m, libname), 
+                               LibUtils.getLibrary(m, libname),
                                libname2));
             //deleteLib(libname);
-        } catch (FileNotFoundException e) { 
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }   
-        
+        }
+
     }
 
     /** Delete a group inside a library
         @param m the map containing the library
         @param tlib the library name
         @param tgrp the group to be deleted.
-        
+
         DB: what if a group is not found?
-    
+
     */
-    public static void deleteGroup(Map<String, MacroDesc> m,String tlib, 
+    public static void deleteGroup(Map<String, MacroDesc> m,String tlib,
         String tgrp) throws FileNotFoundException
     {
         Map<String, MacroDesc> mm = new TreeMap<String, MacroDesc>();
@@ -360,10 +360,10 @@ public final class LibUtils
         String prefix="";
         for (Entry<String, MacroDesc> smd : mm.entrySet())
         {
-            MacroDesc md = smd.getValue();          
-            if (md.library.trim().equalsIgnoreCase(tlib) && 
-                    md.category.equalsIgnoreCase(tgrp)) 
-            {   
+            MacroDesc md = smd.getValue();
+            if (md.library.trim().equalsIgnoreCase(tlib) &&
+                    md.category.equalsIgnoreCase(tgrp))
+            {
                 m.remove(md.key);
                 prefix = md.filename;
             }
@@ -372,13 +372,13 @@ public final class LibUtils
             return;
         save(m, getLibPath(tlib), tlib, prefix);
     }
-    
+
     /** Obtain a list containing all the groups in a given library
         @param m the map containing all the libraries
         @param prefix the filename of the wanted library
     */
-    public static List<String> enumGroups(Map<String,MacroDesc> m, 
-        String prefix) 
+    public static List<String> enumGroups(Map<String,MacroDesc> m,
+        String prefix)
     {
         List<String> lst = new LinkedList<String>();
         for (MacroDesc md : m.values()) {
@@ -394,7 +394,7 @@ public final class LibUtils
         @param m the map containing all the libraries
         @param prefix the filename of the wanted library
     */
-    public static String getLibName(Map<String,MacroDesc> m, String prefix) 
+    public static String getLibName(Map<String,MacroDesc> m, String prefix)
     {
         List lst = new LinkedList();
         for (MacroDesc md : m.values()) {
@@ -419,26 +419,26 @@ public final class LibUtils
             // This is an hack: at first, we create a temporary file. We store
             // its name and we use it to create a temporary directory.
             File tempDir = File.createTempFile("fidocadj_", "");
-            if(!tempDir.delete()) 
+            if(!tempDir.delete())
                 throw new IOException(
-                    "saveLibraryState: Can not delete temp file."); 
-            
-            if(!tempDir.mkdir()) 
+                    "saveLibraryState: Can not delete temp file.");
+
+            if(!tempDir.mkdir())
                 throw new IOException(
-                    "saveLibraryState: Can not create temp directory."); 
-            
+                    "saveLibraryState: Can not create temp directory.");
+
             String s=LibUtils.getLibDir();
 
             String d=tempDir.getAbsolutePath();
-            
+
             // We copy all the contents of the current library directory in the
             // temporary directory.
             File sourceDir = new File(s);
             File destinationDir = new File(d);
-            FileUtils.copyDirectoryNonRecursive(sourceDir, destinationDir, 
+            FileUtils.copyDirectoryNonRecursive(sourceDir, destinationDir,
                 "fcl");
-            
-            // We store the directory name in the stack structure of the 
+
+            // We store the directory name in the stack structure of the
             // undo system.
             if(ua != null)
                 ua.saveUndoLibrary(d);
@@ -604,5 +604,5 @@ public final class LibUtils
 };
 
 */
-    
+
 }

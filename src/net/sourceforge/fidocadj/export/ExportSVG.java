@@ -8,7 +8,7 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-/** 
+/**
     Export drawing in the Scalable Vector Graphics format.
 
 <pre>
@@ -30,21 +30,21 @@ import net.sourceforge.fidocadj.graphic.*;
     Copyright 2008-2015 by Davide Bucci
 </pre>
 
-    
+
     @author Davide Bucci
 */
 
-public class ExportSVG implements ExportInterface 
+public class ExportSVG implements ExportInterface
 {
     //private File fileExp;
     final private OutputStreamWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
     //private int numberPath;
-    
+
     private ColorInterface c;
     private double strokeWidth;
-    
+
     static final String dash[]={"2.5,5", "1.25,1.25",
         "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
 
@@ -54,74 +54,74 @@ public class ExportSVG implements ExportInterface
         return Math.round(l*100.0)/100.0;
     }
     /** Constructor
-    
+
         @param f the File object in which the export should be done.
-        
+
     */
-    
+
     public ExportSVG (File f) throws IOException
     {
         //fileExp=f;
-        
-        fstream = new OutputStreamWriter(new FileOutputStream(f), 
+
+        fstream = new OutputStreamWriter(new FileOutputStream(f),
             Globals.encoding);
-    
-        
+
+
     }
-    
+
     /** Called at the beginning of the export phase. Ideally, in this routine
         there should be the code to write the header of the file on which
         the drawing should be exported.
-            
+
         @param totalSize the size of the image. Useful to calculate for example
         the bounding box.
         @param la a vector describing the attributes of each layer.
-        @param grid the grid size. This is useful when exporting to another 
+        @param grid the grid size. This is useful when exporting to another
             drawing program having some kind of grid concept. You might use
             this value to synchronize FidoCadJ's grid with the one used by
             the target.
 
     */
-    
+
     public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
-        int grid)  
+        int grid)
         throws IOException
-    { 
-        
+    {
+
         // We need to save layers informations, since we will use them later.
-        
+
         layerV=la;
         out = new BufferedWriter(fstream);
         //numberPath=0;
-                
+
         int wi=(int)(totalSize.width);
         int he=(int)(totalSize.height);
-        
+
         // A dumb, basic header of the SVG file
-        
+
         // Globals.encoding
-        out.write("<?xml version=\"1.0\" encoding=\""+"UTF-8"+"\" " +           
+        out.write("<?xml version=\"1.0\" encoding=\""+"UTF-8"+"\" " +
             "standalone=\"no\"?> \n<!DOCTYPE svg PUBLIC"+
-            " \"-//W3C//Dtd SVG 1.1//EN\" " + 
+            " \"-//W3C//Dtd SVG 1.1//EN\" " +
             "\"http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd\">\n"+
             "<svg width=\""+cLe(wi)+"\" height=\""+cLe(he)+
             "\" version=\"1.1\" " + "xmlns=\"http://www.w3.org/2000/svg\" " +
             "xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"+
             "<!-- Created by FidoCadJ ver. "+Globals.version+
             ", export filter by Davide Bucci -->\n");
-    } 
-    
+    }
+
     /** Called at the end of the export phase.
     */
-    public void exportEnd() 
+    public void exportEnd()
         throws IOException
-    { 
+    {
         out.write("</svg>");
         out.close();
     }
 
     /** Called when exporting an Advanced Text primitive.
-    
+
         @param x the x position of the beginning of the string to be written
         @param y the y position of the beginning of the string to be written
         @param sizex the x size of the font to be used
@@ -134,33 +134,33 @@ public class ExportSVG implements ExportInterface
         @param layer the layer that should be used
         @param text the text that should be written
     */
-    
+
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
-        int orientation, int layer, String text) 
+        int orientation, int layer, String text)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String path;
-        
-        /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR, 
+
+        /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR,
             MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
             HANDLED
         */
-        
+
  /*
         if(isBold)
-            outt.write("/F2"+" "+sizey+" Tf\n");       
+            outt.write("/F2"+" "+sizey+" Tf\n");
         else
-            outt.write("/F1"+" "+sizey+" Tf\n");       
-*/      
+            outt.write("/F1"+" "+sizey+" Tf\n");
+*/
 
 
         out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
-    
-        
-        double xscale = sizex/22.0/sizey*38.0;  
+
+
+        double xscale = sizex/22.0/sizey*38.0;
         if(orientation !=0) {
             double alpha= isMirrored?orientation:-orientation;
             out.write(" rotate("+alpha+") ");
@@ -168,8 +168,8 @@ public class ExportSVG implements ExportInterface
         if(isMirrored) {
             xscale=-xscale;
         }
-        out.write(" scale("+xscale+",1) ");     
-        
+        out.write(" scale("+xscale+",1) ");
+
         out.write("\">");
         out.write("<text x=\""+0+"\" y=\""+cLe(sizey)+"\" font-family=\""+
             fontname+"\" font-size=\""+cLe(sizey)+"\" font-style=\""+
@@ -179,16 +179,16 @@ public class ExportSVG implements ExportInterface
                 convertToHex2(c.getRed())+
                 convertToHex2(c.getGreen())+
                 convertToHex2(c.getBlue())+"\""+
-            
+
             ">");
         out.write(text);
         out.write("</text>\n");
-        out.write("</g>\n");    
-        
+        out.write("</g>\n");
+
     }
-    
+
     /** Called when exporting a Bézier primitive.
-    
+
         @param x1 the x position of the first point of the trace
         @param y1 the y position of the first point of the trace
         @param x2 the x position of the second point of the trace
@@ -198,60 +198,60 @@ public class ExportSVG implements ExportInterface
         @param x4 the x position of the fourth point of the trace
         @param y4 the y position of the fourth point of the trace
         @param layer the layer that should be used
-        
+
                 // from 0.22.1
-        
+
         @param arrowStart specify if an arrow is present at the first point
         @param arrowEnd specify if an arrow is present at the second point
         @param arrowLength total lenght of arrows (if present)
         @param arrowHalfWidth half width of arrows (if present)
         @param dashStyle dashing style
-        
+
     */
     public void exportBezier (int x1, int y1,
         int x2, int y2,
         int x3, int y3,
         int x4, int y4,
         int layer,
-        boolean arrowStart, 
-        boolean arrowEnd, 
-        int arrowStyle, 
-        int arrowLength, 
-        int arrowHalfWidth, 
+        boolean arrowStart,
+        boolean arrowEnd,
+        int arrowStyle,
+        int arrowLength,
+        int arrowHalfWidth,
         int dashStyle,
         double sW)
-        throws IOException  
-    { 
+        throws IOException
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        
+
         strokeWidth=sW;
         out.write("<path d=\"M "+cLe(x1)+","+cLe(y1)+" C "+
                   cLe(x2)+ ","+cLe(y2)+" "+cLe(x3)+","+cLe(y3)+" "+cLe(x4)+
                   ","+cLe(y4)+"\" ");
-                  
+
         checkColorAndWidth("fill=\"none\"", dashStyle);
-        
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+
+        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
             arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength, 
+        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
             arrowHalfWidth, arrowStyle);
     }
-    
+
     /** Called when exporting a Connection primitive.
-    
+
         @param x the x position of the position of the connection
         @param y the y position of the position of the connection
-        
+
         @param layer the layer that should be used
     */
-    public void exportConnection (int x, int y, int layer, double node_size) 
+    public void exportConnection (int x, int y, int layer, double node_size)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         strokeWidth = cLe(0.33);
-        
+
         out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
             " r=\""+cLe(node_size/2.0)+"\" style=\"stroke:#"+
                   convertToHex2(c.getRed())+
@@ -261,40 +261,40 @@ public class ExportSVG implements ExportInterface
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"/>\n");
-    
+
     }
-        
+
     /** Called when exporting a Line primitive.
-    
+
         @param x1 the x position of the first point of the segment
         @param y1 the y position of the first point of the segment
         @param x2 the x position of the second point of the segment
         @param y2 the y position of the second point of the segment
-        
+
         @param layer the layer that should be used
-        
+
         // from 0.22.1
-        
+
         @param arrowStart specify if an arrow is present at the first point
         @param arrowEnd specify if an arrow is present at the second point
         @param arrowLength total lenght of arrows (if present)
         @param arrowHalfWidth half width of arrows (if present)
         @param dashStyle dashing style
-        
+
     */
-    
+
     public void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
-        boolean arrowStart, 
-        boolean arrowEnd, 
-        int arrowStyle, 
-        int arrowLength, 
-        int arrowHalfWidth, 
+        boolean arrowStart,
+        boolean arrowEnd,
+        int arrowStyle,
+        int arrowLength,
+        int arrowHalfWidth,
         int dashStyle,
         double sW)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         strokeWidth=sW;
@@ -302,19 +302,19 @@ public class ExportSVG implements ExportInterface
             cLe(x2)+"\" y2=\""+cLe(y2)+"\" ");
         checkColorAndWidth("fill=\"none\"", dashStyle);
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength, 
+        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
             arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength, 
+        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
             arrowHalfWidth, arrowStyle);
-        
+
     }
-    
+
     /** Called when exporting a Macro call.
-        This function can just return false, to indicate that the macro should 
-        be rendered by means of calling the other primitives. Please note that 
+        This function can just return false, to indicate that the macro should
+        be rendered by means of calling the other primitives. Please note that
         a macro does not have a reference layer, since it is defined by its
         components.
-        
+
         @param x the x position of the position of the macro
         @param y the y position of the position of the macro
         @param isMirrored true if the macro is mirrored
@@ -331,33 +331,33 @@ public class ExportSVG implements ExportInterface
         @param fontSize the size of the font to be used
         @param m the library
     */
-    public boolean exportMacro(int x, int y, boolean isMirrored, 
+    public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
         String name, int xn, int yn, String value, int xv, int yv, String font,
         int fontSize, Map m)
         throws IOException
     {
         // The macro will be expanded into primitives.
-        return false; 
+        return false;
     }
-    
+
 
     /** Called when exporting an Oval primitive. Specify the bounding box.
-            
+
         @param x1 the x position of the first corner
         @param y1 the y position of the first corner
         @param x2 the x position of the second corner
         @param y2 the y position of the second corner
         @param isFilled it is true if the oval should be filled
-        
+
         @param layer the layer that should be used
         @param dashStyle dashing style
 
-    */  
+    */
     public void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double sW)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String fill_pattern="";
@@ -369,20 +369,20 @@ public class ExportSVG implements ExportInterface
                   convertToHex2(c.getBlue())+"\"";
         } else {
             fill_pattern="fill=\"none\"";
-        
+
         }
-         
-        
-        
+
+
+
         out.write("<ellipse cx=\""+cLe((x1+x2)/2.0)+"\" cy=\""+
                   cLe((y1+y2)/2.0)+
                   "\" rx=\""+cLe(Math.abs(x2-x1)/2.0)+"\" ry=\""+
                   cLe(Math.abs(y2-y1)/2.0)+"\" ");
         checkColorAndWidth(fill_pattern, dashStyle);
     }
-        
+
     /** Called when exporting a PCBLine primitive.
-    
+
         @param x1 the x position of the first point of the segment
         @param y1 the y position of the first point of the segment
         @param x2 the x position of the second point of the segment
@@ -390,13 +390,13 @@ public class ExportSVG implements ExportInterface
         @param width the width ot the line
         @param layer the layer that should be used
     */
-    public void exportPCBLine(int x1, int y1, int x2, int y2, int width, 
-        int layer) 
+    public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
+        int layer)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        
+
         out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
             cLe(x2)+"\" y2=\""+cLe(y2)+"\" style=\"stroke:#"+
                   convertToHex2(c.getRed())+
@@ -405,35 +405,35 @@ public class ExportSVG implements ExportInterface
                   ";stroke-linejoin:round;stroke-linecap:round"+
                   ";stroke-width:"+width+
                   "\"/>\n");
-        
+
 
     }
-        
-    
+
+
     /** Called when exporting a PCBPad primitive.
-    
-        @param x the x position of the pad 
+
+        @param x the x position of the pad
         @param y the y position of the pad
-        @param style the style of the pad (0: oval, 1: square, 2: rounded 
+        @param style the style of the pad (0: oval, 1: square, 2: rounded
             square)
         @param six the x size of the pad
         @param siy the y size of the pad
         @param indiam the hole internal diameter
         @param layer the layer that should be used
     */
-    
-    public void exportPCBPad(int x, int y, int style, int six, int siy, 
-        int indiam, int layer, boolean onlyHole) 
+
+    public void exportPCBPad(int x, int y, int style, int six, int siy,
+        int indiam, int layer, boolean onlyHole)
         throws IOException
-    { 
+    {
         double xdd;
         double ydd;
-        
+
         strokeWidth=0.33;
-        
+
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        
+
         if(onlyHole) {
             // ... then, drill the hole!
             out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
@@ -446,7 +446,7 @@ public class ExportSVG implements ExportInterface
                 case 1: // Square pad
                     xdd=cLe((double)x-six/2.0);
                     ydd=cLe((double)y-siy/2.0);
-                    
+
                     out.write("<rect x=\""+xdd+"\" y=\""+
                         ydd+    "\" rx=\"0\" ry=\"0\" "+
                         "width=\""+cLe(six)+"\" height=\""+
@@ -458,7 +458,7 @@ public class ExportSVG implements ExportInterface
                         convertToHex2(c.getRed())+
                         convertToHex2(c.getGreen())+
                         convertToHex2(c.getBlue())+"\"/>\n");
-                
+
                     break;
                 case 2: // Rounded pad
                     xdd=cLe((double)x-six/2.0);
@@ -491,25 +491,25 @@ public class ExportSVG implements ExportInterface
                         convertToHex2(c.getBlue())+"\"/>\n");
                     break;
             }
-        } 
-        
-        
+        }
+
+
     }
-    
+
     /** Called when exporting a Polygon primitive
-    
+
         @param vertices array containing the position of each vertex
         @param nVertices number of vertices
         @param isFilled true if the polygon is filled
         @param layer the layer that should be used
         @param dashStyle dashing style
 
-    
+
     */
-    public void exportPolygon(PointDouble[] vertices, int nVertices, 
+    public void exportPolygon(PointDouble[] vertices, int nVertices,
         boolean isFilled, int layer, int dashStyle, double sW)
         throws IOException
-    { 
+    {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String fill_pattern="";
@@ -521,56 +521,56 @@ public class ExportSVG implements ExportInterface
                   convertToHex2(c.getBlue())+"\"";
         } else {
             fill_pattern="fill=\"none\"";
-        
+
         }
         int i;
-        
+
         //LayerDesc l=(LayerDesc)layerV.get(layer);
         out.write("<polygon points=\"");
         for (i=0; i<nVertices; ++i) {
             out.write(""+cLe(vertices[i].x)+","+cLe(vertices[i].y)+" ");
-        
+
         }
         out.write("\" ");
         checkColorAndWidth(fill_pattern, dashStyle);
     }
     /** Called when exporting a Curve primitive
-    
+
         @param vertices array containing the position of each vertex
         @param nVertices number of vertices
         @param isFilled true if the polygon is filled
         @param isClosed true if the curve is closed
         @param layer the layer that should be used
-        @param arrowStart true if an arrow should be drawn at the start point 
-        @param arrowEnd true if an arrow should be drawn at the end point 
+        @param arrowStart true if an arrow should be drawn at the start point
+        @param arrowEnd true if an arrow should be drawn at the end point
         @param dashStyle dashing style
         @param sW the width of the pen to be used when drawing
-        
+
         @return false if the curve should be rendered using a polygon, true
             if it is handled by the function.
     */
-    public boolean exportCurve(PointDouble[] vertices, int nVertices, 
-        boolean isFilled, boolean isClosed, int layer, 
-        boolean arrowStart, 
-        boolean arrowEnd, 
-        int arrowStyle, 
-        int arrowLength, 
-        int arrowHalfWidth, 
+    public boolean exportCurve(PointDouble[] vertices, int nVertices,
+        boolean isFilled, boolean isClosed, int layer,
+        boolean arrowStart,
+        boolean arrowEnd,
+        int arrowStyle,
+        int arrowLength,
+        int arrowHalfWidth,
         int dashStyle,
         double sW)
         throws IOException
     {
         return false;
     }
-    
+
     /** Called when exporting a Rectangle primitive.
-            
+
         @param x1 the x position of the first corner
         @param y1 the y position of the first corner
         @param x2 the x position of the second corner
         @param y2 the y position of the second corner
         @param isFilled it is true if the rectangle should be filled
-        
+
         @param layer the layer that should be used
         @param dashStyle dashing style
 
@@ -578,12 +578,12 @@ public class ExportSVG implements ExportInterface
     public void exportRectangle(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double sW)
         throws IOException
-    { 
+    {
         strokeWidth=sW;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String fill_pattern="";
-        
+
         if(isFilled) {
             fill_pattern="fill=\"#"+
                   convertToHex2(c.getRed())+
@@ -591,18 +591,18 @@ public class ExportSVG implements ExportInterface
                   convertToHex2(c.getBlue())+"\"";
         } else {
             fill_pattern="fill=\"none\"";
-        
+
         }
-        
+
         out.write("<rect x=\""+cLe(Math.min(x1,x2))+"\" y=\""+
                   cLe(Math.min(y1,y2))+
                   "\" rx=\"0\" ry=\"0\" "+
                   "width=\""+cLe(Math.abs(x2-x1))+"\" height=\""+
                   cLe(Math.abs(y2-y1))+"\" ");
         checkColorAndWidth(fill_pattern, dashStyle);
-    
+
     }
-    
+
     /** Just be sure that the HEX values are given with two digits...
         NOT a speed sensitive context.
     */
@@ -611,7 +611,7 @@ public class ExportSVG implements ExportInterface
         String s=Integer.toHexString(v);
         if (s.length()==1)
             s="0"+s;
-            
+
         return s;
     }
 
@@ -620,18 +620,18 @@ public class ExportSVG implements ExportInterface
     //private String ofp;
     //private int ods;
 
-    
+
     /** This routine ensures that the following items will be drawn with the
         correct stroke pattern and color.
-    
+
     */
     private void checkColorAndWidth(String fill_pattern, int dashStyle)
         throws IOException
     {
-        
-        // Write only if necessary, to save space. 
+
+        // Write only if necessary, to save space.
         // It does not work...
-        
+
         //if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
         //if(true) {
         {
@@ -639,7 +639,7 @@ public class ExportSVG implements ExportInterface
                 convertToHex2(c.getRed())+
                 convertToHex2(c.getGreen())+
                 convertToHex2(c.getBlue()));
-        
+
             if (dashStyle>0)
                 out.write(";stroke-dasharray: "+dash[dashStyle]);
 
@@ -651,7 +651,7 @@ public class ExportSVG implements ExportInterface
             //owl=strokeWidth;
             //ofp=fill_pattern;
             //ods=dashStyle;
-        
+
         //} else {
         //  out.write("/>\n");
         //}
@@ -671,8 +671,8 @@ public class ExportSVG implements ExportInterface
         @param h width of the arrow
         @param style style of the arrow
     */
-    public void exportArrow(double x, double y, double xc, double yc, 
-        double l, double h, 
+    public void exportArrow(double x, double y, double xc, double yc,
+        double l, double h,
         int style)
         throws IOException
     {
@@ -684,38 +684,38 @@ public class ExportSVG implements ExportInterface
         double y1;
         double x2;
         double y2;
-        
+
         // At first we need the angle giving the direction of the arrow
         // a little bit of trigonometry :-)
-        
+
         if (x==xc)
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
         else
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
-        
+
         alpha += x-xc>0.0?0.0:Math.PI;
-        String fill_pattern;        
-        
-    
+        String fill_pattern;
+
+
         // Then, we calculate the points for the polygon
         x0 = x - l*Math.cos(alpha);
         y0 = y - l*Math.sin(alpha);
-        
+
         x1 = x0 - h*Math.sin(alpha);
         y1 = y0 + h*Math.cos(alpha);
-        
+
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
-        
+
         out.write("<polygon points=\"");
-            
+
         out.write(""+roundTo(x)+","
             +roundTo(y)+" ");
         out.write(""+roundTo(x1)+","
             +roundTo(y1)+" ");
         out.write(""+roundTo(x2)+","
             +roundTo(y2)+"\" ");
-        
+
         if ((style & Arrow.flagEmpty) == 0)
             fill_pattern="fill=\"#"+
                   convertToHex2(c.getRed())+
@@ -723,7 +723,7 @@ public class ExportSVG implements ExportInterface
                   convertToHex2(c.getBlue())+"\"";
         else
             fill_pattern="fill=\"none\"";
- 
+
         checkColorAndWidth(fill_pattern,0);
 
         if ((style & Arrow.flagLimiter) != 0) {
@@ -733,15 +733,15 @@ public class ExportSVG implements ExportInterface
             double y4;
             x3 = x - h*Math.sin(alpha);
             y3 = y + h*Math.cos(alpha);
-        
+
             x4 = x + h*Math.sin(alpha);
             y4 = y - h*Math.cos(alpha);
             out.write("<line x1=\""+cLe(x3)+"\" y1=\""+cLe(y3)+"\" x2=\""+
                 cLe(x4)+"\" y2=\""+cLe(y4)+"\" ");
             checkColorAndWidth("fill=\"none\"", 0);
         }
-        
-    }   
+
+    }
 
 
 }

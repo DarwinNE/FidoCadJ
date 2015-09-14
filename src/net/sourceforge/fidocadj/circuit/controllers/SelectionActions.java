@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.primitives.*;
     The actions proposed by this class involve selected elements. However,
     no action proposes a change of the characteristics of the elements, at
     least directly.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -35,12 +35,12 @@ import net.sourceforge.fidocadj.primitives.*;
 public class SelectionActions
 {
     private final DrawingModel P;
-    
+
     public SelectionActions(DrawingModel pp)
     {
         P=pp;
     }
-    
+
     /** Get the first selected primitive
         @return the selected primitive, null if none.
     */
@@ -52,7 +52,7 @@ public class SelectionActions
         }
         return null;
     }
-    
+
     /** Apply an action to selected elements contained in the model.
         @tt the method containing the action to be performed
     */
@@ -71,23 +71,23 @@ public class SelectionActions
     {
         int i;
         Vector<Boolean> v = new Vector<Boolean>(P.getPrimitiveVector().size());
-   
+
         for(GraphicPrimitive g : P.getPrimitiveVector()) {
             v.add(Boolean.valueOf(g.getSelected()));
         }
         return v;
     }
-    
+
     /** Select/deselect all primitives.
-        @param state true if you want to select, false for deselect.  
+        @param state true if you want to select, false for deselect.
     */
     public void setSelectionAll(boolean state)
     {
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
             g.setSelected(state);
-        }   
+        }
     }
-    
+
     /** Sets the state of the objects in the database according to the given
         vector.
         @param v the vector containing the selection state of elements
@@ -95,12 +95,12 @@ public class SelectionActions
     public void setSelectionStateVector(Vector<Boolean> v)
     {
         int i=0;
-        
+
         for(GraphicPrimitive g : P.getPrimitiveVector()) {
             g.setSelected(v.get(i++).booleanValue());
         }
-    } 
-    
+    }
+
     /** Determine if only one primitive has been selected
         @return true if only one primitive is selected, false otherwise (which
             means that either more than several primitives or no primitive are
@@ -110,37 +110,37 @@ public class SelectionActions
     {
         boolean isUnique=true;
         boolean hasFound=false;
-        
+
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
             if (g.getSelected()) {
                 if(hasFound)
                     isUnique = false;
-                    
+
                 hasFound = true;
             }
         }
-        
+
         return hasFound && isUnique;
     }
-    
+
     /** Determine if the selection can be splitted
         @return true if the selection contains at least a macro, or some of
             its elements have a name or a value (which are separated).
     */
     public boolean selectionCanBeSplitted()
     {
-        
+
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
-            if (g.getSelected() && 
+            if (g.getSelected() &&
                 (g instanceof PrimitiveMacro ||
-                 g.hasName() || g.hasValue())) 
+                 g.hasName() || g.hasValue()))
             {
                 return true;
             }
         }
         return false;
     }
-    
+
     /** Obtain a string containing all the selected elements.
         @param extensions true if FidoCadJ extensions should be used.
         @param pa the parser controller.
@@ -149,13 +149,13 @@ public class SelectionActions
     public StringBuffer getSelectedString(boolean extensions, ParserActions pa)
     {
         StringBuffer s=new StringBuffer("[FIDOCAD]\n");
-        
+
         s.append(pa.registerConfiguration(extensions));
 
         for (GraphicPrimitive g: P.getPrimitiveVector()){
             if(g.getSelected())
                 s.append(g.toString(extensions));
-        }       
+        }
         return s;
-    }        
+    }
 }

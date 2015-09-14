@@ -28,13 +28,13 @@ public class PointG
     public int y;
     public PointG(int x, int y)
     {
-        this.x=x; 
+        this.x=x;
         this.y=y;
     }
 
     public PointG()
     {
-        this.x=0; 
+        this.x=0;
         this.y=0;
     }
 }

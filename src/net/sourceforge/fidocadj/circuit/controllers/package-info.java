@@ -1,5 +1,5 @@
 /**
- The package circuit.controllers contains classes useful for modify 
+ The package circuit.controllers contains classes useful for modify
  the drawing stored in the circuit.model.DrawingModel class.
  They contain the code needed for parsing the drawing code, to take care of
  undo operations (with some limitations when libraries are taken into account)

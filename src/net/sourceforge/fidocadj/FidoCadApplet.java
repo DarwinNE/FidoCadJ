@@ -45,39 +45,39 @@ public class FidoCadApplet extends JApplet implements ActionListener
     // Increment this version number each time an important modification of
     // this class has been done.
     private static final long serialVersionUID = 10L;
-    
+
     private FidoFrame popFrame;
 
-    
+
     public void init()
     {
         // Here we create the main window object
         Button fidoButton = new Button("Launch FidoCadJapplet");
         fidoButton.addActionListener(this);
         getContentPane().add(fidoButton);
-        
+
         popFrame=new FidoFrame(false, null);
-        
+
         // FidoCadJ will try to determine the current locale configuration
-        // in order to load the corresponding resource file and show an 
+        // in order to load the corresponding resource file and show an
         // interface in the same language as the host operating system.
-        
+
         popFrame.currentLocale = Locale.getDefault();
-        
+
         // The following code has changed from version 0.20.1.
         // This way, it should tolerate systems in which resource file for the
         // current locale is not available. The English interface will be shown.
-        
+
         try {
             // Try to load the program with the current locale
-            Globals.messages = new 
-                AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle", 
-               popFrame.currentLocale));                             
-            
+            Globals.messages = new
+                AccessResources (Utf8ResourceBundle.getBundle("MessagesBundle",
+               popFrame.currentLocale));
+
         } catch(MissingResourceException mre) {
             try {
                 // If it does not work, try to use the standard English
-                Globals.messages = new 
+                Globals.messages = new
                 AccessResources (ResourceBundle.getBundle("MessagesBundle",
                     new Locale("en", "US")));
                 System.out.println("No locale available, sorry... "+
@@ -88,40 +88,40 @@ public class FidoCadApplet extends JApplet implements ActionListener
                     "Unable to find language localization files: " + mre1);
                 System.exit(1);
             }
-        }     
-             
+        }
+
 
         Globals.useNativeFileDialogs=false;
         Globals.useMetaForMultipleSelection=false;
-        
+
         if (System.getProperty("os.name").startsWith("Mac")) {
             // From what I know, only Mac users expect to use the Command (meta)
             // key for shortcuts, while others will use Control.
             Globals.shortcutKey=InputEvent.META_MASK;
             Globals.useMetaForMultipleSelection=true;
-            
+
             // Standard dialogs are vastly better on MacOSX than the Swing ones
             Globals.useNativeFileDialogs=true;
 
         } else {
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
-        
+
         /*******************************************************************
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
-        
+
         popFrame.init();
     }
-    
+
 
     public void actionPerformed(ActionEvent evt)
     {
-        if(popFrame.isVisible())    
+        if(popFrame.isVisible())
             popFrame.setVisible(false);
         else
             popFrame.setVisible(true);
-        
+
     }
-    
+
 }

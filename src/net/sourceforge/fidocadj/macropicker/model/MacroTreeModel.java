@@ -1,18 +1,18 @@
 // This file is part of FidoCadJ.
-// 
+//
 // FidoCadJ is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // FidoCadJ is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // Copyright 2014 Kohta Ozaki
 
 package net.sourceforge.fidocadj.macropicker.model;
@@ -53,7 +53,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     //private Map<Object,AbstractMacroTreeNode> nodeMap;
 
     private HashMap<TreePath, AbstractMacroTreeNode> libraryNodeMap;
-    
+
     private String filterWord;
 
     /** Constructor.
@@ -83,7 +83,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             final String chainedWord =
                 filterWord.toLowerCase(new Locale("en"));
             synchronizeTree(new NodeFilterInterface() {
-                public boolean accept(MacroTreeNode node) 
+                public boolean accept(MacroTreeNode node)
                 {
                     String[] words = chainedWord.trim().split(" ");
                     int matched=0;
@@ -100,7 +100,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             fireChanged();
         }
     }
-    
+
     private void resetSearchMode()
     {
         filterWord = null;
@@ -253,7 +253,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                                    new TreePath(rootNode),null,null));
         }
     }
-    
+
     private TreePath createAbsolutePath(TreeNode lastNode)
     {
         TreeNode parentNode = lastNode.getParent();
@@ -268,7 +268,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     {
         Object renamedNode = e.getRenamedNode();
         TreePath renamedPath;
-        TreeNode renamedMacroTreeNode;          
+        TreeNode renamedMacroTreeNode;
 
         if(renamedNode==null) {
             fireTreeNodeChanged(new TreePath(rootNode));
@@ -287,11 +287,11 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     {
         Object parentNode;
         TreePath parentPath;
-        TreeNode parentMacroTreeNode;        
+        TreeNode parentMacroTreeNode;
 
         resetSearchMode();
         synchronizeTree(null);
-        
+
         parentNode = e.getParentNode();
         if(parentNode==null) {
             fireTreeStructureChanged(new TreePath(rootNode));
@@ -307,15 +307,15 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    public void libraryNodeAdded(AddEvent e) 
+    public void libraryNodeAdded(AddEvent e)
     {
         Object parentNode;
         TreePath parentPath;
         TreeNode parentMacroTreeNode;
-        
+
         resetSearchMode();
         synchronizeTree(null);
-        
+
         parentNode = e.getParentNode();
         if(parentNode==null) {
             fireTreeStructureChanged(new TreePath(rootNode));
@@ -331,7 +331,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    public void libraryNodeKeyChanged(KeyChangeEvent e) 
+    public void libraryNodeKeyChanged(KeyChangeEvent e)
     {
         // Nothing to do here
     }
@@ -362,7 +362,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             }
         }
     }
-    
+
     private void fireTreeStructureChanged(TreePath path)
     {
         if(path!=null){
@@ -371,12 +371,12 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             }
         }
     }
-    
-    
+
+
     /** Performs a synchronization of the library tree with the current
-        contents of the library model. It can be called when a research is 
+        contents of the library model. It can be called when a research is
         done, to obtain the results shown in the tree.
-        
+
         @param filter filtering rules to be applied.
     */
     private void synchronizeTree(NodeFilterInterface filter)
@@ -389,14 +389,14 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         TreePath categoryPath;
         TreePath macroPath;
 
-        HashMap<TreePath,AbstractMacroTreeNode> tmpMap = 
+        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =
                (HashMap<TreePath,AbstractMacroTreeNode>)libraryNodeMap.clone();
         libraryNodeMap.clear();
 
         if(rootNode==null){
             rootNode = new RootNode();
         }
-        
+
         if(filter==null) {
             rootNode.setLabel("FidoCadJ");
         } else {
@@ -404,7 +404,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
 
         rootNode.clearChildNodes();
-        
+
         for(Library library:libraryModel.getAllLibraries()) {
             libraryPath = new TreePath(library);
             if(libraryNodeMap.containsKey(libraryPath)){
@@ -425,7 +425,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                 } else {
                     cn = new CategoryNode(category);
                 }
-                
+
                 for(MacroDesc macro:category.getAllMacros()) {
                     macroPath = categoryPath.pathByAddingChild(macro);
                     if(tmpMap.containsKey(macroPath)){
@@ -440,7 +440,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     cn.addMacroNode(mn);
                     libraryNodeMap.put(macroPath,mn);
                 }
-                
+
                 if(filter!=null && cn.getChildCount()==0) {
                     continue;
                 }
@@ -485,7 +485,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             childNodes.add(node);
             node.setParent((TreeNode)this);
         }
-        
+
         public void setLabel(String label)
         {
             this.label = label;
@@ -539,7 +539,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         {
             return library.getName();
         }
-        
+
         public boolean equals(LibraryNode node)
         {
             return compareTo(node)==0;

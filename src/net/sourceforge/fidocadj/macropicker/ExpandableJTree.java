@@ -1,18 +1,18 @@
 // This file is part of FidoCadJ.
-// 
+//
 // FidoCadJ is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // FidoCadJ is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // Copyright 2014-2015 Kohta Ozaki, Davide Bucci
 
 package net.sourceforge.fidocadj.macropicker;
@@ -34,11 +34,11 @@ public class ExpandableJTree extends JTree
     // has been requested and it should be taken into account during the next
     // painting event.
     private boolean runOnce = false;
-    
+
     // direction = true means that during the next repaint the tree should be
     // expanded.
     private boolean direction = false;
-    
+
     private void fillExpandState(boolean expand)
     {
         //NOTES:
@@ -52,7 +52,7 @@ public class ExpandableJTree extends JTree
             }
         }
     }
-    
+
     /** During the next repaint of the JTree, nodes will be expanded.
     */
     public void expandOnce()
@@ -60,8 +60,8 @@ public class ExpandableJTree extends JTree
         runOnce = true;
         direction = true;
     }
-    
-    
+
+
     /** During the next repaint of the JTree, nodes will be collapsed.
     */
     public void collapseOnce()
@@ -69,7 +69,7 @@ public class ExpandableJTree extends JTree
         runOnce = true;
         direction = false;
     }
-    
+
     /** Select the next leaf, i.e. the one immediately after the one which
         is currently selected.
         If this is not possible (for example because the currently selected
@@ -78,14 +78,14 @@ public class ExpandableJTree extends JTree
     public void selectNextLeaf()
     {
         int nextRow = searchNextLeaf(true);
-        
+
         if(0 <= nextRow && nextRow < getRowCount()) {
             setSelectionRow(nextRow);
             scrollRowToVisible(nextRow);
         }
     }
-    
-    
+
+
     /** Select the previous leaf, i.e. the one immediately above the one which
         is currently selected.
         If this is not possible (for example because the currently selected
@@ -94,7 +94,7 @@ public class ExpandableJTree extends JTree
     public void selectPrevLeaf()
     {
         int nextRow = searchNextLeaf(false);
-        
+
         if(0 <= nextRow && nextRow < getRowCount()) {
             setSelectionRow(nextRow);
             scrollRowToVisible(nextRow);
@@ -111,35 +111,35 @@ public class ExpandableJTree extends JTree
     {
         int selectedRow = -1;
         int[] selectedRows;
-        
+
         selectedRows = getSelectionRows();
-        
+
         if(selectedRows == null || selectedRows.length == 0) {
             selectedRow = -1;
         } else {
             selectedRow = selectedRows[0];
         }
-        
-        return selectedRow;     
+
+        return selectedRow;
     }
-    
+
     /** Search for the next leaf in a tree.
-        @param searchForward true if the search is in the forward direction, 
+        @param searchForward true if the search is in the forward direction,
             false otherwise.
-        @return the index (row number) of the next leaf, or -1 if no leaf 
+        @return the index (row number) of the next leaf, or -1 if no leaf
             has been found.
     */
     private int searchNextLeaf(boolean searchForward)
     {
         int nextRow = getSelectedRow();
-        
+
         for(int i=0;i<getRowCount();i++){
             if(searchForward){
                 nextRow++;
             } else {
                 nextRow--;
             }
-            
+
             // Circular search
             if(nextRow < 0){
                 nextRow = getRowCount();
@@ -148,18 +148,18 @@ public class ExpandableJTree extends JTree
                 nextRow = -1;
                 continue;
             }
-            
+
             if(getModel().isLeaf(getPathForRow(nextRow).
-                getLastPathComponent())) 
+                getLastPathComponent()))
             {
                 return nextRow;
             }
         }
-        
+
         return -1;
     }
-    
-    /** Standard method for painting the node. 
+
+    /** Standard method for painting the node.
         Determines wether the nodes should be expanded or not.
     */
     public void paint(Graphics g)

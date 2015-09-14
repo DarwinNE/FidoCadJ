@@ -5,8 +5,8 @@ import net.sourceforge.fidocadj.graphic.*;
 
 
 /** This class maps the general interface to java.awt.Color.
-    
-        
+
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -30,48 +30,48 @@ import net.sourceforge.fidocadj.graphic.*;
 public class ColorSwing implements ColorInterface
 {
     Color c;
-    
+
     public ColorSwing()
     {
         c= Color.black;
     }
-    
+
     public ColorSwing(Color c)
     {
         this.c=c;
     }
-    
+
     public Color getColorSwing()
     {
         return c;
     }
-    
-    public ColorInterface white() 
+
+    public ColorInterface white()
     {
-        
-        return new ColorSwing(Color.white); 
+
+        return new ColorSwing(Color.white);
     }
 
-    public ColorInterface gray() 
+    public ColorInterface gray()
     {
-        return new ColorSwing(Color.gray);  
+        return new ColorSwing(Color.gray);
     }
 
-    public ColorInterface green() 
+    public ColorInterface green()
     {
         return new ColorSwing(Color.green);
     }
-    
-    public ColorInterface red() 
+
+    public ColorInterface red()
     {
         return new ColorSwing(Color.red);
     }
-    
-    public ColorInterface black() 
+
+    public ColorInterface black()
     {
         return new ColorSwing(Color.black);
     }
-    
+
     public int getRed()
     {
         return c.getRed();
@@ -85,8 +85,8 @@ public class ColorSwing implements ColorInterface
     public int getBlue()
     {
         return c.getBlue();
-    }   
-    
+    }
+
     public int getRGB()
     {
         return c.getRGB();

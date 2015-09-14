@@ -30,17 +30,17 @@ public class AccessResources
 {
     // message bundle
     final private ResourceBundle messages;
-    
+
     public AccessResources()
     {
         messages = null;
     }
-    
+
     public AccessResources(ResourceBundle m)
     {
         messages = m;
     }
-    
+
     public String getString(String s)
     {
         return messages.getString(s);

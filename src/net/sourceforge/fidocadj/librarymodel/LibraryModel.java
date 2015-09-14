@@ -15,22 +15,22 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
 // NOTE: This model has no adding macro method.
 
 /** Model class for macro operation.
- 
+
     This file is part of FidoCadJ.
- 
+
    FidoCadJ is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    FidoCadJ is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-   
+
    Copyright 2014 Kohta Ozaki
 */
 public class LibraryModel
@@ -39,14 +39,14 @@ public class LibraryModel
     final private DrawingModel drawingModel;
     final private List<Library> libraries;
 
-    // Bridge for existing system. 
+    // Bridge for existing system.
     private Map<String,MacroDesc> masterLibrary;
-    
+
     private UndoActorListener undoActorListener;
 
     /**
      * Costructor.
-     * @param drawingModel DrawingModel instance to fetch macros. 
+     * @param drawingModel DrawingModel instance to fetch macros.
      */
     public LibraryModel(DrawingModel drawingModel)
     {
@@ -107,7 +107,7 @@ public class LibraryModel
      * Removes library and deletes file.
      * Notices LibraryListeners after removed.
      * @param library Library to remove.
-     * @throws IllegalLibraryAccessException If access standard library.     
+     * @throws IllegalLibraryAccessException If access standard library.
      */
     public void remove(Library library)
     throws IllegalLibraryAccessException
@@ -132,7 +132,7 @@ public class LibraryModel
         } catch (IOException e) {
             System.out.println("Exception: "+e);
         }
-        saveLibraryState(); 
+        saveLibraryState();
         fireRemoved(null,library);
     }
 
@@ -140,7 +140,7 @@ public class LibraryModel
      * Removes macro from library.
      * Notices LibraryListeners after removed.
      * @param macro MacroDesc to remove.
-     * @throws IllegalLibraryAccessException If access standard library.     
+     * @throws IllegalLibraryAccessException If access standard library.
      */
     public void remove(MacroDesc macro)
     throws IllegalLibraryAccessException
@@ -164,7 +164,7 @@ public class LibraryModel
         category.removeMacro(macro);
         synchronizeMasterLibrary();
         save();
-        saveLibraryState();        
+        saveLibraryState();
         fireRemoved(category,macro);
     }
 
@@ -174,7 +174,7 @@ public class LibraryModel
      * @param macro MacroDesc to rename.
      * @param newName New macro name.
      * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.        
+     * @throws IllegalNameException If new name is invalid.
      */
     public void rename(MacroDesc macro,String newName)
     throws IllegalNameException, IllegalLibraryAccessException
@@ -201,7 +201,7 @@ public class LibraryModel
         macro.name = newName;
 
         save();
-        saveLibraryState();        
+        saveLibraryState();
         fireRenamed(getParentNode(macro),macro,oldName);
     }
 
@@ -211,7 +211,7 @@ public class LibraryModel
      * @param category Category to rename.
      * @param newName New category name.
      * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.     
+     * @throws IllegalNameException If new name is invalid.
      */
     public void rename(Category category,String newName)
     throws IllegalNameException,IllegalLibraryAccessException
@@ -235,7 +235,7 @@ public class LibraryModel
         category.setName(newName);
         synchronizeMacros(category.getParentLibrary());
         save();
-        saveLibraryState();        
+        saveLibraryState();
         fireRenamed(getParentNode(category),category,oldName);
     }
 
@@ -245,7 +245,7 @@ public class LibraryModel
      * @param library Library to rename.
      * @param newName New library name.
      * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.     
+     * @throws IllegalNameException If new name is invalid.
      */
     public void rename(Library library,String newName)
     throws IllegalNameException,IllegalLibraryAccessException
@@ -282,7 +282,7 @@ public class LibraryModel
      */
     public void copy(MacroDesc macro, Category destCategory)
     {
-        //TODO: Standard library check.     
+        //TODO: Standard library check.
         MacroDesc newMacro;
         System.out.println("copy:"+macro+destCategory);
 
@@ -290,7 +290,7 @@ public class LibraryModel
         synchronizeMacros(destCategory.getParentLibrary());
         synchronizeMasterLibrary();
         save();
-        saveLibraryState();        
+        saveLibraryState();
         fireAdded(destCategory,newMacro);
     }
 
@@ -361,7 +361,7 @@ public class LibraryModel
      * @param macro MacroDesc to change key.
      * @param newKey New macro key without library prefix.
      * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalKeyException If new key is invalid.     
+     * @throws IllegalKeyException If new key is invalid.
      */
     public void changeKey(MacroDesc macro,String newKey)
     throws IllegalKeyException,IllegalLibraryAccessException
@@ -379,7 +379,7 @@ public class LibraryModel
         }
 
         // key validation
-        
+
         // key exists check
         category = (Category)getParentNode(macro);
         if(category.getParentLibrary().containsMacroKey(newKey)) {
@@ -392,7 +392,7 @@ public class LibraryModel
         saveLibraryState();
         fireKeyChanged(getParentNode(macro),macro,oldKey);
     }
-    
+
     /**
      * Utility function.
      */
@@ -454,10 +454,10 @@ public class LibraryModel
     {
         String macroKey = fileName+"."+key;
         return macroKey.toLowerCase(new Locale("en"));
-    }    
-    
+    }
+
     /**
-     * Synchronizes MacroDesc's properties with library. 
+     * Synchronizes MacroDesc's properties with library.
      */
     private void synchronizeMacros(Library library)
     {
@@ -496,7 +496,7 @@ public class LibraryModel
         // An alternative way to see if a macro is standard or not
         // is to extract the prefix from the key and to see if the
         // prefix is "" or the one of the standard libraries.
-        
+
         for(Library l:getAllLibraries()) {
             if(l.isStdLib()) {
                 for(Category c:l.getAllCategories()) {
@@ -589,10 +589,10 @@ public class LibraryModel
      */
     public void save()
     {
-        //TODO: throw necessary exceptions. 
+        //TODO: throw necessary exceptions.
         for(Library library:libraries){
             try{
-                if(!library.isStdLib()){    
+                if(!library.isStdLib()){
                     LibUtils.save(masterLibrary,
                         LibUtils.getLibPath(library.getFileName()),
                         library.getName().trim(), library.getFileName());
@@ -620,7 +620,7 @@ public class LibraryModel
     public void undoLibrary()
     {
         // TODO: this should undo the last library operation.
-        
+
     }
 
     /**

@@ -6,8 +6,8 @@ import net.sourceforge.fidocadj.graphic.*;
 /**         SWING VERSION
 
     Null color class. Does nothing :-)
-    
-        
+
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -30,38 +30,38 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class ColorNull implements ColorInterface
 {
-    
+
     public ColorNull()
     {
         // Does nothing.
     }
-    
-    
-    public ColorInterface white() 
-    {   
-        return new ColorNull();
-    }
 
-    public ColorInterface gray() 
+
+    public ColorInterface white()
     {
         return new ColorNull();
     }
 
-    public ColorInterface green() 
+    public ColorInterface gray()
     {
         return new ColorNull();
     }
-    
-    public ColorInterface red() 
+
+    public ColorInterface green()
     {
         return new ColorNull();
     }
-    
-    public ColorInterface black() 
+
+    public ColorInterface red()
     {
         return new ColorNull();
     }
-    
+
+    public ColorInterface black()
+    {
+        return new ColorNull();
+    }
+
     public int getRed()
     {
         return 0;
@@ -75,8 +75,8 @@ public class ColorNull implements ColorInterface
     public int getBlue()
     {
         return 0;
-    }   
-    
+    }
+
     public int getRGB()
     {
         return 0;

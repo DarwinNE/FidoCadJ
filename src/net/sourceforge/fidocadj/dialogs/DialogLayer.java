@@ -33,10 +33,10 @@ import java.util.*;
     Copyright 2007-2014 by Davide Bucci
 </pre>
     @author Davide Bucci
-    
+
 */
-    
-public class DialogLayer extends JDialog implements ComponentListener 
+
+public class DialogLayer extends JDialog implements ComponentListener
 {
     // Miniumum size for the window.
     private static final int MIN_WIDTH=400;
@@ -44,15 +44,15 @@ public class DialogLayer extends JDialog implements ComponentListener
 
     private final Vector<LayerDesc> layers;
     public JList<LayerDesc> layerList;
-    
+
     /** Ensure that the dialog does not have a size smaller than the limits
         specified above.
     */
-    public void componentResized(ComponentEvent e) 
+    public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -66,56 +66,56 @@ public class DialogLayer extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
-    
+
     /** Standard constructor.
         @param parent the dialog parent
-        @param l a LayerDesc vector containing the layers' attributes 
+        @param l a LayerDesc vector containing the layers' attributes
     */
     public DialogLayer (JFrame parent, Vector<LayerDesc> l)
     {
         super(parent,Globals.messages.getString("Layer_editor"), true);
         DialogUtil.center(this, .40,.40,400,350);
 
-        addComponentListener(this); 
+        addComponentListener(this);
         layers=l;
-        
+
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
-        
-        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+
+        getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints;
         Container contentPane=getContentPane();
         contentPane.setLayout(bgl);
-                
+
         layerList = new JList<LayerDesc>(new Vector<LayerDesc>(layers));
         JScrollPane sl=new JScrollPane(layerList);
-        
+
         layerList.setCellRenderer(new LayerCellRenderer());
 
         constraints = DialogUtil.createConst(0,0,1,1,100,100,
-            GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
             new Insets(20,20,6,20));
-        
+
         contentPane.add(sl, constraints);
-        
+
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
         JButton edit = new JButton(Globals.messages.getString("Edit"));
-        
+
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(edit);
@@ -126,20 +126,20 @@ public class DialogLayer extends JDialog implements ComponentListener
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-        
+
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        
+
         constraints = DialogUtil.createConst(0,1,1,1,100,0,
-            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(0,20,20,20));
 
-        contentPane.add(b,constraints);         // Add cancel button    
+        contentPane.add(b,constraints);         // Add cancel button
         layerList.addMouseListener(new ActionDClick(this));
-        
+
         edit.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
@@ -147,12 +147,12 @@ public class DialogLayer extends JDialog implements ComponentListener
                 activateLayerEditor(layerList.getSelectedIndex());
             }
         });
-        
+
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
             {
-                setVisible(false);   
+                setVisible(false);
             }
         });
         cancel.addActionListener(new ActionListener()
@@ -176,7 +176,7 @@ public class DialogLayer extends JDialog implements ComponentListener
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
     }
-    
+
     /** Check if the layer index is non negative and then show the dialog for
         the editing of the selected layer.
         @param index the index of the layer to be modified.
@@ -184,7 +184,7 @@ public class DialogLayer extends JDialog implements ComponentListener
     public void activateLayerEditor(int index)
     {
         if (index>=0) {
-            DialogEditLayer del=new DialogEditLayer(null, 
+            DialogEditLayer del=new DialogEditLayer(null,
                 (LayerDesc) layers.get(layerList.getSelectedIndex()));
             del.setVisible(true);
             if (del.getActive()){
@@ -192,7 +192,7 @@ public class DialogLayer extends JDialog implements ComponentListener
                 repaint();
             }
         } else {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                 Globals.messages.getString("Warning_select_layer"),
                 Globals.messages.getString("Layer_editor"),
                 JOptionPane.INFORMATION_MESSAGE, null);
@@ -201,16 +201,16 @@ public class DialogLayer extends JDialog implements ComponentListener
 }
 
 /** ActionDClick is a class which activates the layer editor when the user
-    double clicks into the layerList JList object contained in the 
-    DialogLayer object. If in Java there was a "friend" class specificator 
-    like the one in C++, I would probably define this class as a friend of 
+    double clicks into the layerList JList object contained in the
+    DialogLayer object. If in Java there was a "friend" class specificator
+    like the one in C++, I would probably define this class as a friend of
     DialogLayer, thus avoiding of having to make layerList public.
 
 */
 class ActionDClick extends MouseAdapter
-{    
+{
     private final DialogLayer dl;
-    
+
     /** Method handling a double click event.
         @param i the DialogLayer object which has been clicked.
     */

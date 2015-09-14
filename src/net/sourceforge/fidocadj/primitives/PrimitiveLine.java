@@ -39,27 +39,27 @@ public final class PrimitiveLine extends GraphicPrimitive
 {
 
     static final int N_POINTS=4;
-    
+
     private boolean arrowStart;
     private boolean arrowEnd;
-    
+
     private int arrowLength;
     private int arrowHalfWidth;
-    
+
     private int arrowStyle;
     private int dashStyle;
-    
-    // Those are data which are kept for the fast redraw of this primitive. 
+
+    // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
     private int xa, ya, xb, yb;
-    private int x1, y1,x2,y2;   
+    private int x1, y1,x2,y2;
     private int h,l;
     private float w;
     private int length2;
     private int xbpap1, ybpap1;
     private boolean arrows;
-    
+
 
     /** Constructor
         @param x1       the x coordinate of the start point of the line
@@ -68,7 +68,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param y2       the y coordinate of the end point of the line
         @param layer    the layer to be used
         @param arrowS   true if there is an arrow at the beginning of the line
-        @param arrowE   true if there is an arrow at the end of the line 
+        @param arrowE   true if there is an arrow at the end of the line
         @param arrowSt  style of the arrow
         @param arrowLe  length of the arrow
         @param arrowWi  width of the arrow
@@ -79,16 +79,16 @@ public final class PrimitiveLine extends GraphicPrimitive
                         String f, int size)
     {
         super();
-    
+
         arrowLength = arrowLe;
         arrowHalfWidth = arrowWi;
         arrowStart = arrowS;
         arrowEnd = arrowE;
         arrowStyle=arrowSt;
         dashStyle = dashSt;
-        
+
         initPrimitive(-1, f, size);
-        
+
         virtualPoint[0].x=x1;
         virtualPoint[0].y=y1;
         virtualPoint[1].x=x2;
@@ -96,11 +96,11 @@ public final class PrimitiveLine extends GraphicPrimitive
         virtualPoint[getNameVirtualPointNumber()].x=x1+5;
         virtualPoint[getNameVirtualPointNumber()].y=y1+5;
         virtualPoint[getValueVirtualPointNumber()].x=x1+5;
-        virtualPoint[getValueVirtualPointNumber()].y=y1+10;     
-                
+        virtualPoint[getValueVirtualPointNumber()].y=y1+10;
+
         setLayer(layer);
     }
-    
+
     public PrimitiveLine(String f, int size)
     {
         super();
@@ -108,27 +108,27 @@ public final class PrimitiveLine extends GraphicPrimitive
         arrowHalfWidth = 1;
         initPrimitive(-1, f, size);
     }
-    
+
     /** Gets the number of control points used.
         @return the number of points used by the primitive
     */
-    
+
     public int getControlPointNumber()
     {
         return N_POINTS;
     }
-    
+
     /** Get the control parameters of the given primitive.
-    
+
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-                
+
     */
     public Vector<ParameterDescription> getControls()
     {
         Vector<ParameterDescription> v=super.getControls();
-        
+
         ParameterDescription pd = new ParameterDescription();
 
         pd = new ParameterDescription();
@@ -165,7 +165,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         pd.isExtension = true;
 
         v.add(pd);
-        
+
         return v;
     }
     /** Set the control parameters of the given primitive.
@@ -176,10 +176,10 @@ public final class PrimitiveLine extends GraphicPrimitive
     */
     public int setControls(Vector<ParameterDescription> v)
     {
-        
-        int i=super.setControls(v);     
+
+        int i=super.setControls(v);
         ParameterDescription pd;
-        
+
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
             arrowStart=((Boolean)pd.parameter).booleanValue();
@@ -190,13 +190,13 @@ public final class PrimitiveLine extends GraphicPrimitive
             arrowEnd=((Boolean)pd.parameter).booleanValue();
         else
             System.out.println("Warning: 2-unexpected parameter!"+pd);
-            
+
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
             arrowLength=((Integer)pd.parameter).intValue();
         else
             System.out.println("Warning: 3-unexpected parameter!"+pd);
-            
+
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
             arrowHalfWidth=((Integer)pd.parameter).intValue();
@@ -208,47 +208,47 @@ public final class PrimitiveLine extends GraphicPrimitive
             arrowStyle=((ArrowInfo)pd.parameter).style;
         else
             System.out.println("Warning: 5-unexpected parameter!"+pd);
-        
+
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof DashInfo)
             dashStyle=((DashInfo)pd.parameter).style;
         else
             System.out.println("Warning: 6-unexpected parameter!"+pd);
-            
+
         // Parameters validation and correction
         if(dashStyle>=Globals.dashNumber)
             dashStyle=Globals.dashNumber-1;
         if(dashStyle<0)
             dashStyle=0;
-    
+
         return i;
     }
-    
+
     /** Create a segment between two points
         @param x1 the start x coordinate (logical unit).
         @param y1 the start y coordinate (logical unit).
         @param x2 the end x coordinate (logical unit).
         @param y2 the end y coordinate (logical unit).
         @param layer the layer to be used.
-        
+
     */
-    
+
     /** Draw the graphic primitive on the given graphic context.
         @param g the graphic context in which the primitive should be drawn.
         @param coordSys the graphic coordinates system to be applied.
         @param layerV the layer description.
     */
-    public void draw(GraphicsInterface g, MapCoordinates coordSys, 
+    public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-        
+
         if(!selectLayer(g,layerV))
             return;
-            
+
         drawText(g, coordSys, layerV, -1);
-        
+
         // in the line primitive, the first two virtual points represent
-        //   the beginning and the end of the segment to be drawn. 
+        //   the beginning and the end of the segment to be drawn.
 
         if(changed) {
             changed=false;
@@ -256,7 +256,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
-            
+
             // We store the coordinates in an ordered way in order to ease
             // the determination of the clip rectangle.
             if (x1>x2) {
@@ -273,7 +273,7 @@ public final class PrimitiveLine extends GraphicPrimitive
                 ya=y1;
                 yb=y2;
             }
-            
+
             // Heigth and width of the arrows in pixels
             h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
                 coordSys.mapXi(0,0, false));
@@ -285,10 +285,10 @@ public final class PrimitiveLine extends GraphicPrimitive
             // So we put a limit D_MIN.
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
             if (w<D_MIN) w=D_MIN;
-            
+
             // Calculate the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
-            
+
 
             arrows = arrowStart || arrowEnd;
 
@@ -308,16 +308,16 @@ public final class PrimitiveLine extends GraphicPrimitive
         if(length2>2) {
             if(!g.hitClip(xa,ya, xbpap1,ybpap1))
                 return;
-            
+
             g.applyStroke(w, dashStyle);
-            
+
             int x1_corr=x1;
             int y1_corr=y1;
             int x2_corr=x2;
             int y2_corr=y2;
-        
+
             // Eventually, we draw the arrows at the extremes.
-            if (arrows) {   
+            if (arrows) {
                 if (arrowStart) {
                     PointG Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
                     x1_corr = Pc.x;
@@ -332,16 +332,16 @@ public final class PrimitiveLine extends GraphicPrimitive
             g.drawLine(x1_corr, y1_corr, x2_corr, y2_corr);
         }
     }
-    
+
     /** Parse a token array and store the graphic data for a given primitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-        
+
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array
-        
+
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -355,28 +355,28 @@ public final class PrimitiveLine extends GraphicPrimitive
                 IOException E=new IOException("bad arguments on LI");
                 throw E;
             }
-            // Load the points in the virtual points associated to the 
+            // Load the points in the virtual points associated to the
             // current primitive.
 
             int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
             int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
             virtualPoint[1].x=Integer.parseInt(tokens[3]);
             virtualPoint[1].y=Integer.parseInt(tokens[4]);
-            
+
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
-            virtualPoint[getValueVirtualPointNumber()].y=y1+10;     
-                            
+            virtualPoint[getValueVirtualPointNumber()].y=y1+10;
+
             if(N>5) parseLayer(tokens[5]);
-            
+
             // FidoCadJ extensions
-            
+
             if(N>6 && tokens[6].equals("FCJ")) {
                 int arrows = Integer.parseInt(tokens[7]);
                 arrowStart = (arrows & 0x01) !=0;
                 arrowEnd = (arrows & 0x02) !=0;
-                
+
                 arrowStyle = Integer.parseInt(tokens[8]);
                 arrowLength = Integer.parseInt(tokens[9]);
                 arrowHalfWidth = Integer.parseInt(tokens[10]);
@@ -386,19 +386,19 @@ public final class PrimitiveLine extends GraphicPrimitive
                     dashStyle=Globals.dashNumber-1;
                 if(dashStyle<0)
                     dashStyle=0;
-            }       
+            }
         } else {
             IOException E=new IOException("LI: Invalid primitive:"+tokens[0]+
                                           " programming error?");
             throw E;
         }
     }
-    
-    
-    
-    /** Gets the distance (in primitive's coordinates space) between a 
-        given point and the primitive. 
-        When it is reasonable, the behaviour can be binary (polygons, 
+
+
+
+    /** Gets the distance (in primitive's coordinates space) between a
+        given point and the primitive.
+        When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
         @param px the x coordinate of the given point
         @param py the y coordinate of the given point
@@ -406,59 +406,59 @@ public final class PrimitiveLine extends GraphicPrimitive
     public int getDistanceToPoint(int px, int py)
     {
         // Here we check if the given point lies inside the text areas
-        
+
         if(checkText(px, py))
             return 0;
-            
+
         return GeometricDistances.pointToSegment(
                 virtualPoint[0].x,virtualPoint[0].y,
                 virtualPoint[1].x,virtualPoint[1].y,
                 px,py);
-            
+
     }
-    
+
     /** Obtain a string command descripion of the primitive.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
     {
         // A single point line without anything is not worth converting.
-        if (name.length()==0 && value.length()==0 && 
+        if (name.length()==0 && value.length()==0 &&
             virtualPoint[0].x==virtualPoint[1].x &&
-            virtualPoint[0].y==virtualPoint[1].y) 
+            virtualPoint[0].y==virtualPoint[1].y)
         {
             return "";
-        } 
-    
+        }
+
         String s= "LI "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
             getLayer()+"\n";
-        
+
         if(extensions) {
             int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-                        
-            if (arrows>0 || dashStyle>0 || name!=null && name.length()!=0 
-                || value!=null && value.length()!=0) 
+
+            if (arrows>0 || dashStyle>0 || name!=null && name.length()!=0
+                || value!=null && value.length()!=0)
             {
                 String text = "0";
                 // We take into account that there may be some text associated
                 // to that primitive.
-                if (hasName() || hasValue()) 
+                if (hasName() || hasValue())
                     text = "1";
                 s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
                     arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
         }
-        
+
         // The false is needed since saveText should not write the FCJ tag.
         s+=saveText(false);
-        
+
         return s;
     }
-    
+
     /** The export routine
     */
-    public void export(ExportInterface exp, MapCoordinates cs) 
+    public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
         exportText(exp, cs, -1);
@@ -471,8 +471,8 @@ public final class PrimitiveLine extends GraphicPrimitive
                        arrowStyle,
                        (int)(arrowLength*cs.getXMagnitude()),
                        (int)(arrowHalfWidth*cs.getXMagnitude()),
-                       dashStyle, 
-                       Globals.lineWidth*cs.getXMagnitude()); 
+                       dashStyle,
+                       Globals.lineWidth*cs.getXMagnitude());
     }
         /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
@@ -481,7 +481,7 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         return 2;
     }
-    
+
     /** Get the number of the virtual point associated to the Value property
         @return the number of the virtual point associated to the Value property
     */

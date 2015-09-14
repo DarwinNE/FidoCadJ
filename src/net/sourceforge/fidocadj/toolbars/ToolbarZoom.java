@@ -16,9 +16,9 @@ import net.sourceforge.fidocadj.layers.*;
 
 /**
     ToolbarZoom class
-    
+
     @author Davide Bucci
-    
+
 
 <pre>
     This file is part of FidoCadJ.
@@ -41,12 +41,12 @@ import net.sourceforge.fidocadj.layers.*;
 
 @author Davide Bucci
 */
-   
+
 public class ToolbarZoom extends JToolBar implements ActionListener,
                                                      ChangeZoomListener,
                                                      ChangeCoordinatesListener
 {
-       
+
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
@@ -57,15 +57,15 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private double oldzoom;
     private ChangeZoomListener notifyZoomChangeListener;
     private ZoomToFitListener actualZoomToFitListener;
-     
+
     private final JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
-    
-    
+
+
     /** Standard constructor
         @param l the layer description
     */
-    public ToolbarZoom (Vector<LayerDesc> l) 
+    public ToolbarZoom (Vector<LayerDesc> l)
     {
         putClientProperty("Quaqua.ToolBar.style", "title");
         zoom = new JComboBox<String>();
@@ -94,9 +94,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         JButton zoomFit;
         zoomFit=new JButton(Globals.messages.getString("Zoom_fit"));
         showGrid=new JToggleButton(Globals.messages.getString("ShowGrid"));
-        
+
         snapGrid=new JToggleButton(Globals.messages.getString("SnapToGrid"));
-    
+
         coords = new JLabel("");
         infos = new JLabel("");
 
@@ -107,12 +107,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         layerSel.setRenderer( new LayerCellRenderer());
         changeListener=null;
 
-    
+
         // MacOSX Quaqua informations
         zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
         showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
         snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");
-        
+
         zoom.addActionListener(this);
         zoomFit.addActionListener(this);
         showGrid.addActionListener(this);
@@ -123,10 +123,10 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
             {
                 if (layerSel.getSelectedIndex()>=0 && changeListener!=null) {
                     changeLayerListener.changeSelectedLayer(
-                        layerSel.getSelectedIndex());                       
-                }       
+                        layerSel.getSelectedIndex());
+                }
             }
-        });  
+        });
 
         changeListener=null;
         add(zoom);
@@ -140,7 +140,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         infos.setPreferredSize(new Dimension (250,28));
         infos.setMinimumSize(new Dimension (50,18));
         infos.setMaximumSize(new Dimension (250,38));
-        
+
         coords.setPreferredSize(new Dimension (300,28));
         coords.setMinimumSize(new Dimension (300,18));
         coords.setMaximumSize(new Dimension (300,38));
@@ -154,13 +154,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     /** Add a layer listener (object implementing the ChangeSelectionListener
         interface) whose change method will be called when the current
         layer should be changed.
-    
+
     */
     public void addLayerListener(ChangeSelectedLayer c)
     {
         changeLayerListener=c;
     }
-    
+
 
     /** Add a grid state listener whose methods will be called when the current
         grid state should be changed.
@@ -170,44 +170,44 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     {
         changeListener=c;
     }
-    
+
     /** Add a zoom change listener to be called when the zoom is changed by the
         user with the combo box slide.
         @param c the new listener.
-    
+
     */
     public void addChangeZoomListener(ChangeZoomListener c)
     {
         notifyZoomChangeListener=c;
     }
-    
-    /** Add a zoom to fit listener to be called when the user wants to fit 
+
+    /** Add a zoom to fit listener to be called when the user wants to fit
         @param c the new listener.
-    
+
     */
     public void addZoomToFitListener(ZoomToFitListener c)
     {
         actualZoomToFitListener=c;
     }
-    
+
     /** The event listener to be called when the buttons are pressed, or the
         zoom setup is changed.
     */
     public void actionPerformed(ActionEvent evt)
     {
-                
+
         String s = evt.getActionCommand();
-           
+
         // Buttons
-        if(s.equals(Globals.messages.getString("ShowGrid"))) { 
+        if(s.equals(Globals.messages.getString("ShowGrid"))) {
             //showGrid.setSelected(!showGrid.isSelected());
             if(changeListener!=null)
                 changeListener.setGridVisibility(showGrid.isSelected());
-        } else if(s.equals(Globals.messages.getString("SnapToGrid"))) { 
+        } else if(s.equals(Globals.messages.getString("SnapToGrid"))) {
             //snapGrid.setSelected(!snapGrid.isSelected());
             if(changeListener!=null)
                 changeListener.setSnapState(snapGrid.isSelected());
-        } else if(s.equals(Globals.messages.getString("Zoom_fit"))) { 
+        } else if(s.equals(Globals.messages.getString("Zoom_fit"))) {
             if(actualZoomToFitListener!=null) {
                 actualZoomToFitListener.zoomToFit();
             }
@@ -217,7 +217,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
             if (notifyZoomChangeListener!=null) {
                 try {
                     s=(String)source.getSelectedItem();
-                    
+
                     // The percent symbol should be eliminated.
                     s=s.replace('%',' ').trim();
                     //System.out.println ("New zoom: "+s);
@@ -234,54 +234,54 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                     // Just ignore
                     //System.out.println ("Zoom ignored");
                 }
-                
+
             }
-        
+
         }
-               
-       
+
+
     }
-    
+
     /** Change the zoom level and show it in the combo box
-    
+
         @param z the new zoom level to be considered
-    
+
     */
     public void changeZoom(double z)
     {
         zoom.setSelectedItem(""+((int)(z*100))+"%");
     }
-    
-    /** Change the cursor coordinates to be shown 
-    
+
+    /** Change the cursor coordinates to be shown
+
         @param x the x value of the cursor coordinates (logical units)
         @param y the y value of the cursor coordinates (logical units)
-    
+
     */
     public void changeCoordinates(int x, int y)
     {
         int xum=x*127;
         int yum=y*127;
-        
+
         float xmm=(float)xum/1000;
         float ymm=(float)yum/1000;
-        
-        
-        coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)"); 
+
+
+        coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)");
     }
-    
+
     public void changeStrict(boolean strict)
     {
         // Does nothing.
     }
-    
+
     /** Change the infos
-    
+
         @param s the string to be shown
-    
+
     */
     public void changeInfos(String s)
     {
-        infos.setText(s); 
+        infos.setText(s);
     }
 }

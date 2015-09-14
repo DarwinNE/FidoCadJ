@@ -4,9 +4,9 @@ import net.sourceforge.fidocadj.primitives.*;
 
 /** This class contains some settings about the actual dashing style. It is used
     in the automatic primitive characteristics dialog.
-    
+
     @author Davide Bucci
-    
+
     <pre>
     This file is part of FidoCadJ.
 
@@ -25,19 +25,19 @@ import net.sourceforge.fidocadj.primitives.*;
 
     Copyright 2009-2014 by Davide Bucci
 </pre>
-    
+
     */
-public class DashInfo 
+public class DashInfo
 {
     // Here we store the dash style
     public int style;
-    
+
     /** Creator.
         @param i the style to be stored
     */
     public DashInfo(int i)
     { style=i; }
-    
+
     /** Retrieve the style.
         @return the style.
     */

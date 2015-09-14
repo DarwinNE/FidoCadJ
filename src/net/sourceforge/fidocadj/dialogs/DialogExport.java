@@ -35,19 +35,19 @@ import net.sourceforge.fidocadj.globals.*;
     Copyright 2007-2015 by Davide Bucci
 </pre>
     @author Davide Bucci
-    
+
     */
-    
-public class DialogExport extends JDialog implements ComponentListener, 
+
+public class DialogExport extends JDialog implements ComponentListener,
     ActionListener
 {
     private static final int MIN_WIDTH=450;
     private static final int MIN_HEIGHT=400;
-    
+
     private final JFrame parent;
-    
+
     private boolean export;     // Indicates that the export should be done
-    
+
     private static final int PNG_INDEX=0;       // Combo list index: png format
     private static final int JPG_INDEX=1;       //  "      "    "  : jpg format
     private static final int SVG_INDEX=2;       // Combo list index: svg format
@@ -57,7 +57,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     private static final int SCR_INDEX=6;       // idem: Eagle scr format
 
     private static final double EPS=1E-5;   // Resolution comparison precision
-    
+
     // Swing elements
     private JComboBox<String> resolution;       // Resolution combo box
     private JCheckBox antiAlias_CB;     // AntiAlias checkbox
@@ -65,12 +65,12 @@ public class DialogExport extends JDialog implements ComponentListener,
     private final JComboBox<String> fileFormat;       // File format combo box
     private JTextField fileName;        // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
-    
-    public void componentResized(ComponentEvent e) 
+
+    public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -84,40 +84,40 @@ public class DialogExport extends JDialog implements ComponentListener,
             setSize(width, height);
         }
     }
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
-    
+
     /** Indicates that the export should be done: the user selected the "ok"
-        button 
-        
+        button
+
         @return a boolean value which indicates if the export should be done
     */
     public boolean shouldExport()
     {
         return export;
     }
-    
-    /** Indicates that the antiAlias should be activated 
-    
+
+    /** Indicates that the antiAlias should be activated
+
         @return a boolean value which indicates if the anti alias should be
                 activated */
     public boolean getAntiAlias()
     {
         return antiAlias_CB.isSelected();
     }
-    
-    /** Indicates that the black and white export should be activated 
-    
+
+    /** Indicates that the black and white export should be activated
+
         @return a boolean value which indicates if the export should be
             done in black and white.
     */
@@ -125,9 +125,9 @@ public class DialogExport extends JDialog implements ComponentListener,
     {
         return blackWhite_CB.isSelected();
     }
-    
-    /** Indicates which export format has been selected 
-    
+
+    /** Indicates which export format has been selected
+
         @return a string describing the image format (e.g. "png", "jpg")
     */
     public String getFormat()
@@ -145,10 +145,10 @@ public class DialogExport extends JDialog implements ComponentListener,
                 return "pgf";
             case PDF_INDEX:
                 return "pdf";
-            
+
             case SCR_INDEX:
                 return "scr";
-            
+
             default:
                 System.out.println (
                     "dialogExport.getExportFormat Warning:"+
@@ -156,23 +156,23 @@ public class DialogExport extends JDialog implements ComponentListener,
                 return "png";
         }
     }
-    
-    /** @return a string containing the file name given by the user 
+
+    /** @return a string containing the file name given by the user
     */
     public String getFileName()
     {
         return fileName.getText();
     }
-    
-    /** Sets the actual file name 
-    
+
+    /** Sets the actual file name
+
         @param f a string containing the default file name
     */
     public void setFileName(String f)
     {
         fileName.setText(f);
     }
-    
+
     /** Sets the actual anti alias state
         @param a a boolean which indicates the default anti alias state
     */
@@ -188,7 +188,7 @@ public class DialogExport extends JDialog implements ComponentListener,
     {
         blackWhite_CB.setSelected(a);
     }
-    
+
     /** Set the default unit per pixel value
         @param d the default unit per pixel value
     */
@@ -201,27 +201,27 @@ public class DialogExport extends JDialog implements ComponentListener,
         if (Math.abs(d-1.50)<EPS) index=2;
         if (Math.abs(d-3.00)<EPS) index=3;
         if (Math.abs(d-6.00)<EPS) index=4;
-        
+
         resolution.setSelectedIndex(index);
     }
-    
+
     /** Set the magnification factor for vector format export
         @param d the default unit per pixel value
     */
     public void setMagnification(double d)
-    {      
+    {
         multiplySizes.setText(""+d);
     }
-    
+
     /** Get the magnification factor for vector format export
         @return the unit per pixel value
     */
     public double getMagnification()
-    {      
+    {
         return Double.parseDouble(multiplySizes.getText());
     }
-    
-    /** Get the default unit per pixel value 
+
+    /** Get the default unit per pixel value
         @return the unit per pixel value
     */
     public double getUnitPerPixel()
@@ -232,13 +232,13 @@ public class DialogExport extends JDialog implements ComponentListener,
         if(index==2) return 1.50;
         if(index==3) return 3.00;
         if(index==4) return 6.00;
-        
+
         return 0.36;
     }
-    
-    /** Sets the default export format. 
+
+    /** Sets the default export format.
         @param s The export format. If the format string is not
-            recognized (valid strings are {"png"|"jpg"}), use the png format. 
+            recognized (valid strings are {"png"|"jpg"}), use the png format.
     */
     public void setFormat(String s)
     {
@@ -262,8 +262,8 @@ public class DialogExport extends JDialog implements ComponentListener,
             fileFormat.setSelectedIndex(PNG_INDEX);
         }
     }
-    
-    /** Create a JPanel containing the interface elements needed for 
+
+    /** Create a JPanel containing the interface elements needed for
         the configuration of export operation.
         @return the created panel.
     */
@@ -275,82 +275,82 @@ public class DialogExport extends JDialog implements ComponentListener,
         GridBagConstraints constraints=new GridBagConstraints();
         panel.setLayout(bgl);
 
-        JLabel resolutionLabel=new 
+        JLabel resolutionLabel=new
             JLabel(Globals.messages.getString("Resolution"));
-            
+
         constraints = DialogUtil.createConst(1,0,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.BOTH, 
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
             new Insets(6,40,6,6));
 
         panel.add(resolutionLabel, constraints);
-        
+
         resolution = createResolutionComboBox();
-        
+
         constraints = DialogUtil.createConst(2,0,1,1,100,100,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
-        
+
         panel.add(resolution, constraints);
-        
+
         antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_aliasing"));
 
         constraints = DialogUtil.createConst(2,1,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
 
         panel.add(antiAlias_CB, constraints);     // Add antialias cb
-        
+
         blackWhite_CB=new JCheckBox(Globals.messages.getString("B_W"));
-       
+
         constraints = DialogUtil.createConst(2,2,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.NONE, 
+            GridBagConstraints.WEST, GridBagConstraints.NONE,
             new Insets(6,0,0,0));
-       
+
         panel.add(blackWhite_CB, constraints);        // Add antialias cb
-        
-        JLabel multiplySizesLabel=new 
+
+        JLabel multiplySizesLabel=new
             JLabel(Globals.messages.getString("Multiply_sizes"));
-            
+
         constraints = DialogUtil.createConst(1,3,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.NONE, 
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(6,40,0,0));
         panel.add(multiplySizesLabel, constraints);
-        
+
         multiplySizes=new JTextField();
         constraints = DialogUtil.createConst(2,3,1,1,100,100,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
         panel.add(multiplySizes, constraints);
 
-        JLabel fileNameLabel=new 
+        JLabel fileNameLabel=new
             JLabel(Globals.messages.getString("File_name"));
-            
+
         constraints = DialogUtil.createConst(1,4,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.NONE, 
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(6,40,12,0));
         panel.add(fileNameLabel, constraints);
-        
+
         fileName=new JTextField();
         constraints = DialogUtil.createConst(2,4,1,1,100,100,
-            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,12,0));
-            
+
         panel.add(fileName, constraints);
-        
+
         // See request #3526600
         // fileName.setEditable(false);
-        
+
         JButton browse=new JButton(Globals.messages.getString("Browse"));
         constraints = DialogUtil.createConst(3,4,1,1,0,0,
-            GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+            GridBagConstraints.CENTER, GridBagConstraints.NONE,
             new Insets(6,0,12,12));
 
         panel.add(browse, constraints);
 
-        browse.addActionListener(createBrowseActionListener());        
+        browse.addActionListener(createBrowseActionListener());
         return panel;
     }
-    
+
     /** Create an action listener which handle clicking on the 'browse' button.
         @return the ActionListener
     */
@@ -362,27 +362,27 @@ public class DialogExport extends JDialog implements ComponentListener,
             {
                 // Open the browser in order to let the user select the file
                 // name on which export
-                
+
                 if(Globals.useNativeFileDialogs) {
-                
+
                     // Native file dialog
-                    FileDialog fd = new FileDialog(parent, 
+                    FileDialog fd = new FileDialog(parent,
                         Globals.messages.getString("Select_file_export"),
                         FileDialog.SAVE);
                     String filen;
-                
+
                     // Set defaults and make visible.
                     fd.setDirectory(new File(fileName.getText()).getPath());
                     fd.setVisible(true);
-                
+
                     // The user has selected a file.
                     if(fd.getFile() != null) {
                         filen=Globals.createCompleteFileName(
                             fd.getDirectory(),
-                            fd.getFile());          
+                            fd.getFile());
                         fileName.setText(filen);
                     }
-            
+
                 } else {
                     // Swing file dialog
                     JFileChooser fc = new JFileChooser(
@@ -390,12 +390,12 @@ public class DialogExport extends JDialog implements ComponentListener,
                     int r = fc.showSaveDialog(null);
                     if (r == JFileChooser.APPROVE_OPTION) {
                         fileName.setText(fc.getSelectedFile().toString());
-                    }   
-                } 
+                    }
+                }
             }
         };
     }
-    
+
     /** Create a JComboBox containing the resolutions, described as strings.
         @return the JComboBox created.
     */
@@ -407,10 +407,10 @@ public class DialogExport extends JDialog implements ComponentListener,
         res.addItem("300x300 dpi");
         res.addItem("600x600 dpi");
         res.addItem("1200x1200 dpi");
-        
+
         return res;
     }
-    
+
     /** Event handling routine for the user interface.
         For the moment, it does not do much, except setting the enabled
         state of buttons and elements of the UI, depending on which kind
@@ -418,10 +418,10 @@ public class DialogExport extends JDialog implements ComponentListener,
     */
     public void actionPerformed(ActionEvent evt)
     {
-        JComboBox<String> source = 
+        JComboBox<String> source =
             (JComboBox<String>)(evt.getSource());
         int idx=source.getSelectedIndex();
-                
+
         // Once the index of the selected item is obtained, we proceed
         // by checking if it is a bitmap format
         if(idx==0 || idx == 1) {
@@ -438,8 +438,8 @@ public class DialogExport extends JDialog implements ComponentListener,
             blackWhite_CB.setEnabled(true);  // Black and white checkbox
             multiplySizes.setEnabled(true); // Size multiplications
         }
-    }   
-    
+    }
+
     /** Standard constructor: it needs the parent frame.
         @param p the dialog's parent
     */
@@ -448,34 +448,34 @@ public class DialogExport extends JDialog implements ComponentListener,
         super(p,Globals.messages.getString("Circ_exp_t"), true);
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
-        
-        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+
+        getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
-        
-        addComponentListener(this); 
+
+        addComponentListener(this);
         export=false;
         parent=p;
-              
+
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints;
         Container contentPane=getContentPane();
-        
+
         contentPane.setLayout(bgl);
 
         // The first thing we need to put is the combobox describing the file
         // format to be used. This is important, since part of the remaining
         // dialog should be changed depending on the format chosen.
-        JLabel fileFormatLabel=new 
+        JLabel fileFormatLabel=new
             JLabel(Globals.messages.getString("File_format"));
-            
+
         constraints = DialogUtil.createConst(1,0,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.NONE, 
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(12,40,0,0));
 
         contentPane.add(fileFormatLabel, constraints);
-        
+
         fileFormat=new JComboBox<String>();
         fileFormat.addItem("PNG (Bitmap)");
         fileFormat.addItem("JPG (Bitmap)");
@@ -486,48 +486,48 @@ public class DialogExport extends JDialog implements ComponentListener,
         fileFormat.addItem("CadSoft Eagle SCR (Script)");
 
         fileFormat.setSelectedIndex(0);
-              
+
         constraints = DialogUtil.createConst(2,0,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(12,0,0,20));
         contentPane.add(fileFormat, constraints);
-        
+
         // We need to track when the user changes the file format since some
         // options will be made available or not depending if the file format
         // chosen is vector based or bitmap based.
-        
+
         fileFormat.addActionListener(this);
-        
-        JPanel panel = createInterfacePanel();   
-        
+
+        JPanel panel = createInterfacePanel();
+
         // Put the panel containing the characteristics of the export inside a
         // border.
         Border etched = BorderFactory.createEtchedBorder();
-        Border titled = BorderFactory.createTitledBorder(etched, 
+        Border titled = BorderFactory.createTitledBorder(etched,
             Globals.messages.getString("ExportOptions"));
-            
+
         panel.setBorder(titled);
 
-        
+
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-    
+
         constraints.gridx=0;
         constraints.gridy=1;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
         constraints.insets=new Insets(20,20,20,20);
-        
+
         contentPane.add(panel, constraints);
-        
+
         constraints.gridx=0;
         constraints.gridy=2;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
         constraints.insets=new Insets(20,20,20,20);
-        
+
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
@@ -537,20 +537,20 @@ public class DialogExport extends JDialog implements ComponentListener,
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-        
+
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        contentPane.add(b, constraints);            // Add cancel button    
+        contentPane.add(b, constraints);            // Add cancel button
 
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
             {
                 int selection;
-                
+
                 // Check if the magnification factor is correct.
                 double mult = Double.parseDouble(multiplySizes.getText());
                 if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
@@ -560,9 +560,9 @@ public class DialogExport extends JDialog implements ComponentListener,
                         Globals.messages.getString("Warning"),
                         JOptionPane.WARNING_MESSAGE);
                     return;
-                
+
                 }
-                
+
                 if(fileName.getText().trim().equals("")){
                     export=false;
                     JOptionPane.showMessageDialog(null,
@@ -572,7 +572,7 @@ public class DialogExport extends JDialog implements ComponentListener,
                     return;
                 }
                 selection=JOptionPane.OK_OPTION;
-                    
+
                 if (selection==JOptionPane.OK_OPTION) {
                     export=true;
                     setVisible(false);

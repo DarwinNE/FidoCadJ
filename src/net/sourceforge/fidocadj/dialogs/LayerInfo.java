@@ -2,8 +2,8 @@ package net.sourceforge.fidocadj.dialogs;
 
 import net.sourceforge.fidocadj.layers.*;
 
-/** 
-    
+/**
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -21,22 +21,22 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009 by Davide Bucci
-</pre>  
+</pre>
     @author Davide Bucci
     @version 1.0 November 2009
-    
+
 */
-public class LayerInfo 
+public class LayerInfo
 {
     int layer;
-    
+
     /** Create a LayerInfo object with the given layer
     @param i the layer to be used.
-    
+
     */
     public LayerInfo(int i)
     { layer=i; }
-    
+
     public int getLayer()
     { return layer; }
 }

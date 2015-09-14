@@ -4,8 +4,8 @@ import java.util.*;
 /** MapCoordinates.java
 
 <pre>
-    @author D. Bucci                               
-    
+    @author D. Bucci
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,12 +28,12 @@ import java.util.*;
     used in FidoCad schematics with the corrisponding pixel position
     to be used when drawing on the screen or on an image file. The class
     tracks also the minimum and maximum values of the pixel x/y coordinates, in
-    order to obtain the drawing size. 
-    
-    The logical Fidocad resolution is 5 mils (127um). Thus, for the following 
+    order to obtain the drawing size.
+
+    The logical Fidocad resolution is 5 mils (127um). Thus, for the following
     resolutions, we obtain:
 
-<pre>    
+<pre>
     Resolution              units/pixel         x/y magnitude
     ---------------------------------------------------------
     72  pixels/inch         2.7778              0.36000
@@ -45,7 +45,7 @@ import java.util.*;
 </pre>
 
     This class allows to concatenate a translation with the xCenter and yCenter
-    variables. This should NOT be used to scroll the actual drawing in the 
+    variables. This should NOT be used to scroll the actual drawing in the
     viewport, since this is done by using the JScrollPane Swing control.
     This is indeed very useful when exporting or when drawing macros.
 */
@@ -62,7 +62,7 @@ public class MapCoordinates
     public boolean mirror;
     public boolean isMacro;
     private boolean snapActive;
-    
+
     public static final double MIN_MAGNITUDE=0.25;
     public static final double MAX_MAGNITUDE=20.0;
 
@@ -75,15 +75,15 @@ public class MapCoordinates
     private int xMax;
     private int yMin;
     private int yMax;
-    
+
     private int xGridStep;
     private int yGridStep;
-    
+
     private final Stack<MapCoordinates> stack;
-    
+
     /** Standard constructor */
     public MapCoordinates()
-    {   
+    {
         xCenter=0.0;
         yCenter=0.0;
         xMagnitude=1.0;
@@ -96,23 +96,23 @@ public class MapCoordinates
         resetMinMax();
         stack = new Stack<MapCoordinates>();
     }
-    
+
     /** Change the current orientation
         @param o the wanted orientation (comprised between 0 and 3).
-        NOTE: if o is greater than 3, it will be 
+        NOTE: if o is greater than 3, it will be
     */
     public void setOrientation(int o)
     {
         orientation=o;
-        
+
         // Check for sanity
-        if (orientation<0) 
+        if (orientation<0)
             orientation=0;
 
         if (orientation>3)
-            orientation=3;      
+            orientation=3;
     }
-    
+
     /** Get the current orientation.
         @return the current orientation.
     */
@@ -120,7 +120,7 @@ public class MapCoordinates
     {
         return orientation;
     }
-    
+
     /** Get the current mirroring state
         @return the current mirroring state.
     */
@@ -128,10 +128,10 @@ public class MapCoordinates
     {
         return mirror;
     }
-    
-    
+
+
     /** Save in a stack the current coordinate state.
-    
+
     */
     public void push()
     {
@@ -148,14 +148,14 @@ public class MapCoordinates
         m.xMax=xMax;
         m.yMin=yMin;
         m.yMax=yMax;
-    
+
         m.xGridStep=xGridStep;
         m.yGridStep=yGridStep;
         stack.push(m);
     }
-    
+
     /** Pop from a stack the coordinate state.
-    
+
     */
     public void pop()
     {
@@ -176,12 +176,12 @@ public class MapCoordinates
             xMax=m.xMax;
             yMin=m.yMin;
             yMax=m.yMax;
-    
+
             xGridStep=m.xGridStep;
             yGridStep=m.yGridStep;
-        } 
+        }
     }
-    
+
     /** Set the snapping state (used in the unmapping functions)
         @param s the wanted state.
     */
@@ -189,7 +189,7 @@ public class MapCoordinates
     {
         snapActive=s;
     }
-    
+
     /** Get the snapping state (used in the unmapping functions)
         @return the current snapping state.
     */
@@ -197,50 +197,50 @@ public class MapCoordinates
     {
         return snapActive;
     }
-    
+
     /** Set the X grid step
         @param xg the X grid step
     */
     public final void setXGridStep(int xg)
     {
-        if (xg>0) 
+        if (xg>0)
             xGridStep=xg;
     }
-    
+
     /** Set the Y grid step
         @param yg the Y grid step
     */
     public final void setYGridStep(int yg)
     {
-        if (yg>0) 
+        if (yg>0)
             yGridStep=yg;
     }
-    
+
     /** Get the X grid step
         @return the X grid step used
     */
     public final int getXGridStep()
-    {   
+    {
         return xGridStep;
     }
-    
+
     /** Get the Y grid step
         @return the Y grid step used
     */
     public final int getYGridStep()
-    {   
+    {
         return yGridStep;
     }
-    
+
     /** Get the X magnification factor
         @return the X magnification factor
-    
+
     */
     public final double getXMagnitude()
     {
         return xMagnitude;
     }
-    
+
     /** Get the Y magnification factor
         @return the Y magnification factor
     */
@@ -248,23 +248,23 @@ public class MapCoordinates
     {
         return yMagnitude;
     }
-    
+
     /** Set the X magnification factor
         @param txm the X magnification factor
-    
+
     */
     public final void setXMagnitude(double txm)
     {
         double xm=txm;
         if (Math.abs(xm)<MIN_MAGNITUDE)
             xm=MIN_MAGNITUDE;
-        
+
         if (Math.abs(xm)>MAX_MAGNITUDE)
             xm=MAX_MAGNITUDE;
-        
+
         xMagnitude=xm;
     }
-    
+
     /** Set the Y magnification factor
         @param tym the Y magnification factor
     */
@@ -273,13 +273,13 @@ public class MapCoordinates
         double ym=tym;
         if (Math.abs(ym)<MIN_MAGNITUDE)
             ym=MIN_MAGNITUDE;
-        
+
         if (Math.abs(ym)>MAX_MAGNITUDE)
             ym=MAX_MAGNITUDE;
-        
+
         yMagnitude=ym;
     }
-    
+
     /** Get the X magnification factor
         @return the X magnification factor
     */
@@ -287,7 +287,7 @@ public class MapCoordinates
     {
         return xCenter;
     }
-    
+
     /** Get the Y magnification factor
         @return the Y magnification factor
     */
@@ -295,7 +295,7 @@ public class MapCoordinates
     {
         return yCenter;
     }
-    
+
     /** Set the X center in pixel
         @param xm the X center in pixel
     */
@@ -303,7 +303,7 @@ public class MapCoordinates
     {
         xCenter=xm;
     }
-    
+
     /** Set the Y magnification factor
         @param ym the Y magnification factor
     */
@@ -321,7 +321,7 @@ public class MapCoordinates
         setXMagnitude(xm);
         setYMagnitude(ym);
     }
-    
+
     /** Get the maximum tracked X coordinate
         @return the maximum tracked X coordinate
     */
@@ -329,7 +329,7 @@ public class MapCoordinates
     {
         return xMax;
     }
-    
+
     /** Get the maximum tracked Y coordinate
         @return the maximum tracked Y coordinate
     */
@@ -337,7 +337,7 @@ public class MapCoordinates
     {
         return yMax;
     }
-    
+
     /** Get the minimum tracked X coordinate
         @return the minimum tracked X coordinate
     */
@@ -345,7 +345,7 @@ public class MapCoordinates
     {
         return xMin;
     }
-    
+
     /** Get the minimum tracked Y coordinate
         @return the minimum tracked Y coordinate
     */
@@ -353,14 +353,14 @@ public class MapCoordinates
     {
         return yMin;
     }
-    
+
     /** Reset the minimum and maximum X/Y pixel coordinates tracked. */
     public final void resetMinMax()
     {
         xMin=yMin=Integer.MAX_VALUE;
         xMax=yMax=Integer.MIN_VALUE;
     }
-   
+
     /** Map the xc,yc coordinate given in the X pixel coordinate. The tracking
         is active
         @param xc the horizontal coordinate in the drawing coordinate system.
@@ -370,7 +370,7 @@ public class MapCoordinates
     {
         return mapXi(xc, yc, true);
     }
- 
+
     /** Map the xc,yc coordinate given in the X pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
@@ -378,7 +378,7 @@ public class MapCoordinates
     */
     public final int mapXi(double xc,double yc, boolean track)
     {
-        ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals 
+        ivx=(int)Math.round(mapXr(xc,yc));   /* The integer cast cuts decimals
             to the lowest integer. We need to round correctly; */
 
         if(track) {
@@ -387,10 +387,10 @@ public class MapCoordinates
             if(ivx>xMax)
                 xMax=ivx;
         }
-       
+
         return ivx;
     }
-   
+
     /** Map the txc,tyc coordinate given in the X pixel coordinate. The results
         are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
@@ -403,7 +403,7 @@ public class MapCoordinates
         if(isMacro){
             xc-=100.0;
             yc-=100.0;
-               
+
             if(mirror) {
                 switch(orientation){
                     case 0:
@@ -415,11 +415,11 @@ public class MapCoordinates
                     case 2:
                         vx=xc*xMagnitude;
                         break;
-                
+
                     case 3:
                         vx=-yc*yMagnitude;
                         break;
-    
+
                     default:
                         vx=-xc*xMagnitude;
                         break;
@@ -442,11 +442,11 @@ public class MapCoordinates
                         vx=xc*xMagnitude;
                         break;
                 }
-            }   
+            }
         } else {
             vx=(double)xc*xMagnitude;
         }
-        return vx+xCenter;  
+        return vx+xCenter;
     }
 
     /** Map the xc,yc coordinate given in the Y pixel coordinate. The tracking
@@ -458,39 +458,39 @@ public class MapCoordinates
     {
         return mapYi(xc, yc, true);
     }
-    
-    /** Map the xc,yc coordinate given in the Y pixel coordinate. 
+
+    /** Map the xc,yc coordinate given in the Y pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
         @param track specify if the point should be tracked
     */
     public final int mapYi(double xc,double yc, boolean track)
     {
-        ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals 
+        ivy=(int)Math.round(mapYr(xc,yc));   /* The integer cast cuts decimals
             to the lowest integer. We need to round correctly; */
-        
+
         if(track) {
             if(ivy<yMin)
                 yMin=ivy;
-            
+
             if(ivy>yMax)
                 yMax=ivy;
         }
         return ivy;
     }
-    
+
     /** Map the xc,yc coordinate given in the Y pixel coordinate. The results
         are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
         @param tyc the vertical coordinate in the drawing coordinate system.
-    */       
+    */
     public final double mapYr(double txc,double tyc)
-    {  
+    {
         double xc=txc, yc=tyc;
         if(isMacro){
             xc-=100.0;
             yc-=100.0;
-                  
+
             switch(orientation){
                 case 0:
                     vy=yc*yMagnitude;
@@ -511,11 +511,11 @@ public class MapCoordinates
         } else {
             vy=(double)yc*yMagnitude;
         }
-        
-        return vy+yCenter;   
+
+        return vy+yCenter;
     }
-    
-    /** Add a point in the min/max tracking system. The point should be 
+
+    /** Add a point in the min/max tracking system. The point should be
         specified in the SCREEN coordinates.
         @param xp the X coordinate of the point being tracked.
         @param yp the Y coordinate of the point being tracked.
@@ -524,17 +524,17 @@ public class MapCoordinates
     {
         if(yp<yMin)
             yMin=(int)yp;
-            
+
         if(yp>yMax)
             yMax=(int)yp;
-        
+
         if(xp<xMin)
             xMin=(int)xp;
-            
+
         if(xp>xMax)
             xMax=(int)xp;
     }
-    
+
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
         @param x the horizontal coordinate in the screen coordinate system.
@@ -552,7 +552,7 @@ public class MapCoordinates
     {
         return (int)((y-yCenter)/yMagnitude);
     }
-    
+
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
         @param x the horizontal coordinate in the screen coordinate system.
@@ -582,9 +582,9 @@ public class MapCoordinates
         }
         return yc;
     }
-    
-    /** Create a string containing all possibly interesting info about the 
-        internal state of this class.    
+
+    /** Create a string containing all possibly interesting info about the
+        internal state of this class.
     */
     public String toString()
     {
@@ -597,15 +597,15 @@ public class MapCoordinates
         s+="|mirror="+ mirror;
         s+="|isMacro="+isMacro;
         s+="|snapActive="+snapActive;
-    
+
         s+="|xMin="+ xMin;
         s+="|xMax="+xMax;
         s+="|yMin="+yMin;
         s+="|yMax="+yMax;
-    
+
         s+="|xGridStep="+xGridStep;
         s+="|yGridStep="+ yGridStep+"]";
-    
+
         return s;
     }
 }

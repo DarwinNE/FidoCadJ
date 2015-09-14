@@ -15,7 +15,7 @@ import net.sourceforge.fidocadj.globals.*;
 
 /** Choose file format, size and options of the graphic exporting.
     The class dialogPrint implements a modal dialog to select printing options.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -37,17 +37,17 @@ import net.sourceforge.fidocadj.globals.*;
 
     @author Davide Bucci
 */
-    
-public class DialogPrint extends JDialog implements ComponentListener 
+
+public class DialogPrint extends JDialog implements ComponentListener
 {
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;
-    
+
     private final JCheckBox mirror_CB;
     private final JCheckBox fit_CB;
     private final JCheckBox bw_CB;
     private final JCheckBox landscape_CB;
-    
+
     private boolean export;     // Indicates that the export should be done
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent
@@ -55,40 +55,40 @@ public class DialogPrint extends JDialog implements ComponentListener
     public DialogPrint (JFrame parent)
     {
         super(parent,Globals.messages.getString("Print_dlg"), true);
-        addComponentListener(this); 
+        addComponentListener(this);
         export=false;
-        
+
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
-        
-        getRootPane().putClientProperty("apple.awt.documentModalSheet", 
+
+        getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
-                
+
         GridBagLayout bgl=new GridBagLayout();
         GridBagConstraints constraints=new GridBagConstraints();
         Container contentPane=getContentPane();
         contentPane.setLayout(bgl);
 
         constraints.insets.right=30;
-        
+
         JLabel empty=new JLabel("  ");
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=0;
         constraints.gridy=0;
         constraints.gridwidth=1;
-        constraints.gridheight=1;   
+        constraints.gridheight=1;
         contentPane.add(empty, constraints);            // Add "   " label
-        
+
         JLabel empty1=new JLabel("  ");
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=3;
         constraints.gridy=0;
         constraints.gridwidth=1;
-        constraints.gridheight=1;   
+        constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
-        
+
         mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
         constraints.gridx=1;
         constraints.gridy=0;
@@ -96,7 +96,7 @@ public class DialogPrint extends JDialog implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(mirror_CB, constraints);        // Add Print Mirror cb
-        
+
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
         constraints.gridx=1;
         constraints.gridy=1;
@@ -104,7 +104,7 @@ public class DialogPrint extends JDialog implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(fit_CB, constraints);       // Add Fit to page cb
-        
+
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
         constraints.gridx=1;
         constraints.gridy=2;
@@ -112,7 +112,7 @@ public class DialogPrint extends JDialog implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(bw_CB, constraints);        // Add BlackWhite cb
-        
+
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
         constraints.gridx=1;
         constraints.gridy=3;
@@ -120,17 +120,17 @@ public class DialogPrint extends JDialog implements ComponentListener
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(landscape_CB, constraints);     // Add landscape cb
-        
+
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-    
+
         constraints.gridx=0;
         constraints.gridy=4;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
-        
+
         // Put the OK and Cancel buttons and make them active.
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
@@ -140,13 +140,13 @@ public class DialogPrint extends JDialog implements ComponentListener
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-        
+
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
-        }   
-        
+        }
+
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
@@ -177,12 +177,12 @@ public class DialogPrint extends JDialog implements ComponentListener
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
-    }  
-    public void componentResized(ComponentEvent e) 
+    }
+    public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
-        
+
         boolean resize = false;
         if (width < MIN_WIDTH) {
             resize = true;
@@ -196,19 +196,19 @@ public class DialogPrint extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
-    public void componentMoved(ComponentEvent e) 
+    public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentShown(ComponentEvent e) 
+    public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
-    public void componentHidden(ComponentEvent e) 
+    public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
-    
+
     /** Check if the drawing should be mirrored.
         @return true wether the mirroring should be done.
     */
@@ -216,7 +216,7 @@ public class DialogPrint extends JDialog implements ComponentListener
     {
         return mirror_CB.isSelected();
     }
-    
+
     /** Check if the drawing should be fit to the page
         @return true wether the fitting should be done.
     */
@@ -235,7 +235,7 @@ public class DialogPrint extends JDialog implements ComponentListener
     {
         return bw_CB.isSelected();
     }
-    
+
     /** Set the mirror attribute
         @param m true if the printout should be done in mirroring mode.
     */
@@ -245,14 +245,14 @@ public class DialogPrint extends JDialog implements ComponentListener
     }
 
     /** Set the resize to fit option
-        @param f true if the drawing should be stretched in order to fit the 
+        @param f true if the drawing should be stretched in order to fit the
             page.
     */
     public void setFit(boolean f)
     {
         fit_CB.setSelected(f);
     }
-    
+
     /** Set the landscape mode
         @param l true if the output should be in landscape mode. It will be
             in portrait orientation otherwise.
@@ -260,8 +260,8 @@ public class DialogPrint extends JDialog implements ComponentListener
     public void setLandscape(boolean l)
     {
         landscape_CB.setSelected(l);
-    }   
-    
+    }
+
     /** Print in black and white
         @param l if true, print in black and white, if false respect the colors
             associated to the layers.
@@ -269,14 +269,14 @@ public class DialogPrint extends JDialog implements ComponentListener
     public void setBW(boolean l)
     {
         bw_CB.setSelected(l);
-    }   
-  
+    }
+
     /** Indicates that the printing should be done: the user selected the "ok"
-        button 
+        button
         @return a boolean value which indicates if the printing should be done
     */
     public boolean shouldPrint()
     {
         return export;
-    }  
+    }
 }

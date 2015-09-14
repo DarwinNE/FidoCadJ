@@ -1,8 +1,8 @@
 package net.sourceforge.fidocadj.graphic;
 
-/** RectangleG is a class implementing a rectangle with its coordinates 
+/** RectangleG is a class implementing a rectangle with its coordinates
     (integer).
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -28,10 +28,10 @@ public class RectangleG
     public int y;
     public int height;
     public int width;
-    
+
     public RectangleG(int x, int y, int width, int height)
     {
-        this.x=x; 
+        this.x=x;
         this.y=y;
         this.width=width;
         this.height=height;
@@ -39,7 +39,7 @@ public class RectangleG
 
     public RectangleG()
     {
-        this.x=0; 
+        this.x=0;
         this.y=0;
         this.width=0;
         this.height=0;

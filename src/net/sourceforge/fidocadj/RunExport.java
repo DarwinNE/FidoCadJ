@@ -13,7 +13,7 @@ import net.sourceforge.fidocadj.globals.*;
     to perform all exporting operations in a separate thread from the main
     user interface one.
 
-<pre>  
+<pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,21 +31,21 @@ import net.sourceforge.fidocadj.globals.*;
 
     Copyright 2012-2015 by Davide Bucci
 </pre>
-    
+
     @author Davide Bucci
 */
 
-class RunExport implements Runnable 
+class RunExport implements Runnable
 {
-    private File file; 
-    private DrawingModel P; 
+    private File file;
+    private DrawingModel P;
     private String format;
     private double unitPerPixel;
     private boolean antiAlias;
     private boolean blackWhite;
     private boolean ext;
     private JFrame parent;
-    
+
     /** Setting up the parameters needed for the export
     @param tfile the file name
     @param tP the DrawingModel object containing the drawing to be exported
@@ -54,16 +54,16 @@ class RunExport implements Runnable
     @param tantiAlias the application of anti alias for bitmap export
     @param tblackWhite black and white export
     @param text the extensions to be activated or not
-    
+
     */
-    public void setParam(File tfile, 
-        DrawingModel tP, 
+    public void setParam(File tfile,
+        DrawingModel tP,
         String tformat,
         double tunitPerPixel,
         boolean tantiAlias,
         boolean tblackWhite,
         boolean text,
-        JFrame tparent) 
+        JFrame tparent)
     {
         file=tfile;
         P = tP;
@@ -74,10 +74,10 @@ class RunExport implements Runnable
         ext=text;
         parent=tparent;
     }
-    
+
     /** Launch the export (in a new thread).
     */
-    public void run() 
+    public void run()
     {
         try {
             ExportGraphic.export(file, P, format, unitPerPixel,

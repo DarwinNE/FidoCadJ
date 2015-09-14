@@ -2,10 +2,10 @@ package net.sourceforge.fidocadj.geom;
 
 /**
     ChangeCoordinatesListener interface
-    
+
     @author Davide Bucci
     @version 1.0, June 2008
- 
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -24,19 +24,19 @@ package net.sourceforge.fidocadj.geom;
 
     Copyright 2008 by Davide Bucci
 </pre>
-   
+
 */
 
-public interface ChangeCoordinatesListener 
+public interface ChangeCoordinatesListener
 {
     /** Callback when the coordinates are changed.
         @param x the x coordinate of the mouse pointer
         @param y the y coordinate of the mouse pointer
     */
     public void changeCoordinates(int x, int y);
-    
+
     /** Callback useful when some infos are to be shown.
-    
+
     */
     public void changeInfos(String s);
 }

@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.primitives.*;
 /** EditorActions: contains a controller which can perform basic editor actions
     on a primitive database. Those actions include rotating and mirroring
     objects and selecting/deselecting them.
-    
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -34,14 +34,14 @@ import net.sourceforge.fidocadj.primitives.*;
     @author Davide Bucci
 */
 
-public class EditorActions 
+public class EditorActions
 {
     private final DrawingModel P;
     private final UndoActions ua;
     private final SelectionActions sa;
-    
+
     // Tolerance in pixels to select an object
-    public int sel_tolerance = 10; 
+    public int sel_tolerance = 10;
 
 
     /** Standard constructor: provide the database class.
@@ -56,7 +56,7 @@ public class EditorActions
         sa=s;
         sel_tolerance = 10;
     }
-    
+
     /** Set the current selection tolerance in pixels (the default when
         the class is created is 10 pixels.
         @param s the new tolerance.
@@ -65,7 +65,7 @@ public class EditorActions
     {
         sel_tolerance = s;
     }
-    
+
     /** Get the selection tolerance in pixels.
         @return the current selection tolerance.
     */
@@ -73,20 +73,20 @@ public class EditorActions
     {
         return sel_tolerance;
     }
-    
-    /** Rotate all selected primitives. 
+
+    /** Rotate all selected primitives.
     */
     public void rotateAllSelected()
     {
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
-        
+
         if(g==null)
             return;
-            
+
         final int ix = g.getFirstPoint().x;
         final int iy = g.getFirstPoint().y;
-        
-        sa.applyToSelectedElements(new ProcessElementsInterface() 
+
+        sa.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
@@ -96,7 +96,7 @@ public class EditorActions
 
         if(ua!=null) ua.saveUndoState();
     }
-    
+
     /** Move all selected primitives.
         @param dx relative x movement
         @param dy relative y movement
@@ -110,10 +110,10 @@ public class EditorActions
                 g.movePrimitive(dx, dy);
             }
         });
-        
+
         if(ua!=null) ua.saveUndoState();
     }
-    
+
     /** Mirror all selected primitives.
     */
     public void mirrorAllSelected()
@@ -121,9 +121,9 @@ public class EditorActions
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
         if(g==null)
             return;
-            
+
         final int ix = g.getFirstPoint().x;
-        
+
         sa.applyToSelectedElements(new ProcessElementsInterface(){
             public void doAction(GraphicPrimitive g)
             {
@@ -133,8 +133,8 @@ public class EditorActions
 
         if(ua!=null) ua.saveUndoState();
     }
-    
-    /** Delete all selected primitives. 
+
+    /** Delete all selected primitives.
         @param saveState true if the undo controller should save the state
             of the drawing, after the delete operation is done. It should
             be put to false, when the delete operation is part of a more
@@ -145,15 +145,15 @@ public class EditorActions
     {
         int i;
         Vector<GraphicPrimitive> v=P.getPrimitiveVector();
-        
+
         for (i=0; i<v.size(); ++i){
             if(v.get(i).getSelected())
                 v.remove(v.get(i--));
         }
-        if (saveState && ua!=null) 
-            ua.saveUndoState();   
-    }    
-    
+        if (saveState && ua!=null)
+            ua.saveUndoState();
+    }
+
     /** Sets the layer for all selected primitives.
         @param l the wanted layer index.
         @return true if at least a layer has been changed.
@@ -177,10 +177,10 @@ public class EditorActions
         }
         return toRedraw;
     }
-    
+
     /** Calculates the minimum distance between the given point and
         a set of primitive. Every coordinate is logical.
-        
+
         @param px the x coordinate of the given point.
         @param py the y coordinate of the given point.
         @return the distance in logical units.
@@ -192,45 +192,45 @@ public class EditorActions
         int mindistance=Integer.MAX_VALUE;
         int layer=0;
         Vector<LayerDesc> layerV=P.getLayers();
-        
+
         // Check the minimum distance by searching among all
         // primitives
         for (GraphicPrimitive g: P.getPrimitiveVector()) {
             distance=g.getDistanceToPoint(px,py);
             if(distance<=mindistance) {
                 layer = g.getLayer();
-                
+
                 if(layerV.get(layer).isVisible)
-                    mindistance=distance;              
+                    mindistance=distance;
             }
         }
         return mindistance;
     }
-    
+
     /** Handle the selection (or deselection) of objects. Search the closest
         graphical objects to the given (screen) coordinates.
         This method provides an interface to the {@link #selectPrimitive}
         method, which is oriented towards a more low-level process.
-        
+
         @param x the x coordinate of the click (screen).
         @param y the y coordinate of the click (screen).
         @param toggle select always if false, toggle selection on/off if true.
         @param addSelection if true, add the new selection to the current one.
     */
-    public void handleSelection(MapCoordinates cs, int x, int y, 
+    public void handleSelection(MapCoordinates cs, int x, int y,
         boolean toggle)
-    {        
-        // Deselect primitives if needed.       
-        if(!toggle) 
+    {
+        // Deselect primitives if needed.
+        if(!toggle)
             sa.setSelectionAll(false);
-    
+
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
         int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
         if (toll<2) toll=2;
         selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
     }
-    
+
     /** Select primitives close to the given point. Every parameter is given in
         logical coordinates.
         @param px the x coordinate of the given point (logical).
@@ -239,22 +239,22 @@ public class EditorActions
         @param toggle select always if false, toggle selection on/off if true
         @return true if a primitive has been selected.
     */
-    private boolean selectPrimitive(int px, int py, int tolerance, 
+    private boolean selectPrimitive(int px, int py, int tolerance,
         boolean toggle)
-    {    
+    {
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer;
         GraphicPrimitive gp;
         GraphicPrimitive gpsel=null;
         Vector<LayerDesc> layerV=P.getLayers();
-        
+
         /*  The search method is very simple: we compute the distance of the
             given point from each primitive and we retain the minimum value, if
-            it is less than a given tolerance.   
+            it is less than a given tolerance.
         */
         for  (GraphicPrimitive g: P.getPrimitiveVector()) {
-            layer = g.getLayer();           
+            layer = g.getLayer();
             if(layerV.get(layer).isVisible || g instanceof PrimitiveMacro) {
                 distance=g.getDistanceToPoint(px,py);
                 if (distance<=mindistance) {
@@ -263,19 +263,19 @@ public class EditorActions
                 }
             }
         }
-        
+
         // Check if we found something!
         if (mindistance<tolerance && gpsel!=null) {
             if(toggle) {
                 gpsel.setSelected(!gpsel.getSelected());
             } else {
                 gpsel.setSelected(true);
-            }  
+            }
             return true;
-        } 
+        }
         return false;
     }
-    /** Select primitives in a rectangular region (given in logical 
+    /** Select primitives in a rectangular region (given in logical
         coordinates)
         @param px the x coordinate of the top left point.
         @param py the y coordinate of the top left point.
@@ -287,16 +287,16 @@ public class EditorActions
     {
         int layer;
         boolean s=false;
-        
+
         // Avoid processing a trivial case.
         if(w<1 || h <1)
             return false;
-        
+
         Vector<LayerDesc> layerV=P.getLayers();
         // Process every primitive, if the corresponding layer is visible.
         for (GraphicPrimitive g: P.getPrimitiveVector()){
             layer= g.getLayer();
-            if((layer>=layerV.size() || 
+            if((layer>=layerV.size() ||
                 layerV.get(layer).isVisible ||
                 g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
                 s=true;

@@ -6,12 +6,12 @@ import java.io.*;
 /**
     Implementation of a circular buffer of the given size.
     This is tailored in particular for the undo/redo system.
-    The choice of the circular buffer is reasonable since one expects that 
+    The choice of the circular buffer is reasonable since one expects that
     in the classical undo systems the very old states are overwritten when
     the maximum number of undo steps is reached.
-    
+
     @author Davide Bucci
- 
+
 
 
 <pre>
@@ -36,21 +36,21 @@ import java.io.*;
 @author Davide Bucci
 */
 
-public class UndoManager 
-{    
+public class UndoManager
+{
     private final Vector<UndoState> undoBuffer;
     private int pointer;
     private boolean isRedoable;
-    
+
     /** Creates a new undo buffer of the given size
-    
+
     */
     public UndoManager (int size)
     {
         undoBuffer = new Vector<UndoState>(size);
         undoReset();
     }
-    
+
     public void printUndoState()
     {
         System.out.println("===============================================");
@@ -60,14 +60,14 @@ public class UndoManager
             System.out.println("undoBuffer["+i+"]="+undoBuffer.get(i));
             if(i==pointer-2)
                 System.out.println("*****************");
-                
+
         }
         System.out.println("Is the next operation on a library? "+
             (isNextOperationOnALibrary()?"Yes":"No"));
     }
-    
+
     /** Removes all the elements from the circular buffer
-    
+
     */
     public final void undoReset()
     {
@@ -76,7 +76,7 @@ public class UndoManager
         pointer=0;
         isRedoable=false;
     }
-    
+
     /** Pushes a new undo state in the buffer
         @param state the state to be committed.
     */
@@ -91,18 +91,18 @@ public class UndoManager
         undoBuffer.add(pointer++, state);
 
         isRedoable=false;
-        
+
         // If the buffer contains other elements after the pointer, erase
         // them. This happens when several undo operation is followed by an
-        // edit: you can not redo or merge the old undo "timeline" with the 
+        // edit: you can not redo or merge the old undo "timeline" with the
         // new one.
-        
+
         for(int i=pointer; i<undoBuffer.size();++i)
             undoBuffer.removeElementAt(pointer);
-            
+
         // printUndoState();
     }
-    
+
     public boolean isNextOperationOnALibrary()
     {
         if(pointer>=undoBuffer.size() || pointer<1)
@@ -122,7 +122,7 @@ public class UndoManager
     */
     public UndoState undoPop()
         throws NoSuchElementException
-    {   
+    {
         --pointer;
         if(pointer<1)
             pointer=1;
@@ -130,9 +130,9 @@ public class UndoManager
 
         isRedoable=true;
         return o;
-        
+
     }
-    
+
     /** Redo the last undo state from the buffer
         @return the recovered state.
     */
@@ -143,13 +143,13 @@ public class UndoManager
             NoSuchElementException E=new NoSuchElementException();
             throw E;
         }
-        
+
         ++pointer;
         if(pointer>undoBuffer.size())
             pointer=undoBuffer.size();
-            
+
         UndoState o=undoBuffer.get(pointer-1);
-        
+
         return o;
     }
 }

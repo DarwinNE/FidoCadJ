@@ -12,7 +12,7 @@ import java.util.*;
 /** The class ArrowCellRenderer is used in the arrow list.
 
     @author Davide Bucci
-    
+
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -29,20 +29,20 @@ import java.util.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009-2010 by Davide Bucci
-    
+
 */
-public class ArrowCellRenderer implements ListCellRenderer 
+public class ArrowCellRenderer implements ListCellRenderer
 {
     /** Method required for the ListCellRenderer interface; it draws
         a layer element in the cell and adds its event listeners */
-    public Component getListCellRendererComponent(final JList list, 
-        final Object value, final int index, final boolean isSelected, 
+    public Component getListCellRendererComponent(final JList list,
+        final Object value, final int index, final boolean isSelected,
         final boolean cellHasFocus)
     {
         final ArrowInfo arrow=(ArrowInfo) value;
-        
+
         return new CellArrow(arrow, list, isSelected);
-        
+
     }
-    
+
 }

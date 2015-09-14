@@ -3,7 +3,6 @@
           "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
           "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 <!-- Checkstyle rules for FidoCadJ project.
-   
     Authors: Davide Bucci
  -->
 
@@ -43,5 +42,10 @@
 			<property name="option" value="nlow"/>
 			<property name="tokens" value="LITERAL_IF"/>
 		</module>
+		<module name="Regexp">
+      <property name="format" value="[ \t]+$"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Line has trailing spaces."/>
+    </module>
     </module>
 </module>

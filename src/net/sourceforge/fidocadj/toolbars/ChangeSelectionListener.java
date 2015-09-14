@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.toolbars;
-/** Interface used to callback notify that the current selection state has 
+/** Interface used to callback notify that the current selection state has
     changed
-    
+
     <pre>
     This file is part of FidoCadJ.
 
@@ -20,34 +20,34 @@ package net.sourceforge.fidocadj.toolbars;
 
     Copyright 2007-2014 by Davide Bucci
 </pre>
-    
-   
-    
+
+
+
     @author Davide Bucci
 */
 
-public interface ChangeSelectionListener 
+public interface ChangeSelectionListener
 {
     /** The callback method which is called when the current selection state
-        has changed. 
+        has changed.
         @param s the actual selection state (see the CircuitPanel class for the
         definition of the constants used here).
         @param macroKey the key of the macro being used (if necessary).
 
     */
     public void setSelectionState(int s, String macroKey);
-    
+
     /** Set if the strict FidoCAD compatibility mode is active
-        @param strict true if the compatibility with FidoCAD should be 
+        @param strict true if the compatibility with FidoCAD should be
         obtained.
-    
+
     */
     public void setStrictCompatibility(boolean strict);
-    
-    /** Get the actual selection state. 
+
+    /** Get the actual selection state.
         @return the actual selection state (see the CircuitPanel class for the
         definition of the constants used here).
-    
+
     */
-    public int getSelectionState(); 
+    public int getSelectionState();
 }

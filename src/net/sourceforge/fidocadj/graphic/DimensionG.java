@@ -27,13 +27,13 @@ public class DimensionG
     public int height;
     public DimensionG(int width, int height)
     {
-        this.width=width; 
+        this.width=width;
         this.height=height;
     }
 
     public DimensionG()
     {
-        this.width=0; 
+        this.width=0;
         this.height=0;
     }
 }

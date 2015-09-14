@@ -10,12 +10,12 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 
-/** ExportTools.java 
+/** ExportTools.java
 
     Class performing interface operations for launching export operations.
     It also reads and stores preferences.
 
-<pre>  
+<pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -46,8 +46,8 @@ public class ExportTools
     private double exportUnitPerPixel;
     private double exportMagnification;
     final private Preferences prefs;
-    
-    /** Standard constructor. 
+
+    /** Standard constructor.
         @param p the preferences object which will be used to save or
         retrieve the settings. If null, preferences will not be stored.
     */
@@ -59,7 +59,7 @@ public class ExportTools
         exportBlackWhite=false;
         exportFormat = "";
     }
-    
+
     /** Read the preferences regarding the export.
     */
     public void readPrefs()
@@ -73,7 +73,7 @@ public class ExportTools
             exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
         }
     }
-    
+
     /** Show a dialog for exporting the current drawing.
         @param fff the parent frame which will be used for dialogs and message
             boxes.
@@ -82,9 +82,9 @@ public class ExportTools
             name has been already defined for the export (for example, because
             it is the first time an export is done).
     */
-    public void launchExport(JFrame fff, CircuitPanel CC, 
+    public void launchExport(JFrame fff, CircuitPanel CC,
         String openFileDirectory)
-    {                 
+    {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
         DialogExport export=new DialogExport(fff);
@@ -99,9 +99,9 @@ public class ExportTools
         export.setUnitPerPixel(exportUnitPerPixel);
         export.setBlackWhite(exportBlackWhite);
         export.setMagnification(exportMagnification);
-                
+
         // Once configured, we show the modal dialog
-        export.setVisible(true);      
+        export.setVisible(true);
         if (export.shouldExport()) {
             exportFileName=export.getFileName();
             exportFormat=export.getFormat();
@@ -112,32 +112,32 @@ public class ExportTools
                 exportUnitPerPixel=export.getUnitPerPixel();
             else
                 exportUnitPerPixel = export.getMagnification();
-            
+
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
-            
+
             File f = new File(exportFileName);
             // We first check if the file is a directory
             if(f.isDirectory()) {
-                JOptionPane.showMessageDialog(null, 
+                JOptionPane.showMessageDialog(null,
                     Globals.messages.getString("Warning_noname"),
-                    Globals.messages.getString("Warning"), 
+                    Globals.messages.getString("Warning"),
                     JOptionPane.INFORMATION_MESSAGE );
                 return;
             }
-            
+
             int selection;
-            
+
             // We first check if the file name chosen by the user has a correct
             // file extension, coherent with the file format chosen.
             if(!Globals.checkExtension(exportFileName, exportFormat)) {
-                selection = JOptionPane.showConfirmDialog(null, 
+                selection = JOptionPane.showConfirmDialog(null,
                     Globals.messages.getString("Warning_extension"),
                     Globals.messages.getString("Warning"),
-                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
-                if(selection==JOptionPane.OK_OPTION) 
+                if(selection==JOptionPane.OK_OPTION)
                     exportFileName = Globals.adjustExtension(
                         exportFileName, exportFormat);
                 f = new File(exportFileName);
@@ -145,10 +145,10 @@ public class ExportTools
 
             // If the file already exists, we asks for confirmation
             if(f.exists()) {
-                selection = JOptionPane.showConfirmDialog(null, 
+                selection = JOptionPane.showConfirmDialog(null,
                     Globals.messages.getString("Warning_overwrite"),
                     Globals.messages.getString("Warning"),
-                    JOptionPane.OK_CANCEL_OPTION, 
+                    JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE);
                 if(selection!=JOptionPane.OK_OPTION)
                     return;
@@ -156,13 +156,13 @@ public class ExportTools
             // We do the export
             RunExport doExport = new RunExport();
             // Here we use the multithreaded structure of Java.
-            doExport.setParam(new File(exportFileName),  CC.P, 
-                exportFormat, exportUnitPerPixel, 
+            doExport.setParam(new File(exportFileName),  CC.P,
+                exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
                 fff);
-               
+
             SwingUtilities.invokeLater(doExport);
-            
+
             if(prefs!=null) {
                 prefs.put("EXPORT_FORMAT", exportFormat);
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
@@ -171,9 +171,9 @@ public class ExportTools
             }
             /*
                 The following code would require a thread safe implementation
-                of some of the inner classes (such as CircuitModel), which is 
+                of some of the inner classes (such as CircuitModel), which is
                 indeed not the case...
-                
+
             Thread thread = new Thread(doExport);
             thread.setDaemon(true);
             // Start the thread
