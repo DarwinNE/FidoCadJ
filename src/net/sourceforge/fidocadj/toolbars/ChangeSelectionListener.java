@@ -19,7 +19,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
 
 

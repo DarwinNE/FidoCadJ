@@ -26,9 +26,12 @@ import net.sourceforge.fidocadj.layers.*;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most
     important components, as it is responsible of all editing actions.
-    In many ways, this class contains the
+    In many ways, this class contains the most important component of
+    FidoCadJ.
+    This class is able to perform its profiling, which is in particular
+    the measurement of the time needed to draw the circuit.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -45,10 +48,8 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2015 by Davide Bucci
-</pre>
-   The circuit panel will contain the whole drawing.
-    This class is able to perform its profiling, which is in particular
-    the measurement of the time needed to draw the circuit.
+    </pre>
+
 
     @author Davide Bucci
 */
@@ -676,7 +677,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     /** Calculate the size of the image and update the size of the
         scroll bars, with the current zoom.
-
+        @param r the Rectangle which will contain the new image size at the
+            end of this method.
     */
     public void updateSizeOfScrollBars(Rectangle r)
     {
@@ -761,6 +763,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         need to be hold still during the click. This is apparently a problem for
         a number of user. I have thus decided to use the mouse release event
         instead of the complete click.
+        @param evt the MouseEvent to handle.
     */
     public void mouseClicked(MouseEvent evt)
     {
@@ -780,6 +783,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     /** Handle the mouse movements when editing a graphic primitive.
         This procedure is important since it is used to show interactively
         to the user which element is being modified.
+        @param evt the MouseEvent to handle.
     */
     public void mouseMoved(MouseEvent evt)
     {
@@ -800,6 +804,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
 
     /** Mouse interface: start of the dragging operations.
+        @param evt the MouseEvent to handle
     */
     public void mousePressed(MouseEvent evt)
     {
@@ -843,6 +848,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
 
     /** Dragging event with the mouse.
+        @param evt the MouseEvent to handle
     */
     public void mouseDragged(MouseEvent evt)
     {
@@ -877,7 +883,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         }
     }
 
-    /** Mouse release event
+    /** Mouse release event.
+        @param evt the MouseEvent to handle
     */
     public void mouseReleased(MouseEvent evt)
     {
@@ -946,6 +953,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     /** The mouse pointer enters into the control. This method changes the
         cursor associated to it.
+        @param evt the MouseEvent to handle
     */
     public void mouseEntered(MouseEvent evt)
     {
@@ -985,6 +993,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     /** The mouse pointer has exited the control. This method changes the
         cursor associated and restores the default one.
+        @param evt the MouseEvent to handle
     */
     public void mouseExited(MouseEvent evt)
     {
@@ -1043,7 +1052,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         5. if needed, draw the primitive being edited
         6. draw the ruler, if needed
         7. if requested, print information about redraw speed
-
+        @param g the graphic context on which perform the drawing operations.
     */
     public void paintComponent(Graphics g)
     {
@@ -1053,17 +1062,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
         Graphics2D g2 = (Graphics2D)g;
         graphicSwing.setGraphicContext(g2);
-
-        //Rectangle t= new Rectangle();
-        //g.getClipBounds(t);
-
-        //System.out.println("x="+t.x+" y="+t.y+" w="+t.width+" h="+t.height);
-
-        /*if(scrollRectangle!=null) {
-            Rectangle r=scrollRectangle;
-            scrollRectangle = null;
-            scrollRectToVisible(r);
-        }*/
 
         // Activate anti-aliasing when necessary.
 
@@ -1462,6 +1460,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
 
     /** The action listener. Recognize menu events and behaves consequently.
+        @param evt the MouseEvent to handle
     */
     public void actionPerformed(ActionEvent evt)
     {
@@ -1591,10 +1590,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
     }
 
     /** Forces a repaint.
+        @param x the x leftmost corner of the dirty region to repaint.
+        @param y the y leftmost corner of the dirty region to repaint.
+        @param width the width of the dirty region.
+        @param height the height of the dirty region.
     */
-    public void forcesRepaint(int a, int b, int c, int d)
+    public void forcesRepaint(int x, int y, int width, int height)
     {
-        repaint(a, b, c, d);
+        repaint(x, y, width, height);
     }
 
     /** Windows and Linux users can use Ctrl+Wheel to zoom in and out.

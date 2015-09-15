@@ -45,7 +45,7 @@ public class CopyPasteActions
         @param pp the drawing model.
         @param ed an editor controller.
         @param aa a parser controller (pasting implies parsing).
-        @param sa a selection controller
+        @param s a selection controller
         @param u an undo controller.
         @param p an object with copy and paste methods available.
     */
@@ -103,8 +103,8 @@ public class CopyPasteActions
         cpi.copyText(s.toString());
     }
 
-    /** Returns true if the elements are shifted when copy/pasted
-
+    /** Check if the elements are to be shifted when copy/pasted.
+        @return true if the elements are shifted when copy/pasted.
     */
     public boolean getShiftCopyPaste()
     {

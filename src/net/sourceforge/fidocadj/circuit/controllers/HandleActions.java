@@ -85,11 +85,13 @@ public class HandleActions
     /** Drag all the selected primitives during a drag operation.
         Position the primitives in the given (screen) position
 
+        @param cc the element containing the drawing, which can receive
+            repaint callbacks.
         @param px the x position (screen coordinates).
         @param py the y position (screen coordinates).
         @param cs the coordinate mapping.
     */
-    public void dragPrimitives(PrimitivesParInterface CC, int px, int py,
+    public void dragPrimitives(PrimitivesParInterface cc, int px, int py,
         MapCoordinates cs)
     {
         // Check if we are effectively dragging the whole primitive...
@@ -124,7 +126,7 @@ public class HandleActions
                 g.setChanged(true);
             }
         }
-        CC.forcesRepaint();
+        cc.forcesRepaint();
     }
 
     /** Start dragging handle. Check if the pointer is on the handle of a

@@ -23,6 +23,9 @@
     	<module name="JavadocType">
    			<property name="scope" value="public"/>
 		</module>
+		<module name="JavadocMethod">
+		   <property name="scope" value="public"/>
+		</module>
         <module name="OuterTypeFilename"/>
         <module name="FileContentsHolder"/>
         <module name="LineLength">
@@ -43,9 +46,9 @@
 			<property name="tokens" value="LITERAL_IF"/>
 		</module>
 		<module name="Regexp">
-      <property name="format" value="[ \t]+$"/>
-      <property name="illegalPattern" value="true"/>
-      <property name="message" value="Line has trailing spaces."/>
-    </module>
+			<property name="format" value="[ \t]+$"/>
+			<property name="illegalPattern" value="true"/>
+			<property name="message" value="Line has trailing spaces."/>
+    	</module>
     </module>
 </module>

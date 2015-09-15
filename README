@@ -166,6 +166,7 @@ using svn from the GitHub repository.
   sign.sh                     Creates the signature for the applet
   test/                DIR    Automatic tests for FidoCadJ
   winbuild.bat                Build and run script for Windows (see par. 3.3)
+  rules.xml                   Set of coding style rules for Checklist
   ---------------------------------------------------------------------------
 
 If you want to study the FidoCadJ source code, run the ./createdoc script to
@@ -302,7 +303,7 @@ code:
 - variables never start with a capital letter and so methods
 - an instance of the class does have its first letter in lower case
 * public classes must be documented with Javadoc syntax
-- public methods must be documented with Javadoc syntax
+* public methods must be documented with Javadoc syntax
 * no lines longer than 80 characters
 - commits should not break the build
 - each commit *MUST* include a log 
@@ -315,6 +316,7 @@ A checkstyle rule sets (called rules.xml) is being progressively employed so
 that those rules will be automatically checked. Points for which a rule has
 been activated have been marked with a "*" instead of a "-" in the previous 
 list.
+Be sure to run checklist with rules.xml 
 
 3.5 Automatic tests
 -------------------

@@ -15,6 +15,14 @@ import java.net.*;
 /**
     ToolButton class
 
+    This class contains a constructor, which allows to create buttons for the
+    FidoCadJ toolbar, {@link ToolbarTools}.
+    Having the button created in this class allows to add a button in the
+    <code>ToolbarTools</code> class by defining most of the button parameters
+    on a single line. This also avoids code repetition and gives more
+    flexibility to the design the buttons.
+
+
     <pre>
     This file is part of FidoCadJ.
 
@@ -33,14 +41,6 @@ import java.net.*;
 
     Copyright 2008-2014 by Davide Bucci
     </pre>
-
-
-    This class contains a constructor, which allows to create buttons for the
-    FidoCadJ toolbar, {@link ToolbarTools}.
-    Having the button created in this class allows to add a button in the
-    <code>ToolbarTools</code> class by defining most of the button parameters
-    on a single line. This also avoids code repetition and gives more
-    flexibility to the design the buttons.
 
     @author Davide Bucci & Jose Emilio Munoz
 
@@ -89,7 +89,6 @@ public class ToolButton
 
     /** With this method, the button can be passed to the
         <code>ToolbarTools</code> class as a <code>JToggleButton</code>.
-
         @return toolButton
     */
     public JToggleButton getToolButton()

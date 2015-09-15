@@ -46,7 +46,7 @@ public class EditorActions
 
     /** Standard constructor: provide the database class.
         @param pp the Model containing the database.
-        @param sa the SelectionActions controller
+        @param s the SelectionActions controller
         @param u the Undo controller, to ease undo operations.
     */
     public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
@@ -212,10 +212,10 @@ public class EditorActions
         This method provides an interface to the {@link #selectPrimitive}
         method, which is oriented towards a more low-level process.
 
+        @param cs the coordinate mapping to be employed.
         @param x the x coordinate of the click (screen).
         @param y the y coordinate of the click (screen).
         @param toggle select always if false, toggle selection on/off if true.
-        @param addSelection if true, add the new selection to the current one.
     */
     public void handleSelection(MapCoordinates cs, int x, int y,
         boolean toggle)

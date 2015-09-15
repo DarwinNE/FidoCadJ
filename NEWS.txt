@@ -1,3 +1,7 @@
+Version 0.24.6
+--------------
+- Complete review of the source code, refactoring, strict coding style policy adopted.
+
 Version 0.24.5
 --------------
 - Contains the new EY library of components.

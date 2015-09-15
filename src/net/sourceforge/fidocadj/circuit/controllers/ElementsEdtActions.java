@@ -12,6 +12,11 @@ import net.sourceforge.fidocadj.graphic.*;
 /** ElementsEdtActions: contains a controller for adding/modifying elements
     to a drawing model.
 
+    In the jargon of this file "editing primitive" means the one which is
+    currently being entered if an editing action is in place. For example, if
+    the user wants to introduce a new macro, it will be the new macro which
+    is shown in green, following the mouse pointer.
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -127,6 +132,9 @@ public class ElementsEdtActions
         actionSelected = a;
     }
 
+    /** Get the current {@link #AddElements} controller.
+        @return the current controller.
+    */
     public AddElements getAddElements()
     {
         return ae;
@@ -134,6 +142,7 @@ public class ElementsEdtActions
 
     /** Set the listener for showing popups and editing actions which are
         platform-dependent.
+        @param l the listener to be employed.
     */
     public void setPrimitivesParListener(PrimitivesParInterface l)
     {
@@ -141,6 +150,8 @@ public class ElementsEdtActions
     }
 
     /** Determine wether the current primitive being added is a macro.
+        @return true if the current primitive (i.e. the one who is in green
+        under the mouse cursor) is a macro.
     */
     public boolean isEnteringMacro()
     {
@@ -186,6 +197,7 @@ public class ElementsEdtActions
 
     /** Here we analyze and handle the mouse click. The behaviour is
         different depending on which selection state we are.
+        @param cs the current coordinate mapping
         @param x the x coordinate of the click (in screen coordinates)
         @param y the y coordinate of the click (in screen coordinates)
         @param button3 true if the alternate button has been pressed
@@ -193,6 +205,7 @@ public class ElementsEdtActions
             input method (i.e. ellipses are forced to be circles, rectangles
             squares and so on...)
         @param doubleClick true if a double click has to be processed
+
         @return true if a repaint is needed.
     */
     public boolean handleClick(MapCoordinates cs,
@@ -434,7 +447,8 @@ public class ElementsEdtActions
     }
 
     /** Draws the current editing primitive.
-
+        @param g the graphic context on which to draw.
+        @param cs the current coordinate mapping system.
     */
     public void drawPrimEdit(GraphicsInterface g, MapCoordinates cs)
     {
@@ -444,7 +458,7 @@ public class ElementsEdtActions
         }
     }
 
-    /** Shows the clicks done by the user
+    /** Shows the clicks done by the user.
         @param g the graphic context where one should write.
         @param cs the current coordinate mapping.
     */
@@ -468,23 +482,25 @@ public class ElementsEdtActions
     /** Get the current editing action (see the constants defined in this
         class)
 
-        @return the current editing action
+        @return the current editing action.
     */
     public int getSelectionState()
     {
         return actionSelected;
     }
 
-    /** Sets the current editing primitive
+    /** Set the current editing primitive.
+        @param gp the current editing primitive.
     */
     public void setPrimEdit(GraphicPrimitive gp)
     {
         primEdit=gp;
     }
 
-    /** Gets the current editing primitive
+    /** Get the current editing primitive.
+        @return the current editing primitive.
     */
-    public GraphicPrimitive getPrimEdit(GraphicPrimitive gp)
+    public GraphicPrimitive getPrimEdit()
     {
         return primEdit;
     }

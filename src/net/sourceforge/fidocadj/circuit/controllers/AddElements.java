@@ -45,7 +45,10 @@ public class AddElements
     public int PCB_pad_drill;
     public int PCB_thickness;
 
-
+    /** Standard constructor.
+        @param pp the drawing model object on which this controller operates.
+        @param u an undo controller (if available)
+    */
     public AddElements(DrawingModel pp, UndoActions u)
     {
         P=pp;

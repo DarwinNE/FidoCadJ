@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.circuit;
 
 /** Interface used to callback notify that something has changed
     <pre>
-        This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,9 @@ package net.sourceforge.fidocadj.circuit;
 
 public interface HasChangedListener
 {
+    /** Method to be called to notify that something has changed in the
+        drawing.
+    */
     public void somethingHasChanged();
 
 }

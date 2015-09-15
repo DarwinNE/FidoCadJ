@@ -4,7 +4,7 @@ package net.sourceforge.fidocadj.toolbars;
 
     @author Davide Bucci
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2012 by Davide Bucci
-</pre>
+    </pre>
 
 */
 
