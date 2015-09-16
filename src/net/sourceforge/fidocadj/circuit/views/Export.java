@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.primitives.*;
 
 /** Export: export the FidoCadJ drawing. This is a view of the drawing.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 */
 public class Export
 {
@@ -38,18 +38,22 @@ public class Export
     public static final int exportBorder=6;
 
     /** Creator
+        @param pp the model containing the drawing to be exported.
     */
     public Export(DrawingModel pp)
     {
         P=pp;
     }
 
-    /** Export the file using the given interface
+    /** Export the file using the given interface.
 
-        @param exp the selected exporting interface
-        @param header specify if an header and a tail should be written or not
+        @param exp the selected exporting interface.
+        @param header specify if an header and a tail should be written or not.
         @param exportInvisible specify that the primitives on invisible layers
-        should be exported
+            should be exported.
+        @param mp the coordinate mapping system to adopt.
+        @throws IOException when things goes wrong, for example because there
+            has been a memory error or when access to files is impossible.
     */
     public void exportDrawing(ExportInterface exp, boolean header,
         boolean exportInvisible, MapCoordinates mp)

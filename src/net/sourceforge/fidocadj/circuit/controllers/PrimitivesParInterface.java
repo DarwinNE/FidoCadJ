@@ -1,10 +1,10 @@
 package net.sourceforge.fidocadj.circuit.controllers;
 
-/**  PrimitivesParInterface specifies some actions useful to modify
+/** PrimitivesParInterface specifies some actions useful to modify
     characteristics of primitives.
     They are usually provided by the editor component.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -25,8 +25,25 @@ package net.sourceforge.fidocadj.circuit.controllers;
 */
 public interface PrimitivesParInterface
 {
+    /** Selects the closest object to the given point (in logical coordinates)
+        and pops up a dialog for the editing of its Param_opt.
+
+        @param x the x logical coordinate of the point used for the selection
+        @param y the y logical coordinate of the point used for the selection
+    */
     public void selectAndSetProperties(int x,int y);
+
+    /** Shows a dialog which allows the user modify the parameters of a given
+        primitive. If more than one primitive is selected, modify only the
+        layer of all selected primitives.
+    */
     public void setPropertiesForPrimitive();
+
+    /** Show a popup menu representing the actions that can be done on the
+        selected context.
+        @param x the x coordinate where the popup menu should be put
+        @param y the y coordinate where the popup menu should be put
+    */
     public void showPopUpMenu(int x, int y);
 
     /** Increases or decreases the zoom by a step of 33%
@@ -36,7 +53,6 @@ public interface PrimitivesParInterface
     */
     public void changeZoomByStep(boolean increase, int x, int y);
 
-
     /** Makes sure the object gets focus.
     */
     public void getFocus();
@@ -45,9 +61,13 @@ public interface PrimitivesParInterface
     */
     public void forcesRepaint();
 
-    /** Forces a repaint, specify the region to be updated.
+    /** Forces a repaint.
+        @param x the x leftmost corner of the dirty region to repaint.
+        @param y the y leftmost corner of the dirty region to repaint.
+        @param width the width of the dirty region.
+        @param height the height of the dirty region.
     */
-    public void forcesRepaint(int a, int b, int c, int d);
+    public void forcesRepaint(int x, int y, int width, int height);
 
     /** Activate and sets an evidence rectangle which will be put on screen
         at the next redraw. All sizes are given in pixel.

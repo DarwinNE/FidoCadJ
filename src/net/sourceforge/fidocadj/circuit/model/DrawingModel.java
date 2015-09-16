@@ -14,7 +14,7 @@ import net.sourceforge.fidocadj.graphic.*;
     but they are relatively low level and database-oriented. More high-level
     operations can be done via the controllers operating on this class.
 
-<pre>
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
@@ -95,7 +95,7 @@ public class DrawingModel
 
 
     /** Apply an action to all elements contained in the model.
-        @tt the method containing the action to be performed
+        @param tt the method containing the action to be performed
     */
     public void applyToAllElements(ProcessElementsInterface tt)
     {
@@ -317,7 +317,7 @@ public class DrawingModel
     /** Returns true if the specified layer is contained in the schematic
         being drawn. The analysis is done when the schematics is created, so
         the results of this method are ready before the redraw step.
-
+        @param l the number of the layer to be checked.
         @return true if the specified layer is contained in the drawing.
     */
     public boolean containsLayer(int l)

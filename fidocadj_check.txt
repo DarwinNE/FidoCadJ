@@ -1,35 +1,4 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:157: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:788:38: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:788:48: warning: Balise javadoc @param manquante pour 'prefix_s'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:809:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:835:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:35: warning: Balise javadoc @param manquante pour 'a'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:42: warning: Balise javadoc @param manquante pour 'b'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:49: warning: Balise javadoc @param manquante pour 'c'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:56: warning: Balise javadoc @param manquante pour 'd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:59:66: warning: Balise javadoc @param manquante pour 'tt'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:100:61: warning: Balise javadoc @param manquante pour 'tt'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:323:38: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Drawing.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Drawing.java:62:74: warning: Balise javadoc @param manquante pour 'cs'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:42:32: warning: Balise javadoc @param manquante pour 'pp'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:55:49: warning: Balise javadoc @param manquante pour 'mp'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:56:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:68:41: warning: Balise javadoc @param manquante pour 'aClipboard'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:68:66: warning: Balise javadoc @param manquante pour 'aContents'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:77:45: warning: Balise javadoc @param manquante pour 'aString'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:38: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:38:63: warning: Balise javadoc @param manquante pour 'list'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:22: warning: Balise javadoc @param manquante pour 'value'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:39: warning: Balise javadoc @param manquante pour 'index'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:60: warning: Balise javadoc @param manquante pour 'isSelected'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:40:23: warning: Balise javadoc @param manquante pour 'cellHasFocus'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/CellDash.java:66:41: warning: Balise javadoc @param manquante pour 'g'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/CellLayer.java:85:41: warning: Balise javadoc @param manquante pour 'g'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:40: warning: Balise javadoc @return manquante.
@@ -816,37 +785,6 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:106:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:111:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:116:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:157: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:788:38: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:788:48: warning: Balise javadoc @param manquante pour 'prefix_s'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:809:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:835:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:35: warning: Balise javadoc @param manquante pour 'a'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:42: warning: Balise javadoc @param manquante pour 'b'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:49: warning: Balise javadoc @param manquante pour 'c'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:50:56: warning: Balise javadoc @param manquante pour 'd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:59:66: warning: Balise javadoc @param manquante pour 'tt'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:100:61: warning: Balise javadoc @param manquante pour 'tt'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:323:38: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Drawing.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Drawing.java:62:74: warning: Balise javadoc @param manquante pour 'cs'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:42:32: warning: Balise javadoc @param manquante pour 'pp'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:55:49: warning: Balise javadoc @param manquante pour 'mp'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/views/Export.java:56:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:68:41: warning: Balise javadoc @param manquante pour 'aClipboard'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:68:66: warning: Balise javadoc @param manquante pour 'aContents'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:77:45: warning: Balise javadoc @param manquante pour 'aString'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:38: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:38:63: warning: Balise javadoc @param manquante pour 'list'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:22: warning: Balise javadoc @param manquante pour 'value'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:39: warning: Balise javadoc @param manquante pour 'index'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:39:60: warning: Balise javadoc @param manquante pour 'isSelected'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:40:23: warning: Balise javadoc @param manquante pour 'cellHasFocus'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/CellDash.java:66:41: warning: Balise javadoc @param manquante pour 'g'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/CellLayer.java:85:41: warning: Balise javadoc @param manquante pour 'g'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:40: warning: Balise javadoc @return manquante.

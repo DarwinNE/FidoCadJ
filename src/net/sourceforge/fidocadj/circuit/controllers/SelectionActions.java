@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.primitives.*;
     no action proposes a change of the characteristics of the elements, at
     least directly.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -29,13 +29,15 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 */
-
 public class SelectionActions
 {
     private final DrawingModel P;
 
+    /** Construct the controller and associates it to a given model.
+        @param pp the model to be employed.
+    */
     public SelectionActions(DrawingModel pp)
     {
         P=pp;
@@ -54,7 +56,7 @@ public class SelectionActions
     }
 
     /** Apply an action to selected elements contained in the model.
-        @tt the method containing the action to be performed
+        @param tt the method containing the action to be performed
     */
     public void applyToSelectedElements(ProcessElementsInterface tt)
     {

@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Drawing: draws the FidoCadJ drawing. This is a view of the drawing.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 */
 public class Drawing
 {
@@ -51,6 +51,9 @@ public class Drawing
     private int i_index;
     private int j_index;
 
+    /** Create a drawing view.
+        @param pp the model to which the view will be associated.
+    */
     public Drawing (DrawingModel pp)
     {
         P=pp;
@@ -58,6 +61,7 @@ public class Drawing
 
     /** Draw the handles of all selected primitives
         @param gi the graphic context to be used.
+        @param cs the coordinate mapping system to employ.
     */
     public void drawSelectedHandles(GraphicsInterface gi, MapCoordinates cs)
     {
@@ -71,10 +75,8 @@ public class Drawing
     /** Draw the current drawing.
         This code is rather critical. Do not touch it unless you know very
         precisely what to do.
-
         @param G the graphic context in which the drawing should be drawn.
         @param cs the coordinate mapping to be used.
-
     */
     public void draw(GraphicsInterface G, MapCoordinates cs)
     {

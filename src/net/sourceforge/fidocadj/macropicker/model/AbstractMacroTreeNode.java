@@ -121,4 +121,3 @@ public abstract class AbstractMacroTreeNode implements MacroTreeNode
         childNodes.clear();
     }
 }
-

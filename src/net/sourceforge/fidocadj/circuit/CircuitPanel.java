@@ -1409,7 +1409,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
         @param x the x logical coordinate of the point used for the selection
         @param y the y logical coordinate of the point used for the selection
-
     */
     public void selectAndSetProperties(int x, int y)
     {

@@ -26,5 +26,8 @@ import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 
 public interface ProcessElementsInterface
 {
+    /** Process the given graphic primitive and execute a generic action on it.
+        @param g the graphic primitive to be processed.
+    */
     public void doAction(GraphicPrimitive g);
 }

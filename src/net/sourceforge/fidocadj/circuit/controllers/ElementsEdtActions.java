@@ -132,7 +132,7 @@ public class ElementsEdtActions
         actionSelected = a;
     }
 
-    /** Get the current {@link #AddElements} controller.
+    /** Get the current {@link AddElements} controller.
         @return the current controller.
     */
     public AddElements getAddElements()

@@ -13,8 +13,8 @@ import net.sourceforge.fidocadj.globals.*;
 
 /**
     Clipboard handling class.
-<pre>
 
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -58,12 +58,15 @@ public final class TextTransfer implements ClipboardOwner,
     public String pasteText()
     {
         // TODO: review a little...
+        // HASDONE: it seems to work quite reliably. No problems so far...
         TextTransfer textTransfer = new TextTransfer();
         return textTransfer.getClipboardContents();
     }
 
     /**
         Empty implementation of the ClipboardOwner interface.
+        @param aClipboard handle to the clipboard to use.
+        @param aContents handle to the contents.
     */
     public void lostOwnership(Clipboard aClipboard, Transferable aContents)
     {
@@ -71,8 +74,9 @@ public final class TextTransfer implements ClipboardOwner,
     }
 
     /**
-        Place a String on the clipboard, and make this class the
+        Place a {@link String} on the clipboard, and make this class the
         owner of the Clipboard's contents.
+        @param aString the {@link String} to be employed.
     */
     public void setClipboardContents(String aString)
     {
@@ -84,7 +88,7 @@ public final class TextTransfer implements ClipboardOwner,
     /**
         Get the String residing on the clipboard.
         @return any text found on the Clipboard; if none found, return an
-        empty String.
+        empty {@link String}.
     */
     public String getClipboardContents()
     {
@@ -94,7 +98,7 @@ public final class TextTransfer implements ClipboardOwner,
         Transferable contents = clipboard.getContents(null);
         boolean hasTransferableText = contents != null &&
             contents.isDataFlavorSupported(DataFlavor.stringFlavor);
-        if ( hasTransferableText ) {
+        if (hasTransferableText) {
             try {
                 result = (String)contents.getTransferData(
                     DataFlavor.stringFlavor);

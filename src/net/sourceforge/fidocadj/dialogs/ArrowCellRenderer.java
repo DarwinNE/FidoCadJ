@@ -5,8 +5,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.primitives.*;
-
 import java.util.*;
 
 /** The class ArrowCellRenderer is used in the arrow list.
@@ -34,15 +32,19 @@ import java.util.*;
 public class ArrowCellRenderer implements ListCellRenderer
 {
     /** Method required for the ListCellRenderer interface; it draws
-        a layer element in the cell and adds its event listeners */
+        a layer element in the cell and adds its event listeners.
+        @param list the {@link JList} associated to the rendered.
+        @param value the value used by the rendered.
+        @param index the index in the list.
+        @param isSelected true if the cell has been selected.
+        @param cellHasFocus true if the cell has focus.
+        @return the created {@link Component}
+    */
     public Component getListCellRendererComponent(final JList list,
         final Object value, final int index, final boolean isSelected,
         final boolean cellHasFocus)
     {
         final ArrowInfo arrow=(ArrowInfo) value;
-
         return new CellArrow(arrow, list, isSelected);
-
     }
-
 }

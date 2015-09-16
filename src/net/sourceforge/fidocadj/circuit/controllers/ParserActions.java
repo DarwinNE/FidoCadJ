@@ -153,6 +153,8 @@ public class ParserActions
         the beginning of the FidoCadJ file.
         @param extensions it is true when FidoCadJ should export using
             its extensions.
+        @return a StringBuffer containing the configuration settings in the
+            FidoCadJ file format.
     */
     public StringBuffer registerConfiguration(boolean extensions)
     {
@@ -784,6 +786,10 @@ public class ParserActions
     /** Read all librairies contained in the given URL at the given prefix.
         This is particularly useful to read librairies shipped in a jar
         file.
+        @param s the URL containing the libraries.
+        @param prefix_s the prefix to be adopted for the keys of all elements
+            in the library. Most of the times it is the filename, except for
+            standard or internal libraries.
     */
     public void loadLibraryInJar(URL s, String prefix_s)
     {
@@ -804,6 +810,8 @@ public class ParserActions
 
     /** Read the library contained in a file
         @param openFileName the name of the file to be loaded
+        @throws IOException when something goes horribly wrong. Most of the
+            times the filename is not found.
     */
     public void readLibraryFile(String openFileName)
         throws IOException
@@ -829,6 +837,7 @@ public class ParserActions
             the library we want to read.
         @param prefix The prefix which should be added to the macro key when
             using a non standard macro.
+        @throws IOException when something goes horribly wrong.
     */
     public void readLibraryBufferedReader(BufferedReader bufRead,
         String prefix)
