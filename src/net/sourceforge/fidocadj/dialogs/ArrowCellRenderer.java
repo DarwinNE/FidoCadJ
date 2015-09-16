@@ -11,6 +11,7 @@ import java.util.*;
 
     @author Davide Bucci
 
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -25,6 +26,7 @@ import java.util.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    </pre>
 
     Copyright 2009-2010 by Davide Bucci
 
@@ -38,7 +40,7 @@ public class ArrowCellRenderer implements ListCellRenderer
         @param index the index in the list.
         @param isSelected true if the cell has been selected.
         @param cellHasFocus true if the cell has focus.
-        @return the created {@link Component}
+        @return the created {@link Component}.
     */
     public Component getListCellRendererComponent(final JList list,
         final Object value, final int index, final boolean isSelected,

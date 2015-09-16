@@ -20,7 +20,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 /** The class dialogEditLayer allows to choose the style, visibility and
     description of the current layer.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2010 by Davide Bucci
-</pre>
+    </pre>
 
 
     @author Davide Bucci
@@ -60,6 +60,9 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     private boolean active;             // true if the user selected ok
     private final LayerDesc ll;
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
@@ -78,14 +81,26 @@ public class DialogEditLayer extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do

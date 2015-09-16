@@ -16,8 +16,9 @@ import java.util.*;
     To be used with ArrowCellRenderer.
 
     @author Davide Bucci
+
     <pre>
-        This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,9 +32,9 @@ import java.util.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    </pre>
 
     Copyright 2009-2014 by Davide Bucci
-</pre>
 */
 public class CellDash extends JPanel
 {
@@ -61,7 +62,7 @@ public class CellDash extends JPanel
 
     /** This routine is called by the callback system when there is the need
         to draw on the screen the element.
-
+        @param g the graphic context on which to draw.
     */
     public void paintComponent(Graphics g)
     {
@@ -71,8 +72,8 @@ public class CellDash extends JPanel
 
         // We draw the background with the correct color depending wether
         // the element is selected or not.
-
         g.fillRect(0,0, getWidth(), getHeight());
+
         g.setColor(isSelected ? list.getSelectionForeground():
                                 list.getForeground());
 
@@ -88,6 +89,5 @@ public class CellDash extends JPanel
 
         ((Graphics2D) g).setStroke(dashed);
         g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
-
     }
 }

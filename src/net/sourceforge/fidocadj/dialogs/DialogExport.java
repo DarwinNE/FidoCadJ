@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.globals.*;
 
 /** Choose file format, size and options of the graphic exporting.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -33,11 +33,10 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2015 by Davide Bucci
-</pre>
+    </pre>
+
     @author Davide Bucci
-
-    */
-
+*/
 public class DialogExport extends JDialog implements ComponentListener,
     ActionListener
 {
@@ -66,6 +65,9 @@ public class DialogExport extends JDialog implements ComponentListener,
     private JTextField fileName;        // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
@@ -84,39 +86,51 @@ public class DialogExport extends JDialog implements ComponentListener,
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
 
     /** Indicates that the export should be done: the user selected the "ok"
-        button
+        button.
 
-        @return a boolean value which indicates if the export should be done
+        @return a boolean value which indicates if the export should be done.
     */
     public boolean shouldExport()
     {
         return export;
     }
 
-    /** Indicates that the antiAlias should be activated
-
+    /** Indicates that the antiAlias should be activated.
         @return a boolean value which indicates if the anti alias should be
-                activated */
+                activated.
+    */
     public boolean getAntiAlias()
     {
         return antiAlias_CB.isSelected();
     }
 
-    /** Indicates that the black and white export should be activated
+    /** Indicates that the black and white export should be activated.
 
         @return a boolean value which indicates if the export should be
             done in black and white.
@@ -126,9 +140,8 @@ public class DialogExport extends JDialog implements ComponentListener,
         return blackWhite_CB.isSelected();
     }
 
-    /** Indicates which export format has been selected
-
-        @return a string describing the image format (e.g. "png", "jpg")
+    /** Indicates which export format has been selected.
+        @return a string describing the image format (e.g. "png", "jpg").
     */
     public String getFormat()
     {
@@ -415,6 +428,7 @@ public class DialogExport extends JDialog implements ComponentListener,
         For the moment, it does not do much, except setting the enabled
         state of buttons and elements of the UI, depending on which kind
         of export is being done.
+        @param evt the event to be processed.
     */
     public void actionPerformed(ActionEvent evt)
     {

@@ -14,7 +14,7 @@ import java.util.*;
     The class dialogLayer allows to choose which layers should be displayed,
     on which color and characteristics.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,11 +31,9 @@ import java.util.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
     @author Davide Bucci
-
 */
-
 public class DialogLayer extends JDialog implements ComponentListener
 {
     // Miniumum size for the window.
@@ -46,7 +44,9 @@ public class DialogLayer extends JDialog implements ComponentListener
     public JList<LayerDesc> layerList;
 
     /** Ensure that the dialog does not have a size smaller than the limits
-        specified above.
+        specified above. Required for the implementation of the
+        ComponentListener interface.
+        @param e the component event which happened.
     */
     public void componentResized(ComponentEvent e)
     {
@@ -66,14 +66,26 @@ public class DialogLayer extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do

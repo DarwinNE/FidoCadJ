@@ -28,15 +28,22 @@ import java.util.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    </pre>
 
     Copyright 2009 by Davide Bucci
-</pre>
 
     */
 public class DashCellRenderer implements ListCellRenderer
 {
     /** Method required for the ListCellRenderer interface; it draws
-        a layer element in the cell and adds its event listeners */
+        a dash element in the cell and adds its event listeners.
+        @param list the {@link JList} associated to the rendered.
+        @param value the value used by the rendered.
+        @param index the index in the list.
+        @param isSelected true if the cell has been selected.
+        @param cellHasFocus true if the cell has focus.
+        @return the created {@link Component}.
+    */
     public Component getListCellRendererComponent(final JList list,
         final Object value, final int index, final boolean isSelected,
         final boolean cellHasFocus)
@@ -46,5 +53,4 @@ public class DashCellRenderer implements ListCellRenderer
         return new CellDash(arrow, list, isSelected);
 
     }
-
 }

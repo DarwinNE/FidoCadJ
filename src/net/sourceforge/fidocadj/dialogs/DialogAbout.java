@@ -16,9 +16,11 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.toolbars.*;
 
 /**
-Shows a rather standard "About" dialog. Nothing more exotic than showing the
-nice icon of the program, its name as well as three lines of description.
-<pre>
+    Shows a rather standard "About" dialog. Nothing more exotic than showing
+    the nice icon of the program, its name as well as three lines of
+    description.
+
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -35,7 +37,7 @@ nice icon of the program, its name as well as three lines of description.
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
     @author Davide Bucci
 
 */
@@ -46,12 +48,12 @@ public class DialogAbout extends JFrame implements ComponentListener
     private static final int MIN_WIDTH=300;
     private static final int MIN_HEIGHT=250;
 
-
     private boolean export;     // Indicates that the export should be done
 
     /** Required for the implementation of the ComponentListener interface.
         In this case, prevents from resizing the dialog in a size which is
         too small.
+        @param e the component event which happened.
     */
     public void componentResized(ComponentEvent e)
     {
@@ -71,21 +73,32 @@ public class DialogAbout extends JFrame implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
 
     /** Standard constructor: it needs the parent frame.
-
         @param parent the dialog's parent
     */
     public DialogAbout (JFrame parent)

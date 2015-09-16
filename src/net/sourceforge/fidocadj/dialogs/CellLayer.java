@@ -19,7 +19,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     @author Davide Bucci
 
     <pre>
-        This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,9 +33,9 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    </pre>
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
 */
 public class CellLayer extends JPanel
 {
@@ -80,7 +80,7 @@ public class CellLayer extends JPanel
         name of the layer. We need to take care if the element is selected
         or not. In this case, we change accordingly the background of the part
         where we are writing the layer name.
-
+        @param g the graphic context on which to draw.
     */
     public void paintComponent(Graphics g)
     {
