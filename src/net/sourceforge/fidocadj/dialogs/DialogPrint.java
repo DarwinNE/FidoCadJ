@@ -178,6 +178,10 @@ public class DialogPrint extends JDialog implements ComponentListener
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
@@ -196,14 +200,26 @@ public class DialogPrint extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
@@ -231,6 +247,10 @@ public class DialogPrint extends JDialog implements ComponentListener
     {
         return landscape_CB.isSelected();
     }
+
+    /** Check if the black and white checkbox is selected.
+        @return true if the checkbox is active.
+    */
     public boolean getBW()
     {
         return bw_CB.isSelected();

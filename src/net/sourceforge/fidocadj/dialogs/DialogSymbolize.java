@@ -59,8 +59,7 @@ import javax.swing.border.Border;
     */
 
 public class DialogSymbolize extends JDialog
-            implements  ComponentListener,
-                        ActionListener
+            implements  ComponentListener
 {
         // Miniumum size for the window.
 
@@ -207,6 +206,8 @@ public class DialogSymbolize extends JDialog
     }
 
     /** Handle resizeing of the dialog.
+        Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
     */
     public void componentResized(ComponentEvent e)
     {
@@ -226,14 +227,26 @@ public class DialogSymbolize extends JDialog
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
@@ -266,6 +279,7 @@ public class DialogSymbolize extends JDialog
     }
 
     /** Create the GUI for the dialog.
+        @return the panel containing the user interface.
     */
     private JPanel createInterfacePanel()
     {
@@ -502,14 +516,9 @@ public class DialogSymbolize extends JDialog
             libFilename.getEditor().getItem().toString()));
     }
 
-    public void actionPerformed(ActionEvent evt)
-    {
-        //JComboBox<String> source = (JComboBox<String>)evt.getSource();
-        //int idx=source.getSelectedIndex();
-    }
-
-
-    /** Standard constructor
+    /** Standard constructor.
+        @param circuitPanel the panel containing a complete editor.
+        @param p the model
     */
     public DialogSymbolize (CircuitPanel circuitPanel, DrawingModel p)
     {

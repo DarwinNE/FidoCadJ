@@ -70,24 +70,23 @@ public class DialogParameters extends JDialog implements ComponentListener
     JTabbedPane keyb = new JTabbedPane();
 
     /**
-     * Programmatically build a dialog frame containing the appropriate
-     * elements, in order to let the user modify the characteristics of a
-     * graphic primitive.
-     *
-     * @param vec
-     *            a ParameterDescription array containing the value and the
-     *            description of each parameter that should be edited by the
-     *            user.
-     * @param strict
-     *            true if a strict compatibility with FidoCAD is required
-     * @param layers
-     *            a vector containing the layers
+       Programmatically build a dialog frame containing the appropriate
+       elements, in order to let the user modify the characteristics of a
+       graphic primitive.
+
+        @param parent the parent frame useful for creating the dialog.
+        @param vec a ParameterDescription array containing the value and the
+                description of each parameter that should be edited by the
+                user.
+        @param strict true if a strict compatibility with FidoCAD is required
+        @param layers a vector containing the layers
      */
-    // Here some legacy code makes use of generics. They are tested, so there
-    // is no risk of an actual error, but Java issues a warning.
+     // Here some legacy code makes use of generics. They are tested, so
+    // there is no risk of an actual error, but Java issues a warning.
     @SuppressWarnings("unchecked")
     public DialogParameters(JFrame parent, Vector<ParameterDescription> vec,
-            boolean strict, Vector<LayerDesc> layers) {
+            boolean strict, Vector<LayerDesc> layers)
+    {
         super(parent, Globals.messages.getString("Param_opt"), true);
 
         keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
@@ -98,7 +97,6 @@ public class DialogParameters extends JDialog implements ComponentListener
         keyb.addTab("Misc", keyb2);
         keyb.setVisible(false);
         v = vec;
-
 
         int ycount = 0;
 
@@ -517,6 +515,9 @@ public class DialogParameters extends JDialog implements ComponentListener
         return v;
     }
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentResized(ComponentEvent e)
     {
         adjustSize();
@@ -543,16 +544,25 @@ public class DialogParameters extends JDialog implements ComponentListener
 
     }
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // does nothing
     }
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // does nothing
     }
 
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // does nothing

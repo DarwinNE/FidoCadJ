@@ -93,32 +93,31 @@ public class DialogOptions extends JDialog implements ComponentListener
     private JCheckBox quaquaActive_CB;
     private JComboBox<String> comboFont;
 
-    /** Standard constructor
+    /** Standard constructor.
 
-    @param pa the parent frame
-    @param z the current zoom
-    @param p the current profile status
-    @param a the current anti aliasing state
-    @param gs the current grid activation state
-    @param libDir the current library directory
-    @param tt the current text in the toolbar state
-    @param sit the current small icon state
-    @param plw the current PCB line width
-    @param pw the current PCB pad width
-    @param ph the current PCB pad height
-    @param piw the current PCB bad internal hole diameter
-    @param qq the current Quaqua state
-    @param mf the current Macro font
-    @param sn split non standard macros during save
-    @param sc split non standard macros during copy
-    @param sssi stroke width to be used for segments and straight lines
-    @param ssoi stroke width to be used for ovals
-    @param ccs connection size
-    @param ms text height for macros
-    @param sdcp shift during copy and paste
-
+        @param pa the parent frame.
+        @param z the current zoom.
+        @param p the current profile status.
+        @param a the current anti aliasing state.
+        @param gs the current grid activation state.
+        @param libDir the current library directory.
+        @param tt the current text in the toolbar state.
+        @param sit the current small icon state.
+        @param plw the current PCB line width.
+        @param pw the current PCB pad width.
+        @param ph the current PCB pad height.
+        @param piw the current PCB bad internal hole diameter.
+        @param qq the current Quaqua state.
+        @param ex strict compatibility with FidoCAD for Windows.
+        @param mf the current Macro font.
+        @param sn split non standard macros during save.
+        @param sc split non standard macros during copy.
+        @param sssi stroke width to be used for segments and straight lines.
+        @param ssoi stroke width to be used for ovals.
+        @param ccs connection size.
+        @param ms text height for macros.
+        @param sdcp shift during copy and paste.
     */
-
     public DialogOptions (JFrame pa, double z, boolean p, boolean a,
                           int gs, String libDir, boolean tt, boolean sit,
                           int plw, int pw, int ph, int piw,
@@ -304,7 +303,7 @@ public class DialogOptions extends JDialog implements ComponentListener
 
     /** Ensure that the dialog can not be resized to a size smaller than
         a certain limit (see MIN_WIDTH and MIN_HEIGHT constants).
-
+        @param e the component event which happened.
     */
     public void componentResized(ComponentEvent e)
     {
@@ -324,20 +323,34 @@ public class DialogOptions extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
 
-    // Creates the panel dedicated to the startup options of FidoCadJ.
+    /** Creates the panel dedicated to the startup options of FidoCadJ.
+        @return the panel containing startup options.
+    */
     private JPanel createRestartPane()
     {
         JPanel restartOptionPanel=new JPanel();
@@ -439,12 +452,6 @@ public class DialogOptions extends JDialog implements ComponentListener
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,6,20));
 
-    /*  Does not leave the choice. It works so well that it useless.
-        if (Globals.weAreOnAMac) // Check the user wants Quaqua L&F
-        {
-            restartOptionPanel.add(quaquaActive_CB, constraints);
-        }*/
-
         smallIconsToolbar_CB=new
             JCheckBox(Globals.messages.getString("SmallIcons"));
         smallIconsToolbar_CB.setSelected(smallIconsToolbar);
@@ -460,11 +467,12 @@ public class DialogOptions extends JDialog implements ComponentListener
         return restartOptionPanel;
     }
 
-    // Creates the panel dedicated to the drawing options of FidoCadJ.
+    /** Creates the panel dedicated to the drawing options of FidoCadJ.
+        @return the panel containing the drawing options.
+    */
     private JPanel createDrawingOptPanel()
     {
         JPanel drawingOptPanel = new JPanel();
-
 
         GridBagConstraints constraints=new GridBagConstraints();
         drawingOptPanel.setLayout(new GridBagLayout());
@@ -515,7 +523,6 @@ public class DialogOptions extends JDialog implements ComponentListener
             new Insets(6,6,6,6));
         drawingOptPanel.add(connectionSize, constraints);
 
-
         JLabel stroke_size_strlbl=new JLabel(Globals.messages.getString(
             "stroke_size_straight"));
         constraints = DialogUtil.createConst(0,9,1,1,100,100,
@@ -530,22 +537,6 @@ public class DialogOptions extends JDialog implements ComponentListener
             new Insets(6,6,6,6));
 
         drawingOptPanel.add(stroke_size_straight, constraints);
-
-/*      JLabel stroke_size_ovlbl=new JLabel(Globals.messages.getString(
-            "stroke_size_oval"));
-        constraints = DialogUtil.createConst(0,10,1,1,100,100,
-            GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,6,6,6));
-
-        // drawingOptPanel.add(stroke_size_ovlbl, constraints);
-
-        stroke_size_oval=new JTextField(10);
-        stroke_size_oval.setText(""+stroke_size_oval_i);
-        constraints = DialogUtil.createConst(1,10,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.NONE,
-            new Insets(6,6,6,6));
-
-        //drawingOptPanel.add(stroke_size_oval, constraints);       */
 
         /**********************************************************************
           Macro font
@@ -610,24 +601,19 @@ public class DialogOptions extends JDialog implements ComponentListener
         drawingOptPanel.add(shiftCP_CB, constraints);       // Add shift C/P cb
 
         return drawingOptPanel;
-
-
-        /**********************************************************************
-          END of drawingOptPanel
-         **********************************************************************/
-
     }
 
 
-    // Creates the panel dedicated to the default PCB track and pad sizes
-    // options of FidoCadJ.
+    /** Creates the panel dedicated to the default PCB track and pad sizes
+        options of FidoCadJ.
+        @return the panel containing the PCB settings.
+    */
     private JPanel createPCBsizePanel()
     {
         /**********************************************************************
           PCB line and pad default sizes
          **********************************************************************/
         JPanel pcbSizePanel = new JPanel();
-
 
         GridBagConstraints constraints=new GridBagConstraints();
         pcbSizePanel.setLayout(new GridBagLayout());
@@ -694,8 +680,10 @@ public class DialogOptions extends JDialog implements ComponentListener
         return pcbSizePanel;
     }
 
-    // Creates the panel dedicated to the extensions introduced by FidoCadJ on
-    // the original FidoCad file format.
+    /** Creates the panel dedicated to the extensions introduced by FidoCadJ on
+        the original FidoCad file format.
+        @return the panel concerning extensions to the very old FidoCAD format.
+    */
     private JPanel createExtensionsPanel()
     {
         /**********************************************************************
@@ -714,13 +702,8 @@ public class DialogOptions extends JDialog implements ComponentListener
         constraints = DialogUtil.createConst(0,0,2,1,100,100,
             GridBagConstraints.WEST, GridBagConstraints.NONE,
             new Insets(6,40,6,40));
-        extensionsPanel.add(extStrict_CB, constraints); // Strict FidoCad
+        extensionsPanel.add(extStrict_CB, constraints); // Strict FidoCAD
                                                         // compatibility
-
-        /**********************************************************************
-          END of FidoCadJ extensions
-         **********************************************************************/
         return extensionsPanel;
     }
-
 }
