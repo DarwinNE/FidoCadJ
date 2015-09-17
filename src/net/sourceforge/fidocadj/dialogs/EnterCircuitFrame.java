@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.globals.*;
 
     This file is part of FidoCadJ.
 
-<pre>
+    <pre>
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +27,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2012 by Davide Bucci
-</pre>
+    </pre>
 
 
     A dialog useful to past the FidoCadJ code.
@@ -65,6 +65,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     }
 
     /** Impose a minimum size for this dialog.
+        @param e the component event received.
     */
     public void componentResized(ComponentEvent e)
     {
@@ -84,19 +85,30 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             setSize(width, height);
         }
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
+
+    /** Required for the implementation of the ComponentListener interface.
+        @param e the component event which happened.
+    */
     public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
-
 
     /** The constructor.
         @param parent the parent frame

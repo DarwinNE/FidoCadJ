@@ -129,10 +129,9 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         }
     }
 
-    /**
-    * For test method.
-    * Shows only JFileChooser with this LibraryPanel.
-    * @param args
+    /** For test method.
+        Shows only JFileChooser with this LibraryPanel.
+        @param args the input parameters on the command line.
     */
     public static void main(String... args)
     {

@@ -37,13 +37,14 @@ public final class DialogUtil
     }
 
     /** Center the frame on the screen and set its height and width to half
-        the screen size */
+        the screen size.
+        @param frame the window to be centered.
+    */
     public static void center(Window frame)
     {
         GraphicsEnvironment ge =
             GraphicsEnvironment.getLocalGraphicsEnvironment();
         Point center = ge.getCenterPoint();
-        //Rectangle bounds = ge.getMaximumWindowBounds();
 
         int w = frame.getWidth();
         int h = frame.getHeight();
@@ -51,13 +52,15 @@ public final class DialogUtil
         int x = center.x - w/2, y = center.y - h/2;
 
         frame.setBounds(x, y, w, h);
-  /*      if (w == bounds.width && h == bounds.height)
-            frame.setExtendedState(Frame.MAXIMIZED_BOTH);*/
         frame.validate();
     }
 
     /** Center the frame on the screen and set its height and width to the
-        given proportion of the screen size */
+        given proportion of the screen size
+        @param frame the window to be centered
+        @param propX the horisontal proportion, between 0.0 and 1.0.
+        @param propY the vertical proportion, between 0.0 and 1.0.
+    */
     public static void center(Window frame, double propX, double propY)
     {
         GraphicsEnvironment ge =
@@ -78,7 +81,12 @@ public final class DialogUtil
 
     /** Center the frame on the screen and set its height and width to the
         given proportion of the screen size. Specify also the minimum
-        size in pixels
+        size in pixels.
+        @param frame the window to be centered
+        @param propX the horisontal proportion, between 0.0 and 1.0.
+        @param propY the vertical proportion, between 0.0 and 1.0.
+        @param minx minimum horisontal size in pixels.
+        @param miny minimum vertical size in pixels.
     */
     public static void center(Window frame, double propX, double propY,
         int minx, int miny)
@@ -157,7 +165,7 @@ public final class DialogUtil
         @param anch the anchor value
         @param fill the fill valuue
         @param insets the insets to be used
-
+        @return the constraints object created.
     */
     public static GridBagConstraints createConst(int gridx, int gridy,
         int width, int height, int weightx, int weighty,

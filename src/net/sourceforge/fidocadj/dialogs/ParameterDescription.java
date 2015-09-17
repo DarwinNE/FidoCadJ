@@ -27,17 +27,19 @@ package net.sourceforge.fidocadj.dialogs;
 */
 public class ParameterDescription
 {
-    public Object   parameter;      // the parameter to be passed
-    public String   description;    // string describing the parameter
-    public boolean isExtension;     // is this parameter a extension of FidoCad?
-                            // in the strict compatibility mode, this is
-                            // hide
+    public Object   parameter;    // the parameter to be passed
+    public String   description;  // string describing the parameter
+    public boolean isExtension;   // is this parameter a extension of FidoCAD?
+
+    /** Creator.
+    */
     public void ParameterDescription ()
     {
         isExtension = false;
     }
 
-    /** Obtain a text representation of the object.
+    /** Obtain a text representation of the object, mainly for debug purposes.
+        @return the representation of the object.
     */
     public String toString()
     {

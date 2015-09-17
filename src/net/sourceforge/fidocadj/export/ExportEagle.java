@@ -9,9 +9,9 @@ import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-/**
-<pre>
-    Circuit export towards Cadsoft Eagle
+/** Circuit export towards Cadsoft Eagle scripts.
+
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -62,11 +62,10 @@ public class ExportEagle implements ExportInterface
 
 
     /** Constructor
-
         @param f the File object in which the export should be done.
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public ExportEagle (File f) throws IOException
     {
         macroList = "";
@@ -85,17 +84,13 @@ public class ExportEagle implements ExportInterface
             drawing program having some kind of grid concept. You might use
             this value to synchronize FidoCadJ's grid with the one used by
             the target.
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
         int grid)
         throws IOException
     {
-
-        // We need to save layers informations, since we will use them later.
-
-        //layerV=la;
         dim=totalSize;
         out = new BufferedWriter(fstream);
         oldtextsize=-1;
@@ -109,11 +104,11 @@ public class ExportEagle implements ExportInterface
         out.write("Grid inch "+een(grid*res)+";\n");
         out.write("Change font fixed;\n");
         out.write("Set auto_junction off;\n");
-
-
     }
 
     /** Called at the end of the export phase.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportEnd()
         throws IOException
@@ -127,26 +122,25 @@ public class ExportEagle implements ExportInterface
 
     /** Called when exporting an Advanced Text primitive.
 
-        @param x the x position of the beginning of the string to be written
-        @param y the y position of the beginning of the string to be written
-        @param sizex the x size of the font to be used
-        @param sizey the y size of the font to be used
-        @param fontname the font to be used
-        @param isBold true if the text should be written with a boldface font
-        @param isMirrored true if the text should be mirrored
-        @param isItalic true if the text should be written with an italic font
-        @param orientation angle of orientation (degrees)
-        @param layer the layer that should be used
-        @param text the text that should be written
+        @param x the x position of the beginning of the string to be written.
+        @param y the y position of the beginning of the string to be written.
+        @param sizex the x size of the font to be used.
+        @param sizey the y size of the font to be used.
+        @param fontname the font to be used.
+        @param isBold true if the text should be written with a boldface font.
+        @param isMirrored true if the text should be mirrored.
+        @param isItalic true if the text should be written with an italic font.
+        @param orientation angle of orientation (degrees).
+        @param layer the layer that should be used.
+        @param text the text that should be written.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
         String mirror="";
 
         if(isMirrored) {
@@ -181,7 +175,8 @@ public class ExportEagle implements ExportInterface
         @param arrowHalfWidth half width of arrows (if present)
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportBezier (int x1, int y1,
         int x2, int y2,
@@ -197,35 +192,28 @@ public class ExportEagle implements ExportInterface
         double strokeWidth)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
-
         out.write("# Bézier export not implemented yet\n");
     }
 
     /** Called when exporting a Connection primitive.
-
-        @param x the x position of the position of the connection
-        @param y the y position of the position of the connection
-
-        @param layer the layer that should be used
+        @param x the x position of the position of the connection.
+        @param y the y position of the position of the connection.
+        @param layer the layer that should be used.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportConnection (int x, int y, int layer, double size)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
         junctionList += "Junction ("+een(x*res)+" "
             +een((dim.height-y)*res)+");\n";
     }
 
     /** Called when exporting a Line primitive.
-
         @param x1 the x position of the first point of the segment
         @param y1 the y position of the first point of the segment
         @param x2 the x position of the second point of the segment
         @param y2 the y position of the second point of the segment
-
         @param layer the layer that should be used
 
         // from 0.22.1
@@ -236,8 +224,8 @@ public class ExportEagle implements ExportInterface
         @param arrowHalfWidth half width of arrows (if present)
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportLine (double x1, double y1,
         double x2, double y2,
@@ -251,13 +239,8 @@ public class ExportEagle implements ExportInterface
         double strokeWidth)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
-
-        //out.write("Layer "+layer);
         out.write("Net ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("+
             een(x2*res)+" "+een((dim.height-y2)*res)+");\n");
-
     }
 
     /** Called when exporting a Macro call.
@@ -279,8 +262,10 @@ public class ExportEagle implements ExportInterface
         @param xv coordinate of the value shown
         @param yv coordinate of the value shown
         @param font the used font
-        @param fontSize the size of the font to be used
-        @param m the library
+        @param fontSize the size of the font to be used.
+        @param m the library.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
@@ -307,28 +292,23 @@ public class ExportEagle implements ExportInterface
         return true;
     }
 
-
     /** Called when exporting an Oval primitive. Specify the bounding box.
-
-        @param x1 the x position of the first corner
-        @param y1 the y position of the first corner
-        @param x2 the x position of the second corner
-        @param y2 the y position of the second corner
-        @param isFilled it is true if the oval should be filled
-
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
+        @param x1 the x position of the first corner.
+        @param y1 the y position of the first corner.
+        @param x2 the x position of the second corner.
+        @param y2 the y position of the second corner.
+        @param isFilled it is true if the oval should be filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
         String fill_pattern="";
-
-        //out.write("Layer "+layer);
         out.write("# Circle export not fully implemented\n");
 
         out.write("Circle ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("
@@ -336,47 +316,40 @@ public class ExportEagle implements ExportInterface
     }
 
     /** Called when exporting a PCBLine primitive.
-
-        @param x1 the x position of the first point of the segment
-        @param y1 the y position of the first point of the segment
-        @param x2 the x position of the second point of the segment
-        @param y2 the y position of the second point of the segment
-        @param width the width ot the line
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the segment.
+        @param y1 the y position of the first point of the segment.
+        @param x2 the x position of the second point of the segment.
+        @param y2 the y position of the second point of the segment.
+        @param width the width ot the line.
+        @param layer the layer that should be used.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
-
         out.write("# PCBLine export not implemented yet\n");
-
     }
 
-
     /** Called when exporting a PCBPad primitive.
-
-        @param x the x position of the pad
-        @param y the y position of the pad
+        @param x the x position of the pad.
+        @param y the y position of the pad.
         @param style the style of the pad (0: oval, 1: square, 2: rounded
-            square)
-        @param six the x size of the pad
-        @param siy the y size of the pad
-        @param indiam the hole internal diameter
-        @param layer the layer that should be used
+            square).
+        @param six the x size of the pad.
+        @param siy the y size of the pad.
+        @param indiam the hole internal diameter.
+        @param layer the layer that should be used.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole)
         throws IOException
     {
         double xdd;
         double ydd;
-
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
 
         // At first, draw the pad...
         if(!onlyHole) {
@@ -392,52 +365,25 @@ public class ExportEagle implements ExportInterface
         }
         // ... then, drill the hole!
         out.write("# PCBpad export not implemented yet\n");
-
     }
 
     /** Called when exporting a Polygon primitive
-
         @param vertices array containing the position of each vertex
         @param nVertices number of vertices
         @param isFilled true if the polygon is filled
         @param layer the layer that should be used
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
-
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportPolygon(PointDouble[] vertices, int nVertices,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
         String fill_pattern="";
 
-        /*if(isFilled) {
-            fill_pattern="fill=\"#"+
-                  convertToHex2(c.getRed())+
-                  convertToHex2(c.getGreen())+
-                  convertToHex2(c.getBlue())+"\"";
-        } else {
-            fill_pattern="fill=\"none\"";
-
-        }*
-        int i;
-
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        out.write("POLYGON ");
-        for (i=0; i<nVertices; ++i) {
-            out.write("("+vertices[i].x+" "+vertices[i].y+") ");
-
-        }
-        out.write(";\n");
-
-        */
-
         out.write("# Polygon export not implemented yet\n");
-
     }
 
     /** Called when exporting a Rectangle primitive.
@@ -447,21 +393,16 @@ public class ExportEagle implements ExportInterface
         @param x2 the x position of the second corner
         @param y2 the y position of the second corner
         @param isFilled it is true if the rectangle should be filled
-
         @param layer the layer that should be used
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportRectangle(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-
-        //LayerDesc l=(LayerDesc)layerV.get(layer);
-        //ColorInterface c=l.getColor();
-
         out.write("Layer 94;\n");
 
         if(isFilled) {
@@ -479,18 +420,19 @@ public class ExportEagle implements ExportInterface
         out.write("Layer 91;\n");
     }
 
-    /** Called when exporting a Curve primitive
-
-        @param vertices array containing the position of each vertex
-        @param nVertices number of vertices
-        @param isFilled true if the polygon is filled
-        @param isClosed true if the curve is closed
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
+    /** Called when exporting a Curve primitive.
+        @param vertices array containing the position of each vertex.
+        @param nVertices number of vertices.
+        @param isFilled true if the polygon is filled.
+        @param isClosed true if the curve is closed.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
 
         @return false if the curve should be rendered using a polygon, true
             if it is handled by the function.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public boolean exportCurve(PointDouble[] vertices, int nVertices,
         boolean isFilled, boolean isClosed, int layer,
@@ -507,13 +449,15 @@ public class ExportEagle implements ExportInterface
     }
 
     /** Called when exporting an arrow.
-        @param x position of the tip of the arrow
-        @param y position of the tip of the arrow
-        @param xc direction of the tip of the arrow
-        @param yc direction of the tip of the arrow
-        @param l length of the arrow
-        @param h width of the arrow
-        @param style style of the arrow
+        @param x position of the tip of the arrow.
+        @param y position of the tip of the arrow.
+        @param xc direction of the tip of the arrow.
+        @param yc direction of the tip of the arrow.
+        @param l length of the arrow.
+        @param h width of the arrow.
+        @param style style of the arrow.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportArrow(double x, double y, double xc, double yc,
         double l, double h,

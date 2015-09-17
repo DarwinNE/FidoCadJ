@@ -75,20 +75,23 @@ public class OSKeybPanel extends JPanel
         +"\u2191\u0027";
 
     JButton[] k = new JButton[symbols.length()];
-    Object txt;
+    JDialog txt;
     int posX=0,posY=0;
 
-    public void setField(Object o)
+    /** Attach the current panel to a dialog to intercept keyboard operations.
+        @param o the dialog to be attached to.
+    */
+    public void setField(JDialog o)
     {
         txt = o;
     }
 
     /** Types of keyboard available.
-
     */
     public enum KEYBMODES {GREEK, MATH, MISC};
 
     /** Create the keyboard panel of the selected type.
+        @param mode type of the keyboard to be employed.
     */
     public OSKeybPanel(KEYBMODES mode)
     {
@@ -130,7 +133,6 @@ public class OSKeybPanel extends JPanel
                     jfd.setText(s+e.getActionCommand()+t);
                     jfd.setCaretPosition(++p);
                 }
-
                 jfd.requestFocus();
             }
         };

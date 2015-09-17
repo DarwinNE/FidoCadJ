@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.graphic.*;
 /**
     Drawing export in Encapsulated Postscript
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2014 by Davide Bucci
-</pre>
+    </pre>
     @author Davide Bucci
 */
 
@@ -50,6 +50,8 @@ public class ExportEPS implements ExportInterface
 
     /** double to integer conversion. In some cases, some processing might be
         applied.
+        @param l the input double.
+        @return the integer.
     */
     public int cLe(double l)
     {
@@ -57,11 +59,10 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Constructor
-
         @param f the File object in which the export should be done.
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file specified is not accessible.
     */
-
     public ExportEPS (File f) throws IOException
     {
         fstream = new FileWriter(f);
@@ -78,8 +79,9 @@ public class ExportEPS implements ExportInterface
             drawing program having some kind of grid concept. You might use
             this value to synchronize FidoCadJ's grid with the one used by
             the target.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
         int grid)
         throws IOException
@@ -146,30 +148,31 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called at the end of the export phase.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportEnd()
         throws IOException
     {
         out.write("%%EOF\n");
         out.close();
-
     }
 
     /** Called when exporting an Advanced Text primitive.
-
-        @param x the x position of the beginning of the string to be written
-        @param y the y position of the beginning of the string to be written
-        @param sizex the x size of the font to be used
-        @param sizey the y size of the font to be used
-        @param fontname_t the font to be used
-        @param isBold true if the text should be written with a boldface font
-        @param isMirrored true if the text should be mirrored
-        @param isItalic true if the text should be written with an italic font
-        @param orientation angle of orientation (degrees)
-        @param layer the layer that should be used
-        @param text_t the text that should be written
+        @param x the x position of the beginning of the string to be written.
+        @param y the y position of the beginning of the string to be written.
+        @param sizex the x size of the font to be used.
+        @param sizey the y size of the font to be used.
+        @param fontname_t the font to be used.
+        @param isBold true if the text should be written with a boldface font.
+        @param isMirrored true if the text should be mirrored.
+        @param isItalic true if the text should be written with an italic font.
+        @param orientation angle of orientation (degrees).
+        @param layer the layer that should be used.
+        @param text_t the text that should be written.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname_t, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text_t)
@@ -209,9 +212,6 @@ public class ExportEPS implements ExportInterface
 
         // Remember that we consider sizex/sizey=7/12 as the "normal" aspect
         // ratio.
-
-
-
         double ratio;
 
         if(sizey/sizex == 10/7){
@@ -239,7 +239,6 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting a Bézier primitive.
-
         @param x1 the x position of the first point of the trace
         @param y1 the y position of the first point of the trace
         @param x2 the x position of the second point of the trace
@@ -252,14 +251,15 @@ public class ExportEPS implements ExportInterface
 
                 // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
-
-
+        @param arrowStart true if an arrow is present at the first point.
+        @param arrowEnd true if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportBezier (int x1, int y1,
         int x2, int y2,
@@ -291,10 +291,13 @@ public class ExportEPS implements ExportInterface
 
     /** Called when exporting a Connection primitive.
 
-        @param x the x position of the position of the connection
-        @param y the y position of the position of the connection
-
-        @param layer the layer that should be used
+        @param x the x position of the position of the connection.
+        @param y the y position of the position of the connection.
+        @param layer the layer that should be used.
+        @param node_size the size of the electrical connection in logical
+            units.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportConnection (int x, int y, int layer, double node_size)
         throws IOException
@@ -313,26 +316,24 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting a Line primitive.
-
         @param x1 the x position of the first point of the segment
         @param y1 the y position of the first point of the segment
         @param x2 the x position of the second point of the segment
         @param y2 the y position of the second point of the segment
-
         @param layer the layer that should be used
 
         // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
-
-
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
@@ -361,13 +362,15 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting an arrow.
-        @param x position of the tip of the arrow
-        @param y position of the tip of the arrow
-        @param xc direction of the tip of the arrow
-        @param yc direction of the tip of the arrow
-        @param l length of the arrow
-        @param h width of the arrow
-        @param style style of the arrow
+        @param x position of the tip of the arrow.
+        @param y position of the tip of the arrow.
+        @param xc direction of the tip of the arrow.
+        @param yc direction of the tip of the arrow.
+        @param l length of the arrow.
+        @param h width of the arrow.
+        @param style style of the arrow.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportArrow(double x, double y, double xc, double yc,
         double l, double h,
@@ -392,8 +395,6 @@ public class ExportEPS implements ExportInterface
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 
         alpha += x-xc>0.0?0.0:Math.PI;
-
-
 
         // Then, we calculate the points for the polygon
         x0 = x - l*Math.cos(alpha);
@@ -435,30 +436,33 @@ public class ExportEPS implements ExportInterface
             out.write(""+roundTo(x3)+" "+roundTo(y3)+" moveto\n"+
                 roundTo(x4)+" "+roundTo(y4)+" lineto\nstroke\n");
         }
-
     }
 
     /** Called when exporting a Macro call.
         This function can just return false, to indicate that the macro should
         be rendered by means of calling the other primitives. Please note that
-        a macro does not have a reference layer, since it is defined by its
-        components.
+        a macro does not have a reference layer, since the elements composing
+        it already have their own.
 
-        @param x the x position of the position of the macro
-        @param y the y position of the position of the macro
-        @param isMirrored true if the macro is mirrored
-        @param orientation the macro orientation in degrees
-        @param macroName the macro name
-        @param macroDesc the macro description, in the FidoCad format
-        @param name the shown name
-        @param xn coordinate of the shown name
-        @param yn coordinate of the shown name
-        @param value the shown value
-        @param xv coordinate of the shown value
-        @param yv coordinate of the shown value
-        @param font the used font
-        @param fontSize the size of the font to be used
-        @param m the library
+        @param x the x position of the position of the macro.
+        @param y the y position of the position of the macro.
+        @param isMirrored true if the macro is mirrored.
+        @param orientation the macro orientation in degrees.
+        @param macroName the macro name.
+        @param macroDesc the macro description, in the FidoCad format.
+        @param name the shown name.
+        @param xn coordinate of the shown name.
+        @param yn coordinate of the shown name.
+        @param value the shown value.
+        @param xv coordinate of the shown value.
+        @param yv coordinate of the shown value.
+        @param font the used font.
+        @param fontSize the size of the font to be used.
+        @param m the library.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
+        @return true if the macro is exported as a whole, false if it should be
+            expanded into primitives.
     */
     public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
@@ -471,16 +475,16 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting an Oval primitive. Specify the bounding box.
-
-        @param x1 the x position of the first corner
-        @param y1 the y position of the first corner
-        @param x2 the x position of the second corner
-        @param y2 the y position of the second corner
-        @param isFilled it is true if the oval should be filled
-
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
+        @param x1 the x position of the first corner.
+        @param y1 the y position of the first corner.
+        @param x2 the x position of the second corner.
+        @param y2 the y position of the second corner.
+        @param isFilled it is true if the oval should be filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -491,7 +495,6 @@ public class ExportEPS implements ExportInterface
 
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
-
 
         out.write("newpath\n");
         out.write(""+(x1+x2)/2.0+" "+(y1+y2)/2.0+" "+
@@ -505,13 +508,14 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting a PCBLine primitive.
-
-        @param x1 the x position of the first point of the segment
-        @param y1 the y position of the first point of the segment
-        @param x2 the x position of the second point of the segment
-        @param y2 the y position of the second point of the segment
-        @param width the width ot the line
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the segment.
+        @param y1 the y position of the first point of the segment.
+        @param x2 the x position of the second point of the segment.
+        @param y2 the y position of the second point of the segment.
+        @param width the width ot the line.
+        @param layer the layer that should be used.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer)
@@ -526,20 +530,21 @@ public class ExportEPS implements ExportInterface
         out.write("1 setlinecap\n");
         out.write(""+x1+" "+y1+" moveto "+
             x2+" "+y2+" lineto stroke\n");
-
     }
 
     /** Called when exporting a PCBPad primitive.
-        @param x the x position of the pad
-        @param y the y position of the pad
+        @param x the x position of the pad.
+        @param y the y position of the pad.
         @param style the style of the pad (0: oval, 1: square, 2: rounded
-            square)
-        @param six the x size of the pad
-        @param siy the y size of the pad
-        @param indiam the hole internal diameter
-        @param layer the layer that should be used
+            square).
+        @param six the x size of the pad.
+        @param siy the y size of the pad.
+        @param indiam the hole internal diameter.
+        @param layer the layer that should be used.
+        @param onlyHole true if only the hole (drill) should be exported.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
-
     public void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole)
         throws IOException
@@ -551,7 +556,6 @@ public class ExportEPS implements ExportInterface
         ColorInterface c=l.getColor();
 
         checkColorAndWidth(c, 0.33);
-
 
         // At first, draw the pad...
         if(!onlyHole) {
@@ -592,19 +596,17 @@ public class ExportEPS implements ExportInterface
                     indiam/2.0+ " " +indiam/2.0+
                     " 0 360 ellipse\n");
         out.write("fill\n");
-
-
     }
 
-    /** Called when exporting a Polygon primitive
-
-        @param vertices array containing the position of each vertex
-        @param nVertices number of vertices
-        @param isFilled true if the polygon is filled
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
-
+    /** Called when exporting a Polygon primitive.
+        @param vertices array containing the position of each vertex.
+        @param nVertices number of vertices.
+        @param isFilled true if the polygon is filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportPolygon(PointDouble[] vertices, int nVertices,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -635,15 +637,21 @@ public class ExportEPS implements ExportInterface
         }
 
     }
-    /** Called when exporting a Curve primitive
-
-        @param vertices array containing the position of each vertex
-        @param nVertices number of vertices
-        @param isFilled true if the polygon is filled
-        @param isClosed true if the curve is closed
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
+    /** Called when exporting a Curve primitive.
+        @param vertices array containing the position of each vertex.
+        @param nVertices number of vertices.
+        @param isFilled true if the polygon is filled.
+        @param isClosed true if the curve is closed.
+        @param layer the layer that should be used.
+        @param arrowStart true if an arrow is present at the first point.
+        @param arrowEnd true if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength the length of the arrow.
+        @param arrowHalfWidth the half width of the arrow.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
 
         @return false if the curve should be rendered using a polygon, true
             if it is handled by the function.
@@ -663,18 +671,16 @@ public class ExportEPS implements ExportInterface
     }
 
     /** Called when exporting a Rectangle primitive.
-
         @param x1 the x position of the first corner
         @param y1 the y position of the first corner
         @param x2 the x position of the second corner
         @param y2 the y position of the second corner
         @param isFilled it is true if the rectangle should be filled
-
         @param layer the layer that should be used
         @param dashStyle dashing style
         @param strokeWidth the width of the pen to be used when drawing
-
-
+        @throws IOException when things goes horribly wrong, for example if
+            the file in which the output is being done is not accessible.
     */
     public void exportRectangle(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
