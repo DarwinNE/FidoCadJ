@@ -50,7 +50,7 @@ public final class DrawingSize
         @param countMin specifies that the size should be calculated counting
             the minimum x and y coordinates, and not the origin.
         @param origin is updated with the image origin.
-
+        @return the image size stored in a {@link DimensionG} object.
     */
     public static DimensionG getImageSize(DrawingModel dm,
                                   double unitperpixel,
@@ -105,6 +105,8 @@ public final class DrawingSize
     /** Get the image origin.
         @param dm the model class containing the drawing.
         @param unitperpixel the zoom set to be used.
+        @return the origin coordinates in logical units, stored in a
+        {@link PointG} object.
     */
     public static PointG getImageOrigin(DrawingModel dm, double unitperpixel)
     {
@@ -140,12 +142,13 @@ public final class DrawingSize
 
     /** Calculate the zoom to fit the given size in pixel (i.e. the viewport
         size).
-
+        @param dm the current drawing model.
         @param sizex the width of the area to be used for calculations.
         @param sizey the height of the area to be used for calculations.
         @param countMin specify if the absolute or relative size should be
-            taken into account
-
+            taken into account.
+        @return the zoom to fit settings stored in a new {@link MapCoordinates}
+            object.
     */
     public static MapCoordinates calculateZoomToFit(DrawingModel dm, int sizex,
         int sizey, boolean countMin)

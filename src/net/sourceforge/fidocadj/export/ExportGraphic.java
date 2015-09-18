@@ -70,8 +70,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
-
-
+        @throws IOException if the file can not be created or an error occurs.
     */
     public static void export(File file,
                         DrawingModel P,
@@ -81,7 +80,7 @@ public final class ExportGraphic
                         boolean blackWhite,
                         boolean ext,
                         boolean shiftMin)
-    throws IOException
+        throws IOException
     {
         exportSizeP( file,
                          P,
@@ -108,7 +107,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
-
+        @throws IOException if an error occurs.
     */
     public static void exportSize(File file,
                         DrawingModel P,
@@ -119,7 +118,7 @@ public final class ExportGraphic
                         boolean blackWhite,
                         boolean ext,
                         boolean shiftMin)
-    throws IOException
+        throws IOException
     {
         exportSizeP( file,
                          P,
@@ -149,7 +148,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting.
         @param shiftMin shift the exported image at the origin.
-
+        @throws IOException if an error occurs.
     */
     private static void exportSizeP(File file,
                         DrawingModel P,
@@ -162,7 +161,7 @@ public final class ExportGraphic
                         boolean blackWhite,
                         boolean ext,
                         boolean shiftMin)
-    throws IOException
+        throws IOException
     {
         int width=width_t;
         int height=height_t;
@@ -293,8 +292,6 @@ public final class ExportGraphic
                 "Wrong file format");
             throw E;
         }
-
         P.setLayers(ol);
     }
-
 }

@@ -57,12 +57,16 @@ public final class GeometricDistances
     }
 
     /** Calculate the euclidean distance between two points.
+        The distance calculated here is not accurate. It is meant only
+        to discriminate objects during the selection and therefore a
+        inaccurate way to calculate distances is employed if the
+        result is known to be greater than MIN_DISTANCE.
 
-
-        @param xa the X coordinate of the first point
-        @param ya the Y coordinate of the first point
-        @param xb the X coordinate of the second point
-        @param yb the Y coordinate of the second point
+        @param xa the X coordinate of the first point.
+        @param ya the Y coordinate of the first point.
+        @param xb the X coordinate of the second point.
+        @param yb the Y coordinate of the second point.
+        @return the distance.
     */
     public static double pointToPoint(double xa, double ya,
                                  double xb, double yb)
@@ -75,11 +79,16 @@ public final class GeometricDistances
 
 
     /** Calculate the euclidean distance between two points.
+        The distance calculated here is not accurate. It is meant only
+        to discriminate objects during the selection and therefore a
+        inaccurate way to calculate distances is employed if the
+        result is known to be greater than MIN_DISTANCE.
 
-        @param xa the X coordinate of the first point
-        @param ya the Y coordinate of the first point
-        @param xb the X coordinate of the second point
-        @param yb the Y coordinate of the second point
+        @param xa the X coordinate of the first point.
+        @param ya the Y coordinate of the first point.
+        @param xb the X coordinate of the second point.
+        @param yb the Y coordinate of the second point.
+        @return the distance.
     */
     public static int pointToPoint(int xa, int ya,
                             int xb, int yb)
@@ -94,12 +103,18 @@ public final class GeometricDistances
     /** Calculate the euclidean distance between a point and a segment.
         Adapted from http://www.vb-helper.com/howto_distance_point_to_line.html
 
-        @param xa the X coordinate of the starting point of the segment
-        @param ya the Y coordinate of the starting point of the segment
-        @param xb the X coordinate of the ending point of the segment
-        @param yb the Y coordinate of the ending point of the segment
-        @param x the X coordinate of the point
-        @param y the Y coordinate of the point
+        The distance calculated here is not accurate. It is meant only
+        to discriminate objects during the selection and therefore a
+        inaccurate way to calculate distances is employed if the
+        result is known to be greater than MIN_DISTANCE.
+
+        @param xa the X coordinate of the starting point of the segment.
+        @param ya the Y coordinate of the starting point of the segment.
+        @param xb the X coordinate of the ending point of the segment.
+        @param yb the Y coordinate of the ending point of the segment.
+        @param x the X coordinate of the point.
+        @param y the Y coordinate of the point.
+        @return the calculated distance.
     */
     public static double pointToSegment(double xa, double ya,
                                  double xb, double yb,
@@ -155,12 +170,13 @@ public final class GeometricDistances
         three digits and it should be faster than the double precision version
         on some platforms.
 
-        @param xa the X coordinate of the starting point of the segment
-        @param ya the Y coordinate of the starting point of the segment
-        @param xb the X coordinate of the ending point of the segment
-        @param yb the Y coordinate of the ending point of the segment
-        @param x the X coordinate of the point
-        @param y the Y coordinate of the point
+        @param xa the X coordinate of the starting point of the segment.
+        @param ya the Y coordinate of the starting point of the segment.
+        @param xb the X coordinate of the ending point of the segment.
+        @param yb the Y coordinate of the ending point of the segment.
+        @param x the X coordinate of the point.
+        @param y the Y coordinate of the point.
+        @return the calculated distance.
     */
     public static int pointToSegment(int xa, int ya,
                               int xb, int yb,
@@ -266,15 +282,14 @@ public final class GeometricDistances
 
         return (4.0*dx*dx/w/w+4.0*dy*dy/h/h)<1.0;
     }
-    /** Tells if a point lies inside an ellipse (integer version)
+    /** Tells if a point lies inside an ellipse (integer version).
 
-
-        @param ex x coordinate of the top left corner of the ellipse
-        @param ey y coordinate of the top left corner of the ellipse
-        @param w width of the ellipse
-        @param h height of the ellipse
-        @param px x coordinate of the point
-        @param py y coordinate of the point
+        @param ex x coordinate of the top left corner of the ellipse.
+        @param ey y coordinate of the top left corner of the ellipse.
+        @param w width of the ellipse.
+        @param h height of the ellipse.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
         @return true if the point lies in the ellipse, false otherwise.
     */
     public static boolean pointInEllipse(int ex,int ey,int w,
@@ -310,13 +325,13 @@ public final class GeometricDistances
         the point is inside the ellipse, where here we get the distance
         with the contour of the ellipse.
 
-        @param ex x coordinate of the top left corner of the ellipse
-        @param ey y coordinate of the top left corner of the ellipse
-        @param w width of the ellipse
-        @param h height of the ellipse
-        @param px x coordinate of the point
-        @param py y coordinate of the point
-        @return the distance to the contour of the ellipse
+        @param ex x coordinate of the top left corner of the ellipse.
+        @param ey y coordinate of the top left corner of the ellipse.
+        @param w width of the ellipse.
+        @param h height of the ellipse.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
+        @return the distance to the contour of the ellipse.
     */
     public static double pointToEllipse(double ex,double ey,double w,
                                   double h,double px,double py)
@@ -340,29 +355,26 @@ public final class GeometricDistances
         // The multiplication by four is mandatory as the principal axis of an
         // ellipse are the half of the width and the height.
 
-
         l=4.0*dx*dx/w/w+4.0*dy*dy/h/h;
 
         // I had to divide by 2 to compensate the loss of precision in certain
         // cases. Maybe, this is due to the integer conversion when using
         // the integer routine?
 
-
         l=Math.sqrt(Math.abs(l-1.0)*Math.min(w,h)*Math.min(w,h)/4)/2;
         return l;
     }
 
     /** Give the distance between the given point and the ellipse path
-        (integer version)
+        (integer version).
 
-
-        @param ex x coordinate of the top left corner of the ellipse
-        @param ey y coordinate of the top left corner of the ellipse
-        @param w width of the ellipse
-        @param h height of the ellipse
-        @param px x coordinate of the point
-        @param py y coordinate of the point
-        @return the distance to the contour of the ellipse
+        @param ex x coordinate of the top left corner of the ellipse.
+        @param ey y coordinate of the top left corner of the ellipse.
+        @param w width of the ellipse.
+        @param h height of the ellipse.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
+        @return the distance to the contour of the ellipse.
     */
     public static int pointToEllipse(int ex,int ey,int w,
                                   int h, int px,int py)
@@ -373,15 +385,14 @@ public final class GeometricDistances
 
 
 
-    /** Tells if a point lies inside a rectangle
+    /** Tells if a point lies inside a rectangle.
 
-
-        @param ex x coordinate of the top left corner of the rectangle
-        @param ey y coordinate of the top left corner of the rectangle
-        @param w width of the rectangle
-        @param h height of the rectangle
-        @param px x coordinate of the point
-        @param py y coordinate of the point
+        @param ex x coordinate of the top left corner of the rectangle.
+        @param ey y coordinate of the top left corner of the rectangle.
+        @param w width of the rectangle.
+        @param h height of the rectangle.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
         @return true if the point lies in the ellipse, false otherwise.
     */
     public static boolean pointInRectangle(double ex,double ey,double w,
@@ -390,15 +401,14 @@ public final class GeometricDistances
         return !(ex>px||px>ex+w || ey>py || py>ey+h);
     }
 
-    /** Tells if a point lies inside a rectangle, integer version
+    /** Tells if a point lies inside a rectangle, integer version.
 
-
-        @param ex x coordinate of the top left corner of the rectangle
-        @param ey y coordinate of the top left corner of the rectangle
-        @param w width of the rectangle
-        @param h height of the rectangle
-        @param px x coordinate of the point
-        @param py y coordinate of the point
+        @param ex x coordinate of the top left corner of the rectangle.
+        @param ey y coordinate of the top left corner of the rectangle.
+        @param w width of the rectangle.
+        @param h height of the rectangle.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
         @return true if the point lies in the ellipse, false otherwise.
     */
     public static boolean pointInRectangle(int ex,int ey,int w,
@@ -409,15 +419,15 @@ public final class GeometricDistances
 
 
     /** Give the distance between the given point and the borders of a
-        rectangle
+        rectangle.
 
-        @param ex x coordinate of the top left corner of the rectangle
-        @param ey y coordinate of the top left corner of the rectangle
-        @param w width of the rectangle
-        @param h height of the rectangle
-        @param px x coordinate of the point
-        @param py y coordinate of the point
-        @return the distance to one of the border of the rectangle
+        @param ex x coordinate of the top left corner of the rectangle.
+        @param ey y coordinate of the top left corner of the rectangle.
+        @param w width of the rectangle.
+        @param h height of the rectangle.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
+        @return the distance to one of the border of the rectangle.
     */
     public static double pointToRectangle(double ex,double ey,double w,
                                    double h, double px,double py)
@@ -432,15 +442,15 @@ public final class GeometricDistances
     }
 
     /** Give the distance between the given point and the borders of a
-        rectangle (integer version)
+        rectangle (integer version).
 
-        @param ex x coordinate of the top left corner of the rectangle
-        @param ey y coordinate of the top left corner of the rectangle
-        @param w width of the rectangle
-        @param h height of the rectangle
-        @param px x coordinate of the point
-        @param py y coordinate of the point
-        @return the distance to one of the border of the rectangle
+        @param ex x coordinate of the top left corner of the rectangle.
+        @param ey y coordinate of the top left corner of the rectangle.
+        @param w width of the rectangle.
+        @param h height of the rectangle.
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
+        @return the distance to one of the border of the rectangle.
     */
     public static int pointToRectangle(int ex,int ey,int w,
                                   int h, int px,int py)
@@ -467,7 +477,7 @@ public final class GeometricDistances
         a Bézier curve. The curve is divided into MAX_BEZIER_SEGMENTS
         linear pieces and the distance is calculated with each piece.
         The given distance is the minimum distance found for all pieces.
-        Freely inspired from the original Fidocad code.
+        Freely inspired from the original FidoCAD code.
 
         @param x1 x coordinate of the first control point of the Bézier curve.
         @param y1 y coordinate of the first control point of the Bézier curve.
@@ -477,9 +487,8 @@ public final class GeometricDistances
         @param y3 y coordinate of the third control point of the Bézier curve.
         @param x4 x coordinate of the fourth control point of the Bézier curve.
         @param y4 y coordinate of the fourth control point of the Bézier curve.
-
-        @param px x coordinate of the point
-        @param py y coordinate of the point
+        @param px x coordinate of the point.
+        @param py y coordinate of the point.
 
         @return an approximate value of the distance between the given point
                 and the Bézier curve specified by the control points.

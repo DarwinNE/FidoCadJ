@@ -1,197 +1,48 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:58: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:58:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:188:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:205:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:235:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:270: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:348:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:439:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:440:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:441:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:442:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:443:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:58:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:66: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:66:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:77:42: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:91:39: warning: Balise javadoc @param manquante pour 'e'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:111:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:131:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:154:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:200:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:204:16: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:205:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:226:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:227:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:258:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:262:16: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:263:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:296: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:300:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:361:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:362:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:381:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:405:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:425:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:426:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:454:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:455:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:456:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:457:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:458:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:461:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:494:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:495:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:516:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportGraphic.java:84:12: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportGraphic.java:122:12: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:65:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:70:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:90:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:121:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:126:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:135:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:136:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:163:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:168:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:193: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:197:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:215:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:227:27: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:243:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:243:57: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:259:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:277:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:278:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:279:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:280:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:281:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:284:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:299:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:313:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:95: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:95:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:103:49: warning: Balise javadoc @param manquante pour 'gg'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:103:60: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:134:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:247:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:735:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:876:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:881:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:904:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:905:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:943:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:948:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:988: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:992:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1013:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1034:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1058:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1059:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1116:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1154:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1155:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1156:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1157:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1158:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1161:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1180:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1342:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:77:38: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:98:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:139:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:165:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:221:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:226:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:251:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:252:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:286:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:291:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:318:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:404: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:408:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:432:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:455:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:479:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:480:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:538:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:575:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:576:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:577:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:578:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:579:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:582:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:601:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:105:49: warning: Balise javadoc @param manquante pour 'gg'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:888:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:918:67: warning: Balise javadoc @param manquante pour 'node_size'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:959:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1006: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1081:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1181:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1182:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1183:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1184:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1185:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:225:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:255:67: warning: Balise javadoc @param manquante pour 'node_size'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:290:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:410: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:485:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:584:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:585:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:586:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:587:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:588:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:62:38: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:88:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:117:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:141:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:218:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:222:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:223:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:248:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:249:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:216:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:220:16: warning: Balise javadoc @param manquante pour 'sW'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:247:67: warning: Balise javadoc @param manquante pour 'node_size'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:291:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:295:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:296:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:334: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:338:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:358:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:359:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:395:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:426:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:427:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:336: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:361:60: warning: Balise javadoc @param manquante pour 'sW'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:428:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:510:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:511:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:556:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:557:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:561:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:579:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:580:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:677:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:559:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:560:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:581:60: warning: Balise javadoc @param manquante pour 'sW'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:41:36: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:55: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:109: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:150: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:150:66: warning: Balise javadoc @param manquante pour 'dm'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:67: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:84: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:104: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:165: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:369: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:379: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:399: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:457: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:467: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:487: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:542: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:551: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:560: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:573:9: warning: Balise javadoc @param inutilisé pour 'Y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:575: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:575:31: warning: Balise javadoc @param manquante pour 'y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:589: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:34:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:39:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:44:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:43:59: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:66:43: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:66:64: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:67:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:88:38: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:88:59: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:89:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:119:55: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:120:14: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:120:37: warning: Balise javadoc @param manquante pour 'tcriteria'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:121:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:145: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:145:48: warning: Balise javadoc @param manquante pour 'directory'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:146:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:68:43: warning: Balise javadoc @param manquante pour 'sourceLocation'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:68:64: warning: Balise javadoc @param manquante pour 'targetLocation'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:128:37: warning: Balise javadoc @param manquante pour 'tcriteria'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:154: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:154:48: warning: Balise javadoc @param manquante pour 'directory'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:123: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:143:66: warning: Balise javadoc @param manquante pour 'metaCode'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:144:13: warning: Balise javadoc @param manquante pour 'ctrlCode'.
@@ -671,199 +522,50 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:106:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:111:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:116:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:58: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:58:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:188:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:205:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:235:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:270: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:348:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:439:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:440:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:441:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:442:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEagle.java:443:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:58:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:66: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:66:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:77:42: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:91:39: warning: Balise javadoc @param manquante pour 'e'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:111:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:131:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:154:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:200:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:204:16: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:205:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:226:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:227:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:258:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:262:16: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:263:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:296: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:300:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:361:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:362:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:381:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:405:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:425:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:426:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:454:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:455:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:456:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:457:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:458:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:461:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:494:60: warning: Balise javadoc @param manquante pour 'strokeWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:495:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportFidoCad.java:516:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportGraphic.java:84:12: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportGraphic.java:122:12: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:65:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:70:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:90:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:121:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:126:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:135:67: warning: Balise javadoc @param manquante pour 'size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:136:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:163:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:168:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:193: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:197:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:215:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:227:27: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:243:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:243:57: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:259:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:277:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:278:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:279:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:280:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:281:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:284:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:299:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportInterface.java:313:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:95: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:95:27: warning: Balise javadoc @param manquante pour 'l'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:103:49: warning: Balise javadoc @param manquante pour 'gg'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:103:60: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:134:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:247:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:735:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:876:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:881:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:904:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:905:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:943:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:948:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:988: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:992:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1013:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1034:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1058:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1059:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1116:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1154:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1155:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1156:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1157:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1158:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1161:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1180:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1342:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:77:38: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:98:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:139:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:165:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:221:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:226:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:251:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:252:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:286:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:291:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:318:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:404: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:408:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:432:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:455:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:479:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:480:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:538:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:575:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:576:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:577:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:578:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:579:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:582:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:601:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:105:49: warning: Balise javadoc @param manquante pour 'gg'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:888:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:918:67: warning: Balise javadoc @param manquante pour 'node_size'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:959:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1006: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1081:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1181:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1182:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1183:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1184:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1185:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:225:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:255:67: warning: Balise javadoc @param manquante pour 'node_size'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:290:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:410: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:485:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:584:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:585:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:586:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:587:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:588:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:62:38: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:88:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:117:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:141:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:218:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:222:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:223:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:248:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:249:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:216:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:220:16: warning: Balise javadoc @param manquante pour 'sW'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:247:67: warning: Balise javadoc @param manquante pour 'node_size'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:291:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:295:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:296:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:334: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:338:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:358:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:359:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:395:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:426:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:427:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:336: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:361:60: warning: Balise javadoc @param manquante pour 'sW'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:428:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:510:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:511:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:556:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:557:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:561:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:579:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:580:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:677:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:559:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:560:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:581:60: warning: Balise javadoc @param manquante pour 'sW'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:41:36: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:55: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:109: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:150: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/DrawingSize.java:150:66: warning: Balise javadoc @param manquante pour 'dm'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:67: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:84: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:104: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/GeometricDistances.java:165: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:369: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:379: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:399: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:457: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:467: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:487: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:542: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:551: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:560: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:573:9: warning: Balise javadoc @param inutilisé pour 'Y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:575: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:575:31: warning: Balise javadoc @param manquante pour 'y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/geom/MapCoordinates.java:589: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:34:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:39:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/AccessResources.java:44:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:43:59: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:66:43: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:66:64: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:67:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:88:38: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:88:59: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:89:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:119:55: warning: Balise javadoc @param manquante pour 'sourceLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:120:14: warning: Balise javadoc @param manquante pour 'targetLocation'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:120:37: warning: Balise javadoc @param manquante pour 'tcriteria'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:121:16: warning: Balise javadoc @throws manquante pour 'IOException'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:145: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:145:48: warning: Balise javadoc @param manquante pour 'directory'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:146:16: warning: Balise javadoc @throws manquante pour 'IOException'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:68:43: warning: Balise javadoc @param manquante pour 'sourceLocation'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:68:64: warning: Balise javadoc @param manquante pour 'targetLocation'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:128:37: warning: Balise javadoc @param manquante pour 'tcriteria'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:154: warning: Balise javadoc @return manquante.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/FileUtils.java:154:48: warning: Balise javadoc @param manquante pour 'directory'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:123: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:143:66: warning: Balise javadoc @param manquante pour 'metaCode'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:144:13: warning: Balise javadoc @param manquante pour 'ctrlCode'.

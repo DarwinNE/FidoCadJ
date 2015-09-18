@@ -81,7 +81,8 @@ public class MapCoordinates
 
     private final Stack<MapCoordinates> stack;
 
-    /** Standard constructor */
+    /** Standard constructor
+    */
     public MapCoordinates()
     {
         xCenter=0.0;
@@ -97,9 +98,9 @@ public class MapCoordinates
         stack = new Stack<MapCoordinates>();
     }
 
-    /** Change the current orientation
+    /** Change the current orientation.
         @param o the wanted orientation (comprised between 0 and 3).
-        NOTE: if o is greater than 3, it will be
+        NOTE: if o is greater than 3, it will be truncated to 3.
     */
     public void setOrientation(int o)
     {
@@ -131,7 +132,6 @@ public class MapCoordinates
 
 
     /** Save in a stack the current coordinate state.
-
     */
     public void push()
     {
@@ -155,7 +155,6 @@ public class MapCoordinates
     }
 
     /** Pop from a stack the coordinate state.
-
     */
     public void pop()
     {
@@ -362,9 +361,10 @@ public class MapCoordinates
     }
 
     /** Map the xc,yc coordinate given in the X pixel coordinate. The tracking
-        is active
+        is active.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
+        @return the X coordinates in pixels.
     */
     public final int mapX(double xc,double yc)
     {
@@ -374,7 +374,8 @@ public class MapCoordinates
     /** Map the xc,yc coordinate given in the X pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
-        @param track specifies if the tracking should be active or not
+        @param track specifies if the tracking should be active or not.
+        @return the X coordinates in pixels.
     */
     public final int mapXi(double xc,double yc, boolean track)
     {
@@ -395,6 +396,7 @@ public class MapCoordinates
         are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
         @param tyc the vertical coordinate in the drawing coordinate system.
+        @return the X coordinates in pixels.
     */
     public final double mapXr(double txc,double tyc)
     {
@@ -453,6 +455,7 @@ public class MapCoordinates
         is active.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
+        @return the Y coordinates in pixels.
     */
     public final int mapY(double xc,double yc)
     {
@@ -462,7 +465,8 @@ public class MapCoordinates
     /** Map the xc,yc coordinate given in the Y pixel coordinate.
         @param xc the horizontal coordinate in the drawing coordinate system.
         @param yc the vertical coordinate in the drawing coordinate system.
-        @param track specify if the point should be tracked
+        @param track specify if the point should be tracked.
+        @return the Y coordinates in pixels.
     */
     public final int mapYi(double xc,double yc, boolean track)
     {
@@ -483,6 +487,7 @@ public class MapCoordinates
         are given as double precision. Tracking is not active.
         @param txc the horizontal coordinate in the drawing coordinate system.
         @param tyc the vertical coordinate in the drawing coordinate system.
+        @return the Y coordinates in pixels.
     */
     public final double mapYr(double txc,double tyc)
     {
@@ -537,7 +542,9 @@ public class MapCoordinates
 
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
-        @param x the horizontal coordinate in the screen coordinate system.
+        @param x the horizontal coordinate in the screen coordinate system
+            (pixels).
+        @return the X coordinates in logical units.
     */
     public int unmapXnosnap(int x)
     {
@@ -547,6 +554,7 @@ public class MapCoordinates
     /** Un Map the Y screen coordinate given in the drawing coordinate.
         If the snapping is active, it is NOT applied here.
         @param y the horizontal coordinate in the screen coordinate system.
+        @return the Y coordinates in logical units.
     */
     public int unmapYnosnap(int y)
     {
@@ -556,6 +564,7 @@ public class MapCoordinates
     /** Un Map the X screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
         @param x the horizontal coordinate in the screen coordinate system.
+        @return the X coordinates in logical units.
     */
     public int unmapXsnap(int x)
     {
@@ -570,7 +579,9 @@ public class MapCoordinates
 
     /** Un Map the Y screen coordinate given in the drawing coordinate.
         If the snapping is active, it is applied here.
-        @param Y the horizontal coordinate in the screen coordinate system.
+        @param y the horizontal coordinate in the screen coordinate system
+            (pixels).
+        @return the Y coordinates in logical units.
     */
     public int unmapYsnap(int y)
     {
@@ -585,6 +596,8 @@ public class MapCoordinates
 
     /** Create a string containing all possibly interesting info about the
         internal state of this class.
+        @return a {@link String} describing the coordinates system, mainly
+            for debugging purposes.
     */
     public String toString()
     {

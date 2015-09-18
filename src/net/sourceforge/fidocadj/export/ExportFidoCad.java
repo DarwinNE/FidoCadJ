@@ -13,10 +13,10 @@ import net.sourceforge.fidocadj.graphic.*;
 
 
 /**
-    Export towards FidoCad (!)
+    Export towards FidoCAD (!)
     No pun intended :-) This is useful because we can split macros very easily.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -33,12 +33,10 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2014 by Davide Bucci
-</pre>
-
+    </pre>
 
     @author Davide Bucci
 */
-
 public class ExportFidoCad implements ExportInterface
 {
 
@@ -49,12 +47,19 @@ public class ExportFidoCad implements ExportInterface
     private String textFont;
     private int textFontSize;
 
+    /** Define the macro font to be used for the export.
+        @param f the font name
+        @param size the vertical size in logical units.
+    */
     public void setMacroFont(String f, int size)
     {
         textFont = f;
         textFontSize = size;
     }
 
+    /** Define wether standard macros should be split or not.
+        @param s true if the nonstandard macros should be split.
+    */
     public void setSplitStandardMacros(boolean s)
     {
         splitStandardMacros = s;
@@ -62,18 +67,18 @@ public class ExportFidoCad implements ExportInterface
 
     /** double to integer conversion. In some cases, some processing might be
         applied.
+        @param double l the value to convert.
     */
-    public int cLe(double l)
+    private int cLe(double l)
     {
         return (int)l;
     }
 
     /** Constructor
-
         @param f the File object in which the export should be done.
-
+        @throws IOException if a disaster happens, i.e. a file can not be
+            created.
     */
-
     public ExportFidoCad (File f) throws IOException
     {
         extensions = true;
@@ -86,7 +91,9 @@ public class ExportFidoCad implements ExportInterface
         out = new BufferedWriter(fstream);
     }
 
-    /** Specify whether the FidoCadJ extensions should be taken into account
+    /** Specify whether the FidoCadJ extensions should be taken into account.
+        @param e true if the FidoCadJ extensions to the original and very old
+            FidoCAD format should be active.
     */
     public void setExtensions(boolean e)
     {
@@ -104,6 +111,8 @@ public class ExportFidoCad implements ExportInterface
             drawing program having some kind of grid concept. You might use
             this value to synchronize FidoCadJ's grid with the one used by
             the target.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
 
     public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
@@ -126,6 +135,8 @@ public class ExportFidoCad implements ExportInterface
 
 
     /** Called at the end of the export phase.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportEnd()
         throws IOException
@@ -135,19 +146,20 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting an Advanced Text primitive.
 
-        @param x the x position of the beginning of the string to be written
-        @param y the y position of the beginning of the string to be written
-        @param sizex the x size of the font to be used
-        @param sizey the y size of the font to be used
-        @param fontname the font to be used
-        @param isBold true if the text should be written with a boldface font
-        @param isMirrored true if the text should be mirrored
-        @param isItalic true if the text should be written with an italic font
-        @param orientation angle of orientation (degrees)
-        @param layer the layer that should be used
-        @param text the text that should be written
+        @param x the x position of the beginning of the string to be written.
+        @param y the y position of the beginning of the string to be written.
+        @param sizex the x size of the font to be used.
+        @param sizey the y size of the font to be used.
+        @param fontname the font to be used.
+        @param isBold true if the text should be written with a boldface font.
+        @param isMirrored true if the text should be mirrored.
+        @param isItalic true if the text should be written with an italic font.
+        @param orientation angle of orientation (degrees).
+        @param layer the layer that should be used.
+        @param text the text that should be written.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
-
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
@@ -171,24 +183,27 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting a Bézier primitive.
 
-        @param x1 the x position of the first point of the trace
-        @param y1 the y position of the first point of the trace
-        @param x2 the x position of the second point of the trace
-        @param y2 the y position of the second point of the trace
-        @param x3 the x position of the third point of the trace
-        @param y3 the y position of the third point of the trace
-        @param x4 the x position of the fourth point of the trace
-        @param y4 the y position of the fourth point of the trace
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the trace.
+        @param y1 the y position of the first point of the trace.
+        @param x2 the x position of the second point of the trace.
+        @param y2 the y position of the second point of the trace.
+        @param x3 the x position of the third point of the trace.
+        @param y3 the y position of the third point of the trace.
+        @param x4 the x position of the fourth point of the trace.
+        @param y4 the y position of the fourth point of the trace.
+        @param layer the layer that should be used.
 
                 // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the stroke to use.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportBezier (int x1, int y1,
         int x2, int y2,
@@ -218,10 +233,12 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting a Connection primitive.
 
-        @param x the x position of the position of the connection
-        @param y the y position of the position of the connection
-
-        @param layer the layer that should be used
+        @param x the x position of the position of the connection.
+        @param y the y position of the position of the connection.
+        @param layer the layer that should be used.
+        @param size the size of the connection in logical units.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportConnection (int x, int y, int layer, double size)
         throws IOException
@@ -233,23 +250,24 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting a Line primitive.
 
-        @param x1 the x position of the first point of the segment
-        @param y1 the y position of the first point of the segment
-        @param x2 the x position of the second point of the segment
-        @param y2 the y position of the second point of the segment
-
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the segment.
+        @param y1 the y position of the first point of the segment.
+        @param x2 the x position of the second point of the segment.
+        @param y2 the y position of the second point of the segment.
+        @param layer the layer that should be used.
 
         // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the stroke to use.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
-
     public void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
@@ -277,21 +295,25 @@ public class ExportFidoCad implements ExportInterface
         a macro does not have a reference layer, since it is defined by its
         components.
 
-        @param x the x position of the position of the macro
-        @param y the y position of the position of the macro
-        @param isMirrored true if the macro is mirrored
-        @param orientation the macro orientation in degrees
-        @param macroName the macro name
-        @param macroDesc the macro description, in the FidoCad format
-        @param name the shown name
-        @param xn coordinate of the shown name
-        @param yn coordinate of the shown name
-        @param value the shown value
-        @param xv coordinate of the shown value
-        @param yv coordinate of the shown value
-        @param font the used font
-        @param fontSize the size of the font to be used
-        @param m the library
+        @param x the x position of the position of the macro.
+        @param y the y position of the position of the macro.
+        @param isMirrored true if the macro is mirrored.
+        @param orientation the macro orientation in degrees.
+        @param macroName the macro name.
+        @param macroDesc the macro description, in the FidoCad format.
+        @param name the shown name.
+        @param xn coordinate of the shown name.
+        @param yn coordinate of the shown name.
+        @param value the shown value.
+        @param xv coordinate of the shown value.
+        @param yv coordinate of the shown value.
+        @param font the used font.
+        @param fontSize the size of the font to be used.
+        @param m the library.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
+        @return false if the export of the macro is handled by this function,
+            true if the macro should be split into primitives.
     */
     public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
@@ -347,15 +369,16 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting an Oval primitive. Specify the bounding box.
 
-        @param x1 the x position of the first corner
-        @param y1 the y position of the first corner
-        @param x2 the x position of the second corner
-        @param y2 the y position of the second corner
-        @param isFilled it is true if the oval should be filled
-
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-
+        @param x1 the x position of the first corner.
+        @param y1 the y position of the first corner.
+        @param x2 the x position of the second corner.
+        @param y2 the y position of the second corner.
+        @param isFilled it is true if the oval should be filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the stroke to use.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -369,12 +392,14 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting a PCBLine primitive.
 
-        @param x1 the x position of the first point of the segment
-        @param y1 the y position of the first point of the segment
-        @param x2 the x position of the second point of the segment
-        @param y2 the y position of the second point of the segment
-        @param width the width ot the line
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the segment.
+        @param y1 the y position of the first point of the segment.
+        @param x2 the x position of the second point of the segment.
+        @param y2 the y position of the second point of the segment.
+        @param width the width ot the line.
+        @param layer the layer that should be used.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer)
@@ -386,20 +411,20 @@ public class ExportFidoCad implements ExportInterface
             textFont, textFontSize).toString(extensions));
     }
 
-
     /** Called when exporting a PCBPad primitive.
 
-        @param x the x position of the pad
-        @param y the y position of the pad
+        @param x the x position of the pad.
+        @param y the y position of the pad.
         @param style the style of the pad (0: oval, 1: square, 2: rounded
-            square)
-        @param six the x size of the pad
-        @param siy the y size of the pad
-        @param indiam the hole internal diameter
-        @param layer the layer that should be used
-        @param onlyHole export only the hole
+            square).
+        @param six the x size of the pad.
+        @param siy the y size of the pad.
+        @param indiam the hole internal diameter.
+        @param layer the layer that should be used.
+        @param onlyHole export only the hole.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
-
     public void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole)
         throws IOException
@@ -411,15 +436,17 @@ public class ExportFidoCad implements ExportInterface
                 layer,
                 textFont, textFontSize).toString(extensions));
     }
-    /** Called when exporting a Polygon primitive
 
-        @param vertices array containing the position of each vertex
-        @param nVertices number of vertices
-        @param isFilled true if the polygon is filled
-        @param layer the layer that should be used
-        @param dashStyle dashing style
+    /** Called when exporting a Polygon primitive.
 
-
+        @param vertices array containing the position of each vertex.
+        @param nVertices number of vertices.
+        @param isFilled true if the polygon is filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the stroke to use.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportPolygon(PointDouble[] vertices, int nVertices,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -436,18 +463,26 @@ public class ExportFidoCad implements ExportInterface
         }
         out.write(p.toString(extensions));
     }
-    /** Called when exporting a Curve primitive
 
-        @param vertices array containing the position of each vertex
-        @param nVertices number of vertices
-        @param isFilled true if the polygon is filled
-        @param isClosed true if the curve is closed
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
+    /** Called when exporting a Curve primitive.
+
+        @param vertices array containing the position of each vertex.
+        @param nVertices number of vertices.
+        @param isFilled true if the polygon is filled.
+        @param isClosed true if the curve is closed.
+        @param layer the layer that should be used.
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
 
         @return false if the curve should be rendered using a polygon, true
             if it is handled by the function.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public boolean exportCurve(PointDouble[] vertices, int nVertices,
         boolean isFilled, boolean isClosed, int layer,
@@ -480,15 +515,16 @@ public class ExportFidoCad implements ExportInterface
 
     /** Called when exporting a Rectangle primitive.
 
-        @param x1 the x position of the first corner
-        @param y1 the y position of the first corner
-        @param x2 the x position of the second corner
-        @param y2 the y position of the second corner
-        @param isFilled it is true if the rectangle should be filled
-
-        @param layer the layer that should be used
-        @param dashStyle dashing style
-
+        @param x1 the x position of the first corner.
+        @param y1 the y position of the first corner.
+        @param x2 the x position of the second corner.
+        @param y2 the y position of the second corner.
+        @param isFilled it is true if the rectangle should be filled.
+        @param layer the layer that should be used.
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the stroke to use.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportRectangle(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
@@ -502,13 +538,15 @@ public class ExportFidoCad implements ExportInterface
     }
 
     /** Called when exporting an arrow.
-        @param x position of the tip of the arrow
-        @param y position of the tip of the arrow
-        @param xc direction of the tip of the arrow
-        @param yc direction of the tip of the arrow
-        @param l length of the arrow
-        @param h width of the arrow
-        @param style style of the arrow
+        @param x position of the tip of the arrow.
+        @param y position of the tip of the arrow.
+        @param xc direction of the tip of the arrow.
+        @param yc direction of the tip of the arrow.
+        @param l length of the arrow.
+        @param h width of the arrow.
+        @param style style of the arrow.
+        @throws IOException if a disaster happens, i.e. a file can not be
+            accessed.
     */
     public void exportArrow(double x, double y, double xc, double yc,
         double l, double h,

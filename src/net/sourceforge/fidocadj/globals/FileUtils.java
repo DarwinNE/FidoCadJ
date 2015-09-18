@@ -39,6 +39,7 @@ public final class FileUtils
     /** Read an input file.
         @param filename the complete path and filename of the file to read.
         @return the file contents.
+        @throws IOException if the file access fails.
     */
     public static String readFile(String filename) throws IOException
     {
@@ -62,6 +63,7 @@ public final class FileUtils
     /**
         http://subversivebytes.wordpress.com/2012/11/05/java-copy-directory-
             recursive-delete/
+        @throws IOException if the file access fails.
     */
     public static void copyDirectory(File sourceLocation, File targetLocation)
         throws IOException
@@ -83,7 +85,9 @@ public final class FileUtils
     }
 
     /** Copy a file from a location to another one.
-
+        @param sourceLocation origin of the file to copy.
+        @param targetLocation destination of the file to copy.
+        @throws IOException if the file access fails.
     */
     public static void copyFile(File sourceLocation, File targetLocation)
         throws IOException
@@ -115,6 +119,10 @@ public final class FileUtils
     /** Copy all the files containing the specified criteria in the given
         directory.
         This copy is not recursive: only the first level is processed.
+        @param sourceLocation origin of the directory where are the
+            files to copy.
+        @param targetLocation destination of the files to copy.
+        @throws IOException if the file access fails.
     */
     public static void copyDirectoryNonRecursive(File sourceLocation,
         File targetLocation, String tcriteria)
@@ -141,6 +149,7 @@ public final class FileUtils
 
     /**
     http://stackoverflow.com/questions/3775694/deleting-folder-from-java
+        @throws IOException if the file access fails.
     */
     public static boolean deleteDirectory(File directory)
         throws IOException

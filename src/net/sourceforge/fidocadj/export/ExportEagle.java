@@ -54,8 +54,9 @@ public class ExportEagle implements ExportInterface
 
     /** double to integer conversion. In some cases, some processing might be
         applied.
+        @return the converted value
     */
-    public int cLe(double l)
+    private int cLe(double l)
     {
         return (int)l;
     }
@@ -157,25 +158,26 @@ public class ExportEagle implements ExportInterface
 
     /** Called when exporting a Bézier primitive.
 
-        @param x1 the x position of the first point of the trace
-        @param y1 the y position of the first point of the trace
-        @param x2 the x position of the second point of the trace
-        @param y2 the y position of the second point of the trace
-        @param x3 the x position of the third point of the trace
-        @param y3 the y position of the third point of the trace
-        @param x4 the x position of the fourth point of the trace
-        @param y4 the y position of the fourth point of the trace
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the trace.
+        @param y1 the y position of the first point of the trace.
+        @param x2 the x position of the second point of the trace.
+        @param y2 the y position of the second point of the trace.
+        @param x3 the x position of the third point of the trace.
+        @param y3 the y position of the third point of the trace.
+        @param x4 the x position of the fourth point of the trace.
+        @param y4 the y position of the fourth point of the trace.
+        @param layer the layer that should be used.
 
                 // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
-        @throws IOException when things goes horribly wrong, for example if
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if.
             the file in which the output is being done is not accessible.
     */
     public void exportBezier (int x1, int y1,
@@ -199,6 +201,7 @@ public class ExportEagle implements ExportInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
+        @param size specify the size of the junction.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
@@ -210,21 +213,22 @@ public class ExportEagle implements ExportInterface
     }
 
     /** Called when exporting a Line primitive.
-        @param x1 the x position of the first point of the segment
-        @param y1 the y position of the first point of the segment
-        @param x2 the x position of the second point of the segment
-        @param y2 the y position of the second point of the segment
-        @param layer the layer that should be used
+        @param x1 the x position of the first point of the segment.
+        @param y1 the y position of the first point of the segment.
+        @param x2 the x position of the second point of the segment.
+        @param y2 the y position of the second point of the segment.
+        @param layer the layer that should be used.
 
         // from 0.22.1
 
-        @param arrowStart specify if an arrow is present at the first point
-        @param arrowEnd specify if an arrow is present at the second point
-        @param arrowLength total lenght of arrows (if present)
-        @param arrowHalfWidth half width of arrows (if present)
-        @param dashStyle dashing style
-        @param strokeWidth the width of the pen to be used when drawing
-        @throws IOException when things goes horribly wrong, for example if
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
+        @param dashStyle dashing style.
+        @param strokeWidth the width of the pen to be used when drawing.
+        @throws IOException when things goes horribly wrong, for example if.
             the file in which the output is being done is not accessible.
     */
     public void exportLine (double x1, double y1,
@@ -266,6 +270,8 @@ public class ExportEagle implements ExportInterface
         @param m the library.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
+        @return false if the macro has to be expanded into primitives. True
+            if its export has been treated by the function.
     */
     public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
@@ -341,6 +347,7 @@ public class ExportEagle implements ExportInterface
         @param siy the y size of the pad.
         @param indiam the hole internal diameter.
         @param layer the layer that should be used.
+        @param onlyHole true if only the hole has to be exported.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
@@ -426,9 +433,13 @@ public class ExportEagle implements ExportInterface
         @param isFilled true if the polygon is filled.
         @param isClosed true if the curve is closed.
         @param layer the layer that should be used.
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
         @param strokeWidth the width of the pen to be used when drawing.
-
         @return false if the curve should be rendered using a polygon, true
             if it is handled by the function.
         @throws IOException when things goes horribly wrong, for example if
