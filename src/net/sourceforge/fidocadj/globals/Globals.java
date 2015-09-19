@@ -117,8 +117,9 @@ public class Globals
     }*/
     /** Adjust a long string in order to cope with space limitations.
         Tipically, it will be used to show long paths in the window caption.
-        @param s the string to be treated
-        @param len the total maximum length of the result
+        @param s the string to be treated.
+        @param len the total maximum length of the result.
+        @return the prettified path.
     */
     public static String prettifyPath(String s, int len)
     {
@@ -139,6 +140,8 @@ public class Globals
     /** Determine what is the current platform and configures some interface
         details such as the key to be used for shortcuts (Command/Meta for Mac
         and Ctrl for Linux and Windows).
+        @param metaCode key code for the Meta key.
+        @param ctrlCode key code for Ctrl key.
     */
     public static void configureInterfaceDetailsFromPlatform(int metaCode,
         int ctrlCode)
@@ -174,10 +177,11 @@ public class Globals
         @param p the file name
         @param ext the extension that should be added if the file name does not
             contain one. This extension should NOT contain the dot.
-        @return the absolutely gorgeous file name, completed with an extension
+        @return true if an extension already exists.
     */
     public static boolean checkExtension(String p, String ext)
     {
+        // TODO: check if the code can be simplified.
         int i;
         String s="";
         StringBuffer t=new StringBuffer(25);
@@ -206,18 +210,15 @@ public class Globals
         // If the separator has not been found, start is negative.
         if(start<0) start=0;
 
-
         // Search if there is a dot (separation of the extension)
         if (search>start && search>=0) {
             // There is already an extension.
             // We do not need to add anything but instead we need to check if
             // the extension is correct.
             String extension = s.substring(search+1);
-            System.out.println(extension);
             if(!extension.equals(ext)) {
                 return false;
             }
-
         } else {
             return false;
         }
@@ -233,7 +234,7 @@ public class Globals
         @param p the file name
         @param ext the extension that should be added if the file name does not
             contain one. This extension should NOT contain the dot.
-        @return the absolutely gorgeous file name, completed with an extension
+        @return the absolutely gorgeous file name, completed with an extension.
     */
     public static String adjustExtension(String p, String ext)
     {
@@ -270,17 +271,15 @@ public class Globals
             // We do not need to add anything but instead we need to check if
             // the extension is correct.
             s = s.substring(0, search)+"."+ext;
-
         } else {
             s+="."+ext;
         }
-
-        System.out.println(s);
         return s;
     }
 
-    /** Get the file name, without extensions
-        @param s the file name with path and extension to be processed
+    /** Get the file name, without extensions.
+        @param s the file name with path and extension to be processed.
+        @return the file name, without path and extension(s).
     */
     public static String getFileNameOnly(String s)
     {

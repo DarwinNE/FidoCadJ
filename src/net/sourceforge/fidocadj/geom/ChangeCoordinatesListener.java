@@ -36,7 +36,7 @@ public interface ChangeCoordinatesListener
     public void changeCoordinates(int x, int y);
 
     /** Callback useful when some infos are to be shown.
-
+        @param s the text to be shown (usually coordinates of the cursor).
     */
     public void changeInfos(String s);
 }

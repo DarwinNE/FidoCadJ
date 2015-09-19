@@ -30,19 +30,53 @@ package net.sourceforge.fidocadj.graphic;
 
 public interface ColorInterface
 {
+    /** Get a white color.
+        @return a white color.
+    */
     public ColorInterface white();
+
+    /** Get a gray color.
+        @return a gray color.
+    */
     public ColorInterface gray();
+
+    /** Get a green color.
+        @return a green color.
+    */
     public ColorInterface green();
+
+    /** Get a red color.
+        @return a red color.
+    */
     public ColorInterface red();
+
+    /** Get a black color.
+        @return a black color.
+    */
     public ColorInterface black();
 
-
+    /** Get the green component of the color.
+        @return the component.
+    */
     public int getGreen();
+
+    /** Get the red component of the color.
+        @return the component.
+    */
     public int getRed();
+
+    /** Get the blue component of the color.
+        @return the component.
+    */
     public int getBlue();
 
+    /** Get the RGB description of the color.
+        @return the description, packed in an int.
+    */
     public int getRGB();
-    public void setRGB(int rgb);
 
-    //public PolygonInterface createPolygon();
+    /** Set the color from a RGB description packed in a int.
+        @param rgb the packed description..
+    */
+    public void setRGB(int rgb);
 }

@@ -60,9 +60,12 @@ public final class FileUtils
         return txt.toString();
     }
 
-    /**
+    /** Copy a directory recursively.
+
         http://subversivebytes.wordpress.com/2012/11/05/java-copy-directory-
             recursive-delete/
+        @param sourceLocation the original directory.
+        @param targetLocation the destination.
         @throws IOException if the file access fails.
     */
     public static void copyDirectory(File sourceLocation, File targetLocation)
@@ -116,12 +119,17 @@ public final class FileUtils
         }
     }
 
-    /** Copy all the files containing the specified criteria in the given
-        directory.
+    /** Copy all the files containing the specified criterium in the given
+        directory. The criterium specifies files in a very simple way.
+        The function just check if the file name contains it.
+        Therefore, specifying "txt" as criteria would match "txtpipo.ed" as
+        well as "pipo.txt". Specifying ".txt" would match "lors.txt.bak" as
+        well as "rone.txt".
         This copy is not recursive: only the first level is processed.
         @param sourceLocation origin of the directory where are the
             files to copy.
         @param targetLocation destination of the files to copy.
+        @param tcriteria the search criteria to be employed.
         @throws IOException if the file access fails.
     */
     public static void copyDirectoryNonRecursive(File sourceLocation,
@@ -141,14 +149,15 @@ public final class FileUtils
                 if(children[i].toLowerCase().contains(criteria)) {
                     copyFile(new File(sourceLocation, children[i]),
                         new File(targetLocation, children[i]));
-                    //System.out.println("c: "+targetLocation+"/"+children[i]);
                 }
             }
         }
     }
 
     /**
-    http://stackoverflow.com/questions/3775694/deleting-folder-from-java
+        http://stackoverflow.com/questions/3775694/deleting-folder-from-java
+        @param directory the directory to delete.
+        @return true if deletion was successful.
         @throws IOException if the file access fails.
     */
     public static boolean deleteDirectory(File directory)

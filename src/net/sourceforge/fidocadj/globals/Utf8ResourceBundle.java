@@ -7,21 +7,32 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 /** Taken here http://www.thoughtsabout.net/blog/archives/000044.html
-
+    TODO: review Javadoc comments, check the license.
 */
-
 public abstract class Utf8ResourceBundle
 {
+    /** Standard creator.
+    */
     public Utf8ResourceBundle()
     {
         // Nothing to do.
     }
+
+    /** Get the resource bundle.
+        @param baseName the name of the bundle to be retrieved.
+        @return the resource bundle object.
+    */
     public static final ResourceBundle getBundle(String baseName)
     {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName);
         return createUtf8PropertyResourceBundle(bundle);
     }
 
+    /** Get the resource bundle.
+        @param baseName the name of the bundle to be retrieved.
+        @param locale the locale to be searched for.
+        @return the resource bundle object.
+    */
     public static final ResourceBundle getBundle(String baseName,
         Locale locale)
     {
@@ -29,6 +40,13 @@ public abstract class Utf8ResourceBundle
         return createUtf8PropertyResourceBundle(bundle);
     }
 
+    /** Get the resource bundle.
+        @param baseName the name of the bundle to be retrieved.
+        @param locale the locale to be searched for.
+        @param loader the loader class to which the bundle should be
+            associated.
+        @return the resource bundle object.
+    */
     public static ResourceBundle getBundle(String baseName, Locale locale,
         ClassLoader loader)
     {
@@ -37,6 +55,10 @@ public abstract class Utf8ResourceBundle
         return createUtf8PropertyResourceBundle(bundle);
     }
 
+    /** Create a resource bundle with proper handling of UTF-8 resources.
+        @param bundle the original bundle.
+        @return the resource bundle.
+    */
     private static ResourceBundle createUtf8PropertyResourceBundle(
         ResourceBundle bundle)
     {

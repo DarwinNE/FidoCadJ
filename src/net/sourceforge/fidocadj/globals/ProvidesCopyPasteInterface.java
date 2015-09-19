@@ -25,6 +25,13 @@ package net.sourceforge.fidocadj.globals;
 */
 public interface ProvidesCopyPasteInterface
 {
+    /** Copy a text into the clipboard.
+        @param s the text to be copied.
+    */
     public void copyText(String s);
+
+    /** Paste a text from the clipboard.
+        @return the text retrieved from the clipboard.
+    */
     public String pasteText();
 }

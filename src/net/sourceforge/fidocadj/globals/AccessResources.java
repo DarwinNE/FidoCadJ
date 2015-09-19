@@ -5,6 +5,11 @@ import java.io.*;
 
 /**         SWING VERSION
 
+    This class is a container for the resource bundles employed by
+    FidoCadJ. We need that since the code employing it must run on Swing
+    as well as on Android and with Android we do not have the ResourceBundle
+    class available.
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -31,16 +36,25 @@ public class AccessResources
     // message bundle
     final private ResourceBundle messages;
 
+    /** Standard creator. No resource bundle associated.
+    */
     public AccessResources()
     {
         messages = null;
     }
 
+    /** Standard creator.
+        @param m the resource bundle to be associated with the object.
+    */
     public AccessResources(ResourceBundle m)
     {
         messages = m;
     }
 
+    /** Get the string associated to the given key in the resource bundle.
+        @param s the key to retrieve the string resource.
+        @return the message associated to the provided key.
+    */
     public String getString(String s)
     {
         return messages.getString(s);

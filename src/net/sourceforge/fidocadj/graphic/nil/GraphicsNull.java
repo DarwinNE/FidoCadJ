@@ -43,6 +43,8 @@ public class GraphicsNull implements GraphicsInterface
     private FontMetrics fm;
     Graphics g;
 
+    /** Standard constructor.
+    */
     public GraphicsNull()
     {
         // Unfortunately, to get the image size, we need to redraw it.
@@ -57,6 +59,9 @@ public class GraphicsNull implements GraphicsInterface
         fm = g.getFontMetrics();
     }
 
+    /** Set the current color. Here nothing is done.
+        @param c the current color.
+    */
     public void setColor(ColorInterface c)
     {
         // nothing to do
@@ -68,8 +73,8 @@ public class GraphicsNull implements GraphicsInterface
 
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
-        @param w the width in pixel
-        @param dashStyle the style of the stroke
+        @param w the width in pixel.
+        @param dashStyle the style of the stroke.
     */
     public void applyStroke(float w, int dashStyle)
     {
@@ -77,10 +82,10 @@ public class GraphicsNull implements GraphicsInterface
     }
 
     /** Draws a rectangle on the current graphic context.
-        @param x the x coordinate of the uppermost left corner
-        @param y the y coordinate of the uppermost left corner
-        @param width the width of the rectangle
-        @param height the height of the rectangle
+        @param x the x coordinate of the uppermost left corner.
+        @param y the y coordinate of the uppermost left corner.
+        @param width the width of the rectangle.
+        @param height the height of the rectangle.
     */
     public void drawRect(int x, int y, int width, int height)
     {
@@ -88,10 +93,10 @@ public class GraphicsNull implements GraphicsInterface
     }
 
     /** Fills a rectangle on the current graphic context.
-        @param x the x coordinate of the uppermost left corner
-        @param y the y coordinate of the uppermost left corner
-        @param width the width of the rectangle
-        @param height the height of the rectangle
+        @param x the x coordinate of the uppermost left corner.
+        @param y the y coordinate of the uppermost left corner.
+        @param width the width of the rectangle.
+        @param height the height of the rectangle.
     */
     public void fillRect(int x, int y, int width, int height)
     {

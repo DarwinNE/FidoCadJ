@@ -23,7 +23,7 @@ import net.sourceforge.fidocadj.FidoMain;
 
 /** Class to handle library files and databases.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -40,9 +40,9 @@ import net.sourceforge.fidocadj.FidoMain;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2012-2014 by phylum2, Davide Bucci
-</pre>
+    </pre>
 
-@author phylum2, Davide Bucci
+    @author phylum2, Davide Bucci
 */
 
 public final class LibUtils
@@ -55,12 +55,11 @@ public final class LibUtils
         // nothing
     }
 
-    /** Extract all the macros belonging to a given library
+    /** Extract all the macros belonging to a given library.
 
-        @param m the macro list
-        @param libfile the file name of the wanted library
+        @param m the macro list.
+        @param libfile the file name of the wanted library.
         @return the library.
-
     */
     public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
         String libfile)
@@ -95,7 +94,6 @@ public final class LibUtils
         @param m the macro map associated to the library
         @param name the name of the library
         @return the library description in FidoCadJ code.
-
     */
     public static String prepareText(Map<String,MacroDesc> m, String name)
     {
@@ -130,8 +128,9 @@ public final class LibUtils
     }
 
     /** Save to a file a string respecting the global encoding settings.
-        @param file the file name
-        @param text the string to be written
+        @param file the file name.
+        @param text the string to be written.
+        @throws FileNotFoundException if the file can not be accessed.
     */
     public static void saveToFile(String file, String text)
         throws FileNotFoundException
@@ -167,9 +166,12 @@ public final class LibUtils
         }
     }
 
+    /** Get the directory where the libraries files are to be read.
+        @return the path to the directory.
+        @throws FileNotFoundException if the directory can not be accessed.
+    */
     public static String getLibDir() throws FileNotFoundException
     {
-        //Preferences prefs = Preferences.userNodeForPackage(Globals.class);
         Preferences prefs = Preferences.userNodeForPackage(FidoMain.class);
         String s = prefs.get("DIR_LIBS", "");
         if (s == null || s.length()==0) {
@@ -181,7 +183,9 @@ public final class LibUtils
     }
 
     /** Returns full path to lib file.
-      @param lib Library name.
+        @param lib Library name.
+        @return the full path as a String.
+        @throws FileNotFoundException if the file can not be accessed.
      */
     public static String getLibPath(String lib) throws FileNotFoundException
     {
@@ -189,7 +193,9 @@ public final class LibUtils
     }
 
     /** Eliminates a library.
-        @param s Name of the library to eliminate
+        @param s Name of the library to eliminate.
+        @throws FileNotFoundException if the file can not be accessed.
+        @throws IOException if a generic IO error occurs.
     */
     public static void deleteLib(String  s) throws FileNotFoundException,
         IOException
@@ -201,7 +207,7 @@ public final class LibUtils
 
     /** Get all the library in the current library directory.
         @return a list containing all the library files.
-
+        @throws FileNotFoundException if the files can not be accessed.
     */
     public static List<File> getLibs() throws FileNotFoundException
     {
@@ -257,18 +263,17 @@ public final class LibUtils
         return isStandard;
     }
 
-    /** Rename a group inside a library
-        @param libref the map containing the library
-        @param tlib the name of the library
-        @param tgrp the name of the group to be renamed
-        @param newname the new name of the group
-
-        DB: what if a group is not present?
-
+    /** Rename a group inside a library.
+        @param libref the map containing the library.
+        @param tlib the name of the library.
+        @param tgrp the name of the group to be renamed.
+        @param newname the new name of the group.
+        @throws FileNotFoundException if the file can not be accessed.
     */
     public static void renameGroup(Map<String, MacroDesc> libref, String tlib,
             String tgrp, String newname) throws FileNotFoundException
     {
+        // TODO: what if a group is not present?
         String prefix="";
         for (MacroDesc md : libref.values()) {
             if (md.category.equalsIgnoreCase(tgrp)
@@ -286,9 +291,9 @@ public final class LibUtils
 
     /** Check whether a key is used in a given library or it is available.
         Also check for strange characters.
-        @param libref the map containing the library
-        @param tlib the name of the library
-        @param key the key to be checked
+        @param libref the map containing the library.
+        @param tlib the name of the library.
+        @param key the key to be checked.
         @return false if the key is available, true if it is used.
     */
     public static boolean checkKey(Map<String, MacroDesc> libref,
@@ -309,6 +314,7 @@ public final class LibUtils
         also as a file name, it must not contain characters which would
         be in conflict with the rules of file names in the various operating
         systems.
+        @param library the library name to be checked.
         @return true if something strange is found.
     */
     public static boolean checkLibrary(String library)
@@ -322,11 +328,11 @@ public final class LibUtils
            library.contains("]")||library.contains("\"");
     }
 
-    /** Rename a library file
-        @param m the map containing the library
-        @param file the name of the file to be written
-        @param libname the previous name of the library
-        @param libname2 the library new name
+    /** Rename a library file.
+        @param m the map containing the library.
+        @param file the name of the file to be written.
+        @param libname the previous name of the library.
+        @param libname2 the library new name.
     */
     public static void renameLib(Map<String, MacroDesc> m, String file,
             String libname, String libname2)
@@ -344,17 +350,16 @@ public final class LibUtils
 
     }
 
-    /** Delete a group inside a library
-        @param m the map containing the library
-        @param tlib the library name
+    /** Delete a group inside a library.
+        @param m the map containing the library.
+        @param tlib the library name.
         @param tgrp the group to be deleted.
-
-        DB: what if a group is not found?
-
+        @throws FileNotFoundException if the file can not be accessed.
     */
     public static void deleteGroup(Map<String, MacroDesc> m,String tlib,
         String tgrp) throws FileNotFoundException
     {
+        // TODO: what if a group is not found?
         Map<String, MacroDesc> mm = new TreeMap<String, MacroDesc>();
         mm.putAll(m);
         String prefix="";
@@ -373,9 +378,10 @@ public final class LibUtils
         save(m, getLibPath(tlib), tlib, prefix);
     }
 
-    /** Obtain a list containing all the groups in a given library
-        @param m the map containing all the libraries
-        @param prefix the filename of the wanted library
+    /** Obtain a list containing all the groups in a given library.
+        @param m the map containing all the libraries.
+        @param prefix the filename of the wanted library.
+        @return the list of groups.
     */
     public static List<String> enumGroups(Map<String,MacroDesc> m,
         String prefix)
@@ -390,9 +396,10 @@ public final class LibUtils
         }
         return lst;
     }
-    /** Obtain the full name of a library, from the prefix
-        @param m the map containing all the libraries
-        @param prefix the filename of the wanted library
+    /** Obtain the full name of a library, from the prefix.
+        @param m the map containing all the libraries.
+        @param prefix the filename of the wanted library.
+        @return the library name.
     */
     public static String getLibName(Map<String,MacroDesc> m, String prefix)
     {
@@ -411,6 +418,9 @@ public final class LibUtils
         We create a temporary directory and we copy all the contents of
         the current library directory inside it.
         The temporary directory name is then saved in the undo system.
+        @param ua the undo controller.
+        @throws IOException if the files or directories needed for the
+            undo can not be accessed.
     */
     public static void saveLibraryState(UndoActorListener ua)
         throws IOException

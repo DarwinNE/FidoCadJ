@@ -6,7 +6,7 @@ import net.sourceforge.fidocadj.graphic.*;
 /**         SWING VERSION
 
     Null color class. Does nothing :-)
-
+    Class like this one are useful when calculating the size of the drawings.
 
 <pre>
     This file is part of FidoCadJ.
@@ -31,56 +31,88 @@ import net.sourceforge.fidocadj.graphic.*;
 public class ColorNull implements ColorInterface
 {
 
+    /** Standard constructor. Does nothing :-)
+    */
     public ColorNull()
     {
         // Does nothing.
     }
 
-
+    /** Does nothing.
+        @return a new ColorNull instance.
+    */
     public ColorInterface white()
     {
         return new ColorNull();
     }
 
+    /** Does nothing.
+        @return a new ColorNull instance.
+    */
     public ColorInterface gray()
     {
         return new ColorNull();
     }
 
+    /** Does nothing.
+        @return a new ColorNull instance.
+    */
     public ColorInterface green()
     {
         return new ColorNull();
     }
 
+    /** Does nothing.
+        @return a new ColorNull instance.
+    */
     public ColorInterface red()
     {
         return new ColorNull();
     }
 
+    /** Does nothing.
+        @return a new ColorNull instance.
+    */
     public ColorInterface black()
     {
         return new ColorNull();
     }
 
+    /** Does nothing.
+        @return 0.
+    */
     public int getRed()
     {
         return 0;
     }
 
+    /** Does nothing.
+        @return 0.
+    */
     public int getGreen()
     {
         return 0;
     }
 
+    /** Does nothing.
+        @return 0.
+    */
     public int getBlue()
     {
         return 0;
     }
 
+    /** Does nothing.
+        @return 0.
+    */
     public int getRGB()
     {
         return 0;
     }
+
+    /** Does nothing.
+        @param rgb not used.
+    */
     public void setRGB(int rgb)
     {
         // Does nothing.
