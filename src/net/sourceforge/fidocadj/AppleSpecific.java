@@ -20,6 +20,7 @@ import net.sourceforge.fidocadj.globals.*;
     AppleSpecific class in the code when compiling under an alternative
     system. See the README file.
 
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -36,7 +37,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009-2010 by Davide Bucci
-
+    </pre>
 */
 
 class AppleSpecific implements ApplicationListener

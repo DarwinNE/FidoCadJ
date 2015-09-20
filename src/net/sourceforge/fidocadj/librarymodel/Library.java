@@ -25,9 +25,9 @@ import java.util.*;
 public class Library
 {
     private String libraryName;
-    private String filename;
-    private boolean isStd;
-    private ArrayList<Category> categories;
+    private final String filename;
+    private final boolean isStd;
+    private final ArrayList<Category> categories;
 
     /** Standard constructor.
         @param libraryName the name of the library.

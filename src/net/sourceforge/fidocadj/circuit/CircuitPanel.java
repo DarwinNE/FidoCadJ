@@ -50,7 +50,6 @@ import net.sourceforge.fidocadj.layers.*;
     Copyright 2007-2015 by Davide Bucci
     </pre>
 
-
     @author Davide Bucci
 */
 public class CircuitPanel extends JPanel implements ActionListener,
@@ -64,9 +63,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                              KeyListener,
                                              MouseWheelListener
 {
-
     // *********** DRAWING ***********
-
     Graphics2DSwing graphicSwing;
 
     // Coordinate system to be used.
@@ -101,7 +98,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public JScrollPane father;
     private static final int MINSIZEX=1000;
     private static final int MINSIZEY=1000;
-
 
     // Views:
     public Drawing drawingAgent;

@@ -14,6 +14,7 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
@@ -33,7 +34,6 @@ import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-
 /** Choose file format, size and options of the graphic exporting.
 
 <pre>
@@ -52,20 +52,14 @@ import javax.swing.border.Border;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2012-2014 Phylum2, Davide Bucci
+    Copyright 2012-2015 Phylum2, Davide Bucci
 </pre>
     @author Phylum2, Davide Bucci
 
     */
 
-public class DialogSymbolize extends JDialog
-            implements  ComponentListener
+public class DialogSymbolize extends MinimumSizeDialog
 {
-        // Miniumum size for the window.
-
-    private static final int MIN_WIDTH=350;
-    private static final int MIN_HEIGHT=250;
-
     final private JPanel parent;
     private DrawingModel cp;
 
@@ -78,7 +72,6 @@ public class DialogSymbolize extends JDialog
     private JCheckBox snapToGrid;
 
     myCircuitPanel cpanel = new myCircuitPanel(false);
-
 
     /** The class myCircuitPanel extends the CircuitPanel class by adding
         coordinate axis which can be moved.
@@ -203,53 +196,6 @@ public class DialogSymbolize extends JDialog
     public String getGroup()
     {
         return group.getEditor().getItem().toString();
-    }
-
-    /** Handle resizeing of the dialog.
-        Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
     }
 
     /** List all the libraries available which are not standard in the
@@ -522,7 +468,8 @@ public class DialogSymbolize extends JDialog
     */
     public DialogSymbolize (CircuitPanel circuitPanel, DrawingModel p)
     {
-        super((JFrame)null, Globals.messages.getString("SaveSymbol"), true);
+        super(350,250,(JFrame)null,
+            Globals.messages.getString("SaveSymbol"), true);
         parent = circuitPanel;
         addComponentListener(this);
 

@@ -10,6 +10,7 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** The dialogOptions class implements a modal dialog, which allows the user to
     choose which circuit drawing options (size, anti aliasing, profiling) should
@@ -35,11 +36,8 @@ import net.sourceforge.fidocadj.globals.*;
     Copyright 2007-2015 by Davide Bucci
 </pre>
 */
-public class DialogOptions extends JDialog implements ComponentListener
+public class DialogOptions extends MinimumSizeDialog
 {
-    private static final int MIN_WIDTH=600;
-    private static final int MIN_HEIGHT=450;
-
     public double zoomValue;
     public boolean profileTime;
     public boolean antiAlias;
@@ -125,7 +123,7 @@ public class DialogOptions extends JDialog implements ComponentListener
                           boolean sn, boolean sc, double sssi, double ssoi,
                           double ccs, int ms, boolean sdcp)
     {
-        super(pa, Globals.messages.getString("Cir_opt_t"), true);
+        super(600,450,pa, Globals.messages.getString("Cir_opt_t"), true);
         addComponentListener(this);
 
         shiftCP=sdcp;
@@ -299,53 +297,6 @@ public class DialogOptions extends JDialog implements ComponentListener
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
-    }
-
-    /** Ensure that the dialog can not be resized to a size smaller than
-        a certain limit (see MIN_WIDTH and MIN_HEIGHT constants).
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
     }
 
     /** Creates the panel dedicated to the startup options of FidoCadJ.

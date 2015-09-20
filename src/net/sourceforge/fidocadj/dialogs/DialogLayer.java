@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 import java.util.*;
 
@@ -34,70 +35,19 @@ import java.util.*;
     </pre>
     @author Davide Bucci
 */
-public class DialogLayer extends JDialog implements ComponentListener
+public class DialogLayer extends MinimumSizeDialog implements ComponentListener
 {
-    // Miniumum size for the window.
-    private static final int MIN_WIDTH=400;
-    private static final int MIN_HEIGHT=350;
-
     private final Vector<LayerDesc> layers;
     public JList<LayerDesc> layerList;
 
-    /** Ensure that the dialog does not have a size smaller than the limits
-        specified above. Required for the implementation of the
-        ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Standard constructor.
+    /** Constructor.
         @param parent the dialog parent
         @param l a LayerDesc vector containing the layers' attributes
     */
     public DialogLayer (JFrame parent, Vector<LayerDesc> l)
     {
-        super(parent,Globals.messages.getString("Layer_editor"), true);
+        super(400,350, parent,
+            Globals.messages.getString("Layer_editor"), true);
         DialogUtil.center(this, .40,.40,400,350);
 
         addComponentListener(this);

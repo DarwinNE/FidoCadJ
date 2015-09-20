@@ -11,7 +11,7 @@ import java.io.*;
 import javax.imageio.*;
 
 import net.sourceforge.fidocadj.globals.*;
-
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** Choose file format, size and options of the graphic exporting.
     The class dialogPrint implements a modal dialog to select printing options.
@@ -32,17 +32,14 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 </pre>
 
     @author Davide Bucci
 */
 
-public class DialogPrint extends JDialog implements ComponentListener
+public class DialogPrint extends MinimumSizeDialog
 {
-    private static final int MIN_WIDTH=400;
-    private static final int MIN_HEIGHT=350;
-
     private final JCheckBox mirror_CB;
     private final JCheckBox fit_CB;
     private final JCheckBox bw_CB;
@@ -54,7 +51,7 @@ public class DialogPrint extends JDialog implements ComponentListener
     */
     public DialogPrint (JFrame parent)
     {
-        super(parent,Globals.messages.getString("Print_dlg"), true);
+        super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
         export=false;
 
@@ -177,52 +174,6 @@ public class DialogPrint extends JDialog implements ComponentListener
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
     }
 
     /** Check if the drawing should be mirrored.

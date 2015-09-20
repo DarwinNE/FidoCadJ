@@ -9,7 +9,7 @@ import net.sourceforge.fidocadj.globals.*;
 
 /**  Some routines useful with dialog windows.
 
-<pre>
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -27,7 +27,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2013 by Davide Bucci
-</pre>
+    </pre>
 */
 public final class DialogUtil
 {

@@ -14,6 +14,7 @@ import java.net.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.toolbars.*;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /**
     Shows a rather standard "About" dialog. Nothing more exotic than showing
@@ -39,72 +40,15 @@ import net.sourceforge.fidocadj.toolbars.*;
     Copyright 2007-2014 by Davide Bucci
     </pre>
     @author Davide Bucci
-
 */
-
-public class DialogAbout extends JFrame implements ComponentListener
+public class DialogAbout extends MinimumSizeDialog
 {
-    // The minimu size in pixels.
-    private static final int MIN_WIDTH=300;
-    private static final int MIN_HEIGHT=250;
-
-    private boolean export;     // Indicates that the export should be done
-
-    /** Required for the implementation of the ComponentListener interface.
-        In this case, prevents from resizing the dialog in a size which is
-        too small.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent
     */
     public DialogAbout (JFrame parent)
     {
-        // super(parent,"", true);
-        super("");
+        super(300, 200, parent, "", true);
         DialogUtil.center(this, .30,.35,350,300);
         setResizable(false);
         addComponentListener(this);
@@ -131,7 +75,6 @@ public class DialogAbout extends JFrame implements ComponentListener
 
         if (url != null) icon.setIcon(new ImageIcon(url));
         contentPane.add(icon, constraints);
-
 
         JLabel programName=new JLabel("FidoCadJ");
 

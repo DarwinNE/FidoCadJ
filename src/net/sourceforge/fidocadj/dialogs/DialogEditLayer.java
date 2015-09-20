@@ -15,7 +15,7 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.graphic.swing.*;
-
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** The class dialogEditLayer allows to choose the style, visibility and
     description of the current layer.
@@ -42,13 +42,8 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 
     @author Davide Bucci
 */
-
-public class DialogEditLayer extends JDialog implements ComponentListener
+public class DialogEditLayer extends MinimumSizeDialog
 {
-    // Minimum size of the dialog window
-
-    private static final int MIN_WIDTH=500;
-    private static final int MIN_HEIGHT=450;
     static final int ALPHA_MIN = 0;
     static final int ALPHA_MAX = 100;
 
@@ -60,59 +55,13 @@ public class DialogEditLayer extends JDialog implements ComponentListener
     private boolean active;             // true if the user selected ok
     private final LayerDesc ll;
 
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
-        }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
-    }
-
     /** Standard constructor.
         @param parent the dialog parent
         @param l a LayerDesc containing the layer's attributes
     */
     public DialogEditLayer (JFrame parent, LayerDesc l)
     {
-        super(parent, Globals.messages.getString("Layer_options")+
+        super(500, 450, parent, Globals.messages.getString("Layer_options")+
             l.getDescription(), true);
 
         ll = l;

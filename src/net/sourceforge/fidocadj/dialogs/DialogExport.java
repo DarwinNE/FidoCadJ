@@ -12,7 +12,7 @@ import javax.imageio.*;
 import javax.swing.border.*;
 
 import net.sourceforge.fidocadj.globals.*;
-
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -37,12 +37,8 @@ import net.sourceforge.fidocadj.globals.*;
 
     @author Davide Bucci
 */
-public class DialogExport extends JDialog implements ComponentListener,
-    ActionListener
+public class DialogExport extends MinimumSizeDialog implements ActionListener
 {
-    private static final int MIN_WIDTH=450;
-    private static final int MIN_HEIGHT=400;
-
     private final JFrame parent;
 
     private boolean export;     // Indicates that the export should be done
@@ -65,52 +61,166 @@ public class DialogExport extends JDialog implements ComponentListener,
     private JTextField fileName;        // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
 
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
+    /** Constructor: it needs the parent frame.
+        @param p the dialog's parent
     */
-    public void componentResized(ComponentEvent e)
+    public DialogExport (JFrame p)
     {
-        int width = getWidth();
-        int height = getHeight();
+        super(450,400,p,Globals.messages.getString("Circ_exp_t"), true);
+        // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
+        // as a document modal sheet
 
-        boolean resize = false;
-        if (width < MIN_WIDTH) {
-            resize = true;
-            width = MIN_WIDTH;
+        getRootPane().putClientProperty("apple.awt.documentModalSheet",
+                Boolean.TRUE);
+
+        addComponentListener(this);
+        export=false;
+        parent=p;
+
+        // Obtain the current content pane and create the grid layout manager
+        // which will be used for putting the elements of the interface.
+        GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints;
+        Container contentPane=getContentPane();
+
+        contentPane.setLayout(bgl);
+
+        // The first thing we need to put is the combobox describing the file
+        // format to be used. This is important, since part of the remaining
+        // dialog should be changed depending on the format chosen.
+        JLabel fileFormatLabel=new
+            JLabel(Globals.messages.getString("File_format"));
+
+        constraints = DialogUtil.createConst(1,0,1,1,0,0,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(12,40,0,0));
+
+        contentPane.add(fileFormatLabel, constraints);
+
+        fileFormat=new JComboBox<String>();
+        fileFormat.addItem("PNG (Bitmap)");
+        fileFormat.addItem("JPG (Bitmap)");
+        fileFormat.addItem("SVG (Vector, Scalable Vector Graphic)");
+        fileFormat.addItem("EPS (Vector, Encapsulated Postscript)");
+        fileFormat.addItem("PGF (Vector, PGF packet for LaTeX)");
+        fileFormat.addItem("PDF (Vector, Portable Document File)");
+        fileFormat.addItem("CadSoft Eagle SCR (Script)");
+
+        fileFormat.setSelectedIndex(0);
+
+        constraints = DialogUtil.createConst(2,0,1,1,100,100,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+            new Insets(12,0,0,20));
+        contentPane.add(fileFormat, constraints);
+
+        // We need to track when the user changes the file format since some
+        // options will be made available or not depending if the file format
+        // chosen is vector based or bitmap based.
+
+        fileFormat.addActionListener(this);
+
+        JPanel panel = createInterfacePanel();
+
+        // Put the panel containing the characteristics of the export inside a
+        // border.
+        Border etched = BorderFactory.createEtchedBorder();
+        Border titled = BorderFactory.createTitledBorder(etched,
+            Globals.messages.getString("ExportOptions"));
+
+        panel.setBorder(titled);
+
+
+        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
+        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
+
+        constraints.gridx=0;
+        constraints.gridy=1;
+        constraints.gridwidth=4;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.insets=new Insets(20,20,20,20);
+
+        contentPane.add(panel, constraints);
+
+        constraints.gridx=0;
+        constraints.gridy=2;
+        constraints.gridwidth=4;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.insets=new Insets(20,20,20,20);
+
+        // Put the OK and Cancel buttons and make them active.
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
+        ok.setPreferredSize(cancel.getPreferredSize());
+
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
         }
-        if (height < MIN_HEIGHT) {
-            resize = true;
-            height = MIN_HEIGHT;
-        }
-        if (resize) {
-            setSize(width, height);
-        }
-    }
+        contentPane.add(b, constraints);            // Add cancel button
 
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // Nothing to do
-    }
+        ok.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                int selection;
 
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // Nothing to do
-    }
+                // Check if the magnification factor is correct.
+                double mult = Double.parseDouble(multiplySizes.getText());
+                if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
+                    export=false;
+                    JOptionPane.showMessageDialog(null,
+                        Globals.messages.getString("Warning_mul"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
 
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // Nothing to do
-    }
+                }
 
+                if(fileName.getText().trim().equals("")){
+                    export=false;
+                    JOptionPane.showMessageDialog(null,
+                        Globals.messages.getString("Warning_noname"),
+                        Globals.messages.getString("Warning"),
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                selection=JOptionPane.OK_OPTION;
+
+                if (selection==JOptionPane.OK_OPTION) {
+                    export=true;
+                    setVisible(false);
+                }
+            }
+        });
+        cancel.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                setVisible(false);
+            }
+        });
+        // Here is an action in which the dialog is closed
+
+        AbstractAction cancelAction = new AbstractAction ()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                setVisible(false);
+            }
+        };
+        DialogUtil.addCancelEscape (this, cancelAction);
+        pack();
+        DialogUtil.center(this);
+        getRootPane().setDefaultButton(ok);
+    }
     /** Indicates that the export should be done: the user selected the "ok"
         button.
 
@@ -452,166 +562,5 @@ public class DialogExport extends JDialog implements ComponentListener,
             blackWhite_CB.setEnabled(true);  // Black and white checkbox
             multiplySizes.setEnabled(true); // Size multiplications
         }
-    }
-
-    /** Standard constructor: it needs the parent frame.
-        @param p the dialog's parent
-    */
-    public DialogExport (JFrame p)
-    {
-        super(p,Globals.messages.getString("Circ_exp_t"), true);
-        // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
-        // as a document modal sheet
-
-        getRootPane().putClientProperty("apple.awt.documentModalSheet",
-                Boolean.TRUE);
-
-        addComponentListener(this);
-        export=false;
-        parent=p;
-
-        // Obtain the current content pane and create the grid layout manager
-        // which will be used for putting the elements of the interface.
-        GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints;
-        Container contentPane=getContentPane();
-
-        contentPane.setLayout(bgl);
-
-        // The first thing we need to put is the combobox describing the file
-        // format to be used. This is important, since part of the remaining
-        // dialog should be changed depending on the format chosen.
-        JLabel fileFormatLabel=new
-            JLabel(Globals.messages.getString("File_format"));
-
-        constraints = DialogUtil.createConst(1,0,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(12,40,0,0));
-
-        contentPane.add(fileFormatLabel, constraints);
-
-        fileFormat=new JComboBox<String>();
-        fileFormat.addItem("PNG (Bitmap)");
-        fileFormat.addItem("JPG (Bitmap)");
-        fileFormat.addItem("SVG (Vector, Scalable Vector Graphic)");
-        fileFormat.addItem("EPS (Vector, Encapsulated Postscript)");
-        fileFormat.addItem("PGF (Vector, PGF packet for LaTeX)");
-        fileFormat.addItem("PDF (Vector, Portable Document File)");
-        fileFormat.addItem("CadSoft Eagle SCR (Script)");
-
-        fileFormat.setSelectedIndex(0);
-
-        constraints = DialogUtil.createConst(2,0,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-            new Insets(12,0,0,20));
-        contentPane.add(fileFormat, constraints);
-
-        // We need to track when the user changes the file format since some
-        // options will be made available or not depending if the file format
-        // chosen is vector based or bitmap based.
-
-        fileFormat.addActionListener(this);
-
-        JPanel panel = createInterfacePanel();
-
-        // Put the panel containing the characteristics of the export inside a
-        // border.
-        Border etched = BorderFactory.createEtchedBorder();
-        Border titled = BorderFactory.createTitledBorder(etched,
-            Globals.messages.getString("ExportOptions"));
-
-        panel.setBorder(titled);
-
-
-        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
-        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-
-        constraints.gridx=0;
-        constraints.gridy=1;
-        constraints.gridwidth=4;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.insets=new Insets(20,20,20,20);
-
-        contentPane.add(panel, constraints);
-
-        constraints.gridx=0;
-        constraints.gridy=2;
-        constraints.gridwidth=4;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.insets=new Insets(20,20,20,20);
-
-        // Put the OK and Cancel buttons and make them active.
-        Box b=Box.createHorizontalBox();
-        b.add(Box.createHorizontalGlue());
-        ok.setPreferredSize(cancel.getPreferredSize());
-
-        if (Globals.okCancelWinOrder) {
-            b.add(ok);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(cancel);
-
-        } else {
-            b.add(cancel);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(ok);
-        }
-        contentPane.add(b, constraints);            // Add cancel button
-
-        ok.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-                int selection;
-
-                // Check if the magnification factor is correct.
-                double mult = Double.parseDouble(multiplySizes.getText());
-                if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
-                    export=false;
-                    JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Warning_mul"),
-                        Globals.messages.getString("Warning"),
-                        JOptionPane.WARNING_MESSAGE);
-                    return;
-
-                }
-
-                if(fileName.getText().trim().equals("")){
-                    export=false;
-                    JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Warning_noname"),
-                        Globals.messages.getString("Warning"),
-                        JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                selection=JOptionPane.OK_OPTION;
-
-                if (selection==JOptionPane.OK_OPTION) {
-                    export=true;
-                    setVisible(false);
-                }
-            }
-        });
-        cancel.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-                setVisible(false);
-            }
-        });
-        // Here is an action in which the dialog is closed
-
-        AbstractAction cancelAction = new AbstractAction ()
-        {
-            public void actionPerformed (ActionEvent e)
-            {
-                setVisible(false);
-            }
-        };
-        DialogUtil.addCancelEscape (this, cancelAction);
-        pack();
-        DialogUtil.center(this);
-        getRootPane().setDefaultButton(ok);
     }
 }

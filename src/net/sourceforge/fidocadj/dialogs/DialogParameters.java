@@ -12,6 +12,7 @@ import net.sourceforge.fidocadj.dialogs.OSKeybPanel.KEYBMODES;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /**
  * Allows to create a generic dialog, capable of displaying and let the user
@@ -41,7 +42,8 @@ import net.sourceforge.fidocadj.graphic.*;
  * </pre>
  */
 
-public class DialogParameters extends JDialog implements ComponentListener
+public class DialogParameters extends JDialog
+    implements ComponentListener
 {
     private int MIN_WIDTH = 450;
     private int MIN_HEIGHT = 350;

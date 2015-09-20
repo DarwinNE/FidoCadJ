@@ -7,6 +7,7 @@ import java.awt.event.*;
 
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** EnterCircuitFrame.java
 
