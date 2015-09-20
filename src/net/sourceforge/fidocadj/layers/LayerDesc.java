@@ -4,9 +4,8 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** layerDesc.java
 
-
    Provide a complete description of each layer (color, visibility).
-<pre>
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -25,12 +24,9 @@ import net.sourceforge.fidocadj.graphic.*;
 
     Copyright 2008-2015 by Davide Bucci
 
-</pre>
-
-
+    </pre>
 
     @author Davide Bucci
-
 */
 
 public class LayerDesc
@@ -38,7 +34,6 @@ public class LayerDesc
 
     // Number of layers to be treated:
     public static final int MAX_LAYERS=16;
-
 
     // The color of the layer:
     private ColorInterface layerColor;
@@ -66,13 +61,12 @@ public class LayerDesc
 
     }
 
-    /** Standard constructor
-
-        @param c the color which should be used
-        @param v the visibility of the layer
-        @param d the layer description
+    /** Standard constructor.
+        @param c the color which should be used.
+        @param v the visibility of the layer.
+        @param d the layer description.
+        @param a the transparency level (alpha), between 0.0 and 1.0.
     */
-
     public LayerDesc(ColorInterface c, boolean v, String d, float a)
     {
         layerColor=c;
@@ -81,6 +75,7 @@ public class LayerDesc
         alpha = a;
 
     }
+
     /** This method allows to obtain the color in which this layer should be
         drawn.
 
@@ -95,12 +90,10 @@ public class LayerDesc
 
         @return the alpha blend
     */
-
     final public float getAlpha()
     {
         return alpha;
     }
-
 
     /** This method returns true if this layer should be traced
 
@@ -120,7 +113,6 @@ public class LayerDesc
         return isModified;
     }
 
-
     /** This method allows to obtain the color in which this layer should be
         drawn.
 
@@ -130,7 +122,6 @@ public class LayerDesc
     {
         return LayerDescription;
     }
-
 
     /** This method allows to set the layer description.
 
@@ -152,7 +143,7 @@ public class LayerDesc
 
     /** This method allows to indicate that the layer has been modified.
 
-        @param v true if the layer should be considered as modified
+        @param v true if the layer should be considered as modified.
     */
     final public void setModified(boolean v)
     {
@@ -161,7 +152,7 @@ public class LayerDesc
 
     /** This method allows to set the layer color.
 
-        @param c the layer color
+        @param c the layer color.
     */
     final public void setColor(ColorInterface c)
     {
@@ -170,7 +161,7 @@ public class LayerDesc
 
      /** This method allows to set the alpha blend.
 
-        @param a the alpha blend
+        @param a the alpha blend.
     */
     final public void setAlpha(float a)
     {

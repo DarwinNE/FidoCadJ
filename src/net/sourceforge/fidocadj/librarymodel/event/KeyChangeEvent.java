@@ -1,5 +1,7 @@
 package net.sourceforge.fidocadj.librarymodel.event;
+
 /** Key changed during library operations.
+    I.e. the action of changing the key of a macro.
 
     This file is part of FidoCadJ.
 
@@ -24,6 +26,11 @@ public class KeyChangeEvent
     final private Object parentNode;
     final private String oldKey;
 
+    /** Standard constructor.
+        @param parentNode node which will become the parent node.
+        @param keyChangedNode node on which the key should be changed.
+        @param oldKey the old key which was associated to the macro.
+    */
     public KeyChangeEvent(Object parentNode,Object keyChangedNode,String oldKey)
     {
         this.parentNode = parentNode;
@@ -31,22 +38,25 @@ public class KeyChangeEvent
         this.oldKey = oldKey;
     }
 
-    /**
-     * Returns the value of renamedNode.
+    /** Returns the value of keyChangedNode.
+        @return the value of keyChangedNode.
      */
     public Object getKeyChangedNode()
     {
         return keyChangedNode;
     }
 
-    /**
-     * Returns the value of parentNode.
+    /** Returns the value of parentNode.
+        @return the value of parentNode.
      */
     public Object getParentNode()
     {
         return parentNode;
     }
 
+    /** Returns the old key.
+        @return the old key.
+    */
     public String getOldKey()
     {
         return oldKey;

@@ -25,6 +25,11 @@ public class RenameEvent
     final private Object parentNode;
     final private String oldName;
 
+    /** Standard constructor.
+        @param parentNode the parent node to the renamed one.
+        @param renamedNode the renamed node.
+        @param oldName the old name of the renamed node.
+    */
     public RenameEvent(Object parentNode,Object renamedNode,String oldName)
     {
         this.parentNode = parentNode;
@@ -32,28 +37,25 @@ public class RenameEvent
         this.oldName = oldName;
     }
 
-    /**
-     * Returns the value of renamedNode.
+    /** Returns the value of renamedNode.
+        @return the value of renamedNode.
      */
-
     public Object getRenamedNode()
     {
         return renamedNode;
     }
 
-    /**
-     * Returns the value of parentNode.
+    /** Returns the value of parentNode.
+        @return the value of parentNode.
      */
-
     public Object getParentNode()
     {
         return parentNode;
     }
 
-    /**
-     * Returns the value of oldName.
+    /** Returns the value of oldName.
+        @return the old name of the node.
      */
-
     public String getOldName()
     {
         return oldName;

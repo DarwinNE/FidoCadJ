@@ -125,7 +125,7 @@ public class Graphics2DSwing implements GraphicsInterface
 
     /** This is a Swing-related method: it sets the current graphic context
         to the given Swing one.
-        @param gg the Swing graphic context
+        @param gg the Swing graphic context.
     */
     public void setGraphicContext(Graphics2D gg)
     {
@@ -195,11 +195,17 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g.fillRoundRect(x,y,width,height,arcWidth,arcHeight);
     }
+
     /** Check whether the rectangle specified falls in a region which need
         to be updated because it is "dirty" on the screen.
         Implementing correctly this method is very important to achieve a good
         redrawing speed because only "dirty" regions on the screen will be
         actually redrawn.
+        @param x the x coordinate of the uppermost left corner of rectangle.
+        @param y the y coordinate of the uppermost left corner of rectangle.
+        @param width the width of the rectangle of the rectangle.
+        @param height the height of the rectangle of the rectangle.
+        @return true if the rectangle hits the dirty region.
     */
     public boolean hitClip(int x,
                        int y,
@@ -208,11 +214,12 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         return g.hitClip(x,y,width,height);
     }
-    /** Draw a segment between two points
-        @param x1 first coordinate x value
-        @param y1 first coordinate y value
-        @param x2 second coordinate x value
-        @param y2 second coordinate y value
+
+    /** Draw a segment between two points.
+        @param x1 first coordinate x value.
+        @param y1 first coordinate y value.
+        @param x2 second coordinate x value.
+        @param y2 second coordinate y value.
     */
     public void drawLine(int x1,
                               int y1,
@@ -224,9 +231,9 @@ public class Graphics2DSwing implements GraphicsInterface
 
     /** Set the current font for drawing text.
         @param name the name of the typeface to be used.
-        @param size the size in pixels
-        @param isItalic true if an italic variant should be used
-        @param isBold true if a bold variant should be used
+        @param size the size in pixels.
+        @param isItalic true if an italic variant should be used.
+        @param isBold true if a bold variant should be used.
     */
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
@@ -243,8 +250,8 @@ public class Graphics2DSwing implements GraphicsInterface
     }
 
     /** Simple version. It sets the current font.
-        @param name the name of the typeface
-        @param size the vertical size in pixels
+        @param name the name of the typeface.
+        @param size the vertical size in pixels.
     */
     public void setFont(String name, int size)
     {
@@ -252,7 +259,7 @@ public class Graphics2DSwing implements GraphicsInterface
     }
 
     /** Get the ascent metric of the current font.
-        @returns the value of the ascent, in pixels.
+        @return the value of the ascent, in pixels.
     */
     public int getFontAscent()
     {
@@ -261,7 +268,7 @@ public class Graphics2DSwing implements GraphicsInterface
     }
 
     /** Get the descent metric of the current font.
-        @returns the value of the descent, in pixels.
+        @return the value of the descent, in pixels.
     */
     public int getFontDescent()
     {
@@ -279,10 +286,10 @@ public class Graphics2DSwing implements GraphicsInterface
         return fm.stringWidth(s);
     }
 
-    /** Draw a string on the current graphic context
-        @param str the string to be drawn
-        @param x the x coordinate of the starting point
-        @param y the y coordinate of the starting point
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
     */
     public void drawString(String str,
                                 int x,

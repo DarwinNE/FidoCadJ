@@ -1,20 +1,3 @@
-// This file is part of FidoCadJ.
-//
-// FidoCadJ is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// FidoCadJ is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-//
-// Copyright 2014 Kohta Ozaki
-
 package net.sourceforge.fidocadj.macropicker.model;
 
 import java.util.*;
@@ -34,9 +17,27 @@ import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
 import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 
-/**
-* JTree model for showing macro library.
-* @author Kohta Ozaki
+/** JTree model for showing macro library.
+    <pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 Kohta Ozaki
+    </pre>
+
+    @author Kohta Ozaki
 */
 public class MacroTreeModel implements TreeModel,LibraryListener
 {
@@ -57,6 +58,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     private String filterWord;
 
     /** Constructor.
+        @param libraryModel the library model to be associated to this class.
     */
     public MacroTreeModel(LibraryModel libraryModel)
     {
@@ -67,9 +69,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         fireChanged();
     }
 
-    /**
-     * Set filtering word.
-     * @param filterWord words splitted by space.
+    /** Set filtering word.
+        @param filterWord words separated by space.
      */
     public void setFilterWord(String filterWord)
     {
@@ -101,21 +102,33 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Reset the current search mode.
+    */
     private void resetSearchMode()
     {
         filterWord = null;
     }
 
+    /** Check if a search is currently being made.
+        @return true if a search is active.
+    */
     public boolean isSearchMode()
     {
         return filterWord != null;
     }
 
+    /** Create the map of nodes constituting the library.
+    */
     private void createMap()
     {
         libraryNodeMap = new HashMap();
     }
 
+    /** Get the type of the specified node.
+        @param path the node to analyze.
+        @return the kind of the node: ROOT, LIBRARY, CATEGORY, MACRO or -1
+            if the type could not be retrieved.
+    */
     public int getNodeType(TreePath path)
     {
         Object o;
@@ -137,63 +150,97 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         return -1;
     }
 
-    /**
-     * Return filtering word.
-     * @return null or filtering word.
+    /** Return filtering word.
+        @return null or filtering word.
      */
     public String getFilterWord()
     {
         return filterWord;
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface.
+        Add a tree model listener.
+        @param l the tree model listener.
+    */
     public void addTreeModelListener(TreeModelListener l)
     {
         listeners.add(l);
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface .
+        Get the child object.
+        @param parent the parent object.
+        @param index the index of the child.
+        @return the child object retrieved.
+    */
     public Object getChild(Object parent, int index)
     {
         return ((TreeNode)parent).getChildAt(index);
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface. Get the number of children.
+        @param parent the parent object.
+        @return the number of the children.
+    */
     public int getChildCount(Object parent)
     {
         return ((TreeNode)parent).getChildCount();
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface. Get the index of the given child.
+        @param parent the parent object.
+        @param child the child to search for.
+        @return the index of the child or -1 if the child has not been found.
+        TODO: check if it is true that it is -1...
+    */
     public int getIndexOfChild(Object parent, Object child)
     {
         return ((TreeNode)parent).getIndex((TreeNode)child);
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface.
+        Get the root node.
+        @return the root node.
+    */
     public Object getRoot()
     {
         return rootNode;
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface.
+        Check if the given node is a leaf.
+        @param node the node to check.
+        @return true if the node is a leaf (in this context, a macro).
+    */
     public boolean isLeaf(Object node)
     {
         return ((TreeNode)node).isLeaf();
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface.
+        Remove the given listener.
+        @param l the listener to remove.
+    */
     public void removeTreeModelListener(TreeModelListener l)
     {
         listeners.remove(l);
     }
 
-    /** Implements TreeModel interface */
+    /** Implements TreeModel interface.
+        TODO: improve the documentation. What is that supposed to do? Is the
+        implementation complete in the code?
+        @param path the path.
+        @param newValue the new value.
+    */
     public void valueForPathChanged(TreePath path, Object newValue)
     {
         // NOP
     }
 
+    /** Get a certain macro (leaf in this context).
+        @param path the path where the macro has to be searched for.
+        @return the macro.
+    */
     public MacroDesc getMacro(TreePath path)
     {
         Object o;
@@ -208,6 +255,10 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Get a certain category.
+        @param path the path where the category has to be searched for.
+        @return the category.
+    */
     public Category getCategory(TreePath path)
     {
         Object o;
@@ -222,6 +273,10 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Get a certain library.
+        @param path the path where the library has to be searched for.
+        @return the library.
+    */
     public Library getLibrary(TreePath path)
     {
         Object o;
@@ -243,9 +298,10 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         } else {
             return null;
         }
-
     }
 
+    /** Notify that the tree has changed and it requires a refresh.
+    */
     private void fireChanged()
     {
         for(TreeModelListener l:listeners) {
@@ -264,6 +320,9 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Called when a library node has to be renamed.
+        @param e the rename event.
+    */
     public void libraryNodeRenamed(RenameEvent e)
     {
         Object renamedNode = e.getRenamedNode();
@@ -283,6 +342,9 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Called when a library node has to be removed.
+        @param e the ermove event.
+    */
     public void libraryNodeRemoved(RemoveEvent e)
     {
         Object parentNode;
@@ -307,6 +369,9 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Called when a library node has to be daded.
+        @param e the add event.
+    */
     public void libraryNodeAdded(AddEvent e)
     {
         Object parentNode;
@@ -331,6 +396,10 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
+    /** Called when a library node has to be changed.
+        TODO: is this unimplemented?
+        @param e the changed event.
+    */
     public void libraryNodeKeyChanged(KeyChangeEvent e)
     {
         // Nothing to do here
@@ -619,7 +688,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             return m1.name.compareToIgnoreCase(m2.name);
         }
 
-
         public String toString()
         {
             return macro.name;
@@ -633,4 +701,3 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 }
-

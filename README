@@ -602,8 +602,8 @@ Code snippets included in FidoCadJ:
 When possible, the authors of the snippets have been contacted to gain 
 explicit permission of using the code in an open source project. If you own 
 the copyright of some of the reused code and you do not agree on its 
-inclusion in the FidoCadJ project, contact us via the SourceForge forum and 
-we will remove the offending code as fast as we can.
+inclusion in the FidoCadJ project, open an Issue on GitHub and we will remove
+the offending code as fast as we can.
 
 -------------
 7 - Licensing

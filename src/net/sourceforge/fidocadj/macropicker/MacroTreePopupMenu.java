@@ -1,20 +1,3 @@
-// This file is part of FidoCadJ.
-//
-// FidoCadJ is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// FidoCadJ is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-//
-// Copyright 2014-2015 Kohta Ozaki, Davide Bucci
-
 package net.sourceforge.fidocadj.macropicker;
 
 import java.awt.event.*;
@@ -27,11 +10,30 @@ import net.sourceforge.fidocadj.librarymodel.Library;
 import net.sourceforge.fidocadj.librarymodel.Category;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 
-/**
-* PopupMenu for MacroTree.<BR>
-* This class checks the appropriate menu state for items by
-* OperationPermission class of MacroTree.
-* @author Kohta Ozaki, Davide Bucci
+/** PopupMenu for MacroTree.<BR>
+    This class checks the appropriate menu state for items by
+    OperationPermission class of MacroTree.
+
+    <pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014 Kohta Ozaki
+    </pre>
+
+    @author Kohta Ozaki, Davide Bucci
 */
 public class MacroTreePopupMenu extends JPopupMenu implements
             ChangeListener
@@ -77,6 +79,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 
     /** Update all the "enabled" states of the menu items, depending on which
         element is currently selected.
+        @param e the event change object.
     */
     public void stateChanged(ChangeEvent e)
     {

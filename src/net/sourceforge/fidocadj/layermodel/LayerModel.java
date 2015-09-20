@@ -28,15 +28,21 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
 */
 public class LayerModel
 {
-    private final DrawingModel DrawingModel;
+    private final DrawingModel drawingModel;
 
-    public LayerModel(DrawingModel DrawingModel)
+    /** Standard constructor.
+        @param dm the drawing model to be used.
+    */
+    public LayerModel(DrawingModel dm)
     {
-        this.DrawingModel = DrawingModel;
+        this.drawingModel = dm;
     }
 
+    /** Get the layer description from the drawing model.
+        @return the array of layers.
+    */
     public Vector<LayerDesc> getAllLayers()
     {
-        return DrawingModel.getLayers();
+        return drawingModel.getLayers();
     }
 }

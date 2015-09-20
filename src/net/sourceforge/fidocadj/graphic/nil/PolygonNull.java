@@ -41,30 +41,51 @@ public class PolygonNull implements PolygonInterface
         p=new Polygon();
     }
 
+    /** Add a point to the current polygon.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public void addPoint(int x, int y)
     {
         p.addPoint(x,y);
     }
 
+    /** Reset the current polygon by deleting all the points.
+    */
     public void reset()
     {
         p.reset();
     }
+
+    /** Get the current number of points in the polygon.
+        @return the number of points.
+    */
     public int getNpoints()
     {
         return p.npoints;
     }
 
+    /** Get a vector containing the x coordinates of the points.
+        @return a vector containing the x coordinates of all points.
+    */
     public int[] getXpoints()
     {
         return p.xpoints;
     }
 
+    /** Get a vector containing the y coordinates of the points.
+        @return a vector containing the y coordinates of all points.
+    */
     public int[] getYpoints()
     {
         return p.ypoints;
     }
 
+    /** Check if a given point is contained inside the polygon.
+        @param x the x coordinate of the point to be checked.
+        @param y the y coordinate of the point to be checked.
+        @return true of the point is internal to the polygon, false otherwise.
+    */
     public boolean contains(int x, int y)
     {
         return p.contains(x,y);

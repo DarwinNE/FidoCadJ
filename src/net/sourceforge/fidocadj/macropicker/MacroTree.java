@@ -33,22 +33,24 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     Provides interfaces of renaming, removing, moving and changing key for
     library.<BR>
 
+    <pre>
     This file is part of FidoCadJ.
 
-   FidoCadJ is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   FidoCadJ is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-   Copyright 2014 Kohta Ozaki
+    Copyright 2014 Kohta Ozaki
+    </pre>
 
     @author Kohta Ozaki
 */
@@ -81,10 +83,9 @@ public class MacroTree extends JPanel
 
     private OperationPermission permissionObject;
 
-    /**
-    * Constructor.
-    * @param libraryModel library model. not null.
-    * @param layerModel layer model. not null.
+    /** Constructor.
+        @param libraryModel library model. not null.
+        @param layerModel layer model. not null.
     */
     public MacroTree(LibraryModel libraryModel, LayerModel layerModel)
     {
@@ -93,8 +94,7 @@ public class MacroTree extends JPanel
         initComponents();
     }
 
-    /**
-    * Initialize view components and relate models.
+    /** Initialize view components and relate models.
     */
     private void initComponents()
     {
@@ -122,24 +122,31 @@ public class MacroTree extends JPanel
         add(splitPane);
     }
 
+    /** Create the array of change listeners.
+    */
     private void createListenerArray()
     {
         changeListeners = new ArrayList<ChangeListener>();
     }
 
+    /** Add the provided change listener to the current pipeline.
+        @param l the change listener to add.
+    */
     public void addChangeListener(ChangeListener l)
     {
         changeListeners.add(l);
     }
 
+    /** Remove a change listener from the pipeline.
+        @param l the change listener to remove.
+    */
     public void removeChangeListener(ChangeListener l)
     {
         changeListeners.remove(l);
     }
 
-    /**
-    * Returns node type of selected.
-    * @return int A constant of LIBRARY or CATEGORY or MACRO or -1(other).
+    /** Returns node type of selected.
+        @return int A constant of LIBRARY or CATEGORY or MACRO or -1(other).
     */
     public int getSelectedType()
     {
@@ -161,9 +168,8 @@ public class MacroTree extends JPanel
         }
     }
 
-    /**
-    * Removes library.
-    * @param library Library to remove.
+    /** Removes library.
+        @param library Library to remove.
     */
     public void remove(Library library)
     {
@@ -189,9 +195,8 @@ public class MacroTree extends JPanel
         }
     }
 
-    /**
-    * Removes category.
-    * @param category Category to remove.
+    /** Removes category.
+        @param category Category to remove.
     */
     public void remove(Category category)
     {
@@ -217,9 +222,8 @@ public class MacroTree extends JPanel
         }
     }
 
-    /**
-    * Remove macro.
-    * @param macro MacroDesc to remove.
+    /** Remove macro.
+        @param macro MacroDesc to remove.
     */
     public void remove(MacroDesc macro)
     {
@@ -244,9 +248,9 @@ public class MacroTree extends JPanel
             }
         }
     }
-    /**
-    * Renames macro.
-    * @param macro MacroDesc to rename.
+
+    /** Renames macro.
+        @param macro MacroDesc to rename.
     */
     public void rename(MacroDesc macro)
     {
@@ -271,9 +275,8 @@ public class MacroTree extends JPanel
         }
     }
 
-    /**
-    * Renames a category.
-    * @param category Category to rename.
+    /** Rename a category.
+        @param category Category to rename.
     */
     public void rename(Category category)
     {
@@ -297,9 +300,9 @@ public class MacroTree extends JPanel
                 JOptionPane.ERROR_MESSAGE);
         }
     }
-    /**
-    * Renames a library.
-    * @param library Library to rename.
+
+    /** Renames a library.
+        @param library Library to rename.
     */
     public void rename(Library library)
     {
@@ -325,7 +328,7 @@ public class MacroTree extends JPanel
     }
 
     /** Ask to the user to change the key of the given macro.
-    @param macro the macro to be modified.
+        @param macro the macro to be modified.
     */
     public void changeKey(MacroDesc macro)
     {
@@ -361,11 +364,16 @@ public class MacroTree extends JPanel
         }
     }
 
+    /** Called during a copy operation. Makes sort that the currently selected
+        node will become the target for the copy.
+    */
     public void setSelectedNodeToCopyTarget()
     {
         copyTarget = treeComponent.getSelectionPath();
     }
 
+    /** Paste into the currently selected node.
+    */
     public void pasteIntoSelectedNode()
     {
         if(copyTarget==null){
@@ -389,6 +397,8 @@ public class MacroTree extends JPanel
         updateOperationPermission();
     }
 
+    /** Copy a category (which has been previously selected).
+    */
     private void copyCategoryIntoLibrary()
     {
         Category targetCategory;
@@ -400,6 +410,8 @@ public class MacroTree extends JPanel
         libraryModel.copy(targetCategory,destLibrary);
     }
 
+    /** Copy a macro into a selected category.
+    */
     private void copyMacroIntoCategory()
     {
         MacroDesc targetMacro;
@@ -411,16 +423,23 @@ public class MacroTree extends JPanel
         libraryModel.copy(targetMacro,destCategory);
     }
 
+    /** Create the object describing permissions.
+    */
     private void createPermissionObject()
     {
         permissionObject = new OperationPermission();
     }
 
+    /** Get a permission description object.
+        @return the permission descriptor.
+    */
     public OperationPermission getOperationPermission()
     {
         return permissionObject;
     }
 
+    /** Update the permission descriptor.
+    */
     private void updateOperationPermission()
     {
         TreePath selectedPath;
@@ -467,6 +486,8 @@ public class MacroTree extends JPanel
         }
     }
 
+    /** Create the popup menu.
+    */
     private void createPopupMenu()
     {
         MacroTreePopupMenu popupMenu = new MacroTreePopupMenu(this);
@@ -474,9 +495,8 @@ public class MacroTree extends JPanel
         addChangeListener(popupMenu);
     }
 
-    /**
-    * Relate preview panel and JTree selection model.<br>
-    * Relate preview panel and library model.
+    /** Relate preview panel and JTree selection model.<br>
+        Relate preview panel and library model.
     */
     private void bindPreviewPanel()
     {
@@ -514,10 +534,9 @@ public class MacroTree extends JPanel
         libraryModel.addLibraryListener(l);
     }
 
-    /**
-     * Sets the listener for selecting macro.
-     * @param l the new listener. It should not be null.
-     */
+    /** Sets the listener for selecting macro.
+        @param l the new listener. It should not be null.
+    */
     public void setSelectionListener(ChangeSelectionListener l)
     {
         selectionListener=l;
@@ -668,6 +687,9 @@ public class MacroTree extends JPanel
         });
     }
 
+    /** Set the current model for the library.
+        @param libraryModel the library model to employ.
+    */
     public void setLibraryModel(LibraryModel libraryModel)
     {
         this.libraryModel = libraryModel;
@@ -675,12 +697,18 @@ public class MacroTree extends JPanel
         bindSearchField();
     }
 
+    /** Set the current layer model.
+        @param layerModel the layer model.
+    */
     public void setLayerModel(LayerModel layerModel)
     {
         this.layerModel = layerModel;
         previewPanel.P.setLayers(layerModel.getAllLayers());
     }
 
+    /** Get the currently selected macro.
+        @return the selected macro, or null if no macro is selected.
+    */
     public MacroDesc getSelectedMacro()
     {
         TreePath path = treeComponent.getSelectionPath();
@@ -688,6 +716,9 @@ public class MacroTree extends JPanel
         return macroTreeModel.getMacro(path);
     }
 
+    /** Get the currently selected category.
+        @return the selected category, or null if no category is selected.
+    */
     public Category getSelectedCategory()
     {
         TreePath path = treeComponent.getSelectionPath();
@@ -695,6 +726,9 @@ public class MacroTree extends JPanel
         return macroTreeModel.getCategory(path);
     }
 
+    /** Get the currently selected library.
+        @return the selected library, or null if no library is selected.
+    */
     public Library getSelectedLibrary()
     {
         TreePath path = treeComponent.getSelectionPath();
@@ -712,48 +746,48 @@ public class MacroTree extends JPanel
         private boolean removeAvailable;
         private boolean renKeyAvailable;
 
-
-        /**
-        * Returns the value of copyAvailable.
+        /** Get the value of copyAvailable.
+            @return true if it can be copied.
         */
         public boolean isCopyAvailable()
         {
             return copyAvailable;
         }
 
-        /**
-        * Returns the value of pasteAvailable.
+        /** Get the value of pasteAvailable.
+            @return true if the paste operation is possible
         */
-
         public boolean isPasteAvailable()
         {
             return pasteAvailable;
         }
 
-        /**
-        * Returns the value of renameAvailable.
+        /** Get the value of renameAvailable.
+            @return true if it can be renamed.
         */
         public boolean isRenameAvailable()
         {
             return renameAvailable;
         }
 
-        /**
-        * Returns the value of removeAvailable.
+        /** Returns the value of removeAvailable.
+            @return true if it can be removed/deleted.
         */
         public boolean isRemoveAvailable()
         {
             return removeAvailable;
         }
 
-        /**
-        * Returns the value of renKeyAvailable.
+        /** Returns the value of renKeyAvailable.
+            @return true if its key can be changed.
         */
         public boolean isRenKeyAvailable()
         {
             return renKeyAvailable;
         }
 
+        /** Disable all permissions.
+        */
         public void disableAll()
         {
             copyAvailable=false;
@@ -764,6 +798,8 @@ public class MacroTree extends JPanel
         }
     }
 
+    /** The cell renderer: show the appropriate icon.
+    */
     private class MacroTreeCellRenderer extends DefaultTreeCellRenderer
     {
         @Override

@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.librarymodel.event;
-/** Event handling in library editing.
+
+/** Event handling in library editing: add a node to a library.
 
     This file is part of FidoCadJ.
 
@@ -23,22 +24,26 @@ public class AddEvent
     final private Object addedNode;
     final private Object parentNode;
 
-    public AddEvent(Object parentNode,Object addedNode)
+    /** Standard constructor.
+        @param parentNode node which will become the parent node.
+        @param addedNode node to be added.
+    */
+    public AddEvent(Object parentNode, Object addedNode)
     {
         this.parentNode = parentNode;
         this.addedNode = addedNode;
     }
 
-    /**
-     * Returns the value of renamedNode.
+    /** Return the value of addedNode.
+        @return the addedNode.
      */
     public Object getAddedNode()
     {
         return addedNode;
     }
 
-    /**
-     * Returns the value of parentNode.
+    /** Return the value of parentNode.
+        @return the parentNode.
      */
     public Object getParentNode()
     {

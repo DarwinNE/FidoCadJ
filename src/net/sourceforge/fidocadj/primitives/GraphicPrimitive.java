@@ -14,7 +14,7 @@ import net.sourceforge.fidocadj.graphic.*;
 /** GraphicPrimitive is an abstract class implementing the basic behaviour
     of a graphic primitive, which should be derived from it.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,8 +31,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2015 by Davide Bucci, phylum2
-</pre>
-
+    </pre>
 */
 public abstract class GraphicPrimitive
 {
@@ -102,7 +101,10 @@ public abstract class GraphicPrimitive
 
     /* At first, non abstract methods */
 
-    /** Standard constructor */
+    /** Standard constructor.
+        @param f the font to be employed for the associated text.
+        @param size the size to be employed for the associated text.
+    */
     public void GraphicPrimitive(String f, int size)
     {
         selectedState=false;
@@ -116,9 +118,10 @@ public abstract class GraphicPrimitive
 
         macroFont=f;
     }
-    /** Set the font to be used for name and value
-        @param f the font name
-        @param size the font size
+
+    /** Set the font to be used for name and value.
+        @param f the font name.
+        @param size the font size.
     */
     public void setMacroFont(String f, int size)
     {
@@ -131,11 +134,11 @@ public abstract class GraphicPrimitive
     /** Prepare the array of points for storing the different virtual points
         needed by the primitive. This method also prepares the name and value
         strings, as well as the font to be used.
-
         @param number if number is negative, obtain the number of points by
             using getControlPointNumber(); if it is positive, use the number
             of points given for the size of the array.
-
+        @param font the font to be employed for the associated text.
+        @param size the size to be employed for the associated text.
     */
     public void initPrimitive(int number, String font, int size)
     {
@@ -166,7 +169,6 @@ public abstract class GraphicPrimitive
 
     /** Get the size of the macro font.
         @return the size of the macro font.
-
     */
     public int getMacroFontSize()
     {
@@ -175,7 +177,6 @@ public abstract class GraphicPrimitive
 
     /** Set the size of the macro font.
         @param size the size of the macro font.
-
     */
     public void setMacroFontSize(int size)
     {
@@ -185,7 +186,6 @@ public abstract class GraphicPrimitive
         // else.
         if(macroFontSize<=0)
             macroFontSize=1;
-
     }
 
     /** Writes the macro name and value fields. This method uses heavily the
@@ -195,7 +195,10 @@ public abstract class GraphicPrimitive
         when a primitive implements its drawing.
         The primitive will HAVE TO update the "changed" flag accordingly to
         its needs, BEFORE calling drawText.
-
+        @param g the graphic context.
+        @param coordSys the current coordinate mapping system.
+        @param layerV the vector containing the layers.
+        @param drawOnlyLayer current layer which should be drawn (or -1).
     */
     protected void drawText(GraphicsInterface g, MapCoordinates coordSys,
                               Vector layerV, int drawOnlyLayer)
@@ -212,7 +215,6 @@ public abstract class GraphicPrimitive
 
         if(changed) {
             // Calculate the positions of the text lines
-
             x2=virtualPoint[getNameVirtualPointNumber()].x;
             y2=virtualPoint[getNameVirtualPointNumber()].y;
             x3=virtualPoint[getValueVirtualPointNumber()].x;
@@ -242,10 +244,6 @@ public abstract class GraphicPrimitive
             else
                 w2 = g.getStringWidth(value);
 
-            /*System.out.println("name="+name+"  value="+value+"  w1="+w1+
-            "  w2="+w2+"  th="+th+" macroFont="+macroFont+
-            "  macroFontSize="+macroFontSize+" calculated size="+
-            ((int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5)));*/
             // Calculates the size of the text in logical units. This is
             // useful for calculating wether the user has clicked inside a
             // text line (see getDistanceToPoint)
@@ -289,10 +287,11 @@ public abstract class GraphicPrimitive
         }
     }
 
-    /** Creates the text strings containing the name and value of the primitive
-    @param extensions if true, outputs the FCJ tag before the two TY commands
-    @return a string containing the commands
-
+    /** Creates the text strings containing the name and value of the
+        primitive.
+        @param extensions if true, outputs the FCJ tag before the two TY
+            commands.
+        @return a string containing the commands.
     */
     public String saveText(boolean extensions)
     {
@@ -353,7 +352,6 @@ public abstract class GraphicPrimitive
             s2.append(value==null?"":value);
             s2.append("\n");
         }
-
         return s2.toString();
     }
 
@@ -361,9 +359,11 @@ public abstract class GraphicPrimitive
         This is done rather automatically by exploiting the export of the
         advanced text feature. It should be noted that the export is done only
         if necessary.
-        @param exp the ExportInterface to be used
-        @param cs the coordinate mapping system to be used
-        @param drawOnlyLayer the layer to be drawn (or -1)
+        @param exp the ExportInterface to be used.
+        @param cs the coordinate mapping system to be used.
+        @param drawOnlyLayer the layer to be drawn (or -1).
+        @throws IOException if something wrong happens during the export, such
+            as it is, or becomes impossible to write on the output file.
     */
     public void exportText(ExportInterface exp, MapCoordinates cs,
         int drawOnlyLayer)
@@ -429,6 +429,9 @@ public abstract class GraphicPrimitive
     /** Reads the TY line describing the "value" field
         @param tokens the array of tokens to be parsed
         @param N the number of tokens to be parsed.
+        @throws IOException if something goes wrong, for example there is
+            an invalid primitive found at an incongruous place (probably a
+            programming error).
     */
     public void setValue(String[] tokens, int N)
         throws IOException
@@ -474,6 +477,9 @@ public abstract class GraphicPrimitive
     /** Reads the TY line describing the "name" field
         @param tokens the array of tokens to be parsed
         @param N the number of tokens to be parsed.
+        @throws IOException if something goes wrong, for example there is
+            an invalid primitive found at an incongruous place (probably a
+            programming error).
     */
     public void setName(String[] tokens, int N)
         throws IOException
@@ -515,7 +521,6 @@ public abstract class GraphicPrimitive
     {
         changed=c;
     }
-
 
     /** Get the first control point of the primitive
         @return the coordinates of the first control point of the object.
@@ -607,6 +612,7 @@ public abstract class GraphicPrimitive
     }
 
     /** Returns true if the primitive contains the specified layer.
+        @param l the index of the layer to check.
         @return true or false, if the specified layer is contained in the
             primitive.
     */
@@ -919,10 +925,11 @@ public abstract class GraphicPrimitive
         primitive should probably overload this version. We give here a very
         general implementation, allowing to change only virtual points.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
+            parameter. The first parameters should always be the virtual
+            points.
+        @return the index of the next parameter which remains to be read
+            after this function ends.
 
     */
     public int setControls(Vector<ParameterDescription> v)
@@ -960,7 +967,7 @@ public abstract class GraphicPrimitive
     /** This function should be redefined if the graphic primitive needs holes.
         This implies that the redraw strategy should include a final pass
         to be sure that the holes are drawn correctly.
-
+        @return true if there are elements in the drawing which need holes.
     */
     public boolean needsHoles()
     {
@@ -970,7 +977,6 @@ public abstract class GraphicPrimitive
     /** Specify whether during the drawing phase the primitive should draw
         only the pads. This is useful only for the PrimitiveMacro and
         PrimitivePCBPad subclasses.
-
         @param t the wanted state.
     */
     public void setDrawOnlyPads(boolean t)
@@ -994,7 +1000,8 @@ public abstract class GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param N the number of tokens present in the array.
+        @throws IOException if something goes wrong.
     */
     public abstract void parseTokens(String[] tokens, int N)
         throws IOException;
@@ -1003,8 +1010,9 @@ public abstract class GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance to point in logical coordinates.
     */
     public abstract int getDistanceToPoint(int px, int py);
 
@@ -1022,9 +1030,10 @@ public abstract class GraphicPrimitive
 
     /** Each graphic primitive should call the appropriate exporting method
         of the export interface specified.
-
-        @param exp the export interface that should be used
-        @param cs the actual coordinate mapping
+        @param exp the export interface that should be used.
+        @param cs the actual coordinate mapping.
+        @throws IOException if an error occurs, for example because it becomes
+            impossible to access to the files being written.
     */
     public abstract void export(ExportInterface exp, MapCoordinates cs)
         throws IOException;
@@ -1034,13 +1043,18 @@ public abstract class GraphicPrimitive
     */
     public abstract int getNameVirtualPointNumber();
 
-    /** Get the number of the virtual point associated to the Value property
-        @return the number of the virtual point associated to the Value property
+    /** Get the number of the virtual point associated to the Value property.
+        @return the number of the virtual point associated to the Value
+            property.
     */
     public abstract int getValueVirtualPointNumber();
 
-    public DimensionG getSize() // phylum
+    /** Get the size of the current element.
+        @return the size.
+    */
+    public DimensionG getSize()
     {
+        //
         GraphicPrimitive p = this;
         int qx = 0;
         int qy = 0;

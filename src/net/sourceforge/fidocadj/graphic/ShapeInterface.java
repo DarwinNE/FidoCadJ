@@ -47,8 +47,8 @@ public interface ShapeInterface
     public void createGeneralPath(int npoints);
 
     /** Move the current position to the given coordinates.
-        @param x the x coordinate
-        @param y the y coordinate
+        @param x the x coordinate.
+        @param y the y coordinate.
     */
     public void moveTo(float x, float y);
 

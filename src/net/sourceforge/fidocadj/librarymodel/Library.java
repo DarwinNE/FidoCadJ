@@ -24,11 +24,16 @@ import java.util.*;
 */
 public class Library
 {
-    String libraryName;
-    String filename;
-    boolean isStd;
-    ArrayList<Category> categories;
+    private String libraryName;
+    private String filename;
+    private boolean isStd;
+    private ArrayList<Category> categories;
 
+    /** Standard constructor.
+        @param libraryName the name of the library.
+        @param filename the name of the file where the library is contained.
+        @param isStd true if the library should be considered as standard.
+    */
     Library(String libraryName, String filename,boolean isStd)
     {
         this.libraryName = libraryName;
@@ -37,17 +42,25 @@ public class Library
         categories = new ArrayList<Category>();
     }
 
+    /** Get the name of the library.
+        @return the library name.
+    */
     public String getName()
     {
         return libraryName;
     }
 
+    /** Set the name of the library.
+        @param name the name to be employed.
+    */
     public void setName(String name)
     {
         this.libraryName = name;
     }
 
-
+    /** Get the name of the file of the library.
+        @return the filename.
+    */
     public String getFileName()
     {
         return filename;
@@ -61,6 +74,11 @@ public class Library
         return categories;
     }
 
+    /** Get a category in the library.
+        @param name the name of the category to be retrieved.
+        @return the category with the required name or null if nothing has
+            been found.
+    */
     public Category getCategory(String name)
     {
         Category result=null;
@@ -73,31 +91,53 @@ public class Library
         return result;
     }
 
+    /** Add the given category to the library.
+        @param category the category to be added.
+    */
     public void addCategory(Category category)
     {
         categories.add(category);
     }
 
+    /** Remove a category from the library.
+        @param category the category to be removed.
+    */
     public void removeCategory(Category category)
     {
         categories.remove(category);
     }
 
+    /** Check if the library is standard.
+        @return true if the library is standard.
+    */
     public boolean isStdLib()
     {
         return isStd;
     }
 
+    /** Check if the library is hidden.
+        TODO: this method always returns false.
+        @return true if the library is hidden.
+    */
     public boolean isHidden()
     {
         return false;
     }
 
+    /** Check if the name of the library is valid.
+        TODO: this method always returns true.
+        @param name the name to be checked.
+        @return true if the name is valid.
+    */
     public static boolean isValidName(String name)
     {
         return true;
     }
 
+    /** Check if the library contains the macro specified with the key.
+        @param key the key to be searched for.
+        @return true if the key is found, false otherwise.
+    */
     public boolean containsMacroKey(String key)
     {
         if(key==null) {
@@ -112,6 +152,9 @@ public class Library
         return false;
     }
 
+    /** Provide a string description of the library.
+        @return the string description (simply the name) of the library.
+    */
     public String toString()
     {
         return getName();

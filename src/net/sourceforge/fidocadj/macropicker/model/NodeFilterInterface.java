@@ -2,6 +2,7 @@ package net.sourceforge.fidocadj.macropicker.model;
 
 /** Interface for implementing filtering of the shown nodes.
 
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -18,10 +19,15 @@ package net.sourceforge.fidocadj.macropicker.model;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014 Kohta Ozaki
+    </pre>
 
     @author Kohta Ozaki
 */
 public interface NodeFilterInterface
 {
-    boolean accept(MacroTreeNode node);
+    /** Specify if a node has to be filtered in or not.
+        @param node the node to be checked.
+        @return true if the node is accepted.
+    */
+    public boolean accept(MacroTreeNode node);
 }

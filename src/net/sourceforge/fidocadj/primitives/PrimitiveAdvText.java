@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
 
 /** Class to handle the advanced text primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -29,11 +29,10 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public final class PrimitiveAdvText extends GraphicPrimitive
 {
 
@@ -57,7 +56,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-//  private static BufferedImage sizeCalculationImage;
     private int xaSCI;
     private int yaSCI;
     private int orientationSCI;
@@ -69,13 +67,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
     private int h, th, w;
     private double ymagnitude;
-    //private int coordorientation;
     private boolean coordmirroring;
 
     private int x1, y1, xa, ya, qq;
     private double xyfactor, si, co;
     private boolean needsStretching;
-
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -84,8 +80,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     {
         return N_POINTS;
     }
-    /** Standard "empty" constructor.
 
+    /** Standard "empty" constructor.
     */
     public PrimitiveAdvText()
     {
@@ -253,11 +249,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-
         @param tokens the tokens to be processed. tokens[0] should be the
-        command of the actual primitive.
-        @param N the number of tokens present in the array
-
+            command of the actual primitive.
+        @param N the number of tokens present in the array.
+        @throws IOException if the arguments are incorrect or a problem
+            occurs.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -339,8 +335,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -498,11 +495,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     }
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
-
+            parameter.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -519,16 +515,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         else
             System.out.println("Warning: unexpected parameter!"+pd);
 
-    /*  for (i=1;i<getControlPointNumber()+1;++i) {
-            pd = (ParameterDescription)v.get(i);
-
-            // Check, just for sure...
-            if (pd.parameter instanceof PointG)
-                virtualPoint[i-1]=(PointG)pd.parameter;
-            else
-                System.out.println("Warning: unexpected parameter!");
-
-        }*/
         pd = (ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
@@ -556,7 +542,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             o=((Integer)pd.parameter).intValue();
         else
             System.out.println("Warning: unexpected parameter!"+pd);
-
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
@@ -631,6 +616,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if the FidoCadJ extensions to the old
+            FidoCAD formad should be taken into account.
         @return the FidoCad code corresponding to the primitive.
     */
     public String toString(boolean extensions)
@@ -643,7 +630,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         } else {
             StringBuffer s=new StringBuffer("");
             // All spaces are substituted with "++" in order to avoid problems
-            // during the parsing phase
+            // while parsing.
             for (int i=0; i<fontName.length(); ++i) {
                 if(fontName.charAt(i)==' ')
                     s.append("++");
@@ -659,6 +646,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         return s;
     }
 
+    /** Export the text primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
+    */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
@@ -673,18 +666,20 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             (sty & TEXT_MIRRORED)!=0,
             (sty & TEXT_ITALIC)!=0,
             resulting_o, getLayer(), txt);
-
     }
-    /** Get the number of the virtual point associated to the Name property
-        @return the number of the virtual point associated to the Name property
+
+    /** Get the number of the virtual point associated to the Name property.
+        @return the number of the virtual point associated to the Name
+            property.
     */
     public int getNameVirtualPointNumber()
     {
         return -1;
     }
 
-    /** Get the number of the virtual point associated to the Value property
-        @return the number of the virtual point associated to the Value property
+    /** Get the number of the virtual point associated to the Value property.
+        @return the number of the virtual point associated to the Value
+            property.
     */
     public  int getValueVirtualPointNumber()
     {

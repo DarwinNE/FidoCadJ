@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.primitives;
 /** Class MacroDesc provides a standard description of the macro. It provides
     its name, its description and its category
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -19,11 +19,8 @@ package net.sourceforge.fidocadj.primitives;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2013 by Davide Bucci
-</pre>
-
-
+    </pre>
 */
-
 public class MacroDesc
 {
     public String name;         // The one which is shown
@@ -38,13 +35,13 @@ public class MacroDesc
     // when an existing library is already present with a different filename.
     // This is a legacy from previous versions of FidoCadJ.
 
-
-    /** Standard constructor. Give the macro's name, description and category
-        @param ke the key to be used
-        @param na the name of the macro
-        @param de the description of the macro (the list of commands)
-        @param cat the category of the macro
-        @param lib the library name (prefix)
+    /** Standard constructor. Give the macro's name, description and category.
+        @param ke the key to be used.
+        @param na the name of the macro.
+        @param de the description of the macro (the list of commands).
+        @param cat the category of the macro.
+        @param lib the library name (prefix).
+        @param fn the library file name.
     */
     public MacroDesc(String ke, String na, String de, String cat,
         String lib, String fn)
@@ -58,6 +55,9 @@ public class MacroDesc
         level = 0;
     }
 
+    /** Provide a text describing the macro, usually for debug purposes.
+        @return the description.
+    */
     public String toString()
     {
         String s;
@@ -73,7 +73,6 @@ public class MacroDesc
                 s=name;
                 break;
         }
-
         return s.trim();
     }
 }

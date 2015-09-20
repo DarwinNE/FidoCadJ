@@ -15,18 +15,15 @@ import net.sourceforge.fidocadj.globals.*;
  * A text field for search/filter interfaces. The extra functionality includes
  * a placeholder string (when the user hasn't yet typed anything), and a button
  * to clear the currently-entered text.
+
+
+// TODO: add a menu of recent searches.
+// TODO: make recent searches persistent.
+
  *
  * @author Elliott Hughes
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
-
-
-//
-// TODO: add a menu of recent searches.
-// TODO: make recent searches persistent.
-//
-
-
 public class SearchField extends JTextField implements FocusListener
 {
 
@@ -37,6 +34,10 @@ public class SearchField extends JTextField implements FocusListener
     private boolean armed = false;
     private String placeholderText;
 
+    /** Constructor.
+        @param placeholderText the text to be shown as a placeholder when
+            a search is not being done.
+    */
     public SearchField(String placeholderText)
     {
         super(15);
@@ -52,8 +53,8 @@ public class SearchField extends JTextField implements FocusListener
         addFocusListener(this);
     }
 
-
-
+    /** Standard constructor. The placeholder text will be "Search".
+    */
     public SearchField()
     {
         this("Search");
@@ -65,6 +66,7 @@ public class SearchField extends JTextField implements FocusListener
         quite embarassing when using an unified toolbar style like in Leopard
         and Snow Leopard. For this reason, here we paint the background if
         needed.
+        @param g the graphic context to use.
     */
     public void paintComponent(Graphics g)
     {
@@ -181,31 +183,41 @@ public class SearchField extends JTextField implements FocusListener
         postActionEvent();
     }
 
+    /** Edit the send notification for each keystroke.
+        @param eachKeystroke true if the property should be active.
+    */
     public void setSendsNotificationForEachKeystroke(boolean eachKeystroke)
     {
         this.sendsNotificationForEachKeystroke = eachKeystroke;
     }
 
-    /**
-     * Draws the cancel button as a gray circle with a white cross inside.
+    /** Draw the cancel button as a gray circle with a white cross inside.
      */
-
     static class CancelBorder extends EmptyBorder
     {
 
         private static final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
 
-
+        /** Standard constructor.
+        */
         CancelBorder()
         {
             super(0, 20, 0, 15);
         }
 
-        public void paintBorder(Component c, Graphics oldGraphics, int x, int y,
+        /** Paint the border of the button.
+            @param c the component.
+            @param gc the graphic context.
+            @param x the x coordinate of the left side of the button.
+            @param y the y coordinate of the top side of the button.
+            @param width the width of the button.
+            @param height the height of the button.
+        */
+        public void paintBorder(Component c, Graphics gc, int x, int y,
                                 int width, int height)
         {
             SearchField field = (SearchField) c;
-            Graphics2D g = (Graphics2D) oldGraphics;
+            Graphics2D g = (Graphics2D) gc;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                RenderingHints.VALUE_ANTIALIAS_ON);
             final int circleL = 14;
@@ -214,12 +226,8 @@ public class SearchField extends JTextField implements FocusListener
             final int lensY = y;
             final int lensL = 12;
 
-
-            super.paintBorder(c, oldGraphics, x, y, width, height);
-
+            super.paintBorder(c, gc, x, y, width, height);
             g.setColor(Color.GRAY);
-
-
             g.fillOval(lensX, lensY, lensL, lensL);
             g.setStroke(new BasicStroke(3));
 
@@ -232,21 +240,16 @@ public class SearchField extends JTextField implements FocusListener
 
             g.fillOval(lensX + 2, lensY + 2, lensL - 4, lensL - 4);
 
-
             g.setColor(field.armed ? Color.GRAY : GRAY);
 
             if (field.showingPlaceholderText || field.getText().length() == 0) {
                 return;
             }
 
-
-
             final int circleX = x + width - circleL;
             final int circleY = y + (height - 1 - circleL) / 2;
             g.setColor(field.armed ? Color.GRAY : GRAY);
             g.fillOval(circleX, circleY, circleL, circleL);
-
-
 
             final int lineL = circleL - 8;
             final int lineX = circleX + 4;
@@ -258,11 +261,9 @@ public class SearchField extends JTextField implements FocusListener
         }
     }
 
-    /**
-     * Handles a click on the cancel button by clearing the text and notifying
-     * any ActionListeners.
+    /** Handles a click on the cancel button by clearing the text and notifying
+        any ActionListeners.
      */
-
     class CancelListener extends MouseInputAdapter
     {
         private boolean isOverButton(MouseEvent e)
@@ -270,15 +271,12 @@ public class SearchField extends JTextField implements FocusListener
 
             // If the button is down, we might be outside the component
             // without having had mouseExited invoked.
-
             if (!contains(e.getPoint())) {
                 return false;
             }
 
-
             // In lieu of proper hit-testing for the circle, check that
             // the mouse is somewhere in the border.
-
             Rectangle innerArea =
                 SwingUtilities.calculateInnerArea(SearchField.this, null);
             return !innerArea.contains(e.getPoint());
@@ -325,13 +323,17 @@ public class SearchField extends JTextField implements FocusListener
         }
     }
 
-    // FocusListener
+    /** For the FocusListener interface. The field gained focus.
+        @param e the focus event.
+    */
     public void focusGained(FocusEvent e)
     {
         repaint();
     }
 
-    // FocusListener
+    /** For the FocusListener interface. The field lost focus.
+        @param e the focus event.
+    */
     public void focusLost(FocusEvent e)
     {
         repaint();

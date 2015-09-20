@@ -31,6 +31,11 @@ public class Category
     List<MacroDesc> macros;
     boolean isHidden;
 
+    /** Standard constructor.
+        @param name the name of the category.
+        @param parentLibrary the parent library to which the category belongs.
+        @param idHidden true if the category should not be shown.
+    */
     Category(String name,Library parentLibrary,boolean isHidden)
     {
         macros = new ArrayList<MacroDesc>();
@@ -47,46 +52,77 @@ public class Category
         return parentLibrary;
     }
 
+    /** Set the parent library.
+        @param parentLibrary the parent library to be employed.
+    */
     public void setParentLibrary(Library parentLibrary)
     {
         this.parentLibrary = parentLibrary;
     }
 
+    /** Get the name of the category.
+        @return the name.
+    */
     public String getName()
     {
         return name;
     }
 
+    /** Set the name of the category.
+        @param name the name.
+    */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /** Add a macro to this category.
+        @param macroDesc the macro to be added.
+    */
     public void addMacro(MacroDesc macroDesc)
     {
         macros.add(macroDesc);
     }
 
+    /** Remove a macro from this category.
+        @param macroDesc the macro to be removed.
+    */
     public void removeMacro(MacroDesc macroDesc)
     {
         macros.remove(macroDesc);
     }
 
+    /** Get a list of all macros comprised in the category.
+        @return the list of macros.
+    */
     public List<MacroDesc> getAllMacros()
     {
         return macros;
     }
 
+    /** Check if the category is hidden.
+        @return true if the category is hidden, false if it is visible.
+    */
     public boolean isHidden()
     {
         return isHidden;
     }
 
+    /** Check if the category name is valid.
+        TODO: this method doesn't do much: it always returns true.
+        @param name the name of the category to be checked.
+        @return true if the name is valid.
+    */
     public static boolean isValidName(String name)
     {
         return true;
     }
 
+    /** Check if a macro having a given key is already contained in the
+        category.
+        @param key the key of the macro to search for.
+        @return true if the macro is already present.
+    */
     public boolean containsMacroKey(String key)
     {
         if(key==null) {
@@ -100,5 +136,4 @@ public class Category
         }
         return false;
     }
-
 }

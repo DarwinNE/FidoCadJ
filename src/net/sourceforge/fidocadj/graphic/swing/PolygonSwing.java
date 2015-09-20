@@ -3,10 +3,9 @@ package net.sourceforge.fidocadj.graphic.swing;
 import java.awt.*;
 import net.sourceforge.fidocadj.graphic.*;
 
-
 /** PolygonInterface specifies methods for handling a polygon.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -23,45 +22,72 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Davide Bucci
-</pre>
+    </pre>
 */
 public class PolygonSwing implements PolygonInterface
 {
     private final Polygon p;
 
+    /** Standard constructor.
+    */
     public PolygonSwing()
     {
         p=new Polygon();
     }
 
+    /** Add a point to the current polygon.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public void addPoint(int x, int y)
     {
         p.addPoint(x,y);
     }
 
+    /** Get the Swing version of the polygon.
+        @return the Swing polygon.
+    */
     public Polygon getSwingPolygon()
     {
         return p;
     }
+
+    /** Reset the current polygon by deleting all the points.
+    */
     public void reset()
     {
         p.reset();
     }
+
+    /** Get the current number of points in the polygon.
+        @return the number of points.
+    */
     public int getNpoints()
     {
         return p.npoints;
     }
 
+    /** Get a vector containing the x coordinates of the points.
+        @return a vector containing the x coordinates of all points.
+    */
     public int[] getXpoints()
     {
         return p.xpoints;
     }
 
+    /** Get a vector containing the y coordinates of the points.
+        @return a vector containing the y coordinates of all points.
+    */
     public int[] getYpoints()
     {
         return p.ypoints;
     }
 
+    /** Check if a given point is contained inside the polygon.
+        @param x the x coordinate of the point to be checked.
+        @param y the y coordinate of the point to be checked.
+        @return true of the point is internal to the polygon, false otherwise.
+    */
     public boolean contains(int x, int y)
     {
         return p.contains(x,y);
