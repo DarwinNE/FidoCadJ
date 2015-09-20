@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.graphic;
 
 /** FontG is a class containing font information.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -19,20 +19,25 @@ package net.sourceforge.fidocadj.graphic;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Davide Bucci
-</pre>
+    </pre>
 */
 public class FontG
 {
     public String fontFamily;
 
+    /** Standard constructor.
+        @param n the name of the font family.
+    */
     public FontG(String n)
     {
         fontFamily=n;
     }
 
+    /** Get the font family.
+        @return the font family.
+    */
     public String getFamily()
     {
         return fontFamily;
     }
-
 }

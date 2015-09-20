@@ -48,7 +48,7 @@ public class ExportSVG implements ExportInterface
     static final String dash[]={"2.5,5", "1.25,1.25",
         "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
 
-    public double cLe(double l)
+    private double cLe(double l)
     {
         //return (int)(l*sizeMagnification);
         return Math.round(l*100.0)/100.0;
@@ -200,9 +200,11 @@ public class ExportSVG implements ExportInterface
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
+        @param sW the width of the pen to be used when drawing.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -241,6 +243,7 @@ public class ExportSVG implements ExportInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
+        @param node_size the size of the connection in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -276,13 +279,14 @@ public class ExportSVG implements ExportInterface
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
+        @param sW the width of the pen to be used when drawing.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-
     public void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
@@ -306,7 +310,6 @@ public class ExportSVG implements ExportInterface
             arrowHalfWidth, arrowStyle);
         if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
             arrowHalfWidth, arrowStyle);
-
     }
 
     /** Called when exporting a Macro call.
@@ -330,6 +333,8 @@ public class ExportSVG implements ExportInterface
         @param font the used font.
         @param fontSize the size of the font to be used.
         @param m the library.
+        @return true if the export is handled by this function, false if the
+            macro has to be expanded into primitives.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -354,6 +359,7 @@ public class ExportSVG implements ExportInterface
 
         @param layer the layer that should be used.
         @param dashStyle dashing style.
+        @param sW the width of the pen to be used when drawing.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -420,6 +426,7 @@ public class ExportSVG implements ExportInterface
         @param siy the y size of the pad.
         @param indiam the hole internal diameter.
         @param layer the layer that should be used.
+        @param onlyHole true if only the hole has to be exported.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -503,6 +510,7 @@ public class ExportSVG implements ExportInterface
         @param isFilled true if the polygon is filled.
         @param layer the layer that should be used.
         @param dashStyle dashing style.
+        @param sW the width of the pen to be used when drawing.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -543,6 +551,9 @@ public class ExportSVG implements ExportInterface
         @param layer the layer that should be used.
         @param arrowStart true if an arrow should be drawn at the start point.
         @param arrowEnd true if an arrow should be drawn at the end point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
         @param sW the width of the pen to be used when drawing.
 
@@ -574,6 +585,7 @@ public class ExportSVG implements ExportInterface
         @param isFilled it is true if the rectangle should be filled.
         @param layer the layer that should be used.
         @param dashStyle dashing style.
+        @param sW the width of the pen to be used when drawing.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */

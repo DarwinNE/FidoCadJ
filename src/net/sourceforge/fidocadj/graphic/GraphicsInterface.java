@@ -5,7 +5,7 @@ import net.sourceforge.fidocadj.layers.*;
 
 /** Provides a general way to draw on the screen.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -22,13 +22,20 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Davide Bucci
-</pre>
+    </pre>
 */
 
 public interface GraphicsInterface
 {
-    public void setColor(ColorInterface c);
+    /** Get the current color.
+        @return the current color.
+    */
     public ColorInterface getColor();
+
+    /** Set the current color.
+        @param c the current color.
+    */
+    public void setColor(ColorInterface c);
 
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
@@ -54,12 +61,12 @@ public interface GraphicsInterface
     public void fillRect(int x, int y, int width, int height);
 
     /** Fill a rounded rectangle on the current graphic context.
-        @param x the x coordinate of the uppermost left corner
-        @param y the y coordinate of the uppermost left corner
-        @param width the width of the rectangle
-        @param height the height of the rectangle
-        @param arcWidth the width of the arc of the round corners
-        @param arcHeight the height of the arc of the round corners
+        @param x the x coordinate of the uppermost left corner.
+        @param y the y coordinate of the uppermost left corner.
+        @param width the width of the rectangle.
+        @param height the height of the rectangle.
+        @param arcWidth the width of the arc of the round corners.
+        @param arcHeight the height of the arc of the round corners.
     */
     public void fillRoundRect(int x,
                                    int y,
@@ -67,16 +74,23 @@ public interface GraphicsInterface
                                    int height,
                                    int arcWidth,
                                    int arcHeight);
+
     /** Check whether the rectangle specified falls in a region which need
         to be updated because it is "dirty" on the screen.
         Implementing correctly this method is very important to achieve a good
         redrawing speed because only "dirty" regions on the screen will be
         actually redrawn.
+        @param x the x coordinate of the uppermost left corner of rectangle.
+        @param y the y coordinate of the uppermost left corner of rectangle.
+        @param width the width of the rectangle of the rectangle.
+        @param height the height of the rectangle of the rectangle.
+        @return true if the rectangle hits the dirty region.
     */
     public boolean hitClip(int x,
                        int y,
                        int width,
                        int height);
+
     /** Draw a segment between two points
         @param x1 first coordinate x value
         @param y1 first coordinate y value
@@ -87,25 +101,29 @@ public interface GraphicsInterface
                               int y1,
                               int x2,
                               int y2);
+
     /** Set the current font for drawing text.
         @param name the name of the typeface to be used.
         @param size the size in pixels
-        @param isItalic true if an italic variant should be used
-        @param isBold true if a bold variant should be used
     */
     public void setFont(String name, int size);
+
     /** Simple version. It sets the current font.
-        @param name the name of the typeface
-        @param size the vertical size in pixels
+        @param name the name of the typeface.
+        @param size the vertical size in pixels.
+        @param isItalic true if an italic variant should be used.
+        @param isBold true if a bold variant should be used.
     */
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold);
+
     /** Get the ascent metric of the current font.
-        @returns the value of the ascent, in pixels.
+        @return the value of the ascent, in pixels.
     */
     public int getFontAscent();
+
     /** Get the descent metric of the current font.
-        @returns the value of the descent, in pixels.
+        @return the value of the descent, in pixels.
     */
     public int getFontDescent();
 
@@ -115,10 +133,10 @@ public interface GraphicsInterface
     */
     public int getStringWidth(String s);
 
-    /** Draw a string on the current graphic context
-        @param str the string to be drawn
-        @param x the x coordinate of the starting point
-        @param y the y coordinate of the starting point
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
     */
     public void drawString(String str,
                                 int x,
@@ -185,8 +203,9 @@ public interface GraphicsInterface
             setFont() method. If the text should be stretched (i.e. its width
             should be modified), this parameter gives the amount of stretching.
         @param xa the x coordinate of the point where the text will be placed.
-        @param ya the y coordinate of the point where the text will be placed.
-        @param qq
+        @param ya the y coordinate of the point where the rotation is
+            calculated.
+        @param qq the y coordinate of the point where the text will be placed.
         @param h the height of the text, in pixels.
         @param w the width of the string, in pixels.
         @param th the total height of the text (ascent+descents).
@@ -201,11 +220,11 @@ public interface GraphicsInterface
         String txt);
 
     /** Draw the grid in the given graphic context.
-        @param cs the coordinate map description
-        @param xmin the x (screen) coordinate of the upper left corner
-        @param ymin the y (screen) coordinate of the upper left corner
-        @param xmax the x (screen) coordinate of the bottom right corner
-        @param ymax the y (screen) coordinate of the bottom right corner
+        @param cs the coordinate map description.
+        @param xmin the x (screen) coordinate of the upper left corner.
+        @param ymin the y (screen) coordinate of the upper left corner.
+        @param xmax the x (screen) coordinate of the bottom right corner.
+        @param ymax the y (screen) coordinate of the bottom right corner.
     */
     public void drawGrid(MapCoordinates cs,
         int xmin, int ymin,

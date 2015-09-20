@@ -66,6 +66,10 @@ public class GraphicsNull implements GraphicsInterface
     {
         // nothing to do
     }
+
+    /** Get the current color.
+        @return the current color.
+    */
     public ColorInterface getColor()
     {
         return new ColorNull();
@@ -103,31 +107,63 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    /** Fill a rounded rectangle on the current graphic context.
+        @param x the x coordinate of the uppermost left corner.
+        @param y the y coordinate of the uppermost left corner.
+        @param width the width of the rectangle.
+        @param height the height of the rectangle.
+        @param arcWidth the width of the arc of the round corners.
+        @param arcHeight the height of the arc of the round corners.
+    */
     public void fillRoundRect(int x,
-                                   int y,
-                                   int width,
-                                   int height,
-                                   int arcWidth,
-                                   int arcHeight)
+                              int y,
+                              int width,
+                              int height,
+                              int arcWidth,
+                              int arcHeight)
     {
         // nothing to do
     }
 
+    /** Check whether the rectangle specified falls in a region which need
+        to be updated because it is "dirty" on the screen.
+        Implementing correctly this method is very important to achieve a good
+        redrawing speed because only "dirty" regions on the screen will be
+        actually redrawn.
+        @param x the x coordinate of the uppermost left corner of rectangle.
+        @param y the y coordinate of the uppermost left corner of rectangle.
+        @param width the width of the rectangle of the rectangle.
+        @param height the height of the rectangle of the rectangle.
+        @return true if the rectangle hits the dirty region.
+    */
     public boolean hitClip(int x,
-                       int y,
-                       int width,
-                       int height)
+                           int y,
+                           int width,
+                           int height)
     {
         return false;
     }
+
+    /** Draw a segment between two points
+        @param x1 first coordinate x value
+        @param y1 first coordinate y value
+        @param x2 second coordinate x value
+        @param y2 second coordinate y value
+    */
     public void drawLine(int x1,
-                              int y1,
-                              int x2,
-                              int y2)
+                         int y1,
+                         int x2,
+                         int y2)
     {
         // nothing to do
     }
 
+    /** Set the current font for drawing text.
+        @param name the name of the typeface to be used.
+        @param size the size in pixels.
+        @param isItalic true if an italic variant should be used.
+        @param isBold true if a bold variant should be used.
+    */
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
     {
@@ -138,30 +174,47 @@ public class GraphicsNull implements GraphicsInterface
         fm=g.getFontMetrics(f);
     }
 
+    /** Simple version. It sets the current font.
+        @param name the name of the typeface.
+        @param size the vertical size in pixels.
+    */
     public void setFont(String name, int size)
     {
         setFont(name, size, false, false);
     }
 
-    /** TODO: is there a way to implement something without a graphic context?
+    /** Get the ascent metric of the current font.
+        @return the value of the ascent, in pixels.
     */
     public int getFontAscent()
     {
+        // TODO: is there a way to implement something without a graphic
+        // context?
         return fm.getAscent();
     }
-    /** TODO: is there a way to implement something without a graphic context?
+
+    /** Get the descent metric of the current font.
+        @return the value of the descent, in pixels.
     */
     public int getFontDescent()
     {
         return fm.getDescent();
     }
-    /** TODO: is there a way to implement something without a graphic context?
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
     */
     public int getStringWidth(String s)
     {
         return fm.stringWidth(s);
     }
 
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
     public void drawString(String str,
                                 int x,
                                 int y)
@@ -169,11 +222,21 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    /** Set the transparency (alpha) of the current color.
+        @param alpha the transparency, between 0.0 (transparent) and 1.0
+            (fully opaque).
+    */
     public void setAlpha(float alpha)
     {
         // nothing to do
     }
 
+    /** Draw a completely filled oval in the current graphic context.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+        @param width the width of the oval.
+        @param height the height of the oval.
+    */
     public void fillOval(int x,
                               int y,
                               int width,
@@ -181,6 +244,13 @@ public class GraphicsNull implements GraphicsInterface
     {
         // nothing to do
     }
+
+    /** Draw an enmpty oval in the current graphic context.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+        @param width the width of the oval.
+        @param height the height of the oval.
+    */
     public void drawOval(int x,
                               int y,
                               int width,
@@ -188,28 +258,66 @@ public class GraphicsNull implements GraphicsInterface
     {
         // nothing to do
     }
+
+    /** Fill a given  shape.
+        @param s the shape to be filled.
+    */
     public void fill(ShapeInterface s)
     {
         // nothing to do
     }
+
+    /** Draw a given  shape.
+        @param s the shape to be drawn.
+    */
     public void draw(ShapeInterface s)
     {
         // nothing to do
     }
+
+    /** Fill a given  polygon.
+        @param p the polygon to be filled.
+    */
     public void fillPolygon(PolygonInterface p)
     {
         // nothing to do
     }
+
+    /** Draw a given  polygon.
+        @param p the polygon to be drawn.
+    */
     public void drawPolygon(PolygonInterface p)
     {
         // nothing to do
     }
 
+    /** Select the selection color (normally, green) for the current graphic
+        context.
+        @param l the layer whose color should be blended with the selection
+            color (green).
+    */
     public void activateSelectColor(LayerDesc l)
     {
         // nothing to do
     }
 
+    /** Draw a string by allowing for a certain degree of flexibility in
+        specifying how the text will be handled.
+        @param xyfactor the text font is specified by giving its height in the
+            setFont() method. If the text should be stretched (i.e. its width
+            should be modified), this parameter gives the amount of stretching.
+        @param xa the x coordinate of the point where the text will be placed.
+        @param ya the y coordinate of the point where the rotation is
+            calculated.
+        @param qq the y coordinate of the point where the text will be placed.
+        @param h the height of the text, in pixels.
+        @param w the width of the string, in pixels.
+        @param th the total height of the text (ascent+descents).
+        @param needsStretching true if some stretching is needed.
+        @param orientation orientation in degrees of the text.
+        @param mirror true if the text is mirrored.
+        @param txt the string to be drawn.
+    */
     public void drawAdvText(double xyfactor, int xa, int ya,
         int qq, int h, int w, int th, boolean needsStretching,
         int orientation, boolean mirror,
@@ -218,6 +326,13 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    /** Draw the grid in the given graphic context.
+        @param cs the coordinate map description.
+        @param xmin the x (screen) coordinate of the upper left corner.
+        @param ymin the y (screen) coordinate of the upper left corner.
+        @param xmax the x (screen) coordinate of the bottom right corner.
+        @param ymax the y (screen) coordinate of the bottom right corner.
+    */
     public void drawGrid(MapCoordinates cs,
         int xmin, int ymin,
         int xmax, int ymax)
@@ -225,14 +340,25 @@ public class GraphicsNull implements GraphicsInterface
             // nothing to do
     }
 
+    /** Create a polygon object, compatible with the current implementation.
+        @return a polygon object.
+    */
     public PolygonInterface createPolygon()
     {
         return new PolygonNull();
     }
+
+    /** Create a color object, compatible with the current implementation.
+        @return a color object.
+    */
     public ColorInterface createColor()
     {
         return new ColorNull();
     }
+
+    /** Create a shape object, compatible with the current implementation.
+        @return a shape object.
+    */
     public ShapeInterface createShape()
     {
         return new ShapeNull();
@@ -245,7 +371,6 @@ public class GraphicsNull implements GraphicsInterface
     {
         // If GraphicsNull is used correctly, this magic number should not
         // be very important.
-
         return 72;
     }
 }

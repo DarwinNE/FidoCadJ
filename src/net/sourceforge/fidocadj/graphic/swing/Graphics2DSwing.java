@@ -419,8 +419,9 @@ public class Graphics2DSwing implements GraphicsInterface
             setFont() method. If the text should be stretched (i.e. its width
             should be modified), this parameter gives the amount of stretching.
         @param xa the x coordinate of the point where the text will be placed.
-        @param ya the y coordinate of the point where the text will be placed.
-        @param qq
+        @param ya the y coordinate of the point where the rotation is
+            calculated.
+        @param qq the y coordinate of the point where the text will be placed.
         @param h the height of the text, in pixels.
         @param w the width of the string, in pixels.
         @param th the total height of the text (ascent+descents).
@@ -435,6 +436,8 @@ public class Graphics2DSwing implements GraphicsInterface
         int orientation, boolean mirror,
         String txt)
     {
+        // TODO: is it possible to unify qq and ya? For example, get rid of qq?
+
         /*  At first, I tried to use an affine transform on the font, without
             pratically touching the graphic context. This technique worked well,
             but I noticed it produced bugs on the case of a jar packed on a
@@ -443,7 +446,6 @@ public class Graphics2DSwing implements GraphicsInterface
             transforms. What a pity!
 
             February 20, 2009: I noticed this is in fact a bug on JRE < 1.5
-
         */
         AffineTransform at=(AffineTransform)g.getTransform().clone();
         AffineTransform ats=(AffineTransform)at.clone();

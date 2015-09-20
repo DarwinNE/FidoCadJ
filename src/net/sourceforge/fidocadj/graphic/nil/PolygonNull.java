@@ -34,6 +34,8 @@ public class PolygonNull implements PolygonInterface
 
     private final Polygon p;
 
+    /** Standard constructor.
+    */
     public PolygonNull()
     {
         p=new Polygon();

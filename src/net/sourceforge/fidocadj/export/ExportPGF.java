@@ -208,6 +208,7 @@ public class ExportPGF implements ExportInterface
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
@@ -249,6 +250,7 @@ public class ExportPGF implements ExportInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
+        @param node_size the sieze of the connection in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -275,6 +277,7 @@ public class ExportPGF implements ExportInterface
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
@@ -404,6 +407,8 @@ public class ExportPGF implements ExportInterface
         @param font the used font.
         @param fontSize the size of the font to be used.
         @param m the library.
+        @return true if the export is done by the function, false if the
+            macro should be expanded into primitives.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -478,6 +483,7 @@ public class ExportPGF implements ExportInterface
         @param siy the y size of the pad.
         @param indiam the hole internal diameter.
         @param layer the layer that should be used.
+        @param onlyHole true if only the hole should be exported.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -565,6 +571,7 @@ public class ExportPGF implements ExportInterface
             out.write("\\pgfqstroke \n");
 
     }
+
     /** Called when exporting a Curve primitive.
 
         @param vertices array containing the position of each vertex.
@@ -572,6 +579,11 @@ public class ExportPGF implements ExportInterface
         @param isFilled true if the polygon is filled.
         @param isClosed true if the curve is closed.
         @param layer the layer that should be used.
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
         @param strokeWidth the width of the pen to be used when drawing.
         @return false if the curve should be rendered using a polygon, true

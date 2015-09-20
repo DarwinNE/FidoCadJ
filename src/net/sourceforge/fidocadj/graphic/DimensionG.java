@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.graphic;
 
 /** DimensionG
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -19,18 +19,25 @@ package net.sourceforge.fidocadj.graphic;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Davide Bucci
-</pre>
+    </pre>
 */
 public class DimensionG
 {
     public int width;
     public int height;
+
+    /** Standard constructor.
+        @param width the width (or x dimension).
+        @param height the height (or y dimension).
+    */
     public DimensionG(int width, int height)
     {
         this.width=width;
         this.height=height;
     }
 
+    /** Standard creator. Width and hight are put equal to zero.
+    */
     public DimensionG()
     {
         this.width=0;

@@ -1,107 +1,17 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:105:49: warning: Balise javadoc @param manquante pour 'gg'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:888:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:918:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:959:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1006: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1081:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1181:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1182:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1183:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1184:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1185:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:225:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:255:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:290:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:410: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:485:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:584:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:585:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:586:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:587:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:588:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:216:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:220:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:247:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:291:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:295:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:336: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:361:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:428:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:510:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:559:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:560:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:581:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/DimensionG.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/DimensionG.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/FontG.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/FontG.java:33:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:31:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:76: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:76:32: warning: Balise javadoc @param manquante pour 'x'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:77:28: warning: Balise javadoc @param manquante pour 'y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:78:28: warning: Balise javadoc @param manquante pour 'width'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:79:28: warning: Balise javadoc @param manquante pour 'height'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:93:9: warning: Balise javadoc @param inutilisé pour 'isItalic'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:94:9: warning: Balise javadoc @param inutilisé pour 'isBold'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:101:56: warning: Balise javadoc @param manquante pour 'isItalic'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:102:17: warning: Balise javadoc @param manquante pour 'isBold'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:106: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:110: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:199:13: warning: Balise javadoc @param manquante pour 'qq'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointDouble.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointDouble.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointG.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointG.java:35:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:26:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:27:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:31:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/RectangleG.java:32:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/RectangleG.java:40:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:106:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:116:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:123:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:131:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:141:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:148: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:154: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:160: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:160:38: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:165:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:172:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:177:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:184:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:191:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:195:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:199:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:203:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:208:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:213:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:221:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:228:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:232:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:236:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:37:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:56:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:61:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:66:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:36:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:58:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:65:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:72:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:44:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:49:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:53:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:58:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:63:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:68:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:37:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:42:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:48:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:53:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:59:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:66:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:73:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:204: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:204:32: warning: Balise javadoc @param manquante pour 'x'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:205:28: warning: Balise javadoc @param manquante pour 'y'.
@@ -109,7 +19,6 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:207:28: warning: Balise javadoc @param manquante pour 'height'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:257: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:266: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:434:13: warning: Balise javadoc @param manquante pour 'qq'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:32:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:37:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:42:5: warning: Commentaire javadoc manquant.
@@ -453,109 +362,19 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:106:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:111:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGlassPane.java:116:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:105:49: warning: Balise javadoc @param manquante pour 'gg'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:888:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:918:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:959:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1006: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1081:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1181:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1182:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1183:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1184:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java:1185:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:225:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:255:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:290:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:410: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:485:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:584:17: warning: Balise javadoc @param manquante pour 'arrowStart'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:585:17: warning: Balise javadoc @param manquante pour 'arrowEnd'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:586:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:587:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPGF.java:588:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:216:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:220:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:247:67: warning: Balise javadoc @param manquante pour 'node_size'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:291:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:295:16: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:336: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:361:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:428:40: warning: Balise javadoc @param manquante pour 'onlyHole'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:510:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:558:13: warning: Balise javadoc @param manquante pour 'arrowStyle'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:559:13: warning: Balise javadoc @param manquante pour 'arrowLength'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:560:13: warning: Balise javadoc @param manquante pour 'arrowHalfWidth'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportSVG.java:581:60: warning: Balise javadoc @param manquante pour 'sW'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/DimensionG.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/DimensionG.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/FontG.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/FontG.java:33:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:31:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:76: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:76:32: warning: Balise javadoc @param manquante pour 'x'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:77:28: warning: Balise javadoc @param manquante pour 'y'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:78:28: warning: Balise javadoc @param manquante pour 'width'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:79:28: warning: Balise javadoc @param manquante pour 'height'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:93:9: warning: Balise javadoc @param inutilisé pour 'isItalic'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:94:9: warning: Balise javadoc @param inutilisé pour 'isBold'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:101:56: warning: Balise javadoc @param manquante pour 'isItalic'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:102:17: warning: Balise javadoc @param manquante pour 'isBold'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:106: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:110: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:199:13: warning: Balise javadoc @param manquante pour 'qq'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:106:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:116:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:123:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:131:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:141:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:148: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:154: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:160: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:160:38: warning: Balise javadoc @param manquante pour 's'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:165:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:172:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:177:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:184:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:191:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:195:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:199:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:203:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:208:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:213:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:221:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:228:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:232:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:236:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:37:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:56:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:61:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:66:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:36:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:58:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:65:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:72:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointDouble.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointDouble.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointG.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PointG.java:35:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:26:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:27:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:28:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:29:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:30:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:31:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/RectangleG.java:32:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/RectangleG.java:40:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:44:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:49:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:53:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:58:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:63:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:68:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:37:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:42:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:48:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:53:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:59:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:66:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:73:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:204: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:204:32: warning: Balise javadoc @param manquante pour 'x'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:205:28: warning: Balise javadoc @param manquante pour 'y'.
@@ -563,7 +382,6 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:207:28: warning: Balise javadoc @param manquante pour 'height'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:257: warning: Balise javadoc @return manquante.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:266: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:434:13: warning: Balise javadoc @param manquante pour 'qq'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:32:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:37:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:42:5: warning: Commentaire javadoc manquant.

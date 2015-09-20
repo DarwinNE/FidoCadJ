@@ -23,10 +23,35 @@ package net.sourceforge.fidocadj.graphic;
 */
 public interface PolygonInterface
 {
+    /** Add a point to the current polygon.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public void addPoint(int x, int y);
+
+    /** Get the current number of points in the polygon.
+        @return the number of points.
+    */
     public int getNpoints();
+
+    /** Reset the current polygon by deleting all the points.
+    */
     public void reset();
+
+    /** Get a vector containing the x coordinates of the points.
+        @return a vector containing the x coordinates of all points.
+    */
     public int[] getXpoints();
+
+    /** Get a vector containing the y coordinates of the points.
+        @return a vector containing the y coordinates of all points.
+    */
     public int[] getYpoints();
+
+    /** Check if a given point is contained inside the polygon.
+        @param x the x coordinate of the point to be checked.
+        @param y the y coordinate of the point to be checked.
+        @return true of the point is internal to the polygon, false otherwise.
+    */
     public boolean contains(int x, int y);
 }

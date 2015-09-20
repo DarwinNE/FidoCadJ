@@ -99,6 +99,8 @@ public class ExportPDF implements ExportInterface
 
     /** Constructor
         @param f the File object in which the export should be done.
+        @param gg the graphic object. Mainly required to calculate text sizes
+            and calculating text positions.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -871,6 +873,7 @@ public class ExportPDF implements ExportInterface
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
@@ -910,8 +913,8 @@ public class ExportPDF implements ExportInterface
 
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
-
         @param layer the layer that should be used.
+        @param node_size the size of the connection, in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -926,8 +929,6 @@ public class ExportPDF implements ExportInterface
 
         ellipse(x-node_size/2.0, y-node_size/2.0,
                 x+node_size/2.0, y+node_size/2.0, true);
-        //outt.write("f\n");
-
     }
 
     /** Called when exporting a Line primitive.
@@ -936,13 +937,13 @@ public class ExportPDF implements ExportInterface
         @param y1 the y position of the first point of the segment.
         @param x2 the x position of the second point of the segment.
         @param y2 the y position of the second point of the segment.
-
         @param layer the layer that should be used.
 
         // from 0.22.1
 
         @param arrowStart specify if an arrow is present at the first point.
         @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
         @param arrowLength total lenght of arrows (if present).
         @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
@@ -950,7 +951,6 @@ public class ExportPDF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-
     public void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
@@ -1002,6 +1002,8 @@ public class ExportPDF implements ExportInterface
         @param m the library.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
+        @return false if the macro should be split into primitives or true
+            if the export is handled entirely by this function.
     */
     public boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
@@ -1012,7 +1014,6 @@ public class ExportPDF implements ExportInterface
         // The macro will be expanded into primitives.
         return false;
     }
-
 
     /** Called when exporting an Oval primitive. Specify the bounding box.
 
@@ -1035,7 +1036,6 @@ public class ExportPDF implements ExportInterface
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
-
         ellipse(x1,y1, x2, y2, isFilled);
     }
 
@@ -1063,7 +1063,6 @@ public class ExportPDF implements ExportInterface
             x2+" "+y2+" l S\n");
     }
 
-
     /** Called when exporting a PCBPad primitive.
 
         @param x the x position of the pad.
@@ -1074,6 +1073,7 @@ public class ExportPDF implements ExportInterface
         @param siy the y size of the pad.
         @param indiam the hole internal diameter.
         @param layer the layer that should be used.
+        @param onlyHole true if only the hole has to be exported.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -1088,7 +1088,6 @@ public class ExportPDF implements ExportInterface
         ColorInterface c=l.getColor();
 
         checkColorAndWidth(c, 0.33);
-
 
         // At first, draw the pad...
         if(!onlyHole) {
@@ -1168,6 +1167,11 @@ public class ExportPDF implements ExportInterface
         @param isFilled true if the polygon is filled.
         @param isClosed true if the curve is closed.
         @param layer the layer that should be used.
+        @param arrowStart specify if an arrow is present at the first point.
+        @param arrowEnd specify if an arrow is present at the second point.
+        @param arrowStyle the style of the arrow.
+        @param arrowLength total lenght of arrows (if present).
+        @param arrowHalfWidth half width of arrows (if present).
         @param dashStyle dashing style.
         @param strokeWidth the width of the pen to be used when drawing.
 

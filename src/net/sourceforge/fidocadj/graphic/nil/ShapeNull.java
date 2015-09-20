@@ -10,7 +10,8 @@ import net.sourceforge.fidocadj.graphic.*;
 
     ShapeNull is a wrapper around the Shape Swing class.
     TODO: reduce dependency on java.awt.*;
-<pre>
+
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -27,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014 by Davide Bucci
-</pre>
+    </pre>
 */
 public class ShapeNull implements ShapeInterface
 {

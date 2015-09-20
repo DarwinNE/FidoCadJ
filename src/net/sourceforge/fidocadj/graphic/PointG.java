@@ -26,12 +26,19 @@ public class PointG
 {
     public int x;
     public int y;
+
+    /** Standard constructor.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public PointG(int x, int y)
     {
         this.x=x;
         this.y=y;
     }
 
+    /** Standard constructor. The x and y coordinates are put equal to zero.
+    */
     public PointG()
     {
         this.x=0;

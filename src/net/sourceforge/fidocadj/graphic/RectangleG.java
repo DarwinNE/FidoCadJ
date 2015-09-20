@@ -29,6 +29,12 @@ public class RectangleG
     public int height;
     public int width;
 
+    /** Standard constructor of the rectangle.
+        @param x the x coordinates of the leftmost side.
+        @param y the y coordinates of the topmost side.
+        @param width the width of the rectangle.
+        @param height the height of the rectangle.
+    */
     public RectangleG(int x, int y, int width, int height)
     {
         this.x=x;
@@ -37,6 +43,9 @@ public class RectangleG
         this.height=height;
     }
 
+    /** Standard constructor. All the coordinates and sizes are put equal to
+        zero.
+    */
     public RectangleG()
     {
         this.x=0;
