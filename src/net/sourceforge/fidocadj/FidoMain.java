@@ -49,6 +49,7 @@ public class FidoMain
 
     /** The main method. Process the command line options and if necessary
         shows an instance of FidoFrame.
+        @param args the command line arguments.
     */
     public static void main(String... args)
     {

@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the Polygon primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,11 +28,10 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public final class PrimitivePolygon extends GraphicPrimitive
 {
 
@@ -62,6 +61,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
         return nPoints+2;
     }
 
+    /** Constructor.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
+    */
     public PrimitivePolygon(String f, int size)
     {
         super();
@@ -70,14 +73,14 @@ public final class PrimitivePolygon extends GraphicPrimitive
         p = null;
         initPrimitive(N_POINTS, f, size);
     }
-    /** Create a polygon. Add points with the addPoint method.
 
+    /** Create a polygon. Add points with the addPoint method.
         @param f specifies if the polygon should be filled
         @param layer the layer to be used.
         @param dashSt the dash style
-
+        @param font the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
-
     public PrimitivePolygon(boolean f, int layer, int dashSt,
         String font, int size)
     {
@@ -135,9 +138,13 @@ public final class PrimitivePolygon extends GraphicPrimitive
                 changed=true;
             }
         }
-
     }
 
+    /** Add a point in the polygon, by splitting the closes side to the point
+        inserted.
+        @param px x coordinates of the point to insert.
+        @param py y coordinates of the point to insert.
+    */
     public void addPointClosest(int px, int py)
     {
         int[] xp=new int[N_POINTS];
@@ -227,10 +234,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
     }
 
     /** Store the polygon, which must be already calculated.
+        @param coordSys the coordinates mapping system.
+        @param g the graphic context.
     */
     public void createPolygon(MapCoordinates coordSys, GraphicsInterface g)
     {
-
         int j;
         xmin = Integer.MAX_VALUE;
         ymin = Integer.MAX_VALUE;
@@ -315,7 +323,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array
-
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -405,7 +414,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -439,8 +449,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -489,6 +500,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -524,6 +537,12 @@ public final class PrimitivePolygon extends GraphicPrimitive
         return cmd;
     }
 
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
+    */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {

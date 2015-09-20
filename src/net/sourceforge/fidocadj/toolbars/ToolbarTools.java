@@ -413,19 +413,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     /** Add a selection listener (object implementing the ChangeSelection
         interface) whose change method will be called when the current
         selected action should be changed.
+        @param c the change selection listener.
     */
-
     public void addSelectionListener(ChangeSelectionListener c)
     {
         selectionListener=c;
     }
 
-
     /** This method finds the button selected at the moment.
-
         @return selectedButton
     */
-
     public JToggleButton getSelectedButton()
     {
         JToggleButton selectedButton = null;
@@ -444,7 +441,6 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         @return the actual selection state (see the CircuitPanel class for the
         definition of the constants used here).
     */
-
     public int getSelectionState()
     {
         JToggleButton selectedButton = getSelectedButton();
@@ -461,7 +457,6 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     /** Set if the strict FidoCAD compatibility mode is active
         @param strict true if the compatibility with FidoCAD should be
         obtained.
-
     */
     public void setStrictCompatibility(boolean strict)
     {
@@ -475,14 +470,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         definition of the constants used here).
         @param m not used here (useful when playing with macros).
     */
-
     public void setSelectionState(int s, String m)
     {
-        /* I think this code is not useful
-        for(int i=0; i<toolButtonsList.size(); ++i) {
-            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
-            button.setSelected(false);
-        }*/
         for(int i=0; i<toolButtonsList.size(); ++i) {
             if(s == ElementsEdtActions.NONE || s == ElementsEdtActions.MACRO)
                 break;

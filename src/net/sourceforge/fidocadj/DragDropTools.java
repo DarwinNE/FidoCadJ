@@ -8,7 +8,10 @@ import java.awt.datatransfer.*;
 
     Class handling the drag & drop operations.
 
-<pre>
+    TODO: improve the descriptions in the Javadoc comments. Sometimes are
+    cryptical or uninformative.
+
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -25,15 +28,17 @@ import java.awt.datatransfer.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
-
 public class DragDropTools implements DropTargetListener
 {
     FidoFrame fff;
 
+    /** Constructor.
+        @param f the frame to which the drag&drop tools should be associated.
+    */
     public DragDropTools(FidoFrame f)
     {
         fff=f;
@@ -43,22 +48,32 @@ public class DragDropTools implements DropTargetListener
         inspired on the example given here:
         http://www.java-tips.org/java-se-tips/javax.swing/how-to-implement-drag-
             drop-functionality-in-your-applic.html
+        @param dtde the drop target drag event
     */
     public void dragEnter(DropTargetDragEvent dtde)
     {
         // does nothing
     }
 
+    /** Exit from the drag target.
+        @param dte the drop target event.
+    */
     public void dragExit(DropTargetEvent dte)
     {
         // does nothing
     }
 
+    /** Drag over the target.
+        @param dtde the drop target drag event.
+    */
     public void dragOver(DropTargetDragEvent dtde)
     {
         // does nothing
     }
 
+    /** Drop action changed.
+        @param dtde the drop target drag event.
+    */
     public void dropActionChanged(DropTargetDragEvent dtde)
     {
         // does nothing
@@ -69,6 +84,7 @@ public class DragDropTools implements DropTargetListener
         the operating system flavor, the files are handled differently.
         For that reason, we check a few things and we need to differentiate
         several cases.
+        @param dtde the drop target event.
     */
     public void drop(DropTargetDropEvent dtde)
     {

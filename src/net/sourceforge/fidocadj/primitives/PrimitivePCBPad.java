@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the PCB pad primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,14 +28,12 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public final class PrimitivePCBPad extends GraphicPrimitive
 {
-
     private int rx;
     private int ry;
     private int sty;
@@ -71,11 +69,12 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         @param y1 the y coordinate (logical unit).
         @param wx the width of the pad
         @param wy the height of the pad
+        @param radi the internal radius.
         @param st the style of the pad
         @param layer the layer to be used.
-
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
-
     public PrimitivePCBPad(int x1, int y1, int wx, int wy, int radi, int st,
         int layer, String f, int size)
     {
@@ -97,8 +96,11 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         setLayer(layer);
     }
 
-
-
+    /** Constructor. Create an empty PCBPad object with all the sizes and
+        dimensions set to zero.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
+    */
     public PrimitivePCBPad(String f, int size)
     {
         super();
@@ -109,6 +111,10 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         initPrimitive(-1, f, size);
     }
 
+    /** Check if the holes should be drawn.
+        @return true for a PCBpad.
+    */
+    @Override
     public boolean needsHoles()
     {
         return true;
@@ -122,7 +128,6 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
                               Vector layerV)
     {
-
         if(!selectLayer(g,layerV))
             return;
         drawText(g, coordSys, layerV, -1);
@@ -198,8 +203,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
-
+        @param N the number of tokens present in the array.
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -237,22 +243,20 @@ public final class PrimitivePCBPad extends GraphicPrimitive
                                           " programming error?");
             throw E;
         }
-
-
-
     }
 
+    /** Set the draw only pads flag.
+        @param pd the value of the flag.
+    */
     public void setDrawOnlyPads(boolean pd)
     {
         drawOnlyPads=pd;
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
     */
     public Vector<ParameterDescription> getControls()
     {
@@ -280,11 +284,11 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -326,9 +330,10 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 
     /** Rotate the primitive. Here we just rotate 90° by 90° by swapping the
         x and y size of the pad
-
         @param bCounterClockWise specify if the rotation should be done
                 counterclockwise.
+        @param ix the x coordinate of the rotation point.
+        @param iy the y coordinate of the rotation point.
     */
     public void rotatePrimitive(boolean bCounterClockWise, int ix, int iy)
     {
@@ -336,15 +341,15 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         int swap=rx;
         rx=ry;
         ry=swap;
-
     }
 
     /** Gets the distance (in primitive's coordinates space) between a
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -360,6 +365,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -371,6 +378,12 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         return s;
     }
 
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
+    */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {

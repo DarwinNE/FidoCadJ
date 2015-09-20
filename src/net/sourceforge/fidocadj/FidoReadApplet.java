@@ -17,9 +17,9 @@ import java.util.*;
 
 /** FidoReadApplet.java v.2.0
 
-This is the main file for the FidoCadJ reader applet.
+    This is the main file for the FidoCadJ reader applet.
 
-<pre>
+    <pre>
    ****************************************************************************
 
 Version   Date           Author       Remarks
@@ -50,7 +50,7 @@ Version   Date           Author       Remarks
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright march 2007 - 2014 by Davide Bucci
-</pre>
+    </pre>
 
 @author Davide Bucci
 */
@@ -99,9 +99,7 @@ public class FidoReadApplet extends JApplet
         contentPane.add(SC,"Center");
     }
 
-
     /** Draw the schematic
-
         @param c the string containing the circuit to be drawn
         @param zoom the wanted zoom (pixels per logical unit).
     */
@@ -113,16 +111,16 @@ public class FidoReadApplet extends JApplet
         getToolkit().sync();
     }
 
-    /** Set or reset the anti aliasing option
-
+    /** Set or reset the anti aliasing option.
+        @param aa the value of the anti alias flag.
     */
     public void setAntiAlias(boolean aa)
     {
         CC.antiAlias=aa;
     }
 
-    /** Set the profiler
-
+    /** Set the profiler.
+        @param pp true if the profiler should be active.
     */
     public void setProfileTime(boolean pp)
     {
@@ -131,7 +129,6 @@ public class FidoReadApplet extends JApplet
 
     /** Set the background color.
         @param color the color code (see the old MS-DOS color codes).
-
     */
     public void backColor(int color)
     {
@@ -188,9 +185,4 @@ public class FidoReadApplet extends JApplet
         }
         CC.setBackground(backgroundColor);
     }
-/*  public void update(Graphics g){
-        SC.repaint();
-        CC.revalidate();
-    } */
-
 }

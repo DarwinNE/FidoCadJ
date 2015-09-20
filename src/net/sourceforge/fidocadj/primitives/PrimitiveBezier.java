@@ -474,14 +474,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
                     arrowHalfWidth+" "+dashStyle+" "+text+"\n";
             }
         }
-
         // The false is needed since saveText should not write the FCJ tag.
         s+=saveText(false);
 
         return s;
     }
 
-    /** Export the text primitive on a vector graphic format.
+    /** Export the primitive on a vector graphic format.
         @param exp the export interface to employ.
         @param cs the coordinate mapping to employ.
         @throws IOException if a problem occurs, such as it is impossible to

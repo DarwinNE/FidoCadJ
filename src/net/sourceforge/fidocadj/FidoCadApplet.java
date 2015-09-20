@@ -11,13 +11,11 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-
-
 /** FidoReadApplet.java v.2.0
 
 This is the main file for the FidoCadJ reader applet.
 
-<pre>
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -35,11 +33,10 @@ This is the main file for the FidoCadJ reader applet.
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright march 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public class FidoCadApplet extends JApplet implements ActionListener
 {
     // Increment this version number each time an important modification of
@@ -48,7 +45,8 @@ public class FidoCadApplet extends JApplet implements ActionListener
 
     private FidoFrame popFrame;
 
-
+    /** Applet initialization.
+    */
     public void init()
     {
         // Here we create the main window object
@@ -106,15 +104,12 @@ public class FidoCadApplet extends JApplet implements ActionListener
         } else {
             Globals.shortcutKey=InputEvent.CTRL_MASK;
         }
-
-        /*******************************************************************
-                        END OF THE PLATFORM SELECTION CODE
-        *******************************************************************/
-
         popFrame.init();
     }
 
-
+    /** Event handler.
+        @param evt the event to process.
+    */
     public void actionPerformed(ActionEvent evt)
     {
         if(popFrame.isVisible())
@@ -123,5 +118,4 @@ public class FidoCadApplet extends JApplet implements ActionListener
             popFrame.setVisible(true);
 
     }
-
 }

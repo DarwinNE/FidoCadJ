@@ -967,6 +967,8 @@ public abstract class GraphicPrimitive
     /** This function should be redefined if the graphic primitive needs holes.
         This implies that the redraw strategy should include a final pass
         to be sure that the holes are drawn correctly.
+        Override this function if the primitive needs holes. The standard
+        implementation just returns false.
         @return true if there are elements in the drawing which need holes.
     */
     public boolean needsHoles()

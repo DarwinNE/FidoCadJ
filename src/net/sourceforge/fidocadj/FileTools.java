@@ -118,7 +118,8 @@ public class FileTools
         return shouldExit;
     }
 
-    /** Open the current file
+    /** Open the current file.
+        @throws IOException if the file can not be opened.
     */
     public void openFile()
         throws IOException

@@ -100,15 +100,15 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     }
 
     /** Complete constructor.
-        @param x the x position of the control point of the text
-        @param y the y position of the control point of the text
-        @param sx the x size of the font
-        @param sy the y size of the font
-        @param fn font name
-        @param or the orientation of the text
-        @param st the style of the text
-        @param t the text to be used
-        @param l the layer to be used
+        @param x the x position of the control point of the text.
+        @param y the y position of the control point of the text.
+        @param sx the x size of the font.
+        @param sy the y size of the font.
+        @param fn font name.
+        @param or the orientation of the text.
+        @param st the style of the text.
+        @param t the text to be used.
+        @param l the layer to be used.
     */
     public PrimitiveAdvText(int x, int y, int sx, int sy, String fn, int or,
                             int st, String t, int l)

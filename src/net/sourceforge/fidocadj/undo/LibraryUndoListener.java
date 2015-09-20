@@ -23,8 +23,11 @@ package net.sourceforge.fidocadj.undo;
     </pre>
     @author Davide Bucci
 */
-
 public interface LibraryUndoListener
 {
+    /** Undo the last library action.
+        TODO: complete that.
+        @param s the ?
+    */
     public void undoLibrary(String s);
 }

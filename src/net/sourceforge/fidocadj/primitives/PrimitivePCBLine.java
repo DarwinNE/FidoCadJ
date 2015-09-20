@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the PCB line primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,9 +28,9 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
 
 public final class PrimitivePCBLine extends GraphicPrimitive
@@ -59,6 +59,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     }
 
     /** Standard constructor.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
     public PrimitivePCBLine(String f, int size)
     {
@@ -73,6 +75,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param y2 the end y coordinate (logical unit).
         @param w specifies the line width.
         @param layer the layer to be used.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
     public PrimitivePCBLine(int x1, int y1, int x2, int y2, float w, int layer,
             String f, int size)
@@ -148,11 +152,11 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
-
+        @param N the number of tokens present in the array.
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -218,7 +222,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -242,8 +247,9 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -261,6 +267,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -269,12 +277,17 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+(int)width+" "+
             getLayer()+"\n";
 
-
         s+=saveText(extensions);
 
         return s;
     }
 
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
+    */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {

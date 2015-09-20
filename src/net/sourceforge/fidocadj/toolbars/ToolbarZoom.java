@@ -14,11 +14,7 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.layers.*;
 
 
-/**
-    ToolbarZoom class
-
-    @author Davide Bucci
-
+/** ToolbarZoom class
 
     <pre>
     This file is part of FidoCadJ.
@@ -39,14 +35,12 @@ import net.sourceforge.fidocadj.layers.*;
     Copyright 2007-2014 by Davide Bucci
     </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public class ToolbarZoom extends JToolBar implements ActionListener,
                                                      ChangeZoomListener,
                                                      ChangeCoordinatesListener
 {
-
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
@@ -60,7 +54,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     private final JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
-
 
     /** Standard constructor
         @param l the layer description
@@ -154,7 +147,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     /** Add a layer listener (object implementing the ChangeSelectionListener
         interface) whose change method will be called when the current
         layer should be changed.
-
+        @param c the change selection layer listener.
     */
     public void addLayerListener(ChangeSelectedLayer c)
     {
@@ -174,7 +167,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     /** Add a zoom change listener to be called when the zoom is changed by the
         user with the combo box slide.
         @param c the new listener.
-
     */
     public void addChangeZoomListener(ChangeZoomListener c)
     {
@@ -183,7 +175,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     /** Add a zoom to fit listener to be called when the user wants to fit
         @param c the new listener.
-
     */
     public void addZoomToFitListener(ZoomToFitListener c)
     {
@@ -192,6 +183,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
     /** The event listener to be called when the buttons are pressed, or the
         zoom setup is changed.
+        @param evt the event to be processed.
     */
     public void actionPerformed(ActionEvent evt)
     {
@@ -232,20 +224,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                     }
                 } catch (NumberFormatException E) {
                     // Just ignore
-                    //System.out.println ("Zoom ignored");
                 }
-
             }
-
         }
-
-
     }
 
     /** Change the zoom level and show it in the combo box
-
         @param z the new zoom level to be considered
-
     */
     public void changeZoom(double z)
     {
@@ -253,10 +238,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     }
 
     /** Change the cursor coordinates to be shown
-
         @param x the x value of the cursor coordinates (logical units)
         @param y the y value of the cursor coordinates (logical units)
-
     */
     public void changeCoordinates(int x, int y)
     {
@@ -266,19 +249,19 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         float xmm=(float)xum/1000;
         float ymm=(float)yum/1000;
 
-
         coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)");
     }
 
+    /** Change the strict compatibility mode with the old FidoCAD.
+        @param strict true if a strict compatibility mode should be active.
+    */
     public void changeStrict(boolean strict)
     {
         // Does nothing.
     }
 
-    /** Change the infos
-
-        @param s the string to be shown
-
+    /** Change the infos.
+        @param s the string to be shown.
     */
     public void changeInfos(String s)
     {

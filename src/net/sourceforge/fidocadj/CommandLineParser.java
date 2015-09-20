@@ -8,7 +8,7 @@ import net.sourceforge.fidocadj.globals.*;
 /** CommandLineParser.java
     Parse the command line recognizing options, commands and files.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -25,11 +25,10 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
-
 public class CommandLineParser
 {
     // If this is true, the GUI will not be loaded and FidoCadJ will run as
@@ -63,6 +62,9 @@ public class CommandLineParser
     // cases ("-p" option) they might be deactivated:
     private static boolean stripOptimization=false;
 
+    /** Get the value of the strip optimization flag.
+        @return true if platform-dependent optimizations should not be applied.
+    */
     public boolean getStripOptimization()
     {
         return stripOptimization;

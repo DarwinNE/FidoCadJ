@@ -13,7 +13,7 @@ import net.sourceforge.fidocadj.globals.*;
     to perform all exporting operations in a separate thread from the main
     user interface one.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2012-2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */

@@ -42,6 +42,8 @@ public class UndoState
     // The tempory directory where the libraries are be stored.
     public String libraryDir;
 
+    /** Standard constructor.
+    */
     public UndoState()
     {
         text="";

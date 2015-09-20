@@ -9,18 +9,31 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
-
 /** Based on snippets on:
     http://jroller.com/pago/entry/improving_jscrollpane_with_mouse_based
     http://www.jroller.com/santhosh/entry/enhanced_scrolling_in_swing
 
+    Autorization requested and obtained.
+
+    <pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    </pre>
 
     @author Santhosh Kumar T - santhosh@in.fiorano.com
-
-    Autorization requested and obtained.
 */
-
-
 public class ScrollGlassPane extends JPanel implements ActionListener,
     MouseInputListener, SwingConstants
 {
@@ -34,6 +47,11 @@ public class ScrollGlassPane extends JPanel implements ActionListener,
     private Point mouseLocation;
     private final JViewport viewport;
 
+    /** Constructor.
+        @param oldGlassPane the old glass pane.
+        @param viewport the current viewport.
+        @param location the location of the cursor.
+    */
     public ScrollGlassPane(Component oldGlassPane, JViewport viewport,
         Point location)
     {
@@ -52,16 +70,21 @@ public class ScrollGlassPane extends JPanel implements ActionListener,
         movingTimer.start();
     }
 
+    /** Paint the icon.
+        @param g the graphics context.
+    */
     protected void paintComponent(Graphics g)
     {
         g.drawImage(img, location.x-15, location.y-15, this);
     }
 
+    /** Handle actions (mouse moves).
+        @param e the action to be processed.
+    */
     public void actionPerformed(ActionEvent e)
     {
         int deltax = (mouseLocation.x - location.x)/4;
         int deltay = (mouseLocation.y - location.y)/4;
-
 
         Point p = viewport.getViewPosition();
         p.translate(deltax, deltay);
@@ -79,6 +102,9 @@ public class ScrollGlassPane extends JPanel implements ActionListener,
         viewport.setViewPosition(p);
     }
 
+    /** Mouse pressed.
+        @param e the mouse event.
+    */
     public void mousePressed(MouseEvent e)
     {
         movingTimer.stop();
@@ -88,31 +114,49 @@ public class ScrollGlassPane extends JPanel implements ActionListener,
         ScrollGestureRecognizer.getInstance().start();
     }
 
+    /** Mouse clicked.
+        @param e the mouse event.
+    */
     public void mouseClicked(MouseEvent e)
     {
         mousePressed(e);
     }
 
+    /** Mouse moved.
+        @param e the mouse event.
+    */
     public void mouseMoved(MouseEvent e)
     {
         mouseLocation = e.getPoint();
     }
 
+    /** Mouse dragged.
+        @param e the mouse event.
+    */
     public void mouseDragged(MouseEvent e)
     {
         // Nothing to do
     }
 
+    /** Mouse entered in the panel.
+        @param e the mouse event.
+    */
     public void mouseEntered(MouseEvent e)
     {
         // Nothing to do
     }
 
+    /** Mouse exited from the panel.
+        @param e the mouse event.
+    */
     public void mouseExited(MouseEvent e)
     {
         // Nothing to do
     }
 
+    /** Mouse button released.
+        @param e the mouse event.
+    */
     public void mouseReleased(MouseEvent e)
     {
         // Nothing to do
@@ -130,12 +174,8 @@ class MouseScrollIcon implements Icon
         gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // It seems that on some systems other than on MacOSX, the
-        // background of the icon is always painted in black.
-        if (!Globals.weAreOnAMac) {
-            gfx.setColor(Color.white);
-            gfx.fillRect(x, y, getIconWidth(), getIconHeight());
-        }
+        gfx.setColor(Color.white);
+        gfx.fillRect(x, y, getIconWidth(), getIconHeight());
 
         gfx.setColor(Color.gray);
         gfx.drawOval(x+2, y+2, getIconWidth()-5, getIconHeight()-5);

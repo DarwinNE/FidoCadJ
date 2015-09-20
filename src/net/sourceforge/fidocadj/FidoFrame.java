@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.List;
 import java.awt.event.*;
 
-
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -43,7 +42,7 @@ import net.sourceforge.fidocadj.librarymodel.utils.LibraryUndoExecutor;
 
 The class describing the main frame in which FidoCadJ runs.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -60,7 +59,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2015 by Davide Bucci
-</pre>
+    </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
     and printed circuit boards.
@@ -326,7 +325,7 @@ public class FidoFrame extends JFrame implements
 
     }
 
-    /* Load the saved configuration for the grid.
+    /** Load the saved configuration for the grid.
     */
     public void readGridSettings()
     {
@@ -336,7 +335,7 @@ public class FidoFrame extends JFrame implements
             prefs.get("GRID_SIZE", "5")));
     }
 
-    /* Load the saved configuration for the drawing primitives.
+    /** Load the saved configuration for the drawing primitives.
     */
     public void readDrawingSettings()
     {
@@ -356,7 +355,7 @@ public class FidoFrame extends JFrame implements
         ae.PCB_thickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
     }
 
-    /* Load the standard libraries according to the locale.
+    /** Load the standard libraries according to the locale.
     */
     public void loadLibraries()
     {
@@ -782,7 +781,7 @@ public class FidoFrame extends JFrame implements
 
     /** We notify the user that something has changed by putting an asterisk
         in the file name.
-        We also show here in the titlebar the (eventually stretched) file name
+        We also show here in the titlebar the (eventually shortened) file name
         of the drawing being modified or shown.
     */
     public void somethingHasChanged()
@@ -813,14 +812,16 @@ public class FidoFrame extends JFrame implements
         }
     }
 
-    /** The current window has gained focus
+    /** The current window has gained focus.
+        @param e the window event.
     */
     public void windowGainedFocus(WindowEvent e)
     {
         Globals.activeWindow = this;
     }
 
-    /** The current window has lost focus
+    /** The current window has lost focus.
+        @param e the window event.
     */
     public void windowLostFocus(WindowEvent e)
     {

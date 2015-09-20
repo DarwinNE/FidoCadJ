@@ -12,7 +12,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the line primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -29,15 +29,12 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2010 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
-
 public final class PrimitiveLine extends GraphicPrimitive
 {
-
     static final int N_POINTS=4;
 
     private boolean arrowStart;
@@ -60,18 +57,20 @@ public final class PrimitiveLine extends GraphicPrimitive
     private int xbpap1, ybpap1;
     private boolean arrows;
 
-
-    /** Constructor
-        @param x1       the x coordinate of the start point of the line
-        @param y1       the y coordinate of the start point of the line
-        @param x2       the x coordinate of the end point of the line
-        @param y2       the y coordinate of the end point of the line
-        @param layer    the layer to be used
-        @param arrowS   true if there is an arrow at the beginning of the line
-        @param arrowE   true if there is an arrow at the end of the line
-        @param arrowSt  style of the arrow
-        @param arrowLe  length of the arrow
-        @param arrowWi  width of the arrow
+    /** Constructor.
+        @param x1       the x coordinate of the start point of the line.
+        @param y1       the y coordinate of the start point of the line.
+        @param x2       the x coordinate of the end point of the line.
+        @param y2       the y coordinate of the end point of the line.
+        @param layer    the layer to be used.
+        @param arrowS   true if there is an arrow at the beginning of the line.
+        @param arrowE   true if there is an arrow at the end of the line.
+        @param arrowSt  style of the arrow.
+        @param arrowLe  length of the arrow.
+        @param arrowWi  width of the arrow.
+        @param dashSt   the dashing style.
+        @param f        the name of the font for attached text.
+        @param size     the size of the font for attached text.
     */
     public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
                         boolean arrowS, boolean arrowE,
@@ -101,6 +100,10 @@ public final class PrimitiveLine extends GraphicPrimitive
         setLayer(layer);
     }
 
+     /** Constructor.
+        @param f        the name of the font for attached text.
+        @param size     the size of the font for attached text.
+    */
     public PrimitiveLine(String f, int size)
     {
         super();
@@ -168,15 +171,17 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         return v;
     }
+
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
-
         int i=super.setControls(v);
         ParameterDescription pd;
 
@@ -223,15 +228,6 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         return i;
     }
-
-    /** Create a segment between two points
-        @param x1 the start x coordinate (logical unit).
-        @param y1 the start y coordinate (logical unit).
-        @param x2 the end x coordinate (logical unit).
-        @param y2 the end y coordinate (logical unit).
-        @param layer the layer to be used.
-
-    */
 
     /** Draw the graphic primitive on the given graphic context.
         @param g the graphic context in which the primitive should be drawn.
@@ -340,7 +336,9 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param N the number of tokens present in the array.
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
 
     */
     public void parseTokens(String[] tokens, int N)
@@ -400,8 +398,9 @@ public final class PrimitiveLine extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -414,10 +413,11 @@ public final class PrimitiveLine extends GraphicPrimitive
                 virtualPoint[0].x,virtualPoint[0].y,
                 virtualPoint[1].x,virtualPoint[1].y,
                 px,py);
-
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -456,7 +456,11 @@ public final class PrimitiveLine extends GraphicPrimitive
         return s;
     }
 
-    /** The export routine
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
     */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
@@ -474,7 +478,8 @@ public final class PrimitiveLine extends GraphicPrimitive
                        dashStyle,
                        Globals.lineWidth*cs.getXMagnitude());
     }
-        /** Get the number of the virtual point associated to the Name property
+
+    /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
     */
     public int getNameVirtualPointNumber()

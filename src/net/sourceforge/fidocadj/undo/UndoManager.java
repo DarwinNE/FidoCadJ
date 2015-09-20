@@ -10,10 +10,6 @@ import java.io.*;
     in the classical undo systems the very old states are overwritten when
     the maximum number of undo steps is reached.
 
-    @author Davide Bucci
-
-
-
     <pre>
     This file is part of FidoCadJ.
 
@@ -42,8 +38,8 @@ public class UndoManager
     private int pointer;
     private boolean isRedoable;
 
-    /** Creates a new undo buffer of the given size
-
+    /** Creates a new undo buffer of the given size.
+        @param size the size of the circular buffer.
     */
     public UndoManager (int size)
     {
@@ -51,6 +47,8 @@ public class UndoManager
         undoReset();
     }
 
+    /** For debug purposes, print the contents of the undo buffer.
+    */
     public void printUndoState()
     {
         System.out.println("===============================================");
@@ -66,8 +64,7 @@ public class UndoManager
             (isNextOperationOnALibrary()?"Yes":"No"));
     }
 
-    /** Removes all the elements from the circular buffer
-
+    /** Removes all the elements from the circular buffer.
     */
     public final void undoReset()
     {
@@ -77,7 +74,7 @@ public class UndoManager
         isRedoable=false;
     }
 
-    /** Pushes a new undo state in the buffer
+    /** Pushes a new undo state in the buffer.
         @param state the state to be committed.
     */
     public void undoPush(UndoState state)
@@ -99,10 +96,12 @@ public class UndoManager
 
         for(int i=pointer; i<undoBuffer.size();++i)
             undoBuffer.removeElementAt(pointer);
-
-        // printUndoState();
     }
 
+    /** Checks if the next operation is done on a library instead than on a
+        drawing.
+        @return true if the next operation is on a library.
+    */
     public boolean isNextOperationOnALibrary()
     {
         if(pointer>=undoBuffer.size() || pointer<1)
@@ -116,9 +115,9 @@ public class UndoManager
         return false;
     }
 
-
     /** Pops the last undo state from the buffer
         @return the recovered state.
+        @throws NoSuchElementException if the buffer is empty.
     */
     public UndoState undoPop()
         throws NoSuchElementException
@@ -130,11 +129,11 @@ public class UndoManager
 
         isRedoable=true;
         return o;
-
     }
 
     /** Redo the last undo state from the buffer
         @return the recovered state.
+        @throws NoSuchElementException if the buffer is empty.
     */
     public UndoState undoRedo()
         throws NoSuchElementException

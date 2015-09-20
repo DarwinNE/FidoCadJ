@@ -4,7 +4,7 @@ package net.sourceforge.fidocadj.undo;
     be performed.
 
     <pre>
-        This file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,12 @@ package net.sourceforge.fidocadj.undo;
 
 public interface UndoActorListener
 {
+    /** Save the current undo state.
+    */
     public void saveUndoState();
+
+    /** Save the library state.
+        @param tempLibraryDirectory the temporary directory.
+    */
     public void saveUndoLibrary(String tempLibraryDirectory);
 }

@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the ComplexCurve primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,11 +31,10 @@ import net.sourceforge.fidocadj.graphic.*;
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
-</pre>
+    </pre>
 
 @author Davide Bucci
 */
-
 public final class PrimitiveComplexCurve
     extends GraphicPrimitive
 {
@@ -82,7 +81,7 @@ public final class PrimitiveComplexCurve
     private ShapeInterface gp;
 
     /** Gets the number of control points used.
-        @return the number of points used by the primitive
+        @return the number of points used by the primitive.
     */
 
     public int getControlPointNumber()
@@ -90,7 +89,10 @@ public final class PrimitiveComplexCurve
         return nPoints+2;
     }
 
-    /** Create a ComplexCurve. Add points with the addPoint method.
+    /** Constructor.
+        Create a ComplexCurve. Add points with the addPoint method.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
     public PrimitiveComplexCurve(String f, int size)
     {
@@ -100,15 +102,21 @@ public final class PrimitiveComplexCurve
         p = null;
         initPrimitive(N_POINTS, f, size);
     }
+
     /** Create a ComplexCurve. Add points with the addPoint method.
 
-        @param f specifies if the ComplexCurve should be filled
-        @param c specifies if the ComplexCurve should be closed
+        @param f specifies if the ComplexCurve should be filled.
+        @param c specifies if the ComplexCurve should be closed.
         @param layer the layer to be used.
-        @param dashSt the dash style
-
+        @param arrowS arrow to be drawn at the beginning of the curve.
+        @param arrowE arrow to be drawn at the beginning of the curve.
+        @param arrowSt arrow style.
+        @param arrowLe the arrow length.
+        @param arrowWi the arrow half width.
+        @param dashSt dash style.
+        @param font the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
-
     public PrimitiveComplexCurve(boolean f, boolean c, int layer,
         boolean arrowS, boolean arrowE,
         int arrowSt, int arrowLe, int arrowWi, int dashSt,
@@ -225,8 +233,10 @@ public final class PrimitiveComplexCurve
         changed = true;
     }
 
-    /** Create the polygon associated to the complex curve. This is a crude
-        technique, but it is very easy to be implemented.
+    /** Create the CurveStorage associated to the complex curve. This is a crude
+        technique, but it is very easy to implement.
+        @param coordSys the coordinate mapping to be employed.
+        @return the CurveStorage approximating the complex curve.
     */
     public CurveStorage createComplexCurve(MapCoordinates coordSys)
     {
@@ -277,6 +287,12 @@ public final class PrimitiveComplexCurve
         return c;
     }
 
+    /** Create the polygon associated to the complex curve. This is a crude
+        technique, but it is very easy to implement.
+        @param coordSys the coordinate mapping to be employed.
+        @param poly the polygon to which the points will be added.
+        @return the polygon approximating the complex curve.
+    */
     public PolygonInterface createComplexCurvePoly(MapCoordinates coordSys,
         PolygonInterface poly)
     {
@@ -318,8 +334,10 @@ public final class PrimitiveComplexCurve
 
     /** Code adapted from Tim Lambert's snippets:
         http://www.cse.unsw.edu.au/~lambert/splines/
-
-        Used here with permissions (hey, thanks a lot, Tim!)
+        Used here with permissions (hey, thanks a lot, Tim!).
+        @param n the number of points.
+        @param x the vector containing x coordinates of nodes.
+        @return the cubic curve spline'ing the nodes.
     */
     Cubic[] calcNaturalCubic(int n, double... x)
     {
@@ -607,11 +625,11 @@ public final class PrimitiveComplexCurve
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
-
+        @param N the number of tokens present in the array.
+        @throws IOException it parsing goes wrong, parameters can not be read
+            or primitive is incorrect.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
@@ -755,11 +773,11 @@ public final class PrimitiveComplexCurve
 
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
-
+            parameter. The first parameters should always be the virtual
+            points.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -830,13 +848,13 @@ public final class PrimitiveComplexCurve
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (ComplexCurves,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
         // Here we check if the given point lies inside the text areas
-
         if(checkText(px, py))
             return 0;
 
@@ -875,6 +893,8 @@ public final class PrimitiveComplexCurve
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FidoCadJ command line.
     */
     public String toString(boolean extensions)
@@ -926,7 +946,12 @@ public final class PrimitiveComplexCurve
         return cmd;
     }
 
-
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
+    */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {

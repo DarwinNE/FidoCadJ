@@ -18,7 +18,7 @@ import net.sourceforge.fidocadj.graphic.*;
 /** Class to handle the macro primitive. Code is somewhat articulated since
     I use recursion (a macro is another drawing seen as an unbreakable symbol).
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -35,11 +35,10 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public final class PrimitiveMacro extends GraphicPrimitive
 {
 
@@ -64,6 +63,12 @@ public final class PrimitiveMacro extends GraphicPrimitive
     // Stored data for caching
     private int x1, y1;
 
+    /** Some layers may be shown or hidden by the user. Therefore, in some
+        cases they may be exported or not. Set if invisible layers should be
+        exported.
+        @param s the value export invisible. True means that invisible layers
+            will be exported.
+    */
     public void setExportInvisible(boolean s)
     {
         exportInvisible = s;
@@ -77,10 +82,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
         return N_POINTS;
     }
 
-    /** Constructor
-
-        @param lib the library to be inherited
-        @param l the list of layers
+    /** Constructor.
+        @param lib the library to be inherited.
+        @param l the list of layers.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
     public PrimitiveMacro(Map<String, MacroDesc>lib, Vector<LayerDesc> l,
             String f, int size)
@@ -99,25 +105,25 @@ public final class PrimitiveMacro extends GraphicPrimitive
         macroStore(layers);
     }
 
-    /** Constructor
-
-        @param lib the library to be inherited
-        @param l the list of layers
-        @param x the x coordinate of the control point of the macro
-        @param y the y coordinate of the control point of the macro
+    /** Constructor.
+        @param lib the library to be inherited.
+        @param l the list of layers.
+        @param x the x coordinate of the control point of the macro.
+        @param y the y coordinate of the control point of the macro.
         @param key_t the key to be used to uniquely identify the macro (it will
-            be converted to lowercase)
-        @param na the name to be shown
-        @param xa the x coordinate of the name of the macro
-        @param ya the y coordinate of the name of the macro
-        @param va the value to be shown
-        @param xv the x coordinate of the value of the macro
-        @param yv the y coordinate of the value of the macro
+            be converted to lowercase).
+        @param na the name to be shown.
+        @param xa the x coordinate of the name of the macro.
+        @param ya the y coordinate of the name of the macro.
+        @param va the value to be shown.
+        @param xv the x coordinate of the value of the macro.
+        @param yv the y coordinate of the value of the macro.
         @param macroF the font to be used for the name and the value of the
-            macro
-        @param macroS the size of the font
-        @param oo the macro orientation
-        @param mm the macro mirroring
+            macro.
+        @param macroS the size of the font.
+        @param oo the macro orientation.
+        @param mm the macro mirroring.
+        @throws IOException if an unrecognized macro is found.
     */
     public PrimitiveMacro(Map<String, MacroDesc> lib, Vector<LayerDesc> l,
          int x, int y, String key_t,
@@ -136,8 +142,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
         setMacroFontSize(macroS);
         o=oo;
         m=mm;
-
-
 
         // Store the points of the macro and the text describing it.
         virtualPoint[0].x=x;
@@ -169,20 +173,25 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
     /** Returns true if the macro contains the specified layer. This
         is a calculation done at the DrawingModel level.
+        @param l the layer to be checked.
+        @return true if the layer is contained in the drawing and therefore
+            should be drawn.
     */
     public boolean containsLayer(int l)
     {
         return macro.containsLayer(l);
     }
 
-    /** Draw the macro contents
+    /** Draw the macro contents.
+        @param g the graphic context.
+        @param coordSys the coordinate system.
+        @param layerV the vector containing all layers.
     */
     private void drawMacroContents(GraphicsInterface g, MapCoordinates coordSys,
                               Vector layerV)
     {
         /* in the macro primitive, the the virtual point represents
            the position of the reference point of the macro to be drawn. */
-
         if(changed) {
             changed = false;
             x1=virtualPoint[0].x;
@@ -226,6 +235,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
     /** Specifies that the current primitive has been modified or not.
         If it is true, during the redraw all parameters should be calulated
         from scratch.
+        @param c the value of the parameter.
     */
     public void setChanged(boolean c)
     {
@@ -250,13 +260,15 @@ public final class PrimitiveMacro extends GraphicPrimitive
         }
     }
 
+    /** Set the layer vector.
+        @param layerV the layer vector.
+    */
     public void setLayers(Vector<LayerDesc> layerV)
     {
         macro.setLayers(layerV);
     }
 
     /** Draw the graphic primitive on the given graphic context.
-
         @param g the graphic context in which the primitive should be drawn.
         @param coordSys the graphic coordinates system to be applied.
         @param layerV the layer description.
@@ -292,6 +304,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
     }
 
     /** Get the maximum index of the layers contained in the macro.
+        @return the maximum index of layers contained in the macro.
     */
     public int getMaxLayer()
     {
@@ -306,9 +319,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array
-
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
     */
-
     public void parseTokens(String[] tokens, int N)
         throws IOException
     {
@@ -377,8 +390,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -529,7 +543,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
     /** Mirror the primitive. For a macro, it is different than for the other
         primitive, since we just need to toggle the mirror flag.
-
+        @param xpos the x value of the pivot axis.
     */
     public void mirrorPrimitive(int xpos)
     {
@@ -539,6 +553,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -556,7 +572,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
@@ -579,39 +594,17 @@ public final class PrimitiveMacro extends GraphicPrimitive
         pd.isExtension = true;
 
         v.add(pd);
-        /*
-        pd = new ParameterDescription();
-        pd.parameter= Integer.valueOf(getLayer());
-        pd.description=Globals.messages.getString("ctrl_layer");
-        v.add(pd);
-
-
-        pd = new ParameterDescription();
-        pd.parameter=virtualPoint[0];
-        pd.description=Globals.messages.getString("ctrl_control");
-        v.add(pd);
-
-        pd = new ParameterDescription();
-        pd.parameter=virtualPoint[1];
-        pd.description=Globals.messages.getString("ctrl_name_point");
-        v.add(pd);
-
-        pd = new ParameterDescription();
-        pd.parameter=virtualPoint[2];
-        pd.description=Globals.messages.getString("ctrl_value_point");
-        v.add(pd);*/
-
         return v;
     }
+
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
-
     public int setControls(Vector<ParameterDescription> v)
     {
         int i=0;
@@ -635,47 +628,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
         else
             System.out.println("Warning: unexpected parameter!"+pd);
 
-        /*
-        pd = (ParameterDescription)v.get(i);
-        ++i;
-
-
-        // Check, just for sure...
-        if (pd.parameter instanceof Integer)
-            setLayer(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: unexpected parameter!");
-
-
-
-        pd = (ParameterDescription)v.get(i);
-        ++i;
-        // Check, just for sure...
-        if (pd.parameter instanceof PointG)
-            virtualPoint[0]=(PointG)pd.parameter;
-        else
-            System.out.println("Warning: unexpected parameter!");
-
-        pd = (ParameterDescription)v.get(i);
-        ++i;
-        // Check, just for sure...
-        if (pd.parameter instanceof PointG)
-            virtualPoint[1]=(PointG)pd.parameter;
-        else
-            System.out.println("Warning: unexpected parameter!");
-
-        pd = (ParameterDescription)v.get(i);
-        ++i;
-        // Check, just for sure...
-        if (pd.parameter instanceof PointG)
-            virtualPoint[2]=(PointG)pd.parameter;
-        else
-            System.out.println("Warning: unexpected parameter!");
-        */
-
         return i;
     }
-
 
     /** Ensure that the next time the macro is exported, it will be done.
         Macro that are not expanded during exportation does not need to be
@@ -690,9 +644,10 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
     /** Each graphic primitive should call the appropriate exporting method
         of the export interface specified.
-
-        @param exp the export interface that should be used
-        @param cs the actual coordinate mapping
+        @param exp the export interface that should be used.
+        @param cs the actual coordinate mapping.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
     */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException

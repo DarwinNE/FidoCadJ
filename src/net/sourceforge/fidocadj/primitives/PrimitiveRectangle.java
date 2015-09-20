@@ -11,7 +11,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 /** Class to handle the rectangle primitive.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -28,15 +28,12 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2014 by Davide Bucci
-</pre>
+    </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
 public final class PrimitiveRectangle extends GraphicPrimitive
 {
-
-
     // A rectangle is defined by two points.
     static final int N_POINTS=4;
     // The state: filled or not.
@@ -68,6 +65,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     }
 
     /** Standard constructor.
+        @param f the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
     public PrimitiveRectangle(String f, int size)
     {
@@ -76,7 +75,6 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         initPrimitive(-1, f, size);
 
         changed=true;
-
     }
     /** Create a rectangle defined by two points
         @param x1 the start x coordinate (logical unit).
@@ -85,9 +83,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         @param y2 the end y coordinate (logical unit).
         @param f specifies if the rectangle should be filled.
         @param layer the layer to be used.
-
+        @param dashSt the dashing style.
+        @param font the name of the font for attached text.
+        @param size the size of the font for attached text.
     */
-
     public PrimitiveRectangle(int x1, int y1, int x2, int y2, boolean f,
                               int layer, int dashSt, String font, int size)
     {
@@ -189,17 +188,16 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array
-
+        @throws IOException if the arguments are incorrect or the primitive
+            is invalid.
     */
     public void parseTokens(String[] tokens, int N)
         throws IOException
     {
         changed=true;
-
         // assert it is the correct primitive
         if (tokens[0].equals("RV")||tokens[0].equals("RP")) {   // Oval
             if (N<5) {
@@ -264,11 +262,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
-
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
     */
     public int setControls(Vector<ParameterDescription> v)
     {
@@ -301,8 +299,9 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         given point and the primitive.
         When it is reasonable, the behaviour can be binary (polygons,
         ovals...). In other cases (lines, points), it can be proportional.
-        @param px the x coordinate of the given point
-        @param py the y coordinate of the given point
+        @param px the x coordinate of the given point.
+        @param py the y coordinate of the given point.
+        @return the distance in logical units.
     */
     public int getDistanceToPoint(int px, int py)
     {
@@ -326,6 +325,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     }
 
     /** Obtain a string command descripion of the primitive.
+        @param extensions true if FidoCadJ extensions to the old FidoCAD format
+            should be active.
         @return the FIDOCAD command line.
     */
     public String toString(boolean extensions)
@@ -353,7 +354,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         return cmd;
     }
 
-    /** Export the rectangle
+    /** Export the primitive on a vector graphic format.
+        @param exp the export interface to employ.
+        @param cs the coordinate mapping to employ.
+        @throws IOException if a problem occurs, such as it is impossible to
+            write on the output file.
     */
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
@@ -368,6 +373,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
                        dashStyle,
                        Globals.lineWidth*cs.getXMagnitude());
     }
+
     /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
     */
@@ -383,5 +389,4 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     {
         return 3;
     }
-
 }

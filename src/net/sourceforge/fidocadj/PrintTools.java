@@ -122,7 +122,12 @@ public class PrintTools implements Printable
         }
     }
 
-    /** The printing interface
+    /** The printing interface.
+        @param g the graphic context.
+        @param pf the page format.
+        @param page the page number.
+        @return PAGE_EXISTS if the page has to be printed.
+        @throws PrinterException if a printing error occurs.
     */
     public int print(Graphics g, PageFormat pf, int page) throws
                                                    PrinterException

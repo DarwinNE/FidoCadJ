@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.clipboard.*;
     methods to create the menu, as well as an event handling system for
     menu-related operations.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.clipboard.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
@@ -42,6 +42,8 @@ public class MenuTools implements MenuListener
 {
 
     /** Create all the menus and associate to them all the needed listeners.
+        @param al the action listener to associate to the menu elements.
+        @return the menu bar.
     */
     public JMenuBar defineMenuBar(ActionListener al)
     {
@@ -106,6 +108,7 @@ public class MenuTools implements MenuListener
     }
 
     /** The menuSelected method, useful for the MenuListener interface.
+        @param evt the menu event object.
     */
     public void menuSelected(MenuEvent evt)
     {
@@ -113,6 +116,7 @@ public class MenuTools implements MenuListener
     }
 
     /** The menuDeselected method, useful for the MenuListener interface.
+        @param evt the menu event object.
     */
     public void menuDeselected(MenuEvent evt)
     {
@@ -120,13 +124,16 @@ public class MenuTools implements MenuListener
     }
 
     /** The menuCanceled method, useful for the MenuListener interface.
+        @param evt the menu event object.
     */
     public void menuCanceled(MenuEvent evt)
     {
         // does nothing
     }
 
-    /** Create the main File menu
+    /** Create the main File menu.
+        @param al the action listener to associate to the menu.
+        @return the menu.
     */
     public JMenu defineFileMenu(ActionListener al)
     {
@@ -213,7 +220,9 @@ public class MenuTools implements MenuListener
         return fileMenu;
     }
 
-    /** Define the Edit main menu
+    /** Define the Edit main menu.
+        @param al the action listener to associate to the menu.
+        @return the menu.
     */
     public JMenu defineEditMenu(ActionListener al)
     {
@@ -303,6 +312,8 @@ public class MenuTools implements MenuListener
     }
 
     /** Define the main View menu.
+        @param al the action listener to associate to the menu.
+        @return the menu.
     */
     public JMenu defineViewMenu(ActionListener al)
     {
@@ -321,6 +332,8 @@ public class MenuTools implements MenuListener
     }
 
     /** Define the main Circuit menu.
+        @param al the action listener to associate to the menu.
+        @return the menu.
     */
     public JMenu defineCircuitMenu(ActionListener al)
     {
@@ -347,6 +360,8 @@ public class MenuTools implements MenuListener
     }
 
     /** Define the main About menu.
+        @param al the action listener to associate to the menu.
+        @return the menu.
     */
     public JMenu defineAboutMenu(ActionListener al)
     {
@@ -361,6 +376,8 @@ public class MenuTools implements MenuListener
     }
 
     /** Process the menu events.
+        @param evt the event.
+        @param fff the frame in which the menu is present.
     */
     public void processMenuActions(ActionEvent evt, FidoFrame fff)
     {
