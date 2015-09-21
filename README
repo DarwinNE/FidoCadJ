@@ -14,7 +14,7 @@ by Davide Bucci
   1.4 Where can I get help?
 2 - Source files and the FidoCadJ Git directories
 3 - Working with FidoCadJ sources
-  3.1 Compile and run the sources on a MacOSX operating system (>=10.8) 
+  3.1 Compile and run the sources on a MacOSX operating system (>=10.8)
   3.2 Compile and run the sources on an Unix system
   3.3 Compile and run the sources on an Windows system
   3.4 Coding conventions
@@ -29,7 +29,7 @@ by Davide Bucci
 5 - I found a bug...
 6 - Acknowledgments
 7 - Licensing
-  
+
 
 ----------------
 1 - Introduction
@@ -38,27 +38,27 @@ by Davide Bucci
 1.1 What is FidoCadJ?
 ---------------------
 
-FidoCadJ is a very easy to use editor, with a vast library of electrical 
+FidoCadJ is a very easy to use editor, with a vast library of electrical
 symbols and footprints (through hole and SMD). Its drawings can be exported
 in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if
-it is very simple to use, FidoCadJ can be very useful as a basic schematic 
-capture and electronic design automation (EDA) software. 
+it is very simple to use, FidoCadJ can be very useful as a basic schematic
+capture and electronic design automation (EDA) software.
 FidoCadJ is inspired from the old FidoCAD (without "J"), which was a vector
-graphic editor for electrical schematics and printed circuit boards. 
-FidoCAD used a file format containing text, very compact and 
-perfect for copy and pasting from/into newsgroups and forum messages. 
-This determined its success among the italian Usenet community and forums, 
-from late '90s, as it was quite versatile for simple mechanical drawings as 
-well. No netlist concept lies behind the drawings, so there is all the 
-graphical flexibility that a vector drawing software can offer (but no 
+graphic editor for electrical schematics and printed circuit boards.
+FidoCAD used a file format containing text, very compact and
+perfect for copy and pasting from/into newsgroups and forum messages.
+This determined its success among the italian Usenet community and forums,
+from late '90s, as it was quite versatile for simple mechanical drawings as
+well. No netlist concept lies behind the drawings, so there is all the
+graphical flexibility that a vector drawing software can offer (but no
 simulation).
 
-FidoCadJ is the modern, multiplatform successor of FidoCAD, with full 
-support of UTF-8 text, advanced features, internationalisation and a sleek, 
+FidoCadJ is the modern, multiplatform successor of FidoCAD, with full
+support of UTF-8 text, advanced features, internationalisation and a sleek,
 polished user interface with anti-aliasing.
 
-FidoCadJ is internationalized and manuals are available in English, French, 
-Italian and Chinese. The user interface has been translated into English, 
+FidoCadJ is internationalized and manuals are available in English, French,
+Italian and Chinese. The user interface has been translated into English,
 French, Italian, Spanish, German, Chinese, Dutch, Japanese and Czech.
 
 FidoCadJ runs on the following systems:
@@ -76,7 +76,7 @@ Here are the two official FidoCadJ websites. The first one is the generic
 website presenting the project:
 
     http://darwinne.github.io/FidoCadJ/index.html
-    
+
 The second one is the GitHub project, for developers:
 
     https://github.com/DarwinNE/FidoCadJ
@@ -86,7 +86,7 @@ The second one is the GitHub project, for developers:
 
 If you own a PC running Linux or Windows (or any system supporting Java), you
 may download from the GitHub repository the file fidocadj.jar. If Java
-is correctly installed on your machine, you may just double click on it to 
+is correctly installed on your machine, you may just double click on it to
 run FidoCadJ. If you are a command line wizard, you may go to the directory
 where the file fidocadj.jar has been saved and type:
 
@@ -95,13 +95,13 @@ where the file fidocadj.jar has been saved and type:
 If you use Windows, you might find useful using the classical installer
 contained in the FidoCadJ_Windows.exe file. If you run it, it will install
 FidoCadJ on your system and you can launch it via the Start menu.
-    
+
 If you own an Apple Macintosh with MacOSX, you may download the FidoCadJ.app
 bundle and treat it just like any other native application. Since Apple does
-not seem to be very much prone to support Java, if you experience some 
-problems running FidoCadJ, please check you do have a Java runtime 
+not seem to be very much prone to support Java, if you experience some
+problems running FidoCadJ, please check you do have a Java runtime
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion/Mountain Lion/Mavericks/etc operating system. Normally, you 
+the MacOSX Lion/Mountain Lion/Mavericks/etc operating system. Normally, you
 will have to download the Java runtime in a few clicks. I tried my best, but
 the situation in 2007 was different from the actual one and Apple used to
 warmly welcome Java developers back then...
@@ -113,11 +113,11 @@ where you downloaded it: the ONLY official location where distribution files
 are put is on GitHub.
 
 Remember that if there is a Greek letter after the version number of FidoCadJ,
-this means that you are using a preliminary version of this program. 
+this means that you are using a preliminary version of this program.
 Basically, you are warned: those versions may be unstable!
 
 FidoCadJ is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 A PARTICULAR PURPOSE.
 
 1.4 Where can I get help?
@@ -136,7 +136,7 @@ https://sourceforge.net/p/fidocadj/discussion/997486/
 2 - Source files and the FidoCadJ Git directories
 -------------------------------------------------
 
-In the following table you find a description of the trunk directory of 
+In the following table you find a description of the trunk directory of
 FidoCadJ source files. You may download the complete source repository by
 using svn from the GitHub repository.
 
@@ -144,13 +144,13 @@ using svn from the GitHub repository.
   ---------------------------------------------------------------------------
   NEWS.txt                    The big news, for each version tagged
   README                      This file
-  bin/                 DIR    All the compiled classes and resources         
+  bin/                 DIR    All the compiled classes and resources
   busy being born/     DIR    Old screenshots of FidoCadJ
   checkstyle.sh               Launch Checkstyle with rules in rules.xml
   clean                       Erase all the compiled classes
   cleanall                    Do a clean, erases fidocadj.jar, Javadocs
   compile                     Compile FidoCadJ
-  count                       Do a wc (word count!) on all Java sources                    
+  count                       Do a wc (word count!) on all Java sources
   createdoc                   Run Javadoc on all source files
   createjar                   Prepare fidocadj.jar
   doc/          	   DIR    Contain all Javadoc produced HTML files
@@ -174,43 +174,43 @@ using svn from the GitHub repository.
   ---------------------------------------------------------------------------
 
 If you want to study the FidoCadJ source code, run the ./createdoc script to
-obtain the Javadoc description. Important classes are: 
+obtain the Javadoc description. Important classes are:
 
 - src/net/sourceforge/fidocadj/FidoMain.java starting point, with "main"
 - src/net/sourceforge/fidocadj/FidoFrame.java editor windows
 - src/net/sourceforge/fidocadj/primitives/*.java the graphic primitives
 - src/net/sourceforge/fidocadj/dialogs/*.java all the Swing dialogs
 - src/net/sourceforge/fidocadj/circuit/CircuitPanel.java Swing editor panel
-- src/net/sourceforge/fidocadj/circuit/* low level editing classes 
+- src/net/sourceforge/fidocadj/circuit/* low level editing classes
   (view/model/controller)
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ
 -----------------------------------------------------
 
-Ok, you just forked the FidoCadJ project in GitHub. 
+Ok, you just forked the FidoCadJ project in GitHub.
 
             Good :-)
 
 FidoCadJ is a pure Java project, and for many reasons I prefer using a good
-text editor as well as a few command line scripts, in order to compile and 
+text editor as well as a few command line scripts, in order to compile and
 run the code on which I am working.
-You will thus find in the trunk directory (see section 2 of this 
+You will thus find in the trunk directory (see section 2 of this
 file) several scripts which will be useful for you, especially if you are
 working in an Unix-like environment.
 If you prefer using some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :-)
 
-3.1 Compile and run the sources on a MacOSX operating system (>=10.8) 
+3.1 Compile and run the sources on a MacOSX operating system (>=10.8)
 ---------------------------------------------------------------------
 
-If you are using MacOSX, just open up a terminal window, go into the 
+If you are using MacOSX, just open up a terminal window, go into the
 fidocadj/trunk directory and type:
 
     ./rebuild
 
-FidoCadJ should be automatically compiled and launched. You can use the 
+FidoCadJ should be automatically compiled and launched. You can use the
 following script to create a jar archive in the jar/ directory:
 
     ./createjar
@@ -218,12 +218,12 @@ following script to create a jar archive in the jar/ directory:
 3.2 Compile and run the sources on an Unix system
 -------------------------------------------------
 
-FidoCadJ can be compiled on an Unix system by using the following command 
+FidoCadJ can be compiled on an Unix system by using the following command
 into the fidocadj/trunk directory:
 
     ./rebuild
-  
-FidoCadJ should compile and run. You can use the following script to create 
+
+FidoCadJ should compile and run. You can use the following script to create
 a jar archive in the jar/ directory:
 
     ./createjar
@@ -232,17 +232,17 @@ a jar archive in the jar/ directory:
 ----------------------------------------------------
 
 The provided scripts do not work on Microsoft Windows.
-Kohta Ozaki has written a build/run script for Windows, called winbuild.bat. 
+Kohta Ozaki has written a build/run script for Windows, called winbuild.bat.
 It must be used with the action to be accomplished, as an argument:
 
     run      Launches application
     clean    Deletes all class files under .\bin
     compile  Compiles FidoMain.java and related sources.
              This option refers to the compiler resolving dependency.
-    force    Compiles source files of all directories. 
+    force    Compiles source files of all directories.
              The compiler starts on each source file. Very slow.
     rebuild  Clean and compile.
-    
+
 Alternatively, you might handle manually the compilation with the following
 command, in fidocadj\trunk:
 
@@ -257,7 +257,7 @@ FidoCadJ should start.
 3.4 Coding conventions
 ----------------------
 
-The following coding conventions have been applied for the FidoCadJ source 
+The following coding conventions have been applied for the FidoCadJ source
 code:
 
 - the code should be compatible with Java 1.7
@@ -265,28 +265,28 @@ code:
 * no tabulation character allowed in sources
 * no trailing spaces
 - blocks delimited by curly braces are indented as follows:
-
+~~~~~~~~~
     for(i=0; i<10; ++i) {   // Curly brace here
         // indented code (4 spaces)
         System.out.println("I counted up to "+i);
     }   // close brace here at the same level of the 'for'
-    
+~~~~~~~~~
 * methods are indented as follows:
-
-    void dummy(int i, int j) 
+~~~~~~~~~
+    void dummy(int i, int j)
     {   // put the starting brace here
         System.out.println("Indent code");
     }   // put the closing brace here
-
+~~~~~~~~~
 * classes and interfaces are indented as follows:
-	
+~~~~~~~~~
 	class Dummy
 	{				// Curly brace here.
 		// the rest of the class.
 	}
-
+~~~~~~~~~
 * switches are indented as follows:
-
+~~~~~~~~~
     int dummy(int i)
     {
         int j;
@@ -301,18 +301,19 @@ code:
                 j=0
         }
         return j;
-    } 
-* if an "if" condition spans over multiple lines, put the brace on the 
+    }
+~~~~~~~~~
+* if an "if" condition spans over multiple lines, put the brace on the
   following line
-- the class names always start with a capital letter
-- variables never start with a capital letter 
+* the class names always start with a capital letter
+* variables never start with a capital letter
 * methods never start with a capital letter
-- an instance of the class does have its first letter in lower case
 * public classes must be documented with Javadoc syntax
 * public methods must be documented with Javadoc syntax
 * no lines longer than 80 characters
+- employing "_" in names of types or variables is deprecated
 - commits should not break the build
-- each commit *MUST* include a log 
+- each commit *MUST* include a log
 - predilect simplicity to unnecessary complication
 - predilect quality to quantity
 - discuss what you want to do BEFORE start coding
@@ -320,7 +321,7 @@ code:
 
 A checkstyle rule sets (called rules.xml) is being progressively employed so
 that those rules will be automatically checked. Points for which a rule has
-been activated have been marked with a "*" instead of a "-" in the previous 
+been activated have been marked with a "*" instead of a "-" in the previous
 list.
 
 Be sure to run checklist with rules.xml before sending a pull request!
@@ -328,13 +329,13 @@ Be sure to run checklist with rules.xml before sending a pull request!
 3.5 Automatic tests
 -------------------
 
-To ease the maintain of a certain degree of quality control when working 
-on the source code, the FidoCadJ source repository comes with a number of 
+To ease the maintain of a certain degree of quality control when working
+on the source code, the FidoCadJ source repository comes with a number of
 automatic tests scripts contained in the directory test/.
 You may launch all the tests by using the script all_tests.sh contained
 in this directory, or you may run the tests individually by browsing the
-sub-directories containing them. The program is called by using the 
-fidocadj.jar archive which must be contained in the jar/ directory. 
+sub-directories containing them. The program is called by using the
+fidocadj.jar archive which must be contained in the jar/ directory.
 Ensure that this archive is updated with the ./createjar script before
 launching any test.
 The following table briefly describes the provided tests:
@@ -344,22 +345,22 @@ The following table briefly describes the provided tests:
   test/all_test.sh                 Run all the available tests.
 
   test/export/test_export.sh       Test the export on all available
-                                   file formats. A set of reference 
+                                   file formats. A set of reference
                                    files is provided, so it might be
-                                   updated if differences on the 
+                                   updated if differences on the
                                    export are introduced by purpose.
                                    If a test is failed, this tells just that
                                    the exported file is not identical to the
-                                   model which has been used. You may have a 
-                                   look at the log file and at the result of 
+                                   model which has been used. You may have a
+                                   look at the log file and at the result of
                                    the export. You may decide that it is ok.
 
-  test/messages/test_messages.sh   Test the coherence of all 
-                                   installed interface languages against the 
+  test/messages/test_messages.sh   Test the coherence of all
+                                   installed interface languages against the
                                    reference (which is the italian resource
                                    file!)
 
-  test/size/test_size.sh           Test if the size calculated for all 
+  test/size/test_size.sh           Test if the size calculated for all
                                    elements is the same as the one stored
                                    as a reference. Any change to the way
                                    the size is calculated will invalidate
@@ -369,13 +370,13 @@ Note that the way those tests are written, they compare the results of an
 operation involving FidoCadJ with a reference. In some cases, the reference
 can be improved or updated.
 In other cases, the differences might just contain unimportant data (such
-as version numbers and so on). 
+as version numbers and so on).
 
 3.6 Static code analysis and the quality of the FidoCadJ source code
 --------------------------------------------------------------------
 
 Static code analysis is a powerful tool to ensure code quality. It can not do
-miracles, but it is an useful way to avoid common errors. Two tools are 
+miracles, but it is an useful way to avoid common errors. Two tools are
 routinely used to ensure that FidoCadJ is of the highest quality possible.
 They are PMD and FindBugs:
 
@@ -390,11 +391,11 @@ overall code quality. A copy/paste detection in the code is performed too
 and the results are stored in fidocadj_cpd.txt
 Effort will be done to reduce the size of those files in the future.
 
-FindBugs runs interactively and analyzes the jar file resulting after the 
+FindBugs runs interactively and analyzes the jar file resulting after the
 compilation and packaging.
 The great care applied to the code quality has made sort that FidoCadJ has
 had some good results in a quality assessment analysis done by researchers
-working in the Department of Computer Science of the University of 
+working in the Department of Computer Science of the University of
 Saskatchewan:
 
 http://www.cs.usask.ca/documents/techreports/2013/TR-2013-01.pdf
@@ -413,7 +414,7 @@ before creating a pull request.
 
 3.7 Android
 -----------
-Android deserves an application which is well separated from the one you 
+Android deserves an application which is well separated from the one you
 can use on a PC or on a Mac: a smartphone or a table is a quite different
 device than a laptop or a desktop computer. Therefore, a lot of effort had
 to be put in the development of an appropriate Android app.
@@ -422,7 +423,7 @@ You can find the complete sources here:
 OSes/android/fidocadj
 
 and there is a separate README file which gives some relevant information.
-Great care has been put in sharing as much code as possible between the 
+Great care has been put in sharing as much code as possible between the
 computer application and the Android one. Therefore, you will always
 find the same release number synchronized between the two.
 
@@ -431,25 +432,25 @@ find the same release number synchronized between the two.
 ----------------
 
 I am seeking for people interested in participating to the FidoCadJ project.
-If you spot a typo (I am not a native English speaker), or an error in the 
-manual or in the program, any correction is very welcome. I will be very 
-happy to know what do you think about FidoCadJ. I would be glad to receive 
-some help: if you know Java and you want to work on the source code you will 
+If you spot a typo (I am not a native English speaker), or an error in the
+manual or in the program, any correction is very welcome. I will be very
+happy to know what do you think about FidoCadJ. I would be glad to receive
+some help: if you know Java and you want to work on the source code you will
 be welcome.
-If your Java coding is not fluent, you can participate to the project by 
-improving the manuals or translating the interface, or just giving an advice. 
-Feel free to contact me at davbucciNOPE@tiscali.it, or in the GitHub 
-discussions (the email address is valid without the nope part, but no 
+If your Java coding is not fluent, you can participate to the project by
+improving the manuals or translating the interface, or just giving an advice.
+Feel free to contact me at davbucciNOPE@tiscali.it, or in the GitHub
+discussions (the email address is valid without the nope part, but no
 attachments, please). It is probably better to open a discussion on GitHub,
-in order that the work can eventually be shared and organised between all 
+in order that the work can eventually be shared and organised between all
 developers.
 
 4.1 "I want to translate FidoCadJ in my language"
 -------------------------------------------------
 
-FidoCadJ is written in such a way that translating its interface is 
+FidoCadJ is written in such a way that translating its interface is
 particularly easy and does not need any programming skill.
-If you have downloaded the source file repository, you should find the 
+If you have downloaded the source file repository, you should find the
 interface resource files in the trunk/bin directory.
 A language resource file has the name MessagesBundle_xx.properties, where
 xx is the code for the language to which the translation is targeted.
@@ -457,8 +458,8 @@ Language code should follow ISO 639-1:
 
 http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
-If you have a look at the beginning of the file 
-trunk/bin/MessagesBundle_en.properties, you should read something as 
+If you have a look at the beginning of the file
+trunk/bin/MessagesBundle_en.properties, you should read something as
 follow:
 
     File = File
@@ -473,7 +474,7 @@ follow:
     ...
 
 The resources strings are organised in the form key = value. For example,
-here is the head of the corresponding file for the interface in French, in 
+here is the head of the corresponding file for the interface in French, in
 the file trunk/bin/MessagesBundle_fr.properties
 
     File = Fichier
@@ -488,27 +489,27 @@ the file trunk/bin/MessagesBundle_fr.properties
     ...
 
 That is all. If you want to translate FidoCadJ in your language, you just have
-to translate line by line the values in a language resource file, name it 
+to translate line by line the values in a language resource file, name it
 accordingly to your locale and place it in the trunk/bin directory.
-Pay attention that sometimes there are spaces at the end of the value 
-strings which need to be kept in place. You may be careful about always 
-providing complete files, since if a resource is missing, FidoCadJ can abort. 
+Pay attention that sometimes there are spaces at the end of the value
+strings which need to be kept in place. You may be careful about always
+providing complete files, since if a resource is missing, FidoCadJ can abort.
 
 4.2 "I would like to participate to the coding activity"
 --------------------------------------------------------
 
-This is very nice from you. We will be happy for that. You can manifest 
+This is very nice from you. We will be happy for that. You can manifest
 yourself on the SourceForum forums dedicated to FidoCadJ and declare what are
 your skills and basically what you would like to do. We will discuss a little
-in order to see if we can find an intersection between what you can do with 
-the FidoCadJ development strategy. The idea is to keep the work a little bit 
-organised and to know who does what. Have a peek to section 3.3 of this 
+in order to see if we can find an intersection between what you can do with
+the FidoCadJ development strategy. The idea is to keep the work a little bit
+organised and to know who does what. Have a peek to section 3.3 of this
 README file to see what coding style should be applied to the sources.
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with Git the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
 FidoCadJ main stream, you MUST keep in touch with us in the SF forums and you
-must discuss about what are you willing to do. 
+must discuss about what are you willing to do.
 
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get a HTML description of all classes used in FidoCadJ. You will find that
@@ -522,29 +523,29 @@ discussions dedicated to FidoCadJ!
 ----------------
 
 ----------------------------------------------------------------------------
-Translate user interface          Everything is done on FidoCadJ to make it 
-                                  easy to translate its interface in any 
-                                  language. You can contribute to spread 
+Translate user interface          Everything is done on FidoCadJ to make it
+                                  easy to translate its interface in any
+                                  language. You can contribute to spread
                                   FidoCadJ in your country!
 ----------------------------------------------------------------------------
-Translate manual                  This is an hard work, but it will be very 
-                                  welcomed by the users of your country. You 
+Translate manual                  This is an hard work, but it will be very
+                                  welcomed by the users of your country. You
                                   will probably need an idea on how LaTeX
                                   works.
 ----------------------------------------------------------------------------
 YouTube video tutorial            People love YouTube videos!
 ----------------------------------------------------------------------------
-Report bugs                       Use the bug and artefact tracking system 
+Report bugs                       Use the bug and artefact tracking system
                                   on GitHub.
 ----------------------------------------------------------------------------
-Export in Gerber format           Exporting in graphical vector formats is 
-                                  easy with FidoCadJ. If you want to add a 
-                                  file format you just need to know it and 
-                                  implement a Java interface. Gerber is 
-                                  highly requested by people working on 
+Export in Gerber format           Exporting in graphical vector formats is
+                                  easy with FidoCadJ. If you want to add a
+                                  file format you just need to know it and
+                                  implement a Java interface. Gerber is
+                                  highly requested by people working on
                                   PCBs.
 ----------------------------------------------------------------------------
-Unit testing                      Actually, only high level tests are 
+Unit testing                      Actually, only high level tests are
                                   available. Serious unit testing would be
                                   much beneficial.
 ----------------------------------------------------------------------------
@@ -562,8 +563,7 @@ For the PC and Android app:
 
 For the PC app:
 [] - A jar file has been generated and automatic tests have been run.
-
-Optionally:
+[] - I ran Checkstyle with the rules.xml and no issues are reported.
 [] - PMD analysis has been run on the code.
 
 
@@ -571,7 +571,7 @@ Optionally:
 5 - I found a bug...
 --------------------
 
-Every program contains bugs and FidoCadJ is not an exception. Even if all 
+Every program contains bugs and FidoCadJ is not an exception. Even if all
 the people involved in the development of FidoCadJ pay a lot of attention
 at each release, some details could just go unnoticed.
 If you are familiar with the GitHub interface, do not hesitate to
@@ -583,26 +583,26 @@ https://github.com/DarwinNE/FidoCadJ/issues
 6 - Acknowledgments
 -------------------
 
-Code: 
+Code:
     Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
 
-Beta testers: 
-    Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi, 
-    Emanuele Baggetta, Celsius, Andrea D'Amore, Olaf Marzocchi, Werner 
+Beta testers:
+    Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,
+    Emanuele Baggetta, Celsius, Andrea D'Amore, Olaf Marzocchi, Werner
     Randelshofer, Zeno Martini, Electrodomus, IsidoroKZ, Gustavo
-    
+
     ... and many others!
 
-Translations: 
-    Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge), 
+Translations:
+    Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge),
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
     DirtyDeeds (en), chokewood (nl), Kohta Ozaki (ja), Chemik582 (cs),
     Pietro Baima (it), simo85 (es)
-    
+
 Libraries:
     Lorenzo Lutti, Fabrizio Mileto, DirtyDeeds, Electrodomus, IHRaM group,
     EY group coordinated by simo85
-    
+
 Website:
     Davide Bucci, Federica Garin, Emanuele Baggetta, Sergio Juanez
 
@@ -614,10 +614,10 @@ Code snippets included in FidoCadJ:
     http://www.javareference.com/jrexamples/viewexample.jsp?id=99
     http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
     http://stackoverflow.com/questions/3775694/deleting-folder-from-java
-    
-When possible, the authors of the snippets have been contacted to gain 
-explicit permission of using the code in an open source project. If you own 
-the copyright of some of the reused code and you do not agree on its 
+
+When possible, the authors of the snippets have been contacted to gain
+explicit permission of using the code in an open source project. If you own
+the copyright of some of the reused code and you do not agree on its
 inclusion in the FidoCadJ project, open an Issue on GitHub and we will remove
 the offending code as fast as we can.
 
@@ -641,6 +641,6 @@ FidoCadJ is distributed with the GPL v. 3 license:
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
 The file glyphlist.txt employed for the export towards the PDF format is
-distributed using the Apache license 2.0. You may obtain a copy of the License 
+distributed using the Apache license 2.0. You may obtain a copy of the License
 at: http://www.apache.org/licenses/LICENSE-2.0.html
 
