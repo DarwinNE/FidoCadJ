@@ -50,7 +50,7 @@ public class PrintTools implements Printable
     private boolean printFitToPage;
     private boolean printLandscape;
     private boolean printBlackWhite;
-    private CircuitPanel CC;
+    private CircuitPanel cc;
 
     /** Standard constructor.
     */
@@ -69,7 +69,7 @@ public class PrintTools implements Printable
     */
     public void printDrawing(JFrame fff, CircuitPanel CCr)
     {
-        CC=CCr;
+        cc=CCr;
         DialogPrint dp=new DialogPrint(fff);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
@@ -83,7 +83,7 @@ public class PrintTools implements Printable
         printLandscape = dp.getLandscape();
         printBlackWhite=dp.getBW();
 
-        Vector<LayerDesc> ol=CC.P.getLayers();
+        Vector<LayerDesc> ol=cc.dmp.getLayers();
         if (dp.shouldPrint()) {
             if(printBlackWhite) {
                 Vector<LayerDesc> v=new Vector<LayerDesc>();
@@ -96,7 +96,7 @@ public class PrintTools implements Printable
                     v.add(new LayerDesc(new ColorSwing(Color.black),
                         ((LayerDesc)ol.get(i)).getVisible(),
                          "B/W",((LayerDesc)ol.get(i)).getAlpha()));
-                CC.P.setLayers(v);
+                cc.dmp.setLayers(v);
             }
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPrintable(this);
@@ -118,7 +118,7 @@ public class PrintTools implements Printable
                         Globals.messages.getString("Print_uncomplete"));
                 }
             }
-            CC.P.setLayers(ol);
+            cc.dmp.setLayers(ol);
         }
     }
 
@@ -166,7 +166,7 @@ public class PrintTools implements Printable
 
         // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
-            MapCoordinates zoomm = DrawingSize.calculateZoomToFit(CC.P,
+            MapCoordinates zoomm = DrawingSize.calculateZoomToFit(cc.dmp,
                 (int)pf.getImageableWidth()*16,(int)pf.getImageableHeight()*16,
                 false);
             zoom=zoomm.getXMagnitude();
@@ -178,7 +178,7 @@ public class PrintTools implements Printable
 
         PointG o=new PointG(0,0);
 
-        int imageWidth = DrawingSize.getImageSize(CC.P, zoom, false, o).width;
+        int imageWidth = DrawingSize.getImageSize(cc.dmp, zoom, false, o).width;
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
 
         // Check if we need more than one page
@@ -191,7 +191,7 @@ public class PrintTools implements Printable
             return NO_SUCH_PAGE;
         }
         // Now we perform our rendering
-        CC.drawingAgent.draw(new Graphics2DSwing(g2d), m);
+        cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;

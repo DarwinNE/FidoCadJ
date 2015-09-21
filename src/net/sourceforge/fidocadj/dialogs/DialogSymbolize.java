@@ -71,12 +71,12 @@ public class DialogSymbolize extends MinimumSizeDialog
     private JComboBox<String> group;
     private JCheckBox snapToGrid;
 
-    myCircuitPanel cpanel = new myCircuitPanel(false);
+    MyCircuitPanel cpanel = new MyCircuitPanel(false);
 
-    /** The class myCircuitPanel extends the CircuitPanel class by adding
+    /** The class MyCircuitPanel extends the CircuitPanel class by adding
         coordinate axis which can be moved.
     */
-    static class myCircuitPanel extends CircuitPanel
+    static class MyCircuitPanel extends CircuitPanel
     {
         private static final long serialVersionUID = 1L;
         final float dash1[] = {2.0f};
@@ -114,7 +114,6 @@ public class DialogSymbolize extends MinimumSizeDialog
             dy=getMapCoordinates().mapYi(xl,yl,false);
         }
 
-
         /** Set the new x coordinate of the origin
         */
         public void setDx(int dx)
@@ -132,7 +131,9 @@ public class DialogSymbolize extends MinimumSizeDialog
                 return;
             this.dy = dy;
         }
-        public myCircuitPanel(boolean isEditable) {
+
+        public MyCircuitPanel(boolean isEditable)
+        {
             super(isEditable);
         }
 
@@ -206,7 +207,7 @@ public class DialogSymbolize extends MinimumSizeDialog
     {
         libFilename.removeAllItems();
         List<String> lst = new LinkedList<String>();
-        Map<String,MacroDesc> m=cpanel.P.getLibrary();
+        Map<String,MacroDesc> m=cpanel.dmp.getLibrary();
 
         for (Entry<String,MacroDesc> e : m.entrySet()) {
             MacroDesc md = e.getValue();
@@ -218,7 +219,6 @@ public class DialogSymbolize extends MinimumSizeDialog
                 lst.add(md.filename);
             }
         }
-
         if (((DefaultComboBoxModel) libFilename.getModel()).getSize() == 0)
             libFilename.addItem("user_lib");
         libFilename.setEditable(true);
@@ -321,8 +321,8 @@ public class DialogSymbolize extends MinimumSizeDialog
         cpanel.add(Box.createVerticalStrut(256));
         cpanel.add(Box.createHorizontalStrut(256));
 
-        cpanel.P.setLayers(cp.getLayers());
-        cpanel.P.setLibrary(cp.getLibrary());
+        cpanel.dmp.setLayers(cp.getLayers());
+        cpanel.dmp.setLibrary(cp.getLibrary());
         enumLibs();
         cpanel.antiAlias = true;
         cpanel.profileTime = false;
@@ -336,7 +336,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             new StringBuffer(macro.description), false);
         // Calculate an optimum preview size in order to show all elements.
         MapCoordinates m =
-                DrawingSize.calculateZoomToFit(cpanel.P,
+                DrawingSize.calculateZoomToFit(cpanel.dmp,
                 cpanel.getSize().width*80/100, cpanel.getSize().height*80/100,
                 true);
         m.setXCenter(-m.getXCenter()+10);

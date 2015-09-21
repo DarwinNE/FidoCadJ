@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class HandleActions
 {
-    private final DrawingModel P;
+    private final DrawingModel dmp;
     private final EditorActions edt;
     private final UndoActions ua;
     private final SelectionActions sa;
@@ -74,7 +74,7 @@ public class HandleActions
         SelectionActions s,
         UndoActions u)
     {
-        P=pp;
+        dmp=pp;
         edt=e;
         ua=u;
         sa=s;
@@ -110,7 +110,7 @@ public class HandleActions
             return;
 
         // Here we adjust the new positions for all selected elements...
-        for (GraphicPrimitive g : P.getPrimitiveVector()){
+        for (GraphicPrimitive g : dmp.getPrimitiveVector()){
             if(g.getSelected()) {
                 // This code is needed to ensure that all layer are printed
                 // when dragging a component (it solves bug #24)
@@ -150,7 +150,7 @@ public class HandleActions
         hasMoved=false;
 
         GraphicPrimitive gp;
-        Vector<LayerDesc> layerV=P.getLayers();
+        Vector<LayerDesc> layerV=dmp.getLayers();
 
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);
@@ -163,8 +163,8 @@ public class HandleActions
         // Search for the closest primitive to the given point
         // Performs a cycle through all primitives and check their
         // distance.
-        for (i=0; i<P.getPrimitiveVector().size(); ++i){
-            gp=(GraphicPrimitive)P.getPrimitiveVector().get(i);
+        for (i=0; i<dmp.getPrimitiveVector().size(); ++i){
+            gp=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
             layer= gp.getLayer();
 
             // Does not allow for selecting an invisible primitive
@@ -191,7 +191,8 @@ public class HandleActions
         }
         // Verify if the whole primitive should be drag
         if (mindistance<sptol && handleBeingDragged<0){
-            primBeingDragged=(GraphicPrimitive)P.getPrimitiveVector().get(isel);
+            primBeingDragged=
+                (GraphicPrimitive)dmp.getPrimitiveVector().get(isel);
             if (!multiple && !primBeingDragged.getSelected())
                 sa.setSelectionAll(false);
             if(!multiple) {

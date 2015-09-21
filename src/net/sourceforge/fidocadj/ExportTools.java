@@ -156,7 +156,7 @@ public class ExportTools
             // We do the export
             RunExport doExport = new RunExport();
             // Here we use the multithreaded structure of Java.
-            doExport.setParam(new File(exportFileName),  CC.P,
+            doExport.setParam(new File(exportFileName),  CC.dmp,
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
                 fff);

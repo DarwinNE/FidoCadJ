@@ -41,7 +41,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
     private PolygonInterface p;
 
     // If needed, we might increase this stuff.
-    int N_POINTS=5;
+    // In other words, we initially create space for storing 5 points and
+    // we increase that if needed.
+    int storageSize=5;
 
     // Some private data cached.
     private int xmin, ymin;
@@ -71,7 +73,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         isFilled=false;
         nPoints=0;
         p = null;
-        initPrimitive(N_POINTS, f, size);
+        initPrimitive(storageSize, f, size);
     }
 
     /** Create a polygon. Add points with the addPoint method.
@@ -86,7 +88,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
     {
         super();
         p = null;
-        initPrimitive(N_POINTS, font,  size);
+        initPrimitive(storageSize, font,  size);
         nPoints=0;
         isFilled=f;
         dashStyle=dashSt;
@@ -147,8 +149,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
     */
     public void addPointClosest(int px, int py)
     {
-        int[] xp=new int[N_POINTS];
-        int[] yp=new int[N_POINTS];
+        int[] xp=new int[storageSize];
+        int[] yp=new int[storageSize];
 
         int k;
 
@@ -208,15 +210,15 @@ public final class PrimitivePolygon extends GraphicPrimitive
     */
     public void addPoint(int x, int y)
     {
-        if(nPoints+2>=N_POINTS) {
-            int o_n=N_POINTS;
+        if(nPoints+2>=storageSize) {
+            int o_n=storageSize;
             int i;
-            N_POINTS += 10;
-            PointG[] nv = new PointG[N_POINTS];
+            storageSize += 10;
+            PointG[] nv = new PointG[storageSize];
             for(i=0;i<o_n;++i) {
                 nv[i]=virtualPoint[i];
             }
-            for(;i<N_POINTS;++i) {
+            for(;i<storageSize;++i) {
                 nv[i]=new PointG();
             }
             virtualPoint=nv;
@@ -460,8 +462,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
         if(checkText(px, py))
             return 0;
 
-        int[] xp=new int[N_POINTS];
-        int[] yp=new int[N_POINTS];
+        int[] xp=new int[storageSize];
+        int[] yp=new int[storageSize];
 
         int k;
 

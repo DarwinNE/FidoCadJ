@@ -130,13 +130,13 @@ public class ContinuosMoveActions extends ElementsEdtActions
                     mirror = ((PrimitiveMacro)primEdit).isMirrored();
                 }
 
-                PrimitiveMacro n = new PrimitiveMacro(P.getLibrary(),
+                PrimitiveMacro n = new PrimitiveMacro(dmp.getLibrary(),
                     StandardLayers.createEditingLayerArray(), cs.unmapXsnap(x),
                     cs.unmapYsnap(y),macroKey,"", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+5, "", cs.unmapXsnap(x)+10,
                     cs.unmapYsnap(y)+10,
-                    P.getTextFont(),
-                    P.getTextFontSize(), orientation, mirror);
+                    dmp.getTextFont(),
+                    dmp.getTextFontSize(), orientation, mirror);
                 n.setDrawOnlyLayer(-1);
                 primEdit = n;
                 toRepaint=true;
@@ -168,8 +168,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
             primEdit = new PrimitiveLine(xpoly[1],
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y), 0,
-                false, false, 0, 3, 2, 0, P.getTextFont(),
-                P.getTextFontSize());
+                false, false, 0, 3, 2, 0, dmp.getTextFont(),
+                dmp.getTextFontSize());
 
             toRepaint=true;
             successiveMove = true;
@@ -200,8 +200,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
         if (actionSelected == ElementsEdtActions.PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1],
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y),
-                ae.getPCB_thickness(), 0, P.getTextFont(),
-                P.getTextFontSize());
+                ae.getPCB_thickness(), 0, dmp.getTextFont(),
+                dmp.getTextFontSize());
 
             toRepaint=true;
             successiveMove = true;
@@ -231,7 +231,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
             // than four points, we use a polygon instead.
 
             primEdit = new PrimitivePolygon(false, 0, 0,
-                    P.getTextFont(), P.getTextFontSize());
+                    dmp.getTextFont(), dmp.getTextFontSize());
 
             for(int i=1; i<=clickNumber; ++i)
                 ((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
@@ -256,7 +256,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.POLYGON) {
             primEdit = new PrimitivePolygon(false, 0, 0,
-                    P.getTextFont(), P.getTextFontSize());
+                    dmp.getTextFont(), dmp.getTextFontSize());
 
 
             for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
@@ -283,11 +283,11 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.COMPLEXCURVE) {
             primEdit = new PrimitiveComplexCurve(false, false, 0,
-                false, false, 0, 3, 2, 0, P.getTextFont(),P.getTextFontSize());
+                false, false, 0, 3, 2, 0,
+                dmp.getTextFont(),dmp.getTextFontSize());
 
             for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
                 ((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
-
 
             ((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x),
                 cs.unmapYsnap(y));
@@ -316,7 +316,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
             }
             primEdit = new PrimitiveRectangle(xpoly[1],
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm),
-                false,  0, 0, P.getTextFont(), P.getTextFontSize());
+                false,  0, 0, dmp.getTextFont(), dmp.getTextFontSize());
 
             toRepaint=true;
             successiveMove = true;
@@ -344,7 +344,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
             primEdit = new PrimitiveOval(xpoly[1],
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(ymm),
-                false,  0, 0, P.getTextFont(), P.getTextFontSize());
+                false,  0, 0, dmp.getTextFont(), dmp.getTextFontSize());
 
             toRepaint=true;
             successiveMove = true;

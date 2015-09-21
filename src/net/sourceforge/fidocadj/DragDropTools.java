@@ -109,14 +109,14 @@ public class DragDropTools implements DropTargetListener
 
                     FidoFrame popFrame;
 
-                    if(fff.CC.getUndoActions().getModified()) {
+                    if(fff.cc.getUndoActions().getModified()) {
                         popFrame = fff.createNewInstance();
                     } else {
                         popFrame=fff;
                     }
 
                     // Only the first file of the list will be opened
-                    popFrame.CC.getParserActions().openFileName=
+                    popFrame.cc.getParserActions().openFileName=
                         ((File)(list.get(0))).getAbsolutePath();
                     popFrame.getFileTools().openFile();
                     // If we made it this far, everything worked.
@@ -130,18 +130,18 @@ public class DragDropTools implements DropTargetListener
                     // If there is a valid FidoCad code, try to draw it.
                     FidoFrame popFrame;
 
-                    if(fff.CC.getUndoActions().getModified()) {
+                    if(fff.cc.getUndoActions().getModified()) {
                         popFrame = fff.createNewInstance();
                     } else {
                         popFrame=fff;
                     }
 
-                    popFrame.CC.setCirc(new StringBuffer(o.toString()));
-                    popFrame.CC.getUndoActions().saveUndoState();
-                    popFrame.CC.getUndoActions().setModified(false);
+                    popFrame.cc.setCirc(new StringBuffer(o.toString()));
+                    popFrame.cc.getUndoActions().saveUndoState();
+                    popFrame.cc.getUndoActions().setModified(false);
 
                     dtde.dropComplete(true);
-                    popFrame.CC.repaint();
+                    popFrame.cc.repaint();
                     return;
                 }
                 // How about an input stream? In some Linux flavors, it contains
@@ -164,35 +164,35 @@ public class DragDropTools implements DropTargetListener
                         {
                             FidoFrame popFrame;
 
-                            if(fff.CC.getUndoActions().getModified()) {
+                            if(fff.cc.getUndoActions().getModified()) {
                                 popFrame=fff.createNewInstance();
                             } else {
                                 popFrame=fff;
                             }
 
-                            popFrame.CC.getParserActions().openFileName =
+                            popFrame.cc.getParserActions().openFileName =
                                 line.toString().substring(k+7);
 
                             // Deprecated! It should indicate the encoding. But
                             // WE WANT the encoding using being the same of the
                             // host system.
 
-                            popFrame.CC.getParserActions().openFileName =
+                            popFrame.cc.getParserActions().openFileName =
                                 java.net.URLDecoder.decode(
-                                popFrame.CC.getParserActions().openFileName);
+                                popFrame.cc.getParserActions().openFileName);
 
                             // After we set the current file name, we just open
                             // it.
                             popFrame.getFileTools().openFile();
-                            popFrame.CC.getUndoActions().saveUndoState();
-                            popFrame.CC.getUndoActions().setModified(false);
+                            popFrame.cc.getUndoActions().saveUndoState();
+                            popFrame.cc.getUndoActions().setModified(false);
 
                             break;
                         }
                     }
                     in.close();
                     reader.close();
-                    fff.CC.repaint();
+                    fff.cc.repaint();
 
                     dtde.dropComplete(true);
                     return;

@@ -512,7 +512,7 @@ public class MacroTree extends JPanel
                         previewPanel.setCirc(new StringBuffer(md.description));
                         MapCoordinates m =
                             DrawingSize.calculateZoomToFit(
-                                previewPanel.P,
+                                previewPanel.dmp,
                                 previewPanel.getSize().width*85/100,
                                 previewPanel.getSize().height*85/100, true);
                         m.setXCenter(-m.getXCenter()+10);
@@ -528,7 +528,7 @@ public class MacroTree extends JPanel
         LibraryListener l = new LibraryListenerAdapter() {
             public void libraryLoaded()
             {
-                previewPanel.P.setLibrary(libraryModel.getAllMacros());
+                previewPanel.dmp.setLibrary(libraryModel.getAllMacros());
             }
         };
         libraryModel.addLibraryListener(l);
@@ -611,8 +611,8 @@ public class MacroTree extends JPanel
     private void createPreviewPanel()
     {
         previewPanel = new CircuitPanel(false);
-        previewPanel.P.setLayers(layerModel.getAllLayers());
-        previewPanel.P.setLibrary(libraryModel.getAllMacros());
+        previewPanel.dmp.setLayers(layerModel.getAllLayers());
+        previewPanel.dmp.setLibrary(libraryModel.getAllMacros());
         previewPanel.setGridVisibility(false);
         previewPanel.setMinimumSize(new Dimension(150, 100));
         previewPanel.setPreferredSize(new Dimension(350, 300));
@@ -693,7 +693,7 @@ public class MacroTree extends JPanel
     public void setLibraryModel(LibraryModel libraryModel)
     {
         this.libraryModel = libraryModel;
-        previewPanel.P.setLibrary(libraryModel.getAllMacros());
+        previewPanel.dmp.setLibrary(libraryModel.getAllMacros());
         bindSearchField();
     }
 
@@ -703,7 +703,7 @@ public class MacroTree extends JPanel
     public void setLayerModel(LayerModel layerModel)
     {
         this.layerModel = layerModel;
-        previewPanel.P.setLayers(layerModel.getAllLayers());
+        previewPanel.dmp.setLayers(layerModel.getAllLayers());
     }
 
     /** Get the currently selected macro.

@@ -64,7 +64,7 @@ French, Italian, Spanish, German, Chinese, Dutch, Japanese and Czech.
 FidoCadJ runs on the following systems:
 - Windows XP, Vista, Seven, 8.
 - All major distributions of Linux.
-- MacOSX 10.8 and 10.9
+- MacOSX 10.8 to 10.10
 - Android 4.0 or more recent devices.
 
 Java 1.7 is required for Windows, Linux and MacOSX.
@@ -72,9 +72,13 @@ Java 1.7 is required for Windows, Linux and MacOSX.
 1.2 Where can I find FidoCadJ?
 ------------------------------
 
-Here are the two official FidoCadJ websites:
+Here are the two official FidoCadJ websites. The first one is the generic
+website presenting the project:
 
     http://darwinne.github.io/FidoCadJ/index.html
+    
+The second one is the GitHub project, for developers:
+
     https://github.com/DarwinNE/FidoCadJ
 
 1.3 How can I run FidoCadJ?
@@ -97,8 +101,8 @@ bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some 
 problems running FidoCadJ, please check you do have a Java runtime 
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion/Mountain Lion/Mavericks operating system. Normally, you will 
-have to download the Java runtime in a few clicks. I tried my best, but
+the MacOSX Lion/Mountain Lion/Mavericks/etc operating system. Normally, you 
+will have to download the Java runtime in a few clicks. I tried my best, but
 the situation in 2007 was different from the actual one and Apple used to
 warmly welcome Java developers back then...
 
@@ -172,18 +176,19 @@ using svn from the GitHub repository.
 If you want to study the FidoCadJ source code, run the ./createdoc script to
 obtain the Javadoc description. Important classes are: 
 
-- src/net/sourceforge/fidocadj/FidoMain.java the starting point, with "main"
-- src/circuit/CircuitPanel.java which is the Swing editor panel
-- src/net/sourceforge/fidocadj/FidoFrame.java the editor windows
-- src/primitives/*.java all the graphic primitives
-- src/dialogs/*.java all the Swing dialogs
-- src/circuit/* the low level editing classes (view/model/controller)
+- src/net/sourceforge/fidocadj/FidoMain.java starting point, with "main"
+- src/net/sourceforge/fidocadj/FidoFrame.java editor windows
+- src/net/sourceforge/fidocadj/primitives/*.java the graphic primitives
+- src/net/sourceforge/fidocadj/dialogs/*.java all the Swing dialogs
+- src/net/sourceforge/fidocadj/circuit/CircuitPanel.java Swing editor panel
+- src/net/sourceforge/fidocadj/circuit/* low level editing classes 
+  (view/model/controller)
 
 -----------------------------------------------------
 3 - Instructions about compiling and running FidoCadJ
 -----------------------------------------------------
 
-Ok, you just did a clone from GitHub Git the FidoCadJ source files. 
+Ok, you just forked the FidoCadJ project in GitHub. 
 
             Good :-)
 
@@ -300,7 +305,8 @@ code:
 * if an "if" condition spans over multiple lines, put the brace on the 
   following line
 - the class names always start with a capital letter
-- variables never start with a capital letter and so methods
+- variables never start with a capital letter 
+* methods never start with a capital letter
 - an instance of the class does have its first letter in lower case
 * public classes must be documented with Javadoc syntax
 * public methods must be documented with Javadoc syntax
@@ -316,7 +322,8 @@ A checkstyle rule sets (called rules.xml) is being progressively employed so
 that those rules will be automatically checked. Points for which a rule has
 been activated have been marked with a "*" instead of a "-" in the previous 
 list.
-Be sure to run checklist with rules.xml 
+
+Be sure to run checklist with rules.xml before sending a pull request!
 
 3.5 Automatic tests
 -------------------
@@ -394,6 +401,15 @@ http://www.cs.usask.ca/documents/techreports/2013/TR-2013-01.pdf
 
 If you work on FidoCadJ code, please do all your best to keep high the quality
 of the code you are writing.
+
+As already presented in section 3.4, another tool is employed to ensure that
+the coding style is uniform and it is Checkstyle:
+
+http://checkstyle.sourceforge.net
+
+The coding rules for Checkstyle are specified in the rules.xml file. Be sure
+you run Checkstyle with this ruleset to see what it has to be corrected
+before creating a pull request.
 
 3.7 Android
 -----------

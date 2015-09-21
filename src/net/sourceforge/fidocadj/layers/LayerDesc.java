@@ -31,7 +31,6 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class LayerDesc
 {
-
     // Number of layers to be treated:
     public static final int MAX_LAYERS=16;
 
@@ -45,7 +44,7 @@ public class LayerDesc
     private boolean isModified;
 
     // Name or description of the layer:
-    private String LayerDescription;
+    private String layerDescription;
 
     // Transparency
     private float alpha;
@@ -57,7 +56,7 @@ public class LayerDesc
     {
         layerColor=null;
         isVisible=true;
-        LayerDescription="";
+        layerDescription="";
 
     }
 
@@ -71,7 +70,7 @@ public class LayerDesc
     {
         layerColor=c;
         isVisible=v;
-        LayerDescription=d;
+        layerDescription=d;
         alpha = a;
 
     }
@@ -120,7 +119,7 @@ public class LayerDesc
     */
     public String getDescription()
     {
-        return LayerDescription;
+        return layerDescription;
     }
 
     /** This method allows to set the layer description.
@@ -129,7 +128,7 @@ public class LayerDesc
     */
     final public void setDescription(String s)
     {
-        LayerDescription=s;
+        layerDescription=s;
     }
 
     /** This method allows to set the layer visibility.

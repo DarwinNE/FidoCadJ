@@ -4,7 +4,7 @@ package net.sourceforge.fidocadj.dialogs;
     parameter types are: (Integer|Double|String|Boolean|Point).
 
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ package net.sourceforge.fidocadj.dialogs;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
@@ -33,7 +33,7 @@ public class ParameterDescription
 
     /** Creator.
     */
-    public void ParameterDescription ()
+    public ParameterDescription ()
     {
         isExtension = false;
     }

@@ -91,8 +91,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private static final String rulerFont = "Lucida Sans Regular";
 
     // Model:
-    // Maybe, should it be kept private?
-    public transient DrawingModel P;
+    // TODO: This should be kept private!
+    public transient DrawingModel dmp;
 
     // Scrolling pane data
     public JScrollPane father;
@@ -186,22 +186,20 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public CircuitPanel (boolean isEditable)
     {
         backgroundColor=Color.white;
-        P = new DrawingModel();
-        sa = new SelectionActions(P);
-        pa =new ParserActions(P);
+        dmp = new DrawingModel();
+        sa = new SelectionActions(dmp);
+        pa =new ParserActions(dmp);
         ua = new UndoActions(pa);
-        edt = new EditorActions(P, sa, ua);
-        eea = new ContinuosMoveActions(P, sa, ua, edt);
+        edt = new EditorActions(dmp, sa, ua);
+        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
         eea.setPrimitivesParListener(this);
 
-        haa=new HandleActions(P, edt, sa, ua);
-        cpa=new CopyPasteActions(P, edt, sa, pa, ua, new TextTransfer());
-
-
+        haa=new HandleActions(dmp, edt, sa, ua);
+        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
 
         graphicSwing = new Graphics2DSwing();
 
-        drawingAgent=new Drawing(P);
+        drawingAgent=new Drawing(dmp);
 
         isGridVisible=true;
         zoomListener=null;
@@ -356,7 +354,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         [L]                 Line
         [T]                 Text
         [B]                 Bézier
-        [P]                 Polygon
+        [dmp]                 Polygon
         [O]                 Complex curve
         [E]                 Ellipse
         [G]                 Rectangle
@@ -423,7 +421,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 }
             }
         });
-
 
         final String left = "lleft";
          // left key
@@ -557,8 +554,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         /* two little checks... */
         if (l<0)
             l=0;
-        if (l>=P.getLayers().size())
-            l=P.getLayers().size()-1;
+        if (l>=dmp.getLayers().size())
+            l=dmp.getLayers().size()-1;
 
         eea.currentLayer=l;
     }
@@ -679,7 +676,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void updateSizeOfScrollBars(Rectangle r)
     {
         PointG origin=new PointG();
-        DimensionG d=DrawingSize.getImageSize(P, cs.getXMagnitude(),
+        DimensionG d=DrawingSize.getImageSize(dmp, cs.getXMagnitude(),
                 false, origin);
 
         int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
@@ -1208,7 +1205,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
     {
         double length;
-        //MapCoordinates cs=P.getMapCoordinates();
+        //MapCoordinates cs=dmp.getMapCoordinates();
 
         int xa = cs.unmapXnosnap(sx);
         int ya = cs.unmapYnosnap(sy);
@@ -1372,7 +1369,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         DialogParameters dp = new DialogParameters(
             (JFrame)Globals.activeWindow,
             v, extStrict,
-            P.getLayers());
+            dmp.getLayers());
         dp.setVisible(true);
         if(dp.active) {
             if (sa.isUniquePrimitiveSelected()) {
@@ -1388,13 +1385,13 @@ public class CircuitPanel extends JPanel implements ActionListener,
                         "Warning: unexpected parameter! (layer)");
                 }
             }
-            P.setChanged(true);
+            dmp.setChanged(true);
 
             // We need to check and sort the layers, since the user can
             // change the layer associated to a given primitive thanks to
             // the dialog window which has been shown.
 
-            P.sortPrimitiveLayers();
+            dmp.sortPrimitiveLayers();
             ua.saveUndoState();
             repaint();
         }
@@ -1443,7 +1440,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         cs=m;
         // Force an in-depth redraw.
-        P.setChanged(true);
+        dmp.setChanged(true);
     }
 
     /** Get the current coordinate mapping.
@@ -1512,7 +1509,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
             else if (arg.equals(Globals.messages.getString("Symbolize"))) {
                 if (sa.getFirstSelectedPrimitive() == null) return;
-                DialogSymbolize s = new DialogSymbolize(this,P);
+                DialogSymbolize s = new DialogSymbolize(this,dmp);
                 s.setModal(true);
                 s.setVisible(true);
                 try {

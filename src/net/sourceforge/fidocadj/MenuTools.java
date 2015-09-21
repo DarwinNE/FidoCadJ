@@ -14,7 +14,7 @@ import net.sourceforge.fidocadj.clipboard.*;
 
     Class creating and handling the main menu of FidoCadJ. It contains the
     methods to create the menu, as well as an event handling system for
-    menu-related operations.
+    menu-related operatixons.
 
     <pre>
     This file is part of FidoCadJ.
@@ -65,7 +65,7 @@ public class MenuTools implements MenuListener
                     ).replace(")","").trim();
                 currentLocale = new Locale(lang);
                 if (!checkIfToBeSaved()) return;
-                ((FidoFrame)Globals.activeWindow).CC.getUndoActions()
+                ((FidoFrame)Globals.activeWindow).cc.getUndoActions()
                     .doTheDishes();
                 Globals.activeWindow.dispose();
                 SwingUtilities.invokeLater(new
@@ -383,21 +383,21 @@ public class MenuTools implements MenuListener
     {
         ExportTools et = fff.getExportTools();
         PrintTools pt = fff.getPrintTools();
-        CircuitPanel CC = fff.CC;
+        CircuitPanel cc = fff.cc;
         String arg=evt.getActionCommand();
-        EditorActions edt=CC.getEditorActions();
-        CopyPasteActions cpa=CC.getCopyPasteActions();
-        ElementsEdtActions eea = CC.getContinuosMoveActions();
-        SelectionActions sa = CC.getSelectionActions();
+        EditorActions edt=cc.getEditorActions();
+        CopyPasteActions cpa=cc.getCopyPasteActions();
+        ElementsEdtActions eea = cc.getContinuosMoveActions();
+        SelectionActions sa = cc.getSelectionActions();
 
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
             EnterCircuitFrame circuitDialog=new EnterCircuitFrame(fff,
-                CC.getCirc(!CC.extStrict).toString());
+                cc.getCirc(!cc.extStrict).toString());
             circuitDialog.setVisible(true);
 
-            CC.setCirc(new StringBuffer(circuitDialog.getStringCircuit()));
-            CC.getUndoActions().saveUndoState();
+            cc.setCirc(new StringBuffer(circuitDialog.getStringCircuit()));
+            cc.getUndoActions().saveUndoState();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
             // Update libraries
@@ -408,18 +408,18 @@ public class MenuTools implements MenuListener
             fff.showPrefs();
         } else if (arg.equals(Globals.messages.getString("Layer_opt"))) {
             // Options for the layers
-            DialogLayer layerDialog=new DialogLayer(fff,CC.P.getLayers());
+            DialogLayer layerDialog=new DialogLayer(fff,cc.dmp.getLayers());
             layerDialog.setVisible(true);
 
             // It is important that we force a complete recalculation of
             // all details in the drawing, otherwise the buffered setup
             // will not be responsive to the changes in the layer editing.
 
-            CC.P.setChanged(true);
+            cc.dmp.setChanged(true);
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
-            pt.printDrawing(fff, CC);
+            pt.printDrawing(fff, cc);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
             fff.getFileTools().saveWithName(false);
@@ -434,11 +434,11 @@ public class MenuTools implements MenuListener
             fff.createNewInstance();
         } else if (arg.equals(Globals.messages.getString("Undo"))) {
             // Undo the last action
-            CC.getUndoActions().undo();
+            cc.getUndoActions().undo();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Redo"))) {
             // Redo the last action
-            CC.getUndoActions().redo();
+            cc.getUndoActions().redo();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("About_menu"))) {
             // Show the about menu
@@ -461,7 +461,7 @@ public class MenuTools implements MenuListener
 
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
-            et.launchExport(fff, CC, fff.getFileTools().openFileDirectory);
+            et.launchExport(fff, cc, fff.getFileTools().openFileDirectory);
         } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
             // Select all elements in the current drawing
             sa.setSelectionAll(true);
@@ -470,13 +470,13 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Copy"))) {
             // Copy all selected elements in the clipboard
-            cpa.copySelected(!CC.extStrict, false);
+            cpa.copySelected(!cc.extStrict, false);
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
             // Copy elements, splitting non standard macros
-            cpa.copySelected(!CC.extStrict, true);
+            cpa.copySelected(!cc.extStrict, true);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
-            cpa.copySelected(!CC.extStrict, false);
+            cpa.copySelected(!cc.extStrict, false);
             edt.deleteAllSelected(true);
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Mirror_E"))) {
@@ -495,26 +495,26 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate
-            cpa.copySelected(!CC.extStrict, false);
-            cpa.paste(CC.getMapCoordinates().getXGridStep(),
-                CC.getMapCoordinates().getYGridStep());
+            cpa.copySelected(!cc.extStrict, false);
+            cpa.paste(cc.getMapCoordinates().getXGridStep(),
+                cc.getMapCoordinates().getYGridStep());
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
             // Paste as a new circuit
             TextTransfer textTransfer = new TextTransfer();
             FidoFrame popFrame;
-            if(CC.getUndoActions().getModified()) {
+            if(cc.getUndoActions().getModified()) {
                 popFrame = fff.createNewInstance();
             } else {
                 popFrame=fff;
             }
-            popFrame.CC.setCirc(new
+            popFrame.cc.setCirc(new
                     StringBuffer(textTransfer.getClipboardContents()));
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Paste"))) {
             // Paste some graphical elements
-            cpa.paste(CC.getMapCoordinates().getXGridStep(),
-                    CC.getMapCoordinates().getYGridStep());
+            cpa.paste(cc.getMapCoordinates().getXGridStep(),
+                    cc.getMapCoordinates().getYGridStep());
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Close"))) {
             // Close the current window
@@ -522,7 +522,7 @@ public class MenuTools implements MenuListener
                 return;
             }
             fff.setVisible(false);
-            CC.getUndoActions().doTheDishes();
+            cc.getUndoActions().doTheDishes();
             fff.dispose();
             Globals.openWindows.remove(fff);
 

@@ -35,15 +35,15 @@ import net.sourceforge.fidocadj.graphic.*;
 public class AddElements
 {
 
-    final private DrawingModel P;
+    final private DrawingModel dmp;
     final private UndoActions ua;
 
     // Default sizes for PCB elements
-    public int PCB_pad_sizex;
-    public int PCB_pad_sizey;
-    public int PCB_pad_style;
-    public int PCB_pad_drill;
-    public int PCB_thickness;
+    public int pcbPadSizeX;
+    public int pcbPadSizeY;
+    public int pcbPadStyle;
+    public int pcbPadDrill;
+    public int pcbThickness;
 
     /** Standard constructor.
         @param pp the drawing model object on which this controller operates.
@@ -51,14 +51,12 @@ public class AddElements
     */
     public AddElements(DrawingModel pp, UndoActions u)
     {
-        P=pp;
+        dmp=pp;
         ua=u;
-
-        PCB_thickness = 5;
-        PCB_pad_sizex=5;
-        PCB_pad_sizey=5;
-        PCB_pad_drill=2;
-
+        pcbThickness = 5;
+        pcbPadSizeX=5;
+        pcbPadSizeY=5;
+        pcbPadDrill=2;
     }
 
     /** Sets the default PCB pad size x.
@@ -66,7 +64,7 @@ public class AddElements
     */
     public void setPCB_pad_sizex(int s)
     {
-        PCB_pad_sizex=s;
+        pcbPadSizeX=s;
     }
 
     /** Gets the default PCB pad size x.
@@ -74,7 +72,7 @@ public class AddElements
     */
     public int getPCB_pad_sizex()
     {
-        return PCB_pad_sizex;
+        return pcbPadSizeX;
     }
 
     /** Sets the default PCB pad size y.
@@ -82,7 +80,7 @@ public class AddElements
     */
     public void setPCB_pad_sizey(int s)
     {
-        PCB_pad_sizey=s;
+        pcbPadSizeY=s;
     }
 
     /** Gets the default PCB pad size y.
@@ -90,7 +88,7 @@ public class AddElements
     */
     public int getPCB_pad_sizey()
     {
-        return PCB_pad_sizey;
+        return pcbPadSizeY;
     }
 
     /** Sets the default PCB pad style.
@@ -98,7 +96,7 @@ public class AddElements
     */
     public void setPCB_pad_style(int s)
     {
-        PCB_pad_style=s;
+        pcbPadStyle=s;
     }
 
     /** Gets the default PCB pad style.
@@ -106,7 +104,7 @@ public class AddElements
     */
     public int getPCB_pad_style()
     {
-        return PCB_pad_style;
+        return pcbPadStyle;
     }
 
     /** Sets the default PCB pad drill size.
@@ -114,7 +112,7 @@ public class AddElements
     */
     public void setPCB_pad_drill(int s)
     {
-        PCB_pad_drill=s;
+        pcbPadDrill=s;
     }
 
     /** Gets the default PCB pad drill size.
@@ -122,7 +120,7 @@ public class AddElements
     */
     public int getPCB_pad_drill()
     {
-        return PCB_pad_drill;
+        return pcbPadDrill;
     }
 
     /** Sets the default PCB track thickness.
@@ -130,7 +128,7 @@ public class AddElements
     */
     public void setPCB_thickness(int s)
     {
-        PCB_thickness=s;
+        pcbThickness=s;
     }
 
     /** Gets the default PCB track thickness.
@@ -138,7 +136,7 @@ public class AddElements
     */
     public int getPCB_thickness()
     {
-        return PCB_thickness;
+        return pcbThickness;
     }
 
 
@@ -151,10 +149,10 @@ public class AddElements
     public void addConnection(int x, int y, int currentLayer)
     {
         PrimitiveConnection g=new PrimitiveConnection(x, y, currentLayer,
-            P.getTextFont(), P.getTextFontSize());
-        g.setMacroFont(P.getTextFont(), P.getTextFontSize());
+            dmp.getTextFont(), dmp.getTextFontSize());
+        g.setMacroFont(dmp.getTextFont(), dmp.getTextFontSize());
 
-        P.addPrimitive(g, true, ua);
+        dmp.addPrimitive(g, true, ua);
     }
 
     /** Introduce a line. You can introduce lines point by point, so you
@@ -195,9 +193,9 @@ public class AddElements
                                  false,
                                  false,
                                  0,3,2,0,
-                                 P.getTextFont(),
-                                 P.getTextFontSize());
-            P.addPrimitive(g, true, ua);
+                                 dmp.getTextFont(),
+                                 dmp.getTextFontSize());
+            dmp.addPrimitive(g, true, ua);
             // Check if the user has clicked with the right button.
             // In this case, the introduction is stopped, or we continue
             // with a second line (segment) continuous to the one just
@@ -243,11 +241,11 @@ public class AddElements
                 orientation = ((PrimitiveMacro)primEdit).getOrientation();
                 mirror = ((PrimitiveMacro)primEdit).isMirrored();
             }
-            P.addPrimitive(new PrimitiveMacro(P.getLibrary(),
-                    P.getLayers(), x, y, macroKey,"",
+            dmp.addPrimitive(new PrimitiveMacro(dmp.getLibrary(),
+                    dmp.getLayers(), x, y, macroKey,"",
                     x+10, y+5, "", x+10, y+10,
-                    P.getTextFont(),
-                    P.getTextFontSize(), orientation, mirror), true, ua);
+                    dmp.getTextFont(),
+                    dmp.getTextFontSize(), orientation, mirror), true, ua);
             primEdit=null;
 
         } catch (IOException G) {
@@ -294,12 +292,10 @@ public class AddElements
                                          ypoly[2],
                                          false,
                                          currentLayer,0,
-                                         P.getTextFont(), P.getTextFontSize());
-
-            P.addPrimitive(g, true, ua);
-
+                                         dmp.getTextFont(),
+                                         dmp.getTextFontSize());
+            dmp.addPrimitive(g, true, ua);
             cn = 0;
-
         }
         return cn;
     }
@@ -344,10 +340,10 @@ public class AddElements
                                         false,
                                         false,
                                         0,3,2,0,
-                                        P.getTextFont(),
-                                        P.getTextFontSize());
+                                        dmp.getTextFont(),
+                                        dmp.getTextFontSize());
 
-            P.addPrimitive(g, true, ua);
+            dmp.addPrimitive(g, true, ua);
 
             cn = 0;
         }
@@ -392,9 +388,9 @@ public class AddElements
                                          ypoly[2],
                                          false,
                                          currentLayer,0,
-                                         P.getTextFont(), P.getTextFontSize());
-
-            P.addPrimitive(g, true, ua);
+                                         dmp.getTextFont(),
+                                         dmp.getTextFontSize());
+            dmp.addPrimitive(g, true, ua);
             cn = 0;
         }
         if (cn>=2) cn = 0;
@@ -438,8 +434,9 @@ public class AddElements
                                          ypoly[2],
                                          thickness,
                                          currentLayer,
-                                         P.getTextFont(), P.getTextFontSize());
-            P.addPrimitive(g, true,ua);
+                                         dmp.getTextFont(),
+                                         dmp.getTextFontSize());
+            dmp.addPrimitive(g, true,ua);
 
             // Check if the user has clicked with the right button.
             if(altButton) {
@@ -465,13 +462,13 @@ public class AddElements
     public void addPCBPad(int x, int y, int currentLayer)
     {
         final PrimitivePCBPad g=new PrimitivePCBPad(x, y,
-                                  PCB_pad_sizex,
-                                  PCB_pad_sizey,
-                                  PCB_pad_drill,
-                                  PCB_pad_style,
+                                  pcbPadSizeX,
+                                  pcbPadSizeY,
+                                  pcbPadDrill,
+                                  pcbPadStyle,
                                   currentLayer,
-                                  P.getTextFont(), P.getTextFontSize());
+                                  dmp.getTextFont(), dmp.getTextFontSize());
 
-        P.addPrimitive(g, true, ua);
+        dmp.addPrimitive(g, true, ua);
     }
 }

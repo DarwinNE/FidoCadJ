@@ -169,7 +169,7 @@ Starting at line 122 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 50 line (294 tokens) duplication in the following files: 
 Starting at line 195 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 802 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 804 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
@@ -224,7 +224,7 @@ Starting at line 802 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 85 line (269 tokens) duplication in the following files: 
 Starting at line 208 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 380 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 382 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 Starting at line 234 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
             IOException E=new IOException("EV/EP: Invalid primitive:"+tokens[0]+
@@ -315,7 +315,7 @@ Starting at line 234 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 52 line (268 tokens) duplication in the following files: 
 Starting at line 144 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 737 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 739 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 
         ParameterDescription pd = new ParameterDescription();
@@ -420,8 +420,8 @@ Starting at line 490 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             {
 =====================================================================
 Found a 56 line (228 tokens) duplication in the following files: 
-Starting at line 186 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 188 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 189 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
         addPoint(px, py);
 
@@ -448,15 +448,15 @@ Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
     */
     public void addPoint(int x, int y)
     {
-        if(nPoints+2>=N_POINTS) {
-            int o_n=N_POINTS;
+        if(nPoints+2>=storageSize) {
+            int o_n=storageSize;
             int i;
-            N_POINTS += 10;
-            PointG[] nv = new PointG[N_POINTS];
+            storageSize += 10;
+            PointG[] nv = new PointG[storageSize];
             for(i=0;i<o_n;++i) {
                 nv[i]=virtualPoint[i];
             }
-            for(;i<N_POINTS;++i) {
+            for(;i<storageSize;++i) {
                 nv[i]=new PointG();
             }
             virtualPoint=nv;
@@ -658,8 +658,8 @@ Starting at line 108 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             }
 =====================================================================
 Found a 55 line (174 tokens) duplication in the following files: 
-Starting at line 462 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 94 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 464 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 96 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
     }
 
@@ -917,9 +917,9 @@ Starting at line 204 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             if(N>6 && tokens[6].equals("FCJ")) {
 =====================================================================
 Found a 35 line (133 tokens) duplication in the following files: 
-Starting at line 763 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 765 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 230 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 400 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 402 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 Starting at line 252 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
         v.add(pd);
@@ -1323,8 +1323,8 @@ Starting at line 144 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         }
 =====================================================================
 Found a 25 line (116 tokens) duplication in the following files: 
-Starting at line 141 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 141 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 143 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 143 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
     }
 
@@ -1334,8 +1334,8 @@ Starting at line 141 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
     */
     public void addPointClosest(int px, int py)
     {
-        int[] xp=new int[N_POINTS];
-        int[] yp=new int[N_POINTS];
+        int[] xp=new int[storageSize];
+        int[] yp=new int[storageSize];
 
         int k;
 
@@ -1426,7 +1426,7 @@ Starting at line 704 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[11].length())+
 =====================================================================
 Found a 37 line (113 tokens) duplication in the following files: 
-Starting at line 919 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
+Starting at line 931 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
 Starting at line 596 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java
 
         v.add(pd);

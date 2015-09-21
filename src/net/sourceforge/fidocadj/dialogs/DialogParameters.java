@@ -45,8 +45,8 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 public class DialogParameters extends JDialog
     implements ComponentListener
 {
-    private int MIN_WIDTH = 450;
-    private int MIN_HEIGHT = 350;
+    private int minWidth = 450;
+    private int minHeight = 350;
     private static final int MAX = 20;
 
     // Maximum number of user interface elements of the same type present
@@ -359,14 +359,14 @@ public class DialogParameters extends JDialog
                 // that it will become visible in a while. It is better to
                 // resize first and then show up the keyboard.
                 if (keyb.isVisible()) {
-                    MIN_WIDTH = 400;
-                    MIN_HEIGHT = 350;
+                    minWidth = 400;
+                    minHeight = 350;
                 } else {
-                    MIN_WIDTH = 400;
-                    MIN_HEIGHT = 500;
+                    minWidth = 400;
+                    minHeight = 500;
 
                 }
-                //setSize(MIN_WIDTH, MIN_HEIGHT);
+                //setSize(minWidth, minHeight);
                 keyb.setVisible(!keyb.isVisible());
                 pack();
             }
@@ -531,13 +531,13 @@ public class DialogParameters extends JDialog
         int height = getHeight();
 
         boolean resize = false;
-        if (width < MIN_WIDTH) {
+        if (width < minWidth) {
             resize = true;
-            width = MIN_WIDTH;
+            width = minWidth;
         }
-        if (height < MIN_HEIGHT) {
+        if (height < minHeight) {
             resize = true;
-            height = MIN_HEIGHT;
+            height = minHeight;
         }
         if (resize) {
             setSize(width, height);

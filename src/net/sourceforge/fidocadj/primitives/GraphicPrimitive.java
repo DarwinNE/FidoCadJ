@@ -105,7 +105,7 @@ public abstract class GraphicPrimitive
         @param f the font to be employed for the associated text.
         @param size the size to be employed for the associated text.
     */
-    public void GraphicPrimitive(String f, int size)
+    public GraphicPrimitive(String f, int size)
     {
         selectedState=false;
         layer=0;
@@ -113,10 +113,22 @@ public abstract class GraphicPrimitive
         name = "";
         value = "";
         mult = 1.0f;
-
         setMacroFontSize(size);
-
         macroFont=f;
+    }
+
+    /** Standard constructor.
+    */
+    public GraphicPrimitive()
+    {
+        selectedState=false;
+        layer=0;
+        changed=true;
+        name = "";
+        value = "";
+        mult = 1.0f;
+        setMacroFontSize(4);
+        macroFont="";
     }
 
     /** Set the font to be used for name and value.

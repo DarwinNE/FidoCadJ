@@ -304,10 +304,8 @@ public final class LibUtils
                 md.key.equalsIgnoreCase(key.trim()))
                     return true;
         }
-        if(key.contains("]"))
-            return true;
-
-        return false;
+        // ']' is a forbidden char since it would mess up the FidoCadJ file.
+        return key.contains("]");
     }
 
     /** Check if a library name is acceptable. Since the library name is used

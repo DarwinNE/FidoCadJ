@@ -4,7 +4,6 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.globals.*;
 
-
 /** CopyPasteActions: contains a controller which can perform copy and paste
     actions on a primitive database.
 
@@ -29,10 +28,9 @@ import net.sourceforge.fidocadj.globals.*;
 
     @author Davide Bucci
 */
-
 public class CopyPasteActions
 {
-    private final DrawingModel P;
+    private final DrawingModel dmp;
     private final EditorActions edt;
     private final ParserActions pa;
     private final UndoActions ua;
@@ -53,7 +51,7 @@ public class CopyPasteActions
         SelectionActions s,
         ParserActions aa, UndoActions u, ProvidesCopyPasteInterface p)
     {
-        P=pp;
+        dmp=pp;
         edt=ed;
         pa=aa;
         sa=s;
@@ -80,7 +78,7 @@ public class CopyPasteActions
             edt.moveAllSelected(xstep, ystep);
 
         ua.saveUndoState();
-        P.setChanged(true);
+        dmp.setChanged(true);
     }
 
     /** Copy in the system clipboard all selected primitives.

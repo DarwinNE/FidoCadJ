@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.primitives.*;
 
 public class EditorActions
 {
-    private final DrawingModel P;
+    private final DrawingModel dmp;
     private final UndoActions ua;
     private final SelectionActions sa;
 
@@ -51,7 +51,7 @@ public class EditorActions
     */
     public EditorActions (DrawingModel pp, SelectionActions s, UndoActions u)
     {
-        P=pp;
+        dmp=pp;
         ua=u;
         sa=s;
         sel_tolerance = 10;
@@ -144,7 +144,7 @@ public class EditorActions
     public void deleteAllSelected(boolean saveState)
     {
         int i;
-        Vector<GraphicPrimitive> v=P.getPrimitiveVector();
+        Vector<GraphicPrimitive> v=dmp.getPrimitiveVector();
 
         for (i=0; i<v.size(); ++i){
             if(v.get(i).getSelected())
@@ -162,7 +162,7 @@ public class EditorActions
     {
         boolean toRedraw=false;
         // Search for all selected primitives.
-        for (GraphicPrimitive g: P.getPrimitiveVector()) {
+        for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             // If selected, change the layer. Macros must be always associated
             // to layer 0.
             if (g.getSelected() && ! (g instanceof PrimitiveMacro)) {
@@ -171,8 +171,8 @@ public class EditorActions
             }
         }
         if(toRedraw) {
-            P.sortPrimitiveLayers();
-            P.setChanged(true);
+            dmp.sortPrimitiveLayers();
+            dmp.setChanged(true);
             ua.saveUndoState();
         }
         return toRedraw;
@@ -191,11 +191,11 @@ public class EditorActions
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer=0;
-        Vector<LayerDesc> layerV=P.getLayers();
+        Vector<LayerDesc> layerV=dmp.getLayers();
 
         // Check the minimum distance by searching among all
         // primitives
-        for (GraphicPrimitive g: P.getPrimitiveVector()) {
+        for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             distance=g.getDistanceToPoint(px,py);
             if(distance<=mindistance) {
                 layer = g.getLayer();
@@ -247,13 +247,13 @@ public class EditorActions
         int layer;
         GraphicPrimitive gp;
         GraphicPrimitive gpsel=null;
-        Vector<LayerDesc> layerV=P.getLayers();
+        Vector<LayerDesc> layerV=dmp.getLayers();
 
         /*  The search method is very simple: we compute the distance of the
             given point from each primitive and we retain the minimum value, if
             it is less than a given tolerance.
         */
-        for  (GraphicPrimitive g: P.getPrimitiveVector()) {
+        for  (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             layer = g.getLayer();
             if(layerV.get(layer).isVisible || g instanceof PrimitiveMacro) {
                 distance=g.getDistanceToPoint(px,py);
@@ -292,9 +292,9 @@ public class EditorActions
         if(w<1 || h <1)
             return false;
 
-        Vector<LayerDesc> layerV=P.getLayers();
+        Vector<LayerDesc> layerV=dmp.getLayers();
         // Process every primitive, if the corresponding layer is visible.
-        for (GraphicPrimitive g: P.getPrimitiveVector()){
+        for (GraphicPrimitive g: dmp.getPrimitiveVector()){
             layer= g.getLayer();
             if((layer>=layerV.size() ||
                 layerV.get(layer).isVisible ||

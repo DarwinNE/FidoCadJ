@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.globals.*;
 class RunExport implements Runnable
 {
     private File file;
-    private DrawingModel P;
+    private DrawingModel dmp;
     private String format;
     private double unitPerPixel;
     private boolean antiAlias;
@@ -66,7 +66,7 @@ class RunExport implements Runnable
         JFrame tparent)
     {
         file=tfile;
-        P = tP;
+        dmp = tP;
         format = tformat;
         unitPerPixel = tunitPerPixel;
         antiAlias= tantiAlias;
@@ -80,7 +80,7 @@ class RunExport implements Runnable
     public void run()
     {
         try {
-            ExportGraphic.export(file, P, format, unitPerPixel,
+            ExportGraphic.export(file, dmp, format, unitPerPixel,
                 antiAlias, blackWhite, ext, true);
             JOptionPane.showMessageDialog(parent,
                 Globals.messages.getString("Export_completed"));

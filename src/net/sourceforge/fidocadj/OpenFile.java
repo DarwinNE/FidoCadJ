@@ -130,8 +130,8 @@ class OpenFile implements Runnable
                 // normal Swing one.
 
                 FidoFrame popFrame;
-                if(parent.CC.getUndoActions().getModified() ||
-                    !parent.CC.P.isEmpty())
+                if(parent.cc.getUndoActions().getModified() ||
+                    !parent.cc.dmp.isEmpty())
                 {
                     // Here we create a new window in order to display
                     // the file.
@@ -150,15 +150,15 @@ class OpenFile implements Runnable
                     // file to be loaded
                     popFrame=parent;
                 }
-                popFrame.CC.getParserActions().openFileName=
+                popFrame.cc.getParserActions().openFileName=
                     Globals.createCompleteFileName(din, fin);
                 if (parent.runsAsApplication)
                     parent.prefs.put("OPEN_DIR", din);
 
                 popFrame.getFileTools().openFileDirectory=din;
                 popFrame.getFileTools().openFile();
-                popFrame.CC.getUndoActions().saveUndoState();
-                popFrame.CC.getUndoActions().setModified(false);
+                popFrame.cc.getUndoActions().saveUndoState();
+                popFrame.cc.getUndoActions().setModified(false);
 
                 //System.gc();
 

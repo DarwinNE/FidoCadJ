@@ -74,7 +74,7 @@ public class FileTools
     public boolean checkIfToBeSaved()
     {
         boolean shouldExit = true;
-        if (fff.CC.getUndoActions().getModified()) {
+        if (fff.cc.getUndoActions().getModified()) {
             Object[] options = {
                 Globals.messages.getString("Save"),
                 Globals.messages.getString("Do_Not_Save"),
@@ -85,8 +85,8 @@ public class FileTools
             // write Warning!
 
             String filename=Globals.messages.getString("Warning");
-            if(!"".equals(fff.CC.getParserActions().openFileName)) {
-                filename=fff.CC.getParserActions().openFileName;
+            if(!"".equals(fff.cc.getParserActions().openFileName)) {
+                filename=fff.cc.getParserActions().openFileName;
             }
             int choice=JOptionPane.showOptionDialog(fff,
                 Globals.messages.getString("Warning_unsaved"),
@@ -113,7 +113,7 @@ public class FileTools
         }
 
         if(shouldExit)
-            fff.CC.getUndoActions().doTheDishes();
+            fff.cc.getUndoActions().doTheDishes();
 
         return shouldExit;
     }
@@ -127,7 +127,7 @@ public class FileTools
 
         BufferedReader bufRead = new BufferedReader(
             new InputStreamReader(new FileInputStream(
-                fff.CC.getParserActions().openFileName),
+                fff.cc.getParserActions().openFileName),
             Globals.encoding));
 
         StringBuffer txt= new StringBuffer();
@@ -142,12 +142,12 @@ public class FileTools
         bufRead.close();
 
         // Here txt contains the new circuit: draw it!
-        fff.CC.setCirc(new StringBuffer(txt.toString()));
+        fff.cc.setCirc(new StringBuffer(txt.toString()));
 
         // Calculate the zoom to fit
         fff.zoomToFit();
-        fff.CC.getUndoActions().saveUndoState();
-        fff.CC.getUndoActions().setModified(false);
+        fff.cc.getUndoActions().saveUndoState();
+        fff.cc.getUndoActions().setModified(false);
 
         fff.repaint();
     }
@@ -215,10 +215,10 @@ public class FileTools
         if(fin== null) {
             return false;
         } else {
-            fff.CC.getParserActions().openFileName=
+            fff.cc.getParserActions().openFileName=
                 Globals.createCompleteFileName(din, fin);
-            fff.CC.getParserActions().openFileName = Globals.adjustExtension(
-                fff.CC.getParserActions().openFileName,
+            fff.cc.getParserActions().openFileName = Globals.adjustExtension(
+                fff.cc.getParserActions().openFileName,
                     Globals.DEFAULT_EXTENSION);
             if (prefs!=null)
                 prefs.put("OPEN_DIR", din);
@@ -237,11 +237,11 @@ public class FileTools
     */
     public boolean save(boolean splitNonStandardMacro_s)
     {
-        CircuitPanel CC=fff.CC;
+        CircuitPanel cc=fff.cc;
 
         // If there is not a name currently defined, we use instead the
         // save with name function.
-        if("".equals(CC.getParserActions().openFileName)) {
+        if("".equals(cc.getParserActions().openFileName)) {
             return saveWithName(splitNonStandardMacro_s);
         }
         try {
@@ -252,21 +252,21 @@ public class FileTools
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(
-                    CC.getParserActions().openFileName),  CC.P,
-                    "fcd", 1.0,true,false, !CC.extStrict, false);
-                CC.getUndoActions().setModified(false);
+                    cc.getParserActions().openFileName),  cc.dmp,
+                    "fcd", 1.0,true,false, !cc.extStrict, false);
+                cc.getUndoActions().setModified(false);
 
             } else {
                 // Create file
                 BufferedWriter output = new BufferedWriter(new
                     OutputStreamWriter(new FileOutputStream(
-                    CC.getParserActions().openFileName),
+                    cc.getParserActions().openFileName),
                     Globals.encoding));
 
                 output.write("[FIDOCAD]\n");
-                output.write(CC.getCirc(!CC.extStrict).toString());
+                output.write(cc.getCirc(!cc.extStrict).toString());
                 output.close();
-                CC.getUndoActions().setModified(false);
+                cc.getUndoActions().setModified(false);
 
             }
         } catch (IOException fnfex) {
@@ -282,7 +282,7 @@ public class FileTools
     */
     public void load(String s)
     {
-        fff.CC.getParserActions().openFileName= s;
+        fff.cc.getParserActions().openFileName= s;
         try {
             openFile();
         } catch (IOException fnfex) {

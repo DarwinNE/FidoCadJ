@@ -41,7 +41,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 public class ElementsEdtActions
 {
-    protected final DrawingModel P;
+    protected final DrawingModel dmp;
     protected final UndoActions ua;
     protected final EditorActions edt;
     final SelectionActions sa;
@@ -106,9 +106,9 @@ public class ElementsEdtActions
         UndoActions u,
         EditorActions e)
     {
-        P=pp;
+        dmp=pp;
         ua=u;
-        ae=new AddElements(P,ua);
+        ae=new AddElements(dmp,ua);
         edt=e;
         sa=s;
         xpoly = new int[NPOLY];
@@ -312,10 +312,10 @@ public class ElementsEdtActions
                 PrimitiveAdvText newtext =
                     new PrimitiveAdvText(cs.unmapXsnap(x),
                                         cs.unmapYsnap(y),
-                                        3,4,P.getTextFont(),0,0,
+                                        3,4,dmp.getTextFont(),0,0,
                                         "String", currentLayer);
                 sa.setSelectionAll(false);
-                P.addPrimitive(newtext, true, ua);
+                dmp.addPrimitive(newtext, true, ua);
                 newtext.setSelected(true);
                 repaint=true;
                 if(primitivesParListener!=null)
@@ -340,14 +340,14 @@ public class ElementsEdtActions
             case POLYGON:
                 // a polygon definition is ended with a double click
                 if (doubleClick) {
-
                     PrimitivePolygon poly=new PrimitivePolygon(false,
                                          currentLayer,0,
-                                         P.getTextFont(), P.getTextFontSize());
+                                         dmp.getTextFont(),
+                                         dmp.getTextFontSize());
                     for(i=1; i<=clickNumber; ++i)
                         poly.addPoint(xpoly[i],ypoly[i]);
 
-                    P.addPrimitive(poly, true,ua);
+                    dmp.addPrimitive(poly, true,ua);
                     clickNumber = 0;
                     repaint=true;
                     break;
@@ -373,11 +373,12 @@ public class ElementsEdtActions
                                         false,
                                         currentLayer,
                                         false, false, 0, 3, 2, 0,
-                                        P.getTextFont(), P.getTextFontSize());
+                                        dmp.getTextFont(),
+                                        dmp.getTextFontSize());
                     for(i=1; i<=clickNumber; ++i)
                         compc.addPoint(xpoly[i],ypoly[i]);
 
-                    P.addPrimitive(compc, true,ua);
+                    dmp.addPrimitive(compc, true,ua);
                     clickNumber = 0;
                     repaint=true;
                     break;

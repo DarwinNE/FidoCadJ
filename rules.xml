@@ -50,5 +50,14 @@
 			<property name="illegalPattern" value="true"/>
 			<property name="message" value="Line has trailing spaces."/>
     	</module>
+    	<module name="MemberName">
+  			<property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+		</module>
+		<module name="MethodName">
+  			<property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+		</module>
+		<module name="TypeName">
+  			<property name="format" value="^[A-Z][a-zA-Z0-9_]*$"/>
+		</module>
     </module>
 </module>

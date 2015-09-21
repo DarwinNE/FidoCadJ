@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.*;
     http://www.cse.unsw.edu.au/~lambert/splines/
     </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
 public final class PrimitiveComplexCurve
     extends GraphicPrimitive
@@ -59,14 +59,16 @@ public final class PrimitiveComplexCurve
     // In some cases (for example for drawing), a ShapeInterface is created,
     // since it gives better results than a polygon.
 
-    // A first polygon stored in screen coordinates
+    // A first polygon stored in screen coordinates.
     private PolygonInterface p;
 
-    // A second polygon stored in logical coordinates
+    // A second polygon stored in logical coordinates.
     private PolygonInterface q;
 
-    // 5 points is the initial size, which is increased if needed
-    int N_POINTS=5;
+    // 5 points is the initial storage size, which is increased if needed.
+    // In other words, we initially create space for storing 5 points and
+    // we increase that if needed.
+    int storageSize=5;
 
     static final int STEPS=24;
 
@@ -100,7 +102,7 @@ public final class PrimitiveComplexCurve
         isFilled=false;
         nPoints=0;
         p = null;
-        initPrimitive(N_POINTS, f, size);
+        initPrimitive(storageSize, f, size);
     }
 
     /** Create a ComplexCurve. Add points with the addPoint method.
@@ -132,7 +134,7 @@ public final class PrimitiveComplexCurve
         dashStyle=dashSt;
 
         p = null;
-        initPrimitive(N_POINTS, font, size);
+        initPrimitive(storageSize, font, size);
         nPoints=0;
         isFilled=f;
         isClosed=c;
@@ -146,8 +148,8 @@ public final class PrimitiveComplexCurve
     */
     public void addPointClosest(int px, int py)
     {
-        int[] xp=new int[N_POINTS];
-        int[] yp=new int[N_POINTS];
+        int[] xp=new int[storageSize];
+        int[] yp=new int[storageSize];
 
         int k;
 
@@ -208,15 +210,15 @@ public final class PrimitiveComplexCurve
     */
     public void addPoint(int x, int y)
     {
-        if(nPoints+2>=N_POINTS) {
-            int o_n=N_POINTS;
+        if(nPoints+2>=storageSize) {
+            int o_n=storageSize;
             int i;
-            N_POINTS += 10;
-            PointG[] nv = new PointG[N_POINTS];
+            storageSize += 10;
+            PointG[] nv = new PointG[storageSize];
             for(i=0;i<o_n;++i) {
                 nv[i]=virtualPoint[i];
             }
-            for(;i<N_POINTS;++i) {
+            for(;i<storageSize;++i) {
                 nv[i]=new PointG();
             }
             virtualPoint=nv;

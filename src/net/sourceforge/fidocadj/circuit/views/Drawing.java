@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.graphic.*;
 */
 public class Drawing
 {
-    private final DrawingModel P;
+    private final DrawingModel dmp;
 
     // True if the drawing needs holes. This implies that the redrawing
     // step must include a cycle at the end to draw all holes.
@@ -56,7 +56,7 @@ public class Drawing
     */
     public Drawing (DrawingModel pp)
     {
-        P=pp;
+        dmp=pp;
     }
 
     /** Draw the handles of all selected primitives
@@ -66,7 +66,7 @@ public class Drawing
     public void drawSelectedHandles(GraphicsInterface gi, MapCoordinates cs)
     {
         int i;
-        for (GraphicPrimitive gp : P.getPrimitiveVector()) {
+        for (GraphicPrimitive gp : dmp.getPrimitiveVector()) {
             if(gp.getSelected())
                 gp.drawHandles(gi, cs);
         }
@@ -88,44 +88,44 @@ public class Drawing
 
         synchronized (this) {
             // At first, we check if the current view has changed.
-            if(P.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() ||
+            if(dmp.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() ||
                 oY!=cs.getYCenter() || oO!=cs.getOrientation())
             {
                 oZ=cs.getXMagnitude();
                 oX=cs.getXCenter();
                 oY=cs.getYCenter();
                 oO=cs.getOrientation();
-                P.changed = false;
+                dmp.changed = false;
 
                 // Here we force for a global refresh of graphic data at the
                 // primitive level.
-                for (GraphicPrimitive gp : P.getPrimitiveVector())
+                for (GraphicPrimitive gp : dmp.getPrimitiveVector())
                     gp.setChanged(true);
 
-                if (!P.drawOnlyPads)
+                if (!dmp.drawOnlyPads)
                     cs.resetMinMax();
             }
 
-            needHoles=P.drawOnlyPads;
+            needHoles=dmp.drawOnlyPads;
 
             /* First possibility: we need to draw only one layer (for example
                 in a macro). This is indicated by the fact that drawOnlyLayer
                 is non negative.
             */
-            if(P.drawOnlyLayer>=0 && !P.drawOnlyPads){
+            if(dmp.drawOnlyLayer>=0 && !dmp.drawOnlyPads){
 
                 // At first, we check if the layer is effectively used in the
                 // drawing. If not, we exit directly.
 
-                if(!P.layersUsed[P.drawOnlyLayer])
+                if(!dmp.layersUsed[dmp.drawOnlyLayer])
                     return;
 
-                drawPrimitives(P.drawOnlyLayer, G, cs);
+                drawPrimitives(dmp.drawOnlyLayer, G, cs);
                 return;
-            } else if (!P.drawOnlyPads) {
+            } else if (!dmp.drawOnlyPads) {
                 // If we want to draw all layers, we need to process with order.
                 for(j_index=0;j_index<LayerDesc.MAX_LAYERS; ++j_index) {
-                    if(!P.layersUsed[j_index])
+                    if(!dmp.layersUsed[j_index])
                         continue;
                     drawPrimitives(j_index, G,cs);
                 }
@@ -133,17 +133,17 @@ public class Drawing
             // Draw in a second time only the PCB pads, in order to ensure that
             // the drills are always open.
             if(needHoles) {
-                for (i_index=0; i_index<P.getPrimitiveVector().size();
+                for (i_index=0; i_index<dmp.getPrimitiveVector().size();
                     ++i_index){
 
                     // We will process only primitive which require holes (pads
                     // as well as macros containing pads).
 
-                    if ((gg=(GraphicPrimitive)P.getPrimitiveVector().
+                    if ((gg=(GraphicPrimitive)dmp.getPrimitiveVector().
                         get(i_index)).needsHoles())
                     {
                         gg.setDrawOnlyPads(true);
-                        gg.draw(G, cs, P.layerV);
+                        gg.draw(G, cs, dmp.layerV);
                         gg.setDrawOnlyPads(false);
                     }
                 }
@@ -173,8 +173,8 @@ public class Drawing
         int i_index;
 
         // Here we process all the primitives, one by one!
-        for (i_index=0; i_index<P.getPrimitiveVector().size(); ++i_index) {
-            gg=(GraphicPrimitive)P.getPrimitiveVector().get(i_index);
+        for (i_index=0; i_index<dmp.getPrimitiveVector().size(); ++i_index) {
+            gg=(GraphicPrimitive)dmp.getPrimitiveVector().get(i_index);
 
             // Layers are ordered. This improves the redrawing speed.
             if (j_index>0 && gg.layer>j_index) {
@@ -186,7 +186,7 @@ public class Drawing
 
             if(gg.containsLayer(j_index)) {
                 gg.setDrawOnlyLayer(j_index);
-                gg.draw(graphic, cs, P.layerV);
+                gg.draw(graphic, cs, dmp.layerV);
             }
 
             if(gg.needsHoles())

@@ -14,7 +14,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-
 /** FidoReadApplet.java v.2.0
 
     This is the main file for the FidoCadJ reader applet.
@@ -52,19 +51,17 @@ Version   Date           Author       Remarks
     Copyright march 2007 - 2014 by Davide Bucci
     </pre>
 
-@author Davide Bucci
+    @author Davide Bucci
 */
-
-
 public class FidoReadApplet extends JApplet
 {
     // Increment this version number each time an important modification of
     // this class has been done.
     private static final long serialVersionUID = 10L;
 
-    CircuitPanel CC;
+    CircuitPanel cc;
     Color backgroundColor;
-    JScrollPane SC;
+    JScrollPane sc;
 
     /** Init the applet
 
@@ -72,18 +69,18 @@ public class FidoReadApplet extends JApplet
     public void init()
     {
         backgroundColor=Color.white;
-        CC=new CircuitPanel(false);
-        CC.setBackground(backgroundColor);
-        CC.setGridVisibility(false);
-        SC= new JScrollPane((Component)CC);
-        SC.getVerticalScrollBar().setUnitIncrement(20);
-        SC.getHorizontalScrollBar().setUnitIncrement(20);
+        cc=new CircuitPanel(false);
+        cc.setBackground(backgroundColor);
+        cc.setGridVisibility(false);
+        sc= new JScrollPane((Component)cc);
+        sc.getVerticalScrollBar().setUnitIncrement(20);
+        sc.getHorizontalScrollBar().setUnitIncrement(20);
 
-        CC.profileTime=false;
-        CC.antiAlias=true;
+        cc.profileTime=false;
+        cc.antiAlias=true;
 
         // Reads the standard libraries
-        ParserActions pa = CC.getParserActions();
+        ParserActions pa = cc.getParserActions();
         pa.loadLibraryInJar(FidoReadApplet.class.getResource(
             "lib/IHRAM.FCL"), "ihram");
         pa.loadLibraryInJar(FidoReadApplet.class.getResource(
@@ -91,12 +88,12 @@ public class FidoReadApplet extends JApplet
         pa.loadLibraryInJar(FidoReadApplet.class.getResource(
             "lib/PCB_en.fcl"), "pcb");
 
-        CC.P.setLayers(StandardLayers.createStandardLayers());
+        cc.dmp.setLayers(StandardLayers.createStandardLayers());
 
         Container contentPane;
         contentPane=getContentPane();
 
-        contentPane.add(SC,"Center");
+        contentPane.add(sc,"Center");
     }
 
     /** Draw the schematic
@@ -105,8 +102,8 @@ public class FidoReadApplet extends JApplet
     */
     public void trace(String c, int zoom)
     {
-        CC.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
-        CC.getParserActions().parseString(new StringBuffer(c));
+        cc.getMapCoordinates().setMagnitudes((double)zoom, (double)zoom);
+        cc.getParserActions().parseString(new StringBuffer(c));
         repaint();
         getToolkit().sync();
     }
@@ -116,7 +113,7 @@ public class FidoReadApplet extends JApplet
     */
     public void setAntiAlias(boolean aa)
     {
-        CC.antiAlias=aa;
+        cc.antiAlias=aa;
     }
 
     /** Set the profiler.
@@ -124,7 +121,7 @@ public class FidoReadApplet extends JApplet
     */
     public void setProfileTime(boolean pp)
     {
-        CC.profileTime=pp;
+        cc.profileTime=pp;
     }
 
     /** Set the background color.
@@ -183,6 +180,6 @@ public class FidoReadApplet extends JApplet
                 backgroundColor=Color.white;
                 break;
         }
-        CC.setBackground(backgroundColor);
+        cc.setBackground(backgroundColor);
     }
 }

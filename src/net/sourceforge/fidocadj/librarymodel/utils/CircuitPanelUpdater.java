@@ -88,8 +88,8 @@ public class CircuitPanelUpdater implements LibraryListener
     */
     private void updateCircuitPanel()
     {
-        CircuitPanel cp = fidoFrame.CC;
-        DrawingModel ps = cp.P;
+        CircuitPanel cp = fidoFrame.cc;
+        DrawingModel ps = cp.dmp;
         ParserActions pa = new ParserActions(ps);
         cp.getParserActions().parseString(pa.getText(true));
         cp.repaint();
