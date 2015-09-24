@@ -87,9 +87,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // Color of elements during editing
     static final ColorSwing editingColor=new ColorSwing(Color.green);
 
-    // Font to be used to draw the ruler
-    private static final String rulerFont = "Lucida Sans Regular";
-
     // Model:
     // TODO: This should be kept private!
     public transient DrawingModel dmp;
@@ -141,7 +138,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     // ********** RULER **********
 
-    private boolean ruler;  // Is it to be drawn?
+    private final Ruler ruler;  // Is it to be drawn?
     private int rulerStartX;
     private int rulerStartY;
     private int rulerEndX;
@@ -200,6 +197,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
         graphicSwing = new Graphics2DSwing();
 
         drawingAgent=new Drawing(dmp);
+
+        ruler = new Ruler(editingColor.getColorSwing(),
+            editingColor.getColorSwing().darker().darker());
 
         isGridVisible=true;
         zoomListener=null;
@@ -806,7 +806,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int px=evt.getX();
         int py=evt.getY();
 
-        ruler=false;
+        ruler.setActive(false);
         rulerStartX = px;
         rulerStartY = py;
         rulerEndX=px;
@@ -827,7 +827,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 toggle, cs);
         } else if(eea.actionSelected == ElementsEdtActions.SELECTION){
             // Right click during selection
-            ruler = true;
+            ruler.setActive(true);
         }
 
         if(profileTime) {
@@ -914,7 +914,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             if(rulerStartX!=px || rulerStartY!=py) // NOPMD
                 haa.dragHandleEnd(this, px, py, toggle, cs);
             else {
-                ruler=false;
+                ruler.setActive(false);
                 requestFocusInWindow();
 
                 toRepaint = eea.handleClick(cs,evt.getX(), evt.getY(),
@@ -1119,11 +1119,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         //graphicSwing.setGraphicContext(g2);
         eea.drawPrimEdit(graphicSwing, cs);
 
-
-        // If a ruler is active, draw it.
-        if (ruler) {
-            drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY);
-        }
+        // If a ruler.isActive() is active, draw it.
+        ruler.drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY, cs);
 
         // Set the new size if needed.
 
@@ -1192,111 +1189,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         }
 
         super.validate();
-    }
-
-    /** Draws a ruler to ease measuring distances.
-        @param g the graphic context
-        @param sx the x position of the starting corner
-        @param sy the y position of the starting corner
-        @param ex the x position of the end corner
-        @param ey the y position of the end corner
-
-    */
-    private void drawRuler(Graphics g, int sx, int sy, int ex, int ey)
-    {
-        double length;
-        //MapCoordinates cs=dmp.getMapCoordinates();
-
-        int xa = cs.unmapXnosnap(sx);
-        int ya = cs.unmapYnosnap(sy);
-
-        int xb = cs.unmapXnosnap(ex);
-        int yb = cs.unmapYnosnap(ey);
-
-        int x1, y1, x2, y2;
-        double x, y;
-
-        // Calculates the ruler length.
-        length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
-
-        g.drawLine(sx, sy, ex, ey);
-
-        // A little bit of trigonometry :-)
-
-        double alpha;
-        if (sx==ex)
-            alpha = Math.PI/2.0+(ey-sy<0?0:Math.PI);
-        else
-            alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
-
-        alpha += ex-sx>0?0:Math.PI;
-
-        // Those magic numers are the lenghts of the tics (major and minor)
-        double l = 5.0;
-
-        if (cs.getXMagnitude()<1.0) {
-            l=10;
-        } else if(cs.getXMagnitude() > 5) {
-            l=1;
-        } else {
-            l=5;
-        }
-
-        double ll=0.0;
-        double ld=5.0;
-        int m = 5;
-        int j=0;
-
-        double dex = sx + length*Math.cos(alpha)*cs.getXMagnitude();
-        double dey = sy + length*Math.sin(alpha)*cs.getYMagnitude();
-
-        alpha += Math.PI/2.0;
-
-        boolean debut=true;
-
-        // Draw the ticks.
-        for(double i=0; i<=length; i+=l) {
-            if (j++==m || debut) {
-                j=1;
-                ll=2*ld;
-                debut=false;
-            } else {
-                ll=ld;
-            }
-            x = (dex*i)/length+((double)sx*(length-i))/length;
-            y = (dey*i)/length+((double)sy*(length-i))/length;
-
-            x1 = (int)(x - ll*Math.cos(alpha));
-            x2 = (int)(x + ll*Math.cos(alpha));
-            y1 = (int)(y - ll*Math.sin(alpha));
-            y2 = (int)(y + ll*Math.sin(alpha));
-
-            g.drawLine(x1, y1, x2, y2);
-
-        }
-
-        Font f=new Font(rulerFont,Font.PLAIN,10);
-        g.setFont(f);
-
-        String t1 = Globals.roundTo(length,2);
-
-        // Remember that one FidoCadJ logical unit is 127 microns.
-        String t2 = Globals.roundTo(length*.127,2)+" mm";
-
-        FontMetrics fm = g.getFontMetrics(f);
-
-        // Draw the box at the end, with the measurement results.
-        g.setColor(Color.white);
-        g.fillRect(ex+10, ey, Math.max(fm.stringWidth(t1),
-            fm.stringWidth(t2))+1, 24);
-
-        g.setColor(editingColor.getColorSwing());
-        g.drawRect(ex+9, ey-1, Math.max(fm.stringWidth(t1),
-            fm.stringWidth(t2))+2, 25);
-        g.setColor(editingColor.getColorSwing().darker().darker());
-        g.drawString(t1, ex+10, ey+10);
-        g.drawString(t2, ex+10, ey+20);
-
     }
 
     /** Get the current instance of SelectionActions controller class

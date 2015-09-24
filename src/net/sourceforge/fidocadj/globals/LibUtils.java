@@ -290,6 +290,8 @@ public final class LibUtils
     }
 
     /** Check whether a key is used in a given library or it is available.
+        The code also check for the presence of ']', a forbidden char since it
+        would mess up the FidoCadJ file.
         Also check for strange characters.
         @param libref the map containing the library.
         @param tlib the name of the library.
@@ -304,7 +306,6 @@ public final class LibUtils
                 md.key.equalsIgnoreCase(key.trim()))
                     return true;
         }
-        // ']' is a forbidden char since it would mess up the FidoCadJ file.
         return key.contains("]");
     }
 
