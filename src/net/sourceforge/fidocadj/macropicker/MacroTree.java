@@ -509,7 +509,8 @@ public class MacroTree extends JPanel
                     md = macroTreeModel.getMacro(e.getPath());
 
                     if(md!=null) {
-                        previewPanel.setCirc(new StringBuffer(md.description));
+                        previewPanel.getParserActions().parseString(
+                            new StringBuffer(md.description));
                         MapCoordinates m =
                             DrawingSize.calculateZoomToFit(
                                 previewPanel.dmp,
@@ -824,7 +825,6 @@ public class MacroTree extends JPanel
                     setIcon(icon);
                 }
             }
-
             return this;
         }
     }

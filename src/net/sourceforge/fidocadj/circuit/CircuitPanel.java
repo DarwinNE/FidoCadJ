@@ -485,14 +485,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         eea.currentLayer=l;
     }
 
-    /** Sets the circuit. TODO: remove this method. One can use ParserAction.
-        @param c the circuit string
-    */
-    public void setCirc(StringBuffer c)
-    {
-        pa.parseString(c);
-    }
-
     /** TODO: eliminate this method.
         Get the circuit in the FidoCadJ format, without the [FIDOCAD] header
         @param extensions allow for FCJ extensions

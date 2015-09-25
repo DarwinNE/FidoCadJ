@@ -142,7 +142,8 @@ public class FileTools
         bufRead.close();
 
         // Here txt contains the new circuit: draw it!
-        fff.cc.setCirc(new StringBuffer(txt.toString()));
+        fff.cc.getParserActions().parseString(
+            new StringBuffer(txt.toString()));
 
         // Calculate the zoom to fit
         fff.zoomToFit();

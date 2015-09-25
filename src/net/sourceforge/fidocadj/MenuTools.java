@@ -389,6 +389,7 @@ public class MenuTools implements MenuListener
         CopyPasteActions cpa=cc.getCopyPasteActions();
         ElementsEdtActions eea = cc.getContinuosMoveActions();
         SelectionActions sa = cc.getSelectionActions();
+        ParserActions pa = cc.getParserActions();
 
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
@@ -396,7 +397,7 @@ public class MenuTools implements MenuListener
                 cc.getCirc(!cc.extStrict).toString());
             circuitDialog.setVisible(true);
 
-            cc.setCirc(new StringBuffer(circuitDialog.getStringCircuit()));
+            pa.parseString(new StringBuffer(circuitDialog.getStringCircuit()));
             cc.getUndoActions().saveUndoState();
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("LibraryUpdate"))) {
@@ -508,8 +509,8 @@ public class MenuTools implements MenuListener
             } else {
                 popFrame=fff;
             }
-            popFrame.cc.setCirc(new
-                    StringBuffer(textTransfer.getClipboardContents()));
+            pa.parseString(
+                new StringBuffer(textTransfer.getClipboardContents()));
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Paste"))) {
             // Paste some graphical elements

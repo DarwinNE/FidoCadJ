@@ -136,7 +136,8 @@ public class DragDropTools implements DropTargetListener
                         popFrame=fff;
                     }
 
-                    popFrame.cc.setCirc(new StringBuffer(o.toString()));
+                    popFrame.cc.getParserActions().parseString(
+                        new StringBuffer(o.toString()));
                     popFrame.cc.getUndoActions().saveUndoState();
                     popFrame.cc.getUndoActions().setModified(false);
 
