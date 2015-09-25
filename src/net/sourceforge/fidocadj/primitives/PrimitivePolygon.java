@@ -34,7 +34,6 @@ import net.sourceforge.fidocadj.graphic.*;
 */
 public final class PrimitivePolygon extends GraphicPrimitive
 {
-
     private int nPoints;
     private boolean isFilled;
     private int dashStyle;

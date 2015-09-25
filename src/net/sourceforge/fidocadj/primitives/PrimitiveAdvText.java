@@ -35,7 +35,6 @@ import net.sourceforge.fidocadj.graphic.nil.*;
 */
 public final class PrimitiveAdvText extends GraphicPrimitive
 {
-
     private String txt;
     private int six;
     private int siy;
@@ -74,7 +73,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     private boolean needsStretching;
 
     /** Gets the number of control points used.
-        @return the number of points used by the primitive
+        @return the number of points used by the primitive.
     */
     public int getControlPointNumber()
     {

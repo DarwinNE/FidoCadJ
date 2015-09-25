@@ -147,26 +147,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // ********** INTERFACE ELEMENTS **********
 
     // Popup menu
-    JPopupMenu popup;
-
-    // Elements to be included in the popup menu
-    JMenuItem editProperties;
-    JMenuItem editCut;
-    JMenuItem editCopy;
-    JMenuItem editPaste;
-    JMenuItem editDuplicate;
-    JMenuItem editSelectAll;
-    JMenuItem editRotate;
-    JMenuItem editMirror;
-    JMenuItem editSymbolize; // phylum
-    JMenuItem editUSymbolize; // phylum
-
-    JMenuItem editAddNode;
-    JMenuItem editRemoveNode;
-
-    // We need to save the position where the popup menu appears
-    int menux;
-    int menuy;
+    PopUpMenu popup;
 
 
     // ********** LISTENERS **********
@@ -231,7 +212,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
             registerActiveKeys();
 
             //Create the popup menu.
-            popup=definePopupMenu();
+            popup=new PopUpMenu(this, sa);
 
             // Patchwork for bug#54.
             // When mouse pointer enters into CircuitPanel with macro,
@@ -248,70 +229,14 @@ public class CircuitPanel extends JPanel implements ActionListener,
         }
     }
 
-    /** Create the popup menu.
+    /** Show a popup menu representing the actions that can be done on the
+        selected context.
+        @param x the x coordinate where the popup menu should be put
+        @param y the y coordinate where the popup menu should be put
     */
-    private JPopupMenu definePopupMenu()
+    public void showPopUpMenu(int x, int y)
     {
-        JPopupMenu pp = new JPopupMenu();
-        editProperties = new
-            JMenuItem(Globals.messages.getString("Param_opt"));
-
-        editCut = new JMenuItem(Globals.messages.getString("Cut"));
-        editCopy = new JMenuItem(Globals.messages.getString("Copy"));
-        editSelectAll = new JMenuItem(Globals.messages.getString("SelectAll"));
-
-        editPaste = new JMenuItem(Globals.messages.getString("Paste"));
-        editDuplicate = new JMenuItem(Globals.messages.getString("Duplicate"));
-        editRotate = new JMenuItem(Globals.messages.getString("Rotate"));
-        editMirror = new JMenuItem(Globals.messages.getString("Mirror_E"));
-
-        editSymbolize = new JMenuItem(Globals.messages.getString("Symbolize"));
-        editUSymbolize =
-            new JMenuItem(Globals.messages.getString("Unsymbolize"));
-
-        editAddNode = new JMenuItem(Globals.messages.getString("Add_node"));
-        editRemoveNode =
-            new JMenuItem(Globals.messages.getString("Remove_node"));
-
-        pp.add(editProperties);
-        pp.addSeparator();
-
-        pp.add(editCut);
-        pp.add(editCopy);
-        pp.add(editPaste);
-        pp.add(editDuplicate);
-        pp.addSeparator();
-        pp.add(editSelectAll);
-
-        pp.addSeparator();
-        pp.add(editRotate);
-        pp.add(editMirror);
-
-        pp.add(editAddNode);
-        pp.add(editRemoveNode);
-
-        pp.addSeparator();
-        pp.add(editSymbolize); // by phylum
-        pp.add(editUSymbolize); // phylum
-
-        // Adding the action listener
-
-        editProperties.addActionListener(this);
-        editCut.addActionListener(this);
-        editCopy.addActionListener(this);
-        editSelectAll.addActionListener(this);
-        editPaste.addActionListener(this);
-        editDuplicate.addActionListener(this);
-        editRotate.addActionListener(this);
-        editMirror.addActionListener(this);
-
-        editAddNode.addActionListener(this);
-        editRemoveNode.addActionListener(this);
-
-        editSymbolize.addActionListener(this); // phylum
-        editUSymbolize.addActionListener(this); // phylum
-
-        return pp;
+        popup.showPopUpMenu(this, x, y);
     }
 
     /** Register an action involving the editing
@@ -691,64 +616,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
         revalidate();
         repaint();
-    }
-
-    /** Show a popup menu representing the actions that can be done on the
-        selected context.
-        @param x the x coordinate where the popup menu should be put
-        @param y the y coordinate where the popup menu should be put
-    */
-    public void showPopUpMenu(int x, int y)
-    {
-        menux=x; menuy=y;
-        boolean s=false;
-        GraphicPrimitive g=sa.getFirstSelectedPrimitive();
-        boolean somethingSelected=g!=null;
-
-
-        // A certain number of menu options are applied to selected
-        // primitives. We therefore check wether are there some
-        // of them available and in this case we activate what should
-        // be activated in the pop up menu.
-        s=somethingSelected;
-
-        editProperties.setEnabled(s);
-        editCut.setEnabled(s);
-        editCopy.setEnabled(s);
-        editRotate.setEnabled(s);
-        editMirror.setEnabled(s);
-        editDuplicate.setEnabled(s);
-
-        if(g instanceof PrimitiveComplexCurve ||
-            g instanceof PrimitivePolygon)
-        {
-            s=true;
-        } else
-            s=false;
-
-        if (!sa.isUniquePrimitiveSelected())
-            s=false;
-
-        editAddNode.setEnabled(s);
-        editRemoveNode.setEnabled(s);
-        editAddNode.setVisible(s);
-        editRemoveNode.setVisible(s);
-
-        // We just check if the clipboard is empty. It would be better
-        // to see if there is some FidoCadJ code wich might be pasted
-
-        TextTransfer textTransfer = new TextTransfer();
-
-        if(textTransfer.getClipboardContents().equals(""))
-            editPaste.setEnabled(false);
-        else
-            editPaste.setEnabled(true);
-
-        editSymbolize.setEnabled(somethingSelected);
-
-        editUSymbolize.setEnabled(sa.selectionCanBeSplitted()); // phylum
-
-        popup.show(this, x, y);
     }
 
     /** Called when the mouse is clicked inside the control
@@ -1426,8 +1293,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 {
                     PrimitivePolygon poly=
                         (PrimitivePolygon)sa.getFirstSelectedPrimitive();
-                    poly.removePoint(getMapCoordinates().unmapXnosnap(menux),
-                        getMapCoordinates().unmapYnosnap(menuy),1);
+                    poly.removePoint(
+                        getMapCoordinates().unmapXnosnap(popup.getMenuX()),
+                        getMapCoordinates().unmapYnosnap(popup.getMenuY()),1);
                     ua.saveUndoState();
                     repaint();
                 } else if(sa.getFirstSelectedPrimitive()
@@ -1435,8 +1303,9 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 {
                     PrimitiveComplexCurve curve=
                         (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
-                    curve.removePoint(getMapCoordinates().unmapXnosnap(menux),
-                        getMapCoordinates().unmapYnosnap(menuy),1);
+                    curve.removePoint(
+                        getMapCoordinates().unmapXnosnap(popup.getMenuX()),
+                        getMapCoordinates().unmapYnosnap(popup.getMenuY()),1);
                     ua.saveUndoState();
                     repaint();
                 }
@@ -1447,8 +1316,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     PrimitivePolygon poly=
                         (PrimitivePolygon)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(
-                        getMapCoordinates().unmapXsnap(menux),
-                        getMapCoordinates().unmapYsnap(menuy));
+                        getMapCoordinates().unmapXsnap(popup.getMenuX()),
+                        getMapCoordinates().unmapYsnap(popup.getMenuY()));
                     ua.saveUndoState();
                     repaint();
                 } else if(sa.getFirstSelectedPrimitive() instanceof
@@ -1457,8 +1326,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
                     PrimitiveComplexCurve poly=
                         (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
                     poly.addPointClosest(
-                        getMapCoordinates().unmapXsnap(menux),
-                        getMapCoordinates().unmapYsnap(menuy));
+                        getMapCoordinates().unmapXsnap(popup.getMenuX()),
+                        getMapCoordinates().unmapYsnap(popup.getMenuY()));
                     ua.saveUndoState();
                     repaint();
                 }
