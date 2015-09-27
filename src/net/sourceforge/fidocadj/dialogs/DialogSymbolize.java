@@ -36,7 +36,7 @@ import javax.swing.border.Border;
 
 /** Choose file format, size and options of the graphic exporting.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ import javax.swing.border.Border;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2012-2015 Phylum2, Davide Bucci
-</pre>
+    </pre>
     @author Phylum2, Davide Bucci
 
     */
@@ -71,101 +71,7 @@ public class DialogSymbolize extends MinimumSizeDialog
     private JComboBox<String> group;
     private JCheckBox snapToGrid;
 
-    MyCircuitPanel cpanel = new MyCircuitPanel(false);
-
-    /** The class MyCircuitPanel extends the CircuitPanel class by adding
-        coordinate axis which can be moved.
-    */
-    static class MyCircuitPanel extends CircuitPanel
-    {
-        private static final long serialVersionUID = 1L;
-        final float dash1[] = {2.0f};
-        final BasicStroke dashed =
-            new BasicStroke(1.0f,
-                            BasicStroke.CAP_BUTT,
-                            BasicStroke.JOIN_MITER,
-                            1.0f, dash1, 1.0f);
-
-        // x and y coordinates of the origin in pixel.
-        private int dx = 20,dy = 20;
-
-        // x and y coordinates of the origin in logical units.
-        // TODO: improve data encapsulation (these should be private).
-        public int xl=5, yl=5;
-
-        public int getDx()
-        {
-            return dx;
-        }
-
-        public int getDy()
-        {
-            return dy;
-        }
-
-        /** Put the origin in the 10,10 logical coordinates.
-        */
-        public void resetOrigin()
-        {
-            xl=getMapCoordinates().unmapXsnap(10);
-            yl=getMapCoordinates().unmapYsnap(10);
-
-            dx=getMapCoordinates().mapXi(xl,yl,false);
-            dy=getMapCoordinates().mapYi(xl,yl,false);
-        }
-
-        /** Set the new x coordinate of the origin
-        */
-        public void setDx(int dx)
-        {
-            if (dx < 0 || dx>getWidth())
-                return;
-            this.dx = dx;
-        }
-
-        /** Set the new y coordinate of the origin
-        */
-        public void setDy(int dy)
-        {
-            if (dy<0 || dy>getHeight())
-                return;
-            this.dy = dy;
-        }
-
-        public MyCircuitPanel(boolean isEditable)
-        {
-            super(isEditable);
-        }
-
-        /** Show a red cross with dashed line and write "origin" near to the
-            center. This should suggest to the user that it is worth clicking
-            in the origin panel (some users reported they did not see the
-            cross alone in a first instance).
-        */
-        @Override
-        public void paintComponent (Graphics g)
-        {
-            super.paintComponent(g);
-            Color c = g.getColor();
-            Graphics2D g2 = (Graphics2D) g;
-            g.setColor(Color.red);
-            Stroke t=g2.getStroke();
-            g2.setStroke(dashed);
-            // Show the origin of axes (red cross)
-            g.drawLine(dx, 0, dx, getHeight()); // y
-            g.drawLine(0, dy, getWidth(), dy); // x
-
-            Font f=new Font("Helvetica",0,12);
-            FontMetrics fm = g.getFontMetrics(f);
-            int h = fm.getAscent();
-            int th = h+fm.getDescent();
-
-            g.drawString(Globals.messages.getString("Origin"),
-                dx+5, dy+th+2);
-            g.setColor(c);
-            g2.setStroke(t);
-        }
-    }
+    OriginCircuitPanel cpanel = new OriginCircuitPanel(false);
 
     /** Gets the library to be created or modified.
         @return the given library (string description).
