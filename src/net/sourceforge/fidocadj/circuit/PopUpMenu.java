@@ -13,7 +13,7 @@ import net.sourceforge.fidocadj.clipboard.*;
 /** Pop up menu for the main editing panel.
 
     <pre>
-    actionHandler file is part of FidoCadJ.
+    cp file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,8 +49,12 @@ public class PopUpMenu
     private JMenuItem editAddNode;
     private JMenuItem editRemoveNode;
 
-    private final ActionListener actionHandler;
+    private final CircuitPanel cp;
     private final SelectionActions sa;
+    private final EditorActions edt;
+    private final ContinuosMoveActions eea;
+
+
     private final JPopupMenu pp;
 
     // We need to save the position where the popup menu appears.
@@ -60,12 +64,13 @@ public class PopUpMenu
     /** Constructor. Create a PopUpMenu and associates it to the provided
         handler.
         @param p the ActionListener.
-        @param s the Selection controller.
     */
-    public PopUpMenu(ActionListener p, SelectionActions s)
+    public PopUpMenu(CircuitPanel p)
     {
-        sa=s;
-        actionHandler=p;
+        cp=p;
+        sa=cp.getSelectionActions();
+        edt=cp.getEditorActions();
+        eea=cp.getContinuosMoveActions();
         pp = new JPopupMenu();
         definePopupMenu();
     }
@@ -135,18 +140,18 @@ public class PopUpMenu
 
         // Adding the action listener
 
-        editProperties.addActionListener(actionHandler);
-        editCut.addActionListener(actionHandler);
-        editCopy.addActionListener(actionHandler);
-        editSelectAll.addActionListener(actionHandler);
-        editPaste.addActionListener(actionHandler);
-        editDuplicate.addActionListener(actionHandler);
-        editRotate.addActionListener(actionHandler);
-        editMirror.addActionListener(actionHandler);
-        editAddNode.addActionListener(actionHandler);
-        editRemoveNode.addActionListener(actionHandler);
-        editSymbolize.addActionListener(actionHandler); // phylum
-        editUSymbolize.addActionListener(actionHandler); // phylum
+        editProperties.addActionListener(cp);
+        editCut.addActionListener(cp);
+        editCopy.addActionListener(cp);
+        editSelectAll.addActionListener(cp);
+        editPaste.addActionListener(cp);
+        editDuplicate.addActionListener(cp);
+        editRotate.addActionListener(cp);
+        editMirror.addActionListener(cp);
+        editAddNode.addActionListener(cp);
+        editRemoveNode.addActionListener(cp);
+        editSymbolize.addActionListener(cp); // phylum
+        editUSymbolize.addActionListener(cp); // phylum
     }
 
     /** Show a popup menu representing the actions that can be done on the
@@ -165,7 +170,7 @@ public class PopUpMenu
 
         // A certain number of menu options are applied to selected
         // primitives. We therefore check wether are there some
-        // of them available and in actionHandler case we activate what should
+        // of them available and in cp case we activate what should
         // be activated in the pop up menu.
         s=somethingSelected;
 
@@ -208,5 +213,168 @@ public class PopUpMenu
         editUSymbolize.setEnabled(sa.selectionCanBeSplitted()); // phylum
 
         pp.show(j, x, y);
+    }
+
+    /** Register an action involving the editing
+        @param actionString the action name to be associated to this action
+        @param key the key to be used. It will be associated either in
+            lower case as well as in upper case.
+        @param state the wanted state to be used (see definitions INTERFACE).
+    */
+    private void registerAction(String actionString, char key, final int state)
+    {
+
+        // We need to make this indipendent to the case. So we start by
+        // registering the action for the upper case
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)),
+                actionString);
+        // And then we repeat the operation for the lower case
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)),
+                actionString);
+
+        cp.getActionMap().put(actionString, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                // We now set the new editing state
+                cp.setSelectionState(state,"");
+                // If we are entering or modifying a primitive or a macro,
+                // we should be sure it disappears when the state changes
+                eea.primEdit = null;
+                cp.repaint();
+            }
+        });
+
+    }
+
+    /** Register a certain number of keyboard actions with an associated
+        meaning:
+    <pre>
+        [A] or [space]      Selection
+        [L]                 Line
+        [T]                 Text
+        [B]                 Bézier
+        [dmp]                 Polygon
+        [O]                 Complex curve
+        [E]                 Ellipse
+        [G]                 Rectangle
+        [C]                 Connection
+        [I]                 PCB track
+        [Z]                 PCB pad
+        [ESC]               Exit from current editing action
+        [DEL] or [BACKSPC]  Delete the selected objects
+    </pre>
+    */
+    public final void registerActiveKeys()
+    {
+        registerAction("selection", 'a', ElementsEdtActions.SELECTION);
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),
+                "selection");
+        registerAction("line", 'l', ElementsEdtActions.LINE);
+        registerAction("text", 't', ElementsEdtActions.TEXT);
+        registerAction("bezier", 'b', ElementsEdtActions.BEZIER);
+        registerAction("polygon", 'p', ElementsEdtActions.POLYGON);
+        registerAction("complexcurve", 'o', ElementsEdtActions.COMPLEXCURVE);
+        registerAction("ellipse", 'e', ElementsEdtActions.ELLIPSE);
+        registerAction("rectangle", 'g', ElementsEdtActions.RECTANGLE);
+        registerAction("connection", 'c', ElementsEdtActions.CONNECTION);
+        registerAction("pcbline", 'i', ElementsEdtActions.PCB_LINE);
+        registerAction("pcbpad", 'z', ElementsEdtActions.PCB_PAD);
+
+        final String delete = "delete";
+
+        // Delete key
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke("DELETE"), delete);
+
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
+
+        cp.getActionMap().put(delete, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                edt.deleteAllSelected(true);
+                cp.repaint();
+            }
+        });
+
+
+        final String escape = "escape";
+
+        // Escape: clear everything
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);
+
+        cp.getActionMap().put(escape, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                if(eea.clickNumber>0){
+                    // Here we need to clear the variables which are used
+                    // during the primitive introduction and editing.
+                    // see mouseMoved method for details.
+
+                    eea.successiveMove = false;
+                    eea.clickNumber = 0;
+                    eea.primEdit = null;
+                    cp.repaint();
+                }
+            }
+        });
+
+        final String left = "lleft";
+         // left key
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
+            java.awt.event.InputEvent.ALT_MASK,false), left);
+
+        cp.getActionMap().put(left, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                edt.moveAllSelected(-1,0);
+                cp.repaint();
+            }
+        });
+        final String right = "lright";
+         // right key
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
+            java.awt.event.InputEvent.ALT_MASK,false), right);
+
+        cp.getActionMap().put(right, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                edt.moveAllSelected(1,0);
+                cp.repaint();
+            }
+        });
+
+        final String up = "lup";
+         // up key
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+            java.awt.event.InputEvent.ALT_MASK,false), up);
+
+        cp.getActionMap().put(up, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                edt.moveAllSelected(0,-1);
+                cp.repaint();
+            }
+        });
+        final String down = "ldown";
+        // down key
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
+            java.awt.event.InputEvent.ALT_MASK,false), down);
+
+        cp.getActionMap().put(down, new AbstractAction() {
+            public void actionPerformed(ActionEvent ignored)
+            {
+                edt.moveAllSelected(0,1);
+                cp.repaint();
+            }
+        });
     }
 }

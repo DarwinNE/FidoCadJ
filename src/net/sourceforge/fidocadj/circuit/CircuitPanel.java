@@ -146,9 +146,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     // ********** INTERFACE ELEMENTS **********
 
-    // Popup menu
     PopUpMenu popup;
-
 
     // ********** LISTENERS **********
 
@@ -209,10 +207,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
             addMouseMotionListener(this);
             addKeyListener(this);
             setFocusable(true);
-            registerActiveKeys();
 
             //Create the popup menu.
-            popup=new PopUpMenu(this, sa);
+            popup=new PopUpMenu(this);
+            popup.registerActiveKeys();
 
             // Patchwork for bug#54.
             // When mouse pointer enters into CircuitPanel with macro,
@@ -237,169 +235,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     public void showPopUpMenu(int x, int y)
     {
         popup.showPopUpMenu(this, x, y);
-    }
-
-    /** Register an action involving the editing
-        @param actionString the action name to be associated to this action
-        @param key the key to be used. It will be associated either in
-            lower case as well as in upper case.
-        @param state the wanted state to be used (see definitions INTERFACE).
-    */
-    private void registerAction(String actionString, char key, final int state)
-    {
-
-        // We need to make this indipendent to the case. So we start by
-        // registering the action for the upper case
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(Character.toUpperCase(key)),
-                actionString);
-        // And then we repeat the operation for the lower case
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(Character.toLowerCase(key)),
-                actionString);
-
-        getActionMap().put(actionString, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                // We now set the new editing state
-                setSelectionState(state,"");
-                // If we are entering or modifying a primitive or a macro,
-                // we should be sure it disappears when the state changes
-                eea.primEdit = null;
-                repaint();
-            }
-        });
-
-    }
-
-    /** Register a certain number of keyboard actions with an associated
-        meaning:
-    <pre>
-        [A] or [space]      Selection
-        [L]                 Line
-        [T]                 Text
-        [B]                 Bézier
-        [dmp]                 Polygon
-        [O]                 Complex curve
-        [E]                 Ellipse
-        [G]                 Rectangle
-        [C]                 Connection
-        [I]                 PCB track
-        [Z]                 PCB pad
-        [ESC]               Exit from current editing action
-        [DEL] or [BACKSPC]  Delete the selected objects
-    </pre>
-    */
-    public final void registerActiveKeys()
-    {
-        registerAction("selection", 'a', ElementsEdtActions.SELECTION);
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),
-                "selection");
-        registerAction("line", 'l', ElementsEdtActions.LINE);
-        registerAction("text", 't', ElementsEdtActions.TEXT);
-        registerAction("bezier", 'b', ElementsEdtActions.BEZIER);
-        registerAction("polygon", 'p', ElementsEdtActions.POLYGON);
-        registerAction("complexcurve", 'o', ElementsEdtActions.COMPLEXCURVE);
-        registerAction("ellipse", 'e', ElementsEdtActions.ELLIPSE);
-        registerAction("rectangle", 'g', ElementsEdtActions.RECTANGLE);
-        registerAction("connection", 'c', ElementsEdtActions.CONNECTION);
-        registerAction("pcbline", 'i', ElementsEdtActions.PCB_LINE);
-        registerAction("pcbpad", 'z', ElementsEdtActions.PCB_PAD);
-
-        final String delete = "delete";
-
-        // Delete key
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke("DELETE"), delete);
-
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
-
-        getActionMap().put(delete, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                edt.deleteAllSelected(true);
-                repaint();
-            }
-        });
-
-
-        final String escape = "escape";
-
-        // Escape: clear everything
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);
-
-        getActionMap().put(escape, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                if(eea.clickNumber>0){
-                    // Here we need to clear the variables which are used
-                    // during the primitive introduction and editing.
-                    // see mouseMoved method for details.
-
-                    eea.successiveMove = false;
-                    eea.clickNumber = 0;
-                    eea.primEdit = null;
-                    repaint();
-                }
-            }
-        });
-
-        final String left = "lleft";
-         // left key
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
-            java.awt.event.InputEvent.ALT_MASK,false), left);
-
-        getActionMap().put(left, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                edt.moveAllSelected(-1,0);
-                repaint();
-            }
-        });
-        final String right = "lright";
-         // right key
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
-            java.awt.event.InputEvent.ALT_MASK,false), right);
-
-        getActionMap().put(right, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                edt.moveAllSelected(1,0);
-                repaint();
-            }
-        });
-
-        final String up = "lup";
-         // up key
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-            java.awt.event.InputEvent.ALT_MASK,false), up);
-
-        getActionMap().put(up, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                edt.moveAllSelected(0,-1);
-                repaint();
-            }
-        });
-        final String down = "ldown";
-        // down key
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
-            java.awt.event.InputEvent.ALT_MASK,false), down);
-
-        getActionMap().put(down, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
-            {
-                edt.moveAllSelected(0,1);
-                repaint();
-            }
-        });
     }
 
     /** Makes sure the object gets focus.
@@ -539,8 +374,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
         int ypos = cs.unmapYnosnap(y);
         double z=cs.getXMagnitude();
 
-        System.out.println("xpos="+xpos+" ypos="+ypos+" used");
-
         // Click+Meta reduces the zoom
         // Click raises the zoom
         double oldz=z;
@@ -567,22 +400,16 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
         Point rr=father.getViewport().getViewPosition();
 
-        /*int corrx=width/2;
-        int corry=height/2;*/
-
         System.out.println("x="+x+", rr.x="+rr.x);
 
         int corrx=x-rr.x;
         int corry=y-rr.y;
-
 
         Rectangle r=new Rectangle(cs.mapXi(xpos,ypos,false)-corrx,
                 cs.mapYi(xpos,ypos,false)-corry,
                 width, height);
 
         updateSizeOfScrollBars(r);
-
-        //setScrollRectangle(r);
     }
 
     /** Calculate the size of the image and update the size of the
@@ -879,12 +706,10 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
     /** Activate and sets an evidence rectangle which will be put on screen
         at the next redraw. All sizes are given in pixel.
-
-        @param lx   the x coordinate of the left top corner
-        @param ly   the y coordinate of the left top corner
-        @param w    the width of the rectangle
-        @param h    the height of the rectangle
-
+        @param lx   the x coordinate of the left top corner.
+        @param ly   the y coordinate of the left top corner.
+        @param w    the width of the rectangle.
+        @param h    the height of the rectangle.
     */
     public void setEvidenceRect(int lx, int ly, int w, int h)
     {
@@ -914,48 +739,21 @@ public class CircuitPanel extends JPanel implements ActionListener,
 
         Graphics2D g2 = (Graphics2D)g;
         graphicSwing.setGraphicContext(g2);
+        activateDrawingSettings(g2);
 
-        // Activate anti-aliasing when necessary.
-
-        if (antiAlias) {
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        } else {
-          // Faster graphic (??? true??? I do not think so on modern systems)
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_SPEED);
-            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-                RenderingHints.VALUE_COLOR_RENDER_SPEED);
-            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-            g2.setRenderingHint(RenderingHints.KEY_DITHERING,
-                RenderingHints.VALUE_DITHER_DISABLE);
-        }
-
-        // Draw all the primitives.
+        // Draw the background.
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
-        if(isGridVisible){
-            graphicSwing.drawGrid(cs,0,0,getWidth(),
-                              getHeight());
+        // Draw the grid if necessary.
+        if(isGridVisible) {
+            graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
         }
 
         // The standard color is black.
         g.setColor(Color.black);
 
-        // Perform the drawing operation.
+        // Draw all the elements of the drawing.
         drawingAgent.draw(graphicSwing, cs);
-
 
         if (zoomListener!=null)
             zoomListener.changeZoom(cs.getXMagnitude());
@@ -975,32 +773,12 @@ public class CircuitPanel extends JPanel implements ActionListener,
             evidenceRect = null;
 
         // If there is a primitive or a macro being edited, draws it.
-        //graphicSwing.setGraphicContext(g2);
         eea.drawPrimEdit(graphicSwing, cs);
 
         // If a ruler.isActive() is active, draw it.
         ruler.drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY, cs);
 
-        // Set the new size if needed.
-
-        Dimension d=new Dimension(cs.getXMax(), cs.getYMax());
-
-        if (d.width>0 && d.height>0){
-            int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
-            int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
-
-            //System.out.println("minx,y"+minx+", "+miny);
-            Dimension dd=new Dimension(Math.max(d.width
-                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
-            Dimension nn=getPreferredSize();
-
-            //System.out.println("width1,2: "+dd.width+", "+nn.width);
-
-            if(dd.width!=nn.width || dd.height!=nn.height) {
-                setPreferredSize(dd);
-                revalidate();
-            }
-        }
+        setSizeIfNeeded();
 
         if(scrollRectangle!=null) {
             Rectangle r=scrollRectangle;
@@ -1028,6 +806,57 @@ public class CircuitPanel extends JPanel implements ActionListener,
                 average/runs+
                 "ms in "+runs+
                 " redraws; record: "+record+" ms");
+        }
+    }
+
+    /** Activate or deactivate anti-aliasing if necessary.
+    */
+    private void activateDrawingSettings(Graphics2D g2)
+    {
+        if (antiAlias) {
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        } else {
+            // Faster graphic (??? true??? I do not think so on modern systems)
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_SPEED);
+            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_SPEED);
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+            g2.setRenderingHint(RenderingHints.KEY_DITHERING,
+                RenderingHints.VALUE_DITHER_DISABLE);
+        }
+    }
+
+    /** Set the new size of the drawing, if needed.
+    */
+    private void setSizeIfNeeded()
+    {
+        Dimension d=new Dimension(cs.getXMax(), cs.getYMax());
+
+        if (d.width>0 && d.height>0){
+            int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
+            int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
+
+            Dimension dd=new Dimension(Math.max(d.width
+                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
+            Dimension nn=getPreferredSize();
+
+            if(dd.width!=nn.width || dd.height!=nn.height) {
+                setPreferredSize(dd);
+                revalidate();
+            }
         }
     }
 
@@ -1182,7 +1011,6 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         extStrict=strict;
     }
-
 
     /** Change the current coordinate mapping.
         @param m the new coordinate mapping to be adopted.
