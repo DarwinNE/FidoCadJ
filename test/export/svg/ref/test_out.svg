@@ -16,7 +16,7 @@
 <rect x="136.0" y="36.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <rect x="166.0" y="36.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="206.0" y1="6.0" x2="376.0" y2="6.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
-<polygon points="206.0,6.0 212.0,3.99 212.0,7.99" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="206.0,6.0 212.0,4.0 212.0,8.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="376.0,6.0 370.0,8.0 370.0,4.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <line x1="206.0" y1="26.0" x2="376.0" y2="26.0" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <polygon points="206.0,26.0 212.0,24.0 212.0,28.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
@@ -82,9 +82,9 @@
 <rect x="56.0" y="256.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
 <rect x="86.0" y="256.0" rx="2.5" ry="2.5" width="20.0" height="20.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
 <path d="M 266.0,246.0 C 106.0,296.0 276.0,346.0 166.0,246.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
-<polygon points="266.0,246.0 260.86,249.69 259.67,245.88" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="266.0,246.0 260.87,249.7 259.68,245.88" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <path d="M 296.0,246.0 C 136.0,296.0 306.0,346.0 196.0,246.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
-<polygon points="196.0,246.0 201.78,248.55 199.09,251.51" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="196.0,246.0 201.78,248.56 199.09,251.52" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="6.0,326.0 96.0,296.0 6.0,366.0 106.0,316.0 " style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="86.0,326.0 176.0,296.0 86.0,366.0 186.0,316.0 " style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <polygon points="246.0,326.0 336.0,296.0 246.0,366.0 346.0,316.0 " style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
@@ -382,8 +382,8 @@
 <line x1="220.28" y1="213.44" x2="218.86" y2="210.97" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="218.86" y1="210.97" x2="217.43" y2="208.49" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="217.43" y1="208.49" x2="216.0" y2="206.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
-<polygon points="146.0,156.0 150.75,150.57 152.83,158.3" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
-<polygon points="216.0,206.0 222.46,209.2 215.52,213.19" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="146.0,156.0 150.75,150.58 152.83,158.3" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="216.0,206.0 222.46,209.2 215.53,213.2" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="#000000"/>
 <line x1="486.0" y1="6.0" x2="488.5" y2="7.98" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="488.5" y1="7.98" x2="490.99" y2="9.95" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="490.99" y1="9.95" x2="493.46" y2="11.92" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
@@ -432,7 +432,7 @@
 <line x1="493.46" y1="55.67" x2="490.99" y2="55.79" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="490.99" y1="55.79" x2="488.5" y2="55.9" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <line x1="488.5" y1="55.9" x2="486.0" y2="56.0" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
-<polygon points="486.0,56.0 491.91,53.75 492.07,57.74" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
+<polygon points="486.0,56.0 491.91,53.75 492.08,57.75" style="stroke:#000000;stroke-width:0.7;fill-rule: evenodd;" fill="none"/>
 <rect x="216.0" y="176.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#000080;stroke-width:0.7;fill-rule: evenodd;" fill="#000080"/>
 <rect x="226.0" y="186.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#ff0000;stroke-width:0.7;fill-rule: evenodd;" fill="#ff0000"/>
 <rect x="236.0" y="196.0" rx="0" ry="0" width="20.0" height="20.0" style="stroke:#008080;stroke-width:0.7;fill-rule: evenodd;" fill="#008080"/>

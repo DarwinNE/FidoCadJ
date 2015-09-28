@@ -426,16 +426,12 @@ public abstract class GraphicPrimitive
     */
     public boolean checkText(int px, int py)
     {
-        if(!"".equals(name) && GeometricDistances.pointInRectangle(
+        return !"".equals(name) && GeometricDistances.pointInRectangle(
             virtualPoint[getNameVirtualPointNumber()].x,
-            virtualPoint[getNameVirtualPointNumber()].y,t_w1,t_th,px,py))
-            return true;
-        if(!"".equals(value) && GeometricDistances.pointInRectangle(
+            virtualPoint[getNameVirtualPointNumber()].y,t_w1,t_th,px,py) ||
+            !"".equals(value) && GeometricDistances.pointInRectangle(
             virtualPoint[getValueVirtualPointNumber()].x,
-            virtualPoint[getValueVirtualPointNumber()].y,t_w2,t_th,px,py))
-            return true;
-
-        return false;
+            virtualPoint[getValueVirtualPointNumber()].y,t_w2,t_th,px,py);
     }
 
     /** Reads the TY line describing the "value" field

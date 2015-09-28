@@ -343,13 +343,21 @@ public class Globals
     }
 
     /** Round the specified number to the specified number of decimal digits.
-
-        @param n the number to be represented
-        @param ch the number of decimal digits to be retained
-        @return a string containing the result
+        @param n the number to be represented.
+        @param ch the number of decimal digits to be retained.
+        @return a string containing the result rounded to n digits.
     */
     public static String roundTo(double n, int ch)
     {
         return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
+    }
+
+    /** Round the specified number to two decimal digits.
+        @param n the number to be represented.
+        @return a string containing the result rounded to two digits.
+    */
+    public static String roundTo(double n)
+    {
+        return ""+ Math.round(n*100.0)/100.0;
     }
 }

@@ -37,7 +37,6 @@ import net.sourceforge.fidocadj.graphic.*;
 
     @author Davide Bucci
 */
-
 public class ExportPDF implements ExportInterface
 {
     private final File temp;
@@ -82,20 +81,10 @@ public class ExportPDF implements ExportInterface
     private double actualWidth;
     private int actualDash;
 
-    static final String encoding="UTF8";//"8859_1";
-
-
+    static final String encoding="UTF8";
 
     static final String dash[]={"[5.0 10]", "[2.5 2.5]",
         "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
-
-    /** double to integer conversion. In some cases, some processing might be
-        applied.
-    */
-    private int cLe(double l)
-    {
-        return (int)l;
-    }
 
     /** Constructor
         @param f the File object in which the export should be done.
@@ -117,7 +106,6 @@ public class ExportPDF implements ExportInterface
             encoding);
 
         obj_PDF = new String[numOfObjects];
-
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -134,62 +122,11 @@ public class ExportPDF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-
     public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
         int grid)
         throws IOException
     {
-
-        // The glyphlist.txt file has about 4300 lines, therefore starting
-        // with a size of 5000 seems reasonable.
-        unicodeToGlyph = new HashMap<Integer, String>(5000);
-
-        // 128 chars for the moment will suffice.
-        uncodeCharsNeeded = new HashMap<Integer, Integer>(128);
-
-        // The mapping of Unicode chars will be done starting from code 128
-        // up to 256. For the moment it will suffice.
-        unicodeCharIndex=127;
-
-        // Read the glyphlist.txt file and store its contents in the hash
-        // map for easy retrieval during the calculation of encoding needs.
-        BufferedReader br=null;
-        try{
-            InputStreamReader isr = new InputStreamReader(
-                      getClass().getResourceAsStream("glyphlist.txt"),
-                      encoding);
-            br = new BufferedReader(isr);
-
-            String line = br.readLine();
-            String glyph;
-            Integer code;
-            String codeStr;
-            int p,q;
-            while (line != null) {
-                //System.out.println(line);
-                if(!line.startsWith("#")) {
-                    p=line.indexOf(';');
-                    q=line.indexOf(' ');
-                    glyph=line.substring(0,p);
-                    if(q<0)
-                        codeStr=line.substring(p+1);
-                    else
-                        codeStr=line.substring(p+1,q);
-                    code=Integer.decode("0x"+codeStr);
-                    unicodeToGlyph.put(Integer.valueOf(code), glyph);
-                }
-                line = br.readLine();
-            }
-        } catch(Exception E) {
-            System.err.println("We could not access glyphlist.txt. A standard"+
-                " matching of glyphs is attempted.");
-            for(int i=32; i<128; ++i) {
-                unicodeToGlyph.put(Integer.valueOf(i), ""+i);
-            }
-        } finally {
-            if (br!=null)
-                br.close();
-        }
+        initGlyphList();
 
         // We need to save layers informations, since we will use them later.
 
@@ -245,6 +182,62 @@ public class ExportPDF implements ExportInterface
 
     }
 
+    /** Init the list of glyphs by reading the glyphlist.txt file if it is
+        available.
+    */
+    private void initGlyphList() throws IOException
+    {
+        // The glyphlist.txt file has about 4300 lines, therefore starting
+        // with a size of 5000 seems reasonable.
+        unicodeToGlyph = new HashMap<Integer, String>(5000);
+
+        // 128 chars for the moment will suffice.
+        uncodeCharsNeeded = new HashMap<Integer, Integer>(128);
+
+        // The mapping of Unicode chars will be done starting from code 128
+        // up to 256. For the moment it will suffice.
+        unicodeCharIndex=127;
+
+        // Read the glyphlist.txt file and store its contents in the hash
+        // map for easy retrieval during the calculation of encoding needs.
+        BufferedReader br=null;
+        try{
+            InputStreamReader isr = new InputStreamReader(
+                      getClass().getResourceAsStream("glyphlist.txt"),
+                      encoding);
+            br = new BufferedReader(isr);
+
+            String line = br.readLine();
+            String glyph;
+            Integer code;
+            String codeStr;
+            int p,q;
+            while (line != null) {
+                if(!line.startsWith("#")) {
+                    p=line.indexOf(';');
+                    q=line.indexOf(' ');
+                    glyph=line.substring(0,p);
+                    if(q<0)
+                        codeStr=line.substring(p+1);
+                    else
+                        codeStr=line.substring(p+1,q);
+                    code=Integer.decode("0x"+codeStr);
+                    unicodeToGlyph.put(Integer.valueOf(code), glyph);
+                }
+                line = br.readLine();
+            }
+        } catch(IOException E) {
+            System.err.println("We could not access glyphlist.txt. A standard"+
+                " matching of glyphs is attempted.");
+            for(int i=32; i<128; ++i) {
+                unicodeToGlyph.put(Integer.valueOf(i), ""+i);
+            }
+        } finally {
+            if (br!=null)
+                br.close();
+        }
+    }
+
     /** Called at the end of the export phase.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
@@ -256,9 +249,7 @@ public class ExportPDF implements ExportInterface
         //Date date = new Date();
 
         outt.close();
-
         fileLength=temp.length();
-
         writeFontDescription();
 
         obj_PDF[8]="8 0 obj\n" +
@@ -344,7 +335,6 @@ public class ExportPDF implements ExportInterface
                     Globals.messages.getString("PDF_Font_error"));
             }
         }
-
     }
 
     /** This routine creates the eight definition of the fonts currently
@@ -360,11 +350,9 @@ public class ExportPDF implements ExportInterface
         F9 - Undefinite
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
-
     */
     private void writeFontDescription() throws java.io.IOException
     {
-
         obj_PDF[6]= "6 0 obj\n" +
                 "  <<   /Type /Font\n" +
                 "    /Subtype /Type1\n" +
@@ -445,15 +433,10 @@ public class ExportPDF implements ExportInterface
 
         for (Integer code : uncodeCharsNeeded.keySet()) {
             String glyph=unicodeToGlyph.get(uncodeCharsNeeded.get(code));
-            /*System.out.println("code: "+code+"  UTF8: "
-                +uncodeCharsNeeded.get(code)+ "  glyph: "+
-                glyph);*/
-
             obj_PDF[16]+=""+code+"/"+unicodeToGlyph.get(
                 uncodeCharsNeeded.get(code))+" ";
         }
-        obj_PDF[16]+="]\n"+
-                "  >> endobj\n";
+        obj_PDF[16]+="]\n  >> endobj\n";
     }
 
     private String calcWidthsIndex(String font)
@@ -794,16 +777,15 @@ public class ExportPDF implements ExportInterface
         }
 
         outt.write("q\n");
-
-        outt.write("  1 0 0 1 "+ roundTo(x)+" "+ roundTo(y)+" cm\n");
-
+        outt.write("  1 0 0 1 "+ Globals.roundTo(x)+" "+ Globals.roundTo(y)+
+            " cm\n");
 
         if(orientation !=0) {
             double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
-            outt.write("  "+roundTo(Math.cos(alpha))+" "
-                + roundTo(Math.sin(alpha))+ " "
-                +(roundTo(-Math.sin(alpha)))+
-                " "+roundTo(Math.cos(alpha))+" 0 0 cm\n");
+            outt.write("  "+Globals.roundTo(Math.cos(alpha))+" "
+                + Globals.roundTo(Math.sin(alpha))+ " "
+                +(Globals.roundTo(-Math.sin(alpha)))+
+                " "+Globals.roundTo(Math.cos(alpha))+" 0 0 cm\n");
         }
         if(isMirrored)
             outt.write("  -1 0 0 -1 0 0 cm\n");
@@ -817,14 +799,13 @@ public class ExportPDF implements ExportInterface
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;
         }
-        outt.write("  1 0 0 "+roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+" cm\n");
+        outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+
+            " cm\n");
 
         Map<String, String> subst = new HashMap<String, String>();
         subst.put("(","\\050");
         subst.put(")","\\051");
         text=Globals.substituteBizarreChars(text, subst);
-
-        //outt.write("  ("+text+") Tj\n");
 
         outt.write(" <");
         int ch;
@@ -852,9 +833,7 @@ public class ExportPDF implements ExportInterface
             outt.write(" ");
         }
         outt.write("> Tj\n");
-
         outt.write("Q\nET\n");
-
     }
 
     /** Called when exporting a Bézier primitive.
@@ -910,7 +889,6 @@ public class ExportPDF implements ExportInterface
     }
 
     /** Called when exporting a Connection primitive.
-
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
@@ -925,7 +903,6 @@ public class ExportPDF implements ExportInterface
         ColorInterface c=l.getColor();
 
         checkColorAndWidth(c, .33);
-
 
         ellipse(x-node_size/2.0, y-node_size/2.0,
                 x+node_size/2.0, y+node_size/2.0, true);
@@ -976,7 +953,6 @@ public class ExportPDF implements ExportInterface
             arrowHalfWidth, arrowStyle);
         if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
             arrowHalfWidth, arrowStyle);
-
     }
 
     /** Called when exporting a Macro call.
@@ -1115,8 +1091,7 @@ public class ExportPDF implements ExportInterface
                     break;
             }
         }
-            // ... then, drill the hole!
-
+        // ... then, drill the hole!
         checkColorAndWidth(c.white(), .33);
 
         ellipse(x-indiam/2.0, y-indiam/2.0,
@@ -1250,6 +1225,9 @@ public class ExportPDF implements ExportInterface
         outt.write("  "+(filled?"f\n":"s\n"));
     }
 
+    /** TODO: I am sure that a better solution for drawing ellipses may be
+        found. This code is pretty inefficient.
+    */
     private void ellipse(double x1, double y1, double x2, double y2,
         boolean filled)
         throws IOException
@@ -1281,7 +1259,8 @@ public class ExportPDF implements ExportInterface
         final double rr = 1.02;
         final double tt = 1.01;
 
-        outt.write("  "+ roundTo(cx+rx)+" "+ roundTo(cy)+" m\n");
+        outt.write("  "+ Globals.roundTo(cx+rx)+" "+ Globals.roundTo(cy)+
+            " m\n");
 
         for(i=0; i<NMAX; ++i) {
 
@@ -1305,8 +1284,9 @@ public class ExportPDF implements ExportInterface
             yD = cy + ry * Math.sin(alpha);
 
 
-            outt.write(roundTo(xC)+" "
-                + roundTo(yC)+" "+ roundTo(xD)+" "+ roundTo(yD)+" y\n");
+            outt.write(Globals.roundTo(xC)+" "+
+                Globals.roundTo(yC)+" "+ Globals.roundTo(xD)+" "+
+                Globals.roundTo(yD)+" y\n");
         }
         outt.write("  "+(filled?"f\n":"s\n"));
     }
@@ -1323,22 +1303,16 @@ public class ExportPDF implements ExportInterface
         return s;
     }
 
-    private String roundTo(double n)
-    {
-        int ch = 2;
-        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
-    }
-
     private void checkColorAndWidth(ColorInterface c, double wl)
         throws IOException
     {
         if(!c.equals(actualColor)) {
-            outt.write("  "+roundTo(c.getRed()/255.0)+" "+
-                roundTo(c.getGreen()/255.0)+ " "
-                +roundTo(c.getBlue()/255.0)+    " rg\n");
-            outt.write("  "+roundTo(c.getRed()/255.0)+" "+
-                roundTo(c.getGreen()/255.0)+ " "
-                +roundTo(c.getBlue()/255.0)+    " RG\n");
+            outt.write("  "+Globals.roundTo(c.getRed()/255.0)+" "+
+                Globals.roundTo(c.getGreen()/255.0)+ " "
+                +Globals.roundTo(c.getBlue()/255.0)+    " rg\n");
+            outt.write("  "+Globals.roundTo(c.getRed()/255.0)+" "+
+                Globals.roundTo(c.getGreen()/255.0)+ " "
+                +Globals.roundTo(c.getBlue()/255.0)+    " RG\n");
             actualColor=c;
         }
         if(wl != actualWidth) {
@@ -1408,10 +1382,9 @@ public class ExportPDF implements ExportInterface
         // Arrows are always done with dash 0
         registerDash(0);
 
-
-        outt.write(""+roundTo(x)+" "+   roundTo(y)+" m\n");
-        outt.write(""+roundTo(x1)+" "+roundTo(y1)+" l\n");
-        outt.write(""+roundTo(x2)+" "+roundTo(y2)+" l\n");
+        outt.write(""+Globals.roundTo(x)+" " +Globals.roundTo(y)+ " m\n");
+        outt.write(""+Globals.roundTo(x1)+" "+Globals.roundTo(y1)+" l\n");
+        outt.write(""+Globals.roundTo(x2)+" "+Globals.roundTo(y2)+" l\n");
 
         if ((style & Arrow.flagEmpty) == 0)
             outt.write("  f*\n");
@@ -1428,8 +1401,8 @@ public class ExportPDF implements ExportInterface
 
             x4 = x + h*Math.sin(alpha);
             y4 = y - h*Math.cos(alpha);
-            outt.write(""+roundTo(x3)+" "+roundTo(y3)+" m\n"+
-                roundTo(x4)+" "+roundTo(y4)+" l s\n");
+            outt.write(""+Globals.roundTo(x3)+" "+Globals.roundTo(y3)+" m\n"+
+                Globals.roundTo(x4)+" "+Globals.roundTo(y4)+" l s\n");
         }
     }
 }

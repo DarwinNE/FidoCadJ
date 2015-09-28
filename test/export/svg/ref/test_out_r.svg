@@ -16,7 +16,7 @@
 <rect x="204.0" y="55.0" rx="0" ry="0" width="31.0" height="30.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <rect x="250.0" y="55.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#000000;stroke-dasharray: 0.5,1.25,1.25,1.25;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="310.0" y1="10.0" x2="565.0" y2="10.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
-<polygon points="310.0,10.0 319.0,6.99 319.0,12.99" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="310.0,10.0 319.0,7.0 319.0,13.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="565.0,10.0 556.0,13.0 556.0,7.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <line x1="310.0" y1="40.0" x2="565.0" y2="40.0" style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <polygon points="310.0,40.0 319.0,37.0 319.0,43.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
@@ -82,9 +82,9 @@
 <rect x="84.0" y="386.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
 <rect x="129.0" y="386.0" rx="2.5" ry="2.5" width="30.0" height="30.0" style="stroke:#000000;stroke-width:0.33" fill="#000000"/>
 <path d="M 400.0,371.0 C 159.0,446.0 415.0,521.0 250.0,371.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
-<polygon points="400.0,371.0 392.29,376.53 390.51,370.8" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="400.0,371.0 392.3,376.54 390.52,370.81" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <path d="M 445.0,371.0 C 204.0,446.0 460.0,521.0 295.0,371.0" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
-<polygon points="295.0,371.0 303.67,374.83 299.64,379.27" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="295.0,371.0 303.68,374.83 299.64,379.27" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="9.0,491.0 144.0,446.0 9.0,551.0 159.0,476.0 " style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <polygon points="129.0,491.0 265.0,446.0 129.0,551.0 280.0,476.0 " style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <polygon points="370.0,491.0 505.0,446.0 370.0,551.0 520.0,476.0 " style="stroke:#000000;stroke-dasharray: 0.5,0.5;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
@@ -382,8 +382,8 @@
 <line x1="331.23" y1="321.98" x2="329.1" y2="318.27" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="329.1" y1="318.27" x2="326.95" y2="314.54" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="326.95" y1="314.54" x2="324.79" y2="310.79" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
-<polygon points="219.52,235.6 226.67,227.44 229.8,239.06" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
-<polygon points="324.78,310.78 334.5,315.6 324.08,321.61" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="219.53,235.6 226.67,227.45 229.8,239.06" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
+<polygon points="324.79,310.79 334.51,315.61 324.08,321.61" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000000"/>
 <line x1="730.8" y1="10.04" x2="734.56" y2="13.01" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="734.56" y1="13.01" x2="738.31" y2="15.98" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="738.31" y1="15.98" x2="742.02" y2="18.94" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
@@ -432,7 +432,7 @@
 <line x1="742.02" y1="84.73" x2="738.31" y2="84.91" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="738.31" y1="84.91" x2="734.56" y2="85.07" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <line x1="734.56" y1="85.07" x2="730.8" y2="85.23" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
-<polygon points="730.8,85.22 739.69,81.84 739.94,87.85" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
+<polygon points="730.8,85.23 739.69,81.84 739.95,87.85" style="stroke:#000000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="none"/>
 <rect x="325.0" y="266.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#000080;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#000080"/>
 <rect x="340.0" y="281.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#ff0000;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#ff0000"/>
 <rect x="355.0" y="296.0" rx="0" ry="0" width="30.0" height="30.0" style="stroke:#008080;stroke-width:1.0526315789473684;fill-rule: evenodd;" fill="#008080"/>

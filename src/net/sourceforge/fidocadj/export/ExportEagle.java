@@ -49,18 +49,7 @@ public class ExportEagle implements ExportInterface
     static final String ExportFormatString = "####.####";
 
     // Conversion between FidoCadJ units and Eagle units (1/10 inches)
-
     static double res=5e-2;
-
-    /** double to integer conversion. In some cases, some processing might be
-        applied.
-        @return the converted value
-    */
-    private int cLe(double l)
-    {
-        return (int)l;
-    }
-
 
     /** Constructor
         @param f the File object in which the export should be done.

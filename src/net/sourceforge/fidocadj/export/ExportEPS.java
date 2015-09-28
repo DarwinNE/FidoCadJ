@@ -48,16 +48,6 @@ public class ExportEPS implements ExportInterface
     static final String dash[]={"[5.0 10]", "[2.5 2.5]",
         "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 
-    /** double to integer conversion. In some cases, some processing might be
-        applied.
-        @param l the input double.
-        @return the integer.
-    */
-    public int cLe(double l)
-    {
-        return (int)l;
-    }
-
     /** Constructor
         @param f the File object in which the export should be done.
         @throws IOException when things goes horribly wrong, for example if
@@ -411,9 +401,9 @@ public class ExportEPS implements ExportInterface
 
         out.write("newpath\n");
 
-        out.write(""+roundTo(x)+" "+    roundTo(y)+" moveto\n");
-        out.write(""+roundTo(x1)+" "+roundTo(y1)+" lineto\n");
-        out.write(""+roundTo(x2)+" "+roundTo(y2)+" lineto\n");
+        out.write(""+Globals.roundTo(x)+" "+    Globals.roundTo(y)+" moveto\n");
+        out.write(""+Globals.roundTo(x1)+" "+Globals.roundTo(y1)+" lineto\n");
+        out.write(""+Globals.roundTo(x2)+" "+Globals.roundTo(y2)+" lineto\n");
 
         out.write("closepath\n");
 
@@ -433,8 +423,9 @@ public class ExportEPS implements ExportInterface
 
             x4 = x + h*Math.sin(alpha);
             y4 = y - h*Math.cos(alpha);
-            out.write(""+roundTo(x3)+" "+roundTo(y3)+" moveto\n"+
-                roundTo(x4)+" "+roundTo(y4)+" lineto\nstroke\n");
+            out.write(""+Globals.roundTo(x3)+" "+Globals.roundTo(y3)+
+                " moveto\n"+Globals.roundTo(x4)+" "+Globals.roundTo(y4)+
+                " lineto\nstroke\n");
         }
     }
 
@@ -693,26 +684,20 @@ public class ExportEPS implements ExportInterface
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
         out.write("newpath\n");
-        out.write(""+roundTo(x1,PREC)+" "+roundTo(y1,PREC)+" moveto\n");
-        out.write(""+roundTo(x2,PREC)+" "+roundTo(y1,PREC)+" lineto\n");
-        out.write(""+roundTo(x2,PREC)+" "+roundTo(y2,PREC)+" lineto\n");
-        out.write(""+roundTo(x1,PREC)+" "+roundTo(y2,PREC)+" lineto\n");
+        out.write(""+Globals.roundTo(x1,PREC)+" "+Globals.roundTo(y1,PREC)+
+            " moveto\n");
+        out.write(""+Globals.roundTo(x2,PREC)+" "+Globals.roundTo(y1,PREC)+
+            " lineto\n");
+        out.write(""+Globals.roundTo(x2,PREC)+" "+Globals.roundTo(y2,PREC)+
+            " lineto\n");
+        out.write(""+Globals.roundTo(x1,PREC)+" "+Globals.roundTo(y2,PREC)+
+            " lineto\n");
         out.write("closepath\n");
         if(isFilled) {
             out.write("fill\n");
         } else {
             out.write("stroke\n");
         }
-    }
-
-    private String roundTo(double n, int ch)
-    {
-        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
-    }
-    private String roundTo(double n)
-    {
-        int ch = 2;
-        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
     }
 
     private void roundRect (double x1, double y1, double w, double h,
@@ -743,9 +728,9 @@ public class ExportEPS implements ExportInterface
         throws IOException
     {
         if(!c.equals(actualColor)) {
-            out.write("  "+roundTo(c.getRed()/255.0)+" "+
-                roundTo(c.getGreen()/255.0)+ " "
-                +roundTo(c.getBlue()/255.0)+ " setrgbcolor\n");
+            out.write("  "+Globals.roundTo(c.getRed()/255.0)+" "+
+                Globals.roundTo(c.getGreen()/255.0)+ " "
+                +Globals.roundTo(c.getBlue()/255.0)+ " setrgbcolor\n");
 
             actualColor=c;
         }

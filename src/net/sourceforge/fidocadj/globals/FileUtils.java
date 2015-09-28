@@ -101,8 +101,6 @@ public final class FileUtils
         InputStream in = null;
         OutputStream out = null;
 
-
-
         // The copy is made by bunch of 1024 bytes.
         // I wander whether better OS copy funcions exist.
         try {

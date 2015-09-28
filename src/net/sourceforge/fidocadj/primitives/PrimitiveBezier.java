@@ -72,7 +72,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
     public PrimitiveBezier(String f, int size)
     {
         super();
-
         initPrimitive(-1, f, size);
     }
 
@@ -126,16 +125,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
         virtualPoint[getNameVirtualPointNumber()].y=y1+5;
         virtualPoint[getValueVirtualPointNumber()].x=x1+5;
         virtualPoint[getValueVirtualPointNumber()].y=y1+10;
-        // Store the layer
         setLayer(layer);
-
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
-
     */
     public Vector<ParameterDescription> getControls()
     {
@@ -174,13 +169,11 @@ public final class PrimitiveBezier extends GraphicPrimitive
         pd.description=Globals.messages.getString("ctrl_dash_style");
         pd.isExtension = true;
         v.add(pd);
-
-
         return v;
     }
+
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
-
         @param v a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
@@ -251,8 +244,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
         drawText(g, coordSys, layerV, -1);
 
         // in the Bézier primitive, the four virtual points represent
-        //   the control points of the shape
-
+        // the control points of the shape.
         if (changed) {
             changed=false;
 
@@ -283,7 +275,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
         }
 
         // If the curve is not visible, exit immediately
-
         if(!g.hitClip(xmin,ymin, width, height))
             return;
 
@@ -294,79 +285,71 @@ public final class PrimitiveBezier extends GraphicPrimitive
         g.draw(shape1);
 
         // Check if there are arrows to be drawn and eventually draw them.
-
         if (arrowStart || arrowEnd) {
             int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
                 coordSys.mapXi(0,0, false);
             int l=coordSys.mapXi(arrowLength,arrowLength,false)-
                 coordSys.mapXi(0,0, false);
 
+            if (arrowStart) 
+                drawArrow(g, coordSys, 0,1,2,3, l, h);
 
-            if (arrowStart) {
-                // We must check if the cubic curve is degenerate
-                int psx, psy, pex, pey;
-                psx = virtualPoint[0].x;
-                psy = virtualPoint[0].y;
-                if(virtualPoint[0].x!=virtualPoint[1].x ||
-                    virtualPoint[0].y!=virtualPoint[1].y)
-                {
-                    pex = virtualPoint[1].x;
-                    pey = virtualPoint[1].y;
-                } else if(virtualPoint[0].x!=virtualPoint[2].x ||
-                    virtualPoint[2].y!=virtualPoint[1].y)
-                {
-                    pex = virtualPoint[2].x;
-                    pey = virtualPoint[2].y;
-                } else {
-                    pex = virtualPoint[3].x;
-                    pey = virtualPoint[3].y;
-                }
-
-                Arrow.drawArrow(g,
-                    coordSys.mapX(psx,psy),
-                    coordSys.mapY(psx,psy),
-                    coordSys.mapX(pex,pey),
-                    coordSys.mapY(pex,pey),
-                    l, h, arrowStyle);
-            }
-
-            if (arrowEnd) {
-                // We must check if the cubic curve is degenerate
-                int psx, psy, pex, pey;
-                psx = virtualPoint[3].x;
-                psy = virtualPoint[3].y;
-                if(virtualPoint[3].x!=virtualPoint[2].x ||
-                    virtualPoint[3].y!=virtualPoint[2].y)
-                {
-                    pex = virtualPoint[2].x;
-                    pey = virtualPoint[2].y;
-                } else if(virtualPoint[3].x!=virtualPoint[1].x ||
-                    virtualPoint[3].y!=virtualPoint[1].y)
-                {
-                    pex = virtualPoint[1].x;
-                    pey = virtualPoint[1].y;
-                } else {
-                    pex = virtualPoint[0].x;
-                    pey = virtualPoint[0].y;
-                }
-
-                Arrow.drawArrow(g,
-                    coordSys.mapX(psx,psy),
-                    coordSys.mapY(psx,psy),
-                    coordSys.mapX(pex,pey),
-                    coordSys.mapY(pex,pey),
-                    l, h, arrowStyle);
-
-
-            }
+            if (arrowEnd) 
+                drawArrow(g, coordSys, 3,2,1,0, l, h);
         }
+    }
+
+    /** Draw an arrow checking that the coordinates given are not degenerate.
+        @param g the graphical context on which to write.
+        @param coordSyst the coordinate system.
+        @param A the index of the first point (the head of the arrow)
+        @param B the index of the second arrow (indicates the direction, if
+            the coordinates are diffrent from point A. If it is not true, the
+            coordinates of point C are used.
+        @param C if the test of point B fails, employs this point to indicate
+            the direction, unless equal to point A.
+        @param D employs this point as a last resort!
+    */
+    private void drawArrow(GraphicsInterface g, MapCoordinates coordSys,
+        int A, int B, int C, int D,
+        int l, int h)
+    {
+        int psx, psy; // starting coordinates.
+        int pex, pey; // ending coordinates.
+
+        // We must check if the cubic curve is degenerate. In this case,
+        // the correct arrow orientation will be determined by successive
+        // points in the curve.
+        psx = virtualPoint[A].x;
+        psy = virtualPoint[A].y;
+
+        if(virtualPoint[A].x!=virtualPoint[B].x ||
+            virtualPoint[A].y!=virtualPoint[B].y)
+        {
+            pex = virtualPoint[B].x;
+            pey = virtualPoint[B].y;
+        } else if(virtualPoint[A].x!=virtualPoint[C].x ||
+            virtualPoint[A].y!=virtualPoint[C].y)
+        {
+            pex = virtualPoint[C].x;
+            pey = virtualPoint[C].y;
+        } else {
+            pex = virtualPoint[D].x;
+            pey = virtualPoint[D].y;
+        }
+
+        Arrow.drawArrow(g,
+            coordSys.mapX(psx,psy),
+            coordSys.mapY(psx,psy),
+            coordSys.mapX(pex,pey),
+            coordSys.mapY(pex,pey),
+            l, h, arrowStyle);
     }
 
     /** Parse a token array and store the graphic data for a given primitive
         Obviously, that routine should be called *after* having recognized
         that the called primitive is correct.
         That routine also sets the current layer.
-
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
         @param N the number of tokens present in the array.
@@ -431,8 +414,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
     */
     public int getDistanceToPoint(int px, int py)
     {
-        // Here we check if the given point lies inside the text areas
-
+        // Here, we check if the given point lies inside the text areas.
         if(checkText(px, py))
             return 0;
 
@@ -443,7 +425,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 virtualPoint[2].x, virtualPoint[2].y,
                 virtualPoint[3].x, virtualPoint[3].y,
                 px,  py);
-
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -504,7 +485,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
                        (int)(arrowHalfWidth*cs.getXMagnitude()),
                        dashStyle,Globals.lineWidth*cs.getXMagnitude());
     }
-        /** Get the number of the virtual point associated to the Name property
+
+    /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
     */
     public int getNameVirtualPointNumber()
@@ -519,5 +501,4 @@ public final class PrimitiveBezier extends GraphicPrimitive
     {
         return 5;
     }
-
 }

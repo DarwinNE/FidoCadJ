@@ -672,11 +672,7 @@ public class ExportSVG implements ExportInterface
         //  out.write("/>\n");
         //}
     }
-    private String roundTo(double n)
-    {
-        int ch = 2;
-        return ""+ (((int)(n*Math.pow(10,ch)))/Math.pow(10,ch));
-    }
+
 
     /** Called when exporting an arrow.
         @param x position of the tip of the arrow.
@@ -727,12 +723,12 @@ public class ExportSVG implements ExportInterface
 
         out.write("<polygon points=\"");
 
-        out.write(""+roundTo(x)+","
-            +roundTo(y)+" ");
-        out.write(""+roundTo(x1)+","
-            +roundTo(y1)+" ");
-        out.write(""+roundTo(x2)+","
-            +roundTo(y2)+"\" ");
+        out.write(""+Globals.roundTo(x)+","
+            +Globals.roundTo(y)+" ");
+        out.write(""+Globals.roundTo(x1)+","
+            +Globals.roundTo(y1)+" ");
+        out.write(""+Globals.roundTo(x2)+","
+            +Globals.roundTo(y2)+"\" ");
 
         if ((style & Arrow.flagEmpty) == 0)
             fill_pattern="fill=\"#"+
