@@ -49,10 +49,10 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public class MacroTree extends JPanel
 {
@@ -81,7 +81,7 @@ public class MacroTree extends JPanel
 
     private TreePath copyTarget = null;
 
-    private OperationPermission permissionObject;
+    private OperationPermissions permissionObject;
 
     /** Constructor.
         @param libraryModel library model. not null.
@@ -427,13 +427,13 @@ public class MacroTree extends JPanel
     */
     private void createPermissionObject()
     {
-        permissionObject = new OperationPermission();
+        permissionObject = new OperationPermissions();
     }
 
     /** Get a permission description object.
         @return the permission descriptor.
     */
-    public OperationPermission getOperationPermission()
+    public OperationPermissions getOperationPermission()
     {
         return permissionObject;
     }
@@ -735,97 +735,5 @@ public class MacroTree extends JPanel
         TreePath path = treeComponent.getSelectionPath();
         if(path==null) return null;
         return macroTreeModel.getLibrary(path);
-    }
-
-    /** Describe which permissions are available.
-    */
-    public class OperationPermission
-    {
-        private boolean copyAvailable;
-        private boolean pasteAvailable;
-        private boolean renameAvailable;
-        private boolean removeAvailable;
-        private boolean renKeyAvailable;
-
-        /** Get the value of copyAvailable.
-            @return true if it can be copied.
-        */
-        public boolean isCopyAvailable()
-        {
-            return copyAvailable;
-        }
-
-        /** Get the value of pasteAvailable.
-            @return true if the paste operation is possible
-        */
-        public boolean isPasteAvailable()
-        {
-            return pasteAvailable;
-        }
-
-        /** Get the value of renameAvailable.
-            @return true if it can be renamed.
-        */
-        public boolean isRenameAvailable()
-        {
-            return renameAvailable;
-        }
-
-        /** Returns the value of removeAvailable.
-            @return true if it can be removed/deleted.
-        */
-        public boolean isRemoveAvailable()
-        {
-            return removeAvailable;
-        }
-
-        /** Returns the value of renKeyAvailable.
-            @return true if its key can be changed.
-        */
-        public boolean isRenKeyAvailable()
-        {
-            return renKeyAvailable;
-        }
-
-        /** Disable all permissions.
-        */
-        public void disableAll()
-        {
-            copyAvailable=false;
-            pasteAvailable=false;
-            renameAvailable=false;
-            removeAvailable=false;
-            renKeyAvailable=false;
-        }
-    }
-
-    /** The cell renderer: show the appropriate icon.
-    */
-    private class MacroTreeCellRenderer extends DefaultTreeCellRenderer
-    {
-        @Override
-        public Component getTreeCellRendererComponent(JTree tree,
-                Object value,
-                boolean sel,
-                boolean expanded,
-                boolean leaf,
-                int row,
-                boolean hasFocus)
-        {
-            Component c = super.getTreeCellRendererComponent(
-                              tree, value, sel,
-                              expanded, leaf, row,
-                              hasFocus);
-            if(value instanceof MacroTreeNode) {
-                Icon icon = ((MacroTreeNode)value).getIcon();
-
-                if(icon == null) {
-                    return c;
-                } else {
-                    setIcon(icon);
-                }
-            }
-            return this;
-        }
     }
 }

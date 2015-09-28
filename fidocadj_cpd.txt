@@ -365,12 +365,11 @@ Starting at line 135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 
         pd=(ParameterDescription)v.get(i++);
 =====================================================================
-Found a 43 line (233 tokens) duplication in the following files: 
+Found a 41 line (233 tokens) duplication in the following files: 
 Starting at line 130 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
 Starting at line 396 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
         panel.setBorder(titled);
-
 
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -400,7 +399,6 @@ Starting at line 396 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -1460,8 +1458,8 @@ Starting at line 596 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         else
             System.out.println("Warning: unexpected parameter!"+pd);
 =====================================================================
-Found a 24 line (112 tokens) duplication in the following files: 
-Starting at line 150 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
+Found a 23 line (112 tokens) duplication in the following files: 
+Starting at line 149 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
 Starting at line 191 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 
         constraints.insets=new Insets(20,20,20,20);
@@ -1475,7 +1473,6 @@ Starting at line 191 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));

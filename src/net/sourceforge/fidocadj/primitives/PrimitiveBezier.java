@@ -291,10 +291,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
             int l=coordSys.mapXi(arrowLength,arrowLength,false)-
                 coordSys.mapXi(0,0, false);
 
-            if (arrowStart) 
+            if (arrowStart)
                 drawArrow(g, coordSys, 0,1,2,3, l, h);
 
-            if (arrowEnd) 
+            if (arrowEnd)
                 drawArrow(g, coordSys, 3,2,1,0, l, h);
         }
     }

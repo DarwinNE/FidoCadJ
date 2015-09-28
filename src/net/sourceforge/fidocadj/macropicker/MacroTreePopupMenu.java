@@ -42,7 +42,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
 
     // Element employed to check the kind of actions which can be done on
     // an element (permissions).
-    final private MacroTree.OperationPermission permission;
+    final private OperationPermissions permission;
 
     final private JMenuItem copyMenu;
     final private JMenuItem pasteMenu;

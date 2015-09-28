@@ -129,7 +129,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         panel.setBorder(titled);
 
-
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 
@@ -158,7 +157,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -171,7 +169,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             public void actionPerformed(ActionEvent evt)
             {
                 int selection;
-
                 // Check if the magnification factor is correct.
                 double mult = Double.parseDouble(multiplySizes.getText());
                 if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
@@ -181,7 +178,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                         Globals.messages.getString("Warning"),
                         JOptionPane.WARNING_MESSAGE);
                     return;
-
                 }
 
                 if(fileName.getText().trim().equals("")){
@@ -208,7 +204,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             }
         });
         // Here is an action in which the dialog is closed
-
         AbstractAction cancelAction = new AbstractAction ()
         {
             public void actionPerformed (ActionEvent e)
@@ -221,6 +216,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
     }
+
     /** Indicates that the export should be done: the user selected the "ok"
         button.
 
@@ -380,8 +376,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         } else if ("scr".equals(s)) {
             fileFormat.setSelectedIndex(SCR_INDEX);
         } else {
-            //System.out.println(
-            //  "dialogExport.setExportFormat: format set to png");
             fileFormat.setSelectedIndex(PNG_INDEX);
         }
     }
@@ -429,7 +423,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             GridBagConstraints.WEST, GridBagConstraints.NONE,
             new Insets(6,0,0,0));
 
-        panel.add(blackWhite_CB, constraints);        // Add antialias cb
+        panel.add(blackWhite_CB, constraints);        // Add black/white cb
 
         JLabel multiplySizesLabel=new
             JLabel(Globals.messages.getString("Multiply_sizes"));
@@ -485,9 +479,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             {
                 // Open the browser in order to let the user select the file
                 // name on which export
-
                 if(Globals.useNativeFileDialogs) {
-
                     // Native file dialog
                     FileDialog fd = new FileDialog(parent,
                         Globals.messages.getString("Select_file_export"),
@@ -505,7 +497,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                             fd.getFile());
                         fileName.setText(filen);
                     }
-
                 } else {
                     // Swing file dialog
                     JFileChooser fc = new JFileChooser(
