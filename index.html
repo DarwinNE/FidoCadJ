@@ -33,6 +33,22 @@
 
 		<div id="content">
 			<p><b>FidoCadJ</b> is a free user-friendly vector graphic editor for MacOSX, Linux, Windows and Android:</p>
+			<div id="download_button_container">
+				<script>
+				    if (navigator.appVersion.indexOf("Mac")!=-1) {
+				        document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg" id="download_button"><strong>DOWNLOAD</strong> FidoCadJ for MacOSX now!</a>');
+				    } else if(navigator.appVersion.indexOf("Win")!=-1) {
+				        document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi" id="download_button"><strong>DOWNLOAD</strong> FidoCadJ for Windows now!</a>');
+						} else if(navigator.appVersion.indexOf("Linux")!=-1) {
+								document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar" id="download_button"><strong>DOWNLOAD</strong> FidoCadJ for Linux now!</a>');
+						} else if(navigator.appVersion.indexOf("Android")!=-1) {
+								document.write('<a href="http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download" id="download_button"><strong>DOWNLOAD</strong> FidoCadJ for Android now!</a>');
+						} else {
+				        document.write('<a href="http://darwinne.github.io/FidoCadJ/download.html" id="download_button"><strong>DOWNLOAD</strong> FidoCadJ now!</a>');
+				    }
+				</script>
+				<p id="another_version_download_link"><a href="#">I need another version of FidoCadJ.</a></p>
+			</div>
 			<ul>
 				<li>A simple <b>schematic capture</b> with a built-in set of electrical symbols and footprints;</li>
 				<li>A versatile graphical editor with user-defined libraries;</li>
