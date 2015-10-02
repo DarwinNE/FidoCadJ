@@ -59,9 +59,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
                                              ChangeGridState,
                                              ChangeZoomListener,
                                              ChangeSelectionListener,
-                                             PrimitivesParInterface,
-                                             KeyListener,
-                                             MouseWheelListener
+                                             PrimitivesParInterface
 {
     // *********** DRAWING ***********
     Graphics2DSwing graphicSwing;
@@ -147,6 +145,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
     // ********** INTERFACE ELEMENTS **********
 
     PopUpMenu popup;
+    MouseWheelHandler mwHandler;
 
     // ********** LISTENERS **********
 
@@ -169,6 +168,8 @@ public class CircuitPanel extends JPanel implements ActionListener,
         edt = new EditorActions(dmp, sa, ua);
         eea = new ContinuosMoveActions(dmp, sa, ua, edt);
         eea.setPrimitivesParListener(this);
+
+        mwHandler=new MouseWheelHandler(this);
 
         haa=new HandleActions(dmp, edt, sa, ua);
         cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
@@ -205,7 +206,7 @@ public class CircuitPanel extends JPanel implements ActionListener,
         if (isEditable) {
             addMouseListener(this);
             addMouseMotionListener(this);
-            addKeyListener(this);
+            addKeyListener(mwHandler);
             setFocusable(true);
 
             //Create the popup menu.
@@ -1172,66 +1173,4 @@ public class CircuitPanel extends JPanel implements ActionListener,
     {
         repaint(x, y, width, height);
     }
-
-    /** Windows and Linux users can use Ctrl+Wheel to zoom in and out.
-        With MacOSX, however Ctrl+Wheel is associated to the full screen
-        zooming. Therefore, we use Command ("meta" with the Java terminology).
-    */
-    private int getKeyForWheel()
-    {
-        int keyCode=KeyEvent.VK_CONTROL;
-        if(Globals.weAreOnAMac)
-            keyCode=KeyEvent.VK_META;
-        return keyCode;
-    }
-
-   /** Intercepts the moment when the Ctrl or Command key is pressed (see the
-        note for getKeyForWheel(), so that the wheel listener is added.
-    */
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
-            addMouseWheelListener(this);
-    }
-
-    /** Intercepts the moment when the Ctrl or Command key is released (see the
-        note for getKeyForWheel(), so that the wheel listener is removed.
-    */
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-        if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
-            removeMouseWheelListener(this);
-    }
-
-    /** Required by the KeyListener interface.
-    */
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-        // do nothing
-    }
-
-    /** Determines wether in the wheel listener there is this class.
-    */
-    private boolean hasMouseWheelListener()
-    {
-        MouseWheelListener[] listeners = getMouseWheelListeners();
-        for (MouseWheelListener mouseWheelListener : listeners) {
-            if (mouseWheelListener.equals(this))
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Handle zoom event via the wheel.
-     */
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
-        this.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
-    }
 }
-

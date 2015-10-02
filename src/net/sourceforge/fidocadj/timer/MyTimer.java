@@ -10,15 +10,13 @@ import javax.swing.*;
 
    ****************************************************************************
    Version History
-
-Version   Date           Author       Remarks
+ <pre>
+Version   Date                Author       Remarks
 ------------------------------------------------------------------------------
-1.0     March 2007          D. Bucci     First working version
-1.1     December 2007       D. Bucci
+1.0       March 2007          D. Bucci     First working version
+1.1       December 2007       D. Bucci
 
 
-
-<pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -35,11 +33,8 @@ Version   Date           Author       Remarks
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007 by Davide Bucci
-</pre>
-
-
+    </pre>
 */
-
 public class MyTimer
 {
     private final long start;

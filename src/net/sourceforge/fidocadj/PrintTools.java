@@ -21,7 +21,7 @@ import net.sourceforge.fidocadj.layers.*;
     Class performing interface operations for launching print operations.
     It also reads and stores preferences.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */

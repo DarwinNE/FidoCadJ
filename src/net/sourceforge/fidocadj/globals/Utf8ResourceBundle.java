@@ -98,6 +98,5 @@ public abstract class Utf8ResourceBundle
                 return null;
             }
         }
-
     }
 }
