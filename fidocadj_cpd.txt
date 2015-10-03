@@ -1417,7 +1417,7 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[11].length())+
 =====================================================================
 Found a 37 line (113 tokens) duplication in the following files: 
-Starting at line 939 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
+Starting at line 940 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
 Starting at line 596 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java
 
         v.add(pd);

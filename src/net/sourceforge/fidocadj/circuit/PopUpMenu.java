@@ -67,7 +67,7 @@ public class PopUpMenu implements ActionListener
 
     /** Constructor. Create a PopUpMenu and associates it to the provided
         handler.
-        @param p the ActionListener.
+        @param p the CircuitPanel.
     */
     public PopUpMenu(CircuitPanel p)
     {

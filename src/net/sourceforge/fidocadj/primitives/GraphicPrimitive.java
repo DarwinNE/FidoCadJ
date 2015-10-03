@@ -201,6 +201,7 @@ public abstract class GraphicPrimitive
     }
 
     /** Check and correct if necessary the dashStyle number.
+        @param dashStyle the style number to be checked.
         @return the checked dash style index.
     */
     public int checkDashStyle(int dashStyle)

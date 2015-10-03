@@ -52,8 +52,7 @@ import net.sourceforge.fidocadj.layers.*;
 
     @author Davide Bucci
 */
-public class CircuitPanel extends JPanel implements MouseMotionListener,
-                                             MouseListener,
+public class CircuitPanel extends JPanel implements
                                              ChangeSelectedLayer,
                                              ChangeGridState,
                                              ChangeZoomListener,
@@ -99,7 +98,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Controllers:
     private final EditorActions edt;
     private final CopyPasteActions cpa;
-    private final HandleActions haa;
     private final ParserActions pa;
     private final UndoActions ua;
     private final ContinuosMoveActions eea;
@@ -117,12 +115,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // Number of times the redraw has occourred.
     private double runs;
 
-    // Record time for mouse down handle event in selection.
-    private double record_c;
-
-    // Record time for click up event in selection.
-    private double record_d;
-
     // ********** INTERFACE **********
 
     // If this variable is different from null, the component will ensure that
@@ -136,6 +128,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     // ********** RULER **********
 
     private final Ruler ruler;  // Is it to be drawn?
+
     private int rulerStartX;
     private int rulerStartY;
     private int rulerEndX;
@@ -145,6 +138,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
 
     PopUpMenu popup;
     MouseWheelHandler mwHandler;
+    MouseMoveClickHandler mmcHandler;
 
     // ********** LISTENERS **********
 
@@ -167,11 +161,10 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         edt = new EditorActions(dmp, sa, ua);
         eea = new ContinuosMoveActions(dmp, sa, ua, edt);
         eea.setPrimitivesParListener(this);
+        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
 
         mwHandler=new MouseWheelHandler(this);
-
-        haa=new HandleActions(dmp, edt, sa, ua);
-        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
+        mmcHandler= new MouseMoveClickHandler(this);
 
         graphicSwing = new Graphics2DSwing();
 
@@ -184,8 +177,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         zoomListener=null;
         antiAlias = true;
         record = 1e100;
-        record_c = record;
-        record_d = record;
         evidenceRect = new Rectangle(0,0,-1,-1);
 
         // Set up the standard view settings:
@@ -203,8 +194,8 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         // This is unot seful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
-            addMouseListener(this);
-            addMouseMotionListener(this);
+            addMouseListener(mmcHandler);
+            addMouseMotionListener(mmcHandler);
             addKeyListener(mwHandler);
             setFocusable(true);
 
@@ -260,7 +251,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
                 macro);
         }
         eea.setState(s, macro);
-        selectCursor();
+        mmcHandler.selectCursor();
     }
 
     /** Set the rectangle which will be shown during the next redraw.
@@ -437,18 +428,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
         repaint();
     }
 
-    /** Called when the mouse is clicked inside the control
-        0.23.2: the Java click event is a bit too much restrictive. The mouse
-        need to be hold still during the click. This is apparently a problem for
-        a number of user. I have thus decided to use the mouse release event
-        instead of the complete click.
-        @param evt the MouseEvent to handle.
-    */
-    public void mouseClicked(MouseEvent evt)
-    {
-        requestFocusInWindow();
-    }
-
     /** Get the current editing action (see the constants defined in this
         class)
 
@@ -457,230 +436,6 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public int getSelectionState()
     {
         return eea.getSelectionState();
-    }
-
-    /** Handle the mouse movements when editing a graphic primitive.
-        This procedure is important since it is used to show interactively
-        to the user which element is being modified.
-        @param evt the MouseEvent to handle.
-    */
-    public void mouseMoved(MouseEvent evt)
-    {
-        int xa=evt.getX();
-        int ya=evt.getY();
-
-        boolean toggle = false;
-
-        if(Globals.useMetaForMultipleSelection) {
-            toggle = evt.isMetaDown();
-        } else {
-            toggle = evt.isControlDown();
-        }
-
-        if (eea.continuosMove(cs, xa, ya, toggle))
-            repaint();
-
-    }
-
-    /** Mouse interface: start of the dragging operations.
-        @param evt the MouseEvent to handle
-    */
-    public void mousePressed(MouseEvent evt)
-    {
-        MyTimer mt = new MyTimer();
-
-        int px=evt.getX();
-        int py=evt.getY();
-
-        ruler.setActive(false);
-        rulerStartX = px;
-        rulerStartY = py;
-        rulerEndX=px;
-        rulerEndY=py;
-        boolean toggle = false;
-
-        if(Globals.useMetaForMultipleSelection) {
-            toggle = evt.isMetaDown();
-        } else {
-            toggle = evt.isControlDown();
-        }
-
-        if(eea.actionSelected == ElementsEdtActions.SELECTION &&
-            (evt.getModifiers() & InputEvent.BUTTON3_MASK)==0 &&
-            !evt.isShiftDown())
-        {
-            haa.dragHandleStart(px, py, edt.getSelectionTolerance(),
-                toggle, cs);
-        } else if(eea.actionSelected == ElementsEdtActions.SELECTION){
-            // Right click during selection
-            ruler.setActive(true);
-        }
-
-        if(profileTime) {
-            double elapsed=mt.getElapsed();
-            if(elapsed<record_c) {
-                record_c=elapsed;
-            }
-            System.out.println("MP: Time elapsed: "+elapsed+
-                "; record: "+record_c+" ms");
-        }
-    }
-
-    /** Dragging event with the mouse.
-        @param evt the MouseEvent to handle
-    */
-    public void mouseDragged(MouseEvent evt)
-    {
-        MyTimer mt = new MyTimer();
-        int px=evt.getX();
-        int py=evt.getY();
-
-        // Handle the ruler. Basically, we just save the coordinates and
-        // we launch a repaint which will be done as soon as possible.
-        // No graphical elements are drawn outside a repaint.
-        if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 ||
-            evt.isShiftDown())
-        {
-            rulerEndX=px;
-            rulerEndY=py;
-            repaint();
-            return;
-        }
-
-        haa.dragHandleDrag(this, px, py, cs);
-        // A little profiling if necessary. I noticed that time needed for
-        // handling clicks is not negligible in large drawings, hence the
-        // need of controlling it.
-
-        if(profileTime) {
-            double elapsed=mt.getElapsed();
-            if(elapsed<record_d) {
-                record_d=elapsed;
-            }
-            System.out.println("MD: Time elapsed: "+elapsed+
-                "; record: "+record_d+" ms");
-        }
-    }
-
-    /** Mouse release event.
-        @param evt the MouseEvent to handle
-    */
-    public void mouseReleased(MouseEvent evt)
-    {
-        MyTimer mt = new MyTimer();
-        int px=evt.getX();
-        int py=evt.getY();
-
-        boolean toRepaint = false;
-        boolean toggle = false;
-        boolean button3 = false;
-
-        if(Globals.useMetaForMultipleSelection) {
-            toggle = evt.isMetaDown();
-        } else {
-            toggle = evt.isControlDown();
-        }
-
-        // Key bindings are a little different with MacOSX.
-        if(Globals.weAreOnAMac) {
-            if(evt.getButton()==MouseEvent.BUTTON3)
-                button3=true;
-            else if(evt.getButton()==MouseEvent.BUTTON1 && evt.isControlDown())
-                button3=true;
-        } else {
-            button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
-                    InputEvent.BUTTON3_MASK;
-        }
-
-        // If we are in the selection state, either we are ending the editing
-        // of an element (and thus the dragging of a handle) or we are
-        // making a click.
-
-        if(eea.actionSelected==ElementsEdtActions.SELECTION) {
-            if(rulerStartX!=px || rulerStartY!=py) // NOPMD
-                haa.dragHandleEnd(this, px, py, toggle, cs);
-            else {
-                ruler.setActive(false);
-                requestFocusInWindow();
-
-                toRepaint = eea.handleClick(cs,evt.getX(), evt.getY(),
-                    button3, toggle, evt.getClickCount() >= 2);
-            }
-            repaint();
-        } else {
-            requestFocusInWindow();
-            toRepaint=eea.handleClick(cs,evt.getX(), evt.getY(),
-                button3, toggle, evt.getClickCount() >= 2);
-        }
-        if (toRepaint)
-            repaint();
-
-        // Having an idea of the release time is useful for the optimization
-        // of the click event handling. The most time-consuming operation
-        // which is done in this phase is finding the closest component to
-        // the mouse pointer and eventually selecting it.
-
-        if(profileTime) {
-            double elapsed=mt.getElapsed();
-            if(elapsed<record_d) {
-                record_d=elapsed;
-            }
-            System.out.println("MR: Time elapsed: "+elapsed+
-                "; record: "+record_d+" ms");
-        }
-    }
-
-    /** The mouse pointer enters into the control. This method changes the
-        cursor associated to it.
-        @param evt the MouseEvent to handle
-    */
-    public void mouseEntered(MouseEvent evt)
-    {
-        selectCursor();
-    }
-
-    /**
-        Define the icon used for the mouse cursor, depending on the current
-        editing action.
-    */
-    public void selectCursor()
-    {
-        switch(eea.actionSelected) {
-            case ElementsEdtActions.NONE:
-            case ElementsEdtActions.ZOOM:
-            case ElementsEdtActions.HAND:
-                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                break;
-            case ElementsEdtActions.LINE:
-            case ElementsEdtActions.TEXT:
-            case ElementsEdtActions.BEZIER:
-            case ElementsEdtActions.POLYGON:
-            case ElementsEdtActions.COMPLEXCURVE:
-            case ElementsEdtActions.ELLIPSE:
-            case ElementsEdtActions.RECTANGLE:
-            case ElementsEdtActions.CONNECTION:
-            case ElementsEdtActions.PCB_LINE:
-            case ElementsEdtActions.PCB_PAD:
-                setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                break;
-            case ElementsEdtActions.SELECTION:
-            default:
-                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                break;
-        }
-    }
-
-    /** The mouse pointer has exited the control. This method changes the
-        cursor associated and restores the default one.
-        @param evt the MouseEvent to handle
-    */
-    public void mouseExited(MouseEvent evt)
-    {
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        if(eea.successiveMove) {
-            eea.successiveMove = false;
-            repaint();
-        }
     }
 
     /** The zoom listener
@@ -894,6 +649,7 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     {
         return sa;
     }
+
     /** Get the current instance of EditorActions controller class
         @return the class
     */
@@ -1054,5 +810,57 @@ public class CircuitPanel extends JPanel implements MouseMotionListener,
     public void forcesRepaint(int x, int y, int width, int height)
     {
         repaint(x, y, width, height);
+    }
+
+    /** Define the coordinates of the starting point of the ruler.
+        @param sx the x coordinate.
+        @param sy the y coordinate.
+    */
+    public void setRulerStart(int sx, int sy)
+    {
+        rulerStartX=sx;
+        rulerStartY=sy;
+    }
+
+    /** Define the coordinates of the ending point of the ruler.
+        @param sx the x coordinate.
+        @param sy the y coordinate.
+    */
+    public void setRulerEnd(int sx, int sy)
+    {
+        rulerEndX=sx;
+        rulerEndY=sy;
+    }
+
+    /** Get the Ruler object.
+        @return the Ruler object.
+    */
+    public Ruler getRuler()
+    {
+        return ruler;
+    }
+
+    /** Get the x coordinate of the starting point of the ruler.
+        @return the x coordinate.
+    */
+    public int getRulerStartX()
+    {
+        return rulerStartX;
+    }
+
+    /** Get the y coordinate of the starting point of the ruler.
+        @return the y coordinate.
+    */
+    public int getRulerStartY()
+    {
+        return rulerStartY;
+    }
+
+    /** Check if the profiling is active.
+        @return true if the profiling is active.
+    */
+    public boolean isProfiling()
+    {
+        return profileTime;
     }
 }
