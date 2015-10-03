@@ -221,14 +221,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
                 isFilled=false;
 
             if(N>6 && tokens[6].equals("FCJ")) {
-                dashStyle = Integer.parseInt(tokens[7]);
-                // Parameters validation and correction
-                if(dashStyle>=Globals.dashNumber)
-                    dashStyle=Globals.dashNumber-1;
-                if(dashStyle<0)
-                    dashStyle=0;
+                dashStyle = checkDashStyle(Integer.parseInt(tokens[7]));
             }
-
         } else {
             IOException E=new IOException("RV/RP: Invalid primitive: "
                 +tokens[0]+" programming error?");

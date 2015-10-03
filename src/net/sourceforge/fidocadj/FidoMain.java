@@ -109,7 +109,6 @@ public class FidoMain
         }
     }
 
-
     /** Apply optimisation settings which are platform-dependent.
         @param clp command-line arguments may deactivate some optimisations.
     */

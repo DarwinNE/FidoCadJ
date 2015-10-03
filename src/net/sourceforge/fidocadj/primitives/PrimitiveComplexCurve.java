@@ -692,12 +692,7 @@ public final class PrimitiveComplexCurve
                     arrowStyle = Integer.parseInt(tokens[j++]);
                     arrowLength = Integer.parseInt(tokens[j++]);
                     arrowHalfWidth = Integer.parseInt(tokens[j++]);
-                    dashStyle = Integer.parseInt(tokens[j++]);
-                    // Parameters validation and correction
-                    if(dashStyle>=Globals.dashNumber)
-                        dashStyle=Globals.dashNumber-1;
-                    if(dashStyle<0)
-                        dashStyle=0;
+                    dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }
 
@@ -706,18 +701,14 @@ public final class PrimitiveComplexCurve
                 isFilled=true;
             else
                 isFilled=false;
-
         } else {
             IOException E=new IOException("CP/CV: Invalid primitive:"+tokens[0]+
                                           " programming error?");
             throw E;
         }
-
-
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.

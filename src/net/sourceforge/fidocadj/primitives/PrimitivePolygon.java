@@ -124,7 +124,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
             }
         }
 
-
         // Check if the control node losest to the given coordinates
         // is closer than the given tolerance
         if(min_distance<=tolerance){
@@ -333,7 +332,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
         changed=true;
 
         // assert it is the correct primitive
-
         if (tokens[0].equals("PP")||tokens[0].equals("PV")) {
             if (N<6) {
                 IOException E=new IOException("bad arguments on PP/PV");
@@ -361,14 +359,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
             if(N>j) {
                 parseLayer(tokens[j++]);
-
                 if(j<N-1 && tokens[j++].equals("FCJ")) {
-                    dashStyle = Integer.parseInt(tokens[j++]);
-                    // Parameters validation and correction
-                    if(dashStyle>=Globals.dashNumber)
-                        dashStyle=Globals.dashNumber-1;
-                    if(dashStyle<0)
-                        dashStyle=0;
+                    dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }
 
@@ -376,7 +368,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
                 isFilled=true;
             else
                 isFilled=false;
-
         } else {
             IOException E=new IOException("PP/PV: Invalid primitive:"+tokens[0]+
                                           " programming error?");

@@ -200,6 +200,18 @@ public abstract class GraphicPrimitive
             macroFontSize=1;
     }
 
+    /** Check and correct if necessary the dashStyle number.
+        @return the checked dash style index.
+    */
+    public int checkDashStyle(int dashStyle)
+    {
+        if(dashStyle>=Globals.dashNumber)
+            return Globals.dashNumber-1;
+        else if(dashStyle<0)
+            return 0;
+        return dashStyle;
+    }
+
     /** Writes the macro name and value fields. This method uses heavily the
         caching system implemented via the precalculation of the sizes and
         positions. This means that the "changed" flag is tested, BUT NOT

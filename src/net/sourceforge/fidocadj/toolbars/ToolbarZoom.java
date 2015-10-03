@@ -205,26 +205,33 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
             }
         } else if(evt.getSource() instanceof JComboBox) {
             // ComboBox: the only one is about the zoom settings.
-            JComboBox<String> source=(JComboBox<String>)evt.getSource();
-            if (notifyZoomChangeListener!=null) {
-                try {
-                    s=(String)source.getSelectedItem();
+            handleZoomChangeEvents(evt);
+        }
+    }
 
-                    // The percent symbol should be eliminated.
-                    s=s.replace('%',' ').trim();
-                    //System.out.println ("New zoom: "+s);
-                    double z=Double.parseDouble(s);
-                    // Very important: if I remove that, CPU goes to 100%
-                    // since this is called continuously!
-                    if(z==oldzoom)
-                        return;
-                    oldzoom=z;
-                    if(10<=z && z<=2000) {
-                        notifyZoomChangeListener.changeZoom(z/100);
-                    }
-                } catch (NumberFormatException E) {
-                    // Just ignore
+    /** Handle events of zoom change from the combo box.
+        @param evt the event object.
+    */
+    private void handleZoomChangeEvents(ActionEvent evt)
+    {
+        JComboBox<String> source=(JComboBox<String>)evt.getSource();
+        if (notifyZoomChangeListener!=null) {
+            try {
+                String s=(String)source.getSelectedItem();
+                // The percent symbol should be eliminated.
+                s=s.replace('%',' ').trim();
+                //System.out.println ("New zoom: "+s);
+                double z=Double.parseDouble(s);
+                // Very important: if I remove that, CPU goes to 100%
+                // since this is called continuously!
+                if(z==oldzoom)
+                    return;
+                oldzoom=z;
+                if(10<=z && z<=2000) {
+                    notifyZoomChangeListener.changeZoom(z/100);
                 }
+            } catch (NumberFormatException E) {
+                // Just ignore
             }
         }
     }

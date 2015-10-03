@@ -378,12 +378,7 @@ public final class PrimitiveLine extends GraphicPrimitive
                 arrowStyle = Integer.parseInt(tokens[8]);
                 arrowLength = Integer.parseInt(tokens[9]);
                 arrowHalfWidth = Integer.parseInt(tokens[10]);
-                dashStyle = Integer.parseInt(tokens[11]);
-                // Parameters validation and correction
-                if(dashStyle>=Globals.dashNumber)
-                    dashStyle=Globals.dashNumber-1;
-                if(dashStyle<0)
-                    dashStyle=0;
+                dashStyle = checkDashStyle(Integer.parseInt(tokens[11]));
             }
         } else {
             IOException E=new IOException("LI: Invalid primitive:"+tokens[0]+
@@ -391,8 +386,6 @@ public final class PrimitiveLine extends GraphicPrimitive
             throw E;
         }
     }
-
-
 
     /** Gets the distance (in primitive's coordinates space) between a
         given point and the primitive.

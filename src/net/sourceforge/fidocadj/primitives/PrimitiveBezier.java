@@ -390,12 +390,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 arrowStyle = Integer.parseInt(tokens[12]);
                 arrowLength = Integer.parseInt(tokens[13]);
                 arrowHalfWidth = Integer.parseInt(tokens[14]);
-                dashStyle = Integer.parseInt(tokens[15]);
-                // Parameters validation and correction
-                if(dashStyle>=Globals.dashNumber)
-                    dashStyle=Globals.dashNumber-1;
-                if(dashStyle<0)
-                    dashStyle=0;
+                dashStyle = checkDashStyle(Integer.parseInt(tokens[15]));
             }
         } else {
             IOException E=new IOException("Invalid primitive: "+
