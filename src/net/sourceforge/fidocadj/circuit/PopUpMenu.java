@@ -2,9 +2,11 @@ package net.sourceforge.fidocadj.circuit;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 import javax.swing.*;
 
+import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
@@ -33,7 +35,7 @@ import net.sourceforge.fidocadj.clipboard.*;
 
     @author Davide Bucci
 */
-public class PopUpMenu
+public class PopUpMenu implements ActionListener
 {
     // Elements to be included in the popup menu.
     private JMenuItem editProperties;
@@ -53,7 +55,9 @@ public class PopUpMenu
     private final SelectionActions sa;
     private final EditorActions edt;
     private final ContinuosMoveActions eea;
-
+    private final UndoActions ua;
+    private final ParserActions pa;
+    private final CopyPasteActions cpa;
 
     private final JPopupMenu pp;
 
@@ -71,6 +75,10 @@ public class PopUpMenu
         sa=cp.getSelectionActions();
         edt=cp.getEditorActions();
         eea=cp.getContinuosMoveActions();
+        ua=cp.getUndoActions();
+        pa=cp.getParserActions();
+        cpa=cp.getCopyPasteActions();
+
         pp = new JPopupMenu();
         definePopupMenu();
     }
@@ -140,18 +148,18 @@ public class PopUpMenu
 
         // Adding the action listener
 
-        editProperties.addActionListener(cp);
-        editCut.addActionListener(cp);
-        editCopy.addActionListener(cp);
-        editSelectAll.addActionListener(cp);
-        editPaste.addActionListener(cp);
-        editDuplicate.addActionListener(cp);
-        editRotate.addActionListener(cp);
-        editMirror.addActionListener(cp);
-        editAddNode.addActionListener(cp);
-        editRemoveNode.addActionListener(cp);
-        editSymbolize.addActionListener(cp); // phylum
-        editUSymbolize.addActionListener(cp); // phylum
+        editProperties.addActionListener(this);
+        editCut.addActionListener(this);
+        editCopy.addActionListener(this);
+        editSelectAll.addActionListener(this);
+        editPaste.addActionListener(this);
+        editDuplicate.addActionListener(this);
+        editRotate.addActionListener(this);
+        editMirror.addActionListener(this);
+        editAddNode.addActionListener(this);
+        editRemoveNode.addActionListener(this);
+        editSymbolize.addActionListener(this); // phylum
+        editUSymbolize.addActionListener(this); // phylum
     }
 
     /** Show a popup menu representing the actions that can be done on the
@@ -166,7 +174,6 @@ public class PopUpMenu
         boolean s=false;
         GraphicPrimitive g=sa.getFirstSelectedPrimitive();
         boolean somethingSelected=g!=null;
-
 
         // A certain number of menu options are applied to selected
         // primitives. We therefore check wether are there some
@@ -245,7 +252,6 @@ public class PopUpMenu
                 cp.repaint();
             }
         });
-
     }
 
     /** Register a certain number of keyboard actions with an associated
@@ -255,7 +261,7 @@ public class PopUpMenu
         [L]                 Line
         [T]                 Text
         [B]                 Bézier
-        [dmp]                 Polygon
+        [P]                 Polygon
         [O]                 Complex curve
         [E]                 Ellipse
         [G]                 Rectangle
@@ -300,7 +306,6 @@ public class PopUpMenu
             }
         });
 
-
         final String escape = "escape";
 
         // Escape: clear everything
@@ -314,7 +319,6 @@ public class PopUpMenu
                     // Here we need to clear the variables which are used
                     // during the primitive introduction and editing.
                     // see mouseMoved method for details.
-
                     eea.successiveMove = false;
                     eea.clickNumber = 0;
                     eea.primEdit = null;
@@ -376,5 +380,133 @@ public class PopUpMenu
                 cp.repaint();
             }
         });
+    }
+
+    /** The action listener. Recognize menu events and behaves consequently.
+        @param evt the MouseEvent to handle
+    */
+    public void actionPerformed(ActionEvent evt)
+    {
+        // TODO: Avoid some copy/paste of code
+
+        // Recognize and handle popup menu events
+        if(evt.getSource() instanceof JMenuItem) {
+            String arg=evt.getActionCommand();
+
+            if (arg.equals(Globals.messages.getString("Param_opt"))) {
+                cp.setPropertiesForPrimitive();
+            } else if (arg.equals(Globals.messages.getString("Copy"))) {
+                // Copy all selected elements in the clipboard
+                cpa.copySelected(!cp.getStrictCompatibility(), false);
+            } else if (arg.equals(Globals.messages.getString("Cut"))) {
+                // Cut elements
+                cpa.copySelected(!cp.getStrictCompatibility(), false);
+                edt.deleteAllSelected(true);
+                cp.repaint();
+            } else if (arg.equals(Globals.messages.getString("Paste"))) {
+                // Paste elements from the clipboard
+                cpa.paste(cp.getMapCoordinates().getXGridStep(),
+                    cp.getMapCoordinates().getYGridStep());
+                cp.repaint();
+            } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
+                // Copy all selected elements in the clipboard
+                cpa.copySelected(!cp.getStrictCompatibility(), false);
+                // Paste elements from the clipboard
+                cpa.paste(cp.getMapCoordinates().getXGridStep(),
+                    cp.getMapCoordinates().getYGridStep());
+                cp.repaint();
+            } else if (arg.equals(Globals.messages.getString("SelectAll"))) {
+                // Select all in the drawing.
+                sa.setSelectionAll(true);
+                // Even if the drawing is not changed, a repaint operation is
+                // needed since all selected elements are rendered in green.
+                cp.repaint();
+            }else if (arg.equals(Globals.messages.getString("Rotate"))) {
+                // Rotate the selected element
+                if(eea.isEnteringMacro())
+                    eea.rotateMacro();
+                else
+                    edt.rotateAllSelected();
+                cp.repaint();
+            } else if(arg.equals(Globals.messages.getString("Mirror_E"))) {
+                // Mirror the selected element
+                if(eea.isEnteringMacro())
+                    eea.mirrorMacro();
+                else
+                    edt.mirrorAllSelected();
+
+                cp.repaint();
+            }
+
+            else if (arg.equals(Globals.messages.getString("Symbolize"))) {
+                if (sa.getFirstSelectedPrimitive() == null) return;
+                DialogSymbolize s = new DialogSymbolize(cp,
+                    cp.getDrawingModel());
+                s.setModal(true);
+                s.setVisible(true);
+                try {
+                    LibUtils.saveLibraryState(ua);
+                } catch (IOException e) {
+                    System.out.println("Exception: "+e);
+                }
+                cp.repaint();
+            }
+
+            else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
+                StringBuffer s=sa.getSelectedString(true, pa);
+                edt.deleteAllSelected(false);
+                pa.addString(pa.splitMacros(s,  true),true);
+                ua.saveUndoState();
+                cp.repaint();
+            }
+
+            else if(arg.equals(Globals.messages.getString("Remove_node"))) {
+                if(sa.getFirstSelectedPrimitive()
+                    instanceof PrimitivePolygon)
+                {
+                    PrimitivePolygon poly=
+                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
+                    poly.removePoint(
+                        cp.getMapCoordinates().unmapXnosnap(getMenuX()),
+                        cp.getMapCoordinates().unmapYnosnap(getMenuY()),
+                        1);
+                    ua.saveUndoState();
+                    cp.repaint();
+                } else if(sa.getFirstSelectedPrimitive()
+                    instanceof PrimitiveComplexCurve)
+                {
+                    PrimitiveComplexCurve curve=
+                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
+                    curve.removePoint(
+                        cp.getMapCoordinates().unmapXnosnap(getMenuX()),
+                        cp.getMapCoordinates().unmapYnosnap(getMenuY()),
+                        1);
+                    ua.saveUndoState();
+                    cp.repaint();
+                }
+            } else if(arg.equals(Globals.messages.getString("Add_node"))) {
+                if(sa.getFirstSelectedPrimitive()
+                    instanceof PrimitivePolygon)
+                {
+                    PrimitivePolygon poly=
+                        (PrimitivePolygon)sa.getFirstSelectedPrimitive();
+                    poly.addPointClosest(
+                        cp.getMapCoordinates().unmapXsnap(getMenuX()),
+                        cp.getMapCoordinates().unmapYsnap(getMenuY()));
+                    ua.saveUndoState();
+                    cp.repaint();
+                } else if(sa.getFirstSelectedPrimitive() instanceof
+                    PrimitiveComplexCurve)
+                {
+                    PrimitiveComplexCurve poly=
+                        (PrimitiveComplexCurve)sa.getFirstSelectedPrimitive();
+                    poly.addPointClosest(
+                        cp.getMapCoordinates().unmapXsnap(getMenuX()),
+                        cp.getMapCoordinates().unmapYsnap(getMenuY()));
+                    ua.saveUndoState();
+                    cp.repaint();
+                }
+            }
+        }
     }
 }
