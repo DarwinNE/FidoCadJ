@@ -1,4 +1,4 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:63: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:63: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/toolbars/ToolButton.java:64:37: warning: Balise javadoc @param manquante pour 'tt'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/toolbars/ToolButton.java:64:37: warning: Balise javadoc @param manquante pour 'tt'.
 Audit done.

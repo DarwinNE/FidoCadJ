@@ -21,10 +21,10 @@ import java.net.*;
  selected and not selected. To make it easier to add a button, they are defined
  first as a <code>ToolButton</code> ({@link ToolButton}), then they are
  assigned their variable name, and they are finally added to the toolbar
- using the appropiate method ({@link #addToolButton(JToggleButton, int)}).</p>
+ using the appropriate method ({@link #addToolButton(JToggleButton, int)}).</p>
 
- <p>Once they are added to the toolbar, their action when selected must be
- defined. They each implement their own <code>ActionListener</code> (inner
+ <p>Once they are added to the toolbar, their action, when selected, must be
+ defined. They implement their own <code>ActionListener</code> (inner
  classes) and <code>actionPerformed</code> methods so that they can each have
  a different behavior if required.</p>
 
@@ -35,7 +35,6 @@ import java.net.*;
  constant of each button, this is used in
  {@link #setSelectionState(int, String)}) and to a <code>ButtonGroup</code>,
  so that only one button is selected at a time.</p>
-
 
     <pre>
     This file is part of FidoCadJ.
@@ -77,8 +76,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final JToggleButton pcbline;
     private final JToggleButton pcbpad;
 
-    private static String base;
-    private static boolean showText;
+    private final String base;
+    private final boolean showText;
 
     private final ButtonGroup group;
     private final ArrayList<JToggleButton> toolButtonsList;
@@ -90,7 +89,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
 
         @return base
     */
-    public static String getBase()
+    public String getBase()
     {
         return base;
     }
@@ -102,7 +101,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         @return showText
      */
 
-    public static boolean getShowText()
+    public boolean getShowText()
     {
         return showText;
     }
@@ -154,7 +153,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
            the circuitPanelConstants HashMap.
         */
 
-        ToolButton selectionToolButton = new ToolButton("arrow.png",
+        ToolButton selectionToolButton = new ToolButton(this, "arrow.png",
                                                         "Selection",
                                                         "selection",
                                                         "tooltip_selection");
@@ -174,7 +173,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         });
         /* End of button definition. */
 
-        ToolButton zoomToolButton = new ToolButton("magnifier.png",
+        ToolButton zoomToolButton = new ToolButton(this, "magnifier.png",
                                                    "Zoom_p",
                                                    "zoom",
                                                    "tooltip_zoom");
@@ -193,7 +192,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton handToolButton = new ToolButton("move.png",
+        ToolButton handToolButton = new ToolButton(this, "move.png",
                                                    "Hand",
                                                    "hand",
                                                    "tooltip_hand");
@@ -212,7 +211,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton lineToolButton = new ToolButton("line.png",
+        ToolButton lineToolButton = new ToolButton(this, "line.png",
                                                    "Line",
                                                    "line",
                                                    "tooltip_line");
@@ -231,7 +230,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton advtextToolButton = new ToolButton("text.png",
+        ToolButton advtextToolButton = new ToolButton(this, "text.png",
                                                       "Text",
                                                       "text",
                                                       "tooltip_text");
@@ -250,7 +249,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton bezierToolButton = new ToolButton("bezier.png",
+        ToolButton bezierToolButton = new ToolButton(this, "bezier.png",
                                                      "Bezier",
                                                      "bezier",
                                                      "tooltip_bezier");
@@ -269,7 +268,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton polygonToolButton = new ToolButton("polygon.png",
+        ToolButton polygonToolButton = new ToolButton(this, "polygon.png",
                                                       "Polygon",
                                                       "polygon",
                                                       "tooltip_polygon");
@@ -289,7 +288,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
         });
 
         // TODO: add the description!
-        ToolButton complexCurveToolButton = new ToolButton("complexcurve.png",
+        ToolButton complexCurveToolButton = new ToolButton(this,
+                                                      "complexcurve.png",
                                                       "Complexcurve",
                                                       "complexcurve",
                                                       "tooltip_curve");
@@ -308,7 +308,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton ellipseToolButton = new ToolButton("ellipse.png",
+        ToolButton ellipseToolButton = new ToolButton(this, "ellipse.png",
                                                       "Ellipse",
                                                       "ellipse",
                                                       "tooltip_ellipse");
@@ -327,7 +327,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton rectangleToolButton = new ToolButton("rectangle.png",
+        ToolButton rectangleToolButton = new ToolButton(this, "rectangle.png",
                                                         "Rectangle",
                                                         "rectangle",
                                                         "tooltip_rectangle");
@@ -346,7 +346,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton connectionToolButton = new ToolButton("connection.png",
+        ToolButton connectionToolButton = new ToolButton(this, "connection.png",
                                                          "Connection",
                                                          "connection",
                                                          "tooltip_connection");
@@ -365,7 +365,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton pcblineToolButton = new ToolButton("pcbline.png",
+        ToolButton pcblineToolButton = new ToolButton(this, "pcbline.png",
                                                       "PCBline",
                                                       "pcbline",
                                                       "tooltip_pcbline");
@@ -384,7 +384,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
-        ToolButton pcbpadToolButton = new ToolButton("pcbpad.png",
+        ToolButton pcbpadToolButton = new ToolButton(this, "pcbpad.png",
                                                      "PCBpad",
                                                      "pcbpad",
                                                      "tooltip_pcbpad");
@@ -421,18 +421,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     }
 
     /** This method finds the button selected at the moment.
-        @return selectedButton
+        @return the selected button, or null if nothing is currently selected.
     */
     public JToggleButton getSelectedButton()
     {
-        JToggleButton selectedButton = null;
-        for(int i=0;i<toolButtonsList.size();i++) {
-            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
+        for(JToggleButton button : toolButtonsList) {
             if (button.isSelected()) {
-                selectedButton = button;
+                return button;
             }
         }
-        return selectedButton;
+        return null;
     }
 
     /** Get the current selection state. Required for implementing the

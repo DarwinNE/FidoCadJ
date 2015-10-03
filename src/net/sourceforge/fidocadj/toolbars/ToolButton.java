@@ -54,21 +54,22 @@ public class ToolButton
         the specified text and image, and that is initially unselected. It also
         assigns an <code>actionCommand</code> and a <code>toolTip</code> to the
         button.
-
+        @param tt the ToolbarTools object to which the button belongs.
         @param image Icon image file.
         @param toolText Button text, a <code>Globals</code> message.
         @param actionCommand Button action command.
         @param toolTip Button description/tip, a <code>Globals</code> message.
     */
 
-    public ToolButton (String image,
+    public ToolButton (ToolbarTools tt,
+                       String image,
                        String toolText,
                        String actionCommand,
                        String toolTip)
     {
 
-        String base = ToolbarTools.getBase();
-        boolean showText = ToolbarTools.getShowText();
+        String base = tt.getBase();
+        boolean showText = tt.getShowText();
 
         URL url = ToolbarTools.class.getResource(base+image);
 
@@ -89,7 +90,7 @@ public class ToolButton
 
     /** With this method, the button can be passed to the
         <code>ToolbarTools</code> class as a <code>JToggleButton</code>.
-        @return toolButton
+        @return toolButton.
     */
     public JToggleButton getToolButton()
     {
