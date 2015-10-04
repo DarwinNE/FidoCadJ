@@ -632,7 +632,6 @@ public class Graphics2DSwing implements GraphicsInterface
                         (int)y),d,d);
                 }
             }
-            //g2d.dispose();
             oldZoom=z;
             Rectangle anchor = new Rectangle(width, height);
 

@@ -27,7 +27,6 @@ public interface PrimitivesParInterface
 {
     /** Selects the closest object to the given point (in logical coordinates)
         and pops up a dialog for the editing of its Param_opt.
-
         @param x the x logical coordinate of the point used for the selection
         @param y the y logical coordinate of the point used for the selection
     */
@@ -71,7 +70,6 @@ public interface PrimitivesParInterface
 
     /** Activate and sets an evidence rectangle which will be put on screen
         at the next redraw. All sizes are given in pixel.
-
         @param lx   the x coordinate of the left top corner
         @param ly   the y coordinate of the left top corner
         @param w    the width of the rectangle

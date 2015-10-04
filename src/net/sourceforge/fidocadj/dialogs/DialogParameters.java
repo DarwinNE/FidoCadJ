@@ -41,9 +41,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
  *  Copyright 2007-2015 by Davide Bucci
  * </pre>
  */
-
 public class DialogParameters extends JDialog
-    implements ComponentListener
 {
     private int minWidth = 450;
     private int minHeight = 350;
@@ -51,8 +49,7 @@ public class DialogParameters extends JDialog
 
     // Maximum number of user interface elements of the same type present
     // in the dialog window.
-    private static final int MAX_ELEMENTS = 100;
-
+    private static final int MAX_ELEMENTS = 20;
     public boolean active; // true if the user selected Ok
 
     // Text box array and counter
@@ -83,7 +80,7 @@ public class DialogParameters extends JDialog
         @param strict true if a strict compatibility with FidoCAD is required
         @param layers a vector containing the layers
      */
-     // Here some legacy code makes use of generics. They are tested, so
+    // Here some legacy code makes use of generics. They are tested, so
     // there is no risk of an actual error, but Java issues a warning.
     @SuppressWarnings("unchecked")
     public DialogParameters(JFrame parent, Vector<ParameterDescription> vec,
@@ -100,8 +97,6 @@ public class DialogParameters extends JDialog
         keyb.setVisible(false);
         v = vec;
 
-        int ycount = 0;
-
         // We create dynamically all the needed elements.
         // For this reason, we work on arrays of the potentially useful Swing
         // objects.
@@ -111,15 +106,12 @@ public class DialogParameters extends JDialog
         jco = new JComboBox[MAX_ELEMENTS];
 
         active = false;
-        addComponentListener(this);
 
         GridBagLayout bgl = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         Container contentPane = getContentPane();
         contentPane.setLayout(bgl);
         boolean extStrict = strict;
-
-        ParameterDescription pd;
 
         int top = 0;
 
@@ -133,15 +125,13 @@ public class DialogParameters extends JDialog
         // corresponding interface element will be created.
         // A symmetrical operation is done when validating parameters.
 
-        for (ycount = 0; ycount < v.size(); ++ycount) {
-            if (ycount > MAX)
+        int ycount = 0;
+        for (ParameterDescription pd : v) {
+            if (ycount++ > MAX)
                 break;
-
-            pd = (ParameterDescription) v.elementAt(ycount);
 
             // We do not need to store label objects, since we do not need
             // to retrieve data from them.
-
             lab = new JLabel(pd.description);
             constraints.weightx = 100;
             constraints.weighty = 100;
@@ -156,8 +146,7 @@ public class DialogParameters extends JDialog
             else
                 top = 0;
 
-            // Here we configure the grid layout
-
+            // Here, we configure the grid layout.
             constraints.insets = new Insets(top, 20, 0, 6);
 
             constraints.fill = GridBagConstraints.VERTICAL;
@@ -173,7 +162,6 @@ public class DialogParameters extends JDialog
 
             // Now, depending on the type of parameter we create interface
             // elements and we populate the dialog.
-
             if (pd.parameter instanceof PointG) {
                 jtf[tc] = new JTextField(10);
                 jtf[tc].setText("" + ((PointG) (pd.parameter)).x);
@@ -366,7 +354,6 @@ public class DialogParameters extends JDialog
                     minHeight = 500;
 
                 }
-                //setSize(minWidth, minHeight);
                 keyb.setVisible(!keyb.isVisible());
                 pack();
             }
@@ -382,7 +369,6 @@ public class DialogParameters extends JDialog
         // Put the OK and Cancel buttons and make them active.
         Box b = Box.createHorizontalBox();
         b.add(keybd); // phylum
-
         b.add(Box.createHorizontalGlue());
         ok.setPreferredSize(cancel.getPreferredSize());
 
@@ -390,13 +376,11 @@ public class DialogParameters extends JDialog
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        // b.add(Box.createHorizontalStrut(12));
         contentPane.add(b, constraints);
 
         constraints.gridx = 0;
@@ -412,8 +396,8 @@ public class DialogParameters extends JDialog
             public void actionPerformed(ActionEvent evt)
             {
                 try {
-                    int ycount;
-                    ParameterDescription pd;
+                    int ycount=0;
+                    //ParameterDescription pd;
                     tc = 0;
                     cc = 0;
                     co = 0;
@@ -421,10 +405,9 @@ public class DialogParameters extends JDialog
                     // Here we read all the contents of the interface and we
                     // update the contents of the parameter description array.
 
-                    for (ycount = 0; ycount < v.size(); ++ycount) {
-                        if (ycount > MAX)
+                    for (ParameterDescription pd: v) {
+                        if (ycount++ > MAX)
                             break;
-                        pd = (ParameterDescription) v.elementAt(ycount);
 
                         if (pd.parameter instanceof PointG) {
                             ((PointG) (pd.parameter)).x = Integer
@@ -460,43 +443,31 @@ public class DialogParameters extends JDialog
                     // Error detected. Probably, the user has entered an
                     // invalid string when FidoCadJ was expecting a numerical
                     // input.
-
                     JOptionPane.showMessageDialog(null,
                             Globals.messages.getString("Format_invalid"), "",
                             JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
-
                 active = true;
-                //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
                 keyb.setVisible(false);
             }
         });
-        cancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt)
-            {
-                //Globals.activeWindow.setEnabled(true);
-                setVisible(false);
-                keyb.setVisible(false);
-            }
-        });
+        
         // Here is an action in which the dialog is closed
-
         AbstractAction cancelAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e)
             {
-                //Globals.activeWindow.setEnabled(true);
                 setVisible(false);
                 keyb.setVisible(false);
             }
         };
+        cancel.addActionListener(cancelAction);
         DialogUtil.addCancelEscape(this, cancelAction);
 
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e)
             {
-                //Globals.activeWindow.setEnabled(true);
                 keyb.setVisible(false);
             }
         });
@@ -515,58 +486,5 @@ public class DialogParameters extends JDialog
     public Vector<ParameterDescription> getCharacteristics()
     {
         return v;
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentResized(ComponentEvent e)
-    {
-        adjustSize();
-    }
-
-    private void adjustSize()
-    {
-/*      int width = getWidth();
-        int height = getHeight();
-
-        boolean resize = false;
-        if (width < minWidth) {
-            resize = true;
-            width = minWidth;
-        }
-        if (height < minHeight) {
-            resize = true;
-            height = minHeight;
-        }
-        if (resize) {
-            setSize(width, height);
-        } */
-        pack();
-
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentMoved(ComponentEvent e)
-    {
-        // does nothing
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentShown(ComponentEvent e)
-    {
-        // does nothing
-    }
-
-    /** Required for the implementation of the ComponentListener interface.
-        @param e the component event which happened.
-    */
-    public void componentHidden(ComponentEvent e)
-    {
-        // does nothing
     }
 }

@@ -122,7 +122,7 @@ public class CircuitPanel extends JPanel implements
     // next redraw.
     private Rectangle scrollRectangle;
 
-    // Strict FidoCad compatibility
+    // Strict FidoCAD compatibility
     public boolean extStrict;
 
     // ********** RULER **********
@@ -149,7 +149,6 @@ public class CircuitPanel extends JPanel implements
     /** Standard constructor
         @param isEditable indicates whether the panel should be responsible
                to keyboard and mouse inputs.
-
     */
     public CircuitPanel (boolean isEditable)
     {
@@ -264,15 +263,14 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Define the listener to be called when the zoom is changed
-        @param c the new zoom listener
-
+        @param c the new zoom listener.
     */
     public void addChangeZoomListener(ChangeZoomListener c)
     {
         zoomListener=c;
     }
     /** Define the listener to be called when the selected action is changed
-        @param c the new selection listener
+        @param c the new selection listener.
     */
     public void addChangeSelectionListener(ChangeSelectionListener c)
     {
@@ -280,24 +278,24 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Define the listener to be called when the selected action is changed
-        (this is explicitly done for the ScrollGestureSelection)
-        @param c the new selection listener
+        (this is explicitly done for the ScrollGestureSelection).
+        @param c the new selection listener.
     */
     public void addScrollGestureSelectionListener(ChangeSelectionListener c)
     {
         scrollGestureSelectionListener=c;
     }
 
-    /** Return the current editing layer
-        @return the index of the layer
+    /** Return the current editing layer.
+        @return the index of the layer.
     */
     public int getCurrentLayer()
     {
         return eea.currentLayer;
     }
 
-    /** Set the current editing layer
-        @param cl the wanted layer
+    /** Set the current editing layer.
+        @param cl the wanted layer.
     */
     public void setCurrentLayer(int cl)
     {
@@ -312,9 +310,9 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** TODO: eliminate this method.
-        Get the circuit in the FidoCadJ format, without the [FIDOCAD] header
-        @param extensions allow for FCJ extensions
-        @return the circuit in the Fidocad format
+        Get the circuit in the FidoCadJ format, without the [FIDOCAD] header.
+        @param extensions allow for FCJ extensions.
+        @return the circuit in the Fidocad format.
     */
     public StringBuffer getCirc(boolean extensions)
     {
@@ -323,7 +321,7 @@ public class CircuitPanel extends JPanel implements
 
     /** Change the current layer state. Change the layer of all selected
         primitives.
-        @param s the layer to be selected
+        @param s the layer to be selected.
     */
     public void changeSelectedLayer(int s)
     {
@@ -337,7 +335,7 @@ public class CircuitPanel extends JPanel implements
 
     /** The callback method which is called when the current grid visibility
         has changed.
-        @param v is the wanted grid visibility state
+        @param v is the wanted grid visibility state.
     */
     public void setGridVisibility(boolean v)
     {
@@ -347,17 +345,17 @@ public class CircuitPanel extends JPanel implements
 
     /** The callback method which is called when the current snap visibility
         has changed.
-        @param v is the wanted snap state
+        @param v is the wanted snap state.
     */
     public void setSnapState(boolean v)
     {
         cs.setSnap(v);
     }
 
-    /** Increase or decrease the zoom by a step of 33%
-        @param increase if true, increase the zoom, if false decrease
-        @param x coordinate to which center the viewport (screen coordinates)
-        @param y coordinate to which center the viewport (screen coordinates)
+    /** Increase or decrease the zoom by a step of 33%.
+        @param increase if true, increase the zoom, if false decrease.
+        @param x coordinate to which center the viewport (screen coordinates).
+        @param y coordinate to which center the viewport (screen coordinates).
     */
     public void changeZoomByStep(boolean increase, int x, int y)
     {
@@ -429,17 +427,16 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Get the current editing action (see the constants defined in this
-        class)
-
-        @return the current editing action
+        class).
+        @return the current editing action.
     */
     public int getSelectionState()
     {
         return eea.getSelectionState();
     }
 
-    /** The zoom listener
-        @param tz the zoom factor to be used
+    /** The zoom listener.
+        @param tz the zoom factor to be used.
     */
     public void changeZoom(double tz)
     {
@@ -483,7 +480,7 @@ public class CircuitPanel extends JPanel implements
         4. draw all active handles
         5. if needed, draw the primitive being edited
         6. draw the ruler, if needed
-        7. if requested, print information about redraw speed
+        7. if requested, print information about redraw speed.
         @param g the graphic context on which perform the drawing operations.
     */
     public void paintComponent(Graphics g)
@@ -743,9 +740,8 @@ public class CircuitPanel extends JPanel implements
 
     /** Selects the closest object to the given point (in logical coordinates)
         and pops up a dialog for the editing of its Param_opt.
-
-        @param x the x logical coordinate of the point used for the selection
-        @param y the y logical coordinate of the point used for the selection
+        @param x the x logical coordinate of the point used for the selection.
+        @param y the y logical coordinate of the point used for the selection.
     */
     public void selectAndSetProperties(int x, int y)
     {
@@ -757,7 +753,6 @@ public class CircuitPanel extends JPanel implements
 
     /** Checks if FidoCadJ should strictly comply with the FidoCAD
         format (and limitations).
-
         @return the compliance mode.
 
     */
@@ -766,10 +761,9 @@ public class CircuitPanel extends JPanel implements
         return extStrict;
     }
 
-    /** Set if the strict FidoCAD compatibility mode is active
+    /** Set if the strict FidoCAD compatibility mode is active.
         @param strict true if the compatibility with FidoCAD should be
         obtained.
-
     */
     public void setStrictCompatibility(boolean strict)
     {
@@ -787,21 +781,21 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Get the current coordinate mapping.
-        @return the current coordinate mapping
+        @return the current coordinate mapping.
     */
     public MapCoordinates getMapCoordinates()
     {
         return cs;
     }
 
-    /** Forces a repaint.
+    /** Force a repaint.
     */
     public void forcesRepaint()
     {
         repaint();
     }
 
-    /** Forces a repaint.
+    /** Force a repaint.
         @param x the x leftmost corner of the dirty region to repaint.
         @param y the y leftmost corner of the dirty region to repaint.
         @param width the width of the dirty region.

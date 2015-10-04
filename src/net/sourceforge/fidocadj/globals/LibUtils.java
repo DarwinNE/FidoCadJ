@@ -56,7 +56,6 @@ public final class LibUtils
     }
 
     /** Extract all the macros belonging to a given library.
-
         @param m the macro list.
         @param libfile the file name of the wanted library.
         @return the library.
@@ -64,7 +63,6 @@ public final class LibUtils
     public static Map<String,MacroDesc> getLibrary(Map<String,MacroDesc> m,
         String libfile)
     {
-        //System.out.println("libfile:"+libfile);
         Map<String,MacroDesc> mm = new TreeMap<String,MacroDesc>();
         MacroDesc md;
         for (Entry<String, MacroDesc> e : m.entrySet())
@@ -74,12 +72,10 @@ public final class LibUtils
             // The most reliable way to discriminate the macros is to watch
             // at the prefix in the key, i.e. everything which comes
             // before the dot in the complete key.
-
             int dotPos = md.key.lastIndexOf(".");
 
-            // If no dot is found, this is by definition the original FidoCad
+            // If no dot is found, this is by definition the original FidoCAD
             // standard library (immutable).
-
             if(dotPos<0)
                 continue;
             String lib = md.key.substring(0,dotPos).trim();
@@ -129,14 +125,12 @@ public final class LibUtils
 
     /** Save to a file a string respecting the global encoding settings.
         @param file the file name.
-        @param text the string to be written.
+        @param text the string to be written in the file.
         @throws FileNotFoundException if the file can not be accessed.
     */
     public static void saveToFile(String file, String text)
         throws FileNotFoundException
     {
-        System.out.println("file: "+file);
-
         PrintWriter pw;
         try {
             pw = new PrintWriter(file, Globals.encoding);
