@@ -32,12 +32,18 @@ import net.sourceforge.fidocadj.globals.*;
 
 public class Ruler
 {
-    // Font to be used to draw the ruler
+    // Font to be used to draw the ruler.
     private static final String rulerFont = "Lucida Sans Regular";
 
-    // Color of elements during editing
+    // Color of elements during editing.
     private final Color rulerColor;
     private final Color textColor;
+
+    // Begin and end coordinates.
+    private int rulerStartX;
+    private int rulerStartY;
+    private int rulerEndX;
+    private int rulerEndY;
 
     // Is the ruler active?
     private boolean isActiveRuler;
@@ -71,17 +77,17 @@ public class Ruler
 
     /** Draws a ruler to ease measuring distances.
         @param g the graphic context.
-        @param sx the x position of the starting corner.
-        @param sy the y position of the starting corner.
-        @param ex the x position of the end corner.
-        @param ey the y position of the end corner.
         @param cs the coordinate mapping.
     */
-    public void drawRuler(Graphics g, int sx, int sy, int ex, int ey,
-        MapCoordinates cs)
+    public void drawRuler(Graphics g, MapCoordinates cs)
     {
         if (!isActiveRuler)
             return;
+
+        int sx=rulerStartX;
+        int sy=rulerStartY;
+        int ex=rulerEndX;
+        int ey=rulerEndY;
 
         double length;
         //MapCoordinates cs=dmp.getMapCoordinates();
@@ -175,5 +181,41 @@ public class Ruler
         g.setColor(textColor);
         g.drawString(t1, ex+10, ey+10);
         g.drawString(t2, ex+10, ey+20);
+    }
+
+    /** Define the coordinates of the starting point of the ruler.
+        @param sx the x coordinate.
+        @param sy the y coordinate.
+    */
+    public void setRulerStart(int sx, int sy)
+    {
+        rulerStartX=sx;
+        rulerStartY=sy;
+    }
+
+    /** Define the coordinates of the ending point of the ruler.
+        @param sx the x coordinate.
+        @param sy the y coordinate.
+    */
+    public void setRulerEnd(int sx, int sy)
+    {
+        rulerEndX=sx;
+        rulerEndY=sy;
+    }
+
+    /** Get the x coordinate of the starting point of the ruler.
+        @return the x coordinate.
+    */
+    public int getRulerStartX()
+    {
+        return rulerStartX;
+    }
+
+    /** Get the y coordinate of the starting point of the ruler.
+        @return the y coordinate.
+    */
+    public int getRulerStartY()
+    {
+        return rulerStartY;
     }
 }

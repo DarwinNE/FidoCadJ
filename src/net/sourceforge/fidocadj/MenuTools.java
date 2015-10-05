@@ -40,7 +40,6 @@ import net.sourceforge.fidocadj.clipboard.*;
 
 public class MenuTools implements MenuListener
 {
-
     /** Create all the menus and associate to them all the needed listeners.
         @param al the action listener to associate to the menu elements.
         @return the menu bar.
@@ -54,47 +53,6 @@ public class MenuTools implements MenuListener
         menuBar.add(defineEditMenu(al));
         menuBar.add(defineViewMenu(al));
         menuBar.add(defineCircuitMenu(al));
-
-        // phylum
-        /*  DB: there is no need to change the language from the GUI.
-        ActionListener langAct = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                String lang = e.getActionCommand();
-                lang = lang.substring(lang.indexOf("(")+1
-                    ).replace(")","").trim();
-                currentLocale = new Locale(lang);
-                if (!checkIfToBeSaved()) return;
-                ((FidoFrame)Globals.activeWindow).cc.getUndoActions()
-                    .doTheDishes();
-                Globals.activeWindow.dispose();
-                SwingUtilities.invokeLater(new
-                    CreateSwingInterface(libDirectory,
-                        "", currentLocale));
-            }
-        };
-
-        JMenu langMenu=new JMenu(Globals.messages.getString("Language"));
-        JMenuItem langsubCircuit;
-
-        for (int i = 0;i<LibUtils.Languages.length;i++)
-        {
-            URL u = FidoMain.class.getResource("MessagesBundle_" +
-                LibUtils.Languages[i][0]  + ".properties");
-            if (u==null) continue;
-            langsubCircuit = new JMenuItem(LibUtils.Languages[i][1] + " (" +
-                LibUtils.Languages[i][0] + ")");
-            langsubCircuit.addActionListener(langAct);
-            langMenu.add(langsubCircuit);
-        }
-
-        // In the final versions (non beta), the user might change the locale
-        // only via the command line, since there is no reason to use a locale
-        // different from the one of the operating system.
-
-        if(Globals.isBeta)
-            menuBar.add(langMenu);
-        */
 
         // On a MacOSX system, this menu is associated to preferences menu
         // in the application menu. We do not need to show it in bar.
@@ -394,7 +352,7 @@ public class MenuTools implements MenuListener
         // Edit the FidoCadJ code of the drawing
         if (arg.equals(Globals.messages.getString("Define"))) {
             EnterCircuitFrame circuitDialog=new EnterCircuitFrame(fff,
-                cc.getCirc(!cc.extStrict).toString());
+                cc.getParserActions().getText(!cc.extStrict).toString());
             circuitDialog.setVisible(true);
 
             pa.parseString(new StringBuffer(circuitDialog.getStringCircuit()));

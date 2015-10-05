@@ -11,10 +11,9 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.export.*;
 
 /** FileTools.java
-
     Class performing high level user interface operation involving files.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,11 +30,10 @@ import net.sourceforge.fidocadj.export.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
-
 public class FileTools
 {
     final private FidoFrame fff;
@@ -48,7 +46,6 @@ public class FileTools
         @param f the frame which should be associated to those file operations.
         @param p the preferences where to read/write settings (or null if
             they should not be saved).
-
     */
     public FileTools (FidoFrame f, Preferences p)
     {
@@ -106,10 +103,8 @@ public class FileTools
                     shouldExit=false;
             } else if (choice==JOptionPane.CANCEL_OPTION) {
                 // Don't exit
-                //System.out.println("Do not exit.");
                 shouldExit = false;
             }
-
         }
 
         if(shouldExit)
@@ -160,7 +155,6 @@ public class FileTools
         @return true if the save operation has gone well.
         @param splitNonStandardMacro_s decides whether the non standard macros
                should be split during the save operation.
-
     */
     public boolean saveWithName(boolean splitNonStandardMacro_s)
     {
@@ -168,7 +162,6 @@ public class FileTools
         String din;
 
         if(Globals.useNativeFileDialogs) {
-
             // File chooser provided by the host system.
             // Vastly better on MacOSX, but probably not such on other
             // operating systems.
@@ -256,7 +249,6 @@ public class FileTools
                     cc.getParserActions().openFileName),  cc.dmp,
                     "fcd", 1.0,true,false, !cc.extStrict, false);
                 cc.getUndoActions().setModified(false);
-
             } else {
                 // Create file
                 BufferedWriter output = new BufferedWriter(new
@@ -265,10 +257,10 @@ public class FileTools
                     Globals.encoding));
 
                 output.write("[FIDOCAD]\n");
-                output.write(cc.getCirc(!cc.extStrict).toString());
+                output.write(
+                    cc.getParserActions().getText(!cc.extStrict).toString());
                 output.close();
                 cc.getUndoActions().setModified(false);
-
             }
         } catch (IOException fnfex) {
             JOptionPane.showMessageDialog(fff,

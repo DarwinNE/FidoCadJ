@@ -129,11 +129,6 @@ public class CircuitPanel extends JPanel implements
 
     private final Ruler ruler;  // Is it to be drawn?
 
-    private int rulerStartX;
-    private int rulerStartY;
-    private int rulerEndX;
-    private int rulerEndY;
-
     // ********** INTERFACE ELEMENTS **********
 
     PopUpMenu popup;
@@ -307,16 +302,6 @@ public class CircuitPanel extends JPanel implements
             l=dmp.getLayers().size()-1;
 
         eea.currentLayer=l;
-    }
-
-    /** TODO: eliminate this method.
-        Get the circuit in the FidoCadJ format, without the [FIDOCAD] header.
-        @param extensions allow for FCJ extensions.
-        @return the circuit in the Fidocad format.
-    */
-    public StringBuffer getCirc(boolean extensions)
-    {
-        return pa.getText(extensions);
     }
 
     /** Change the current layer state. Change the layer of all selected
@@ -528,7 +513,7 @@ public class CircuitPanel extends JPanel implements
         eea.drawPrimEdit(graphicSwing, cs);
 
         // If a ruler.isActive() is active, draw it.
-        ruler.drawRuler(g,rulerStartX, rulerStartY, rulerEndX, rulerEndY, cs);
+        ruler.drawRuler(g, cs);
 
         setSizeIfNeeded();
 
@@ -754,7 +739,6 @@ public class CircuitPanel extends JPanel implements
     /** Checks if FidoCadJ should strictly comply with the FidoCAD
         format (and limitations).
         @return the compliance mode.
-
     */
     public boolean getStrictCompatibility()
     {
@@ -806,48 +790,12 @@ public class CircuitPanel extends JPanel implements
         repaint(x, y, width, height);
     }
 
-    /** Define the coordinates of the starting point of the ruler.
-        @param sx the x coordinate.
-        @param sy the y coordinate.
-    */
-    public void setRulerStart(int sx, int sy)
-    {
-        rulerStartX=sx;
-        rulerStartY=sy;
-    }
-
-    /** Define the coordinates of the ending point of the ruler.
-        @param sx the x coordinate.
-        @param sy the y coordinate.
-    */
-    public void setRulerEnd(int sx, int sy)
-    {
-        rulerEndX=sx;
-        rulerEndY=sy;
-    }
-
     /** Get the Ruler object.
         @return the Ruler object.
     */
     public Ruler getRuler()
     {
         return ruler;
-    }
-
-    /** Get the x coordinate of the starting point of the ruler.
-        @return the x coordinate.
-    */
-    public int getRulerStartX()
-    {
-        return rulerStartX;
-    }
-
-    /** Get the y coordinate of the starting point of the ruler.
-        @return the y coordinate.
-    */
-    public int getRulerStartY()
-    {
-        return rulerStartY;
     }
 
     /** Check if the profiling is active.

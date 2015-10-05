@@ -119,8 +119,8 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         int py=evt.getY();
 
         cp.getRuler().setActive(false);
-        cp.setRulerStart(px, py);
-        cp.setRulerEnd(px, py);
+        cp.getRuler().setRulerStart(px, py);
+        cp.getRuler().setRulerEnd(px, py);
         boolean toggle = getToggle(evt);
 
         if(eea.actionSelected == ElementsEdtActions.SELECTION &&
@@ -159,7 +159,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         if((evt.getModifiers() & InputEvent.BUTTON3_MASK)!=0 ||
             evt.isShiftDown())
         {
-            cp.setRulerEnd(px, py);
+            cp.getRuler().setRulerEnd(px, py);
             cp.repaint();
             return;
         }
@@ -206,9 +206,11 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         // of an element (and thus the dragging of a handle) or we are
         // making a click.
         if(eea.actionSelected==ElementsEdtActions.SELECTION) {
-            if(cp.getRulerStartX()!=px || cp.getRulerStartY()!=py) // NOPMD
+            if(cp.getRuler().getRulerStartX()!=px ||
+                cp.getRuler().getRulerStartY()!=py) // NOPMD
+            {
                 haa.dragHandleEnd(cp, px, py, toggle, cs);
-            else {
+            } else {
                 cp.getRuler().setActive(false);
                 cp.requestFocusInWindow();
 

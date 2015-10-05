@@ -453,7 +453,7 @@ public class DialogParameters extends JDialog
                 keyb.setVisible(false);
             }
         });
-        
+
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e)
