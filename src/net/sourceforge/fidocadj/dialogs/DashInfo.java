@@ -24,9 +24,9 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009-2014 by Davide Bucci
-</pre>
+    </pre>
 
-    */
+*/
 public class DashInfo
 {
     // Here we store the dash style

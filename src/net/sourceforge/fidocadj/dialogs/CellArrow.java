@@ -17,7 +17,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 
     @author Davide Bucci
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009-2014 by Davide Bucci
-</pre>
+    </pre>
 */
 public class CellArrow extends JPanel
 {

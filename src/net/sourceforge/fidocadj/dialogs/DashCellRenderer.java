@@ -28,11 +28,11 @@ import java.util.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
-    </pre>
 
     Copyright 2009 by Davide Bucci
+    </pre>
 
-    */
+*/
 public class DashCellRenderer implements ListCellRenderer
 {
     /** Method required for the ListCellRenderer interface; it draws

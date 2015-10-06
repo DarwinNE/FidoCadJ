@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.primitives.*;
 
 
     @author Davide Bucci
-
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2009 by Davide Bucci
-
+    </pre>
 */
 public class ArrowInfo
 {

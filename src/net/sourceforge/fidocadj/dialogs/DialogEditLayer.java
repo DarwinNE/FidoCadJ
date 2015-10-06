@@ -39,7 +39,6 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     Copyright 2007-2010 by Davide Bucci
     </pre>
 
-
     @author Davide Bucci
 */
 public class DialogEditLayer extends MinimumSizeDialog

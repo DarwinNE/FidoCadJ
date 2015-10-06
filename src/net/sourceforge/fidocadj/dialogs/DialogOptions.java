@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     choose which circuit drawing options (size, anti aliasing, profiling) should
     be activated.
 
-  <pre>
+    <pre>
 
     This file is part of FidoCadJ.
 
@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2015 by Davide Bucci
-</pre>
+    </pre>
 */
 public class DialogOptions extends MinimumSizeDialog
 {
