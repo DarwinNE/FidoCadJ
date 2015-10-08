@@ -7,6 +7,7 @@ import java.io.*;
 import java.awt.print.*;
 import java.awt.*;
 import java.util.*;
+import java.awt.geom.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
@@ -100,8 +101,7 @@ public class PrintTools implements Printable
             }
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPrintable(this);
-            boolean ok = job.printDialog();
-            if (ok) {
+            if (job.printDialog()) {
                 try {
                     PrintRequestAttributeSet aset = new
                         HashPrintRequestAttributeSet();
@@ -113,7 +113,7 @@ public class PrintTools implements Printable
                     }
                     job.print(aset);
                 } catch (PrinterException ex) {
-                // The job did not successfully complete
+                    // The job did not successfully complete
                     JOptionPane.showMessageDialog(fff,
                         Globals.messages.getString("Print_uncomplete"));
                 }
@@ -156,7 +156,6 @@ public class PrintTools implements Printable
             g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
                 pf.getImageableY());
             g2d.scale(-xscale,yscale);
-
         } else {
             g2d.translate(pf.getImageableX(), pf.getImageableY());
             g2d.scale(xscale,yscale);
@@ -164,23 +163,34 @@ public class PrintTools implements Printable
 
         int printerWidth = (int)pf.getImageableWidth()*16;
 
+        /*Rectangle2D.Double border = new Rectangle2D.Double(0, 0, printerWidth,
+            pf.getImageableHeight()*16);
+        g2d.setColor(Color.green);
+        g2d.draw(border);*/
+
+        MapCoordinates m;
+        int margin=5;
         // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
-            MapCoordinates zoomm = DrawingSize.calculateZoomToFit(cc.dmp,
-                (int)pf.getImageableWidth()*16,(int)pf.getImageableHeight()*16,
-                false);
-            zoom=zoomm.getXMagnitude();
+            m = DrawingSize.calculateZoomToFit(
+                cc.getDrawingModel(),
+                (int)pf.getImageableWidth()*16-2*margin,
+                (int)pf.getImageableHeight()*16-2*margin,
+                true);
+            zoom=m.getXMagnitude();
+        } else {
+            m=new MapCoordinates();
+            m.setMagnitudes(zoom, zoom);
         }
-
-        MapCoordinates m=new MapCoordinates();
-
-        m.setMagnitudes(zoom, zoom);
-
         PointG o=new PointG(0,0);
 
-        int imageWidth = DrawingSize.getImageSize(cc.dmp, zoom, false, o).width;
+        int imageWidth = DrawingSize.getImageSize(
+            cc.getDrawingModel(), zoom, true, o).width;
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
 
+        if(printFitToPage) {
+            g2d.translate(-2*o.x+margin,-2*o.y+margin);
+        }
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
             g2d.translate(-(printerWidth*page),0);

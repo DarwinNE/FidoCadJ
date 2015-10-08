@@ -13,8 +13,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
 /**
     Calculate the size of a given drawing.
 
-
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,7 +30,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2008-2014 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */
@@ -146,7 +145,8 @@ public final class DrawingSize
         @param sizex the width of the area to be used for calculations.
         @param sizey the height of the area to be used for calculations.
         @param countMin specify if the absolute or relative size should be
-            taken into account.
+            taken into account. In other words, consider (countMin=false) or
+            not (countMin=true) the origin as part of the drawing.
         @return the zoom to fit settings stored in a new {@link MapCoordinates}
             object.
     */

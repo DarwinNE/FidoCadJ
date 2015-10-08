@@ -477,9 +477,8 @@ public class DialogParameters extends JDialog
     }
 
     /**
-        Get a ParameterDescription vector describing the characteristics modified
-        by the user.
-     *
+        Get a ParameterDescription vector describing the characteristics
+        modified by the user.
         @return a ParameterDescription vector describing each parameter.
      */
     public Vector<ParameterDescription> getCharacteristics()

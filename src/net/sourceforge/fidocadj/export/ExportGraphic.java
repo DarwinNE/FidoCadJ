@@ -29,8 +29,7 @@ import java.lang.*;
     This class should be used to export the circuit under different graphic
     formats.
 
-<pre>
-
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -47,7 +46,7 @@ import java.lang.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2007-2015 by Davide Bucci
-</pre>
+    </pre>
 
     @author Davide Bucci
 */

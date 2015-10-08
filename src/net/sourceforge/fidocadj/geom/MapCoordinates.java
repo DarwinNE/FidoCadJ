@@ -64,7 +64,7 @@ public class MapCoordinates
     private boolean snapActive;
 
     public static final double MIN_MAGNITUDE=0.25;
-    public static final double MAX_MAGNITUDE=20.0;
+    public static final double MAX_MAGNITUDE=100.0;
 
     private double vx;
     private int ivx;    // NOPMD this is not a local variable for efficiency
@@ -279,32 +279,32 @@ public class MapCoordinates
         yMagnitude=ym;
     }
 
-    /** Get the X magnification factor
-        @return the X magnification factor
+    /** Get the X shift of the coordinate systems, in pixels
+        @return the X shift in pixels
     */
     public final double getXCenter()
     {
         return xCenter;
     }
 
-    /** Get the Y magnification factor
-        @return the Y magnification factor
+    /** Get the Y shift of the coordinate systems, in pixels
+        @return the Y shift in pixels
     */
     public final double getYCenter()
     {
         return yCenter;
     }
 
-    /** Set the X center in pixel
-        @param xm the X center in pixel
+    /** Set the X shift of the coordinate systems, in pixels
+        @param xm the X shift in pixel
     */
     public final void setXCenter(double xm)
     {
         xCenter=xm;
     }
 
-    /** Set the Y magnification factor
-        @param ym the Y magnification factor
+    /** Set the Y shift of the coordinate systems, in pixels
+        @param ym the Y shift in pixels
     */
     public final void setYCenter(double ym)
     {
