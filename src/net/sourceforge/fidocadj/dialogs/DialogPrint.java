@@ -80,14 +80,92 @@ public class DialogPrint extends MinimumSizeDialog
         JLabel empty1=new JLabel("  ");
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=3;
+        constraints.gridx=4;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
 
-        mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
+        JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.weightx=100;
+        constraints.weighty=100;
         constraints.gridx=1;
+        constraints.gridy=0;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(lTopMargin, constraints);           // Top margin label
+
+        JTextField tTopMargin=new JTextField("0");
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=2;
+        constraints.gridy=0;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(tTopMargin, constraints);           // Top margin text
+
+        JLabel lBottomMargin=new JLabel(
+            Globals.messages.getString("BottomMargin"));
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=1;
+        constraints.gridy=1;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(lBottomMargin, constraints);    // Bottom margin label
+
+        JTextField tBottomMargin=new JTextField("0");
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=2;
+        constraints.gridy=1;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(tBottomMargin, constraints);    // Bottom margin text
+
+        JLabel lLeftMargin=new JLabel(Globals.messages.getString("LeftMargin"));
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=1;
+        constraints.gridy=2;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(lLeftMargin, constraints);    // Left margin label
+
+        JTextField tLeftMargin=new JTextField("0");
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=2;
+        constraints.gridy=2;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(tLeftMargin, constraints);    // Left margin text
+
+        JLabel lRightMargin=new JLabel(
+            Globals.messages.getString("RightMargin"));
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=1;
+        constraints.gridy=3;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(lRightMargin, constraints);     // Right margin label
+
+        JTextField tRightMargin=new JTextField("0");
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=2;
+        constraints.gridy=3;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(tRightMargin, constraints);    // Right margin text
+
+        mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
+        constraints.gridx=3;
         constraints.gridy=0;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -95,7 +173,7 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(mirror_CB, constraints);        // Add Print Mirror cb
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
-        constraints.gridx=1;
+        constraints.gridx=4;
         constraints.gridy=1;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -103,7 +181,7 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(fit_CB, constraints);       // Add Fit to page cb
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
-        constraints.gridx=1;
+        constraints.gridx=3;
         constraints.gridy=2;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -111,7 +189,7 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(bw_CB, constraints);        // Add BlackWhite cb
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
-        constraints.gridx=1;
+        constraints.gridx=3;
         constraints.gridy=3;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -122,7 +200,7 @@ public class DialogPrint extends MinimumSizeDialog
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 
-        constraints.gridx=0;
+        constraints.gridx=1;
         constraints.gridy=4;
         constraints.gridwidth=4;
         constraints.gridheight=1;
