@@ -51,6 +51,13 @@ public class PrintTools implements Printable
     private boolean printFitToPage;
     private boolean printLandscape;
     private boolean printBlackWhite;
+
+    // Margins
+    private double topMargin;
+    private double bottomMargin;
+    private double leftMargin;
+    private double rightMargin;
+
     private CircuitPanel cc;
 
     /** Standard constructor.
@@ -76,16 +83,37 @@ public class PrintTools implements Printable
         dp.setFit(printFitToPage);
         dp.setBW(printBlackWhite);
         dp.setLandscape(printLandscape);
-        dp.setVisible(true);
+        dp.setMargins(topMargin, bottomMargin, leftMargin, rightMargin);
 
-        // Get some information about the printing options.
-        printMirror = dp.getMirror();
-        printFitToPage = dp.getFit();
-        printLandscape = dp.getLandscape();
-        printBlackWhite=dp.getBW();
+        boolean noexit;
+        do {
+            noexit=false;
+            // Show the (modal) dialog.
+            dp.setVisible(true);
 
-        Vector<LayerDesc> ol=cc.dmp.getLayers();
-        if (dp.shouldPrint()) {
+            if (!dp.shouldPrint())
+                return;
+
+            Vector<LayerDesc> ol=cc.dmp.getLayers();
+            // Get some information about the printing options.
+            printMirror = dp.getMirror();
+            printFitToPage = dp.getFit();
+            printLandscape = dp.getLandscape();
+            printBlackWhite=dp.getBW();
+
+            try {
+                topMargin=dp.getTMargin();
+                bottomMargin=dp.getBMargin();
+                leftMargin=dp.getLMargin();
+                rightMargin=dp.getRMargin();
+            } catch (java.lang.NumberFormatException n) {
+                JOptionPane.showMessageDialog(dp,
+                    Globals.messages.getString("Format_invalid"), "",
+                    JOptionPane.INFORMATION_MESSAGE);
+                noexit=true;
+                continue;
+            }
+
             if(printBlackWhite) {
                 Vector<LayerDesc> v=new Vector<LayerDesc>();
 
@@ -119,7 +147,7 @@ public class PrintTools implements Printable
                 }
             }
             cc.dmp.setLayers(ol);
-        }
+        } while (noexit);
     }
 
     /** The printing interface.

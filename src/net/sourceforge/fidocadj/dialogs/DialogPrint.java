@@ -45,6 +45,11 @@ public class DialogPrint extends MinimumSizeDialog
     private final JCheckBox bw_CB;
     private final JCheckBox landscape_CB;
 
+    private final JTextField tTopMargin;
+    private final JTextField tBottomMargin;
+    private final JTextField tLeftMargin;
+    private final JTextField tRightMargin;
+
     private boolean export;     // Indicates that the export should be done
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent
@@ -96,7 +101,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(lTopMargin, constraints);           // Top margin label
 
-        JTextField tTopMargin=new JTextField("0");
+        tTopMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
@@ -116,7 +121,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(lBottomMargin, constraints);    // Bottom margin label
 
-        JTextField tBottomMargin=new JTextField("0");
+        tBottomMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
@@ -135,7 +140,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(lLeftMargin, constraints);    // Left margin label
 
-        JTextField tLeftMargin=new JTextField("0");
+        tLeftMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
@@ -155,7 +160,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(lRightMargin, constraints);     // Right margin label
 
-        JTextField tRightMargin=new JTextField("0");
+        tRightMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
@@ -309,6 +314,52 @@ public class DialogPrint extends MinimumSizeDialog
     public void setLandscape(boolean l)
     {
         landscape_CB.setSelected(l);
+    }
+
+    /** Set the size of the margins, in centimeters.
+        @param tm top margin.
+        @param bm bottom margin.
+        @param lm left margin.
+        @param rm right margin.
+    */
+    public void setMargins(double tm, double bm, double lm, double rm)
+    {
+        tTopMargin.setText(""+tm);
+        tBottomMargin.setText(""+bm);
+        tLeftMargin.setText(""+lm);
+        tRightMargin.setText(""+rm);
+    }
+
+    /** Get the size of the top margin, in centimeters.
+        @return the margin size.
+    */
+    public double getTMargin()
+    {
+        return Double.parseDouble(tTopMargin.getText());
+    }
+
+    /** Get the size of the bottom margin, in centimeters.
+        @return the margin size.
+    */
+    public double getBMargin()
+    {
+        return Double.parseDouble(tBottomMargin.getText());
+    }
+
+    /** Get the size of the left margin, in centimeters.
+        @return the margin size.
+    */
+    public double getLMargin()
+    {
+        return Double.parseDouble(tLeftMargin.getText());
+    }
+
+    /** Get the size of the right margin, in centimeters.
+        @return the margin size.
+    */
+    public double getRMargin()
+    {
+        return Double.parseDouble(tRightMargin.getText());
     }
 
     /** Print in black and white
