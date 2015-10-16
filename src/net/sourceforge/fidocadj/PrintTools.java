@@ -53,12 +53,17 @@ public class PrintTools implements Printable
     private boolean printBlackWhite;
 
     // Margins
-    private double topMargin;
-    private double bottomMargin;
-    private double leftMargin;
-    private double rightMargin;
+    private double topMargin=-1;
+    private double bottomMargin=-1;
+    private double leftMargin=-1;
+    private double rightMargin=-1;
 
+    private final double LIMIT=1e-5;
     private CircuitPanel cc;
+
+    private final int MULT=16;
+    private final double INCH=2.54;  // in cm
+    private final int NATIVERES=72;  // in dpi
 
     /** Standard constructor.
     */
@@ -68,6 +73,30 @@ public class PrintTools implements Printable
         printMirror = false;
         printFitToPage = false;
         printLandscape = false;
+        adjustMargins(PrinterJob.getPrinterJob().defaultPage());
+    }
+
+    /** If the values of the margins are negative, they will be adjusted
+        in such a way that the printable area will be covered in the most
+        efficient way.
+    */
+    private void adjustMargins(PageFormat pf)
+    {
+        // Start of the imageable region, in centimeters.
+        if(leftMargin<0.0) {
+            leftMargin=pf.getImageableX()/NATIVERES*INCH;
+        }
+        if(topMargin<0.0) {
+            topMargin=pf.getImageableY()/NATIVERES*INCH;
+        }
+        if(rightMargin<0.0) {
+            rightMargin=(pf.getWidth()-pf.getImageableX()
+                -pf.getImageableWidth())/NATIVERES*INCH;
+        }
+        if(bottomMargin<0.0) {
+            bottomMargin=(pf.getHeight()-pf.getImageableY()
+                -pf.getImageableHeight())/NATIVERES*INCH;
+        }
     }
 
     /** Show a dialog for printing the current drawing.
@@ -77,12 +106,18 @@ public class PrintTools implements Printable
     */
     public void printDrawing(JFrame fff, CircuitPanel CCr)
     {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        PageFormat pp = job.defaultPage();
+
         cc=CCr;
         DialogPrint dp=new DialogPrint(fff);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
         dp.setBW(printBlackWhite);
         dp.setLandscape(printLandscape);
+
+        dp.setMaxMargins(pp.getWidth()/NATIVERES*INCH,
+            pp.getHeight()/NATIVERES*INCH);
         dp.setMargins(topMargin, bottomMargin, leftMargin, rightMargin);
 
         boolean noexit;
@@ -127,7 +162,6 @@ public class PrintTools implements Printable
                          "B/W",((LayerDesc)ol.get(i)).getAlpha()));
                 cc.dmp.setLayers(v);
             }
-            PrinterJob job = PrinterJob.getPrinterJob();
             job.setPrintable(this);
             if (job.printDialog()) {
                 try {
@@ -171,39 +205,55 @@ public class PrintTools implements Printable
         // 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi
         // resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
 
-        double xscale = 1.0/16; // Set 1152 logical units for an inch
-        double yscale = 1.0/16; // as the standard resolution is 72
-        double zoom = 5.76;     // act in a 1152 dpi resolution as 1:1
+        double xscale = 1.0/MULT; // Set 1152 logical units for an inch
+        double yscale = 1.0/MULT; // as the standard resolution is 72
+        double zoom = NATIVERES*MULT/200;// act in a 1152 dpi resolution as 1:1
 
         Graphics2D g2d = (Graphics2D)g;
 
         // User (0,0) is typically outside the imageable area, so we must
         // translate by the X and Y values in the PageFormat to avoid clipping
 
-        if (printMirror) {
+        /*if (printMirror) {
             g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
                 pf.getImageableY());
             g2d.scale(-xscale,yscale);
         } else {
             g2d.translate(pf.getImageableX(), pf.getImageableY());
             g2d.scale(xscale,yscale);
+        }*/
+
+        if (printMirror) {
+            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
+                pf.getImageableY());
+            g2d.scale(-xscale,yscale);
+        } else {
+            g2d.translate(leftMargin/INCH*NATIVERES, topMargin/INCH*NATIVERES);
+            g2d.scale(xscale,yscale);
         }
 
-        int printerWidth = (int)pf.getImageableWidth()*16;
+        int printerWidth = (int)pf.getImageableWidth()*MULT;
 
         /*Rectangle2D.Double border = new Rectangle2D.Double(0, 0, printerWidth,
-            pf.getImageableHeight()*16);
+            pf.getImageableHeight()*MULT);
         g2d.setColor(Color.green);
         g2d.draw(border);*/
 
         MapCoordinates m;
-        int margin=5;
+
+        // This is not a "real" margin, but just a tiny amount which ensures
+        // that even when the calculations are rounded up, the printout does
+        // not span erroneously over multiple pages.
+        int security=5;
+
         // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
             m = DrawingSize.calculateZoomToFit(
                 cc.getDrawingModel(),
-                (int)pf.getImageableWidth()*16-2*margin,
-                (int)pf.getImageableHeight()*16-2*margin,
+                (int)(pf.getWidth()-(leftMargin+rightMargin)*NATIVERES)*MULT
+                    -2*security,
+                (int)(pf.getHeight()-(topMargin+bottomMargin)*NATIVERES)*MULT
+                    -2*security,
                 true);
             zoom=m.getXMagnitude();
         } else {
@@ -217,7 +267,7 @@ public class PrintTools implements Printable
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
 
         if(printFitToPage) {
-            g2d.translate(-2*o.x+margin,-2*o.y+margin);
+            g2d.translate(-2*o.x+security,-2*o.y+security);
         }
         // Check if we need more than one page
         if (printerWidth<imageWidth) {

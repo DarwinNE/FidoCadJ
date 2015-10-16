@@ -50,6 +50,9 @@ public class DialogPrint extends MinimumSizeDialog
     private final JTextField tLeftMargin;
     private final JTextField tRightMargin;
 
+    private double maxHorisontalMargin;
+    private double maxVerticalMargin;
+
     private boolean export;     // Indicates that the export should be done
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent
@@ -231,8 +234,10 @@ public class DialogPrint extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
-                export=true;
-                setVisible(false);
+                if(validateInput()) {
+                    export=true;
+                    setVisible(false);
+                }
             }
         });
         cancel.addActionListener(new ActionListener()
@@ -324,10 +329,50 @@ public class DialogPrint extends MinimumSizeDialog
     */
     public void setMargins(double tm, double bm, double lm, double rm)
     {
-        tTopMargin.setText(""+tm);
-        tBottomMargin.setText(""+bm);
-        tLeftMargin.setText(""+lm);
-        tRightMargin.setText(""+rm);
+        tTopMargin.setText(Globals.roundTo(tm,3));
+        tBottomMargin.setText(Globals.roundTo(bm,3));
+        tLeftMargin.setText(Globals.roundTo(lm,3));
+        tRightMargin.setText(Globals.roundTo(rm,3));
+    }
+
+    /** Check if the input is valid.
+        @return true if the input is valid.
+    */
+    private boolean validateInput()
+    {
+        double tm;
+        double bm;
+        double lm;
+        double rm;
+
+        try {
+            tm=Double.parseDouble(tTopMargin.getText());
+            bm=Double.parseDouble(tBottomMargin.getText());
+            lm=Double.parseDouble(tLeftMargin.getText());
+            rm=Double.parseDouble(tRightMargin.getText());
+        } catch (java.lang.NumberFormatException n) {
+            JOptionPane.showMessageDialog(this,
+                Globals.messages.getString("Format_invalid"), "",
+                JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        if(tm+bm>=maxVerticalMargin || lm+rm>=maxHorisontalMargin) {
+            JOptionPane.showMessageDialog(this,
+                Globals.messages.getString("Margins_too_large"), "",
+                JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /** Defines the limits for the sum of the horisontal and vertical margins.
+        @param maxhor the limit of the left+right margins (in cm)
+        @param maxhor the limit of the top+bottom margins (in cm)
+    */
+    public void setMaxMargins(double maxhor, double maxvert)
+    {
+        maxHorisontalMargin=maxhor;
+        maxVerticalMargin=maxvert;
     }
 
     /** Get the size of the top margin, in centimeters.

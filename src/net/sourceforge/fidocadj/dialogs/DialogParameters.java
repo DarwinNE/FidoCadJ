@@ -82,7 +82,8 @@ public class DialogParameters extends JDialog
     // Here some legacy code makes use of generics. They are tested, so
     // there is no risk of an actual error, but Java issues a warning.
     @SuppressWarnings("unchecked")
-    public DialogParameters(JFrame parent, Vector<ParameterDescription> vec,
+    public DialogParameters(final JFrame parent, 
+            Vector<ParameterDescription> vec,
             boolean strict, Vector<LayerDesc> layers)
     {
         super(parent, Globals.messages.getString("Param_opt"), true);
@@ -442,7 +443,7 @@ public class DialogParameters extends JDialog
                     // Error detected. Probably, the user has entered an
                     // invalid string when FidoCadJ was expecting a numerical
                     // input.
-                    JOptionPane.showMessageDialog(null,
+                    JOptionPane.showMessageDialog(parent,
                             Globals.messages.getString("Format_invalid"), "",
                             JOptionPane.INFORMATION_MESSAGE);
                     return;
