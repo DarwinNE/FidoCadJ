@@ -138,7 +138,7 @@ https://sourceforge.net/p/fidocadj/discussion/997486/
 
 In the following table you find a description of the trunk directory of
 FidoCadJ source files. You may download the complete source repository by
-using svn from the GitHub repository.
+using Git from the GitHub repository.
 
   File                        Comments
   ---------------------------------------------------------------------------
