@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 import javax.swing.*;
+import javax.swing.event.*;
 
 import java.io.*;
 
@@ -53,7 +54,10 @@ public class DialogPrint extends MinimumSizeDialog
     private double maxHorisontalMargin;
     private double maxVerticalMargin;
 
-    private boolean export;     // Indicates that the export should be done
+    private boolean marginsSet=false;
+    private boolean oldLandscapeState=false;
+
+    private boolean print;     // Indicates that the print should be done
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent
     */
@@ -61,7 +65,7 @@ public class DialogPrint extends MinimumSizeDialog
     {
         super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
-        export=false;
+        print=false;
 
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
@@ -104,6 +108,21 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(lTopMargin, constraints);           // Top margin label
 
+        DocumentListener dl=new DocumentListener() {
+            public void changedUpdate(DocumentEvent e)
+            {
+                marginsSet=true;
+            }
+
+            public void removeUpdate(DocumentEvent e)
+            {
+            }
+
+            public void insertUpdate(DocumentEvent e)
+            {
+            }
+        };
+
         tTopMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
@@ -112,6 +131,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(tTopMargin, constraints);           // Top margin text
+        tTopMargin.getDocument().addDocumentListener(dl);
 
         JLabel lBottomMargin=new JLabel(
             Globals.messages.getString("BottomMargin"));
@@ -132,6 +152,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(tBottomMargin, constraints);    // Bottom margin text
+        tBottomMargin.getDocument().addDocumentListener(dl);
 
         JLabel lLeftMargin=new JLabel(Globals.messages.getString("LeftMargin"));
         constraints.anchor=GridBagConstraints.EAST;
@@ -151,6 +172,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(tLeftMargin, constraints);    // Left margin text
+        tLeftMargin.getDocument().addDocumentListener(dl);
 
         JLabel lRightMargin=new JLabel(
             Globals.messages.getString("RightMargin"));
@@ -171,6 +193,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(tRightMargin, constraints);    // Right margin text
+        tRightMargin.getDocument().addDocumentListener(dl);
 
         mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
         constraints.gridx=3;
@@ -204,6 +227,30 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(landscape_CB, constraints);     // Add landscape cb
 
+        landscape_CB.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent)
+            {
+                // If the page was rotated, the margins should be adapted
+                // so they always correspond to the same place in the page.
+                if(!marginsSet) {
+                    if(!oldLandscapeState && landscape_CB.isSelected()) {
+                        String d=tLeftMargin.getText();
+                        tLeftMargin.setText(tTopMargin.getText());
+                        tTopMargin.setText(tRightMargin.getText());
+                        tRightMargin.setText(tBottomMargin.getText());
+                        tBottomMargin.setText(d);
+                    } else if(oldLandscapeState && !landscape_CB.isSelected()){
+                        String d=tTopMargin.getText();
+                        tTopMargin.setText(tLeftMargin.getText());
+                        tLeftMargin.setText(tBottomMargin.getText());
+                        tBottomMargin.setText(tRightMargin.getText());
+                        tRightMargin.setText(d);
+                    }
+                }
+                oldLandscapeState=landscape_CB.isSelected();
+            }
+        });
+
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -235,7 +282,7 @@ public class DialogPrint extends MinimumSizeDialog
             public void actionPerformed(ActionEvent evt)
             {
                 if(validateInput()) {
-                    export=true;
+                    print=true;
                     setVisible(false);
                 }
             }
@@ -244,6 +291,7 @@ public class DialogPrint extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
+                print=false;
                 setVisible(false);
             }
         });
@@ -319,9 +367,11 @@ public class DialogPrint extends MinimumSizeDialog
     public void setLandscape(boolean l)
     {
         landscape_CB.setSelected(l);
+        oldLandscapeState=l;
     }
 
-    /** Set the size of the margins, in centimeters.
+    /** Set the size of the margins, in centimeters. The orientation of those
+        margins should correspond to the page in the portrait orientation.
         @param tm top margin.
         @param bm bottom margin.
         @param lm left margin.
@@ -422,6 +472,6 @@ public class DialogPrint extends MinimumSizeDialog
     */
     public boolean shouldPrint()
     {
-        return export;
+        return print;
     }
 }

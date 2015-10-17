@@ -82,20 +82,21 @@ public class PrintTools implements Printable
     */
     private void adjustMargins(PageFormat pf)
     {
+        final double correction=0.01;
         // Start of the imageable region, in centimeters.
         if(leftMargin<0.0) {
-            leftMargin=pf.getImageableX()/NATIVERES*INCH;
+            leftMargin=pf.getImageableX()/NATIVERES*INCH+correction;
         }
         if(topMargin<0.0) {
-            topMargin=pf.getImageableY()/NATIVERES*INCH;
+            topMargin=pf.getImageableY()/NATIVERES*INCH+correction;
         }
         if(rightMargin<0.0) {
             rightMargin=(pf.getWidth()-pf.getImageableX()
-                -pf.getImageableWidth())/NATIVERES*INCH;
+                -pf.getImageableWidth())/NATIVERES*INCH+correction;
         }
         if(bottomMargin<0.0) {
             bottomMargin=(pf.getHeight()-pf.getImageableY()
-                -pf.getImageableHeight())/NATIVERES*INCH;
+                -pf.getImageableHeight())/NATIVERES*INCH+correction;
         }
     }
 
@@ -147,6 +148,21 @@ public class PrintTools implements Printable
                     JOptionPane.INFORMATION_MESSAGE);
                 noexit=true;
                 continue;
+            }
+            if(topMargin/INCH*NATIVERES<pp.getImageableY() ||
+                bottomMargin/INCH*NATIVERES<pp.getHeight()
+                    -pp.getImageableHeight()-pp.getImageableY() ||
+                leftMargin/INCH*NATIVERES<pp.getImageableX() ||
+                rightMargin/INCH*NATIVERES<pp.getWidth()
+                    -pp.getImageableWidth()-pp.getImageableX())
+            {
+                int answer = JOptionPane.showConfirmDialog(dp,
+                    Globals.messages.getString("Print_outside_regions"), 
+                    "",JOptionPane.YES_NO_OPTION);
+                if(answer!= JOptionPane.YES_OPTION) {
+                    noexit=true;
+                    continue;
+                }
             }
 
             if(printBlackWhite) {
@@ -212,20 +228,11 @@ public class PrintTools implements Printable
         Graphics2D g2d = (Graphics2D)g;
 
         // User (0,0) is typically outside the imageable area, so we must
-        // translate by the X and Y values in the PageFormat to avoid clipping
-
-        /*if (printMirror) {
-            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
-                pf.getImageableY());
-            g2d.scale(-xscale,yscale);
-        } else {
-            g2d.translate(pf.getImageableX(), pf.getImageableY());
-            g2d.scale(xscale,yscale);
-        }*/
-
+        // translate by the X and Y values in the PageFormat to avoid clipping,
+        // taking into account the margins which are needed.
         if (printMirror) {
-            g2d.translate(pf.getImageableX()+pf.getImageableWidth(),
-                pf.getImageableY());
+            g2d.translate(pf.getWidth()-rightMargin/INCH*NATIVERES,
+                topMargin/INCH*NATIVERES);
             g2d.scale(-xscale,yscale);
         } else {
             g2d.translate(leftMargin/INCH*NATIVERES, topMargin/INCH*NATIVERES);
@@ -250,9 +257,11 @@ public class PrintTools implements Printable
         if (printFitToPage) {
             m = DrawingSize.calculateZoomToFit(
                 cc.getDrawingModel(),
-                (int)(pf.getWidth()-(leftMargin+rightMargin)*NATIVERES)*MULT
+                (int)(pf.getWidth()-(leftMargin+rightMargin)
+                    /INCH*NATIVERES)*MULT
                     -2*security,
-                (int)(pf.getHeight()-(topMargin+bottomMargin)*NATIVERES)*MULT
+                (int)(pf.getHeight()-(topMargin+bottomMargin)
+                    /INCH*NATIVERES)*MULT
                     -2*security,
                 true);
             zoom=m.getXMagnitude();

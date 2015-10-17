@@ -67,6 +67,8 @@ bin/net/sourceforge/fidocadj/dialogs/DialogParameters.class
 bin/net/sourceforge/fidocadj/dialogs/DialogPrint$1.class
 bin/net/sourceforge/fidocadj/dialogs/DialogPrint$2.class
 bin/net/sourceforge/fidocadj/dialogs/DialogPrint$3.class
+bin/net/sourceforge/fidocadj/dialogs/DialogPrint$4.class
+bin/net/sourceforge/fidocadj/dialogs/DialogPrint$5.class
 bin/net/sourceforge/fidocadj/dialogs/DialogPrint.class
 bin/net/sourceforge/fidocadj/dialogs/DialogSymbolize$1.class
 bin/net/sourceforge/fidocadj/dialogs/DialogSymbolize$2.class
