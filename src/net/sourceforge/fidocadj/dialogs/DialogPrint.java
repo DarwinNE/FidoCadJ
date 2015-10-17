@@ -417,7 +417,7 @@ public class DialogPrint extends MinimumSizeDialog
 
     /** Defines the limits for the sum of the horisontal and vertical margins.
         @param maxhor the limit of the left+right margins (in cm)
-        @param maxhor the limit of the top+bottom margins (in cm)
+        @param maxvert the limit of the top+bottom margins (in cm)
     */
     public void setMaxMargins(double maxhor, double maxvert)
     {

@@ -82,7 +82,7 @@ public class DialogParameters extends JDialog
     // Here some legacy code makes use of generics. They are tested, so
     // there is no risk of an actual error, but Java issues a warning.
     @SuppressWarnings("unchecked")
-    public DialogParameters(final JFrame parent, 
+    public DialogParameters(final JFrame parent,
             Vector<ParameterDescription> vec,
             boolean strict, Vector<LayerDesc> layers)
     {

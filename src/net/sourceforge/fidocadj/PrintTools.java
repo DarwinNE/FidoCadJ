@@ -58,12 +58,13 @@ public class PrintTools implements Printable
     private double leftMargin=-1;
     private double rightMargin=-1;
 
-    private final double LIMIT=1e-5;
     private CircuitPanel cc;
 
-    private final int MULT=16;
-    private final double INCH=2.54;  // in cm
-    private final int NATIVERES=72;  // in dpi
+    private final static double LIMIT=1e-5;
+
+    private final static int MULT=16;
+    private final static double INCH=2.54;  // in cm
+    private final static int NATIVERES=72;  // in dpi
 
     /** Standard constructor.
     */
@@ -157,7 +158,7 @@ public class PrintTools implements Printable
                     -pp.getImageableWidth()-pp.getImageableX())
             {
                 int answer = JOptionPane.showConfirmDialog(dp,
-                    Globals.messages.getString("Print_outside_regions"), 
+                    Globals.messages.getString("Print_outside_regions"),
                     "",JOptionPane.YES_NO_OPTION);
                 if(answer!= JOptionPane.YES_OPTION) {
                     noexit=true;
