@@ -458,14 +458,14 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Repaint the panel.
-        This method performs the following operations:
-        1. set the anti aliasing on (or off, depending on antiAlias).
-        2. paint in white the background and draw the grid.
-        3. call drawingAgent draw
-        4. draw all active handles
-        5. if needed, draw the primitive being edited
-        6. draw the ruler, if needed
-        7. if requested, print information about redraw speed.
+        This method performs the following operations:<br>
+        1. set the anti aliasing on (or off, depending on antiAlias).<br>
+        2. paint in white the background and draw the grid.<br>
+        3. call drawingAgent draw.<br>
+        4. draw all active handles.<br>
+        5. if needed, draw the primitive being edited.<br>
+        6. draw the ruler, if needed.<br>
+        7. if requested, print information about redraw speed.<br>
         @param g the graphic context on which perform the drawing operations.
     */
     public void paintComponent(Graphics g)
@@ -622,6 +622,14 @@ public class CircuitPanel extends JPanel implements
     public DrawingModel getDrawingModel()
     {
         return dmp;
+    }
+
+    /** Set the current drawing model.
+        @param dm the drawing model.
+    */
+    public void setDrawingModel(DrawingModel dm)
+    {
+        dmp=dm;
     }
 
     /** Get the current instance of SelectionActions controller class

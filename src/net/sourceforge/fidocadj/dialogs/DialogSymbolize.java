@@ -470,8 +470,6 @@ public class DialogSymbolize extends MinimumSizeDialog
 
                 cp.getLibrary().put(macro.key, macro); // add to lib
 
-                System.out.println("key: "+macro.key);
-
                 // Save the new symbol in the current libFilename
                 try {
                     LibUtils.save(cp.getLibrary(),

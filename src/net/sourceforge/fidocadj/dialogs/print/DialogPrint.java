@@ -1,4 +1,4 @@
-package net.sourceforge.fidocadj.dialogs;
+package net.sourceforge.fidocadj.dialogs.print;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,6 +13,8 @@ import javax.imageio.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 
 /** Choose file format, size and options of the graphic exporting.
     The class dialogPrint implements a modal dialog to select printing options.
@@ -57,15 +59,19 @@ public class DialogPrint extends MinimumSizeDialog
     private boolean marginsSet=false;
     private boolean oldLandscapeState=false;
 
+    private DrawingModel drawingModel;
+
     private boolean print;     // Indicates that the print should be done
     /** Standard constructor: it needs the parent frame.
-        @param parent the dialog's parent
+        @param parent the dialog's parent.
+        @param dd the drawing model to be employed.
     */
-    public DialogPrint (JFrame parent)
+    public DialogPrint (JFrame parent, DrawingModel dd)
     {
         super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
         print=false;
+        drawingModel=dd;
 
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
@@ -98,11 +104,31 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
 
-        JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
+        PrintPreview prp=new PrintPreview(false);
+        // Reasonable size
+        prp.setSize(256, 256);
+        prp.setPreferredSize(new Dimension(256, 256));
+        prp.add(Box.createVerticalStrut(256));
+        prp.add(Box.createHorizontalStrut(256));
+
+        prp.setDrawingModel(drawingModel);
+
         constraints.anchor=GridBagConstraints.EAST;
+        constraints.fill=GridBagConstraints.BOTH;
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=1;
+        constraints.gridy=0;
+        constraints.gridwidth=1;
+        constraints.gridheight=8;
+        contentPane.add(prp, constraints);              // Print preview!
+
+        JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
+        constraints.anchor=GridBagConstraints.WEST;
+        constraints.fill=GridBagConstraints.NONE;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=3;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -135,10 +161,10 @@ public class DialogPrint extends MinimumSizeDialog
 
         JLabel lBottomMargin=new JLabel(
             Globals.messages.getString("BottomMargin"));
-        constraints.anchor=GridBagConstraints.EAST;
+        constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=1;
+        constraints.gridx=3;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -155,10 +181,10 @@ public class DialogPrint extends MinimumSizeDialog
         tBottomMargin.getDocument().addDocumentListener(dl);
 
         JLabel lLeftMargin=new JLabel(Globals.messages.getString("LeftMargin"));
-        constraints.anchor=GridBagConstraints.EAST;
+        constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=1;
+        constraints.gridx=3;
         constraints.gridy=2;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -176,10 +202,10 @@ public class DialogPrint extends MinimumSizeDialog
 
         JLabel lRightMargin=new JLabel(
             Globals.messages.getString("RightMargin"));
-        constraints.anchor=GridBagConstraints.EAST;
+        constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=1;
+        constraints.gridx=3;
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -196,32 +222,32 @@ public class DialogPrint extends MinimumSizeDialog
         tRightMargin.getDocument().addDocumentListener(dl);
 
         mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
-        constraints.gridx=3;
-        constraints.gridy=0;
+        constraints.gridx=2;
+        constraints.gridy=4;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(mirror_CB, constraints);        // Add Print Mirror cb
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
-        constraints.gridx=4;
-        constraints.gridy=1;
+        constraints.gridx=2;
+        constraints.gridy=5;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(fit_CB, constraints);       // Add Fit to page cb
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
-        constraints.gridx=3;
-        constraints.gridy=2;
+        constraints.gridx=2;
+        constraints.gridy=6;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(bw_CB, constraints);        // Add BlackWhite cb
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
-        constraints.gridx=3;
-        constraints.gridy=3;
+        constraints.gridx=2;
+        constraints.gridy=7;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
@@ -256,7 +282,7 @@ public class DialogPrint extends MinimumSizeDialog
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 
         constraints.gridx=1;
-        constraints.gridy=4;
+        constraints.gridy=8;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;

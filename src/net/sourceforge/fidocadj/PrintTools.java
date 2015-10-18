@@ -10,7 +10,7 @@ import java.util.*;
 import java.awt.geom.*;
 
 import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.dialogs.print.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.graphic.*;
@@ -112,7 +112,7 @@ public class PrintTools implements Printable
         PageFormat pp = job.defaultPage();
 
         cc=CCr;
-        DialogPrint dp=new DialogPrint(fff);
+        DialogPrint dp=new DialogPrint(fff, CCr.getDrawingModel());
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
         dp.setBW(printBlackWhite);
@@ -124,84 +124,97 @@ public class PrintTools implements Printable
 
         boolean noexit;
         do {
-            noexit=false;
             // Show the (modal) dialog.
             dp.setVisible(true);
-
+            noexit=configurePrinting(dp, pp);
             if (!dp.shouldPrint())
                 return;
-
-            Vector<LayerDesc> ol=cc.dmp.getLayers();
-            // Get some information about the printing options.
-            printMirror = dp.getMirror();
-            printFitToPage = dp.getFit();
-            printLandscape = dp.getLandscape();
-            printBlackWhite=dp.getBW();
-
-            try {
-                topMargin=dp.getTMargin();
-                bottomMargin=dp.getBMargin();
-                leftMargin=dp.getLMargin();
-                rightMargin=dp.getRMargin();
-            } catch (java.lang.NumberFormatException n) {
-                JOptionPane.showMessageDialog(dp,
-                    Globals.messages.getString("Format_invalid"), "",
-                    JOptionPane.INFORMATION_MESSAGE);
-                noexit=true;
-                continue;
-            }
-            if(topMargin/INCH*NATIVERES<pp.getImageableY() ||
-                bottomMargin/INCH*NATIVERES<pp.getHeight()
-                    -pp.getImageableHeight()-pp.getImageableY() ||
-                leftMargin/INCH*NATIVERES<pp.getImageableX() ||
-                rightMargin/INCH*NATIVERES<pp.getWidth()
-                    -pp.getImageableWidth()-pp.getImageableX())
-            {
-                int answer = JOptionPane.showConfirmDialog(dp,
-                    Globals.messages.getString("Print_outside_regions"),
-                    "",JOptionPane.YES_NO_OPTION);
-                if(answer!= JOptionPane.YES_OPTION) {
-                    noexit=true;
-                    continue;
-                }
-            }
-
-            if(printBlackWhite) {
-                Vector<LayerDesc> v=new Vector<LayerDesc>();
-
-                // Here we create an alternative array of layers in
-                // which all colors are pitch black. This may be
-                // useful for PCB's.
-
-                for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
-                    v.add(new LayerDesc(new ColorSwing(Color.black),
-                        ((LayerDesc)ol.get(i)).getVisible(),
-                         "B/W",((LayerDesc)ol.get(i)).getAlpha()));
-                cc.dmp.setLayers(v);
-            }
-            job.setPrintable(this);
-            if (job.printDialog()) {
-                try {
-                    PrintRequestAttributeSet aset = new
-                        HashPrintRequestAttributeSet();
-                    // Set the correct printing orientation.
-                    if (printLandscape) {
-                        aset.add(OrientationRequested.LANDSCAPE);
-                    } else {
-                        aset.add(OrientationRequested.PORTRAIT);
-                    }
-                    job.print(aset);
-                } catch (PrinterException ex) {
-                    // The job did not successfully complete
-                    JOptionPane.showMessageDialog(fff,
-                        Globals.messages.getString("Print_uncomplete"));
-                }
-            }
-            cc.dmp.setLayers(ol);
         } while (noexit);
+        try {
+            executePrinting(job);
+        } catch (PrinterException ex) {
+            // The job did not successfully complete
+            JOptionPane.showMessageDialog(fff,
+                Globals.messages.getString("Print_uncomplete"));
+        }
     }
 
-    /** The printing interface.
+    /** Configure the printing object by reading the current settings of
+        the DialogPrint employed for the user interaction.
+        @param dp the printing dialog.
+        @param pp the standard page format.
+    */
+    private boolean configurePrinting(DialogPrint dp, PageFormat pp)
+    {
+        boolean noexit=false;
+
+        if (!dp.shouldPrint())
+            return true;
+
+        // Get some information about the printing options.
+        printMirror = dp.getMirror();
+        printFitToPage = dp.getFit();
+        printLandscape = dp.getLandscape();
+        printBlackWhite=dp.getBW();
+
+        topMargin=dp.getTMargin();
+        bottomMargin=dp.getBMargin();
+        leftMargin=dp.getLMargin();
+        rightMargin=dp.getRMargin();
+
+        if(topMargin/INCH*NATIVERES<pp.getImageableY() ||
+            bottomMargin/INCH*NATIVERES<pp.getHeight()
+                -pp.getImageableHeight()-pp.getImageableY() ||
+            leftMargin/INCH*NATIVERES<pp.getImageableX() ||
+            rightMargin/INCH*NATIVERES<pp.getWidth()
+                -pp.getImageableWidth()-pp.getImageableX())
+        {
+            int answer = JOptionPane.showConfirmDialog(dp,
+                Globals.messages.getString("Print_outside_regions"),
+                "",JOptionPane.YES_NO_OPTION);
+            if(answer!= JOptionPane.YES_OPTION) {
+                noexit=true;
+            }
+        }
+        return noexit;
+    }
+
+    /** Low level printing operations.
+        @param job the current printing job.
+    */
+    private void executePrinting(PrinterJob job)
+        throws PrinterException
+    {
+        Vector<LayerDesc> ol=cc.dmp.getLayers();
+        if(printBlackWhite) {
+            Vector<LayerDesc> v=new Vector<LayerDesc>();
+
+            // Here we create an alternative array of layers in
+            // which all colors are pitch black. This may be
+            // useful for PCB's.
+
+            for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
+                v.add(new LayerDesc(new ColorSwing(Color.black),
+                    ((LayerDesc)ol.get(i)).getVisible(),
+                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
+            cc.dmp.setLayers(v);
+        }
+        job.setPrintable(this);
+        if (job.printDialog()) {
+            PrintRequestAttributeSet aset = new
+                HashPrintRequestAttributeSet();
+            // Set the correct printing orientation.
+            if (printLandscape) {
+                aset.add(OrientationRequested.LANDSCAPE);
+            } else {
+                aset.add(OrientationRequested.PORTRAIT);
+            }
+            job.print(aset);
+        }
+        cc.dmp.setLayers(ol);
+    }
+
+    /** The printing interface (prints one page).
         @param g the graphic context.
         @param pf the page format.
         @param page the page number.

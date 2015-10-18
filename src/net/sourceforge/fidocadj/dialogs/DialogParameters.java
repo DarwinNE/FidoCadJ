@@ -358,7 +358,7 @@ public class DialogParameters extends JDialog
                 pack();
             }
         });
-
+        ++ycount;
         constraints.gridx = 0;
         constraints.gridy = ycount++;
         constraints.gridwidth = 4;

@@ -169,12 +169,8 @@ public class Drawing
     private void drawPrimitives(int j_index, GraphicsInterface graphic,
         MapCoordinates cs)
     {
-        GraphicPrimitive gg;
-        int i_index;
-
         // Here we process all the primitives, one by one!
-        for (i_index=0; i_index<dmp.getPrimitiveVector().size(); ++i_index) {
-            gg=(GraphicPrimitive)dmp.getPrimitiveVector().get(i_index);
+        for (GraphicPrimitive gg : dmp.getPrimitiveVector()) {
 
             // Layers are ordered. This improves the redrawing speed.
             if (j_index>0 && gg.layer>j_index) {
@@ -183,7 +179,6 @@ public class Drawing
 
             // Process a particular primitive if it is in the layer
             // being processed.
-
             if(gg.containsLayer(j_index)) {
                 gg.setDrawOnlyLayer(j_index);
                 gg.draw(graphic, cs, dmp.layerV);
@@ -193,5 +188,4 @@ public class Drawing
                 needHoles=true;
         }
     }
-
 }
