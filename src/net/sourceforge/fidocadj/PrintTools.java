@@ -112,7 +112,7 @@ public class PrintTools implements Printable
         PageFormat pp = job.defaultPage();
 
         cc=CCr;
-        DialogPrint dp=new DialogPrint(fff, CCr.getDrawingModel());
+        DialogPrint dp=new DialogPrint(fff, CCr.getDrawingModel(), pp);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
         dp.setBW(printBlackWhite);

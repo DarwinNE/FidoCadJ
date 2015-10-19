@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import java.io.*;
+import java.awt.print.*;
 
 import javax.imageio.*;
 
@@ -65,8 +66,10 @@ public class DialogPrint extends MinimumSizeDialog
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent.
         @param dd the drawing model to be employed.
+        @param pageDescription the description of the page to be printed.
     */
-    public DialogPrint (JFrame parent, DrawingModel dd)
+    public DialogPrint (JFrame parent, DrawingModel dd,
+        PageFormat pageDescription)
     {
         super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
@@ -104,10 +107,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
 
-        PrintPreview prp=new PrintPreview(false);
-        // Reasonable size
-        prp.setSize(256, 256);
-        prp.setPreferredSize(new Dimension(256, 256));
+        PrintPreview prp=new PrintPreview(false, pageDescription);
         prp.add(Box.createVerticalStrut(256));
         prp.add(Box.createHorizontalStrut(256));
 

@@ -74,14 +74,14 @@ public class Drawing
 
     /** Draw the current drawing.
         This code is rather critical. Do not touch it unless you know very
-        precisely what to do.
+        precisely what you are doing.
         @param G the graphic context in which the drawing should be drawn.
         @param cs the coordinate mapping to be used.
     */
     public void draw(GraphicsInterface G, MapCoordinates cs)
     {
         if(cs==null) {
-            System.out.println(
+            System.err.println(
                 "DrawingModel.draw: ouch... cs not initialized :-(");
             return;
         }
@@ -161,6 +161,7 @@ public class Drawing
     {
         return needHoles;
     }
+
     /** Draws all the primitives and macros contained in the specified layer.
         This function is used mainly by the draw member.
         @param j_index the layer to be considered.

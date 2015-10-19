@@ -96,12 +96,12 @@ public class CircuitPanel extends JPanel implements
     public Drawing drawingAgent;
 
     // Controllers:
-    private final EditorActions edt;
-    private final CopyPasteActions cpa;
-    private final ParserActions pa;
-    private final UndoActions ua;
-    private final ContinuosMoveActions eea;
-    private final SelectionActions sa;
+    private EditorActions edt;
+    private CopyPasteActions cpa;
+    private ParserActions pa;
+    private UndoActions ua;
+    private ContinuosMoveActions eea;
+    private SelectionActions sa;
 
     // ********** PROFILING **********
 
@@ -148,21 +148,12 @@ public class CircuitPanel extends JPanel implements
     public CircuitPanel (boolean isEditable)
     {
         backgroundColor=Color.white;
-        dmp = new DrawingModel();
-        sa = new SelectionActions(dmp);
-        pa =new ParserActions(dmp);
-        ua = new UndoActions(pa);
-        edt = new EditorActions(dmp, sa, ua);
-        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
-        eea.setPrimitivesParListener(this);
-        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
+        setDrawingModel(new DrawingModel());
 
         mwHandler=new MouseWheelHandler(this);
         mmcHandler= new MouseMoveClickHandler(this);
 
         graphicSwing = new Graphics2DSwing();
-
-        drawingAgent=new Drawing(dmp);
 
         ruler = new Ruler(editingColor.getColorSwing(),
             editingColor.getColorSwing().darker().darker());
@@ -185,7 +176,7 @@ public class CircuitPanel extends JPanel implements
         runs = 0;
         average = 0;
 
-        // This is unot seful when preparing the applet: the circuit panel will
+        // This is not useful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
             addMouseListener(mmcHandler);
@@ -624,12 +615,21 @@ public class CircuitPanel extends JPanel implements
         return dmp;
     }
 
-    /** Set the current drawing model.
+    /** Set the current drawing model. Changing it mean that all the
+        controllers and views associated to the panel will be updated.
         @param dm the drawing model.
     */
     public void setDrawingModel(DrawingModel dm)
     {
         dmp=dm;
+        sa = new SelectionActions(dmp);
+        pa =new ParserActions(dmp);
+        ua = new UndoActions(pa);
+        edt = new EditorActions(dmp, sa, ua);
+        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
+        drawingAgent=new Drawing(dmp);
+        eea.setPrimitivesParListener(this);
+        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
     }
 
     /** Get the current instance of SelectionActions controller class
