@@ -378,7 +378,8 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
-            pt.printDrawing(fff, cc);
+            pt.associateToCircuitPanel(cc);
+            pt.printDrawing(fff);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
             fff.getFileTools().saveWithName(false);

@@ -612,7 +612,7 @@ public class Graphics2DSwing implements GraphicsInterface
             try {
                 // Create a buffered image in which to draw
                 bufferedImage = new BufferedImage(width, height,
-                                          BufferedImage.TYPE_INT_BGR);
+                                          BufferedImage.TYPE_INT_RGB);
 
             } catch (java.lang.OutOfMemoryError E) {
                 System.out.println("Out of memory error when painting grid");

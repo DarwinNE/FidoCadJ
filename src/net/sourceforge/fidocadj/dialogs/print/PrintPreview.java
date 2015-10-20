@@ -6,6 +6,8 @@ import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
 
 import java.awt.print.*;
+import java.awt.event.*;
+import java.awt.image.*;
 import java.awt.*;
 
 import net.sourceforge.fidocadj.circuit.*;
@@ -37,23 +39,48 @@ import net.sourceforge.fidocadj.*;
 
     @author Davide Bucci
 */
-public class PrintPreview extends CircuitPanel
+public class PrintPreview extends CircuitPanel implements ComponentListener
 {
     private PageFormat pageDescription;
     private double topMargin;
     private double bottomMargin;
     private double leftMargin;
     private double rightMargin;
+    BufferedImage pageImage;
+    PrintTools printObject;
+    DialogPrint dialog;
 
     /** Constructor.
         @param isEditable true if the panel should be editable.
         @param p the PageFormat description.
+        @param ddp the DialogPrint object to communicate with.
     */
-    public PrintPreview(boolean isEditable, PageFormat p)
+    public PrintPreview(boolean isEditable, PageFormat p, DialogPrint ddp)
     {
         super(isEditable);
         pageDescription=p;
+        dialog=ddp;
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        setGridVisibility(false);
+        addComponentListener(this);
+        int width=200;
+        int height=320;
+        pageImage = new BufferedImage(width, height,
+            BufferedImage.TYPE_INT_RGB);
+        printObject=new PrintTools();
+        printObject.associateToCircuitPanel(this);
+
+        Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+        g2.setColor(Color.white);
+        g2.fillRect(0,0,width,height);
+        g2.scale(1.0/160,1.0/160);
+        try {
+            printObject.print(g2,
+                pageDescription, 0);
+        } catch (PrinterException pe)
+        {
+            System.err.println("Some problem here!");
+        }
     }
 
     /** Set the size of the margins, in centimeters. The orientation of those
@@ -83,12 +110,16 @@ public class PrintPreview extends CircuitPanel
         double baseline=getWidth()*0.6;     // TODO: correct getHeight small
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
-        MapCoordinates mc=getMapCoordinates();
+        /*MapCoordinates mc=getMapCoordinates();
         mc.setXCenter((int)Math.round(getWidth()/2.0-baseline/2.0));
-        mc.setYCenter((int)Math.round(getHeight()/2.0-baseline*ratio/2.0));
+        mc.setYCenter((int)Math.round(getHeight()/2.0-baseline*ratio/2.0));*/
 
-        super.paintComponent(g);
+        //super.paintComponent(g);
 
+        g2.drawImage(pageImage,
+            (int)Math.round(getWidth()/2.0-baseline/2.0),
+            (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
+            null);
         g2.setColor(Color.red);
 
         g2.drawRect((int)Math.round(getWidth()/2.0-baseline/2.0),
@@ -97,5 +128,57 @@ public class PrintPreview extends CircuitPanel
             (int)Math.round(baseline*ratio));
 
         g.setColor(c);
+    }
+
+    /** Called when the panel is resized.
+        TODO: this is not very memory efficient, since an image is created
+        each time the panel is resized.
+        @param e the event descriptor.
+    */
+    public void componentResized(ComponentEvent e)
+    {
+        printObject.configurePrinting(dialog, pageDescription, false);
+        double baseline=getWidth()*0.6;
+        double ratio=pageDescription.getHeight()/pageDescription.getWidth();
+        setMapCoordinates(DrawingSize.calculateZoomToFit(getDrawingModel(),
+            (int)Math.round(baseline), (int)Math.round(baseline*ratio),true));
+
+        int width=(int)baseline;
+        int height=(int)Math.round(baseline*ratio);
+
+        pageImage = new BufferedImage(width, height,
+            BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+        g2.setColor(Color.white);
+        g2.fillRect(0,0,width,height);
+        g2.scale(1.0/160,1.0/160);
+        try {
+            printObject.print(g2,
+                pageDescription, 0);
+        } catch (PrinterException pe)
+        {
+            System.err.println("Some problem here!");
+        }
+    }
+
+    /** Called when the panel is hidden.
+        @param e the event descriptor.
+    */
+    public void componentHidden(ComponentEvent e)
+    {
+    }
+
+    /** Called when the panel is moved.
+        @param e the event descriptor.
+    */
+    public void componentMoved(ComponentEvent e)
+    {
+    }
+
+    /** Called when the panel is shown.
+        @param e the event descriptor.
+    */
+    public void componentShown(ComponentEvent e)
+    {
     }
 }

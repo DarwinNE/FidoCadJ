@@ -101,18 +101,24 @@ public class PrintTools implements Printable
         }
     }
 
+    /** Associate to a given CircuitPanel containing the circuit to be printed.
+        @param rCC the CircuitPanel containing the drawing to be exported.
+    */
+    public void associateToCircuitPanel(CircuitPanel rCC)
+    {
+        cc=rCC;
+    }
+
     /** Show a dialog for printing the current drawing.
         @param fff the parent frame which will be used for dialogs and message
             boxes.
-        @param CCr the CircuitPanel containing the drawing to be exported.
     */
-    public void printDrawing(JFrame fff, CircuitPanel CCr)
+    public void printDrawing(JFrame fff)
     {
         PrinterJob job = PrinterJob.getPrinterJob();
         PageFormat pp = job.defaultPage();
 
-        cc=CCr;
-        DialogPrint dp=new DialogPrint(fff, CCr.getDrawingModel(), pp);
+        DialogPrint dp=new DialogPrint(fff, cc.getDrawingModel(), pp);
         dp.setMirror(printMirror);
         dp.setFit(printFitToPage);
         dp.setBW(printBlackWhite);
@@ -126,7 +132,7 @@ public class PrintTools implements Printable
         do {
             // Show the (modal) dialog.
             dp.setVisible(true);
-            noexit=configurePrinting(dp, pp);
+            noexit=configurePrinting(dp, pp,true);
             if (!dp.shouldPrint())
                 return;
         } while (noexit);
@@ -143,8 +149,13 @@ public class PrintTools implements Printable
         the DialogPrint employed for the user interaction.
         @param dp the printing dialog.
         @param pp the standard page format.
+        @param checkMarginSize if true, the size of the margins is checked
+            and an error message is issued in case of problems.
+        @return true if the printing operation should not be done and the
+            dialog should be shown again.
     */
-    private boolean configurePrinting(DialogPrint dp, PageFormat pp)
+    public boolean configurePrinting(DialogPrint dp, PageFormat pp,
+        boolean checkMarginSize)
     {
         boolean noexit=false;
 
@@ -162,12 +173,12 @@ public class PrintTools implements Printable
         leftMargin=dp.getLMargin();
         rightMargin=dp.getRMargin();
 
-        if(topMargin/INCH*NATIVERES<pp.getImageableY() ||
+        if(checkMarginSize && (topMargin/INCH*NATIVERES<pp.getImageableY() ||
             bottomMargin/INCH*NATIVERES<pp.getHeight()
                 -pp.getImageableHeight()-pp.getImageableY() ||
             leftMargin/INCH*NATIVERES<pp.getImageableX() ||
             rightMargin/INCH*NATIVERES<pp.getWidth()
-                -pp.getImageableWidth()-pp.getImageableX())
+                -pp.getImageableWidth()-pp.getImageableX()))
         {
             int answer = JOptionPane.showConfirmDialog(dp,
                 Globals.messages.getString("Print_outside_regions"),

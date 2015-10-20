@@ -107,7 +107,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
 
-        PrintPreview prp=new PrintPreview(false, pageDescription);
+        PrintPreview prp=new PrintPreview(false, pageDescription, this);
         prp.add(Box.createVerticalStrut(256));
         prp.add(Box.createHorizontalStrut(256));
 
@@ -125,7 +125,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
         constraints.anchor=GridBagConstraints.WEST;
-        constraints.fill=GridBagConstraints.NONE;
+        constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=3;
@@ -171,6 +171,9 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(lBottomMargin, constraints);    // Bottom margin label
 
         tBottomMargin=new JTextField(10);
+        Dimension ddmin=tBottomMargin.getMinimumSize();
+        ddmin.width=100;
+        tBottomMargin.setMinimumSize(ddmin);
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
