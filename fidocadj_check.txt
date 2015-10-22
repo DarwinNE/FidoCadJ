@@ -1,3 +1,2 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/PrintTools.java:155: warning: Balise javadoc @return manquante.
 Audit done.

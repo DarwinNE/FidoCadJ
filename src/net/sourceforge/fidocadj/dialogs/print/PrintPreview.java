@@ -107,21 +107,26 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         getDrawingModel().setChanged(true); // Needed?
         Color c = g.getColor();
         Graphics2D g2 = (Graphics2D) g;
+        int shadowShiftX=4;
+        int shadowShiftY=4;
+
         double baseline=getWidth()*0.6;     // TODO: correct getHeight small
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
-        /*MapCoordinates mc=getMapCoordinates();
-        mc.setXCenter((int)Math.round(getWidth()/2.0-baseline/2.0));
-        mc.setYCenter((int)Math.round(getHeight()/2.0-baseline*ratio/2.0));*/
-
-        //super.paintComponent(g);
-
+        // Draw the shadow of the page.
+        g2.setColor(Color.gray.darker());
+        g2.fillRect((int)Math.round(getWidth()/2.0-baseline/2.0)+shadowShiftX,
+            (int)Math.round(getHeight()/2.0-baseline*ratio/2.0)+shadowShiftY,
+            (int)Math.round(baseline),
+            (int)Math.round(baseline*ratio));
+        // Draw the image containing the preview.
         g2.drawImage(pageImage,
             (int)Math.round(getWidth()/2.0-baseline/2.0),
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
             null);
-        g2.setColor(Color.red);
 
+        // Draw the contour of the page.
+        g2.setColor(Color.black);
         g2.drawRect((int)Math.round(getWidth()/2.0-baseline/2.0),
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
             (int)Math.round(baseline),
@@ -137,7 +142,17 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     */
     public void componentResized(ComponentEvent e)
     {
+        updatePreview();
+    }
+
+    /** Update the printing preview by calculating again the image
+        containing it. It will be shown at the following repaint
+        operation.
+    */
+    public void updatePreview()
+    {
         printObject.configurePrinting(dialog, pageDescription, false);
+        System.out.println("update preview: topMargin="+topMargin);
         double baseline=getWidth()*0.6;
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
         setMapCoordinates(DrawingSize.calculateZoomToFit(getDrawingModel(),
@@ -149,12 +164,16 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         pageImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_RGB);
         Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+
         g2.setColor(Color.white);
         g2.fillRect(0,0,width,height);
-        g2.scale(1.0/160,1.0/160);
+        g2.scale(width/pageDescription.getWidth(),
+            height/pageDescription.getHeight());
+
         try {
-            printObject.print(g2,
-                pageDescription, 0);
+            printObject.setMargins(topMargin, bottomMargin,
+                leftMargin, rightMargin);
+            printObject.print(g2, pageDescription, 0);
         } catch (PrinterException pe)
         {
             System.err.println("Some problem here!");

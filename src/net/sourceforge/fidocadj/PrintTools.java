@@ -101,6 +101,21 @@ public class PrintTools implements Printable
         }
     }
 
+    /** Set the size of the margins, in centimeters. The orientation of those
+        margins should correspond to the page in the portrait orientation.
+        @param tm top margin.
+        @param bm bottom margin.
+        @param lm left margin.
+        @param rm right margin.
+    */
+    public void setMargins(double tm, double bm, double lm, double rm)
+    {
+        System.out.println("setMargins: tm="+tm);
+        if(tm>0.0) topMargin=tm;
+        if(bm>0.0) bottomMargin=bm;
+        if(lm>0.0) leftMargin=lm;
+        if(rm>0.0) rightMargin=rm;
+    }
     /** Associate to a given CircuitPanel containing the circuit to be printed.
         @param rCC the CircuitPanel containing the drawing to be exported.
     */
@@ -266,10 +281,10 @@ public class PrintTools implements Printable
 
         int printerWidth = (int)pf.getImageableWidth()*MULT;
 
-        /*Rectangle2D.Double border = new Rectangle2D.Double(0, 0, printerWidth,
+        Rectangle2D.Double border = new Rectangle2D.Double(0, 0, printerWidth,
             pf.getImageableHeight()*MULT);
         g2d.setColor(Color.green);
-        g2d.draw(border);*/
+        g2d.draw(border);
 
         MapCoordinates m;
 
@@ -312,6 +327,7 @@ public class PrintTools implements Printable
         if(page>npages) {
             return NO_SUCH_PAGE;
         }
+        System.out.println("Print operation");
         // Now we perform our rendering
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
 

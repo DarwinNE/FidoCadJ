@@ -49,6 +49,8 @@ public class DialogPrint extends MinimumSizeDialog
     private final JCheckBox bw_CB;
     private final JCheckBox landscape_CB;
 
+    private final PrintPreview prp;
+
     private final JTextField tTopMargin;
     private final JTextField tBottomMargin;
     private final JTextField tLeftMargin;
@@ -107,7 +109,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         contentPane.add(empty1, constraints);           // Add "   " label
 
-        PrintPreview prp=new PrintPreview(false, pageDescription, this);
+        prp=new PrintPreview(false, pageDescription, this);
         prp.add(Box.createVerticalStrut(256));
         prp.add(Box.createHorizontalStrut(256));
 
@@ -138,6 +140,16 @@ public class DialogPrint extends MinimumSizeDialog
             public void changedUpdate(DocumentEvent e)
             {
                 marginsSet=true;
+                try {
+                    double tm=Double.parseDouble(tTopMargin.getText());
+                    double bm=Double.parseDouble(tBottomMargin.getText());
+                    double lm=Double.parseDouble(tLeftMargin.getText());
+                    double rm=Double.parseDouble(tRightMargin.getText());
+                    prp.setMargins(tm,bm,lm,rm);
+                } catch (java.lang.NumberFormatException n) {
+                }
+                prp.updatePreview();
+                prp.repaint();
             }
 
             public void removeUpdate(DocumentEvent e)
@@ -146,6 +158,14 @@ public class DialogPrint extends MinimumSizeDialog
 
             public void insertUpdate(DocumentEvent e)
             {
+            }
+        };
+
+        ChangeListener updatePreview = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent)
+            {
+                prp.updatePreview();
+                prp.repaint();
             }
         };
 
@@ -231,6 +251,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(mirror_CB, constraints);        // Add Print Mirror cb
+        mirror_CB.addChangeListener(updatePreview);
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
         constraints.gridx=2;
@@ -239,6 +260,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(fit_CB, constraints);       // Add Fit to page cb
+        fit_CB.addChangeListener(updatePreview);
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
         constraints.gridx=2;
@@ -247,6 +269,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
         contentPane.add(bw_CB, constraints);        // Add BlackWhite cb
+        bw_CB.addChangeListener(updatePreview);
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
         constraints.gridx=2;
@@ -275,6 +298,8 @@ public class DialogPrint extends MinimumSizeDialog
                         tBottomMargin.setText(tRightMargin.getText());
                         tRightMargin.setText(d);
                     }
+                    prp.updatePreview();
+                    prp.repaint();
                 }
                 oldLandscapeState=landscape_CB.isSelected();
             }
