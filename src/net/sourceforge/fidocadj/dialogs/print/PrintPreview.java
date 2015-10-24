@@ -69,6 +69,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
             BufferedImage.TYPE_INT_RGB);
         printObject=new PrintTools();
         printObject.associateToCircuitPanel(this);
+        printObject.setShowMargins(true);
 
         Graphics2D g2=(Graphics2D)pageImage.createGraphics();
         g2.setColor(Color.white);

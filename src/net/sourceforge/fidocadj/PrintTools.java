@@ -60,6 +60,8 @@ public class PrintTools implements Printable
 
     private CircuitPanel cc;
 
+    private boolean showMargins;
+
     private final static double LIMIT=1e-5;
 
     private final static int MULT=16;
@@ -75,6 +77,7 @@ public class PrintTools implements Printable
         printFitToPage = false;
         printLandscape = false;
         adjustMargins(PrinterJob.getPrinterJob().defaultPage());
+        showMargins = false;
     }
 
     /** If the values of the margins are negative, they will be adjusted
@@ -99,6 +102,15 @@ public class PrintTools implements Printable
             bottomMargin=(pf.getHeight()-pf.getImageableY()
                 -pf.getImageableHeight())/NATIVERES*INCH+correction;
         }
+    }
+
+    /** Determine if the margins should be shown or not.
+        @param sm true if the margins should be shown (for example, in a
+            print preview operation).
+    */
+    public void setShowMargins(boolean sm)
+    {
+        showMargins=sm;
     }
 
     /** Set the size of the margins, in centimeters. The orientation of those
@@ -187,8 +199,6 @@ public class PrintTools implements Printable
         bottomMargin=dp.getBMargin();
         leftMargin=dp.getLMargin();
         rightMargin=dp.getRMargin();
-        
-        System.out.println("topMargin: "+topMargin);
 
         if(checkMarginSize && (topMargin/INCH*NATIVERES<pp.getImageableY() ||
             bottomMargin/INCH*NATIVERES<pp.getHeight()
@@ -253,6 +263,10 @@ public class PrintTools implements Printable
                                                    PrinterException
     {
         int npages = 0;
+        // This is not a "real" margin, but just a tiny amount which ensures
+        // that even when the calculations are rounded up, the printout does
+        // not span erroneously over multiple pages.
+        int security=5;
 
         // This might be explained as follows:
         // 1 - The Java printing system normally works with an internal
@@ -269,6 +283,19 @@ public class PrintTools implements Printable
 
         Graphics2D g2d = (Graphics2D)g;
 
+        // Mark with a light red the unprintable area of the sheet.
+        if(showMargins) {
+            g2d.setColor(new Color(255,200,200));
+            g2d.fillRect(0,0, (int)pf.getImageableX(), (int)pf.getHeight());
+            g2d.fillRect(0,0, (int)pf.getWidth(), (int)pf.getImageableY());
+
+            g2d.fillRect((int)(pf.getImageableX()+pf.getImageableWidth()),
+                0, (int)pf.getImageableX(), (int)pf.getHeight());
+            g2d.fillRect(0, (int)(pf.getImageableY()+pf.getImageableHeight()),
+                (int)pf.getWidth(), (int)(pf.getHeight()-
+                    pf.getImageableHeight()-pf.getImageableY()));
+        }
+
         // User (0,0) is typically outside the imageable area, so we must
         // translate by the X and Y values in the PageFormat to avoid clipping,
         // taking into account the margins which are needed.
@@ -283,17 +310,17 @@ public class PrintTools implements Printable
 
         int printerWidth = (int)pf.getImageableWidth()*MULT;
 
-        Rectangle2D.Double border = new Rectangle2D.Double(0, 0, printerWidth,
-            pf.getImageableHeight()*MULT);
-        g2d.setColor(Color.green);
-        g2d.draw(border);
+        if(showMargins) {
+            Rectangle2D.Double border = new Rectangle2D.Double(0, 0, 
+                (pf.getWidth()-(leftMargin+rightMargin)/INCH*NATIVERES)*MULT
+                -2*security,
+                (pf.getHeight()-(topMargin+bottomMargin)/INCH*NATIVERES)*MULT
+                -2*security);
+            g2d.setColor(Color.green);
+            g2d.draw(border);
+        }
 
         MapCoordinates m;
-
-        // This is not a "real" margin, but just a tiny amount which ensures
-        // that even when the calculations are rounded up, the printout does
-        // not span erroneously over multiple pages.
-        int security=5;
 
         // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
