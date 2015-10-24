@@ -137,8 +137,9 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(lTopMargin, constraints);           // Top margin label
 
         DocumentListener dl=new DocumentListener() {
-            public void changedUpdate(DocumentEvent e)
+            private void patata()
             {
+                System.out.println("Doc Listener");
                 marginsSet=true;
                 try {
                     double tm=Double.parseDouble(tTopMargin.getText());
@@ -146,18 +147,24 @@ public class DialogPrint extends MinimumSizeDialog
                     double lm=Double.parseDouble(tLeftMargin.getText());
                     double rm=Double.parseDouble(tRightMargin.getText());
                     prp.setMargins(tm,bm,lm,rm);
+                    prp.updatePreview();
                 } catch (java.lang.NumberFormatException n) {
                 }
-                prp.updatePreview();
                 prp.repaint();
+            }
+            public void changedUpdate(DocumentEvent e)
+            {
+                patata();
             }
 
             public void removeUpdate(DocumentEvent e)
             {
+                patata();
             }
 
             public void insertUpdate(DocumentEvent e)
             {
+                patata();
             }
         };
 
@@ -484,6 +491,7 @@ public class DialogPrint extends MinimumSizeDialog
     */
     public double getTMargin()
     {
+        System.out.println("tm: "+Double.parseDouble(tTopMargin.getText()));
         return Double.parseDouble(tTopMargin.getText());
     }
 

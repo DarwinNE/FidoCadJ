@@ -174,7 +174,7 @@ public class PrintTools implements Printable
     {
         boolean noexit=false;
 
-        if (!dp.shouldPrint())
+        if (!dp.shouldPrint() && checkMarginSize)
             return true;
 
         // Get some information about the printing options.
@@ -187,6 +187,8 @@ public class PrintTools implements Printable
         bottomMargin=dp.getBMargin();
         leftMargin=dp.getLMargin();
         rightMargin=dp.getRMargin();
+        
+        System.out.println("topMargin: "+topMargin);
 
         if(checkMarginSize && (topMargin/INCH*NATIVERES<pp.getImageableY() ||
             bottomMargin/INCH*NATIVERES<pp.getHeight()
