@@ -138,6 +138,7 @@ bin/net/sourceforge/fidocadj/toolbars/ToolbarZoom$1.class
 bin/net/sourceforge/fidocadj/toolbars/ToolbarZoom.class
 bin/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.class
 bin/net/sourceforge/fidocadj/dialogs/print/*.class
+bin/net/sourceforge/fidocadj/dialogs/print/PrintPreview.class
 bin/net/sourceforge/fidocadj/undo/
 test/export/eps/test_out.eps
 test/export/pdf/test_out.pdf

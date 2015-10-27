@@ -114,6 +114,11 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         double baseline=getWidth()*0.6;     // TODO: correct getHeight small
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
+        if(dialog.getLandscape()) {
+            baseline=getWidth()*0.8;
+            ratio=pageDescription.getWidth()/pageDescription.getHeight();
+        }
+
         // Draw the shadow of the page.
         g2.setColor(Color.gray.darker());
         g2.fillRect((int)Math.round(getWidth()/2.0-baseline/2.0)+shadowShiftX,
@@ -154,8 +159,13 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     {
         printObject.configurePrinting(dialog, pageDescription, false);
         System.out.println("update preview: topMargin="+topMargin);
+
         double baseline=getWidth()*0.6;
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
+        if(dialog.getLandscape()) {
+            baseline=getWidth()*0.8;
+            ratio=pageDescription.getWidth()/pageDescription.getHeight();
+        }
         setMapCoordinates(DrawingSize.calculateZoomToFit(getDrawingModel(),
             (int)Math.round(baseline), (int)Math.round(baseline*ratio),true));
 
@@ -165,6 +175,10 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         pageImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_RGB);
         Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+
+        // Activate anti-aliasing
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(Color.white);
         g2.fillRect(0,0,width,height);

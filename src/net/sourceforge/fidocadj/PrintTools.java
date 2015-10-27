@@ -316,7 +316,13 @@ public class PrintTools implements Printable
                 -2*security,
                 (pf.getHeight()-(topMargin+bottomMargin)/INCH*NATIVERES)*MULT
                 -2*security);
-            g2d.setColor(Color.green);
+            float dashBorder[] = {150.0f};
+            BasicStroke dashed = new BasicStroke(50.0f,
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_MITER,
+                        10.0f, dashBorder, 0.0f);
+            g2d.setStroke(dashed);
+            g2d.setColor(Color.black);
             g2d.draw(border);
         }
 

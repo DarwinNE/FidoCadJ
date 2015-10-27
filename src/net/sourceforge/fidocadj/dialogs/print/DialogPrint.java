@@ -305,9 +305,9 @@ public class DialogPrint extends MinimumSizeDialog
                         tBottomMargin.setText(tRightMargin.getText());
                         tRightMargin.setText(d);
                     }
-                    prp.updatePreview();
-                    prp.repaint();
                 }
+                prp.updatePreview();
+                prp.repaint();
                 oldLandscapeState=landscape_CB.isSelected();
             }
         });
