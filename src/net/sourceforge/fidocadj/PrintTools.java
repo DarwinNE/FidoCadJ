@@ -311,7 +311,7 @@ public class PrintTools implements Printable
         int printerWidth = (int)pf.getImageableWidth()*MULT;
 
         if(showMargins) {
-            Rectangle2D.Double border = new Rectangle2D.Double(0, 0, 
+            Rectangle2D.Double border = new Rectangle2D.Double(0, 0,
                 (pf.getWidth()-(leftMargin+rightMargin)/INCH*NATIVERES)*MULT
                 -2*security,
                 (pf.getHeight()-(topMargin+bottomMargin)/INCH*NATIVERES)*MULT

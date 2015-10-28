@@ -59,7 +59,6 @@ public class DialogPrint extends MinimumSizeDialog
     private double maxHorisontalMargin;
     private double maxVerticalMargin;
 
-    private boolean marginsSet=false;
     private boolean oldLandscapeState=false;
 
     private DrawingModel drawingModel;
@@ -134,13 +133,11 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
-        contentPane.add(lTopMargin, constraints);           // Top margin label
+        contentPane.add(lTopMargin, constraints);       // Top margin label
 
         DocumentListener dl=new DocumentListener() {
             private void patata()
             {
-                System.out.println("Doc Listener");
-                marginsSet=true;
                 try {
                     double tm=Double.parseDouble(tTopMargin.getText());
                     double bm=Double.parseDouble(tBottomMargin.getText());
@@ -291,20 +288,18 @@ public class DialogPrint extends MinimumSizeDialog
             {
                 // If the page was rotated, the margins should be adapted
                 // so they always correspond to the same place in the page.
-                if(!marginsSet) {
-                    if(!oldLandscapeState && landscape_CB.isSelected()) {
-                        String d=tLeftMargin.getText();
-                        tLeftMargin.setText(tTopMargin.getText());
-                        tTopMargin.setText(tRightMargin.getText());
-                        tRightMargin.setText(tBottomMargin.getText());
-                        tBottomMargin.setText(d);
-                    } else if(oldLandscapeState && !landscape_CB.isSelected()){
-                        String d=tTopMargin.getText();
-                        tTopMargin.setText(tLeftMargin.getText());
-                        tLeftMargin.setText(tBottomMargin.getText());
-                        tBottomMargin.setText(tRightMargin.getText());
-                        tRightMargin.setText(d);
-                    }
+                if(!oldLandscapeState && landscape_CB.isSelected()) {
+                    String d=tLeftMargin.getText();
+                    tLeftMargin.setText(tBottomMargin.getText());
+                    tBottomMargin.setText(tRightMargin.getText());
+                    tRightMargin.setText(tTopMargin.getText());
+                    tTopMargin.setText(d);
+                } else if(oldLandscapeState && !landscape_CB.isSelected()){
+                    String d=tTopMargin.getText();
+                    tTopMargin.setText(tRightMargin.getText());
+                    tRightMargin.setText(tBottomMargin.getText());
+                    tBottomMargin.setText(tLeftMargin.getText());
+                    tLeftMargin.setText(d);
                 }
                 prp.updatePreview();
                 prp.repaint();

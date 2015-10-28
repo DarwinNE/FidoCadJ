@@ -108,6 +108,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         getDrawingModel().setChanged(true); // Needed?
         Color c = g.getColor();
         Graphics2D g2 = (Graphics2D) g;
+
         int shadowShiftX=4;
         int shadowShiftY=4;
 
@@ -116,7 +117,10 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
 
         if(dialog.getLandscape()) {
             baseline=getWidth()*0.8;
-            ratio=pageDescription.getWidth()/pageDescription.getHeight();
+            pageDescription.setOrientation(pageDescription.LANDSCAPE);
+            //ratio=pageDescription.getWidth()/pageDescription.getHeight();
+        } else {
+            pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
 
         // Draw the shadow of the page.
@@ -158,14 +162,19 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     public void updatePreview()
     {
         printObject.configurePrinting(dialog, pageDescription, false);
-        System.out.println("update preview: topMargin="+topMargin);
 
         double baseline=getWidth()*0.6;
-        double ratio=pageDescription.getHeight()/pageDescription.getWidth();
+        double pageWidth=pageDescription.getWidth();
+        double pageHeight=pageDescription.getHeight();
+        double ratio=pageHeight/pageWidth;
+
         if(dialog.getLandscape()) {
             baseline=getWidth()*0.8;
-            ratio=pageDescription.getWidth()/pageDescription.getHeight();
+            pageDescription.setOrientation(pageDescription.LANDSCAPE);
+        } else {
+            pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
+
         setMapCoordinates(DrawingSize.calculateZoomToFit(getDrawingModel(),
             (int)Math.round(baseline), (int)Math.round(baseline*ratio),true));
 
@@ -182,8 +191,8 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
 
         g2.setColor(Color.white);
         g2.fillRect(0,0,width,height);
-        g2.scale(width/pageDescription.getWidth(),
-            height/pageDescription.getHeight());
+        g2.scale(width/pageWidth,
+            height/pageHeight);
 
         try {
             printObject.setMargins(topMargin, bottomMargin,
