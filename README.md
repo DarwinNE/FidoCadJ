@@ -123,14 +123,15 @@ A PARTICULAR PURPOSE.
 1.4 Where can I get help?
 -------------------------
 
-If you feel lost, you can have a look at the manuals. There are several
-translations; language different from English might be a little outdated:
+If you feel lost, you can have a look at the manuals. Languages different from
+English might be outdated or no more listed:
 
-https://sourceforge.net/projects/fidocadj/files/manuals/
+https://github.com/DarwinNE/FidoCadJ/releases
 
-If you need help, you can post a question in the FidoCadJ forum:
+(search for the PDF files!)
 
-https://sourceforge.net/p/fidocadj/discussion/997486/
+If you need help, you can post a question as a [GitHub issue](
+https://github.com/DarwinNE/FidoCadJ/issues).
 
 
 2 - Source files and the FidoCadJ Git directories
@@ -495,18 +496,22 @@ providing complete files, since if a resource is missing, FidoCadJ can abort.
 4.2 "I would like to participate to the coding activity"
 --------------------------------------------------------
 
-This is very nice from you. We will be happy for that. You can manifest
-yourself on the SourceForge forums dedicated to FidoCadJ and declare what are
-your skills and basically what you would like to do. We will discuss a little
-in order to see if we can find an intersection between what you can do with
-the FidoCadJ development strategy. The idea is to keep the work a little bit
-organised and to know who does what. Have a peek to section 3.3 of this
-`README.md` file to see what coding style should be applied to the sources.
+This is very nice from you. We will be happy for that.
+
+You can open an [issue](https://github.com/DarwinNE/FidoCadJ/issues) on GitHub
+and declare what you would like to do. We will discuss a little in order to see
+if we can find an intersection between what you can do with the FidoCadJ
+development strategy. The idea is to keep the work a little bit organised and to
+know who does what.
+
+Have a peek to section 3.3 of this `README.md` file to see what coding style
+should be applied to the sources.
+
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
 for, you can download with Git the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
-FidoCadJ main stream, you MUST keep in touch with us in the SF forums and you
-must discuss about what are you willing to do.
+FidoCadJ main stream, you MUST keep in touch with us via GitHub and you must
+discuss about what are you willing to do.
 
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get an HTML description of all classes used in FidoCadJ. You will find that
