@@ -9,7 +9,7 @@ Swing.
 Those files are present in the source arborescence by means of symbolic links.
 So, please use a decent operating system allowing you to use symbolic links for
 files, if you want to contribute to the coding.
-You may also notice that in some case different files with the same name and
+You may also notice that in some cases different files with the same name and
 package are present for the Swing version and the Android version.
 This is because those files need some version-specific features.
 
@@ -49,7 +49,7 @@ of the Swing application.
 
 The primary resources are always those for the Swing application. For this 
 reason, if you need to add a string, modify the resource files of the
-Swing application (`/bin/*.resources`) and then run `res.sh` script.
+Swing application (`/bin/*.resources`) and then run the `res.sh` script.
 
 
 3 - Building on Windows with Eclipse
@@ -95,8 +95,8 @@ Code
 When possible, the authors of the snippets have been contacted to gain 
 explicit permission of using the code in an open source project. If you own 
 the copyright of some of the reused code and you do not agree on its 
-inclusion in the FidoCadJ project, contact us via the SourceForge forum and 
-we will remove the offending code as fast as we can.
+inclusion in the FidoCadJ project, open an Issue on GitHub and we will remove
+the offending code as fast as we can.
 
 
 6 - Licensing
