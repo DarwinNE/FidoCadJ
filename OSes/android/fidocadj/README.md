@@ -15,7 +15,7 @@ This is because those files need some version-specific features.
 
 IMPORTANT NOTE: there are some strict coding conventions to be respected.
 They include the indenting and the curly brackets positioning rules.
-Please refer to the "3.4 Coding conventions" section, in the `README.md` file
+Please refer to the "3.3 Coding conventions" section, in the `README.md` file
 of the Swing application.
 
 

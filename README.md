@@ -392,7 +392,7 @@ Saskatchewan.
 If you work on FidoCadJ code, please do all your best to keep high the quality
 of the code you are writing.
 
-As already presented in section 3.4, another tool is employed to ensure that
+As already presented in section 3.3, another tool is employed to ensure that
 the coding style is uniform: [Checkstyle](http://checkstyle.sourceforge.net).
 The coding rules for Checkstyle are specified in the `rules.xml` file. Be sure
 you run Checkstyle with this ruleset to see what it has to be corrected
@@ -542,7 +542,7 @@ Linux packaging
 
 For the PC and Android app:
 - [ ] The code does not break the build for both PC and Android apps.
-- [ ] The coding style is conform to paragraph 3.4 of this README.
+- [ ] The coding style is conform to paragraph 3.3 of this README.
 - [ ] Comments have been added at the relevant places and are up-to date.
 
 For the PC app:
