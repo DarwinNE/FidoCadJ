@@ -398,7 +398,7 @@ FindBugs runs interactively and analyzes the JAR file resulting after the
 compilation and packaging.
 The great care applied to the code quality has made sort that FidoCadJ has
 had some good results in a [quality assessment analysis](
-http://www.cs.usask.ca/documents/techreports/2013/TR-2013-01.pdf) done by
+https://www.cs.usask.ca/documents/technical-reports/2013/TR-2013-01.pdf) done by
 researchers working in the Department of Computer Science of the University of
 Saskatchewan.
 
