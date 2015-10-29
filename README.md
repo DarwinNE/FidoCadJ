@@ -14,13 +14,12 @@ by Davide Bucci
   4. Where can I get help?
 2. Source files and the FidoCadJ Git directories
 3. Instructions about compiling and running FidoCadJ
-  1. Compile and run the sources on a MacOSX operating system (>=10.8)
-  2. Compile and run the sources on a Unix system
-  3. Compile and run the sources on a Windows system
-  4. Coding conventions
-  5. Automated tests
-  6. Static code analysis and the quality of the FidoCadJ source code
-  7. Android
+  1. Compile and run the sources on a MacOSX or a Unix operating system
+  2. Compile and run the sources on a Windows system
+  3. Coding conventions
+  4. Automated tests
+  5. Static code analysis and the quality of the FidoCadJ source code
+  6. Android
 4. Help wanted!
   1. "I want to translate FidoCadJ in my language"
   2. "I would like to participate to the coding activity"
@@ -204,11 +203,11 @@ If you prefer to use some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :smile:
 
-3.1 Compile and run the sources on a MacOSX operating system (>=10.8)
----------------------------------------------------------------------
+3.1 Compile and run the sources on a MacOSX or a Unix operating system
+----------------------------------------------------------------------
 
-If you are using MacOSX, just open up a terminal window, go into the main
-directory and type:
+If you are using MacOSX (>=10.8) or a Unix system (GNU/Linux included), just
+open up a terminal window, go into the main directory of FidoCadJ and type:
 
     ./rebuild
 
@@ -217,20 +216,7 @@ following script to create a JAR archive in the `jar/` directory:
 
     ./createjar
 
-3.2 Compile and run the sources on a Unix system
-------------------------------------------------
-
-FidoCadJ can be compiled on a Unix system by using the following command into
-the main directory:
-
-    ./rebuild
-
-FidoCadJ should compile and run. You can use the following script to create
-a JAR archive in the `jar/` directory:
-
-    ./createjar
-
-3.3 Compile and run the sources on a Windows system
+3.2 Compile and run the sources on a Windows system
 ---------------------------------------------------
 
 The provided scripts do not work on Microsoft Windows.
@@ -259,7 +245,7 @@ To launch the compiled program, you should type:
 
 FidoCadJ should start.
 
-3.4 Coding conventions
+3.3 Coding conventions
 ----------------------
 
 The following coding conventions have been applied for the FidoCadJ source
@@ -338,7 +324,7 @@ been activated have been marked with :ok: in the previous list.
 
 Be sure to run checklist with `rules.xml` before sending a pull request!
 
-3.5 Automated tests
+3.4 Automated tests
 -------------------
 
 To ease the maintain of a certain degree of quality control when working
@@ -378,7 +364,7 @@ can be improved or updated.
 In other cases, the differences might just contain unimportant data (such
 as version numbers and so on).
 
-3.6 Static code analysis and the quality of the FidoCadJ source code
+3.5 Static code analysis and the quality of the FidoCadJ source code
 --------------------------------------------------------------------
 
 Static code analysis is a powerful tool to ensure code quality. It cannot do
@@ -412,7 +398,7 @@ The coding rules for Checkstyle are specified in the `rules.xml` file. Be sure
 you run Checkstyle with this ruleset to see what it has to be corrected
 before creating a pull request.
 
-3.7 Android
+3.6 Android
 -----------
 
 Android deserves an application which is well separated from the one you
