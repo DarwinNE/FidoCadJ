@@ -170,7 +170,7 @@ using Git from the GitHub repository.
 | `sign.sh`            |     | Create the signature for the applet             |
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
-| `winbuild.bat`       |     | Build and run script for Windows (see §3.3)     |
+| `winbuild.bat`       |     | Build and run script for Windows (see §3.2)     |
 
 If you want to study the FidoCadJ source code, run the `./createdoc` script to
 obtain the Javadoc description.
