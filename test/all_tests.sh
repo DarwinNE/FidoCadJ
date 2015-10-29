@@ -4,7 +4,7 @@ echo ""
 printf "\033[1m   F i d o C a d J\n"
 echo ""
 echo "   Automatic test suite"
-echo "   by Davide Bucci 2011-2012"
+echo "   by Davide Bucci 2011-2015"
 printf "\033[0m\n"
 echo ""
 
@@ -17,7 +17,7 @@ cd export
 
 if test $? != 0
 then
-	test_failed=1
+    test_failed=1
 fi
 
 
@@ -47,10 +47,7 @@ echo "------------"
 
 if test $test_failed != 0
 then
-	printf "\033[1m----> Some test failed!\033[0m\n"
+    printf "\033[1m----> Some test failed!\033[0m\n"
 else
-	echo "All tests were successful!"
+    echo "All tests were successful!"
 fi
-
-
-
