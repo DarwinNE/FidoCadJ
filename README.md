@@ -351,7 +351,7 @@ The following list briefly describes the provided tests:
 
 `test/messages/test_messages.sh`
 :   Test the coherence of all installed interface languages against the
-    reference (which is the Italian resource file!)
+    reference (which is the English resource file!)
 
 `test/size/test_size.sh`
 :   Test if the size calculated for all elements is the same as the one stored
