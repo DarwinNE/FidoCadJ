@@ -93,10 +93,10 @@ where the file `fidocadj.jar` has been saved and type:
     java -jar fidocadj.jar
 
 If you use Windows, you might find useful using the classical installer
-contained in the `FidoCadJ_Windows.exe` file. If you run it, it will install
+contained in the `FidoCadJ_Windows.msi` file. If you run it, it will install
 FidoCadJ on your system and you can launch it via the Start menu.
 
-If you own an Apple Macintosh with MacOSX, you may download the `FidoCadJ.app`
+If you own an Apple Macintosh with MacOSX, you may download the `FidoCadJ_MacOSX.dmg`
 bundle and treat it just like any other native application. Since Apple does
 not seem to be very much prone to support Java, if you experience some
 problems running FidoCadJ, please check you do have a Java runtime
