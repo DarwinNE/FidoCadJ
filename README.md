@@ -302,15 +302,15 @@ int dummy(int i)
 }
 ```
 
-- if an "if" condition spans over multiple lines, put the brace on the
-  following line :ok:
+- if an `if` condition spans over multiple lines, put the brace on the following
+  line :ok:
 - the class names always start with a capital letter :ok:
 - variables never start with a capital letter :ok:
 - methods never start with a capital letter :ok:
 - public classes must be documented with Javadoc syntax :ok:
 - public methods must be documented with Javadoc syntax :ok:
 - no lines longer than 80 characters :ok:
-- employing "`_`" in names of types or variables is deprecated
+- employing `_` in names of types or variables is deprecated
 - commits should not break the build
 - each commit *MUST* include a log
 - predilect simplicity to unnecessary complication
