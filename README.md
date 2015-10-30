@@ -170,7 +170,7 @@ using Git from the GitHub repository.
 | `sign.sh`            |     | Create the signature for the applet             |
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
-| `winbuild.bat`       |     | Build and run script for Windows (see §3.3)     |
+| `winbuild.bat`       |     | Build and run script for Windows (see §3.2)     |
 
 If you want to study the FidoCadJ source code, run the `./createdoc` script to
 obtain the Javadoc description.
@@ -302,15 +302,15 @@ int dummy(int i)
 }
 ```
 
-- if an "if" condition spans over multiple lines, put the brace on the
-  following line :ok:
+- if an `if` condition spans over multiple lines, put the brace on the following
+  line :ok:
 - the class names always start with a capital letter :ok:
 - variables never start with a capital letter :ok:
 - methods never start with a capital letter :ok:
 - public classes must be documented with Javadoc syntax :ok:
 - public methods must be documented with Javadoc syntax :ok:
 - no lines longer than 80 characters :ok:
-- employing "`_`" in names of types or variables is deprecated
+- employing `_` in names of types or variables is deprecated
 - commits should not break the build
 - each commit *MUST* include a log
 - predilect simplicity to unnecessary complication
@@ -392,7 +392,7 @@ Saskatchewan.
 If you work on FidoCadJ code, please do all your best to keep high the quality
 of the code you are writing.
 
-As already presented in section 3.4, another tool is employed to ensure that
+As already presented in section 3.3, another tool is employed to ensure that
 the coding style is uniform: [Checkstyle](http://checkstyle.sourceforge.net).
 The coding rules for Checkstyle are specified in the `rules.xml` file. Be sure
 you run Checkstyle with this ruleset to see what it has to be corrected
@@ -542,7 +542,7 @@ Linux packaging
 
 For the PC and Android app:
 - [ ] The code does not break the build for both PC and Android apps.
-- [ ] The coding style is conform to paragraph 3.4 of this README.
+- [ ] The coding style is conform to paragraph 3.3 of this README.
 - [ ] Comments have been added at the relevant places and are up-to date.
 
 For the PC app:
