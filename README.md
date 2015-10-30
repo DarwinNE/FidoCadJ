@@ -575,6 +575,9 @@ Beta testers
     Randelshofer, Zeno Martini, Electrodomus, IsidoroKZ, Gustavo
     ... and many others!
 
+Documentation review
+:   Carlo Stemberger (README.md)
+
 Translations
 :   Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge),
     Geo Cherchetout (fr), androu1 (es), sbcne (es), Miles Qin "qhg007" (zh),
