@@ -76,8 +76,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         g2.fillRect(0,0,width,height);
         g2.scale(1.0/160,1.0/160);
         try {
-            printObject.print(g2,
-                pageDescription, 0);
+            printObject.print(g2, pageDescription, 0);
         } catch (PrinterException pe)
         {
             System.err.println("Some problem here!");

@@ -223,20 +223,7 @@ public class PrintTools implements Printable
     private void executePrinting(PrinterJob job)
         throws PrinterException
     {
-        Vector<LayerDesc> ol=cc.dmp.getLayers();
-        if(printBlackWhite) {
-            Vector<LayerDesc> v=new Vector<LayerDesc>();
 
-            // Here we create an alternative array of layers in
-            // which all colors are pitch black. This may be
-            // useful for PCB's.
-
-            for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
-                v.add(new LayerDesc(new ColorSwing(Color.black),
-                    ((LayerDesc)ol.get(i)).getVisible(),
-                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
-            cc.dmp.setLayers(v);
-        }
         job.setPrintable(this);
         if (job.printDialog()) {
             PrintRequestAttributeSet aset = new
@@ -249,7 +236,6 @@ public class PrintTools implements Printable
             }
             job.print(aset);
         }
-        cc.dmp.setLayers(ol);
     }
 
     /** The printing interface (prints one page).
@@ -310,6 +296,7 @@ public class PrintTools implements Printable
 
         int printerWidth = (int)pf.getImageableWidth()*MULT;
 
+        // The current margins are shown with a dashed black line.
         if(showMargins) {
             Rectangle2D.Double border = new Rectangle2D.Double(0, 0,
                 (pf.getWidth()-(leftMargin+rightMargin)/INCH*NATIVERES)*MULT
@@ -362,9 +349,25 @@ public class PrintTools implements Printable
         if(page>npages) {
             return NO_SUCH_PAGE;
         }
-        System.out.println("Print operation");
+        Vector<LayerDesc> ol=cc.dmp.getLayers();
+        // Check if the drawing should be black and white
+        if(printBlackWhite) {
+            Vector<LayerDesc> v=new Vector<LayerDesc>();
+
+            // Here we create an alternative array of layers in
+            // which all colors are pitch black. This may be
+            // useful for PCB's.
+
+            for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
+                v.add(new LayerDesc(new ColorSwing(Color.black),
+                    ((LayerDesc)ol.get(i)).getVisible(),
+                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
+            cc.dmp.setLayers(v);
+        }
         // Now we perform our rendering
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
+        cc.dmp.setLayers(ol);
+
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
