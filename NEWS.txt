@@ -3,6 +3,7 @@ Version 0.24.6
 - Complete review of the source code, refactoring, strict coding style policy adopted.
 - Library "ey_libraries" is now considered as standard library.
 - Corrected GitHub issue #41 (Printing margins).
+- Implemented a complete print prewiew, showing margins and printable area in the page.
 
 Version 0.24.5
 --------------

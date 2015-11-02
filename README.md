@@ -1,4 +1,5 @@
 README file for FidoCadJ
+========================
 
 Version 0.24.5
 
@@ -310,6 +311,7 @@ int dummy(int i)
 - public classes must be documented with Javadoc syntax :ok:
 - public methods must be documented with Javadoc syntax :ok:
 - no lines longer than 80 characters :ok:
+- Unix-style for newlines is mandatory :ok:
 - employing `_` in names of types or variables is deprecated
 - commits should not break the build
 - each commit *MUST* include a log
