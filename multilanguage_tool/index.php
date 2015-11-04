@@ -13,7 +13,7 @@
 	include_once("languages/".$language."/footer.php");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang='<?php echo $_GET['lan']; ?>'>
 	<head>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet'>
 		<link href="http://darwinne.github.io/FidoCadJ/db_style.css" rel="stylesheet">
