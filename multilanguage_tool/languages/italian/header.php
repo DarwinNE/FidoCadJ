@@ -2,7 +2,7 @@
 //this file contains the definitions of header components in English
 
 //subtitle under the FidoCadJ main log
-define ("MAIN_SUBTITLE","un software gratuito per disegnare schemi elettronici e non solo");
+define ("MAIN_SUBTITLE","un software gratuito per schemi elettronici e non solo");
 
 
 //top navigation menu
