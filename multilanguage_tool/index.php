@@ -76,9 +76,9 @@
 			<h3><?php echo SUB_TITLE_1; ?></h3>
 
 			<ul>
-				<li> <a href="download.html"><?php echo LIST_2_ELEMENT_1; ?></a>.</li>
-				<li><a href="examples.html"><?php echo LIST_2_ELEMENT_2; ?></a>.</li>
-				<li><a href="scrn.html"><?php echo LIST_2_ELEMENT_3; ?></a>.</li>
+				<li> <a href="download.html"><?php echo LIST_2_ELEMENT_1; ?></a></li>
+				<li><a href="examples.html"><?php echo LIST_2_ELEMENT_2; ?></a></li>
+				<li><a href="scrn.html"><?php echo LIST_2_ELEMENT_3; ?></a></li>
 			</ul>
 
 			<h3><?php echo SUB_TITLE_2; ?></h3>
