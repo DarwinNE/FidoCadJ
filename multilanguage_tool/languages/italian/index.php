@@ -2,7 +2,7 @@
 //this file contains the definitions of text included in index.html page
 
 //HEAD
-define("META_DESCRIPTION","FidoCadJ è un software gratuito per il disegno tecnico e vettoriale, facilissimo da usare. Disponibile Per MacOSX, Linux, Windows e Android. Le lingue supportate sono: Inglese, Fracese, Italiano, Tedesco, Cinese, Spagnolo, Ceco, Giapponese e Olandese"); //page meta tag description
+define("META_DESCRIPTION","FidoCadJ è un software gratuito per il disegno tecnico e vettoriale, facilissimo da usare. Disponibile Per MacOSX, Linux, Windows e Android. Le lingue supportate sono: inglese, francese, italiano, tedesco, cinese, spagnolo, ceco, giapponese e olandese."); //page meta tag description
 
 define("PAGE_TITLE","FidoCadJ - il software gratuito per  schemi elettrici e non solo"); //page title attribute
 
@@ -23,7 +23,7 @@ define("LIST_1_ELEMENT_1","Un semplice editor per schemi elettronici comprensivo
 define("LIST_1_ELEMENT_2","Un edtor versatile per la grafica con librerie definibili dall'utente;");
 define("LIST_1_ELEMENT_3","Un formato semplice da condividere sul web, sui forum e nei blog;");
 define("LIST_1_ELEMENT_4","Puoi esportare in diversi formati grafici: PDF, EPS, SVG, PNG, JPG, e PGF/TikZ per LaTeX;");
-define("LIST_1_ELEMENT_5","Le lingue supportate sono: Inglese, Fracese, Italiano, Tedesco, Cinese, Spagnolo, Ceco, Giapponese e Olandese;");
+define("LIST_1_ELEMENT_5","Le lingue supportate sono: inglese, francese, italiano, tedesco, cinese, spagnolo, ceco, giapponese e olandese;");
 
 define("IMAGE_ALT_1","FidoCadJ su MacOSX 10.9.4"); //ALT ATTRIBUTE OF IMAGE
 
