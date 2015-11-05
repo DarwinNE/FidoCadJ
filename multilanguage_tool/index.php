@@ -8,6 +8,7 @@
 		break;
 	}
 
+	include_once("config.php");
 	include_once("languages/".$language."/header.php");
 	include_once("languages/".$language."/index.php");
 	include_once("languages/".$language."/footer.php");
@@ -50,13 +51,13 @@
 			<div id="download_button_container">
 				<script>
 				    if (navigator.appVersion.indexOf("Mac")!=-1) {
-				        document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_1; ?></a>');
+				        document.write('<a href="<?php echo MAC_VERSION_DOWNLOAD_LINK; ?>" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_1; ?></a>');
 				    } else if(navigator.appVersion.indexOf("Win")!=-1) {
-				        document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_2; ?></a>');
+				        document.write('<a href="<?php echo WINDOWS_VERSION_DOWNLOAD_LINK; ?>" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_2; ?></a>');
 						} else if(navigator.appVersion.indexOf("Linux")!=-1) {
-								document.write('<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_3; ?></a>');
+								document.write('<a href="<?php echo LINUX_VERSION_DOWNLOAD_LINK; ?>" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_3; ?></a>');
 						} else if(navigator.appVersion.indexOf("Android")!=-1) {
-								document.write('<a href="http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_4; ?></a>');
+								document.write('<a href="<?php echo ANDROID_VERSION_DOWNLOAD_LINK; ?>" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_4; ?></a>');
 						} else {
 				        document.write('<a href="http://darwinne.github.io/FidoCadJ/download.html" id="download_button"><?php echo DOWNLOAD_BUTTON_TEXT_5; ?></a>');
 				    }
