@@ -87,7 +87,7 @@
 			<p><?php echo PARAGRAPH_2; ?></p>
 			<p><?php echo PARAGRAPH_3; ?>	</p>
 
-			<p><?php echo PARAGRAPH_4; ?>	</p><br>
+			<p><?php echo INDEX_PAGE_UPDATE_DATE; ?>	</p><br>
 		</div>
 <!-- end of content -->
 		<footer>

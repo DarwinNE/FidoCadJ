@@ -9,7 +9,25 @@ define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/rele
 define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download");
 
 //FidoCadJ current version (which is ready to distribute)
-define ("CURRENT_VERSION","****");
+define ("CURRENT_VERSION","0.24.5");
+
+//FidoCadJ old stable version
+define ("OLD_STABLE_VERSION","0.24.3");
+
+//Java version required for current version
+define ("JAVA_VERSION_REQUIRED", "1.7");
+
+//Java version required for old version
+define ("JAVA_VERSION_REQUIRED_OLD_VERSION", "1.5");
+
+//last editing per page (will appear at the end of each page)
+//USE FORMAT MM/DD/YY
+define ("INDEX_PAGE_UPDATE_DATE", "11/05/2015");
+define ("DOWNLOAD_PAGE_UPDATE_DATE", "11/05/2015");
+define ("SCREEN_SHOTS_PAGE_UPDATE_DATE", "11/05/2015");
+define ("LIBRARIES_PAGE_UPDATE_DATE", "11/05/2015");
+define ("FAQ_PAGE_UPDATE_DATE", "11/05/2015");
+define ("EXAMPLES_PAGE_UPDATE_DATE", "11/05/2015");
 
 
  ?>

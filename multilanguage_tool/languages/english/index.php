@@ -43,6 +43,5 @@ define("PARAGRAPH_3","FidoCadJ is the official drawing tool of <a href='http://w
   <a href='http://www.electroyou.it/'><img src='http://darwinne.github.io/FidoCadJ/images/electroyou.jpeg' alt='ElectroYou' class='indisplay'></a>
   Watercolor by Carlo Maria Manenti."); //THIRD PARAGRAPH
 
-define("PARAGRAPH_4","August 26, 2015"); //FOURTH PARAGRAPH
 
  ?>

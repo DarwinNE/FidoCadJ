@@ -45,6 +45,5 @@ define("PARAGRAPH_3","FidoCadJ è già il software di disegno sui forum <a href=
   <a href='http://www.electroyou.it/'><img src='http://darwinne.github.io/FidoCadJ/images/electroyou.jpeg' alt='ElectroYou' class='indisplay'></a>
   Aquerello di Carlo Maria Manenti."); //THIRD PARAGRAPH
 
-define("PARAGRAPH_4","Novembre 03, 2015"); //FOURTH PARAGRAPH
 
  ?>
