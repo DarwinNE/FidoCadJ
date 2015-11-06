@@ -178,7 +178,7 @@ public final class DrawingSize
         if(z<MapCoordinates.MIN_MAGNITUDE)
             z=MapCoordinates.MIN_MAGNITUDE;
 
-        newZoom.setMagnitudes(z,z);
+        newZoom.setMagnitudesNoCheck(z,z);
         // The zoom setting might have been rounded, or bounded.
         z = newZoom.getYMagnitude();
 

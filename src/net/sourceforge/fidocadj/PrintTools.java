@@ -368,7 +368,6 @@ public class PrintTools implements Printable
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
         cc.dmp.setLayers(ol);
 
-
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
     }
