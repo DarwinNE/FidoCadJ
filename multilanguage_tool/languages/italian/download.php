@@ -23,7 +23,7 @@ define ("ANDROID_ALT_ATTRIBUTE","logo di Android");
 
 //descriptions in the first table
 define ("WINDOWS_VERSION_DESCRIPTION","Windows installer (Java ".JAVA_VERSION_REQUIRED." minimo).");
-define ("MAC_VERSION_DESCRIPTION","MacOSX software (>10.7.3, necessita di Java ".JAVA_VERSION_REQUIRED." minimo). Apri l'immagine del disco e copiala nella tua cartella Application.");
+define ("MAC_VERSION_DESCRIPTION","MacOSX software (>10.7.3, Java ".JAVA_VERSION_REQUIRED." minimo). Apri l'immagine del disco e copiala nella tua cartella Applicazioni.");
 define ("LINUX_VERSION_DESCRIPTION","Linux e altri sistemi operativi (richiesto Java ".JAVA_VERSION_REQUIRED."). Prova a fare doppio click sul file. Oppure digita nella shell:");
 
 //name and description about user manual in current version table
@@ -45,7 +45,7 @@ define ("TITLE_TABLE_3","Versioni stabili: ".OLD_STABLE_VERSION);
 define("SUBTITLE_TABLE_3","Necessitano di Java ".JAVA_VERSION_REQUIRED_OLD_VERSION." minimo e possono essere utili su computer più vecchi.");
 
 define ("WINDOWS_OLD_STABLE_VERSION_DESCRIPTION","Windows installer (Java ".JAVA_VERSION_REQUIRED_OLD_VERSION." minimo).");
-define ("MAC_OLD_STABLE_VERSION_DESCRIPTION","MacOSX software (>10.4, necessita di Java ".JAVA_VERSION_REQUIRED_OLD_VERSION." minimo). Apri l'immagine del disco e copiala nella tua cartella Application.");
+define ("MAC_OLD_STABLE_VERSION_DESCRIPTION","MacOSX software (>10.4, Java ".JAVA_VERSION_REQUIRED_OLD_VERSION." minimo). Apri l'immagine del disco e copiala nella tua cartella Applicazioni.");
 define ("LINUX_OLD_STABLE_VERSION_DESCRIPTION","Versione per qualsiasi sistema operativo (richiesto Java ".JAVA_VERSION_REQUIRED_OLD_VERSION."). Prova a fare doppio click sul file. Oppure digita nella shell:");
 
 //name and description about user manual in old version table
