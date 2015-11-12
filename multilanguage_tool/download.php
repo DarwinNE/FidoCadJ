@@ -226,7 +226,7 @@
 				</tr>
 			</table>
 			<p><?php echo WARNING_GIT_HUB_MIGRATION; ?></p>
-			<p><?php echo INDEX_PAGE_UPDATE_DATE; ?>	</p><br>
+			<p><?php echo DOWNLOAD_PAGE_UPDATE_DATE; ?>	</p><br>
 		</div>
 <!-- end of content -->
 	<footer>
