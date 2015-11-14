@@ -174,8 +174,9 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
             pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
 
-        setMapCoordinates(DrawingSize.calculateZoomToFit(getDrawingModel(),
-            (int)Math.round(baseline), (int)Math.round(baseline*ratio),true));
+        MapCoordinates mc=DrawingSize.calculateZoomToFit(getDrawingModel(),
+            (int)Math.round(baseline), (int)Math.round(baseline*ratio),true);
+        setMapCoordinates(mc);
 
         int width=(int)baseline;
         int height=(int)Math.round(baseline*ratio);

@@ -164,6 +164,7 @@ public class PrintTools implements Printable
                 return;
         } while (noexit);
         try {
+            // Launch printing.
             executePrinting(job);
         } catch (PrinterException ex) {
             // The job did not successfully complete
@@ -214,6 +215,8 @@ public class PrintTools implements Printable
                 noexit=true;
             }
         }
+        // Deselect all elements.
+        cc.getSelectionActions().setSelectionAll(false);
         return noexit;
     }
 
@@ -325,7 +328,7 @@ public class PrintTools implements Printable
                 (int)(pf.getHeight()-(topMargin+bottomMargin)
                     /INCH*NATIVERES)*MULT
                     -2*security,
-                true);
+                false);
             zoom=m.getXMagnitude();
         } else {
             m=new MapCoordinates();
@@ -338,7 +341,7 @@ public class PrintTools implements Printable
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
 
         if(printFitToPage) {
-            g2d.translate(-2*o.x+security,-2*o.y+security);
+            //g2d.translate(-2*o.x+security,-2*o.y+security);
         }
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
