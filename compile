@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# If you have a very old Java version, maybe the -Xlint:deprecation option is not recognized
+# If you have a very old Java version, maybe the -Xlint:deprecation option 
+# is not recognized
 
-# Here we check if the user has chosen a compilation which should include the Macintosh
-# extensions
+# Here we check if the user has chosen a compilation which should include the 
+# Macintosh extensions
 
 unamestr=`uname`
 
 if [ "$unamestr" = 'Darwin' ]||[ "$1" = "mac" ]; then
   echo "MacOSX detected: activated AppleSpecific classes."
   javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.7 -target 1.7 ./src/net/sourceforge/fidocadj/AppleSpecific.java -d bin
+  echo "Copying Quaqua library files in jar/ directory."
+  cp OSes/mac/Quaqua/*.* jar
 fi 
 
 

@@ -144,6 +144,10 @@ test/export/eps/test_out.eps
 test/export/pdf/test_out.pdf
 test/export/pgf/output_latex.tex
 jar/fidocadj.jar
+jar/libquaqua.jnilib
+jar/libquaqua64.jnilib
+jar/quaqua.jar
+jar/swing-layout.jar
 doc/
 .DS_Store
 jar/.DS_Store
