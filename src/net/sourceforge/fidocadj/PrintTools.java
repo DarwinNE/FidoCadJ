@@ -320,7 +320,7 @@ public class PrintTools implements Printable
 
         // Perform an adjustement if we need to fit the drawing to the page.
         if (printFitToPage) {
-            m = DrawingSize.calculateZoomToFit(
+            MapCoordinates n = DrawingSize.calculateZoomToFit(
                 cc.getDrawingModel(),
                 (int)(pf.getWidth()-(leftMargin+rightMargin)
                     /INCH*NATIVERES)*MULT
@@ -328,12 +328,12 @@ public class PrintTools implements Printable
                 (int)(pf.getHeight()-(topMargin+bottomMargin)
                     /INCH*NATIVERES)*MULT
                     -2*security,
-                false);
-            zoom=m.getXMagnitude();
-        } else {
-            m=new MapCoordinates();
-            m.setMagnitudes(zoom, zoom);
-        }
+                true);
+            zoom=n.getXMagnitude();
+        } 
+        m=new MapCoordinates();
+        m.setMagnitudes(zoom, zoom);
+
         PointG o=new PointG(0,0);
 
         int imageWidth = DrawingSize.getImageSize(
@@ -341,7 +341,7 @@ public class PrintTools implements Printable
         npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
 
         if(printFitToPage) {
-            //g2d.translate(-2*o.x+security,-2*o.y+security);
+            g2d.translate(-o.x,-o.y);
         }
         // Check if we need more than one page
         if (printerWidth<imageWidth) {
