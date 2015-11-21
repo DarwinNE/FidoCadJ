@@ -158,7 +158,7 @@ using Git from the GitHub repository.
 | `fidocadj_pmd.html`  |     | Current result of pmd checks                    |
 | `gpl-3.0.txt`        |     | GNU General Public Licence version 3            |
 | `icons/`             |  X  | All icons (made with Gimp)                      |
-| `jar/`               |  X  | Contains `fidocadj.jar` as well as Quaqua       |
+| `jar/`               |  X  | Directory for jar and manifest files            |
 | `manual/`            |  X  | All the LaTeX manuals sources                   |
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
