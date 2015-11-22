@@ -67,7 +67,10 @@ public class DialogPrint extends MinimumSizeDialog
 
     private DrawingModel drawingModel;
 
+    // This contains the number of pages when the drawing is not resized to
+    // fit one page.
     private int numberOfPages=0;
+    // This contains the current page to be printed.
     private int currentPage=0;
 
     private boolean print;     // Indicates that the print should be done
@@ -133,7 +136,8 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridheight=8;
         contentPane.add(prp, constraints);              // Print preview!
 
-        BasicArrowButton decr = new BasicArrowButton(BasicArrowButton.WEST);
+        final BasicArrowButton decr =
+            new BasicArrowButton(BasicArrowButton.WEST);
         numberOfPages=prp.getTotalNumberOfPages();
 
         pageNum=new JLabel(""+(currentPage+1)+"/"+numberOfPages);
@@ -168,8 +172,9 @@ public class DialogPrint extends MinimumSizeDialog
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }
         });
-        
-        BasicArrowButton incr = new BasicArrowButton(BasicArrowButton.EAST);
+
+        final BasicArrowButton incr =
+            new BasicArrowButton(BasicArrowButton.EAST);
         constraints.anchor=GridBagConstraints.EAST;
         constraints.fill=GridBagConstraints.BOTH;
         constraints.weightx=100;
@@ -183,7 +188,7 @@ public class DialogPrint extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
-                if(currentPage<numberOfPages-1)
+                if(currentPage<numberOfPages-1 && !fit_CB.isSelected())
                     ++currentPage;
                 prp.setCurrentPage(currentPage);
                 prp.updatePreview();
@@ -191,7 +196,13 @@ public class DialogPrint extends MinimumSizeDialog
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }
         });
-
+        if(numberOfPages>1) {
+            incr.setEnabled(true);
+            decr.setEnabled(true);
+        } else {
+            incr.setEnabled(false);
+            decr.setEnabled(false);
+        }
         JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
         constraints.anchor=GridBagConstraints.WEST;
         constraints.fill=GridBagConstraints.HORIZONTAL;
@@ -233,10 +244,23 @@ public class DialogPrint extends MinimumSizeDialog
                 patata();
             }
         };
-
+        // The event listener for all those checkboxes
         ChangeListener updatePreview = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent)
             {
+                if(fit_CB.isSelected()) {
+                    currentPage = 0;
+                    pageNum.setText(""+(currentPage+1)+"/"+1);
+                    incr.setEnabled(false);
+                    decr.setEnabled(false);
+                } else {
+                    pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
+                    if(numberOfPages>1) {
+                        incr.setEnabled(true);
+                        decr.setEnabled(true);
+                    }
+                }
+                prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
             }

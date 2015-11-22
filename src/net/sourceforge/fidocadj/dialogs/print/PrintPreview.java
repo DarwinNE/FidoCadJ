@@ -101,6 +101,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     }
 
     /** Set the current page to be printed.
+        @param p the page to be printed.
     */
     public void setCurrentPage(int p)
     {

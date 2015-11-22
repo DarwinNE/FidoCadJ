@@ -8,7 +8,6 @@ import java.awt.print.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.geom.*;
-import java.awt.print.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.print.*;
@@ -331,7 +330,7 @@ public class PrintTools implements Printable
                     -2*security,
                 true);
             zoom=n.getXMagnitude();
-        } 
+        }
         m=new MapCoordinates();
         m.setMagnitudes(zoom, zoom);
 
