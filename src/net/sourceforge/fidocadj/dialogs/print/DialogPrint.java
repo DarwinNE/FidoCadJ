@@ -11,6 +11,8 @@ import java.io.*;
 import java.awt.print.*;
 
 import javax.imageio.*;
+import javax.swing.plaf.basic.BasicArrowButton;
+
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
@@ -56,12 +58,17 @@ public class DialogPrint extends MinimumSizeDialog
     private final JTextField tLeftMargin;
     private final JTextField tRightMargin;
 
+    private final JLabel pageNum;
+
     private double maxHorisontalMargin;
     private double maxVerticalMargin;
 
     private boolean oldLandscapeState=false;
 
     private DrawingModel drawingModel;
+
+    private int numberOfPages=0;
+    private int currentPage=0;
 
     private boolean print;     // Indicates that the print should be done
     /** Standard constructor: it needs the parent frame.
@@ -76,6 +83,8 @@ public class DialogPrint extends MinimumSizeDialog
         addComponentListener(this);
         print=false;
         drawingModel=dd;
+        final int LCOLUMN=5;
+        final int ECOLUMN=6;
 
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
@@ -102,7 +111,7 @@ public class DialogPrint extends MinimumSizeDialog
         JLabel empty1=new JLabel("  ");
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=4;
+        constraints.gridx=ECOLUMN+2;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -120,16 +129,75 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.weighty=100;
         constraints.gridx=1;
         constraints.gridy=0;
-        constraints.gridwidth=1;
+        constraints.gridwidth=3;
         constraints.gridheight=8;
         contentPane.add(prp, constraints);              // Print preview!
+
+        BasicArrowButton decr = new BasicArrowButton(BasicArrowButton.WEST);
+        numberOfPages=prp.getTotalNumberOfPages();
+
+        pageNum=new JLabel(""+(currentPage+1)+"/"+numberOfPages);
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=2;
+        constraints.gridy=8;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(pageNum, constraints);              // Num of pages
+
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=1;
+        constraints.gridy=8;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(decr, constraints);              // Decrement page
+        decr.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                if(currentPage>0)
+                    --currentPage;
+                prp.setCurrentPage(currentPage);
+                prp.updatePreview();
+                prp.repaint();
+                pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
+            }
+        });
+        
+        BasicArrowButton incr = new BasicArrowButton(BasicArrowButton.EAST);
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=3;
+        constraints.gridy=8;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(incr, constraints);              // Increment page
+        incr.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                if(currentPage<numberOfPages-1)
+                    ++currentPage;
+                prp.setCurrentPage(currentPage);
+                prp.updatePreview();
+                prp.repaint();
+                pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
+            }
+        });
 
         JLabel lTopMargin=new JLabel(Globals.messages.getString("TopMargin"));
         constraints.anchor=GridBagConstraints.WEST;
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=3;
+        constraints.gridx=ECOLUMN;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -144,6 +212,7 @@ public class DialogPrint extends MinimumSizeDialog
                     double lm=Double.parseDouble(tLeftMargin.getText());
                     double rm=Double.parseDouble(tRightMargin.getText());
                     prp.setMargins(tm,bm,lm,rm);
+                    prp.setCurrentPage(currentPage);
                     prp.updatePreview();
                 } catch (java.lang.NumberFormatException n) {
                 }
@@ -176,7 +245,7 @@ public class DialogPrint extends MinimumSizeDialog
         tTopMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -188,7 +257,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=3;
+        constraints.gridx=ECOLUMN;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -200,7 +269,7 @@ public class DialogPrint extends MinimumSizeDialog
         tBottomMargin.setMinimumSize(ddmin);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -211,7 +280,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=3;
+        constraints.gridx=ECOLUMN;
         constraints.gridy=2;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -220,7 +289,7 @@ public class DialogPrint extends MinimumSizeDialog
         tLeftMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=2;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -232,7 +301,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=3;
+        constraints.gridx=ECOLUMN;
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -241,7 +310,7 @@ public class DialogPrint extends MinimumSizeDialog
         tRightMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -249,7 +318,7 @@ public class DialogPrint extends MinimumSizeDialog
         tRightMargin.getDocument().addDocumentListener(dl);
 
         mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=4;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -258,7 +327,7 @@ public class DialogPrint extends MinimumSizeDialog
         mirror_CB.addChangeListener(updatePreview);
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=5;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -267,7 +336,7 @@ public class DialogPrint extends MinimumSizeDialog
         fit_CB.addChangeListener(updatePreview);
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=6;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -276,7 +345,7 @@ public class DialogPrint extends MinimumSizeDialog
         bw_CB.addChangeListener(updatePreview);
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
-        constraints.gridx=2;
+        constraints.gridx=LCOLUMN;
         constraints.gridy=7;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -312,8 +381,8 @@ public class DialogPrint extends MinimumSizeDialog
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 
         constraints.gridx=1;
-        constraints.gridy=8;
-        constraints.gridwidth=4;
+        constraints.gridy=9;
+        constraints.gridwidth=7;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
 

@@ -46,9 +46,10 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     private double bottomMargin;
     private double leftMargin;
     private double rightMargin;
-    BufferedImage pageImage;
-    PrintTools printObject;
-    DialogPrint dialog;
+    private BufferedImage pageImage;
+    private PrintTools printObject;
+    private DialogPrint dialog;
+    private int currentPage;
 
     /** Constructor.
         @param isEditable true if the panel should be editable.
@@ -59,6 +60,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     {
         super(isEditable);
         pageDescription=p;
+        currentPage=0;
         dialog=ddp;
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         setGridVisibility(false);
@@ -96,6 +98,13 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         bottomMargin=bm;
         leftMargin=lm;
         rightMargin=rm;
+    }
+
+    /** Set the current page to be printed.
+    */
+    public void setCurrentPage(int p)
+    {
+        currentPage=p;
     }
 
     /** Show the margins.
@@ -197,11 +206,34 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         try {
             printObject.setMargins(topMargin, bottomMargin,
                 leftMargin, rightMargin);
-            printObject.print(g2, pageDescription, 0);
+            printObject.print(g2, pageDescription, currentPage);
         } catch (PrinterException pe)
         {
             System.err.println("Some problem here!");
         }
+    }
+
+    /** Get the total number of pages in the preview.
+        @return the number of pages.
+    */
+    public int getTotalNumberOfPages()
+    {
+        int numpages=0;
+        pageImage = new BufferedImage(10, 10,
+            BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+
+        try {
+            while(printObject.print(g2, pageDescription, numpages)
+                ==Printable.PAGE_EXISTS)
+            {
+                ++numpages;
+            }
+        } catch (PrinterException pe) {
+            System.err.println("Some problems when trying to print.");
+        }
+
+        return numpages;
     }
 
     /** Called when the panel is hidden.

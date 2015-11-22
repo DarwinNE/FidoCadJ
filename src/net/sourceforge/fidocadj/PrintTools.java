@@ -8,6 +8,7 @@ import java.awt.print.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.geom.*;
+import java.awt.print.*;
 
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.print.*;
