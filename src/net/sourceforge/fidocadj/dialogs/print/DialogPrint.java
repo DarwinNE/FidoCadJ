@@ -248,21 +248,28 @@ public class DialogPrint extends MinimumSizeDialog
         ChangeListener updatePreview = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent)
             {
+                numberOfPages=prp.getTotalNumberOfPages();
                 if(fit_CB.isSelected()) {
                     currentPage = 0;
-                    pageNum.setText(""+(currentPage+1)+"/"+1);
                     incr.setEnabled(false);
                     decr.setEnabled(false);
                 } else {
-                    pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
                     if(numberOfPages>1) {
                         incr.setEnabled(true);
                         decr.setEnabled(true);
-                    }
+                    } 
                 }
+                
                 prp.setCurrentPage(currentPage);
                 prp.updatePreview();
+                
+                if(currentPage>numberOfPages-1) {
+                    currentPage=numberOfPages-1;
+                    prp.setCurrentPage(currentPage);
+                    prp.updatePreview();
+                }
                 prp.repaint();
+                pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }
         };
 
@@ -394,6 +401,7 @@ public class DialogPrint extends MinimumSizeDialog
                     tBottomMargin.setText(tLeftMargin.getText());
                     tLeftMargin.setText(d);
                 }
+                numberOfPages=prp.getTotalNumberOfPages();
                 prp.updatePreview();
                 prp.repaint();
                 oldLandscapeState=landscape_CB.isSelected();

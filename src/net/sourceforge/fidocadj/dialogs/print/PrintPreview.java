@@ -8,6 +8,7 @@ import javax.print.attribute.standard.*;
 import java.awt.print.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.awt.geom.AffineTransform;
 import java.awt.*;
 
 import net.sourceforge.fidocadj.circuit.*;
@@ -117,6 +118,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         getDrawingModel().setChanged(true); // Needed?
         Color c = g.getColor();
         Graphics2D g2 = (Graphics2D) g;
+        AffineTransform oldTransform = g2.getTransform();
 
         int shadowShiftX=4;
         int shadowShiftY=4;
@@ -148,10 +150,11 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         g2.setColor(Color.black);
         g2.drawRect((int)Math.round(getWidth()/2.0-baseline/2.0),
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
-            (int)Math.round(baseline),
+            (int)Math.round(baseline)-1,
             (int)Math.round(baseline*ratio));
 
-        g.setColor(c);
+        g2.setColor(c);
+        g2.setTransform(oldTransform);
     }
 
     /** Called when the panel is resized.
