@@ -251,7 +251,6 @@ public class PrintTools implements Printable
     public int print(Graphics g, PageFormat pf, int page) throws
                                                    PrinterException
     {
-        int npages = 0;
         // This is not a "real" margin, but just a tiny amount which ensures
         // that even when the calculations are rounded up, the printout does
         // not span erroneously over multiple pages.
@@ -269,15 +268,17 @@ public class PrintTools implements Printable
         double xscale = 1.0/MULT; // Set 1152 logical units for an inch
         double yscale = 1.0/MULT; // as the standard resolution is 72
         double zoom = NATIVERES*MULT/200;// act in a 1152 dpi resolution as 1:1
+        double shownWidth;        // Printed region (taking into account
+        double shownHeight;       // margins).
 
         Graphics2D g2d = (Graphics2D)g;
+        AffineTransform oldTransform = g2d.getTransform();
 
         // Mark with a light red the unprintable area of the sheet.
         if(showMargins) {
             g2d.setColor(new Color(255,200,200));
             g2d.fillRect(0,0, (int)pf.getImageableX(), (int)pf.getHeight());
             g2d.fillRect(0,0, (int)pf.getWidth(), (int)pf.getImageableY());
-
             g2d.fillRect((int)(pf.getImageableX()+pf.getImageableWidth()),
                 0, (int)pf.getImageableX(), (int)pf.getHeight());
             g2d.fillRect(0, (int)(pf.getImageableY()+pf.getImageableHeight()),
@@ -298,14 +299,15 @@ public class PrintTools implements Printable
         }
 
         int printerWidth = (int)pf.getImageableWidth()*MULT;
+        shownWidth=(pf.getWidth()-
+            (leftMargin+rightMargin)/INCH*NATIVERES)*MULT;
+        shownHeight=(pf.getHeight()-
+            (topMargin+bottomMargin)/INCH*NATIVERES)*MULT;
 
         // The current margins are shown with a dashed black line.
         if(showMargins) {
             Rectangle2D.Double border = new Rectangle2D.Double(0, 0,
-                (pf.getWidth()-(leftMargin+rightMargin)/INCH*NATIVERES)*MULT
-                -2*security,
-                (pf.getHeight()-(topMargin+bottomMargin)/INCH*NATIVERES)*MULT
-                -2*security);
+                shownWidth-2*security, shownHeight-2*security);
             float dashBorder[] = {150.0f};
             BasicStroke dashed = new BasicStroke(50.0f,
                         BasicStroke.CAP_BUTT,
@@ -336,22 +338,42 @@ public class PrintTools implements Printable
 
         PointG o=new PointG(0,0);
 
-        int imageWidth = DrawingSize.getImageSize(
-            cc.getDrawingModel(), zoom, true, o).width;
-        npages = (int)Math.floor((imageWidth-1)/(double)printerWidth);
+        DimensionG dim = DrawingSize.getImageSize(
+            cc.getDrawingModel(), zoom, true, o);
+        int imageWidth = dim.width;
+        int imageHeight = dim.height;
 
+        // Calculate how many pages are needed in the horisontal and in the
+        // vertical dimensions. The printout will be organized as a mosaic.
+        int npagesx = (int)Math.ceil((imageWidth)/(double)shownWidth);
+        int npagesy = (int)Math.ceil((imageHeight)/(double)shownHeight);
+        // Calculate the total number of pages.
+        int npages=npagesx*npagesy;
+        System.out.println("imageWidth="+imageWidth+" shownWidth="+shownWidth+
+            " npagesx="+npagesx);
+        System.out.println("imageHeight="+imageHeight+" shownHeight="+
+            shownHeight+" npagesy="+npagesy);
+        // Current pages of the mosaic.
+        int pagex=page % npagesx;
+        int pagey=page / npagesx;
+        System.out.println("current page numbers: pagex="+pagex+ " pagey="+
+            pagey);
         if(printFitToPage) {
             g2d.translate(-o.x,-o.y);
         }
-        // Check if we need more than one page
-        if (printerWidth<imageWidth) {
-            g2d.translate(-(printerWidth*page),0);
-        }
 
         // Check if printing is finished.
-        if(page>npages) {
+        if(page>=npages) {
+            g2d.setTransform(oldTransform);
             return NO_SUCH_PAGE;
         }
+
+        // Check if we need more than one page
+        if (page>0) {
+            g2d.translate(-(shownWidth*pagex),0);
+            g2d.translate(0,-(shownHeight*pagey));
+        }
+
         Vector<LayerDesc> ol=cc.dmp.getLayers();
         // Check if the drawing should be black and white
         if(printBlackWhite) {
@@ -370,7 +392,7 @@ public class PrintTools implements Printable
         // Now we perform our rendering
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
         cc.dmp.setLayers(ol);
-
+        g2d.setTransform(oldTransform);
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
     }
