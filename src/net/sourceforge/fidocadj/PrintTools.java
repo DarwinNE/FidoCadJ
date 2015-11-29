@@ -305,9 +305,9 @@ public class PrintTools implements Printable
             (topMargin+bottomMargin)/INCH*NATIVERES)*MULT;
 
         // The current margins are shown with a dashed black line.
-        if(showMargins) {
-            Rectangle2D.Double border = new Rectangle2D.Double(0, 0,
+        Rectangle2D.Double border = new Rectangle2D.Double(0, 0,
                 shownWidth-2*security, shownHeight-2*security);
+        if(showMargins) {
             float dashBorder[] = {150.0f};
             BasicStroke dashed = new BasicStroke(50.0f,
                         BasicStroke.CAP_BUTT,
@@ -317,7 +317,8 @@ public class PrintTools implements Printable
             g2d.setColor(Color.black);
             g2d.draw(border);
         }
-
+        // Clip the drawing inside the borders.
+        g2d.clip(border);
         MapCoordinates m;
 
         // Perform an adjustement if we need to fit the drawing to the page.
@@ -349,10 +350,10 @@ public class PrintTools implements Printable
         int npagesy = (int)Math.ceil((imageHeight)/(double)shownHeight);
         // Calculate the total number of pages.
         int npages=npagesx*npagesy;
-        System.out.println("imageWidth="+imageWidth+" shownWidth="+shownWidth+
+        /*System.out.println("imageWidth="+imageWidth+" shownWidth="+shownWidth+
             " npagesx="+npagesx);
         System.out.println("imageHeight="+imageHeight+" shownHeight="+
-            shownHeight+" npagesy="+npagesy);
+            shownHeight+" npagesy="+npagesy); */
         // Current pages of the mosaic.
         int pagex=page % npagesx;
         int pagey=page / npagesx;

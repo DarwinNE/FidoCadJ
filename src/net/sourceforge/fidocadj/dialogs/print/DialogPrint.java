@@ -223,6 +223,7 @@ public class DialogPrint extends MinimumSizeDialog
                     double lm=Double.parseDouble(tLeftMargin.getText());
                     double rm=Double.parseDouble(tRightMargin.getText());
                     prp.setMargins(tm,bm,lm,rm);
+                    numberOfPages=prp.getTotalNumberOfPages();
                     prp.setCurrentPage(currentPage);
                     prp.updatePreview();
                 } catch (java.lang.NumberFormatException n) {
@@ -257,7 +258,7 @@ public class DialogPrint extends MinimumSizeDialog
                     if(numberOfPages>1) {
                         incr.setEnabled(true);
                         decr.setEnabled(true);
-                    } 
+                    }
                 }
 
                 prp.setCurrentPage(currentPage);

@@ -106,7 +106,21 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     */
     public void setCurrentPage(int p)
     {
-        currentPage=p;
+        pageImage = new BufferedImage(10, 10,
+            BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+
+        try {
+            if (printObject.print(g2, pageDescription, p)
+                ==Printable.PAGE_EXISTS)
+            {
+                currentPage=p;
+            } else {
+                currentPage=0;
+            }
+        } catch (PrinterException pe) {
+            currentPage=0;
+        }
     }
 
     /** Show the margins.
