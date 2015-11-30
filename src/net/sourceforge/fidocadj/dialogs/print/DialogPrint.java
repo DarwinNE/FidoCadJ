@@ -260,15 +260,8 @@ public class DialogPrint extends MinimumSizeDialog
                         decr.setEnabled(true);
                     }
                 }
-
                 prp.setCurrentPage(currentPage);
                 prp.updatePreview();
-                numberOfPages=prp.getTotalNumberOfPages();
-                if(currentPage>numberOfPages-1) {
-                    currentPage=numberOfPages-1;
-                    prp.setCurrentPage(currentPage);
-                    prp.updatePreview();
-                }
                 prp.repaint();
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }

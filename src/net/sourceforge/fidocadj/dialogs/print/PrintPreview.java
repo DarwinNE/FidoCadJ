@@ -51,6 +51,8 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     private PrintTools printObject;
     private DialogPrint dialog;
     private int currentPage;
+    private double baseline;
+    private double oldBaseline;
 
     /** Constructor.
         @param isEditable true if the panel should be editable.
@@ -131,44 +133,43 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     {
         getDrawingModel().setChanged(true); // Needed?
         Color c = g.getColor();
-        Graphics2D g2 = (Graphics2D) g;
-        AffineTransform oldTransform = g2.getTransform();
+        Graphics2D g2d = (Graphics2D) g;
 
         int shadowShiftX=4;
         int shadowShiftY=4;
 
-        double baseline=getWidth()*0.6;     // TODO: correct getHeight small
+        baseline=getWidth()*0.6;     // TODO: correct getHeight small
+        if(Math.abs(oldBaseline-baseline)>1e5)
+            updatePreview();
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
         if(dialog.getLandscape()) {
             baseline=getWidth()*0.8;
             pageDescription.setOrientation(pageDescription.LANDSCAPE);
-            //ratio=pageDescription.getWidth()/pageDescription.getHeight();
         } else {
             pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
 
         // Draw the shadow of the page.
-        g2.setColor(Color.gray.darker());
-        g2.fillRect((int)Math.round(getWidth()/2.0-baseline/2.0)+shadowShiftX,
+        g2d.setColor(Color.gray.darker());
+        g2d.fillRect((int)Math.round(getWidth()/2.0-baseline/2.0)+shadowShiftX,
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0)+shadowShiftY,
             (int)Math.round(baseline),
             (int)Math.round(baseline*ratio));
         // Draw the image containing the preview.
-        g2.drawImage(pageImage,
+        g2d.drawImage(pageImage,
             (int)Math.round(getWidth()/2.0-baseline/2.0),
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
             null);
 
         // Draw the contour of the page.
-        g2.setColor(Color.black);
-        g2.drawRect((int)Math.round(getWidth()/2.0-baseline/2.0),
+        g2d.setColor(Color.black);
+        g2d.drawRect((int)Math.round(getWidth()/2.0-baseline/2.0),
             (int)Math.round(getHeight()/2.0-baseline*ratio/2.0),
             (int)Math.round(baseline)-1,
             (int)Math.round(baseline*ratio));
 
-        g2.setColor(c);
-        g2.setTransform(oldTransform);
+        g2d.setColor(c);
     }
 
     /** Called when the panel is resized.
@@ -201,34 +202,33 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
             pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
 
-        MapCoordinates mc=DrawingSize.calculateZoomToFit(getDrawingModel(),
-            (int)Math.round(baseline), (int)Math.round(baseline*ratio),true);
-        setMapCoordinates(mc);
-
         int width=(int)baseline;
         int height=(int)Math.round(baseline*ratio);
 
         pageImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2=(Graphics2D)pageImage.createGraphics();
+        Graphics2D g2d=(Graphics2D)pageImage.createGraphics();
+        AffineTransform oldTransform = g2d.getTransform();
 
         // Activate anti-aliasing
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(Color.white);
+        g2d.fillRect(0,0,width,height);
 
-        g2.setColor(Color.white);
-        g2.fillRect(0,0,width,height);
-        g2.scale(width/pageWidth,
+        g2d.scale(width/pageWidth,
             height/pageHeight);
 
         try {
             printObject.setMargins(topMargin, bottomMargin,
                 leftMargin, rightMargin);
-            printObject.print(g2, pageDescription, currentPage);
+            printObject.print(g2d, pageDescription, currentPage);
         } catch (PrinterException pe)
         {
             System.err.println("Some problem here!");
         }
+        g2d.setTransform(oldTransform);
+        oldBaseline=baseline;
     }
 
     /** Get the total number of pages in the preview.

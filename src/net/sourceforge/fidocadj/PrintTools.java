@@ -357,8 +357,7 @@ public class PrintTools implements Printable
         // Current pages of the mosaic.
         int pagex=page % npagesx;
         int pagey=page / npagesx;
-        System.out.println("current page numbers: pagex="+pagex+ " pagey="+
-            pagey);
+
         if(printFitToPage) {
             g2d.translate(-o.x,-o.y);
         }
@@ -368,7 +367,8 @@ public class PrintTools implements Printable
             g2d.setTransform(oldTransform);
             return NO_SUCH_PAGE;
         }
-
+        System.out.println("current page numbers: pagex="+pagex+ " pagey="+
+            pagey);
         // Check if we need more than one page
         if (page>0) {
             g2d.translate(-(shownWidth*pagex),0);
