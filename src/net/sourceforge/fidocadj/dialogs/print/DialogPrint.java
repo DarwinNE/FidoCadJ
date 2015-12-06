@@ -166,7 +166,7 @@ public class DialogPrint extends MinimumSizeDialog
             {
                 if(currentPage>0)
                     --currentPage;
-                prp.setCurrentPage(currentPage);
+                currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
@@ -190,7 +190,7 @@ public class DialogPrint extends MinimumSizeDialog
             {
                 if(currentPage<numberOfPages-1 && !fit_CB.isSelected())
                     ++currentPage;
-                prp.setCurrentPage(currentPage);
+                currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
@@ -224,8 +224,9 @@ public class DialogPrint extends MinimumSizeDialog
                     double rm=Double.parseDouble(tRightMargin.getText());
                     prp.setMargins(tm,bm,lm,rm);
                     numberOfPages=prp.getTotalNumberOfPages();
-                    prp.setCurrentPage(currentPage);
+                    currentPage=prp.setCurrentPage(currentPage);
                     prp.updatePreview();
+                    pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
                 } catch (java.lang.NumberFormatException n) {
                 }
                 prp.repaint();
@@ -250,7 +251,7 @@ public class DialogPrint extends MinimumSizeDialog
             public void stateChanged(ChangeEvent changeEvent)
             {
                 numberOfPages=prp.getTotalNumberOfPages();
-                if(fit_CB.isSelected()) {
+                /*if(fit_CB.isSelected()) {
                     currentPage = 0;
                     incr.setEnabled(false);
                     decr.setEnabled(false);
@@ -259,10 +260,18 @@ public class DialogPrint extends MinimumSizeDialog
                         incr.setEnabled(true);
                         decr.setEnabled(true);
                     }
+                }*/
+                if(numberOfPages>1) {
+                    incr.setEnabled(true);
+                    decr.setEnabled(true);
+                } else {
+                    incr.setEnabled(false);
+                    decr.setEnabled(false);
                 }
-                prp.setCurrentPage(currentPage);
+                currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
+                //numberOfPages=prp.getTotalNumberOfPages();
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }
         };

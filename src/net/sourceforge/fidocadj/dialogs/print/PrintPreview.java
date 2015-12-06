@@ -105,8 +105,10 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
 
     /** Set the current page to be printed.
         @param p the page to be printed.
+        @return the number of the selected page (it may differ from the one
+            which is passed as an argument, since a sanity check is done).
     */
-    public void setCurrentPage(int p)
+    public int setCurrentPage(int p)
     {
         pageImage = new BufferedImage(10, 10,
             BufferedImage.TYPE_INT_RGB);
@@ -123,13 +125,14 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         } catch (PrinterException pe) {
             currentPage=0;
         }
+        return currentPage;
     }
 
     /** Show the margins.
         @param g the graphic context where to draw.
     */
     @Override
-    public void paintComponent (Graphics g)
+    public void paintComponent(Graphics g)
     {
         getDrawingModel().setChanged(true); // Needed?
         Color c = g.getColor();
@@ -204,6 +207,11 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
 
         int width=(int)baseline;
         int height=(int)Math.round(baseline*ratio);
+
+        if(width<1)
+            width=1;
+        if(height<1)
+            height=1;
 
         pageImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_RGB);

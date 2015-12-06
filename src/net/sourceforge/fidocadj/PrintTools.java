@@ -226,7 +226,6 @@ public class PrintTools implements Printable
     private void executePrinting(PrinterJob job)
         throws PrinterException
     {
-
         job.setPrintable(this);
         if (job.printDialog()) {
             PrintRequestAttributeSet aset = new
@@ -350,10 +349,7 @@ public class PrintTools implements Printable
         int npagesy = (int)Math.ceil((imageHeight)/(double)shownHeight);
         // Calculate the total number of pages.
         int npages=npagesx*npagesy;
-        /*System.out.println("imageWidth="+imageWidth+" shownWidth="+shownWidth+
-            " npagesx="+npagesx);
-        System.out.println("imageHeight="+imageHeight+" shownHeight="+
-            shownHeight+" npagesy="+npagesy); */
+
         // Current pages of the mosaic.
         int pagex=page % npagesx;
         int pagey=page / npagesx;
@@ -367,8 +363,6 @@ public class PrintTools implements Printable
             g2d.setTransform(oldTransform);
             return NO_SUCH_PAGE;
         }
-        System.out.println("current page numbers: pagex="+pagex+ " pagey="+
-            pagey);
         // Check if we need more than one page
         if (page>0) {
             g2d.translate(-(shownWidth*pagex),0);
