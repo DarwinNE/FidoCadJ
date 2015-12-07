@@ -9,15 +9,15 @@ define("PAGE_TITLE","Librerie e Simboli di FidoCadJ"); //page title attribute
 //CONTENT
 define("FIRST_LINE","Librerie e Simboli"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
-define("PARAGRAPH_1",'E\' possibile <b>scaricare gratuitamente</b> le librerie e i simboli creati dagli utenti su questa pagina. Per installarle in FidoCadJ, bisogna per prima cosa decomprimerle in una directory a scelta sul proprio computer. Ci saranno uno o più file con l\'estensione fcl (FidoCadJ library). Da FidoCadJ, selezionare il menu File, poi Opzioni e nel pannello Avvio selezionare la Directory librerie che contiene i file con estensione fcl.'); //PARAGRAPH TEXT
+define("PARAGRAPH_1",'É possibile <b>scaricare gratuitamente</b> le librerie e i simboli proposti dagli utenti su questa pagina. Per installarle in FidoCadJ, bisogna per prima cosa decomprimerle in una directory a scelta sul proprio computer. Ci saranno uno o più file con l\'estensione fcl (FidoCadJ library).<br/><br/> <strong>Su Windows:</strong> da FidoCadJ, selezionare il menu File, poi Opzioni e nel pannello Avvio selezionare la Directory librerie che contiene i file con estensione fcl.<br/><br/><strong>Su MacOSX: </strong>dal menu FidoCadJ, raggiungere la voce Impostazioni e nella scheda Avvio, selezionare la cartella contenente i file con estensione fcl.'); //PARAGRAPH TEXT
 
-define("LIBRARY_1",'Creata da elettrodomus e presentata in <a href="http://www.electroyou.it/elettrodomus/wiki/una-piccola-libreria-ladder-per-fidocadj">questo articolo su EY </a>: Una piccola libreria ladder per FidoCadJ (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_1",'Proposta da elettrodomus e presentata in <a href="http://www.electroyou.it/elettrodomus/wiki/una-piccola-libreria-ladder-per-fidocadj">questo articolo su EY </a>: Una piccola libreria ladder per FidoCadJ (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_2",'Creata da elettrodomus e presentata in <a href="http://www.electroyou.it/forum/viewtopic.php?f=4&t=54536&start=250#p560385">questa discussione su EY</a>: simboli musicali (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_2",'Curata da elettrodomus e presentata in <a href="http://www.electroyou.it/forum/viewtopic.php?f=4&t=54536&start=250#p560385">questa discussione su EY</a>: simboli musicali (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_3",'Creata da mir e presentata in <a href="http://www.electroyou.it/mir/wiki/libreria-pneumatica-per-fidocadj">questo articolo su EY</a>, un\'ottima collezione di simboli per <b>i circuiti pneumatici</b> (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_3",'Ideata da mir e presentata in <a href="http://www.electroyou.it/mir/wiki/libreria-pneumatica-per-fidocadj">questo articolo su EY</a>, un\'ottima collezione di simboli per <b>i circuiti pneumatici</b> (in italiano, licenza CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_4",'Creata da Franco Minucci, un\'ottima collezione di <b>circuiti-macro</b> e altri simboli.'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_4",'Proposta da Franco Minucci, un\'ottima collezione di <b>circuiti-macro</b> e altri simboli.'); //LIBRARY DESCRIPTION IN TABLE
 
 define("LIBRARY_5",'Presentata da Paolo Squaratti, questa libreria contiente i simboli per <b>diagrammi</b> ECMA-4, pubblicata su <a href="http://www.electroyou.it/pepito/wiki/libreria-flowchart-per-fidocadj">ElectroYou</a>.'); //LIBRARY DESCRIPTION IN TABLE
 
@@ -31,7 +31,7 @@ define("LIBRARY_9",'Proposta da Celsius, questa libreria contiene alcuni utili s
 
 define("LIBRARY_10",'Proposta dai moderatori del gruppo Usenet it.hobby.radioamatori.moderato e scaricata dal <a href="http://www.iz1cyn.it/fidocad.html">sito web Roby  IZ1CYN</a> (in italiano). Questa libreria contiene alcuni utili simboli per il disegno di <b>circuiti elettrici e PCB</b>. La libreria è correntemente inclusa nativamente a FidoCadJ.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_11",'Una raccolta di macro proposta da Tullio, Juan Bravo su it.hobby.elettronica. Io ho riunito le macro in un\'unico file di libreria che è contenuto nell\'archivio zip.'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_11",'Una raccolta di macro proposta da Tullio, Juan Bravo su it.hobby.elettronica. Le macro sono state riunite in un\'unico file di libreria che è contenuto nell\'archivio zip.'); //LIBRARY DESCRIPTION IN TABLE
 
 define("LIBRARY_12",'Libreria disponibile su <a href="http://tomasella.altervista.org/it/elettronica/pcb/#disegno_schema">questo sito</a> (link in italiano). Contiene <b>i layout</b> di diversi connettori (USB in particolare) e molti package SMD.'); //LIBRARY DESCRIPTION IN TABLE
 
@@ -45,6 +45,6 @@ define("LIBRARY_16",'A opera di Maurizio Mileto, contiene una corposa raccolta d
 
 define("LIBRARY_17",'Libreria realizzata da MacZap in <a href="http://www.grix.it/forum/forum_thread.php?ftpage=1&amp;id_forum=1&amp;id_thread=401194&amp;tbackto=/forum/forum_discussioni.php?id_forum=1&amp;dbackto=/forum/index.php">questa discussione</a> e didicata ad <b>Arduino</b>.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("PARAGRAPH_2",'(da tradurre su indicazione di DarwinNE) If you have prepared a library file for FidoCadJ or FidoCad and you want to share it between the user community, please, participate to the FidoCadJ forum on Sourceforge. On the other hand, if you have found here something which should <b>not</b> be here, please also write a message on the Sourceforge forum or <a href="mailto:davbucciAVOIDSPAM@tiscali.it"> contact the webmaster by email</a>, eliminating the capital letters in the address.'); //PARAGRAPH TEXT
+define("PARAGRAPH_2",'Se avete messo a punto una nuova libreria per FidoCadJ e se volete condividerla con tutta la comunità, non esitate ad aprire una Issue su GitHub. D\'altro canto, se avete trovato qualcosa qui che non dovrebbe esserci, aprite una Issue descrivendo il problema e provvederemo appena possibile a rimuovere il contenuto in questione.'); //PARAGRAPH TEXT
 
  ?>

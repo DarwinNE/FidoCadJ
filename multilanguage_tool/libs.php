@@ -61,7 +61,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/LaddEYr.zip">LaddEYr (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/LaddEYr.zip">LaddEYr (zip)</a><br>
 					</td>
 					<td>
 						2 KiB
@@ -76,7 +76,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/MusiCadJEY.zip">MusiCadJEY (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/MusiCadJEY.zip">MusiCadJEY (zip)</a><br>
 					</td>
 					<td>
 						8 KiB
@@ -91,7 +91,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/Pneumatica.zip">Pneumatica (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/Pneumatica.zip">Pneumatica (zip)</a><br>
 					</td>
 					<td>
 						5 KiB
@@ -106,7 +106,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/imec_symbols.zip">Imec symbols (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/imec_symbols.zip">Imec symbols (zip)</a><br>
 					</td>
 					<td>
 						8 KiB
@@ -121,7 +121,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/flowchart.zip">flowchart (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/flowchart.zip">flowchart (zip)</a><br>
 					</td>
 					<td>
 						4 KiB
@@ -136,7 +136,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/Simboli_Idraulici.zip">Simboli_Idraulici (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/Simboli_Idraulici.zip">Simboli_Idraulici (zip)</a><br>
 					</td>
 					<td>
 						4 KiB
@@ -151,7 +151,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/PIERIN_PIC18_Library_for_FidoCadJ.zip">PIERIN PIC18 Library (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/PIERIN_PIC18_Library_for_FidoCadJ.zip">PIERIN PIC18 Library (zip)</a><br>
 					</td>
 					<td>
 						4 KiB
@@ -165,7 +165,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/lib_agg.zip">lib_agg (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/lib_agg.zip">lib_agg (zip)</a><br>
 					</td>
 					<td>
 						12 KiB
@@ -180,7 +180,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/celsius_lib.zip">celsius_lib (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/celsius_lib.zip">celsius_lib (zip)</a><br>
 					</td>
 					<td>
 						16 KiB
@@ -195,7 +195,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/ihram.zip">ihram (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/ihram.zip">ihram (zip)</a><br>
 					</td>
 					<td>
 						16 KiB
@@ -210,7 +210,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/lib_tullio.zip">lib_tullio (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/lib_tullio.zip">lib_tullio (zip)</a><br>
 					</td>
 					<td>
 						8 KiB
@@ -225,7 +225,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/libs_2_2012.zip">libs_2_2012 (zip)</a> <br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/libs_2_2012.zip">libs_2_2012 (zip)</a> <br>
 					</td>
 					<td>
 						136 KiB
@@ -240,7 +240,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/SSOP_corretti.zip">SSOP_corretti (zip)</a>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/SSOP_corretti.zip">SSOP_corretti (zip)</a>
 					</td>
 					<td>
 						4 KiB
@@ -255,7 +255,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/ingcivile.zip">ingcivile (zip)</a>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/ingcivile.zip">ingcivile (zip)</a>
 					</td>
 					<td>
 						4 KiB
@@ -270,7 +270,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/MarioPCB.zip">MarioPCB (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/MarioPCB.zip">MarioPCB (zip)</a><br>
 					</td>
 					<td>
 						4 KiB
@@ -285,7 +285,7 @@
 
 				<tr>
 					<td>
-					<a href="http://darwinne.github.io/libs/elettrotecnica.zip">elettrotecnica (zip)</a><br>
+					<a href="http://darwinne.github.io/FidoCadJ/libs/elettrotecnica.zip">elettrotecnica (zip)</a><br>
 					</td>
 					<td>
 						8 KiB
@@ -300,7 +300,7 @@
 
 				<tr>
 					<td>
-						<a href="http://darwinne.github.io/libs/arduino.zip">arduino (zip)</a><br>
+						<a href="http://darwinne.github.io/FidoCadJ/libs/arduino.zip">arduino (zip)</a><br>
 					</td>
 					<td>
 						4 KiB

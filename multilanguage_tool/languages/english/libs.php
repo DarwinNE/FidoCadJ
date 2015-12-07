@@ -9,7 +9,7 @@ define("PAGE_TITLE","FidoCadJ Libraries and Symbols"); //page title attribute
 //CONTENT
 define("FIRST_LINE","Libraries and symbols"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
-define("PARAGRAPH_1",'You can <b>freely download</b> user-contributed libraries of symbols from here. To install them in FidoCadJ, you should choose a directory in your computer, un-compress the downloaded file there. You will find one or several files with the fcl (FidoCadJ library) extension. In FidoCadJ, go in the program settings and in the "startup" tab select the directory containing the files with the fcl extension.'); //PARAGRAPH TEXT
+define("PARAGRAPH_1",'You can <b>freely download</b> user-contributed libraries of symbols from here. To install them in FidoCadJ, you should choose a directory in your computer, un-compress the downloaded file there. You will find one or several files with the fcl (FidoCadJ library) extension.<br/><br/><strong>On Windows: </strong>in FidoCadJ, go in the File menu, click on Options. In the "startup" tab select the directory containing the files with the fcl extension.<br/><br/><strong>On MacOSX:</strong> in the FidoCadJ menu, go in the program settings and in the "startup" tab select the directory containing the files with the fcl extension.'); //PARAGRAPH TEXT
 
 define("LIBRARY_1",'By elettrodomus, from <a href="http://www.electroyou.it/elettrodomus/wiki/una-piccola-libreria-ladder-per-fidocadj">this EY article</a>, ladder logic symbols (in italian, license CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
 
@@ -31,7 +31,7 @@ define("LIBRARY_9",'Proposed by Luigi C. in <a href="http://groups.google.it/gro
 
 define("LIBRARY_10",'Proposed by moderators of Usenet group it.hobby.radioamatori.moderato and downloaded from <a href="http://www.iz1cyn.it/fidocad.html">the Roby  IZ1CYN website</a> (in Italian language). This library contains many useful symbols for <b>electronic circuits and PCBs</b>. This library is now included by default in FidoCadJ.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_11",'Macro collection proposed by Tullio, Juan Bravo on it.hobby.elettronica. I assembled all the macros in a single library file which is contained in the zip archive.'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_11",'Macro collection proposed by Tullio, Juan Bravo on it.hobby.elettronica. Macros was assembled in a single library file which is contained in the zip archive.'); //LIBRARY DESCRIPTION IN TABLE
 
 define("LIBRARY_12",'Library available on <a href="http://tomasella.altervista.org/it/elettronica/pcb/#disegno_schema">this website</a> (link in Italian). It contains the <b>footprints</b> of several connectors (USB in particular) and of several SMD packages.'); //LIBRARY DESCRIPTION IN TABLE
 
@@ -45,6 +45,6 @@ define("LIBRARY_16",'By Maurizio Mileto, it contains a vast collection of symbol
 
 define("LIBRARY_17",'Library prepared by MacZap in <a href="http://www.grix.it/forum/forum_thread.php?ftpage=1&amp;id_forum=1&amp;id_thread=401194&amp;tbackto=/forum/forum_discussioni.php?id_forum=1&amp;dbackto=/forum/index.php">this discussion</a> and dedicated to <b>Arduino</b>.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("PARAGRAPH_2",'If you have prepared a library file for FidoCadJ or FidoCad and you want to share it between the user community, please, participate to the FidoCadJ forum on Sourceforge. On the other hand, if you have found here something which should <b>not</b> be here, please also write a message on the Sourceforge forum or <a href="mailto:davbucciAVOIDSPAM@tiscali.it"> contact the webmaster by email</a>, eliminating the capital letters in the address.'); //PARAGRAPH TEXT
+define("PARAGRAPH_2",'If you have prepared a library file for FidoCadJ and you want to share it between the user community, please open a new Issue on GitHub. On the other hand, if you have found here something which should not be here, also open an Issue and we will remove the offending content as fast as we can.'); //PARAGRAPH TEXT
 
  ?>
