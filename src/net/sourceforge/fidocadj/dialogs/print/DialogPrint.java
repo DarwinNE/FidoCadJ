@@ -18,6 +18,7 @@ import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 /** Choose file format, size and options of the graphic exporting.
     The class dialogPrint implements a modal dialog to select printing options.
@@ -58,7 +59,10 @@ public class DialogPrint extends MinimumSizeDialog
     private final JTextField tLeftMargin;
     private final JTextField tRightMargin;
 
+    private final JCheckBox onlyLayerCB;
+
     private final JLabel pageNum;
+    private final JComboBox<LayerDesc> layerSel;
 
     private double maxHorisontalMargin;
     private double maxVerticalMargin;
@@ -411,6 +415,37 @@ public class DialogPrint extends MinimumSizeDialog
             }
         });
 
+        onlyLayerCB=new JCheckBox(Globals.messages.getString(
+            "PrintOnlyLayer"));
+        constraints.gridx=LCOLUMN;
+        constraints.gridy=8;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.WEST;
+        contentPane.add(onlyLayerCB, constraints);     // Add landscape cb
+
+        onlyLayerCB.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent)
+            {
+                if(onlyLayerCB.isSelected()) {
+                    layerSel.setEnabled(true);
+                } else {
+                    layerSel.setEnabled(false);
+                }
+            } 
+        });
+
+        layerSel = new JComboBox<LayerDesc>(dd.getLayers());
+        layerSel.setRenderer( new LayerCellRenderer());
+        layerSel.setEnabled(false);
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=LCOLUMN+1;
+        constraints.gridy=8;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(layerSel, constraints);           // Layer selection
+
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -419,6 +454,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=9;
         constraints.gridwidth=7;
         constraints.gridheight=1;
+        constraints.insets = new Insets(20,0,0,0);  //top padding
         constraints.anchor=GridBagConstraints.EAST;
 
         // Put the OK and Cancel buttons and make them active.
