@@ -188,7 +188,7 @@ public class DialogPrint extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
-                if(currentPage<numberOfPages-1 && !fit_CB.isSelected())
+                if(currentPage<numberOfPages-1)
                     ++currentPage;
                 currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();

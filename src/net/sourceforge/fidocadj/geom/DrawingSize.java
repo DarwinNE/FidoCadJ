@@ -162,8 +162,8 @@ public final class DrawingSize
 
         // Determine the size and the origin of the current drawing.
         DimensionG D = getImageSize(dm,1,countMin, org);
-        maxsizex=D.width;
-        maxsizey=D.height;
+        maxsizex=D.width+1;
+        maxsizey=D.height+1;
 
         if (!countMin)
             org=new PointG(0,0);
