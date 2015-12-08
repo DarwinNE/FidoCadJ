@@ -397,7 +397,12 @@ public class PrintTools implements Printable
         }
         // Now we perform our rendering
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
-        cc.dmp.drawOnlyLayer=-1;
+        if(currentLayerSelected>=0) {
+            cc.dmp.setDrawOnlyPads(true);
+            cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
+            cc.dmp.setDrawOnlyPads(false);
+            cc.dmp.drawOnlyLayer=-1;
+        }
         cc.dmp.setLayers(ol);
         g2d.setTransform(oldTransform);
         /* tell the caller that this page is part of the printed document */
