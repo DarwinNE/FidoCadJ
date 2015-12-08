@@ -35,14 +35,13 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
     </pre>
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2015 by Davide Bucci
 */
 public class CellLayer extends JPanel
 {
     private final JList list;
     private final boolean isSelected;
     private final LayerDesc layer;
-    //private JCheckBox cb;
 
     /** Constructor. The user should provide the list in which the element is
         used, information about the layer as well as the selection
@@ -57,22 +56,6 @@ public class CellLayer extends JPanel
         layer=la;
         list=l;
         isSelected=is;
-        /*Box b=Box.createHorizontalBox();
-        cb = new JCheckBox();
-        GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints=new GridBagConstraints();
-        setLayout(bgl);
-        constraints.gridx=0;
-        constraints.gridy=0;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.LINE_START;
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.weightx=1.0;
-
-        constraints.insets=new Insets(0,0,0,0);
-
-        //add(cb, constraints);*/
         setPreferredSize(new Dimension(150,18));
     }
 
@@ -84,7 +67,6 @@ public class CellLayer extends JPanel
     */
     public void paintComponent(Graphics g)
     {
-        //cb.setSelected(layer.isVisible);
         g.setColor(isSelected ? list.getSelectionBackground():
                                 list.getBackground());
         g.fillRect(0,0, getWidth(), getHeight());
@@ -101,8 +83,5 @@ public class CellLayer extends JPanel
         }
         g.drawString(layer.getDescription(), 6*getHeight()/4,
             (int)(3.8*getHeight()/5));
-
-
     }
-
 }

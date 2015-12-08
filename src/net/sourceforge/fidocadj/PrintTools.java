@@ -46,11 +46,12 @@ import net.sourceforge.fidocadj.layers.*;
 
 public class PrintTools implements Printable
 {
-    // Settings related to the printing mode.
-    private boolean printMirror;
-    private boolean printFitToPage;
-    private boolean printLandscape;
-    private boolean printBlackWhite;
+    // Settings related to the printing modes.
+    private boolean printMirror;        // Mirror the printed output.
+    private boolean printFitToPage;     // Fit to the page.
+    private boolean printLandscape;     // Put the page in the landscape mode.
+    private boolean printBlackWhite;    // Black and white.
+    private int currentLayerSelected;   // Layer to print. If negative=all.
 
     // Margins
     private double topMargin=-1;
@@ -64,7 +65,7 @@ public class PrintTools implements Printable
 
     private final static double LIMIT=1e-5;
 
-    private final static int MULT=16;
+    private final static int MULT=16;       // Multiplying 72dp times MULT
     private final static double INCH=2.54;  // in cm
     private final static int NATIVERES=72;  // in dpi
 
@@ -78,6 +79,7 @@ public class PrintTools implements Printable
         printLandscape = false;
         adjustMargins(PrinterJob.getPrinterJob().defaultPage());
         showMargins = false;
+        currentLayerSelected=-1;
     }
 
     /** If the values of the margins are negative, they will be adjusted
@@ -122,7 +124,6 @@ public class PrintTools implements Printable
     */
     public void setMargins(double tm, double bm, double lm, double rm)
     {
-        System.out.println("setMargins: tm="+tm);
         if(tm>0.0) topMargin=tm;
         if(bm>0.0) bottomMargin=bm;
         if(lm>0.0) leftMargin=lm;
@@ -196,10 +197,15 @@ public class PrintTools implements Printable
         printLandscape = dp.getLandscape();
         printBlackWhite=dp.getBW();
 
-        topMargin=dp.getTMargin();
-        bottomMargin=dp.getBMargin();
-        leftMargin=dp.getLMargin();
-        rightMargin=dp.getRMargin();
+        try {
+            topMargin=dp.getTMargin();
+            bottomMargin=dp.getBMargin();
+            leftMargin=dp.getLMargin();
+            rightMargin=dp.getRMargin();
+        } catch (java.lang.NumberFormatException n) {
+            System.out.println(
+                Globals.messages.getString("Format_invalid"));
+        }
 
         if(checkMarginSize && (topMargin/INCH*NATIVERES<pp.getImageableY() ||
             bottomMargin/INCH*NATIVERES<pp.getHeight()
@@ -215,6 +221,7 @@ public class PrintTools implements Printable
                 noexit=true;
             }
         }
+        currentLayerSelected=dp.getSingleLayerToPrint();
         // Deselect all elements.
         cc.getSelectionActions().setSelectionAll(false);
         return noexit;
@@ -370,6 +377,10 @@ public class PrintTools implements Printable
         }
 
         Vector<LayerDesc> ol=cc.dmp.getLayers();
+        // Check if only one layer should be printed.
+        if(currentLayerSelected>=0) {
+            cc.dmp.drawOnlyLayer=currentLayerSelected;
+        }
         // Check if the drawing should be black and white
         if(printBlackWhite) {
             Vector<LayerDesc> v=new Vector<LayerDesc>();
@@ -386,6 +397,7 @@ public class PrintTools implements Printable
         }
         // Now we perform our rendering
         cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
+        cc.dmp.drawOnlyLayer=-1;
         cc.dmp.setLayers(ol);
         g2d.setTransform(oldTransform);
         /* tell the caller that this page is part of the printed document */

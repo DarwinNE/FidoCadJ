@@ -30,7 +30,7 @@ import java.util.*;
     </pre>
 
     @author Davide Bucci
-    @version 1.0 December 2007 - February 2014
+    @version December 2007 - December 2015
 */
 public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
 {
@@ -51,7 +51,5 @@ public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
         final LayerDesc layer=(LayerDesc) value;
 
         return new CellLayer(layer, list, isSelected);
-
     }
-
 }

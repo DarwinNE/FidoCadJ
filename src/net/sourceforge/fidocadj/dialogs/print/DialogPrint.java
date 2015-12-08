@@ -71,6 +71,8 @@ public class DialogPrint extends MinimumSizeDialog
 
     private DrawingModel drawingModel;
 
+    private int currentLayerSelected=-1;
+
     // This contains the number of pages when the drawing is not resized to
     // fit one page.
     private int numberOfPages=0;
@@ -275,7 +277,6 @@ public class DialogPrint extends MinimumSizeDialog
                 currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
-                //numberOfPages=prp.getTotalNumberOfPages();
                 pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
             }
         };
@@ -429,14 +430,18 @@ public class DialogPrint extends MinimumSizeDialog
             {
                 if(onlyLayerCB.isSelected()) {
                     layerSel.setEnabled(true);
+                    if(layerSel!=null)
+                        currentLayerSelected=layerSel.getSelectedIndex();
                 } else {
                     layerSel.setEnabled(false);
                 }
-            } 
+                prp.updatePreview();
+                prp.repaint();
+            }
         });
 
         layerSel = new JComboBox<LayerDesc>(dd.getLayers());
-        layerSel.setRenderer( new LayerCellRenderer());
+        layerSel.setRenderer(new LayerCellRenderer());
         layerSel.setEnabled(false);
         constraints.weightx=100;
         constraints.weighty=100;
@@ -445,6 +450,19 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(layerSel, constraints);           // Layer selection
+        layerSel.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                if (layerSel.getSelectedIndex()>=0) {
+                    currentLayerSelected=layerSel.getSelectedIndex();
+                    if(onlyLayerCB.isSelected()) {
+                        prp.updatePreview();
+                        prp.repaint();
+                    }
+                }
+            }
+        });
 
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
@@ -529,6 +547,17 @@ public class DialogPrint extends MinimumSizeDialog
     public boolean getLandscape()
     {
         return landscape_CB.isSelected();
+    }
+
+    /** Get the layer to be printed if a single layer is what the user need.
+        @return the layer to be printed if >=0 or -1 if all layers should be
+            printed.
+    */
+    public int getSingleLayerToPrint()
+    {
+        if (!onlyLayerCB.isSelected())
+            return -1;
+        return currentLayerSelected;
     }
 
     /** Check if the black and white checkbox is selected.
@@ -626,7 +655,6 @@ public class DialogPrint extends MinimumSizeDialog
     */
     public double getTMargin()
     {
-        System.out.println("tm: "+Double.parseDouble(tTopMargin.getText()));
         return Double.parseDouble(tTopMargin.getText());
     }
 
