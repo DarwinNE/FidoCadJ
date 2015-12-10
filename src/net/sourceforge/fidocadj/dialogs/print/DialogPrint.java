@@ -139,7 +139,8 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridx=1;
         constraints.gridy=0;
         constraints.gridwidth=3;
-        constraints.gridheight=8;
+        constraints.gridheight=9;
+        constraints.insets = new Insets(10,0,10,0);
         contentPane.add(prp, constraints);              // Print preview!
 
         final BasicArrowButton decr =
@@ -152,9 +153,10 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=2;
-        constraints.gridy=8;
+        constraints.gridy=9;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(2,0,0,0);
         contentPane.add(pageNum, constraints);              // Num of pages
 
         constraints.anchor=GridBagConstraints.EAST;
@@ -162,9 +164,10 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=1;
-        constraints.gridy=8;
+        constraints.gridy=9;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(2,0,0,0);
         contentPane.add(decr, constraints);              // Decrement page
         decr.addActionListener(new ActionListener()
         {
@@ -186,7 +189,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.weightx=100;
         constraints.weighty=100;
         constraints.gridx=3;
-        constraints.gridy=8;
+        constraints.gridy=9;
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(incr, constraints);              // Increment page
@@ -218,6 +221,8 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(5,0,0,0);
+
         contentPane.add(lTopMargin, constraints);       // Top margin label
 
         DocumentListener dl=new DocumentListener() {
@@ -288,6 +293,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(3,5,0,0);
         contentPane.add(tTopMargin, constraints);           // Top margin text
         tTopMargin.getDocument().addDocumentListener(dl);
 
@@ -300,6 +306,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(0,0,0,0);
         contentPane.add(lBottomMargin, constraints);    // Bottom margin label
 
         tBottomMargin=new JTextField(10);
@@ -312,6 +319,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
+        constraints.insets = new Insets(0,5,0,0);
         contentPane.add(tBottomMargin, constraints);    // Bottom margin text
         tBottomMargin.getDocument().addDocumentListener(dl);
 
@@ -356,9 +364,57 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(tRightMargin, constraints);    // Right margin text
         tRightMargin.getDocument().addDocumentListener(dl);
 
-        mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
+        onlyLayerCB=new JCheckBox(Globals.messages.getString(
+            "PrintOnlyLayer"));
         constraints.gridx=LCOLUMN;
         constraints.gridy=4;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.WEST;
+        contentPane.add(onlyLayerCB, constraints);     // Print only 1 layer cb
+
+        onlyLayerCB.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent)
+            {
+                if(onlyLayerCB.isSelected()) {
+                    layerSel.setEnabled(true);
+                    if(layerSel!=null)
+                        currentLayerSelected=layerSel.getSelectedIndex();
+                } else {
+                    layerSel.setEnabled(false);
+                }
+                prp.updatePreview();
+                prp.repaint();
+            }
+        });
+
+        layerSel = new JComboBox<LayerDesc>(dd.getLayers());
+        layerSel.setRenderer(new LayerCellRenderer());
+        layerSel.setEnabled(false);
+        constraints.weightx=100;
+        constraints.weighty=100;
+        constraints.gridx=LCOLUMN+1;
+        constraints.gridy=4;
+        constraints.gridwidth=1;
+        constraints.gridheight=1;
+        contentPane.add(layerSel, constraints);           // Layer selection
+        layerSel.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                if (layerSel.getSelectedIndex()>=0) {
+                    currentLayerSelected=layerSel.getSelectedIndex();
+                    if(onlyLayerCB.isSelected()) {
+                        prp.updatePreview();
+                        prp.repaint();
+                    }
+                }
+            }
+        });
+
+        mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
+        constraints.gridx=LCOLUMN;
+        constraints.gridy=5;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
@@ -367,7 +423,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
         constraints.gridx=LCOLUMN;
-        constraints.gridy=5;
+        constraints.gridy=6;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
@@ -376,7 +432,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
         constraints.gridx=LCOLUMN;
-        constraints.gridy=6;
+        constraints.gridy=7;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
@@ -385,7 +441,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
         constraints.gridx=LCOLUMN;
-        constraints.gridy=7;
+        constraints.gridy=8;
         constraints.gridwidth=2;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.WEST;
@@ -416,60 +472,12 @@ public class DialogPrint extends MinimumSizeDialog
             }
         });
 
-        onlyLayerCB=new JCheckBox(Globals.messages.getString(
-            "PrintOnlyLayer"));
-        constraints.gridx=LCOLUMN;
-        constraints.gridy=8;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.WEST;
-        contentPane.add(onlyLayerCB, constraints);     // Add landscape cb
-
-        onlyLayerCB.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent)
-            {
-                if(onlyLayerCB.isSelected()) {
-                    layerSel.setEnabled(true);
-                    if(layerSel!=null)
-                        currentLayerSelected=layerSel.getSelectedIndex();
-                } else {
-                    layerSel.setEnabled(false);
-                }
-                prp.updatePreview();
-                prp.repaint();
-            }
-        });
-
-        layerSel = new JComboBox<LayerDesc>(dd.getLayers());
-        layerSel.setRenderer(new LayerCellRenderer());
-        layerSel.setEnabled(false);
-        constraints.weightx=100;
-        constraints.weighty=100;
-        constraints.gridx=LCOLUMN+1;
-        constraints.gridy=8;
-        constraints.gridwidth=1;
-        constraints.gridheight=1;
-        contentPane.add(layerSel, constraints);           // Layer selection
-        layerSel.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-                if (layerSel.getSelectedIndex()>=0) {
-                    currentLayerSelected=layerSel.getSelectedIndex();
-                    if(onlyLayerCB.isSelected()) {
-                        prp.updatePreview();
-                        prp.repaint();
-                    }
-                }
-            }
-        });
-
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
 
         constraints.gridx=1;
-        constraints.gridy=9;
+        constraints.gridy=10;
         constraints.gridwidth=7;
         constraints.gridheight=1;
         constraints.insets = new Insets(20,0,0,0);  //top padding
@@ -518,6 +526,7 @@ public class DialogPrint extends MinimumSizeDialog
                 setVisible(false);
             }
         };
+        constraints.insets = new Insets(10,0,10,0);
         contentPane.add(b, constraints);        // Add OK/cancel dialog
 
         DialogUtil.addCancelEscape (this, cancelAction);

@@ -152,6 +152,9 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         } else {
             pageDescription.setOrientation(pageDescription.PORTRAIT);
         }
+        // Draw the background.
+        g2d.setColor(getBackground());
+        g2d.fillRect(0,0,getWidth(), getHeight());
 
         // Draw the shadow of the page.
         g2d.setColor(Color.gray.darker());
