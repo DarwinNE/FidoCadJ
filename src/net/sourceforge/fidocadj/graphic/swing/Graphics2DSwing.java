@@ -238,9 +238,15 @@ public class Graphics2DSwing implements GraphicsInterface
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
     {
-        f = new Font(name,
+        Font mf = new Font(name,
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
+        f = mf.deriveFont(
+            AffineTransform.getScaleInstance(
+                (double)size/100.0,(double)size/100.0));
+
+        /*f = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
-            size);
+            size);*/
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
         // takes a surprisingly long amount of time.
@@ -453,6 +459,8 @@ public class Graphics2DSwing implements GraphicsInterface
             transforms. What a pity!
 
             February 20, 2009: I noticed this is in fact a bug on JRE < 1.5
+            December 14, 2015: Maybe it is a way to obtain a more consistant
+                text output? Now FidoCadJ requires Java 1.7, get back to it?
         */
         AffineTransform at=(AffineTransform)g.getTransform().clone();
         AffineTransform ats=(AffineTransform)at.clone();
@@ -524,7 +532,6 @@ public class Graphics2DSwing implements GraphicsInterface
         }
         g.setTransform(ats);
     }
-
 
     /** Draw the grid in the given graphic context.
         @param cs the coordinate map description
