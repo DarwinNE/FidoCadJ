@@ -145,7 +145,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             return;
         changed=true;
         ymagnitude=coordSys.getYMagnitude();
-        //coordorientation=coordSys.getOrientation();
         coordmirroring=coordSys.getMirror();
 
         if(changed) {
