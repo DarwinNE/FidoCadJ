@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj.graphic.nil;
 import net.sourceforge.fidocadj.graphic.*;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.*;
 
 import net.sourceforge.fidocadj.geom.*;
@@ -167,9 +168,14 @@ public class GraphicsNull implements GraphicsInterface
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
     {
-        Font f = new Font(name,
+        /*Font f = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
-            size);
+            size);*/
+        Font ft = new Font(name,
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
+        f = ft.deriveFont(
+            AffineTransform.getScaleInstance(
+                (double)size/100.0,(double)size/100.0));
 
         fm=g.getFontMetrics(f);
     }

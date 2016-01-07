@@ -238,15 +238,16 @@ public class Graphics2DSwing implements GraphicsInterface
     public void setFont(String name, int size, boolean isItalic,
         boolean isBold)
     {
+        /* Is that useful???
+        g.setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
         Font mf = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
         f = mf.deriveFont(
             AffineTransform.getScaleInstance(
                 (double)size/100.0,(double)size/100.0));
 
-        /*f = new Font(name,
-            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
-            size);*/
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
         // takes a surprisingly long amount of time.
