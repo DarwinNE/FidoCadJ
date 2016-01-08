@@ -31,35 +31,35 @@ import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 public class CircuitPanelUpdater implements LibraryListener
 {
 
-	
-	public CircuitPanelUpdater()
-	{
-	}
-	
-	public void libraryLoaded()
-	{
-	}
+    
+    public CircuitPanelUpdater()
+    {
+    }
+    
+    public void libraryLoaded()
+    {
+    }
 
-	public void libraryNodeRenamed(RenameEvent e)
-	{
-		//NOP
-	}
+    public void libraryNodeRenamed(RenameEvent e)
+    {
+        //NOP
+    }
 
-	public void libraryNodeRemoved(RemoveEvent e)
-	{
-	}
+    public void libraryNodeRemoved(RemoveEvent e)
+    {
+    }
 
-	public void libraryNodeAdded(AddEvent e)
-	{
-		//NOP
-	}
+    public void libraryNodeAdded(AddEvent e)
+    {
+        //NOP
+    }
 
-	public void libraryNodeKeyChanged(KeyChangeEvent e)
-	{
-	}
-	
-	private void updateCircuitPanel()
-	{
-	}
+    public void libraryNodeKeyChanged(KeyChangeEvent e)
+    {
+    }
+    
+    private void updateCircuitPanel()
+    {
+    }
 }
 

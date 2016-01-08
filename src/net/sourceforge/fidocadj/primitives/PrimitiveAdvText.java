@@ -283,7 +283,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 fontName = tokens[8].replaceAll("\\+\\+"," ");
             }
 
-
             /* siy is the font horizontal size in mils (1/1000 of an inch).
                1 typographical point is 1/72 of an inch.
             */
@@ -293,9 +292,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 if (j<N-1) txtb.append(" ");
             }
             txt=txtb.toString();
-
-
-
         } else if (tokens[0].equals("TE")) {    // Text (simple)
             if (N<4) {
                 IOException E=new IOException("bad arguments on TE");
@@ -326,7 +322,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                                           " programming error?");
             throw E;
         }
-
     }
 
     /** Gets the distance (in primitive's coordinates space) between a

@@ -4,7 +4,6 @@ import android.graphics.*;
 
 import net.sourceforge.fidocadj.graphic.*;
 
-
 /** Android color class.
 
 

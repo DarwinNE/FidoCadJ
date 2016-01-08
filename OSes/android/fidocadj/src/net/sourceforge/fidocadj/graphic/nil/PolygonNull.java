@@ -7,7 +7,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
 
 /**     ANDROID VERSION
-    
+
     PolygonInterface specifies methods for handling a polygon.
     TODO: reduce dependency on java.awt.*;
 
@@ -38,17 +38,17 @@ public class PolygonNull implements PolygonInterface
 
     Vector<Integer> xpoints;
     Vector<Integer> ypoints;
-    
+
     public Path getPath()
     {
         return path;
     }
-    
+
     public void close()
     {
         path.close();
     }
-    
+
     public PolygonNull()
     {
         path=new Path();
@@ -57,13 +57,13 @@ public class PolygonNull implements PolygonInterface
         ypoints = new Vector<Integer>();
     }
 
-    public void addPoint(int x, int y) 
+    public void addPoint(int x, int y)
     {
         if(npoints++==0)
             path.moveTo(x, y);
-        else 
+        else
             path.lineTo(x, y);
-            
+
         xpoints.add(x);
         ypoints.add(y);
     }
@@ -79,36 +79,36 @@ public class PolygonNull implements PolygonInterface
     {
         return npoints;
     }
-    
+
     public int[] getXpoints()
     {
-        //  ☠ Something better??? ☠ 
+        //  ☠ Something better??? ☠
         int[] xvector= new int[npoints];
         int k=0;
         for(Integer v : xpoints)
             xvector[k++]=v;
-            
+
         return xvector;
     }
-    
+
     public int[] getYpoints()
     {
-        //  ☠ Something better??? ☠ 
+        //  ☠ Something better??? ☠
         int[] yvector= new int[npoints];
         int k=0;
         for(Integer v : ypoints)
             yvector[k++]=v;
-            
-        return yvector; 
+
+        return yvector;
     }
-    
+
     public boolean contains(int x, int y)
     {
         RectF rectF = new RectF();
         path.computeBounds(rectF, true);
         Region r = new Region();
-        r.setPath(path, new Region((int) rectF.left, 
-            (int) rectF.top, (int) rectF.right, 
+        r.setPath(path, new Region((int) rectF.left,
+            (int) rectF.top, (int) rectF.right,
             (int) rectF.bottom));
         return r.contains(x,y);
     }

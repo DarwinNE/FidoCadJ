@@ -27,7 +27,6 @@ import net.sourceforge.fidocadj.graphic.*;
     Copyright 2014 by Davide Bucci
 </pre>
 */
-
 public class ColorNull implements ColorInterface
 {
 
