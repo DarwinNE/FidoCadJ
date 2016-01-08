@@ -235,18 +235,18 @@ public class Graphics2DSwing implements GraphicsInterface
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, int size, boolean isItalic,
+    public void setFont(String name, double size, boolean isItalic,
         boolean isBold)
     {
-        /* Is that useful???
+        /* Is that useful??? */
         g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
-            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         Font mf = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
         f = mf.deriveFont(
             AffineTransform.getScaleInstance(
-                (double)size/100.0,(double)size/100.0));
+                size/100.0,(double)size/100.0));
 
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
@@ -260,7 +260,7 @@ public class Graphics2DSwing implements GraphicsInterface
         @param name the name of the typeface.
         @param size the vertical size in pixels.
     */
-    public void setFont(String name, int size)
+    public void setFont(String name, double size)
     {
         setFont(name, size, false, false);
     }

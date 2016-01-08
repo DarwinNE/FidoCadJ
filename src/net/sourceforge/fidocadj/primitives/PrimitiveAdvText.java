@@ -161,7 +161,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 1 typographical point is 1/72 of an inch.
             */
 
-            g.setFont(fontName, (int)(six*12*coordSys.getYMagnitude()/7+.5),
+            g.setFont(fontName, six*12*coordSys.getYMagnitude()/7+.5,
                 (sty & TEXT_ITALIC)!=0, (sty & TEXT_BOLD)!=0);
 
             orientation=o;

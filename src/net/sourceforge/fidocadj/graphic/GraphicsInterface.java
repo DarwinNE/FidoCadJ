@@ -106,7 +106,7 @@ public interface GraphicsInterface
         @param name the name of the typeface to be used.
         @param size the size in pixels
     */
-    public void setFont(String name, int size);
+    public void setFont(String name, double size);
 
     /** Simple version. It sets the current font.
         @param name the name of the typeface.
@@ -114,7 +114,7 @@ public interface GraphicsInterface
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, int size, boolean isItalic,
+    public void setFont(String name, double size, boolean isItalic,
         boolean isBold);
 
     /** Get the ascent metric of the current font.

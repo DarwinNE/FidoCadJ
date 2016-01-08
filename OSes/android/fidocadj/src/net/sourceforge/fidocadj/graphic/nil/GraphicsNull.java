@@ -8,13 +8,13 @@ import android.graphics.*;
 import android.graphics.Paint.*;
 
 
-/** 	ANDROID VERSION
+/**     ANDROID VERSION
 
-	Null graphic class. Does nothing. Nil. Zero. :-)
-	Except... calculate text size correctly!
+    Null graphic class. Does nothing. Nil. Zero. :-)
+    Except... calculate text size correctly!
 
-	Yes. There is a reason for that.
-	    
+    Yes. There is a reason for that.
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -35,56 +35,56 @@ import android.graphics.Paint.*;
 </pre>
 */
 
-public class GraphicsNull implements GraphicsInterface 
-{		
-	Paint paint;
-	
-	public GraphicsNull()
-	{
-		paint = new Paint();
-	}
-	
-	public void setColor(ColorInterface c) 
-	{
-		// Nothing to do
-	}
-	public ColorInterface getColor()
-	{
-		return new ColorNull();
-	}
-	
-	/** Retrieves or create a BasicStroke object having the wanted with and
-		style and apply it to the current graphic context.
-		@param w the width in pixel
-		@param dashStyle the style of the stroke
-	*/
-	public void applyStroke(float w, int dashStyle)
-	{
-		// Nothing to do
-	}
-	
-	/** Draws a rectangle on the current graphic context.
-		@param x the x coordinate of the uppermost left corner
-		@param y the y coordinate of the uppermost left corner
-		@param width the width of the rectangle
-		@param height the height of the rectangle
-	*/
-	public void drawRect(int x, int y, int width, int height)
-	{
-		// Nothing to do
-	}
-	
-	/** Fills a rectangle on the current graphic context.
-		@param x the x coordinate of the uppermost left corner
-		@param y the y coordinate of the uppermost left corner
-		@param width the width of the rectangle
-		@param height the height of the rectangle
-	*/
-	public void fillRect(int x, int y, int width, int height)
-	{
-		// Nothing to do
-	}
-	
+public class GraphicsNull implements GraphicsInterface
+{
+    Paint paint;
+
+    public GraphicsNull()
+    {
+        paint = new Paint();
+    }
+
+    public void setColor(ColorInterface c)
+    {
+        // Nothing to do
+    }
+    public ColorInterface getColor()
+    {
+        return new ColorNull();
+    }
+
+    /** Retrieves or create a BasicStroke object having the wanted with and
+        style and apply it to the current graphic context.
+        @param w the width in pixel
+        @param dashStyle the style of the stroke
+    */
+    public void applyStroke(float w, int dashStyle)
+    {
+        // Nothing to do
+    }
+
+    /** Draws a rectangle on the current graphic context.
+        @param x the x coordinate of the uppermost left corner
+        @param y the y coordinate of the uppermost left corner
+        @param width the width of the rectangle
+        @param height the height of the rectangle
+    */
+    public void drawRect(int x, int y, int width, int height)
+    {
+        // Nothing to do
+    }
+
+    /** Fills a rectangle on the current graphic context.
+        @param x the x coordinate of the uppermost left corner
+        @param y the y coordinate of the uppermost left corner
+        @param width the width of the rectangle
+        @param height the height of the rectangle
+    */
+    public void fillRect(int x, int y, int width, int height)
+    {
+        // Nothing to do
+    }
+
     public void fillRoundRect(int x,
                                    int y,
                                    int width,
@@ -92,7 +92,7 @@ public class GraphicsNull implements GraphicsInterface
                                    int arcWidth,
                                    int arcHeight)
     {
-		// Nothing to do
+        // Nothing to do
     }
 
     public boolean hitClip(int x,
@@ -100,141 +100,141 @@ public class GraphicsNull implements GraphicsInterface
                        int width,
                        int height)
     {
-    	return true;
+        return true;
     }
-	public void drawLine(int x1,
+    public void drawLine(int x1,
                               int y1,
                               int x2,
                               int y2)
-	{
-		// Nothing to do
-	}
-                              
-	public void setFont(String name, int size, boolean isItalic, 
-		boolean isBold)
-	{
-		int style;
-		if(isBold && isItalic) 
-			style=Typeface.BOLD_ITALIC;
-		else if (isBold)
-			style=Typeface.BOLD;
-		else if (isItalic)
-			style=Typeface.ITALIC;
-		else
-			style=Typeface.NORMAL;
-		
-		Typeface tf = Typeface.create(name, style);
-   		paint.setTypeface(tf);
-   		paint.setTextSize(size);
-	}
-	
-	public void setFont(String name, int size)
-	{
-		setFont(name, size, false, false);
-	}
-	
+    {
+        // Nothing to do
+    }
 
-	public int getFontAscent()
-	{
-		// Note: an ascent is "going up", so it is negative 
-		// as in the FontMetrics documentation...
-		// FidoCadJ requires a positive size, instead.
-		return -(int)paint.getFontMetrics().ascent;
-	}
+    public void setFont(String name, double size, boolean isItalic,
+        boolean isBold)
+    {
+        int style;
+        if(isBold && isItalic)
+            style=Typeface.BOLD_ITALIC;
+        else if (isBold)
+            style=Typeface.BOLD;
+        else if (isItalic)
+            style=Typeface.ITALIC;
+        else
+            style=Typeface.NORMAL;
 
-	public int getFontDescent()
-	{
-		return  (int)paint.getFontMetrics().descent;
-	}
+        Typeface tf = Typeface.create(name, style);
+        paint.setTypeface(tf);
+        paint.setTextSize((int)Math.round(size));
+    }
 
-	public int getStringWidth(String s)
-	{
-		return (int)paint.measureText(s);
-	}
+    public void setFont(String name, double size)
+    {
+        setFont(name, size, false, false);
+    }
 
-	public void drawString(String str,
+
+    public int getFontAscent()
+    {
+        // Note: an ascent is "going up", so it is negative
+        // as in the FontMetrics documentation...
+        // FidoCadJ requires a positive size, instead.
+        return -(int)paint.getFontMetrics().ascent;
+    }
+
+    public int getFontDescent()
+    {
+        return  (int)paint.getFontMetrics().descent;
+    }
+
+    public int getStringWidth(String s)
+    {
+        return (int)paint.measureText(s);
+    }
+
+    public void drawString(String str,
                                 int x,
                                 int y)
     {
-		// Nothing to do
+        // Nothing to do
     }
-    
+
     public void setAlpha(float alpha)
     {
-		// Nothing to do
+        // Nothing to do
     }
 
     public void fillOval(int x,
                               int y,
                               int width,
                               int height)
-	{
-		// Nothing to do
-	}
-	public void drawOval(int x,
+    {
+        // Nothing to do
+    }
+    public void drawOval(int x,
                               int y,
                               int width,
                               int height)
     {
-		// Nothing to do
-    }                          
+        // Nothing to do
+    }
     public void fill(ShapeInterface s)
     {
-		// Nothing to do
+        // Nothing to do
     }
     public void draw(ShapeInterface s)
     {
-		// Nothing to do
+        // Nothing to do
     }
     public void fillPolygon(PolygonInterface p)
-    {		
-		// Nothing to do
+    {
+        // Nothing to do
     }
     public void drawPolygon(PolygonInterface p)
     {
-		// Nothing to do
+        // Nothing to do
     }
-    
+
     public void activateSelectColor(LayerDesc l)
     {
-		// Nothing to do
+        // Nothing to do
     }
-    
+
     public void drawAdvText(double xyfactor, int xa, int ya,
-  		int qq, int h, int w, int th, boolean needsStretching,
-  		int orientation, boolean mirror,		
-  		String txt)
-  	{
-		// Nothing to do
-  	}
-    
-    public void drawGrid(MapCoordinates cs, 
-    	int xmin, int ymin, 
-    	int xmax, int ymax)
+        int qq, int h, int w, int th, boolean needsStretching,
+        int orientation, boolean mirror,
+        String txt)
     {
-    		// nothing to do
+        // Nothing to do
     }
-    	
-    	
+
+    public void drawGrid(MapCoordinates cs,
+        int xmin, int ymin,
+        int xmax, int ymax)
+    {
+            // nothing to do
+    }
+
+
     public PolygonInterface createPolygon()
     {
-    	return new PolygonNull();
+        return new PolygonNull();
     }
     public ColorInterface createColor()
     {
-    	return new ColorNull();
+        return new ColorNull();
     }
-	public ShapeInterface createShape()
-	{
-		return new ShapeNull();
-	}
-	
-	/** Retrieve the current screen density in dots-per-inch.
-		@return the screen resolution (density) in dots-per-inch.
-	*/
-	public float getScreenDensity()
-	{
-		// The magic number should not be important in this context
-		return 42;
-	}	
+    public ShapeInterface createShape()
+    {
+        return new ShapeNull();
+    }
+
+    /** Retrieve the current screen density in dots-per-inch.
+        @return the screen resolution (density) in dots-per-inch.
+    */
+    public float getScreenDensity()
+    {
+        // The magic number should not be important in this context
+        return 42;
+    }
 }
