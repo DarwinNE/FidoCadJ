@@ -6,7 +6,6 @@ import android.graphics.*;
 
 import net.sourceforge.fidocadj.graphic.*;
 
-
 /** PolygonInterface implementation for Android.
 
 <pre>
@@ -35,17 +34,17 @@ public class PolygonAndroid implements PolygonInterface
 
     Vector<Integer> xpoints;
     Vector<Integer> ypoints;
-    
+
     public Path getPath()
     {
         return path;
     }
-    
+
     public void close()
     {
         path.close();
     }
-    
+
     public PolygonAndroid()
     {
         path=new Path();
@@ -60,7 +59,7 @@ public class PolygonAndroid implements PolygonInterface
             path.moveTo(x, y);
         else
             path.lineTo(x, y);
-            
+
         xpoints.add(x);
         ypoints.add(y);
     }
@@ -76,7 +75,7 @@ public class PolygonAndroid implements PolygonInterface
     {
         return npoints;
     }
-    
+
     public int[] getXpoints()
     {
         //  ☠ Something better??? ☠
@@ -84,10 +83,10 @@ public class PolygonAndroid implements PolygonInterface
         int k=0;
         for(Integer v : xpoints)
             xvector[k++]=v;
-            
+
         return xvector;
     }
-    
+
     public int[] getYpoints()
     {
         //  ☠ Something better??? ☠
@@ -95,10 +94,10 @@ public class PolygonAndroid implements PolygonInterface
         int k=0;
         for(Integer v : ypoints)
             yvector[k++]=v;
-            
-        return yvector; 
+
+        return yvector;
     }
-    
+
     /** Checks whether the given point lies inside of the polygon
         @param x the x coordinate of the point
         @param y the y coordinate of the point

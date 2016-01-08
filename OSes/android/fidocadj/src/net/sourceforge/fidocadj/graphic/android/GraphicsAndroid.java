@@ -644,14 +644,14 @@ public class GraphicsAndroid implements GraphicsInterface
 
         // This code applies a correction: draws bigger points if the pitch
         // is very big, or draw much less points if it is too dense.
-            if (ddx>50 || ddy>50) {
-                d=2*getScreenDensity()/112;
-            } else if (ddx<3 || ddy <3) {
-                dx=5*cs.getXGridStep();
-                dy=5*cs.getYGridStep();
-                paint.setColor(Color.parseColor("#A5EDF2"));
-                ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
-            }
+        if (ddx>50 || ddy>50) {
+            d=2*getScreenDensity()/112;
+        } else if (ddx<3 || ddy <3) {
+            dx=5*cs.getXGridStep();
+            dy=5*cs.getYGridStep();
+            paint.setColor(Color.parseColor("#A5EDF2"));
+            ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
+        }
 
         for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
             for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {

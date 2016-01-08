@@ -131,7 +131,8 @@ public class DialogParameters extends DialogFragment
      *
      * @return a ParameterDescription vector describing each parameter.
      */
-    public Vector<ParameterDescription> getCharacteristics() {
+    public Vector<ParameterDescription> getCharacteristics() 
+    {
         return vec;
     }
 
@@ -188,7 +189,8 @@ public class DialogParameters extends DialogFragment
 
             //VKB hiding, with a touch on the dialog.
             @Override
-            public boolean onTouchEvent(MotionEvent event) {
+            public boolean onTouchEvent(MotionEvent event) 
+            {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     InputMethodManager imm = (InputMethodManager)
                         context.getSystemService(
@@ -227,7 +229,8 @@ public class DialogParameters extends DialogFragment
         InputFilter filter = new InputFilter()
         {
             public CharSequence filter(CharSequence source, int start, int end,
-                    Spanned dest, int dstart, int dend) {
+                    Spanned dest, int dstart, int dend)
+            {
                     for (int i = start; i < end; i++) {
                             if (!Character.isDigit(source.charAt(i))) {
                                     return "";

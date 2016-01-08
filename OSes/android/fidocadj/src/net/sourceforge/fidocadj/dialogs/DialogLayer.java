@@ -159,7 +159,7 @@ public class DialogLayer extends DialogFragment
 
             ss.setChecked(layers.get(position).isVisible);
             ss.setOnCheckedChangeListener(
-                new specCheckedChangeListener(convertView,
+                new SpecCheckedChangeListener(convertView,
                     layers, position));
 
             b.setTextColor(Color.BLACK);
@@ -213,24 +213,24 @@ public class DialogLayer extends DialogFragment
         @Override
         public void onClick(View v)
         {
-                drawingPanel.eea.currentLayer = position;
-                layerButton.setBackgroundColor(
-                    ((ColorAndroid)layers.get(position).getColor())
-                    .getColorAndroid());
-                drawingPanel.invalidate();
-                dialog.dismiss();
+            drawingPanel.eea.currentLayer = position;
+            layerButton.setBackgroundColor(
+                ((ColorAndroid)layers.get(position).getColor())
+                .getColorAndroid());
+            drawingPanel.invalidate();
+            dialog.dismiss();
         }
     }
 
     /** Handle the change of the visibility toggle switch.
     */
-    private class specCheckedChangeListener implements OnCheckedChangeListener
+    private class SpecCheckedChangeListener implements OnCheckedChangeListener
     {
         private int position;
         private List<LayerDesc> layers;
         private View parentView;
 
-        public specCheckedChangeListener(View p, List<LayerDesc> l, int pos)
+        public SpecCheckedChangeListener(View p, List<LayerDesc> l, int pos)
         {
             layers=l;
             position=pos;
@@ -243,8 +243,8 @@ public class DialogLayer extends DialogFragment
         public void onCheckedChanged(CompoundButton buttonView,
             boolean isChecked)
         {
-                layers.get(position).setVisible(isChecked);
-                parentView.invalidate();
+            layers.get(position).setVisible(isChecked);
+            parentView.invalidate();
         }
     }
 }

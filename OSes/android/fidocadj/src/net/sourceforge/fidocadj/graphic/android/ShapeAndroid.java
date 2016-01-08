@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
 public class ShapeAndroid implements ShapeInterface
 {
     private Path path;
-    
+
     /** Get the current Android path object.
         @return the Android path object.
     */
@@ -37,14 +37,14 @@ public class ShapeAndroid implements ShapeInterface
     {
         return path;
     }
-    
+
     /** Standard constructor.
     */
     public ShapeAndroid()
     {
         path = new Path();
     }
-    
+
     /** Create a cubic curve (Bézier).
         @param x0 the x coord. of the starting point of the Bézier curve.
         @param y0 the y coord. of the starting point of the Bézier curve.
@@ -62,7 +62,7 @@ public class ShapeAndroid implements ShapeInterface
         path.moveTo(x0,y0);
         path.cubicTo (x1, y1, x2, y2, x3, y3);
     }
-    
+
     /** Create a general path with the given number of points.
         @param npoints the number of points.
     */
@@ -70,7 +70,7 @@ public class ShapeAndroid implements ShapeInterface
     {
         path.reset();
     }
-    
+
     /** Obtain the bounding box of the curve.
         @return the bounding box.
     */
@@ -82,7 +82,7 @@ public class ShapeAndroid implements ShapeInterface
             (int)(bounds.right-bounds.left+1),
             (int)(bounds.bottom-bounds.top+1));
     }
-    
+
     /** Move the current position to the given coordinates.
         @param x the x coordinate
         @param y the y coordinate
@@ -91,7 +91,7 @@ public class ShapeAndroid implements ShapeInterface
     {
         path.moveTo(x, y);
     }
-    
+
     /** Add a cubic curve from the current point.
         @param x0 the x coord. of the first handle.
         @param y0 the y coord. of the first handle
@@ -105,7 +105,7 @@ public class ShapeAndroid implements ShapeInterface
     {
         path.cubicTo (x0, y0, x1, y1, x2, y2);
     }
-    
+
     /** Close the current path.
     */
     public void closePath()
