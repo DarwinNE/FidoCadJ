@@ -55,6 +55,8 @@ public class Graphics2DSwing implements GraphicsInterface
     private AffineTransform stretching;
     private AffineTransform ats;
     private Font f;
+    private double fontScale=1.0;
+    private Font mf;
     private AffineTransform mm;
 
     /** Constructor: fabricate a new object form a java.awt.Graphics2D object.
@@ -64,6 +66,10 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=gg;
         oldZoom = -1;
+        /* Is that useful??? */
+        g.setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
     /** Constructor: fabricate a new object form a java.awt.Graphics object.
@@ -73,6 +79,10 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=(Graphics2D)gg;
         oldZoom = -1;
+        /* Is that useful??? */
+        g.setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
     /** Constructor: fabricate a new object without associating a graphic
@@ -238,15 +248,11 @@ public class Graphics2DSwing implements GraphicsInterface
     public void setFont(String name, double size, boolean isItalic,
         boolean isBold)
     {
-        /* Is that useful??? */
-        g.setRenderingHint(
-            RenderingHints.KEY_FRACTIONALMETRICS,
-            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        Font mf = new Font(name,
+        mf = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
+        fontScale=size/100.0;
         f = mf.deriveFont(
-            AffineTransform.getScaleInstance(
-                size/100.0,(double)size/100.0));
+            AffineTransform.getScaleInstance(fontScale, fontScale));
 
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
@@ -289,8 +295,10 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public int getStringWidth(String s)
     {
-        FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.stringWidth(s);
+        FontMetrics fm = g.getFontMetrics(mf);
+        double ll=fontScale*fm.stringWidth(s);
+        //System.out.println("swing: "+ll);
+        return (int)Math.round(ll);
     }
 
     /** Draw a string on the current graphic context.

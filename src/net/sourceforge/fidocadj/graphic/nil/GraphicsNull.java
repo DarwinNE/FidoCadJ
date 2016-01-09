@@ -58,6 +58,10 @@ public class GraphicsNull implements GraphicsInterface
         // Create a graphics contents on the buffered image
         g = bufferedImage.createGraphics();
         fm = g.getFontMetrics();
+        /* Is that useful??? */
+        ((Graphics2D) g).setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
     /** Set the current color. Here nothing is done.
@@ -213,6 +217,7 @@ public class GraphicsNull implements GraphicsInterface
     */
     public int getStringWidth(String s)
     {
+        //System.out.println("nil: "+fm.stringWidth(s));
         return fm.stringWidth(s);
     }
 
