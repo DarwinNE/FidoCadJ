@@ -47,12 +47,10 @@ import net.sourceforge.fidocadj.graphic.android.ColorAndroid;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Dante Loi, Davide Bucci
-  </pre>
+    </pre>
 
-  @author Dante Loi
-  TODO: comment public methods
-
- */
+    @author Dante Loi
+*/
 public class DialogLayer extends DialogFragment
 {
     private FidoEditor drawingPanel;
@@ -60,6 +58,7 @@ public class DialogLayer extends DialogFragment
     private Dialog diag;
 
     /** Create the dialog where the user can choose the current layer.
+        @param savedInstanceState the saved instance state (not used).
     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -150,7 +149,7 @@ public class DialogLayer extends DialogFragment
             // layer is visible or in gray if it is not.
             Button b = (Button) row.findViewById(R.id.name_item);
             b.setText(layers.get(position).getDescription());
-            b.setOnClickListener(new specSelectCurrentLayer(drawingPanel,
+            b.setOnClickListener(new SpecSelectCurrentLayer(drawingPanel,
                 layerButton, layers, diag, position));
 
             // We have a switch which determines whether a layer is visible
@@ -188,7 +187,7 @@ public class DialogLayer extends DialogFragment
 
     /** Handle a click on the selection button
     */
-    private class specSelectCurrentLayer implements View.OnClickListener
+    private class SpecSelectCurrentLayer implements View.OnClickListener
     {
         private FidoEditor drawingPanel;
         private List<LayerDesc> layers;
@@ -198,7 +197,7 @@ public class DialogLayer extends DialogFragment
 
         /** Creator.
         */
-        public specSelectCurrentLayer(FidoEditor dp, Button lb,
+        public SpecSelectCurrentLayer(FidoEditor dp, Button lb,
             List<LayerDesc> l, Dialog d, int pos)
         {
             drawingPanel=dp;

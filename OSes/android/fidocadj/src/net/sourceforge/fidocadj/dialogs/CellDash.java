@@ -14,7 +14,7 @@ import android.view.View;
 /** This class provides a view showing the different dash styles which
     might be used in a spinner list.
 
-<pre>
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -31,13 +31,14 @@ import android.view.View;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Dante Loi, Davide Bucci
-</pre>
+    </pre>
 */
 public class CellDash extends View
 {
     private DashInfo dash;
 
     /** Standard constructor.
+        @param context the context of the cell.
     */
     public CellDash(Context context)
     {
@@ -52,6 +53,9 @@ public class CellDash extends View
         this.dash = dash_s;
     }
 
+    /** Draw the cell with the dashing styles.
+        @param canvas the canvas where to draw.
+    */
     @Override
     protected void onDraw(Canvas canvas)
     {

@@ -56,7 +56,6 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
     the window will be created automatically.
 
     <pre>
-
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -75,11 +74,8 @@ import net.sourceforge.fidocadj.storage.StaticStorage;
     Copyright 2014-2015 by Dante Loi, Davide Bucci
 
     </pre>
-
     @author Dante Loi
-
- */
-
+*/
 public class DialogParameters extends DialogFragment
 {
     private final static int DENSITY_LOW = 120;
@@ -125,21 +121,20 @@ public class DialogParameters extends DialogFragment
     private Spinner spv[];
     private int sc;
 
-    /**
-     * Get a ParameterDescription vector describing the characteristics modified
-     * by the user.
-     *
-     * @return a ParameterDescription vector describing each parameter.
-     */
-    public Vector<ParameterDescription> getCharacteristics() 
+    /** Get a ParameterDescription vector describing the characteristics
+        modified by the user.
+     @return a ParameterDescription vector describing each parameter.
+    */
+    public Vector<ParameterDescription> getCharacteristics()
     {
         return vec;
     }
 
-    /**
-     * Makes the dialog and passes its arguments to it.
-     *
-     * @return a new istance of DialogParameters.
+    /** Creates the dialog and passes its arguments to it.
+        @param vec the vector containing the various parameters to be set.
+        @param strict true if a strict FidoCAD compatibility is required.
+        @param layers the vector describing the current layers.
+        @return a new istance of DialogParameters.
      */
     public static DialogParameters newInstance(Vector<ParameterDescription> vec,
             boolean strict, Vector<LayerDesc> layers)
@@ -157,6 +152,8 @@ public class DialogParameters extends DialogFragment
 
     /** Create the user interface by processing all the parameters given
         during the construction of the class.
+        @param savedInstanceState the saved instance state.
+        @return the dialog containing the user interface.
     */
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -189,14 +186,14 @@ public class DialogParameters extends DialogFragment
 
             //VKB hiding, with a touch on the dialog.
             @Override
-            public boolean onTouchEvent(MotionEvent event) 
+            public boolean onTouchEvent(MotionEvent event)
             {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     InputMethodManager imm = (InputMethodManager)
                         context.getSystemService(
                               Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getWindowToken(),
-                            SYSTEM_UI_LAYOUT_FLAGS);
+                    imm.hideSoftInputFromWindow(getWindowToken(),
+                        SYSTEM_UI_LAYOUT_FLAGS);
                 }
                 return true;
             }
@@ -231,21 +228,19 @@ public class DialogParameters extends DialogFragment
             public CharSequence filter(CharSequence source, int start, int end,
                     Spanned dest, int dstart, int dend)
             {
-                    for (int i = start; i < end; i++) {
-                            if (!Character.isDigit(source.charAt(i))) {
-                                    return "";
-                            }
+                for (int i = start; i < end; i++) {
+                    if (!Character.isDigit(source.charAt(i))) {
+                        return "";
                     }
-                    return null;
+                }
+                return null;
             }
         };
-
 
         // We process all parameter passed. Depending on its type, a
         // corresponding interface element will be created.
         // A symmetrical operation is done when validating parameters.
         for (int ycount = 0; ycount < vec.size(); ++ycount) {
-
             pd = (ParameterDescription) vec.elementAt(ycount);
 
             LinearLayout vh = new LinearLayout(context);
@@ -539,6 +534,9 @@ public class DialogParameters extends DialogFragment
         return dialog;
     }
 
+    /** Called when the dialog is dismissed.
+        @param savedInstanceState the state of the instance to be saved.
+    */
     public void onDismiss(Bundle savedInstanceState)
     {
         savedInstanceState.putSerializable("vec", vec);
@@ -546,16 +544,17 @@ public class DialogParameters extends DialogFragment
         savedInstanceState.putSerializable("layers", layers);
     }
 
-     @Override
-     public void onDestroyView()
-     {
-         if (getDialog() != null && getRetainInstance())
-             getDialog().setDismissMessage(null);
-         super.onDestroyView();
-     }
+    /** Called when this view is destroyed.
+    */
+    @Override
+    public void onDestroyView()
+    {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setDismissMessage(null);
+        super.onDestroyView();
+    }
 
-    /**
-        Customized item for the layout spinner.
+    /** Customized item for the layout spinner.
     */
     private class LayerSpinnerAdapter extends ArrayAdapter<LayerDesc>
     {
@@ -630,12 +629,14 @@ public class DialogParameters extends DialogFragment
 
         @Override
         public View getDropDownView(int position,
-                                View convertView, ViewGroup parent){
+            View convertView, ViewGroup parent)
+        {
             return getCustomView(position, convertView, parent);
         }
 
         public View getCustomView(int position,
-                                View convertView, ViewGroup parent) {
+            View convertView, ViewGroup parent)
+        {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             LinearLayout row = (LinearLayout)inflater.
                 inflate(R.layout.spinner_item, parent, false);
@@ -653,7 +654,7 @@ public class DialogParameters extends DialogFragment
         private final List<DashInfo> info;
 
         public DashSpinnerAdapter(Context context, int textViewResourceId,
-                List<DashInfo> info)
+            List<DashInfo> info)
         {
             super(context, textViewResourceId, info);
             this.context = context;
@@ -668,12 +669,14 @@ public class DialogParameters extends DialogFragment
 
         @Override
         public View getDropDownView(int position,
-                                View convertView, ViewGroup parent){
+            View convertView, ViewGroup parent)
+        {
             return getCustomView(position, convertView, parent);
         }
 
         public View getCustomView(int position,
-                                View convertView, ViewGroup parent) {
+            View convertView, ViewGroup parent)
+        {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             LinearLayout row = (LinearLayout)inflater.
                 inflate(R.layout.spinner_item, parent, false);
@@ -686,10 +689,9 @@ public class DialogParameters extends DialogFragment
     }
 
     /** Adapts the various dialog's dimension at the screen density and size.
-     *
-     * @param size, the physical screen size of the device.
-     * @param density, the screen resolution of the device.
-     */
+        @param size, the physical screen size of the device.
+        @param density, the screen resolution of the device.
+    */
     private void setSizeByScreen(int size, int density)
     {
         // Default values (show something in any case).

@@ -28,15 +28,14 @@ import android.view.View;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014-2015 by Dante Loi, Davide Bucci
-</pre>
-
-    */
-
+    </pre>
+*/
 public class CellArrow extends View
 {
     private ArrowInfo arrow;
 
     /** Standard constructor.
+        @param context the context of the cell.
     */
     public CellArrow(Context context)
     {
@@ -52,6 +51,9 @@ public class CellArrow extends View
         this.arrow = arrow;
     }
 
+    /** Paint the cell with the arrow.
+        @param canvas the canvas where to draw.
+    */
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -76,4 +78,3 @@ public class CellArrow extends View
 
     }
 }
-

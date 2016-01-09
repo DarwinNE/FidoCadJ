@@ -52,7 +52,6 @@ import java.lang.*;
 */
 public final class ExportGraphic
 {
-
     private ExportGraphic()
     {
         // Nothing to do.

@@ -92,7 +92,7 @@ public class DialogSaveName extends DialogFragment
                 .setOnClickListener(new OnClickListener() {
                     public void onClick(View v)
                     {
-                        OnFolderClick(v);
+                        onFolderClick(v);
                     }
                 });
 
@@ -155,12 +155,10 @@ public class DialogSaveName extends DialogFragment
         }
     }
 
-    /**
-     * Invoke the ExplorerActivity to select folder
-     *
-     * @param v
-     */
-    public void OnFolderClick(View v)
+    /** Invoke the ExplorerActivity to select folder
+        @param v not used.
+    */
+    public void onFolderClick(View v)
     {
         Intent myIntent = new Intent(getActivity(), ExplorerActivity.class);
         myIntent.putExtra(ExplorerActivity.DIRECTORY, true);

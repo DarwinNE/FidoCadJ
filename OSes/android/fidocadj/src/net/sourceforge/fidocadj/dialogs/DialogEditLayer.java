@@ -50,7 +50,6 @@ import net.sourceforge.fidocadj.R;
     </pre>
 
     @author Davide Bucci
-
 */
 public class DialogEditLayer extends DialogFragment implements
     SeekBar.OnSeekBarChangeListener
@@ -78,7 +77,9 @@ public class DialogEditLayer extends DialogFragment implements
     private View currentView;
 
 
-    /** Creator
+    /** Creator.
+        @param cl the current layer.
+        @param v the current view.
     */
     public DialogEditLayer(int cl, View v)
     {
@@ -88,6 +89,7 @@ public class DialogEditLayer extends DialogFragment implements
 
     /** Called when the dialog is being create, this method updates the
         user interface.
+        @param savedInstanceState the state of the instance (not used).
     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
