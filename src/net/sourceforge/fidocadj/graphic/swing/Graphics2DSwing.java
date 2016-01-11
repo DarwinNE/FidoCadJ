@@ -452,7 +452,6 @@ public class Graphics2DSwing implements GraphicsInterface
         @param mirror true if the text is mirrored.
         @param txt the string to be drawn.
     */
-
     public void drawAdvText(double xyfactor, int xa, int ya,
         int qq, int h, int w, int th, boolean needsStretching,
         int orientation, boolean mirror,

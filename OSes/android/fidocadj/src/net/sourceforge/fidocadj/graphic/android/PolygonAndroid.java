@@ -35,16 +35,8 @@ public class PolygonAndroid implements PolygonInterface
     Vector<Integer> xpoints;
     Vector<Integer> ypoints;
 
-    public Path getPath()
-    {
-        return path;
-    }
-
-    public void close()
-    {
-        path.close();
-    }
-
+    /** Standard constructor.
+    */
     public PolygonAndroid()
     {
         path=new Path();
@@ -53,6 +45,25 @@ public class PolygonAndroid implements PolygonInterface
         ypoints = new Vector<Integer>();
     }
 
+    /** Get the current polygon as a path.
+        @return the polygon as a path.
+    */
+    public Path getPath()
+    {
+        return path;
+    }
+
+    /** Close the path.
+    */
+    public void close()
+    {
+        path.close();
+    }
+
+    /** Add a point to the current polygon.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public void addPoint(int x, int y)
     {
         if(npoints++==0)
@@ -64,6 +75,8 @@ public class PolygonAndroid implements PolygonInterface
         ypoints.add(y);
     }
 
+    /** Reset the current polygon by deleting all the points.
+    */
     public void reset()
     {
         path.reset();
@@ -71,11 +84,18 @@ public class PolygonAndroid implements PolygonInterface
         xpoints.clear();
         ypoints.clear();
     }
+
+    /** Get the current number of points in the polygon.
+        @return the number of points.
+    */
     public int getNpoints()
     {
         return npoints;
     }
 
+    /** Get a vector containing the x coordinates of the points.
+        @return a vector containing the x coordinates of all points.
+    */
     public int[] getXpoints()
     {
         //  ☠ Something better??? ☠
@@ -87,6 +107,9 @@ public class PolygonAndroid implements PolygonInterface
         return xvector;
     }
 
+    /** Get a vector containing the y coordinates of the points.
+        @return a vector containing the y coordinates of all points.
+    */
     public int[] getYpoints()
     {
         //  ☠ Something better??? ☠
@@ -98,7 +121,7 @@ public class PolygonAndroid implements PolygonInterface
         return yvector;
     }
 
-    /** Checks whether the given point lies inside of the polygon
+    /** Check whether the given point lies inside of the polygon
         @param x the x coordinate of the point
         @param y the y coordinate of the point
         @return true if the point is inside the polygon

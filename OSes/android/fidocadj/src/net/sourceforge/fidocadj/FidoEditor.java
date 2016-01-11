@@ -96,6 +96,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     private boolean showGrid;
 
     /** Public constructor.
+        @param context the current context.
+        @param attrs the attribute set.
     */
     public FidoEditor(Context context, AttributeSet attrs)
     {
@@ -170,13 +172,11 @@ public class FidoEditor extends View implements PrimitivesParInterface
     */
     private void readInternalLibraries()
     {
-
         BufferedReader stdLib;
         BufferedReader ihram;
         BufferedReader elettrotecnica;
         BufferedReader pcb;
         BufferedReader eylib;
-
 
         // Libraries are available in Italian or in English
 
@@ -228,18 +228,24 @@ public class FidoEditor extends View implements PrimitivesParInterface
         }
     }
 
+    /** Convert the current drawing to a string description (FidoCadJ code).
+        @return the code describing the circuit.
+    */
     public String getText()
     {
         return pa.getText(true).toString();
     }
-    /** Gets the EditorActions controller for the drawing.
+
+    /** Get the EditorActions controller for the drawing.
+        @return the EditorActions object.
     */
     public EditorActions getEditorActions()
     {
         return ea;
     }
 
-    /** Gets the ContinuosMoveActions for the drawing
+    /** Get the ContinuosMoveActions for the drawing.
+        return the ContinuosMoveActions object.
     */
     public ContinuosMoveActions getContinuosMoveActions()
     {
@@ -247,6 +253,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Get the CopyPasteActions controller for the drawing.
+        @return the CopyPasteActions object.
     */
     public CopyPasteActions getCopyPasteActions()
     {
@@ -254,6 +261,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Get the UndoActions controller for the drawing.
+        @return the UndoActions object.
     */
     public UndoActions getUndoActions()
     {
@@ -261,6 +269,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Get the ParserActions controller for the drawing.
+        @param the ParserActions object.
     */
     public ParserActions getParserActions()
     {
@@ -276,6 +285,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Set the DrawingModel object containing the drawing.
+        @param d the model to be employed.
     */
     public void setDrawingModel(DrawingModel d)
     {
@@ -341,6 +351,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Handles scroll events.
+        @param x current x position.
+        @param y current y position.
+        @param oldx old x position.
+        @param oldy old y position.
     */
     @Override
     protected void onScrollChanged(int x, int y, int oldx, int oldy)
@@ -358,6 +372,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         of different events, there is somehow a mix between the low level
         onTouchEvent and the GestureListener (which does not handle slide and
         move events).
+        @param event the touch or motion event.
+        @return true if a touch has been processed.
     */
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -457,8 +473,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         return true;
     }
 
-    /**
-     *    @return the space between two points.
+    /** @return the distance between two points specified by a multiple event.
+        @param event the multi touch event.
      */
     private int spacing(MotionEvent event)
     {
@@ -469,6 +485,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Inform Android's operating system of the size of the view.
+        @param widthMeasureSpec 
+        @param heightMeasureSpec
     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -510,7 +528,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
 
-    /** Shows a dialog which allows the user modify the parameters of a given
+    /** Show a dialog which allows the user modify the parameters of a given
         primitive. If more than one primitive is selected, modify only the
         layer of all selected primitives.
     */
@@ -539,6 +557,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
 
     /** This function is a callback which is used by DialogParameters to save
         the useful data.
+        @param v the vector containing the layers.
     */
     public void saveCharacteristics(Vector<ParameterDescription> v)
     {
@@ -570,7 +589,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
 
     /** Selects the closest object to the given point (in logical coordinates)
         and pops up a dialog for the editing of its Param_opt.
-
         @param x the x logical coordinate of the point used for the selection
         @param y the y logical coordinate of the point used for the selection
 
@@ -585,6 +603,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
     /** Implementation of the PrimitivesParInterface interface.
         Show the popup menu. In Android, the menu can be centered inside the
         current view.
+        @param x the x position of the menu (can be discarded on Android).
+        @param y the y position of the menu (can be discarded on Android).
     */
     public void showPopUpMenu(int x, int y)
     {
@@ -653,6 +673,10 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Forces a repaint, specify the region to be updated.
+        @param a not used.
+        @param b not used.
+        @param c not used.
+        @param d not used.
     */
     public void forcesRepaint(int a, int b, int c, int d)
     {
@@ -661,7 +685,6 @@ public class FidoEditor extends View implements PrimitivesParInterface
 
     /** Activate and sets an evidence rectangle which will be put on screen
         at the next redraw. All sizes are given in pixel.
-
         @param x   the x coordinate of the left top corner
         @param y   the y coordinate of the left top corner
         @param w    the width of the rectangle
@@ -754,7 +777,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
         }
 
         @Override
-        public boolean onDoubleTap(MotionEvent event) {
+        public boolean onDoubleTap(MotionEvent event) 
+        {
             return TapUpHandler(event, false, true);
 
         }

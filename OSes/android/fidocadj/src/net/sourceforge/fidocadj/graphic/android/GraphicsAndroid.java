@@ -48,6 +48,7 @@ public class GraphicsAndroid implements GraphicsInterface
     Paint filled_stroke_paint;
 
     /** Standard constructor.
+        @param c the canvas where the drawing operations will take place.
     */
     public GraphicsAndroid(Canvas c)
     {
@@ -170,11 +171,16 @@ public class GraphicsAndroid implements GraphicsInterface
             (float)arcWidth/2.0f, (float)arcHeight/2.0f, filled_stroke_paint);
     }
 
-    /** Checks whether the rectangle specified falls in a region which need
+    /** Check whether the rectangle specified falls in a region which need
         to be updated because it is "dirty" on the screen.
         Implementing correctly this method is very important to achieve a good
         redrawing speed because only "dirty" regions on the screen will be
         actually redrawn.
+        @param x the x coordinate of the uppermost left corner of rectangle.
+        @param y the y coordinate of the uppermost left corner of rectangle.
+        @param width the width of the rectangle of the rectangle.
+        @param height the height of the rectangle of the rectangle.
+        @return true if the rectangle hits the dirty region.
     */
     public boolean hitClip(int x,
                        int y,
@@ -246,8 +252,8 @@ public class GraphicsAndroid implements GraphicsInterface
         setFont(name, size, false, false);
     }
 
-    /** Gets the ascent metric of the current font.
-        @returns the value of the ascent, in pixels.
+    /** Get the ascent metric of the current font.
+        @return the value of the ascent, in pixels.
     */
     public int getFontAscent()
     {
@@ -257,15 +263,15 @@ public class GraphicsAndroid implements GraphicsInterface
         return -(int)paint.getFontMetrics().ascent;
     }
 
-    /** Gets the descent metric of the current font.
-        @returns the value of the descent, in pixels.
+    /** Get the descent metric of the current font.
+        @return the value of the descent, in pixels.
     */
     public int getFontDescent()
     {
         return  (int)paint.getFontMetrics().descent;
     }
 
-    /** Gets the width of the given string with the current font.
+    /** Get the width of the given string with the current font.
         @param s the string to be used.
         @return the width of the string, in pixels.
     */
@@ -274,7 +280,7 @@ public class GraphicsAndroid implements GraphicsInterface
         return (int)paint.measureText(s);
     }
 
-    /** Draws a string on the current graphic context
+    /** Draw a string on the current graphic context
         @param str the string to be drawn
         @param x the x coordinate of the starting point
         @param y the y coordinate of the starting point
@@ -289,7 +295,7 @@ public class GraphicsAndroid implements GraphicsInterface
         paint.setStyle(Style.STROKE);
     }
 
-    /** Sets the transparency (alpha) of the current color.
+    /** Set the transparency (alpha) of the current color.
         @param alpha the transparency, between 0.0 (transparent) and 1.0
             (fully opaque).
     */
@@ -299,7 +305,7 @@ public class GraphicsAndroid implements GraphicsInterface
         filled_stroke_paint.setAlpha((int)(alpha*255));
     }
 
-    /** Draws a completely filled oval in the current graphic context.
+    /** Draw a completely filled oval in the current graphic context.
         @param x the x coordinate of the starting point.
         @param y the y coordinate of the starting point.
         @param width the width of the oval.
@@ -314,7 +320,7 @@ public class GraphicsAndroid implements GraphicsInterface
             filled_stroke_paint);
     }
 
-    /** Draws an enmpty oval in the current graphic context.
+    /** Draw an enmpty oval in the current graphic context.
         @param x the x coordinate of the starting point.
         @param y the y coordinate of the starting point.
         @param width the width of the oval.
@@ -328,7 +334,7 @@ public class GraphicsAndroid implements GraphicsInterface
         canvas.drawOval(new RectF (x, y, x+width, y+height), paint);
     }
 
-    /** Fills a given  shape.
+    /** Fill a given  shape.
         @param s the shape to be filled.
     */
     public void fill(ShapeInterface s)
@@ -337,7 +343,7 @@ public class GraphicsAndroid implements GraphicsInterface
         canvas.drawPath(ss.getPath(), filled_stroke_paint);
     }
 
-    /** Draws a given  shape.
+    /** Draw a given  shape.
         @param s the shape to be drawn.
     */
     public void draw(ShapeInterface s)
@@ -346,7 +352,7 @@ public class GraphicsAndroid implements GraphicsInterface
         canvas.drawPath(ss.getPath(), paint);
     }
 
-    /** Fills a given  polygon.
+    /** Fill a given  polygon.
         @param p the polygon to be filled.
     */
     public void fillPolygon(PolygonInterface p)
@@ -357,7 +363,7 @@ public class GraphicsAndroid implements GraphicsInterface
 
     }
 
-    /** Draws a given  polygon.
+    /** Draw a given  polygon.
         @param p the polygon to be drawn.
     */
     public void drawPolygon(PolygonInterface p)
@@ -367,7 +373,7 @@ public class GraphicsAndroid implements GraphicsInterface
         canvas.drawPath(pp.getPath(), paint);
     }
 
-    /** Selects a color associated to selected elements.
+    /** Select a color associated to selected elements.
         @param l the layer to which the selected element belongs.
     */
     public void activateSelectColor(LayerDesc l)
@@ -377,7 +383,7 @@ public class GraphicsAndroid implements GraphicsInterface
 
     }
 
-    /** Draws a string by allowing for a certain degree of flexibility in
+    /** Draw a string by allowing for a certain degree of flexibility in
         specifying how the text will be handled. NOTE: TO BE REMOVED.
         @param xyfactor the text font is specified by giving its height in the
             setFont() method. If the text should be stretched (i.e. its width
@@ -445,8 +451,9 @@ public class GraphicsAndroid implements GraphicsInterface
             setFont() method. If the text should be stretched (i.e. its width
             should be modified), this parameter gives the amount of stretching.
         @param xa the x coordinate of the point where the text will be placed.
-        @param ya the y coordinate of the point where the text will be placed.
-        @param qq
+        @param ya the y coordinate of the point where the rotation is
+            calculated.
+        @param qq the y coordinate of the point where the text will be placed.
         @param h the height of the text, in pixels.
         @param w the width of the string, in pixels.
         @param th the total height of the text (ascent+descents).
