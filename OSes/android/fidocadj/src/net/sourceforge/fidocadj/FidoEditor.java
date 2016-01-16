@@ -245,7 +245,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Get the ContinuosMoveActions for the drawing.
-        return the ContinuosMoveActions object.
+        @return the ContinuosMoveActions object.
     */
     public ContinuosMoveActions getContinuosMoveActions()
     {
@@ -269,7 +269,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Get the ParserActions controller for the drawing.
-        @param the ParserActions object.
+        @return the ParserActions object.
     */
     public ParserActions getParserActions()
     {
@@ -485,7 +485,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
     }
 
     /** Inform Android's operating system of the size of the view.
-        @param widthMeasureSpec 
+        @param widthMeasureSpec
         @param heightMeasureSpec
     */
     @Override
@@ -767,23 +767,22 @@ public class FidoEditor extends View implements PrimitivesParInterface
         @Override
         public boolean onSingleTapUp(MotionEvent event)
         {
-            return TapUpHandler(event, false, false);
+            return tapUpHandler(event, false, false);
         }
 
         @Override
         public void onLongPress(MotionEvent event)
         {
-            TapUpHandler(event, true, false);
+            tapUpHandler(event, true, false);
         }
 
         @Override
-        public boolean onDoubleTap(MotionEvent event) 
+        public boolean onDoubleTap(MotionEvent event)
         {
-            return TapUpHandler(event, false, true);
-
+            return tapUpHandler(event, false, true);
         }
 
-        private boolean TapUpHandler(MotionEvent event, boolean longTap,
+        private boolean tapUpHandler(MotionEvent event, boolean longTap,
             boolean doubleTap)
         {
             int x, y;
@@ -801,7 +800,8 @@ public class FidoEditor extends View implements PrimitivesParInterface
             if(eea.actionSelected==ElementsEdtActions.SELECTION) {
                 android.util.Log.e("f", "x="+x+"  rulerStartX="+rulerStartX);
                 if(Math.abs(x-rulerStartX)>10 ||
-                   Math.abs(y-rulerStartY)>10) {
+                    Math.abs(y-rulerStartY)>10)
+                {
                     haa.dragHandleEnd(FidoEditor.this,x, y, false, cs);
                 } else {
                     android.util.Log.d("f", "long: "+longTap+" double: "

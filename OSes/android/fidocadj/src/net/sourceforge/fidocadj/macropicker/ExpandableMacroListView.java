@@ -42,10 +42,10 @@ import net.sourceforge.fidocadj.R;
 public class ExpandableMacroListView extends BaseExpandableListAdapter
 {
 
-    private final Context _context;
-    private final List<String> _listDataHeader; // header titles
+    private final Context eContext;
+    private final List<String> eListDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, List<String>> eListDataChild;
 
     /** The constructor.
         @param context the context.
@@ -55,9 +55,9 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
     public ExpandableMacroListView(Context context, List<String> listDataHeader,
             HashMap<String, List<String>> listChildData)
     {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        this.eContext = context;
+        this.eListDataHeader = listDataHeader;
+        this.eListDataChild = listChildData;
     }
 
     /** Get a particular child node.
@@ -68,7 +68,7 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
     @Override
     public Object getChild(int groupPosition, int childPosititon)
     {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.eListDataChild.get(this.eListDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
 
@@ -100,7 +100,7 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
             childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.eContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
@@ -119,7 +119,7 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
     @Override
     public int getChildrenCount(int groupPosition)
     {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.eListDataChild.get(this.eListDataHeader.get(groupPosition))
             .size();
     }
 
@@ -130,13 +130,13 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
     @Override
     public Object getGroup(int groupPosition)
     {
-        return this._listDataHeader.get(groupPosition);
+        return this.eListDataHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount()
     {
-        return this._listDataHeader.size();
+        return this.eListDataHeader.size();
     }
 
     @Override
@@ -153,7 +153,7 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
 
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.eContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }

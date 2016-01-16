@@ -657,7 +657,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
         // X or Y action: mirror
         if (averagedAngleSpeedX > threshold || averagedAngleSpeedX < -threshold
                 || averagedAngleSpeedY > threshold
-                || averagedAngleSpeedY < -threshold) {
+                || averagedAngleSpeedY < -threshold)
+        {
             holdoff = event.timestamp + 500000000l;
             drawingPanel.getEditorActions().mirrorAllSelected();
 
@@ -666,8 +667,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
 
         // Z action: rotation.
         if (averagedAngleSpeedZ > threshold ||
-            averagedAngleSpeedZ <-threshold) {
-
+            averagedAngleSpeedZ <-threshold)
+        {
             holdoff = event.timestamp + 500000000l;
             drawingPanel.getEditorActions().rotateAllSelected();
             if (averagedAngleSpeedZ > 0.0f) {
@@ -706,7 +707,8 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
-            ContextMenuInfo menuInfo) {
+            ContextMenuInfo menuInfo)
+    {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         MenuInflater inflater = getMenuInflater();
@@ -769,6 +771,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     }
 
     /** Stores the given String in the clipboard.
+        @param s the String to be stored.
     */
     public void copyText(String s)
     {
@@ -780,6 +783,7 @@ public class FidoMain extends Activity implements ProvidesCopyPasteInterface,
     }
 
     /** Get the current data (as String) in the clipboard.
+        @return the String contained in the clipboard.
     */
     public String pasteText()
     {

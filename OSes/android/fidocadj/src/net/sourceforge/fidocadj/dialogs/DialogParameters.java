@@ -87,7 +87,6 @@ public class DialogParameters extends DialogFragment
     private final static int DENSITY_XXXHIGH = 640;
     private final static int SYSTEM_UI_LAYOUT_FLAGS=1536;
 
-
     private static Vector<ParameterDescription> vec;
     private static boolean strict;
     private static Vector<LayerDesc> layers;
