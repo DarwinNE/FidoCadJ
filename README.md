@@ -312,7 +312,7 @@ int dummy(int i)
 - public methods must be documented with Javadoc syntax :ok:
 - no lines longer than 80 characters :ok:
 - Unix-style for newlines is mandatory :ok:
-- employing `_` in names of types or variables is deprecated
+- employing `_` in names of types or variables is deprecated :ok:
 - commits should not break the build
 - each commit *MUST* include a log
 - predilect simplicity to unnecessary complication
@@ -320,11 +320,12 @@ int dummy(int i)
 - discuss what you want to do BEFORE start coding
 - documentation is important. Try to improve it and keep it up-to-date
 
-A checkstyle ruleset (called `rules.xml`) is being progressively employed so
+A Checkstyle ruleset (called `rules.xml`) is being progressively employed so
 that those rules will be automatically checked. Points for which a rule has
 been activated have been marked with :ok: in the previous list.
 
-Be sure to run checklist with `rules.xml` before sending a pull request!
+Be sure to run checkstyle with `rules.xml` before sending a pull request! Have
+a look at paragraph 4.4 and follow the checklist!
 
 3.4 Automated tests
 -------------------
@@ -546,10 +547,10 @@ For the PC and Android app:
 - [ ] The code does not break the build for both PC and Android apps.
 - [ ] The coding style is conform to paragraph 3.3 of this README.
 - [ ] Comments have been added at the relevant places and are up-to date.
+- [ ] I ran Checkstyle with `rules.xml` and no issues are reported.
 
 For the PC app:
 - [ ] A JAR file has been generated and automated tests have been run.
-- [ ] I ran Checkstyle with `rules.xml` and no issues are reported.
 - [ ] PMD analysis has been run on the code.
 
 
