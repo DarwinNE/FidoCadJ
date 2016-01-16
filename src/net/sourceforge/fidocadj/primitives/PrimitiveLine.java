@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2010 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -100,7 +100,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         setLayer(layer);
     }
 
-     /** Constructor.
+    /** Constructor.
         @param f        the name of the font for attached text.
         @param size     the size of the font for attached text.
     */
@@ -122,11 +122,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
-                The first parameters should always be the virtual points.
-
     */
     public Vector<ParameterDescription> getControls()
     {
@@ -237,17 +234,15 @@ public final class PrimitiveLine extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-
         if(!selectLayer(g,layerV))
             return;
 
         drawText(g, coordSys, layerV, -1);
 
-        // in the line primitive, the first two virtual points represent
-        //   the beginning and the end of the segment to be drawn.
-
         if(changed) {
             changed=false;
+            // in the line primitive, the first two virtual points represent
+            // the beginning and the end of the segment to be drawn.
             x1=coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y);
             y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
@@ -270,12 +265,6 @@ public final class PrimitiveLine extends GraphicPrimitive
                 yb=y2;
             }
 
-            // Heigth and width of the arrows in pixels
-            h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                coordSys.mapXi(0,0, false));
-            l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
-                coordSys.mapXi(0,0,false));
-
             // Calculate the width of the stroke in pixel. It should not
             // make our lines disappear, even at very small zoom ratios.
             // So we put a limit D_MIN.
@@ -285,13 +274,17 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Calculate the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
 
-
             arrows = arrowStart || arrowEnd;
 
             // This correction solves bug #3101041
             // We do need to apply a correction to the clip calculation
             // rectangle if necessary to take into account the arrow heads
             if (arrows) {
+                // Heigth and width of the arrows in pixels
+                h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+                    coordSys.mapXi(0,0, false));
+                l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+                    coordSys.mapXi(0,0,false));
                 xa -= h;
                 ya -= h;
                 xb += h;

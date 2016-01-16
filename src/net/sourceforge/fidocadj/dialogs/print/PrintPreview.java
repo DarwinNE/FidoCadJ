@@ -42,16 +42,15 @@ import net.sourceforge.fidocadj.*;
 */
 public class PrintPreview extends CircuitPanel implements ComponentListener
 {
-    private PageFormat pageDescription;
+    private final PageFormat pageDescription;
     private double topMargin;
     private double bottomMargin;
     private double leftMargin;
     private double rightMargin;
     private BufferedImage pageImage;
-    private PrintTools printObject;
-    private DialogPrint dialog;
+    private final PrintTools printObject;
+    private final DialogPrint dialog;
     private int currentPage;
-    private double baseline;
     private double oldBaseline;
 
     /** Constructor.
@@ -141,7 +140,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         int shadowShiftX=4;
         int shadowShiftY=4;
 
-        baseline=getWidth()*0.6;     // TODO: correct getHeight small
+        double baseline=getWidth()*0.6;
         if(Math.abs(oldBaseline-baseline)>1e5)
             updatePreview();
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
@@ -270,6 +269,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     */
     public void componentHidden(ComponentEvent e)
     {
+        // Nothing to do here
     }
 
     /** Called when the panel is moved.
@@ -277,6 +277,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     */
     public void componentMoved(ComponentEvent e)
     {
+        // Nothing to do here
     }
 
     /** Called when the panel is shown.
@@ -284,5 +285,6 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     */
     public void componentShown(ComponentEvent e)
     {
+        // Nothing to do here
     }
 }

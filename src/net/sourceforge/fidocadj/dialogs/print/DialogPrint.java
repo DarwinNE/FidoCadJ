@@ -69,8 +69,6 @@ public class DialogPrint extends MinimumSizeDialog
 
     private boolean oldLandscapeState=false;
 
-    private DrawingModel drawingModel;
-
     private int currentLayerSelected=-1;
 
     // This contains the number of pages when the drawing is not resized to
@@ -85,13 +83,12 @@ public class DialogPrint extends MinimumSizeDialog
         @param dd the drawing model to be employed.
         @param pageDescription the description of the page to be printed.
     */
-    public DialogPrint (JFrame parent, DrawingModel dd,
+    public DialogPrint (JFrame parent, DrawingModel drawingModel,
         PageFormat pageDescription)
     {
         super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
         print=false;
-        drawingModel=dd;
         final int LCOLUMN=5;
         final int ECOLUMN=6;
 
@@ -388,7 +385,7 @@ public class DialogPrint extends MinimumSizeDialog
             }
         });
 
-        layerSel = new JComboBox<LayerDesc>(dd.getLayers());
+        layerSel = new JComboBox<LayerDesc>(drawingModel.getLayers());
         layerSel.setRenderer(new LayerCellRenderer());
         layerSel.setEnabled(false);
         constraints.weightx=100;

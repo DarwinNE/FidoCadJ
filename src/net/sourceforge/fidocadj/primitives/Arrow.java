@@ -36,7 +36,6 @@ public final class Arrow
 {
 
     /** A few constants in order to define the arrow style.
-
     */
     public static final int flagLimiter = 0x01;
     public static final int flagEmpty = 0x02;
@@ -45,22 +44,18 @@ public final class Arrow
     */
     private Arrow()
     {
-
     }
 
     /** Draw an arrow at the given position.
-
-    @param g the graphic context to be used
-    @param x the x coordinate of the arrow point
-    @param y the y coordinate of the arrow point
-    @param xc the x coordinate of the direction point
-    @param yc the y coordinate of the direction point
-    @param l the length of the arrow
-    @param h the half width of the arrow
-    @param style the arrow style
-
-    @return the coordinate of the base point of the arrow head
-
+        @param g the graphic context to be used
+        @param x the x coordinate of the arrow point
+        @param y the y coordinate of the arrow point
+        @param xc the x coordinate of the direction point
+        @param yc the y coordinate of the direction point
+        @param l the length of the arrow
+        @param h the half width of the arrow
+        @param style the arrow style
+        @return the coordinate of the base point of the arrow head
     */
     public static PointG drawArrow(GraphicsInterface g, int x, int y, int xc,
         int yc, int l, int h, int style)
@@ -90,14 +85,17 @@ public final class Arrow
         alpha += x-xc>0.0?0.0:Math.PI;
 
         // Then, we calculate the points for the polygon
-        x0 = x - l*Math.cos(alpha);
-        y0 = y - l*Math.sin(alpha);
+        double cosalpha=Math.cos(alpha);
+        double sinalpha=Math.sin(alpha);
 
-        x1 = x0 - h*Math.sin(alpha);
-        y1 = y0 + h*Math.cos(alpha);
+        x0 = x - l*cosalpha;
+        y0 = y - l*sinalpha;
 
-        x2 = x0 + h*Math.sin(alpha);
-        y2 = y0 - h*Math.cos(alpha);
+        x1 = x0 - h*sinalpha;
+        y1 = y0 + h*cosalpha;
+
+        x2 = x0 + h*sinalpha;
+        y2 = y0 - h*cosalpha;
 
         // The arrow head is traced using a polygon. Here we create the
         // object and populate it with the calculated coordinates.
@@ -120,11 +118,11 @@ public final class Arrow
             double y3;
             double x4;
             double y4;
-            x3 = x - h*Math.sin(alpha);
-            y3 = y + h*Math.cos(alpha);
+            x3 = x - h*sinalpha;
+            y3 = y + h*cosalpha;
 
-            x4 = x + h*Math.sin(alpha);
-            y4 = y - h*Math.cos(alpha);
+            x4 = x + h*sinalpha;
+            y4 = y - h*cosalpha;
             g.drawLine((int)x3,(int)y3,(int)x4,(int)y4);
         }
         return new PointG((int)(x0),(int)(y0));

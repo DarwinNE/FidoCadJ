@@ -40,7 +40,6 @@ import net.sourceforge.fidocadj.layers.*;
 
 public class GraphicsNull implements GraphicsInterface
 {
-    private Font f;
     private FontMetrics fm;
     Graphics g;
 
@@ -177,7 +176,7 @@ public class GraphicsNull implements GraphicsInterface
             size);*/
         Font ft = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
-        f = ft.deriveFont(
+        Font f = ft.deriveFont(
             AffineTransform.getScaleInstance(
                 (double)size/100.0,(double)size/100.0));
 

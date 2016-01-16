@@ -30,7 +30,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2015 by Davide Bucci, phylum2
+    Copyright 2008-2016 by Davide Bucci, phylum2
     </pre>
 */
 public abstract class GraphicPrimitive
@@ -82,7 +82,7 @@ public abstract class GraphicPrimitive
     protected String value;
 
     // Some caching data
-    private LayerDesc l;
+    private LayerDesc currentLayer;
     private float alpha;
     private static float oldalpha=1.0f;
     private int old_layer=-1;
@@ -138,7 +138,6 @@ public abstract class GraphicPrimitive
     public void setMacroFont(String f, int size)
     {
         macroFont = f;
-
         setMacroFontSize(size);
         changed=true;
     }
@@ -491,9 +490,7 @@ public abstract class GraphicPrimitive
                                           " programming error?");
             throw E;
         }
-
     }
-
 
     /** Reads the TY line describing the "name" field
         @param tokens the array of tokens to be parsed
@@ -518,7 +515,6 @@ public abstract class GraphicPrimitive
                 Integer.parseInt(tokens[1]);
             virtualPoint[getNameVirtualPointNumber()].y=
                 Integer.parseInt(tokens[2]);
-
 
             while(j<N-1){
                 txtb.append(tokens[++j]);
@@ -561,8 +557,7 @@ public abstract class GraphicPrimitive
     {
         int a, n=getControlPointNumber();
 
-        for(a=0; a<n; a++)
-        {
+        for(a=0; a<n; ++a) {
             virtualPoint[a].x+=dx;
             virtualPoint[a].y+=dy;
         }
@@ -578,9 +573,7 @@ public abstract class GraphicPrimitive
         int a, n=getControlPointNumber();
         int xtmp;
 
-
-        for(a=0; a<n; a++)
-        {
+        for(a=0; a<n; ++a) {
             xtmp = virtualPoint[a].x;
             virtualPoint[a].x = 2*xPos - xtmp;
         }
@@ -616,16 +609,13 @@ public abstract class GraphicPrimitive
                 virtualPoint[b].y = pt.y + ptTmp.x-pt.x;
             }
         }
-
         changed=true;
     }
 
     /** Specifies that only the given layer should be drawn.
         This is in practice useful only for macros, since they have an
         internal layer structure.
-
         @param i the layer to be used.
-
     */
     public void setDrawOnlyLayer (int i)
     {
@@ -646,9 +636,7 @@ public abstract class GraphicPrimitive
         should redefined for macros, since they can contain more than one
         layer. The standard implementation returns the layer of the
         primitive, since this is the only one which is used.
-
         @return the maximum value of the layer contained in the primitive.
-
     */
     public int getMaxLayer()
     {
@@ -656,7 +644,8 @@ public abstract class GraphicPrimitive
     }
 
     /** Set the primitive as selected.
-        @param s the new state*/
+        @param s the new state.
+    */
     final public void setSelected(boolean s)
     {
         selectedState=s;
@@ -664,7 +653,8 @@ public abstract class GraphicPrimitive
     };
 
     /** Get the selection state of the primitive.
-        @return true if the primitive is selected, false otherwise. */
+        @return true if the primitive is selected, false otherwise.
+    */
     final public boolean getSelected()
     {
         return selectedState;
@@ -678,18 +668,18 @@ public abstract class GraphicPrimitive
         return layer;
     }
 
-    /** Parses the current string and interpret it as a layer indication.
+    /** Parse the current string and interpret it as a layer indication.
         If this is correct, the layer is saved in the current primitive.
         @param token the token which corresponds to the layer.
     */
     public void parseLayer(String token)
     {
         int l;
-        try{
+        try {
             l=Integer.parseInt(token);
 
-        } catch (NumberFormatException E)
-        {   // We are unable to get the layer. Just suppose it's zero.
+        } catch (NumberFormatException E) {
+            // We are unable to get the layer. Just suppose it's zero.
             l=0;
         }
 
@@ -698,7 +688,6 @@ public abstract class GraphicPrimitive
             layer=0;
         else
             layer=l;
-        System.out.println("Parsed layer |"+token+"| -> "+layer);
         changed=true;
     }
 
@@ -717,10 +706,10 @@ public abstract class GraphicPrimitive
     /** Treat the current layer. In particular, select the corresponding
         color in the actual graphic context. If the primitive is selected,
         select the corrisponding color. This is a speed sensitive context.
-
         @param g the graphic context used for the drawing.
         @param layerV a LayerDesc vector with the descriptions of the layers
                 being used.
+        @return true if the layer is visible, false otherwise.
     */
     protected final boolean selectLayer(GraphicsInterface g, Vector layerV)
     {
@@ -730,33 +719,26 @@ public abstract class GraphicPrimitive
         // modified.
 
         if(old_layer != layer || changed) {
-            if (layer<layerV.size())
-                l= (LayerDesc)layerV.get(layer);
-            else
-                l = (LayerDesc)layerV.get(0);
+            currentLayer= (LayerDesc)layerV.get(layer);
             old_layer = layer;
         }
 
         // If the layer is not visible, we just exit, returning false. This
         // will made the caller not to draw the graphical element.
 
-        if (!l.isVisible) {
+        if (!currentLayer.isVisible) {
             return false;
         }
 
         if(selectedState) {
             // We change the color for selected objects
-
-            g.activateSelectColor(l);
-
+            g.activateSelectColor(currentLayer);
         } else {
-            if(g.getColor()!=l.getColor() || oldalpha!=alpha) {
-                g.setColor(l.getColor());
-                alpha=l.getAlpha();
+            if(g.getColor()!=currentLayer.getColor() || oldalpha!=alpha) {
+                g.setColor(currentLayer.getColor());
+                alpha=currentLayer.getAlpha();
                 oldalpha = alpha;
                 g.setAlpha(alpha);
-                //g.setComposite(AlphaComposite.getInstance(
-                //  AlphaComposite.SRC_OVER, alpha));
             }
         }
         return true;
@@ -781,22 +763,17 @@ public abstract class GraphicPrimitive
         int size_y=(int)Math.round(mult*HANDLE_WIDTH);
 
         for(int i=0;i<getControlPointNumber();++i) {
-
             if (!testIfValidHandle(i))
                 continue;
 
             xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
             ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
-
-            if(!g.hitClip(xa-size_x/2,ya-size_y/2,
-                            size_x,size_y))
+            if(!g.hitClip(xa-size_x/2,ya-size_y/2, size_x,size_y))
                 continue;
 
             // A handle is a small red rectangle
-
-            g.fillRect(xa-size_x/2,ya-size_y/2,
-                            size_x,size_y);
+            g.fillRect(xa-size_x/2,ya-size_y/2, size_x,size_y);
         }
     }
 
@@ -807,7 +784,7 @@ public abstract class GraphicPrimitive
         @param px the x (screen) coordinate of the pointer.
         @param py the y (screen) coordinate of the pointer.
         @return NO_DRAG if the pointer is not on an handle, or the index of the
-            handle selected.
+            selected handle.
     */
     public int onHandle(MapCoordinates cs, int px, int py)
     {
@@ -819,7 +796,6 @@ public abstract class GraphicPrimitive
         int hl2=(int)Math.round(mult*HANDLE_WIDTH/2);
 
         for(int i=0;i<getControlPointNumber();++i) {
-
             if (!testIfValidHandle(i))
                 continue;
 
@@ -1078,7 +1054,6 @@ public abstract class GraphicPrimitive
     */
     public DimensionG getSize()
     {
-        //
         GraphicPrimitive p = this;
         int qx = 0;
         int qy = 0;
@@ -1111,11 +1086,11 @@ public abstract class GraphicPrimitive
         int qy = Integer.MAX_VALUE;
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
-                    || i == p.getValueVirtualPointNumber()) continue;
+                    || i == p.getValueVirtualPointNumber())
+                continue;
             if (p.virtualPoint[i].x<qx) qx = p.virtualPoint[i].x;
             if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
         }
         return new PointG(qx,qy);
     }
 }
-
