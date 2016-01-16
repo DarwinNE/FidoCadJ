@@ -1,79 +1,7 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:33:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:44:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:49:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:59:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:64:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:74:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:79:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:83:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:88:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:98:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:105:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:113:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:131:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:137:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:145:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:150:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:155:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:162:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:167:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:174:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:181:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:185:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:189:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:193:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:198:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:203:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:211:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:219:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:223:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:227:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:60:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:71:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:78:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:83:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:94:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:105:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:36:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:46:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:59:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:64:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:75:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/layers/LayerDesc.java:0: warning: Missing package-info.java file.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/layers/StandardLayers.java:99:66: warning: Balise javadoc @param manquante pour 'context'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/Category.java:0: warning: Missing package-info.java file.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:0: warning: Missing package-info.java file.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:0: warning: Missing package-info.java file.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:31: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:35:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:43:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:48:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:57:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:30: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:41:38: warning: '{' à la colonne 38 devrait être sur une nouvelle ligne.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:0: warning: Missing package-info.java file.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:16: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:22:27: warning: Le nom '_context' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:23:32: warning: Le nom '_listDataHeader' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:25:43: warning: Le nom '_listDataChild' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:27:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:45:27: warning: Le nom '_context' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:46:32: warning: Le nom '_listDataHeader' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:48:43: warning: Le nom '_listDataChild' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:0: warning: Missing package-info.java file.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:9:5: warning: Commentaire javadoc manquant.
@@ -107,76 +35,9 @@ Starting audit...
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/FidoMain.java:709:39: warning: '{' à la colonne 39 devrait être sur une nouvelle ligne.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/FidoMain.java:773:33: warning: Balise javadoc @param manquante pour 's'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/FidoMain.java:784: warning: Balise javadoc @return manquante.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:33:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:44:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:49:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:59:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:64:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:74:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:79:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:83:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:51:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:88:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:98:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:105:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:113:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:131:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:137:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:145:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:150:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:155:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:162:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:167:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:174:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:181:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:185:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:189:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:193:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:198:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:203:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:211:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:219:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:223:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:227:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:42:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:47:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:60:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:71:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:78:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:83:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:94:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:105:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:36:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:46:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:54:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:59:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:64:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:69:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:75:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/layers/StandardLayers.java:99:66: warning: Balise javadoc @param manquante pour 'context'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:31: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:35:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:39:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:43:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:48:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:52:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:57:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:30: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:34:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:41:5: warning: Commentaire javadoc manquant.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:41:38: warning: '{' à la colonne 38 devrait être sur une nouvelle ligne.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:16: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:22:27: warning: Le nom '_context' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:23:32: warning: Le nom '_listDataHeader' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:25:43: warning: Le nom '_listDataChild' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:27:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:45:27: warning: Le nom '_context' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:46:32: warning: Le nom '_listDataHeader' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/macropicker/ExpandableMacroListView.java:48:43: warning: Le nom '_listDataChild' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:9:5: warning: Commentaire javadoc manquant.
 /Users/davidebucci/Desktop/Perso/FidoCadJ/OSes/android/fidocadj/src/net/sourceforge/fidocadj/storage/StaticStorage.java:14:5: warning: Commentaire javadoc manquant.

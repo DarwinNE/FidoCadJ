@@ -39,16 +39,23 @@ public class PolygonNull implements PolygonInterface
     Vector<Integer> xpoints;
     Vector<Integer> ypoints;
 
+    /** Get a Path element containing the polygon.
+        @return the Path object.
+    */
     public Path getPath()
     {
         return path;
     }
 
+    /** Close the current polygon.
+    */
     public void close()
     {
         path.close();
     }
 
+    /** Constructor
+    */
     public PolygonNull()
     {
         path=new Path();
@@ -57,6 +64,10 @@ public class PolygonNull implements PolygonInterface
         ypoints = new Vector<Integer>();
     }
 
+    /** Add a point to the current polygon.
+        @param x the x coordinate of the point.
+        @param y the y coordinate of the point.
+    */
     public void addPoint(int x, int y)
     {
         if(npoints++==0)
@@ -68,6 +79,8 @@ public class PolygonNull implements PolygonInterface
         ypoints.add(y);
     }
 
+    /** Reset the current polygon by deleting all the points.
+    */
     public void reset()
     {
         path.reset();
@@ -75,11 +88,18 @@ public class PolygonNull implements PolygonInterface
         xpoints.clear();
         ypoints.clear();
     }
+
+    /** Get the current number of points in the polygon.
+        @return the number of points.
+    */
     public int getNpoints()
     {
         return npoints;
     }
 
+    /** Get a vector containing the x coordinates of the points.
+        @return a vector containing the x coordinates of all points.
+    */
     public int[] getXpoints()
     {
         //  ☠ Something better??? ☠
@@ -91,6 +111,9 @@ public class PolygonNull implements PolygonInterface
         return xvector;
     }
 
+    /** Get a vector containing the y coordinates of the points.
+        @return a vector containing the y coordinates of all points.
+    */
     public int[] getYpoints()
     {
         //  ☠ Something better??? ☠
@@ -102,6 +125,11 @@ public class PolygonNull implements PolygonInterface
         return yvector;
     }
 
+    /** Check if a given point is contained inside the polygon.
+        @param x the x coordinate of the point to be checked.
+        @param y the y coordinate of the point to be checked.
+        @return true of the point is internal to the polygon, false otherwise.
+    */
     public boolean contains(int x, int y)
     {
         RectF rectF = new RectF();

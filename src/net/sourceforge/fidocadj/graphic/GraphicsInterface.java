@@ -108,7 +108,7 @@ public interface GraphicsInterface
     */
     public void setFont(String name, double size);
 
-    /** Simple version. It sets the current font.
+    /**  Set the current font.
         @param name the name of the typeface.
         @param size the vertical size in pixels.
         @param isItalic true if an italic variant should be used.

@@ -13,7 +13,6 @@ import net.sourceforge.fidocadj.*;
 
 /**         ANDROID VERSION
 
-
 <pre>
 
     This file is part of FidoCadJ.
@@ -93,6 +92,7 @@ public class StandardLayers
     /** Create the standard array containing the layer descriptions, colors
         and transparency. The name of the layers are read from the resources
         which are related to the given Context.
+        @param context the given Context.
 
         @return the list of the layers being created.
     */

@@ -13,8 +13,31 @@ import android.widget.TextView;
 
 import net.sourceforge.fidocadj.R;
 
-/** From 
+/** Expandable tree for browsing macros in the library.
+    From
     http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
+
+    <pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2014-2015 Kohta Ozaki, Davide Bucci
+    </pre>
+
+    @author Davide Bucci
+
 */
 public class ExpandableMacroListView extends BaseExpandableListAdapter
 {
@@ -24,6 +47,11 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
+    /** The constructor.
+        @param context the context.
+        @param listDataHeader a list of header titles.
+        @param listChildData child data in format of header title, child title.
+    */
     public ExpandableMacroListView(Context context, List<String> listDataHeader,
             HashMap<String, List<String>> listChildData)
     {
@@ -32,6 +60,11 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
         this._listDataChild = listChildData;
     }
 
+    /** Get a particular child node.
+        @param groupPosition position in the group.
+        @param childPosition position among the children.
+        @return the child in the list data collection.
+    */
     @Override
     public Object getChild(int groupPosition, int childPosititon)
     {
@@ -39,12 +72,25 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
                 .get(childPosititon);
     }
 
+    /** Get a particular child ID.
+        @param groupPosition position in the group.
+        @param childPosition position among the children.
+        @return the child's ID.
+    */
     @Override
     public long getChildId(int groupPosition, int childPosition)
     {
         return childPosition;
     }
 
+    /** Get a particular child View.
+        @param groupPosition position in the group.
+        @param childPosition position among the children.
+        @param isLastChild true if it is the last child.
+        @param t_ConvertView TODO: describe it.
+        @param parent the parent.
+        @return the child's View.
+    */
     @Override
     public View getChildView(int groupPosition, final int childPosition,
         boolean isLastChild, View t_convertView, ViewGroup parent)
@@ -66,6 +112,10 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
         return convertView;
     }
 
+    /** Get a the number of children of a group.
+        @param groupPosition position in the group.
+        @return the number of children.
+    */
     @Override
     public int getChildrenCount(int groupPosition)
     {
@@ -73,6 +123,10 @@ public class ExpandableMacroListView extends BaseExpandableListAdapter
             .size();
     }
 
+    /** Get a group.
+        @param groupPosition position of the group.
+        @return the group.
+    */
     @Override
     public Object getGroup(int groupPosition)
     {

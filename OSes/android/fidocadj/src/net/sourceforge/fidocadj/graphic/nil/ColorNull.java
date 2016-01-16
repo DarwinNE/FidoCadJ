@@ -29,57 +29,88 @@ import net.sourceforge.fidocadj.graphic.*;
 */
 public class ColorNull implements ColorInterface
 {
-
+    /** Standard constructor
+    */
     public ColorNull()
     {
         // Does nothing.
     }
 
-
+    /** Get a white color.
+        @return a white color.
+    */
     public ColorInterface white()
     {
         return new ColorNull();
     }
 
+    /** Get a gray color.
+        @return a gray color.
+    */
     public ColorInterface gray()
     {
         return new ColorNull();
     }
 
+    /** Get a green color.
+        @return a green color.
+    */
     public ColorInterface green()
     {
         return new ColorNull();
     }
 
+    /** Get a red color.
+        @return a red color.
+    */
     public ColorInterface red()
     {
         return new ColorNull();
     }
 
+    /** Get the green component of the color.
+        @return the component.
+    */
     public ColorInterface black()
     {
         return new ColorNull();
     }
 
+    /** Get the red component of the color.
+        @return the component.
+    */
     public int getRed()
     {
         return 0;
     }
 
+    /** Get the green component of the color.
+        @return the component.
+    */
     public int getGreen()
     {
         return 0;
     }
 
+    /** Get the blue component of the color.
+        @return the component.
+    */
     public int getBlue()
     {
         return 0;
     }
 
+    /** Get the RGB components packed as an integer.
+        @return an integer containing the RGB components.
+    */
     public int getRGB()
     {
         return 0;
     }
+
+    /** Set the color from a RGB description packed in a int.
+        @param rgb the packed description..
+    */
     public void setRGB(int rgb)
     {
         // Does nothing.
