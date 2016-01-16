@@ -694,10 +694,11 @@ public abstract class GraphicPrimitive
         }
 
         // We do check if everything is OK.
-        if (layer<0 || layer>=LayerDesc.MAX_LAYERS)
+        if (l<0 || l>=LayerDesc.MAX_LAYERS)
             layer=0;
         else
             layer=l;
+        System.out.println("Parsed layer |"+token+"| -> "+layer);
         changed=true;
     }
 
