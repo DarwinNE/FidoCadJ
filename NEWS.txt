@@ -4,6 +4,7 @@ Version 0.24.6
 - Library "ey_libraries" is now considered as standard library.
 - Corrected GitHub issue #41 (Printing margins).
 - Implemented a complete print prewiew, showing margins and printable area in the page.
+- Corrected Issue #63 (Problematic code with wrong layer number)
 
 Version 0.24.5
 --------------
