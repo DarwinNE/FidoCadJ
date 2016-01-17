@@ -3,7 +3,7 @@ README file for FidoCadJ
 
 Version 0.24.5
 
-Copyright 2007-2015
+Copyright 2007-2016
 
 by Davide Bucci
 
