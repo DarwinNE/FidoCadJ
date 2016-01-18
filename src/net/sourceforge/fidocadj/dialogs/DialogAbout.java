@@ -140,6 +140,8 @@ public class DialogAbout extends MinimumSizeDialog
 
             // The following code works only in Java v. 1.6 and for the moment
             // the minimum requirements for FidoCadJ are Java 1.5
+            // UPDATE: this has changed and we may consider employing a more
+            // standard code now.
             /*  if (Desktop.isDesktopSupported()) {
                     try {
                         Desktop.getDesktop().browse(uri);
