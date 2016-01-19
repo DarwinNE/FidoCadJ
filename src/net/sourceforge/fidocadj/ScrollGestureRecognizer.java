@@ -86,7 +86,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
 
         if (!(co instanceof CircuitPanel))
             return;
- 
+
         JViewport viewport =
             (JViewport)SwingUtilities.getAncestorOfClass(JViewport.class,
             me.getComponent());
@@ -96,7 +96,6 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
         if(rootPane==null)
             return;
 
-        
         Point mouseLocation = SwingUtilities.convertPoint(me.getComponent(),
             me.getPoint(), rootPane.getGlassPane());
         if(oldGesture==false && isGesture==true) {

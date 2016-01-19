@@ -78,9 +78,10 @@ public class DialogPrint extends MinimumSizeDialog
     private int currentPage=0;
 
     private boolean print;     // Indicates that the print should be done
+
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent.
-        @param dd the drawing model to be employed.
+        @param drawingModel the drawing model to be employed.
         @param pageDescription the description of the page to be printed.
     */
     public DialogPrint (JFrame parent, DrawingModel drawingModel,

@@ -1,4 +1,2 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:1089: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:1089: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
 Audit done.
