@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2009-2010 by Davide Bucci
+    Copyright 2009-2016 by Davide Bucci
     </pre>
 */
 
@@ -44,7 +44,6 @@ class AppleSpecific implements ApplicationListener
 {
 
     /** Create an application listener able to respond to a few Finder events
-
     */
     public void answerFinder()
     {
@@ -54,7 +53,7 @@ class AppleSpecific implements ApplicationListener
     }
 
     /** Respond to an user clicking on an About menu.
-
+        @param evt event referring for application.
     */
     public void handleAbout(ApplicationEvent evt)
     {
@@ -64,7 +63,7 @@ class AppleSpecific implements ApplicationListener
 
     }
     /** Respond to an user opening the application.
-
+        @param evt event referring for application.
     */
     public void handleOpenApplication(ApplicationEvent evt)
     {
@@ -73,7 +72,7 @@ class AppleSpecific implements ApplicationListener
           ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
     /** Respond to an user double clicking on a FCD file
-
+        @param evt event referring for application.
     */
     public void handleOpenFile(ApplicationEvent evt)
     {
@@ -82,7 +81,7 @@ class AppleSpecific implements ApplicationListener
     }
 
     /** Respond to an user clicking on the Preferences menu.
-
+        @param evt event referring for application.
     */
     public void handlePreferences(ApplicationEvent evt)
     {
@@ -90,6 +89,7 @@ class AppleSpecific implements ApplicationListener
     }
 
     /** Respond to an user wanting to print a particular file.
+        @param evt event referring for application.
     */
     public void handlePrintFile(ApplicationEvent evt)
     {
@@ -97,7 +97,7 @@ class AppleSpecific implements ApplicationListener
     }
 
     /** Ask for confirmation when quitting.
-
+        @param evt event referring for application.
     */
     public void handleQuit(ApplicationEvent evt)
     {
@@ -115,6 +115,9 @@ class AppleSpecific implements ApplicationListener
         evt.setHandled(ca);
     }
 
+    /** Application reopen
+        @param evt event referring for application.
+    */
     public void handleReOpenApplication(ApplicationEvent evt)
     {
         // does nothing

@@ -47,7 +47,7 @@ import net.sourceforge.fidocadj.layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -131,9 +131,9 @@ public class CircuitPanel extends JPanel implements
 
     // ********** INTERFACE ELEMENTS **********
 
-    PopUpMenu popup;
-    MouseWheelHandler mwHandler;
-    MouseMoveClickHandler mmcHandler;
+    PopUpMenu popup;                    // Popup menu
+    MouseWheelHandler mwHandler;        // Wheel handler
+    MouseMoveClickHandler mmcHandler;   // Mouse click handler
 
     // ********** LISTENERS **********
 
@@ -364,8 +364,6 @@ public class CircuitPanel extends JPanel implements
         int height = father.getViewport().getExtentSize().height;
 
         Point rr=father.getViewport().getViewPosition();
-
-        System.out.println("x="+x+", rr.x="+rr.x);
 
         int corrx=x-rr.x;
         int corry=y-rr.y;
