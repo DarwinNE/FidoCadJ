@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2016 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -172,6 +172,7 @@ public class ExportEPS implements ExportInterface
         String text = text_t;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
+        checkColorAndWidth(c, -1);
         String bold="";
         int ys = (int)(sizex*12/(double)7+.5);
 
@@ -225,7 +226,6 @@ public class ExportEPS implements ExportInterface
 
         out.write("  ("+text+") show\n");
         out.write("grestore\n");
-
     }
 
     /** Called when exporting a Bézier primitive.
@@ -626,8 +626,8 @@ public class ExportEPS implements ExportInterface
         } else {
             out.write("stroke\n");
         }
-
     }
+
     /** Called when exporting a Curve primitive.
         @param vertices array containing the position of each vertex.
         @param nVertices number of vertices.
@@ -677,7 +677,6 @@ public class ExportEPS implements ExportInterface
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
 
@@ -724,6 +723,12 @@ public class ExportEPS implements ExportInterface
         out.write("  "+(filled?"fill\n":"stroke\n"));
     }
 
+    /** Set the current color (only if necessary) and the stroke width which
+        will be employed for subsequent drawing operations.
+        @param c the color
+        @param wl the stroke width. If a negative number is employed, a new
+            stroke width will not be set.
+    */
     private void checkColorAndWidth(ColorInterface c, double wl)
         throws IOException
     {
@@ -734,7 +739,7 @@ public class ExportEPS implements ExportInterface
 
             actualColor=c;
         }
-        if(wl != actualWidth) {
+        if(wl>0 && wl != actualWidth) {
             out.write("  " +wl+" setlinewidth\n");
             actualWidth = wl;
         }
@@ -749,7 +754,6 @@ public class ExportEPS implements ExportInterface
                 out.write("[] 0 setdash\n");
             else
                 out.write(""+dash[dashStyle]+" 0 setdash\n");
-
         }
     }
 }
