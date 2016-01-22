@@ -214,10 +214,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     private void handleZoomChangeEvents(ActionEvent evt)
     {
-        JComboBox<String> source=(JComboBox<String>)evt.getSource();
         if (notifyZoomChangeListener!=null) {
             try {
-                String s=(String)source.getSelectedItem();
+                String s=(String)zoom.getSelectedItem();
                 // The percent symbol should be eliminated.
                 s=s.replace('%',' ').trim();
                 //System.out.println ("New zoom: "+s);

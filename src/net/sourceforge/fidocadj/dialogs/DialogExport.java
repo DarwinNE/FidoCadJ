@@ -533,9 +533,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     */
     public void actionPerformed(ActionEvent evt)
     {
-        JComboBox<String> source =
-            (JComboBox<String>)(evt.getSource());
-        int idx=source.getSelectedIndex();
+        int idx=fileFormat.getSelectedIndex();
 
         // Once the index of the selected item is obtained, we proceed
         // by checking if it is a bitmap format
