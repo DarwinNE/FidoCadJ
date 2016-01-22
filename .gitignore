@@ -151,6 +151,15 @@ jar/swing-layout.jar
 doc/
 .DS_Store
 jar/.DS_Store
+test/export/jpg/test_out.jpg
+test/export/jpg/test_out_r.jpg
+test/export/pgf/test_out.pgf
+test/export/png/test_out.png
+test/export/png/test_out_r.png
+test/export/scr/test_out.scr
+test/export/svg/led_circuit_r.svg
+test/export/svg/test_out.svg
+test/export/svg/test_out_r.svg
 test/export/pgf/test_out.pdf
 test/export/output_jpg.txt
 test/export/output_jpg_r.txt
