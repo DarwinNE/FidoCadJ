@@ -21,23 +21,23 @@ import javax.swing.tree.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public abstract class AbstractMacroTreeNode implements MacroTreeNode
 {
-    protected Vector childNodes;
+    protected Vector<AbstractMacroTreeNode> childNodes;
     protected TreeNode parent;
-    protected String label;
+    protected String label;         // The description of the node
     protected Icon icon;
 
     /** Standard constructor.
     */
     AbstractMacroTreeNode()
     {
-        childNodes = new Vector();
+        childNodes = new Vector<AbstractMacroTreeNode>();
         label="";
     }
 
@@ -115,7 +115,13 @@ public abstract class AbstractMacroTreeNode implements MacroTreeNode
     */
     public void sortTree()
     {
-        Collections.sort(childNodes);
+        Collections.sort(childNodes, new Comparator<AbstractMacroTreeNode>(){
+                public int compare(AbstractMacroTreeNode o1,
+                    AbstractMacroTreeNode o2)
+                {
+                    return o1.toString().compareTo(o2.toString());
+                }
+            });
         for(Object n:childNodes) {
             ((AbstractMacroTreeNode)n).sortTree();
         }

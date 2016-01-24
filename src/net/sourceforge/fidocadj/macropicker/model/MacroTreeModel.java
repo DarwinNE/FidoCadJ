@@ -50,9 +50,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     final private LibraryModel libraryModel;
     final private List<TreeModelListener> listeners;
 
-    //private Map<Object,TreePath> pathMap;
-    //private Map<Object,AbstractMacroTreeNode> nodeMap;
-
     private HashMap<TreePath, AbstractMacroTreeNode> libraryNodeMap;
 
     private String filterWord;
@@ -121,7 +118,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     */
     private void createMap()
     {
-        libraryNodeMap = new HashMap();
+        libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
     }
 
     /** Get the type of the specified node.
