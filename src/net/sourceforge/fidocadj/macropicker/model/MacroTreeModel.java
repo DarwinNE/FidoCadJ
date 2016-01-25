@@ -360,7 +360,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
-                    System.out.println("deleted in:"+parentPath);
                 }
             }
         }
@@ -387,7 +386,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
-                    System.out.println("added in:"+parentPath);
                 }
             }
         }
@@ -455,9 +453,12 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         TreePath categoryPath;
         TreePath macroPath;
 
-        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =
+        // Save a copy of the current library note
+        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =libraryNodeMap;
+        /*
                (HashMap<TreePath,AbstractMacroTreeNode>)libraryNodeMap.clone();
-        libraryNodeMap.clear();
+        libraryNodeMap.clear(); */
+        libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
 
         if(rootNode==null){
             rootNode = new RootNode();

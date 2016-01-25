@@ -20,6 +20,11 @@ import net.sourceforge.fidocadj.globals.*;
     AppleSpecific class in the code when compiling under an alternative
     system. See the README file.
 
+    It seems that the API employed by this class has been declared obsolete...
+    Compiling this class with "-Xlint:deprecation" as an option generates
+    25 warnings. However, I am not sure how the situation really is, as the
+    future of Java on MacOSX is not very clear.
+
     <pre>
     This file is part of FidoCadJ.
 
