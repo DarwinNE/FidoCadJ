@@ -663,8 +663,6 @@ public class FidoFrame extends JFrame implements
             Globals.quaquaActive,
             cc.getStrictCompatibility(),
             cc.dmp.getTextFont(),
-            false,
-            false,
             Globals.lineWidth,
             Globals.lineWidthCircles,
             Globals.diameterConnection,

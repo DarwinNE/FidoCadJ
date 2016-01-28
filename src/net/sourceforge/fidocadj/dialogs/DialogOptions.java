@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 */
 public class DialogOptions extends MinimumSizeDialog
@@ -45,11 +45,6 @@ public class DialogOptions extends MinimumSizeDialog
     public boolean smallIconsToolbar;
     public int gridSize;
     public boolean extStrict;
-
-    // TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
-    public boolean split_n_s;
-    public boolean split_n_c;
-    ///
 
     public boolean shiftCP;
 
@@ -108,8 +103,6 @@ public class DialogOptions extends MinimumSizeDialog
         @param qq the current Quaqua state.
         @param ex strict compatibility with FidoCAD for Windows.
         @param mf the current Macro font.
-        @param sn split non standard macros during save.
-        @param sc split non standard macros during copy.
         @param sssi stroke width to be used for segments and straight lines.
         @param ssoi stroke width to be used for ovals.
         @param ccs connection size.
@@ -120,7 +113,7 @@ public class DialogOptions extends MinimumSizeDialog
                           int gs, String libDir, boolean tt, boolean sit,
                           int plw, int pw, int ph, int piw,
                           boolean qq, boolean ex, String mf,
-                          boolean sn, boolean sc, double sssi, double ssoi,
+                          double sssi, double ssoi,
                           double ccs, int ms, boolean sdcp)
     {
         super(600,450,pa, Globals.messages.getString("Cir_opt_t"), true);
@@ -135,13 +128,10 @@ public class DialogOptions extends MinimumSizeDialog
         libDirectory = libDir;
         textToolbar=tt;
         smallIconsToolbar=sit;
-        //extFCJ_s=es;
-        //extFCJ_c=ec;
+
         quaquaActive=qq;
         extStrict=ex;
         macroFont = mf;
-        split_n_s = sn;
-        split_n_c = sc;
 
         pcblinewidth_i = plw;
         pcbpadwidth_i = pw;
