@@ -431,14 +431,13 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-            cc.setStrictCompatibility(prefs.get("FCJ_EXT_STRICT",
-                "false").equals("true"));
             cc.dmp.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont),
                 Integer.parseInt(prefs.get("MACRO_SIZE", "3")),
                 cc.getUndoActions());
             readGridSettings();
             readDrawingSettings();
         }
+        cc.setStrictCompatibility(false);
 
         // Here we set the approximate size of the control at startup. This is
         // useful, since the scroll panel (created just below) use those
@@ -729,8 +728,6 @@ public class FidoFrame extends JFrame implements
 
             prefs.put("QUAQUA",
                 (Globals.quaquaActive?"true":"false"));
-            prefs.put("FCJ_EXT_STRICT",
-                (cc.getStrictCompatibility()?"true":"false"));
 
             prefs.put("GRID_SIZE", ""+cc.getMapCoordinates().getXGridStep());
 

@@ -204,12 +204,9 @@ public class DialogOptions extends MinimumSizeDialog
                 int ng=-1;
                 shiftCP=shiftCP_CB.isSelected();
                 antiAlias=antiAlias_CB.isSelected();
-                //zoomValue=(double)(zoom.getSelectedIndex());
                 profileTime=profile_CB.isSelected();
                 textToolbar=textToolbar_CB.isSelected();
                 smallIconsToolbar=smallIconsToolbar_CB.isSelected();
-                //extFCJ_s =extFCJ_s_CB.isSelected();
-                //extFCJ_c =extFCJ_c_CB.isSelected();
                 quaquaActive=quaquaActive_CB.isSelected();
                 extStrict = extStrict_CB.isSelected();
                 macroFont = (String)comboFont.getSelectedItem();
@@ -622,7 +619,7 @@ public class DialogOptions extends MinimumSizeDialog
     }
 
     /** Creates the panel dedicated to the extensions introduced by FidoCadJ on
-        the original FidoCad file format.
+        the original FidoCAD file format.
         @return the panel concerning extensions to the very old FidoCAD format.
     */
     private JPanel createExtensionsPanel()

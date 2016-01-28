@@ -1,13 +1,17 @@
 Version 0.24.6
 --------------
-- Complete review of the source code, refactoring, strict coding style policy adopted.
+- Complete review of the source code, refactoring, strict coding style policy have been adopted.
 - Library "ey_libraries" is now considered as standard library.
 - Corrected GitHub issue #41 (Printing margins).
-- Implemented a complete print prewiew, showing margins and printable area in the page.
-- Corrected Issue #63 (Problematic code with wrong layer number)
+- Implemented a complete print preview, showing margins and printable area in the page.
+- Corrected Issue #63 (Problematic code with wrong layer number).
+- Hand pan function is now more traditional (Issue #25).
+- Corrected Issue #21 (Color error in EPS format).
+- The "strict compatibility with FidoCAD" mode is automatically disabled each time the program is restarted.
 
 Version 0.24.5
 --------------
+(April 6, 2015)
 - Contains the new EY library of components "ey_libraries".
 - Fixed bug #56 (some components do not appear in the preview).
 - Fixed bug #61 (multiple selection using Commands on MacOSX).
@@ -60,7 +64,6 @@ Version 0.24.2
 
 Version 0.24.1
 --------------
-
 - Added a link to the Sourceforge project page in the About dialog (request #3531298).
 - Now Java 1.5 is needed for compiling FidoCadJ.
 - The standard libraries now are stdlib, ihram, elettrotecnica and pcb. Their elements will not be converted in primitives when the "split non standard symbols" option is active, UNLESS the "Strict compatibility with FidoCAD" mode is selected. 
@@ -81,7 +84,6 @@ Version 0.24.1
 
 Version 0.24
 ------------
-
 - Added the support for italic text lines
 - The length of the segment being entered is expressed also in millimeters.
 - Slight adjustment of the arrow style when they are associated to lines.
