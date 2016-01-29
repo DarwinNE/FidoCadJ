@@ -1471,7 +1471,7 @@ Starting at line 596 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 23 line (112 tokens) duplication in the following files: 
 Starting at line 149 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogExport.java
-Starting at line 191 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
+Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 
         constraints.insets=new Insets(20,20,20,20);
 
@@ -1497,14 +1497,14 @@ Starting at line 191 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             {
                 int selection;
 =====================================================================
-Found a 59 line (112 tokens) duplication in the following files: 
+Found a 58 line (112 tokens) duplication in the following files: 
 Starting at line 627 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 1135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             out.write("stroke\n");
         }
-
     }
+
     /** Called when exporting a Curve primitive.
         @param vertices array containing the position of each vertex.
         @param nVertices number of vertices.
@@ -1554,7 +1554,6 @@ Starting at line 1135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourc
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
 
@@ -1606,7 +1605,7 @@ Starting at line 663 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         alpha += x-xc>0.0?0.0:Math.PI;
 =====================================================================
 Found a 23 line (111 tokens) duplication in the following files: 
-Starting at line 191 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
+Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 Starting at line 415 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
             new Insets(6,20,20,20));

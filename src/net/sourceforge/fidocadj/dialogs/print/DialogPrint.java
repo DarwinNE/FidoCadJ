@@ -375,9 +375,10 @@ public class DialogPrint extends MinimumSizeDialog
             public void stateChanged(ChangeEvent changeEvent)
             {
                 if(onlyLayerCB.isSelected()) {
-                    layerSel.setEnabled(true);
-                    if(layerSel!=null)
+                    if(layerSel!=null) {
+                        layerSel.setEnabled(true);
                         currentLayerSelected=layerSel.getSelectedIndex();
+                    }
                 } else {
                     layerSel.setEnabled(false);
                 }

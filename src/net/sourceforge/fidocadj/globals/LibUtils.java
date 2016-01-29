@@ -209,7 +209,10 @@ public final class LibUtils
         List<File> l = new ArrayList<File>();
         if (!lst.exists())
             return null;
-        for (File f : lst.listFiles()) {
+        File[] list=lst.listFiles();
+        if(list==null)
+            return l;
+        for (File f : list) {
             if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);
         }
         return l;

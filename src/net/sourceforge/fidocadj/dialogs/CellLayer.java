@@ -76,8 +76,7 @@ public class CellLayer extends JPanel
 
         if(layer.getVisible()) {
             if (isSelected)
-                g.setColor(isSelected ? list.getSelectionForeground():
-                                list.getForeground());
+                g.setColor(list.getSelectionForeground());
         } else {
             g.setColor(SystemColor.textInactiveText);
         }

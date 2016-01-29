@@ -38,6 +38,8 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
 
     private static ScrollGestureRecognizer instance = new
         ScrollGestureRecognizer();
+    
+    Point location= new Point();
 
     /** Constructor.
     */
@@ -71,7 +73,6 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
         Toolkit.getDefaultToolkit().removeAWTEventListener(this);
     }
 
-    Point location= new Point();
     /** Event dispatched (?)
         @param event the AWT event dispatched.
     */
@@ -98,7 +99,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
 
         Point mouseLocation = SwingUtilities.convertPoint(me.getComponent(),
             me.getPoint(), rootPane.getGlassPane());
-        if(oldGesture==false && isGesture==true) {
+        if(!oldGesture && !isGesture) {
             location=mouseLocation;
         }
         oldGesture=isGesture;

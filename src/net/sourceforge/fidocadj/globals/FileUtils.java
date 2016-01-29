@@ -78,6 +78,8 @@ public final class FileUtils
 
             // Process all the elements of the directory.
             String[] children = sourceLocation.list();
+            if (children==null)
+                return;
             for(int i = 0; i < children.length; ++i) {
                 copyDirectory(new File(sourceLocation, children[i]),
                     new File(targetLocation, children[i]));
@@ -143,6 +145,8 @@ public final class FileUtils
             criteria = criteria.toLowerCase(new Locale("en"));
 
             String[] children = sourceLocation.list();
+            if(children==null)
+                return;
             for(int i = 0; i < children.length; ++i) {
                 if(children[i].toLowerCase().contains(criteria)) {
                     copyFile(new File(sourceLocation, children[i]),

@@ -351,18 +351,16 @@ public class ElementsEdtActions
                     clickNumber = 0;
                     repaint=true;
                     break;
+                } else {
+                    ++ clickNumber;
+                    successiveMove=false;
+                    // clickNumber == 0 means that no polygon is being drawn
+                    // prevent that we exceed the number of allowed points
+                    if (clickNumber==NPOLY)
+                        return false;
+                    xpoly[clickNumber] = cs.unmapXsnap(x);
+                    ypoly[clickNumber] = cs.unmapYsnap(y);
                 }
-                ++ clickNumber;
-                if(doubleClick) successiveMove=false;
-                // clickNumber == 0 means that no polygon is being drawn
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                xpoly[clickNumber] = cs.unmapXsnap(x);
-                ypoly[clickNumber] = cs.unmapYsnap(y);
                 break;
 
             // Insert a complex curve: continue until double click.
@@ -381,16 +379,16 @@ public class ElementsEdtActions
                     dmp.addPrimitive(compc, true,ua);
                     clickNumber = 0;
                     repaint=true;
-                    break;
+                } else {
+                    ++ clickNumber;
+                    successiveMove=false;
+                    // prevent that we exceed the number of allowed points
+                    if (clickNumber==NPOLY)
+                        return false;
+                    // clickNumber == 0 means that no polygon is being drawn
+                    xpoly[clickNumber] = cs.unmapXsnap(x);
+                    ypoly[clickNumber] = cs.unmapYsnap(y);
                 }
-                ++ clickNumber;
-                if(doubleClick) successiveMove=false;
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                // clickNumber == 0 means that no polygon is being drawn
-                xpoly[clickNumber] = cs.unmapXsnap(x);
-                ypoly[clickNumber] = cs.unmapYsnap(y);
                 break;
 
             // Enter an ellipse: two clicks needed
