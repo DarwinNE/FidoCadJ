@@ -21,7 +21,7 @@ package net.sourceforge.fidocadj.geom;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2016 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -118,9 +118,8 @@ public final class GeometricDistances
     */
     public static double pointToSegment(double xa, double ya,
                                  double xb, double yb,
-                                 double x, double y )
+                                 double x, double y)
     {
-
         // Shortcuts
         if(xa>xb) {
             xmin = xb; xmax = xa;
@@ -150,18 +149,17 @@ public final class GeometricDistances
         }
 
         t=((x-xa)*dx+(y-ya)*dy)/(dx*dx+dy*dy);
-        if (t<0) {
+        if (t<0.0) {
             dx=x-xa;
             dy=y-ya;
         } else if (t>1.0){
             dx=x-xb;
             dy=y-yb;
         } else {
-            dx=x-xa+t*dx;
-            dy=y-ya+t*dy;
+            dx=x-(xa+t*dx);
+            dy=y-(ya+t*dy);
         }
         return Math.sqrt(dx*dx+dy*dy);
-
     }
 
     /** Calculate the euclidean distance between a point and a segment.
@@ -349,7 +347,6 @@ public final class GeometricDistances
 
         if (h==0)
             return pointToSegment(ex, ey, ex+w, ey, px, py);
-
 
         // Calculate the semi-latus rectum of the ellipse at the given point
         // The multiplication by four is mandatory as the principal axis of an
