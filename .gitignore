@@ -171,3 +171,5 @@ test/export/results_png_r.txt
 test/export/results_png_s.txt
 test/size/text.txt
 test/size/text_r.txt
+test/export/pgf/output_latex.log
+

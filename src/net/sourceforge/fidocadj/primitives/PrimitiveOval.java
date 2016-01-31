@@ -146,7 +146,7 @@ public final class PrimitiveOval extends GraphicPrimitive
             if (w<D_MIN) w=D_MIN;
         }
 
-        if(!g.hitClip(xa,ya, xb-xa,yb-ya))
+        if(!g.hitClip(xa,ya, xb-xa+1,yb-ya+1))
             return;
 
         g.applyStroke(w, dashStyle);
@@ -155,7 +155,12 @@ public final class PrimitiveOval extends GraphicPrimitive
         if (isFilled)
             g.fillOval(xa,ya,xb-xa,yb-ya);
         else {
-            g.drawOval(xa,ya,xb-xa,yb-ya);
+            if(xa!=xb && ya!=yb) {
+                g.drawOval(xa,ya,xb-xa,yb-ya);
+            } else {
+                // Degenerate to a single line.
+                g.drawLine(xa,ya,xb,yb);
+            }
         }
     }
 
