@@ -281,13 +281,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
         g.applyStroke(w, dashStyle);
 
         if(width==0 ||height==0) {
-            // Degenerate case: horizontal or vertical line
+            // Degenerate case: horizontal or vertical segment.
             g.drawLine(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
                 coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
                 coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
                 coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
         } else {
-            // Draw the curve
+            // Draw the curve.
             g.draw(shape1);
         }
 

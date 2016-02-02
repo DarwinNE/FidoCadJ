@@ -27,7 +27,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2011-2015 by Davide Bucci
+    Copyright 2011-2016 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
@@ -190,7 +190,6 @@ public final class PrimitiveComplexCurve
         // ...then we do the swap
 
         int dummy;
-
 
         for(int i=nPoints-1; i>minv; --i) {
             virtualPoint[i].x=virtualPoint[i-1].x;
@@ -570,7 +569,6 @@ public final class PrimitiveComplexCurve
                     (float)(pp.get(i+increment).y-derY2),
                     (float)(pp.get(i+increment).x),
                     (float)(pp.get(i+increment).y));
-
             }
 
             if (isClosed) gp.closePath();
@@ -584,7 +582,7 @@ public final class PrimitiveComplexCurve
 
         // If the curve is outside of the shown portion of the drawing,
         // exit immediately.
-        if(!g.hitClip(xmin,ymin, width, height))
+        if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
 
         g.applyStroke(w, dashStyle);
@@ -594,8 +592,17 @@ public final class PrimitiveComplexCurve
             g.fill(gp);
         }
 
-        g.draw(gp);
-
+        if(width==0 || height==0) {
+            // Degenerate case: draw a segment.
+            int d=nPoints-1;
+            g.drawLine(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapX(virtualPoint[d].x,virtualPoint[d].y),
+                coordSys.mapY(virtualPoint[d].x,virtualPoint[d].y));
+        } else {
+            // Draw the curve.
+            g.draw(gp);
+        }
 
         // Ensure that there are enough points to calculate the derivative.
         if (p.getNpoints()<2)
