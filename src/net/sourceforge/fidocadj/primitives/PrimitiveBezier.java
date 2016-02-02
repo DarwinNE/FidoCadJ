@@ -27,7 +27,7 @@ import net.sourceforge.fidocadj.graphic.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -263,7 +263,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
             // Calculating the bounds of this curve is useful since we can
             // check if it is visible and thus choose wether draw it or not.
             RectangleG r = shape1.getBounds();
-
             xmin = r.x;
             ymin = r.y;
             width  = r.width;
@@ -275,14 +274,22 @@ public final class PrimitiveBezier extends GraphicPrimitive
         }
 
         // If the curve is not visible, exit immediately
-        if(!g.hitClip(xmin,ymin, width, height))
+        if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
 
         // Apply the stroke style
         g.applyStroke(w, dashStyle);
 
-        // Draw the curve
-        g.draw(shape1);
+        if(width==0 ||height==0) {
+            // Degenerate case: horizontal or vertical line
+            g.drawLine(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+        } else {
+            // Draw the curve
+            g.draw(shape1);
+        }
 
         // Check if there are arrows to be drawn and eventually draw them.
         if (arrowStart || arrowEnd) {
