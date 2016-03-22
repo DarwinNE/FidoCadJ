@@ -536,7 +536,6 @@ public class ParserActions
                             g=new PrimitivePCBLine(macroFont, macroFontSize);
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                            //addPrimitive(g,false,false);
                         } else if(tokens[0].equals("PA")) {
                             hasFCJ=true;
                             for(l=0; l<j+1; ++l)
@@ -546,7 +545,6 @@ public class ParserActions
                             old_j=j;
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                            //addPrimitive(g,false,false);
                         } else if(tokens[0].equals("SA")) {
                             hasFCJ=true;
                             for(l=0; l<j+1; ++l)

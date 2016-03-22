@@ -235,15 +235,8 @@ public class DialogParameters extends JDialog
                 jtf[tc].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof Float) {
-                // TODO.
-                // WARNING: (DB) this is supposed to be temporary. In fact, I
-                // am planning to upgrade some of the parameters from int
-                // to float. But for a few months, the users should not be
-                // aware of that, even if the internal representation is
-                // slowing being adapted.
                 jtf[tc] = new JTextField(24);
-                int dummy = java.lang.Math.round((Float) pd.parameter);
-                jtf[tc].setText(""+dummy);
+                jtf[tc].setText(""+pd.parameter);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;

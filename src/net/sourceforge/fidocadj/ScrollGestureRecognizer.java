@@ -38,7 +38,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
 
     private static ScrollGestureRecognizer instance = new
         ScrollGestureRecognizer();
-    
+
     Point location= new Point();
 
     /** Constructor.
