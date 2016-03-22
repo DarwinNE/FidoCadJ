@@ -8,6 +8,7 @@ Version 0.24.6
 - Hand pan function is now more traditional (Issue #25).
 - Corrected Issue #21 (Color error in EPS format).
 - The "strict compatibility with FidoCAD" mode is automatically disabled each time the program is restarted.
+- PCB lines can have a noninteger width.
 
 Version 0.24.5
 --------------
