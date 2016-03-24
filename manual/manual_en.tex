@@ -25,17 +25,17 @@
 \usepackage{listings} 
 \usepackage{makeidx}
 \lstdefinelanguage{FIDOCAD} 
-	{morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,CP,CV,%
-		[FIDOCAD],[FIDOLIB]}, 
-	sensitive=false, 
-	morecomment=[s]{[}{]}, 
-	morecomment=[s][\color{blue}]{\{}{\}}, 
-	morecomment=[l][\color{violet}]{*},
-	moredelim=[il][\color{violet}]{£},
+    {morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,CP,CV,%
+        [FIDOCAD],[FIDOLIB]}, 
+    sensitive=false, 
+    morecomment=[s]{[}{]}, 
+    morecomment=[s][\color{blue}]{\{}{\}}, 
+    morecomment=[l][\color{violet}]{*},
+    moredelim=[il][\color{violet}]{£},
 } 
 
 \lstset{language=FIDOCAD,%
-	basicstyle=\small\ttfamily} 
+    basicstyle=\small\ttfamily} 
 
 % *******************************************************
 % Hyperreferences
@@ -56,10 +56,10 @@
     pdfproducer={LaTeX with hyperref and classicthesis}%
 }
 \lstset{frame=single,%
-	backgroundcolor=\color{lightgray},
-	keywordstyle=\color{RoyalBlue},
-	breaklines=true
-	}
+    backgroundcolor=\color{lightgray},
+    keywordstyle=\color{RoyalBlue},
+    breaklines=true
+    }
 
 \newcommand{\micron}{\,\mu\mathrm{m}}
 \newcommand{\toprule}{\hline}
@@ -68,7 +68,7 @@
 
 \newcommand{\bottomrule}{\hline}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.24.5 \\ user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24.6 \\ user manual} 
 
 \author{Davide Bucci\\[3em]
 \includegraphics[width=.7\textwidth]{icona_fidocadj_a}
@@ -321,8 +321,8 @@ On GitHub\index{GitHub}, you can participate to the discussions, as well as sugg
 
 In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. An user, Piercarlo Boletti, proposed to integrate a schematic capture tool directly inside the forum. Something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I inscribed myself to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and then the system was ready: a simple copy and paste in a post of the code describing the drawing, with a couple of tags. The forum software runs FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code remains available. This way, who is reading the discussion does not need to have anything installed, but if he desires to change something, he can obtain the code with a few clicks.
 
-Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \href{http://www.electroyou.it}{www.electroyou.it}. This system is so powerful and flexible that I have been the first to be astonished of the enthusiasm demonstrated by the users!\footnote{If you read Italian, here is an article I wrote:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}	 } FidoCadJ has shown to be useful also for drawings not directly related to electronics (see appendix \ref{chap_fidocadj_art} to see what I mean).
- 	 
+Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \href{http://www.electroyou.it}{www.electroyou.it}. This system is so powerful and flexible that I have been the first to be astonished of the enthusiasm demonstrated by the users!\footnote{If you read Italian, here is an article I wrote:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}  } FidoCadJ has shown to be useful also for drawings not directly related to electronics (see appendix \ref{chap_fidocadj_art} to see what I mean).
+     
 \begin{figure}
  \includegraphics[width=\textwidth]{discussione_electroyou.png}
  \caption{Part of one of my posts on \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}.
@@ -970,7 +970,7 @@ The total length measured is shown in FidoCadJ logical units\index{logical unit}
 FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
 
 A few stroke styles\index{stroke styles} are also available, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
-There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences.
+There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences. If the arrow length is negative, the arrow will extend outside the length of the element, pointing towards it.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{gyrator}
@@ -1102,7 +1102,7 @@ FidoCadJ will be run and it will try to open the file \lstinline!~/FidoCadJ/test
 There are some other interesting things FidoCadJ can do.
 Option \lstinline!-h! shows a listing of the FidoCadJ options:
 \lstset{language={},basicstyle=\scriptsize\ttfamily}
-	 	 
+         
 \begin{lstlisting}
 [davidebucci@davide-bucci-portable-2]$ java -jar fidocadj.jar -h
 
@@ -1165,7 +1165,7 @@ Obviously, this option is not so much useful alone, but it will be precious when
 Option \lstinline!-d! allows to specify the directory where FidoCadJ will seek for libraries to be loaded at startup. Option \lstinline!-c! allows to make FidoCadJ convert a FidoCAD file (which must be specified) into an image in a vector or raster format. This can be very useful, as FidoCadJ can be used as a converter in a non interactive way (along with the \lstinline!-n! option)
 
 We can thus have a look at the first example given in the help:
-	 	
+        
 \begin{lstlisting}
 java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
 \end{lstlisting}
@@ -1380,12 +1380,12 @@ where $a$ is an integer which represent the presence or not of the arrow heads a
 
 \begin{tabular}{ccp{.7\textwidth}}
 \toprule
-$a$	& Arrow head \\
+$a$ & Arrow head \\
 \midrule
-0	& none \\
-1	& at the start side\\
-2	& at the end side\\
-3	& both sides\\
+0   & none \\
+1   & at the start side\\
+2   & at the end side\\
+3   & both sides\\
 \bottomrule
 \end{tabular}
 \caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or Bézier primitive.}
@@ -1396,12 +1396,12 @@ $a$	& Arrow head \\
 \centering
 \begin{tabular}{ccp{.7\textwidth}}
 \toprule
-$b$	& Arrow head style \\
+$b$ & Arrow head style \\
 \midrule
-0	& filled standard arrow head \\
-1	& filled standard arrow head with quota line \\
-2	& empty arrow head\\
-3	& empty arrow head with quota line\\
+0   & filled standard arrow head \\
+1   & filled standard arrow head with quota line \\
+2   & empty arrow head\\
+3   & empty arrow head with quota line\\
 \bottomrule
 \end{tabular}
 \caption{Meaning of the $b$ parameter for the arrow head style.}
@@ -1857,8 +1857,8 @@ with a graphical environment will be used instead. A poor configuration of your 
 
 
 %\lstset{language=plain,%
-%	basicstyle=\tiny\ttfamily}
-	
+%   basicstyle=\tiny\ttfamily}
+    
 \begin{lstlisting}
 $ wget https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar
 --00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
@@ -1880,14 +1880,14 @@ Length: 343,207 (335K) [application/java-archive]
 $
 \end{lstlisting}
 \lstset{
-	basicstyle=\small\ttfamily}
+    basicstyle=\small\ttfamily}
 
 Alternatively, or if you are experiencing problems, you can download the file from any browser from the following URL:
 
 \href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}
 
 and save the file in your \lstinline!/home/! directory.
-	
+    
 
 
 Let's create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):

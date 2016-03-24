@@ -281,14 +281,14 @@ public final class PrimitiveLine extends GraphicPrimitive
             // rectangle if necessary to take into account the arrow heads
             if (arrows) {
                 // Heigth and width of the arrows in pixels
-                h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                    coordSys.mapXi(0,0, false));
-                l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
-                    coordSys.mapXi(0,0,false));
-                xa -= h;
-                ya -= h;
-                xb += h;
-                yb += h;
+                h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+                    coordSys.mapXi(0,0, false);
+                l=coordSys.mapXi(arrowLength,arrowLength, false)-
+                    coordSys.mapXi(0,0,false);
+                xa -= Math.abs(h);
+                ya -= Math.abs(h);
+                xb += Math.abs(h);
+                yb += Math.abs(h);
             }
             xbpap1=xb-xa+1;
             ybpap1=yb-ya+1;
@@ -300,25 +300,16 @@ public final class PrimitiveLine extends GraphicPrimitive
 
             g.applyStroke(w, dashStyle);
 
-            int x1_corr=x1;
-            int y1_corr=y1;
-            int x2_corr=x2;
-            int y2_corr=y2;
-
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {
                 if (arrowStart) {
                     PointG Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
-                    x1_corr = Pc.x;
-                    y1_corr = Pc.y;
                 }
                 if (arrowEnd) {
                     PointG Pc=Arrow.drawArrow(g,x2,y2,x1,y1,l,h,arrowStyle);
-                    x2_corr = Pc.x;
-                    y2_corr = Pc.y;
                 }
             }
-            g.drawLine(x1_corr, y1_corr, x2_corr, y2_corr);
+            g.drawLine(x1,y1,x2,y2);
         }
     }
 
