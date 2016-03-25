@@ -274,12 +274,12 @@ public final class GeometricDistances
             return false;
         }
 
-        // Calculate the semi-latus rectum of the ellipse at the given point
         // The multiplication by four is mandatory as the principal axis of an
         // ellipse are the half of the width and the height.
 
         return (4.0*dx*dx/w/w+4.0*dy*dy/h/h)<1.0;
     }
+
     /** Tells if a point lies inside an ellipse (integer version).
 
         @param ex x coordinate of the top left corner of the ellipse.
@@ -334,10 +334,9 @@ public final class GeometricDistances
     public static double pointToEllipse(double ex,double ey,double w,
                                   double h,double px,double py)
     {
-        //Determine and normalize quadrant.
+        // Calculate distance of the point from center of ellipse.
         double dx = Math.abs(px-(ex+w/2.0)); // NOPMD parentheses are useful!
         double dy = Math.abs(py-(ey+h/2.0)); // NOPMD parentheses are useful!
-        double l;
 
         // Treat separately the degenerate cases. This will avoid a divide
         // by zero anomalous situation.
@@ -349,17 +348,11 @@ public final class GeometricDistances
             return pointToSegment(ex, ey, ex+w, ey, px, py);
 
         // Calculate the semi-latus rectum of the ellipse at the given point
-        // The multiplication by four is mandatory as the principal axis of an
-        // ellipse are the half of the width and the height.
 
-        l=4.0*dx*dx/w/w+4.0*dy*dy/h/h;
+        double l=(dx*dx/w/w+dy*dy/h/h)*4.0;
 
-        // I had to divide by 2 to compensate the loss of precision in certain
-        // cases. Maybe, this is due to the integer conversion when using
-        // the integer routine?
-
-        l=Math.sqrt(Math.abs(l-1.0)*Math.min(w,h)*Math.min(w,h)/4)/2;
-        return l;
+        double dl=(Math.abs(l-1.0))*Math.min(w,h)/4.0;
+        return dl;
     }
 
     /** Give the distance between the given point and the ellipse path
@@ -376,8 +369,8 @@ public final class GeometricDistances
     public static int pointToEllipse(int ex,int ey,int w,
                                   int h, int px,int py)
     {
-        return (int)pointToEllipse((double) ex,(double) ey,(double) w,
-                              (double) h,(double) px,(double) py);
+        return (int)Math.round(pointToEllipse((double) ex,(double)ey,(double) w,
+                              (double) h,(double) px,(double) py));
     }
 
 
