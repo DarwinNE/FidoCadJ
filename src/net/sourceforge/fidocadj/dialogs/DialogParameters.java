@@ -127,9 +127,6 @@ public class DialogParameters extends JDialog
 
         int ycount = 0;
         for (ParameterDescription pd : v) {
-            if (ycount++ > MAX)
-                break;
-
             // We do not need to store label objects, since we do not need
             // to retrieve data from them.
             lab = new JLabel(pd.description);
@@ -194,8 +191,9 @@ public class DialogParameters extends JDialog
                 // If we have a String text field in the first position, its
                 // contents should be evidenced, since it is supposed to be
                 // the most important field (e.g. for the AdvText primitive)
-                if (ycount == 0)
+                if (ycount == 0) {
                     jtf[tc].selectAll();
+                }
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -327,6 +325,9 @@ public class DialogParameters extends JDialog
                 jco[co].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jco[co++], constraints);
             }
+
+            if (ycount++ > MAX)
+                break;
         }
         // Put the OK and Cancel buttons and make them active.
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
