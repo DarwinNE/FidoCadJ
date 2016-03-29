@@ -13,5 +13,6 @@ define ("LIBRARIES_BUTTON","Librerie");
 define ("FAQ_BUTTON","FAQ");
 define ("EXAMPLES_BUTTON","Esempi");
 
-
+define ("ENGLISH_FLAG_IMAGE_ALT","bandiera inglese");
+define ("ITALIAN_FLAG_IMAGE_ALT","bandiera italiana");
  ?>
