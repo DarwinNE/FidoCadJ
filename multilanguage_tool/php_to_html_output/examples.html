@@ -1,63 +1,95 @@
-<?php ob_start(); ?>
-<?php
-	switch($_GET['lang']){
-		case "it":
-			$language = "italian";
-		break;
-		case "en":
-			$language = "english";
-		break;
-	}
-
-	include_once("config.php");
-	include_once("languages/".$language."/header.php");
-	include_once("languages/".$language."/examples.php");
-	include_once("languages/".$language."/footer.php");
-?>
+<br />
+<b>Notice</b>:  Undefined index: lang in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>3</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: language in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>13</b><br />
+<br />
+<b>Warning</b>:  include_once(languages//header.php): failed to open stream: No such file or directory in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>13</b><br />
+<br />
+<b>Warning</b>:  include_once(): Failed opening 'languages//header.php' for inclusion (include_path='.;U:\area_53\php\PEAR') in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>13</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: language in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>14</b><br />
+<br />
+<b>Warning</b>:  include_once(languages//examples.php): failed to open stream: No such file or directory in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>14</b><br />
+<br />
+<b>Warning</b>:  include_once(): Failed opening 'languages//examples.php' for inclusion (include_path='.;U:\area_53\php\PEAR') in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>14</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: language in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>15</b><br />
+<br />
+<b>Warning</b>:  include_once(languages//footer.php): failed to open stream: No such file or directory in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>15</b><br />
+<br />
+<b>Warning</b>:  include_once(): Failed opening 'languages//footer.php' for inclusion (include_path='.;U:\area_53\php\PEAR') in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>15</b><br />
 <!DOCTYPE html>
-<html lang='<?php echo $_GET['lang']; ?>'>
+<html lang='<br />
+<b>Notice</b>:  Undefined index: lang in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>18</b><br />
+'>
 <html>
 <head>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet'>
 	<link href="http://darwinne.github.io/FidoCadJ/db_style.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	<meta name=viewport content="width=device-width, initial-scale=1">
-	<meta name="description" content="<?php echo META_DESCRIPTION; ?>">
+	<meta name="description" content="<br />
+<b>Notice</b>:  Use of undefined constant META_DESCRIPTION - assumed 'META_DESCRIPTION' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>25</b><br />
+META_DESCRIPTION">
 	<link rel="icon" href="http://darwinne.github.io/FidoCadJ/images/FidoCadJ_favicon.png" />
 	<link rel="canonical" href="http://darwinne.github.io/FidoCadJ/index.html" />
-	<title><?php echo PAGE_TITLE; ?></title>
+	<title><br />
+<b>Notice</b>:  Use of undefined constant PAGE_TITLE - assumed 'PAGE_TITLE' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>28</b><br />
+PAGE_TITLE</title>
 </head>
 
 	<body>
 		<header>
 				<a href="index.html"><h1>FidoCadJ</h1></a>
-				<h2><?php echo MAIN_SUBTITLE; ?></h2>
+				<h2><br />
+<b>Notice</b>:  Use of undefined constant MAIN_SUBTITLE - assumed 'MAIN_SUBTITLE' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>34</b><br />
+MAIN_SUBTITLE</h2>
 				<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="https://twitter.com/share?via=davbucci" class="twitter-share-button">Tweet</a>
 				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				<a href="index.html" class="mainmenu">[<?php echo HOME_BUTTON; ?>]</a>
+				<a href="index.html" class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant HOME_BUTTON - assumed 'HOME_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>38</b><br />
+HOME_BUTTON]</a>
 				&nbsp;
-				<a class="mainmenu">[<?php echo DOWNLOAD_BUTTON; ?>]</a>
+				<a class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant DOWNLOAD_BUTTON - assumed 'DOWNLOAD_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>40</b><br />
+DOWNLOAD_BUTTON]</a>
 				&nbsp;
-				<a href="scrn.html" class="mainmenu">[<?php echo SCREENSHOTS_BUTTON; ?>]</a>
+				<a href="scrn.html" class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant SCREENSHOTS_BUTTON - assumed 'SCREENSHOTS_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>42</b><br />
+SCREENSHOTS_BUTTON]</a>
 				&nbsp;
-				<a href="libs.html" class="mainmenu">[<?php echo LIBRARIES_BUTTON; ?>]</a>
+				<a href="libs.html" class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant LIBRARIES_BUTTON - assumed 'LIBRARIES_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>44</b><br />
+LIBRARIES_BUTTON]</a>
 				&nbsp;
-				<a href="faq.html" class="mainmenu">[<?php echo FAQ_BUTTON; ?>]</a>
+				<a href="faq.html" class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant FAQ_BUTTON - assumed 'FAQ_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>46</b><br />
+FAQ_BUTTON]</a>
 				&nbsp;
-				<b class="mainmenu">[<?php echo EXAMPLES_BUTTON; ?>]</b>
+				<b class="mainmenu">[<br />
+<b>Notice</b>:  Use of undefined constant EXAMPLES_BUTTON - assumed 'EXAMPLES_BUTTON' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>48</b><br />
+EXAMPLES_BUTTON]</b>
 				&nbsp;
-				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/".str_replace(".php",".html",basename(__FILE__)); ?>"><img src="../images/flags/english_flag.jpg" alt="<?php echo ENGLISH_FLAG_IMAGE_ALT; ?>"/></a>
+				<a href="http://darwinne.github.io/FidoCadJ/examples.html"><img src="../images/flags/english_flag.jpg" alt="<br />
+<b>Notice</b>:  Use of undefined constant ENGLISH_FLAG_IMAGE_ALT - assumed 'ENGLISH_FLAG_IMAGE_ALT' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>50</b><br />
+ENGLISH_FLAG_IMAGE_ALT"/></a>
 				&nbsp;
-				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/lang/it/".str_replace(".php",".html",basename(__FILE__)); ?>"> <img src="../images/flags/italian_flag.jpg" alt="<?php echo ITALIAN_FLAG_IMAGE_ALT; ?>"/></a>
+				<a href="http://darwinne.github.io/FidoCadJ/lang/it/examples.html"> <img src="../images/flags/italian_flag.jpg" alt="<br />
+<b>Notice</b>:  Use of undefined constant ITALIAN_FLAG_IMAGE_ALT - assumed 'ITALIAN_FLAG_IMAGE_ALT' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>52</b><br />
+ITALIAN_FLAG_IMAGE_ALT"/></a>
 		</header>
 
 		<div id="content">
-			<h3><?php echo FIRST_LINE; ?></h3>
+			<h3><br />
+<b>Notice</b>:  Use of undefined constant FIRST_LINE - assumed 'FIRST_LINE' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>56</b><br />
+FIRST_LINE</h3>
 			<table>
 				<tr>
 					<td  align="center">
-						<a href="examples/differential_amplifier.png"><img src="http://darwinne.github.io/FidoCadJ/examples/differential_amplifier.png" alt="<?php echo IMAGE_ALT_1; ?>" width="60%"></a>
+						<a href="examples/differential_amplifier.png"><img src="http://darwinne.github.io/FidoCadJ/examples/differential_amplifier.png" alt="<br />
+<b>Notice</b>:  Use of undefined constant IMAGE_ALT_1 - assumed 'IMAGE_ALT_1' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>60</b><br />
+IMAGE_ALT_1" width="60%"></a>
 					</td>
 					<td>
 						<div class="code">
@@ -237,7 +269,9 @@ SA 205 50 0
 
 			<tr>
 				<td  align="center">
-					<a href="examples/nixie_clock.png"><img src="http://darwinne.github.io/FidoCadJ/examples/nixie_clock.png" width="60%" alt="<?php echo IMAGE_ALT_2; ?>"></a>
+					<a href="examples/nixie_clock.png"><img src="http://darwinne.github.io/FidoCadJ/examples/nixie_clock.png" width="60%" alt="<br />
+<b>Notice</b>:  Use of undefined constant IMAGE_ALT_2 - assumed 'IMAGE_ALT_2' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>240</b><br />
+IMAGE_ALT_2"></a>
 				</td>
 				<td>
 					<div class="code">
@@ -1007,14 +1041,19 @@ TY 70 225 14 8 0 0 3 * C12
 
 			<br>
 
-			<p><?php echo EXAMPLES_PAGE_UPDATE_DATE; ?>	</p><br>
+			<p>29.03.2016	</p><br>
 		</div>
 <!-- end of content -->
 		<footer>
-			<h3><?php echo FOOTER_TITLE; ?></h3>
+			<h3><br />
+<b>Notice</b>:  Use of undefined constant FOOTER_TITLE - assumed 'FOOTER_TITLE' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>1014</b><br />
+FOOTER_TITLE</h3>
 			<img id="gplv3_logo" src="http://darwinne.github.io/FidoCadJ/images/logos/gplv3-127x51.png" alt="GPL v. 3">
-			<p id="license"><?php echo FOOTER_CONTENT; ?></p>
+			<p id="license"><br />
+<b>Notice</b>:  Use of undefined constant FOOTER_CONTENT - assumed 'FOOTER_CONTENT' in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>1016</b><br />
+FOOTER_CONTENT</p>
 		</footer>
 	</body>
 </html>
-<?php file_put_contents("php_to_html_output/".$_GET['lang']."/".str_replace(".php",".html",basename(__FILE__)), ob_get_clean()); ?>
+<br />
+<b>Notice</b>:  Undefined index: lang in <b>U:\area_53\htdocs\FidoCadJ\multilanguage_tool\examples.php</b> on line <b>1020</b><br />

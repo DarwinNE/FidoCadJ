@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <?php
 	switch($_GET['lang']){
 		case "it":
@@ -109,3 +110,4 @@
 		</footer>
 	</body>
 </html>
+<?php file_put_contents("php_to_html_output/".$_GET['lang']."/".str_replace(".php",".html",basename(__FILE__)), ob_get_clean()); ?>
