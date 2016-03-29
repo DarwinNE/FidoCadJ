@@ -282,7 +282,6 @@ public class ParserActions
             // Actual line number. This is useful to indicate where errors are.
             int lineNum=1;
 
-
             j=0;
             token.setLength(0);
             len=s.length();
@@ -293,12 +292,6 @@ public class ParserActions
 
             for(i=0; i<len;++i){
                 c=s.charAt(i);
-                /*
-                System.out.print("\u001B[31m");
-                System.out.print(c);
-                System.out.print("\u001B[0m");
-                */
-
                 if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
                     if(i==len-1 && c!='\n' && c!=' '){
                         token.append(c);
@@ -310,13 +303,11 @@ public class ParserActions
 
                     try{
                         // When we enter here, we have tokenized the current
-                        // line
-                        // and we kept in memory also the previous one.
+                        // line and we kept in memory also the previous one.
 
                         // The first possibility is that the current line does
-                        // not
-                        // contain a FCJ modifier. In this case, process the
-                        // previous line since we have all the information
+                        // not contain a FCJ modifier. In this case, process 
+                        // the previous line since we have all the information
                         // needed
                         // for doing that.
 

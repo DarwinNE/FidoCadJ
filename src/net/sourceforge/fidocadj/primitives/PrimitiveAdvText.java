@@ -44,10 +44,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
     private boolean recalcSize;
 
-    /* Text style patterns */
+    // Text style patterns
     static final int TEXT_BOLD=1;
     static final int TEXT_MIRRORED=4;
     static final int TEXT_ITALIC=2;
+
+    // Maximum and minimum size allowed for the text.
+    static final int MAXSIZE=2000;
+    static final int MINSIZE=1;
 
     // A text is defined by one point.
     static final int N_POINTS=1;
@@ -268,8 +272,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
             virtualPoint[0].x=Integer.parseInt(tokens[1]);
             virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            siy=Integer.parseInt(tokens[3]);
-            six=Integer.parseInt(tokens[4]);
+            // We may accept non-integer data in the future.
+            siy=(int)Math.round(Double.parseDouble(tokens[3]));
+            six=(int)Math.round(Double.parseDouble(tokens[4]));
+            checkSizes();
             o=Integer.parseInt(tokens[5]);
             sty=Integer.parseInt(tokens[6]);
             parseLayer(tokens[7]);
@@ -322,6 +328,22 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                                           " programming error?");
             throw E;
         }
+    }
+
+    /** Check and correct if necessary the text size range.
+    */
+    public void checkSizes()
+    {
+        // Safety checks!
+        if(siy<MINSIZE)
+            siy=MINSIZE;
+        if(six<MINSIZE)
+            six=MINSIZE;
+
+        if(siy>MAXSIZE)
+            siy=MAXSIZE;
+        if(six>MAXSIZE)
+            six=MAXSIZE;
     }
 
     /** Gets the distance (in primitive's coordinates space) between a
@@ -566,6 +588,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             fontName = ((FontG)pd.parameter).getFamily();
         else
             System.out.println("Warning: unexpected parameter!"+pd);
+        
+        checkSizes();
         return i;
     }
 
