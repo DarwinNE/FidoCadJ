@@ -7,8 +7,11 @@ Version 0.24.6
 - Corrected Issue #63 (Problematic code with wrong layer number).
 - Hand pan function is now more traditional (Issue #25).
 - Corrected Issue #21 (Color error in EPS format).
-- The "strict compatibility with FidoCAD" mode is automatically disabled each time the program is restarted.
+- The "strict compatibility with FidoCAD" mode is automatically disabled each time the program is restarted (Issue #75).
 - PCB lines can have a noninteger width.
+- Corrected Issue #78 (Negative arrow length).
+- Corrected Issue #77 (Text with negative size).
+- Corrected Issue #76 (Geometric shapes invisible in some cases).
 
 Version 0.24.5
 --------------
