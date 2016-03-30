@@ -5,7 +5,7 @@ echo "<p>Several pages may be open on your browser during the process</p>";
 foreach (glob("*.*") as $filename) {
   if($filename != "config.php" and $filename != "update_page_content.php"){
     echo $filename." - english<br />";
-    echo '<iframe src="'.$filename.'?lang=en" height="3%" width="25%" ></iframe><br />'; //rendering of italian pages
+    echo '<iframe src="'.$filename.'?lang=en" height="3%" width="25%" ></iframe><br />'; //rendering of english pages
     echo $filename." - italian<br />";
     echo '<iframe src="'.$filename.'?lang=it" height="3%" width="25%" ></iframe><br />'; //rendering of italian pages
   }
