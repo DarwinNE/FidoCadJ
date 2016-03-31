@@ -43,7 +43,7 @@ public class Graphics2DSwing implements GraphicsInterface
     // Here are some other local variables made global for avoiding memory
     // allocations (used in drawGrid).
     private BufferedImage bufferedImage; // Useful for grid calculation
-    private double oldZoom;
+    private double oldZoom;              // TODO: maybe the same as actualZoom?
     private TexturePaint tp;
     private int width;
     private int height;
@@ -151,6 +151,10 @@ public class Graphics2DSwing implements GraphicsInterface
 
     }
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
     public void setZoom(double z)
     {
         zoom=z;

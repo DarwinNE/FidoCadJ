@@ -1,3 +1,2 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:41: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
 Audit done.

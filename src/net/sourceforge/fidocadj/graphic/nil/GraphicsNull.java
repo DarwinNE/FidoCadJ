@@ -71,6 +71,10 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
     public void setZoom(double z)
     {
         // nothing to do

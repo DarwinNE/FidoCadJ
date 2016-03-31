@@ -588,7 +588,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             fontName = ((FontG)pd.parameter).getFamily();
         else
             System.out.println("Warning: unexpected parameter!"+pd);
-        
+
         checkSizes();
         return i;
     }

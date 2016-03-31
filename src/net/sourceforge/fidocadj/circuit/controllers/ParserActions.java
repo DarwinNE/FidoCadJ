@@ -306,7 +306,7 @@ public class ParserActions
                         // line and we kept in memory also the previous one.
 
                         // The first possibility is that the current line does
-                        // not contain a FCJ modifier. In this case, process 
+                        // not contain a FCJ modifier. In this case, process
                         // the previous line since we have all the information
                         // needed
                         // for doing that.
