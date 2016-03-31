@@ -32,6 +32,12 @@ public interface GraphicsInterface
     */
     public ColorInterface getColor();
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z);
+
     /** Set the current color.
         @param c the current color.
     */

@@ -71,6 +71,15 @@ public class GraphicsAndroid implements GraphicsInterface
         actual_dash = 0;
     }
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z)
+    {
+        // TODO: implement this.
+    }
+
     /** Set the current drawing color.
         @param c the color to be used. It must be an instance of ColorAndroid
         in this context.

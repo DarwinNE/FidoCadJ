@@ -51,6 +51,9 @@ public class Graphics2DSwing implements GraphicsInterface
     private BasicStroke[] strokeList;
     private float actual_w;
 
+    private double zoom;
+    private double actualZoom;
+
     private AffineTransform at;
     private AffineTransform stretching;
     private AffineTransform ats;
@@ -66,6 +69,8 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=gg;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
         /* Is that useful??? */
         g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
@@ -79,6 +84,8 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=(Graphics2D)gg;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
         /* Is that useful??? */
         g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
@@ -94,6 +101,8 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=null;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
     }
 
     /** Retrieves or create a BasicStroke object having the wanted with and
@@ -103,7 +112,7 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public void applyStroke(float w, int dashStyle)
     {
-        if (w!=actual_w && w>0) {
+        if (w!=actual_w && w>0 || zoom!=actualZoom) {
             strokeList = new BasicStroke[Globals.dashNumber];
 
             // If the line width has been changed, we need to update the
@@ -112,14 +121,23 @@ public class Graphics2DSwing implements GraphicsInterface
             // The first entry is non dashed
             strokeList[0]=new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND);
-            // Then, the dashed stroke styles are created
+            // Resize the dash sizes depending on the current zoom size.
+            float[] dashArrayStretched;
+            // Then, the dashed stroke styles are created.
+            if(zoom<1.0) zoom=1.0;
             for(int i=1; i<Globals.dashNumber; ++i) {
+                // Prepare the resized dash array.
+                dashArrayStretched = new float[Globals.dash[i].length];
+                for(int j=0; j<Globals.dash[i].length;++j) {
+                    dashArrayStretched[j]=Globals.dash[i][j]*(float)zoom/2.0f;
+                }
                 strokeList[i]=new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND,
-                    10.0f, Globals.dash[i],
+                    (float)(10.0f*zoom), dashArrayStretched,
                     0.0f);
             }
             actual_w=w;
+            actualZoom=zoom;
         }
 
         // Here we retrieve the stroke style corresponding to the given
@@ -131,6 +149,11 @@ public class Graphics2DSwing implements GraphicsInterface
         if(!stroke.equals(g.getStroke()))
             g.setStroke(stroke);
 
+    }
+
+    public void setZoom(double z)
+    {
+        zoom=z;
     }
 
     /** This is a Swing-related method: it sets the current graphic context

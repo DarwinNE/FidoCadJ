@@ -46,6 +46,15 @@ public class GraphicsNull implements GraphicsInterface
         paint = new Paint();
     }
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z)
+    {
+        // Nothing to do
+    }
+
     /** Set the current color.
         @param c the current color.
     */

@@ -71,6 +71,11 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    public void setZoom(double z)
+    {
+        // nothing to do
+    }
+
     /** Get the current color.
         @return the current color.
     */
