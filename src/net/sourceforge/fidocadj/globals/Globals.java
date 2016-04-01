@@ -160,7 +160,11 @@ public class Globals
             // The order of the OK and Cancel buttons differs in Windows and
             // MacOSX. How about the most common Window Managers in Linux?
             okCancelWinOrder = false;
-
+        } else (System.getProperty("os.name").startsWith("Win")) { 
+            // This solves the bug #3076513
+            okCancelWinOrder = true;
+            useNativeFileDialogs=true;
+            shortcutKey=ctrlCode;
         } else {
             // This solves the bug #3076513
             okCancelWinOrder = true;
