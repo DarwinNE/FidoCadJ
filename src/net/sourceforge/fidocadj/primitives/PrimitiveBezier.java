@@ -293,10 +293,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         // Check if there are arrows to be drawn and eventually draw them.
         if (arrowStart || arrowEnd) {
-            int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                coordSys.mapXi(0,0, false);
-            int l=coordSys.mapXi(arrowLength,arrowLength,false)-
-                coordSys.mapXi(0,0, false);
+            // Height and width of the arrows in pixels
+            int h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+                    coordSys.mapXi(0,0, false));
+            int l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+                    coordSys.mapXi(0,0,false));
+            // h and l must conserve the sign of arrowHalfWidth and
+            // arrowLength, regardless of the coordinate system
+            // orientation.
+            if(arrowHalfWidth<0) h=-h;
+            if(arrowLength<0) l=-l;
 
             if (arrowStart)
                 drawArrow(g, coordSys, 0,1,2,3, l, h);

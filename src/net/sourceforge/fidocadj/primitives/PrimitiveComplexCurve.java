@@ -610,10 +610,16 @@ public final class PrimitiveComplexCurve
 
         // Draw the arrows if they are needed
         if (arrowStart || arrowEnd) {
-            int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                coordSys.mapXi(0,0, false);
-            int l=coordSys.mapXi(arrowLength,arrowLength,false)-
-                coordSys.mapXi(0,0, false);
+            // Height and width of the arrows in pixels
+            int h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+                    coordSys.mapXi(0,0, false));
+            int l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+                    coordSys.mapXi(0,0,false));
+            // h and l must conserve the sign of arrowHalfWidth and
+            // arrowLength, regardless of the coordinate system
+            // orientation.
+            if(arrowHalfWidth<0) h=-h;
+            if(arrowLength<0) l=-l;
 
             if (arrowStart&&!isClosed) {
                 Arrow.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],

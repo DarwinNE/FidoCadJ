@@ -271,7 +271,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
             if (w<D_MIN) w=D_MIN;
 
-            // Calculate the length in pixel.
+            // Calculate the square of the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
 
             arrows = arrowStart || arrowEnd;
@@ -281,10 +281,16 @@ public final class PrimitiveLine extends GraphicPrimitive
             // rectangle if necessary to take into account the arrow heads
             if (arrows) {
                 // Heigth and width of the arrows in pixels
-                h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                    coordSys.mapXi(0,0, false);
-                l=coordSys.mapXi(arrowLength,arrowLength, false)-
-                    coordSys.mapXi(0,0,false);
+                h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+                    coordSys.mapXi(0,0, false));
+                l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+                    coordSys.mapXi(0,0,false));
+                // h and l must conserve the sign of arrowHalfWidth and
+                // arrowLength, regardless of the coordinate system
+                // orientation.
+                if(arrowHalfWidth<0) h=-h;
+                if(arrowLength<0) l=-l;
+
                 xa -= Math.abs(h);
                 ya -= Math.abs(h);
                 xb += Math.abs(h);

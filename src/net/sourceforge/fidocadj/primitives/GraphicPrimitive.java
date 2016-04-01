@@ -719,6 +719,8 @@ public abstract class GraphicPrimitive
         // modified.
 
         if(old_layer != layer || changed) {
+            if(layer>=layerV.size())
+                layer=layerV.size()-1;
             currentLayer= (LayerDesc)layerV.get(layer);
             old_layer = layer;
         }

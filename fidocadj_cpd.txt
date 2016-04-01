@@ -1,6 +1,6 @@
 Found a 91 line (361 tokens) duplication in the following files: 
-Starting at line 203 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 228 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 208 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 225 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
             IOException E=new IOException("EV/EP: Invalid primitive:"+tokens[0]+
                                           " programming error?");
@@ -165,7 +165,7 @@ Starting at line 122 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 50 line (294 tokens) duplication in the following files: 
 Starting at line 188 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 795 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 808 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
@@ -219,9 +219,9 @@ Starting at line 795 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
 =====================================================================
 Found a 85 line (269 tokens) duplication in the following files: 
-Starting at line 203 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 208 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 372 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
-Starting at line 228 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 225 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
             IOException E=new IOException("EV/EP: Invalid primitive:"+tokens[0]+
                                           " programming error?");
@@ -311,7 +311,7 @@ Starting at line 228 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
 =====================================================================
 Found a 50 line (268 tokens) duplication in the following files: 
 Starting at line 139 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 730 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 743 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 132 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 
         ParameterDescription pd = new ParameterDescription();
@@ -411,7 +411,7 @@ Starting at line 396 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             public void actionPerformed(ActionEvent evt)
             {
 =====================================================================
-Found a 56 line (228 tokens) duplication in the following files: 
+Found a 55 line (228 tokens) duplication in the following files: 
 Starting at line 188 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
@@ -420,7 +420,6 @@ Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         // ...then we do the swap
 
         int dummy;
-
 
         for(int i=nPoints-1; i>minv; --i) {
             virtualPoint[i].x=virtualPoint[i-1].x;
@@ -701,7 +700,7 @@ Starting at line 108 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             }
 =====================================================================
 Found a 55 line (174 tokens) duplication in the following files: 
-Starting at line 464 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 463 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 95 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
 
     }
@@ -829,8 +828,8 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[15].length())+
 =====================================================================
 Found a 15 line (144 tokens) duplication in the following files: 
-Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 204 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 186 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 201 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
                 IOException E=new IOException("bad arguments on EV/EP");
                 throw E;
@@ -895,9 +894,9 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[14].length())+
 =====================================================================
 Found a 21 line (137 tokens) duplication in the following files: 
-Starting at line 346 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 204 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 343 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 186 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 201 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
                 IOException E=new IOException("bad arguments on LI");
                 throw E;
@@ -922,10 +921,10 @@ Starting at line 204 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             if(N>6 && tokens[6].equals("FCJ")) {
 =====================================================================
 Found a 35 line (133 tokens) duplication in the following files: 
-Starting at line 756 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 225 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 769 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 230 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 392 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
-Starting at line 246 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 243 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
         v.add(pd);
 
@@ -964,8 +963,8 @@ Starting at line 246 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         if (pd.parameter instanceof Boolean)
 =====================================================================
 Found a 27 line (133 tokens) duplication in the following files: 
-Starting at line 316 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 335 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 321 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 332 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
         cmd+=virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
@@ -1278,10 +1277,10 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[12].length())+
 =====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
-Starting at line 346 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 343 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 186 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 170 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
-Starting at line 204 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 201 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
                 IOException E=new IOException("bad arguments on LI");
                 throw E;
@@ -1355,8 +1354,8 @@ Starting at line 141 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
         int d;
 =====================================================================
 Found a 25 line (115 tokens) duplication in the following files: 
-Starting at line 342 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 361 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+Starting at line 347 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 358 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
         exp.exportOval(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
                        cs.mapY(virtualPoint[0].x,virtualPoint[0].y),
@@ -1428,7 +1427,7 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[11].length())+
 =====================================================================
 Found a 37 line (113 tokens) duplication in the following files: 
-Starting at line 917 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
+Starting at line 919 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java
 Starting at line 596 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java
 
         v.add(pd);
@@ -1758,9 +1757,9 @@ Starting at line 687 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/source
             obj_PDF[10].length())+
 =====================================================================
 Found a 15 line (100 tokens) duplication in the following files: 
-Starting at line 384 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
-Starting at line 401 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
-Starting at line 417 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 375 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 392 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 408 of /Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
 
                                 g=new PrimitiveRectangle(macroFont,
                                     macroFontSize);

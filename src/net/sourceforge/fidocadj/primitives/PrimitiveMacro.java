@@ -45,8 +45,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
     static final int N_POINTS=3;
     private final Map<String, MacroDesc> library;
     private final Vector<LayerDesc> layers;
-    private int o;
-    private boolean m;
+    private int o;              // Macro orientation
+    private boolean m;          // Macro mirroring
     private boolean drawOnlyPads;
     private int drawOnlyLayer;
     private boolean alreadyExported;
