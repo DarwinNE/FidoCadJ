@@ -395,8 +395,11 @@ public class PrintTools implements Printable
                      "B/W",((LayerDesc)ol.get(i)).getAlpha()));
             cc.dmp.setLayers(v);
         }
+        Graphics2DSwing graphicSwing = new Graphics2DSwing(g2d);
+        // This is important for taking into account the dashing size
+        graphicSwing.setZoom(m.getXMagnitude());
         // Now we perform our rendering
-        cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
+        cc.drawingAgent.draw(graphicSwing, m);
         if(currentLayerSelected>=0) {
             cc.dmp.setDrawOnlyPads(true);
             cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);

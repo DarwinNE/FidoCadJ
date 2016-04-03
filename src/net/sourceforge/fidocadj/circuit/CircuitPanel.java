@@ -477,6 +477,7 @@ public class CircuitPanel extends JPanel implements
 
         // The standard color is black.
         g.setColor(Color.black);
+        // This is important for taking into account the dashing size
         graphicSwing.setZoom(cs.getXMagnitude());
 
         // Draw all the elements of the drawing.

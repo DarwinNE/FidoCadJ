@@ -141,7 +141,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         int shadowShiftY=4;
 
         double baseline=getWidth()*0.6;
-        if(Math.abs(oldBaseline-baseline)>1e5)
+        if(Math.abs(oldBaseline-baseline)>1e5)    /// ??? 1e-5 I would say!!!
             updatePreview();
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
