@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <?php
 	switch($_GET['lang']){
 		case "it":
@@ -46,6 +47,10 @@
 				<b class="mainmenu">[<?php echo FAQ_BUTTON; ?>]</b>
 				&nbsp;
 				<a href="examples.html" class="mainmenu">[<?php echo EXAMPLES_BUTTON; ?>]</a>
+				&nbsp;
+				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/".str_replace(".php",".html",basename(__FILE__)); ?>"><img src="http://darwinne.github.io/FidoCadJ/images/flags/english_flag.jpg" alt="<?php echo ENGLISH_FLAG_IMAGE_ALT; ?>"/></a>
+				&nbsp;
+				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/lang/it/".str_replace(".php",".html",basename(__FILE__)); ?>"> <img src="http://darwinne.github.io/FidoCadJ/images/flags/italian_flag.jpg" alt="<?php echo ITALIAN_FLAG_IMAGE_ALT; ?>"/></a>
 		</header>
 
 		<div id="content">
@@ -103,3 +108,4 @@
 		</footer>
 	</body>
 </html>
+<?php file_put_contents("php_to_html_output/".$_GET['lang']."/".str_replace(".php",".html",basename(__FILE__)), ob_get_clean()); ?>
