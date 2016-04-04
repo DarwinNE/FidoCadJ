@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.layers.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -75,9 +75,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.addItem("1000%");
         zoom.addItem("1500%");
         zoom.addItem("2000%");
-        zoom.setPreferredSize(new Dimension (80,29));
-        zoom.setMaximumSize(new Dimension (80,38));
-        zoom.setMinimumSize(new Dimension (80,18));
+        zoom.setPreferredSize(new Dimension (100,29));
+        zoom.setMaximumSize(new Dimension (100,38));
+        zoom.setMinimumSize(new Dimension (100,18));
 
         /* Commented the following line due to this remark:
             http://www.electroyou.it/phpBB2/viewtopic.php?f=4&
