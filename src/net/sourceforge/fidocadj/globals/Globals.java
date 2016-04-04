@@ -87,7 +87,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.6 delta";
+    public static final String version = "0.24.6 epsilon";
     // Is it a beta version?
     public static final boolean isBeta = true;
 
@@ -160,7 +160,7 @@ public class Globals
             // The order of the OK and Cancel buttons differs in Windows and
             // MacOSX. How about the most common Window Managers in Linux?
             okCancelWinOrder = false;
-        } else if (System.getProperty("os.name").startsWith("Win")) { 
+        } else if (System.getProperty("os.name").startsWith("Win")) {
             // This solves the bug #3076513
             okCancelWinOrder = true;
             useNativeFileDialogs=true;

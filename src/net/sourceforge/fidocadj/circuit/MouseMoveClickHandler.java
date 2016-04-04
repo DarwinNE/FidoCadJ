@@ -164,7 +164,9 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             return;
         }
 
-        haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates());
+        haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates(),
+            (evt.getModifiers() & ActionEvent.CTRL_MASK)==
+            ActionEvent.CTRL_MASK);
         // A little profiling if necessary. I noticed that time needed for
         // handling clicks is not negligible in large drawings, hence the
         // need of controlling it.
