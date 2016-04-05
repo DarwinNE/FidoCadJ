@@ -1,6 +1,2 @@
 Starting audit...
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:325: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:163: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:325: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
-/Users/davidebucci/Desktop/Perso/FidoCadJ/src/net/sourceforge/fidocadj/globals/Globals.java:163: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
 Audit done.

@@ -12,6 +12,9 @@ Version 0.24.6
 - Corrected Issue #78 (Negative arrow length).
 - Corrected Issue #77 (Text with negative size).
 - Corrected Issue #76 (Geometric shapes invisible in some cases).
+- Corrected Issue #81 (Dashed lines not rendered correctly in some cases).
+- Native file dialogs on Windows (Issue #82).
+- Corrected Issue #88 (Missing 1° caracter on Zoom field).
 
 Version 0.24.5
 --------------
