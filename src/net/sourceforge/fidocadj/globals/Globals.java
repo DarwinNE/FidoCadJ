@@ -87,9 +87,9 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.6 epsilon";
+    public static final String version = "0.24.6";
     // Is it a beta version?
-    public static final boolean isBeta = true;
+    public static final boolean isBeta = false;
 
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";
@@ -163,7 +163,6 @@ public class Globals
         } else if (System.getProperty("os.name").startsWith("Win")) {
             // This solves the bug #3076513
             okCancelWinOrder = true;
-            useNativeFileDialogs=true;
             shortcutKey=ctrlCode;
         } else {
             // This solves the bug #3076513
