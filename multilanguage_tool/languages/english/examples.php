@@ -2,7 +2,7 @@
 //this file contains the definitions of text included in scrn.html page
 
 //HEAD
-define("META_DESCRIPTION","Examples of FidoCadJ code and capabilities. Draw electrical stuffs from the schema to the pcb footprint. The FidoCadJ file format is easy to use and very light."); //page meta tag description
+define("META_DESCRIPTION","Examples of FidoCadJ code and capabilities. Schematic capture and simple pcb editing. The FidoCadJ file format is light and easy to use."); //page meta tag description
 define("PAGE_TITLE","FidoCadJ Examples"); //page title attribute
 
 //CONTENT
