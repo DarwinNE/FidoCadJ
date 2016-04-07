@@ -2,7 +2,7 @@
 //this file contains the definitions of page download.php
 
 //description attribute of the download page
-define("DOWNLOAD_PAGE_DESCRIPTION", "Download FidoCadJ for absolutely free. No registration is request. Available for Windows, MacOSX, Linux and Android. Join us in the developement on GitHub!");
+define("DOWNLOAD_PAGE_DESCRIPTION", "Download FidoCadJ for free. No registration is requested. Available for Windows, MacOSX, Linux and Android. Join us in the developement on GitHub!");
 
 //title attribute of the download page
 define("TITLE_PAGE_DESCRIPTION", "FidoCadJ Download");

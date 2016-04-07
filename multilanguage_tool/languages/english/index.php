@@ -34,7 +34,7 @@ define("LIST_2_ELEMENT_3","Screenshots.");
 
 define("SUB_TITLE_2","Did you like it? Get involved"); //SECOND SUB TITLE
 
-define("PARAGRAPH_1","Give us your feedback about FidoCadJ! <a href='https://sourceforge.net/projects/fidocadj/'>Write a review on Sourceforge</a>, or participate to <a href='https://sourceforge.net/p/fidocadj/discussion/997486'>the forums</a>.
+define("PARAGRAPH_1","Give us your feedback about FidoCadJ!
 <b>If you are happy, tell your friends :-)</b> If you spot a typo in the documentation, you want to improve it, or if you are a Java developer, <a href='https://sourceforge.net/p/fidocadj/discussion/997486'>contact us.</a>"); //FIRST PARAGRAPH
 
 define("PARAGRAPH_2","Follow the FidoCadJ development on Twitter: <a href='https://twitter.com/davbucci'>@davbucci</a>'"); //SECOND PARAGRAPH
