@@ -37,11 +37,11 @@
 				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 				<a href="index.html" class="mainmenu">[<?php echo HOME_BUTTON; ?>]</a>
 				&nbsp;
-				<a class="mainmenu">[<?php echo DOWNLOAD_BUTTON; ?>]</a>
+				<a href="download.html" class="mainmenu">[<?php echo DOWNLOAD_BUTTON; ?>]</a>
 				&nbsp;
 				<a href="scrn.html" class="mainmenu">[<?php echo SCREENSHOTS_BUTTON; ?>]</a>
 				&nbsp;
-				<b href="libs.html" class="mainmenu">[<?php echo LIBRARIES_BUTTON; ?>]</b>
+				<b class="mainmenu">[<?php echo LIBRARIES_BUTTON; ?>]</b>
 				&nbsp;
 				<a href="faq.html" class="mainmenu">[<?php echo FAQ_BUTTON; ?>]</a>
 				&nbsp;
