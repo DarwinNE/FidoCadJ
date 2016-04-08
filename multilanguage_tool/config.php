@@ -5,7 +5,7 @@
 //FidoCadJ download links
 define ("MAC_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg");
 define ("WINDOWS_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi");
-define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar");
+define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar");
 define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download");
 
 //FidoCadJ current version (which is ready to distribute)
@@ -22,12 +22,12 @@ define ("JAVA_VERSION_REQUIRED_OLD_VERSION", "1.5");
 
 //last editing per page (will appear at the end of each page)
 //USE FORMAT MM/DD/YY
-define ("INDEX_PAGE_UPDATE_DATE", "29.03.2016");
-define ("DOWNLOAD_PAGE_UPDATE_DATE", "29.03.2016");
-define ("SCREEN_SHOTS_PAGE_UPDATE_DATE", "29.03.2016");
-define ("LIBRARIES_PAGE_UPDATE_DATE", "29.03.2016");
-define ("FAQ_PAGE_UPDATE_DATE", "29.03.2016");
-define ("EXAMPLES_PAGE_UPDATE_DATE", "29.03.2016");
+define ("INDEX_PAGE_UPDATE_DATE", "7.04.2016");
+define ("DOWNLOAD_PAGE_UPDATE_DATE", "7.04.2016");
+define ("SCREEN_SHOTS_PAGE_UPDATE_DATE", "7.04.2016");
+define ("LIBRARIES_PAGE_UPDATE_DATE", "7.04.2016");
+define ("FAQ_PAGE_UPDATE_DATE", "7.04.2016");
+define ("EXAMPLES_PAGE_UPDATE_DATE", "7.04.2016");
 
 
  ?>

@@ -20,7 +20,7 @@ define("OTHER_VERSIONS_TEXT","Ho bisogno di un'altra versione"); //DOWNLOAD LINK
 
 //ELEMENTS OF THE FIRST LIST IN INDEX.HTML
 define("LIST_1_ELEMENT_1","Un semplice editor per schemi elettronici comprensivo di simboli;");
-define("LIST_1_ELEMENT_2","Un edtor versatile per la grafica con librerie definibili dall'utente;");
+define("LIST_1_ELEMENT_2","Un editor versatile per la grafica con librerie definibili dall'utente;");
 define("LIST_1_ELEMENT_3","Un formato semplice da condividere sul web, sui forum e nei blog;");
 define("LIST_1_ELEMENT_4","Puoi esportare in diversi formati grafici: PDF, EPS, SVG, PNG, JPG, e PGF/TikZ per LaTeX;");
 define("LIST_1_ELEMENT_5","Le lingue supportate sono: inglese, francese, italiano, tedesco, cinese, spagnolo, ceco, giapponese e olandese;");
@@ -36,7 +36,7 @@ define("LIST_2_ELEMENT_3","Schermate del software.");
 
 define("SUB_TITLE_2","Ti è piaciuto? Entra nella squadra"); //SECOND SUB TITLE
 
-define("PARAGRAPH_1","Facci sapere cosa ne pensi di FidoCadJ <a href='https://sourceforge.net/projects/fidocadj/'>Scrivi una recensione su Sourceforge</a>, o partecipa ai <a href='https://sourceforge.net/p/fidocadj/discussion/997486'>forum</a>.
+define("PARAGRAPH_1","Facci sapere cosa ne pensi di FidoCadJ.
 <b>Se sei soddisfatto, consiglialo agli amici :-)</b> Se hai trovato un errore nella documentazione, se vuoi migliorare il software, o sei uno sviluppatore Java, <a href='https://sourceforge.net/p/fidocadj/discussion/997486'>Contattaci.</a>"); //FIRST PARAGRAPH
 
 define("PARAGRAPH_2","Segui lo sviluppo di FidoCadJ su Twitter: <a href='https://twitter.com/davbucci'>@davbucci</a>"); //SECOND PARAGRAPH
