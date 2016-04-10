@@ -11,8 +11,8 @@
 
 % Smaller italic font for marginpars
 \let\oldmarginpar\marginpar
-\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize\it #1]%
-{\raggedright\footnotesize\it #1}}
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize\normalfont \itshape #1]%
+{\raggedright\footnotesize\normalfont \itshape #1}}
 
 \usepackage{pgf}
 \usepackage{hyperref}
@@ -126,7 +126,7 @@ very simple electronic schematics and their printed circuit boards.
 The manual will end with a detailed description of the FidoCadJ (and
 thus FidoCAD) format. Finally, we will give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
 
-This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the development aspects.
+This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the development aspects. However, you must need to know pretty well the contents of this manual if you want to participate to the development of the software.
 \endgroup
 
 
@@ -149,7 +149,7 @@ CadSoft Eagle\index{Eagle} compatibility library, useful to export
 FidoCadJ drawings to Eagle. Many thanks to ``Celsius'', who tested
 the software functionalities for PCB realization, as well as its libraries.
 Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
-aspect on the Apple Macintosh, since version 0.21.1. I would like to thank 
+aspect on the Apple Macintosh. I would like to thank 
 Roby IZ1CYN for the useful discussions about libraries and for having written 
 section~\ref{installazione_linux} of this manual, dealing with the Linux\index{Linux} 
 installation.
@@ -167,7 +167,7 @@ Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Bagg
 
 \pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
 
-Copyright \copyright\ 2007-2015 the FidoCadJ development team. 
+Copyright \copyright\ 2007-2016 the FidoCadJ development team. 
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -225,7 +225,7 @@ I thus decided to give a small contribution to the community
 by writing FidoCadJ (with the final J, this time). This editor is
 written in pure Java\index{Java} and it is completely multi-platform.
 FidoCadJ allows showing and modifying a drawing using the FidoCAD\index{FidoCAD}
-file format. Nowadays, I am fortunately not alone and FidoCadJ is a full-fledged Open Source project, with contributions coming from all over the world.
+file format. Nowadays, I am fortunately not alone and FidoCadJ is a full-fledged and successful Open Source project, with contributions coming from all over the world.
 
 Whoever used FidoCAD\index{FidoCAD} in the past should become acquainted
 with FidoCadJ very quickly, since many commands and procedures are
@@ -248,7 +248,7 @@ I do not use Windows, it was almost impossible
 for me to look at them and I wanted to try to do something to solve
 this problem. \marginpar{By the way, I think that it is better to
 work at a solution rather claim that an operating system different
-from Windows lacks in software}
+from Windows lacks in software.}
 
 The first thing I did was to study the file format used by FidoCAD\index{FidoCAD}
 and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ},
@@ -278,16 +278,16 @@ appeal to me anymore. The effort of learning the Cocoa framework would
 have probably given a better result on MacOSX, but it would have
 made FidoCadJ completely non-portable. I am not a computer guy. The
 time I spend to program is time taken away from my electronics interests.
-In fact, a simple analysis of the FidoCadJ code source shows that
+In fact, the FidoCadJ code source shows that
 I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
-purist and I am sure that several solutions could be found that are
-more practical than elegant. However, the overall code quality has been appreciated by feedbacks I received and FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}.
+purist and I am sure that several solutions are
+more practical than elegant. However, the overall code quality has been appreciated by feedbacks I received and FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
 
 What matters is the end user impressions while using the program,
 more than the choice of a particular language. For this reason, I
 am always listening to your suggestions, in order to understand how
-to further develop this project. To summarize, I am aware that Java\index{Java}
-is not the perfect choice or the solution to every problem. However
+to further develop this project. Java\index{Java}
+may not the perfect choice or the solution to every problem. However
 I am sure that its bad name derives mostly from badly written applications
 which are not very well integrated with the user desktop.
 
@@ -298,11 +298,10 @@ my intent is to make sure that FidoCadJ will NOT be another poor quality
 application. For this reason any bug report or comment on the program's
 usability will be more than welcome.
 
-Since november 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. 
-From this page, you could download all executables, manuals as well as the source code. You could actively participate to FidoCadJ development working on the source code using Subversion (SVN).
-A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment.
+In November 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. 
+From this page, you could download all executables, manuals as well as the source code. Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015 the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub\index{GitHub}. From August 2015, the development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the code. 
 
-Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015 the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub. Nowadays, the development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the code. 
+A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014, then gradually continued in 2015. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment.
 
 If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the 
 manuals in a new language, check carefully the existing manuals for inconsistencies, typos and
@@ -382,8 +381,6 @@ specific for Macintosh\index{Macintosh}. More recent versions provide the quick 
 \label{fig_metal} 
 \end{figure}
 
-
-
 \section{Drawing Tools}
 
 In the toolbar\index{toolbar} (on the top of the window), we can
@@ -458,9 +455,9 @@ to terminate the insertion of new vertices.\tabularnewline
 Open or closed natural cubic spline curve. Double click or press \keyevidence{Esc},  to terminate the insertion of new vertices.\tabularnewline
 
 \keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
-\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} or \keyevidence{Command} with MacOSX for a circle). \tabularnewline
+\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in MacOSX for a circle). \tabularnewline
 \keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
-\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty (hold \keyevidence{Control} or \keyevidence{Command} with MacOSX  for a square). \tabularnewline
+\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in MacOSX  for a square). \tabularnewline
 \keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
 \textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
 \keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
@@ -958,7 +955,7 @@ RV 30 5 320 255 3
 \end{lstlisting} 
 
 \section{Using the ruler}\index{ruler}
-When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a card. FidoCadJ offers (from version 0.23.2) a ruler feature which allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not used in your operating system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
+When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a card. FidoCadJ offers (since version 0.23.2) a ruler feature which allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not used in your operating system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_righello}
 \caption{Right click and drag to activate the FidoCadJ ruler.}
@@ -1104,9 +1101,9 @@ Option \lstinline!-h! shows a listing of the FidoCadJ options:
 \lstset{language={},basicstyle=\scriptsize\ttfamily}
          
 \begin{lstlisting}
-[davidebucci@davide-bucci-portable-2]$ java -jar fidocadj.jar -h
+[davidebucci@davide-bucci-portable]$ java -jar fidocadj.jar -h
 
-This is FidoCadJ, version 0.24.5.
+This is FidoCadJ, version 0.24.6.
 By Davide Bucci, 2007-2014.
 
 Use: java -jar fidocadj.jar [-options] [file] 
@@ -1120,13 +1117,15 @@ where options include:
 
  -c     Convert the given file to a graphical format.
         Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile
-        If you use this command line option, you must specify a FidoCadJ
+        If you use this command line option, you *must* specify a FidoCadJ
         file to convert.
         An alternative is to specify the resolution in pixels per logical unit
         by preceding it by the letter 'r' (without spaces), instead of giving
         sx and sy.
+        NOTE: the coherence of the file extension is checked, unless the -f
+        option is specified.
 
- -s     Print the size  of the specified file in logical coordinates.
+ -s     Print the size of the specified file in logical units.
 
  -h     Print this help and exit.
 
@@ -1139,6 +1138,8 @@ where options include:
         immediately or be separated by an optional space).
 
  -k     Show the current locale.
+
+ -f     Force FidoCadJ to skip some tests about sanity of the inputs.
 
  [file] The optional (except if you use the -d or -s options) FidoCadJ file to
         load at startup time.
@@ -1155,7 +1156,8 @@ Example: load and convert a FidoCadJ drawing to a png file without using the
 Example: load FidoCadJ forcing the locale to simplified chinese (zh).
   java -jar fidocadj.jar -l zh
 
-[davidebucci@davide-bucci-portable-2]$
+
+[davidebucci@davide-bucci-portable]$ 
 \end{lstlisting}
 \lstset{language=FIDOCAD,
     basicstyle=\small\ttfamily}
@@ -1225,7 +1227,7 @@ is present, its content will supersede the standard library\index{library!standa
 library\footnote{Pay attention to the use of capital letters, in particular if your operating system distinguish uppercase and lowercase letters in the
 files management.}.
 
-From version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
+In version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
 Exactly as it happens for the other libraries embedded in FidoCadJ, if there is a file called \lstinline!IHRAM.FCL! in the current library search path, this one will be loaded at the place of the version embedded in the program. You also have an electrical symbols library whose file is called \lstinline!elettrotecnica.fcl!.
 
 
@@ -1298,7 +1300,7 @@ FidoCAD and, as a consequence, by FidoCadJ to store a drawing. It
 is a simple text format which has the advantage of being very compact
 and efficient. Since the format has never been described in detail
 in a document, I will try to summarize all that I learnt about it.
-Since I added a few extensions which are only available on FidoCadJ, I will try to describe them here as well. Remember that from version 0.23.4, FidoCadJ uses only the UTF-8\index{UTF-8} encoding\index{encoding} on all platforms.
+Since I added a few extensions which are only available on FidoCadJ, I will try to describe them here as well. Remember that since version 0.23.4, FidoCadJ uses only the UTF-8\index{UTF-8} encoding\index{encoding} on all platforms.
 
 \section{Header description}
 
@@ -1633,7 +1635,7 @@ the following format:
 PL x1 y1 x2 y2 di l 
 \end{lstlisting}
 The track is drawn between the points $(x_{1},y_{1})$ and $(x_{2},y_{2})$,
-with total width $d_{i}$, and the layer used is $l$.
+with total width $d_{i}$, and the layer used is $l$. The width $d_{i}$ can be non integer.
 If \lstinline!PL!\index{PL} is followed by \lstinline!FCJ!, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
 \subsubsection{Macro call}
@@ -1692,7 +1694,7 @@ A second important information is the name of the layer, specified (if the user 
 \begin{lstlisting} 
 FJC N n aaaaa
 \end{lstlisting}
-where $n$ is the number of the layer (integer from 0 to 15), whereas {\tt aaaa} is the name of the layer to be considered. If this command is not present, the name of the layer will be the one used by default by FidoCadJ, depending on the language and on the local configuration of the operating system.
+where $n$ is the number of the layer (integer from 0 to 15), whereas {\normalfont \itshape aaaa} is the name of the layer to be considered. If this command is not present, the name of the layer will be the one used by default by FidoCadJ, depending on the language and on the local configuration of the operating system.
 
 \subsection{Electrical connection setup}
 The size of the black circle used to indicate an electrical connection can be modified by the user.
@@ -1707,7 +1709,7 @@ where $aaaa$ is a double precision floating point value (positive) which gives t
 \begin{lstlisting}
 FJC A aaaa
 \end{lstlisting}
-Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, Bézier) From version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
+Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, Bézier). Since version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
 
 \section{Syntax errors tolerance}
 
@@ -1809,7 +1811,7 @@ further, and in which direction). To contact me, open an issue on the GitHub Fid
 
 One of the most frequent criticisms raised against the early versions
 of FidoCadJ from Macintosh users (like me, by the way) was the poor
-integration of the program on MacOSX. Starting from version 0.21.1,
+integration of the program on MacOSX. Starting since version 0.21.1,
 FidoCadJ is making specific efforts to comply better with the look
 and the philosophy of Mac's native applications. For this reason,
 some details in the program are slightly different when FidoCadJ is
@@ -1836,7 +1838,7 @@ Under the hood, FidoCadJ needs at least the 1.7 version of Java. For marketing r
 Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
 {\small
-\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ\_MacOSX.dmg}}\\
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ\_MacOSX.dmg}}\\
 You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
 
 
@@ -1860,17 +1862,11 @@ with a graphical environment will be used instead. A poor configuration of your 
 %   basicstyle=\tiny\ttfamily}
     
 \begin{lstlisting}
-$ wget https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar
---00:48:18--  http://downloads.sourceforge.net/project/fidocadj/fidocadj.jar?use_mirror=garr
-           => `fidocadj.jar?use_mirror=garr'
-Resolution of downloads.sourceforge.net is being done... 216.34.181.59
-Connection to downloads.sourceforge.net|216.34.181.59:80... connected.
-HTTP request sent, waiting for answer... 302 Found
-URL: http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
---00:48:24--  http://garr.dl.sourceforge.net/project/fidocadj/fidocadj.jar
+$ wget https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar
+--00:48:18--  https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar
            => `fidocadj.jar'
-Resolution of garr.dl.sourceforge.net is being done... 193.206.140.34
-Connection to garr.dl.sourceforge.net|193.206.140.34:80... connected.
+Resolution of github.com is being done... xxx.xxx.xxx.xxx
+Connection to github.com is being done... xxx.xxx.xxx.xxx connected.
 HTTP request sent, waiting for answer... 200 OK
 Length: 343,207 (335K) [application/java-archive]
 
@@ -1884,7 +1880,7 @@ $
 
 Alternatively, or if you are experiencing problems, you can download the file from any browser from the following URL:
 
-\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar}
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar}
 
 and save the file in your \lstinline!/home/! directory.
     
