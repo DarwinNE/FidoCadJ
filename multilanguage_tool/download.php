@@ -67,7 +67,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/win_logo.png" alt="<?php echo WINDOWS_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo WINDOWS_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							1&nbsp;MiB
@@ -82,7 +82,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/macosx_logo.png" alt="<?php echo MAC_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo MAC_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							10&nbsp;MiB
@@ -97,7 +97,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/linux_logo.png" alt="<?php echo LINUX_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/fidocadj.jar"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo LINUX_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							640&nbsp;KiB
@@ -149,7 +149,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/Android_Robot_100.png" alt="<?php echo ANDROID_LOGO_ALT_ATTRIBUTE; ?>" width="60">
 						</td>
 						<td>
-							<a href="http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download"><?php echo ANDROID_VERSION; ?></a>
+							<a href="<?php echo ANDROID_VERSION_DOWNLOAD_LINK; ?>"><?php echo ANDROID_VERSION; ?></a>
 						</td>
 						<td>
 							740&nbsp;KiB

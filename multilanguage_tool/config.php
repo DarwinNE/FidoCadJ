@@ -3,13 +3,13 @@
 //elements that do not require translation but frequently changes
 
 //FidoCadJ download links
-define ("MAC_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_MacOSX.dmg");
+define ("MAC_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ_MacOSX.dmg");
 define ("WINDOWS_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi");
 define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar");
 define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download");
 
 //FidoCadJ current version (which is ready to distribute)
-define ("CURRENT_VERSION","0.24.5");
+define ("CURRENT_VERSION","0.24.6");
 
 //FidoCadJ old stable version
 define ("OLD_STABLE_VERSION","0.24.3");
