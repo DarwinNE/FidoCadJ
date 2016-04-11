@@ -23,7 +23,7 @@ define ("JAVA_VERSION_REQUIRED_OLD_VERSION", "1.5");
 //last editing per page (will appear at the end of each page)
 //USE FORMAT MM/DD/YY
 define ("INDEX_PAGE_UPDATE_DATE", "7.04.2016");
-define ("DOWNLOAD_PAGE_UPDATE_DATE", "7.04.2016");
+define ("DOWNLOAD_PAGE_UPDATE_DATE", "11.04.2016");
 define ("SCREEN_SHOTS_PAGE_UPDATE_DATE", "7.04.2016");
 define ("LIBRARIES_PAGE_UPDATE_DATE", "7.04.2016");
 define ("FAQ_PAGE_UPDATE_DATE", "7.04.2016");
