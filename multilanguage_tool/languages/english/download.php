@@ -38,7 +38,7 @@ define ("TITLE_TABLE_2","Currently under development");
 
 define ("GIT_HUB_REPO_DESCRIPTION","The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code...");
 
-define ("ANDROID_VERSION","0.24.5 kappa (".ALMOST_STABLE.")");
+define ("ANDROID_VERSION", CURRENT_ANDROID_VERSION . " (".ALMOST_STABLE.")");
 define ("ANDROID_VERSION_DESCRIPTION","A preliminary version of FidoCadJ for Android&#8482; (4.0 at least). Almost stable, any feedback will be welcomed.");
 
 define ("TITLE_TABLE_3","Stable version: ".OLD_STABLE_VERSION);

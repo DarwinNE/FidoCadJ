@@ -67,7 +67,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/win_logo.png" alt="<?php echo WINDOWS_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="<?php echo WINDOWS_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo WINDOWS_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_WINDOWS_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							1&nbsp;MiB
@@ -82,7 +82,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/macosx_logo.png" alt="<?php echo MAC_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="<?php echo MAC_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo MAC_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_MAC_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							10&nbsp;MiB
@@ -97,7 +97,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/linux_logo.png" alt="<?php echo LINUX_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="<?php echo LINUX_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_VERSION." ".STABLE; ?></a>
+							<a href="<?php echo LINUX_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_LINUX_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							640&nbsp;KiB
@@ -149,7 +149,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/Android_Robot_100.png" alt="<?php echo ANDROID_LOGO_ALT_ATTRIBUTE; ?>" width="60">
 						</td>
 						<td>
-							<a href="<?php echo ANDROID_VERSION_DOWNLOAD_LINK; ?>"><?php echo ANDROID_VERSION; ?></a>
+							<a href="<?php echo ANDROID_VERSION_DOWNLOAD_LINK; ?>"><?php echo CURRENT_ANDROID_VERSION; ?></a>
 						</td>
 						<td>
 							740&nbsp;KiB
@@ -176,7 +176,7 @@
 							<img src="http://darwinne.github.io/FidoCadJ/images/logos/win_logo.png" alt="<?php echo WINDOWS_LOGO_ALT_ATTRIBUTE; ?>">
 						</td>
 						<td>
-							<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_Windows.msi/download"><?php echo OLD_STABLE_VERSION." ".STABLE; ?></a>
+							<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_Windows.msi/download"><?php echo OLD_WINDOWS_STABLE_VERSION." ".STABLE; ?></a>
 						</td>
 						<td>
 							0.8&nbsp;MiB
@@ -191,7 +191,7 @@
 						<img src="http://darwinne.github.io/FidoCadJ/images/logos/macosx_logo.png" alt="<?php echo MAC_LOGO_ALT_ATTRIBUTE; ?>">
 					</td>
 					<td>
-						<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_MacOSX.dmg/download"><?php echo OLD_STABLE_VERSION." ".STABLE; ?></a>
+						<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_MacOSX.dmg/download"><?php echo OLD_MAC_STABLE_VERSION." ".STABLE; ?></a>
 					</td>
 					<td>
 						10&nbsp;MiB
@@ -206,7 +206,7 @@
 						<img src="http://darwinne.github.io/FidoCadJ/images/logos/linux_logo.png" alt="<?php echo LINUX_LOGO_ALT_ATTRIBUTE; ?>">
 					</td>
 					<td>
-						<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/fidocadj.jar/download"><?php echo OLD_STABLE_VERSION." ".STABLE; ?></a>
+						<a href="http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/fidocadj.jar/download"><?php echo OLD_LINUX_STABLE_VERSION." ".STABLE; ?></a>
 					</td>
 					<td>
 						530&nbsp;KiB
