@@ -112,7 +112,7 @@
 						<td>
 						</td>
 						<td>
-							<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/manual_en.pdf"><?php echo USER_MANUAL_NAME; ?></a><br>
+							<a href="https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/manual_en.pdf"><?php echo USER_MANUAL_NAME; ?></a><br>
 						</td>
 						<td>
 							2.5&nbsp;MiB
