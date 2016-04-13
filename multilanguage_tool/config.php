@@ -4,7 +4,7 @@
 
 //FidoCadJ download links
 define ("MAC_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ_MacOSX.dmg");
-define ("WINDOWS_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.5/FidoCadJ_Windows.msi");
+define ("WINDOWS_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ_0.24.6_Windows.msi");
 define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/fidocadj.jar");
 define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download");
 
@@ -12,7 +12,7 @@ define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocad
 define ("CURRENT_VERSION","0.24.6");
 
 define ("CURRENT_MAC_VERSION","0.24.6");
-define ("CURRENT_WINDOWS_VERSION","0.24.5");
+define ("CURRENT_WINDOWS_VERSION","0.24.6");
 define ("CURRENT_LINUX_VERSION","0.24.6");
 define ("CURRENT_ANDROID_VERSION","0.24.5 kappa");
 
