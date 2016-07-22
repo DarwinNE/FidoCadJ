@@ -19,7 +19,7 @@ define ("WINDOWS_LOGO_ALT_ATTRIBUTE","logo di Windows");
 define ("MAC_LOGO_ALT_ATTRIBUTE","logo di MacOS");
 define ("LINUX_LOGO_ALT_ATTRIBUTE","logo di Linux");
 define ("GIT_HUB_LOGO_ALT_ATTRIBUTE","logo di GitHub");
-define ("ANDROID_ALT_ATTRIBUTE","logo di Android");
+define ("ANDROID_LOGO_ALT_ATTRIBUTE","logo di Android");
 
 //descriptions in the first table
 define ("WINDOWS_VERSION_DESCRIPTION","Windows installer (Java ".JAVA_VERSION_REQUIRED." minimo).");
