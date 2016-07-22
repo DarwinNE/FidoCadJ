@@ -23,7 +23,7 @@
 		<link href="http://darwinne.github.io/FidoCadJ/db_style.css" rel="stylesheet">
 		<meta charset="UTF-8">
 		<meta name=viewport content="width=device-width, initial-scale=1">
-		<meta name="description" content="<?php echo DOWNLOAD_PAGE_DESCRIPTION; ?>">
+		<meta name="description" content="<?php echo FAQ_PAGE_DESCRIPTION; ?>">
 		<link rel="icon" href="http://darwinne.github.io/FidoCadJ/images/FidoCadJ_favicon.png" />
 		<link rel="canonical" href="http://darwinne.github.io/FidoCadJ/download.html" />
 		<title><?php echo TITLE_PAGE_DESCRIPTION; ?></title>
