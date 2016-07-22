@@ -45,6 +45,8 @@ define("LIBRARY_16",'A opera di Maurizio Mileto, contiene una corposa raccolta d
 
 define("LIBRARY_17",'Libreria realizzata da MacZap in <a href="http://www.grix.it/forum/forum_thread.php?ftpage=1&amp;id_forum=1&amp;id_thread=401194&amp;tbackto=/forum/forum_discussioni.php?id_forum=1&amp;dbackto=/forum/index.php">questa discussione</a> e didicata ad <b>Arduino</b>.'); //LIBRARY DESCRIPTION IN TABLE
 
+define("LIBRARY_18",'Curata da simon-zz su <a href="https://github.com/simon-zz/simon-zz-fidocadj-libs">Git Hub</a>. Questa è una piccola e semplice libreria di componenti elettronici e simboli. I simboli sono stati disegnati per occupare poco spazio rispetto alle altre librerie, consentendo all\'utente di disegnare schemi più compatti.'); //LIBRARY DESCRIPTION IN TABLE
+
 define("PARAGRAPH_2",'Se avete messo a punto una nuova libreria per FidoCadJ e se volete condividerla con tutta la comunità, non esitate ad aprire una Issue su GitHub. D\'altro canto, se avete trovato qualcosa qui che non dovrebbe esserci, aprite una Issue descrivendo il problema e provvederemo appena possibile a rimuovere il contenuto in questione.'); //PARAGRAPH TEXT
 
  ?>

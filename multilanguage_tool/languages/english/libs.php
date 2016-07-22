@@ -45,6 +45,8 @@ define("LIBRARY_16",'By Maurizio Mileto, it contains a vast collection of symbol
 
 define("LIBRARY_17",'Library prepared by MacZap in <a href="http://www.grix.it/forum/forum_thread.php?ftpage=1&amp;id_forum=1&amp;id_thread=401194&amp;tbackto=/forum/forum_discussioni.php?id_forum=1&amp;dbackto=/forum/index.php">this discussion</a> and dedicated to <b>Arduino</b>.'); //LIBRARY DESCRIPTION IN TABLE
 
+define("LIBRARY_18",'Proposed by simon-zz on <a href="https://github.com/simon-zz/simon-zz-fidocadj-libs">Git Hub</a>. This is a small and basic library of electrical and electronic symbols. The symbols has been designed to be reduced in size respect to the other libraries, allowing the user to design small size schematics.'); //LIBRARY DESCRIPTION IN TABLE
+
 define("PARAGRAPH_2",'If you have prepared a library file for FidoCadJ and you want to share it between the user community, please open a new Issue on GitHub. On the other hand, if you have found here something which should not be here, also open an Issue and we will remove the offending content as fast as we can.'); //PARAGRAPH TEXT
 
  ?>
