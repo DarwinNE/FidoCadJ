@@ -318,6 +318,21 @@
 					</td>
 				</tr>
 
+				<tr>
+					<td>
+						<a href="https://github.com/simon-zz/simon-zz-fidocadj-libs/archive/master.zip">simon-zz (zip)</a><br>
+					</td>
+					<td>
+						7 KiB
+					</td>
+					<td>
+						1.0
+					</td>
+					<td>
+						<?php echo LIBRARY_18; ?>
+					</td>
+				</tr>
+
 			</table>
 
 			<p><?php echo PARAGRAPH_2; ?></p>

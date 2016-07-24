@@ -2,7 +2,7 @@
 //this file contains the definitions of text included in libs.html page
 
 //HEAD
-define("FAQ_DESCRIPTION","Frequently asked questions about FidoCadJ and how it works. How to download and easily use the free software to draw and share your project."); //page meta tag description
+define("FAQ_PAGE_DESCRIPTION","Frequently asked questions about FidoCadJ and how it works. How to download and easily use the free software to draw and share your project."); //page meta tag description
 
 define("PAGE_TITLE","FidoCadJ Frequently Asked Questions"); //page title attribute
 
