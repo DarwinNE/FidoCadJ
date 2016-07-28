@@ -396,7 +396,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
                             false, cs);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    haa.dragHandleDrag(this, mx, my, cs);
+                    haa.dragHandleDrag(this, mx, my, cs, false);
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
