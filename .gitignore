@@ -172,4 +172,15 @@ test/export/results_png_s.txt
 test/size/text.txt
 test/size/text_r.txt
 test/export/pgf/output_latex.log
-
+jar/out.pdf
+manual/manual_en.aux
+manual/manual_en.bbl
+manual/manual_en.blg
+manual/manual_en.idx
+manual/manual_en.ilg
+manual/manual_en.ind
+manual/manual_en.lof
+manual/manual_en.log
+manual/manual_en.lot
+manual/manual_en.out
+manual/manual_en.toc

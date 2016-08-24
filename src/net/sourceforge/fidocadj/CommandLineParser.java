@@ -4,9 +4,12 @@ import java.util.Locale;
 
 import net.sourceforge.fidocadj.globals.*;
 
-
 /** CommandLineParser.java
     Parse the command line recognizing options, commands and files.
+
+    Only the parsing is done. The operations needed should be then be done
+    by checking the state of an instance of this object after that the
+    options have been parsed.
 
     <pre>
     This file is part of FidoCadJ.
@@ -24,7 +27,7 @@ import net.sourceforge.fidocadj.globals.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -156,7 +159,7 @@ public class CommandLineParser
                             resolutionBasedExport = true;
                             if (resolution<=0) {
                                 System.err.println("Resolution should be"+
-                                    "a positive real number");
+                                    " a positive real number");
                                 System.exit(1);
                             }
                         } else {
@@ -246,7 +249,7 @@ public class CommandLineParser
 
         //CHECKSTYLE.OFF: LineLength
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-            "By Davide Bucci, 2007-2014.\n\n"+
+            "By the FidoCadJ team, 2007-2016.\n\n"+
 
             "Use: java -jar fidocadj.jar [-options] [file] \n"+
             "where options include:\n\n"+

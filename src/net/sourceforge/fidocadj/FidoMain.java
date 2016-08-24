@@ -67,7 +67,7 @@ public class FidoMain
 
             if("".equals(clp.getLoadFileName())) {
                 System.err.println("You should specify a FidoCadJ file to"+
-                    "read");
+                    " read");
                 System.exit(1);
             }
 
@@ -189,7 +189,6 @@ public class FidoMain
         @param englishLibraries a flag to specify if the internal libraries
             should be loaded in English or in Italian.
         @param libDirectoryO the path of the external directory.
-
     */
     public static void readLibrariesProbeDirectory(DrawingModel P,
         boolean englishLibraries, String libDirectoryO)

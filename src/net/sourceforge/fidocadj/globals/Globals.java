@@ -87,9 +87,9 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.6";
+    public static final String version = "0.24.7 alpha";
     // Is it a beta version?
-    public static final boolean isBeta = false;
+    public static final boolean isBeta = true;
 
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";
