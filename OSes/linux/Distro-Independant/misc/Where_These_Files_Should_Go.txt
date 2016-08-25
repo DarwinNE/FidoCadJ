@@ -1,6 +1,0 @@
-
-
-main-linux-package.tgz -> http://sourceforge.net/projects/fidocadj/files/misc/main-linux-package.tgz  [1]
-
-remarks:
-[1] replaces previous tarballs

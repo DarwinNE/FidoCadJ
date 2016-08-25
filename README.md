@@ -92,6 +92,13 @@ where the file `fidocadj.jar` has been saved and type:
 
     java -jar fidocadj.jar
 
+If you are a Linux user, and you want install FidoCadJ, you may download
+from GitHub repository the source code packed on .zip or .tar.gz archive,
+unpack it, and in the FidoCadJ-x.xx.x/ directory type:
+
+    make
+    sudo make install
+
 If you use Windows, you might find useful using the classical installer
 contained in the `FidoCadJ_Windows.msi` file. If you run it, it will install
 FidoCadJ on your system and you can launch it via the Start menu.
@@ -145,33 +152,18 @@ using Git from the GitHub repository.
 | -------------------- |:---:| ----------------------------------------------- |
 | `bin/`               |  X  | All the compiled classes and resources          |
 | `busy being born/`   |  X  | Screenshots of FidoCadJ                         |
-| `checkstyle.sh`      |     | Launch Checkstyle with rules in `rules.xml`     |
-| `clean`              |     | Erase all the compiled classes                  |
-| `cleanall`           |     | Do a clean, erase `fidocadj.jar`, Javadocs      |
-| `compile`            |     | Compile FidoCadJ                                |
-| `count`              |     | Do a `wc` (word count!) on all Java sources     |
-| `createdoc`          |     | Run Javadoc on all source files                 |
-| `createjar`          |     | Prepare `fidocadj.jar`                          |
+| `dev_tools`          |  X  | Developers' tools for compile, run and test     |
 | `doc/`               |  X  | Contains all Javadoc produced HTML files        |
-| `fidocadj_check.txt` |     | Current result of `checkstyle.sh`               |
-| `fidocadj_cpd.txt`   |     | Current result of copy/paste detector (pmd)     |
-| `fidocadj_pmd.html`  |     | Current result of pmd checks                    |
 | `gpl-3.0.txt`        |     | GNU General Public Licence version 3            |
 | `icons/`             |  X  | All icons (made with Gimp)                      |
 | `jar/`               |  X  | Directory for jar and manifest files            |
 | `manual/`            |  X  | All the LaTeX manuals sources                   |
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
-| `pmd.sh`             |     | Launch pmd for warnings and copy/paste detector |
-| `profile`            |     | Launch a profiler (jip)                         |
 | `README.md`          |     | This file                                       |
-| `rebuild`            |     | Do a clean and then run FidoCadJ                |
-| `rules.xml`          |     | Set of coding style rules for Checklist         |
-| `run`                |     | Run FidoCadJ                                    |
-| `sign.sh`            |     | Create the signature for the applet             |
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
-| `winbuild.bat`       |     | Build and run script for Windows (see §3.2)     |
+
 
 If you want to study the FidoCadJ source code, run the `./createdoc` script to
 obtain the Javadoc description.
@@ -204,20 +196,45 @@ If you prefer to use some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :smile:
 
-3.1 Compile and run the sources on a MacOSX or a Unix operating system
+3.1 Developers' tools
+----------------------------------------------------------------------
+The `dev_tools` directory, contains all the scripts for compile, build,
+run and test FidoCadJ.
+
+| Tool                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `checkstyle.sh`      | Launch Checkstyle with rules in `rules.xml`     |
+| `clean`              | Erase all the compiled classes                  |
+| `cleanall`           | Do a clean, erase `fidocadj.jar`, Javadocs      |
+| `compile`            | Compile FidoCadJ                                |
+| `count`              | Do a `wc` (word count!) on all Java sources     |
+| `createdoc`          | Run Javadoc on all source files                 |
+| `createjar`          | Prepare `fidocadj.jar`                          |
+| `fidocadj_check.txt` | Current result of `checkstyle.sh`               |
+| `fidocadj_cpd.txt`   | Current result of copy/paste detector (pmd)     |
+| `fidocadj_pmd.html`  | Current result of pmd checks                    |
+| `pmd.sh`             | Launch pmd for warnings and copy/paste detector |
+| `profile`            | Launch a profiler (jip)                         |
+| `rebuild`            | Do a clean and then run FidoCadJ                |
+| `rules.xml`          | Set of coding style rules for Checklist         |
+| `run`                | Run FidoCadJ                                    |
+| `sign.sh`            | Create the signature for the applet             |
+| `winbuild.bat`       | Build and run script for Windows (see §3.2)     |
+
+3.2 Compile and run the sources on a MacOSX or a Unix operating system
 ----------------------------------------------------------------------
 
 If you are using MacOSX (>=10.8) or a Unix system (GNU/Linux included), just
 open up a terminal window, go into the main directory of FidoCadJ and type:
 
-    ./rebuild
+    make rebuild
 
 FidoCadJ should be automatically compiled and launched. You can use the
 following script to create a JAR archive in the `jar/` directory:
 
-    ./createjar
+    make createjar
 
-3.2 Compile and run the sources on a Windows system
+3.3 Compile and run the sources on a Windows system
 ---------------------------------------------------
 
 The provided scripts do not work on Microsoft Windows.
@@ -246,7 +263,7 @@ To launch the compiled program, you should type:
 
 FidoCadJ should start.
 
-3.3 Coding conventions
+3.4 Coding conventions
 ----------------------
 
 The following coding conventions have been applied for the FidoCadJ source
@@ -327,7 +344,7 @@ been activated have been marked with :ok: in the previous list.
 Be sure to run checkstyle with `rules.xml` before sending a pull request! Have
 a look at paragraph 4.4 and follow the checklist!
 
-3.4 Automated tests
+3.5 Automated tests
 -------------------
 
 To ease the maintain of a certain degree of quality control when working
@@ -367,7 +384,7 @@ can be improved or updated.
 In other cases, the differences might just contain unimportant data (such
 as version numbers and so on).
 
-3.5 Static code analysis and the quality of the FidoCadJ source code
+3.6 Static code analysis and the quality of the FidoCadJ source code
 --------------------------------------------------------------------
 
 Static code analysis is a powerful tool to ensure code quality. It cannot do
@@ -401,7 +418,7 @@ The coding rules for Checkstyle are specified in the `rules.xml` file. Be sure
 you run Checkstyle with this ruleset to see what it has to be corrected
 before creating a pull request.
 
-3.6 Android
+3.7 Android
 -----------
 
 Android deserves an application which is well separated from the one you
@@ -457,7 +474,7 @@ If you have a look at the beginning of the file
     Export = Export
     Print = Print
     Close = Close
-    
+
     ...
 
 The resources strings are organised in the form `key = value`. For example,
@@ -472,7 +489,7 @@ the file `bin/MessagesBundle_fr.properties`:
     Export = Exporter
     Print = Impression
     Close = Fermer
-    
+
     ...
 
 That is all. If you want to translate FidoCadJ in your language, you just have
@@ -633,4 +650,3 @@ distributed using the Apache license 2.0. You may obtain a copy of the License
 at:
 
 http://www.apache.org/licenses/LICENSE-2.0.html
-
