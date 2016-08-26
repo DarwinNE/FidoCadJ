@@ -31,8 +31,8 @@ import java.util.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ. If not,  
- 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
     Copyright 2009-2014 by Davide Bucci

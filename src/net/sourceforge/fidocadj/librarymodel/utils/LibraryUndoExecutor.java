@@ -27,8 +27,8 @@ import net.sourceforge.fidocadj.FidoFrame;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ. If not,  
- 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2014 Kohta Ozaki
     </pre>

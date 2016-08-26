@@ -351,11 +351,11 @@ a look at paragraph 4.4 and follow the checklist!
 To ease the maintain of a certain degree of quality control when working
 on the source code, the FidoCadJ source repository comes with a number of
 automated test scripts contained in the directory `test/`.
-You may launch all the tests by using the script `all_tests.sh` contained
+You may launch all the tests by using the script `dev_tools/all_tests.sh` contained
 in this directory, or you may run the tests individually by browsing the
 sub-directories containing them. The program is called by using the
 `fidocadj.jar` archive which must be contained in the `jar/` directory.
-Ensure that this archive is updated with the `./createjar` script before
+Ensure that this archive is updated with the `make createjar` rule before
 launching any test.
 
 The following list briefly describes the provided tests:
@@ -523,7 +523,7 @@ discuss about what are you willing to do.
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get an HTML description of all classes used in FidoCadJ. You will find that
 useful to understand the underpinnings of the program. To do that, you can
-run the `createdoc.sh` script, if you are in a Unix system.
+run `make createdoc`, if you are in a Unix system.
 
 Then comes the hard work... We can help you! Please come to the GitHub
 discussions dedicated to FidoCadJ!
