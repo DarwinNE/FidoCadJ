@@ -157,7 +157,6 @@ using Git from the GitHub repository.
 | `gpl-3.0.txt`        |     | GNU General Public Licence version 3            |
 | `icons/`             |  X  | All icons (made with Gimp)                      |
 | `jar/`               |  X  | Directory for jar and manifest files            |
-| `makefile`           |     | Roles file for the make build system            |
 | `manual/`            |  X  | All the LaTeX manuals sources                   |
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
@@ -199,7 +198,7 @@ I wrote. And no, I will not change my habits, sorry :smile:
 
 3.1 Developers' tools
 ----------------------------------------------------------------------
-The `dev_tools` directory, contains all the scripts for compile, build,
+The `dev_tools` directory contains all the scripts for compile, build,
 run and test FidoCadJ.
 
 | Tool                 | Description                                     |
@@ -216,15 +215,16 @@ run and test FidoCadJ.
 | `fidocadj_pmd.html`  | Current result of pmd checks                    |
 | `pmd.sh`             | Launch pmd for warnings and copy/paste detector |
 | `profile`            | Launch a profiler (jip)                         |
+| `rebuild`            | Do a clean and then run FidoCadJ                |
 | `rules.xml`          | Set of coding style rules for Checklist         |
 | `run`                | Run FidoCadJ                                    |
 | `sign.sh`            | Create the signature for the applet             |
 | `winbuild.bat`       | Build and run script for Windows (see §3.2)     |
 
-3.2 Compile and run the sources on a MacOSX or a Unix operating system
-----------------------------------------------------------------------
+3.2 Compile and run the sources on a MacOSX or an Unix operating system
+-----------------------------------------------------------------------
 
-If you are using MacOSX (>=10.8) or a Unix system (GNU/Linux included), just
+If you are using MacOSX (>=10.8) or an Unix system (GNU/Linux included), just
 open up a terminal window, go into the main directory of FidoCadJ and type:
 
     make rebuild
@@ -238,8 +238,8 @@ following script to create a JAR archive in the `jar/` directory:
 ---------------------------------------------------
 
 The provided scripts do not work on Microsoft Windows.
-Kohta Ozaki has written a build/run script for Windows, called
-`dev_tools/winbuild.bat`.
+Kohta Ozaki has written a build/run script for Windows, called `winbuild.bat`
+that is present in the `dev_tools` directory.
 It must be used with the action to be accomplished, as an argument:
 
 | Argument  | Description                                     |
@@ -588,7 +588,7 @@ https://github.com/DarwinNE/FidoCadJ/issues
 ===================
 
 Code
-:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80
+:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
 
 Beta testers
 :   Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,

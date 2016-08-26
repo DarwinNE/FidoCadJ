@@ -1,2 +1,805 @@
 Starting audit...
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:48: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:49: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:49:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:36: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:37: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:37:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:37: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:38: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:38:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:44: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:45: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:45:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/DialogPrint.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/DialogPrint.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:36: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:37: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:37:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:46: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:47: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:47:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:51: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:52: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:52:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/Globals.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/Globals.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:40: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layermodel/LayerModel.java:15: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layermodel/LayerModel.java:15:3: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:26: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:27: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:27:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:50: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:51: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:51:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:47: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:48: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:48:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:45: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:46: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:46:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:40: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/AppleSpecific.java:42: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/AppleSpecific.java:43: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/AppleSpecific.java:43:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/CommandLineParser.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/CommandLineParser.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/CommandLineParser.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/DragDropTools.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/DragDropTools.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ExportTools.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ExportTools.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ExportTools.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoCadApplet.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoCadApplet.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoCadApplet.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoFrame.java:59: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoFrame.java:60: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoFrame.java:60:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoMain.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoMain.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoMain.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoReadApplet.java:49: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoReadApplet.java:50: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FidoReadApplet.java:50:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FileTools.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FileTools.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/FileTools.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/MenuTools.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/MenuTools.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/MenuTools.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/OpenFile.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/OpenFile.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/OpenFile.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/PrintTools.java:39: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/PrintTools.java:40: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/PrintTools.java:40:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/RunExport.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/RunExport.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/RunExport.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ScrollGestureRecognizer.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:48: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:49: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/CircuitPanel.java:49:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/AddElements.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ContinuosMoveActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/CopyPasteActions.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/EditorActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ElementsEdtActions.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/HandleActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:36: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:37: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java:37:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/PrimitivesParInterface.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/SelectionActions.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/UndoActions.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/HasChangedListener.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/DrawingModel.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/model/ProcessElementsInterface.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseMoveClickHandler.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/MouseWheelHandler.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/PopUpMenu.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/Ruler.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Drawing.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/views/Export.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/clipboard/TextTransfer.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowCellRenderer.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ArrowInfo.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellArrow.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellDash.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/CellLayer.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashCellRenderer.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DashInfo.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAbout.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:37: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:38: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java:38:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogLayer.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:34: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:35: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java:35:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogParameters.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogUtil.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerCellRenderer.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/LayerInfo.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/mindimdialog/MinimumSizeDialog.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:44: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:45: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.java:45:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/OSKeybPanel.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/ParameterDescription.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/DialogPrint.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/DialogPrint.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:36: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:37: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/print/PrintPreview.java:37:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEagle.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportFidoCad.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:46: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:47: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportGraphic.java:47:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:38: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:39: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportInterface.java:39:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:51: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:52: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java:52:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/ChangeCoordinatesListener.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/DrawingSize.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/GeometricDistances.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/geom/MapCoordinates.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:24: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:25: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/FileUtils.java:25:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/Globals.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/Globals.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:40: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/LibUtils.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/globals/ProvidesCopyPasteInterface.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ColorInterface.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/DimensionG.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/FontG.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/GraphicsInterface.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ColorNull.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/GraphicsNull.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/PolygonNull.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointDouble.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PointG.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/PolygonInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/RectangleG.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/ShapeInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ColorSwing.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/PolygonSwing.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:25: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:26: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java:26:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layermodel/LayerModel.java:15: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layermodel/LayerModel.java:15:3: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/LayerDesc.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/layers/StandardLayers.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Category.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/AddEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/KeyChangeEvent.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListener.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/LibraryListenerAdapter.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RemoveEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/event/RenameEvent.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/Library.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:32: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:33: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:33:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/CircuitPanelUpdater.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:30: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:31: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/utils/LibraryUndoExecutor.java:31:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:26: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:27: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:27:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:50: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:51: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTree.java:51:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:47: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:48: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreeCellRenderer.java:48:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/MacroTreePopupMenu.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:23: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:24: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/AbstractMacroTreeNode.java:24:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeModel.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/MacroTreeNode.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/model/NodeFilterInterface.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:45: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:46: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/OperationPermissions.java:46:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/Arrow.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:31: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:32: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/GraphicPrimitive.java:32:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/MacroDesc.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveAdvText.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveConnection.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:35: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:36: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveMacro.java:36:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:29: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:30: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java:30:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBPad.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:28: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:29: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java:29:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/timer/MyTimer.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeGridState.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:18: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:19: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectedLayer.java:19:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:19: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:20: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeSelectionListener.java:20:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:22: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:23: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ChangeZoomListener.java:23:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:53: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:54: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarTools.java:54:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:33: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:34: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolbarZoom.java:34:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:40: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:41: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ToolButton.java:41:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:21: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:22: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/toolbars/ZoomToFitListener.java:22:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/LibraryUndoListener.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoActorListener.java:21:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:27: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:28: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoManager.java:28:2: warning: La ligne contient un caractère tabulation.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:20: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:21: warning: La ligne excède 80 caractères.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/undo/UndoState.java:21:2: warning: La ligne contient un caractère tabulation.
 Audit done.
