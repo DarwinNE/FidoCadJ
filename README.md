@@ -157,6 +157,7 @@ using Git from the GitHub repository.
 | `gpl-3.0.txt`        |     | GNU General Public Licence version 3            |
 | `icons/`             |  X  | All icons (made with Gimp)                      |
 | `jar/`               |  X  | Directory for jar and manifest files            |
+| `makefile`           |     | Roles file for the make build system            |
 | `manual/`            |  X  | All the LaTeX manuals sources                   |
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
@@ -215,7 +216,6 @@ run and test FidoCadJ.
 | `fidocadj_pmd.html`  | Current result of pmd checks                    |
 | `pmd.sh`             | Launch pmd for warnings and copy/paste detector |
 | `profile`            | Launch a profiler (jip)                         |
-| `rebuild`            | Do a clean and then run FidoCadJ                |
 | `rules.xml`          | Set of coding style rules for Checklist         |
 | `run`                | Run FidoCadJ                                    |
 | `sign.sh`            | Create the signature for the applet             |
@@ -238,7 +238,8 @@ following script to create a JAR archive in the `jar/` directory:
 ---------------------------------------------------
 
 The provided scripts do not work on Microsoft Windows.
-Kohta Ozaki has written a build/run script for Windows, called `winbuild.bat`.
+Kohta Ozaki has written a build/run script for Windows, called
+`dev_tools/winbuild.bat`.
 It must be used with the action to be accomplished, as an argument:
 
 | Argument  | Description                                     |
@@ -587,7 +588,7 @@ https://github.com/DarwinNE/FidoCadJ/issues
 ===================
 
 Code
-:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
+:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80
 
 Beta testers
 :   Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,

@@ -1,5 +1,3 @@
 #!/bin/bash
 
-(cd bin
- find . -name *.class -delete
-)
+find bin/ -name *.class -delete

@@ -11,31 +11,28 @@ VERSION = 0.24.6
 		rebuild   \		# Do a clean and then run FidoCadJ
 		install			# Install FidoCadJ
 
-default: | cleanall  		\
-		   compile $(ARGS)  \
-		   createjar 		\
-		   clean
+default: compile
 
 compile:
-	./dev_tools/compile
+	@./dev_tools/compile  $(ARGS)
 
 createjar:
-	./dev_tools/createjar
+	@./dev_tools/createjar
 
 createdoc:
-	./dev_tools/createdoc
+	@./dev_tools/createdoc
 
 clean:
-	./dev_tools/clean
+	@./dev_tools/clean
 
 cleanall:
-	./dev_tools/cleanall
+	@./dev_tools/cleanall
 
-rebuild: | clean   			\
-		   compile $(ARGS)	\
+rebuild: | clean   	\
+		   compile 	\
 		   run
 run:
-	./dev_tools/run $(ARGS)
+	@./dev_tools/run $(ARGS)
 
-install:
-	./OSes/linux/install
+install: createjar
+	@./OSes/linux/install

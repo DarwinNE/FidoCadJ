@@ -37,7 +37,8 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+ 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2015 by Davide Bucci
 </pre>
@@ -558,8 +559,8 @@ public class DialogPrint extends MinimumSizeDialog
     }
 
     /** Get the layer to be printed if a single layer is what the user need.
-        @return the layer to be printed if >=0 or -1 if all layers should be
-            printed.
+        @return the layer to be printed if greater or equal than 0 or -1 if all
+            layers should be printed.
     */
     public int getSingleLayerToPrint()
     {

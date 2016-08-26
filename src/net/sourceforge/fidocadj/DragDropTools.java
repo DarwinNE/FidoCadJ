@@ -6,7 +6,7 @@ import java.awt.datatransfer.*;
 
 /** DragDropTools.java
 
-    Class handling the drag & drop operations.
+    Class handling the drag and drop operations.
 
     TODO: improve the descriptions in the Javadoc comments. Sometimes are
     cryptical or uninformative.
@@ -25,7 +25,8 @@ import java.awt.datatransfer.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+ 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2015 by Davide Bucci
     </pre>
@@ -37,7 +38,7 @@ public class DragDropTools implements DropTargetListener
     FidoFrame fff;
 
     /** Constructor.
-        @param f the frame to which the drag&drop tools should be associated.
+      @param f the frame to which the drag and drop tools should be associated.
     */
     public DragDropTools(FidoFrame f)
     {
