@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
 
     You should have received a copy of the GNU General Public License
     along with FidoCadJ. If not,  
- 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
     Copyright 2007-2015 by Davide Bucci

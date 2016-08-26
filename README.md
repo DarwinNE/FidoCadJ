@@ -523,7 +523,7 @@ discuss about what are you willing to do.
 Once you decide what you want to do, you can run the Javadoc utility in order
 to get an HTML description of all classes used in FidoCadJ. You will find that
 useful to understand the underpinnings of the program. To do that, you can
-run the `createdoc.sh` script, if you are in a Unix system.
+run `make createdoc`, if you are in a Unix system.
 
 Then comes the hard work... We can help you! Please come to the GitHub
 discussions dedicated to FidoCadJ!

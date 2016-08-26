@@ -16,7 +16,7 @@ package net.sourceforge.fidocadj.librarymodel.event;
 
    You should have received a copy of the GNU General Public License
    along with FidoCadJ. If not,  
- 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
    Copyright 2014 Kohta Ozaki
 */
