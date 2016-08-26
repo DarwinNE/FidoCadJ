@@ -47,7 +47,7 @@ of the Swing application.
 2 - Resources
 =============
 
-The primary resources are always those for the Swing application. For this 
+The primary resources are always those for the Swing application. For this
 reason, if you need to add a string, modify the resource files of the
 Swing application (`/bin/*.resources`) and then run the `res.sh` script.
 
@@ -90,11 +90,11 @@ See the `README.md` file for the Swing application for the complete list of
 acknowledgments. Here we just deal with the specific Android coding.
 
 Code
-:   Davide Bucci, dantecpp, Giuseppe Amato
+:   Davide Bucci, Dante Loi, Giuseppe Amato
 
-When possible, the authors of the snippets have been contacted to gain 
-explicit permission of using the code in an open source project. If you own 
-the copyright of some of the reused code and you do not agree on its 
+When possible, the authors of the snippets have been contacted to gain
+explicit permission of using the code in an open source project. If you own
+the copyright of some of the reused code and you do not agree on its
 inclusion in the FidoCadJ project, open an Issue on GitHub and we will remove
 the offending code as fast as we can.
 

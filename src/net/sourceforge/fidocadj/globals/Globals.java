@@ -26,7 +26,8 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+ 	@see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2008-2016 by Davide Bucci
 
@@ -327,7 +328,7 @@ public class Globals
 
         @param p the input string, eventually containing the characters to be
             changed.
-        @param bc an hash table <char, String> in which each character to be
+        @param bc an hash table (char, String) in which each character to be
             changed is associated with its code, or escape sequence.
         @return the string with the characters changed.
 
