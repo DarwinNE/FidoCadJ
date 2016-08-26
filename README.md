@@ -1,7 +1,7 @@
 README file for FidoCadJ
 ========================
 
-Version 0.24.5
+Version 0.24.6
 
 Copyright 2007-2016
 
