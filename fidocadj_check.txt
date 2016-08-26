@@ -1,1 +1,0 @@
-Could not find config XML file 'rules.xml'.
