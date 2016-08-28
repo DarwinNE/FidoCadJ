@@ -1,16 +1,2 @@
 Starting audit...
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:85: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:114: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:147: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:181: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:218: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:252: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:368: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:85: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:114: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:147: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:181: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:218: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:252: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
-[WARN] /home/dante/Downloads/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/librarymodel/LibraryModel.java:368: 'throws' have incorrect indentation level 4, expected level should be 8. [Indentation]
 Audit done.

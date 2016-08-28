@@ -46,9 +46,9 @@ public class LibraryModel
     private UndoActorListener undoActorListener;
 
     /**
-     * Costructor.
-     * @param drawingModel DrawingModel instance to fetch macros.
-     */
+        Costructor.
+        @param drawingModel DrawingModel instance to fetch macros.
+    */
     public LibraryModel(DrawingModel drawingModel)
     {
         this.drawingModel = drawingModel;
@@ -58,31 +58,31 @@ public class LibraryModel
     }
 
     /**
-     * Adds LibraryListener.
-     * @param listener LibraryLisner.
-     */
+        Adds LibraryListener.
+        @param listener LibraryLisner.
+    */
     public void addLibraryListener(LibraryListener listener)
     {
         libraryListeners.add(listener);
     }
 
     /**
-     * Removes LibraryListener.
-     * @param listener LibraryListener.
-     */
+        Removes LibraryListener.
+        @param listener LibraryListener.
+    */
     public void removeLibraryListener(LibraryListener listener)
     {
         libraryListeners.remove(listener);
     }
 
     /**
-     * Removes category from library.
-     * Notices LibraryListeners after removed.
-     * @param category Category to remove.
-     * @throws IllegalLibraryAccessException If access standard library.
-     */
+        Removes category from library.
+        Notices LibraryListeners after removed.
+        @param category Category to remove.
+        @throws IllegalLibraryAccessException If access standard library.
+    */
     public void remove(Category category)
-    throws IllegalLibraryAccessException
+        throws IllegalLibraryAccessException
     {
         Library parentLibrary;
 
@@ -105,13 +105,13 @@ public class LibraryModel
     }
 
     /**
-     * Removes library and deletes file.
-     * Notices LibraryListeners after removed.
-     * @param library Library to remove.
-     * @throws IllegalLibraryAccessException If access standard library.
-     */
+        Removes library and deletes file.
+        Notices LibraryListeners after removed.
+        @param library Library to remove.
+        @throws IllegalLibraryAccessException If access standard library.
+    */
     public void remove(Library library)
-    throws IllegalLibraryAccessException
+        throws IllegalLibraryAccessException
     {
         // NOTE: We must consider this method contains deleting file.
 
@@ -138,13 +138,13 @@ public class LibraryModel
     }
 
     /**
-     * Removes macro from library.
-     * Notices LibraryListeners after removed.
-     * @param macro MacroDesc to remove.
-     * @throws IllegalLibraryAccessException If access standard library.
-     */
+        Removes macro from library.
+        Notices LibraryListeners after removed.
+        @param macro MacroDesc to remove.
+        @throws IllegalLibraryAccessException If access standard library.
+    */
     public void remove(MacroDesc macro)
-    throws IllegalLibraryAccessException
+        throws IllegalLibraryAccessException
     {
         Category category;
 
@@ -170,15 +170,15 @@ public class LibraryModel
     }
 
     /**
-     * Renames macro.
-     * Notices LibraryListeners after renamed.
-     * @param macro MacroDesc to rename.
-     * @param newName New macro name.
-     * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.
-     */
+        Renames macro.
+        Notices LibraryListeners after renamed.
+        @param macro MacroDesc to rename.
+        @param newName New macro name.
+        @throws IllegalLibraryAccessException If access standard library.
+        @throws IllegalNameException If new name is invalid.
+    */
     public void rename(MacroDesc macro,String newName)
-    throws IllegalNameException, IllegalLibraryAccessException
+        throws IllegalNameException, IllegalLibraryAccessException
     {
         if(macro==null) {
             return;
@@ -207,15 +207,15 @@ public class LibraryModel
     }
 
     /**
-     * Renames category.
-     * Notices LibraryListeners after renamed.
-     * @param category Category to rename.
-     * @param newName New category name.
-     * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.
-     */
+        Renames category.
+        Notices LibraryListeners after renamed.
+        @param category Category to rename.
+        @param newName New category name.
+        @throws IllegalLibraryAccessException If access standard library.
+        @throws IllegalNameException If new name is invalid.
+    */
     public void rename(Category category,String newName)
-    throws IllegalNameException,IllegalLibraryAccessException
+        throws IllegalNameException,IllegalLibraryAccessException
     {
         String oldName = category.getName();
 
@@ -241,15 +241,15 @@ public class LibraryModel
     }
 
     /**
-     * Renames library.
-     * Notices LibraryListeners after renamed.
-     * @param library Library to rename.
-     * @param newName New library name.
-     * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalNameException If new name is invalid.
-     */
+        Renames library.
+        Notices LibraryListeners after renamed.
+        @param library Library to rename.
+        @param newName New library name.
+        @throws IllegalLibraryAccessException If access standard library.
+        @throws IllegalNameException If new name is invalid.
+    */
     public void rename(Library library,String newName)
-    throws IllegalNameException,IllegalLibraryAccessException
+        throws IllegalNameException,IllegalLibraryAccessException
     {
         String oldName = library.getName();
 
@@ -276,11 +276,11 @@ public class LibraryModel
     }
 
     /**
-     * Copies macro into category.
-     * Notices LibraryListeners after copied.
-     * @param macro target macro.
-     * @param destCategory destination category.
-     */
+        Copies macro into category.
+        Notices LibraryListeners after copied.
+        @param macro target macro.
+        @param destCategory destination category.
+    */
     public void copy(MacroDesc macro, Category destCategory)
     {
         //TODO: Standard library check.
@@ -296,7 +296,7 @@ public class LibraryModel
     }
 
     /**
-     * Utility function.
+        Utility function.
      */
     private MacroDesc copyMacro(MacroDesc macro, Category destCategory)
     {
@@ -326,11 +326,11 @@ public class LibraryModel
     }
 
     /**
-     * Copies category into library.
-     * Notices LibraryListeners after copied.
-     * @param category target category.
-     * @param destLibrary destination library.
-     */
+        Copies category into library.
+        Notices LibraryListeners after copied.
+        @param category target category.
+        @param destLibrary destination library.
+    */
     public void copy(Category category, Library destLibrary)
     {
         //TODO: Standard library check.
@@ -357,15 +357,15 @@ public class LibraryModel
     }
 
     /**
-     * Changes macro key.
-     * Notices LibraryListeners after changed.
-     * @param macro MacroDesc to change key.
-     * @param newKey New macro key without library prefix.
-     * @throws IllegalLibraryAccessException If access standard library.
-     * @throws IllegalKeyException If new key is invalid.
-     */
+        Changes macro key.
+        Notices LibraryListeners after changed.
+        @param macro MacroDesc to change key.
+        @param newKey New macro key without library prefix.
+        @throws IllegalLibraryAccessException If access standard library.
+        @throws IllegalKeyException If new key is invalid.
+    */
     public void changeKey(MacroDesc macro,String newKey)
-    throws IllegalKeyException,IllegalLibraryAccessException
+        throws IllegalKeyException,IllegalLibraryAccessException
     {
         String oldKey;
         Category category;
@@ -395,8 +395,8 @@ public class LibraryModel
     }
 
     /**
-     * Utility function.
-     */
+        Utility function.
+    */
     private MacroDesc cloneMacro(MacroDesc macro)
     {
         MacroDesc newMacro = new MacroDesc(macro.key,
@@ -409,10 +409,10 @@ public class LibraryModel
     }
 
     /**
-     * Returns macro key without library prefix.
-     * @param macro macro.
-     * @return String plain key.
-     */
+        Returns macro key without library prefix.
+        @param macro macro.
+        @return String plain key.
+    */
     public static String getPlainMacroKey(MacroDesc macro)
     {
         String[] parted;
@@ -430,9 +430,9 @@ public class LibraryModel
     }
 
     /**
-     * Returns new macro key.
-     * @return String plain key.
-     */
+        Returns new macro key.
+        @return String plain key.
+    */
     public static String createRandomMacroKey()
     {
         long t=System.nanoTime();
@@ -446,11 +446,11 @@ public class LibraryModel
     }
 
     /**
-     * Returns identifiable macro key.
-     * @param fileName filename of library.
-     * @param key plain key.
-     * @return String key.
-     */
+        Returns identifiable macro key.
+        @param fileName filename of library.
+        @param key plain key.
+        @return String key.
+    */
     public static String createMacroKey(String fileName,String key)
     {
         String macroKey = fileName+"."+key;
@@ -458,7 +458,7 @@ public class LibraryModel
     }
 
     /**
-     * Synchronizes MacroDesc's properties with library.
+        Synchronizes MacroDesc's properties with library.
      */
     private void synchronizeMacros(Library library)
     {
@@ -479,19 +479,19 @@ public class LibraryModel
     }
 
     /**
-     * Sets UndoActorListener.
-     * @param undoActorListener UndoActorListener.
-     */
+        Sets UndoActorListener.
+        @param undoActorListener UndoActorListener.
+    */
     public void setUndoActorListener(UndoActorListener undoActorListener)
     {
         this.undoActorListener = undoActorListener;
     }
 
     /**
-     * Returns true if macro is in standard library.
-     * This method will be removed in the future.
-     * @param macro MacroDesc
-     */
+        Returns true if macro is in standard library.
+        This method will be removed in the future.
+        @param macro MacroDesc
+    */
     private boolean isStdLib(MacroDesc macro)
     {
         // An alternative way to see if a macro is standard or not
@@ -544,12 +544,12 @@ public class LibraryModel
         }
     }
 
-    // NOTE: This implementation is incorrect.
+    // NOTE: This implementation is incorrect. (DB why? equals may fail?)
     private Object getParentNode(Object node)
     {
         for(Library l:getAllLibraries()) {
             if(node.equals(l)) {
-                return null;
+                return null;        // A library does not have any parent!
             }
             for(Category c:l.getAllCategories()) {
                 if(node.equals(c)) {
@@ -562,32 +562,31 @@ public class LibraryModel
                 }
             }
         }
-
-        return null;
+        return null;    // Node not found
     }
 
 
     /**
-     * Returns MacroDesc map.
-     * @return Map composed of String key and MacroDesc from parser.
-     */
+        Returns MacroDesc map.
+        @return Map composed of String key and MacroDesc from parser.
+    */
     public Map<String,MacroDesc> getAllMacros()
     {
         return masterLibrary;
     }
 
     /**
-     * Returns Libraries as list.
-     * @return List of Library objects.
-     */
+        Returns Libraries as list.
+        @return List of Library objects.
+    */
     public List<Library> getAllLibraries()
     {
         return libraries;
     }
 
     /**
-     * Saves library to file.
-     */
+        Saves library to file.
+    */
     public void save()
     {
         //TODO: throw necessary exceptions.
@@ -604,8 +603,8 @@ public class LibraryModel
     }
 
     /**
-     * Saves library state for undo.
-     */
+        Saves library state for undo.
+    */
     public void saveLibraryState()
     {
         try {
@@ -616,8 +615,8 @@ public class LibraryModel
     }
 
     /**
-     * Not implemented.
-     */
+        Not implemented.
+    */
     public void undoLibrary()
     {
         // TODO: this should undo the last library operation.
@@ -625,8 +624,8 @@ public class LibraryModel
     }
 
     /**
-     * Updates library.
-     */
+        Updates library.
+    */
     public void forceUpdate()
     {
         updateLibraries();
@@ -641,9 +640,9 @@ public class LibraryModel
     }
 
     /**
-     * Bridges existing components.
-     * This method will be removed in the future.
-     */
+        Bridges existing components.
+        This method will be removed in the future.
+    */
     private void synchronizeMasterLibrary()
     {
         masterLibrary.clear();

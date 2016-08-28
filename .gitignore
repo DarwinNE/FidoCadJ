@@ -184,3 +184,5 @@ manual/manual_en.log
 manual/manual_en.lot
 manual/manual_en.out
 manual/manual_en.toc
+bin/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.class
+bin/net/sourceforge/fidocadj/dialogs/mindimdialog/
