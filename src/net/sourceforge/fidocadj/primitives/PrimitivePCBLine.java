@@ -275,8 +275,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     public String toString(boolean extensions)
     {
         String s= "PL "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+width+" "+
-            getLayer()+"\n";
+            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
+            roundIntelligently(width)+" "+getLayer()+"\n";
 
         s+=saveText(extensions);
 

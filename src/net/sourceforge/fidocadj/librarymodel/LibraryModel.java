@@ -565,7 +565,6 @@ public class LibraryModel
         return null;    // Node not found
     }
 
-
     /**
         Returns MacroDesc map.
         @return Map composed of String key and MacroDesc from parser.
@@ -703,6 +702,7 @@ public class LibraryModel
             super(message);
         }
     }
+
     /**
         Exception for an illegal name (when searching, etc...)
     */
@@ -713,6 +713,7 @@ public class LibraryModel
             super(message);
         }
     }
+
     /**
         Exception for an illegal library access (i.e. non existant,
         most of the times).
@@ -724,6 +725,7 @@ public class LibraryModel
             super(message);
         }
     }
+
     /**
         Exception for an illegal key in a library.
     */

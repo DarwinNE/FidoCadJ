@@ -68,6 +68,9 @@ public abstract class GraphicPrimitive
     // density. It is the size in pixel for a BASE_RESOLUTION dpi monitor.
     private static final int HANDLE_WIDTH=10;
 
+    // Internal tolerance for snapping a double precision value to an integer.
+    // Employed by roundIntelligently.
+    private static final double INT_TOLERANCE=1E-5;
 
     // Array containing the points defining the primitive
     public PointG[] virtualPoint;
@@ -1095,5 +1098,27 @@ public abstract class GraphicPrimitive
             if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
         }
         return new PointG(qx,qy);
+    }
+
+    /** Check wether we are very close to an integer value. In this case,
+        the output will be done as an integer. This improves backward
+        compatibility in cases where the fractional part is not needed.
+        The output code is also marginally more compact.
+
+        For example, roundIntelligently(1.00) produces "1" whereas
+        roundIntelligently(1.23) produces "1.23".
+        @param v the value to be rounded.
+        @return a string containing the rounded value.
+    */
+    public StringBuffer roundIntelligently(double v)
+    {
+        StringBuffer sb;
+        if(Math.abs(v-Math.round(v))<INT_TOLERANCE) {
+            int w=(int)Math.round(v);
+            sb = new StringBuffer(""+w);
+        } else {
+            sb = new StringBuffer(""+v);
+        }
+        return sb;
     }
 }
