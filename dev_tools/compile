@@ -1,28 +1,74 @@
 #!/bin/bash
 
-# If you have a very old Java version, maybe the -Xlint:deprecation option 
-# is not recognized
+JAVA_VERSION="1.7"
+JAVA_TARGET_VERSION="1.8"
+SOURCE_PATH="src"
+CLASS_PATH="bin"
 
-# Here we check if the user has chosen a compilation which should include the 
-# Macintosh extensions
+JAVAC_DEBUG_OPTIONS="-g -Xlint:unchecked"
+JAVAC_JAVAV_OPTIONS="-source $JAVA_VERSION -target $JAVA_TARGET_VERSION"
+JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d $CLASS_PATH"
+JAVAC_OPTIMIZATION_OPTIONS="-O"
+
+JAVAC_OPTIONS="$JAVAC_PATH_OPTIONS $JAVAC_JAVAV_OPTIONS $JAVAC_OPTIMIZATION_OPTIONS"
+
+############## Darwin kernel detection ##############
 
 unamestr=`uname`
 
-if [ "$unamestr" = 'Darwin' ]||[ "$1" = "mac" ]; then
+if test "$unamestr" = 'Darwin'
+then
   echo "MacOSX detected: activated AppleSpecific classes."
-  javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.7 -target 1.7 ./src/net/sourceforge/fidocadj/AppleSpecific.java -d bin
+  javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
   echo "Copying Quaqua library files in jar/ directory."
   cp OSes/mac/Quaqua/*.* jar
-fi 
+fi
 
 
-# compile FidoCadJ
-javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.7 -target 1.7 ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
+############## Arguments parsing ##############
 
-# compile FidoReadJ applet
-javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.7 -target 1.7 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
+WHAT_COMPILE="FidoCadJ"
 
-# compile FidoCadJ applet
-javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.7 -target 1.7 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
+for arg in $@
+do
+    case $arg in
+        -debug)
+            JAVAC_OPTIONS="$JAVAC_OPTIONS $JAVAC_DEBUG_OPTIONS"
+                ;;
+        -mac)
+            echo "MacOSX detected: activated AppleSpecific classes."
+            javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
+            echo "Copying Quaqua library files in jar/ directory."
+            cp OSes/mac/Quaqua/*.* jar
+                ;;
+        -applets)
+            WHAT_COMPILE="applets"
+                ;;
+        -all)
+            WHAT_COMPILE="all"
+                ;;
+        *)
+            echo "Unrecognized option."
+            exit -1
+                ;;
+    esac
+done
 
+############## Do compile ##############
 
+case $WHAT_COMPILE in
+    applets)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+            ;;
+    all)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+            ;;
+    FidoCadJ)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+            ;;
+esac
+
+exit 0
