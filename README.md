@@ -7,7 +7,6 @@ Copyright 2007-2016
 
 by Davide Bucci
 
-
 1. Introduction
   1. What is FidoCadJ?
   2. Where can I find FidoCadJ?
@@ -155,7 +154,7 @@ git clone https://github.com/DarwinNE/FidoCadJ.git
 ```
 
 3.1 Main directory
-----------------------------------------------------------------------y
+----------------------------------------------------------------------
 In the following table you find a description of the main directory of
 FidoCadJ source files.
 
