@@ -5,7 +5,7 @@ Version 0.24.6
 
 Copyright 2007-2016
 
-by Davide Bucci
+by Davide Bucci and Dante Loi
 
 1. Introduction
   1. What is FidoCadJ?
@@ -620,7 +620,7 @@ https://github.com/DarwinNE/FidoCadJ/issues
 ===================
 
 Code
-:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
+:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80
 
 Beta testers
 :   Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,
@@ -629,7 +629,7 @@ Beta testers
     ... and many others!
 
 Documentation review
-:   Carlo Stemberger (README.md)
+:   Carlo Stemberger, Dante Loi (README.md)
 
 Translations
 :   Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge),
