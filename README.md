@@ -5,8 +5,7 @@ Version 0.24.6
 
 Copyright 2007-2016
 
-by Davide Bucci
-
+by Davide Bucci and Dante Loi
 
 1. Introduction
   1. What is FidoCadJ?
@@ -14,21 +13,26 @@ by Davide Bucci
   3. How can I run FidoCadJ?
   4. Where can I get help?
 2. Source files and the FidoCadJ Git directories
+  1. Main directory
+  2. Important classes
+  3. Developers' tools
 3. Instructions about compiling and running FidoCadJ
-  1. Compile and run the sources on a MacOSX or a Unix operating system
-  2. Compile and run the sources on a Windows system
-  3. Coding conventions
-  4. Automated tests
-  5. Static code analysis and the quality of the FidoCadJ source code
-  6. Android
-4. Help wanted!
+  1. Build automation tool
+  2. Compile and run the sources on a MacOSX or a Unix operating system
+  3. Compile and run the sources on a Windows system
+  4. Android
+4. Coding conventions
+  1. General rules
+  2. Automated tests
+  3. Static code analysis and the quality of the FidoCadJ source code
+5. Help wanted!
   1. "I want to translate FidoCadJ in my language"
   2. "I would like to participate to the coding activity"
   3. Things to do
   4. Checklist for committers
-5. I found a bug...
-6. Acknowledgments
-7. Licensing
+6. I found a bug...
+7. Acknowledgments
+8. Licensing
 
 
 1 - Introduction
@@ -143,10 +147,16 @@ https://github.com/DarwinNE/FidoCadJ/issues).
 
 2 - Source files and the FidoCadJ Git directories
 =================================================
-
-In the following table you find a description of the main directory of
-FidoCadJ source files. You may download the complete source repository by
+You may download the complete source repository by
 using Git from the GitHub repository.
+```
+git clone https://github.com/DarwinNE/FidoCadJ.git
+```
+
+3.1 Main directory
+----------------------------------------------------------------------
+In the following table you find a description of the main directory of
+FidoCadJ source files.
 
 | File                 | DIR | Comments                                        |
 | -------------------- |:---:| ----------------------------------------------- |
@@ -157,6 +167,7 @@ using Git from the GitHub repository.
 | `gpl-3.0.txt`        |     | GNU General Public Licence version 3            |
 | `icons/`             |  X  | All icons (made with Gimp)                      |
 | `jar/`               |  X  | Directory for jar and manifest files            |
+| `makefile`           |     | File which defines automated build system rules |
 | `manual/`            |  X  | All the LaTeX manuals sources                   |
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
@@ -164,9 +175,9 @@ using Git from the GitHub repository.
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
 
+3.2 Important classes
+----------------------------------------------------------------------
 
-If you want to study the FidoCadJ source code, run the `./createdoc` script to
-obtain the Javadoc description.
 Important classes in `src/net/sourceforge/fidocadj/` are:
 
 | Path                        | Description                     |
@@ -178,6 +189,29 @@ Important classes in `src/net/sourceforge/fidocadj/` are:
 | `circuit/CircuitPanel.java` | Swing editor panel              |
 | `circuit/*`                 | Low level editing classes (MVC) |
 
+3.3 Developers' tools
+----------------------------------------------------------------------
+The `dev_tools` directory, contains all the scripts for compile, build,
+run and test FidoCadJ.
+
+| Tool                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `checkstyle.sh`      | Launch Checkstyle with rules in `rules.xml`     |
+| `clean`              | Erase all the compiled classes                  |
+| `cleanall`           | Do a clean, erase `fidocadj.jar`, Javadocs      |
+| `compile`            | Compile FidoCadJ                                |
+| `count`              | Do a `wc` (word count!) on all Java sources     |
+| `createdoc`          | Run Javadoc on all source files                 |
+| `createjar`          | Prepare `fidocadj.jar`                          |
+| `fidocadj_check.txt` | Current result of `checkstyle.sh`               |
+| `fidocadj_cpd.txt`   | Current result of copy/paste detector (pmd)     |
+| `fidocadj_pmd.html`  | Current result of pmd checks                    |
+| `pmd.sh`             | Launch pmd for warnings and copy/paste detector |
+| `profile`            | Launch a profiler (jip)                         |
+| `rules.xml`          | Set of coding style rules for Checklist         |
+| `run`                | Run FidoCadJ                                    |
+| `sign.sh`            | Create the signature for the applet             |
+| `winbuild.bat`       | Build and run script for Windows (see §3.2)     |
 
 3 - Instructions about compiling and running FidoCadJ
 =====================================================
@@ -196,33 +230,24 @@ If you prefer to use some kind of IDE such as Eclipse, you may try, but I
 do not provide assistance about it and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :smile:
 
-3.1 Developers' tools
-----------------------------------------------------------------------
-The `dev_tools` directory contains all the scripts for compile, build,
-run and test FidoCadJ.
-
-| Tool                 | Description                                     |
-| -------------------- | ----------------------------------------------- |
-| `checkstyle.sh`      | Launch Checkstyle with rules in `rules.xml`     |
-| `clean`              | Erase all the compiled classes                  |
-| `cleanall`           | Do a clean, erase `fidocadj.jar`, Javadocs      |
-| `compile`            | Compile FidoCadJ                                |
-| `count`              | Do a `wc` (word count!) on all Java sources     |
-| `createdoc`          | Run Javadoc on all source files                 |
-| `createjar`          | Prepare `fidocadj.jar`                          |
-| `fidocadj_check.txt` | Current result of `checkstyle.sh`               |
-| `fidocadj_cpd.txt`   | Current result of copy/paste detector (pmd)     |
-| `fidocadj_pmd.html`  | Current result of pmd checks                    |
-| `pmd.sh`             | Launch pmd for warnings and copy/paste detector |
-| `profile`            | Launch a profiler (jip)                         |
-| `rebuild`            | Do a clean and then run FidoCadJ                |
-| `rules.xml`          | Set of coding style rules for Checklist         |
-| `run`                | Run FidoCadJ                                    |
-| `sign.sh`            | Create the signature for the applet             |
-| `winbuild.bat`       | Build and run script for Windows (see §3.2)     |
-
-3.2 Compile and run the sources on a MacOSX or an Unix operating system
+3.1 Build automation tool
 -----------------------------------------------------------------------
+The FidoCadJ project has a build automation system, based on `make`.
+The tabled make rules have been implemented.
+
+| Rule                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `make`               | Compile FidoCadJ (implicit)                     |
+| `make clean`         | Erase all the compiled classes                  |
+| `make cleanall`      | Do a clean, erase `fidocadj.jar`, Javadocs      |
+| `make compile`       | Compile FidoCadJ (explicit)                     |
+| `make createdoc`     | Run Javadoc on all source files                 |
+| `make createjar`     | Prepare `jar/fidocadj.jar`                      |
+| `make rebuild`       | Do a clean and then run FidoCadJ                |
+| `make run`           | Run FidoCadJ                                    |
+
+3.2 Compile and run the sources on a MacOSX or a Unix operating system
+----------------------------------------------------------------------
 
 If you are using MacOSX (>=10.8) or an Unix system (GNU/Linux included), just
 open up a terminal window, go into the main directory of FidoCadJ and type:
@@ -233,6 +258,9 @@ FidoCadJ should be automatically compiled and launched. You can use the
 following script to create a JAR archive in the `jar/` directory:
 
     make createjar
+
+If you want to study the FidoCadJ source code, run the `make createdoc` script
+to obtain the Javadoc description.
 
 3.3 Compile and run the sources on a Windows system
 ---------------------------------------------------
@@ -264,8 +292,28 @@ To launch the compiled program, you should type:
 
 FidoCadJ should start.
 
-3.4 Coding conventions
-----------------------
+3.4 Android
+-----------
+
+Android deserves an application which is well separated from the one you
+can use on a PC or on a Mac: a smartphone or a table is a quite different
+device than a laptop or a desktop computer. Therefore, a lot of effort had
+to be put in the development of an appropriate Android app.
+
+You can find the complete sources in `OSes/android/fidocadj/`; there is a
+separate `README.md` file which gives some relevant information.
+
+Great care has been put in sharing as much code as possible between the
+computer application and the Android one. Therefore, you will always
+find the same release number synchronized between the two.
+
+4 - Coding conventions
+=====================================================
+Who wants to work on the FidoCadJ sourcecode should take care the following
+style conventions.
+
+4.1 General rules
+-------------------
 
 The following coding conventions have been applied for the FidoCadJ source
 code:
@@ -338,14 +386,14 @@ int dummy(int i)
 - discuss what you want to do BEFORE start coding
 - documentation is important. Try to improve it and keep it up-to-date
 
-A Checkstyle ruleset (called `rules.xml`) is being progressively employed so
+A Checkstyle ruleset (called `dev_tools/rules.xml`) is being progressively employed so
 that those rules will be automatically checked. Points for which a rule has
 been activated have been marked with :ok: in the previous list.
 
-Be sure to run checkstyle with `rules.xml` before sending a pull request! Have
+Be sure to run checkstyle with `dev_tools/rules.xml` before sending a pull request! Have
 a look at paragraph 4.4 and follow the checklist!
 
-3.5 Automated tests
+4.2 Automated tests
 -------------------
 
 To ease the maintain of a certain degree of quality control when working
@@ -385,7 +433,7 @@ can be improved or updated.
 In other cases, the differences might just contain unimportant data (such
 as version numbers and so on).
 
-3.6 Static code analysis and the quality of the FidoCadJ source code
+4.3 Static code analysis and the quality of the FidoCadJ source code
 --------------------------------------------------------------------
 
 Static code analysis is a powerful tool to ensure code quality. It cannot do
@@ -395,11 +443,11 @@ They are [PMD](https://pmd.github.io) and [FindBugs](
 http://findbugs.sourceforge.net); those programs are different and somewhat
 complementary.
 
-PMD works on the source files directly (see the `pmd.sh` script) and the results
-are contained in the file `fidocadj_pmd.html`. This file is contained in the
+PMD works on the source files directly (see the `dev_tools/pmd.sh` script) and the results
+are contained in the file `dev_tools/fidocadj_pmd.html`. This file is contained in the
 source file repository and it provides a sort of a traceable metric of the
 overall code quality. A copy/paste detection in the code is performed too
-and the results are stored in `fidocadj_cpd.txt`.
+and the results are stored in `dev_tools/fidocadj_cpd.txt`.
 Effort will be done to reduce the size of those files in the future.
 
 FindBugs runs interactively and analyzes the JAR file resulting after the
@@ -413,29 +461,13 @@ Saskatchewan.
 If you work on FidoCadJ code, please do all your best to keep high the quality
 of the code you are writing.
 
-As already presented in section 3.3, another tool is employed to ensure that
+As already presented in section 4.1, another tool is employed to ensure that
 the coding style is uniform: [Checkstyle](http://checkstyle.sourceforge.net).
-The coding rules for Checkstyle are specified in the `rules.xml` file. Be sure
-you run Checkstyle with this ruleset to see what it has to be corrected
+The coding rules for Checkstyle are specified in the `dev_tools/rules.xml` file.
+Be sure you run Checkstyle with this ruleset to see what it has to be corrected
 before creating a pull request.
 
-3.7 Android
------------
-
-Android deserves an application which is well separated from the one you
-can use on a PC or on a Mac: a smartphone or a table is a quite different
-device than a laptop or a desktop computer. Therefore, a lot of effort had
-to be put in the development of an appropriate Android app.
-
-You can find the complete sources in `OSes/android/fidocadj/`; there is a
-separate `README.md` file which gives some relevant information.
-
-Great care has been put in sharing as much code as possible between the
-computer application and the Android one. Therefore, you will always
-find the same release number synchronized between the two.
-
-
-4 - Help wanted!
+5 - Help wanted!
 ================
 
 I am seeking for people interested in participating to the FidoCadJ project.
@@ -452,7 +484,7 @@ attachments, please). It is probably better to open a discussion on GitHub,
 in order that the work can eventually be shared and organised between all
 developers.
 
-4.1 "I want to translate FidoCadJ in my language"
+5.1 "I want to translate FidoCadJ in my language"
 -------------------------------------------------
 
 FidoCadJ is written in such a way that translating its interface is
@@ -500,7 +532,7 @@ Pay attention that sometimes there are spaces at the end of the value
 strings which need to be kept in place. You may be careful about always
 providing complete files, since if a resource is missing, FidoCadJ can abort.
 
-4.2 "I would like to participate to the coding activity"
+5.2 "I would like to participate to the coding activity"
 --------------------------------------------------------
 
 This is very nice from you. We will be happy for that.
@@ -528,7 +560,7 @@ run `make createdoc`, if you are in a Unix system.
 Then comes the hard work... We can help you! Please come to the GitHub
 discussions dedicated to FidoCadJ!
 
-4.3 Things to do
+5.3 Things to do
 ----------------
 
 Translate user interface
@@ -558,21 +590,21 @@ Linux packaging
 :   FidoCadJ could be distributed as a deb or a RPM package. Can you prepare
     one?
 
-4.4 Checklist for committers
+5.4 Checklist for committers
 ----------------------------
 
 For the PC and Android app:
 - [ ] The code does not break the build for both PC and Android apps.
 - [ ] The coding style is conform to paragraph 3.3 of this README.
 - [ ] Comments have been added at the relevant places and are up-to date.
-- [ ] I ran Checkstyle with `rules.xml` and no issues are reported.
+- [ ] I ran Checkstyle with `dev_tools/rules.xml` and no issues are reported.
 
 For the PC app:
 - [ ] A JAR file has been generated and automated tests have been run.
 - [ ] PMD analysis has been run on the code.
 
 
-5 - I found a bug...
+6 - I found a bug...
 ====================
 
 Every program contains bugs and FidoCadJ is not an exception. Even if all
@@ -584,11 +616,11 @@ fill a bug report at the following address:
 https://github.com/DarwinNE/FidoCadJ/issues
 
 
-6 - Acknowledgments
+7 - Acknowledgments
 ===================
 
 Code
-:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, dantecpp, miklos80
+:   Davide Bucci, josmil1, phylum2, Kohta Ozaki, Dante Loi, miklos80
 
 Beta testers
 :   Kagliostro, Bruno Valente, simo85, Stefano Martini, F. Bertolazzi,
@@ -597,7 +629,7 @@ Beta testers
     ... and many others!
 
 Documentation review
-:   Carlo Stemberger (README.md)
+:   Carlo Stemberger, Dante Loi (README.md)
 
 Translations
 :   Davide Bucci (it, en, fr), Pasu (en), Olaf Marzocchi (ge),
@@ -628,7 +660,7 @@ inclusion in the FidoCadJ project, open an Issue on GitHub and we will remove
 the offending code as fast as we can.
 
 
-7 - Licensing
+8 - Licensing
 =============
 
 FidoCadJ is distributed with the GPL v. 3 license:
