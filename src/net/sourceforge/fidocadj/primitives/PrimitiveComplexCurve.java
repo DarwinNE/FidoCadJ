@@ -702,10 +702,13 @@ public final class PrimitiveComplexCurve
                     int arrows = Integer.parseInt(tokens[j++]);
                     arrowStart = (arrows & 0x01) !=0;
                     arrowEnd = (arrows & 0x02) !=0;
-
-                    arrowStyle = Integer.parseInt(tokens[j++]);
-                    arrowLength = Integer.parseInt(tokens[j++]);
-                    arrowHalfWidth = Integer.parseInt(tokens[j++]);
+                    arrowStyle =Integer.parseInt(tokens[j++]);
+                    // These rounding operations should be removed in version
+                    // 0.24.8 (see Issue #111).
+                    arrowLength =
+                        (int)Math.round(Double.parseDouble(tokens[j++]));
+                    arrowHalfWidth=
+                        (int)Math.round(Double.parseDouble(tokens[j++]));
                     dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }

@@ -41,6 +41,7 @@ public final class PrimitiveLine extends GraphicPrimitive
     private boolean arrowStart;
     private boolean arrowEnd;
 
+    // From version 0.24.8, those should become floating point values.
     private int arrowLength;
     private int arrowHalfWidth;
 
@@ -367,8 +368,10 @@ public final class PrimitiveLine extends GraphicPrimitive
                 arrowEnd = (arrows & 0x02) !=0;
 
                 arrowStyle = Integer.parseInt(tokens[8]);
-                arrowLength = Integer.parseInt(tokens[9]);
-                arrowHalfWidth = Integer.parseInt(tokens[10]);
+                // These rounding operations should be removed in version
+                // 0.24.8 (see Issue #111).
+                arrowLength = (int)Math.round(Double.parseDouble(tokens[9]));
+                arrowHalfWidth=(int)Math.round(Double.parseDouble(tokens[10]));
                 dashStyle = checkDashStyle(Integer.parseInt(tokens[11]));
             }
         } else {
