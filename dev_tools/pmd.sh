@@ -7,10 +7,10 @@ if [ "$1" = "" ]; then
 fi 
 
 
-$@ pmd -f html -d src/ -rulesets java-basic,java-design -encoding UTF-8 >fidocadj_pmd.html
+$@ pmd -f html -d ../src/ -rulesets java-basic,java-design -encoding UTF-8 >fidocadj_pmd.html
 
 echo "PMD results stored in fidocadj_pmd.html"
 
-$@ cpd --minimum-tokens 100 --files src/ >fidocadj_cpd.txt
+$@ cpd --minimum-tokens 100 --files ../src/ >fidocadj_cpd.txt
 
 echo "CPD results stored in fidocadj_cpd.txt"

@@ -3,11 +3,11 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
+import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.graphic.*;
 
 /**
     Arrow class: draws an arrow of the given size, style and direction.
-    This is a static class.
 
     @author Davide Bucci
 
@@ -41,10 +41,196 @@ public final class Arrow
     public static final int flagLimiter = 0x01;
     public static final int flagEmpty = 0x02;
 
+    // From version 0.24.8, those should become floating point values.
+    private int arrowLength;
+    private int arrowHalfWidth;
+
+    // Style of the arrow.
+    private int arrowStyle;
+
+    private boolean arrowStart;     // Draw arrow at the start point.
+    private boolean arrowEnd;       // Draw arrow at the end point.
+
+    // Arrow sizes in pixels.
+    private int h,l;
+
     /** Constructor is private since this is an utility class.
     */
-    private Arrow()
+    public Arrow()
     {
+        arrowLength = 3;
+        arrowHalfWidth = 1;
+    }
+
+    /** Determine if at least one arrow has to be drawn.
+        @return true if at least one arrow has to be drawn.
+    */
+    public boolean atLeastOneArrow()
+    {
+        return arrowStart || arrowEnd;
+    }
+
+    /** Create the string describing the arrow.
+        @return a string containing the codes
+    */
+    public String createArrowTokens()
+    {
+        int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
+        return ""+arrows+" "+arrowStyle+" "+arrowLength+" "+arrowHalfWidth;
+    }
+
+    /** Determine if the arrow on the start point should be drawn.
+        @return true if the arrow on the start point should be drawn.
+    */
+    public boolean isArrowStart()
+    {
+        return arrowStart;
+    }
+
+    /** Set if an arrow has to be drawn at the start (beginning) of the
+        element.
+        @param as true if it is the case.
+    */
+    public void setArrowStart(boolean as)
+    {
+        arrowStart=as;
+    }
+
+    /** Determine if the arrow on the start point should be drawn.
+        @return true if the arrow on the start point should be drawn.
+    */
+    public boolean isArrowEnd()
+    {
+        return arrowEnd;
+    }
+
+    /** Set if an arrow has to be drawn at the end of the element.
+        @param ae true if it is the case.
+    */
+    public void setArrowEnd(boolean ae)
+    {
+        arrowEnd=ae;
+    }
+
+    /** Get the code of the current arrow style
+        @return the code.
+    */
+    public int getArrowStyle()
+    {
+        return arrowStyle;
+    }
+
+    /** Set the current style.
+        @param as the code style.
+    */
+    public void setArrowStyle(int as)
+    {
+        arrowStyle=as;
+    }
+
+    /** Get the current arrow length.
+        @return the arrow length.
+    */
+    public int getArrowLength()
+    {
+        return arrowLength;
+    }
+
+    /** Set the current arrow length.
+        @param al the arrow length.
+    */
+    public void setArrowLength(int al)
+    {
+        arrowLength=al;
+    }
+
+    /** Get the current arrow half width.
+        @return the arrow half width.
+    */
+    public int getArrowHalfWidth()
+    {
+        return arrowHalfWidth;
+    }
+
+    /** Set the current arrow half width.
+        @param ahw the arrow half width
+    */
+    public void setArrowHalfWidth(int ahw)
+    {
+        arrowHalfWidth=ahw;
+    }
+
+    /** Parse the tokens for the description of an arrow.
+        They always come (in a FCJ line) in the same order, but the starting
+        index may differ. The order is as follows: 1. the presence of which
+        arrow (start/end points), 2. the style code, 3. the length, 4. the
+        half width, 5. the style.
+        @param tokens the tokens to be interpreted.
+        @param startIndex the index where to start having a look around.
+        @return the index of the token following the one which has been just
+        read.
+    */
+    public int parseTokens(String[] tokens, int startIndex)
+    {
+        int i=startIndex;
+        int arrows = Integer.parseInt(tokens[i++]);
+        arrowStart = (arrows & 0x01) !=0;
+        arrowEnd = (arrows & 0x02) !=0;
+
+        arrowStyle = Integer.parseInt(tokens[i++]);
+        // These rounding operations should be removed in version
+        // 0.24.8 (see Issue #111).
+        arrowLength = (int)Math.round(Double.parseDouble(tokens[i++]));
+        arrowHalfWidth=(int)Math.round(Double.parseDouble(tokens[i++]));
+        return i;
+    }
+
+    /** The drawing operation is done in two step. The first one is performed
+        here and consists in calculating all the relevant size parameters in
+        pixels, given the current coordinate mapping. The results are stored
+        and used during the drawing operations. This function does not need
+        to be employed each time a drawing operation is needed, but only when
+        something changes, such as the coordinate mapping or the sizes of the
+        arrows.
+        @param coordSys the current coordinate mapping system.
+        @return the half width in pixels.
+    */
+    public int prepareCoordinateMapping(MapCoordinates coordSys)
+    {
+        // Heigth and width of the arrows in pixels
+        h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
+            coordSys.mapXi(0,0, false));
+        l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
+            coordSys.mapXi(0,0,false));
+        // h and l must conserve the sign of arrowHalfWidth and
+        // arrowLength, regardless of the coordinate system
+        // orientation.
+        if(arrowHalfWidth<0) h=-h;
+        if(arrowLength<0) l=-l;
+        return h;
+    }
+
+    /** Draw an arrow at the given position. Version useful in those cases
+        where the sizes have to be set directly in pixels and no data deserve
+        to be stored for very long.
+
+        @param g the graphic context to be used.
+        @param x the x coordinate of the arrow point.
+        @param y the y coordinate of the arrow point.
+        @param xc the x coordinate of the direction point.
+        @param yc the y coordinate of the direction point.
+        @return the coordinate of the base point of the arrow head.
+        @param tl the length of the arrow in pixels.
+        @param th the half width of the arrow in pixels.
+        @param as the style of the arrow.
+    */
+    public PointG drawArrowPixels(GraphicsInterface g, int x, int y, int xc,
+        int yc, int tl, int th, int as)
+    {
+        h=th;
+        l=tl;
+        arrowStyle=as;
+        return drawArrow(g, x,y, xc,yc);
     }
 
     /** Draw an arrow at the given position.
@@ -53,13 +239,9 @@ public final class Arrow
         @param y the y coordinate of the arrow point
         @param xc the x coordinate of the direction point
         @param yc the y coordinate of the direction point
-        @param l the length of the arrow
-        @param h the half width of the arrow
-        @param style the arrow style
         @return the coordinate of the base point of the arrow head
     */
-    public static PointG drawArrow(GraphicsInterface g, int x, int y, int xc,
-        int yc, int l, int h, int style)
+    public PointG drawArrow(GraphicsInterface g, int x, int y, int xc, int yc)
     {
         double s;
         double alpha;
@@ -107,14 +289,14 @@ public final class Arrow
         p.addPoint((int)(x2+0.5),(int)(y2+0.5));
 
 
-        if ((style & flagEmpty) == 0)
+        if ((arrowStyle & flagEmpty) == 0)
             g.fillPolygon(p);
         else
             g.drawPolygon(p);
 
         // Check if we need to draw the limiter or not
         // This is a small line useful for quotes.
-        if ((style & flagLimiter) != 0) {
+        if ((arrowStyle & flagLimiter) != 0) {
             double x3;
             double y3;
             double x4;

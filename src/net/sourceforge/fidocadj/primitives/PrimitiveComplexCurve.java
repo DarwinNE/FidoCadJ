@@ -44,13 +44,7 @@ public final class PrimitiveComplexCurve
     private boolean isFilled;
     private boolean isClosed;
 
-    private boolean arrowStart;
-    private boolean arrowEnd;
-
-    private int arrowLength;
-    private int arrowHalfWidth;
-
-    private int arrowStyle;
+    private final Arrow arrowData;
     private int dashStyle;
 
     // The natural spline is drawn as a polygon. Even if this is a rather
@@ -100,6 +94,7 @@ public final class PrimitiveComplexCurve
     public PrimitiveComplexCurve(String f, int size)
     {
         super();
+        arrowData=new Arrow();
         isFilled=false;
         nPoints=0;
         p = null;
@@ -127,11 +122,12 @@ public final class PrimitiveComplexCurve
     {
         super();
 
-        arrowLength = arrowLe;
-        arrowHalfWidth = arrowWi;
-        arrowStart = arrowS;
-        arrowEnd = arrowE;
-        arrowStyle =arrowSt;
+        arrowData=new Arrow();
+        arrowData.setArrowStart(arrowS);
+        arrowData.setArrowEnd(arrowE);
+        arrowData.setArrowHalfWidth(arrowWi);
+        arrowData.setArrowLength(arrowLe);
+        arrowData.setArrowStyle(arrowSt);
         dashStyle=dashSt;
 
         p = null;
@@ -610,29 +606,19 @@ public final class PrimitiveComplexCurve
             return;
 
         // Draw the arrows if they are needed
-        if (arrowStart || arrowEnd) {
-            // Height and width of the arrows in pixels
-            int h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                    coordSys.mapXi(0,0, false));
-            int l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
-                    coordSys.mapXi(0,0,false));
-            // h and l must conserve the sign of arrowHalfWidth and
-            // arrowLength, regardless of the coordinate system
-            // orientation.
-            if(arrowHalfWidth<0) h=-h;
-            if(arrowLength<0) l=-l;
+        if (arrowData.atLeastOneArrow()) {
+            arrowData.prepareCoordinateMapping(coordSys);
 
-            if (arrowStart&&!isClosed) {
-                Arrow.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],
-                    p.getXpoints()[1], p.getYpoints()[1],l, h, arrowStyle);
+            if (arrowData.isArrowStart()&&!isClosed) {
+                arrowData.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],
+                    p.getXpoints()[1], p.getYpoints()[1]);
             }
 
-            if (arrowEnd&&!isClosed) {
-                Arrow.drawArrow(g, p.getXpoints()[p.getNpoints()-1],
+            if (arrowData.isArrowEnd()&&!isClosed) {
+                arrowData.drawArrow(g, p.getXpoints()[p.getNpoints()-1],
                     p.getYpoints()[p.getNpoints()-1],
                     p.getXpoints()[p.getNpoints()-2],
-                    p.getYpoints()[p.getNpoints()-2],l, h,
-                    arrowStyle);
+                    p.getYpoints()[p.getNpoints()-2]);
             }
         }
     }
@@ -699,16 +685,7 @@ public final class PrimitiveComplexCurve
                 parseLayer(tokens[j++]);
 
                 if(N>j && tokens[j++].equals("FCJ")) {
-                    int arrows = Integer.parseInt(tokens[j++]);
-                    arrowStart = (arrows & 0x01) !=0;
-                    arrowEnd = (arrows & 0x02) !=0;
-                    arrowStyle =Integer.parseInt(tokens[j++]);
-                    // These rounding operations should be removed in version
-                    // 0.24.8 (see Issue #111).
-                    arrowLength =
-                        (int)Math.round(Double.parseDouble(tokens[j++]));
-                    arrowHalfWidth=
-                        (int)Math.round(Double.parseDouble(tokens[j++]));
+                    j=arrowData.parseTokens(tokens, j);
                     dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }
@@ -747,27 +724,27 @@ public final class PrimitiveComplexCurve
         v.add(pd);
 
         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowStart);
+        pd.parameter=Boolean.valueOf(arrowData.isArrowStart());
         pd.description=Globals.messages.getString("ctrl_arrow_start");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowEnd);
+        pd.parameter=Boolean.valueOf(arrowData.isArrowEnd());
         pd.description=Globals.messages.getString("ctrl_arrow_end");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowLength);
+        pd.parameter=Integer.valueOf(arrowData.getArrowLength());
         pd.description=Globals.messages.getString("ctrl_arrow_length");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowHalfWidth);
+        pd.parameter=Integer.valueOf(arrowData.getArrowHalfWidth());
         pd.description=Globals.messages.getString("ctrl_arrow_half_width");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowStyle);
+        pd.parameter=new ArrowInfo(arrowData.getArrowStyle());
         pd.description=Globals.messages.getString("ctrl_arrow_style");
         pd.isExtension = true;
         v.add(pd);
@@ -811,32 +788,32 @@ public final class PrimitiveComplexCurve
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
-            arrowStart=((Boolean)pd.parameter).booleanValue();
+            arrowData.setArrowStart(((Boolean)pd.parameter).booleanValue());
         else
-            System.out.println("Warning: unexpected parameter 1!"+pd);
+            System.out.println("Warning: 1-unexpected parameter!"+pd);
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
-            arrowEnd=((Boolean)pd.parameter).booleanValue();
+             arrowData.setArrowEnd(((Boolean)pd.parameter).booleanValue());
         else
-            System.out.println("Warning: unexpected parameter 2!"+pd);
+            System.out.println("Warning: 2-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
-            arrowLength=((Integer)pd.parameter).intValue();
+            arrowData.setArrowLength(((Integer)pd.parameter).intValue());
         else
-            System.out.println("Warning: unexpected parameter 3!"+pd);
+            System.out.println("Warning: 3-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
-            arrowHalfWidth=((Integer)pd.parameter).intValue();
+            arrowData.setArrowHalfWidth(((Integer)pd.parameter).intValue());
         else
-            System.out.println("Warning: unexpected parameter 4!"+pd);
+            System.out.println("Warning: 4-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof ArrowInfo)
-            arrowStyle=((ArrowInfo)pd.parameter).style;
+            arrowData.setArrowStyle(((ArrowInfo)pd.parameter).style);
         else
-            System.out.println("Warning: unexpected parameter 5!"+pd);
+            System.out.println("Warning: 5-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof DashInfo)
@@ -938,18 +915,15 @@ public final class PrimitiveComplexCurve
 
         String cmd=temp.toString();
 
-        if(extensions) {
-            int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-
-            if (arrows>0 || dashStyle>0 || hasName() || hasValue()) {
-                String text = "0";
-                // We take into account that there may be some text associated
-                // to that primitive.
-                if (name.length()!=0 || value.length()!=0)
-                    text = "1";
-                cmd+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
-            }
+        if(extensions && (arrowData.atLeastOneArrow() || dashStyle>0 ||
+            hasName() || hasValue()))
+        {
+            String text = "0";
+            // We take into account that there may be some text associated
+            // to that primitive.
+            if (name.length()!=0 || value.length()!=0)
+                text = "1";
+            cmd+="FCJ "+arrowData.createArrowTokens()+" "+text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.
         cmd+=saveText(false);
@@ -988,9 +962,10 @@ public final class PrimitiveComplexCurve
         // If not, we continue using a polygon with an high number of
         // vertex
         if (!exp.exportCurve(vertices, nPoints, isFilled, isClosed, getLayer(),
-                arrowStart, arrowEnd, arrowStyle,
-                (int)(arrowLength*cs.getXMagnitude()),
-                (int)(arrowHalfWidth*cs.getXMagnitude()),
+                arrowData.isArrowStart(), arrowData.isArrowEnd(),
+                arrowData.getArrowStyle(),
+                (int)(arrowData.getArrowLength()*cs.getXMagnitude()),
+                (int)(arrowData.getArrowHalfWidth()*cs.getXMagnitude()),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude()))
         {
             exportAsPolygonInterface(xPoints, yPoints, vertices, exp, cs);
@@ -1001,21 +976,20 @@ public final class PrimitiveComplexCurve
 
             // Draw the arrows if they are needed
             if(q.getNpoints()>2) {
-                if (arrowStart&&!isClosed) {
+                if (arrowData.isArrowStart()&&!isClosed) {
                     exp.exportArrow(vertices[0].x, vertices[0].y,
                         vertices[1].x, vertices[1].y,
-                        arrowLength*cs.getXMagnitude(),
-                        arrowHalfWidth*cs.getXMagnitude(),
-                        arrowStyle);
+                        arrowData.getArrowLength()*cs.getXMagnitude(),
+                        arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
+                        arrowData.getArrowStyle());
                 }
-
-                if (arrowEnd&&!isClosed) {
+                if (arrowData.isArrowEnd()&&!isClosed) {
                     exp.exportArrow(vertices[totalnP-1].x,
                         vertices[totalnP-1].y,
                         vertices[totalnP-2].x, vertices[totalnP-2].y,
-                        arrowLength*cs.getXMagnitude(),
-                        arrowHalfWidth*cs.getXMagnitude(),
-                        arrowStyle);
+                        arrowData.getArrowLength()*cs.getXMagnitude(),
+                        arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
+                        arrowData.getArrowStyle());
                 }
             }
         }

@@ -38,22 +38,17 @@ public final class PrimitiveLine extends GraphicPrimitive
 {
     static final int N_POINTS=4;
 
-    private boolean arrowStart;
-    private boolean arrowEnd;
+    // Info about arrow.
+    private final Arrow arrowData;
 
-    // From version 0.24.8, those should become floating point values.
-    private int arrowLength;
-    private int arrowHalfWidth;
-
-    private int arrowStyle;
     private int dashStyle;
+
 
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
     private int xa, ya, xb, yb;
     private int x1, y1,x2,y2;
-    private int h,l;
     private float w;
     private int length2;
     private int xbpap1, ybpap1;
@@ -81,11 +76,13 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         super();
 
-        arrowLength = arrowLe;
-        arrowHalfWidth = arrowWi;
-        arrowStart = arrowS;
-        arrowEnd = arrowE;
-        arrowStyle=arrowSt;
+        arrowData=new Arrow();
+        arrowData.setArrowStart(arrowS);
+        arrowData.setArrowEnd(arrowE);
+        arrowData.setArrowHalfWidth(arrowWi);
+        arrowData.setArrowLength(arrowLe);
+        arrowData.setArrowStyle(arrowSt);
+
         dashStyle = dashSt;
 
         initPrimitive(-1, f, size);
@@ -109,8 +106,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     public PrimitiveLine(String f, int size)
     {
         super();
-        arrowLength = 3;
-        arrowHalfWidth = 1;
+        arrowData=new Arrow();
+
         initPrimitive(-1, f, size);
     }
 
@@ -134,38 +131,35 @@ public final class PrimitiveLine extends GraphicPrimitive
         ParameterDescription pd = new ParameterDescription();
 
         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowStart);
+        pd.parameter=Boolean.valueOf(arrowData.isArrowStart());
         pd.description=Globals.messages.getString("ctrl_arrow_start");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowEnd);
+        pd.parameter=Boolean.valueOf(arrowData.isArrowEnd());
         pd.description=Globals.messages.getString("ctrl_arrow_end");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowLength);
+        pd.parameter=Integer.valueOf(arrowData.getArrowLength());
         pd.description=Globals.messages.getString("ctrl_arrow_length");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowHalfWidth);
+        pd.parameter=Integer.valueOf(arrowData.getArrowHalfWidth());
         pd.description=Globals.messages.getString("ctrl_arrow_half_width");
         pd.isExtension = true;
-
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowStyle);
+        pd.parameter=new ArrowInfo(arrowData.getArrowStyle());
         pd.description=Globals.messages.getString("ctrl_arrow_style");
         pd.isExtension = true;
-
         v.add(pd);
 
         pd = new ParameterDescription();
         pd.parameter=new DashInfo(dashStyle);
         pd.description=Globals.messages.getString("ctrl_dash_style");
         pd.isExtension = true;
-
         v.add(pd);
 
         return v;
@@ -186,30 +180,30 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
-            arrowStart=((Boolean)pd.parameter).booleanValue();
+            arrowData.setArrowStart(((Boolean)pd.parameter).booleanValue());
         else
             System.out.println("Warning: 1-unexpected parameter!"+pd);
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Boolean)
-            arrowEnd=((Boolean)pd.parameter).booleanValue();
+             arrowData.setArrowEnd(((Boolean)pd.parameter).booleanValue());
         else
             System.out.println("Warning: 2-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
-            arrowLength=((Integer)pd.parameter).intValue();
+            arrowData.setArrowLength(((Integer)pd.parameter).intValue());
         else
             System.out.println("Warning: 3-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof Integer)
-            arrowHalfWidth=((Integer)pd.parameter).intValue();
+            arrowData.setArrowHalfWidth(((Integer)pd.parameter).intValue());
         else
             System.out.println("Warning: 4-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof ArrowInfo)
-            arrowStyle=((ArrowInfo)pd.parameter).style;
+            arrowData.setArrowStyle(((ArrowInfo)pd.parameter).style);
         else
             System.out.println("Warning: 5-unexpected parameter!"+pd);
 
@@ -276,23 +270,13 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Calculate the square of the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
 
-            arrows = arrowStart || arrowEnd;
+            arrows = arrowData.atLeastOneArrow();
 
-            // This correction solves bug #3101041
+            // This correction solves bug #3101041 (old SF code)
             // We do need to apply a correction to the clip calculation
             // rectangle if necessary to take into account the arrow heads
             if (arrows) {
-                // Heigth and width of the arrows in pixels
-                h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                    coordSys.mapXi(0,0, false));
-                l=Math.abs(coordSys.mapXi(arrowLength,arrowLength, false)-
-                    coordSys.mapXi(0,0,false));
-                // h and l must conserve the sign of arrowHalfWidth and
-                // arrowLength, regardless of the coordinate system
-                // orientation.
-                if(arrowHalfWidth<0) h=-h;
-                if(arrowLength<0) l=-l;
-
+                int h=arrowData.prepareCoordinateMapping(coordSys);
                 xa -= Math.abs(h);
                 ya -= Math.abs(h);
                 xb += Math.abs(h);
@@ -310,11 +294,11 @@ public final class PrimitiveLine extends GraphicPrimitive
 
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {
-                if (arrowStart) {
-                    PointG Pc=Arrow.drawArrow(g,x1,y1,x2,y2,l,h,arrowStyle);
+                if (arrowData.isArrowStart()) {
+                    PointG Pc=arrowData.drawArrow(g,x1,y1,x2,y2);
                 }
-                if (arrowEnd) {
-                    PointG Pc=Arrow.drawArrow(g,x2,y2,x1,y1,l,h,arrowStyle);
+                if (arrowData.isArrowEnd()) {
+                    PointG Pc=arrowData.drawArrow(g,x2,y2,x1,y1);
                 }
             }
             g.drawLine(x1,y1,x2,y2);
@@ -336,10 +320,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     public void parseTokens(String[] tokens, int N)
         throws IOException
     {
-        // assert it is the correct primitive
-        int i;
         changed=true;
-
+        // assert it is the correct primitive
         if (tokens[0].equals("LI")) {   // Line
             if (N<5) {
                 IOException E=new IOException("bad arguments on LI");
@@ -363,16 +345,8 @@ public final class PrimitiveLine extends GraphicPrimitive
             // FidoCadJ extensions
 
             if(N>6 && tokens[6].equals("FCJ")) {
-                int arrows = Integer.parseInt(tokens[7]);
-                arrowStart = (arrows & 0x01) !=0;
-                arrowEnd = (arrows & 0x02) !=0;
-
-                arrowStyle = Integer.parseInt(tokens[8]);
-                // These rounding operations should be removed in version
-                // 0.24.8 (see Issue #111).
-                arrowLength = (int)Math.round(Double.parseDouble(tokens[9]));
-                arrowHalfWidth=(int)Math.round(Double.parseDouble(tokens[10]));
-                dashStyle = checkDashStyle(Integer.parseInt(tokens[11]));
+                int i=arrowData.parseTokens(tokens, 7);
+                dashStyle = checkDashStyle(Integer.parseInt(tokens[i]));
             }
         } else {
             IOException E=new IOException("LI: Invalid primitive:"+tokens[0]+
@@ -421,20 +395,17 @@ public final class PrimitiveLine extends GraphicPrimitive
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
             getLayer()+"\n";
 
-        if(extensions) {
-            int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-
-            if (arrows>0 || dashStyle>0 || name!=null && name.length()!=0
-                || value!=null && value.length()!=0)
-            {
-                String text = "0";
-                // We take into account that there may be some text associated
-                // to that primitive.
-                if (hasName() || hasValue())
-                    text = "1";
-                s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
-            }
+        if(extensions && (arrowData.atLeastOneArrow() || dashStyle>0 ||
+            name!=null && name.length())!=0 ||
+            value!=null && value.length()!=0)
+        {
+            String text = "0";
+            // We take into account that there may be some text associated
+            // to that primitive.
+            if (hasName() || hasValue())
+                text = "1";
+            s+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+
+                " "+text+"\n";
         }
 
         // The false is needed since saveText should not write the FCJ tag.
@@ -458,10 +429,10 @@ public final class PrimitiveLine extends GraphicPrimitive
                        cs.mapX(virtualPoint[1].x,virtualPoint[1].y),
                        cs.mapY(virtualPoint[1].x,virtualPoint[1].y),
                        getLayer(),
-                       arrowStart, arrowEnd,
-                       arrowStyle,
-                       (int)(arrowLength*cs.getXMagnitude()),
-                       (int)(arrowHalfWidth*cs.getXMagnitude()),
+                       arrowData.isArrowStart(), arrowData.isArrowEnd(),
+                       arrowData.getArrowStyle(),
+                       (int)(arrowData.getArrowLength()*cs.getXMagnitude()),
+                       (int)(arrowData.getArrowHalfWidth()*cs.getXMagnitude()),
                        dashStyle,
                        Globals.lineWidth*cs.getXMagnitude());
     }
