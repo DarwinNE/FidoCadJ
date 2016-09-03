@@ -27,7 +27,7 @@ import android.view.View;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014-2015 by Dante Loi, Davide Bucci
+    Copyright 2014-2016 by Dante Loi, Davide Bucci
     </pre>
 */
 public class CellArrow extends View
@@ -72,7 +72,8 @@ public class CellArrow extends View
         // Draw the arrow.
         g.applyStroke(2*mult, 0);
         g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
-        Arrow.drawArrow(g, getWidth()/3, getHeight()/2,
+        Arrow arrowDummy = new Arrow();
+        arrowDummy.drawArrowPixels(g, getWidth()/3, getHeight()/2,
                 2*getWidth()/3, getHeight()/2, mult*10, mult*4,
                  arrow.style);
 
