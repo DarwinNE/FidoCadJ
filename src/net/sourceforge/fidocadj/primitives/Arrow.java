@@ -5,6 +5,9 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.globals.*;
+
 
 /**
     Arrow class: draws an arrow of the given size, style and direction.
@@ -208,6 +211,86 @@ public final class Arrow
         if(arrowHalfWidth<0) h=-h;
         if(arrowLength<0) l=-l;
         return h;
+    }
+
+    /** Add elements for the Arrow description inside a parameter description
+        array used to create a parameters dialog.
+        @param v the Vector to which the elements have to be added (of course,
+            this means that that Vector will be modified!
+        @return the vector itself.
+    */
+    public Vector<ParameterDescription> getControlsForArrow(
+        Vector<ParameterDescription> v)
+    {
+        ParameterDescription pd = new ParameterDescription();
+        pd.parameter=Boolean.valueOf(isArrowStart());
+        pd.description=Globals.messages.getString("ctrl_arrow_start");
+        pd.isExtension = true;
+        v.add(pd);
+        pd = new ParameterDescription();
+        pd.parameter=Boolean.valueOf(isArrowEnd());
+        pd.description=Globals.messages.getString("ctrl_arrow_end");
+        pd.isExtension = true;
+        v.add(pd);
+        pd = new ParameterDescription();
+        pd.parameter=Integer.valueOf(getArrowLength());
+        pd.description=Globals.messages.getString("ctrl_arrow_length");
+        pd.isExtension = true;
+        v.add(pd);
+        pd = new ParameterDescription();
+        pd.parameter=Integer.valueOf(getArrowHalfWidth());
+        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
+        pd.isExtension = true;
+        v.add(pd);
+        pd = new ParameterDescription();
+        pd.parameter=new ArrowInfo(getArrowStyle());
+        pd.description=Globals.messages.getString("ctrl_arrow_style");
+        pd.isExtension = true;
+        v.add(pd);
+
+        return v;
+    }
+
+    /** Read the elements for the Arrow description inside a parameter
+        description Vector, coming from a parameters dialog.
+        @param v the Vector to which the elements have been added
+        @param start the starting index to which the parameters should be
+            interpreted as describing an Arrow.
+        @return the index+1 of the last element employed for the Arrow.
+    */
+    public int setParametersForArrow(Vector<ParameterDescription> v, int start)
+    {
+        int i=start;
+        ParameterDescription pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof Boolean)
+            setArrowStart(((Boolean)pd.parameter).booleanValue());
+        else
+            System.out.println("Warning: 1-unexpected parameter!"+pd);
+        pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof Boolean)
+             setArrowEnd(((Boolean)pd.parameter).booleanValue());
+        else
+            System.out.println("Warning: 2-unexpected parameter!"+pd);
+
+        pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof Integer)
+            setArrowLength(((Integer)pd.parameter).intValue());
+        else
+            System.out.println("Warning: 3-unexpected parameter!"+pd);
+
+        pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof Integer)
+            setArrowHalfWidth(((Integer)pd.parameter).intValue());
+        else
+            System.out.println("Warning: 4-unexpected parameter!"+pd);
+
+        pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof ArrowInfo)
+            setArrowStyle(((ArrowInfo)pd.parameter).style);
+        else
+            System.out.println("Warning: 5-unexpected parameter!"+pd);
+
+        return i;
     }
 
     /** Draw an arrow at the given position. Version useful in those cases

@@ -128,34 +128,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         Vector<ParameterDescription> v=super.getControls();
 
+        arrowData.getControlsForArrow(v);
         ParameterDescription pd = new ParameterDescription();
-
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowStart());
-        pd.description=Globals.messages.getString("ctrl_arrow_start");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowEnd());
-        pd.description=Globals.messages.getString("ctrl_arrow_end");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowLength());
-        pd.description=Globals.messages.getString("ctrl_arrow_length");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowHalfWidth());
-        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowData.getArrowStyle());
-        pd.description=Globals.messages.getString("ctrl_arrow_style");
-        pd.isExtension = true;
-        v.add(pd);
-
         pd = new ParameterDescription();
         pd.parameter=new DashInfo(dashStyle);
         pd.description=Globals.messages.getString("ctrl_dash_style");
@@ -176,38 +150,9 @@ public final class PrimitiveLine extends GraphicPrimitive
     public int setControls(Vector<ParameterDescription> v)
     {
         int i=super.setControls(v);
-        ParameterDescription pd;
+        i=arrowData.setParametersForArrow(v, i);
 
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowData.setArrowStart(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 1-unexpected parameter!"+pd);
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-             arrowData.setArrowEnd(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 2-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowLength(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 3-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowHalfWidth(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 4-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
-            arrowData.setArrowStyle(((ArrowInfo)pd.parameter).style);
-        else
-            System.out.println("Warning: 5-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
+        ParameterDescription pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof DashInfo)
             dashStyle=((DashInfo)pd.parameter).style;
         else
@@ -396,7 +341,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             getLayer()+"\n";
 
         if(extensions && (arrowData.atLeastOneArrow() || dashStyle>0 ||
-            name!=null && name.length())!=0 ||
+            name!=null && name.length()!=0) ||
             value!=null && value.length()!=0)
         {
             String text = "0";

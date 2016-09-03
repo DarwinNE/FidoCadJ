@@ -1,129 +1,3 @@
-Found a 121 line (657 tokens) duplication in the following files: 
-Starting at line 125 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 121 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-
-    }
-
-    /** Get the control parameters of the given primitive.
-        @return a vector of ParameterDescription containing each control
-                parameter.
-    */
-    public Vector<ParameterDescription> getControls()
-    {
-        Vector<ParameterDescription> v=super.getControls();
-
-        ParameterDescription pd = new ParameterDescription();
-
-         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowStart());
-        pd.description=Globals.messages.getString("ctrl_arrow_start");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowEnd());
-        pd.description=Globals.messages.getString("ctrl_arrow_end");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowLength());
-        pd.description=Globals.messages.getString("ctrl_arrow_length");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowHalfWidth());
-        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowData.getArrowStyle());
-        pd.description=Globals.messages.getString("ctrl_arrow_style");
-        pd.isExtension = true;
-        v.add(pd);
-
-        pd = new ParameterDescription();
-        pd.parameter=new DashInfo(dashStyle);
-        pd.description=Globals.messages.getString("ctrl_dash_style");
-        pd.isExtension = true;
-        v.add(pd);
-        return v;
-    }
-
-    /** Set the control parameters of the given primitive.
-        This method is specular to getControls().
-        @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
-        @return the next index in v to be scanned (if needed) after the
-            execution of this function.
-    */
-    public int setControls(Vector<ParameterDescription> v)
-    {
-        int i=super.setControls(v);
-        ParameterDescription pd;
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowData.setArrowStart(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 1-unexpected parameter!"+pd);
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-             arrowData.setArrowEnd(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 2-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowLength(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 3-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowHalfWidth(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 4-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
-            arrowData.setArrowStyle(((ArrowInfo)pd.parameter).style);
-        else
-            System.out.println("Warning: 5-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
-            dashStyle=((DashInfo)pd.parameter).style;
-        else
-            System.out.println("Warning: 6-unexpected parameter!"+pd);
-
-        // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
-            dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
-            dashStyle=0;
-
-        return i;
-    }
-
-    /** Draw the graphic primitive on the given graphic context.
-        @param g the graphic context in which the primitive should be drawn.
-        @param coordSys the graphic coordinates system to be applied.
-        @param layerV the layer description.
-    */
-    public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
-    {
-
-        if(!selectLayer(g,layerV))
-            return;
-
-        drawText(g, coordSys, layerV, -1);
-
-        // in the Bézier primitive, the four virtual points represent
-        // the control points of the shape.
-        if (changed) {
-            changed=false;
-=====================================================================
 Found a 91 line (361 tokens) duplication in the following files: 
 Starting at line 209 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 226 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
@@ -219,102 +93,6 @@ Starting at line 226 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 
         if(isFilled){
             if(GeometricDistances.pointInEllipse(xa,ya,xb-xa,yb-ya,px,py))
-=====================================================================
-Found a 50 line (288 tokens) duplication in the following files: 
-Starting at line 135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 724 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 131 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-
-        ParameterDescription pd = new ParameterDescription();
-
-         pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowStart());
-        pd.description=Globals.messages.getString("ctrl_arrow_start");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowData.isArrowEnd());
-        pd.description=Globals.messages.getString("ctrl_arrow_end");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowLength());
-        pd.description=Globals.messages.getString("ctrl_arrow_length");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowData.getArrowHalfWidth());
-        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowData.getArrowStyle());
-        pd.description=Globals.messages.getString("ctrl_arrow_style");
-        pd.isExtension = true;
-        v.add(pd);
-
-        pd = new ParameterDescription();
-        pd.parameter=new DashInfo(dashStyle);
-        pd.description=Globals.messages.getString("ctrl_dash_style");
-        pd.isExtension = true;
-        v.add(pd);
-        return v;
-    }
-
-    /** Set the control parameters of the given primitive.
-        This method is specular to getControls().
-        @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
-        @return the next index in v to be scanned (if needed) after the
-            execution of this function.
-    */
-    public int setControls(Vector<ParameterDescription> v)
-    {
-        int i=super.setControls(v);
-        ParameterDescription pd;
-
-        pd=(ParameterDescription)v.get(i++);
-=====================================================================
-Found a 34 line (277 tokens) duplication in the following files: 
-Starting at line 184 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 789 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 181 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowData.setArrowStart(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 1-unexpected parameter!"+pd);
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-             arrowData.setArrowEnd(((Boolean)pd.parameter).booleanValue());
-        else
-            System.out.println("Warning: 2-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowLength(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 3-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowData.setArrowHalfWidth(((Integer)pd.parameter).intValue());
-        else
-            System.out.println("Warning: 4-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
-            arrowData.setArrowStyle(((ArrowInfo)pd.parameter).style);
-        else
-            System.out.println("Warning: 5-unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
-            dashStyle=((DashInfo)pd.parameter).style;
-        else
-            System.out.println("Warning: 6-unexpected parameter!"+pd);
 =====================================================================
 Found a 85 line (269 tokens) duplication in the following files: 
 Starting at line 209 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
@@ -589,7 +367,7 @@ Starting at line 37 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
     }
 =====================================================================
 Found a 46 line (196 tokens) duplication in the following files: 
-Starting at line 223 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 111 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
     }
@@ -692,6 +470,65 @@ Starting at line 1336 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
 
         // Arrows are always done with dash 0
         registerDash(0);
+=====================================================================
+Found a 54 line (186 tokens) duplication in the following files: 
+Starting at line 135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
+Starting at line 133 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+
+        ParameterDescription pd = new ParameterDescription();
+        pd.parameter=new DashInfo(dashStyle);
+        pd.description=Globals.messages.getString("ctrl_dash_style");
+        pd.isExtension = true;
+        v.add(pd);
+        return v;
+    }
+
+    /** Set the control parameters of the given primitive.
+        This method is specular to getControls().
+        @param v a vector of ParameterDescription containing each control
+                parameter.
+                The first parameters should always be the virtual points.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
+    */
+    public int setControls(Vector<ParameterDescription> v)
+    {
+        int i=super.setControls(v);
+
+        i=arrowData.setParametersForArrow(v, i);
+        ParameterDescription pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof DashInfo)
+            dashStyle=((DashInfo)pd.parameter).style;
+        else
+            System.out.println("Warning: 6-unexpected parameter!"+pd);
+
+        // Parameters validation and correction
+        if(dashStyle>=Globals.dashNumber)
+            dashStyle=Globals.dashNumber-1;
+        if(dashStyle<0)
+            dashStyle=0;
+
+        return i;
+    }
+
+    /** Draw the graphic primitive on the given graphic context.
+        @param g the graphic context in which the primitive should be drawn.
+        @param coordSys the graphic coordinates system to be applied.
+        @param layerV the layer description.
+    */
+    public void draw(GraphicsInterface g, MapCoordinates coordSys,
+        Vector layerV)
+    {
+
+        if(!selectLayer(g,layerV))
+            return;
+
+        drawText(g, coordSys, layerV, -1);
+
+        // in the Bézier primitive, the four virtual points represent
+        // the control points of the shape.
+        if (changed) {
+            changed=false;
 =====================================================================
 Found a 43 line (175 tokens) duplication in the following files: 
 Starting at line 101 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
@@ -802,7 +639,7 @@ Starting at line 96 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
 =====================================================================
 Found a 40 line (171 tokens) duplication in the following files: 
-Starting at line 223 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 103 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 
     }
@@ -936,7 +773,7 @@ Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[14].length())+
 =====================================================================
 Found a 21 line (137 tokens) duplication in the following files: 
-Starting at line 327 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 272 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
@@ -961,48 +798,6 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             // FidoCadJ extensions
 
             if(N>6 && tokens[6].equals("FCJ")) {
-=====================================================================
-Found a 35 line (133 tokens) duplication in the following files: 
-Starting at line 750 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
-Starting at line 231 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
-Starting at line 393 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
-Starting at line 244 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
-
-        v.add(pd);
-
-        pd = new ParameterDescription();
-        pd.parameter=new DashInfo(dashStyle);
-        pd.description=Globals.messages.getString("ctrl_dash_style");
-        pd.isExtension = true;
-        v.add(pd);
-
-        return v;
-    }
-
-    /** Set the control parameters of the given primitive.
-        This method is specular to getControls().
-        @param v a vector of ParameterDescription containing each control
-            parameter. The first parameters should always be the virtual
-            points.
-        @return the next index in v to be scanned (if needed) after the
-            execution of this function.
-    */
-    public int setControls(Vector<ParameterDescription> v)
-    {
-        int i=super.setControls(v);
-        ParameterDescription pd;
-
-        pd=(ParameterDescription)v.get(i);
-        ++i;
-        // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
-            isFilled=((Boolean)pd.parameter).booleanValue();
-        else
-            System.out.println("Warning: unexpected parameter!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
 =====================================================================
 Found a 27 line (133 tokens) duplication in the following files: 
 Starting at line 322 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
@@ -1115,6 +910,48 @@ Starting at line 109 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 =====================================================================
+Found a 35 line (128 tokens) duplication in the following files: 
+Starting at line 726 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
+Starting at line 231 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
+Starting at line 393 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
+Starting at line 244 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
+
+        arrowData.getControlsForArrow(v);
+
+        pd = new ParameterDescription();
+        pd.parameter=new DashInfo(dashStyle);
+        pd.description=Globals.messages.getString("ctrl_dash_style");
+        pd.isExtension = true;
+        v.add(pd);
+
+        return v;
+    }
+
+    /** Set the control parameters of the given primitive.
+        This method is specular to getControls().
+        @param v a vector of ParameterDescription containing each control
+            parameter. The first parameters should always be the virtual
+            points.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
+    */
+    public int setControls(Vector<ParameterDescription> v)
+    {
+        int i=super.setControls(v);
+        ParameterDescription pd;
+
+        pd=(ParameterDescription)v.get(i);
+        ++i;
+        // Check, just for sure...
+        if (pd.parameter instanceof Boolean)
+            isFilled=((Boolean)pd.parameter).booleanValue();
+        else
+            System.out.println("Warning: unexpected parameter!"+pd);
+
+        pd=(ParameterDescription)v.get(i++);
+        // Check, just for sure...
+        if (pd.parameter instanceof Boolean)
+=====================================================================
 Found a 17 line (127 tokens) duplication in the following files: 
 Starting at line 83 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
@@ -1138,7 +975,7 @@ Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
         dashStyle =dashSt;
 =====================================================================
 Found a 23 line (125 tokens) duplication in the following files: 
-Starting at line 223 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
 
     }
@@ -1319,7 +1156,7 @@ Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[12].length())+
 =====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
-Starting at line 327 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 272 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 171 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
