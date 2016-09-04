@@ -130,7 +130,6 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         arrowData.getControlsForArrow(v);
         ParameterDescription pd = new ParameterDescription();
-        pd = new ParameterDescription();
         pd.parameter=new DashInfo(dashStyle);
         pd.description=Globals.messages.getString("ctrl_dash_style");
         pd.isExtension = true;
@@ -240,10 +239,10 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {
                 if (arrowData.isArrowStart()) {
-                    PointG Pc=arrowData.drawArrow(g,x1,y1,x2,y2);
+                    arrowData.drawArrow(g,x1,y1,x2,y2);
                 }
                 if (arrowData.isArrowEnd()) {
-                    PointG Pc=arrowData.drawArrow(g,x2,y2,x1,y1);
+                    arrowData.drawArrow(g,x2,y2,x1,y1);
                 }
             }
             g.drawLine(x1,y1,x2,y2);

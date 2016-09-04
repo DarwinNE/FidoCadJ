@@ -305,7 +305,6 @@ public class PrintTools implements Printable
             g2d.scale(xscale,yscale);
         }
 
-        int printerWidth = (int)pf.getImageableWidth()*MULT;
         shownWidth=(pf.getWidth()-
             (leftMargin+rightMargin)/INCH*NATIVERES)*MULT;
         shownHeight=(pf.getHeight()-

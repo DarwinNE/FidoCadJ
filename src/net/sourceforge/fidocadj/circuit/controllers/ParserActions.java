@@ -715,7 +715,6 @@ public class ParserActions
     {
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
-        Vector<GraphicPrimitive> primitiveVector=model.getPrimitiveVector();
         Vector<LayerDesc> layerV=model.getLayers();
 
         GraphicPrimitive g=gg;

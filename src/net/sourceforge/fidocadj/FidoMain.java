@@ -305,12 +305,8 @@ public class FidoMain
         {
             System.out.println("Standard EY_Libraries got from external file");
         } else {
-            if(englishLibraries)
-                pa.loadLibraryInJar(FidoFrame.class.getResource(
-                    "lib/EY_Libraries.fcl"), "EY_Libraries");
-            else
-                pa.loadLibraryInJar(FidoFrame.class.getResource(
-                    "lib/EY_Libraries.fcl"), "EY_Libraries");
+            pa.loadLibraryInJar(FidoFrame.class.getResource(
+                "lib/EY_Libraries.fcl"), "EY_Libraries");
         }
     }
 

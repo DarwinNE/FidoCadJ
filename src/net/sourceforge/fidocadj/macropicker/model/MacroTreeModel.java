@@ -601,16 +601,22 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             }
         }
 
-        /** Inherit the behavior of compareTo.
+        /** Convert to string.
+            @return the name of the node.
         */
         public String toString()
         {
             return library.getName();
         }
 
-        public boolean equals(LibraryNode node)
+        /** Inherit the behavior of compareTo.
+        */
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof LibraryNode)
+                return compareTo((LibraryNode)node)==0;
+            else
+                return false;
         }
     }
 
@@ -651,9 +657,12 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(CategoryNode node)
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof CategoryNode)
+                return compareTo((CategoryNode)node)==0;
+            else
+                return false;
         }
     }
 
@@ -694,9 +703,12 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(MacroNode node)
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof MacroNode)
+                return compareTo((MacroNode)node)==0;
+            else
+                return false;
         }
     }
 }

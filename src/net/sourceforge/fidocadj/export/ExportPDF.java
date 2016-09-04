@@ -442,32 +442,35 @@ public class ExportPDF implements ExportInterface
 
     private String calcWidthsIndex(String font)
     {
-        String charWidths;
+        StringBuilder charWidths=new StringBuilder();
 
         gi.setFont(font, 24);
         int basewidth=gi.getStringWidth("M");
 
-        charWidths=
-            "    /FirstChar 32\n"+
-            "    /LastChar "+unicodeCharIndex+"\n"+
-            "    /Widths [";
+        charWidths.append("    /FirstChar 32\n");
+        charWidths.append("    /LastChar ");
+        charWidths.append(unicodeCharIndex);
+        charWidths.append("\n");
+        charWidths.append("    /Widths [");
 
         int calcwidth;
         int mwidth=900;
 
         for (int i=32; i<128;++i) {
             calcwidth=mwidth*gi.getStringWidth(""+(char)i)/basewidth;
-            charWidths+=""+calcwidth+ " ";
+            charWidths.append(calcwidth);
+            charWidths.append(" ");
         }
 
         for (Integer code : uncodeCharsNeeded.keySet()) {
             calcwidth=mwidth*gi.getStringWidth(""+
                 (char)uncodeCharsNeeded.get(code).intValue())/basewidth;
-            charWidths+=""+calcwidth+ " ";
+            charWidths.append(calcwidth);
+            charWidths.append(" ");
         }
-        charWidths+="]\n";
+        charWidths.append("]\n");
 
-        return charWidths;
+        return charWidths.toString();
     }
 
 

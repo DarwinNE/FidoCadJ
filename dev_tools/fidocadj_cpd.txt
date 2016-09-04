@@ -291,6 +291,75 @@ Starting at line 188 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
     */
     public CurveStorage createComplexCurve(MapCoordinates coordSys)
 =====================================================================
+Found a 64 line (214 tokens) duplication in the following files: 
+Starting at line 125 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
+Starting at line 121 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+
+    }
+
+    /** Get the control parameters of the given primitive.
+        @return a vector of ParameterDescription containing each control
+                parameter.
+    */
+    public Vector<ParameterDescription> getControls()
+    {
+        Vector<ParameterDescription> v=super.getControls();
+        arrowData.getControlsForArrow(v);
+        ParameterDescription pd = new ParameterDescription();
+        pd.parameter=new DashInfo(dashStyle);
+        pd.description=Globals.messages.getString("ctrl_dash_style");
+        pd.isExtension = true;
+        v.add(pd);
+        return v;
+    }
+
+    /** Set the control parameters of the given primitive.
+        This method is specular to getControls().
+        @param v a vector of ParameterDescription containing each control
+                parameter.
+                The first parameters should always be the virtual points.
+        @return the next index in v to be scanned (if needed) after the
+            execution of this function.
+    */
+    public int setControls(Vector<ParameterDescription> v)
+    {
+        int i=super.setControls(v);
+
+        i=arrowData.setParametersForArrow(v, i);
+        ParameterDescription pd=(ParameterDescription)v.get(i++);
+        if (pd.parameter instanceof DashInfo)
+            dashStyle=((DashInfo)pd.parameter).style;
+        else
+            System.out.println("Warning: 6-unexpected parameter!"+pd);
+
+        // Parameters validation and correction
+        if(dashStyle>=Globals.dashNumber)
+            dashStyle=Globals.dashNumber-1;
+        if(dashStyle<0)
+            dashStyle=0;
+
+        return i;
+    }
+
+    /** Draw the graphic primitive on the given graphic context.
+        @param g the graphic context in which the primitive should be drawn.
+        @param coordSys the graphic coordinates system to be applied.
+        @param layerV the layer description.
+    */
+    public void draw(GraphicsInterface g, MapCoordinates coordSys,
+        Vector layerV)
+    {
+
+        if(!selectLayer(g,layerV))
+            return;
+
+        drawText(g, coordSys, layerV, -1);
+
+        // in the Bézier primitive, the four virtual points represent
+        // the control points of the shape.
+        if (changed) {
+            changed=false;
+=====================================================================
 Found a 70 line (208 tokens) duplication in the following files: 
 Starting at line 40 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/nil/ShapeNull.java
 Starting at line 37 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/ShapeSwing.java
@@ -367,7 +436,7 @@ Starting at line 37 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
     }
 =====================================================================
 Found a 46 line (196 tokens) duplication in the following files: 
-Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 167 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 111 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
     }
@@ -419,7 +488,7 @@ Starting at line 111 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 =====================================================================
 Found a 49 line (186 tokens) duplication in the following files: 
 Starting at line 353 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1336 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 1339 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
     }
 
@@ -470,65 +539,6 @@ Starting at line 1336 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
 
         // Arrows are always done with dash 0
         registerDash(0);
-=====================================================================
-Found a 54 line (186 tokens) duplication in the following files: 
-Starting at line 135 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveBezier.java
-Starting at line 133 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
-
-        ParameterDescription pd = new ParameterDescription();
-        pd.parameter=new DashInfo(dashStyle);
-        pd.description=Globals.messages.getString("ctrl_dash_style");
-        pd.isExtension = true;
-        v.add(pd);
-        return v;
-    }
-
-    /** Set the control parameters of the given primitive.
-        This method is specular to getControls().
-        @param v a vector of ParameterDescription containing each control
-                parameter.
-                The first parameters should always be the virtual points.
-        @return the next index in v to be scanned (if needed) after the
-            execution of this function.
-    */
-    public int setControls(Vector<ParameterDescription> v)
-    {
-        int i=super.setControls(v);
-
-        i=arrowData.setParametersForArrow(v, i);
-        ParameterDescription pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
-            dashStyle=((DashInfo)pd.parameter).style;
-        else
-            System.out.println("Warning: 6-unexpected parameter!"+pd);
-
-        // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
-            dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
-            dashStyle=0;
-
-        return i;
-    }
-
-    /** Draw the graphic primitive on the given graphic context.
-        @param g the graphic context in which the primitive should be drawn.
-        @param coordSys the graphic coordinates system to be applied.
-        @param layerV the layer description.
-    */
-    public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
-    {
-
-        if(!selectLayer(g,layerV))
-            return;
-
-        drawText(g, coordSys, layerV, -1);
-
-        // in the Bézier primitive, the four virtual points represent
-        // the control points of the shape.
-        if (changed) {
-            changed=false;
 =====================================================================
 Found a 43 line (175 tokens) duplication in the following files: 
 Starting at line 101 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
@@ -639,7 +649,7 @@ Starting at line 96 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
 =====================================================================
 Found a 40 line (171 tokens) duplication in the following files: 
-Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 167 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 103 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 
     }
@@ -684,8 +694,8 @@ Starting at line 103 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             }
 =====================================================================
 Found a 18 line (149 tokens) duplication in the following files: 
-Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 664 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
@@ -727,8 +737,8 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             if(tokens[0].equals("EP"))
 =====================================================================
 Found a 19 line (141 tokens) duplication in the following files: 
-Starting at line 621 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             obj_PDF[12].length())+
             " 00000 n \n"+        // 13
@@ -751,8 +761,8 @@ Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[13].length())+
 =====================================================================
 Found a 17 line (140 tokens) duplication in the following files: 
-Starting at line 642 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 645 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
@@ -773,7 +783,7 @@ Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[14].length())+
 =====================================================================
 Found a 21 line (137 tokens) duplication in the following files: 
-Starting at line 272 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 271 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
@@ -832,9 +842,9 @@ Starting at line 333 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         exp.exportOval(cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
 =====================================================================
 Found a 19 line (132 tokens) duplication in the following files: 
-Starting at line 603 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 606 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 642 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             obj_PDF[11].length())+
             " 00000 n \n"+        // 12
@@ -857,8 +867,8 @@ Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[12].length())+
 =====================================================================
 Found a 16 line (131 tokens) duplication in the following files: 
-Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 627 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
@@ -975,7 +985,7 @@ Starting at line 91 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
         dashStyle =dashSt;
 =====================================================================
 Found a 23 line (125 tokens) duplication in the following files: 
-Starting at line 168 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 167 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
 
     }
@@ -1004,7 +1014,7 @@ Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
 =====================================================================
 Found a 39 line (123 tokens) duplication in the following files: 
 Starting at line 524 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1040 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 1043 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             x2+" "+y2+" lineto stroke\n");
     }
@@ -1047,10 +1057,10 @@ Starting at line 1040 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
                     ydd=(double)y-siy/2.0;
 =====================================================================
 Found a 18 line (123 tokens) duplication in the following files: 
-Starting at line 586 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 621 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 589 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 642 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             obj_PDF[10].length())+
             " 00000 n \n"+        // 11
@@ -1072,7 +1082,7 @@ Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[11].length())+
 =====================================================================
 Found a 59 line (123 tokens) duplication in the following files: 
-Starting at line 951 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 954 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 Starting at line 308 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
             x2+" "+y2+" l S\n");
@@ -1136,8 +1146,8 @@ Starting at line 308 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
 =====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
-Starting at line 607 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 610 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
@@ -1156,7 +1166,7 @@ Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[12].length())+
 =====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
-Starting at line 272 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 271 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 171 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
@@ -1263,11 +1273,11 @@ Starting at line 359 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 }
 =====================================================================
 Found a 16 line (114 tokens) duplication in the following files: 
-Starting at line 571 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 603 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 621 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 574 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 606 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 642 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             obj_PDF[9].length())+
             " 00000 n \n"+        // 10
@@ -1287,8 +1297,8 @@ Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[10].length())+
 =====================================================================
 Found a 14 line (113 tokens) duplication in the following files: 
-Starting at line 590 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 593 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
@@ -1377,7 +1387,7 @@ Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 =====================================================================
 Found a 58 line (112 tokens) duplication in the following files: 
 Starting at line 628 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1136 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 1139 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             out.write("stroke\n");
         }
@@ -1439,7 +1449,7 @@ Starting at line 1136 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
         registerDash(dashStyle);
 =====================================================================
 Found a 39 line (112 tokens) duplication in the following files: 
-Starting at line 1333 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 1336 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 Starting at line 664 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
                 outt.write(""+dash[dashStyle]+" 0 d\n");
@@ -1594,12 +1604,12 @@ Starting at line 305 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 =====================================================================
 Found a 15 line (105 tokens) duplication in the following files: 
-Starting at line 557 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 586 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 603 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 621 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 560 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 589 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 606 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 642 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             obj_PDF[3].length())+
             " 00000 n \n"+        // 9
@@ -1618,8 +1628,8 @@ Starting at line 658 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[9].length())+
 =====================================================================
 Found a 13 line (104 tokens) duplication in the following files: 
-Starting at line 574 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 577 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             addLeadZeros(head.length()+
             obj_PDF[5].length()+

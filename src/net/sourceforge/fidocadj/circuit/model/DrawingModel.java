@@ -54,8 +54,6 @@ public class DrawingModel
     // drawn
     public int drawOnlyLayer;
 
-    private int exportBorder;
-
     // Font and size to be used for the text associated to the macros.
     private String macroFont;
     private int macroFontSize;
@@ -90,7 +88,6 @@ public class DrawingModel
         drawOnlyPads=false;
         drawOnlyLayer=-1;
         layersUsed = new boolean[LayerDesc.MAX_LAYERS];
-        exportBorder=0;
         changed=true;
     }
 
@@ -129,14 +126,6 @@ public class DrawingModel
             }
         });
         changed=true;
-    }
-
-    /** Sets whether during the export a border should be added.
-    @param b true if a border must be added.
-    */
-    public void setExportBorder(int b)
-    {
-        exportBorder=b;
     }
 
     /** Get the current library
