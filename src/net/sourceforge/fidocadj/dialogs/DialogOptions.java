@@ -242,7 +242,7 @@ public class DialogOptions extends MinimumSizeDialog
                 {
                     invalidData=true;
                 }
-                if(ng>0 & !invalidData)
+                if(ng>0 && !invalidData)
                     gridSize=ng;
                 else {
                     JOptionPane.showMessageDialog(null,
@@ -252,7 +252,7 @@ public class DialogOptions extends MinimumSizeDialog
                     return;
                 }
 
-                if(s<=0 & !invalidData) {
+                if(s<=0 && !invalidData) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("Font_size_invalid"),
                         "",
