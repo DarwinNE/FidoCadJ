@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2016 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -223,7 +223,7 @@ public class ExportPDF implements ExportInterface
                     else
                         codeStr=line.substring(p+1,q);
                     code=Integer.decode("0x"+codeStr);
-                    unicodeToGlyph.put(Integer.valueOf(code), glyph);
+                    unicodeToGlyph.put(code, glyph);
                 }
                 line = br.readLine();
             }

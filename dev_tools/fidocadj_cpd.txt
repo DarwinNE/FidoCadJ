@@ -1188,7 +1188,7 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 =====================================================================
 Found a 20 line (118 tokens) duplication in the following files: 
-Starting at line 131 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
+Starting at line 128 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
 Starting at line 145 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java
 
         contentPane.add(visibility, constraints);

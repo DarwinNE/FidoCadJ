@@ -419,15 +419,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    private void fireTreeNodeRemoved(TreePath path)
-    {
-        if(path!=null) {
-            for(TreeModelListener l:listeners) {
-                l.treeNodesRemoved(new TreeModelEvent(this, path));
-            }
-        }
-    }
-
     private void fireTreeStructureChanged(TreePath path)
     {
         if(path!=null){

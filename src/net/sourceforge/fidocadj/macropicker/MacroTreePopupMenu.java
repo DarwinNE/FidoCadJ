@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -89,18 +89,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         removeMenu.setEnabled(permission.isRemoveAvailable());
         renameMenu.setEnabled(permission.isRenameAvailable());
         renkeyMenu.setEnabled(permission.isRenKeyAvailable());
-    }
-
-    /** Enable or disable all the items in the menu.
-        @param b enable all elements if b=true, disable them otherwise.
-    */
-    private void enableAllMenu(boolean b)
-    {
-        copyMenu.setEnabled(b);
-        pasteMenu.setEnabled(b);
-        removeMenu.setEnabled(b);
-        renameMenu.setEnabled(b);
-        renkeyMenu.setEnabled(b);
     }
 
     /** Create an action listener associated to the menu, reacting to

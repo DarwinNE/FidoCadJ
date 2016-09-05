@@ -28,7 +28,7 @@ import java.awt.datatransfer.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -162,7 +162,7 @@ public class DragDropTools implements DropTargetListener
                     while (line != null){
                         line = in.readLine();
                         if (line!=null &&
-                            (k=line.toString().indexOf("file://"))>=0)
+                            (k=line.indexOf("file://"))>=0)
                         {
                             FidoFrame popFrame;
 
@@ -177,7 +177,8 @@ public class DragDropTools implements DropTargetListener
 
                             // Deprecated! It should indicate the encoding. But
                             // WE WANT the encoding using being the same of the
-                            // host system.
+                            // host system. It may be deprecated, but it is
+                            // the correct behaviour here.
 
                             popFrame.cc.getParserActions().openFileName =
                                 java.net.URLDecoder.decode(

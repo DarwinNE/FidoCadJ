@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2016 by Davide Bucci
 </pre>
 */
 
@@ -55,13 +55,9 @@ public class Graphics2DSwing implements GraphicsInterface
     private double zoom;
     private double actualZoom;
 
-    private AffineTransform at;
-    private AffineTransform stretching;
-    private AffineTransform ats;
     private Font f;
     private double fontScale=1.0;
     private Font mf;
-    private AffineTransform mm;
 
     /** Constructor: fabricate a new object form a java.awt.Graphics2D object.
         @param gg the java.awt.Graphics2D graphic context.
