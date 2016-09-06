@@ -711,7 +711,7 @@ public class CircuitPanel extends JPanel implements
                 gp.setControls(dp.getCharacteristics());
             } else {
                 ParameterDescription pd=(ParameterDescription)v.get(0);
-                v=dp.getCharacteristics();
+                dp.getCharacteristics();
                 if (pd.parameter instanceof LayerInfo) {
                     int l=((LayerInfo)pd.parameter).getLayer();
                     edt.setLayerForSelectedPrimitives(l);

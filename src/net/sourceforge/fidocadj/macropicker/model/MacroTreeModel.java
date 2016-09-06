@@ -35,10 +35,10 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public class MacroTreeModel implements TreeModel,LibraryListener
 {
@@ -609,6 +609,15 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             else
                 return false;
         }
+
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
+        }
     }
 
     private static class CategoryNode extends AbstractMacroTreeNode
@@ -655,8 +664,16 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             else
                 return false;
         }
-    }
 
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
+        }
+    }
 
     private class MacroNode extends AbstractMacroTreeNode
         implements Comparable<MacroNode>
@@ -700,6 +717,15 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                 return compareTo((MacroNode)node)==0;
             else
                 return false;
+        }
+
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
         }
     }
 }
