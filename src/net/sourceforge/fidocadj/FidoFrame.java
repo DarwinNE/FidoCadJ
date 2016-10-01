@@ -59,7 +59,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2016 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -100,6 +100,9 @@ public class FidoFrame extends JFrame implements
     // The toolbar dedicated to the available tools (the first one under
     // thewindow title).
     private ToolbarTools toolBar;
+    // The second toolbar dedicated to the zoom factors and other niceties
+    // (the second one under the window title).
+    ToolbarZoom toolZoom;
 
     // Text description under icons
     private boolean textToolbar;
@@ -415,12 +418,6 @@ public class FidoFrame extends JFrame implements
     */
     public void init()
     {
-
-        // The second toolbar dedicated to the zoom factors and other niceties
-        // (the
-        // second one under the window title).
-        ToolbarZoom toolZoom;
-
         Container contentPane=getContentPane();
         cc=new CircuitPanel(true);
         cc.getParserActions().openFileName = "";
@@ -614,7 +611,7 @@ public class FidoFrame extends JFrame implements
     {
         // Recognize and handle menu events
         if(evt.getSource() instanceof JMenuItem)
-            mt.processMenuActions(evt, this);
+            mt.processMenuActions(evt, this, toolZoom);
     }
 
 

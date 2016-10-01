@@ -9,6 +9,7 @@ import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.clipboard.*;
+import net.sourceforge.fidocadj.geom.*;
 
 /** MenuTools.java
 
@@ -33,7 +34,7 @@ import net.sourceforge.fidocadj.clipboard.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,7 +48,7 @@ public class MenuTools implements MenuListener
     */
     public JMenuBar defineMenuBar(ActionListener al)
     {
-    // Menu creation
+        // Menu creation
         JMenuBar menuBar=new JMenuBar();
 
         menuBar.add(defineFileMenu(al));
@@ -337,10 +338,13 @@ public class MenuTools implements MenuListener
     /** Process the menu events.
         @param evt the event.
         @param fff the frame in which the menu is present.
+        @param coordL the coordinate listener to show messages if needed.
     */
-    public void processMenuActions(ActionEvent evt, FidoFrame fff)
+    public void processMenuActions(ActionEvent evt, FidoFrame fff,
+        ChangeCoordinatesListener coordL)
     {
         ExportTools et = fff.getExportTools();
+        et.setCoordinateListener(coordL);
         PrintTools pt = fff.getPrintTools();
         CircuitPanel cc = fff.cc;
         String arg=evt.getActionCommand();

@@ -8,6 +8,8 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.*;
+
 
 /** The RunExport class implements a runnable class which can be employed
     to perform all exporting operations in a separate thread from the main
@@ -30,7 +32,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2015 by Davide Bucci
+    Copyright 2012-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -46,6 +48,7 @@ class RunExport implements Runnable
     private boolean blackWhite;
     private boolean ext;
     private JFrame parent;
+    private ChangeCoordinatesListener coordL;
 
     /** Setting up the parameters needed for the export
     @param tfile the file name
@@ -76,6 +79,15 @@ class RunExport implements Runnable
         parent=tparent;
     }
 
+    /** Set the coordinate listener which is employed here for showing
+        message in a non-invasive way.
+        @param c the listener.
+    */
+    public void setCoordinateListener(ChangeCoordinatesListener c)
+    {
+        coordL=c;
+    }
+
     /** Launch the export (in a new thread).
     */
     public void run()
@@ -83,21 +95,56 @@ class RunExport implements Runnable
         try {
             ExportGraphic.export(file, dmp, format, unitPerPixel,
                 antiAlias, blackWhite, ext, true);
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Export_completed"));
-        }  catch(IOException ioe) {
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Export_error")+ioe);
+            // It turns out (Issue #117) that this dialog is too disruptive.
+            // If we can, we opt for a much less invasive message
+            if(coordL==null) {
+                // Needed for thread safety!
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run()
+                    {
+                        JOptionPane.showMessageDialog(parent,
+                            Globals.messages.getString("Export_completed"));
+                    }
+                });
+            } else {
+                // Needed for thread safety!
+                // Much les disruptive version of the message.
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run()
+                    {
+                        coordL.changeInfos(
+                            Globals.messages.getString("Export_completed"));
+                    }
+                });
+            }
+        }  catch(final IOException ioe) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Export_error")+ioe);
+                }
+            });
         } catch(IllegalArgumentException iae) {
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Illegal_filename"));
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Illegal_filename"));
+                }
+            });
         } catch(java.lang.OutOfMemoryError|
             java.lang.NegativeArraySizeException om) {
             // It is not entirely clear to me (DB) why a negative array size
             // exception occours when there are memory issues creating the
             // images.
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Eport_Memory_Error"));
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Eport_Memory_Error"));
+                }
+            });
         }
     }
 }

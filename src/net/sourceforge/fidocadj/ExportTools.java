@@ -9,6 +9,8 @@ import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.*;
+
 
 /** ExportTools.java
 
@@ -32,7 +34,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2016 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -47,6 +49,7 @@ public class ExportTools
     private double exportUnitPerPixel;
     private double exportMagnification;
     final private Preferences prefs;
+    private ChangeCoordinatesListener coordL;
 
     /** Standard constructor.
         @param p the preferences object which will be used to save or
@@ -156,6 +159,7 @@ public class ExportTools
             }
             // We do the export
             RunExport doExport = new RunExport();
+            doExport.setCoordinateListener(coordL);
             // Here we use the multithreaded structure of Java.
             doExport.setParam(new File(exportFileName),  CC.dmp,
                 exportFormat, exportUnitPerPixel,
@@ -182,4 +186,14 @@ public class ExportTools
             */
         }
     }
+
+    /** Set the coordinate listener which is employed here for showing
+        message in a non-invasive way.
+        @param c the listener.
+    */
+    public void setCoordinateListener(ChangeCoordinatesListener c)
+    {
+        coordL=c;
+    }
+
 }

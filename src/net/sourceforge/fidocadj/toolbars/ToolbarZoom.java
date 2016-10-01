@@ -46,7 +46,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
     private final JLabel coords;
-    private final JLabel infos;
+    //private final JLabel infos;
     private ChangeGridState changeListener;
     private boolean flagModify;
     private double oldzoom;
@@ -92,7 +92,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         snapGrid=new JToggleButton(Globals.messages.getString("SnapToGrid"));
 
         coords = new JLabel("");
-        infos = new JLabel("");
+        JLabel infos = new JLabel("");
 
         setBorderPainted(false);
         layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
@@ -272,6 +272,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     public void changeInfos(String s)
     {
-        infos.setText(s);
+        coords.setText(s);
     }
 }
