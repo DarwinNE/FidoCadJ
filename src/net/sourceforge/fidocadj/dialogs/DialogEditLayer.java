@@ -71,6 +71,7 @@ public class DialogEditLayer extends MinimumSizeDialog
         Container contentPane=getContentPane();
 
         GridBagLayout bgl=new GridBagLayout();
+        contentPane.setLayout(bgl);
 
         GridBagConstraints constraints = DialogUtil.createConst(0,0,3,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.NONE,
