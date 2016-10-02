@@ -256,6 +256,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         float xmm=(float)xum/1000;
         float ymm=(float)yum/1000;
 
+        Color c1=UIManager.getColor("Label.foreground");
+        Color c2=UIManager.getColor("Label.background");
+        if(c1!=null && c2!=null) {
+            coords.setOpaque(false);
+            coords.setForeground(c1);
+            coords.setBackground(c2);
+        }
         coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)");
     }
 
@@ -272,6 +279,14 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     public void changeInfos(String s)
     {
+        // Ensure that we will be able to restore colors back!
+        Color c1=UIManager.getColor("Label.background");
+        Color c2=UIManager.getColor("Label.foreground");
+        if(c1!=null && c2!=null) {
+            coords.setOpaque(true);
+            coords.setForeground(Color.WHITE);
+            coords.setBackground(Color.GREEN.darker().darker());
+        }
         coords.setText(s);
     }
 }
