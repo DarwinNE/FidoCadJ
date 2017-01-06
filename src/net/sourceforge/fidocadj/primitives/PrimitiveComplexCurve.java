@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2011-2016 by Davide Bucci
+    Copyright 2011-2017 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/

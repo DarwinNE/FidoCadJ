@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2017 by Davide Bucci
 </pre>
 */
 
@@ -45,7 +45,7 @@ public class ParserActions
     private final DrawingModel model;
 
     // This is the maximum number of tokens which will be considered in a line
-    static final int MAX_TOKENS=512;
+    static final int MAX_TOKENS=5000;
 
     // True if FidoCadJ should use Windows style line feeds (appending \r
     // to the text generated).
@@ -261,7 +261,6 @@ public class ParserActions
         // tokens found in it.
         String[] old_tokens=new String[MAX_TOKENS];
         int old_j=0;
-
 
         int macro_counter=0;
         int l;
