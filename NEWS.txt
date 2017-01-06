@@ -2,6 +2,7 @@ Version 0.24.7
 --------------
 - Improvement of the building tools and scripts.
 - Improved backwards compatibility with PCB tracks with non integer size (#107)
+- Increased to 5000 the number of processable tokens (#129)
 
 Version 0.24.6
 --------------
