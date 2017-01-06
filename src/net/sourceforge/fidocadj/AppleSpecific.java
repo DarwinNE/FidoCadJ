@@ -42,7 +42,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2016 by Davide Bucci
+    Copyright 2009-2017 by Davide Bucci
     </pre>
 */
 
@@ -111,11 +111,14 @@ class AppleSpecific implements ApplicationListener
 
         //Create a iterator
         Iterator iterator = Globals.openWindows.iterator();
+        FidoFrame fff;
         while (iterator.hasNext()){
-            if(!((FidoFrame)iterator.next()).getFileTools().
+            if(!(fff=(FidoFrame)iterator.next()).getFileTools().
                 checkIfToBeSaved())
             {
                 ca = false;
+            } else {
+                fff.closeThisFrame();
             }
         }
         evt.setHandled(ca);

@@ -59,7 +59,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2016 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -153,6 +153,7 @@ public class FidoFrame extends JFrame implements
             InputEvent.CTRL_MASK);
 
         DialogUtil.center(this, .75,.75,800,500);
+
         setDefaultCloseOperation(
             javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -183,6 +184,51 @@ public class FidoFrame extends JFrame implements
         ft = new FileTools(this, prefs);
 
         readPreferences();
+        // In practice, we need to restore the size of the open current window
+        // only for the first window.
+        if (Globals.openWindowsNumber==1) {
+            restorePosition();
+        }
+    }
+
+    /** Store location & size of UI.
+        vaguely based on: http://stackoverflow.com/questions/7777640/\
+            best-practice-for-setting-jframe-locations
+    */
+    public void storePosition()
+    {
+        if (!runsAsApplication)
+            return;
+        // restore the frame from 'full screen' first!
+        setExtendedState(Frame.NORMAL);
+        Rectangle r = getBounds();
+        int x = (int)r.getX();
+        int y = (int)r.getY();
+        int w = (int)r.getWidth();
+        int h = (int)r.getHeight();
+
+        prefs.put("FRAME_POSITION_X", "" + x);
+        prefs.put("FRAME_POSITION_Y", "" + y);
+        prefs.put("FRAME_WIDTH", "" + w);
+        prefs.put("FRAME_HEIGHT", "" + h);
+    }
+
+    /** Restore location & size of UI
+    */
+    public void restorePosition()
+    {
+        if (!runsAsApplication)
+            return;
+
+        try{
+            int x = Integer.parseInt(prefs.get("FRAME_POSITION_X","no"));
+            int y = Integer.parseInt(prefs.get("FRAME_POSITION_Y","no"));
+            int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
+            int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
+            Rectangle r = new Rectangle(x,y,w,h);
+            setBounds(r);
+        } catch (NumberFormatException E) {
+        }
     }
 
     /** Obtain the language resources associated to the current locale.
@@ -248,7 +294,6 @@ public class FidoFrame extends JFrame implements
             System.out.println("Forced the locale to be: " +loc+
                 " instead of: "+systemLanguage);
         }
-
         return newLocale;
     }
 
@@ -478,7 +523,7 @@ public class FidoFrame extends JFrame implements
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
-        // I followed merely the FidoCad tradition.
+        // I followed merely the FidoCAD tradition.
         Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
         cc.dmp.setLayers(layerDesc);
 
@@ -499,12 +544,6 @@ public class FidoFrame extends JFrame implements
 
         Box b=Box.createVerticalBox();
 
-        // In MacOSX with Aqua, make sort that those buttons have a nice
-        // rounded shape and appear like native components.
-
-        //toolBar.putClientProperty("Quaqua.Button.style","title");
-        //toolZoom.putClientProperty("Quaqua.Button.style","title");
-
         b.add(toolBar);
 
         b.add(toolZoom);
@@ -516,7 +555,6 @@ public class FidoFrame extends JFrame implements
         setJMenuBar(menuBar);
 
         // The initial state is the selection one.
-
         cc.setSelectionState(ElementsEdtActions.SELECTION, "");
 
         contentPane.add(b,"North");
@@ -561,47 +599,46 @@ public class FidoFrame extends JFrame implements
         cc.setFocusable(true);
         sc.setFocusable(true);
 
+
+        /*  Add a window listener to close the application when the frame is
+            closed. This behavior is platform dependent, for example a
+            Macintosh application can be made run without a visible frame.
+            There would anyway the need to customize the menu bar, in order
+            to allow the user to open a new FidoFrame, when it has been
+            closed once. The easiest solution to implement is therefore to
+            make the application close when the user closes the last frame.
+        */
+        addWindowListener(new WindowAdapter()
         {
-            /*  Add a window listener to close the application when the frame is
-                closed. This behavior is platform dependent, for example a
-                Macintosh application can be made run without a visible frame.
-                There would anyway the need to customize the menu bar, in order
-                to allow the user to open a new FidoFrame, when it has been
-                closed once. The easiest solution to implement is therefore to
-                make the application close when the user closes the last frame.
-            */
-            addWindowListener(new WindowAdapter()
+            public void windowClosing(WindowEvent e)
             {
-                public void windowClosing(WindowEvent e)
-                {
-                    if(!ft.checkIfToBeSaved()) {
-                        return;
-                    }
-
-                    setVisible(false);
-                    cc.getUndoActions().doTheDishes();
-                    dispose();
-                    Globals.openWindows.remove(FidoFrame.this);
-
-                    --Globals.openWindowsNumber;
-
-                    if (Globals.openWindowsNumber<1 && runsAsApplication)
-                        System.exit(0);
+                if(!ft.checkIfToBeSaved()) {
+                    return;
                 }
-            });
-        }
+                closeThisFrame();
+            }
+        });
 
-        //pack();
         addWindowFocusListener(this);
         Globals.activeWindow=this;
 
         // This is WAY too invasive!!!
-
-        //getRootPane().putClientProperty("apple.awt.draggableWindowBackground"
-        // ,
-        //  Boolean.TRUE);
-
         cc.getUndoActions().setModified(false);
+    }
+
+    /** Procedure to close the current frame, check if there are other open
+        frames, and exit the program if there are no frames remaining.
+    */
+    public void closeThisFrame()
+    {
+        setVisible(false);
+        cc.getUndoActions().doTheDishes();
+        storePosition();
+        dispose();
+        Globals.openWindows.remove(FidoFrame.this);
+        --Globals.openWindowsNumber;
+        if (Globals.openWindowsNumber<1 && runsAsApplication)
+            System.exit(0);
     }
 
     /** The action listener. Recognize menu events and behaves consequently.

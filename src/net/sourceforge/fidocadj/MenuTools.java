@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2016 by Davide Bucci
+    Copyright 2015-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -486,15 +486,7 @@ public class MenuTools implements MenuListener
             if(!fff.getFileTools().checkIfToBeSaved()) {
                 return;
             }
-            fff.setVisible(false);
-            cc.getUndoActions().doTheDishes();
-            fff.dispose();
-            Globals.openWindows.remove(fff);
-
-            --Globals.openWindowsNumber;
-
-            if (Globals.openWindowsNumber<1)
-                System.exit(0);
+            fff.closeThisFrame();
         }
     }
 }
