@@ -45,7 +45,7 @@ public class ParserActions
     private final DrawingModel model;
 
     // This is the maximum number of tokens which will be considered in a line
-    static final int MAX_TOKENS=5000;
+    static final int MAX_TOKENS=10000;
 
     // True if FidoCadJ should use Windows style line feeds (appending \r
     // to the text generated).
@@ -240,9 +240,12 @@ public class ParserActions
         int j; // Token counter within the string
         boolean hasFCJ=false; // The last primitive had FCJ extensions
         StringBuffer token=new StringBuffer();
-
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
+
+        // Flag indicating that the line is already too long and should not be
+        // processed anymore:
+        boolean lineTooLong=false;
 
         GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
 
@@ -293,6 +296,7 @@ public class ParserActions
             for(i=0; i<len;++i){
                 c=s.charAt(i);
                 if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
+                    lineTooLong=false;
                     if(i==len-1 && c!='\n' && c!=' '){
                         token.append(c);
                     }
@@ -603,16 +607,20 @@ public class ParserActions
                     }
                     j=0;
                     token.setLength(0);
-                } else if (c==' '){ // Ready for next token
+                } else if (c==' ' && !lineTooLong){ // Ready for next token
                     tokens[j]=token.toString();
+                    token.setLength(0);
                     ++j;
                     if (j>=MAX_TOKENS) {
                         System.out.println("Too much tokens!");
                         System.out.println("string parsing line: "+lineNum);
+                        j=MAX_TOKENS-1;
+                        lineTooLong=true;
+                        continue;
                     }
-                    token.setLength(0);
                 } else {
-                    token.append(c);
+                    if (!lineTooLong)
+                        token.append(c);
                 }
             }
 
@@ -628,8 +636,6 @@ public class ParserActions
                 System.out.println("I could not read a number at line: "
                                          +lineNum);
             }
-
-
             model.sortPrimitiveLayers();
         }
     }

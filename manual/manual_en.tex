@@ -1519,7 +1519,7 @@ that define the polyline and $l$ is the layer, characterized by a
 whole number between 0 and 15. The length of the command line can
 thus vary depending on the number of vertices used. The maximum number
 of vertices\index{maximum number of vertices} available has been
-arbitrarily fixed at 20, to avoid very long command lines.
+arbitrarily fixed at 20.
 
 \textbf{FidoCadJ extension}: starting from FidoCadJ version 0.23,  \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV} can be followed in the next line by an extension:
 \begin{lstlisting} 
@@ -1581,7 +1581,7 @@ CP aa x1 y1 x2 y2 ... l
 \end{lstlisting}
 the $aa$ parameter is equal to 1 if the curve is closed, or it is 0 otherwise. Vertices $(x_1, y_1)$, $(x_2, y_2)$\dots define the spline and $l$ is the layer, an integer ranging from 0 to 15.
 The lenght of the command line can thus vary depending on how much vertices are considered.
-As for polygons, the maximum number of vertices\index{maximum number of vertices} available is internally fixed to more or less 100, to avoid having to do with very long lines. This primitive has been introduced in version 0.24 and is not present in the original FidoCAD\index{FidoCAD}.
+As for polygons, the maximum number of vertices\index{maximum number of vertices} available is internally fixed to a little less of 5000. This primitive has been introduced in version 0.24 and is not present in the original FidoCAD\index{FidoCAD}.
 
 \textbf{FidoCadJ extension}: \lstinline!CV!\index{CV} and \lstinline!CP!\index{CP} can be followed in the following line by an extension:
 \begin{lstlisting} 
