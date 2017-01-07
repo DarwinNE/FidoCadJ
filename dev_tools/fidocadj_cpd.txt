@@ -187,7 +187,7 @@ Starting at line 226 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 =====================================================================
 Found a 41 line (233 tokens) duplication in the following files: 
 Starting at line 131 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
-Starting at line 397 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
+Starting at line 445 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
         panel.setBorder(titled);
 
@@ -1494,7 +1494,7 @@ Starting at line 664 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 =====================================================================
 Found a 23 line (111 tokens) duplication in the following files: 
 Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
-Starting at line 416 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
+Starting at line 464 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
             new Insets(6,20,20,20));
 
@@ -1646,9 +1646,9 @@ Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[10].length())+
 =====================================================================
 Found a 15 line (100 tokens) duplication in the following files: 
-Starting at line 376 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
-Starting at line 393 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
-Starting at line 409 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 379 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 396 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
+Starting at line 412 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/controllers/ParserActions.java
 
                                 g=new PrimitiveRectangle(macroFont,
                                     macroFontSize);

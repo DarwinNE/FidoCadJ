@@ -113,12 +113,12 @@ class AppleSpecific implements ApplicationListener
         Iterator iterator = Globals.openWindows.iterator();
         FidoFrame fff;
         while (iterator.hasNext()){
-            if(!(fff=(FidoFrame)iterator.next()).getFileTools().
+            if((fff=(FidoFrame)iterator.next()).getFileTools().
                 checkIfToBeSaved())
             {
-                ca = false;
-            } else {
                 fff.closeThisFrame();
+            } else {
+                ca = false;
             }
         }
         evt.setHandled(ca);

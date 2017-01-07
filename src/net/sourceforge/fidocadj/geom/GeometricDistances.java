@@ -349,11 +349,9 @@ public final class GeometricDistances
             return pointToSegment(ex, ey, ex+w, ey, px, py);
 
         // Calculate the semi-latus rectum of the ellipse at the given point
-
         double l=(dx*dx/w/w+dy*dy/h/h)*4.0;
 
-        double dl=(Math.abs(l-1.0))*Math.min(w,h)/4.0;
-        return dl;
+        return (Math.abs(l-1.0))*Math.min(w,h)/4.0;
     }
 
     /** Give the distance between the given point and the ellipse path
@@ -446,23 +444,13 @@ public final class GeometricDistances
     public static int pointToRectangle(int ex,int ey,int w,
                                   int h, int px,int py)
     {
-        /* BUGGED!
-        if ( pointInRectangle(ex-1, ey-1, w+2, h+2, px, py) &&
-            !pointInRectangle(ex+1, ey+1, w-2, h-2, px, py))
-            return 1;
-        else
-            return Integer.MAX_VALUE;
-        */
-
         int d1=pointToSegment(ex,ey,ex+w,ey,px,py);
         int d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
         int d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
         int d4=pointToSegment(ex,ey+h,ex,ey,px,py);
 
         return Math.min(Math.min(d1,d2),Math.min(d3,d4));
-
     }
-
 
     /** Give an approximation of the distance between a point and
         a Bézier curve. The curve is divided into MAX_BEZIER_SEGMENTS
@@ -484,7 +472,6 @@ public final class GeometricDistances
         @return an approximate value of the distance between the given point
                 and the Bézier curve specified by the control points.
     */
-
     public static int pointToBezier(int x1, int y1,
                                  int x2, int y2,
                                  int x3, int y3,
@@ -503,9 +490,7 @@ public final class GeometricDistances
         double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
 
         // (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
-
-        for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit)
-        {
+        for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit) {
             // This is the parametric form of the Bézier curve.
             // Probably, this is not the most convenient way to draw the
             // curve (one should probably use De Casteljau's Algorithm),
@@ -526,7 +511,6 @@ public final class GeometricDistances
                         y3 * b23 +
                         y4 * b33);
             ++i;
-
         }
 
         // Calculate the distance of the given point with each of the
@@ -538,4 +522,3 @@ public final class GeometricDistances
         return distance;
     }
 }
-

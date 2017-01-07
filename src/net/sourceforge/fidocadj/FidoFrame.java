@@ -218,7 +218,7 @@ public class FidoFrame extends JFrame implements
 
     /** Restore location & size of UI
     */
-    public void restorePosition()
+    public final void restorePosition()
     {
         if (!runsAsApplication)
             return;
@@ -229,8 +229,8 @@ public class FidoFrame extends JFrame implements
             int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
             int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
             int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
-            if((state & Frame.MAXIMIZED_HORIZ)!=0 ||
-               (state & Frame.MAXIMIZED_VERT)!=0)
+            if((state & Frame.MAXIMIZED_HORIZ)>0 ||
+                (state & Frame.MAXIMIZED_VERT)>0)
             {
                 setExtendedState(state);
             } else {
@@ -238,6 +238,7 @@ public class FidoFrame extends JFrame implements
                 setBounds(r);
             }
         } catch (NumberFormatException E) {
+            System.out.println("Choosing default values for frame size");
         }
     }
 

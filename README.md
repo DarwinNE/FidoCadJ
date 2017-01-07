@@ -3,7 +3,7 @@ README file for FidoCadJ
 
 Version 0.24.6
 
-Copyright 2007-2016
+Copyright 2007-2017
 
 by Davide Bucci and Dante Loi
 
@@ -66,12 +66,12 @@ French, Italian, Spanish, German, Chinese, Dutch, Japanese and Czech.
 
 FidoCadJ runs on the following systems:
 
-- Windows XP, Vista, Seven, 8.
+- Windows XP, Vista, Seven, 8, 10.
 - All major distributions of Linux.
-- MacOSX 10.8 to 10.10
+- MacOSX 10.8 and following
 - Android 4.0 or more recent devices.
 
-Java 1.7 is required for Windows, Linux and MacOSX.
+Java 1.7 at least is required for Windows, Linux and MacOSX.
 
 1.2 Where can I find FidoCadJ?
 ------------------------------
