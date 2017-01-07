@@ -195,10 +195,12 @@ public class FidoFrame extends JFrame implements
         vaguely based on: http://stackoverflow.com/questions/7777640/\
             best-practice-for-setting-jframe-locations
     */
-    public void storePosition()
+    public void savePosition()
     {
         if (!runsAsApplication)
             return;
+
+        int state=getExtendedState();
         // restore the frame from 'full screen' first!
         setExtendedState(Frame.NORMAL);
         Rectangle r = getBounds();
@@ -211,6 +213,7 @@ public class FidoFrame extends JFrame implements
         prefs.put("FRAME_POSITION_Y", "" + y);
         prefs.put("FRAME_WIDTH", "" + w);
         prefs.put("FRAME_HEIGHT", "" + h);
+        prefs.put("FRAME_STATE", ""+state);
     }
 
     /** Restore location & size of UI
@@ -225,8 +228,15 @@ public class FidoFrame extends JFrame implements
             int y = Integer.parseInt(prefs.get("FRAME_POSITION_Y","no"));
             int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
             int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
-            Rectangle r = new Rectangle(x,y,w,h);
-            setBounds(r);
+            int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
+            if((state & Frame.MAXIMIZED_HORIZ)!=0 ||
+               (state & Frame.MAXIMIZED_VERT)!=0)
+            {
+                setExtendedState(state);
+            } else {
+                Rectangle r = new Rectangle(x,y,w,h);
+                setBounds(r);
+            }
         } catch (NumberFormatException E) {
         }
     }
@@ -633,7 +643,7 @@ public class FidoFrame extends JFrame implements
     {
         setVisible(false);
         cc.getUndoActions().doTheDishes();
-        storePosition();
+        savePosition();
         dispose();
         Globals.openWindows.remove(FidoFrame.this);
         --Globals.openWindowsNumber;
