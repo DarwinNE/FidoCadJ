@@ -3,7 +3,6 @@ package net.sourceforge.fidocadj.toolbars;
     ChangeZoomListener interface
 
     @author Davide Bucci
-    @version 1.0, June 2008
 
     <pre>
     This file is part of FidoCadJ.
@@ -22,7 +21,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
     </pre>
 
 */

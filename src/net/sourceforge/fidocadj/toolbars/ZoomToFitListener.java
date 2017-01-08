@@ -21,15 +21,18 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2012 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
     </pre>
 
 */
 
 public interface ZoomToFitListener
 {
-    /** Set the current zoom to fit
-
+    /** Toggle a "zoom to fit" calculation
     */
     public void zoomToFit();
+    /** Set the library tree (and preview) visibility.
+        @param s the state.
+    */
+    public void showLibs(boolean s);
 }

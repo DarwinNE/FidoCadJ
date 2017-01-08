@@ -80,6 +80,10 @@ public class FidoFrame extends JFrame implements
     public CircuitPanel cc;
     // ... which is contained in a scroll pane.
     private JScrollPane sc;
+    // ... which at its turn is in a split pane.
+    private JSplitPane splitPane;
+    // Macro picker component
+    MacroTree macroLib;
 
     // Macro library model
     private LibraryModel libraryModel;
@@ -401,10 +405,8 @@ public class FidoFrame extends JFrame implements
     {
         CopyPasteActions cpa = cc.getCopyPasteActions();
 
-        // Shift elements when copy/pasting them
-        cpa.setShiftCopyPaste(prefs.get("SHIFT_CP",
-                "true").equals("true"));
-
+        // Shift elements when copy/pasting them.
+        cpa.setShiftCopyPaste(prefs.get("SHIFT_CP","true").equals("true"));
         AddElements ae = cc.getContinuosMoveActions().getAddElements();
 
         // Default PCB sizes (pad/line)
@@ -413,7 +415,7 @@ public class FidoFrame extends JFrame implements
         ae.pcbPadStyle = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
         ae.pcbPadDrill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
         ae.pcbThickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
-        
+
         MapCoordinates mc=cc.getMapCoordinates();
         double z=Double.parseDouble(prefs.get("CURRENT_ZOOM","4.0"));
         mc.setMagnitudes(z,z);
@@ -560,7 +562,6 @@ public class FidoFrame extends JFrame implements
         Box b=Box.createVerticalBox();
 
         b.add(toolBar);
-
         b.add(toolZoom);
 
         toolZoom.setFloatable(false);
@@ -573,9 +574,6 @@ public class FidoFrame extends JFrame implements
         cc.setSelectionState(ElementsEdtActions.SELECTION, "");
 
         contentPane.add(b,"North");
-
-        // Macro picker component
-        MacroTree macroLib;
 
         libraryModel = new LibraryModel(cc.dmp);
         LayerModel layerModel = new LayerModel(cc.dmp);
@@ -591,10 +589,9 @@ public class FidoFrame extends JFrame implements
             LibUtils.saveLibraryState(cc.getUndoActions());
         } catch (IOException e) {
             System.out.println("Exception: "+e);
-
         }
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         // Useful for Quaqua with MacOSX.
         //splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
@@ -613,7 +610,6 @@ public class FidoFrame extends JFrame implements
 
         cc.setFocusable(true);
         sc.setFocusable(true);
-
 
         /*  Add a window listener to close the application when the frame is
             closed. This behavior is platform dependent, for example a
@@ -639,6 +635,13 @@ public class FidoFrame extends JFrame implements
 
         // This is WAY too invasive!!!
         cc.getUndoActions().setModified(false);
+        if(runsAsApplication) {
+            // Show the library tab or not.
+            boolean s=prefs.get("SHOW_LIBS","true").equals("true");
+            System.out.println("show libs: "+s);
+            showLibs(s);
+            toolZoom.setShowLibs(s);
+        }
     }
 
     /** Procedure to close the current frame, check if there are other open
@@ -654,7 +657,11 @@ public class FidoFrame extends JFrame implements
         // coordinate mapping data as this will be used for an empty drawing.
         MapCoordinates mc=cc.getMapCoordinates();
         prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
-        
+        if(splitPane.getBottomComponent()==null)
+            prefs.put("SHOW_LIBS","false");
+        else
+            prefs.put("SHOW_LIBS","true");
+
         dispose();
         Globals.openWindows.remove(FidoFrame.this);
         --Globals.openWindowsNumber;
@@ -877,5 +884,15 @@ public class FidoFrame extends JFrame implements
     public void windowLostFocus(WindowEvent e)
     {
         // Nothing to do
+    }
+
+    /** Control the presence of the libraries and the preview on the right
+        of the frame.
+        @param s true if the libs have to be shown.
+    */
+    public void showLibs(boolean s)
+    {
+        splitPane.setBottomComponent(s?macroLib:null);
+        splitPane.revalidate();
     }
 }

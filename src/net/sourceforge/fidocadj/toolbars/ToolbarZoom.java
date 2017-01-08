@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -45,6 +45,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
+    private final JToggleButton showLibs;
     private final JLabel coords;
     //private final JLabel infos;
     private ChangeGridState changeListener;
@@ -101,16 +102,19 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         layerSel.setRenderer( new LayerCellRenderer());
         changeListener=null;
 
+        showLibs=new JToggleButton(Globals.messages.getString("Libs"));
 
         // MacOSX Quaqua informations
         zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
         showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
-        snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");
+        snapGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
+        showLibs.putClientProperty("Quaqua.Button.style","toggleEast");
 
         zoom.addActionListener(this);
         zoomFit.addActionListener(this);
         showGrid.addActionListener(this);
         snapGrid.addActionListener(this);
+        showLibs.addActionListener(this);
         layerSel.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
@@ -127,6 +131,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         add(zoomFit);
         add(showGrid);
         add(snapGrid);
+        add(showLibs);
         add(layerSel);
         add(Box.createGlue());
         add(infos);
@@ -143,8 +148,10 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.setEditable(true);
         showGrid.setSelected(true);
         snapGrid.setSelected(true);
+        showLibs.setSelected(true);
         changeCoordinates(0, 0);
     }
+
     /** Add a layer listener (object implementing the ChangeSelectionListener
         interface) whose change method will be called when the current
         layer should be changed.
@@ -154,7 +161,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     {
         changeLayerListener=c;
     }
-
 
     /** Add a grid state listener whose methods will be called when the current
         grid state should be changed.
@@ -188,7 +194,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     public void actionPerformed(ActionEvent evt)
     {
-
         String s = evt.getActionCommand();
 
         // Buttons
@@ -207,6 +212,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         } else if(evt.getSource() instanceof JComboBox) {
             // ComboBox: the only one is about the zoom settings.
             handleZoomChangeEvents(evt);
+        } else if(s.equals(Globals.messages.getString("Libs"))) {
+            actualZoomToFitListener.showLibs(showLibs.isSelected());
         }
     }
 
@@ -272,6 +279,14 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     public void changeStrict(boolean strict)
     {
         // Does nothing.
+    }
+
+    /** Change the state of the show libs toggle button.
+        @param s the state of the button.
+    */
+    public void setShowLibs(boolean s)
+    {
+        showLibs.setSelected(s);
     }
 
     /** Change the infos.

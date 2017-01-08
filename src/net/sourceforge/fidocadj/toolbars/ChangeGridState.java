@@ -19,7 +19,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -31,11 +31,12 @@ public interface ChangeGridState
         has changed.
         @param v is the wanted grid visibility state
     */
-    void setGridVisibility(boolean v);
+    public void setGridVisibility(boolean v);
 
     /** The callback method which is called when the current snap visibility
         has changed.
         @param v is the wanted snap state
     */
-    void setSnapState(boolean v);
+    public void setSnapState(boolean v);
+
 }
