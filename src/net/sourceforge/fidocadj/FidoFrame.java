@@ -395,7 +395,7 @@ public class FidoFrame extends JFrame implements
             prefs.get("GRID_SIZE", "5")));
     }
 
-    /** Load the saved configuration for the drawing primitives.
+    /** Load the saved configuration for the drawing primitives and zoom.
     */
     public void readDrawingSettings()
     {
@@ -413,6 +413,10 @@ public class FidoFrame extends JFrame implements
         ae.pcbPadStyle = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
         ae.pcbPadDrill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
         ae.pcbThickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
+        
+        MapCoordinates mc=cc.getMapCoordinates();
+        double z=Double.parseDouble(prefs.get("CURRENT_ZOOM","4.0"));
+        mc.setMagnitudes(z,z);
     }
 
     /** Load the standard libraries according to the locale.
@@ -639,12 +643,18 @@ public class FidoFrame extends JFrame implements
 
     /** Procedure to close the current frame, check if there are other open
         frames, and exit the program if there are no frames remaining.
+        Ensure that the configuration settings are properly saved.
     */
     public void closeThisFrame()
     {
         setVisible(false);
         cc.getUndoActions().doTheDishes();
         savePosition();
+        // Save the zoom factor. There is no reason to save the other
+        // coordinate mapping data as this will be used for an empty drawing.
+        MapCoordinates mc=cc.getMapCoordinates();
+        prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
+        
         dispose();
         Globals.openWindows.remove(FidoFrame.this);
         --Globals.openWindowsNumber;
