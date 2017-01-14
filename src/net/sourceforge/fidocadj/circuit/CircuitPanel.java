@@ -328,13 +328,21 @@ public class CircuitPanel extends JPanel implements
         return isGridVisible;
     }
 
-    /** The callback method which is called when the current snap visibility
+    /** The method to be called when the current snap visibility
         has changed.
         @param v is the wanted snap state.
     */
     public void setSnapState(boolean v)
     {
         cs.setSnap(v);
+    }
+
+    /** Determines if the grid is visible or not.
+        @return the grid visibility.
+    */
+    public boolean getSnapState()
+    {
+        return cs.getSnap();
     }
 
     /** Increase or decrease the zoom by a step of 33%.

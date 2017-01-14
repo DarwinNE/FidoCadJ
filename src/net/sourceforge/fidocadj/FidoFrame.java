@@ -642,6 +642,9 @@ public class FidoFrame extends JFrame implements
             s=prefs.get("SHOW_GRID","true").equals("true");
             cc.setGridVisibility(s);
             toolZoom.setShowGrid(s);
+            s=prefs.get("SNAP_GRID","true").equals("true");
+            cc.setSnapState(s);
+            toolZoom.setSnapGrid(s);
         }
     }
 
@@ -667,6 +670,11 @@ public class FidoFrame extends JFrame implements
             prefs.put("SHOW_GRID","true");
         else
             prefs.put("SHOW_GRID","false");
+
+        if(cc.getSnapState())
+            prefs.put("SNAP_GRID","true");
+        else
+            prefs.put("SNAP_GRID","false");
 
         dispose();
         Globals.openWindows.remove(FidoFrame.this);

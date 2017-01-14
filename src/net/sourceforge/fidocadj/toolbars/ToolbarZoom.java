@@ -47,7 +47,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private final JToggleButton snapGrid;
     private final JToggleButton showLibs;
     private final JLabel coords;
-    //private final JLabel infos;
+
     private ChangeGridState changeListener;
     private boolean flagModify;
     private double oldzoom;
@@ -217,6 +217,12 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         }
     }
 
+    /** Set the current state of the button which controls the visibility of
+        the library tree. This method is useful when the state is changed
+        elsewhere and one needs to update the visible appearance of the button
+        to follow the change.
+        @param s the true if the libs are visible.
+    */
     public void setShowLibsState(boolean s)
     {
         showLibs.setSelected(s);
@@ -300,6 +306,14 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     public void setShowGrid(boolean s)
     {
         showGrid.setSelected(s);
+    }
+
+    /** Change the state of the show grid toggle button.
+        @param s the state of the button.
+    */
+    public void setSnapGrid(boolean s)
+    {
+        snapGrid.setSelected(s);
     }
 
     /** Change the infos.
