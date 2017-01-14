@@ -217,6 +217,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         }
     }
 
+    public void setShowLibsState(boolean s)
+    {
+        showLibs.setSelected(s);
+    }
+
     /** Handle events of zoom change from the combo box.
         @param evt the event object.
     */
@@ -287,6 +292,14 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     public void setShowLibs(boolean s)
     {
         showLibs.setSelected(s);
+    }
+
+    /** Change the state of the show grid toggle button.
+        @param s the state of the button.
+    */
+    public void setShowGrid(boolean s)
+    {
+        showGrid.setSelected(s);
     }
 
     /** Change the infos.

@@ -310,14 +310,22 @@ public class CircuitPanel extends JPanel implements
         }
     }
 
-    /** The callback method which is called when the current grid visibility
-        has changed.
+    /** The method which is called when the current grid visibility
+        has to be changed.
         @param v is the wanted grid visibility state.
     */
     public void setGridVisibility(boolean v)
     {
         isGridVisible=v;
         repaint();
+    }
+
+    /** Determines if the grid is visible or not.
+        @return the grid visibility.
+    */
+    public boolean getGridVisibility()
+    {
+        return isGridVisible;
     }
 
     /** The callback method which is called when the current snap visibility

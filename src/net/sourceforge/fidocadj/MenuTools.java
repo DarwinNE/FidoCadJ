@@ -42,6 +42,8 @@ import net.sourceforge.fidocadj.geom.*;
 
 public class MenuTools implements MenuListener
 {
+    JCheckBoxMenuItem libs;
+
     /** Create all the menus and associate to them all the needed listeners.
         @param al the action listener to associate to the menu elements.
         @return the menu bar.
@@ -283,11 +285,15 @@ public class MenuTools implements MenuListener
 
         layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
             Globals.shortcutKey));
+        layerOptions.addActionListener(al);
 
         viewMenu.add(layerOptions);
+        viewMenu.addSeparator();
 
-
-        layerOptions.addActionListener(al);
+        libs = new
+            JCheckBoxMenuItem(Globals.messages.getString("Libs"));
+        viewMenu.add(libs);
+        libs.addActionListener(al);
         return viewMenu;
     }
 
@@ -317,6 +323,14 @@ public class MenuTools implements MenuListener
         updateLibraries.addActionListener(al);
 
         return circuitMenu;
+    }
+
+    /** Change the state of the show libs toggle menu item.
+        @param s the state of the item.
+    */
+    public void setShowLibsState(boolean s)
+    {
+        libs.setState(s);
     }
 
     /** Define the main About menu.
@@ -381,6 +395,9 @@ public class MenuTools implements MenuListener
 
             cc.dmp.setChanged(true);
             fff.repaint();
+        } else if(arg.equals(Globals.messages.getString("Libs"))) {
+            fff.showLibs(!fff.areLibsVisible());
+            libs.setState(fff.areLibsVisible());
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
             pt.associateToCircuitPanel(cc);
@@ -413,17 +430,12 @@ public class MenuTools implements MenuListener
             // Open a file
             OpenFile openf=new OpenFile();
             openf.setParam(fff);
-            SwingUtilities.invokeLater(openf);
             /*
                 The following code would require a thread safe implementation
                 of some of the inner classes (such as CircuitModel), which was
                 indeed not the case... Now, yes!
             */
-            /*Thread thread = new Thread(openf);
-            thread.setDaemon(true);
-            // Start the thread
-            thread.start();*/
-
+            SwingUtilities.invokeLater(openf);
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
             et.launchExport(fff, cc, fff.getFileTools().openFileDirectory);

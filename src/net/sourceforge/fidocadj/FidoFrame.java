@@ -129,7 +129,7 @@ public class FidoFrame extends JFrame implements
         using the frame. You need to call the init procedure after you have
         set the configuration variables available for FidoFrame.
 
-        @param appl should be true if FidoCadJ is run as a standalone
+        @param appl should be true if FidoCadJ is run as a stand alone
             application or false if it is run as an applet. In this case, some
             local settings are not accessed because they would raise an
             exception.
@@ -638,9 +638,10 @@ public class FidoFrame extends JFrame implements
         if(runsAsApplication) {
             // Show the library tab or not.
             boolean s=prefs.get("SHOW_LIBS","true").equals("true");
-            System.out.println("show libs: "+s);
             showLibs(s);
-            toolZoom.setShowLibs(s);
+            s=prefs.get("SHOW_GRID","true").equals("true");
+            cc.setGridVisibility(s);
+            toolZoom.setShowGrid(s);
         }
     }
 
@@ -657,10 +658,15 @@ public class FidoFrame extends JFrame implements
         // coordinate mapping data as this will be used for an empty drawing.
         MapCoordinates mc=cc.getMapCoordinates();
         prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
-        if(splitPane.getBottomComponent()==null)
-            prefs.put("SHOW_LIBS","false");
-        else
+        if(areLibsVisible())
             prefs.put("SHOW_LIBS","true");
+        else
+            prefs.put("SHOW_LIBS","false");
+
+        if(cc.getGridVisibility())
+            prefs.put("SHOW_GRID","true");
+        else
+            prefs.put("SHOW_GRID","false");
 
         dispose();
         Globals.openWindows.remove(FidoFrame.this);
@@ -678,7 +684,6 @@ public class FidoFrame extends JFrame implements
         if(evt.getSource() instanceof JMenuItem)
             mt.processMenuActions(evt, this, toolZoom);
     }
-
 
     /** Create a new instance of the window.
         @return the created instance
@@ -893,6 +898,16 @@ public class FidoFrame extends JFrame implements
     public void showLibs(boolean s)
     {
         splitPane.setBottomComponent(s?macroLib:null);
+        toolZoom.setShowLibsState(areLibsVisible());
+        mt.setShowLibsState(areLibsVisible());
         splitPane.revalidate();
+    }
+
+    /** Determine if the libraries are visible or not.
+        @return true if the libs are visible.
+    */
+    public boolean areLibsVisible()
+    {
+        return splitPane.getBottomComponent()!=null;
     }
 }
