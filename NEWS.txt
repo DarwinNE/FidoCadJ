@@ -1,9 +1,11 @@
 Version 0.24.7
 --------------
 - Improvement of the building tools and scripts.
-- Improved backwards compatibility with PCB tracks with non integer size (#107)
-- Increased to 10000 the number of processable tokens (#129)
-- FidoCadJ stores the position of the current window (#126)
+- Improved backwards compatibility with PCB tracks with non integer size (#107).
+- Increased to 10000 the number of processable tokens (#129).
+- FidoCadJ stores the position of the current window (#126).
+- The libraries can be hidden to increase the drawing area (#127).
+- Change field color when a key is invalid while defining a new symbol (#120).
 
 Version 0.24.6
 --------------

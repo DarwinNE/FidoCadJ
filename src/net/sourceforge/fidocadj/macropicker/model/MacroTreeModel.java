@@ -697,11 +697,20 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             return true;
         }
 
+        /** Compare two nodes. The comparison is done with respect to the name
+            and if the name is equal, then the key is compared too.
+        */
         public int compareTo(MacroNode node)
         {
             MacroDesc m1 = this.macro;
             MacroDesc m2 = node.getMacro();
-            return m1.name.compareToIgnoreCase(m2.name);
+            // At first, compare the two nodes using their name
+            int r=m1.name.compareToIgnoreCase(m2.name);
+            // If they have the same name, look at the keys.
+            if(r==0) {
+                r=m1.key.compareToIgnoreCase(m2.key);
+            }
+            return r;
         }
 
         public String toString()
