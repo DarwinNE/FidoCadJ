@@ -48,7 +48,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -92,6 +92,8 @@ public class CircuitPanel extends JPanel implements
     public JScrollPane father;
     private static final int MINSIZEX=1000;
     private static final int MINSIZEY=1000;
+
+    private ImageAsCanvas imgCanvas;
 
     // Views:
     public Drawing drawingAgent;
@@ -164,6 +166,15 @@ public class CircuitPanel extends JPanel implements
         antiAlias = true;
         record = 1e100;
         evidenceRect = new Rectangle(0,0,-1,-1);
+        imgCanvas = new ImageAsCanvas();
+        /* Testing background images!
+        try{
+            imgCanvas.loadImage(
+                "/Users/davidebucci/Desktop/Perso/FidoCadJ/src/"
+                +"doc-files/icona_fidocadj_128x128.png");
+        } catch (IOException e) {
+            System.err.println("Background image can not be loaded");
+        }*/
 
         // Set up the standard view settings:
         // top left corner, 400% zoom.
@@ -466,7 +477,7 @@ public class CircuitPanel extends JPanel implements
     /** Repaint the panel.
         This method performs the following operations:<br>
         1. set the anti aliasing on (or off, depending on antiAlias).<br>
-        2. paint in white the background and draw the grid.<br>
+        2. paint in white the background, draw the bk. image and the grid.<br>
         3. call drawingAgent draw.<br>
         4. draw all active handles.<br>
         5. if needed, draw the primitive being edited.<br>
@@ -487,10 +498,13 @@ public class CircuitPanel extends JPanel implements
         // Draw the background.
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
+
         // Draw the grid if necessary.
         if(isGridVisible) {
             graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
         }
+
+        imgCanvas.drawCanvasImage(g2, cs);
 
         // The standard color is black.
         g.setColor(Color.black);
