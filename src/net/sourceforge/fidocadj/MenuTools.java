@@ -286,8 +286,13 @@ public class MenuTools implements MenuListener
         layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
             Globals.shortcutKey));
         layerOptions.addActionListener(al);
-
         viewMenu.add(layerOptions);
+        
+        JMenuItem attachImage = new
+            JMenuItem(Globals.messages.getString("Attach_image_menu"));
+        attachImage.addActionListener(al);
+
+        viewMenu.add(attachImage);
         viewMenu.addSeparator();
 
         libs = new
@@ -499,6 +504,10 @@ public class MenuTools implements MenuListener
                 return;
             }
             fff.closeThisFrame();
+        } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))) {
+            // Show the attach image dialog.
+            DialogAttachImage di = new DialogAttachImage(fff);
+            di.setVisible(true);
         }
     }
 }

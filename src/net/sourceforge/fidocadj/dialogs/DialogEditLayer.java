@@ -17,7 +17,7 @@ import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.graphic.swing.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
-/** The class dialogEditLayer allows to choose the style, visibility and
+/** The class DialogEditLayer allows to choose the style, visibility and
     description of the current layer.
 
     <pre>

@@ -192,3 +192,4 @@ manual/manual_en.out
 manual/manual_en.toc
 bin/net/sourceforge/fidocadj/dialogs/OriginCircuitPanel.class
 bin/net/sourceforge/fidocadj/dialogs/mindimdialog/
+bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage.class
