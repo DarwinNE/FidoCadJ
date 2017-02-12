@@ -163,13 +163,12 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        contentPane.add(b, constraints);            // Add cancel button
+        contentPane.add(b, constraints);            // Add OK/cancel buttons
 
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
             {
-                int selection;
                 // Check if the magnification factor is correct.
                 double mult = Double.parseDouble(multiplySizes.getText());
                 if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
@@ -189,12 +188,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                         JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                selection=JOptionPane.OK_OPTION;
-
-                if (selection==JOptionPane.OK_OPTION) {
-                    export=true;
-                    setVisible(false);
-                }
+                export=true;
+                setVisible(false);
             }
         });
         cancel.addActionListener(new ActionListener()

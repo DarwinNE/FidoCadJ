@@ -1,6 +1,8 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
@@ -41,5 +43,94 @@ public class DialogAttachImage extends MinimumSizeDialog
     {
         super(500, 450, parent, Globals.messages.getString("Attach_image_t"),
             true);
+        int ygrid=0;
+        // Obtain the current content pane and create the grid layout manager
+        // which will be used for putting the elements of the interface.
+        GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints;
+        Container contentPane=getContentPane();
+        contentPane.setLayout(bgl);
+
+        JLabel lblfilename=
+            new JLabel(Globals.messages.getString("Image_file_attach"));
+
+        constraints = DialogUtil.createConst(0,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(lblfilename, constraints);
+
+        JTextField filename=new JTextField(10);
+        filename.setText("");
+
+        constraints = DialogUtil.createConst(1,ygrid++,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(filename, constraints);
+
+        JLabel lblresolution=
+            new JLabel(Globals.messages.getString("Image_resolution"));
+
+        constraints = DialogUtil.createConst(0,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(lblresolution, constraints);
+
+        JTextField resolution=new JTextField(10);
+        filename.setText("");
+
+        constraints = DialogUtil.createConst(1,ygrid++,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(resolution, constraints);
+    
+        // Put the OK and Cancel buttons and make them active.
+        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
+        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
+        ok.setPreferredSize(cancel.getPreferredSize());
+
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        constraints = DialogUtil.createConst(1,ygrid++,1,1,0,0,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(12,40,0,0));
+        contentPane.add(b, constraints);            // Add OK/cancel buttons
+                ok.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+            }
+        });
+        cancel.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                setVisible(false);
+            }
+        });
+        // Here is an action in which the dialog is closed
+        AbstractAction cancelAction = new AbstractAction ()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                setVisible(false);
+            }
+        };
+        DialogUtil.addCancelEscape (this, cancelAction);
+        pack();
+        DialogUtil.center(this);
+        getRootPane().setDefaultButton(ok);
     }
 }
