@@ -86,7 +86,6 @@ public class DialogAttachImage extends MinimumSizeDialog
             new Insets(6,6,6,6));
 
         contentPane.add(resolution, constraints);
-    
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -107,19 +106,19 @@ public class DialogAttachImage extends MinimumSizeDialog
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(12,40,0,0));
         contentPane.add(b, constraints);            // Add OK/cancel buttons
-                ok.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
+        ok.addActionListener(new ActionListener()
             {
-            }
-        });
+                public void actionPerformed(ActionEvent evt)
+                {
+                }
+            });
         cancel.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
             {
-                setVisible(false);
-            }
-        });
+                public void actionPerformed(ActionEvent evt)
+                {
+                    setVisible(false);
+                }
+            });
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction ()
         {

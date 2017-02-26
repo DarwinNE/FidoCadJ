@@ -287,7 +287,7 @@ public class MenuTools implements MenuListener
             Globals.shortcutKey));
         layerOptions.addActionListener(al);
         viewMenu.add(layerOptions);
-        
+
         JMenuItem attachImage = new
             JMenuItem(Globals.messages.getString("Attach_image_menu"));
         attachImage.addActionListener(al);
