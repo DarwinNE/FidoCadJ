@@ -51,6 +51,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private static final int PGF_INDEX=4;       // Combo list index: pgf format
     private static final int PDF_INDEX=5;       // Combo list index: pgf format
     private static final int SCR_INDEX=6;       // idem: Eagle scr format
+    private static final int PCB_INDEX=7;       // idem: gEDA pcb-rnd format
 
     private static final double EPS=1E-5;   // Resolution comparison precision
 
@@ -106,6 +107,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         fileFormat.addItem("PGF (Vector, PGF packet for LaTeX)");
         fileFormat.addItem("PDF (Vector, Portable Document File)");
         fileFormat.addItem("CadSoft Eagle SCR (Script)");
+        fileFormat.addItem("gEDA PCB, pcb-rnd (.pcb) file");
 
         fileFormat.setSelectedIndex(0);
 
@@ -163,12 +165,13 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        contentPane.add(b, constraints);            // Add OK/cancel buttons
+        contentPane.add(b, constraints);            // Add cancel button
 
         ok.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
             {
+                int selection;
                 // Check if the magnification factor is correct.
                 double mult = Double.parseDouble(multiplySizes.getText());
                 if(multiplySizes.isEnabled() && (mult<0.01 || mult>100)) {
@@ -188,8 +191,12 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                         JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                export=true;
-                setVisible(false);
+                selection=JOptionPane.OK_OPTION;
+
+                if (selection==JOptionPane.OK_OPTION) {
+                    export=true;
+                    setVisible(false);
+                }
             }
         });
         cancel.addActionListener(new ActionListener()
@@ -260,9 +267,10 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                 return "pgf";
             case PDF_INDEX:
                 return "pdf";
-
             case SCR_INDEX:
                 return "scr";
+            case PCB_INDEX:
+                return "pcb";
 
             default:
                 System.out.println (
@@ -371,6 +379,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             fileFormat.setSelectedIndex(PDF_INDEX);
         } else if ("scr".equals(s)) {
             fileFormat.setSelectedIndex(SCR_INDEX);
+        } else if ("pcb".equals(s)) {
+            fileFormat.setSelectedIndex(PCB_INDEX);
         } else {
             fileFormat.setSelectedIndex(PNG_INDEX);
         }

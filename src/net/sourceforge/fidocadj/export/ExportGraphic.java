@@ -221,8 +221,8 @@ public final class ExportGraphic
 
         m.setMagnitudes(unitPerPixel, unitPerPixel);
 
-        if(shiftMin) {
-            m.setXCenter(-org.x);
+        if(shiftMin && !"pcb".equals(format)) {// don't alter geometry
+            m.setXCenter(-org.x);              // if exported to pcb-rnd
             m.setYCenter(-org.y);
         }
         if ("png".equals(format)||"jpg".equals(format)) {
@@ -275,6 +275,9 @@ public final class ExportGraphic
             new Export(P).exportDrawing(ef, true, false, m);
         } else if("scr".equals(format)) {
             ExportEagle ef = new ExportEagle(file);
+            new Export(P).exportDrawing(ef, true, false, m);
+        } else if("pcb".equals(format)) {
+            ExportPCBRND ef = new ExportPCBRND(file);
             new Export(P).exportDrawing(ef, true, false, m);
         } else if("fcd".equals(format)) {
             ExportFidoCad ef = new ExportFidoCad(file);

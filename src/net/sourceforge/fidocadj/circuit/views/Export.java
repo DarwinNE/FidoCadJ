@@ -74,7 +74,6 @@ public class Export
                 DimensionG d = DrawingSize.getImageSize(dmp, 1, true,o);
                 d.width+=exportBorder;
                 d.height+=exportBorder;
-
                 // We remeber that getImageSize works only with logical
                 // coordinates so we may trasform them:
 
