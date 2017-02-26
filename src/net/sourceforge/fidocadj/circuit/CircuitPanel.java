@@ -167,14 +167,6 @@ public class CircuitPanel extends JPanel implements
         record = 1e100;
         evidenceRect = new Rectangle(0,0,-1,-1);
         imgCanvas = new ImageAsCanvas();
-        /* Testing background images!
-        try{
-            imgCanvas.loadImage(
-                "/Users/davidebucci/Desktop/Perso/FidoCadJ/src/"
-                +"doc-files/icona_fidocadj_128x128.png");
-        } catch (IOException e) {
-            System.err.println("Background image can not be loaded");
-        }*/
 
         // Set up the standard view settings:
         // top left corner, 400% zoom.
@@ -843,5 +835,14 @@ public class CircuitPanel extends JPanel implements
     public boolean isProfiling()
     {
         return profileTime;
+    }
+
+    /** Attach an image as background.
+        @param filename name of the file.
+        @throws IOException if the file can not be loaded.
+    */
+    public void attachImage(String filename) throws IOException
+    {
+        imgCanvas.loadImage(filename);
     }
 }

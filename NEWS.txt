@@ -6,6 +6,7 @@ Version 0.24.7
 - FidoCadJ stores the position of the current window (#126).
 - The libraries can be hidden to increase the drawing area (#127).
 - Change field color when a key is invalid while defining a new symbol (#120).
+- Export towards gEDA PCB file format (#132).
 
 Version 0.24.6
 --------------

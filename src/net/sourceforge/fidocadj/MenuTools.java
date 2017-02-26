@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
+import java.io.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
@@ -508,6 +509,13 @@ public class MenuTools implements MenuListener
             // Show the attach image dialog.
             DialogAttachImage di = new DialogAttachImage(fff);
             di.setVisible(true);
+            if(di.shouldAttach()) {
+                try{
+                    fff.cc.attachImage(di.getFileName());
+                } catch (IOException e) {
+                    System.err.println("Background image can not be loaded");
+                }
+            }
         }
     }
 }

@@ -186,7 +186,7 @@ Starting at line 226 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
 =====================================================================
 Found a 41 line (233 tokens) duplication in the following files: 
-Starting at line 131 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
+Starting at line 133 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
 Starting at line 445 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
 
         panel.setBorder(titled);
@@ -1012,6 +1012,50 @@ Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 =====================================================================
+Found a 18 line (124 tokens) duplication in the following files: 
+Starting at line 88 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java
+Starting at line 129 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
+
+        contentPane.add(resolution, constraints);
+        // Put the OK and Cancel buttons and make them active.
+        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
+        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
+        ok.setPreferredSize(cancel.getPreferredSize());
+
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        constraints = DialogUtil.createConst(1,ygrid++,1,1,0,0,
+=====================================================================
+Found a 16 line (124 tokens) duplication in the following files: 
+Starting at line 714 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
+Starting at line 736 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
+
+                } else if (tokens[0].equals("EP") // filled
+                           && tokens[5].equals("3"))
+                { // silk
+                    int dx = sToInt(tokens[3])-sToInt(tokens[1]);
+                    if (dx < 0) {
+                        dx = -dx;
+                    }
+                    int dy = sToInt(tokens[4])-sToInt(tokens[2]);
+                    if (dy < 0) {
+                        dy = -dy;
+                    }
+                    if (dx == dy) { // circle; ignore ellipses for now
+                        double midx
+                            = (sToInt(tokens[3])+sToInt(tokens[1]))/2;
+                        double midy
+                            = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
+=====================================================================
 Found a 39 line (123 tokens) duplication in the following files: 
 Starting at line 524 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 1043 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
@@ -1187,16 +1231,15 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 =====================================================================
-Found a 20 line (118 tokens) duplication in the following files: 
+Found a 17 line (118 tokens) duplication in the following files: 
+Starting at line 88 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java
 Starting at line 129 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
 Starting at line 145 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java
 
-        contentPane.add(visibility, constraints);
-
-        JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
-        JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
-
+        contentPane.add(resolution, constraints);
         // Put the OK and Cancel buttons and make them active.
+        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
+        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
         ok.setPreferredSize(cancel.getPreferredSize());
@@ -1205,7 +1248,6 @@ Starting at line 145 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -1358,7 +1400,7 @@ Starting at line 597 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             System.out.println("Warning: unexpected parameter!"+pd);
 =====================================================================
 Found a 23 line (112 tokens) duplication in the following files: 
-Starting at line 150 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
+Starting at line 152 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
 Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 
         constraints.insets=new Insets(20,20,20,20);

@@ -196,3 +196,5 @@ bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage.class
 bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$1.class
 bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$2.class
 bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$3.class
+bin/net/sourceforge/fidocadj/dialogs/DialogAttachImage$4.class
+bin/net/sourceforge/fidocadj/export/ExportPCBRND.class

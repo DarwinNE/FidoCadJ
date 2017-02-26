@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj.dialogs;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
@@ -36,13 +37,21 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 public class DialogAttachImage extends MinimumSizeDialog
 {
+    private final JFrame parent;        // Parent window
+    private JTextField fileName;        // File name text field
+    private JTextField resolution;      // Resolution text field
+
+    private boolean attach;     // Indicates that the attach should be done
+
     /** Standard constructor.
-        @param parent the dialog parent
+        @param p the dialog parent
     */
-    public DialogAttachImage(JFrame parent)
+    public DialogAttachImage(JFrame p)
     {
-        super(500, 450, parent, Globals.messages.getString("Attach_image_t"),
+        super(500, 450, p, Globals.messages.getString("Attach_image_t"),
             true);
+        parent=p;
+
         int ygrid=0;
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
@@ -60,14 +69,23 @@ public class DialogAttachImage extends MinimumSizeDialog
 
         contentPane.add(lblfilename, constraints);
 
-        JTextField filename=new JTextField(10);
-        filename.setText("");
+        fileName=new JTextField(10);
+        fileName.setText("");
 
-        constraints = DialogUtil.createConst(1,ygrid++,1,1,100,100,
+        constraints = DialogUtil.createConst(1,ygrid,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(6,6,6,6));
 
-        contentPane.add(filename, constraints);
+        contentPane.add(fileName, constraints);
+
+        JButton browse=new JButton(Globals.messages.getString("Browse"));
+        constraints = DialogUtil.createConst(2,ygrid++,1,1,100,100,
+            GridBagConstraints.CENTER, GridBagConstraints.NONE,
+            new Insets(6,0,12,12));
+
+        contentPane.add(browse, constraints);
+
+        browse.addActionListener(createBrowseActionListener());
 
         JLabel lblresolution=
             new JLabel(Globals.messages.getString("Image_resolution"));
@@ -78,11 +96,11 @@ public class DialogAttachImage extends MinimumSizeDialog
 
         contentPane.add(lblresolution, constraints);
 
-        JTextField resolution=new JTextField(10);
-        filename.setText("");
+        resolution=new JTextField(10);
+        resolution.setText("150");
 
-        constraints = DialogUtil.createConst(1,ygrid++,1,1,100,100,
-            GridBagConstraints.EAST, GridBagConstraints.NONE,
+        constraints = DialogUtil.createConst(1,ygrid++,2,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
             new Insets(6,6,6,6));
 
         contentPane.add(resolution, constraints);
@@ -102,7 +120,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             b.add(Box.createHorizontalStrut(12));
             b.add(ok);
         }
-        constraints = DialogUtil.createConst(1,ygrid++,1,1,0,0,
+        constraints = DialogUtil.createConst(1,ygrid++,3,1,0,0,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(12,40,0,0));
         contentPane.add(b, constraints);            // Add OK/cancel buttons
@@ -110,6 +128,8 @@ public class DialogAttachImage extends MinimumSizeDialog
             {
                 public void actionPerformed(ActionEvent evt)
                 {
+                    attach=true;
+                    setVisible(false);
                 }
             });
         cancel.addActionListener(new ActionListener()
@@ -131,5 +151,68 @@ public class DialogAttachImage extends MinimumSizeDialog
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
+    }
+    /** Create an action listener which handle clicking on the 'browse' button.
+        @return the ActionListener
+    */
+    private ActionListener createBrowseActionListener()
+    {
+        return new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+                // Open the browser in order to let the user select the file
+                // name on which export
+                if(Globals.useNativeFileDialogs) {
+                    // Native file dialog
+                    FileDialog fd = new FileDialog(parent,
+                        Globals.messages.getString("Select_file_export"),
+                        FileDialog.LOAD);
+                    String filen;
+
+                    // Set defaults and make visible.
+                    fd.setDirectory(new File(fileName.getText()).getPath());
+                    fd.setVisible(true);
+
+                    // The user has selected a file.
+                    if(fd.getFile() != null) {
+                        filen=Globals.createCompleteFileName(
+                            fd.getDirectory(),
+                            fd.getFile());
+                        fileName.setText(filen);
+                    }
+                } else {
+                    // Swing file dialog
+                    JFileChooser fc = new JFileChooser(
+                        new File(fileName.getText()).getPath());
+                    int r = fc.showOpenDialog(null);
+                    if (r == JFileChooser.APPROVE_OPTION) {
+                        fileName.setText(fc.getSelectedFile().toString());
+                    }
+                }
+            }
+        };
+    }
+    /** Indicates that the image attach should be done: the user selected
+        the "ok" button.
+        @return a boolean value which indicates if the attach should be done.
+    */
+    public boolean shouldAttach()
+    {
+        return attach;
+    }
+
+    /** @return a string containing the file name given by the user.
+    */
+    public String getFileName()
+    {
+        return fileName.getText();
+    }
+
+    /** @return the resolution in dpi of the image to be used.
+    */
+    public double getResolution()
+    {
+        return Double.parseDouble(resolution.getText());
     }
 }
