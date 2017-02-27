@@ -505,15 +505,24 @@ public class MenuTools implements MenuListener
                 return;
             }
             fff.closeThisFrame();
-        } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))) {
+        } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
             // Show the attach image dialog.
+            ImageAsCanvas ii=fff.cc.getAttachedImage();
             DialogAttachImage di = new DialogAttachImage(fff);
+            di.setFilename(ii.getFilename());
+            di.setCorner(ii.getCornerX(),ii.getCornerY());
+            di.setResolution(ii.getResolution());
             di.setVisible(true);
             if(di.shouldAttach()) {
                 try{
-                    fff.cc.attachImage(di.getFileName());
+                    ii.loadImage(di.getFilename());
+                    ii.setResolution(di.getResolution());
+                    ii.setCorner(di.getCornerX(),di.getCornerY());
                 } catch (IOException e) {
-                    System.err.println("Background image can not be loaded");
+                    JOptionPane.showMessageDialog(fff,
+                        Globals.messages.getString("Can_not_attach_image"),
+                        "",
+                        JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

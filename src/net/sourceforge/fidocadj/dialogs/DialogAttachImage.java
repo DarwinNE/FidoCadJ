@@ -40,6 +40,8 @@ public class DialogAttachImage extends MinimumSizeDialog
     private final JFrame parent;        // Parent window
     private JTextField fileName;        // File name text field
     private JTextField resolution;      // Resolution text field
+    private JTextField xcoord;          // x coordinate of the left top corner
+    private JTextField ycoord;          // y coordinate of the left top corner
 
     private boolean attach;     // Indicates that the attach should be done
 
@@ -104,6 +106,31 @@ public class DialogAttachImage extends MinimumSizeDialog
             new Insets(6,6,6,6));
 
         contentPane.add(resolution, constraints);
+        JLabel lblcoords=
+            new JLabel(Globals.messages.getString("Top_left_coords"));
+
+        constraints = DialogUtil.createConst(0,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(lblcoords, constraints);
+
+        xcoord=new JTextField(5);
+        xcoord.setText("0");
+
+        constraints = DialogUtil.createConst(1,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,6,6,6));
+
+        contentPane.add(xcoord, constraints);
+        ycoord=new JTextField(5);
+        ycoord.setText("0");
+
+        constraints = DialogUtil.createConst(2,ygrid++,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,6,6,6));
+
+        contentPane.add(ycoord, constraints);
         // Put the OK and Cancel buttons and make them active.
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -202,17 +229,64 @@ public class DialogAttachImage extends MinimumSizeDialog
         return attach;
     }
 
-    /** @return a string containing the file name given by the user.
+    /** Get the filename
+        @return a string containing the file name given by the user.
     */
-    public String getFileName()
+    public String getFilename()
     {
         return fileName.getText();
     }
 
-    /** @return the resolution in dpi of the image to be used.
+    /** Set the filename
+        @param s a string containing the file name given by the user.
+    */
+    public void setFilename(String s)
+    {
+        fileName.setText(s);
+    }
+
+    /** Get the resolution.
+        @return the resolution in dpi of the image to be used.
     */
     public double getResolution()
     {
         return Double.parseDouble(resolution.getText());
+    }
+
+    /** Set the resolution
+        @param r the resolution in dpi of the image to be used.
+    */
+    public void setResolution(double r)
+    {
+        resolution.setText(""+r);
+    }
+
+    /** Set the coordinates of the left topmost point of the image (use
+        FidoCadJ coordinates).
+        @param x the x coordinate.
+        @param y the y coordinate.
+    */
+    public void setCorner(double x, double y)
+    {
+        xcoord.setText(""+x);
+        ycoord.setText(""+y);
+    }
+
+    /** Get the x coordinate of the left topmost point of the image (use
+        FidoCadJ coordinates).
+        @return the x coordinate.
+    */
+    public double getCornerX()
+    {
+        return Double.parseDouble(xcoord.getText());
+    }
+
+    /** Get the y coordinate of the left topmost point of the image (use
+        FidoCadJ coordinates).
+        @return the y coordinate.
+    */
+    public double getCornerY()
+    {
+        return Double.parseDouble(ycoord.getText());
     }
 }

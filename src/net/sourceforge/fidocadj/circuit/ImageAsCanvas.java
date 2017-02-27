@@ -33,10 +33,11 @@ import net.sourceforge.fidocadj.geom.*;
 public class ImageAsCanvas
 {
     private BufferedImage img;
+    private String filename;
     private BufferedImage resizedImg;
     private double resolution=200;
-    private int xcorner=0;
-    private int ycorner=0;
+    private double xcorner=0;
+    private double ycorner=0;
 
     /** Constructor.
     */
@@ -46,14 +47,15 @@ public class ImageAsCanvas
     }
 
     /** Specify an image to attach to the current drawing.
-        @param filename the path and the filename of the image file to
+        @param f the path and the filename of the image file to
             load and display.
         @throws IOException if the file is not found or can not be loaded.
     */
-    public void loadImage(String filename)
+    public void loadImage(String f)
         throws IOException
     {
-        img=ImageIO.read(new File(filename));
+        img=ImageIO.read(new File(f));
+        filename=f;
     }
 
     /** Specify the resolution of the image in dots per inch.
@@ -64,6 +66,50 @@ public class ImageAsCanvas
     public void setResolution(double res)
     {
         resolution=res;
+    }
+
+    /** Get the current resolution in dpi.
+        @return the current resolution in dots per inch.
+    */
+    public double getResolution()
+    {
+        return resolution;
+    }
+
+    /** Get the current file name.
+        @return the current file name
+    */
+    public String getFilename()
+    {
+        return filename;
+    }
+
+    /** Set the coordinates of the origin corner (left topmost one).
+        @param x the x coordinate.
+        @param y the y coordinate.
+    */
+    public void setCorner(double x, double y)
+    {
+        xcorner=x;
+        ycorner=y;
+    }
+
+    /** Get the x coordinate of the left topmost point of the image (use
+        FidoCadJ coordinates).
+        @return the x coordinate.
+    */
+    public double getCornerX()
+    {
+        return xcorner;
+    }
+
+    /** Get the y coordinate of the left topmost point of the image (use
+        FidoCadJ coordinates).
+        @return the y coordinate.
+    */
+    public double getCornerY()
+    {
+        return ycorner;
     }
 
     private int oldw=0;
@@ -82,6 +128,9 @@ public class ImageAsCanvas
         int w=(int)(200*img.getWidth()/resolution*mc.getXMagnitude()+0.5);
         int h=(int)(200*img.getHeight()/resolution*mc.getYMagnitude()+0.5);
 
+        // Resizing an image is pretty time-consuming. Therefore, this is done
+        // only when it is absolutely needed (usually when the zoom is
+        // changed).
         if(oldw!=w || oldh!=h) {
             GraphicsEnvironment env =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -92,13 +141,13 @@ public class ImageAsCanvas
             // I will perform some test when I will have a minimum of user
             // interface ready so that the tests become feasible.
             resizedImg = config.createCompatibleImage(
-                img.getWidth(), img.getHeight(), Transparency.TRANSLUCENT);
+                w, h, Transparency.TRANSLUCENT);
 
-            resizedImg.getGraphics().drawImage(img, xcorner, ycorner,
-                xcorner+w, ycorner+h, null);
+            resizedImg.getGraphics().drawImage(img,0,0,w,h,null);
             oldw=w;
             oldh=h;
         }
-        g.drawImage(resizedImg, xcorner, ycorner, null);
+        g.drawImage(resizedImg, mc.mapXi(xcorner, ycorner,false),
+                mc.mapYi(xcorner, ycorner,false), null);
     }
 }

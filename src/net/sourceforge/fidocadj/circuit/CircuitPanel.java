@@ -837,12 +837,11 @@ public class CircuitPanel extends JPanel implements
         return profileTime;
     }
 
-    /** Attach an image as background.
-        @param filename name of the file.
-        @throws IOException if the file can not be loaded.
+    /** Get the attached image as background.
+        @return the attached image object.
     */
-    public void attachImage(String filename) throws IOException
+    public ImageAsCanvas getAttachedImage()
     {
-        imgCanvas.loadImage(filename);
+        return imgCanvas;
     }
 }
