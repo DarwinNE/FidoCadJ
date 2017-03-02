@@ -76,6 +76,13 @@ public class ImageAsCanvas
         return resolution;
     }
 
+    /** Remove the attached image.
+    */
+    public void removeImage()
+    {
+        img=null;
+    }
+
     /** Get the current file name.
         @return the current file name
     */

@@ -44,6 +44,7 @@ public class DialogAttachImage extends MinimumSizeDialog
     private JTextField ycoord;          // y coordinate of the left top corner
 
     private boolean attach;     // Indicates that the attach should be done
+    private boolean showImage;
 
     /** Standard constructor.
         @param p the dialog parent
@@ -53,6 +54,7 @@ public class DialogAttachImage extends MinimumSizeDialog
         super(500, 450, p, Globals.messages.getString("Attach_image_t"),
             true);
         parent=p;
+        showImage=true;
 
         int ygrid=0;
         // Obtain the current content pane and create the grid layout manager
@@ -131,13 +133,15 @@ public class DialogAttachImage extends MinimumSizeDialog
             new Insets(6,6,6,6));
 
         contentPane.add(ycoord, constraints);
-        // Put the OK and Cancel buttons and make them active.
+        // Put the No image, OK and Cancel buttons and make them active.
+        JButton noImg=new JButton(Globals.messages.getString("No_img"));
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
         ok.setPreferredSize(cancel.getPreferredSize());
-
+        b.add(noImg);
+        b.add(Box.createHorizontalStrut(12));
         if (Globals.okCancelWinOrder) {
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
@@ -150,7 +154,17 @@ public class DialogAttachImage extends MinimumSizeDialog
         constraints = DialogUtil.createConst(1,ygrid++,3,1,0,0,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(12,40,0,0));
-        contentPane.add(b, constraints);            // Add OK/cancel buttons
+        contentPane.add(b, constraints);            // Add buttons
+        noImg.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent evt)
+                {
+                    attach=true;
+                    showImage=false;
+                    fileName.setText("");
+                    setVisible(false);
+                }
+            });
         ok.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent evt)
@@ -279,6 +293,14 @@ public class DialogAttachImage extends MinimumSizeDialog
     public double getCornerX()
     {
         return Double.parseDouble(xcoord.getText());
+    }
+
+    /** Check if the image has to be shown or not.
+        @return true if the image attached has to be shown.
+    */
+    public boolean getShowImage()
+    {
+        return showImage;
     }
 
     /** Get the y coordinate of the left topmost point of the image (use
