@@ -491,12 +491,11 @@ public class CircuitPanel extends JPanel implements
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
+        imgCanvas.drawCanvasImage(g2, cs);
         // Draw the grid if necessary.
         if(isGridVisible) {
             graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
         }
-
-        imgCanvas.drawCanvasImage(g2, cs);
 
         // The standard color is black.
         g.setColor(Color.black);

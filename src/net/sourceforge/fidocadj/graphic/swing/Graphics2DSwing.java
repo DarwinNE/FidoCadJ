@@ -635,8 +635,8 @@ public class Graphics2DSwing implements GraphicsInterface
                This should happen rarely, only for particular zoom sizes.
             */
             if (width>1000 || height>1000) {
-                g.setColor(Color.white);
-                g.fillRect(xmin,ymin,xmax,ymax);
+                //g.setColor(Color.white);
+                //g.fillRect(xmin,ymin,xmax,ymax);
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
@@ -650,8 +650,13 @@ public class Graphics2DSwing implements GraphicsInterface
 
             try {
                 // Create a buffered image in which to draw
-                bufferedImage = new BufferedImage(width, height,
-                                          BufferedImage.TYPE_INT_RGB);
+                GraphicsEnvironment env =
+                GraphicsEnvironment.getLocalGraphicsEnvironment();
+                GraphicsDevice device = env.getDefaultScreenDevice();
+                GraphicsConfiguration config = device.getDefaultConfiguration();
+                
+                bufferedImage = config.createCompatibleImage(width, height,
+                                          Transparency.TRANSLUCENT);
 
             } catch (java.lang.OutOfMemoryError E) {
                 System.out.println("Out of memory error when painting grid");
@@ -661,7 +666,7 @@ public class Graphics2DSwing implements GraphicsInterface
             // Create a graphics contents on the buffered image
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setColor(Color.white);
-            g2d.fillRect(0,0,width,height);
+            //g2d.fillRect(0,0,width,height);
             g2d.setColor(Color.gray);
 
             // Prepare the image with the grid.
