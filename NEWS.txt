@@ -7,6 +7,7 @@ Version 0.24.7
 - The libraries can be hidden to increase the drawing area (#127).
 - Change field color when a key is invalid while defining a new symbol (#120).
 - Export towards gEDA PCB file format (#132).
+- Use a bitmap image as background to draw over it (#99).
 
 Version 0.24.6
 --------------
