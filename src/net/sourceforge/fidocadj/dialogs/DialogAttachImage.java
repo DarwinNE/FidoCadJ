@@ -3,7 +3,10 @@ package net.sourceforge.fidocadj.dialogs;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import java.io.*;
+import javax.imageio.*;
+import javax.swing.event.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
@@ -42,7 +45,13 @@ public class DialogAttachImage extends MinimumSizeDialog
     private JTextField resolution;      // Resolution text field
     private JTextField xcoord;          // x coordinate of the left top corner
     private JTextField ycoord;          // y coordinate of the left top corner
-
+    private JTextField xsize;           // x size in mm of the image
+    private JTextField ysize;           // y size in mm of the image
+    
+    private final int USE_RESOLUTION=0;
+    private final int USE_SIZE_X=1;
+    private final int USE_SIZE_Y=2;
+    
     private boolean attach;     // Indicates that the attach should be done
     private boolean showImage;
 
@@ -101,13 +110,115 @@ public class DialogAttachImage extends MinimumSizeDialog
         contentPane.add(lblresolution, constraints);
 
         resolution=new JTextField(10);
-        resolution.setText("150");
+        resolution.setText("200");
+        // If the user changes the resolution, update the size calculation.
+        resolution.getDocument().addDocumentListener(new DocumentListener() {
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void insertUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_RESOLUTION);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void removeUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_RESOLUTION);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void changedUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_RESOLUTION);
+            }
+        });
 
         constraints = DialogUtil.createConst(1,ygrid++,2,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.BOTH,
             new Insets(6,6,6,6));
 
         contentPane.add(resolution, constraints);
+        JLabel lblsize=
+            new JLabel(Globals.messages.getString("Image_size_mm"));
+
+        constraints = DialogUtil.createConst(0,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            new Insets(6,6,6,6));
+
+        contentPane.add(lblsize, constraints);
+
+        xsize=new JTextField(5);
+        xsize.setText("");
+        xsize.getDocument().addDocumentListener(new DocumentListener() {
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void insertUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_X);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void removeUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_X);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void changedUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_X);
+            }
+        });
+
+        constraints = DialogUtil.createConst(1,ygrid,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,6,6,6));
+
+        contentPane.add(xsize, constraints);
+        ysize=new JTextField(5);
+        ysize.setText("");
+        ysize.getDocument().addDocumentListener(new DocumentListener() {
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void insertUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_Y);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void removeUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_Y);
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void changedUpdate(DocumentEvent e)
+            {
+                calculateSizeAndResolution(USE_SIZE_Y);
+            }
+        });
+
+        constraints = DialogUtil.createConst(2,ygrid++,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,6,6,6));
+
+        contentPane.add(ysize, constraints);
+        
         JLabel lblcoords=
             new JLabel(Globals.messages.getString("Top_left_coords"));
 
@@ -193,6 +304,65 @@ public class DialogAttachImage extends MinimumSizeDialog
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
     }
+
+    private boolean isCalculating;
+    /** Calculate the relations between size and resolution of the image.
+        @param useSize if true, calculate resolution from size.
+            if false, calculate size from resolution.
+    */
+    private void calculateSizeAndResolution(int useSize)
+    {
+        BufferedImage img;
+        if(isCalculating)
+            return;
+        
+        try {
+            img=ImageIO.read(new File(getFilename()));
+        } catch (IOException E) {
+            return;
+        }
+        isCalculating=true;
+        final double oneinch=25.4; // Conversion between inches and mm.
+        switch (useSize) {
+            case USE_RESOLUTION:
+                try {
+                    double res=getResolution();
+                    double w=img.getWidth()/res*oneinch;
+                    double h=img.getHeight()/res*oneinch;
+                    xsize.setText(Globals.roundTo(w));
+                    ysize.setText(Globals.roundTo(h));
+                } catch (java.lang.NumberFormatException E){
+                    isCalculating=false;
+                    return;
+                }
+                break;
+            case USE_SIZE_X:
+                try {
+                    double sizex=getSizex();
+                    double res=img.getWidth()/sizex*oneinch;
+                    setResolution(res);
+                    double h=img.getHeight()/res*oneinch;
+                    ysize.setText(Globals.roundTo(h));
+                } catch (java.lang.NumberFormatException E){
+                    isCalculating=false;
+                    return;
+                }
+                break;
+            case USE_SIZE_Y:
+                try {
+                    double sizey=getSizey();
+                    double res=img.getHeight()/sizey*oneinch;
+                    setResolution(res);
+                    double w=img.getWidth()/res*oneinch;
+                    xsize.setText(Globals.roundTo(w));
+                } catch (java.lang.NumberFormatException E){
+                    isCalculating=false;
+                    return;
+                }
+                break;
+        }
+        isCalculating=false;
+    }
     /** Create an action listener which handle clicking on the 'browse' button.
         @return the ActionListener
     */
@@ -231,6 +401,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                         fileName.setText(fc.getSelectedFile().toString());
                     }
                 }
+                calculateSizeAndResolution(USE_RESOLUTION);
             }
         };
     }
@@ -267,12 +438,28 @@ public class DialogAttachImage extends MinimumSizeDialog
         return Double.parseDouble(resolution.getText());
     }
 
+    /** Get the width of the image.
+        @return the width in mm
+    */
+    public double getSizex()
+    {
+        return Double.parseDouble(xsize.getText());
+    }
+
+    /** Get the height of the image.
+        @return the height in mm
+    */
+    public double getSizey()
+    {
+        return Double.parseDouble(ysize.getText());
+    }
+
     /** Set the resolution
         @param r the resolution in dpi of the image to be used.
     */
     public void setResolution(double r)
     {
-        resolution.setText(""+r);
+        resolution.setText(Globals.roundTo(r));
     }
 
     /** Set the coordinates of the left topmost point of the image (use
@@ -282,8 +469,8 @@ public class DialogAttachImage extends MinimumSizeDialog
     */
     public void setCorner(double x, double y)
     {
-        xcoord.setText(""+x);
-        ycoord.setText(""+y);
+        xcoord.setText(Globals.roundTo(x));
+        ycoord.setText(Globals.roundTo(y));
     }
 
     /** Get the x coordinate of the left topmost point of the image (use
