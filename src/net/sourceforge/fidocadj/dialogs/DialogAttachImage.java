@@ -47,6 +47,7 @@ public class DialogAttachImage extends MinimumSizeDialog
     private JTextField ycoord;          // y coordinate of the left top corner
     private JTextField xsize;           // x size in mm of the image
     private JTextField ysize;           // y size in mm of the image
+    private BufferedImage img;
     
     private final int USE_RESOLUTION=0;
     private final int USE_SIZE_X=1;
@@ -84,6 +85,31 @@ public class DialogAttachImage extends MinimumSizeDialog
 
         fileName=new JTextField(10);
         fileName.setText("");
+        fileName.getDocument().addDocumentListener(new DocumentListener() {
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void insertUpdate(DocumentEvent e)
+            {
+                loadImage();
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void removeUpdate(DocumentEvent e)
+            {
+                loadImage();
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void changedUpdate(DocumentEvent e)
+            {
+                loadImage();
+            }
+        });
 
         constraints = DialogUtil.createConst(1,ygrid,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
@@ -312,15 +338,9 @@ public class DialogAttachImage extends MinimumSizeDialog
     */
     private void calculateSizeAndResolution(int useSize)
     {
-        BufferedImage img;
-        if(isCalculating)
+        if(isCalculating || img==null)
             return;
         
-        try {
-            img=ImageIO.read(new File(getFilename()));
-        } catch (IOException E) {
-            return;
-        }
         isCalculating=true;
         final double oneinch=25.4; // Conversion between inches and mm.
         switch (useSize) {
@@ -329,8 +349,8 @@ public class DialogAttachImage extends MinimumSizeDialog
                     double res=getResolution();
                     double w=img.getWidth()/res*oneinch;
                     double h=img.getHeight()/res*oneinch;
-                    xsize.setText(Globals.roundTo(w));
-                    ysize.setText(Globals.roundTo(h));
+                    xsize.setText(Globals.roundTo(w,3));
+                    ysize.setText(Globals.roundTo(h,3));
                 } catch (java.lang.NumberFormatException E){
                     isCalculating=false;
                     return;
@@ -342,7 +362,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     double res=img.getWidth()/sizex*oneinch;
                     setResolution(res);
                     double h=img.getHeight()/res*oneinch;
-                    ysize.setText(Globals.roundTo(h));
+                    ysize.setText(Globals.roundTo(h,3));
                 } catch (java.lang.NumberFormatException E){
                     isCalculating=false;
                     return;
@@ -354,7 +374,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     double res=img.getHeight()/sizey*oneinch;
                     setResolution(res);
                     double w=img.getWidth()/res*oneinch;
-                    xsize.setText(Globals.roundTo(w));
+                    xsize.setText(Globals.roundTo(w,3));
                 } catch (java.lang.NumberFormatException E){
                     isCalculating=false;
                     return;
@@ -401,9 +421,18 @@ public class DialogAttachImage extends MinimumSizeDialog
                         fileName.setText(fc.getSelectedFile().toString());
                     }
                 }
+                loadImage();
                 calculateSizeAndResolution(USE_RESOLUTION);
             }
         };
+    }
+    private void loadImage()
+    {
+        try {
+            img=ImageIO.read(new File(getFilename()));
+        } catch (IOException E) {
+            return;
+        }
     }
     /** Indicates that the image attach should be done: the user selected
         the "ok" button.
@@ -469,8 +498,8 @@ public class DialogAttachImage extends MinimumSizeDialog
     */
     public void setCorner(double x, double y)
     {
-        xcoord.setText(Globals.roundTo(x));
-        ycoord.setText(Globals.roundTo(y));
+        xcoord.setText(Globals.roundTo(x,3));
+        ycoord.setText(Globals.roundTo(y,3));
     }
 
     /** Get the x coordinate of the left topmost point of the image (use
