@@ -39,14 +39,18 @@ public class ImageAsCanvas
     private double xcorner=0;
     private double ycorner=0;
 
-    private final int MAX_RESIZED_WIDTH=3000;
-    private final int MAX_RESIZED_HEIGHT=3000;
+    private final int MAX_RESIZED_WIDTH;
+    private final int MAX_RESIZED_HEIGHT;
 
     /** Constructor.
     */
     public ImageAsCanvas()
     {
         img=null;
+        Dimension screensize=Toolkit.getDefaultToolkit().getScreenSize();
+        MAX_RESIZED_WIDTH=screensize.width*3;
+        MAX_RESIZED_HEIGHT=screensize.height*3;
+        
     }
 
     /** Specify an image to attach to the current drawing.
@@ -163,11 +167,28 @@ public class ImageAsCanvas
         // only when it is absolutely needed. This happens when the zoom is
         // changed, or when the chunk of the image which has been resized
         // should be changed.
-
-        if(oldw!=w || oldh!=h || regionx<shiftx+ox || regiony<shifty+oy||
-            regionx+regionwidth>shiftx+ox+MAX_RESIZED_WIDTH ||
-            regiony+regionheight>shifty+oy+MAX_RESIZED_HEIGHT)
+        if(oldw!=w || oldh!=h || regionx<shiftx || regiony<shifty||
+            regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH ||
+            regiony+regionheight>shifty+MAX_RESIZED_HEIGHT)
         {
+            /*System.out.println("\nPartial image calculation");
+            System.out.println("MAX_RESIZED_WIDTH/3="+(MAX_RESIZED_WIDTH/3));
+            System.out.println("MAX_RESIZED_HEIGHT/3="+(MAX_RESIZED_HEIGHT/3));
+            System.out.println("shiftx="+shiftx+" shifty="+shifty);
+            System.out.println("regionx="+regionx+" regiony="+regiony);
+            System.out.println("regionx+regionwidth="+(regionx+regionwidth)+
+                " regiony+regionheight="+(regiony+regionheight));
+            System.out.println("---------------------------");
+            System.out.println("oldw!=w "+(oldw!=w));
+            System.out.println("oldh!=h "+ (oldh!=h));
+            System.out.println("regionx<shiftx "+ (regionx<shiftx));
+            System.out.println("regiony<shifty "+ (regiony<shifty));
+            System.out.println(
+                "regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH " + 
+                (regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH));
+            System.out.println(
+                "regiony+regionheight>shifty+MAX_RESIZED_HEIGHT " +
+                (regiony+regionheight>shifty+MAX_RESIZED_HEIGHT));*/
             GraphicsEnvironment env =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice device = env.getDefaultScreenDevice();
@@ -176,8 +197,8 @@ public class ImageAsCanvas
             oldh=h;
             if(w<MAX_RESIZED_WIDTH && h<MAX_RESIZED_HEIGHT) {
                 // Here the image can be resized all together.
-                shiftx=0;
-                shifty=0;
+                shiftx=ox;
+                shifty=oy;
                 resizedImg = config.createCompatibleImage(
                     w, h, Transparency.TRANSLUCENT);
 
@@ -185,18 +206,15 @@ public class ImageAsCanvas
             } else {
                 // Here, resizing the image would produce an image too big.
                 // Therefore, the image is resized by chunks.
-
-                /*System.out.println("\nPartial image calculation");
-                System.out.println("shiftx="+shiftx+" shifty="+shifty);
-                System.out.println("regionx="+regionx+" regiony="+regiony);
-                System.out.println("regionx+regionwidth="+(regionx+regionwidth)+
-                    " regiony+regionheight="+(regiony+regionheight));*/
-
+            
                 resizedImg = config.createCompatibleImage(
                     MAX_RESIZED_WIDTH, MAX_RESIZED_HEIGHT,
                         Transparency.TRANSLUCENT);
-                shiftx=Math.max(regionx-MAX_RESIZED_WIDTH/3,0);
-                shifty=Math.max(regiony-MAX_RESIZED_HEIGHT/3,0);
+                shiftx=Math.max(regionx-MAX_RESIZED_WIDTH/3,0)+ox;
+                shifty=Math.max(regiony-MAX_RESIZED_HEIGHT/3,0)+oy;
+                /*System.out.println("---------------------------");
+                System.out.println("New shiftx = "+shiftx+ " shifty = "+shifty);
+                */
                 resizedImg.getGraphics().drawImage(img, 0, 0,
                     MAX_RESIZED_WIDTH,
                     MAX_RESIZED_HEIGHT,
@@ -215,10 +233,10 @@ public class ImageAsCanvas
         g.drawImage(resizedImg, regionx, regiony,
             regionx+regionwidth,
             regiony+regionheight,
-            regionx-shiftx-ox,
-            regiony-shifty-oy,
-            regionx+regionwidth-shiftx-ox,
-            regiony+regionheight-shifty-oy,
+            regionx-shiftx,
+            regiony-shifty,
+            regionx+regionwidth-shiftx,
+            regiony+regionheight-shifty,
             null);
     }
 }
