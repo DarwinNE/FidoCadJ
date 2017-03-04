@@ -65,6 +65,17 @@ public class ImageAsCanvas
         filename=f;
     }
 
+    /** Specify an image to attach to the current drawing.
+        @param f the path and the filename of the image file to
+            load and display.
+        @param i the image to be loaded.
+    */
+    public void loadImage(String f, BufferedImage i)
+    {
+        img=i;
+        filename=f;
+    }
+
     /** Specify the resolution of the image in dots per inch.
         This is employed for the coordinate mapping so that the image size
         is correctly matched with the FidoCadJ coordinate systems.
@@ -115,6 +126,22 @@ public class ImageAsCanvas
     public double getCornerX()
     {
         return xcorner;
+    }
+
+    /** Track the extreme points of the image in the given coordinate systems.
+        @param mc the coordinate systems.
+    */
+    public void trackExtremePoints(MapCoordinates mc)
+    {
+        if(img==null)
+            return;
+        int ox=mc.mapXi(xcorner, ycorner,false);
+        int oy=mc.mapYi(xcorner, ycorner,false);
+        // The FidoCadJ resolution is 200dpi.
+        int w=(int)(200.0*img.getWidth()/resolution*mc.getXMagnitude()+0.5);
+        int h=(int)(200.0*img.getHeight()/resolution*mc.getYMagnitude()+0.5);
+        mc.trackPoint(ox, oy);
+        mc.trackPoint(ox+w, oy+h);
     }
 
     /** Get the y coordinate of the left topmost point of the image (use
@@ -201,8 +228,41 @@ public class ImageAsCanvas
                 shifty=oy;
                 resizedImg = config.createCompatibleImage(
                     w, h, Transparency.TRANSLUCENT);
-
-                resizedImg.getGraphics().drawImage(img,0,0,w,h,null);
+                // If the resulting image is very small, implement a multi-step
+                // resize to improve the rendering quality.
+                if(img.getWidth()/w>5) {
+                    System.out.print("Multistep reduction");
+                    BufferedImage rs=img;
+                    BufferedImage rs1=img;
+                    BufferedImage rs2;
+                    int nw=img.getWidth();
+                    int nh=img.getHeight();
+                    while (nw>w*2) {
+                        System.out.print(".");
+                        rs= config.createCompatibleImage(
+                            nw/2, nh/2, Transparency.TRANSLUCENT);
+                        Graphics2D graphics2D = rs.createGraphics();
+                        graphics2D.setRenderingHint(
+                            RenderingHints.KEY_INTERPOLATION,
+                            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                        graphics2D.setRenderingHint(
+                            RenderingHints.KEY_RENDERING,
+                            RenderingHints.VALUE_RENDER_QUALITY);
+                        graphics2D.setRenderingHint(
+                           RenderingHints.KEY_ANTIALIASING,
+                           RenderingHints.VALUE_ANTIALIAS_ON);
+                        graphics2D.drawImage(rs1,0,0,nw/2,nh/2,null);
+                        nw=nw/2;
+                        nh=nh/2;
+                        rs2=rs;
+                        rs=rs1;
+                        rs1=rs2;
+                    }
+                    System.out.print("\n");
+                    resizedImg.getGraphics().drawImage(rs,0,0,w,h,null);
+                } else {
+                    resizedImg.getGraphics().drawImage(img,0,0,w,h,null);
+                }
             } else {
                 // Here, resizing the image would produce an image too big.
                 // Therefore, the image is resized by chunks.

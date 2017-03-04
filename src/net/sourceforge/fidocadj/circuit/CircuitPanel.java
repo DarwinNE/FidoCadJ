@@ -93,7 +93,6 @@ public class CircuitPanel extends JPanel implements
     private static final int MINSIZEX=1000;
     private static final int MINSIZEY=1000;
 
-    private ImageAsCanvas imgCanvas;
 
     // Views:
     public Drawing drawingAgent;
@@ -166,7 +165,6 @@ public class CircuitPanel extends JPanel implements
         antiAlias = true;
         record = 1e100;
         evidenceRect = new Rectangle(0,0,-1,-1);
-        imgCanvas = new ImageAsCanvas();
 
         // Set up the standard view settings:
         // top left corner, 400% zoom.
@@ -491,7 +489,7 @@ public class CircuitPanel extends JPanel implements
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        imgCanvas.drawCanvasImage(g2, cs);
+        dmp.imgCanvas.drawCanvasImage(g2, cs);
         // Draw the grid if necessary.
         if(isGridVisible) {
             graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
@@ -504,6 +502,7 @@ public class CircuitPanel extends JPanel implements
 
         // Draw all the elements of the drawing.
         drawingAgent.draw(graphicSwing, cs);
+        dmp.imgCanvas.trackExtremePoints(cs);
 
         if (zoomListener!=null)
             zoomListener.changeZoom(cs.getXMagnitude());
@@ -841,6 +840,6 @@ public class CircuitPanel extends JPanel implements
     */
     public ImageAsCanvas getAttachedImage()
     {
-        return imgCanvas;
+        return dmp.imgCanvas;
     }
 }

@@ -112,7 +112,7 @@ public class DialogAttachImage extends MinimumSizeDialog
         });
 
         constraints = DialogUtil.createConst(1,ygrid,1,1,100,100,
-            GridBagConstraints.EAST, GridBagConstraints.NONE,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
             new Insets(6,6,6,6));
 
         contentPane.add(fileName, constraints);
@@ -519,6 +519,13 @@ public class DialogAttachImage extends MinimumSizeDialog
         return showImage;
     }
 
+    /** Get the currently loaded image.
+        @return the image.
+    */
+    public BufferedImage getImage()
+    {
+        return img;
+    }
     /** Get the y coordinate of the left topmost point of the image (use
         FidoCadJ coordinates).
         @return the y coordinate.

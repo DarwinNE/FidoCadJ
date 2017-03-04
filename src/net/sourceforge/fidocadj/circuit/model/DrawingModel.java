@@ -2,6 +2,7 @@ package net.sourceforge.fidocadj.circuit.model;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
@@ -54,6 +55,8 @@ public class DrawingModel
     // drawn
     public int drawOnlyLayer;
 
+    public ImageAsCanvas imgCanvas;
+
     // Font and size to be used for the text associated to the macros.
     private String macroFont;
     private int macroFontSize;
@@ -84,7 +87,7 @@ public class DrawingModel
         layerV=new Vector<LayerDesc>(LayerDesc.MAX_LAYERS);
         library=new TreeMap<String, MacroDesc>();
         macroFont = "Courier New";
-
+        imgCanvas= new ImageAsCanvas();
         drawOnlyPads=false;
         drawOnlyLayer=-1;
         layersUsed = new boolean[LayerDesc.MAX_LAYERS];
