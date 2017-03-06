@@ -1,7 +1,7 @@
 README file for FidoCadJ
 ========================
 
-Version 0.24.6
+Version 0.24.7
 
 Copyright 2007-2017
 
@@ -153,7 +153,7 @@ using Git from the GitHub repository.
 git clone https://github.com/DarwinNE/FidoCadJ.git
 ```
 
-3.1 Main directory
+2.1 Main directory
 ----------------------------------------------------------------------
 In the following table you find a description of the main directory of
 FidoCadJ source files.
@@ -175,7 +175,7 @@ FidoCadJ source files.
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
 
-3.2 Important classes
+2.2 Important classes
 ----------------------------------------------------------------------
 
 Important classes in `src/net/sourceforge/fidocadj/` are:
@@ -189,7 +189,7 @@ Important classes in `src/net/sourceforge/fidocadj/` are:
 | `circuit/CircuitPanel.java` | Swing editor panel              |
 | `circuit/*`                 | Low level editing classes (MVC) |
 
-3.3 Developers' tools
+2.3 Developers' tools
 ----------------------------------------------------------------------
 The `dev_tools` directory, contains all the scripts for compile, build,
 run and test FidoCadJ.
@@ -543,7 +543,7 @@ if we can find an intersection between what you can do with the FidoCadJ
 development strategy. The idea is to keep the work a little bit organised and to
 know who does what.
 
-Have a peek to section 3.3 of this `README.md` file to see what coding style
+Have a peek to section 4.1 of this `README.md` file to see what coding style
 should be applied to the sources.
 
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
@@ -595,7 +595,7 @@ Linux packaging
 
 For the PC and Android app:
 - [ ] The code does not break the build for both PC and Android apps.
-- [ ] The coding style is conform to paragraph 3.3 of this README.
+- [ ] The coding style is conform to paragraph 4.1 of this README.
 - [ ] Comments have been added at the relevant places and are up-to date.
 - [ ] I ran Checkstyle with `dev_tools/rules.xml` and no issues are reported.
 
