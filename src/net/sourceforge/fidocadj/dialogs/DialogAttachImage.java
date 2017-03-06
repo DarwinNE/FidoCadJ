@@ -306,8 +306,10 @@ public class DialogAttachImage extends MinimumSizeDialog
             {
                 public void actionPerformed(ActionEvent evt)
                 {
-                    attach=true;
-                    setVisible(false);
+                    if(validateForm()) {
+                        attach=true;
+                        setVisible(false);
+                    }
                 }
             });
         cancel.addActionListener(new ActionListener()
@@ -358,7 +360,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                 break;
             case USE_SIZE_X:
                 try {
-                    double sizex=getSizex();
+                    double sizex=getSizeX();
                     double res=img.getWidth()/sizex*oneinch;
                     setResolution(res);
                     double h=img.getHeight()/res*oneinch;
@@ -370,7 +372,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                 break;
             case USE_SIZE_Y:
                 try {
-                    double sizey=getSizey();
+                    double sizey=getSizeY();
                     double res=img.getHeight()/sizey*oneinch;
                     setResolution(res);
                     double w=img.getWidth()/res*oneinch;
@@ -426,6 +428,37 @@ public class DialogAttachImage extends MinimumSizeDialog
             }
         };
     }
+
+    /** Validate the data entered by the user.
+        @return true if the data is valid.
+    */
+    private boolean validateForm()
+    {
+        try {
+            img=ImageIO.read(new File(getFilename()));
+            getResolution();
+            getSizeX();
+            getSizeY();
+            getCornerX();
+            getCornerY();
+        } catch (NumberFormatException N) {
+            JOptionPane.showMessageDialog(parent,
+                Globals.messages.getString("Format_invalid"),
+                "",
+                JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        } catch (IOException E) {
+            JOptionPane.showMessageDialog(parent,
+                Globals.messages.getString("Can_not_attach_image"),
+                "",
+                JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /** Load the background image. Or at least try to do it!
+    */
     private void loadImage()
     {
         try {
@@ -470,7 +503,7 @@ public class DialogAttachImage extends MinimumSizeDialog
     /** Get the width of the image.
         @return the width in mm
     */
-    public double getSizex()
+    public double getSizeX()
     {
         return Double.parseDouble(xsize.getText());
     }
@@ -478,7 +511,7 @@ public class DialogAttachImage extends MinimumSizeDialog
     /** Get the height of the image.
         @return the height in mm
     */
-    public double getSizey()
+    public double getSizeY()
     {
         return Double.parseDouble(ysize.getText());
     }
