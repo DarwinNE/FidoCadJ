@@ -376,8 +376,10 @@ public class FidoFrame extends JFrame implements
         // Presence of the text description in the toolbar
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
 
-        // Export preferences
+        // Read export preferences
         et.readPrefs();
+        // Read file preferences
+        ft.readPrefs();
 
         // Element sizes
         Globals.lineWidth=Double.parseDouble(
