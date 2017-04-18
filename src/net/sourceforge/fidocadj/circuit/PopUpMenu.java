@@ -449,17 +449,13 @@ public class PopUpMenu implements ActionListener
                     System.out.println("Exception: "+e);
                 }
                 cp.repaint();
-            }
-
-            else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
+            } else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
                 StringBuffer s=sa.getSelectedString(true, pa);
                 edt.deleteAllSelected(false);
                 pa.addString(pa.splitMacros(s,  true),true);
                 ua.saveUndoState();
                 cp.repaint();
-            }
-
-            else if(arg.equals(Globals.messages.getString("Remove_node"))) {
+            } else if(arg.equals(Globals.messages.getString("Remove_node"))) {
                 if(sa.getFirstSelectedPrimitive()
                     instanceof PrimitivePolygon)
                 {
