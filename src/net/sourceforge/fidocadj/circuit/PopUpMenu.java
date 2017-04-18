@@ -437,9 +437,7 @@ public class PopUpMenu implements ActionListener
                     edt.mirrorAllSelected();
 
                 cp.repaint();
-            }
-
-            else if (arg.equals(Globals.messages.getString("Symbolize"))) {
+            } else if (arg.equals(Globals.messages.getString("Symbolize"))) {
                 if (sa.getFirstSelectedPrimitive() == null) return;
                 DialogSymbolize s = new DialogSymbolize(cp,
                     cp.getDrawingModel());

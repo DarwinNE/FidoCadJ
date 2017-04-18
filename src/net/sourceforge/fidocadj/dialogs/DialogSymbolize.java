@@ -619,7 +619,7 @@ public class DialogSymbolize extends MinimumSizeDialog
                     pa.addString(new StringBuffer(g.toString(true)), true);
                 }
             }
-            sa.setSelectionAll(true);
+            //sa.setSelectionAll(true);
         } catch (Exception e){
             e.printStackTrace();
         }
