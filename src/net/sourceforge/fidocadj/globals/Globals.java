@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2016 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
 
     </pre>
 */
@@ -88,7 +88,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.7 delta";
+    public static final String version = "0.24.7 epsilon";
     // Is it a beta version?
     public static final boolean isBeta = true;
 

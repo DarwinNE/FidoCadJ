@@ -8,6 +8,13 @@ Version 0.24.7
 - Change field color when a key is invalid while defining a new symbol (#120).
 - Export towards gEDA PCB file format (#132).
 - Use a bitmap image as background to draw over it (#99).
+- Better user interface with high resolution monitors (#133).
+- Correct export of some characters in PDF (#115).
+- Correct problem in the selected objects while define a new symbol (#102)
+- Correct FidoCadJ does not remember the save/open file directory (#116)
+- Show invalid keys when creating new components (#120).
+- Eliminate the "Export complete" message box (#117).
+
 
 Version 0.24.6
 --------------
