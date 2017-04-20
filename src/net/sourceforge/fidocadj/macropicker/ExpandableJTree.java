@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.macropicker;
 
 import javax.swing.*;
 import javax.swing.tree.*;
-import java.awt.Graphics;
+import java.awt.*;
 
 /** Extended JTree for searching node.<BR>
     Features:<BR>
@@ -41,6 +41,18 @@ public class ExpandableJTree extends JTree
     // direction = true means that during the next repaint the tree should be
     // expanded.
     private boolean direction = false;
+
+    public ExpandableJTree()
+    {
+        super();
+        // Apply a correction for the text size depending on the screen
+        // resolution.
+        final int base=114;
+        int res=Toolkit.getDefaultToolkit().getScreenResolution();
+        Font standardFont=getFont();
+        setFont(standardFont.deriveFont(standardFont.getSize()*res/base));
+        setRowHeight(getRowHeight()*res/base);
+    }
 
     private void fillExpandState(boolean expand)
     {

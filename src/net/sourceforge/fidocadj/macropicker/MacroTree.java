@@ -674,7 +674,6 @@ public class MacroTree extends JPanel
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(e.isShiftDown()) {
                         treeComponent.selectPrevLeaf();
-                        //System.out.println("prev");
                     } else {
                         treeComponent.selectNextLeaf();
                     }
