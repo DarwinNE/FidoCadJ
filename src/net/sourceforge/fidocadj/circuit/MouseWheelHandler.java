@@ -102,6 +102,6 @@ public class MouseWheelHandler implements KeyListener,
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        cc.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY());
+        cc.changeZoomByStep(e.getWheelRotation() < 0, e.getX(), e.getY(), 1.1);
     }
 }

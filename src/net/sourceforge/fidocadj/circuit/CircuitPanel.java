@@ -350,8 +350,10 @@ public class CircuitPanel extends JPanel implements
         @param increase if true, increase the zoom, if false decrease.
         @param x coordinate to which center the viewport (screen coordinates).
         @param y coordinate to which center the viewport (screen coordinates).
+        @param rate the amount the zoom is multiplied (or divided). Should be
+          greater than 1.
     */
-    public void changeZoomByStep(boolean increase, int x, int y)
+    public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
         int xpos = cs.unmapXnosnap(x);
         int ypos = cs.unmapYnosnap(y);
@@ -361,9 +363,9 @@ public class CircuitPanel extends JPanel implements
         // Click raises the zoom
         double oldz=z;
         if(increase)
-            z=z*3.0/2.0;
+            z=z*rate;
         else
-            z=z*2.0/3.0;
+            z=z/rate;
 
         // Checking that reasonable limits are not exceeded.
         if(z>20) z=20;

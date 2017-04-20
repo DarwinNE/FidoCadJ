@@ -268,7 +268,7 @@ public class ElementsEdtActions
             // Zoom state
             case ZOOM:
                 if(primitivesParListener!=null)
-                    primitivesParListener.changeZoomByStep(!button3, x,y);
+                    primitivesParListener.changeZoomByStep(!button3, x,y,1.5);
                 break;
 
             // Put a connection (easy: just one click is needed)

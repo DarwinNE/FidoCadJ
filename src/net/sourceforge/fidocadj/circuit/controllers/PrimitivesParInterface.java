@@ -50,8 +50,9 @@ public interface PrimitivesParInterface
         @param increase if true, increase the zoom, if false decrease
         @param x coordinate to which center the viewport (screen coordinates)
         @param y coordinate to which center the viewport (screen coordinates)
+        @param rate amount the zoom must be multiplied. Must be >1.0
     */
-    public void changeZoomByStep(boolean increase, int x, int y);
+    public void changeZoomByStep(boolean increase, int x, int y, double rate);
 
     /** Makes sure the object gets focus.
     */
