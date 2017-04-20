@@ -806,11 +806,6 @@ public class ExportPDF implements ExportInterface
         outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+
             " cm\n");
 
-        Map<String, String> subst = new HashMap<String, String>();
-        subst.put("(","\\050");
-        subst.put(")","\\051");
-        text=Globals.substituteBizarreChars(text, subst);
-
         outt.write(" <");
         int ch;
         int codechar;
