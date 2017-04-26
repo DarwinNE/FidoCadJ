@@ -401,7 +401,6 @@ public class PrintTools implements Printable
         graphicSwing.setZoom(m.getXMagnitude());
         // Now we perform our rendering
         cc.drawingAgent.draw(graphicSwing, m);
-        System.out.println("zoom: "+m.getXMagnitude());
         if(currentLayerSelected>=0) {
             cc.dmp.setDrawOnlyPads(true);
             cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);

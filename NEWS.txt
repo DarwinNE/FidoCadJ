@@ -1,5 +1,6 @@
 Version 0.24.7
 --------------
+(April 26, 2017)
 - Improvement of the building tools and scripts.
 - Improved backwards compatibility with PCB tracks with non integer size (#107).
 - Increased to 10000 the number of processable tokens (#129).
@@ -14,6 +15,7 @@ Version 0.24.7
 - Correct FidoCadJ does not remember the save/open file directory (#116)
 - Show invalid keys when creating new components (#120).
 - Eliminate the "Export complete" message box (#117).
+- Correct an issue with printing sizes (#137).
 
 
 Version 0.24.6
