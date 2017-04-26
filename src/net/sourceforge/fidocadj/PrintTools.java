@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -66,9 +66,9 @@ public class PrintTools implements Printable
 
     private final static double LIMIT=1e-5;
 
-    private final static int MULT=16;       // Multiplying 72dp times MULT
+    private final static double MULT=16.0;       // Multiplying 72dp times MULT
     private final static double INCH=2.54;  // in cm
-    private final static int NATIVERES=72;  // in dpi
+    private final static double NATIVERES=72.0;  // in dpi
 
     /** Standard constructor.
     */
@@ -271,10 +271,11 @@ public class PrintTools implements Printable
         // printer. This gives a 72 dpi * 16=1152 dpi resolution.
         // 3 - The 0.127 mm pitch used in FidoCadJ corresponds to a 200 dpi
         // resolution. Calculating 1152 dpi / 200 dpi gives the 5.76 constant
+        // for the zoom.
 
         double xscale = 1.0/MULT; // Set 1152 logical units for an inch
         double yscale = 1.0/MULT; // as the standard resolution is 72
-        double zoom = NATIVERES*MULT/200;// act in a 1152 dpi resolution as 1:1
+        double zoom = NATIVERES*MULT/200.0;// in a 1152 dpi resolution is 1:1
         double shownWidth;        // Printed region (taking into account
         double shownHeight;       // margins).
 
@@ -331,11 +332,11 @@ public class PrintTools implements Printable
         if (printFitToPage) {
             MapCoordinates n = DrawingSize.calculateZoomToFit(
                 cc.getDrawingModel(),
-                (int)(pf.getWidth()-(leftMargin+rightMargin)
-                    /INCH*NATIVERES)*MULT
+                (int)((pf.getWidth()-(leftMargin+rightMargin)
+                    /INCH*NATIVERES)*MULT)
                     -2*security,
-                (int)(pf.getHeight()-(topMargin+bottomMargin)
-                    /INCH*NATIVERES)*MULT
+                (int)((pf.getHeight()-(topMargin+bottomMargin)
+                    /INCH*NATIVERES)*MULT)
                     -2*security,
                 true);
             zoom=n.getXMagnitude();
@@ -400,6 +401,7 @@ public class PrintTools implements Printable
         graphicSwing.setZoom(m.getXMagnitude());
         // Now we perform our rendering
         cc.drawingAgent.draw(graphicSwing, m);
+        System.out.println("zoom: "+m.getXMagnitude());
         if(currentLayerSelected>=0) {
             cc.dmp.setDrawOnlyPads(true);
             cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
