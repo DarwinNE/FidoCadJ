@@ -46,7 +46,7 @@ import java.lang.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2018 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -253,7 +253,10 @@ public final class ExportGraphic
                 g2d.fillRect(0,0, width, height);
                 // Save bitmap
                 Drawing drawingAgent = new Drawing(P);
-                drawingAgent.draw(new Graphics2DSwing(g2d),m);
+                Graphics2DSwing graphicSwing=new Graphics2DSwing(g2d);
+                // This is important for taking into account the dashing size
+                graphicSwing.setZoom(m.getXMagnitude());
+                drawingAgent.draw(graphicSwing,m);
 
                 ImageIO.write(bufferedImage, format, file);
                 // Graphics context no longer needed so dispose it

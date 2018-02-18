@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2017 by Davide Bucci
+    Copyright 2008-2018 by Davide Bucci
 
     </pre>
 */
@@ -88,9 +88,10 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.7";
-    // Is it a beta version?
-    public static final boolean isBeta = false;
+    public static final String version = "0.24.8 alpha";
+    // Is it a beta version? Some debug options become available, such as
+    // timing each redraw operation.
+    public static final boolean isBeta = true;
 
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";
