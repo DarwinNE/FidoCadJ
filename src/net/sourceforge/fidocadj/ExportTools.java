@@ -78,6 +78,13 @@ public class ExportTools
             exportMagnification = Double.parseDouble(
                 prefs.get("EXPORT_MAGNIFICATION", "1"));
             exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
+
+            exportXsize = Integer.parseInt(
+                prefs.get("EXPORT_XSIZE", "800"));
+            exportYsize = Integer.parseInt(
+                prefs.get("EXPORT_YSIZE", "600"));
+            exportResolutionBased = prefs.get("EXPORT_RESOLUTION_BASED",
+                "false").equals("true");
         }
     }
 
@@ -97,6 +104,9 @@ public class ExportTools
         DialogExport export=new DialogExport(fff);
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
+        export.setXsizeInPixels(exportXsize);
+        export.setYsizeInPixels(exportYsize);
+
         // The default export directory is the same where the FidoCadJ file
         // are opened.
         if("".equals(exportFileName)) {
@@ -192,6 +202,10 @@ public class ExportTools
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
                 prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
                 prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
+                prefs.put("EXPORT_RESOLUTION_BASED",
+                    exportResolutionBased?"true":"false");
+                prefs.put("EXPORT_XSIZE", ""+exportXsize);
+                prefs.put("EXPORT_YSIZE", ""+exportYsize);
             }
             /*
                 The following code would require a thread safe implementation

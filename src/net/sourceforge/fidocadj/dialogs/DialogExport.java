@@ -268,7 +268,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     {
         return tabsPane.getSelectedIndex()==0;
     }
-    
+
     /** Indicates which export format has been selected.
         @return a string describing the image format (e.g. "png", "jpg").
     */
@@ -366,12 +366,28 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         return Double.parseDouble(multiplySizes.getText());
     }
 
+    /** Set the x size of the picture.
+        @param the wanted x size.
+    */
+    public void setXsizeInPixels(int xs)
+    {
+        xsizePixel.setText(""+xs);
+    }
+
     /** If the resolution is size-based, get the x size of the picture.
         @return the wanted x size.
     */
     public int getXsizeInPixels()
     {
         return Integer.parseInt(xsizePixel.getText());
+    }
+
+    /** Set the y size of the picture.
+        @param the wanted y size.
+    */
+    public void setYsizeInPixels(int ys)
+    {
+        ysizePixel.setText(""+ys);
     }
 
     /** If the resolution is size-based, get the y size of the picture.
@@ -508,7 +524,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         return panel;
     }
-    
+
     private JPanel createCommonInterfaceElements()
     {
         JPanel panel=new JPanel();

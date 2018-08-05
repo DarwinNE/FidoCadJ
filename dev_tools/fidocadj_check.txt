@@ -1,2 +1,39 @@
 Starting audit...
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:42:17: warning: Le nom 'MAX_RESIZED_WIDTH' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:43:17: warning: Le nom 'MAX_RESIZED_HEIGHT' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:218: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:256: warning: Le fils de method call au niveau d'identation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:256: warning: RenderingHints au niveau d'indentation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:257: warning: Le fils de method call au niveau d'identation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:257: warning: RenderingHints au niveau d'indentation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:273: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:51: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:52:23: warning: Le nom 'USE_RESOLUTION' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:53:23: warning: Le nom 'USE_SIZE_X' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:54:23: warning: Le nom 'USE_SIZE_Y' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:55: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:247: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:345: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:654: warning: GraphicsEnvironment au niveau d'indentation 16 n'est pas indenté correctement (20)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:657: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:45:5: warning: Commentaire javadoc manquant.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/ExportTools.java:183: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:42:17: warning: Le nom 'MAX_RESIZED_WIDTH' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:43:17: warning: Le nom 'MAX_RESIZED_HEIGHT' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:218: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:256: warning: Le fils de method call au niveau d'identation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:256: warning: RenderingHints au niveau d'indentation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:257: warning: Le fils de method call au niveau d'identation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:257: warning: RenderingHints au niveau d'indentation 27 n'est pas indenté correctement (28)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/circuit/ImageAsCanvas.java:273: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:51: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:52:23: warning: Le nom 'USE_RESOLUTION' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:53:23: warning: Le nom 'USE_SIZE_X' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:54:23: warning: Le nom 'USE_SIZE_Y' n'est pas conforme à l'expression '^[a-z][a-zA-Z0-9_]*$'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:55: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:247: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java:345: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:654: warning: GraphicsEnvironment au niveau d'indentation 16 n'est pas indenté correctement (20)
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/graphic/swing/Graphics2DSwing.java:657: warning: La ligne correspond au motif illégal 'Line has trailing spaces.'.
+/Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/macropicker/ExpandableJTree.java:45:5: warning: Commentaire javadoc manquant.
 Audit done.
