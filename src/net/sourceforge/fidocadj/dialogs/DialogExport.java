@@ -57,10 +57,10 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
     // Swing elements
     private JComboBox<String> resolution;       // Resolution combo box
-    private JCheckBox antiAlias_CB;     // AntiAlias checkbox
-    private JCheckBox blackWhite_CB;    // Black and white checkbox
-    private final JComboBox<String> fileFormat;       // File format combo box
-    private JTextField fileName;        // File name text field
+    private JCheckBox antiAlias_CB;             // AntiAlias checkbox
+    private JCheckBox blackWhite_CB;            // Black and white checkbox
+    private final JComboBox<String> fileFormat; // File format combo box
+    private JTextField fileName;                // File name text field
     private JTextField multiplySizes;   // Size multiplications for vector exp.
 
     /** Constructor: it needs the parent frame.
@@ -126,11 +126,12 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         // Put the panel containing the characteristics of the export inside a
         // border.
-        Border etched = BorderFactory.createEtchedBorder();
-        Border titled = BorderFactory.createTitledBorder(etched,
-            Globals.messages.getString("ExportOptions"));
+        //Border etched = BorderFactory.createEtchedBorder();
+        //Border titled = BorderFactory.createTitledBorder(etched,
+        //    Globals.messages.getString("ExportOptions"));
 
-        panel.setBorder(titled);
+        //panel.setBorder(titled);
+
 
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -142,10 +143,27 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         constraints.anchor=GridBagConstraints.EAST;
         constraints.insets=new Insets(20,20,20,20);
 
-        contentPane.add(panel, constraints);
+        JTabbedPane tabsPane = new JTabbedPane();
+        tabsPane.addTab(Globals.messages.getString("res_export"), panel);
 
+        JPanel sizepanel = createSizeBasedExportPanel();
+        tabsPane.addTab(Globals.messages.getString("size_export"), sizepanel);
+
+
+        contentPane.add(tabsPane, constraints);
+        
         constraints.gridx=0;
         constraints.gridy=2;
+        constraints.gridwidth=4;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.insets=new Insets(20,20,20,20);
+
+        JPanel commonPane = createCommonInterfaceElements();
+        contentPane.add(commonPane, constraints);
+
+        constraints.gridx=0;
+        constraints.gridy=3;
         constraints.gridwidth=4;
         constraints.gridheight=1;
         constraints.anchor=GridBagConstraints.EAST;
@@ -350,11 +368,31 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     public double getUnitPerPixel()
     {
         int index=resolution.getSelectedIndex();
+        switch(index) {
+            case 0:
+                return 0.36;  // 72/200
+            case 1:
+                return 0.75;  // 150/200
+            case 2:
+                return 1.50;  // 300/200
+            case 3:
+                return 3.00;  // 600/200
+            case 4:
+                return 6.00;  // 1200/200
+            case 5:
+                return 9.00;  // 1800/200
+            case 6:
+                return 12.0;  // 2400/200
+        }
+        /* 
         if(index==0) return 0.36;
         if(index==1) return 0.75;
         if(index==2) return 1.50;
         if(index==3) return 3.00;
         if(index==4) return 6.00;
+        if(index==5) return 9.00;
+        if(index==6) return 12.00;
+ */
 
         return 0.36;
     }
@@ -386,6 +424,47 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         }
     }
 
+    /** Create a JPanel containing all the interface elements needed
+        for a size-based export of bitmap images.
+        @return the created panel.
+    */
+    private JPanel createSizeBasedExportPanel()
+    {
+        JPanel panel = new JPanel();
+        GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints=new GridBagConstraints();
+        panel.setLayout(bgl);
+        JLabel xSizeLabel=new
+            JLabel(Globals.messages.getString("ctrl_x_radius"));
+
+        constraints = DialogUtil.createConst(1,0,1,1,0,0,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,40,6,6));
+        panel.add(xSizeLabel, constraints);
+
+        JTextField xsizePixel=new JTextField();
+        constraints = DialogUtil.createConst(2,0,1,1,100,100,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(6,0,0,0));
+        panel.add(xsizePixel, constraints);
+
+        JLabel ySizeLabel=new
+            JLabel(Globals.messages.getString("ctrl_y_radius"));
+
+        constraints = DialogUtil.createConst(1,1,1,1,0,0,
+            GridBagConstraints.EAST, GridBagConstraints.BOTH,
+            new Insets(6,40,6,6));
+        panel.add(ySizeLabel, constraints);
+
+        JTextField ysizePixel=new JTextField();
+        constraints = DialogUtil.createConst(2,1,1,1,100,100,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(6,0,0,0));
+        panel.add(ysizePixel, constraints);
+
+        return panel;
+    }
+
     /** Create a JPanel containing the interface elements needed for
         the configuration of export operation.
         @return the created panel.
@@ -415,6 +494,16 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         panel.add(resolution, constraints);
 
+        return panel;
+    }
+    
+    private JPanel createCommonInterfaceElements()
+    {
+        JPanel panel=new JPanel();
+
+        GridBagLayout bgl=new GridBagLayout();
+        GridBagConstraints constraints=new GridBagConstraints();
+        panel.setLayout(bgl);
         antiAlias_CB=new JCheckBox(Globals.messages.getString("Anti_aliasing"));
 
         constraints = DialogUtil.createConst(2,1,1,1,100,100,
@@ -527,7 +616,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         res.addItem("300x300 dpi");
         res.addItem("600x600 dpi");
         res.addItem("1200x1200 dpi");
-
+        res.addItem("1800x1800 dpi");
+        res.addItem("2400x2400 dpi");
         return res;
     }
 
