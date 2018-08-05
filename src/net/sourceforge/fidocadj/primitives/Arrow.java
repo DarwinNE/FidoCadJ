@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2015 by Davide Bucci
+    Copyright 2009-2018 by Davide Bucci
    </pre>
 
 */
@@ -44,9 +44,9 @@ public final class Arrow
     public static final int flagLimiter = 0x01;
     public static final int flagEmpty = 0x02;
 
-    // From version 0.24.8, those should become floating point values.
-    private int arrowLength;
-    private int arrowHalfWidth;
+    // From version 0.24.8, those become floating point values.
+    private float arrowLength;
+    private float arrowHalfWidth;
 
     // Style of the arrow.
     private int arrowStyle;
@@ -134,7 +134,7 @@ public final class Arrow
     /** Get the current arrow length.
         @return the arrow length.
     */
-    public int getArrowLength()
+    public float getArrowLength()
     {
         return arrowLength;
     }
@@ -142,7 +142,7 @@ public final class Arrow
     /** Set the current arrow length.
         @param al the arrow length.
     */
-    public void setArrowLength(int al)
+    public void setArrowLength(float al)
     {
         arrowLength=al;
     }
@@ -150,7 +150,7 @@ public final class Arrow
     /** Get the current arrow half width.
         @return the arrow half width.
     */
-    public int getArrowHalfWidth()
+    public float getArrowHalfWidth()
     {
         return arrowHalfWidth;
     }
@@ -158,7 +158,7 @@ public final class Arrow
     /** Set the current arrow half width.
         @param ahw the arrow half width
     */
-    public void setArrowHalfWidth(int ahw)
+    public void setArrowHalfWidth(float ahw)
     {
         arrowHalfWidth=ahw;
     }
@@ -183,8 +183,8 @@ public final class Arrow
         arrowStyle = Integer.parseInt(tokens[i++]);
         // These rounding operations should be removed in version
         // 0.24.8 (see Issue #111).
-        arrowLength = (int)Math.round(Double.parseDouble(tokens[i++]));
-        arrowHalfWidth=(int)Math.round(Double.parseDouble(tokens[i++]));
+        arrowLength = Float.parseFloat(tokens[i++]);
+        arrowHalfWidth= Float.parseFloat(tokens[i++]);
         return i;
     }
 
@@ -233,12 +233,12 @@ public final class Arrow
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(getArrowLength());
+        pd.parameter=Float.valueOf(getArrowLength());
         pd.description=Globals.messages.getString("ctrl_arrow_length");
         pd.isExtension = true;
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(getArrowHalfWidth());
+        pd.parameter=Float.valueOf(getArrowHalfWidth());
         pd.description=Globals.messages.getString("ctrl_arrow_half_width");
         pd.isExtension = true;
         v.add(pd);
@@ -273,14 +273,14 @@ public final class Arrow
             System.out.println("Warning: 2-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            setArrowLength(((Integer)pd.parameter).intValue());
+        if (pd.parameter instanceof Float)
+            setArrowLength(((Float)pd.parameter).floatValue());
         else
             System.out.println("Warning: 3-unexpected parameter!"+pd);
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            setArrowHalfWidth(((Integer)pd.parameter).intValue());
+        if (pd.parameter instanceof Float)
+            setArrowHalfWidth(((Float)pd.parameter).floatValue());
         else
             System.out.println("Warning: 4-unexpected parameter!"+pd);
 
