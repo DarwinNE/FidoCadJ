@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2016 by Davide Bucci
+    Copyright 2012-2018 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,6 +47,9 @@ class RunExport implements Runnable
     private boolean antiAlias;
     private boolean blackWhite;
     private boolean ext;
+    private boolean resBased;
+    private int xsize;
+    private int ysize;
     private JFrame parent;
     private ChangeCoordinatesListener coordL;
 
@@ -55,8 +58,12 @@ class RunExport implements Runnable
     @param tP the DrawingModel object containing the drawing to be exported
     @param tformat the file format to be used
     @param tunitPerPixel the magnification factor to be used for the export
+        (used only if resb is true).
     @param tantiAlias the application of anti alias for bitmap export
     @param tblackWhite black and white export
+    @param resb if true, the export is based on the resolution
+    @param xs the x size of the drawing (used only if resb is false).
+    @param ys the y size of the drawing (used only if resb is false).
     @param text the extensions to be activated or not
 
     */
@@ -67,6 +74,9 @@ class RunExport implements Runnable
         boolean tantiAlias,
         boolean tblackWhite,
         boolean text,
+        boolean resb,
+        int xs,
+        int ys,
         JFrame tparent)
     {
         file=tfile;
@@ -76,6 +86,9 @@ class RunExport implements Runnable
         antiAlias= tantiAlias;
         blackWhite=tblackWhite;
         ext=text;
+        xsize=xs;
+        ysize=ys;
+        resBased=resb;
         parent=tparent;
     }
 
@@ -93,8 +106,13 @@ class RunExport implements Runnable
     public void run()
     {
         try {
-            ExportGraphic.export(file, dmp, format, unitPerPixel,
-                antiAlias, blackWhite, ext, true);
+            if(resBased) {
+                ExportGraphic.export(file, dmp, format, unitPerPixel,
+                    antiAlias, blackWhite, ext, true);
+            } else {
+                ExportGraphic.exportSize(file, dmp, format, xsize, ysize,
+                    antiAlias, blackWhite, ext, true);
+            }
             // It turns out (Issue #117) that this dialog is too disruptive.
             // If we can, we opt for a much less invasive message
             if(coordL==null) {

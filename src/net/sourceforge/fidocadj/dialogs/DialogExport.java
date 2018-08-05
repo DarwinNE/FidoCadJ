@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2018 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -45,7 +45,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private boolean export;     // Indicates that the export should be done
 
     private static final int PNG_INDEX=0;       // Combo list index: png format
-    private static final int JPG_INDEX=1;       //  "      "    "  : jpg format
+    private static final int JPG_INDEX=1;       // Combo list index: jpg format
     private static final int SVG_INDEX=2;       // Combo list index: svg format
     private static final int EPS_INDEX=3;       // Combo list index: eps format
     private static final int PGF_INDEX=4;       // Combo list index: pgf format
@@ -61,7 +61,10 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private JCheckBox blackWhite_CB;            // Black and white checkbox
     private final JComboBox<String> fileFormat; // File format combo box
     private JTextField fileName;                // File name text field
-    private JTextField multiplySizes;   // Size multiplications for vector exp.
+    private JTabbedPane tabsPane;               // Tab panel for res/size exp.
+    private JTextField multiplySizes;           // Size mult. for vector exp.
+    private JTextField xsizePixel;              // The x size of the image
+    private JTextField ysizePixel;              // The y size of the image
 
     /** Constructor: it needs the parent frame.
         @param p the dialog's parent
@@ -122,16 +125,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         fileFormat.addActionListener(this);
 
-        JPanel panel = createInterfacePanel();
-
-        // Put the panel containing the characteristics of the export inside a
-        // border.
-        //Border etched = BorderFactory.createEtchedBorder();
-        //Border titled = BorderFactory.createTitledBorder(etched,
-        //    Globals.messages.getString("ExportOptions"));
-
-        //panel.setBorder(titled);
-
+        JPanel panel = createResolutionBasedExportPanel();
 
         JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
@@ -143,15 +137,14 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         constraints.anchor=GridBagConstraints.EAST;
         constraints.insets=new Insets(20,20,20,20);
 
-        JTabbedPane tabsPane = new JTabbedPane();
+        tabsPane = new JTabbedPane();
         tabsPane.addTab(Globals.messages.getString("res_export"), panel);
 
         JPanel sizepanel = createSizeBasedExportPanel();
         tabsPane.addTab(Globals.messages.getString("size_export"), sizepanel);
 
-
         contentPane.add(tabsPane, constraints);
-        
+
         constraints.gridx=0;
         constraints.gridy=2;
         constraints.gridwidth=4;
@@ -210,7 +203,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                     return;
                 }
                 selection=JOptionPane.OK_OPTION;
-
                 if (selection==JOptionPane.OK_OPTION) {
                     export=true;
                     setVisible(false);
@@ -267,6 +259,16 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         return blackWhite_CB.isSelected();
     }
 
+    /** Indicates if the export should be size-based or resolution-based.
+        @return true if the export is size-based (i.e. the image size in pixels
+            should be given) or false if the export is resolution-based (i.e.
+            the image size is calculated from the typographical resolution.
+    */
+    public boolean getResolutionBasedExport()
+    {
+        return tabsPane.getSelectedIndex()==0;
+    }
+    
     /** Indicates which export format has been selected.
         @return a string describing the image format (e.g. "png", "jpg").
     */
@@ -342,6 +344,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         if (Math.abs(d-1.50)<EPS) index=2;
         if (Math.abs(d-3.00)<EPS) index=3;
         if (Math.abs(d-6.00)<EPS) index=4;
+        if (Math.abs(d-9.00)<EPS) index=5;
+        if (Math.abs(d-12.00)<EPS) index=6;
 
         resolution.setSelectedIndex(index);
     }
@@ -360,6 +364,22 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     public double getMagnification()
     {
         return Double.parseDouble(multiplySizes.getText());
+    }
+
+    /** If the resolution is size-based, get the x size of the picture.
+        @return the wanted x size.
+    */
+    public int getXsizeInPixels()
+    {
+        return Integer.parseInt(xsizePixel.getText());
+    }
+
+    /** If the resolution is size-based, get the y size of the picture.
+        @return the wanted y size.
+    */
+    public int getYsizeInPixels()
+    {
+        return Integer.parseInt(ysizePixel.getText());
     }
 
     /** Get the default unit per pixel value
@@ -384,22 +404,14 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             case 6:
                 return 12.0;  // 2400/200
         }
-        /* 
-        if(index==0) return 0.36;
-        if(index==1) return 0.75;
-        if(index==2) return 1.50;
-        if(index==3) return 3.00;
-        if(index==4) return 6.00;
-        if(index==5) return 9.00;
-        if(index==6) return 12.00;
- */
 
         return 0.36;
     }
 
     /** Sets the default export format.
         @param s The export format. If the format string is not
-            recognized (valid strings are {"png"|"jpg"}), use the png format.
+            recognized (valid strings are {"png"|"jpg"|"svg"|"eps"|"pgf"|
+            "pdf"|"scr"|"pcb"}), use the png format.
     */
     public void setFormat(String s)
     {
@@ -442,7 +454,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             new Insets(6,40,6,6));
         panel.add(xSizeLabel, constraints);
 
-        JTextField xsizePixel=new JTextField();
+        xsizePixel=new JTextField();
         constraints = DialogUtil.createConst(2,0,1,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
@@ -456,7 +468,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             new Insets(6,40,6,6));
         panel.add(ySizeLabel, constraints);
 
-        JTextField ysizePixel=new JTextField();
+        ysizePixel=new JTextField();
         constraints = DialogUtil.createConst(2,1,1,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
@@ -469,7 +481,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         the configuration of export operation.
         @return the created panel.
     */
-    private JPanel createInterfacePanel()
+    private JPanel createResolutionBasedExportPanel()
     {
         JPanel panel = new JPanel();
 

@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2016 by Davide Bucci
+    Copyright 2015-2018 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -48,6 +48,9 @@ public class ExportTools
     private boolean exportBlackWhite;
     private double exportUnitPerPixel;
     private double exportMagnification;
+    private int exportXsize;
+    private int exportYsize;
+    private boolean exportResolutionBased;
     final private Preferences prefs;
     private ChangeCoordinatesListener coordL;
 
@@ -120,6 +123,19 @@ public class ExportTools
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
 
+            exportResolutionBased=export.getResolutionBasedExport();
+            try {
+                exportXsize=export.getXsizeInPixels();
+                exportYsize=export.getYsizeInPixels();
+            } catch (java.lang.NumberFormatException E) {
+                JOptionPane.showMessageDialog(null,
+                    Globals.messages.getString("Format_invalid"),
+                    Globals.messages.getString("Warning"),
+                    JOptionPane.INFORMATION_MESSAGE );
+                exportXsize=100;
+                exportYsize=100;
+            }
+
             File f = new File(exportFileName);
             // We first check if the file is a directory
             if(f.isDirectory()) {
@@ -164,6 +180,9 @@ public class ExportTools
             doExport.setParam(new File(exportFileName),  CC.dmp,
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                exportResolutionBased, 
+                exportXsize,
+                exportYsize,
                 fff);
 
             SwingUtilities.invokeLater(doExport);
