@@ -81,17 +81,17 @@ public final class ExportGraphic
                         boolean shiftMin)
         throws IOException
     {
-        exportSizeP( file,
-                         P,
-                         format,
-                         0,
-                         0,
-                         unitPerPixel,
-                         false,
-                         antiAlias,
-                         blackWhite,
-                         ext,
-                         shiftMin);
+        exportSizeP(file,
+             P,
+             format,
+             0,
+             0,
+             unitPerPixel,
+             false,
+             antiAlias,
+             blackWhite,
+             ext,
+             shiftMin);
     }
 
     /** Exports the circuit contained in circ using the specified parsing
@@ -119,17 +119,17 @@ public final class ExportGraphic
                         boolean shiftMin)
         throws IOException
     {
-        exportSizeP( file,
-                         P,
-                         format,
-                         width,
-                         height,
-                         1,
-                         true,
-                         antiAlias,
-                         blackWhite,
-                         ext,
-                         shiftMin);
+        exportSizeP(file,
+             P,
+             format,
+             width,
+             height,
+             1,
+             true,
+             antiAlias,
+             blackWhite,
+             ext,
+             shiftMin);
     }
 
     /** Exports the circuit contained in circ using the specified parsing
@@ -170,7 +170,6 @@ public final class ExportGraphic
         MapCoordinates m=new MapCoordinates();
 
         // This solves bug #3299281
-
         new SelectionActions(P).setSelectionAll(false);
 
         PointG org=new PointG(0,0);
@@ -180,7 +179,6 @@ public final class ExportGraphic
             // In this case, the image size is set and so we need to calculate
             // the correct zoom factor in order to fit the drawing in the
             // specified area.
-
 
             d.width+=Export.exportBorder;
             d.height+=Export.exportBorder;

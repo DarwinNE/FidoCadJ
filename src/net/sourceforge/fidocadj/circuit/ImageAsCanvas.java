@@ -39,8 +39,8 @@ public class ImageAsCanvas
     private double xcorner=0;
     private double ycorner=0;
 
-    private int MAX_RESIZED_WIDTH;
-    private int MAX_RESIZED_HEIGHT;
+    private int maxResizedWidth;
+    private int maxResizedHeight;
 
     /** Constructor.
     */
@@ -49,11 +49,11 @@ public class ImageAsCanvas
         img=null;
         try {
             Dimension screensize=Toolkit.getDefaultToolkit().getScreenSize();
-            MAX_RESIZED_WIDTH=screensize.width*3;
-            MAX_RESIZED_HEIGHT=screensize.height*3;
+            maxResizedWidth=screensize.width*3;
+            maxResizedHeight=screensize.height*3;
         } catch (java.awt.HeadlessException E) {
-            MAX_RESIZED_WIDTH=3000;
-            MAX_RESIZED_HEIGHT=3000;
+            maxResizedWidth=3000;
+            maxResizedHeight=3000;
         }
     }
 
@@ -199,34 +199,16 @@ public class ImageAsCanvas
         // changed, or when the chunk of the image which has been resized
         // should be changed.
         if(oldw!=w || oldh!=h || regionx<shiftx || regiony<shifty||
-            regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH ||
-            regiony+regionheight>shifty+MAX_RESIZED_HEIGHT)
+            regionx+regionwidth>shiftx+maxResizedWidth ||
+            regiony+regionheight>shifty+maxResizedHeight)
         {
-            /*System.out.println("\nPartial image calculation");
-            System.out.println("MAX_RESIZED_WIDTH/3="+(MAX_RESIZED_WIDTH/3));
-            System.out.println("MAX_RESIZED_HEIGHT/3="+(MAX_RESIZED_HEIGHT/3));
-            System.out.println("shiftx="+shiftx+" shifty="+shifty);
-            System.out.println("regionx="+regionx+" regiony="+regiony);
-            System.out.println("regionx+regionwidth="+(regionx+regionwidth)+
-                " regiony+regionheight="+(regiony+regionheight));
-            System.out.println("---------------------------");
-            System.out.println("oldw!=w "+(oldw!=w));
-            System.out.println("oldh!=h "+ (oldh!=h));
-            System.out.println("regionx<shiftx "+ (regionx<shiftx));
-            System.out.println("regiony<shifty "+ (regiony<shifty));
-            System.out.println(
-                "regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH " + 
-                (regionx+regionwidth>shiftx+MAX_RESIZED_WIDTH));
-            System.out.println(
-                "regiony+regionheight>shifty+MAX_RESIZED_HEIGHT " +
-                (regiony+regionheight>shifty+MAX_RESIZED_HEIGHT));*/
             GraphicsEnvironment env =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice device = env.getDefaultScreenDevice();
             GraphicsConfiguration config = device.getDefaultConfiguration();
             oldw=w;
             oldh=h;
-            if(w<MAX_RESIZED_WIDTH && h<MAX_RESIZED_HEIGHT) {
+            if(w<maxResizedWidth && h<maxResizedHeight) {
                 // Here the image can be resized all together.
                 shiftx=ox;
                 shifty=oy;
@@ -253,8 +235,8 @@ public class ImageAsCanvas
                             RenderingHints.KEY_RENDERING,
                             RenderingHints.VALUE_RENDER_QUALITY);
                         graphics2D.setRenderingHint(
-                           RenderingHints.KEY_ANTIALIASING,
-                           RenderingHints.VALUE_ANTIALIAS_ON);
+                            RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
                         graphics2D.drawImage(rs1,0,0,nw/2,nh/2,null);
                         nw=nw/2;
                         nh=nh/2;
@@ -270,24 +252,24 @@ public class ImageAsCanvas
             } else {
                 // Here, resizing the image would produce an image too big.
                 // Therefore, the image is resized by chunks.
-            
+
                 resizedImg = config.createCompatibleImage(
-                    MAX_RESIZED_WIDTH, MAX_RESIZED_HEIGHT,
+                    maxResizedWidth, maxResizedHeight,
                         Transparency.TRANSLUCENT);
-                shiftx=Math.max(regionx-MAX_RESIZED_WIDTH/3,0)+ox;
-                shifty=Math.max(regiony-MAX_RESIZED_HEIGHT/3,0)+oy;
+                shiftx=Math.max(regionx-maxResizedWidth/3,0)+ox;
+                shifty=Math.max(regiony-maxResizedHeight/3,0)+oy;
                 /*System.out.println("---------------------------");
                 System.out.println("New shiftx = "+shiftx+ " shifty = "+shifty);
                 */
                 resizedImg.getGraphics().drawImage(img, 0, 0,
-                    MAX_RESIZED_WIDTH,
-                    MAX_RESIZED_HEIGHT,
+                    maxResizedWidth,
+                    maxResizedHeight,
                     (int)(shiftx/mc.getXMagnitude()*resolution/200.0+0.5),
                     (int)(shifty/mc.getXMagnitude()*resolution/200.0+0.5),
-                    (int)((shiftx+MAX_RESIZED_WIDTH)
+                    (int)((shiftx+maxResizedWidth)
                         /mc.getXMagnitude()*resolution/200.0
                         +0.5),
-                    (int)((shifty+MAX_RESIZED_HEIGHT)/
+                    (int)((shifty+maxResizedHeight)/
                             mc.getYMagnitude()*resolution/200.0+0.5),
                     null);
             }

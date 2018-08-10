@@ -48,11 +48,11 @@ public class DialogAttachImage extends MinimumSizeDialog
     private JTextField xsize;           // x size in mm of the image
     private JTextField ysize;           // y size in mm of the image
     private BufferedImage img;
-    
-    private final int USE_RESOLUTION=0;
-    private final int USE_SIZE_X=1;
-    private final int USE_SIZE_Y=2;
-    
+
+    private final int useResolution=0;
+    private final int useSizeX=1;
+    private final int useSizeY=2;
+
     private boolean attach;     // Indicates that the attach should be done
     private boolean showImage;
 
@@ -144,7 +144,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void insertUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_RESOLUTION);
+                calculateSizeAndResolution(useResolution);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -152,7 +152,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void removeUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_RESOLUTION);
+                calculateSizeAndResolution(useResolution);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -160,7 +160,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void changedUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_RESOLUTION);
+                calculateSizeAndResolution(useResolution);
             }
         });
 
@@ -186,7 +186,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void insertUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_X);
+                calculateSizeAndResolution(useSizeX);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -194,7 +194,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void removeUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_X);
+                calculateSizeAndResolution(useSizeX);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -202,7 +202,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void changedUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_X);
+                calculateSizeAndResolution(useSizeX);
             }
         });
 
@@ -219,7 +219,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void insertUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_Y);
+                calculateSizeAndResolution(useSizeY);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -227,7 +227,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void removeUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_Y);
+                calculateSizeAndResolution(useSizeY);
             }
 
             /** Needed to implement the DocumentListener interface
@@ -235,7 +235,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             */
             public void changedUpdate(DocumentEvent e)
             {
-                calculateSizeAndResolution(USE_SIZE_Y);
+                calculateSizeAndResolution(useSizeY);
             }
         });
 
@@ -244,7 +244,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             new Insets(6,6,6,6));
 
         contentPane.add(ysize, constraints);
-        
+
         JLabel lblcoords=
             new JLabel(Globals.messages.getString("Top_left_coords"));
 
@@ -342,11 +342,11 @@ public class DialogAttachImage extends MinimumSizeDialog
     {
         if(isCalculating || img==null)
             return;
-        
+
         isCalculating=true;
         final double oneinch=25.4; // Conversion between inches and mm.
         switch (useSize) {
-            case USE_RESOLUTION:
+            case useResolution:
                 try {
                     double res=getResolution();
                     double w=img.getWidth()/res*oneinch;
@@ -358,7 +358,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     return;
                 }
                 break;
-            case USE_SIZE_X:
+            case useSizeX:
                 try {
                     double sizex=getSizeX();
                     double res=img.getWidth()/sizex*oneinch;
@@ -370,7 +370,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     return;
                 }
                 break;
-            case USE_SIZE_Y:
+            case useSizeY:
                 try {
                     double sizey=getSizeY();
                     double res=img.getHeight()/sizey*oneinch;
@@ -424,7 +424,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     }
                 }
                 loadImage();
-                calculateSizeAndResolution(USE_RESOLUTION);
+                calculateSizeAndResolution(useResolution);
             }
         };
     }

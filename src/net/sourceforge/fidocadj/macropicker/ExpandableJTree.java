@@ -42,6 +42,8 @@ public class ExpandableJTree extends JTree
     // expanded.
     private boolean direction = false;
 
+    /** The creator.
+    */
     public ExpandableJTree()
     {
         super();

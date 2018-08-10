@@ -12,7 +12,12 @@ import javax.imageio.*;
 import javax.swing.border.*;
 
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.graphic.*;
+
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.circuit.views.Export;
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -65,16 +70,21 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private JTextField multiplySizes;           // Size mult. for vector exp.
     private JTextField xsizePixel;              // The x size of the image
     private JTextField ysizePixel;              // The y size of the image
+    private DrawingModel dm;                    // The drawing to be exported
+
+    private JLabel expectedSize;                // The calculated size
 
     /** Constructor: it needs the parent frame.
-        @param p the dialog's parent
+        @param p the dialog's parent.
+        @param c the drawing model containing the drawing to be exported.
     */
-    public DialogExport (JFrame p)
+    public DialogExport (JFrame p, DrawingModel c)
     {
         super(450,400,p,Globals.messages.getString("Circ_exp_t"), true);
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
 
+        dm=c;
         getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
 
@@ -367,7 +377,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     }
 
     /** Set the x size of the picture.
-        @param the wanted x size.
+        @param xs the wanted x size.
     */
     public void setXsizeInPixels(int xs)
     {
@@ -383,7 +393,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     }
 
     /** Set the y size of the picture.
-        @param the wanted y size.
+        @param ys the wanted y size.
     */
     public void setYsizeInPixels(int ys)
     {
@@ -522,6 +532,14 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         panel.add(resolution, constraints);
 
+        expectedSize= new JLabel("x");
+
+        constraints = DialogUtil.createConst(2,1,1,1,100,100,
+            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+            new Insets(6,0,0,0));
+
+        panel.add(expectedSize, constraints);
+
         return panel;
     }
 
@@ -646,6 +664,19 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         res.addItem("1200x1200 dpi");
         res.addItem("1800x1800 dpi");
         res.addItem("2400x2400 dpi");
+        res.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e)
+            {
+                PointG o=new PointG();
+                DimensionG dim=
+                    DrawingSize.getImageSize(dm,1.0,true,o);
+                int width = (int)(
+                    (dim.width+Export.exportBorder)*getUnitPerPixel());
+                int height = (int)(
+                    (dim.height+Export.exportBorder)*getUnitPerPixel());
+                expectedSize.setText(""+width+" x "+height+" pixels");
+            }
+        });
         return res;
     }
 

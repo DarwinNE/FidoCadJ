@@ -651,10 +651,9 @@ public class Graphics2DSwing implements GraphicsInterface
             try {
                 // Create a buffered image in which to draw
                 GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
                 GraphicsDevice device = env.getDefaultScreenDevice();
                 GraphicsConfiguration config = device.getDefaultConfiguration();
-                
                 bufferedImage = config.createCompatibleImage(width, height,
                                           Transparency.TRANSLUCENT);
 

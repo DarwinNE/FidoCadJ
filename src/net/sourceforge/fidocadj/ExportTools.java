@@ -7,6 +7,7 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.geom.*;
@@ -101,7 +102,7 @@ public class ExportTools
     {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
-        DialogExport export=new DialogExport(fff);
+        DialogExport export=new DialogExport(fff, CC.getDrawingModel());
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
         export.setXsizeInPixels(exportXsize);
@@ -190,7 +191,7 @@ public class ExportTools
             doExport.setParam(new File(exportFileName),  CC.dmp,
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
-                exportResolutionBased, 
+                exportResolutionBased,
                 exportXsize,
                 exportYsize,
                 fff);
