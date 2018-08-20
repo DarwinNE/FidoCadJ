@@ -107,6 +107,7 @@ public class ExportTools
         export.setFormat(exportFormat);
         export.setXsizeInPixels(exportXsize);
         export.setYsizeInPixels(exportYsize);
+        export.setResolutionBasedExport(exportResolutionBased);
 
         // The default export directory is the same where the FidoCadJ file
         // are opened.

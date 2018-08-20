@@ -71,6 +71,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private JTextField xsizePixel;              // The x size of the image
     private JTextField ysizePixel;              // The y size of the image
     private DrawingModel dm;                    // The drawing to be exported
+    private DimensionG dim;                     // The drawing size in l.u.
 
     private JLabel expectedSize;                // The calculated size
 
@@ -83,10 +84,13 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         super(450,400,p,Globals.messages.getString("Circ_exp_t"), true);
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
-
         dm=c;
         getRootPane().putClientProperty("apple.awt.documentModalSheet",
                 Boolean.TRUE);
+
+        // Calculate the size of the drawing in logic units:
+        PointG o=new PointG();
+        dim = DrawingSize.getImageSize(dm,1.0,true,o);
 
         addComponentListener(this);
         export=false;
@@ -279,6 +283,15 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         return tabsPane.getSelectedIndex()==0;
     }
 
+    /** Set if the export should be size-based or resolution-based.
+        @param s true if the export is size-based (i.e. the image size in pixels
+            should be given) or false if the export is resolution-based (i.e.
+            the image size is calculated from the typographical resolution.
+    */
+    public void setResolutionBasedExport(boolean s)
+    {
+        tabsPane.setSelectedIndex(s?0:1);
+    }
     /** Indicates which export format has been selected.
         @return a string describing the image format (e.g. "png", "jpg").
     */
@@ -667,9 +680,6 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         res.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e)
             {
-                PointG o=new PointG();
-                DimensionG dim=
-                    DrawingSize.getImageSize(dm,1.0,true,o);
                 int width = (int)(
                     (dim.width+Export.exportBorder)*getUnitPerPixel());
                 int height = (int)(
@@ -701,10 +711,10 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             multiplySizes.setText("1.0");
         } else {
             // It is a vector based export
-            resolution.setEnabled(false);     // Resolution combo box
-            antiAlias_CB.setEnabled(false);   // AntiAlias checkbox
+            resolution.setEnabled(false);    // Resolution combo box
+            antiAlias_CB.setEnabled(false);  // AntiAlias checkbox
             blackWhite_CB.setEnabled(true);  // Black and white checkbox
-            multiplySizes.setEnabled(true); // Size multiplications
+            multiplySizes.setEnabled(true);  // Size multiplications
         }
     }
 }
