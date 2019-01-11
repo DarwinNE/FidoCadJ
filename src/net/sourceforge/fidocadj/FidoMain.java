@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2016 by Davide Bucci
+    Copyright 2008-2019 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -456,7 +456,10 @@ class CreateSwingInterface implements Runnable
                 Method m = a.getMethod("answerFinder");
                 m.invoke(b);
 
-            } catch (Exception exc) {
+            } catch (NoClassDefFoundError|ClassNotFoundException|
+                InstantiationException|NoSuchMethodException|
+                IllegalAccessException|InvocationTargetException exc)
+            {
                 Globals.weAreOnAMac = false;
                 System.out.println("It seems that this software has been "+
                     "compiled on a system different from MacOSX. Some nice "+
