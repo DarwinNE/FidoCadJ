@@ -455,7 +455,6 @@ class CreateSwingInterface implements Runnable
                 Object b = a.newInstance();
                 Method m = a.getMethod("answerFinder");
                 m.invoke(b);
-
             } catch (NoClassDefFoundError|ClassNotFoundException|
                 InstantiationException|NoSuchMethodException|
                 IllegalAccessException|InvocationTargetException exc)
