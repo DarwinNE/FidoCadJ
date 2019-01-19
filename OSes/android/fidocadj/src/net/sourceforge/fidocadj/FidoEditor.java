@@ -619,7 +619,7 @@ public class FidoEditor extends View implements PrimitivesParInterface
         @param x coordinate to which center the viewport (screen coordinates)
         @param y coordinate to which center the viewport (screen coordinates)
     */
-    public void changeZoomByStep(boolean increase, int x, int y)
+    public void changeZoomByStep(boolean increase, int x, int y, double t)
     {
         // Not needed with Android.
     }

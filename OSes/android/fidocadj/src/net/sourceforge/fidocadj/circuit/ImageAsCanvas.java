@@ -1,7 +1,9 @@
 package net.sourceforge.fidocadj.circuit;
 
+import java.io.IOException;
 
 import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.graphic.*;
 
 /** Dummy class. One may be inspired by the corresponding class in the Swing
     application.
@@ -48,15 +50,6 @@ public class ImageAsCanvas
 
     }
 
-    /** Specify an image to attach to the current drawing.
-        @param f the path and the filename of the image file to
-            load and display.
-        @param i the image to be loaded.
-    */
-    public void loadImage(String f, BufferedImage i)
-    {
-
-    }
 
     /** Specify the resolution of the image in dots per inch.
         This is employed for the coordinate mapping so that the image size
@@ -72,6 +65,7 @@ public class ImageAsCanvas
     */
     public double getResolution()
     {
+        return 0;
     }
 
     /** Remove the attached image.
@@ -125,7 +119,7 @@ public class ImageAsCanvas
         @param g the Graphic2D object where the image has to be drawn.
         @param mc the current coordinate mapping.
     */
-    public void drawCanvasImage(Graphics2D g, MapCoordinates mc)
+    public void drawCanvasImage(GraphicsInterface g, MapCoordinates mc)
     {
 
     }
