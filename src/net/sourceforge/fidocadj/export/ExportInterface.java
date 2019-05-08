@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2019 by Davide Bucci
    </pre>
 
 
@@ -229,7 +229,6 @@ public interface ExportInterface
     */
     public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer) throws IOException;
-
 
     /** Called when exporting a PCBPad primitive.
 

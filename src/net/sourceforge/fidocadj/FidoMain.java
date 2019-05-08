@@ -168,7 +168,7 @@ public class FidoMain
             if (clp.getResolutionBasedExport()) {
                 ExportGraphic.export(new File(clp.getOutputFile()),  P,
                     clp.getExportFormat(), clp.getResolution(),
-                    true,false,true, true);
+                    true,false,true, true,false);
             } else {
                 ExportGraphic.exportSize(new File(clp.getOutputFile()),
                     P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),

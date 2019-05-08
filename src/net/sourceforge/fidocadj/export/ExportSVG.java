@@ -62,7 +62,7 @@ public class ExportSVG implements ExportInterface
     public ExportSVG (File f) throws IOException
     {
         //fileExp=f;
-
+        System.out.println("New file: "+f);
         fstream = new OutputStreamWriter(new FileOutputStream(f),
             Globals.encoding);
     }

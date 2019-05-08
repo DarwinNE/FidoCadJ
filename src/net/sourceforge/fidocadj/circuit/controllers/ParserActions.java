@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2017 by Davide Bucci
+    Copyright 2007-2019 by Davide Bucci
 </pre>
 */
 
@@ -104,7 +104,7 @@ public class ParserActions
             else
                 frm = "fcd";
 
-            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false);
+            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false,false);
 
             FileInputStream input = new FileInputStream(temp);
             BufferedReader bufRead = new BufferedReader(

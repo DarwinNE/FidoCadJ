@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.circuit.views.Export;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2018 by Davide Bucci
+    Copyright 2007-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -72,6 +72,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private JTextField ysizePixel;              // The y size of the image
     private DrawingModel dm;                    // The drawing to be exported
     private DimensionG dim;                     // The drawing size in l.u.
+    private JCheckBox splitLayers_CB;           // The split layers c.b.
 
     private JLabel expectedSize;                // The calculated size
 
@@ -271,6 +272,24 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     public boolean getBlackWhite()
     {
         return blackWhite_CB.isSelected();
+    }
+
+    /** Indicates that the layers should be split into different files.
+
+        @return a boolean value which indicates if the layers should be split.
+    */
+    public boolean getSplitLayers()
+    {
+        return splitLayers_CB.isSelected();
+    }
+
+    /** Indicates that the layers should be split into different files.
+
+        @param s a boolean value which indicates if the layers should be split.
+    */
+    public void setSplitLayers(boolean s)
+    {
+        splitLayers_CB.setSelected(s);
     }
 
     /** Indicates if the export should be size-based or resolution-based.
@@ -592,17 +611,26 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
         panel.add(multiplySizes, constraints);
+ 
+        splitLayers_CB= new JCheckBox(
+            Globals.messages.getString("Split_layers_multiple_files"));
 
+        constraints = DialogUtil.createConst(2,4,2,1,100,100,
+            GridBagConstraints.WEST, GridBagConstraints.NONE,
+            new Insets(6,0,0,0));
+
+        panel.add(splitLayers_CB, constraints);        // Add split layers cb
+    
         JLabel fileNameLabel=new
             JLabel(Globals.messages.getString("File_name"));
 
-        constraints = DialogUtil.createConst(1,4,1,1,0,0,
+        constraints = DialogUtil.createConst(1,5,1,1,0,0,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(6,40,12,0));
         panel.add(fileNameLabel, constraints);
 
         fileName=new JTextField();
-        constraints = DialogUtil.createConst(2,4,1,1,100,100,
+        constraints = DialogUtil.createConst(2,5,1,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,12,0));
 
@@ -612,7 +640,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         // fileName.setEditable(false);
 
         JButton browse=new JButton(Globals.messages.getString("Browse"));
-        constraints = DialogUtil.createConst(3,4,1,1,0,0,
+        constraints = DialogUtil.createConst(3,5,1,1,0,0,
             GridBagConstraints.CENTER, GridBagConstraints.NONE,
             new Insets(6,0,12,12));
 

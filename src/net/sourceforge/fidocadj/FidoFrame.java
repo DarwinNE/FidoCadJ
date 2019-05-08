@@ -305,9 +305,11 @@ public class FidoFrame extends JFrame implements
             // Make sort that only the language is used for the current
             newLocale = new Locale(systemLanguage);
         } else {
+            
             newLocale = loc;
-            System.out.println("Forced the locale to be: " +loc+
-                " instead of: "+systemLanguage);
+            if(!loc.getLanguage().equals(systemLanguage))
+                System.out.println("Forcing the locale to be: " +loc+
+                    " instead of: "+systemLanguage);
         }
         return newLocale;
     }

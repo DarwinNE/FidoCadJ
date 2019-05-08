@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2018 by Davide Bucci
+    Copyright 2012-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -48,6 +48,7 @@ class RunExport implements Runnable
     private boolean blackWhite;
     private boolean ext;
     private boolean resBased;
+    private boolean splitLayers;
     private int xsize;
     private int ysize;
     private JFrame parent;
@@ -64,6 +65,7 @@ class RunExport implements Runnable
     @param resb if true, the export is based on the resolution
     @param xs the x size of the drawing (used only if resb is false).
     @param ys the y size of the drawing (used only if resb is false).
+    @param splitL if true split layers in different files.
     @param text the extensions to be activated or not
 
     */
@@ -77,6 +79,7 @@ class RunExport implements Runnable
         boolean resb,
         int xs,
         int ys,
+        boolean splitL,
         JFrame tparent)
     {
         file=tfile;
@@ -90,6 +93,7 @@ class RunExport implements Runnable
         ysize=ys;
         resBased=resb;
         parent=tparent;
+        splitLayers=splitL;
     }
 
     /** Set the coordinate listener which is employed here for showing
@@ -108,7 +112,7 @@ class RunExport implements Runnable
         try {
             if(resBased) {
                 ExportGraphic.export(file, dmp, format, unitPerPixel,
-                    antiAlias, blackWhite, ext, true);
+                    antiAlias, blackWhite, ext, true, splitLayers);
             } else {
                 ExportGraphic.exportSize(file, dmp, format, xsize, ysize,
                     antiAlias, blackWhite, ext, true);

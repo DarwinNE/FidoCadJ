@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2019 by Davide Bucci
     </pre>
 */
 public class Export
@@ -46,6 +46,42 @@ public class Export
         dmp=pp;
     }
 
+    /** Export all primitives and macros in the current model.
+        @param exp the export interface to be used
+        @param mp the coordinate mapping
+        @param exportInvisible true if invisible objects should be exported
+    */
+    private void exportAllObjects(ExportInterface exp, boolean header,
+        boolean exportInvisible, MapCoordinates mp)
+        throws IOException
+    {
+        GraphicPrimitive g;
+
+        for (int i=0; i<dmp.getPrimitiveVector().size(); ++i) {
+
+            g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
+
+            if(g.getLayer()==dmp.drawOnlyLayer && 
+                !(g instanceof PrimitiveMacro))
+            {
+                if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible||
+                    exportInvisible)
+                {
+                    g.export(exp, mp);
+                }
+            } else if(g instanceof PrimitiveMacro) {
+                ((PrimitiveMacro)g).setDrawOnlyLayer(dmp.drawOnlyLayer);
+                ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
+
+                if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible||
+                    exportInvisible)
+                {
+                    g.export(exp, mp);
+                }
+            }
+        }
+    }
+
     /** Export the file using the given interface.
 
         @param exp the selected exporting interface.
@@ -60,10 +96,6 @@ public class Export
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
-        int l;
-        int i;
-        int j;
-
         GraphicPrimitive g;
         // If it is needed, we should write the header of the file. This is
         // not to be done for example when we are exporting a macro and this
@@ -79,72 +111,29 @@ public class Export
 
                 d.width *= mp.getXMagnitude();
                 d.height *= mp.getYMagnitude();
-
                 // We finally write the header
                 exp.exportStart(d, dmp.layerV, mp.getXGridStep());
             }
-
             if(dmp.drawOnlyLayer>=0 && !dmp.drawOnlyPads){
-                for (i=0; i<dmp.getPrimitiveVector().size(); ++i){
-                    g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
-                    l=g.getLayer();
-                    if(l==dmp.drawOnlyLayer &&
-                        !(g instanceof PrimitiveMacro))
-                    {
-                        if(((LayerDesc)(dmp.layerV.get(l))).isVisible||
-                            exportInvisible)
-                            g.export(exp, mp);
-
-                    } else if(g instanceof PrimitiveMacro) {
-                        ((PrimitiveMacro)g).setDrawOnlyLayer(dmp.drawOnlyLayer);
-                        ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
-
-                        if(((LayerDesc)(dmp.layerV.get(l))).isVisible||
-                            exportInvisible)
-                        {
-                            g.export(exp, mp);
-                        }
-                    }
-                }
-                return;
+                exportAllObjects(exp, header, exportInvisible, mp);
             } else if (!dmp.drawOnlyPads) {
-                for(j=0;j<dmp.layerV.size(); ++j) {
-                    for (i=0; i<dmp.getPrimitiveVector().size(); ++i){
-
-                        g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
-                        l=g.getLayer();
-
-                        if(l==j && !(g instanceof PrimitiveMacro)){
-                            if(((LayerDesc)(dmp.layerV.get(l))).isVisible||
-                                exportInvisible)
-                            {
-                                g.export(exp, mp);
-                            }
-                        } else if(g instanceof PrimitiveMacro) {
-                            ((PrimitiveMacro)g).setDrawOnlyLayer(j);
-                            ((PrimitiveMacro)g).setExportInvisible(
-                                exportInvisible);
-
-                            if(((LayerDesc)(dmp.layerV.get(l))).isVisible||
-                                exportInvisible)
-                            {
-                                g.export(exp, mp);
-                            }
-                        }
-                    }
+                for(int j=0;j<dmp.layerV.size(); ++j) {
+                    dmp.setDrawOnlyLayer(j);
+                    exportAllObjects(exp, header, exportInvisible, mp);
                 }
+                dmp.setDrawOnlyLayer(-1);
             }
 
             // Export in a second time only the PCB pads, in order to ensure
-            // that the drills are always open.
+            // that the drilling holes are always open.
 
-            for (i=0; i<dmp.getPrimitiveVector().size(); ++i){
+            for (int i=0; i<dmp.getPrimitiveVector().size(); ++i){
                 if ((g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i))
                     instanceof PrimitivePCBPad)
                 {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
-                    l=g.getLayer();
-                    if(((LayerDesc)(dmp.layerV.get(l))).isVisible
+        
+                    if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible
                         ||exportInvisible)
                     {
                         g.export(exp, mp);
@@ -154,8 +143,7 @@ public class Export
                     // Uhm... not beautiful
                     ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
                     ((PrimitiveMacro)g).setDrawOnlyPads(true);
-                    l=g.getLayer();
-                    if(((LayerDesc)(dmp.layerV.get(l))).isVisible
+                    if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible
                         ||exportInvisible)
                     {
                         g.export(exp, mp);

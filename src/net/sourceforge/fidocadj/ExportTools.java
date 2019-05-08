@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2018 by Davide Bucci
+    Copyright 2015-2019 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -52,6 +52,7 @@ public class ExportTools
     private int exportXsize;
     private int exportYsize;
     private boolean exportResolutionBased;
+    private boolean splitLayers;
     final private Preferences prefs;
     private ChangeCoordinatesListener coordL;
 
@@ -66,6 +67,7 @@ public class ExportTools
         prefs=p;
         exportBlackWhite=false;
         exportFormat = "";
+        splitLayers=false;
     }
 
     /** Read the preferences regarding the export.
@@ -85,6 +87,8 @@ public class ExportTools
             exportYsize = Integer.parseInt(
                 prefs.get("EXPORT_YSIZE", "600"));
             exportResolutionBased = prefs.get("EXPORT_RESOLUTION_BASED",
+                "false").equals("true");
+            splitLayers = prefs.get("EXPORT_SPLIT_LAYERS",
                 "false").equals("true");
         }
     }
@@ -108,6 +112,7 @@ public class ExportTools
         export.setXsizeInPixels(exportXsize);
         export.setYsizeInPixels(exportYsize);
         export.setResolutionBasedExport(exportResolutionBased);
+        export.setSplitLayers(splitLayers);
 
         // The default export directory is the same where the FidoCadJ file
         // are opened.
@@ -134,6 +139,7 @@ public class ExportTools
 
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
+            splitLayers=export.getSplitLayers();
 
             exportResolutionBased=export.getResolutionBasedExport();
             try {
@@ -195,6 +201,7 @@ public class ExportTools
                 exportResolutionBased,
                 exportXsize,
                 exportYsize,
+                splitLayers,
                 fff);
 
             SwingUtilities.invokeLater(doExport);
@@ -208,6 +215,7 @@ public class ExportTools
                     exportResolutionBased?"true":"false");
                 prefs.put("EXPORT_XSIZE", ""+exportXsize);
                 prefs.put("EXPORT_YSIZE", ""+exportYsize);
+                prefs.put("EXPORT_SPLIT_LAYERS", splitLayers?"true":"false");
             }
             /*
                 The following code would require a thread safe implementation
