@@ -611,7 +611,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
         panel.add(multiplySizes, constraints);
- 
+
         splitLayers_CB= new JCheckBox(
             Globals.messages.getString("Split_layers_multiple_files"));
 
@@ -620,7 +620,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             new Insets(6,0,0,0));
 
         panel.add(splitLayers_CB, constraints);        // Add split layers cb
-    
+
         JLabel fileNameLabel=new
             JLabel(Globals.messages.getString("File_name"));
 

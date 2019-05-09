@@ -61,7 +61,7 @@ public class Export
 
             g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i);
 
-            if(g.getLayer()==dmp.drawOnlyLayer && 
+            if(g.getLayer()==dmp.drawOnlyLayer &&
                 !(g instanceof PrimitiveMacro))
             {
                 if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible||
@@ -132,7 +132,7 @@ public class Export
                     instanceof PrimitivePCBPad)
                 {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
-        
+
                     if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible
                         ||exportInvisible)
                     {

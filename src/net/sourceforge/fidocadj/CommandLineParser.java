@@ -53,6 +53,7 @@ public class CommandLineParser
     private boolean resolutionBasedExport = false;
     private boolean printSize=false;
     private boolean printTime=false;
+    private boolean splitLayers=false;
     private double resolution=1;
     private Locale currentLocale=null;
 
@@ -141,6 +142,10 @@ public class CommandLineParser
                     // -f forces FidoCadJ to skip some of the sanity checks
                     // for example in file extensions while exporting.
                     forceMode=true;
+                } else if (args[i].startsWith("-")) {
+                    // -m indicates that during export multiple layers should
+                    // be exported towards multiple files.
+                    splitLayers=true;
                 } else if (args[i].startsWith("-c")) {
                     // -c indicates that FidoCadJ should read and convert
                     // the given file. The structure of the command must
@@ -270,6 +275,13 @@ public class CommandLineParser
             "        sx and sy.\n"+
             "        NOTE: the coherence of the file extension is checked, unless the -f\n"+
             "        option is specified.\n\n"+
+
+            " -m     if a file export is done towards a vector graphic file format, split\n"+
+            "        the layers and write one file for each layer. The file name will be\n"+
+            "        obtained by appending _ followed by the layer number to the specified\n"+
+            "        file name. For example, the following command will create files\n"+
+            "        test_0.svg, test_1.svg ... from the drawing contained in test.fcd:\n\n"+
+            "           java -jar fidocadj.jar -n -m -c r2 svg test.svg test.fcd\n\n"+
 
             " -s     Print the size of the specified file in logical units.\n\n"+
 

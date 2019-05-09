@@ -46,7 +46,7 @@ import java.lang.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2018 by Davide Bucci
+    Copyright 2007-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -69,6 +69,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
+        @param splitLayers write each layer on a separate output file.
         @throws IOException if the file can not be created or an error occurs.
     */
     public static void export(File file,
@@ -294,7 +295,7 @@ public final class ExportGraphic
         throws IOException
     {
         ExportInterface ei;
-    
+
         if("eps".equals(format)) {
             ei = new ExportEPS(file);
         } else if("pgf".equals(format)) {
@@ -333,7 +334,7 @@ public final class ExportGraphic
             layers into different files.
     */
     private static void exportVectorFormats(DrawingModel P, String format,
-        File file, MapCoordinates m, boolean ext, boolean splitLayer) 
+        File file, MapCoordinates m, boolean ext, boolean splitLayer)
         throws IOException
     {
         ExportInterface ei;
