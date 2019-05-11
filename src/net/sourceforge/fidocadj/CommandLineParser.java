@@ -142,7 +142,7 @@ public class CommandLineParser
                     // -f forces FidoCadJ to skip some of the sanity checks
                     // for example in file extensions while exporting.
                     forceMode=true;
-                } else if (args[i].startsWith("-")) {
+                } else if (args[i].startsWith("-m")) {
                     // -m indicates that during export multiple layers should
                     // be exported towards multiple files.
                     splitLayers=true;
@@ -316,6 +316,14 @@ public class CommandLineParser
         System.out.println(help);
     }
 
+    /** Check if layers must be split into different files when exporting
+        into a vector file format.
+        @return true if it's the case.
+    */
+    public boolean shouldSplitLayers()
+    {
+        return splitLayers;
+    }
     /** Check if a file conversion (export) should be done.
         @return true if an export should be done.
     */

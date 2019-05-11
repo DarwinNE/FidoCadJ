@@ -115,7 +115,7 @@ class RunExport implements Runnable
                     antiAlias, blackWhite, ext, true, splitLayers);
             } else {
                 ExportGraphic.exportSize(file, dmp, format, xsize, ysize,
-                    antiAlias, blackWhite, ext, true);
+                    antiAlias, blackWhite, ext, true, splitLayers);
             }
             // It turns out (Issue #117) that this dialog is too disruptive.
             // If we can, we opt for a much less invasive message

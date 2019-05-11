@@ -89,7 +89,7 @@ public class FidoMain
             }
 
             if (clp.shouldConvertFile()) {
-                doConvert(clp, P);
+                doConvert(clp, P, clp.shouldSplitLayers());
             }
 
             if (clp.getHasToPrintSize()) {
@@ -152,8 +152,10 @@ public class FidoMain
 
         @param clp command-line arguments.
         @param P the model containing the drawing.
+        @param splitLayers split layers into different files when exporting.
     */
-    private static void doConvert(CommandLineParser clp, DrawingModel P)
+    private static void doConvert(CommandLineParser clp, DrawingModel P,
+        boolean splitLayers)
     {
         if(!Globals.checkExtension(clp.getOutputFile(),
             clp.getExportFormat()) && !clp.getForceMode())
@@ -168,11 +170,11 @@ public class FidoMain
             if (clp.getResolutionBasedExport()) {
                 ExportGraphic.export(new File(clp.getOutputFile()),  P,
                     clp.getExportFormat(), clp.getResolution(),
-                    true,false,true, true,false);
+                    true,false,true, true, splitLayers);
             } else {
                 ExportGraphic.exportSize(new File(clp.getOutputFile()),
                     P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),
-                    true,false,true,true);
+                    true,false,true,true, splitLayers);
             }
             System.out.println("Export completed");
         } catch(IOException ioe) {

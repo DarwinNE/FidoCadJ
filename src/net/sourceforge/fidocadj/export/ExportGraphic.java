@@ -109,6 +109,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
+        @param splitLayers split each layer into a different output file.
         @throws IOException if an error occurs.
     */
     public static void exportSize(File file,
@@ -119,7 +120,8 @@ public final class ExportGraphic
                         boolean antiAlias,
                         boolean blackWhite,
                         boolean ext,
-                        boolean shiftMin)
+                        boolean shiftMin,
+                        boolean splitLayers)
         throws IOException
     {
         exportSizeP(file,
@@ -133,7 +135,7 @@ public final class ExportGraphic
              blackWhite,
              ext,
              shiftMin,
-             false);
+             splitLayers);
     }
 
     /** Exports the circuit contained in circ using the specified parsing
