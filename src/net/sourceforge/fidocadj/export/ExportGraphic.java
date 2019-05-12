@@ -344,6 +344,9 @@ public final class ExportGraphic
         System.out.println("SplitLayer: "+splitLayer);
         if(splitLayer) {
             for(int i=0; i<16;++i) {
+                if(!P.containsLayer(i))   // Don't export empty layers.
+                    break;
+                // Create a new file and export the current layer.
                 File layerFile=new File(addIndexInFilename(file.toString(),i));
                 ei=createExportInterface(format, layerFile, ext);
                 P.setDrawOnlyLayer(i);
