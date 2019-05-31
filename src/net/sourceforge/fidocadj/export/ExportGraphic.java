@@ -349,13 +349,20 @@ public final class ExportGraphic
                 // Create a new file and export the current layer.
                 File layerFile=new File(addIndexInFilename(file.toString(),i));
                 ei=createExportInterface(format, layerFile, ext);
+                Export e = new Export(P);
+                P.setDrawOnlyLayer(-1);
+                e.exportHeader(ei, m);
                 P.setDrawOnlyLayer(i);
-                new Export(P).exportDrawing(ei, true, false, m);
+                e.exportDrawing(ei, false, m);
+                ei.exportEnd();
             }
             P.setDrawOnlyLayer(-1);
         } else {
             ei=createExportInterface(format, file,ext);
-            new Export(P).exportDrawing(ei, true, false, m);
+            Export e = new Export(P);
+            e.exportHeader(ei, m);
+            e.exportDrawing(ei, false, m);
+            ei.exportEnd();
         }
     }
 }

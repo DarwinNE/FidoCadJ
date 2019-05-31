@@ -51,7 +51,7 @@ public class Export
         @param mp the coordinate mapping
         @param exportInvisible true if invisible objects should be exported
     */
-    private void exportAllObjects(ExportInterface exp, boolean header,
+    private void exportAllObjects(ExportInterface exp,
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
@@ -82,44 +82,50 @@ public class Export
         }
     }
 
+    /** Export the file header
+        @param exp the selected exporting interface.
+        @param mp the coordinate mapping system to adopt.
+        @throws IOException when things goes wrong, for example because there
+            has been a memory error or when access to files is impossible.
+    */
+    public void exportHeader(ExportInterface exp, MapCoordinates mp)
+        throws IOException
+    {
+        synchronized(this) {
+            PointG o=new PointG(0,0);
+            DimensionG d = DrawingSize.getImageSize(dmp, 1, true,o);
+            d.width+=exportBorder;
+            d.height+=exportBorder;
+            // We remeber that getImageSize works only with logical
+            // coordinates so we may trasform them:
+
+            d.width *= mp.getXMagnitude();
+            d.height *= mp.getYMagnitude();
+            // We finally write the header
+            exp.exportStart(d, dmp.layerV, mp.getXGridStep());
+        }
+    }
     /** Export the file using the given interface.
 
         @param exp the selected exporting interface.
-        @param header specify if an header and a tail should be written or not.
         @param exportInvisible specify that the primitives on invisible layers
             should be exported.
         @param mp the coordinate mapping system to adopt.
         @throws IOException when things goes wrong, for example because there
             has been a memory error or when access to files is impossible.
     */
-    public void exportDrawing(ExportInterface exp, boolean header,
+    public void exportDrawing(ExportInterface exp,
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
         GraphicPrimitive g;
-        // If it is needed, we should write the header of the file. This is
-        // not to be done for example when we are exporting a macro and this
-        // routine is called recursively.
         synchronized(this) {
-            if (header) {
-                PointG o=new PointG(0,0);
-                DimensionG d = DrawingSize.getImageSize(dmp, 1, true,o);
-                d.width+=exportBorder;
-                d.height+=exportBorder;
-                // We remeber that getImageSize works only with logical
-                // coordinates so we may trasform them:
-
-                d.width *= mp.getXMagnitude();
-                d.height *= mp.getYMagnitude();
-                // We finally write the header
-                exp.exportStart(d, dmp.layerV, mp.getXGridStep());
-            }
             if(dmp.drawOnlyLayer>=0 && !dmp.drawOnlyPads){
-                exportAllObjects(exp, header, exportInvisible, mp);
+                exportAllObjects(exp, exportInvisible, mp);
             } else if (!dmp.drawOnlyPads) {
                 for(int j=0;j<dmp.layerV.size(); ++j) {
                     dmp.setDrawOnlyLayer(j);
-                    exportAllObjects(exp, header, exportInvisible, mp);
+                    exportAllObjects(exp, exportInvisible, mp);
                 }
                 dmp.setDrawOnlyLayer(-1);
             }
@@ -152,8 +158,8 @@ public class Export
                     ((PrimitiveMacro)g).resetExport();
                 }
             }
-            if (header)
-                exp.exportEnd();
+            //if (header)
+            //    exp.exportEnd();
         }
     }
 }

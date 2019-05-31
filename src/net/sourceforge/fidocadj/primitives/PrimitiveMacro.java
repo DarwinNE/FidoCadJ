@@ -699,8 +699,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
 
         macro.setDrawOnlyPads(drawOnlyPads);
-        new Export(macro).exportDrawing(exp, false, exportInvisible,
-            macroCoord);
+        new Export(macro).exportDrawing(exp, exportInvisible, macroCoord);
         exportText(exp, cs, drawOnlyLayer);
 
     }
