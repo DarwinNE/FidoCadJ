@@ -47,9 +47,9 @@ goto :END
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoMain.java -d bin
   rem javac  -g -Xlint:unchecked -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoReadApplet.java -d bin
   rem javac  -Xlint:unchecked -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/FidoCadApplet.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
-  javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
+  javac  -g -O -sourcepath src -classpath bin ./src/net/sourceforge/fidocadj/FidoMain.java -d bin
+  rem javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoReadApplet.java -d bin
+  rem javac  -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 ./src/net/sourceforge/fidocadj/FidoCadApplet.java -d bin
   exit /b
 
 
@@ -59,7 +59,7 @@ goto :END
   for /r .\src %%N in (*.java) do (
   	  echo %%N
   	  echo ######## %%N >> winbuild.log
-  	  javac -g -O -sourcepath src -classpath bin -source 1.5 -target 1.5 -d bin %%N > winbuild.tmp 2>&1 
+  	  javac -g -O -sourcepath src -classpath bin -d bin %%N > winbuild.tmp 2>&1 
   	  if ERRORLEVEL=1 (
   	  	  echo ... ERROR.
   	  	  echo ------- %%N >> winbuild.err
