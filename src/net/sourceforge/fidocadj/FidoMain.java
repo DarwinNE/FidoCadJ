@@ -454,7 +454,7 @@ class CreateSwingInterface implements Runnable
             try {
                 Class<?> a = Class.forName(
                     "net.sourceforge.fidocadj.AppleSpecific");
-                Object b = a.newInstance();
+                Object b = a.getConstructor().newInstance();
                 Method m = a.getMethod("answerFinder");
                 m.invoke(b);
             } catch (NoClassDefFoundError|ClassNotFoundException|
