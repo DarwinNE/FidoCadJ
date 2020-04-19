@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.circuit.views.Export;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2019 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -66,12 +66,12 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     private JCheckBox blackWhite_CB;            // Black and white checkbox
     private final JComboBox<String> fileFormat; // File format combo box
     private JTextField fileName;                // File name text field
-    private JTabbedPane tabsPane;               // Tab panel for res/size exp.
+    private final JTabbedPane tabsPane;         // Tab panel for res/size exp.
     private JTextField multiplySizes;           // Size mult. for vector exp.
     private JTextField xsizePixel;              // The x size of the image
     private JTextField ysizePixel;              // The y size of the image
-    private DrawingModel dm;                    // The drawing to be exported
-    private DimensionG dim;                     // The drawing size in l.u.
+    private final DrawingModel dm;              // The drawing to be exported
+    private final DimensionG dim;               // The drawing size in l.u.
     private JCheckBox splitLayers_CB;           // The split layers c.b.
 
     private JLabel expectedSize;                // The calculated size
@@ -461,9 +461,9 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                 return 9.00;  // 1800/200
             case 6:
                 return 12.0;  // 2400/200
+            default:
+                return 0.36;  // Not recognized.
         }
-
-        return 0.36;
     }
 
     /** Sets the default export format.

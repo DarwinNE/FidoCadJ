@@ -39,6 +39,11 @@ public class ImageAsCanvas
     private double xcorner=0;
     private double ycorner=0;
 
+    // Some temporary data used during the calculations.
+    private int oldw=0;
+    private int oldh=0;
+    private int shiftx=0;
+    private int shifty=0;
     private int maxResizedWidth;
     private int maxResizedHeight;
 
@@ -156,11 +161,6 @@ public class ImageAsCanvas
     {
         return ycorner;
     }
-
-    private int oldw=0;
-    private int oldh=0;
-    private int shiftx=0;
-    private int shifty=0;
 
     /** Draw the current image in the given graphic context.
         @param g the Graphic2D object where the image has to be drawn.

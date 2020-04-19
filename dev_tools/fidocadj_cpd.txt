@@ -440,7 +440,7 @@ Starting at line 111 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
             if (w<D_MIN) w=D_MIN;
 =====================================================================
-Found a 49 line (186 tokens) duplication in the following files: 
+Found a 50 line (186 tokens) duplication in the following files: 
 Starting at line 363 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 1346 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
@@ -454,6 +454,7 @@ Starting at line 1346 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
@@ -997,8 +998,8 @@ Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 =====================================================================
 Found a 16 line (124 tokens) duplication in the following files: 
-Starting at line 714 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
-Starting at line 736 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
+Starting at line 715 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
+Starting at line 737 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
 
                 } else if (tokens[0].equals("EP") // filled
                            && tokens[5].equals("3"))
@@ -1018,7 +1019,7 @@ Starting at line 736 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
                             = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
 =====================================================================
 Found a 39 line (123 tokens) duplication in the following files: 
-Starting at line 535 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 536 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 1050 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             x2+" "+y2+" lineto stroke\n");
@@ -1327,7 +1328,7 @@ Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
                 int selection;
 =====================================================================
 Found a 58 line (112 tokens) duplication in the following files: 
-Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 640 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 1146 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             out.write("stroke\n");
@@ -1389,7 +1390,7 @@ Starting at line 1146 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 =====================================================================
-Found a 39 line (112 tokens) duplication in the following files: 
+Found a 40 line (112 tokens) duplication in the following files: 
 Starting at line 1343 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 Starting at line 677 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
@@ -1406,6 +1407,7 @@ Starting at line 677 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
@@ -1461,7 +1463,7 @@ Starting at line 464 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             public void actionPerformed(ActionEvent evt)
             {
 =====================================================================
-Found a 36 line (110 tokens) duplication in the following files: 
+Found a 37 line (110 tokens) duplication in the following files: 
 Starting at line 363 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
 Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
@@ -1475,6 +1477,7 @@ Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */

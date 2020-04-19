@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2017 by Davide Bucci
+    Copyright 2017-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -41,17 +41,19 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 public class DialogAttachImage extends MinimumSizeDialog
 {
     private final JFrame parent;        // Parent window
-    private JTextField fileName;        // File name text field
-    private JTextField resolution;      // Resolution text field
-    private JTextField xcoord;          // x coordinate of the left top corner
-    private JTextField ycoord;          // y coordinate of the left top corner
-    private JTextField xsize;           // x size in mm of the image
-    private JTextField ysize;           // y size in mm of the image
+    private final JTextField fileName;      // File name text field
+    private final JTextField resolution;    // Resolution text field
+    private final JTextField xcoord;    // x coordinate of the left top corner
+    private final JTextField ycoord;    // y coordinate of the left top corner
+    private final JTextField xsize;     // x size in mm of the image
+    private final JTextField ysize;     // y size in mm of the image
     private BufferedImage img;
+    private boolean isCalculating;      // A size calculation is being made.
 
-    private final int useResolution=0;
-    private final int useSizeX=1;
-    private final int useSizeY=2;
+
+    private static final int useResolution=0;
+    private static final int useSizeX=1;
+    private static final int useSizeY=2;
 
     private boolean attach;     // Indicates that the attach should be done
     private boolean showImage;
@@ -333,7 +335,6 @@ public class DialogAttachImage extends MinimumSizeDialog
         getRootPane().setDefaultButton(ok);
     }
 
-    private boolean isCalculating;
     /** Calculate the relations between size and resolution of the image.
         @param useSize if true, calculate resolution from size.
             if false, calculate size from resolution.

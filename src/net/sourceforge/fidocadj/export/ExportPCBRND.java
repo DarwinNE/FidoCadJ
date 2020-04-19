@@ -42,7 +42,7 @@ public class ExportPCBRND implements ExportInterface
     private final FileWriter fstream;
     private BufferedWriter out;
     private DimensionG dim;
-    private int oldtextsize;
+    //private int oldtextsize;
     private String macroList;
     private String junctionList;
     private static ArrayList<String> viaList = new ArrayList<String>();
@@ -120,7 +120,7 @@ public class ExportPCBRND implements ExportInterface
     {
         dim=totalSize;
         out = new BufferedWriter(fstream);
-        oldtextsize=-1;
+        //oldtextsize=-1;
         macroList = "";
         junctionList = "";
 
@@ -333,7 +333,7 @@ public class ExportPCBRND implements ExportInterface
                                               macroY,
                                               orientation);
             String footer = gEDAElementFooter();
-            if (!footprintBody.equals("")) {
+            if (!"".equals(footprintBody)) {
                 pushFootprint(header + footprintBody + footer, macroName);
             }
         }
