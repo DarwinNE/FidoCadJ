@@ -31,14 +31,13 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2018 by Davide Bucci
+    Copyright 2009-2020 by Davide Bucci
    </pre>
 
 */
 
 public final class Arrow
 {
-
     /** A few constants in order to define the arrow style.
     */
     public static final int flagLimiter = 0x01;
@@ -47,6 +46,11 @@ public final class Arrow
     // From version 0.24.8, those become floating point values.
     private float arrowLength;
     private float arrowHalfWidth;
+
+    // If the length and the width differ from an integer less than the given
+    // tolerance, the result will be rounded
+    private static final float roundTolerance=1e-5f;
+
 
     // Style of the arrow.
     private int arrowStyle;
@@ -73,13 +77,35 @@ public final class Arrow
         return arrowStart || arrowEnd;
     }
 
-    /** Create the string describing the arrow.
+    /** Create the string describing the arrow. If the arrowLength and 
+        arrowHalfWidth differs from an integer less than a given tolerance
+        (constant roundTolerance in the class definition), the sizes are
+        rounded and issued as integer values. This allows to have a better
+        compatibility with former versions of FidoCadJ (<0.24.7) that can
+        not parse a non-integer value in those places. The code issued is
+        a little bit more compact, too.
         @return a string containing the codes
     */
     public String createArrowTokens()
     {
         int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-        return ""+arrows+" "+arrowStyle+" "+arrowLength+" "+arrowHalfWidth;
+        String result=new String();
+        result+=arrows+" ";
+        result+=arrowStyle+" ";
+        if (Math.abs(arrowLength-Math.round(arrowLength))<roundTolerance) {
+            result+=new Integer(Math.round(arrowLength));
+        } else {
+            result+=arrowLength;
+        }
+        result+=" ";
+        if (Math.abs(arrowHalfWidth-Math.round(arrowHalfWidth))<roundTolerance)
+        {
+            result+=new Integer(Math.round(arrowHalfWidth));
+        } else {
+            result+=arrowHalfWidth;
+        }
+        
+        return result;
     }
 
     /** Determine if the arrow on the start point should be drawn.

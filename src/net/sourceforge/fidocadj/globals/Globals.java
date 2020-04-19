@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 
     </pre>
 */
@@ -63,7 +63,6 @@ public class Globals
     public static int openWindowsNumber;
 
     // A pointer to the active window
-    //public static JFrame activeWindow;
     public static Object activeWindow;
 
 
@@ -88,7 +87,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.8 beta";
+    public static final String version = "0.24.8 gamma";
     // Is it a beta version? Some debug options become available, such as
     // timing each redraw operation.
     public static final boolean isBeta = true;
@@ -100,8 +99,12 @@ public class Globals
     public static final String defaultTextFont = "Courier New";
     // Comic Sans MS will send a 30 kV electrical discharge through USB...
 
+    // Dash styles
     public static final int dashNumber = 5;
-    public static final float dash[][] = {{10.0f,0f},{5.0f,5.0f},{2.0f, 2.0f},
+    public static final float dash[][] = {
+        {10.0f,0f},
+        {5.0f,5.0f},
+        {2.0f, 2.0f},
         {2.0f, 5.0f},
         {2.0f, 5.0f,5.0f,5.0f}};
 
