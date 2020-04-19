@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -236,16 +236,24 @@ public final class PrimitiveLine extends GraphicPrimitive
 
             g.applyStroke(w, dashStyle);
 
+            int xstart=x1, ystart=y1;
+            int xend=x2, yend=y2;
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {
                 if (arrowData.isArrowStart()) {
-                    arrowData.drawArrow(g,x1,y1,x2,y2);
+                    PointG p=arrowData.drawArrow(g,x1,y1,x2,y2);
+                    // This fixes issue #172
+                    xstart=p.x;
+                    ystart=p.y;
                 }
                 if (arrowData.isArrowEnd()) {
-                    arrowData.drawArrow(g,x2,y2,x1,y1);
+                    PointG p=arrowData.drawArrow(g,x2,y2,x1,y1);
+                    // This fixes issue #172
+                    xend=p.x;
+                    yend=p.y;
                 }
             }
-            g.drawLine(x1,y1,x2,y2);
+            g.drawLine(xstart,ystart,xend,yend);
         }
     }
 

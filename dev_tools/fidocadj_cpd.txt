@@ -185,52 +185,6 @@ Starting at line 226 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
 
         int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
 =====================================================================
-Found a 41 line (233 tokens) duplication in the following files: 
-Starting at line 133 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
-Starting at line 445 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
-
-        panel.setBorder(titled);
-
-        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
-        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-
-        constraints.gridx=0;
-        constraints.gridy=1;
-        constraints.gridwidth=4;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.insets=new Insets(20,20,20,20);
-
-        contentPane.add(panel, constraints);
-
-        constraints.gridx=0;
-        constraints.gridy=2;
-        constraints.gridwidth=4;
-        constraints.gridheight=1;
-        constraints.anchor=GridBagConstraints.EAST;
-        constraints.insets=new Insets(20,20,20,20);
-
-        // Put the OK and Cancel buttons and make them active.
-        Box b=Box.createHorizontalBox();
-        b.add(Box.createHorizontalGlue());
-        ok.setPreferredSize(cancel.getPreferredSize());
-
-        if (Globals.okCancelWinOrder) {
-            b.add(ok);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(cancel);
-        } else {
-            b.add(cancel);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(ok);
-        }
-        contentPane.add(b, constraints);            // Add cancel button
-
-        ok.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-=====================================================================
 Found a 55 line (228 tokens) duplication in the following files: 
 Starting at line 185 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveComplexCurve.java
 Starting at line 188 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePolygon.java
@@ -487,8 +441,8 @@ Starting at line 111 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             if (w<D_MIN) w=D_MIN;
 =====================================================================
 Found a 49 line (186 tokens) duplication in the following files: 
-Starting at line 353 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1339 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 363 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 1346 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
     }
 
@@ -503,7 +457,7 @@ Starting at line 1339 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -736,6 +690,36 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             if(N>5) parseLayer(tokens[5]);
             if(tokens[0].equals("EP"))
 =====================================================================
+Found a 25 line (142 tokens) duplication in the following files: 
+Starting at line 175 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
+Starting at line 461 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogSymbolize.java
+
+        constraints.gridwidth=4;
+        constraints.gridheight=1;
+        constraints.anchor=GridBagConstraints.EAST;
+        constraints.insets=new Insets(20,20,20,20);
+
+        // Put the OK and Cancel buttons and make them active.
+        Box b=Box.createHorizontalBox();
+        b.add(Box.createHorizontalGlue());
+        ok.setPreferredSize(cancel.getPreferredSize());
+
+        if (Globals.okCancelWinOrder) {
+            b.add(ok);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(cancel);
+        } else {
+            b.add(cancel);
+            b.add(Box.createHorizontalStrut(12));
+            b.add(ok);
+        }
+        contentPane.add(b, constraints);            // Add cancel button
+
+        ok.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent evt)
+            {
+=====================================================================
 Found a 19 line (141 tokens) duplication in the following files: 
 Starting at line 624 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
@@ -783,7 +767,7 @@ Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[14].length())+
 =====================================================================
 Found a 21 line (137 tokens) duplication in the following files: 
-Starting at line 271 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 279 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
 
@@ -1012,29 +996,6 @@ Starting at line 99 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../sr
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
 =====================================================================
-Found a 18 line (124 tokens) duplication in the following files: 
-Starting at line 88 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java
-Starting at line 129 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
-
-        contentPane.add(resolution, constraints);
-        // Put the OK and Cancel buttons and make them active.
-        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
-        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
-        Box b=Box.createHorizontalBox();
-        b.add(Box.createHorizontalGlue());
-        ok.setPreferredSize(cancel.getPreferredSize());
-
-        if (Globals.okCancelWinOrder) {
-            b.add(ok);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(cancel);
-        } else {
-            b.add(cancel);
-            b.add(Box.createHorizontalStrut(12));
-            b.add(ok);
-        }
-        constraints = DialogUtil.createConst(1,ygrid++,1,1,0,0,
-=====================================================================
 Found a 16 line (124 tokens) duplication in the following files: 
 Starting at line 714 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
 Starting at line 736 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPCBRND.java
@@ -1057,8 +1018,8 @@ Starting at line 736 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
                             = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
 =====================================================================
 Found a 39 line (123 tokens) duplication in the following files: 
-Starting at line 524 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1043 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 535 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 1050 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             x2+" "+y2+" lineto stroke\n");
     }
@@ -1125,70 +1086,6 @@ Starting at line 661 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[10].length()+
             obj_PDF[11].length())+
 =====================================================================
-Found a 59 line (123 tokens) duplication in the following files: 
-Starting at line 954 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 308 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
-
-            x2+" "+y2+" l S\n");
-
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
-    }
-
-    /** Called when exporting a Macro call.
-        This function can just return false, to indicate that the macro should
-        be rendered by means of calling the other primitives. Please note that
-        a macro does not have a reference layer, since it is defined by its
-        components.
-
-        @param x the x position of the position of the macro.
-        @param y the y position of the position of the macro.
-        @param isMirrored true if the macro is mirrored.
-        @param orientation the macro orientation in degrees.
-        @param macroName the macro name.
-        @param macroDesc the macro description, in the FidoCad format.
-        @param name the shown name.
-        @param xn coordinate of the shown name.
-        @param yn coordinate of the shown name.
-        @param value the shown value.
-        @param xv coordinate of the shown value.
-        @param yv coordinate of the shown value.
-        @param font the used font.
-        @param fontSize the size of the font to be used.
-        @param m the library.
-        @throws IOException if a disaster happens, i.e. a file can not be
-            accessed.
-        @return false if the macro should be split into primitives or true
-            if the export is handled entirely by this function.
-    */
-    public boolean exportMacro(int x, int y, boolean isMirrored,
-        int orientation, String macroName, String macroDesc,
-        String name, int xn, int yn, String value, int xv, int yv, String font,
-        int fontSize, Map m)
-        throws IOException
-    {
-        // The macro will be expanded into primitives.
-        return false;
-    }
-
-    /** Called when exporting an Oval primitive. Specify the bounding box.
-
-        @param x1 the x position of the first corner
-        @param y1 the y position of the first corner
-        @param x2 the x position of the second corner
-        @param y2 the y position of the second corner.
-        @param isFilled it is true if the oval should be filled.
-        @param layer the layer that should be used.
-        @param dashStyle dashing style.
-        @param strokeWidth the width of the pen to be used when drawing.
-        @throws IOException if a disaster happens, i.e. a file can not be
-            accessed.
-    */
-    public void exportOval(int x1, int y1, int x2, int y2,
-        boolean isFilled, int layer, int dashStyle, double strokeWidth)
-=====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
 Starting at line 610 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
@@ -1210,7 +1107,7 @@ Starting at line 691 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             obj_PDF[12].length())+
 =====================================================================
 Found a 15 line (122 tokens) duplication in the following files: 
-Starting at line 271 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
+Starting at line 279 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveLine.java
 Starting at line 187 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveOval.java
 Starting at line 171 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitivePCBLine.java
 Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/primitives/PrimitiveRectangle.java
@@ -1231,15 +1128,16 @@ Starting at line 202 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 =====================================================================
-Found a 17 line (118 tokens) duplication in the following files: 
-Starting at line 88 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogAttachImage.java
+Found a 20 line (118 tokens) duplication in the following files: 
 Starting at line 129 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogEditLayer.java
 Starting at line 145 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/EnterCircuitFrame.java
 
-        contentPane.add(resolution, constraints);
+        contentPane.add(visibility, constraints);
+
+        JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
+        JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
+
         // Put the OK and Cancel buttons and make them active.
-        JButton ok=new JButton(Globals.messages.getString("Ok_btn"));
-        JButton cancel=new JButton(Globals.messages.getString("Cancel_btn"));
         Box b=Box.createHorizontalBox();
         b.add(Box.createHorizontalGlue());
         ok.setPreferredSize(cancel.getPreferredSize());
@@ -1248,6 +1146,7 @@ Starting at line 145 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
+
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -1400,7 +1299,7 @@ Starting at line 597 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             System.out.println("Warning: unexpected parameter!"+pd);
 =====================================================================
 Found a 23 line (112 tokens) duplication in the following files: 
-Starting at line 152 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
+Starting at line 178 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogExport.java
 Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/dialogs/DialogOptions.java
 
         constraints.insets=new Insets(20,20,20,20);
@@ -1428,8 +1327,8 @@ Starting at line 182 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
                 int selection;
 =====================================================================
 Found a 58 line (112 tokens) duplication in the following files: 
-Starting at line 628 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 1139 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 639 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 1146 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
 
             out.write("stroke\n");
         }
@@ -1491,8 +1390,8 @@ Starting at line 1139 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../
         registerDash(dashStyle);
 =====================================================================
 Found a 39 line (112 tokens) duplication in the following files: 
-Starting at line 1336 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
-Starting at line 664 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
+Starting at line 1343 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java
+Starting at line 677 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
                 outt.write(""+dash[dashStyle]+" 0 d\n");
 
@@ -1510,7 +1409,7 @@ Starting at line 664 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -1563,8 +1462,8 @@ Starting at line 464 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             {
 =====================================================================
 Found a 36 line (110 tokens) duplication in the following files: 
-Starting at line 353 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 675 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
+Starting at line 363 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
+Starting at line 688 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportSVG.java
 
     }
 
@@ -1579,7 +1478,7 @@ Starting at line 675 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -1602,48 +1501,6 @@ Starting at line 675 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../s
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 
         alpha += x-xc>0.0?0.0:Math.PI;
-=====================================================================
-Found a 37 line (105 tokens) duplication in the following files: 
-Starting at line 348 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportEPS.java
-Starting at line 305 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPGF.java
-
-            x2+" "+y2+" lineto stroke\n");
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
-    }
-
-    /** Called when exporting an arrow.
-        @param x position of the tip of the arrow.
-        @param y position of the tip of the arrow.
-        @param xc direction of the tip of the arrow.
-        @param yc direction of the tip of the arrow.
-        @param l length of the arrow.
-        @param h width of the arrow.
-        @param style style of the arrow.
-        @throws IOException when things goes horribly wrong, for example if
-            the file in which the output is being done is not accessible.
-    */
-    public void exportArrow(double x, double y, double xc, double yc,
-        double l, double h,
-        int style)
-        throws IOException
-    {
-        double s;
-        double alpha;
-        double x0;
-        double y0;
-        double x1;
-        double y1;
-        double x2;
-        double y2;
-
-        // At first we need the angle giving the direction of the arrow
-        // a little bit of trigonometry :-)
-
-        if (x==xc)
-            alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
 =====================================================================
 Found a 15 line (105 tokens) duplication in the following files: 
 Starting at line 560 of /Users/davidebucci/Desktop/Perso/FidoCadJ/dev_tools/../src/net/sourceforge/fidocadj/export/ExportPDF.java

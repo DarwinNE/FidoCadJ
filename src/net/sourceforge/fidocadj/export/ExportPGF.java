@@ -300,15 +300,25 @@ public class ExportPGF implements ExportInterface
     {
         registerColorSize(layer, strokeWidth);
         registerDash(dashStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
 
-        out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
-            x2+","+y2+")}\n");
-
-
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xstart=p.x;
+            ystart=p.y;
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xend=p.x;
+            yend=p.y;
+        }
+        out.write("\\pgfline{\\pgfxy("+xstart+","+ystart+")}{\\pgfxy("+
+            xend+","+yend+")}\n");
     }
 
     /** Called when exporting an arrow.
@@ -319,10 +329,11 @@ public class ExportPGF implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -384,7 +395,7 @@ public class ExportPGF implements ExportInterface
             out.write("\\pgfline{\\pgfxy("+x3+","+y3+")}{\\pgfxy("+
                 x4+","+y4+")}\n");
         }
-
+        return new PointPr(x0,y0);
     }
 
     /** Called when exporting a Macro call.

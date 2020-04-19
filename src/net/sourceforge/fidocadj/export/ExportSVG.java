@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 </pre>
 
 
@@ -303,14 +303,27 @@ public class ExportSVG implements ExportInterface
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         strokeWidth=sW;
-        out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
-            cLe(x2)+"\" y2=\""+cLe(y2)+"\" ");
-        checkColorAndWidth("fill=\"none\"", dashStyle);
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
+
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xstart=p.x;
+            ystart=p.y;
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xend=p.x;
+            yend=p.y;
+        }
+        out.write("<line x1=\""+cLe(xstart)+"\" y1=\""+cLe(ystart)+"\" x2=\""+
+            cLe(xend)+"\" y2=\""+cLe(yend)+"\" ");
+        checkColorAndWidth("fill=\"none\"", dashStyle);
     }
 
     /** Called when exporting a Macro call.
@@ -683,10 +696,11 @@ public class ExportSVG implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -755,5 +769,6 @@ public class ExportSVG implements ExportInterface
                 cLe(x4)+"\" y2=\""+cLe(y4)+"\" ");
             checkColorAndWidth("fill=\"none\"", 0);
         }
+        return new PointPr(x0,y0);
     }
 }

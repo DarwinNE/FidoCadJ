@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -341,15 +341,25 @@ public class ExportEPS implements ExportInterface
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
 
-
-
-        out.write(""+x1+" "+y1+" moveto "+
-            x2+" "+y2+" lineto stroke\n");
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xstart=p.x;
+            ystart=p.y;
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xend=p.x;
+            yend=p.y;
+        }
+        out.write(""+xstart+" "+ystart+" moveto "+
+            xend+" "+yend+" lineto stroke\n");
     }
 
     /** Called when exporting an arrow.
@@ -360,10 +370,11 @@ public class ExportEPS implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -428,6 +439,7 @@ public class ExportEPS implements ExportInterface
                 " moveto\n"+Globals.roundTo(x4)+" "+Globals.roundTo(y4)+
                 " lineto\nstroke\n");
         }
+        return new PointPr(x0,y0);
     }
 
     /** Called when exporting a Macro call.

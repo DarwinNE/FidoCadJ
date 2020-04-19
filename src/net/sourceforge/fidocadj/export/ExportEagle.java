@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
    </pre>
 
 
@@ -457,15 +457,17 @@ public class ExportEagle implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return always (0,0).
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
     {
         // Does nothing, since it will not be useful here.
+        return new PointPr();
     }
 
     /** Export a number: truncate it to four decimals

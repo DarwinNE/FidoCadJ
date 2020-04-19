@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -939,19 +939,31 @@ public class ExportPDF implements ExportInterface
         double strokeWidth)
         throws IOException
     {
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
+
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
 
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
-        outt.write("  "+x1+" "+y1+" m "+
-            x2+" "+y2+" l S\n");
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xstart=p.x;
+            ystart=p.y;
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            xend=p.x;
+            yend=p.y;
+        }
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        outt.write("  "+xstart+" "+ystart+" m "+ xend+" "+yend+" l S\n");
     }
 
     /** Called when exporting a Macro call.
@@ -1341,10 +1353,11 @@ public class ExportPDF implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -1403,5 +1416,6 @@ public class ExportPDF implements ExportInterface
             outt.write(""+Globals.roundTo(x3)+" "+Globals.roundTo(y3)+" m\n"+
                 Globals.roundTo(x4)+" "+Globals.roundTo(y4)+" l s\n");
         }
+        return new PointPr(x0,y0);
     }
 }

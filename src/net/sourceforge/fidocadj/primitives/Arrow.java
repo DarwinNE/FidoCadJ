@@ -77,7 +77,7 @@ public final class Arrow
         return arrowStart || arrowEnd;
     }
 
-    /** Create the string describing the arrow. If the arrowLength and 
+    /** Create the string describing the arrow. If the arrowLength and
         arrowHalfWidth differs from an integer less than a given tolerance
         (constant roundTolerance in the class definition), the sizes are
         rounded and issued as integer values. This allows to have a better
@@ -98,13 +98,12 @@ public final class Arrow
             result+=arrowLength;
         }
         result+=" ";
-        if (Math.abs(arrowHalfWidth-Math.round(arrowHalfWidth))<roundTolerance)
-        {
+        if (Math.abs(arrowHalfWidth-Math.round(arrowHalfWidth))<roundTolerance){
             result+=new Integer(Math.round(arrowHalfWidth));
         } else {
             result+=arrowHalfWidth;
         }
-        
+
         return result;
     }
 
@@ -393,9 +392,9 @@ public final class Arrow
         // object and populate it with the calculated coordinates.
         PolygonInterface p = g.createPolygon();
 
-        p.addPoint((int)(x+0.5),(int)(y+0.5));
-        p.addPoint((int)(x1+0.5),(int)(y1+0.5));
-        p.addPoint((int)(x2+0.5),(int)(y2+0.5));
+        p.addPoint((int)Math.round(x),(int)Math.round(y));
+        p.addPoint((int)Math.round(x1),(int)Math.round(y1));
+        p.addPoint((int)Math.round(x2),(int)Math.round(y2));
 
 
         if ((arrowStyle & flagEmpty) == 0)
