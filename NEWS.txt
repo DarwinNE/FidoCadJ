@@ -1,11 +1,12 @@
 Version 0.24.8
 --------------
 
-- Fix issue #142 (Incorrect export of dashed lines).
-- Export splitting layers on multiple files (issue #154)
-- Correct Inverted filter symbols (issue #153)
-- Enter image size when exporting in bitmap format (issue #147)
-- The arrow length and half widths may be floating point (issue #111)
+- Fix incorrect export of dashed lines (issue #142).
+- Export splitting layers on multiple files (issue #154).
+- Correct Inverted filter symbols (issue #153).
+- Enter image size when exporting in bitmap format (issue #147).
+- The arrow length and half widths may be floating point (issue #111).
+- Increase precision of arrows (issue #172).
 
 Version 0.24.7
 --------------
@@ -25,7 +26,6 @@ Version 0.24.7
 - Show invalid keys when creating new components (#120).
 - Eliminate the "Export complete" message box (#117).
 - Correct an issue with printing sizes (#137).
-
 
 Version 0.24.6
 --------------
