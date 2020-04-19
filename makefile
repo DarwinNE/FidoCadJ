@@ -1,6 +1,6 @@
 
 NAME = fidocadj
-VERSION = 0.24.6
+VERSION = 0.24.8
 
 .PHONY: compile   \		# Compile FidoCadJ
 		createjar \		# Prepare fidocadj.jar

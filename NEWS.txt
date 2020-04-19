@@ -2,6 +2,10 @@ Version 0.24.8
 --------------
 
 - Fix issue #142 (Incorrect export of dashed lines).
+- Export splitting layers on multiple files (issue #154)
+- Correct Inverted filter symbols (issue #153)
+- Enter image size when exporting in bitmap format (issue #147)
+- The arrow length and half widths may be floating point (issue #111)
 
 Version 0.24.7
 --------------
