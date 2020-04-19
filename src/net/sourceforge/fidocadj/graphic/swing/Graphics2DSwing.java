@@ -601,7 +601,7 @@ public class Graphics2DSwing implements GraphicsInterface
         // Fabricate a new image only if necessary, to save time.
         if(oldZoom!=z || bufferedImage == null || tp==null) {
             // It turns out that drawing the grid in an efficient way is not a
-            // trivial task. The program here tries to calculate the minimum 
+            // trivial task. The program here tries to calculate the minimum
             // common integer multiple of the dot espacement, to calculate the
             // size of an image in order to be an integer.
             // The pattern filling (which is fast) is then used to replicate the
@@ -640,7 +640,7 @@ public class Graphics2DSwing implements GraphicsInterface
                construction.
                This should happen rarely, only for particular zoom sizes.
             */
-            if (width>maxAllowableGridBrushWidth || 
+            if (width>maxAllowableGridBrushWidth ||
                 height>maxAllowableGridBrushHeight)
             {
                 g.setColor(Color.gray);

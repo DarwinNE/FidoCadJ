@@ -179,7 +179,14 @@ public class ExportSVG implements ExportInterface
                 convertToHex2(c.getBlue())+"\""+
 
             ">");
-        out.write(text);
+        // Substitute potentially dangerous characters (issue #162)
+        String outtxt=text.replace("&", "&amp;");
+        outtxt=outtxt.replace("<", "&lt;");
+        outtxt=outtxt.replace(">", "&gt;");
+        outtxt=outtxt.replace("\"", "&quot;");
+        outtxt=outtxt.replace("'", "&apos;");
+
+        out.write(outtxt);
         out.write("</text>\n");
         out.write("</g>\n");
 
