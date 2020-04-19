@@ -616,7 +616,7 @@ public class Graphics2DSwing implements GraphicsInterface
             tp = null;
             double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-            int d=1;
+            double d=1;
 
             // This code applies a correction: draws bigger points if the pitch
             // is very large, or draw much less points if it is too dense.
@@ -634,6 +634,11 @@ public class Graphics2DSwing implements GraphicsInterface
             height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
             if (height<=0) height=1;
 
+            // DB: I tried with d/2 instead of 0, but I get some very 
+            // unpleasant aliasing effects for zoom such as 237%
+            double dd=0;
+            // System.out.println("width="+width);
+            // System.out.println("height="+height);
             /* Nowadays computers have generally a lot of memory, but this is
                not a good reason to waste it. If it turns out that the image
                size is utterly impratical, use the standard dot by dot grid
@@ -643,12 +648,13 @@ public class Graphics2DSwing implements GraphicsInterface
             if (width>maxAllowableGridBrushWidth ||
                 height>maxAllowableGridBrushHeight)
             {
+                // Simpler (and generally less efficient) version of the grid
+                
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
-                        g.fillRect(cs.mapXi((int)x,(int)y,
-                            false),cs.mapYi((int)x,
-                            (int)y, false),d,d);
+                        g.fillRect((int)Math.round(cs.mapXr(x,y)-dd),
+                            (int)Math.round(cs.mapYr(x,y)-dd),(int)d,(int)d);
                     }
                 }
                 return;
@@ -677,8 +683,8 @@ public class Graphics2DSwing implements GraphicsInterface
             // Prepare the image with the grid.
             for (x=0; x<=cs.unmapXsnap(width); x+=dx) {
                 for (y=0; y<=cs.unmapYsnap(height); y+=dy) {
-                    g2d.fillRect(cs.mapX((int)x,(int)y),cs.mapY((int)x,
-                        (int)y),d,d);
+                    g2d.fillRect((int)Math.round(cs.mapXr(x,y)-dd),
+                        (int)Math.round(cs.mapYr(x,y)-dd),(int)d,(int)d);
                 }
             }
             oldZoom=z;

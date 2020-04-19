@@ -179,8 +179,25 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         if(!selectLayer(g,layerV))
             return;
+        
+        int h=0;
+
+        PointG P0=new PointG(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+            coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y));
+        PointG P3=new PointG(coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 
         drawText(g, coordSys, layerV, -1);
+
+        // Check if there are arrows to be drawn and eventually draw them.
+        if (arrowData.atLeastOneArrow()) {
+            h=arrowData.prepareCoordinateMapping(coordSys);
+            if (arrowData.isArrowStart())
+                P0=drawArrow(g, coordSys, 0,1,2,3);
+
+            if (arrowData.isArrowEnd())
+                P3=drawArrow(g, coordSys, 3,2,1,0);
+        }
 
         // in the Bézier primitive, the four virtual points represent
         // the control points of the shape.
@@ -190,18 +207,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
             shape1=g.createShape();
             // Create the Bézier curve
             shape1.createCubicCurve(
-                coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                P0.x,
+                P0.y,
                 coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
                 coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y),
-                coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
-                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+                P3.x,
+                P3.y);
 
-            int h=0;
-            if(arrowData.atLeastOneArrow())
-                h=arrowData.prepareCoordinateMapping(coordSys);
+
 
             // Calculating the bounds of this curve is useful since we can
             // check if it is visible and thus choose wether draw it or not.
@@ -233,15 +248,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
             // Draw the curve.
             g.draw(shape1);
         }
-
-        // Check if there are arrows to be drawn and eventually draw them.
-        if (arrowData.atLeastOneArrow()) {
-            if (arrowData.isArrowStart())
-                drawArrow(g, coordSys, 0,1,2,3);
-
-            if (arrowData.isArrowEnd())
-                drawArrow(g, coordSys, 3,2,1,0);
-        }
     }
 
     /** Draw an arrow checking that the coordinates given are not degenerate.
@@ -255,7 +261,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
             the direction, unless equal to point A.
         @param D employs this point as a last resort!
     */
-    private void drawArrow(GraphicsInterface g, MapCoordinates coordSys,
+    private PointG drawArrow(GraphicsInterface g, MapCoordinates coordSys,
         int A, int B, int C, int D)
     {
         int psx, psy; // starting coordinates.
@@ -282,7 +288,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
             pey = virtualPoint[D].y;
         }
 
-        arrowData.drawArrow(g,
+        return arrowData.drawArrow(g,
             coordSys.mapX(psx,psy),
             coordSys.mapY(psx,psy),
             coordSys.mapX(pex,pey),
@@ -349,14 +355,40 @@ public final class PrimitiveBezier extends GraphicPrimitive
         // Here, we check if the given point lies inside the text areas.
         if(checkText(px, py))
             return 0;
+        PointG P0,P3;
+        P0=new PointG(virtualPoint[0].x, virtualPoint[0].y);
+        P3=new PointG(virtualPoint[3].x, virtualPoint[3].y);
+        
+        // Check if the point is in the arrows. Correct the starting and ending
+        // points if needed.
+        if (arrowData.atLeastOneArrow()) {
+            boolean r=false, t=false;
 
+            // We work with logic coordinates (default for MapCoordinates).
+            MapCoordinates m=new MapCoordinates();
+            arrowData.prepareCoordinateMapping(m);
+            if (arrowData.isArrowStart())
+                t=arrowData.isInArrow(px, py, 
+                    virtualPoint[0].x, virtualPoint[0].y,
+                    virtualPoint[1].x, virtualPoint[1].y, P0);
+
+            if (arrowData.isArrowEnd())
+                r=arrowData.isInArrow(px, py, 
+                    virtualPoint[3].x, virtualPoint[3].y,
+                    virtualPoint[2].x, virtualPoint[2].y, P3);
+            
+            // Click on one of the arrows.
+            if(r||t)
+                return 1;
+        
+        }
+        
         // If not, we check for the distance to the Bézier curve.
         return GeometricDistances.pointToBezier(
-                virtualPoint[0].x, virtualPoint[0].y,
+                P0.x, P0.y,
                 virtualPoint[1].x, virtualPoint[1].y,
                 virtualPoint[2].x, virtualPoint[2].y,
-                virtualPoint[3].x, virtualPoint[3].y,
-                px,  py);
+                P3.x, P3.y, px,  py);
     }
 
     /** Obtain a string command descripion of the primitive.

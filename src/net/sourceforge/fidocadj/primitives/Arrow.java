@@ -7,6 +7,7 @@ import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.export.PointPr;
 
 
 /**
@@ -341,26 +342,64 @@ public final class Arrow
         return drawArrow(g, x,y, xc,yc);
     }
 
-    /** Draw an arrow at the given position.
-        @param g the graphic context to be used
-        @param x the x coordinate of the arrow point
-        @param y the y coordinate of the arrow point
-        @param xc the x coordinate of the direction point
-        @param yc the y coordinate of the direction point
-        @return the coordinate of the base point of the arrow head
+    /** Check if the logic coordinates (xs,ys) are inside an arrow.
+        @param xs the x coordinate of the point to check.
+        @param ys the y coordinate of the point to check.
+        @param x the x coordinate of the arrow tip.
+        @param y the y coordinate of the arrow tip.
+        @param xc the x coordinate of the direction point.
+        @param yc the y coordinate of the direction point.
+        @param Pbase return the coordinate of the base point of the arrow head.
+        @return true if the coordinates are inside the arrow.
     */
-    public PointG drawArrow(GraphicsInterface g, int x, int y, int xc, int yc)
+    public boolean isInArrow(int xs, int ys, int x, int y, int xc, int yc,
+        PointG Pbase)
     {
-        double s;
-        double alpha;
-        double x0;
-        double y0;
-        double x1;
-        double y1;
-        double x2;
-        double y2;
+        // Consider the arrow as a polygon.
+        int[] xp=new int[3];
+        int[] yp=new int[3];
 
+        int k;
+
+        PointPr[] P=calculateArrowPoints(x,y,xc,yc);
+        xp[0]=x;
+        xp[1]=(int)Math.round(P[1].x);
+        xp[2]=(int)Math.round(P[2].x);
+        yp[0]=y;
+        yp[1]=(int)Math.round(P[1].y);
+        yp[2]=(int)Math.round(P[2].y);
+        
+        Pbase.x=(int)Math.round(P[0].x);
+        Pbase.y=(int)Math.round(P[0].y);
+        return GeometricDistances.pointInPolygon(xp,yp,3,xs,ys);
+    }
+    
+    private PointPr[] calculateArrowPoints(int x, int y, int xc, int yc)
+    {
+        PointPr[] P;
         // At first we need the angle giving the direction of the arrow
+        double alpha=getArrowAngle(x,y,xc,yc);
+
+        // Then, we calculate the points for the polygon
+        double cosalpha=Math.cos(alpha);
+        double sinalpha=Math.sin(alpha);
+        P = new PointPr[5];
+
+        P[0] = new PointPr(x - l*cosalpha, y - l*sinalpha);
+        P[1] = new PointPr(P[0].x - h*sinalpha, P[0].y + h*cosalpha);
+        P[2] = new PointPr(P[0].x + h*sinalpha, P[0].y - h*cosalpha);
+
+        if ((arrowStyle & flagLimiter) != 0) {
+            P[3] = new PointPr(x - h*sinalpha, y + h*cosalpha);
+            P[4] = new PointPr(x + h*sinalpha, y - h*cosalpha);
+        }
+        return P;
+    }
+
+
+    private double getArrowAngle(int x, int y, int xc, int yc)
+    {
+        double alpha;
         // a little bit of trigonometry :-)
         // The idea is that the arrow head should be oriented in the direction
         // specified by the second point.
@@ -374,27 +413,28 @@ public final class Arrow
         // the trigonometric convention (anti clockwise is positive).
 
         alpha += x-xc>0.0?0.0:Math.PI;
-
-        // Then, we calculate the points for the polygon
-        double cosalpha=Math.cos(alpha);
-        double sinalpha=Math.sin(alpha);
-
-        x0 = x - l*cosalpha;
-        y0 = y - l*sinalpha;
-
-        x1 = x0 - h*sinalpha;
-        y1 = y0 + h*cosalpha;
-
-        x2 = x0 + h*sinalpha;
-        y2 = y0 - h*cosalpha;
+        return alpha;
+    }
+    /** Draw an arrow at the given position.
+        @param g the graphic context to be used.
+        @param x the x coordinate of the arrow point.
+        @param y the y coordinate of the arrow point.
+        @param xc the x coordinate of the direction point.
+        @param yc the y coordinate of the direction point.
+        @return the coordinate of the base point of the arrow head.
+    */
+    public PointG drawArrow(GraphicsInterface g, int x, int y, int xc, int yc)
+    {
+        double s;
+        PointPr[] P = calculateArrowPoints(x,y,xc,yc);
 
         // The arrow head is traced using a polygon. Here we create the
         // object and populate it with the calculated coordinates.
         PolygonInterface p = g.createPolygon();
 
         p.addPoint((int)Math.round(x),(int)Math.round(y));
-        p.addPoint((int)Math.round(x1),(int)Math.round(y1));
-        p.addPoint((int)Math.round(x2),(int)Math.round(y2));
+        p.addPoint((int)Math.round(P[1].x),(int)Math.round(P[1].y));
+        p.addPoint((int)Math.round(P[2].x),(int)Math.round(P[2].y));
 
 
         if ((arrowStyle & flagEmpty) == 0)
@@ -405,17 +445,9 @@ public final class Arrow
         // Check if we need to draw the limiter or not
         // This is a small line useful for quotes.
         if ((arrowStyle & flagLimiter) != 0) {
-            double x3;
-            double y3;
-            double x4;
-            double y4;
-            x3 = x - h*sinalpha;
-            y3 = y + h*cosalpha;
-
-            x4 = x + h*sinalpha;
-            y4 = y - h*cosalpha;
-            g.drawLine((int)x3,(int)y3,(int)x4,(int)y4);
+            g.drawLine((int)Math.round(P[3].x),(int)Math.round(P[3].y),
+                (int)Math.round(P[4].x),(int)Math.round(P[4].y));            
         }
-        return new PointG((int)(x0),(int)(y0));
+        return new PointG((int)(P[0].x),(int)(P[0].y));
     }
 }
