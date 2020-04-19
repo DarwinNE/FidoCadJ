@@ -3,7 +3,7 @@ Version 0.24.8
 
 - Fix incorrect export of dashed lines (issue #142).
 - Export splitting layers on multiple files (issue #154).
-- Correct Inverted filter symbols (issue #153).
+- Fix Inverted filter symbols (issue #153).
 - Enter image size when exporting in bitmap format (issue #147).
 - The arrow length and half widths may be floating point (issue #111).
 - Increase precision of arrows (issue #172).

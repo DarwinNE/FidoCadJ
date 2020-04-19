@@ -1,11 +1,11 @@
 README file for FidoCadJ
 ========================
 
-Version 0.24.7
+Version 0.24.8
 
-Copyright 2007-2017
+Copyright 2007-2020
 
-by Davide Bucci and Dante Loi
+This file has been written by Davide Bucci and Dante Loi
 
 1. Introduction
   1. What is FidoCadJ?
@@ -121,7 +121,7 @@ For Android, we had to develop a completely new application: you should
 download and install the APK file containing it. Most devices complain loudly
 when you install a file which does not come from a store. Check carefully
 where you downloaded it: the ONLY official location where distribution files
-are put is on GitHub.
+are put for FidoCadJ project is on the official GitHub page.
 
 Remember that if there is a Greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program.
@@ -386,12 +386,12 @@ int dummy(int i)
 - discuss what you want to do BEFORE start coding
 - documentation is important. Try to improve it and keep it up-to-date
 
-A Checkstyle ruleset (called `dev_tools/rules.xml`) is being progressively employed so
+A Checkstyle ruleset (called `dev_tools/rules.xml`) is employed so to ensure
 that those rules will be automatically checked. Points for which a rule has
 been activated have been marked with :ok: in the previous list.
 
-Be sure to run checkstyle with `dev_tools/rules.xml` before sending a pull request! Have
-a look at paragraph 4.4 and follow the checklist!
+Be sure to run checkstyle with `dev_tools/rules.xml` before sending a pull 
+request! Have a look at paragraph 4.4 and follow the checklist!
 
 4.2 Automated tests
 -------------------

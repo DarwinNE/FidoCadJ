@@ -33,12 +33,19 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2016 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 */
 
 public class Graphics2DSwing implements GraphicsInterface
 {
+    // Practical sizes to the image used a "brush" for the tiled fill.
+    // Larger images may yield faster results, until the memory penalty will
+    // decrease performance. Used to be 1000x1000, but it seems that this is
+    // too big on some Linux systems (see issue #166).
+    private final static int maxAllowableGridBrushWidth = 500;
+    private final static int maxAllowableGridBrushHeight = 500;
+
     Graphics2D g;
 
     // Here are some other local variables made global for avoiding memory
@@ -594,10 +601,9 @@ public class Graphics2DSwing implements GraphicsInterface
         // Fabricate a new image only if necessary, to save time.
         if(oldZoom!=z || bufferedImage == null || tp==null) {
             // It turns out that drawing the grid in an efficient way is not a
-            // trivial problem. What it is done here is that the program tries
-            // to calculate the minimum common integer multiple of the dot
-            // espacement to calculate the size of an image in order to be an
-            // integer.
+            // trivial task. The program here tries to calculate the minimum 
+            // common integer multiple of the dot espacement, to calculate the
+            // size of an image in order to be an integer.
             // The pattern filling (which is fast) is then used to replicate the
             // image (very fast!) over the working surface.
 
@@ -613,7 +619,7 @@ public class Graphics2DSwing implements GraphicsInterface
             int d=1;
 
             // This code applies a correction: draws bigger points if the pitch
-            // is very big, or draw much less points if it is too dense.
+            // is very large, or draw much less points if it is too dense.
             if (ddx>50 || ddy>50) {
                 d=2;
             } else if (ddx<3 || ddy <3) {
@@ -634,9 +640,9 @@ public class Graphics2DSwing implements GraphicsInterface
                construction.
                This should happen rarely, only for particular zoom sizes.
             */
-            if (width>1000 || height>1000) {
-                //g.setColor(Color.white);
-                //g.fillRect(xmin,ymin,xmax,ymax);
+            if (width>maxAllowableGridBrushWidth || 
+                height>maxAllowableGridBrushHeight)
+            {
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
