@@ -607,6 +607,27 @@ public final class PrimitiveComplexCurve
         if (p==null || gp==null)
             return;
 
+        // Draw the arrows if they are needed
+        // Ensure that there are enough points to calculate a derivative.
+        if (arrowData.atLeastOneArrow() && p.getNpoints()>2) {
+            arrowData.prepareCoordinateMapping(coordSys);
+
+            if (arrowData.isArrowStart()&&!isClosed) {
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                    coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                    p.getXpoints()[1], p.getYpoints()[1]);
+            }
+
+            if (arrowData.isArrowEnd()&&!isClosed) {
+                int l=nPoints-1;
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[l].x,virtualPoint[l].y),
+                    coordSys.mapY(virtualPoint[l].x,virtualPoint[l].y),
+                    p.getXpoints()[p.getNpoints()-2],
+                    p.getYpoints()[p.getNpoints()-2]);
+            }
+        }
         // If the curve is outside of the shown portion of the drawing,
         // exit immediately.
         if(!g.hitClip(xmin,ymin, width+1, height+1))
@@ -629,31 +650,6 @@ public final class PrimitiveComplexCurve
         } else {
             // Draw the curve.
             g.draw(gp);
-        }
-
-        // Ensure that there are enough points to calculate the derivative.
-        if (p.getNpoints()<2)
-            return;
-
-        // Draw the arrows if they are needed
-        if (arrowData.atLeastOneArrow()) {
-            arrowData.prepareCoordinateMapping(coordSys);
-
-            if (arrowData.isArrowStart()&&!isClosed) {
-                arrowData.drawArrow(g,
-                    coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-                    coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
-                    p.getXpoints()[1], p.getYpoints()[1]);
-            }
-
-            if (arrowData.isArrowEnd()&&!isClosed) {
-                int l=nPoints-1;
-                arrowData.drawArrow(g,
-                    coordSys.mapX(virtualPoint[l].x,virtualPoint[l].y),
-                    coordSys.mapY(virtualPoint[l].x,virtualPoint[l].y),
-                    p.getXpoints()[p.getNpoints()-2],
-                    p.getYpoints()[p.getNpoints()-2]);
-            }
         }
     }
 

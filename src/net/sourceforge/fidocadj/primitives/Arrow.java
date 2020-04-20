@@ -52,6 +52,9 @@ public final class Arrow
     // tolerance, the result will be rounded
     private static final float roundTolerance=1e-5f;
 
+    // The coordinate mapping must be kept so that the drawn points can be
+    // tracked for the calculation of the size of the drawing.
+    MapCoordinates m;
 
     // Style of the arrow.
     private int arrowStyle;
@@ -226,6 +229,7 @@ public final class Arrow
     */
     public int prepareCoordinateMapping(MapCoordinates coordSys)
     {
+        m=coordSys;
         // Heigth and width of the arrows in pixels
         h=Math.abs(coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
             coordSys.mapXi(0,0, false));
@@ -434,9 +438,15 @@ public final class Arrow
         // object and populate it with the calculated coordinates.
         PolygonInterface p = g.createPolygon();
 
-        p.addPoint((int)Math.round(x),(int)Math.round(y));
+        p.addPoint(x,y);
         p.addPoint((int)Math.round(P[1].x),(int)Math.round(P[1].y));
         p.addPoint((int)Math.round(P[2].x),(int)Math.round(P[2].y));
+
+        if(m!=null) {
+            m.trackPoint(x,y);
+            m.trackPoint(P[1].x,P[1].y);
+            m.trackPoint(P[2].x,P[2].y);
+        }
 
         if ((arrowStyle & flagEmpty) == 0)
             g.fillPolygon(p);
@@ -448,6 +458,10 @@ public final class Arrow
         if ((arrowStyle & flagLimiter) != 0) {
             g.drawLine((int)Math.round(P[3].x),(int)Math.round(P[3].y),
                 (int)Math.round(P[4].x),(int)Math.round(P[4].y));
+            if(m!=null) {
+                m.trackPoint(P[3].x,P[3].y);
+                m.trackPoint(P[4].x,P[4].y);
+            }
         }
         return new PointG((int)(P[0].x),(int)(P[0].y));
     }
