@@ -634,7 +634,7 @@ public class Graphics2DSwing implements GraphicsInterface
             height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
             if (height<=0) height=1;
 
-            // DB: I tried with d/2 instead of 0, but I get some very 
+            // DB: I tried with d/2 instead of 0, but I get some very
             // unpleasant aliasing effects for zoom such as 237%
             double dd=0;
             // System.out.println("width="+width);
@@ -649,7 +649,7 @@ public class Graphics2DSwing implements GraphicsInterface
                 height>maxAllowableGridBrushHeight)
             {
                 // Simpler (and generally less efficient) version of the grid
-                
+
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {

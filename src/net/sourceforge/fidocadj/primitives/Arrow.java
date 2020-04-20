@@ -368,12 +368,12 @@ public final class Arrow
         yp[0]=y;
         yp[1]=(int)Math.round(P[1].y);
         yp[2]=(int)Math.round(P[2].y);
-        
+
         Pbase.x=(int)Math.round(P[0].x);
         Pbase.y=(int)Math.round(P[0].y);
         return GeometricDistances.pointInPolygon(xp,yp,3,xs,ys);
     }
-    
+
     private PointPr[] calculateArrowPoints(int x, int y, int xc, int yc)
     {
         PointPr[] P;
@@ -415,6 +415,7 @@ public final class Arrow
         alpha += x-xc>0.0?0.0:Math.PI;
         return alpha;
     }
+
     /** Draw an arrow at the given position.
         @param g the graphic context to be used.
         @param x the x coordinate of the arrow point.
@@ -426,6 +427,7 @@ public final class Arrow
     public PointG drawArrow(GraphicsInterface g, int x, int y, int xc, int yc)
     {
         double s;
+
         PointPr[] P = calculateArrowPoints(x,y,xc,yc);
 
         // The arrow head is traced using a polygon. Here we create the
@@ -436,7 +438,6 @@ public final class Arrow
         p.addPoint((int)Math.round(P[1].x),(int)Math.round(P[1].y));
         p.addPoint((int)Math.round(P[2].x),(int)Math.round(P[2].y));
 
-
         if ((arrowStyle & flagEmpty) == 0)
             g.fillPolygon(p);
         else
@@ -446,7 +447,7 @@ public final class Arrow
         // This is a small line useful for quotes.
         if ((arrowStyle & flagLimiter) != 0) {
             g.drawLine((int)Math.round(P[3].x),(int)Math.round(P[3].y),
-                (int)Math.round(P[4].x),(int)Math.round(P[4].y));            
+                (int)Math.round(P[4].x),(int)Math.round(P[4].y));
         }
         return new PointG((int)(P[0].x),(int)(P[0].y));
     }

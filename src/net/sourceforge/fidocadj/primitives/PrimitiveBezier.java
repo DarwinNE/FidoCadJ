@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -179,7 +179,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         if(!selectLayer(g,layerV))
             return;
-        
+
         int h=0;
 
         PointG P0=new PointG(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
@@ -358,7 +358,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
         PointG P0,P3;
         P0=new PointG(virtualPoint[0].x, virtualPoint[0].y);
         P3=new PointG(virtualPoint[3].x, virtualPoint[3].y);
-        
+
         // Check if the point is in the arrows. Correct the starting and ending
         // points if needed.
         if (arrowData.atLeastOneArrow()) {
@@ -368,21 +368,21 @@ public final class PrimitiveBezier extends GraphicPrimitive
             MapCoordinates m=new MapCoordinates();
             arrowData.prepareCoordinateMapping(m);
             if (arrowData.isArrowStart())
-                t=arrowData.isInArrow(px, py, 
+                t=arrowData.isInArrow(px, py,
                     virtualPoint[0].x, virtualPoint[0].y,
                     virtualPoint[1].x, virtualPoint[1].y, P0);
 
             if (arrowData.isArrowEnd())
-                r=arrowData.isInArrow(px, py, 
+                r=arrowData.isInArrow(px, py,
                     virtualPoint[3].x, virtualPoint[3].y,
                     virtualPoint[2].x, virtualPoint[2].y, P3);
-            
+
             // Click on one of the arrows.
             if(r||t)
                 return 1;
-        
+
         }
-        
+
         // If not, we check for the distance to the Bézier curve.
         return GeometricDistances.pointToBezier(
                 P0.x, P0.y,

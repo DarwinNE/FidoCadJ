@@ -240,6 +240,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             int xend=x2, yend=y2;
             // Eventually, we draw the arrows at the extremes.
             if (arrows) {
+                arrowData.prepareCoordinateMapping(coordSys);
                 if (arrowData.isArrowStart()) {
                     PointG p=arrowData.drawArrow(g,x1,y1,x2,y2);
                     // This fixes issue #172
@@ -321,7 +322,30 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         if(checkText(px, py))
             return 0;
+        // Check if the point is in the arrows. Correct the starting and ending
+        // points if needed.
+        if (arrowData.atLeastOneArrow()) {
+            boolean r=false, t=false;
 
+            // We work with logic coordinates (default for MapCoordinates).
+            MapCoordinates m=new MapCoordinates();
+            arrowData.prepareCoordinateMapping(m);
+            PointG P=new PointG();
+            if (arrowData.isArrowStart())
+                t=arrowData.isInArrow(px, py,
+                    virtualPoint[0].x, virtualPoint[0].y,
+                    virtualPoint[1].x, virtualPoint[1].y, P);
+
+            if (arrowData.isArrowEnd())
+                r=arrowData.isInArrow(px, py,
+                    virtualPoint[1].x, virtualPoint[1].y,
+                    virtualPoint[0].x, virtualPoint[0].y, P);
+
+            // Click on one of the arrows.
+            if(r||t)
+                return 1;
+
+        }
         return GeometricDistances.pointToSegment(
                 virtualPoint[0].x,virtualPoint[0].y,
                 virtualPoint[1].x,virtualPoint[1].y,

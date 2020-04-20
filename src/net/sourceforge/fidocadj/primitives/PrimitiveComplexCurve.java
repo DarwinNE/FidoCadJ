@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2011-2017 by Davide Bucci
+    Copyright 2011-2020 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
@@ -238,30 +238,60 @@ public final class PrimitiveComplexCurve
     */
     public CurveStorage createComplexCurve(MapCoordinates coordSys)
     {
-        int np=nPoints;
 
-        double [] xPoints = new double[np];
-        double [] yPoints = new double[np];
+        double [] xPoints = new double[nPoints];
+        double [] yPoints = new double[nPoints];
 
-        int i;
-
-        for (i=0; i<nPoints; ++i) {
+        // The first and the last points may be the base of the arrows, if
+        // the latter are present and the points have been updated.
+        for (int i=0; i<nPoints; ++i) {
             xPoints[i] = coordSys.mapXr(virtualPoint[i].x,virtualPoint[i].y);
             yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
         }
-
-        // If the curve is closed, we need to add a last point which is the
-        // same as the first one.
 
         Cubic[] X;
         Cubic[] Y;
 
         if(isClosed) {
-            X = calcNaturalCubicClosed(np-1, xPoints);
-            Y = calcNaturalCubicClosed(np-1, yPoints);
+            X = calcNaturalCubicClosed(nPoints-1, xPoints);
+            Y = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
-            X = calcNaturalCubic(np-1, xPoints);
-            Y = calcNaturalCubic(np-1, yPoints);
+            X = calcNaturalCubic(nPoints-1, xPoints);
+            Y = calcNaturalCubic(nPoints-1, yPoints);
+            // Here we don't check if a point is in the arrow, but we exploit
+            // the code for calculating the base of the head of the arrows.
+            if (arrowData.atLeastOneArrow()) {
+                // We work with logic coordinates (default for MapCoordinates).
+                arrowData.prepareCoordinateMapping(coordSys);
+                if (arrowData.isArrowStart()) {
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[0].eval(0)),
+                        (int)Math.round(Y[0].eval(0)),
+                        (int)Math.round(X[0].eval(0.05)),
+                        (int)Math.round(Y[0].eval(0.05)), P);
+                    xPoints[0]=P.x;
+                    yPoints[0]=P.y;
+                }
+
+                if (arrowData.isArrowEnd()) {
+                    int l=X.length-1;
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[l].eval(1)),
+                        (int)Math.round(Y[l].eval(1)),
+                        (int)Math.round(X[l].eval(0.95)),
+                        (int)Math.round(Y[l].eval(0.95)), P);
+                    xPoints[nPoints-1]=P.x;
+                    yPoints[nPoints-1]=P.y;
+                }
+                // Since the arrow will occupy a certain size, the curve has
+                // to be recalculated. This means that the previous evaluation
+                // are just approximations, but the practice shows that they
+                // are enough for all purposes that can be foreseen.
+                X = calcNaturalCubic(nPoints-1, xPoints);
+                Y = calcNaturalCubic(nPoints-1, yPoints);
+            }
         }
 
         if(X==null || Y==null) return null;
@@ -273,7 +303,7 @@ public final class PrimitiveComplexCurve
 
         int x, y;
 
-        for (i = 0; i < X.length; ++i) {
+        for (int i = 0; i < X.length; ++i) {
             c.dd.add(new PointDouble(X[i].d1, Y[i].d1));
             for (int j = 1; j <= STEPS; ++j) {
                 double u = j / (double) STEPS;
@@ -610,13 +640,17 @@ public final class PrimitiveComplexCurve
             arrowData.prepareCoordinateMapping(coordSys);
 
             if (arrowData.isArrowStart()&&!isClosed) {
-                arrowData.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                    coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
                     p.getXpoints()[1], p.getYpoints()[1]);
             }
 
             if (arrowData.isArrowEnd()&&!isClosed) {
-                arrowData.drawArrow(g, p.getXpoints()[p.getNpoints()-1],
-                    p.getYpoints()[p.getNpoints()-1],
+                int l=nPoints-1;
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[l].x,virtualPoint[l].y),
+                    coordSys.mapY(virtualPoint[l].x,virtualPoint[l].y),
                     p.getXpoints()[p.getNpoints()-2],
                     p.getYpoints()[p.getNpoints()-2]);
             }
@@ -816,6 +850,31 @@ public final class PrimitiveComplexCurve
 
         int [] xpoints=q.getXpoints();
         int [] ypoints=q.getYpoints();
+
+        // Check if the point is in the arrows. Correct the starting and ending
+        // points if needed.
+        if (arrowData.atLeastOneArrow()&& !isClosed) {
+            boolean r=false, t=false;
+
+            // We work with logic coordinates (default for MapCoordinates).
+            MapCoordinates m=new MapCoordinates();
+            arrowData.prepareCoordinateMapping(m);
+            PointG P=new PointG();
+            if (arrowData.isArrowStart())
+                t=arrowData.isInArrow(px, py,
+                    virtualPoint[0].x, virtualPoint[0].y,
+                    xpoints[0], ypoints[0], P);
+
+            if (arrowData.isArrowEnd())
+                r=arrowData.isInArrow(px, py,
+                    xpoints[q.getNpoints()-1], ypoints[q.getNpoints()-1],
+                    virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y, P);
+
+            // Click on one of the arrows.
+            if(r||t)
+                return 1;
+        }
+
 
         for(int i=0; i<q.getNpoints()-1; ++i) {
             int d=GeometricDistances.pointToSegment(xpoints[i], ypoints[i],
