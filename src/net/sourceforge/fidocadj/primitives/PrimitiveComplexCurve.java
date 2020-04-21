@@ -1025,7 +1025,6 @@ public final class PrimitiveComplexCurve
             X = calcNaturalCubicClosed(nPoints-1, xPoints);
             Y = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
-            
             X = calcNaturalCubic(nPoints-1, xPoints);
             Y = calcNaturalCubic(nPoints-1, yPoints);
             // Here we don't check if a point is in the arrow, but we exploit
