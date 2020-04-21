@@ -270,8 +270,10 @@ public final class PrimitiveComplexCurve
                         (int)Math.round(Y[0].eval(0)),
                         (int)Math.round(X[0].eval(0.05)),
                         (int)Math.round(Y[0].eval(0.05)), P);
-                    xPoints[0]=P.x;
-                    yPoints[0]=P.y;
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[0]=P.x;
+                        yPoints[0]=P.y;
+                    }
                 }
 
                 if (arrowData.isArrowEnd()) {
@@ -282,15 +284,21 @@ public final class PrimitiveComplexCurve
                         (int)Math.round(Y[l].eval(1)),
                         (int)Math.round(X[l].eval(0.95)),
                         (int)Math.round(Y[l].eval(0.95)), P);
-                    xPoints[nPoints-1]=P.x;
-                    yPoints[nPoints-1]=P.y;
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[nPoints-1]=P.x;
+                        yPoints[nPoints-1]=P.y;
+                    }
                 }
                 // Since the arrow will occupy a certain size, the curve has
                 // to be recalculated. This means that the previous evaluation
                 // are just approximations, but the practice shows that they
                 // are enough for all purposes that can be foreseen.
-                X = calcNaturalCubic(nPoints-1, xPoints);
-                Y = calcNaturalCubic(nPoints-1, yPoints);
+                // This is not needed if the length is negative, as in this
+                // case the arrow extends outside the curve.
+                if(arrowData.getArrowLength()>0) {
+                    X = calcNaturalCubic(nPoints-1, xPoints);
+                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                }
             }
         }
 
@@ -855,16 +863,16 @@ public final class PrimitiveComplexCurve
             // We work with logic coordinates (default for MapCoordinates).
             MapCoordinates m=new MapCoordinates();
             arrowData.prepareCoordinateMapping(m);
-            PointG P=new PointG();
             if (arrowData.isArrowStart())
                 t=arrowData.isInArrow(px, py,
                     virtualPoint[0].x, virtualPoint[0].y,
-                    xpoints[0], ypoints[0], P);
+                    xpoints[0], ypoints[0], null);
 
             if (arrowData.isArrowEnd())
                 r=arrowData.isInArrow(px, py,
                     xpoints[q.getNpoints()-1], ypoints[q.getNpoints()-1],
-                    virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y, P);
+                    virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y,
+                    null);
 
             // Click on one of the arrows.
             if(r||t)

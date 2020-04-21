@@ -354,6 +354,8 @@ public final class Arrow
         @param xc the x coordinate of the direction point.
         @param yc the y coordinate of the direction point.
         @param Pbase return the coordinate of the base point of the arrow head.
+            If Pbase is specified, it modifies its values. If it is null,
+            nothing will be stored.
         @return true if the coordinates are inside the arrow.
     */
     public boolean isInArrow(int xs, int ys, int x, int y, int xc, int yc,
@@ -373,8 +375,10 @@ public final class Arrow
         yp[1]=(int)Math.round(P[1].y);
         yp[2]=(int)Math.round(P[2].y);
 
-        Pbase.x=(int)Math.round(P[0].x);
-        Pbase.y=(int)Math.round(P[0].y);
+        if(Pbase!=null) {
+            Pbase.x=(int)Math.round(P[0].x);
+            Pbase.y=(int)Math.round(P[0].y);
+        }
         return GeometricDistances.pointInPolygon(xp,yp,3,xs,ys);
     }
 

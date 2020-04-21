@@ -192,11 +192,22 @@ public final class PrimitiveBezier extends GraphicPrimitive
         // Check if there are arrows to be drawn and eventually draw them.
         if (arrowData.atLeastOneArrow()) {
             h=arrowData.prepareCoordinateMapping(coordSys);
-            if (arrowData.isArrowStart())
-                P0=drawArrow(g, coordSys, 0,1,2,3);
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
 
-            if (arrowData.isArrowEnd())
-                P3=drawArrow(g, coordSys, 3,2,1,0);
+            if (arrowData.isArrowStart()) {
+                if(arrowData.getArrowLength()>0)
+                    P0=drawArrow(g, coordSys, 0,1,2,3);
+                else
+                    drawArrow(g, coordSys, 0,1,2,3);
+            }
+
+            if (arrowData.isArrowEnd()) {
+                if(arrowData.getArrowLength()>0)
+                    P3=drawArrow(g, coordSys, 3,2,1,0);
+                else
+                    drawArrow(g, coordSys, 3,2,1,0);
+            }
         }
 
         // in the Bézier primitive, the four virtual points represent
@@ -367,15 +378,29 @@ public final class PrimitiveBezier extends GraphicPrimitive
             // We work with logic coordinates (default for MapCoordinates).
             MapCoordinates m=new MapCoordinates();
             arrowData.prepareCoordinateMapping(m);
-            if (arrowData.isArrowStart())
-                t=arrowData.isInArrow(px, py,
-                    virtualPoint[0].x, virtualPoint[0].y,
-                    virtualPoint[1].x, virtualPoint[1].y, P0);
+            if (arrowData.isArrowStart()) {
+                if(arrowData.getArrowLength()>0) {
+                    t=arrowData.isInArrow(px, py,
+                        virtualPoint[0].x, virtualPoint[0].y,
+                        virtualPoint[1].x, virtualPoint[1].y, P0);
+                } else {
+                    t=arrowData.isInArrow(px, py,
+                        virtualPoint[0].x, virtualPoint[0].y,
+                        virtualPoint[1].x, virtualPoint[1].y, null);
+                }
+            }
 
-            if (arrowData.isArrowEnd())
-                r=arrowData.isInArrow(px, py,
-                    virtualPoint[3].x, virtualPoint[3].y,
-                    virtualPoint[2].x, virtualPoint[2].y, P3);
+            if (arrowData.isArrowEnd()) {
+                if(arrowData.getArrowLength()>0) {
+                    r=arrowData.isInArrow(px, py,
+                        virtualPoint[3].x, virtualPoint[3].y,
+                        virtualPoint[2].x, virtualPoint[2].y, P3);
+                } else {
+                    r=arrowData.isInArrow(px, py,
+                        virtualPoint[3].x, virtualPoint[3].y,
+                        virtualPoint[2].x, virtualPoint[2].y, null);
+                }
+            }
 
             // Click on one of the arrows.
             if(r||t)

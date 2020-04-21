@@ -244,14 +244,22 @@ public final class PrimitiveLine extends GraphicPrimitive
                 if (arrowData.isArrowStart()) {
                     PointG p=arrowData.drawArrow(g,x1,y1,x2,y2);
                     // This fixes issue #172
-                    xstart=p.x;
-                    ystart=p.y;
+                    // If the arrow length is negative, the arrow extends
+                    // outside the line, so the limits must not be changed.
+                    if(arrowData.getArrowLength()>0) {
+                        xstart=p.x;
+                        ystart=p.y;
+                    }
                 }
                 if (arrowData.isArrowEnd()) {
                     PointG p=arrowData.drawArrow(g,x2,y2,x1,y1);
                     // This fixes issue #172
-                    xend=p.x;
-                    yend=p.y;
+                     // If the arrow length is negative, the arrow extends
+                    // outside the line, so the limits must not be changed.
+                    if(arrowData.getArrowLength()>0) {
+                        xend=p.x;
+                        yend=p.y;
+                    }
                 }
             }
             g.drawLine(xstart,ystart,xend,yend);
