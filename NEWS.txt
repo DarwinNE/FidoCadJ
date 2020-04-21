@@ -10,6 +10,7 @@ Version 0.24.8
 - Avoid that certain characters in text break the SVG export (issue #162).
 - Fix certain components (issue #173).
 - Fix a performance issue with Linux and certain zoom factors (issue #166).
+- Add norator and nullator symbols for the EY library (issue #167).
 
 Version 0.24.7
 --------------
