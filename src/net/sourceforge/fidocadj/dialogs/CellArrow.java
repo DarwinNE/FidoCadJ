@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2016 by Davide Bucci
+    Copyright 2009-2020 by Davide Bucci
     </pre>
 */
 public class CellArrow extends JPanel
@@ -71,7 +71,8 @@ public class CellArrow extends JPanel
         g.setColor(isSelected ? list.getSelectionForeground():
                                 list.getForeground());
 
-        g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
+        g.drawLine(getWidth()/3+10, getHeight()/2,2*getWidth()/3,
+            getHeight()/2);
         Arrow arrowDummy=new Arrow();
 
         arrowDummy.drawArrowPixels(new Graphics2DSwing(g), getWidth()/3,
