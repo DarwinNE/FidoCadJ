@@ -68,7 +68,7 @@
 
 \newcommand{\bottomrule}{\hline}
 
-\title{\Huge\color{webbrown} FidoCadJ 0.24.7 \\ user manual} 
+\title{\Huge\color{webbrown} FidoCadJ 0.24.8 \\ user manual} 
 
 \author{Davide Bucci\\[3em]
 \includegraphics[width=.7\textwidth]{icona_fidocadj_a}
@@ -206,7 +206,7 @@ If you need to install and run FidoCadJ, jump to appendix~\ref{specifics}, that 
 
 \section{FidoCadJ's philosophy}
 
-FidoCAD\index{FidoCAD} (without the J at the end) was a vectorial
+FidoCAD\index{FidoCAD} (without the J at the end) was a vector
 drawing software particularly suited for electrical schematics\index{electrical schematic} as well
 as printed circuit boards\index{PCB}. It was employed by the italian Usenet community during the late 1990s.
 
@@ -235,7 +235,7 @@ with the original FidoCAD, apart from a few details. The goal of a complete comp
 
 Among the features offered by FidoCadJ and not present in the original
 FidoCAD are the export possibilities offered. Since I am a \LaTeX{}
-user, I decided to include an export feature for a number of vectorial
+user, I decided to include an export feature for a number of vector
 formats, including Encapsulated PostScript (\textsc{EPS}\index{EPS}). Of course, FidoCadJ can export towards the very well known \textsc{PDF}\index{PDF} format.
 
 \section{History of this software}
@@ -268,7 +268,7 @@ and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
 Since I had an interpreter\index{interpreter} of the FidoCAD format,
 it was interesting to continue the work in order to obtain a complete
 editor\marginpar{To be honest, I made a first attempt at writing
-a 2D vectorial drawing system around 1993.}. Much of the initial work was done in several steps, between January and July 2008: FidoCadJ
+a 2D vector drawing system around 1993.}. Much of the initial work was done in several steps, between January and July 2008: FidoCadJ
 is not an adaptation or a porting of FidoCAD for Windows, but it is
 a new program, rewritten from scratch.
 
@@ -352,7 +352,7 @@ I think that the future of FidoCadJ is not to become more complex, as a complete
 \chapter{Drawing with FidoCadJ}
 
 The use of FidoCadJ should be quite intuitive for those who already
-used a vectorial drawing application\index{vectorial drawing}. A
+used a vector drawing application\index{vector drawing}. A
 screenshot of the program running on MacOSX\index{MacOSX} is shown
 in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
@@ -964,7 +964,7 @@ When drawing a PCB, it is often useful to measure distances in the working area.
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles.
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow will extend outside the line or curve. Try and you will see the result.
 
 A few stroke styles\index{stroke styles} are also available, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window which should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ will thus trace an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences. If the arrow length is negative, the arrow will extend outside the length of the element, pointing towards it.
@@ -993,27 +993,25 @@ of drawings through a number of different file formats.
 
 To export the current drawing, select the command {}``Export'' from
 the menu {}``File''. The Table~\ref{tab_esportazione} shows a
-list of graphic file formats currently available. \marginpar{A vectorial
-format\index{vectorial format} stores the elements that compose
+list of graphic file formats currently available. \marginpar{A vector
+format\index{vector format} stores the elements that compose
 the drawing. A bitmap format\index{bitmap format} works on a matrix
 of pixels.} For every file format, the Table (but also the export dialog
-in FidoCadJ) specifies whether it is vectorial or bitmap. Whenever
-possible it is better to choose a vectorial format to obtain the best
-results.%
+in FidoCadJ) specifies whether it is vector or bitmap.
 \footnote{The code structure of FidoCadJ allows the addition of other file format
 quite easily. Please contact me if you like to participate to the
-project.%
+project.
 }
 
 For the bitmap file formats it may be useful to enable the option
 {}``Anti aliasing'', to reduce the annoying effect of the quantization,
 visible especially on diagonal lines. The resolution and the {}``Anti
-aliasing'' options are not used when exporting to a vectorial file
+aliasing'' options are not used when exporting to a vector file
 format. In this case, you may instead specify a scaling factor.
 
 The option {}``Black\&White'' allows the printing of any visible
 layer in solid black. This is important for the preparation of films
-to be used for typographic purposes or with a printing box. %
+to be used for typographic purposes or with a printing box.
 \begin{table}
 \centering \begin{tabular}{lp{0.7\textwidth}}
 \toprule Format  & Comment\tabularnewline
@@ -1021,22 +1019,22 @@ to be used for typographic purposes or with a printing box. %
 it is not suitable to for exporting FidoCadJ schematics. It is made
 available due to its diffusion. \tabularnewline
 \textsc{png}\index{PNG}  & Compressed bitmap format, suitable for exporting schematics. This
-is probably the best way to export a FidoCadJ drawing when a vectorial
+is probably the best way to export a FidoCadJ drawing when a vector
 format cannot be used. \tabularnewline
-\textsc{svg}\index{SVG}  & W3C standard vectorial format. Some internet browsers (such as the
+\textsc{svg}\index{SVG}  & W3C standard vector format. Some internet browsers (such as the
 recent versions of Safari\index{Safari}) allow its visualization
 within a web page. Very good format for graphics and schematics, it
 enables the use in applications such as Inkscape\index{Inkscape}
 to modify the drawings made with FidoCadJ. There are currently some
 limitations with the exportation of rotated and mirrored text. \tabularnewline
-\textsc{eps}\index{EPS}  & Encapsulated Postscript vectorial format\index{Postscript}. Very
+\textsc{eps}\index{EPS}  & Encapsulated Postscript vector format\index{Postscript}. Very
 useful to those who use professional graphics applications, or want
 to use a FidoCadJ drawing in a \LaTeX{}\index{\LaTeX{}@\LaTeX} document.
 The drawings exportation should be fully working. This is the option
 used to obtain Figure~\ref{fig_amplificateur}, page~\pageref{fig_amplificateur}
 in this manual (passing through a \textsc{pdf} conversion, since I
 use \textsc{pdf}\LaTeX{}\index{pdf\LaTeX{}@\textsc{pdf}\LaTeX}). \tabularnewline
-\textsc{pgf}\index{PGF}  & Vectorial format to be used directly in a \LaTeX{}\index{\LaTeX{}@\LaTeX}
+\textsc{pgf}\index{PGF}  & Vector format to be used directly in a \LaTeX{}\index{\LaTeX{}@\LaTeX}
 document, when using the \textsl{pgf} package, available in the CTAN
 archive. This exportation option was thought in particular to export
 schematics and uses an easily editable script. The text attributes

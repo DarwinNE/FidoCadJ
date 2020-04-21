@@ -238,7 +238,7 @@ public final class PrimitiveLine extends GraphicPrimitive
 
             int xstart=x1, ystart=y1;
             int xend=x2, yend=y2;
-            // Eventually, we draw the arrows at the extremes.
+            // If needed, we draw the arrows at the extremes.
             if (arrows) {
                 arrowData.prepareCoordinateMapping(coordSys);
                 if (arrowData.isArrowStart()) {

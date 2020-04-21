@@ -269,7 +269,6 @@ public class ExportPCBRND implements ExportInterface
 
         String line = fidoLineToPCBLine(x1, y1, x2, y2, strokeWidth);
         pushElement(line, layer);
-        //System.out.println(line + "# layer: " + layer);
     }
 
     /** Called when exporting a Macro call.

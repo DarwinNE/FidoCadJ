@@ -188,6 +188,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 
         drawText(g, coordSys, layerV, -1);
+        // Apply the stroke style
+        g.applyStroke(w, dashStyle);
 
         // Check if there are arrows to be drawn and eventually draw them.
         if (arrowData.atLeastOneArrow()) {
@@ -245,9 +247,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
         // If the curve is not visible, exit immediately
         if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
-
-        // Apply the stroke style
-        g.applyStroke(w, dashStyle);
 
         if(width==0 ||height==0) {
             // Degenerate case: horizontal or vertical segment.

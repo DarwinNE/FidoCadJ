@@ -271,12 +271,28 @@ public class ExportEPS implements ExportInterface
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                x1=(int)Math.round(p.x);
+                y1=(int)Math.round(p.y);
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x4, y4, x3, y3, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                x4=(int)Math.round(p.x);
+                y4=(int)Math.round(p.y);
+            }
+        }
         out.write(""+x1+" "+y1+" moveto \n");
         out.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" curveto stroke\n");
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
-            arrowHalfWidth, arrowStyle);
 
     }
 
@@ -347,16 +363,22 @@ public class ExportEPS implements ExportInterface
         if (arrowStart) {
             PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
                 arrowHalfWidth, arrowStyle);
-            // Fix #172
-            xstart=p.x;
-            ystart=p.y;
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                xstart=p.x;
+                ystart=p.y;
+            }
         }
         if (arrowEnd) {
             PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
                 arrowHalfWidth, arrowStyle);
             // Fix #172
-            xend=p.x;
-            yend=p.y;
+            if(arrowLength>0) {
+                xend=p.x;
+                yend=p.y;
+            }
         }
         out.write(""+xstart+" "+ystart+" moveto "+
             xend+" "+yend+" lineto stroke\n");

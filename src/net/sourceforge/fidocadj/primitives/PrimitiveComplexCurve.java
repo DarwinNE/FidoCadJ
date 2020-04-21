@@ -261,7 +261,6 @@ public final class PrimitiveComplexCurve
             // Here we don't check if a point is in the arrow, but we exploit
             // the code for calculating the base of the head of the arrows.
             if (arrowData.atLeastOneArrow()) {
-                // We work with logic coordinates (default for MapCoordinates).
                 arrowData.prepareCoordinateMapping(coordSys);
                 if (arrowData.isArrowStart()) {
                     PointG P = new PointG();
@@ -559,7 +558,7 @@ public final class PrimitiveComplexCurve
         if(changed) {
             changed=false;
 
-            // Important: note that createComplexCurve has some important
+            // Important: notice that createComplexCurve has some important
             // side effects as the update of the xmin, ymin, width and height
             // variables. This means that the order of the two following
             // commands is important!
@@ -614,6 +613,7 @@ public final class PrimitiveComplexCurve
 
         if (p==null || gp==null)
             return;
+        g.applyStroke(w, dashStyle);
 
         // Draw the arrows if they are needed
         // Ensure that there are enough points to calculate a derivative.
@@ -640,8 +640,6 @@ public final class PrimitiveComplexCurve
         // exit immediately.
         if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
-
-        g.applyStroke(w, dashStyle);
 
         // If needed, fill the interior of the shape
         if (isFilled) {
@@ -955,14 +953,12 @@ public final class PrimitiveComplexCurve
         double [] yPoints = new double[nPoints];
         PointDouble[] vertices = new PointDouble[nPoints*STEPS+1];
 
-        int i;
-
-        for (i=0; i<nPoints; ++i) {
+        for (int i=0; i<nPoints; ++i) {
             xPoints[i] = cs.mapXr(virtualPoint[i].x,virtualPoint[i].y);
             yPoints[i] = cs.mapYr(virtualPoint[i].x,virtualPoint[i].y);
 
             // This is a trick: we do not use another array, but we pre-charge
-            // the control points in vertices (sure we have some place, at
+            // the control points in vertices (surely we have some place, at
             // least if STEPS>-1). If the export is done via a polygon, those
             // points will be discarded and the array reused.
             vertices[i] = new PointDouble();
@@ -984,20 +980,22 @@ public final class PrimitiveComplexCurve
 
             int totalnP=q.getNpoints();
 
-            //System.out.println("totalnP="+totalnP);
-
             // Draw the arrows if they are needed
             if(q.getNpoints()>2) {
                 if (arrowData.isArrowStart()&&!isClosed) {
-                    exp.exportArrow(vertices[0].x, vertices[0].y,
+                    exp.exportArrow(
+                        cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                        cs.mapY(virtualPoint[0].x,virtualPoint[0].y),
                         vertices[1].x, vertices[1].y,
                         arrowData.getArrowLength()*cs.getXMagnitude(),
                         arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
                         arrowData.getArrowStyle());
                 }
                 if (arrowData.isArrowEnd()&&!isClosed) {
-                    exp.exportArrow(vertices[totalnP-1].x,
-                        vertices[totalnP-1].y,
+                    int l=nPoints-1;
+                    exp.exportArrow(
+                        cs.mapX(virtualPoint[l].x,virtualPoint[l].y),
+                        cs.mapY(virtualPoint[l].x,virtualPoint[l].y),
                         vertices[totalnP-2].x, vertices[totalnP-2].y,
                         arrowData.getArrowLength()*cs.getXMagnitude(),
                         arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
@@ -1027,8 +1025,50 @@ public final class PrimitiveComplexCurve
             X = calcNaturalCubicClosed(nPoints-1, xPoints);
             Y = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
+            
             X = calcNaturalCubic(nPoints-1, xPoints);
             Y = calcNaturalCubic(nPoints-1, yPoints);
+            // Here we don't check if a point is in the arrow, but we exploit
+            // the code for calculating the base of the head of the arrows.
+            if (arrowData.atLeastOneArrow()) {
+                arrowData.prepareCoordinateMapping(cs);
+                if (arrowData.isArrowStart()) {
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[0].eval(0)),
+                        (int)Math.round(Y[0].eval(0)),
+                        (int)Math.round(X[0].eval(0.05)),
+                        (int)Math.round(Y[0].eval(0.05)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[0]=P.x;
+                        yPoints[0]=P.y;
+                    }
+                }
+
+                if (arrowData.isArrowEnd()) {
+                    int l=X.length-1;
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[l].eval(1)),
+                        (int)Math.round(Y[l].eval(1)),
+                        (int)Math.round(X[l].eval(0.95)),
+                        (int)Math.round(Y[l].eval(0.95)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[nPoints-1]=P.x;
+                        yPoints[nPoints-1]=P.y;
+                    }
+                }
+                // Since the arrow will occupy a certain size, the curve has
+                // to be recalculated. This means that the previous evaluation
+                // are just approximations, but the practice shows that they
+                // are enough for all purposes that can be foreseen.
+                // This is not needed if the length is negative, as in this
+                // case the arrow extends outside the curve.
+                if(arrowData.getArrowLength()>0) {
+                    X = calcNaturalCubic(nPoints-1, xPoints);
+                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                }
+            }
         }
 
         if(X==null || Y==null) return;
