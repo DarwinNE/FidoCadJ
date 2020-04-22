@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2017 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -42,6 +42,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                                                      ChangeZoomListener,
                                                      ChangeCoordinatesListener
 {
+    // Maximum zoom factor in %
+    // NOTE: there is an internal limit on geom.MapCoordinates that should
+    // always be kept larger than this so that the limit is active.
+    public static final double maxZoomFactor = 4000;
+    // Maximum zoom factor in %
+    public static final double minZoomFactor = 10;
+    
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
@@ -77,6 +84,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.addItem("1000%");
         zoom.addItem("1500%");
         zoom.addItem("2000%");
+        zoom.addItem("3000%");
+        zoom.addItem("4000%");
         zoom.setPreferredSize(new Dimension (100,29));
         zoom.setMaximumSize(new Dimension (100,38));
         zoom.setMinimumSize(new Dimension (100,18));
@@ -245,7 +254,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                 if(z==oldzoom)
                     return;
                 oldzoom=z;
-                if(10<=z && z<=2000) {
+                if(minZoomFactor<=z && z<=maxZoomFactor) {
                     notifyZoomChangeListener.changeZoom(z/100);
                 }
             } catch (NumberFormatException E) {
