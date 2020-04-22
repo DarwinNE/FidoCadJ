@@ -25,7 +25,7 @@ define("LIBRARY_6",'Presentata da Alberto Pellegrini, una raccolta di simboli pe
 
 define("LIBRARY_7",'Proposta da <a href="http://www.picexperience.it/">Paolo Rognoni</a> in questo articolo: <a href="http://www.electroyou.it/mediawiki/index.php?title=UsersPages:Paolino:lo-hai-mai-realizzato-con-un-pic-due-librerie-cad-per-pierin-pic18">LO HAI MAI REALIZZATO CON UN PIC? Due librerie CAD per PIERIN PIC18</a>, rilasciata con licenza CREATIVE COMMONS BY-NC-ND 3.0. permette di utilizzare con estrema semplicità il sistema <a href="http://www.sangon.it/index_en.html">PIERIN PIC18</a> con FidoCadJ.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_8",'Proposta da Luigi C. in <a href="http://groups.google.it/group/it.hobby.elettronica/browse_thread/thread/cbf672dff997bfe9/718122cdca661ade?hl=it&">questo post su un gruppo Usenet italiano</a>. Questa libreria contiene nuovi simboli per gli <b>schemi</b>: codificatori binari, interfacce e circuiti integrati digitali, PIC.'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_8",'Proposta da Luigi C. in <a href="http://groups.google.it/group/it.hobby.elettronica/browse_thread/thread/cbf672dff997bfe9/718122cdca661ade?hl=it&">questo post su un gruppo Usenet italiano</a>. Questa libreria contiene nuovi simboli per gli <b>schemi</b>: codificatori binari, interfacce e circuiti integrati digitali, PIC. Versione 2.0 proposta <a href="https://github.com/DarwinNE/FidoCadJ/issues/163">qui</a>'); //LIBRARY DESCRIPTION IN TABLE
 
 define("LIBRARY_9",'Proposta da Celsius, questa libreria contiene alcuni utili simboli e <b>layout</b> per schemi e PCB. Celsius fa sapere che alcuni simboli sono ancora bozze e i lavori devono essere terminati.'); //LIBRARY DESCRIPTION IN TABLE
 

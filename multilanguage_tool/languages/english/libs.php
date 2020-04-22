@@ -27,7 +27,7 @@ define("LIBRARY_7",'Proposed by <a href="http://www.picexperience.it/">Paolo Rog
 
 define("LIBRARY_8",'Proposed by Luigi C. in <a href="http://groups.google.it/group/it.hobby.elettronica/browse_thread/thread/cbf672dff997bfe9/718122cdca661ade?hl=it&">this message on an italian Usenet group</a>. This library contains new symbols for <b>schematics</b>: binary encoders, interface and digital integrated circuits, PICs.'); //LIBRARY DESCRIPTION IN TABLE
 
-define("LIBRARY_9",'Proposed by Luigi C. in <a href="http://groups.google.it/group/it.hobby.elettronica/browse_thread/thread/cbf672dff997bfe9/718122cdca661ade?hl=it&">this message on an italian Usenet group</a>. This library contains new symbols for <b>schematics</b>: binary encoders, interface and digital integrated circuits, PICs.'); //LIBRARY DESCRIPTION IN TABLE
+define("LIBRARY_9",'Proposed by Luigi C. in <a href="http://groups.google.it/group/it.hobby.elettronica/browse_thread/thread/cbf672dff997bfe9/718122cdca661ade?hl=it&">this message on an italian Usenet group</a>. This library contains new symbols for <b>schematics</b>: binary encoders, interface and digital integrated circuits, PICs.  Version 2.0 posted <a href="https://github.com/DarwinNE/FidoCadJ/issues/163">here</a>'); //LIBRARY DESCRIPTION IN TABLE
 
 define("LIBRARY_10",'Proposed by moderators of Usenet group it.hobby.radioamatori.moderato and downloaded from <a href="http://www.iz1cyn.it/fidocad.html">the Roby  IZ1CYN website</a> (in Italian language). This library contains many useful symbols for <b>electronic circuits and PCBs</b>. This library is now included by default in FidoCadJ.'); //LIBRARY DESCRIPTION IN TABLE
 
