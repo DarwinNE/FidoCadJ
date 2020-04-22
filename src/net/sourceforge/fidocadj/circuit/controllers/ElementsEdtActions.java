@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -193,9 +193,6 @@ public class ElementsEdtActions
         }
     }
 
-
-
-
     /** Here we analyze and handle the mouse click. The behaviour is
         different depending on which selection state we are.
         @param cs the current coordinate mapping
@@ -221,14 +218,18 @@ public class ElementsEdtActions
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
 
-
-  //*************** coordinatesListener.changeInfos("");
-
         // We need to differentiate this case since when we are entering a
         // macro, primEdit already contains some useful hints about the
         // orientation and the mirroring, so we need to keep it.
         if (actionSelected !=MACRO)
             primEdit = null;
+
+        if(button3 &&
+            actionSelected==MACRO)
+        {
+            actionSelected=SELECTION;
+            return true;
+        }
 
         // Right-click in certain cases shows the parameters dialog.
         if(button3 &&
@@ -281,9 +282,7 @@ public class ElementsEdtActions
             // Put a PCB pad (easy: just one click is needed)
             case PCB_PAD:
                 // Add a PCB pad primitive at the given point
-                ae.addPCBPad(cs.unmapXsnap(x),
-                                  cs.unmapYsnap(y), currentLayer);
-
+                ae.addPCBPad(cs.unmapXsnap(x), cs.unmapYsnap(y), currentLayer);
                 repaint=true;
                 break;
 
