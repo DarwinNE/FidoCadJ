@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2019 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 */
 public class Export
@@ -101,6 +101,7 @@ public class Export
 
             d.width *= mp.getXMagnitude();
             d.height *= mp.getYMagnitude();
+            exp.setDashUnit(mp.getXMagnitude());
             // We finally write the header
             exp.exportStart(d, dmp.layerV, mp.getXGridStep());
         }
