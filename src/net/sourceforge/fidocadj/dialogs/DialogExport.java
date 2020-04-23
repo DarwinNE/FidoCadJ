@@ -732,6 +732,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         // by checking if it is a bitmap format
         if(idx==0 || idx == 1) {
             // It is a bitmap based export
+            xsizePixel.setEnabled(true);
+            ysizePixel.setEnabled(true);
             resolution.setEnabled(true);     // Resolution combo box
             antiAlias_CB.setEnabled(true);   // AntiAlias checkbox
             blackWhite_CB.setEnabled(true);  // Black and white checkbox
@@ -739,6 +741,9 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
             multiplySizes.setText("1.0");
         } else {
             // It is a vector based export
+            xsizePixel.setEnabled(false);
+            ysizePixel.setEnabled(false);
+            expectedSize.setText("");        // Don't show the size in pixels
             resolution.setEnabled(false);    // Resolution combo box
             antiAlias_CB.setEnabled(false);  // AntiAlias checkbox
             blackWhite_CB.setEnabled(true);  // Black and white checkbox
