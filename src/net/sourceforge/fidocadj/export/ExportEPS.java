@@ -831,7 +831,6 @@ public class ExportEPS implements ExportInterface
                 out.write("[] 0 setdash\n");
             else
                 out.write(""+sDash[dashStyle]+" "+dashPhase+" setdash\n");
-
         }
     }
 }

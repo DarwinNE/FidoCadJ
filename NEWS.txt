@@ -11,6 +11,7 @@ Version 0.24.8
 - Fix certain components (issue #173).
 - Fix a performance issue with Linux and certain zoom factors (issue #166).
 - Add norator and nullator symbols for the EY library (issue #167).
+- More precise handling of dashed curves (issue #161).
 
 Version 0.24.7
 --------------
