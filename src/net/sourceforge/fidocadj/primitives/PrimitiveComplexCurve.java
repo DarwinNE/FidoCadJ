@@ -719,7 +719,6 @@ public final class PrimitiveComplexCurve
             // And we check finally for extensions (FCJ)
             if(N>j) {
                 parseLayer(tokens[j++]);
-
                 if(N>j && tokens[j++].equals("FCJ")) {
                     j=arrowData.parseTokens(tokens, j);
                     dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
@@ -933,7 +932,8 @@ public final class PrimitiveComplexCurve
             // to that primitive.
             if (name.length()!=0 || value.length()!=0)
                 text = "1";
-            cmd+="FCJ "+arrowData.createArrowTokens()+" "+text+"\n";
+            cmd+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+" "
+                +text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.
         cmd+=saveText(false);
