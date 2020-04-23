@@ -47,6 +47,9 @@ public class ExportPDF implements ExportInterface
     private BufferedWriter outt;
     private boolean fontWarning;
     private String userfont;
+    private float dashPhase;
+    private float currentPhase=-1;
+
 
     private final GraphicsInterface gi;
 
@@ -80,12 +83,9 @@ public class ExportPDF implements ExportInterface
     private Vector layerV;
     private ColorInterface actualColor;
     private double actualWidth;
-    private int actualDash;
+    private int currentDash;
 
     static final String encoding="UTF8";
-
-/*    static final String dashBasePatterns[]={"[5.0 10]", "[2.5 2.5]",
-        "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};*/
 
     private String sDash[];
 
@@ -114,18 +114,18 @@ public class ExportPDF implements ExportInterface
                     dashArrayStretched+=" ";
             }
             sDash[i]="["+dashArrayStretched+"]";
-            System.out.println("dash: "+sDash[i]);
         }
     }
 
-    /** Set the "phase" (between 0 and 1) of the dashing style.
+    /** Set the "phase" in output units of the dashing style.
         For example, if a dash style is composed by a line followed by a space
         of equal size, a phase of 0 indicates that the dash starts with the
-        line. A phase of 0.5 indicates that the dash starts with the space.
-        @param p the phase, between 0 and 1.
+        line.
+        @param p the phase, in output units.
     */
-    public void setDashPhase(double p)
+    public void setDashPhase(float p)
     {
+        dashPhase=p;
     }
 
     /** Constructor
@@ -138,6 +138,7 @@ public class ExportPDF implements ExportInterface
     public ExportPDF (File f, GraphicsInterface gg) throws IOException
     {
         gi=gg;
+        dashPhase=0;
 
         fstream =  new OutputStreamWriter(new FileOutputStream(f), encoding);
 
@@ -865,7 +866,8 @@ public class ExportPDF implements ExportInterface
                     } else {
                         System.err.println("Too many Unicode chars! "+
                             "The present version of the PDF export filter "+
-                            "handles up to 128 Unicode chars in one file.");
+                            "handles up to 128 different Unicode chars in one "+
+                            "file.");
                     }
                 }
             }
@@ -1399,12 +1401,13 @@ public class ExportPDF implements ExportInterface
     private void registerDash(int dashStyle)
         throws IOException
     {
-        if(actualDash!=dashStyle) {
-            actualDash=dashStyle;
+        if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
+            currentDash=dashStyle;
+            currentPhase=dashPhase;
             if(dashStyle==0)
                 outt.write("[] 0 d\n");
             else
-                outt.write(""+sDash[dashStyle]+" 0 d\n");
+                outt.write(""+sDash[dashStyle]+" "+dashPhase+" d\n");
 
         }
     }

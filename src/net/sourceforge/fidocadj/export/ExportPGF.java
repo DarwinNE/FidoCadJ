@@ -62,30 +62,56 @@ public class ExportPGF implements ExportInterface
     private BufferedWriter out;
     private Vector layerV;
     private ColorInterface actualColor;
-    private int actualDash;
+    private int currentDash;
     private double actualWidth;
+    private float dashPhase;
+    private float currentPhase=-1;
+    // Dash patterns
+    private String sDash[];
 
+/*
     static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
         "{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
+*/
 
     /** Set the multiplication factor to be used for the dashing.
         @param u the factor.
     */
     public void setDashUnit(double u)
     {
+        sDash = new String[Globals.dashNumber];
+
+        // If the line width has been changed, we need to update the
+        // stroke table
+
+        // The first entry is non dashed
+        sDash[0]="";
+
+        // Resize the dash sizes depending on the current zoom size.
+        String dashArrayStretched;
+        // Then, the dashed stroke styles are created.
+        for(int i=1; i<Globals.dashNumber; ++i) {
+            // Prepare the resized dash array.
+            dashArrayStretched = new String();
+            for(int j=0; j<Globals.dash[i].length;++j) {
+                dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
+                if(j<Globals.dash[i].length-1)
+                    dashArrayStretched+="pt}{";
+            }
+            sDash[i]="{"+dashArrayStretched+"pt}";
+        }
     }
 
-    /** Set the "phase" (between 0 and 1) of the dashing style.
+    /** Set the "phase" in output units of the dashing style.
         For example, if a dash style is composed by a line followed by a space
         of equal size, a phase of 0 indicates that the dash starts with the
-        line. A phase of 0.5 indicates that the dash starts with the space.
-        @param p the phase, between 0 and 1.
+        line.
+        @param p the phase, in output units.
     */
-    public void setDashPhase(double p)
+    public void setDashPhase(float p)
     {
+        dashPhase=p;
     }
-
-
 
     /** Constructor
 
@@ -717,12 +743,14 @@ public class ExportPGF implements ExportInterface
     private void registerDash(int dashStyle)
         throws IOException
     {
-        if(actualDash!=dashStyle) {
-            actualDash=dashStyle;
+        if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
+            currentDash=dashStyle;
+            currentPhase=dashPhase;
             if(dashStyle==0)
                 out.write("\\pgfsetdash{}{0pt}\n");
             else
-                out.write("\\pgfsetdash{"+dash[dashStyle]+"}{0pt}\n");
+                out.write("\\pgfsetdash{"+sDash[dashStyle]+"}{"+dashPhase+
+                    "pt}\n");
         }
     }
 }

@@ -1100,7 +1100,9 @@ public final class PrimitiveComplexCurve
                 getLayer(),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude());
         } else {
+            float phase=0;
             for(i=1; i<X.length*STEPS+1;++i){
+                exp.setDashPhase(phase);
                 exp.exportLine(vertices[i-1].x,
                        vertices[i-1].y,
                        vertices[i].x,
@@ -1110,6 +1112,8 @@ public final class PrimitiveComplexCurve
                        0, 0, 0,
                        dashStyle,
                        Globals.lineWidth*cs.getXMagnitude());
+                phase+=Math.sqrt(Math.pow(vertices[i-1].x-vertices[i].x,2)+
+                    Math.pow(vertices[i-1].y-vertices[i].y,2));
             }
         }
     }

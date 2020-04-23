@@ -55,13 +55,13 @@ public class ExportFidoCad implements ExportInterface
     {
     }
 
-    /** Set the "phase" (between 0 and 1) of the dashing style.
+    /** Set the "phase" in output units of the dashing style.
         For example, if a dash style is composed by a line followed by a space
         of equal size, a phase of 0 indicates that the dash starts with the
-        line. A phase of 0.5 indicates that the dash starts with the space.
-        @param p the phase, between 0 and 1.
+        line.
+        @param p the phase, in output units.
     */
-    public void setDashPhase(double p)
+    public void setDashPhase(float p)
     {
     }
 

@@ -33,7 +33,7 @@ java -jar ../../jar/fidocadj.jar -n -c r10 pdf pdf/test_out10.pdf original/test_
 echo "  SCR (script for CadSoft Eagle)"
 java -jar ../../jar/fidocadj.jar -n -c r2 scr scr/test_out.scr original/test_pattern.fcd >output_scr.txt
 echo "  PGF (PGF/TikZ script for LaTeX)"
-java -jar ../../jar/fidocadj.jar -n -c r1.5 pgf pgf/test_out.pgf original/test_pattern.fcd >output_pgf.txt
+java -jar ../../jar/fidocadj.jar -n -c r1 pgf pgf/test_out.pgf original/test_pattern.fcd >output_pgf.txt
 cd pgf
 pdflatex test_out.tex >output_latex.tex
 rm test_out.aux

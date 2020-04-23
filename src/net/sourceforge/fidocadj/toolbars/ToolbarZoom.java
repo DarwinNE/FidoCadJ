@@ -48,7 +48,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     public static final double maxZoomFactor = 4000;
     // Maximum zoom factor in %
     public static final double minZoomFactor = 10;
-    
+
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
