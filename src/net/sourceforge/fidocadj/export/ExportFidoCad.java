@@ -48,6 +48,23 @@ public class ExportFidoCad implements ExportInterface
     private String textFont;
     private int textFontSize;
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p)
+    {
+    }
+
     /** Define the macro font to be used for the export.
         @param f the font name
         @param size the vertical size in logical units.

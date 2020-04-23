@@ -100,6 +100,23 @@ public class ExportPCBRND implements ExportInterface
         fstream = new FileWriter(f);
     }
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p)
+    {
+    }
+
     /** Called at the beginning of the export phase. Ideally, in this routine
         there should be the code to write the header of the file on which
         the drawing should be exported.

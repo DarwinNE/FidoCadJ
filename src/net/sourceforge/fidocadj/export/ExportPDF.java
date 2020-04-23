@@ -87,6 +87,23 @@ public class ExportPDF implements ExportInterface
     static final String dash[]={"[5.0 10]", "[2.5 2.5]",
         "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p)
+    {
+    }
+
     /** Constructor
         @param f the File object in which the export should be done.
         @param gg the graphic object. Mainly required to calculate text sizes
@@ -985,6 +1002,7 @@ public class ExportPDF implements ExportInterface
                 yend=p.y;
             }
         }
+
         outt.write("  "+xstart+" "+ystart+" m "+ xend+" "+yend+" l S\n");
     }
 
@@ -1412,9 +1430,6 @@ public class ExportPDF implements ExportInterface
 
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
-
-        // Arrows are always done with dash 0
-        registerDash(0);
 
         outt.write(""+Globals.roundTo(x)+" " +Globals.roundTo(y)+ " m\n");
         outt.write(""+Globals.roundTo(x1)+" "+Globals.roundTo(y1)+" l\n");

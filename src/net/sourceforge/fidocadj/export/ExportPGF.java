@@ -68,6 +68,24 @@ public class ExportPGF implements ExportInterface
     static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
         "{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p)
+    {
+    }
+
+
 
     /** Constructor
 
@@ -386,9 +404,6 @@ public class ExportPGF implements ExportInterface
 
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
-
-        // Arrows are always done with dash 0
-        registerDash(0);
 
         out.write("\\pgfmoveto{\\pgfxy("+x+","+ y+")}\n");
         out.write("\\pgflineto{\\pgfxy("+x1+","+y1+")}\n");

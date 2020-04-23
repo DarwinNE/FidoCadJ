@@ -29,6 +29,7 @@ echo "  EPS (Encapsulated Postscript)"
 java -jar ../../jar/fidocadj.jar -n -c r2 eps eps/test_out.eps original/test_pattern.fcd >output_eps.txt
 echo "  PDF (Portable Document Format)"
 java -jar ../../jar/fidocadj.jar -n -c r2 pdf pdf/test_out.pdf original/test_pattern.fcd >output_pdf.txt
+java -jar ../../jar/fidocadj.jar -n -c r10 pdf pdf/test_out10.pdf original/test_pattern.fcd >output_pdf10.txt
 echo "  SCR (script for CadSoft Eagle)"
 java -jar ../../jar/fidocadj.jar -n -c r2 scr scr/test_out.scr original/test_pattern.fcd >output_scr.txt
 echo "  PGF (PGF/TikZ script for LaTeX)"

@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
    </pre>
 
 
@@ -69,6 +69,19 @@ public interface ExportInterface
     */
     public void exportEnd()
         throws IOException;
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u);
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p);
 
     /** Called when exporting an Advanced Text primitive.
 
@@ -172,7 +185,7 @@ public interface ExportInterface
 
     /** Called when exporting a Macro call.
         This function can just return false, to indicate that the macro should
-        be rendered by means of calling the other primitives. Please note that
+        be rendered by means of calling the other primitives. Please notice that
         a macro does not have a reference layer, since it is defined by its
         components.
 
@@ -246,7 +259,7 @@ public interface ExportInterface
     public void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole) throws IOException;
 
-    /** Called when exporting a Polygon primitive
+    /** Called when exporting a Polygon primitive.
 
         @param vertices array containing the position of each vertex
         @param nVertices number of vertices

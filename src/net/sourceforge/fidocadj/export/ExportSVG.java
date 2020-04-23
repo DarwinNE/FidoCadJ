@@ -49,6 +49,23 @@ public class ExportSVG implements ExportInterface
     static final String dash[]={"2.5,5", "1.25,1.25",
         "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" (between 0 and 1) of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line. A phase of 0.5 indicates that the dash starts with the space.
+        @param p the phase, between 0 and 1.
+    */
+    public void setDashPhase(double p)
+    {
+    }
+
     private double cLe(double l)
     {
         //return (int)(l*sizeMagnification);
