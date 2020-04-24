@@ -439,7 +439,8 @@ public class DialogParameters extends JDialog
                     // invalid string when FidoCadJ was expecting a numerical
                     // input.
                     JOptionPane.showMessageDialog(parent,
-                            Globals.messages.getString("Format_invalid"), "",
+                            Globals.messages.getString("Format_invalid")+
+                            " ("+E.getMessage()+")", "",
                             JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }

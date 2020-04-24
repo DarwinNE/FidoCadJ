@@ -202,6 +202,7 @@ public class DialogOptions extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
+                String origin="";
                 int ng=-1;
                 shiftCP=shiftCP_CB.isSelected();
                 antiAlias=antiAlias_CB.isSelected();
@@ -241,14 +242,15 @@ public class DialogOptions extends MinimumSizeDialog
                 } catch (NumberFormatException E)
                 {
                     invalidData=true;
+                    origin=E.getMessage();
                 }
                 if(ng>0 && !invalidData)
                     gridSize=ng;
                 else {
-                    JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Format_invalid"),
-                        "",
-                        JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(parent,
+                            Globals.messages.getString("Format_invalid")+
+                            " ("+origin+")", "",
+                            JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
