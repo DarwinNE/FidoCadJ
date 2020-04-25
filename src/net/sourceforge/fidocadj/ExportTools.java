@@ -4,6 +4,10 @@ import javax.swing.*;
 
 import java.util.prefs.*;
 import java.io.*;
+import java.awt.*;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.awt.datatransfer.*;
 
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.circuit.*;
@@ -41,7 +45,7 @@ import net.sourceforge.fidocadj.geom.*;
     @author Davide Bucci
 */
 
-public class ExportTools
+public class ExportTools implements ClipboardOwner
 {
     // Export default properties
     private String exportFileName;
@@ -117,6 +121,75 @@ public class ExportTools
         // Once configured, we show the modal dialog
         export.setVisible(true);
         if (export.shouldExport()) {
+            exportFormat=export.getFormat();
+            // The resolution based export should be used only for bitmap
+            // file formats
+            if("png".equals(exportFormat) ||
+                "jpg".equals(exportFormat))
+                exportUnitPerPixel=export.getUnitPerPixel();
+            else
+                exportUnitPerPixel = export.getMagnification();
+
+            exportBlackWhite=export.getBlackWhite();
+            exportMagnification = export.getMagnification();
+            splitLayers=export.getSplitLayers();
+
+            exportResolutionBased=export.getResolutionBasedExport();
+            try {
+                exportXsize=export.getXsizeInPixels();
+                exportYsize=export.getYsizeInPixels();
+            } catch (java.lang.NumberFormatException E) {
+                JOptionPane.showMessageDialog(null,
+                    Globals.messages.getString("Format_invalid"),
+                    Globals.messages.getString("Warning"),
+                    JOptionPane.INFORMATION_MESSAGE );
+                exportXsize=100;
+                exportYsize=100;
+            }
+
+            // We do the export
+            RunExport doExport = new RunExport();
+            doExport.setCoordinateListener(coordL);
+            try {
+                File fexp=File.createTempFile("FidoCadJ",".jpg");
+                doExport.setParam(fexp,  CC.dmp,
+                    exportFormat, exportUnitPerPixel,
+                    export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                    exportResolutionBased,
+                    exportXsize,
+                    exportYsize,
+                    splitLayers,
+                    fff);
+
+                doExport.run();
+                System.out.println("File "+fexp+" written.");
+                BufferedImage img = null;
+                img = ImageIO.read(fexp);
+                setClipboard(img);
+            } catch (IOException E) {
+                System.err.println("Issues reading image: "+E);
+            } 
+            if(prefs!=null) {
+                prefs.put("EXPORT_FORMAT", exportFormat);
+                prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+                prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+                prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
+                prefs.put("EXPORT_RESOLUTION_BASED",
+                    exportResolutionBased?"true":"false");
+                prefs.put("EXPORT_XSIZE", ""+exportXsize);
+                prefs.put("EXPORT_YSIZE", ""+exportYsize);
+                prefs.put("EXPORT_SPLIT_LAYERS", splitLayers?"true":"false");
+            }
+            /*
+                The following code would require a thread safe implementation
+                of some of the inner classes (such as CircuitModel), which is
+                indeed not the case...
+
+            Thread thread = new Thread(doExport);
+            thread.setDaemon(true);
+            // Start the thread
+            thread.start();
+            */
         }
     }
 
@@ -256,7 +329,9 @@ public class ExportTools
             */
         }
     }
-
+    public void lostOwnership( Clipboard clip, Transferable trans ) {
+        System.out.println( "Lost Clipboard Ownership" );
+    }
     /** Set the coordinate listener which is employed here for showing
         message in a non-invasive way.
         @param c the listener.
@@ -266,4 +341,53 @@ public class ExportTools
         coordL=c;
     }
 
+    //This method writes a image to the system clipboard.
+    public void setClipboard(Image image)
+    {
+        TransferableImage imgSel = new TransferableImage(image);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+            imgSel,
+            this);
+    }
+    private class TransferableImage implements Transferable {
+         
+        Image i;
+         
+        public TransferableImage(Image i) {
+            this.i = i;
+            System.out.println("Image: "+i);
+        }
+         
+        public Object getTransferData(DataFlavor flavor) throws 
+            UnsupportedFlavorException, IOException
+        {
+            System.out.println("getTransferData");
+            if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
+                return i;
+            } else {
+                throw new UnsupportedFlavorException(flavor);
+            }
+        }
+         
+        public DataFlavor[] getTransferDataFlavors()
+        {
+            System.out.println("getTransferDataFlavors");
+            DataFlavor[] flavors = new DataFlavor[1];
+            flavors[0] = DataFlavor.imageFlavor;
+            return flavors;
+        }
+         
+        public boolean isDataFlavorSupported(DataFlavor flavor)
+        {
+            System.out.println("isDataFlavorSupported "+flavor);
+            DataFlavor[] flavors = getTransferDataFlavors();
+            for (int i = 0; i < flavors.length; ++i) {
+                if (flavor.equals(flavors[i])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }
+
