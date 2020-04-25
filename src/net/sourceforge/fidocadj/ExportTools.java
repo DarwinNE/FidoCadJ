@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2019 by Davide Bucci
+    Copyright 2015-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -90,6 +90,33 @@ public class ExportTools
                 "false").equals("true");
             splitLayers = prefs.get("EXPORT_SPLIT_LAYERS",
                 "false").equals("true");
+        }
+    }
+
+    /** Show a dialog for exporting the current drawing in the clipboard.
+        @param fff the parent frame which will be used for dialogs and message
+            boxes.
+        @param CC the CircuitPanel containing the drawing to be exported.
+    */
+    public void exportAsCopiedImage(JFrame fff, CircuitPanel CC)
+    {
+        // At first, we create and configure the dialog allowing the user
+        // to choose the exporting options
+        DialogExport export=new DialogExport(fff, CC.getDrawingModel());
+        export.setAntiAlias(true);
+        export.setFormat(exportFormat);
+        export.setXsizeInPixels(exportXsize);
+        export.setYsizeInPixels(exportYsize);
+        export.setResolutionBasedExport(exportResolutionBased);
+        export.setSplitLayers(splitLayers);
+
+        export.setFileName("");
+        export.setUnitPerPixel(exportUnitPerPixel);
+        export.setBlackWhite(exportBlackWhite);
+        export.setMagnification(exportMagnification);
+        // Once configured, we show the modal dialog
+        export.setVisible(true);
+        if (export.shouldExport()) {
         }
     }
 

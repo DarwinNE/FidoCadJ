@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see<a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2017 by Davide Bucci
+    Copyright 2015-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -216,6 +216,11 @@ public class MenuTools implements MenuListener
         editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
             Globals.shortcutKey));
 
+        JMenuItem editCopyImage = new
+            JMenuItem(Globals.messages.getString("Copy_as_image"));
+        editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+            Globals.shortcutKey));
+
         JMenuItem editPaste = new
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
@@ -246,6 +251,7 @@ public class MenuTools implements MenuListener
         editCut.addActionListener(al);
         editCopy.addActionListener(al);
         editCopySplit.addActionListener(al);
+        editCopyImage.addActionListener(al);
         editPaste.addActionListener(al);
         editSelectAll.addActionListener(al);
         editDuplicate.addActionListener(al);
@@ -260,6 +266,7 @@ public class MenuTools implements MenuListener
         editMenu.add(editCut);
         editMenu.add(editCopy);
         editMenu.add(editCopySplit);
+        editMenu.add(editCopyImage);
         editMenu.add(editPaste);
         editMenu.add(clipboardCircuit);
         editMenu.add(editDuplicate);
@@ -457,6 +464,11 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
             // Copy elements, splitting non standard macros
             cpa.copySelected(!cc.extStrict, true);
+        } else if (arg.equals(Globals.messages.getString("Copy_as_image"))) {
+            // Display a dialog similar to the Export menu and create an image
+            // that is stored in the clipboard, using a bitmap or vector 
+            //format.
+            et.exportAsCopiedImage(fff, cc);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
             cpa.copySelected(!cc.extStrict, false);
