@@ -16,10 +16,6 @@ import net.sourceforge.fidocadj.globals.*;
  * a placeholder string (when the user hasn't yet typed anything), and a button
  * to clear the currently-entered text.
 
-
-// TODO: add a menu of recent searches.
-// TODO: make recent searches persistent.
-
  *
  * @author Elliott Hughes
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
@@ -115,11 +111,13 @@ public class SearchField extends JTextField implements FocusListener
 
         // Calculate text position.
         left = getBorder().getBorderInsets(this).left;
-        bottom = (int) (getHeight() / 2.0 + fontHeight / 2.0);
-
+        bottom = (int) ((getHeight()-4) / 2.0 + fontHeight / 2.0);
         // Show placeholder text when focused.
         if (!isFocusOwner() && getText().length() == 0) {
             g.setColor(Color.GRAY);
+            Graphics2D g2=(Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             g.drawString(placeholderText, left, bottom);
         }
     }

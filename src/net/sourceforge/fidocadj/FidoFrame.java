@@ -171,7 +171,7 @@ public class FidoFrame extends JFrame implements
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
             libDirectory = System.getProperty("user.home");
-            smallIconsToolbar = true;
+            smallIconsToolbar = false;
             textToolbar = true;
             prefs=null;
         }
@@ -361,11 +361,13 @@ public class FidoFrame extends JFrame implements
         // resolution screens begin to be widespread. So, if the pixel
         // density is greater than 150 dpi, bigger icons are used by at the
         // very first time FidoCadJ is run.
-        if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
+        /*if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
             defaultSize="false";
         } else {
             defaultSize="true";
-        }
+        }*/
+        // 2020 I suspect the best result is now obtained with "false".
+        defaultSize="false";
 
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR",
                 defaultSize).equals("true");
