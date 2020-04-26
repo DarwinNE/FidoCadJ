@@ -106,38 +106,22 @@ public class ExportTools implements ClipboardOwner
     {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
-        DialogExport export=new DialogExport(fff, CC.getDrawingModel());
-        export.setAntiAlias(true);
-        export.setFormat(exportFormat);
-        export.setXsizeInPixels(exportXsize);
-        export.setYsizeInPixels(exportYsize);
-        export.setResolutionBasedExport(exportResolutionBased);
-        export.setSplitLayers(splitLayers);
-
-        export.setFileName("");
-        export.setUnitPerPixel(exportUnitPerPixel);
-        export.setBlackWhite(exportBlackWhite);
-        export.setMagnification(exportMagnification);
+        DialogCopyAsImage dcai=new DialogCopyAsImage(fff, CC.getDrawingModel());
+        dcai.setAntiAlias(true);
+        dcai.setXsizeInPixels(exportXsize);
+        dcai.setYsizeInPixels(exportYsize);
+        dcai.setResolutionBasedExport(exportResolutionBased);
+        dcai.setUnitPerPixel(exportUnitPerPixel);
+        dcai.setBlackWhite(exportBlackWhite);
         // Once configured, we show the modal dialog
-        export.setVisible(true);
-        if (export.shouldExport()) {
-            exportFormat=export.getFormat();
-            // The resolution based export should be used only for bitmap
-            // file formats
-            if("png".equals(exportFormat) ||
-                "jpg".equals(exportFormat))
-                exportUnitPerPixel=export.getUnitPerPixel();
-            else
-                exportUnitPerPixel = export.getMagnification();
-
-            exportBlackWhite=export.getBlackWhite();
-            exportMagnification = export.getMagnification();
-            splitLayers=export.getSplitLayers();
-
-            exportResolutionBased=export.getResolutionBasedExport();
+        dcai.setVisible(true);
+        if (dcai.shouldExport()) {
+            exportUnitPerPixel=dcai.getUnitPerPixel();
+            exportBlackWhite=dcai.getBlackWhite();
+            exportResolutionBased=dcai.getResolutionBasedExport();
             try {
-                exportXsize=export.getXsizeInPixels();
-                exportYsize=export.getYsizeInPixels();
+                exportXsize=dcai.getXsizeInPixels();
+                exportYsize=dcai.getYsizeInPixels();
             } catch (java.lang.NumberFormatException E) {
                 JOptionPane.showMessageDialog(null,
                     Globals.messages.getString("Format_invalid"),
@@ -153,12 +137,12 @@ public class ExportTools implements ClipboardOwner
             try {
                 File fexp=File.createTempFile("FidoCadJ",".png");
                 doExport.setParam(fexp,  CC.dmp,
-                    exportFormat, exportUnitPerPixel,
-                    export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                    "png", exportUnitPerPixel,
+                    dcai.getAntiAlias(),exportBlackWhite,!CC.extStrict,
                     exportResolutionBased,
                     exportXsize,
                     exportYsize,
-                    splitLayers,
+                    false,
                     fff);
 
                 doExport.run();
@@ -170,7 +154,6 @@ public class ExportTools implements ClipboardOwner
                 System.err.println("Issues reading image: "+E);
             } 
             if(prefs!=null) {
-                prefs.put("EXPORT_FORMAT", exportFormat);
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
                 prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
                 prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
@@ -178,18 +161,7 @@ public class ExportTools implements ClipboardOwner
                     exportResolutionBased?"true":"false");
                 prefs.put("EXPORT_XSIZE", ""+exportXsize);
                 prefs.put("EXPORT_YSIZE", ""+exportYsize);
-                prefs.put("EXPORT_SPLIT_LAYERS", splitLayers?"true":"false");
             }
-            /*
-                The following code would require a thread safe implementation
-                of some of the inner classes (such as CircuitModel), which is
-                indeed not the case...
-
-            Thread thread = new Thread(doExport);
-            thread.setDaemon(true);
-            // Start the thread
-            thread.start();
-            */
         }
     }
 
