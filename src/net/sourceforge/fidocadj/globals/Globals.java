@@ -114,12 +114,13 @@ public class Globals
     // The encoding to be used by FidoCadJ
     public static final String encoding = "UTF8";
 
-    /** Private constructor, for Utility class pattern
-    */
-    /*private Globals()
-    {
-        // nothing
-    }*/
+    // Maximum zoom factor in %
+    // NOTE: there is an internal limit on geom.MapCoordinates that should
+    // always be kept larger than this so that the limit is active.
+    public static final double maxZoomFactor = 4000;
+    // Maximum zoom factor in %
+    public static final double minZoomFactor = 10;
+
     /** Adjust a long string in order to cope with space limitations.
         Tipically, it will be used to show long paths in the window caption.
         @param s the string to be treated.

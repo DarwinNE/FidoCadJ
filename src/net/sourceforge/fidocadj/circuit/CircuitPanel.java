@@ -368,8 +368,8 @@ public class CircuitPanel extends JPanel implements
             z=z/rate;
 
         // Checking that reasonable limits are not exceeded.
-        if(z>20) z=20;
-        if(z<.25) z=.25;
+        if(z>Globals.maxZoomFactor/100) z=Globals.maxZoomFactor/100;
+        if(z<Globals.minZoomFactor/100) z=Globals.minZoomFactor/100;
 
         z=Math.round(z*100.0)/100.0;
 

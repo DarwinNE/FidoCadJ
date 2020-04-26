@@ -42,13 +42,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                                                      ChangeZoomListener,
                                                      ChangeCoordinatesListener
 {
-    // Maximum zoom factor in %
-    // NOTE: there is an internal limit on geom.MapCoordinates that should
-    // always be kept larger than this so that the limit is active.
-    public static final double maxZoomFactor = 4000;
-    // Maximum zoom factor in %
-    public static final double minZoomFactor = 10;
-
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
@@ -270,7 +263,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                 if(z==oldzoom)
                     return;
                 oldzoom=z;
-                if(minZoomFactor<=z && z<=maxZoomFactor) {
+                if(Globals.minZoomFactor<=z && z<=Globals.maxZoomFactor) {
                     notifyZoomChangeListener.changeZoom(z/100);
                 }
             } catch (NumberFormatException E) {
