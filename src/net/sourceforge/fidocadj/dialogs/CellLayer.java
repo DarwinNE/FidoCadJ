@@ -36,7 +36,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
 */
 public class CellLayer extends JPanel
 {
@@ -81,6 +81,11 @@ public class CellLayer extends JPanel
         } else {
             g.setColor(SystemColor.textInactiveText);
         }
+        Graphics2D g2=(Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        //g.setFont(new Font("Helvetica", Font.PLAIN, 14));
         g.drawString(layer.getDescription(), 6*getHeight()/4,
             (int)(3.8*getHeight()/5));
     }
