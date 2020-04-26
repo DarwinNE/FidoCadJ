@@ -14,6 +14,7 @@ Version 0.24.8
 - More precise handling of dashed curves (issue #161).
 - Correct handling of accented characters for Java >7 (issue #149).
 - Fix incompatibility with Java versions >=9 (issue #150).
+- Implement "Copy as image" feature (issue #146).
 
 Version 0.24.7
 --------------
