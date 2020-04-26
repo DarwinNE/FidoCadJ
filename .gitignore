@@ -1,3 +1,15 @@
+bin/net/sourceforge/fidocadj/ADesktopIntegration.class
+bin/net/sourceforge/fidocadj/ExportTools$TransferableImage.class
+fidocadj_check.txt
+jar/VAqua7.jar
+test/export/output_pdf10.txt
+test/export/output_svg_3.txt
+test/export/pdf/ref/test_out10.pdf
+test/export/pdf/test_out10.pdf
+test/export/svg/test_exp/test_0.svg
+test/export/svg/test_exp/test_1.svg
+test/export/svg/test_exp/test_2.svg
+test/export/svg/test_exp/test_3.svg
 bin/net/sourceforge/fidocadj/export/PointPr.class
 OSes/android/fidocadj/bin/
 OSes/android/fidocadj/gen/
