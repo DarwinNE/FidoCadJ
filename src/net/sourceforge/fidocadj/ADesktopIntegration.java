@@ -5,6 +5,7 @@ import java.awt.desktop.*;
 
 import javax.swing.*;
 
+import java.util.*;
 
 import net.sourceforge.fidocadj.*;
 import net.sourceforge.fidocadj.dialogs.*;
@@ -37,7 +38,8 @@ import net.sourceforge.fidocadj.globals.*;
     </pre>
 */
 
-class ADesktopIntegration implements AboutHandler, PreferencesHandler
+class ADesktopIntegration implements AboutHandler, PreferencesHandler, 
+    QuitHandler
 {
     ADesktopIntegration()
     {
@@ -51,10 +53,11 @@ class ADesktopIntegration implements AboutHandler, PreferencesHandler
         Desktop d=Desktop.getDesktop();
         d.setAboutHandler(this);
         d.setPreferencesHandler(this);
+        d.setQuitHandler(this);
     }
 
     /** Respond to an user clicking on an About menu.
-        @param evt event referring for application.
+        @param e event referring for application.
     */
     public void handleAbout​(AboutEvent e)
     {
@@ -63,10 +66,37 @@ class ADesktopIntegration implements AboutHandler, PreferencesHandler
     }
 
     /** Respond to an user clicking on the Preferences menu.
-        @param evt event referring for application.
+        @param e event referring for application.
     */
     public void handlePreferences (PreferencesEvent e)
     {
         ((FidoFrame)Globals.activeWindow).showPrefs();
+    }
+
+    /** Ask for confirmation when quitting.
+        @param e event referring for application.
+        @param response the type of the response (quit or abort).
+    */
+    public void	handleQuitRequestWith​(QuitEvent e, QuitResponse response)
+    {
+        boolean ca = true;
+        // Create a iterator to cycle through all open windows and ask for
+        // confirmation.
+        Iterator iterator = Globals.openWindows.iterator();
+        FidoFrame fff;
+        while (iterator.hasNext()){
+            if((fff=(FidoFrame)iterator.next()).getFileTools().
+                checkIfToBeSaved())
+            {
+                fff.closeThisFrame();
+            } else {
+                ca = false;
+            }
+        }
+
+        if(ca)
+            response.performQuit();
+        else
+            response.cancelQuit();
     }
 }
