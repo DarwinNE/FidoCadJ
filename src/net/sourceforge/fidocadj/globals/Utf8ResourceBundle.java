@@ -92,7 +92,7 @@ public abstract class Utf8ResourceBundle
 
             // Things have changed starting from Java 9: the bundle.getString
             // returns directly an UTF-8 string, thus the translation is not
-            // required anymore.
+            // required anymore (JEP 226).
             if("1.7".equals(version) || "1.8".equals(version)) {
                 // FindBugs suggests the following test is redundant.
                 //if (value==null) return null;

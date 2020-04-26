@@ -447,6 +447,8 @@ class CreateSwingInterface implements Runnable
         /*******************************************************************
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
+        ADesktopIntegration a=new ADesktopIntegration();
+        a.registerActions();
 
         if(Globals.weAreOnAMac) {
             // Here we use the reflection provided by Java to understand
@@ -454,7 +456,8 @@ class CreateSwingInterface implements Runnable
             // This class should be compiled separately from the main
             // program since the compilation can be successful only on
             // a MacOSX system.
-
+            // OBSOLETE SINCE JAVA 9
+            /*
             try {
                 Class<?> a = Class.forName(
                     "net.sourceforge.fidocadj.AppleSpecific");
@@ -472,7 +475,7 @@ class CreateSwingInterface implements Runnable
                     "you have compiled on MacOSX, make sure you used the "+
                     "'compile' or 'rebuild' script along with the 'mac' "+
                     "option.");
-            }
+            }*/
         }
 
         // Here we create the main window object

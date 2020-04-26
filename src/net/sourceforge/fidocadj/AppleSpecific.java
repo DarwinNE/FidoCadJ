@@ -10,6 +10,10 @@ import net.sourceforge.fidocadj.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 
+/**
+            2020: OBSOLETE: WILL NOT COMPILE WITH JAVA >=9
+*/
+
 
 /** The class AppleSpecific implements a few mechanism for interacting with
     the MacOSX operating system. This class will only be used if the program

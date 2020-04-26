@@ -18,8 +18,8 @@ unamestr=`uname`
 
 if test "$unamestr" = 'Darwin'
 then
-  echo "MacOSX detected: activated AppleSpecific classes."
-  javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
+  #echo "MacOSX detected: activated AppleSpecific classes."
+  #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
   echo "Copying VAqua7 library files in jar/ directory."
   cp OSes/mac/VAqua7/*.* jar
 fi
@@ -36,8 +36,8 @@ do
             JAVAC_OPTIONS="$JAVAC_OPTIONS $JAVAC_DEBUG_OPTIONS"
                 ;;
         -mac)
-            echo "MacOSX detected: activated AppleSpecific classes."
-            javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
+            #echo "MacOSX detected: activated AppleSpecific classes."
+            #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
             echo "Copying VAqua7 library files in jar/ directory."
             cp OSes/mac/VAqua7/*.* jar
                 ;;
