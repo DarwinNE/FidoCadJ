@@ -71,7 +71,7 @@ FidoCadJ runs on the following systems:
 - MacOSX 10.8 and following
 - Android 4.0 or more recent devices.
 
-Java 1.7 at least is required for Windows, Linux and MacOSX.
+Java 1.9 at least is required for Windows, Linux and MacOSX.
 
 1.2 Where can I find FidoCadJ?
 ------------------------------
@@ -203,6 +203,7 @@ run and test FidoCadJ.
 | `count`              | Do a `wc` (word count!) on all Java sources     |
 | `createdoc`          | Run Javadoc on all source files                 |
 | `createjar`          | Prepare `fidocadj.jar`                          |
+| `createdist-macos`   | Create a distribution package for MacOS         |
 | `fidocadj_check.txt` | Current result of `checkstyle.sh`               |
 | `fidocadj_cpd.txt`   | Current result of copy/paste detector (pmd)     |
 | `fidocadj_pmd.html`  | Current result of pmd checks                    |
@@ -318,7 +319,7 @@ style conventions.
 The following coding conventions have been applied for the FidoCadJ source
 code:
 
-- the code should be compatible with Java 1.7
+- the code should be compatible with Java 14
 - indent properly, using 4 spaces :ok:
 - no tabulation character allowed in sources :ok:
 - no trailing spaces :ok:
