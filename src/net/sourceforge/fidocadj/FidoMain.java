@@ -401,10 +401,14 @@ class CreateSwingInterface implements Runnable
                 //System.setProperty("Quaqua.Debug.showVisualBounds","true");
                 //System.setProperty("Quaqua.Debug.showClipBounds","true");
                 if(Globals.quaquaActive) {
+                    //UIManager.setLookAndFeel(
+                    //    "ch.randelshofer.quaqua.QuaquaLookAndFeel");
+                    //System.out.println("Quaqua look and feel active");
+                    System.out.println("Trying to activate VAqua7");
                     UIManager.setLookAndFeel(
-                        "ch.randelshofer.quaqua.QuaquaLookAndFeel");
+                        "org.violetlib.aqua.AquaLookAndFeel");
+                    System.out.println("VAqua7 look and feel active");
 
-                    System.out.println("Quaqua look and feel active");
                 }
 
             } catch (Exception e) {

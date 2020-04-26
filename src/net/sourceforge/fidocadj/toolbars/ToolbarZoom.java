@@ -113,11 +113,27 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
         showLibs=new JToggleButton(Globals.messages.getString("Libs"));
 
-        // MacOSX Quaqua informations
+        // MacOSX Quaqua information
         zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
         showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
         snapGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
         showLibs.putClientProperty("Quaqua.Button.style","toggleEast");
+
+        // VAqua7 information
+        String style="recessed";  // order: recessed, textured, 
+        //  segmentedCapsule, segmentedRoundRect, segmented, segmentedTextured
+        //
+        zoomFit.putClientProperty("JButton.buttonType",style);
+        zoomFit.putClientProperty("JButton.segmentPosition","first");
+
+        showGrid.putClientProperty("JButton.buttonType",style);
+        showGrid.putClientProperty("JButton.segmentPosition","middle");
+
+        snapGrid.putClientProperty("JButton.buttonType",style);
+        snapGrid.putClientProperty("JButton.segmentPosition","middle");
+
+        showLibs.putClientProperty("JButton.buttonType",style);
+        showLibs.putClientProperty("JButton.segmentPosition","last");
 
         zoom.addActionListener(this);
         zoomFit.addActionListener(this);

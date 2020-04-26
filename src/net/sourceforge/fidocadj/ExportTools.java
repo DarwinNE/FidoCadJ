@@ -151,7 +151,7 @@ public class ExportTools implements ClipboardOwner
             RunExport doExport = new RunExport();
             doExport.setCoordinateListener(coordL);
             try {
-                File fexp=File.createTempFile("FidoCadJ",".jpg");
+                File fexp=File.createTempFile("FidoCadJ",".png");
                 doExport.setParam(fexp,  CC.dmp,
                     exportFormat, exportUnitPerPixel,
                     export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
@@ -355,13 +355,11 @@ public class ExportTools implements ClipboardOwner
          
         public TransferableImage(Image i) {
             this.i = i;
-            System.out.println("Image: "+i);
         }
          
         public Object getTransferData(DataFlavor flavor) throws 
             UnsupportedFlavorException, IOException
         {
-            System.out.println("getTransferData");
             if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
                 return i;
             } else {
@@ -371,15 +369,14 @@ public class ExportTools implements ClipboardOwner
          
         public DataFlavor[] getTransferDataFlavors()
         {
-            System.out.println("getTransferDataFlavors");
             DataFlavor[] flavors = new DataFlavor[1];
             flavors[0] = DataFlavor.imageFlavor;
+
             return flavors;
         }
          
         public boolean isDataFlavorSupported(DataFlavor flavor)
         {
-            System.out.println("isDataFlavorSupported "+flavor);
             DataFlavor[] flavors = getTransferDataFlavors();
             for (int i = 0; i < flavors.length; ++i) {
                 if (flavor.equals(flavors[i])) {

@@ -42,8 +42,8 @@ public class SearchField extends JTextField implements FocusListener
     {
         super(15);
 
-        // putClientProperty("JTextField.variant", "search");
-        // putClientProperty("JTextField.Search.Prompt", placeholderText);
+        putClientProperty("JTextField.style", "search");
+        //putClientProperty("JTextField.Search.Prompt", placeholderText);
         putClientProperty("Quaqua.TextField.style", "search");
 
         this.placeholderText = placeholderText;

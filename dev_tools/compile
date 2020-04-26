@@ -1,7 +1,7 @@
 #!/bin/bash
 
-JAVA_VERSION="1.7"
-JAVA_TARGET_VERSION="1.7"
+JAVA_VERSION="1.9"
+JAVA_TARGET_VERSION="1.9"
 SOURCE_PATH="src"
 CLASS_PATH="bin"
 
@@ -20,8 +20,8 @@ if test "$unamestr" = 'Darwin'
 then
   echo "MacOSX detected: activated AppleSpecific classes."
   javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
-  echo "Copying Quaqua library files in jar/ directory."
-  cp OSes/mac/Quaqua/*.* jar
+  echo "Copying VAqua7 library files in jar/ directory."
+  cp OSes/mac/VAqua7/*.* jar
 fi
 
 
@@ -38,8 +38,8 @@ do
         -mac)
             echo "MacOSX detected: activated AppleSpecific classes."
             javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
-            echo "Copying Quaqua library files in jar/ directory."
-            cp OSes/mac/Quaqua/*.* jar
+            echo "Copying VAqua7 library files in jar/ directory."
+            cp OSes/mac/VAqua7/*.* jar
                 ;;
         -applets)
             WHAT_COMPILE="applets"

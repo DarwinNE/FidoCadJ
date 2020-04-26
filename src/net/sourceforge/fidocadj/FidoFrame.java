@@ -144,13 +144,7 @@ public class FidoFrame extends JFrame implements
 
         currentLocale = registerLocale(loc);
 
-        // Those lines allow a better Cocoa-like integration
-        // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        // No! It is actually needed to make all the window movable when
-        // clicking in the toolbar.
-
-        getRootPane().putClientProperty("apple.awt.brushMetalLook",
-            Boolean.TRUE);
+        getRootPane().putClientProperty("Aqua.windowStyle", "combinedToolBar");
 
         prepareLanguageResources();
         Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
