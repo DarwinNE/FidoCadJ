@@ -868,12 +868,12 @@ public class FidoFrame extends JFrame implements
 
             // On MacOSX >= 10.5, associate an icon and a file proxy to the
             // title bar.
-            getRootPane( ).putClientProperty( "Window.documentFile",
-                new File(cc.getParserActions().openFileName));
+            /*getRootPane( ).putClientProperty( "Window.documentFile",
+                new File(cc.getParserActions().openFileName));*/
 
-            setTitle("FidoCadJ "+Globals.version+" "+
+            /*setTitle("FidoCadJ "+Globals.version+" "+
                 Globals.prettifyPath(cc.getParserActions().openFileName,45)+
-                (cc.getUndoActions().getModified()?" *":""));
+                (cc.getUndoActions().getModified()?" *":""));*/
         } else {
             setTitle("FidoCadJ "+Globals.version+" "+
                 Globals.prettifyPath(cc.getParserActions().openFileName,45)+
