@@ -593,6 +593,7 @@ public class FidoFrame extends JFrame implements
 
         // Useful for Quaqua with MacOSX.
         //splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
+        splitPane.putClientProperty("JSplitPane.style","thick");
 
         Dimension windowSize = getSize();
         cc.setPreferredSize(new Dimension(windowSize.width*85/100,100));

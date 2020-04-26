@@ -50,7 +50,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -100,6 +100,8 @@ public class MacroTree extends JPanel
     private void initComponents()
     {
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane.putClientProperty("JSplitPane.style","thick");
+
         Box topBox = Box.createVerticalBox();
 
         setLayout(new GridLayout(1, 0));

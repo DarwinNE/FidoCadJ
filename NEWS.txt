@@ -13,9 +13,11 @@ Version 0.24.8
 - Add norator and nullator symbols for the EY library (issue #167).
 - More precise handling of dashed curves (issue #161).
 - Correct handling of accented characters for Java >7 (issue #149).
+- Fix incompatibility with Java versions >=9 (issue #150).
 
 Version 0.24.7
 --------------
+Requires Java 1.7
 (April 26, 2017)
 - Improvement of the building tools and scripts.
 - Improved backwards compatibility with PCB tracks with non integer size (#107).
