@@ -447,6 +447,9 @@ class CreateSwingInterface implements Runnable
         /*******************************************************************
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
+        // This substitutes the AppleSpecific class for Java >=9 and it is a
+        // much more general and desirable solution.
+
         ADesktopIntegration a=new ADesktopIntegration();
         a.registerActions();
 

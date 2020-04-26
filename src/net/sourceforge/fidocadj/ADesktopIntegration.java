@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.globals.*;
 */
 
 class ADesktopIntegration implements AboutHandler, PreferencesHandler, 
-    QuitHandler
+    QuitHandler, OpenFilesHandler
 {
     ADesktopIntegration()
     {
@@ -54,8 +54,18 @@ class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         d.setAboutHandler(this);
         d.setPreferencesHandler(this);
         d.setQuitHandler(this);
+        d.setOpenFileHandler(this);
     }
 
+    /** Respond to an user double clicking on a FCD file
+        @param e event referring for application.
+    */
+    public void openFiles (OpenFilesEvent e)
+    {
+        String file = e.getFiles().get(0).getAbsolutePath();
+        System.out.println("Open file:"+file);
+        ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
+    }
     /** Respond to an user clicking on an About menu.
         @param e event referring for application.
     */
@@ -84,7 +94,7 @@ class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         // confirmation.
         Iterator iterator = Globals.openWindows.iterator();
         FidoFrame fff;
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             if((fff=(FidoFrame)iterator.next()).getFileTools().
                 checkIfToBeSaved())
             {
