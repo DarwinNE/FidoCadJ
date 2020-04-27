@@ -5,6 +5,7 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.ADesktopIntegration;
 
 /** Globals.java
 
@@ -37,6 +38,9 @@ public class Globals
 {
     // message bundle
     public static AccessResources messages;
+
+    // Information about desktop integration
+    public static ADesktopIntegration desktopInt;
 
     // shortcut key to be used:
     public static int shortcutKey;
@@ -87,7 +91,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.8 gamma";
+    public static final String version = "0.24.8 Δ";
     // Is it a beta version? Some debug options become available, such as
     // timing each redraw operation.
     public static final boolean isBeta = true;

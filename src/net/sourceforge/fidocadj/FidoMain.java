@@ -450,8 +450,8 @@ class CreateSwingInterface implements Runnable
         // This substitutes the AppleSpecific class for Java >=9 and it is a
         // much more general and desirable solution.
 
-        ADesktopIntegration a=new ADesktopIntegration();
-        a.registerActions();
+        Globals.desktopInt=new ADesktopIntegration();
+        Globals.desktopInt.registerActions();
 
         if(Globals.weAreOnAMac) {
             // Here we use the reflection provided by Java to understand

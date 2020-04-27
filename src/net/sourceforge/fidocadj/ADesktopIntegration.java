@@ -38,9 +38,12 @@ import net.sourceforge.fidocadj.globals.*;
     </pre>
 */
 
-class ADesktopIntegration implements AboutHandler, PreferencesHandler, 
+public class ADesktopIntegration implements AboutHandler, PreferencesHandler, 
     QuitHandler, OpenFilesHandler
 {
+    public boolean handleAbout;
+    public boolean handlePreferences;
+
     ADesktopIntegration()
     {
     }
@@ -50,11 +53,25 @@ class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         if(!Desktop.isDesktopSupported())
             return;
 
+        handleAbout=true;
+        handlePreferences=true;
         Desktop d=Desktop.getDesktop();
-        d.setAboutHandler(this);
-        d.setPreferencesHandler(this);
-        d.setQuitHandler(this);
-        d.setOpenFileHandler(this);
+        try {
+            d.setOpenFileHandler(this);
+            d.setQuitHandler(this);
+        } catch(UnsupportedOperationException E) {
+            // This can be ignore, we are going to live without it.
+        }
+        try {
+            d.setAboutHandler(this);
+        } catch(UnsupportedOperationException E) {
+            handleAbout=false;
+        }
+        try {
+            d.setPreferencesHandler(this);
+        } catch(UnsupportedOperationException E) {
+            handlePreferences=false;
+        }
     }
 
     /** Respond to an user double clicking on a FCD file

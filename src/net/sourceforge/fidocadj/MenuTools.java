@@ -64,7 +64,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
         JMenu about = defineAboutMenu(al);
-        if(!Globals.weAreOnAMac)
+        if(!Globals.desktopInt.handleAbout)
             menuBar.add(about);
 
         return menuBar;
@@ -160,7 +160,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
 
-        if(!Globals.weAreOnAMac) {
+        if(!Globals.desktopInt.handlePreferences) {
             fileMenu.add(options);
             fileMenu.addSeparator();
         }
