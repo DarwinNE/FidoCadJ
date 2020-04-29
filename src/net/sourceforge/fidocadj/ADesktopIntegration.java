@@ -111,6 +111,9 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         // confirmation.
         Iterator iterator = Globals.openWindows.iterator();
         FidoFrame fff;
+
+        /*  TODO: java.util.ConcurrentModificationException possible here!
+        */
         while (iterator.hasNext()) {
             if((fff=(FidoFrame)iterator.next()).getFileTools().
                 checkIfToBeSaved())

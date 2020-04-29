@@ -188,10 +188,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
 
         drawText(g, coordSys, layerV, -1);
+
+        if(changed) {
+            // Calculating stroke width
+            w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+            if (w<D_MIN) w=D_MIN;
+        }
         // Apply the stroke style
         g.applyStroke(w, dashStyle);
 
-        // Check if there are arrows to be drawn and eventually draw them.
+        // Check if there are arrows to be drawn and, if needed, draw them.
         if (arrowData.atLeastOneArrow()) {
             h=arrowData.prepareCoordinateMapping(coordSys);
             // If the arrow length is negative, the arrow extends
@@ -238,10 +244,6 @@ public final class PrimitiveBezier extends GraphicPrimitive
             ymin = r.y-h;
             width  = r.width+2*h;
             height = r.height+2*h;
-
-            // Calculating stroke width
-            w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
         }
 
         // If the curve is not visible, exit immediately

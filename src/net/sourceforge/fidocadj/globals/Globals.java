@@ -70,7 +70,6 @@ public class Globals
     public static Object activeWindow;
 
 
-    //public static final HashSet<JFrame> openWindows = new HashSet<JFrame>();
     public static final HashSet<Object> openWindows = new HashSet<Object>();
 
     // Line width expressed in FidoCadJ coordinates
