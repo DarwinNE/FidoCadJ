@@ -80,7 +80,6 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     public void openFiles (OpenFilesEvent e)
     {
         String file = e.getFiles().get(0).getAbsolutePath();
-        System.out.println("Open file:"+file);
         ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
     }
     /** Respond to an user clicking on an About menu.
@@ -104,7 +103,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         @param e event referring for application.
         @param response the type of the response (quit or abort).
     */
-    public void	handleQuitRequestWith​(QuitEvent e, QuitResponse response)
+    public void	handleQuitRequestWith(QuitEvent e, QuitResponse response)
     {
         boolean ca = true;
         // Create a iterator to cycle through all open windows and ask for

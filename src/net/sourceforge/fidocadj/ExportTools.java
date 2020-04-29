@@ -146,7 +146,6 @@ public class ExportTools implements ClipboardOwner
                     fff);
 
                 doExport.run();
-                System.out.println("File "+fexp+" written.");
                 BufferedImage img = null;
                 img = ImageIO.read(fexp);
                 setClipboard(img);
@@ -204,16 +203,19 @@ public class ExportTools implements ClipboardOwner
             // The resolution based export should be used only for bitmap
             // file formats
             if("png".equals(exportFormat) ||
-                "jpg".equals(exportFormat))
+                "jpg".equals(exportFormat)) 
+            {
+                exportResolutionBased=export.getResolutionBasedExport();
                 exportUnitPerPixel=export.getUnitPerPixel();
-            else
+            } else {
+                exportResolutionBased=true;
                 exportUnitPerPixel = export.getMagnification();
+            }
 
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
             splitLayers=export.getSplitLayers();
 
-            exportResolutionBased=export.getResolutionBasedExport();
             try {
                 exportXsize=export.getXsizeInPixels();
                 exportYsize=export.getYsizeInPixels();
@@ -301,8 +303,8 @@ public class ExportTools implements ClipboardOwner
             */
         }
     }
-    public void lostOwnership( Clipboard clip, Transferable trans ) {
-        System.out.println( "Lost Clipboard Ownership" );
+    public void lostOwnership( Clipboard clip, Transferable trans )
+    {
     }
     /** Set the coordinate listener which is employed here for showing
         message in a non-invasive way.

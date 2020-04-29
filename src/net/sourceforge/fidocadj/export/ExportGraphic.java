@@ -173,6 +173,8 @@ public final class ExportGraphic
         int width=width_t;
         int height=height_t;
         double unitPerPixel=unitPerPixel_t;
+        System.out.println("3 - unitPerPixel: "+unitPerPixel+ " Set size:" +
+            setSize);
 
         // obtain drawing size
         MapCoordinates m=new MapCoordinates();
@@ -224,7 +226,7 @@ public final class ExportGraphic
         }
 
         // Center the drawing in the given space.
-
+        System.out.println("unitPerPixel: "+unitPerPixel);
         m.setMagnitudes(unitPerPixel, unitPerPixel);
 
         if(shiftMin && !"pcb".equals(format)) {// don't alter geometry

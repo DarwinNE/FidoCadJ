@@ -61,8 +61,9 @@ class RunExport implements Runnable
     @param tunitPerPixel the magnification factor to be used for the export
         (used only if resb is true).
     @param tantiAlias the application of anti alias for bitmap export
-    @param tblackWhite black and white export
-    @param resb if true, the export is based on the resolution
+    @param tblackWhite black and white export.
+    @param text export advanced FidoCadJ code (if applicable).
+    @param resb if true, the export is based on the resolution.
     @param xs the x size of the drawing (used only if resb is false).
     @param ys the y size of the drawing (used only if resb is false).
     @param splitL if true split layers in different files.
