@@ -258,19 +258,18 @@ public class PopUpMenu implements ActionListener
     /** Register a certain number of keyboard actions with an associated
         meaning:
     <pre>
-        [A] or [space]      Selection
-        [L]                 Line
-        [T]                 Text
-        [B]                 Bézier
-        [P]                 Polygon
-        [O]                 Complex curve
-        [E]                 Ellipse
-        [G]                 Rectangle
-        [C]                 Connection
-        [I]                 PCB track
-        [Z]                 PCB pad
-        [ESC]               Exit from current editing action
-        [DEL] or [BACKSPC]  Delete the selected objects
+        [A], [space] or [ESC]   Selection
+        [L]                     Line
+        [T]                     Text
+        [B]                     Bézier
+        [P]                     Polygon
+        [O]                     Complex curve
+        [E]                     Ellipse
+        [G]                     Rectangle
+        [C]                     Connection
+        [I]                     PCB track
+        [Z]                     PCB pad
+        [DEL] or [BACKSPC]      Delete the selected objects
     </pre>
     */
     public final void registerActiveKeys()
@@ -278,6 +277,9 @@ public class PopUpMenu implements ActionListener
         registerAction("selection", 'a', ElementsEdtActions.SELECTION);
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),
+                "selection");
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false),
                 "selection");
         registerAction("line", 'l', ElementsEdtActions.LINE);
         registerAction("text", 't', ElementsEdtActions.TEXT);
@@ -310,8 +312,8 @@ public class PopUpMenu implements ActionListener
         final String escape = "escape";
 
         // Escape: clear everything
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);
+        /*cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);*/
 
         cp.getActionMap().put(escape, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored)
