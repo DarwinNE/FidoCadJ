@@ -116,7 +116,7 @@ public class SearchField extends JTextField implements FocusListener
         if (!isFocusOwner() && getText().length() == 0) {
             g.setColor(Color.GRAY);
             Graphics2D g2=(Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             g.drawString(placeholderText, left, bottom);
         }
@@ -124,7 +124,6 @@ public class SearchField extends JTextField implements FocusListener
 
     private void initBorder()
     {
-
         setBorder(new CompoundBorder(getBorder(), CANCEL_BORDER));
         //getBorder().setOpaque(true);
         //getContentPane().setOpaque(true);
@@ -134,7 +133,6 @@ public class SearchField extends JTextField implements FocusListener
         addMouseMotionListener(mouseInputListener);
         setMaximumSize(new Dimension(5000, 30));
     }
-
 
     /** Add a key listener
     */

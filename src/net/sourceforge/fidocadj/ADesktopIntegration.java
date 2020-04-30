@@ -38,16 +38,24 @@ import net.sourceforge.fidocadj.globals.*;
     </pre>
 */
 
-public class ADesktopIntegration implements AboutHandler, PreferencesHandler, 
+public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     QuitHandler, OpenFilesHandler
 {
-    public boolean handleAbout;
-    public boolean handlePreferences;
+    public boolean handleAbout;         // True if the About action is handled
+    public boolean handlePreferences;   // True if the Pref action is handled
 
     ADesktopIntegration()
     {
     }
-    
+
+    /** Check if some actions are made available by the operating system and if
+        it is the case, register them.
+        For example, MacOS usually inserts the About and Preferences menus in a
+        specific place in the "FidoCadJ" menu, that does not exist in other
+        platforms. This means that the OS needs to know what to call when one
+        of those two actions is selected. This is given to the operating system
+        by this routine.
+    */
     public void registerActions()
     {
         if(!Desktop.isDesktopSupported())
@@ -85,7 +93,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     /** Respond to an user clicking on an About menu.
         @param e event referring for application.
     */
-    public void handleAbout​(AboutEvent e)
+    public void handleAbout (AboutEvent e)
     {
         DialogAbout d=new DialogAbout((JFrame)Globals.activeWindow);
         d.setVisible(true);
@@ -103,7 +111,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         @param e event referring for application.
         @param response the type of the response (quit or abort).
     */
-    public void	handleQuitRequestWith(QuitEvent e, QuitResponse response)
+    public void handleQuitRequestWith(QuitEvent e, QuitResponse response)
     {
         boolean ca = true;
         // Create a iterator to cycle through all open windows and ask for

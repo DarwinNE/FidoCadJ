@@ -466,7 +466,7 @@ public class MenuTools implements MenuListener
             cpa.copySelected(!cc.extStrict, true);
         } else if (arg.equals(Globals.messages.getString("Copy_as_image"))) {
             // Display a dialog similar to the Export menu and create an image
-            // that is stored in the clipboard, using a bitmap or vector 
+            // that is stored in the clipboard, using a bitmap or vector
             //format.
             et.exportAsCopiedImage(fff, cc);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {

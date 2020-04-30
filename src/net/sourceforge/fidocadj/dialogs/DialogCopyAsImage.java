@@ -21,7 +21,6 @@ import net.sourceforge.fidocadj.circuit.views.Export;
 
 /** Choose file format, size and options for the "Copy as image".
     This dialog is a stripped-down version of the DialogExport one.
-    
 
     <pre>
     This file is part of FidoCadJ.

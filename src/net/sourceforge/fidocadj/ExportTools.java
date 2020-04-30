@@ -151,7 +151,7 @@ public class ExportTools implements ClipboardOwner
                 setClipboard(img);
             } catch (IOException E) {
                 System.err.println("Issues reading image: "+E);
-            } 
+            }
             if(prefs!=null) {
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
                 prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
@@ -203,7 +203,7 @@ public class ExportTools implements ClipboardOwner
             // The resolution based export should be used only for bitmap
             // file formats
             if("png".equals(exportFormat) ||
-                "jpg".equals(exportFormat)) 
+                "jpg".equals(exportFormat))
             {
                 exportResolutionBased=export.getResolutionBasedExport();
                 exportUnitPerPixel=export.getUnitPerPixel();
@@ -303,7 +303,14 @@ public class ExportTools implements ClipboardOwner
             */
         }
     }
-    public void lostOwnership( Clipboard clip, Transferable trans )
+    /** Called by the system when the application looses ownership over the
+        clipboard contents. This is here because an export operation is done
+        when the "Copy as a picture" operation is performed.
+
+        @param clip the current clipboard object.
+        @param trans tha object to be transfered.
+    */
+    public void lostOwnership(Clipboard clip, Transferable trans)
     {
     }
     /** Set the coordinate listener which is employed here for showing
@@ -315,7 +322,9 @@ public class ExportTools implements ClipboardOwner
         coordL=c;
     }
 
-    //This method writes a image to the system clipboard.
+    /** This method writes a image to the system clipboard.
+        @param image the image to be loaded in the clipboard.
+    */
     public void setClipboard(Image image)
     {
         TransferableImage imgSel = new TransferableImage(image);
@@ -323,15 +332,24 @@ public class ExportTools implements ClipboardOwner
             imgSel,
             this);
     }
-    private class TransferableImage implements Transferable {
-         
+
+    /** Origin of this code:
+    https://stackoverflow.com/questions/4552045/copy-bufferedimage-to-clipboard
+
+        DB: I checked it, it seems reasonable and robust and it works well.
+        Using MacOS, I noticed that the system was not working for Java version
+        1.7. The types of the object copied in the clipboard were not those
+        that standard MacOS applications expect. I updated to Java 14 and it
+        started to work flawlessly.
+    */
+    private class TransferableImage implements Transferable
+    {
         Image i;
-         
         public TransferableImage(Image i) {
             this.i = i;
         }
-         
-        public Object getTransferData(DataFlavor flavor) throws 
+
+        public Object getTransferData(DataFlavor flavor) throws
             UnsupportedFlavorException, IOException
         {
             if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
@@ -340,7 +358,7 @@ public class ExportTools implements ClipboardOwner
                 throw new UnsupportedFlavorException(flavor);
             }
         }
-         
+
         public DataFlavor[] getTransferDataFlavors()
         {
             DataFlavor[] flavors = new DataFlavor[1];
@@ -348,7 +366,7 @@ public class ExportTools implements ClipboardOwner
 
             return flavors;
         }
-         
+
         public boolean isDataFlavorSupported(DataFlavor flavor)
         {
             DataFlavor[] flavors = getTransferDataFlavors();
@@ -361,4 +379,3 @@ public class ExportTools implements ClipboardOwner
         }
     }
 }
-

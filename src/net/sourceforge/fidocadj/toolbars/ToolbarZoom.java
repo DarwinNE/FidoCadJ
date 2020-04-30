@@ -113,9 +113,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         showLibs.putClientProperty("Quaqua.Button.style","toggleEast");
 
         // VAqua7 information
-        String style="recessed";  // order: recessed, textured, 
+        String style="recessed";  // order: recessed, textured,
         //  segmentedCapsule, segmentedRoundRect, segmented, segmentedTextured
-        //
+
         zoomFit.putClientProperty("JButton.buttonType",style);
         zoomFit.putClientProperty("JButton.segmentPosition","first");
 
