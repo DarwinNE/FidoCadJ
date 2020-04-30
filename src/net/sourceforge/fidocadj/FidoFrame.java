@@ -59,7 +59,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2017 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -890,6 +890,8 @@ public class FidoFrame extends JFrame implements
     public void windowGainedFocus(WindowEvent e)
     {
         Globals.activeWindow = this;
+        // This should fix #182
+        cc.requestFocusInWindow();
     }
 
     /** The current window has lost focus.
