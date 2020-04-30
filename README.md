@@ -8,28 +8,28 @@ Copyright 2007-2020
 This file has been written by Davide Bucci and Dante Loi
 
 1. Introduction
-  1. What is FidoCadJ?
-  2. Where can I find FidoCadJ?
-  3. How can I run FidoCadJ?
-  4. Where can I get help?
+	- 1.1 What is FidoCadJ?
+	- 1.2 Where can I find FidoCadJ?
+	- 1.3 How can I run FidoCadJ?
+	- 1.4 Where can I get help?
 2. Source files and the FidoCadJ Git directories
-  1. Main directory
-  2. Important classes
-  3. Developers' tools
+	- 2.1 Main directory
+	- 2.2 Important classes
+	- 2.3 Developers' tools
 3. Instructions about compiling and running FidoCadJ
-  1. Build automation tool
-  2. Compile and run the sources on a MacOSX or a Unix operating system
-  3. Compile and run the sources on a Windows system
-  4. Android
+	- 3.1 Build automation tool
+	- 3.2 Compile and run the sources on a MacOSX or a Unix operating system
+	- 3.3 Compile and run the sources on a Windows system
+	- 3.4 Android
 4. Coding conventions
-  1. General rules
-  2. Automated tests
-  3. Static code analysis and the quality of the FidoCadJ source code
+	- 4.1 General rules
+	- 4.2 Automated tests
+	- 4.3 Static code analysis and the quality of the FidoCadJ source code
 5. Help wanted!
-  1. "I want to translate FidoCadJ in my language"
-  2. "I would like to participate to the coding activity"
-  3. Things to do
-  4. Checklist for committers
+	- 5.1 "I want to translate FidoCadJ in my language"
+	- 5.2 "I would like to participate to the coding activity"
+	- 5.3 Things to do
+	- 5.4 Checklist for committers
 6. I found a bug...
 7. Acknowledgments
 8. Licensing
