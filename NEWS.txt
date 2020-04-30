@@ -15,6 +15,9 @@ Version 0.24.8
 - Correct handling of accented characters for Java >7 (issue #149).
 - Fix incompatibility with Java versions >=9 (issue #150).
 - Implement "Copy as image" feature (issue #146).
+- Makes sort that the zoom box does not receive focus too often (issue #180).
+- Get back to editing mode (arrow) with [ESC] (issue #182).
+
 
 Version 0.24.7
 --------------
