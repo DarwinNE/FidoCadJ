@@ -18,6 +18,7 @@ Requires Java 9
 - Implement "Copy as image" feature (issue #146).
 - Makes sort that the zoom box does not receive focus too often (issue #180).
 - Get back to editing mode (arrow) with [ESC] (issue #182).
+- Right click when inserting macros switches to edit state (issue #144).
 
 Version 0.24.7
 --------------
@@ -33,8 +34,8 @@ Requires Java 1.7
 - Use a bitmap image as background to draw over it (#99).
 - Better user interface with high resolution monitors (#133).
 - Correct export of some characters in PDF (#115).
-- Correct problem in the selected objects while define a new symbol (#102)
-- Correct FidoCadJ does not remember the save/open file directory (#116)
+- Correct problem in the selected objects while define a new symbol (#102).
+- Correct FidoCadJ does not remember the save/open file directory (#116).
 - Show invalid keys when creating new components (#120).
 - Eliminate the "Export complete" message box (#117).
 - Correct an issue with printing sizes (#137).
@@ -85,13 +86,14 @@ Version 0.24.4
 
 Version 0.24.3
 --------------
+Requires Java 1.5
 - You can navigate through search results in the library using the Return key and not just the arrow keys (by Mancuso Raffaele).
-- Czech translation of the user interface (by Chemik582)
+- Czech translation of the user interface (by Chemik582).
 - Corrected bug #36 "A spline-bug with FidoCadJ 0.24"
-- Corrected bug #45 "Color Print instead of Black and White print (or exported file)"
-- Corrected bug #43 and #44 "Wrong component font when using a personally created component"
+- Corrected bug #45 "Color Print instead of Black and White print (or exported file)".
+- Corrected bug #43 and #44 "Wrong component font when using a personally created component."
 - The "Split non standard macros while saving" modal option has been replaced by an immediate menu item. It always works similarly to "save as..."
-- The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir. Many thanks to 
+- The select library directory (elsewhere than on MacOSX) shows a list of libraries in the currently selected dir.
 - Added "Select All" to the contextual popup menu (part of request #36).
 - Corrected the undo bug #47.
 
@@ -134,7 +136,7 @@ Version 0.24.1
 
 Version 0.24
 ------------
-- Added the support for italic text lines
+- Added the support for italic text lines.
 - The length of the segment being entered is expressed also in millimeters.
 - Slight adjustment of the arrow style when they are associated to lines.
 - Added the new "curve" primitive (cubic spline).

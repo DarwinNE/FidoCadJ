@@ -700,12 +700,14 @@ public class FidoFrame extends JFrame implements
     public FidoFrame createNewInstance()
     {
         FidoFrame popFrame=new FidoFrame(runsAsApplication, currentLocale);
-        popFrame.init();
-
         popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),
             popFrame.getHeight());
 
+        popFrame.init();
+
         popFrame.loadLibraries();
+        popFrame.setExtendedState(getExtendedState());
+
         popFrame.setVisible(true);
 
         return popFrame;
@@ -905,6 +907,9 @@ public class FidoFrame extends JFrame implements
         splitPane.setBottomComponent(s?macroLib:null);
         toolZoom.setShowLibsState(areLibsVisible());
         mt.setShowLibsState(areLibsVisible());
+        if(s) {
+            splitPane.setDividerLocation(0.75);
+        }
         splitPane.revalidate();
     }
 
