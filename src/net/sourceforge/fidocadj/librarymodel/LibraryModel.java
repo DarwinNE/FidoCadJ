@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
    along with FidoCadJ. If not,
    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-   Copyright 2014 Kohta Ozaki
+   Copyright 2014-2020 Kohta Ozaki - Davide Bucci
 */
 public class LibraryModel
 {
@@ -399,13 +399,12 @@ public class LibraryModel
     */
     private MacroDesc cloneMacro(MacroDesc macro)
     {
-        MacroDesc newMacro = new MacroDesc(macro.key,
-                                           macro.name,
-                                           macro.description,
-                                           macro.category,
-                                           macro.library,
-                                           macro.filename);
-        return newMacro;
+        return new MacroDesc(macro.key,
+           macro.name,
+           macro.description,
+           macro.category,
+           macro.library,
+           macro.filename);
     }
 
     /**

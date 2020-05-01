@@ -90,7 +90,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.8 Δ";
+    public static final String version = "0.24.8 ε";
     // Is it a beta version? Some debug options become available, such as
     // timing each redraw operation.
     public static final boolean isBeta = true;
@@ -325,10 +325,8 @@ public class Globals
     public static String createCompleteFileName(String path, String filename)
     {
         boolean incl=!path.endsWith(System.getProperty("file.separator"));
-        String completeFileName= path +
-            (incl?System.getProperty("file.separator") : "") +
+        return path + (incl?System.getProperty("file.separator") : "") +
             filename;
-        return completeFileName;
     }
 
     /** Change characters which could give an error in some situations with

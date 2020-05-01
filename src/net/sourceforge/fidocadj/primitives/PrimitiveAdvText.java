@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -658,10 +658,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             subsFont=s.toString();
         }
 
-        String s= "TY "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+siy+" "
+        return "TY "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+siy+" "
             +six+" "+o+" "+sty+" "+getLayer()+" "+subsFont+" "+txt+"\n";
-
-        return s;
     }
 
     /** Export the text primitive on a vector graphic format.

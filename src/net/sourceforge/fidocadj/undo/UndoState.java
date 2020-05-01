@@ -20,7 +20,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2013 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -59,9 +59,8 @@ public class UndoState
     */
     public String toString()
     {
-        String s="text="+text+"\nfileName="+fileName+
+        return "text="+text+"\nfileName="+fileName+
             "\nOperation on a library: "+libraryOperation+
             "\nlibraryDir="+libraryDir;
-        return s;
     }
 }

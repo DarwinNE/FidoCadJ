@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -99,7 +99,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRenameActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -126,7 +126,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -137,7 +136,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRemoveActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -164,7 +163,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
     /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
@@ -176,7 +174,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRenkeyActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -197,7 +195,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -208,13 +205,12 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createCopyActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 mt.setSelectedNodeToCopyTarget();
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -225,13 +221,12 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createPasteActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 mt.pasteIntoSelectedNode();
             }
         };
-        return al;
     }
 }
 

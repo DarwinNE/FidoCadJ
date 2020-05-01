@@ -633,11 +633,9 @@ public class DialogSymbolize extends MinimumSizeDialog
 
         parent.repaint();
         String desc = ss.toString();
-        MacroDesc md = new MacroDesc(myprefix+"."+mykey, myname, desc, mygrp,
+        return new MacroDesc(myprefix+"."+mykey, myname, desc, mygrp,
             mylib, myprefix);
-        return md;
     }
-
 
     /** Update all the libs shown in the tree.
     */

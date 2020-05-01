@@ -686,13 +686,12 @@ public class ExportPCBRND implements ExportInterface
                                      int macroY)
     {
 
-        String header = "Element[\"\" \""
+        return "Element[\"\" \""
             + macroName + "\" "
             + "\"\" \"\" "
             + coordToPCB(macroX) + " "
             + coordToPCB(macroY) + " "
             + "-2500 -1500 0 100 \"\"]\n(\n";
-        return header;
     }
 
     private int sToInt(String val)
@@ -946,7 +945,7 @@ public class ExportPCBRND implements ExportInterface
         if (exportedThickness < minExportedLineThickness) {
             exportedThickness = 1000;
         }
-        String newLine = "\tLine["
+        return "\tLine["
             + coordToPCB(x1) + " "
             + coordToPCB(y1) + " "
             + coordToPCB(x2) + " "
@@ -954,7 +953,6 @@ public class ExportPCBRND implements ExportInterface
             + exportedThickness + " "
             + defaultClearance
             + " \"clearline\"]\n";
-        return newLine;
     }
 
     private String fidoLineToPCBLine(int x1, int y1, int x2, int y2,
@@ -988,13 +986,12 @@ public class ExportPCBRND implements ExportInterface
         if (exportedThickness < minExportedLineThickness) {
             exportedThickness = 1000;
         }
-        String ElementLine = "\tElementLine["
+        return "\tElementLine["
             + coordToPCB(x1) + " "
             + coordToPCB(y1) + " "
             + coordToPCB(x2) + " "
             + coordToPCB(y2) + " "
             + exportedThickness + "]\n";
-        return ElementLine;
     }
 
     private String fidoLineToPCBLineElement(PointDouble p1,
@@ -1036,12 +1033,10 @@ public class ExportPCBRND implements ExportInterface
         fidoRectToPCBLineElements(double x1, double y1, double x2,
                                   double y2, double strokeWidth)
     {
-        String newRect = fidoLineToPCBLineElement(x1, y1, x1, y2,
-                                                  strokeWidth)
+        return fidoLineToPCBLineElement(x1, y1, x1, y2, strokeWidth)
             + fidoLineToPCBLineElement(x1, y2, x2, y2, strokeWidth)
             + fidoLineToPCBLineElement(x2, y2, x2, y1, strokeWidth)
             + fidoLineToPCBLineElement(x2, y1, x1, y1, strokeWidth);
-        return newRect;
     }
 
     private String fidoArcToPCBArc(double midx, double midy,
@@ -1176,7 +1171,7 @@ public class ExportPCBRND implements ExportInterface
             flags = "square,onsolder";
         }
         if (layer != 3) { // not silk
-            String newPad = "\tPad[" // x1, y1, x2, y2 next
+            return "\tPad[" // x1, y1, x2, y2 next
                 + coordToPCB(X1) + " "
                 + coordToPCB(Y1) + " "
                 + coordToPCB(X2) + " "
@@ -1187,15 +1182,13 @@ public class ExportPCBRND implements ExportInterface
                 + "\"" + padCounter + "\" "
                 + "\"" + padCounter + "\" "
                 + "\"" + flags + "\"]\n"; //refdes, pinnum, flags
-            return newPad;
         } else { // silk rectangle/poly
-            String newSilk = "\tElementLine[" // x1, y1, x2, y2 thickness
+            return "\tElementLine[" // x1, y1, x2, y2 thickness
                 + coordToPCB(X1) + " "
                 + coordToPCB(Y1) + " "
                 + coordToPCB(X2) + " "
                 + coordToPCB(Y2) + " "
                 + coordToPCB(thickness) + "]\n";
-            return newSilk;
         }
     }
 
@@ -1278,14 +1271,13 @@ public class ExportPCBRND implements ExportInterface
             gEDAorientation = 3;
         }
 
-        String line = "\tText["
+        return "\tText["
             + coordToPCB(x) + " "
             + coordToPCB(y) + " "
             + gEDAorientation + " " // orientation = 0,1,2,3 (times 90)
             + scaling + " "
             + "\"" + text
             + "\" \"clearline\"]\n";
-        return line;
     }
 
     private String fidoTextToPCBText(int x, int y, String text,
@@ -1353,7 +1345,7 @@ public class ExportPCBRND implements ExportInterface
 
     private String fidoRectToPCBPoly(int x1, int y1, int x2, int y2)
     {
-        String newPoly = "\tPolygon(\"clearpoly\")\n"
+        return "\tPolygon(\"clearpoly\")\n"
             + "\t(\n"
             + "\t\t[" + coordToPCB(x1) + " "
             + fidoCoordToPCB(y1)  + "] "
@@ -1364,18 +1356,16 @@ public class ExportPCBRND implements ExportInterface
             + "[" + fidoCoordToPCB(x2) + " "
             + fidoCoordToPCB(y1)  + "]\n"
             + "\t)\n";
-        return newPoly;
     }
 
     private String
         fidoRectToPCBLines(int x1, int y1, int x2, int y2,
                            double strokeWidth)
     {
-        String newRect = fidoLineToPCBLine(x1, y1, x1, y2, strokeWidth)
+        return fidoLineToPCBLine(x1, y1, x1, y2, strokeWidth)
             + fidoLineToPCBLine(x1, y2, x2, y2, strokeWidth)
             + fidoLineToPCBLine(x2, y2, x2, y1, strokeWidth)
             + fidoLineToPCBLine(x2, y1, x1, y1, strokeWidth);
-        return newRect;
     }
 
     private String fidoPadToPCBVia(double x, double y, int dia, int drill)
