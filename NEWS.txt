@@ -1,5 +1,6 @@
 Version 0.24.8
 --------------
+Requires Java 9
 
 - Fix incorrect export of dashed lines (issue #142).
 - Export splitting layers on multiple files (issue #154).
@@ -17,7 +18,6 @@ Version 0.24.8
 - Implement "Copy as image" feature (issue #146).
 - Makes sort that the zoom box does not receive focus too often (issue #180).
 - Get back to editing mode (arrow) with [ESC] (issue #182).
-
 
 Version 0.24.7
 --------------

@@ -593,7 +593,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         blackWhite_CB=new JCheckBox(Globals.messages.getString("B_W"));
 
         constraints = DialogUtil.createConst(2,2,1,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.NONE,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
 
         panel.add(blackWhite_CB, constraints);        // Add black/white cb
@@ -615,8 +615,8 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         splitLayers_CB= new JCheckBox(
             Globals.messages.getString("Split_layers_multiple_files"));
 
-        constraints = DialogUtil.createConst(2,4,2,1,100,100,
-            GridBagConstraints.WEST, GridBagConstraints.NONE,
+        constraints = DialogUtil.createConst(2,4,1,1,100,100,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,0,0));
 
         panel.add(splitLayers_CB, constraints);        // Add split layers cb
