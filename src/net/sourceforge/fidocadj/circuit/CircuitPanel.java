@@ -263,6 +263,7 @@ public class CircuitPanel extends JPanel implements
     public void addChangeSelectionListener(ChangeSelectionListener c)
     {
         selectionListener=c;
+        eea.setChangeSelectionListener(c);
     }
 
     /** Define the listener to be called when the selected action is changed

@@ -8,6 +8,7 @@ import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.toolbars.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements
     to a drawing model.
@@ -47,6 +48,7 @@ public class ElementsEdtActions
     protected final EditorActions edt;
     final SelectionActions sa;
     final AddElements ae;
+    private ChangeSelectionListener selectionListener;
 
     // The current layer being edited
     public int currentLayer;
@@ -75,7 +77,6 @@ public class ElementsEdtActions
     // TO IMPROVE: this must be synchronized with the value in PrimitivePolygon
     // Maximum number of polygon vertices
     public static final int NPOLY=256;
-
 
     // Selection states
     public static final int NONE = 0;
@@ -117,20 +118,22 @@ public class ElementsEdtActions
         currentLayer=0;
 
         primEdit = null;
+        selectionListener=null;
         primitivesParListener=null;
 
         actionSelected = SELECTION;
     }
 
-    /** Sets the action mode.
-        @param a the wanted editing mode.
+    /** Set the change selection listener. The selection listener is not called
+        when the selection state is changed manually by means of the
+        setActionSelected method, but it is instead when it is internally
+        changed by the ElementEdtActions class (such as with a mouse
+        operation).
+        @param c the new selection listener.
     */
-    public void setActionSelected(int a)
+    public void setChangeSelectionListener(ChangeSelectionListener c)
     {
-        if (a!=actionSelected)
-            clickNumber=0;
-
-        actionSelected = a;
+        selectionListener=c;
     }
 
     /** Get the current {@link AddElements} controller.
@@ -224,10 +227,11 @@ public class ElementsEdtActions
         if (actionSelected !=MACRO)
             primEdit = null;
 
-        if(button3 &&
-            actionSelected==MACRO)
-        {
+        if(button3 && actionSelected==MACRO) {
             actionSelected=SELECTION;
+            if(selectionListener!=null)
+                selectionListener.setSelectionState(actionSelected,"");
+            primEdit = null;
             return true;
         }
 
@@ -239,7 +243,6 @@ public class ElementsEdtActions
             actionSelected!=TEXT &&
             primitivesParListener!=null)
         {
-
             primitivesParListener.selectAndSetProperties(x,y);
             return false;
         }
