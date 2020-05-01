@@ -114,15 +114,15 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     public void handleQuitRequestWith(QuitEvent e, QuitResponse response)
     {
         boolean ca = true;
-        // Create a iterator to cycle through all open windows and ask for
-        // confirmation.
-        Iterator iterator = Globals.openWindows.iterator();
+        // I tried with an iterator, but when closing windows the map is
+        // changed and the iterator does not like that at all.
+        // This method seems safer and avoids raising exception
+        // java.util.ConcurrentModificationException (#179).
+        Object[] windowArray=Globals.openWindows.toArray();
         FidoFrame fff;
 
-        /*  TODO: java.util.ConcurrentModificationException possible here!
-        */
-        while (iterator.hasNext()) {
-            if((fff=(FidoFrame)iterator.next()).getFileTools().
+        for(int i=0; i<windowArray.length;++i) {
+            if((fff=(FidoFrame)windowArray[i]).getFileTools().
                 checkIfToBeSaved())
             {
                 fff.closeThisFrame();
