@@ -868,14 +868,8 @@ public class FidoFrame extends JFrame implements
             getRootPane().putClientProperty("Window.documentModified",
                 Boolean.valueOf(cc.getUndoActions().getModified()));
 
-            // On MacOSX >= 10.5, associate an icon and a file proxy to the
-            // title bar.
-            /*getRootPane( ).putClientProperty( "Window.documentFile",
-                new File(cc.getParserActions().openFileName));*/
-
-            /*setTitle("FidoCadJ "+Globals.version+" "+
-                Globals.prettifyPath(cc.getParserActions().openFileName,45)+
-                (cc.getUndoActions().getModified()?" *":""));*/
+            toolBar.setTitle(
+                Globals.prettifyPath(cc.getParserActions().openFileName,45));
         } else {
             setTitle("FidoCadJ "+Globals.version+" "+
                 Globals.prettifyPath(cc.getParserActions().openFileName,45)+

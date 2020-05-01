@@ -95,7 +95,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         snapGrid=new JToggleButton(Globals.messages.getString("SnapToGrid"));
 
         coords = new JLabel("");
-        JLabel infos = new JLabel("");
 
         setBorderPainted(false);
         layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
@@ -152,11 +151,8 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         add(showLibs);
         add(layerSel);
         add(Box.createGlue());
-        add(infos);
         add(coords);
-        infos.setPreferredSize(new Dimension (250,28));
-        infos.setMinimumSize(new Dimension (50,18));
-        infos.setMaximumSize(new Dimension (250,38));
+        add(Box.createGlue());
 
         coords.setPreferredSize(new Dimension (300,28));
         coords.setMinimumSize(new Dimension (300,18));

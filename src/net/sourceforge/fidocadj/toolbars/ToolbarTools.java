@@ -76,6 +76,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final JToggleButton connection;
     private final JToggleButton pcbline;
     private final JToggleButton pcbpad;
+    private final JLabel fileName;
 
     private final String base;
     private final boolean showText;
@@ -83,6 +84,15 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final ButtonGroup group;
     private final ArrayList<JToggleButton> toolButtonsList;
     private final HashMap<JToggleButton, Integer> circuitPanelConstants;
+
+    /** On some operating systems, namely MacOS, the filename is shown in the
+        toolbar.
+        @param t the name to be shown.
+    */
+    public void setTitle(String t)
+    {
+        fileName.setText(t);
+    }
 
     /** <code>base</code> is passed to the <code>ToolbarTools</code>
         constructor to create the toolbar, but will need to be accessed by the
@@ -404,6 +414,9 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
+        fileName=new JLabel("");
+        add(Box.createGlue());
+        add(fileName);
         add(Box.createGlue());
 
         setFloatable(false);
