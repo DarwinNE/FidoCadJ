@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 */
 
@@ -192,7 +192,17 @@ public class GraphicsNull implements GraphicsInterface
 
         fm=g.getFontMetrics(f);
     }
+    /** Get the font size */
+    public double getFontSize()
+    {
+        return g.getFont().getSize();
+    }
 
+    /** Set the font size */
+    public void setFontSize(double size)
+    {
+        g.setFont(g.getFont().deriveFont((int)Math.round(size)));
+    }
     /** Simple version. It sets the current font.
         @param name the name of the typeface.
         @param size the vertical size in pixels.

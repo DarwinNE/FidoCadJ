@@ -301,6 +301,18 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         setFont(name, size, false, false);
     }
+    /** Get the font size */
+    public double getFontSize()
+    {
+        return f.getSize();
+    }
+
+    /** Set the font size */
+    public void setFontSize(double size)
+    {
+        f=f.deriveFont((float)size);
+        g.setFont(f);
+    }
 
     /** Get the ascent metric of the current font.
         @return the value of the ascent, in pixels.
@@ -503,6 +515,7 @@ public class Graphics2DSwing implements GraphicsInterface
         AffineTransform ats=(AffineTransform)at.clone();
         AffineTransform stretching= new AffineTransform();
         AffineTransform mm= new AffineTransform();
+        DecoratedText dt=new DecoratedText(this);
 
         stretching.scale(1,xyfactor);
 
@@ -520,7 +533,7 @@ public class Graphics2DSwing implements GraphicsInterface
                     if(!g.getFont().equals(f))
                         g.setFont(f);
 
-                    g.drawString(txt,-xa,qq+h);
+                    dt.drawString(txt,-xa,qq+h);
                 }
             } else {
                 // Here the text is normal
@@ -538,7 +551,7 @@ public class Graphics2DSwing implements GraphicsInterface
                     } else {
                         if(!g.getFont().equals(f))
                             g.setFont(f);
-                        g.drawString(txt,xa,qq+h);
+                        dt.drawString(txt,xa,qq+h);
                         if(needsStretching)
                             g.setTransform(ats);
                         return;
@@ -555,7 +568,7 @@ public class Graphics2DSwing implements GraphicsInterface
                 if(!g.getFont().equals(f))
                     g.setFont(f);
 
-                g.drawString(txt,-xa,qq+h);
+                dt.drawString(txt,-xa,qq+h);
 
             } else {
                 // Here the text is just rotated
@@ -564,7 +577,7 @@ public class Graphics2DSwing implements GraphicsInterface
                 g.setTransform(at);
                 if(!g.getFont().equals(f))
                     g.setFont(f);
-                g.drawString(txt,xa,qq+h);
+                dt.drawString(txt,xa,qq+h);
             }
         }
         g.setTransform(ats);

@@ -212,14 +212,15 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
 
         // Buttons
         if(s.equals(Globals.messages.getString("ShowGrid"))) {
-            //showGrid.setSelected(!showGrid.isSelected());
+            // Toggle grid visibility
             if(changeListener!=null)
                 changeListener.setGridVisibility(showGrid.isSelected());
         } else if(s.equals(Globals.messages.getString("SnapToGrid"))) {
-            //snapGrid.setSelected(!snapGrid.isSelected());
+            // Toggle snap to grid
             if(changeListener!=null)
                 changeListener.setSnapState(snapGrid.isSelected());
         } else if(s.equals(Globals.messages.getString("Zoom_fit"))) {
+            // Zoom to fit
             if(actualZoomToFitListener!=null) {
                 actualZoomToFitListener.zoomToFit();
             }
@@ -227,6 +228,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
             // ComboBox: the only one is about the zoom settings.
             handleZoomChangeEvents(evt);
         } else if(s.equals(Globals.messages.getString("Libs"))) {
+            // Toggle library visibility
             actualZoomToFitListener.showLibs(showLibs.isSelected());
         }
     }

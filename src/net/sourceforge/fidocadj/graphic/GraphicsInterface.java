@@ -124,6 +124,12 @@ public interface GraphicsInterface
     public void setFont(String name, double size, boolean isItalic,
         boolean isBold);
 
+    /** Get the font size */
+    public double getFontSize();
+
+    /** Set the font size */
+    public void setFontSize(double size);
+
     /** Get the ascent metric of the current font.
         @return the value of the ascent, in pixels.
     */

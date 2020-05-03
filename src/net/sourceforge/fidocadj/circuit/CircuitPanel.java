@@ -438,7 +438,7 @@ public class CircuitPanel extends JPanel implements
         double z=Math.round(tz*100.0)/100.0;
         cs.setMagnitudes(z,z);
         eea.successiveMove=false;
-
+        requestFocusInWindow(); // #
         repaint();
     }
 
