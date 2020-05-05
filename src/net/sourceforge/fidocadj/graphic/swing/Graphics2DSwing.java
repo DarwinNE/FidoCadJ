@@ -164,6 +164,15 @@ public class Graphics2DSwing implements GraphicsInterface
         zoom=z;
     }
 
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom()
+    {
+        return zoom;
+    }
+
     /** This is a Swing-related method: it sets the current graphic context
         to the given Swing one.
         @param gg the Swing graphic context.
@@ -310,8 +319,12 @@ public class Graphics2DSwing implements GraphicsInterface
     /** Set the font size */
     public void setFontSize(double size)
     {
-        f=f.deriveFont((float)size);
-        g.setFont(f);
+        fontScale=size/100.0;
+        f = mf.deriveFont(
+            AffineTransform.getScaleInstance(fontScale, fontScale));
+
+        if(!g.getFont().equals(f))
+            g.setFont(f);
     }
 
     /** Get the ascent metric of the current font.
@@ -340,7 +353,6 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         FontMetrics fm = g.getFontMetrics(mf);
         double ll=fontScale*fm.stringWidth(s);
-        //System.out.println("swing: "+ll);
         return (int)Math.round(ll);
     }
 

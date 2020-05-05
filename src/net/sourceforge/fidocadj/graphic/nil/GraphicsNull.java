@@ -81,6 +81,15 @@ public class GraphicsNull implements GraphicsInterface
         // nothing to do
     }
 
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom()
+    {
+        return 1.0;
+    }
+
     /** Get the current color.
         @return the current color.
     */

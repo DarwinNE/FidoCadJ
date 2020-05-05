@@ -22,7 +22,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
     </pre>
 */
 
@@ -38,6 +38,12 @@ public interface GraphicsInterface
         @param z the current zoom factor (pixels for logical units).
     */
     public void setZoom(double z);
+
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom();
 
     /** Set the current color.
         @param c the current color.

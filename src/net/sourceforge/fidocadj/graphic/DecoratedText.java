@@ -87,6 +87,7 @@ public class DecoratedText
                 return CHUNK;
         }
     }
+
     private void resetTokenization(String s)
     {
         bstr=s;
@@ -132,10 +133,13 @@ public class DecoratedText
         while((t=getToken())!=END) {
             switch(t) {
                 case CHUNK:
-                    
                     g.setFontSize(fontSize*getSizeMultLevel());
+                    // Font size is given in points, i.e. 1/72 of an inch.
+                    // FidoCadJ has a 200 dpi internal resolution.
                     g.drawString(btoken.toString(),xc,
-                        y-(int)Math.round(exponentLevel*fontSize*0.1));
+                        y-(int)Math.round(
+                            exponentLevel*fontSize*getSizeMultLevel()
+                            /200*72*0.1*g.getZoom()));
                     xc+=g.getStringWidth(btoken.toString());
                     break;
                 case EXPONENT:
