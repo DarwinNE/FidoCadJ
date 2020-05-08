@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2016 by Davide Bucci, phylum2
+    Copyright 2008-2020 by Davide Bucci, phylum2
     </pre>
 */
 public abstract class GraphicPrimitive
@@ -303,15 +303,16 @@ public abstract class GraphicPrimitive
             g.setFont(macroFont,
                 (int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
+        DecoratedText dt=new DecoratedText(g);
         /* The if's have been added thanks to this information:
          http://sourceforge.net/projects/fidocadj/forums/forum/997486
             /topic/3474689?message=7798139
         */
         if (name!=null && name.length()!=0) {
-            g.drawString(name,xa,ya+h);
+            dt.drawString(name,xa,ya+h);
         }
         if (value!=null && value.length()!=0) {
-            g.drawString(value,xb,yb+h);
+            dt.drawString(value,xb,yb+h);
         }
     }
 

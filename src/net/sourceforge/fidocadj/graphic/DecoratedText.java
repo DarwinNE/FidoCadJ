@@ -133,7 +133,10 @@ public class DecoratedText
         while((t=getToken())!=END) {
             switch(t) {
                 case CHUNK:
-                    g.setFontSize(fontSize*getSizeMultLevel());
+                    // DB: I am not entirely sure to understand where the
+                    // 20 comes from...
+                    g.setFontSize(fontSize*getSizeMultLevel()*
+                        g.getZoom()/20);
                     // Font size is given in points, i.e. 1/72 of an inch.
                     // FidoCadJ has a 200 dpi internal resolution.
                     g.drawString(btoken.toString(),xc,
