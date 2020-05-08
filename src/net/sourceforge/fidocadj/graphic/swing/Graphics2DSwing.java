@@ -310,13 +310,17 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         setFont(name, size, false, false);
     }
-    /** Get the font size */
+    /** Get the font size.
+        @return the font size.
+    */
     public double getFontSize()
     {
         return f.getSize();
     }
 
-    /** Set the font size */
+    /** Set the font size.
+        @param size the font size.
+    */
     public void setFontSize(double size)
     {
         fontScale=size/100.0;

@@ -201,13 +201,17 @@ public class GraphicsNull implements GraphicsInterface
 
         fm=g.getFontMetrics(f);
     }
-    /** Get the font size */
+    /** Get the font size.
+        @return the size.
+    */
     public double getFontSize()
     {
         return g.getFont().getSize();
     }
 
-    /** Set the font size */
+    /** Set the font size.
+        @param size the fort size.
+    */
     public void setFontSize(double size)
     {
         g.setFont(g.getFont().deriveFont((int)Math.round(size)));

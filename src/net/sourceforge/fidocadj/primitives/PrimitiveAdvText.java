@@ -465,12 +465,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         pd.description=Globals.messages.getString("ctrl_text");
         v.add(pd);
 
-    /*  for (i=0;i<getControlPointNumber();++i) {
-            pd = new ParameterDescription();
-            pd.parameter=virtualPoint[i];
-            pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
-            v.add(pd);
-        } */
 
         pd = new ParameterDescription();
         pd.parameter=new LayerInfo(getLayer());

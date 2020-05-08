@@ -2,13 +2,13 @@ package net.sourceforge.fidocadj.graphic;
 
 /** Decorated text is a class that provides advanced text functions.
     It is possible to do things as follows:
-    
+
     I_{dsat}
-    
+
     R^2
-    
+
     V^{2e}
-    
+
     to indicate indices or exponents. The command _ indicates that the next
     character will be an index. The command ^ indicates that the next character
     is an exponent. If more of one character must be put, put them in braces.
@@ -38,6 +38,9 @@ public class DecoratedText
 {
     GraphicsInterface g;
 
+    /** The creator.
+        @param g the graphic object where to draw.
+    */
     public DecoratedText(GraphicsInterface g)
     {
         this.g=g;
@@ -57,7 +60,7 @@ public class DecoratedText
     int currentIndex;
     int lastIndex;
     int exponentLevel;
-    
+
     final static int CHUNK = 0;
     final static int INDEX = 1;
     final static int EXPONENT = 2;
@@ -74,7 +77,7 @@ public class DecoratedText
         }
 
         if(c=='_') {
-            ++currentIndex; 
+            ++currentIndex;
             if(cp!='_')
                 return INDEX;
         } else if (c=='^') {
@@ -127,7 +130,7 @@ public class DecoratedText
                                 int x,
                                 int y)
     {
-        /* 
+        /*
             [FIDOCAD]
             FJC A 0.35
             TY 1 2 4 3 0 0 0 Helvetica 1^2^3^4^5^6^7^8^9
