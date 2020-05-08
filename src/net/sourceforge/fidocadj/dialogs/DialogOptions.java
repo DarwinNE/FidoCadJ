@@ -53,7 +53,6 @@ public class DialogOptions extends MinimumSizeDialog
 
     public double connectionSize_i;
 
-    public boolean quaquaActive;
     public String libDirectory;
 
     public int pcblinewidth_i;
@@ -101,7 +100,6 @@ public class DialogOptions extends MinimumSizeDialog
         @param pw the current PCB pad width.
         @param ph the current PCB pad height.
         @param piw the current PCB bad internal hole diameter.
-        @param qq the current Quaqua state.
         @param ex strict compatibility with FidoCAD for Windows.
         @param mf the current Macro font.
         @param sssi stroke width to be used for segments and straight lines.
@@ -113,7 +111,7 @@ public class DialogOptions extends MinimumSizeDialog
     public DialogOptions (JFrame pa, double z, boolean p, boolean a,
                           int gs, String libDir, boolean tt, boolean sit,
                           int plw, int pw, int ph, int piw,
-                          boolean qq, boolean ex, String mf,
+                          boolean ex, String mf,
                           double sssi, double ssoi,
                           double ccs, int ms, boolean sdcp)
     {
@@ -130,7 +128,6 @@ public class DialogOptions extends MinimumSizeDialog
         textToolbar=tt;
         smallIconsToolbar=sit;
 
-        quaquaActive=qq;
         extStrict=ex;
         macroFont = mf;
 
@@ -209,7 +206,6 @@ public class DialogOptions extends MinimumSizeDialog
                 profileTime=profile_CB.isSelected();
                 textToolbar=textToolbar_CB.isSelected();
                 smallIconsToolbar=smallIconsToolbar_CB.isSelected();
-                quaquaActive=quaquaActive_CB.isSelected();
                 extStrict = extStrict_CB.isSelected();
                 macroFont = (String)comboFont.getSelectedItem();
                 int s=0;
@@ -374,22 +370,23 @@ public class DialogOptions extends MinimumSizeDialog
             }
         });
 
+        JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
+        constraints = DialogUtil.createConst(0,3,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
+            new Insets(6,40,6,0));
+        restartOptionPanel.add(restw, constraints);
+
         textToolbar_CB=new JCheckBox(Globals.messages.getString("TextToolbar"));
         textToolbar_CB.setSelected(textToolbar);
         textToolbar_CB.setOpaque(false);
-        constraints = DialogUtil.createConst(0,3,1,1,100,100,
+        constraints = DialogUtil.createConst(0,4,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,6,0));
 
         // Add text in tb cb
         restartOptionPanel.add(textToolbar_CB, constraints);
 
-        quaquaActive_CB=new
-            JCheckBox(Globals.messages.getString("Quaqua"));
-        quaquaActive_CB.setSelected(quaquaActive);
-        quaquaActive_CB.setOpaque(false);
-
-        constraints = DialogUtil.createConst(0,4,1,1,100,100,
+        constraints = DialogUtil.createConst(0,5,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,6,20));
 
@@ -398,7 +395,7 @@ public class DialogOptions extends MinimumSizeDialog
         smallIconsToolbar_CB.setSelected(smallIconsToolbar);
         smallIconsToolbar_CB.setOpaque(false);
 
-        constraints = DialogUtil.createConst(0,5,1,1,100,100,
+        constraints = DialogUtil.createConst(0,6,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,20,20));
 

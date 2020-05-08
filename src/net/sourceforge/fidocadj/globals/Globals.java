@@ -56,9 +56,6 @@ public class Globals
     // We are on a Mac!!!
     public static boolean weAreOnAMac;
 
-    // Quaqua is a better Mac L&F
-    public static boolean quaquaActive;
-
     // Show the cancel button to the right of the OK button, as it is done in
     // Windows
     public static boolean okCancelWinOrder;

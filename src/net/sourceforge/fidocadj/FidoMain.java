@@ -382,9 +382,6 @@ class CreateSwingInterface implements Runnable
             Preferences prefs_static =
                 Preferences.userNodeForPackage(g.getClass());
 
-            Globals.quaquaActive = prefs_static.get("QUAQUA",
-                "true").equals("true");
-
             Globals.weAreOnAMac =true;
 
             // These settings allows to obtain menus on the right place
@@ -397,20 +394,10 @@ class CreateSwingInterface implements Runnable
                 "FidoCadJ");
 
             try {
-                //Globals.quaquaActive=true;
-                //System.setProperty("Quaqua.Debug.showVisualBounds","true");
-                //System.setProperty("Quaqua.Debug.showClipBounds","true");
-                if(Globals.quaquaActive) {
-                    //UIManager.setLookAndFeel(
-                    //    "ch.randelshofer.quaqua.QuaquaLookAndFeel");
-                    //System.out.println("Quaqua look and feel active");
-                    System.out.println("Trying to activate VAqua7");
-                    UIManager.setLookAndFeel(
-                        "org.violetlib.aqua.AquaLookAndFeel");
-                    System.out.println("VAqua7 look and feel active");
-
-                }
-
+                System.out.println("Trying to activate VAqua7");
+                UIManager.setLookAndFeel(
+                    "org.violetlib.aqua.AquaLookAndFeel");
+                System.out.println("VAqua7 look and feel active");
             } catch (Exception e) {
                 // Quaqua is not active. Just continue!
 
@@ -430,9 +417,6 @@ class CreateSwingInterface implements Runnable
             } catch (Exception E) {
                 System.out.println("Could not load the Windows Look and feel!");
             }
-            Globals.quaquaActive=false;
-        } else {
-            Globals.quaquaActive=false;
         }
 
         // Un-comment to try to use the Metal LAF

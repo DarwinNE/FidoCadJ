@@ -738,7 +738,6 @@ public class FidoFrame extends JFrame implements
             ae.getPCB_pad_sizex(),
             ae.getPCB_pad_sizey(),
             ae.getPCB_pad_drill(),
-            Globals.quaquaActive,
             cc.getStrictCompatibility(),
             cc.dmp.getTextFont(),
             Globals.lineWidth,
@@ -776,8 +775,6 @@ public class FidoFrame extends JFrame implements
         toolBar.setStrictCompatibility(options.extStrict);
         cpa.setShiftCopyPaste(options.shiftCP);
 
-        Globals.quaquaActive=options.quaquaActive;
-
         libDirectory=options.libDirectory;
 
         Globals.lineWidth = options.stroke_size_straight_i;
@@ -804,9 +801,6 @@ public class FidoFrame extends JFrame implements
 
             prefs.put("TEXT_TOOLBAR",
                 (textToolbar?"true":"false"));
-
-            prefs.put("QUAQUA",
-                (Globals.quaquaActive?"true":"false"));
 
             prefs.put("GRID_SIZE", ""+cc.getMapCoordinates().getXGridStep());
 
