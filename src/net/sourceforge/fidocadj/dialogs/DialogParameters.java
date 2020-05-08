@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2018 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
  */
 public class DialogParameters extends JDialog
@@ -91,10 +91,19 @@ public class DialogParameters extends JDialog
 
         keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
         keyb2 = new OSKeybPanel(KEYBMODES.MISC);
+        JPanel hints = new JPanel();
+        JTextArea hints_l = new JTextArea(
+            Globals.messages.getString("text_hints"),15,40);
+        hints_l.setLineWrap(true);
+        hints_l.setWrapStyleWord(true);
+        hints_l.setEditable(false);
+        hints_l.setOpaque(false);
+        hints.add(hints_l);
         keyb1.setField(this);
         keyb2.setField(this);
-        keyb.addTab("Greek", keyb1);
-        keyb.addTab("Misc", keyb2);
+        keyb.addTab(Globals.messages.getString("param_greek"), keyb1);
+        keyb.addTab(Globals.messages.getString("param_misc"), keyb2);
+        keyb.addTab(Globals.messages.getString("param_hints"), hints);
         keyb.setVisible(false);
         v = vec;
 

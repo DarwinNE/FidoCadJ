@@ -68,12 +68,19 @@ public class DecoratedText
         if(currentIndex >= lastIndex)
             return END;
         char c=bstr.charAt(currentIndex);
+        char cp=0;
+        if(currentIndex < lastIndex-1) {
+            cp=bstr.charAt(currentIndex+1);
+        }
+
         if(c=='_') {
-            ++currentIndex;
-            return INDEX;
+            ++currentIndex; 
+            if(cp!='_')
+                return INDEX;
         } else if (c=='^') {
             ++currentIndex;
-            return EXPONENT;
+            if(cp!='^')
+                return EXPONENT;
         }
         btoken=new StringBuffer();
         while(true) {
