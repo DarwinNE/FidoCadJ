@@ -137,22 +137,17 @@ public class DecoratedText
         */
         resetTokenization(str);
         int xc=x;
-        double fontSize;
-        fontSize=g.getFontSize();
+        double fontSize=g.getFontSize();
         int t;
         while((t=getToken())!=END) {
             switch(t) {
                 case CHUNK:
-                    // DB: I am not entirely sure to understand where the
-                    // 20 comes from...
-                    g.setFontSize(fontSize*getSizeMultLevel()*
-                        g.getZoom()/20);
+                    g.setFontSize(fontSize*getSizeMultLevel());
                     // Font size is given in points, i.e. 1/72 of an inch.
                     // FidoCadJ has a 200 dpi internal resolution.
                     g.drawString(btoken.toString(),xc,
                         y-(int)Math.round(
-                            exponentLevel*fontSize*getSizeMultLevel()
-                            /200*72*0.1*g.getZoom()));
+                            exponentLevel*fontSize*getSizeMultLevel()*0.5));
                     xc+=g.getStringWidth(btoken.toString());
                     break;
                 case EXPONENT:
