@@ -93,7 +93,7 @@ public class DialogParameters extends JDialog
         keyb2 = new OSKeybPanel(KEYBMODES.MISC);
         JPanel hints = new JPanel();
         JTextArea hints_l = new JTextArea(
-            Globals.messages.getString("text_hints"),15,40);
+            Globals.messages.getString("text_hints"),6,40);
         hints_l.setLineWrap(true);
         hints_l.setWrapStyleWord(true);
         hints_l.setEditable(false);

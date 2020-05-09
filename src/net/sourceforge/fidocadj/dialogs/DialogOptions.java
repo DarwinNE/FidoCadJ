@@ -139,7 +139,6 @@ public class DialogOptions extends MinimumSizeDialog
         macroSize_i = ms;
 
         stroke_size_straight_i =sssi;
-        //stroke_size_oval_i=ssoi;
 
         setSize(600,500);
 
