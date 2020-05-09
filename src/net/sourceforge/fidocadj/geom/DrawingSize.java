@@ -30,7 +30,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -82,16 +82,13 @@ public final class DrawingSize
         }
 
         // Verify that the image size is reasonable
-        if(width<=0 || height<=0) {
-            /*System.out.println("Warning: Image has a zero"+
-                               "sized image");*/
-            width=100;
-            height=100;
-        }
+        if(width<=0)
+           width=1;
+        if(height<=0)
+            height=1;
 
-
-        if (m.getXMax() > m.getXMin() &&
-            m.getYMax() > m.getYMin())
+        if (m.getXMax() >= m.getXMin() &&
+            m.getYMax() >= m.getYMin())
         {
             origin.x=m.getXMin();
             origin.y=m.getYMin();

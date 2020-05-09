@@ -191,12 +191,16 @@ public final class ExportGraphic
             d.width+=Export.exportBorder;
             d.height+=Export.exportBorder;
 
+            System.out.println("d.width="+d.width+" d.height="+d.height);
+            System.out.println("width="+width+" height="+height);
+            System.out.println("org.x="+org.x+ " org.y="+org.y);
+
             unitPerPixel = Math.min((double)width/(double)d.width,
                 (double)height/(double)d.height);
+            System.out.println("unitPerPixel="+unitPerPixel);
         } else {
             // In this situation, we do have to calculate the size from the
             // specified resolution.
-
             width=(int)((d.width+Export.exportBorder)*unitPerPixel);
             height=(int)((d.height+Export.exportBorder)*unitPerPixel);
         }
@@ -210,9 +214,8 @@ public final class ExportGraphic
 
         BufferedImage bufferedImage;
 
-        // To print in black and white, we only need to create a single layer
-        // in which all layers will be exported and drawn.
-        // Clearly, the choosen color will be black.
+        // To print in black and white, we only need to create an array layer
+        // in which all colours will be black.
         if(blackWhite) {
             Vector<LayerDesc> v=new Vector<LayerDesc>();
             for (int i=0; i<16;++i)
@@ -224,7 +227,6 @@ public final class ExportGraphic
         }
 
         // Center the drawing in the given space.
-        System.out.println("unitPerPixel: "+unitPerPixel);
         m.setMagnitudes(unitPerPixel, unitPerPixel);
 
         if(shiftMin && !"pcb".equals(format)) {// don't alter geometry
