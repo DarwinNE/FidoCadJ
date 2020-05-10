@@ -36,7 +36,17 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class DecoratedText
 {
-    GraphicsInterface g;
+    private GraphicsInterface g;
+    private StringBuffer btoken;
+    private String bstr;
+    private int currentIndex;
+    private int lastIndex;
+    private int exponentLevel;
+
+    final static int CHUNK = 0;
+    final static int INDEX = 1;
+    final static int EXPONENT = 2;
+    final static int END = 3;
 
     /** The creator.
         @param g the graphic object where to draw.
@@ -54,17 +64,6 @@ public class DecoratedText
     {
         return g.getStringWidth(s);
     }
-
-    StringBuffer btoken;
-    String bstr;
-    int currentIndex;
-    int lastIndex;
-    int exponentLevel;
-
-    final static int CHUNK = 0;
-    final static int INDEX = 1;
-    final static int EXPONENT = 2;
-    final static int END = 3;
 
     private int getToken()
     {
@@ -138,6 +137,7 @@ public class DecoratedText
         resetTokenization(str);
         int xc=x;
         double fontSize=g.getFontSize();
+        System.out.println("t fontSize="+fontSize);
         int t;
         while((t=getToken())!=END) {
             switch(t) {

@@ -62,9 +62,16 @@ public class Graphics2DSwing implements GraphicsInterface
     private double zoom;
     private double actualZoom;
 
-    private Font f;
-    private double fontScale=1.0;
-    private Font mf;
+    /*  The font size affects the way the font is drawn. For this reason (as
+        things such as the zoom and scaling should not change the relative
+        size of the text), the font size is kept always equal to 100. Then, a
+        coordinate change is applied to the font so that it is rescaled to the
+        wanted size.
+    */
+    private final int FONTSIZE=170; // The size of the unscaled font.
+    private Font f;                 // This is the scaled font.
+    private double fontScale=1.0;   // This is the scaling factor.
+    private Font mf;                // This is the original (unscaled) font.
 
     /** Constructor: fabricate a new object form a java.awt.Graphics2D object.
         @param gg the java.awt.Graphics2D graphic context.
@@ -79,6 +86,12 @@ public class Graphics2DSwing implements GraphicsInterface
         g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
             RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g.setRenderingHint(
+            RenderingHints.KEY_RENDERING,
+            RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /** Constructor: fabricate a new object form a java.awt.Graphics object.
@@ -91,9 +104,12 @@ public class Graphics2DSwing implements GraphicsInterface
         actualZoom = -1;
         zoom=1;
         /* Is that useful??? */
-        g.setRenderingHint(
+        /*g.setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
-            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
+        /*g.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIASING_ON);*/
     }
 
     /** Constructor: fabricate a new object without associating a graphic
@@ -289,8 +305,8 @@ public class Graphics2DSwing implements GraphicsInterface
         boolean isBold)
     {
         mf = new Font(name,
-            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
-        fontScale=size/100.0;
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), FONTSIZE);
+        fontScale=size/FONTSIZE;
         f = mf.deriveFont(
             AffineTransform.getScaleInstance(fontScale, fontScale));
 
@@ -315,7 +331,7 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public double getFontSize()
     {
-        return f.getSize()*fontScale;
+        return fontScale*FONTSIZE;
     }
 
     /** Set the font size.
@@ -323,7 +339,10 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public void setFontSize(double size)
     {
-        fontScale=size/100.0;
+        fontScale=size/FONTSIZE;
+        if(mf==null)
+            return;
+        System.out.println("fontScale="+fontScale);
         f = mf.deriveFont(
             AffineTransform.getScaleInstance(fontScale, fontScale));
 
@@ -337,7 +356,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getFontAscent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.getAscent();
+        return (int)Math.round(fm.getAscent());
     }
 
     /** Get the descent metric of the current font.
@@ -346,7 +365,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getFontDescent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.getDescent();
+        return (int)Math.round(fm.getDescent());
     }
 
     /** Get the width of the given string with the current font.
@@ -356,8 +375,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getStringWidth(String s)
     {
         FontMetrics fm = g.getFontMetrics(mf);
-        double ll=fontScale*fm.stringWidth(s);
-        return (int)Math.round(ll);
+        return (int)Math.round(fontScale*fm.stringWidth(s));
     }
 
     /** Draw a string on the current graphic context.
@@ -369,6 +387,9 @@ public class Graphics2DSwing implements GraphicsInterface
                                 int x,
                                 int y)
     {
+        System.out.println("fract: "+g.getFontRenderContext().
+            usesFractionalMetrics());
+
         g.drawString(str,x,y);
     }
 
@@ -528,6 +549,8 @@ public class Graphics2DSwing implements GraphicsInterface
                 text output? Now FidoCadJ requires Java 1.7, get back to it?
         */
         AffineTransform at=(AffineTransform)g.getTransform().clone();
+
+        // Ats is used to save the current coordinate transform.
         AffineTransform ats=(AffineTransform)at.clone();
         AffineTransform stretching= new AffineTransform();
         AffineTransform mm= new AffineTransform();
