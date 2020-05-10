@@ -62,13 +62,24 @@ public class Graphics2DSwing implements GraphicsInterface
     private double zoom;
     private double actualZoom;
 
-    /*  The font size affects the way the font is drawn. For this reason (as
+    /*  Strategy in 0.24.7:
+        -------------------
+        The font size affects the way the font is drawn. For this reason (as
         things such as the zoom and scaling should not change the relative
         size of the text), the font size is kept always equal to 100. Then, a
         coordinate change is applied to the font so that it is rescaled to the
         wanted size.
+
+        Strategy in 0.24.8:
+        -------------------
+        Due to a strange bug for some (large) font sizes, I (DB) reverted the
+        mechanism and I derive a new font of a given calculated size from the
+        original font.
+        The situation does not seem to be now much worse than 0.24.7 as I can
+        set up the font size as a float and thus cope better with smaller
+        font sizes.
     */
-    private final int FONTSIZE=170; // The size of the unscaled font.
+    private final int FONTSIZE=100; // The size of the unscaled font.
     private Font f;                 // This is the scaled font.
     private double fontScale=1.0;   // This is the scaling factor.
     private Font mf;                // This is the original (unscaled) font.
@@ -305,10 +316,10 @@ public class Graphics2DSwing implements GraphicsInterface
         boolean isBold)
     {
         mf = new Font(name,
-            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), FONTSIZE);
-        fontScale=size/FONTSIZE;
-        f = mf.deriveFont(
-            AffineTransform.getScaleInstance(fontScale, fontScale));
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 
+            FONTSIZE);
+        fontScale=size;
+        f = mf.deriveFont((float)size);
 
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
@@ -331,7 +342,7 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public double getFontSize()
     {
-        return fontScale*FONTSIZE;
+        return fontScale;
     }
 
     /** Set the font size.
@@ -339,12 +350,10 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public void setFontSize(double size)
     {
-        fontScale=size/FONTSIZE;
+        fontScale=size;
         if(mf==null)
             return;
-        System.out.println("fontScale="+fontScale);
-        f = mf.deriveFont(
-            AffineTransform.getScaleInstance(fontScale, fontScale));
+        f = mf.deriveFont((float)size);
 
         if(!g.getFont().equals(f))
             g.setFont(f);
@@ -374,8 +383,8 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public int getStringWidth(String s)
     {
-        FontMetrics fm = g.getFontMetrics(mf);
-        return (int)Math.round(fontScale*fm.stringWidth(s));
+        FontMetrics fm = g.getFontMetrics(g.getFont());
+        return (int)Math.round(fm.stringWidth(s));
     }
 
     /** Draw a string on the current graphic context.
@@ -387,9 +396,6 @@ public class Graphics2DSwing implements GraphicsInterface
                                 int x,
                                 int y)
     {
-        System.out.println("fract: "+g.getFontRenderContext().
-            usesFractionalMetrics());
-
         g.drawString(str,x,y);
     }
 

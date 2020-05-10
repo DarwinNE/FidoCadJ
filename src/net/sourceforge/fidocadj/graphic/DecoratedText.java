@@ -137,7 +137,6 @@ public class DecoratedText
         resetTokenization(str);
         int xc=x;
         double fontSize=g.getFontSize();
-        System.out.println("t fontSize="+fontSize);
         int t;
         while((t=getToken())!=END) {
             switch(t) {
