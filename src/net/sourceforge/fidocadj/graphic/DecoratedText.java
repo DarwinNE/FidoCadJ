@@ -3,11 +3,13 @@ package net.sourceforge.fidocadj.graphic;
 /** Decorated text is a class that provides advanced text functions.
     It is possible to do things as follows:
 
-    I_{dsat}
+    I_dsat
 
     R^2
 
-    V^{2e}
+    V^2e
+
+    x^2^3_-3_-4
 
     to indicate indices or exponents. The command _ indicates that the next
     character will be an index. The command ^ indicates that the next character
@@ -75,14 +77,15 @@ public class DecoratedText
             cp=bstr.charAt(currentIndex+1);
         }
 
-        if(c=='_') {
+        if(c=='\\') {
+            c=cp;
             ++currentIndex;
-            if(cp!='_')
-                return INDEX;
+        } else if(c=='_') {
+            ++currentIndex;
+            return INDEX;
         } else if (c=='^') {
             ++currentIndex;
-            if(cp!='^')
-                return EXPONENT;
+            return EXPONENT;
         }
         btoken=new StringBuffer();
         while(true) {
@@ -92,7 +95,7 @@ public class DecoratedText
             if(currentIndex>=lastIndex)
                 return CHUNK;
             c=bstr.charAt(currentIndex);
-            if(c=='_' || c=='^')
+            if(c=='_' || c=='^' || c=='\\')
                 return CHUNK;
         }
     }

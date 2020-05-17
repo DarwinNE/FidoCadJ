@@ -79,7 +79,7 @@ public class Graphics2DSwing implements GraphicsInterface
         set up the font size as a float and thus cope better with smaller
         font sizes.
     */
-    private final int FONTSIZE=100; // The size of the unscaled font.
+    private final static int FONTSIZE=100; // The size of the unscaled font.
     private Font f;                 // This is the scaled font.
     private double fontScale=1.0;   // This is the scaling factor.
     private Font mf;                // This is the original (unscaled) font.
@@ -316,7 +316,7 @@ public class Graphics2DSwing implements GraphicsInterface
         boolean isBold)
     {
         mf = new Font(name,
-            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
             FONTSIZE);
         fontScale=size;
         f = mf.deriveFont((float)size);

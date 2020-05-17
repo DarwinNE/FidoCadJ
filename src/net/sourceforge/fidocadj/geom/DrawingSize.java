@@ -83,7 +83,7 @@ public final class DrawingSize
 
         // Verify that the image size is reasonable
         if(width<=0)
-           width=1;
+            width=1;
         if(height<=0)
             height=1;
 
