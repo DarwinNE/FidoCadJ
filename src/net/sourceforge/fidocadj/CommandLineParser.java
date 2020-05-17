@@ -255,7 +255,7 @@ public class CommandLineParser
 
         //CHECKSTYLE.OFF: LineLength
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-            "By the FidoCadJ team, 2007-2019.\n\n"+
+            "By the FidoCadJ team, 2007-2020.\n\n"+
 
             "Use: java -jar fidocadj.jar [-options] [file] \n"+
             "where options include:\n\n"+

@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportEPS implements ExportInterface
+public class ExportEPS implements ExportInterface, TextInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;
@@ -44,6 +44,8 @@ public class ExportEPS implements ExportInterface
     private int currentDash;
     private float dashPhase;
     private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
 
     // Number of digits to be used when representing coordinates
     static final int PREC = 3;
@@ -60,7 +62,7 @@ public class ExportEPS implements ExportInterface
     public void setDashUnit(double u)
     {
         sDash = new String[Globals.dashNumber];
-
+        dt=new DecoratedText(this);
         // If the line width has been changed, we need to update the
         // stroke table
 
@@ -193,6 +195,12 @@ public class ExportEPS implements ExportInterface
         out.close();
     }
 
+    private String fontname;
+    private String bold="";
+    private float textx;
+    private float texty;
+
+
     /** Called when exporting an Advanced Text primitive.
         @param x the x position of the beginning of the string to be written.
         @param y the y position of the beginning of the string to be written.
@@ -213,16 +221,17 @@ public class ExportEPS implements ExportInterface
         int orientation, int layer, String text_t)
         throws IOException
     {
-        String fontname = fontname_t;
         String text = text_t;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, -1);
-        String bold="";
-        int ys = (int)(sizex*12/(double)7+.5);
-
+        currentFontSize = (int)(sizex*12/(double)7+.5);
+        fontname = fontname_t;
+    
         if(isBold)
             bold="-Bold";
+        else
+            bold="";
 
         // It seems that Postscript fonts can not handle spaces. So I substitute
         // every space with a "-" sign.
@@ -231,11 +240,13 @@ public class ExportEPS implements ExportInterface
         substFont.put(" ","-");
         fontname=Globals.substituteBizarreChars(fontname, substFont);
         out.write("/"+fontname+bold+" findfont\n"+
-            ys+" scalefont\n"+
+            (int)currentFontSize+" scalefont\n"+
             "setfont\n");
         out.write("newpath\n");
 
         out.write("" +x+" "+y+" moveto\n");
+        textx=x;
+        texty=y;
         out.write("gsave\n");
 
         if(orientation !=0)
@@ -257,19 +268,17 @@ public class ExportEPS implements ExportInterface
         }
 
         out.write("  "+1+" "+ratio+" scale\n");
-        out.write("  0 " +(-ys*0.8)+" rmoveto\n");
+        out.write("  0 " +(-currentFontSize*0.8)+" rmoveto\n");
 
         checkColorAndWidth(c, 0.33);
 
-        //out.write("  "+c.getRed()/255.0+" "+c.getGreen()/255.0+ " "
-        //  +c.getBlue()/255.0+ " setrgbcolor\n");
 
         Map<String, String> subst = new HashMap<String, String>();
         subst.put("(","\\050");
         subst.put(")","\\051");
         text=Globals.substituteBizarreChars(text, subst);
 
-        out.write("  ("+text+") show\n");
+        dt.drawString(text,x,y);
         out.write("grestore\n");
     }
 
@@ -831,6 +840,57 @@ public class ExportEPS implements ExportInterface
                 out.write("[] 0 setdash\n");
             else
                 out.write(""+sDash[dashStyle]+" "+dashPhase+" setdash\n");
+        }
+    }
+
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+        try {
+            out.write("/"+fontname+bold+" findfont\n"+
+                (int)currentFontSize+" scalefont\n"+
+                "setfont\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
+        }
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        return 0;
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try{
+            out.write("" + (textx-x) +" "+ (texty-y)+ " rmoveto\n");
+            out.write("  ("+str+") show\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
         }
     }
 }

@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.layers.*;
 </pre>
 */
 
-public class GraphicsNull implements GraphicsInterface
+public class GraphicsNull implements GraphicsInterface, TextInterface
 {
     private FontMetrics fm;
     Graphics g;
@@ -62,6 +62,14 @@ public class GraphicsNull implements GraphicsInterface
         ((Graphics2D) g).setRenderingHint(
             RenderingHints.KEY_FRACTIONALMETRICS,
             RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+    }
+
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface()
+    {
+        return this;
     }
 
     /** Set the current color. Here nothing is done.

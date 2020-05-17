@@ -303,7 +303,7 @@ public abstract class GraphicPrimitive
             g.setFont(macroFont,
                 (int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
-        DecoratedText dt=new DecoratedText(g);
+        DecoratedText dt=new DecoratedText(g.getTextInterface());
         /* The if's have been added thanks to this information:
          http://sourceforge.net/projects/fidocadj/forums/forum/997486
             /topic/3474689?message=7798139

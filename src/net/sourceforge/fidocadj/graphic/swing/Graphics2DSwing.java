@@ -37,7 +37,7 @@ import net.sourceforge.fidocadj.graphic.*;
 </pre>
 */
 
-public class Graphics2DSwing implements GraphicsInterface
+public class Graphics2DSwing implements GraphicsInterface, TextInterface
 {
     // Practical sizes to the image used a "brush" for the tiled fill.
     // Larger images may yield faster results, until the memory penalty will
@@ -134,6 +134,14 @@ public class Graphics2DSwing implements GraphicsInterface
         oldZoom = -1;
         actualZoom = -1;
         zoom=1;
+    }
+
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface()
+    {
+        return this;
     }
 
     /** Retrieves or create a BasicStroke object having the wanted with and

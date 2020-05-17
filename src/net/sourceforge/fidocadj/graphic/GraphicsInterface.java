@@ -50,6 +50,11 @@ public interface GraphicsInterface
     */
     public void setColor(ColorInterface c);
 
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface();
+
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
         @param w the width in pixel

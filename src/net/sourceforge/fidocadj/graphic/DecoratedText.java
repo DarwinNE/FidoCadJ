@@ -38,7 +38,7 @@ package net.sourceforge.fidocadj.graphic;
 */
 public class DecoratedText
 {
-    private GraphicsInterface g;
+    private TextInterface g;
     private StringBuffer btoken;
     private String bstr;
     private int currentIndex;
@@ -53,7 +53,7 @@ public class DecoratedText
     /** The creator.
         @param g the graphic object where to draw.
     */
-    public DecoratedText(GraphicsInterface g)
+    public DecoratedText(TextInterface g)
     {
         this.g=g;
     }
