@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.graphic.*;
 
     @author Davide Bucci
 */
-public class ExportPDF implements ExportInterface
+public class ExportPDF implements ExportInterface, TextInterface
 {
     private final File temp;
     private final OutputStreamWriter fstream;
@@ -49,6 +49,11 @@ public class ExportPDF implements ExportInterface
     private String userfont;
     private float dashPhase;
     private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
+    private String currentFont;        // Some info about the font is stored
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
 
 
     private final GraphicsInterface gi;
@@ -147,8 +152,8 @@ public class ExportPDF implements ExportInterface
 
         fstreamt =  new OutputStreamWriter(new FileOutputStream(temp),
             encoding);
-
         obj_PDF = new String[numOfObjects];
+        dt=new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -753,6 +758,8 @@ public class ExportPDF implements ExportInterface
 
     }
 
+
+
     /** Called when exporting an Advanced Text primitive.
 
         @param x the x position of the beginning of the string to be written.
@@ -769,7 +776,6 @@ public class ExportPDF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text_t)
@@ -791,41 +797,43 @@ public class ExportPDF implements ExportInterface
 
         if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
             if(isBold)
-                outt.write("/F2"+" "+ys+" Tf\n");
+                currentFont="/F2";
             else
-                outt.write("/F1"+" "+ys+" Tf\n");
+                currentFont="/F1";
         } else if("Times".equals(fontname) ||
             "Times New Roman".equals(fontname) ||
             "Times Roman".equals(fontname))
         {
             if(isBold)
-                outt.write("/F4"+" "+ys+" Tf\n");
+                currentFont="/F4";
             else
-                outt.write("/F3"+" "+ys+" Tf\n");
+                currentFont="/F3";
 
         } else if("Helvetica".equals(fontname) ||
             "Arial".equals(fontname))
         {
             if(isBold)
-                outt.write("/F6"+" "+ys+" Tf\n");
+                currentFont="/F6";
             else
-                outt.write("/F5"+" "+ys+" Tf\n");
+                currentFont="/F5";
 
         } else if("Symbol".equals(fontname)) {
             if(isBold)
-                outt.write("/F8"+" "+ys+" Tf\n");
+                currentFont="/F8";
             else
-                outt.write("/F7"+" "+ys+" Tf\n");
+                currentFont="/F7";
         } else {
             fontWarning = true;
             userfont=fontname;
-            outt.write("/F9"+" "+ys+" Tf\n");
+            currentFont="/F9";
         }
-
+        outt.write(currentFont+" "+ys+" Tf\n");
+        currentFontSize=(float)ys;
         outt.write("q\n");
         outt.write("  1 0 0 1 "+ Globals.roundTo(x)+" "+ Globals.roundTo(y)+
             " cm\n");
-
+        textx=x;
+        texty=y;
         if(orientation !=0) {
             double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
             outt.write("  "+Globals.roundTo(Math.cos(alpha))+" "
@@ -845,36 +853,9 @@ public class ExportPDF implements ExportInterface
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;
         }
-        outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+
-            " cm\n");
-
-        outt.write(" <");
-        int ch;
-        int codechar;
-        for(int i=0; i<text.length();++i) {
-            ch=(int)text.charAt(i);
-
-            // Proceed to encode UTF-8 characters as much as possible.
-            if(ch>127) {
-                if(uncodeCharsNeeded.containsKey(ch)) {
-                    ch=uncodeCharsNeeded.get(ch);
-                } else {
-                    ++unicodeCharIndex;
-                    if(unicodeCharIndex<256) {
-                        uncodeCharsNeeded.put(unicodeCharIndex,ch);
-                        ch=unicodeCharIndex;
-                    } else {
-                        System.err.println("Too many Unicode chars! "+
-                            "The present version of the PDF export filter "+
-                            "handles up to 128 different Unicode chars in one "+
-                            "file.");
-                    }
-                }
-            }
-            outt.write(Integer.toHexString(ch));
-            outt.write(" ");
-        }
-        outt.write("> Tj\n");
+        outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+
+                (-ys*ratio*0.8)+" cm\n");
+        dt.drawString(text,x,y);
         outt.write("Q\nET\n");
     }
 
@@ -1481,5 +1462,84 @@ public class ExportPDF implements ExportInterface
                 Globals.roundTo(x4)+" "+Globals.roundTo(y4)+" l s\n");
         }
         return new PointPr(x0,y0);
+    }
+
+
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+        try {
+            outt.write(currentFont+" "+currentFontSize+" Tf\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in PDF export.");
+        }
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        return 0;
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try {
+            outt.write("  1 0 0 1 "+ Globals.roundTo(textx-x)+
+                " "+ Globals.roundTo(texty-y)+
+                " cm\n");
+            texty=y;
+
+            outt.write(" <");
+            int ch;
+            int codechar;
+            for(int i=0; i<str.length();++i) {
+                ch=(int)str.charAt(i);
+                // Proceed to encode UTF-8 characters as much as possible.
+                if(ch>127) {
+                    if(uncodeCharsNeeded.containsKey(ch)) {
+                        ch=uncodeCharsNeeded.get(ch);
+                    } else {
+                        ++unicodeCharIndex;
+                        if(unicodeCharIndex<256) {
+                            uncodeCharsNeeded.put(unicodeCharIndex,ch);
+                            ch=unicodeCharIndex;
+                        } else {
+                            System.err.println("Too many Unicode chars! "+
+                                "The present version of the PDF export filter "+
+                                "handles up to 128 different Unicode chars in "+
+                                "one file.");
+                        }
+                    }
+                }
+                outt.write(Integer.toHexString(ch));
+                outt.write(" ");
+            }
+            outt.write("> Tj\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
+        }
     }
 }

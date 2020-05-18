@@ -46,6 +46,10 @@ public class ExportEPS implements ExportInterface, TextInterface
     private float currentPhase=-1;
     private float currentFontSize=0;
     private DecoratedText dt;
+    private String fontname;        // Some info about the font is stored
+    private String bold="";
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
 
     // Number of digits to be used when representing coordinates
     static final int PREC = 3;
@@ -62,7 +66,6 @@ public class ExportEPS implements ExportInterface, TextInterface
     public void setDashUnit(double u)
     {
         sDash = new String[Globals.dashNumber];
-        dt=new DecoratedText(this);
         // If the line width has been changed, we need to update the
         // stroke table
 
@@ -103,6 +106,7 @@ public class ExportEPS implements ExportInterface, TextInterface
     public ExportEPS (File f) throws IOException
     {
         fstream = new FileWriter(f);
+        dt=new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -194,12 +198,6 @@ public class ExportEPS implements ExportInterface, TextInterface
         out.write("%%EOF\n");
         out.close();
     }
-
-    private String fontname;
-    private String bold="";
-    private float textx;
-    private float texty;
-
 
     /** Called when exporting an Advanced Text primitive.
         @param x the x position of the beginning of the string to be written.
