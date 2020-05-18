@@ -888,6 +888,7 @@ public class ExportEPS implements ExportInterface, TextInterface
     {
         try{
             out.write("" + (textx-x) +" "+ (texty-y)+ " rmoveto\n");
+            texty=y;
             out.write("  ("+str+") show\n");
         } catch(IOException E) {
             System.err.println("Can not write to file in EPS export.");

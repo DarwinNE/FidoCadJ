@@ -273,7 +273,7 @@ public class CommandLineParser
             "        An alternative is to specify the resolution in pixels per logical unit\n"+
             "        by preceding it by the letter 'r' (without spaces), instead of giving\n"+
             "        sx and sy.\n"+
-            "        NOTE: the coherence of the file extension is checked, unless the -f\n"+
+            "        NOTE: the correctness of the file extension is checked, unless the -f\n"+
             "        option is specified.\n\n"+
 
             " -m     if a file export is done towards a vector graphic file format, split\n"+
@@ -297,7 +297,7 @@ public class CommandLineParser
 
             " -k     Show the current locale.\n\n"+
 
-            " -f     Force FidoCadJ to skip some tests about sanity of the inputs.\n\n"+
+            " -f     Force FidoCadJ to skip some sanity tests on the input data.\n\n"+
 
             " [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
             "        load at startup time.\n\n"+
@@ -309,7 +309,7 @@ public class CommandLineParser
             "        graphic user interface (the so called headless mode).\n"+
             "        Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
             "  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
-            "Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
+            "Example: load FidoCadJ forcing the locale to simplified Chinese (zh).\n"+
             "  java -jar fidocadj.jar -l zh\n\n";
 
         //CHECKSTYLE.ON: LineLength
