@@ -35,19 +35,26 @@ import net.sourceforge.fidocadj.graphic.*;
     @author Davide Bucci
 */
 
-public class ExportSVG implements ExportInterface
+public class ExportSVG implements ExportInterface, TextInterface
 {
     //private File fileExp;
     final private OutputStreamWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
-    //private int numberPath;
 
-    private ColorInterface c;
+    private ColorInterface c;       // Current colour (used in advText export)
     private double strokeWidth;
     private String sDash[];
     private float dashPhase;
     private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
+    private String fontname;        // Some info about the font is stored
+    private String bold="";
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
+    private boolean isItalic;
+    private boolean isBold;
 
     /*
     static final String dash[]={"2.5,5", "1.25,1.25",
@@ -104,10 +111,9 @@ public class ExportSVG implements ExportInterface
     */
     public ExportSVG (File f) throws IOException
     {
-        //fileExp=f;
-        System.out.println("New file: "+f);
         fstream = new OutputStreamWriter(new FileOutputStream(f),
             Globals.encoding);
+        dt = new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -186,6 +192,8 @@ public class ExportSVG implements ExportInterface
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String path;
+        this.isItalic=isItalic;
+        this.isBold=isBold;
 
         /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR,
             MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
@@ -202,6 +210,7 @@ public class ExportSVG implements ExportInterface
 
 
         double xscale = sizex/22.0/sizey*38.0;
+        setFontSize(sizey);
         if(orientation !=0) {
             double alpha= isMirrored?orientation:-orientation;
             out.write(" rotate("+alpha+") ");
@@ -212,25 +221,7 @@ public class ExportSVG implements ExportInterface
         out.write(" scale("+xscale+",1) ");
 
         out.write("\">");
-        out.write("<text x=\""+0+"\" y=\""+cLe(sizey)+"\" font-family=\""+
-            fontname+"\" font-size=\""+cLe(sizey)+"\" font-style=\""+
-            (isItalic?"italic":"")+"\" font-weigth=\""+
-            (isBold?"bold":"")+"\" "+
-            "fill=\"#"+
-                convertToHex2(c.getRed())+
-                convertToHex2(c.getGreen())+
-                convertToHex2(c.getBlue())+"\""+
-
-            ">");
-        // Substitute potentially dangerous characters (issue #162)
-        String outtxt=text.replace("&", "&amp;");
-        outtxt=outtxt.replace("<", "&lt;");
-        outtxt=outtxt.replace(">", "&gt;");
-        outtxt=outtxt.replace("\"", "&quot;");
-        outtxt=outtxt.replace("'", "&apos;");
-
-        out.write(outtxt);
-        out.write("</text>\n");
+        dt.drawString(text,x,y);
         out.write("</g>\n");
 
     }
@@ -846,5 +837,66 @@ public class ExportSVG implements ExportInterface
             checkColorAndWidth("fill=\"none\"", 0);
         }
         return new PointPr(x0,y0);
+    }
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        return 0;
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try{
+            out.write("<text x=\""+0+"\" y=\""+cLe(currentFontSize)+
+                "\" font-family=\""+
+                fontname+"\" font-size=\""+cLe(currentFontSize)+
+                "\" font-style=\""+
+                (isItalic?"italic":"")+"\" font-weigth=\""+
+                (isBold?"bold":"")+"\" "+
+                "fill=\"#"+
+                    convertToHex2(c.getRed())+
+                    convertToHex2(c.getGreen())+
+                    convertToHex2(c.getBlue())+"\""+
+                ">");
+            // Substitute potentially dangerous characters (issue #162)
+            String outtxt=str.replace("&", "&amp;");
+            outtxt=outtxt.replace("<", "&lt;");
+            outtxt=outtxt.replace(">", "&gt;");
+            outtxt=outtxt.replace("\"", "&quot;");
+            outtxt=outtxt.replace("'", "&apos;");
+
+            out.write(outtxt);
+            out.write("</text>\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in SVG export.");
+        }
     }
 }
