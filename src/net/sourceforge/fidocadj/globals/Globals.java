@@ -87,7 +87,7 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.8 ζ";
+    public static final String version = "0.24.8 η";
     // Is it a beta version? Some debug options become available, such as
     // timing each redraw operation.
     public static final boolean isBeta = true;
