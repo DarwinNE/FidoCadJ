@@ -56,6 +56,8 @@ public class ExportPDF implements ExportInterface, TextInterface
     private float texty;
 
 
+    // A graphic interface object is used here to get information about the
+    // size of the different glyphs in the font.
     private final GraphicsInterface gi;
 
     // Well, this is a complex stuff. In practice, in the PDF format we have to

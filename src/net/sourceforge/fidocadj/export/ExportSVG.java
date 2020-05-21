@@ -56,6 +56,9 @@ public class ExportSVG implements ExportInterface, TextInterface
     private boolean isItalic;
     private boolean isBold;
 
+    // A graphic interface object is used here to get information about the
+    // size of the different glyphs in the font.
+    private final GraphicsInterface gi;
     /*
     static final String dash[]={"2.5,5", "1.25,1.25",
         "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};*/
@@ -109,8 +112,9 @@ public class ExportSVG implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public ExportSVG (File f) throws IOException
+    public ExportSVG (File f, GraphicsInterface g) throws IOException
     {
+        gi=g;
         fstream = new OutputStreamWriter(new FileOutputStream(f),
             Globals.encoding);
         dt = new DecoratedText(this);
@@ -194,20 +198,14 @@ public class ExportSVG implements ExportInterface, TextInterface
         String path;
         this.isItalic=isItalic;
         this.isBold=isBold;
+        this.fontname=fontname;
 
         /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR,
             MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
             HANDLED
         */
 
- /*
-        if(isBold)
-            outt.write("/F2"+" "+sizey+" Tf\n");
-        else
-            outt.write("/F1"+" "+sizey+" Tf\n");
-*/
         out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
-
 
         double xscale = sizex/22.0/sizey*38.0;
         setFontSize(sizey);
@@ -221,6 +219,8 @@ public class ExportSVG implements ExportInterface, TextInterface
         out.write(" scale("+xscale+",1) ");
 
         out.write("\">");
+        textx=x;
+        texty=y;
         dt.drawString(text,x,y);
         out.write("</g>\n");
 
@@ -862,7 +862,8 @@ public class ExportSVG implements ExportInterface, TextInterface
     */
     public int getStringWidth(String s)
     {
-        return 0;
+        gi.setFont(fontname,currentFontSize);
+        return gi.getStringWidth(s);
     }
 
     /** Draw a string on the current graphic context.
@@ -875,8 +876,9 @@ public class ExportSVG implements ExportInterface, TextInterface
                                 int y)
     {
         try{
-            out.write("<text x=\""+0+"\" y=\""+cLe(currentFontSize)+
-                "\" font-family=\""+
+            out.write("<text x=\""+(x-textx)+"\" y=\""
+                +cLe(currentFontSize+y-texty)
+                +"\" font-family=\""+
                 fontname+"\" font-size=\""+cLe(currentFontSize)+
                 "\" font-style=\""+
                 (isItalic?"italic":"")+"\" font-weigth=\""+

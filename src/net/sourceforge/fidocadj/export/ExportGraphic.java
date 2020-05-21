@@ -321,7 +321,7 @@ public final class ExportGraphic
             ef.setExtensions(ext);
             ei=ef;
         } else if("svg".equals(format)) {
-            ei = new ExportSVG(file);
+            ei = new ExportSVG(file, new GraphicsNull());
         } else {
             IOException E=new IOException("Wrong file format");
             throw E;
