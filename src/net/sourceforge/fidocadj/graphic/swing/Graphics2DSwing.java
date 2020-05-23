@@ -650,12 +650,15 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
         // Drawing the grid seems easy, but it appears that setting a pixel
         // takes a lot of time. Basically, we create a textured brush and we
         // use it to paint the entire specified region.
-
-        int dx=cs.getXGridStep();
-        int dy=cs.getYGridStep();
+        int dx=cs.getXGridStep();   // Horizontal grid pitch in logical units.
+        int dy=cs.getYGridStep();   // Vertical grid pitch in logical units.
         int mul=1;
         double toll=0.01;
         double z=cs.getYMagnitude();
+
+        // DB: I tried with d/2 instead of 0, but I get some very
+        // unpleasant aliasing effects for zoom such as 237%
+        double dd=0;
 
         double x;
         double y;
@@ -682,11 +685,27 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
             double d=1;
 
-            // This code applies a correction: draws bigger points if the pitch
-            // is very large, or draw much less points if it is too dense.
-            if (ddx>50 || ddy>50) {
+            // This code applies a correction: draws lines if the pitch
+            // is very large, or draw much less dots if it is too dense.
+            if (ddx>35 || ddy>35) {
+                // Lines!
+                bufferedImage=null;
                 d=2;
+                // The loops are done in logical units.
+                g.setColor(new Color(220,220,220));
+                for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
+                    g.drawLine(
+                        (int)Math.round(cs.mapXr(x,0)),ymin,
+                        (int)Math.round(cs.mapXr(x,0)), ymax);
+                }
+                for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
+                    g.drawLine(
+                        xmin,(int)Math.round(cs.mapYr(0,y)),
+                        xmax, (int)Math.round(cs.mapYr(0,y)));
+                }
+                return;
             } else if (ddx<3 || ddy <3) {
+                // Less dots
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
                 ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
@@ -698,11 +717,6 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
             height=Math.abs(cs.mapY(0,0)-cs.mapY(0,mul*dy));
             if (height<=0) height=1;
 
-            // DB: I tried with d/2 instead of 0, but I get some very
-            // unpleasant aliasing effects for zoom such as 237%
-            double dd=0;
-            // System.out.println("width="+width);
-            // System.out.println("height="+height);
             /* Nowadays computers have generally a lot of memory, but this is
                not a good reason to waste it. If it turns out that the image
                size is utterly impratical, use the standard dot by dot grid
@@ -713,7 +727,6 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
                 height>maxAllowableGridBrushHeight)
             {
                 // Simpler (and generally less efficient) version of the grid
-
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
@@ -741,7 +754,6 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
             // Create a graphics contents on the buffered image
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setColor(Color.white);
-            //g2d.fillRect(0,0,width,height);
             g2d.setColor(Color.gray);
 
             // Prepare the image with the grid.
