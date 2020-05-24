@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -79,15 +79,15 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             this.filterWord = null;
             fireChanged();
         } else {
-            final String chainedWord =
-                filterWord.toLowerCase(new Locale("en"));
+            Locale lo = new Locale("en");
+            final String chainedWord = filterWord.toLowerCase(lo);
             synchronizeTree(new NodeFilterInterface() {
                 public boolean accept(MacroTreeNode node)
                 {
                     String[] words = chainedWord.trim().split(" ");
                     int matched=0;
                     for(String word:words) {
-                        if(0<=node.toString().toLowerCase().indexOf(word)) {
+                        if(0<=node.toString().toLowerCase(lo).indexOf(word)) {
                             matched++;
                         } else if(word.length()==0) {
                             matched++;
@@ -447,12 +447,10 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         // Save a copy of the current library note
         HashMap<TreePath,AbstractMacroTreeNode> tmpMap =libraryNodeMap;
-        /*
-               (HashMap<TreePath,AbstractMacroTreeNode>)libraryNodeMap.clone();
-        libraryNodeMap.clear(); */
+
         libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
 
-        if(rootNode==null){
+        if(rootNode==null) {
             rootNode = new RootNode();
         }
 
@@ -494,19 +492,24 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     }
 
                     if(filter!=null && !filter.accept(mn)) {
+                        // If the search hasn't been successful, don't show the
+                        // current macro in the category.
                         continue;
                     }
                     cn.addMacroNode(mn);
                     libraryNodeMap.put(macroPath,mn);
                 }
-
                 if(filter!=null && cn.getChildCount()==0) {
+                    // If the no macros are to be shown, don't show the
+                    // current category in the library.
                     continue;
                 }
                 ln.addCategoryNode(cn);
                 libraryNodeMap.put(categoryPath,cn);
             }
             if(filter!=null && ln.getChildCount()==0) {
+                // If no categories are to be shown, don't show the
+                // current library.
                 continue;
             }
             rootNode.addLibraryNode(ln);

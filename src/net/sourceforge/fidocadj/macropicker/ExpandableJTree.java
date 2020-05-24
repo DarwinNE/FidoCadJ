@@ -62,7 +62,7 @@ public class ExpandableJTree extends JTree
         //This only switchs expand state.
         //Actually expanding/collapsing tree is on next repaint.
         TreePath path;
-        for(int row=1; row<getRowCount(); row++) {
+        for(int row=0; row<getRowCount(); ++row) {
             path = getPathForRow(row);
             if(!getModel().isLeaf(path.getLastPathComponent())) {
                 setExpandedState(path, expand);

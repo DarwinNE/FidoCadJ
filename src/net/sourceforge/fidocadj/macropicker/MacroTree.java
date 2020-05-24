@@ -423,7 +423,7 @@ public class MacroTree extends JPanel
         destCategory = getSelectedCategory();
         targetMacro = macroTreeModel.getMacro(copyTarget);
 
-        libraryModel.copy(targetMacro,destCategory);
+        libraryModel.copy(targetMacro, destCategory);
     }
 
     /** Create the object describing permissions.
@@ -605,7 +605,6 @@ public class MacroTree extends JPanel
     {
         // I think this must be initialized with localized label string
         // means search.
-        // searchField = new SearchField(Globals.messages.getString("Search"));
         searchField = new SearchField();
     }
 

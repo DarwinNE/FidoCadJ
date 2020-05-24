@@ -15,7 +15,6 @@ import net.sourceforge.fidocadj.globals.*;
  * A text field for search/filter interfaces. The extra functionality includes
  * a placeholder string (when the user hasn't yet typed anything), and a button
  * to clear the currently-entered text.
-
  *
  * @author Elliott Hughes
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
@@ -24,7 +23,6 @@ public class SearchField extends JTextField implements FocusListener
 {
 
     private static final Border CANCEL_BORDER = new CancelBorder();
-
     private boolean sendsNotificationForEachKeystroke = false;
     private static final boolean showingPlaceholderText = false;
     private boolean armed = false;
@@ -39,7 +37,6 @@ public class SearchField extends JTextField implements FocusListener
         super(15);
 
         putClientProperty("JTextField.style", "search");
-        //putClientProperty("JTextField.Search.Prompt", placeholderText);
         putClientProperty("Quaqua.TextField.style", "search");
 
         this.placeholderText = placeholderText;
@@ -67,7 +64,6 @@ public class SearchField extends JTextField implements FocusListener
     public void paintComponent(Graphics g)
     {
         if(Globals.weAreOnAMac) {
-
             // This is useful only on Macintosh, since the text field shown is
             // rounded.
             Rectangle r = getBounds();
@@ -125,9 +121,6 @@ public class SearchField extends JTextField implements FocusListener
     private void initBorder()
     {
         setBorder(new CompoundBorder(getBorder(), CANCEL_BORDER));
-        //getBorder().setOpaque(true);
-        //getContentPane().setOpaque(true);
-
         MouseInputListener mouseInputListener = new CancelListener();
         addMouseListener(mouseInputListener);
         addMouseMotionListener(mouseInputListener);
@@ -146,11 +139,10 @@ public class SearchField extends JTextField implements FocusListener
                 } else if (sendsNotificationForEachKeystroke) {
                     maybeNotify();
                 }
-
             }
             public void keyPressed(KeyEvent e)
             {
-                // If the search field has the focus, it will be te only
+                // If the search field has the focus, it will be the only
                 // recipient of the key strokes (solves bug #50).
                 // Do this only for R and S keys.
 
@@ -191,7 +183,6 @@ public class SearchField extends JTextField implements FocusListener
      */
     static class CancelBorder extends EmptyBorder
     {
-
         private static final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
 
         /** Standard constructor.
@@ -264,7 +255,6 @@ public class SearchField extends JTextField implements FocusListener
     {
         private boolean isOverButton(MouseEvent e)
         {
-
             // If the button is down, we might be outside the component
             // without having had mouseExited invoked.
             if (!contains(e.getPoint())) {
