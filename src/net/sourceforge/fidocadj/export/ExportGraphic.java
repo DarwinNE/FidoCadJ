@@ -191,13 +191,8 @@ public final class ExportGraphic
             d.width+=Export.exportBorder;
             d.height+=Export.exportBorder;
 
-            System.out.println("d.width="+d.width+" d.height="+d.height);
-            System.out.println("width="+width+" height="+height);
-            System.out.println("org.x="+org.x+ " org.y="+org.y);
-
             unitPerPixel = Math.min((double)width/(double)d.width,
                 (double)height/(double)d.height);
-            System.out.println("unitPerPixel="+unitPerPixel);
         } else {
             // In this situation, we do have to calculate the size from the
             // specified resolution.
