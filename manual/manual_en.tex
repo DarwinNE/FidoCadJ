@@ -119,14 +119,13 @@ by their owners.
 
 \pdfbookmark[1]{Abstract}{Abstract}
 
-This document is the FidoCadJ official user manual. After a short
-introduction of the history and the birth of this software, we will
-describe the basic use of FidoCadJ. Our goal is to learn how to draw
-very simple electronic schematics and their printed circuit boards.
-The manual will end with a detailed description of the FidoCadJ (and
-thus FidoCAD) format. Finally, we will give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
+This document is the FidoCadJ user manual. After a short
+introduction describing the history and the birth of this software, we
+describe the basic use of FidoCadJ. Our goal is to show how to draw
+very simple electronic schematics and printed circuit boards.
+The manual ends with a detailed description of the FidoCadJ format previously used by FidoCAD too. Finally, we give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
 
-This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the development aspects. However, you must need to know pretty well the contents of this manual if you want to participate to the development of the software.
+This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the aspects of development. Refer to the GitHub repository if you want to participate to the development!
 \endgroup
 
 
@@ -136,32 +135,30 @@ This document presents only the program itself and the file format. It does not 
 
 A number of people used this software since its first versions and
 helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
-newsgroup\index{newsgroup} participants for their very fruitful discussions.
+newsgroup\index{newsgroup} participants for the very fruitful discussions we had together.
 
 This software has been very carefully tested on Linux thanks to
-Stefano Martini's patience. He is a very attentive alpha and beta
+Stefano Martini's patience. He was a very attentive alpha and beta
 tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
 for their tests on MacOSX.
 
 I would like to thank ``F. Bertolazzi'' who has given very useful
 advices about the usability of this software. He also assembled the
 CadSoft Eagle\index{Eagle} compatibility library, useful to export
-FidoCadJ drawings to Eagle. Many thanks to ``Celsius'', who tested
-the software functionalities for PCB realization, as well as its libraries.
-Thanks to Andrea D'Amore, for his advice concerning FidoCadJ visual
-aspect on the Apple Macintosh. I would like to thank 
-Roby IZ1CYN for the useful discussions about libraries and for having written 
-section~\ref{installazione_linux} of this manual, dealing with the Linux\index{Linux} 
-installation.
-Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, provided by Werner Randelshofer. 
-Werner has also given several useful advices about FidoCadJ's user interface: thanks for that!
+FidoCadJ drawings to Eagle. Many thanks to ``Celsius,'' who tested
+the software functionalities for PCBs, as well as its libraries.
+Thanks to Andrea D'Amore, too, for his advices concerning the FidoCadJ user interface on the Apple Macintosh. I would like to thank 
+Roby IZ1CYN for the discussions about libraries and for having written 
+section~\ref{installazione_linux} of this manual, dealing with its installation on Linux\index{Linux}.
+Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, provided by Werner Randelshofer and more recently thanks to the VAqua7 look and feel.
+Werner has also given useful advices about FidoCadJ's user interface: thanks for that!
 
-Part of this manual has been translated to English by ``Pasu''. I would like to thank him for his work. I would like to thank Miles ``qhg007'' as well, for the careful check and his very useful remarks.  
+Part of this manual has been translated to English by ``Pasu''. I would like to thank him for his hard work. I would like to thank Miles ``qhg007'' as well, for the careful check and very useful remarks.  
 
-In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It now silently runs on the server and it automagically converts drawings posted by users of the forum.
-I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all other users of this site as they gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced which deserves to be fully explored. More recently, the FidoReadPHP class has been prepared in order to read and interpret FidoCadJ drawings on a PHP server. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} and \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it} websites thanks to Arniek, Sstrix and Stan. Kudos to them!
+In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It now silently runs on the server and it automagically converts drawings posted on the forum.
+I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all users of this site. They gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced which deserves to be fully explored. FidoCadJ is also adopted on \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. The FidoReadPHP project has been started in order to read and interpret FidoCadJ drawings on a PHP server, but it is unfortunately not actively maintained while I am writing those lines. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to the efforts of Arniek, Sstrix and Stan. Many kudos to them!
 
-Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Baggetta. Sergio Juanez also greatly contributed to it, improving technical aspects and organization of website elements.
+Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Baggetta. Sergio Juanez also greatly contributed to it, improving technical aspects and organization.
 
 \chapter*{FidoCadJ License}
 
@@ -202,43 +199,38 @@ description of the philosophy behind this software, as well as a brief
 history of its development. 
 If you need to install and run FidoCadJ, jump to appendix~\ref{specifics}, that   describes how to install FidoCadJ on the most widespread operating systems.
 
-
-
 \section{FidoCadJ's philosophy}
 
 FidoCAD\index{FidoCAD} (without the J at the end) was a vector
 drawing software particularly suited for electrical schematics\index{electrical schematic} as well
-as printed circuit boards\index{PCB}. It was employed by the italian Usenet community during the late 1990s.
+as simple printed circuit boards\index{PCB}. It was employed by the italian Usenet community during the late 1990s.
 
-It can be freely downloaded (a Windows\index{Windows} version nationalized
+It can still be freely downloaded (a Windows\index{Windows} version nationalized
 in Italian language) from Lorenzo Lutti's page\index{Lorenzo Lutti}:
 
 \href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
 
-The output files generated by this software was a very compact text code. This feature made it very easy to include drawings in
-text messages, such as those used in non-binary Usenet groups\index{Usenet group}.
+The output files generated by FidoCAD was a very compact text code. This feature made it very easy to include drawings in text messages, such as those used in non-binary Usenet groups\index{Usenet group}.
 
 Unfortunately, FidoCAD existed only in a Windows\index{Windows} version.
-Who used Linux could run it using WInE\index{WInE}, but for those relying on
-other platforms like me (I use MacOSX) had to find a different solution.
+Linux users could run it using WInE\index{WInE}, but those relying on
+other platforms like me (I use macOS) had to find a different solution.
 I thus decided to give a small contribution to the community
 by writing FidoCadJ (with the final J, this time). This editor is
 written in pure Java\index{Java} and it is completely multi-platform.
 FidoCadJ allows showing and modifying a drawing using the FidoCAD\index{FidoCAD}
-file format. Nowadays, I am fortunately not alone and FidoCadJ is a full-fledged and successful Open Source project, with contributions coming from all over the world.
+file format. Nowadays, I am not alone anymore working on the project and FidoCadJ is a full-fledged and I dare to write successful Open Source project, with contributions coming from all over the world.
 
 Whoever used FidoCAD\index{FidoCAD} in the past should become acquainted
 with FidoCadJ very quickly, since many commands and procedures are
-quite similar to the original application. At the time of writing,
-to the best of my knowledge, FidoCadJ is almost completely compatible
-with the original FidoCAD, apart from a few details. The goal of a complete compatibility has been pursued until possible, but the needs of the new users have pushed towards some extensions to the original format.
+quite similar to the original application. FidoCadJ is almost completely compatible with the original FidoCAD, apart from a few details. The goal of a complete compatibility has been pursued until possible, but the needs of the new users have pushed towards some extensions to the original format.
 
 Among the features offered by FidoCadJ and not present in the original
 FidoCAD are the export possibilities offered. Since I am a \LaTeX{}
 user, I decided to include an export feature for a number of vector
-formats, including Encapsulated PostScript (\textsc{EPS}\index{EPS}). Of course, FidoCadJ can export towards the very well known \textsc{PDF}\index{PDF} format.
+formats, including Encapsulated PostScript (\textsc{EPS}\index{EPS}) and scripts for the \textsc{PGF}\index{PGF} package. Of course, FidoCadJ can export towards the very well known \textsc{PDF}\index{PDF} format, with some limitations.
 
-\section{History of this software}
+\section{History of FidoCadJ}
 
 I have long been interested in electronic circuits. When I began following
 several dedicated italian Usenet newsgroups\index{newsgroups}, I
@@ -247,49 +239,42 @@ format\index{FidoCAD}. This was much better than awkward ASCII drawings. Since
 I do not use Windows, it was almost impossible
 for me to look at them and I wanted to try to do something to solve
 this problem. \marginpar{By the way, I think that it is better to
-work at a solution rather claim that an operating system different
-from Windows lacks in software.}
+actively work at a solution rather than whining, because an operating system different from Windows lacks a particular software.}
 
-The first thing I did was to study the file format used by FidoCAD\index{FidoCAD}
-and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ},
-able to parse the circuit and to show it in a web page. I started
-searching more or less everywhere (old posts, web pages), doing a
-lot of reverse engineering from existing FidoCAD files. I downloaded
-the FidoCAD sources, written in a pretty neat C++ by Lorenzo Lutti.
+The first thing I did towards the end of 2006 was to study the file format used by FidoCAD\index{FidoCAD} and write a Java\index{Java} applet called FidoReadJ\index{FidoReadJ}. It was able to parse the circuit and show it in a web page. Internet was different back then! To do that, I searched more or less everywhere (old posts, web pages), and did a lot of reverse engineering from existing FidoCAD files. I downloaded and studied the FidoCAD sources, too, written in a pretty clear C++ by Lorenzo Lutti.
 
-I did this work more or less around March 2007. A few moths later,
-the applet was on line and it was being tested by part of the community
+I wrote the core of the applet about in March 2007. A few moths later,
+the applet was on line and being tested by part of the community
 gravitating around it.hobby.elettronica\index{it.hobby.elettronica}
 and it.hobby.fai-da-te\index{it.hobby.fai-da-te}.%
-\footnote{FidoReadJ\index{FidoReadJ} is still available at the address:\\
- \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc\&language=Francais}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.%
+\footnote{FidoReadJ\index{FidoReadJ} is still available today at the following address, in the unlikely possibility that your web browser still supports Java applets:\\
+ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}.%
 }
 
 Since I had an interpreter\index{interpreter} of the FidoCAD format,
-it was interesting to continue the work in order to obtain a complete
+it was interesting to obtain a complete
 editor\marginpar{To be honest, I made a first attempt at writing
 a 2D vector drawing system around 1993.}. Much of the initial work was done in several steps, between January and July 2008: FidoCadJ
-is not an adaptation or a porting of FidoCAD for Windows, but it is
+is not a port of FidoCAD for Windows, but it is
 a new program, rewritten from scratch.
 
-The choice of using Java\index{Java} is due to the fact that I currently use a lot of different operating systems. Spending time
+The choice of using Java\index{Java} is due to the fact that I currently use many different operating systems. Spending time
 and energies on something which is not completely portable does not
 appeal to me anymore. The effort of learning the Cocoa framework would
-have probably given a better result on MacOSX, but it would have
+have probably given a better result on macOS, but it would have
 made FidoCadJ completely non-portable. I am not a computer guy. The
 time I spend to program is time taken away from my electronics interests.
-In fact, the FidoCadJ code source shows that
+In fact, especially at the beginning, the FidoCadJ code source showed that
 I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
-purist and I am sure that several solutions are
-more practical than elegant. However, the overall code quality has been appreciated by feedbacks I received and FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
+purist and several solutions were
+more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
 
 What matters is the end user impressions while using the program,
 more than the choice of a particular language. For this reason, I
 am always listening to your suggestions, in order to understand how
 to further develop this project. Java\index{Java}
 may not the perfect choice or the solution to every problem. However
-I am sure that its bad name derives mostly from badly written applications
-which are not very well integrated with the user desktop.
+it has proven to be flexible enough for a tool like FidoCadJ.
 
 % La parte interamente tradotta da Pasu comincia qui.
 
@@ -298,27 +283,24 @@ my intent is to make sure that FidoCadJ will NOT be another poor quality
 application. For this reason any bug report or comment on the program's
 usability will be more than welcome.
 
-In November 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. 
-From this page, you could download all executables, manuals as well as the source code. Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015 the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub\index{GitHub}. From August 2015, the development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the code. 
+In November 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. From this page, you could download all executables, manuals as well as the source code. Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015, the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub\index{GitHub}. From August 2015, all development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the sources. 
 
-A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014, then gradually continued in 2015. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment.
+A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014, then gradually continued in 2015. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment. Even if the port was successful and a pre-release beta was ready and distributed, the work on Android unfortunately stalled since 2016.
 
-If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the 
-manuals in a new language, check carefully the existing manuals for inconsistencies, typos and
-errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese} and Dutch\index{Dutch}.
+If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the manuals in a new language, check carefully the documentation for inconsistencies, typos and errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese}, Greek\index{Greek}, Czech\index{Czech} and Dutch\index{Dutch}. Some translations may not be up-to-date anymore and require some work from the community. Search among the Issues on GitHub (with the ``translation'' tag) to see what is needed.
 It is quite easy to translate menus and commands, so if you would
-like to see FidoCadJ in your native language, please let me know!
-There is also work to be done to translate the libraries (at least
+like to see FidoCadJ in your native language, please manifest yourself opening a new Issue on GitHub!
+There is also work to be done to check the libraries (at least
 the standard ones) and of course this manual.%
 You can also work on the standard library\dots\
-Consider that only half of the spare time I dedicate to FidoCadJ is in reality dedicated to the coding activity. The rest is spent answering questions from users, writing and improving the documentation and so on.
-On GitHub\index{GitHub}, you can participate to the discussions, as well as suggest improvements or give a bug report:
+I consider that only half time I dedicate to FidoCadJ is in reality dedicated to the coding itself. The rest is spent answering questions from users, writing and improving the documentation and things like that.
+On GitHub\index{GitHub}, you can participate to the discussions, as well as suggest improvements or give a bug report. Don't hesitate to participate:
 
 \href{https://github.com/DarwinNE/FidoCadJ}{https://github.com/DarwinNE/FidoCadJ}
 
 \section{FidoCadJ and the future}
 
-In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. An user, Piercarlo Boletti, proposed to integrate a schematic capture tool directly inside the forum. Something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I inscribed myself to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and then the system was ready: a simple copy and paste in a post of the code describing the drawing, with a couple of tags. The forum software runs FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code remains available. This way, who is reading the discussion does not need to have anything installed, but if he desires to change something, he can obtain the code with a few clicks.
+In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. An user, Piercarlo Boletti, proposed to integrate a schematic capture tool directly inside the forum as something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I inscribed myself to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and then the system was ready: a simple copy and paste in a post of the code describing the drawing, with a couple of tags. The forum runs automatically FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code remains available. This way, who is reading the discussion does not need to have anything installed, but if one desires to change something, the code can be obtained with a few clicks.
 
 Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \href{http://www.electroyou.it}{www.electroyou.it}. This system is so powerful and flexible that I have been the first to be astonished of the enthusiasm demonstrated by the users!\footnote{If you read Italian, here is an article I wrote:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}  } FidoCadJ has shown to be useful also for drawings not directly related to electronics (see appendix \ref{chap_fidocadj_art} to see what I mean).
      

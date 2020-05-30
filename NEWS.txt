@@ -3,6 +3,7 @@ Version 0.24.8
 Requires Java 9
 
 - Show a grid made of lines instead of dots for large zooms (issue #188).
+- Implement subscripts and superscripts (issue #71).
 - Fix incorrect export of dashed lines (issue #142).
 - Export splitting layers on multiple files (issue #154).
 - Fix Inverted filter symbols (issue #153).
