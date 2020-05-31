@@ -283,13 +283,14 @@ my intent is to make sure that FidoCadJ will NOT be another poor quality
 application. For this reason any bug report or comment on the program's
 usability will be more than welcome.
 
-In November 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. From this page, you could download all executables, manuals as well as the source code. Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015, the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub\index{GitHub}. From August 2015, all development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the sources. 
+In November 2009, I opened a SourceForge\index{SourceForge} project dedicated to FidoCadJ. From this place, you could download all executables, manuals as well as the source code. Unfortunately, SourceForge progressively adopted some shady practices since 2013: advertisements with fake download buttons appeared everywhere and crap-ware added to installers for some projects. In 2015, the site was down for about 15 days: it become clear that it was time to change and we migrated the FidoCadJ project on GitHub\index{GitHub}. From August 2015, all development on FidoCadJ is done using Git: feel free to fork FidoCadJ and have a look at the sources. The SourceForge\index{SourceForge} page remains, though, as someone still likes to load packages from there (but the source code is not up-to-date).
 
-A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014, then gradually continued in 2015. This allowed to envisage the porting to Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment. Even if the port was successful and a pre-release beta was ready and distributed, the work on Android unfortunately stalled since 2016.
+A deep refactoring of the existing code has been done by Kohta Ozaki and myself between 2013 and 2014, then gradually continued in 2015. This allowed to start porting the program towards Android platforms, which was made possible by the contribution of other people, in particular Dante Loi. Many other persons have given a hand in that moment. Even if the port was successful and a pre-release beta was ready and distributed, the work on Android unfortunately stalls since 2016.
 
 If you want to help the community with FidoCadJ, do not worry: you do not need to be an expert Java programmer. You can for example translate the user interface or the manuals in a new language, check carefully the documentation for inconsistencies, typos and errors. FidoCadJ is currently available in Italian\index{Italian}, French\index{French}, English\index{English}, Spanish\index{Spanish}, German\index{German}, Chinese\index{Chinese}, Japanese\index{Japanese}, Greek\index{Greek}, Czech\index{Czech} and Dutch\index{Dutch}. Some translations may not be up-to-date anymore and require some work from the community. Search among the Issues on GitHub (with the ``translation'' tag) to see what is needed.
 It is quite easy to translate menus and commands, so if you would
 like to see FidoCadJ in your native language, please manifest yourself opening a new Issue on GitHub!
+
 There is also work to be done to check the libraries (at least
 the standard ones) and of course this manual.%
 You can also work on the standard library\dots\
@@ -300,7 +301,7 @@ On GitHub\index{GitHub}, you can participate to the discussions, as well as sugg
 
 \section{FidoCadJ and the future}
 
-In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. An user, Piercarlo Boletti, proposed to integrate a schematic capture tool directly inside the forum as something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I inscribed myself to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days, and then the system was ready: a simple copy and paste in a post of the code describing the drawing, with a couple of tags. The forum runs automatically FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code remains available. This way, who is reading the discussion does not need to have anything installed, but if one desires to change something, the code can be obtained with a few clicks.
+In april 2010, I stumbled almost accidentally on a thread in a well known italian website \href{http://www.electroyou.it}{www.electroyou.it}. Piercarlo Boletti proposed there to integrate a schematic capture tool directly inside the forum, as something similar has already been done with \LaTeX\index{LaTeX@\LaTeX} equations. Since FidoCadJ was cited in his intervention, I created an account to write to the forum and I offered to collaborate. I interacted with the very nice webmaster for a few days and then the system was ready: a simple copy and paste of the FidoCadJ code and a couple of tags. The forum runs automatically FidoCadJ on its servers and obtains an image, directly from the code. This image is then shown in the forum post, but its source code always remains available. This way, who is reading the discussion does not need to have anything installed, but if one desires to change something, the code can be obtained with a few clicks.
 
 Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \href{http://www.electroyou.it}{www.electroyou.it}. This system is so powerful and flexible that I have been the first to be astonished of the enthusiasm demonstrated by the users!\footnote{If you read Italian, here is an article I wrote:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}  } FidoCadJ has shown to be useful also for drawings not directly related to electronics (see appendix \ref{chap_fidocadj_art} to see what I mean).
      
@@ -311,46 +312,39 @@ Figure~\ref{fig_discussione_electroyou} shows part of one of my posts done on  \
 \label{fig_discussione_electroyou}
 \end{figure}
 
-
-The success that FidoCadJ has had on \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} has stimulated some requests to implement a similar system on other platforms, and in particular on \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, another well known Italian electronics-dedicated website. FidoCadJ is also used by the \href{http://www.matematicamente.it/forum/viewtopic.php?f=38&t=121249}{Matematicamente}\index{Matematicamente} community.
+The success that FidoCadJ had on \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} stimulated some requests to implement a similar system on other platforms, and in particular on \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, another well known Italian electronics-dedicated website. FidoCadJ is also used by the \href{http://www.matematicamente.it/forum/viewtopic.php?f=38&t=121249}{Matematicamente}\index{Matematicamente} community.
 In the case of \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, the server could not run a Java program and so the FidoReadPHP class has been written. It can be run on a PHP interpreter to obtain the images from the FidoCadJ source code.
 The FidoReadPHP project is open source and it is available on SourceForge:
 
 \href{https://sourceforge.net/projects/fidoreadphp/}{https://sourceforge.net/projects/fidoreadphp/}
 
-The result is somewhat similar to what it has been obtained on \href{http://www.electroyou.it}{www.electroyou.it}, even if the graphical capabilities of PHP are quite limited in comparison with Java.
+The result is somewhat similar to what it has been obtained on \href{http://www.electroyou.it}{www.electroyou.it}, even if the graphical capabilities of PHP are quite limited with respect to Java.
 \footnote{Once again, if you read Italian, here is an article:\\
 \href{http://www.grix.it/viewer.php?page=9335}{http://www.grix.it/viewer.php?page=9335}}
 Figure~\ref{fig_fidocadj_grix3} shows an example of a drawing obtained with FidoReadPHP.
 
 \begin{figure}
  \includegraphics[width=\textwidth]{fidocadj_grix3.png}
- \caption{An example of a FidoCadJ drawing integrated in a \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} forum post. You can obtain the source code of the drawing with just a mouse click.}
+ \caption{An example of a FidoCadJ drawing integrated in a \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} forum post. You can obtain the drawing source code with just a click.}
  \label{fig_fidocadj_grix3}
 \end{figure}
 
-I think that the future of FidoCadJ is not to become more complex, as a complete CAD for electronics. Probably, those possibilities of integration with discussion groups and forums deserve to be developed. Experience has shown that this is possible and the enthusiasm of the users has been tantalizing. 
+I think that the future of FidoCadJ is not to become more complex, as a complete CAD for electronics. Instead, integration with discussion groups and forums deserves to be developed. Experience has shown that this is possible and the enthusiasm of the users has been tantalizing.
 
 \chapter{Drawing with FidoCadJ}
 
-The use of FidoCadJ should be quite intuitive for those who already
+Using FidoCadJ should be quite intuitive for who already
 used a vector drawing application\index{vector drawing}. A
-screenshot of the program running on MacOSX\index{MacOSX} is shown
-in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
+screenshot of the program running on an old version of MacOSX\index{MacOSX} is shown in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
 different when running on other operating systems (for example
 Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
-on Sun/Oracle\index{Sun/Oracle}), but the philosophy remains the same. We will
-see what the features of the program are, and its basic elements (the
-primitives)\index{primitive} which compose a FidoCadJ drawing. %
+on Sun/Oracle\index{Sun/Oracle}), as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_macosx.png} 
-
 \caption{A FidoCadJ session running on a vintage MacOSX Tiger\index{MacOSX}.
-Appendix~\ref{specifics} describes the peculiarities of the version
-specific for Macintosh\index{Macintosh}. More recent versions provide the quick search in the library, shown in figure~\ref{fig_ricerca}.}
-
-\label{fig_fidocadj} 
+Appendix~\ref{specifics} describes the peculiarities of the version for Macintosh computers\index{Macintosh}. Recent FidoCadJ versions feature a quick search in the library, as shown in figure~\ref{fig_ricerca}.}
+\label{fig_fidocadj}
 \end{figure}
 
 %
@@ -359,43 +353,39 @@ specific for Macintosh\index{Macintosh}. More recent versions provide the quick 
 
 \caption{FidoCadJ with the Look and Feel Metal\index{Metal}.}
 
-
 \label{fig_metal} 
 \end{figure}
 
 \section{Drawing Tools}
 
-In the toolbar\index{toolbar} (on the top of the window), we can
-find the most used features that allow the creation and the editing
+In the toolbar\index{toolbar} at the top of the window, we can
+find the most used features for the creation and the editing
 of a drawing. Table~\ref{tab_comandi} shows a brief summary of the
-functionalities and the commands and describes the possible actions.
-You will notice that once a button is pressed, it will remain in that
-position until another function from the toolbar will be selected.\marginpar{This
-behavior is inspired to the old vacuum tube radios and to the switches
-very fashionable in the '70s.} From the toolbar we can select which
+functionalities, the commands and describes the possible actions.
+You will notice that once a button in the first line is depressed, it will remain in that position until another function from the toolbar is selected.\marginpar{This
+behavior in user interfaces is usually called ``radio buttons'' and is inspired to the old vacuum tube radios and to the switches
+that were fashionable until 1970s.} From the toolbar, we can select which
 drawing primitive\index{primitive} will be used.%
 \footnote{For more information on the drawing elements, see~\ref{sec_primitive}.%
-} On the right, a drop-down menu will show the current working layer
+} On the right, a drop-down menu shows the current working layer
 (see~\ref{sec_layer} for more information).
 
 The command bar\index{command bar} can be partially customized. In
 particular, we can choose whether we want to see the icon on each
 button or the icon and its text description. Icons are also available
 in two selectable formats. To change these settings we can select
-the menu {}``File/Options''.%
-\footnote{Except on MacOSX, where this item is found in the FidoCadJ's menu
-and it is called {}``Preferences''.%
-} Any change in the settings will be applied at the restart of the
+the menu ``File/Options''.%
+\footnote{Except on macOS, where this item is found in the FidoCadJ's menu
+and it is called ``Preferences''.%
+} Such changes in the settings become effective after a restart of the
 application, since it is arguably something that we may want to change
 every day. Figures \ref{fig_fidocadj} and \ref{fig_metal} show the
 command bar (right below the window's title), configured to show text
 and icons in their smallest version. On the second row, starting from
-the left we can see the zoom settings and the buttons {}``Fit'',
-{}``Show grid'' e {}``Snap to grid''. The first allows us to automatically
-select the most suitable zoom settings in order to show the whole
-drawing on the screen. The second toggles between visible and invisible
-grid, while when we press the third button the elements added will
-stick to the nearest step of the grid.
+the left we can see the zoom settings and the buttons ``Fit,''
+``Show grid,'' ``Snap to grid'' and ``Libs''. The first one allows us to automatically select the most suitable zoom settings, in order to show the whole
+drawing on the screen. The second toggles between a visible and invisible
+grid. The third button controls the snapping, i.e. the automatic alignment of elements to the grid. The last one allows to toggle the visibility of the library panel on the right of the window.
 If you need to align carefully the elements, you may find useful to keep pressed \keyevidence{Alt}, while using the cursor keys.
 
 %
@@ -444,10 +434,10 @@ Open or closed natural cubic spline curve. Double click or press \keyevidence{Es
 \textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
 \keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
 \textsc{PCB track}\index{PCB track}  & Draws a PCB track. The default width can be modified through the dialog
-accessed from the menu {}``File/Options''. \tabularnewline
+accessed from the menu ``File/Options''. \tabularnewline
 \keyevidence{Z}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbpad}}
 \textsc{PCB pad}\index{PCB pad@\textsc{PCB }pad}  & Draws a PCB pad. The default dimensions can be modified through the
-dialog accessed from the menu {}``File/Options''. \tabularnewline
+dialog accessed from the menu ``File/Options''. \tabularnewline
 \bottomrule  &  & \tabularnewline
 \end{tabular}
 
@@ -509,15 +499,15 @@ the simple electrical schematic of figure~\ref{fig_schema}. %
 
 
 Once FidoCadJ is running, let us create a new drawing from the menu
-{}``File/New''.
+``File/New''.
 
 We will then start by placing in the drawing area the symbols for
 the two transistors\index{transistor}, around which our schematic
 is built. To do so, we will need the macros contained in the standard
 library\index{standard library}, which is loaded by default and is
 found on the right-hand side of the screen. The macro that we will
-use is called {}``NPN transistor'' and is included in the {}``Diodes
-and transistors'' category of the {}``Standard library''. By clicking
+use is called ``NPN transistor'' and is included in the ``Diodes
+and transistors'' category of the ``Standard library''. By clicking
 on the element's name to select the desired macro\index{macro}, it
 will then be possible to place it anywhere in the drawing (FidoCadJ shows a preview), by clicking
 a second time on the desired location. We should now be at the stage
@@ -535,7 +525,7 @@ similar to the one shown in figure ~\ref{fig_fidocadj_fase1}.
 
 
 We may notice that the bipolar transistor on the left is not correctly
-oriented. To fix the problem is sufficient to click on {}``Select'',
+oriented. To fix the problem is sufficient to click on ``Select'',
 from the toolbar, select the transistor (which will be highlighted
 in green, with three control points\index{control point} identified
 by small red squares) and then press \keyevidence{S} to obtain
@@ -553,10 +543,10 @@ one shown in figure~\ref{fig_fidocadj_fase2}.
 \end{figure}
 
 
-By using the tool {}``Line'' from the toolbar\index{toolbar}, we
+By using the tool ``Line'' from the toolbar\index{toolbar}, we
 will be able to make a few electrical connections, until we will realize
 that we started our drawing to close to the edges of the drawing area.
-The issue can be easily fixed by selecting the whole drawing: in {}``Select''
+The issue can be easily fixed by selecting the whole drawing: in ``Select''
 mode, we can click on the upper left corner of the drawing and, holding
 the left button of the mouse pressed, drag the cursor up to the lower
 right corner. A rectangle with a green contour will appear to indicate
@@ -598,13 +588,13 @@ similar to the one in figure~\ref{fig_fidocadj_fase4}.
 
 To complete the schematic we only need to add the text strings and
 the arrow to indicate the direction of the current. For the latter
-there is a macro called {}``Arrow'', contained in {}``Standard library/Basic symbols''. To place the text, we can press the
-button {}``Text''\index{text} from the toolbar e click in the drawing
-area on the desired position. As the default text {}``String'' will
+there is a macro called ``Arrow'', contained in ``Standard library/Basic symbols''. To place the text, we can press the
+button ``Text''\index{text} from the toolbar e click in the drawing
+area on the desired position. As the default text ``String'' will
 be introduced, we will need to modify its characteristics by double-clicking
 in select mode (see figure~\ref{fig_param_testo}). The transistor's
 part number and name used (it is actually a transistor matched pair
-in our example) are specified in the fields {}``Name'' and {}``Value''
+in our example) are specified in the fields ``Name'' and ``Value''
 which are accessed in select mode by double-clicking on the macro.%
 \footnote{The feature which allows us to add a name and a value to a macro or
 a component's symbol is actually an extension introduced with FidoCadJ
@@ -627,7 +617,7 @@ in figure~\ref{fig_fidocadj_fase5}.
 
 As a curiosity, this is how the code\index{code} which describes
 the circuit of our example looks like. To access this code, it is
-sufficient to select {}``Insert Circuit'' from the menu {}``Circuit''.
+sufficient to select ``Insert Circuit'' from the menu ``Circuit''.
 We are now ready to copy and paste our circuit on an e-mail message\index{e-mail}, in a newsgroup\index{newsgroup}, or in a forum\index{forum}.
 \begin{lstlisting}
 [FIDOCAD]
@@ -663,7 +653,7 @@ MC 110 50 1 0 074
 If you are interested in the export format
 used by FidoCAD, there is a detailed description on chapter~\ref{chap_formato}.
 
-However, there is no need to use the {}``Insert circuit'' dialog;
+However, there is no need to use the ``Insert circuit'' dialog;
 we can simply select the entire drawing, copy it (by selecting ``edit/copy''
 or by pressing \keyevidence{Ctrl+C} ) and paste it onto the message
 we are writing and the code will be added automatically\index{code}.
@@ -689,7 +679,7 @@ is used for electrical schematics\index{electrical schematic}, layer
 copper components side and layer 3 for the silk-screen\index{silk-screen}.
 The remaining layers do not have any pre-defined purpose and can be
 used freely. Name and color\index{colour} of every layer can be
-specified using the menu {}``View/Layer''. From the same menu we
+specified using the menu ``View/Layer''. From the same menu we
 can also select the layers that we want to see on screen or that we
 want to print.
 
@@ -707,8 +697,8 @@ us to obtain a resolution\index{resolution} sufficiently fine to
 draw an electrical schematic and the majority of PCBs. However, for
 ease of drawing, the application allows us to set a coarser grid and
 force the mouse to align with the nearest point of the grid\index{grid}.
-To enable this functionality there are two buttons, {}``Show Grid''
-and {}``Snap'', which allow toggling between visible/hidden grid
+To enable this functionality there are two buttons, ``Show Grid''
+and ``Snap'', which allow toggling between visible/hidden grid
 and force the mouse cursor on the grid or let it move freely, respectively.
 The grid step can be chosen through a dialog window that can be accessed
 from the menu ``File/Options''.
@@ -760,9 +750,9 @@ a common emitter configuration.}
 
 The first thing I would suggest to do is to place all the components
 as best as possible. In our example these would be the transistor
-(from the library {}``PCB footprints/3 terminals semiconductors/TO92''),
-the resistors ({}``PCB footprints/Resistors/Resistor 1/4 W 0,4 i''),
-and the electrolytic capacitors ({}``PCB footprints/Electrolytic capacitor/Vert. diam. 5 mm 2.5 mm pitch''). In order to delimitate
+(from the library ``PCB footprints/3 terminals semiconductors/TO92''),
+the resistors (``PCB footprints/Resistors/Resistor 1/4 W 0,4 i''),
+and the electrolytic capacitors (``PCB footprints/Electrolytic capacitor/Vert. diam. 5 mm 2.5 mm pitch''). In order to delimitate
 the board, it may be useful to place an empty rectangle on the silk-screen
 layer (layer No.~3). To do so we can use the \emph{rectangle} primitive\index{rectangle}
 making sure that we selected the appropriate layer first. We should
@@ -868,7 +858,7 @@ it either on a transparency to use it with a printing box\index{printing box}
 or to use it with other methods such as the ``Press\&Peel''\index{Press&Peel@Press\&Peel}.
 To do so we need to make invisible all the layers that we do not want
 to print. This is done from the dialog window accessed from the menu
-{}``Vista/Layer''. In our case it will be sufficient to hide the
+``Vista/Layer''. In our case it will be sufficient to hide the
 layer 3 containing the silk-screen. The program will show the copper
 layer only.
 
@@ -973,8 +963,8 @@ to create simple schematics for typographic use. For this reason I
 introduced a feature that allows the exportation\index{exportation}
 of drawings through a number of different file formats. 
 
-To export the current drawing, select the command {}``Export'' from
-the menu {}``File''. The Table~\ref{tab_esportazione} shows a
+To export the current drawing, select the command ``Export'' from
+the menu ``File''. The Table~\ref{tab_esportazione} shows a
 list of graphic file formats currently available. \marginpar{A vector
 format\index{vector format} stores the elements that compose
 the drawing. A bitmap format\index{bitmap format} works on a matrix
@@ -986,12 +976,12 @@ project.
 }
 
 For the bitmap file formats it may be useful to enable the option
-{}``Anti aliasing'', to reduce the annoying effect of the quantization,
-visible especially on diagonal lines. The resolution and the {}``Anti
+``Anti aliasing'', to reduce the annoying effect of the quantization,
+visible especially on diagonal lines. The resolution and the ``Anti
 aliasing'' options are not used when exporting to a vector file
 format. In this case, you may instead specify a scaling factor.
 
-The option {}``Black\&White'' allows the printing of any visible
+The option ``Black\&White'' allows the printing of any visible
 layer in solid black. This is important for the preparation of films
 to be used for typographic purposes or with a printing box.
 \begin{table}
@@ -1198,7 +1188,7 @@ and writing everything on the same line.
 \section{Library management}
 \subsection{Using library files}
 A library is a collection of symbols which the user can include in his drawings. There is a collection of libraries included in the FidoCadJ packet, as well as the possibility of defining new symbols and libraries.
-In fact, FidoCadJ allows us to specify a directory in which all the user library\index{library} files are placed (with the file extension \lstinline!.fcl!). This can be done through the menu {}``File/Options''. 
+In fact, FidoCadJ allows us to specify a directory in which all the user library\index{library} files are placed (with the file extension \lstinline!.fcl!). This can be done through the menu ``File/Options''. 
 
 In some very special cases (or for testing), the libraries included in the FidoCadJ packet can be replaced by external ones.
 If a file named \lstinline!FCDstdlib.fcl!
@@ -1427,7 +1417,7 @@ The command is \lstinline!TE!\index{TE} and the format is as follows:
 \begin{lstlisting} 
 TE x1 y1 £text to be written 
 \end{lstlisting}
-the point $(x_{1},y_{1})$ is where the string {}``text to be written''
+the point $(x_{1},y_{1})$ is where the string ``text to be written''
 will be positioned. Notice that the layer information is missing.
 FidoCadJ will treat this object as it was placed on layer zero (circuit\index{circuit}).
 
@@ -1740,7 +1730,7 @@ the description helps the user while browsing all the macros\index{macro}
 contained in the file. The commands are nothing else than FidoCadJ
 drawings, where the coordinate point (100,100) is used as the origin.
 This is the point that will be used as the reference when the macro
-will be called. In a FidoCadJ script a macro is identified by {}``library.macro''
+will be called. In a FidoCadJ script a macro is identified by ``library.macro''
 used with the MC\index{MC} command.
 
 Nothing prevents the calling of a macro within another macro. However,
@@ -1756,7 +1746,7 @@ FidoCAD\index{FidoCAD}. In particular these are the standard library\index{stand
 and the library that contains the PCB symbols\index{PCB library}. Another library which has been developed for FidoCAD\index{FidoCAD} and which has been proved so useful that it has been included as part of FidoCadJ is the IHRAM one. IHRAM stands for \lstinline!it.hobby.radioamatori.moderato! and it is an italian Usenet discussion group. 
 
 However, it is possible to override the content of these internal
-libraries by specifying ({}``File/Options/Libraries Directory'' menu)
+libraries by specifying (``File/Options/Libraries Directory'' menu)
 a directory containing the libraries to be loaded. If a file named
 \lstinline!FCDstdlib.fcl! is present in this directory, its content
 will be used instead of the standard library. If a file named
@@ -1804,7 +1794,7 @@ instead of fidocadj.jar\index{fidocadj.jar}) is run. Since Quaqua
 may slow down the performance on not so recent machines, it is possible
 to disable it through the settings of the Preferences menu
 \item The menu bar is shown at its place, that is the top of the screen
-\item The menu items {}``Preferences'' and {}``About FidoCadJ'' are
+\item The menu items ``Preferences'' and ``About FidoCadJ'' are
 at their place, which is under the FidoCadJ menu. 
 \item The program tells the operating system that it can open \lstinline!.fcd!
 files; These are associated to a specific icon, which should be sufficiently
