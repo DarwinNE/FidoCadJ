@@ -123,7 +123,7 @@ This document is the FidoCadJ user manual. After a short
 introduction describing the history and the birth of this software, we
 describe the basic use of FidoCadJ. Our goal is to show how to draw
 very simple electronic schematics and printed circuit boards.
-The manual ends with a detailed description of the FidoCadJ format previously used by FidoCAD too. Finally, we give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, MacOSX and Windows.
+The manual ends with a detailed description of the FidoCadJ format previously used by FidoCAD too. Finally, we give some hints about downloading and installing FidoCadJ using the most widespread operating systems: Linux, macOS and Windows.
 
 This document presents only the program itself and the file format. It does not deal with the integration of FidoCadJ in websites, nor with the organization of the code and the aspects of development. Refer to the GitHub repository if you want to participate to the development!
 \endgroup
@@ -140,7 +140,7 @@ newsgroup\index{newsgroup} participants for the very fruitful discussions we had
 This software has been very carefully tested on Linux thanks to
 Stefano Martini's patience. He was a very attentive alpha and beta
 tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
-for their tests on MacOSX.
+for their tests on macOS.
 
 I would like to thank ``F. Bertolazzi'' who has given very useful
 advices about the usability of this software. He also assembled the
@@ -335,15 +335,15 @@ I think that the future of FidoCadJ is not to become more complex, as a complete
 
 Using FidoCadJ should be quite intuitive for who already
 used a vector drawing application\index{vector drawing}. A
-screenshot of the program running on an old version of MacOSX\index{MacOSX} is shown in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
+screenshot of the program running on macOS\index{macOS} is shown in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-users will notice
 that all the menus are at their own place!} A few details may be
 different when running on other operating systems (for example
 Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
 on Sun/Oracle\index{Sun/Oracle}), as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
 \begin{figure}
-\includegraphics[width=1\textwidth]{fidocadj_macosx.png} 
-\caption{A FidoCadJ session running on a vintage MacOSX Tiger\index{MacOSX}.
-Appendix~\ref{specifics} describes the peculiarities of the version for Macintosh computers\index{Macintosh}. Recent FidoCadJ versions feature a quick search in the library, as shown in figure~\ref{fig_ricerca}.}
+\includegraphics[width=1\textwidth]{fidocadj_macOS.png} 
+\caption{A FidoCadJ session running on macOS 10.13 High Sierra\index{macOS}.
+Appendix~\ref{specifics} describes the peculiarities of the version for Macintosh computers\index{Macintosh}.}
 \label{fig_fidocadj}
 \end{figure}
 
@@ -386,7 +386,7 @@ the left we can see the zoom settings and the buttons ``Fit,''
 ``Show grid,'' ``Snap to grid'' and ``Libs''. The first one allows us to automatically select the most suitable zoom settings, in order to show the whole
 drawing on the screen. The second toggles between a visible and invisible
 grid. The third button controls the snapping, i.e. the automatic alignment of elements to the grid. The last one allows to toggle the visibility of the library panel on the right of the window.
-If you need to align carefully the elements, you may find useful to keep pressed \keyevidence{Alt}, while using the cursor keys.
+If you need to align carefully the elements, you may find useful to keep pressed \keyevidence{Alt}, while using the cursor keys: the selected objects will be moved of a single unit in the direction you want.
 
 %
 \begin{table}
@@ -395,7 +395,7 @@ If you need to align carefully the elements, you may find useful to keep pressed
 \midrule
 \keyevidence{A},\keyevidence{ESC} or \newline \keyevidence{space}  & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
 \textsc{Select}\index{selection}  & Selects one or more graphic elements. Press \keyevidence{Control}
-(\keyevidence{Command} on MacOSX) for multiple selections
+(\keyevidence{Command} on macOS) for multiple selections
 or to deselect only one element. Click and drag to select several
 elements in an area. Press \keyevidence{R} to rotate the selected
 elements. Press \keyevidence{S} to mirror the selected elements.
@@ -424,41 +424,38 @@ to terminate the insertion of new vertices.\tabularnewline
 }
 \textsc{Curve}\index{curve}
 &
-Open or closed natural cubic spline curve. Double click or press \keyevidence{Esc},  to terminate the insertion of new vertices.\tabularnewline
+Open or closed natural cubic spline curve. Double click or press \keyevidence{Esc}, to terminate insertion of new vertices.\tabularnewline
 
 \keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
-\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in MacOSX for a circle). \tabularnewline
+\textsc{Ellipse}\index{ellipse}  & Draws an ellipse filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in macOS for a circle). \tabularnewline
 \keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
-\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in MacOSX  for a square). \tabularnewline
+\textsc{Rect.}\index{rectangle}  & Draws a rectangle filled or empty (hold \keyevidence{Control} or \keyevidence{Command} in macOS  for a square). \tabularnewline
 \keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
 \textsc{Junction}\index{junction}  & Inserts an electrical junction.\tabularnewline
 \keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
 \textsc{PCB track}\index{PCB track}  & Draws a PCB track. The default width can be modified through the dialog
 accessed from the menu ``File/Options''. \tabularnewline
 \keyevidence{Z}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbpad}}
-\textsc{PCB pad}\index{PCB pad@\textsc{PCB }pad}  & Draws a PCB pad. The default dimensions can be modified through the
-dialog accessed from the menu ``File/Options''. \tabularnewline
+\textsc{PCB pad}\index{PCB pad@\textsc{PCB }pad}  & Draws a PCB pad. The default size can be modified through the menu ``File/Options''. \tabularnewline
 \bottomrule  &  & \tabularnewline
 \end{tabular}
 
 \caption{Summary of the drawing commands available in FidoCadJ. The key shown
-on the leftmost column allows their rapid selection using the keyboard.
-A right click in one of the primitive placement modes allows us to
-access the properties window.}
+on the leftmost column allows a rapid selection with the keyboard.
+Right click in one of the primitive placement modes allows to access its properties.}
 
 
 \label{tab_comandi} 
 \end{table}
 
 
-On the right are shown in a tree list the symbols \index{macro}
-(also called macros) of the loaded libraries. To insert in the drawing
-an element from the library, we only need to select it from the list
+On the right part of the FidoCadJ main windows, the symbols \index{macro}
+(also called macros) are shown as a tree of loaded libraries. To insert in the drawing an element from the library, select it from the list
 an click on the drawing. FidoCAD\index{FidoCAD} libraries include
 all standard symbols used in electrical schematics\index{electrical schematic} and a wide selection of footprints\index{PCB!footprint} for drawing PCBs.
 
-You can also do quick research\index{Quick research} inside the libraries charged in FidoCadJ. You just need to type something in the text field which appears just over the tree representing the installed libraries (have a look to figure~\ref{fig_ricerca}). 
-By typing return, you can navigate through the results.
+You can also do quick research\index{Quick research} inside the libraries. Just  type something in the text field which appears just over the library tree (have a look to figure~\ref{fig_ricerca}). 
+You can navigate through the results typing return.
 
 \begin{figure}
 \centering
@@ -470,18 +467,16 @@ By typing return, you can navigate through the results.
 \begin{figure}
 \centering \includegraphics[width=0.7\textwidth,]{param_testo} 
 
-\caption{Dialog for the text's parameters in a FidoCadJ drawing. The operating system is Mac OS X Yosemite (10.10.4) in French.}
+\caption{Dialog for the text's parameters in a FidoCadJ drawing. The operating system is MacOSX Yosemite (10.10.4), in French.}
 
 \label{fig_param_testo} 
 \end{figure}
 
-
-Figure~\ref{fig_param_testo} shows an example of what we can obtain
+Figure~\ref{fig_param_testo} shows an example of what can be obtained
 by double-clicking, in selection mode\index{selection}, on a drawing
 element (in this case a text string). Within this window it is possible
 to modify all the parameters (coordinates, rotation\dots) of any
-drawing element. The aspect of this window will change because the
-information that can be modified will depend on the selected element.
+drawing element. The aspect of this window depends on the selected element.
 
 \section{A simple schematic}
 
@@ -1165,14 +1160,14 @@ the GTK+\index{GTK+} look:
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar fidocadj.jar 
 \end{lstlisting} 
 There is also the classic Motif\index{Motif}
-look \& feel, shown in Figure~\ref{fig_fidocadj_motif}\footnote{This style may somehow shock those well acquainted with very refined graphical interfaces such as Aqua, with MacOSX. However, I saw a few years ago a synchrotron control system which had a graphical interface based on Motif. Pretty though stuff!}: 
+look \& feel, shown in Figure~\ref{fig_fidocadj_motif}\footnote{This style may somehow shock those well acquainted with very refined graphical interfaces such as Aqua, with macOS. However, I saw a few years ago a synchrotron control system which had a graphical interface based on Motif. Pretty though stuff!}: 
 \begin{lstlisting}
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fidocadj.jar 
 \end{lstlisting} %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_motif} 
 
-\caption{The appearance of the program on MacOSX\index{MacOSX}, using the Motif look \& feel.}
+\caption{The appearance of the program on macOS\index{macOS}, using the Motif look \& feel.}
 
 \label{fig_fidocadj_motif} 
 \end{figure}
@@ -1204,7 +1199,7 @@ Exactly as it happens for the other libraries embedded in FidoCadJ, if there is 
 Other files with \lstinline!.fcl! extension in the library search path will be considered as libraries and FidoCadJ will try to load them when it is starting. This is done when the application starts, when the user change the library search path, or when the ``Update libraries'' option in the ``Circuit menu'' is chosen.
 
 FidoCadJ allows to split non standard macros (as the original FidoCAD\index{FidoCAD} does). This can be very useful when posting a drawing in a newsgroup, since in this way each macro not belong to the standard FidoCAD\index{FidoCAD} libraries is expanded into its graphic primitives. Who reads your post, thus, does not need to have the very same libraries you have installed in your system.
-For copy/pasting, a command and a shortcut are available in the ``Edit'' menu, called ``Copy, split non standard macros'' (or \keyevidence{Control}+\keyevidence{M}\footnote{On MacOSX systems, the shortcut is \keyevidence{Command}+\keyevidence{M}}), in order to make sort that the copied drawing will have all the non standard macros split.
+For copy/pasting, a command and a shortcut are available in the ``Edit'' menu, called ``Copy, split non standard macros'' (or \keyevidence{Control}+\keyevidence{M}\footnote{On macOS systems, the shortcut is \keyevidence{Command}+\keyevidence{M}}), in order to make sort that the copied drawing will have all the non standard macros split.
 You might also save a file with the non standard macros split, by choosing `Save as..., split non standard macros''from the ``File'' menu. A dialog will appear to let you choose a new file name, since usually you do not want to overwrite the one you are working with.
 
 \subsection{Defining new symbols}
@@ -1777,11 +1772,11 @@ further, and in which direction). To contact me, open an issue on the GitHub Fid
 \chapter{Platform-specific information} \label{specifics} 
 
 
-\section{MacOSX}
+\section{macOS}
 
 One of the most frequent criticisms raised against the early versions
 of FidoCadJ from Macintosh users (like me, by the way) was the poor
-integration of the program on MacOSX. Starting since version 0.21.1,
+integration of the program on macOS. Starting since version 0.21.1,
 FidoCadJ is making specific efforts to comply better with the look
 and the philosophy of Mac's native applications. For this reason,
 some details in the program are slightly different when FidoCadJ is
@@ -1801,14 +1796,14 @@ files; These are associated to a specific icon, which should be sufficiently
 evocative.
 \end{itemize}
 
-\subsection{How to download and execute FidoCadJ on MacOSX}
-FidoCadJ can work with a MacOSX\index{MacOSX} version more recent than 10.6 (Snow Leopard\index{Snow Leopard}).
-Under the hood, FidoCadJ needs at least the 1.7 version of Java. For marketing reasons, Apple does not seem to be prone to install Java with the last versions of MacOSX\index{MacOSX}. This is an essential piece of software needed for running FidoCadJ, so you might download and install it. By the way, Apple does not allow to distribute his App Store\index{App Store} software based on Java or distributed under GPL. This is one of the most important reasons for which it is quite improbable that FidoCadJ will be ported to iPad\index{iPad} and iPhone\index{iPhone}.
+\subsection{How to download and execute FidoCadJ on macOS}
+FidoCadJ can work with a macOS\index{macOS} version more recent than 10.6 (Snow Leopard\index{Snow Leopard}).
+Under the hood, FidoCadJ needs at least the 1.7 version of Java. For marketing reasons, Apple does not seem to be prone to install Java with the last versions of macOS\index{macOS}. This is an essential piece of software needed for running FidoCadJ, so you might download and install it. By the way, Apple does not allow to distribute his App Store\index{App Store} software based on Java or distributed under GPL. This is one of the most important reasons for which it is quite improbable that FidoCadJ will be ported to iPad\index{iPad} and iPhone\index{iPhone}.
 
-Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on MacOSX you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
+Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on macOS you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
 {\small
-\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/FidoCadJ\_MacOSX.dmg}}\\
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ\_MacOSX.dmg}}\\
 You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
 
 
@@ -1971,7 +1966,7 @@ Tiger, tiger, burning bright... By Igor Arbanas ``elettrodomus''.
 \thispagestyle{empty}
 \mbox{ }
 \vfill
-This manual has been written using \textsc{pdf}\LaTeX\ on MacOSX.
+This manual has been written using \textsc{pdf}\LaTeX\ on macOS.
 Listings have been composed by using the  \href{http://www.ctan.org/tex-archive/macros/latex/contrib/listings/}{listings} packet. The \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} packet has been used for the figure~\ref{fig_schema} as well for the picture at page \pageref{steinmetz}. All those packets are available on the CTAN archive.
 
 %This work has been composed with the \emph{Palatino} font, by Hermann Zapf. 
