@@ -1867,6 +1867,30 @@ Very often, if you have Java installed, you just have to download the  \lstinlin
 
 \href{http://www.java.com/it/download/}{http://www.java.com/it/download/}
 
+\section{Compile from sources}
+If you want to compile from sources FidoCadJ, fortunately it is a simple task, as it only requires a functioning Java SDK and GNU make. More details are given in the README.md file. The FidoCadJ project has a build automation system, based on make.
+You first have to download the full source repository from GitHub. The make rules show in table~\ref{tab_make_targets} have been implemented and can be used from the command line. If you want to study the FidoCadJ source code, run \lstinline!make createdoc! to obtain the Javadoc description that will be placed in the \lstinline!doc! subdirectory.
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+\hline
+\textbf{Rule} & \textbf{Description} \\
+\hline
+\lstinline!make! & Compile FidoCadJ (implicit)\\
+\lstinline!make clean!& Erase all the compiled classes\\
+\lstinline!make cleanall!& Do a clean, erase fidocadj.jar, Javadocs\\
+\lstinline!make compile!& Compile FidoCadJ (explicit)\\
+\lstinline!make createdoc!& Run Javadoc on all source files\\
+\lstinline!make createjar!& Prepare jar/fidocadj.jar\\
+\lstinline!make rebuild!& Do a clean and then run FidoCadJ\\
+\lstinline!make run!& Run FidoCadJ\\
+\hline
+\end{tabular}
+\caption{List of make targets available to compile FidoCadJ from sources.}
+\label{tab_make_targets}
+\end{table}
+
 \section{Android}
 A specific version of FidoCadJ for Android is available. It shares much of the source code with the PC version, but all the graphical user interface code had to be rewritten. It should work on a variety of devices with at least Android 4.0: smartphones as well as tablets. For example, figure~\ref{fig_fidocadj_s5} shows the appearance of FidoCadJ for Android with a Samsung S5 smartphone.
 
