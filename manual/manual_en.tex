@@ -460,7 +460,7 @@ You can also do quick research\index{Quick research} inside the libraries. Just 
 %
 \begin{figure}
 \centering \includegraphics[width=0.7\textwidth,]{param_testo}
-\caption{Dialog for the text's parameters in a FidoCadJ drawing. The operating system is MacOSX Yosemite (10.10.4), in French.}
+\caption{Dialog for the text's parameters in a FidoCadJ drawing. The operating system is macOS Yosemite (10.10.4), in French. Depress the button on the bottom left to enter symbols or to have some hints.}
 \label{fig_param_testo}
 \end{figure}
 
@@ -925,31 +925,26 @@ to be used for typographic purposes or with a printing box.
 \begin{table}
 \centering \begin{tabular}{lp{0.7\textwidth}}
 \toprule Format  & Comment\tabularnewline
-\midrule \textsc{jpg}\index{JPG}  & Very widespread bitmap format. Since the compression used is lossy\index{lossy compression},
-it is not suitable to for exporting FidoCadJ schematics. It is made
-available due to its diffusion. \tabularnewline
+\midrule \textsc{jpg}\index{JPG}  & Ubiquitous bitmap format. The compression used is lossy\index{lossy compression},
+therefore it is not perfect to for exporting FidoCadJ schematics as it may yield some visible artifacts. \tabularnewline
 \textsc{png}\index{PNG}  & Compressed bitmap format, suitable for exporting schematics. This
 is probably the best way to export a FidoCadJ drawing when a vector
 format cannot be used. \tabularnewline
-\textsc{svg}\index{SVG}  & W3C standard vector format. Some internet browsers (such as the
-recent versions of Safari\index{Safari}) allow its visualization
-within a web page. Very good format for graphics and schematics, it
-enables the use in applications such as Inkscape\index{Inkscape}
-to modify the drawings made with FidoCadJ. There are currently some
-limitations with the exportation of rotated and mirrored text. \tabularnewline
-\textsc{eps}\index{EPS}  & Encapsulated Postscript vector format\index{Postscript}. Very
-useful to those who use professional graphics applications, or want
-to use a FidoCadJ drawing in a \LaTeX{}\index{\LaTeX{}@\LaTeX} document.
-The drawings exportation should be fully working. This is the option
-used to obtain Figure~\ref{fig_amplificateur}, page~\pageref{fig_amplificateur}
+\textsc{svg}\index{SVG}  & W3C standard vector format. Internet browsers can show it within a web page. Very good format for graphics and schematics, it can be used with applications such as Inkscape\index{Inkscape},
+to modify the drawings made with FidoCadJ. Some
+limitations exist with the exportation of rotated and mirrored text. \tabularnewline
+\textsc{eps}\index{EPS}  & Encapsulated Postscript vector format\index{Postscript}. Used on professional graphics applications, convenient 
+for integrating a FidoCadJ drawing in a \LaTeX{}\index{\LaTeX{}@\LaTeX} document. This has been used used to obtain Figure~\ref{fig_amplificateur}, page~\pageref{fig_amplificateur}
 in this manual (passing through a \textsc{pdf} conversion, since I
 use \textsc{pdf}\LaTeX{}\index{pdf\LaTeX{}@\textsc{pdf}\LaTeX}). \tabularnewline
+\textsc{pdf}\index{PDF}  & The very well known Portable Document File. Exported files does not include fonts, so rendering of text may be slightly altered on some platforms.
+\tabularnewline
 \textsc{pgf}\index{PGF}  & Vector format to be used directly in a \LaTeX{}\index{\LaTeX{}@\LaTeX}
 document, when using the \textsl{pgf} package, available in the CTAN
-archive. This exportation option was thought in particular to export
-schematics and uses an easily editable script. The text attributes
-are not be translated. This allows the introduction of \LaTeX{}\index{\LaTeX{}@\LaTeX}
-code directly into the drawing and it is the technique used in this
+archive. This exportation option was thought to export
+schematics towards editable script. Text attributes
+are not translated. This allows the introduction of \LaTeX{}\index{\LaTeX{}@\LaTeX}
+code directly into the drawing and this is the technique used in this
 manual to obtain Figure~\ref{fig_schema}, page~\pageref{fig_schema}. \tabularnewline
 \textsc{scr}\index{SCR}  & FidoCadJ allows the exportation of a drawing
 to a script that can be imported in CadSoft\index{CadSoft} Eagle\index{Eagle}.
@@ -958,8 +953,7 @@ into the directory \lstinline!lbr! of the current installation of
 Eagle. The library can be downloaded from FidoCadJ's website. At the
 time of writing, this option works only with schematics containing
 only the most common symbols. Some drawing elements such as pads and
-tracks are not available yet. These are not exported to the Eagle
-script.\tabularnewline
+tracks are not available and are not exported.\tabularnewline
 \bottomrule  & \tabularnewline
 \end{tabular}
 
@@ -1108,14 +1102,14 @@ the GTK+\index{GTK+} look:
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar fidocadj.jar
 \end{lstlisting}
 There is also the classic Motif\index{Motif}
-look \& feel, shown in Figure~\ref{fig_fidocadj_motif}\footnote{This style may somehow shock those well acquainted with very refined graphical interfaces such as Aqua, with macOS. However, I saw a few years ago a synchrotron control system that had a graphical interface based on Motif. Pretty though stuff!}:
+look \& feel, shown in Figure~\ref{fig_fidocadj_motif}\footnote{This style may somehow shock those well acquainted with very refined graphical interfaces such as Aqua, with macOS. However, I saw many years ago a synchrotron control system that had a graphical interface based on Motif and it commanded respect.}:
 \begin{lstlisting}
 java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fidocadj.jar
 \end{lstlisting} %
 \begin{figure}
 \includegraphics[width=1\textwidth]{fidocadj_motif}
 
-\caption{The appearance of the program on macOS\index{macOS}, using the Motif look \& feel.}
+\caption{The appearance of a very old version of FidoCadJ, using the Motif look \& feel.}
 
 \label{fig_fidocadj_motif}
 \end{figure}
@@ -1391,10 +1385,9 @@ font to be used, or it can be an asterisk\index{asterisk}, to indicate
 the use of the standard Courier New font\index{Courier New} If the font
 name contains spaces these must be replaced with ``++''\index{++}.
 
-%
+Text commands support subscripts: to obtain them, insert text between the underscore \_ and the caret \^{}; for example \_12\^{} writes 12 as a subscript. They support superscripts as well: insert text between the caret \^{} and the underscore \_; for example \^{}56\_ writes 56 as a superscript. In the two cases, the last \^{} or \_ are optional. To print the \_ or \^{} character, use a backspace, i.e. \textbackslash \_ to obtain \_ and \textbackslash \^{} to obtain \^{}. Use two backspaces to obtain a single \textbackslash. Example of text with superscripts: 3\^{}2\_+4\^{}2\_=5\^{}2 or C\_12
 
 
-%
 \begin{table}
 \centering \begin{tabular}{llp{0.7\textwidth}}
 \toprule Bit  & Weight  & Behavior \tabularnewline
@@ -1791,7 +1784,8 @@ $
 
 Alternatively, or if you are experiencing problems, you can download the file from any browser from the following URL:
 
-\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}
+{\small
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}}
 
 and save the file in your \lstinline!/home/! directory.
 
