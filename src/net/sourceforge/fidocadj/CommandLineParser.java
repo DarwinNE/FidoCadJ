@@ -257,7 +257,7 @@ public class CommandLineParser
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
             "By the FidoCadJ team, 2007-2020.\n\n"+
 
-            "Use: java -jar fidocadj.jar [-options] [file] \n"+
+            "Use: java -jar fidocadj-0.24.8.jar [-options] [file] \n"+
             "where options include:\n\n"+
 
             " -n     Do not start the graphical user interface (headless mode)\n\n"+
