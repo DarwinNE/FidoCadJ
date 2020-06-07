@@ -269,7 +269,7 @@ I am not a very Java\index{Java} and object oriented programming\index{Object or
 purist and several solutions were
 more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
 
-What matters is the end user impressions while using the program,
+What matters is impressions of who exploits the program, much
 more than the choice of a particular language. For this reason, I
 am always listening to your suggestions, in order to understand how
 to further develop this project. Java\index{Java}
@@ -536,8 +536,7 @@ drawing and move it toward the centre.}
 \label{fig_fidocadj_fase3}
 \end{figure}
 
-We can then continue placing the other parts of the circuit, in particular
-a resistor\index{resistor} (Standard Library/Discrete devices/Resistor)
+We can then continue placing the other parts of the circuit, a resistor\index{resistor} (Standard Library/Discrete devices/Resistor)
 and the label for the positive power supply (Standard Library/Basic symbols/Terminal +). We need to rotate the latter in order to
 place in the desired position. We can select it and press \keyevidence{R}
 until we obtain the desired result. We should now have a drawing
@@ -623,7 +622,7 @@ FidoCadJ usually applies a diagonal shift\index{diagonal shift} to the copied el
 \label{sec_layer} A way to picture layers\index{layer} is thinking of a drawing made on superimposed acetate sheets. Every layer is characterized by a different color and can be visible or hidden. This approach is common to many CAD\index{CAD} packages, as it allows an easy representation and management of different parts of the drawing that are superposed, in a PCB design\index{PCB} for example.
 
 FidoCadJ allows up to 16 layers, numbered from 0 to 15. Conventionally,
-some of the layers have a specific purpose. In particular, layer zero
+some of the layers have a specific purpose. Layer zero
 is customarily used for electrical schematics\index{electrical schematic}, layer
 1 for the copper soldering side\index{soldering}, layer 2 for the
 copper components side and layer 3 for the silk-screen\index{silk-screen}.
@@ -867,7 +866,7 @@ RV 30 5 320 255 3
 \end{lstlisting}
 
 \section{Using the ruler}\index{ruler}
-When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a card. FidoCadJ offers (since version 0.23.2) a ruler feature that allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not used in your operating system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
+When drawing a PCB, it is often useful to measure distances in the working area. For example, you can check a track width, the clearance between two tracks or the total size of a PCB. FidoCadJ offers (since version 0.23.2) a ruler feature that allows you to easily perform those tasks. Just right click and drag. You should obtain a green ruler, like the one shown in figure~\ref{fig_fidocadj_righello}. If the right click and drag action is not easy to obtain in your system, you can alternatively left click and drag while pressing the \keyevidence{Shift} key.
 \begin{figure}
 \includegraphics[width=\textwidth]{fidocadj_righello}
 \caption{Right click and drag to activate the FidoCadJ ruler.}
@@ -876,9 +875,9 @@ When drawing a PCB, it is often useful to measure distances in the working area.
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Try this and you will see the result.
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Feel free to experiment!
 
-A few stroke styles\index{stroke styles} are also available, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a parameter window that should be similar to the one shown in figure~\ref{fig_parametri_bezier}. You can notice that the option box ``Arrow at start'' has been checked. FidoCadJ thus traces an arrowhead by taking care of his orientation.
+A few stroke styles\index{stroke styles} are available too, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a dialog like the one shown in figure~\ref{fig_parametri_bezier}. You notice that the option box ``Arrow at start'' has been checked. FidoCadJ traces an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences. If the arrow length is negative, the arrow extends outside the length of the element, pointing towards it.
 
 \begin{figure}
@@ -893,8 +892,7 @@ There are several different drawing styles for the arrow\index{arrow styles} as 
 \label{fig_parametri_bezier}
 \end{figure}
 The possibility of choosing a dashing style and putting arrowheads was not comprised in the original FidoCAD format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCAD\index{FidoCAD} per Windows.
-When you do chose to use a FidoCadJ extension, you need to know what you are doing. If you need to have a complete FidoCAD compatibility, you can activate the option ``Strict FidoCAD compatibility'' in the ``FidoCadJ extensions'' tab of the ``FidoCadJ preferences'' window. In this way, the program does not allow you to introduce graphical elements that would give compatibility problems with FidoCAD. If you need more details about the compatibility of the new graphical elements with FidoCAD\index{FidoCAD}, have a look at section~\ref{FCJ_extension}.
-
+If you need to have a complete FidoCAD compatibility, you can activate the option ``Strict FidoCAD compatibility'' in the ``FidoCadJ extensions'' tab of the ``FidoCadJ preferences'' window. In this way, the program does not allow you to introduce graphical elements that would give compatibility problems with FidoCAD. If you need more details about the compatibility of the new graphical elements with FidoCAD\index{FidoCAD}, have a look at section~\ref{FCJ_extension}.
 
 \section{Exporting}
 
@@ -1131,7 +1129,7 @@ In some very special cases (or for testing), the libraries included in the FidoC
 If a file named \lstinline!FCDstdlib.fcl!
 is present, its content supersedes the standard library\index{library!standard library} directly available in the application. Analogously, if a file named
 \lstinline!PCB.fcl! is present, its content replaces the PCB
-library\footnote{Pay attention to the use of capital letters, in particular if your operating system distinguish uppercase and lowercase letters in the
+library\footnote{Pay attention to the use of capital letters, if your operating system distinguish uppercase and lowercase letters in the
 files management.}.
 
 In version 0.23, thanks to Roby IZ1CYN, I could include the IHRaM 3.1 library\index{IHRaM library} directly inside the FidoCadJ distribution. I have done this because among all the libraries I have seen, this one has appeared to be one of the most complete and rationally constructed.
@@ -1144,10 +1142,10 @@ For copy/pasting, a command and a shortcut are available in the ``Edit'' menu, c
 You might also save a file with the non standard macros split, by choosing `Save as..., split non standard macros''from the ``File'' menu. A dialog appears to let you choose a new file name, since usually you do not want to overwrite the one you are working with.
 
 \subsection{Defining new symbols}
-FidoCadJ allows to create new libraries and new symbols. The adopted technique has been chosen in order to be as intuitive as possible. Here are the steps to follow:
+FidoCadJ allows to create new libraries and new symbols in a way that should be reasonably intuitive. Here are the steps to follow:
 \begin{itemize}
-\item Make sure that a directory containing the user libraries has already been defined. If not, define it in the FidoCadJ user settings.
-\item Draw what you want to convert into a new symbol.
+\item FidoCadJ needs a place where to store the produced files. Make sure that a directory containing the user libraries has been defined. If not, specify it in the FidoCadJ user settings.
+\item Draw your new symbol.
 \item Select what you just drawn and right click on it. A popup menu appears, such as in figure~\ref{fig_symbol_o_matic}.
 \begin{figure}
   \begin{center}
@@ -1156,7 +1154,7 @@ FidoCadJ allows to create new libraries and new symbols. The adopted technique h
   \caption{The pop-up menu appearing with a right click allows to transform drawing elements into a symbol}
   \label{fig_symbol_o_matic}
 \end{figure}
-\item Choose ``Symbol-o-matic'' and a dialog for the definition of the details of the newly created symbol appears (see figure~\ref{fig_new_symbols}).
+\item Choose ``Symbol-o-matic.'' A dialog for the definition of the details of the newly created symbol appears (see figure~\ref{fig_new_symbols}).
 \begin{figure}
   \begin{center}
     \includegraphics[width=.7\textwidth]{new_symbols}
@@ -1375,9 +1373,8 @@ TY x1 y1 sy sx a s l f £text to be written
 The point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. The value of $s_{y}$ and $s_{x}$ indicates the
 horizontal and vertical dimensions of the text in logical units\index{logical unit}.
-I chose to let FidoCadJ respect the vertical dimension starting from
-the horizontal one, and that aspect ratio is chanced only if
-this is strictly necessary. The text rotation is managed by the term
+FidoCadJ respects the vertical dimension starting from
+the horizontal one, and that aspect ratio is changed only if strictly necessary. The text rotation is described by the term
 $a$, expressed in sexagesimal degrees, while the value of $s$ determines
 the text style\index{text!style}, following table~\ref{tab_stile_testo}.
 The layer is given by the usual term $l$, and $f$ indicates the
@@ -1547,7 +1544,7 @@ If \lstinline!PL!\index{PL} is followed by \lstinline!FCJ!, the \lstinline!FCJ! 
 
 A macro\index{macro} is a drawing or a symbol contained in a library.
 Generally, this is the way frequently used electrical symbols are
-represented. The command used to calla macro is \lstinline!MC!\index{MC},
+represented. The command used to call a macro is \lstinline!MC!\index{MC},
 and the call is done as follows:
 \begin{lstlisting}
 MC x1 y1 o m n
@@ -1676,8 +1673,8 @@ A library \textit{must not contain} among the macro definitions any information 
 
 \section{Standard Libraries}
 
-FidoCadJ already contains two libraries traditionally supplied with
-FidoCAD\index{FidoCAD}. In particular these are the standard library\index{standard library}
+FidoCadJ contains two libraries traditionally supplied with
+FidoCAD\index{FidoCAD}. These are the standard library\index{standard library}
 and the library that contains the PCB symbols\index{PCB library}. Another library that has been developed for FidoCAD\index{FidoCAD} and is so useful that has been included as part of FidoCadJ is the IHRAM one. IHRAM stands for \lstinline!it.hobby.radioamatori.moderato! and it is an italian Usenet discussion group.
 
 However, it is possible to override the content of these internal
@@ -1860,7 +1857,7 @@ and then move there the file we just downloaded. It will be somewhere in:
 
 
 \section{Windows}
-Since version 0.23, when FidoCadJ recognizes a Windows platform, it will try to use the native Look and Feel.
+When FidoCadJ recognizes a Windows platform, it will try to use the native Look and Feel.
 
  \subsection{How to download and execute FidoCadJ}
 Very often, if you have Java installed, you just have to download the  \lstinline!fidocadj-0.24.8.jar! file and run it with a double click. If after the download your operating system sees it as a \lstinline!zip! archive, probably Java is not available on your computer. Oracle allows to freely download and install an up to date version of the Java runtime:
@@ -1894,7 +1891,7 @@ You first have to download the full source repository from GitHub. The make rule
 If you use Windows, you may find useful to use the \lstinline!winbuild.bat! script instead of \lstinline!make!. The script is placed in the \lstinline!dev_tools! directory and should be used with an action chosen among \lstinline!{run|clean|compile|force|rebuild}!.
 
 \section{Android}
-A specific version of FidoCadJ for Android is available. It shares much of the source code with the PC version, but all the graphical user interface code had to be rewritten. It should work on a variety of devices with at least Android 4.0: smartphones as well as tablets. For example, figure~\ref{fig_fidocadj_s5} shows the appearance of FidoCadJ for Android with a Samsung S5 smartphone.
+A specific version of FidoCadJ for Android has been developed in 2015. It shares much of the source code with the PC version, but all the graphical user interface code had to be rewritten. It should work on a variety of devices with at least Android 4.0: smartphones as well as tablets. For example, figure~\ref{fig_fidocadj_s5} shows the appearance of FidoCadJ for Android with a Samsung S5 smartphone.
 
 There are some minor differences between the Android application and the PC application described in the manual. They of course are perfectly compatible for the file format and can exchange drawings.
 \begin{figure}
@@ -1911,6 +1908,7 @@ There are some minor differences between the Android application and the PC appl
 \item You have an additional button in the toolbar, which allows you to move and zoom the shown portion of the drawing. While in this ``Move'' state, touch the screen and move your finger to pan the drawing. Use two fingers and ``pinch'' them, to increase or decrease the zoom.
 \end{itemize}
 
+However, in 2020 the future of the Android application is rather grim. First of all, it seems that the only effective way to distribute the application is Google play. A developer account to publish an application has a cost. Alternatives exist, but are not widespread. Moreover, the application was developed in 2014 using techniques that are now apparently being phased-out by Google. More importantly, maintaining a modern app is just not something that I want to do alone, given the time I have chosen to dedicate to FidoCadJ. If someone wants to take care of it, please step forward.
 
 \chapter{FidoCadJ art} \label{chap_fidocadj_art}
 
