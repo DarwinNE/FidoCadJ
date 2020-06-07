@@ -60,13 +60,12 @@ FidoCadJ is the modern, multiplatform successor of FidoCAD, with full
 support of UTF-8 text, advanced features, internationalisation and a sleek,
 polished user interface with anti-aliasing.
 
-FidoCadJ is internationalized and manuals are available in English, French,
-Italian and Chinese. The user interface has been translated into English,
-French, Italian, Spanish, German, Chinese, Dutch, Japanese and Czech.
+The FidoCadJ user manual is available in English. Translations in French,
+Italian and Chinese are available, but may not have been updated regularly. The user interface has been translated into English, French, Italian, Spanish, German, Chinese, Dutch, Japanese, Greek and Czech.
 
 FidoCadJ runs on the following systems:
 
-- Windows XP, Vista, Seven, 8, 10.
+- Windows Seven, 8, 10.
 - All major distributions of Linux.
 - MacOSX 10.8 and following
 - Android 4.0 or more recent devices.
@@ -123,7 +122,7 @@ when you install a file which does not come from a store. Check carefully
 where you downloaded it: the ONLY official location where distribution files
 are put for FidoCadJ project is on the official GitHub page.
 
-Remember that if there is a Greek letter after the version number of FidoCadJ,
+If there is a Greek letter after the version number of FidoCadJ,
 this means that you are using a preliminary version of this program.
 Basically, you are warned: those versions may be unstable!
 
