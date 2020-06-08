@@ -142,14 +142,14 @@ Stefano Martini's patience. He was a very attentive alpha and beta
 tester! I would like to thank Olaf Marzocchi and Emanuele Baggetta
 for their tests on macOS.
 
-I would like to thank ``F. Bertolazzi'' who has given very useful
+I would like to thank ``F. Bertolazzi'' who gave very useful
 advices about the usability of this software. He also assembled the
 CadSoft Eagle\index{Eagle} compatibility library, useful to export
 FidoCadJ drawings to Eagle. Many thanks to ``Celsius,'' who tested
 the software functionalities for PCBs, as well as its libraries.
 Thanks to Andrea D'Amore, too, for his advices concerning the FidoCadJ user interface on the Apple Macintosh. I would like to thank
 Roby IZ1CYN for the discussions about libraries and for having written
-section~\ref{installazione_linux} of this manual, dealing with its installation on Linux\index{Linux}.
+section~\ref{installazione_linux} of this manual, dealing with its installation on Linux\index{Linux}. Thanks to Max2433BO for advices about Linux and for his patient work on GitHub issues.
 Macintosh users can use FidoCadJ well integrated in the look of their operating system thanks to the Quaqua\index{Quaqua} look and feel, provided by Werner Randelshofer and more recently thanks to the VAqua7 look and feel.
 Werner has also given useful advices about FidoCadJ's user interface: thanks for that!
 
@@ -267,7 +267,7 @@ time I spend to program is time taken away from my electronics interests.
 In fact, especially at the beginning, the FidoCadJ code source showed that
 I am not a very Java\index{Java} and object oriented programming\index{Object oriented programming}
 purist and several solutions were
-more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ has been quite successfully compared to other Open Source projects\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
+more practical than elegant. However, I tried to improve continuously the overall code quality FidoCadJ has been quite successfully compared to other Open Source projects at least in one occasion\footnote{See for example \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Continuing in this way, static and dynamic analysis of the source code has been exploited to suggest where to refactor and improve the code organization.
 
 What matters is impressions of who exploits the program, much
 more than the choice of a particular language. For this reason, I
@@ -338,7 +338,7 @@ screenshot of the program running on macOS\index{macOS} is shown in Fig.~\ref{fi
 that all the menus are at their own place!} A few details may be
 different when running on other operating systems (for example
 Fig.~\ref{fig_metal} shows the result with Look and Feel Metal\index{Metal}
-on Sun/Oracle\index{Sun/Oracle}), as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
+on Oracle\index{Oracle}), as well as modern incarnations of macOS, but the philosophy remains the same. We will describe the features of the program, as well as its basic elements (the primitives)\index{primitive}, which compose a FidoCadJ drawing. %
 \begin{figure}
 \includegraphics[width=0.95 \textwidth]{fidocadj_macosx.png}
 \caption{A FidoCadJ 0.24.8 session running on macOS 10.13 High Sierra\index{macOS}.
@@ -969,11 +969,11 @@ which is a Java archive.%
 alone application.%
 } In many operating systems, to run the application it should be enough
 to double-click on the file, provided that a recent version of Java\index{Java}
-is installed on the machine. Using Sun's\index{Sun} terminology,
+is installed on the machine. Using Oracle's\index{Oracle} terminology,
 the so called JRE\index{JRE}, or the Java Runtime Environment, is
 all that is needed to run a program written in Java (but not to write
 it: in that case the SDK would be necessary\dots). The minimum Java
-version needed to run FidoCadJ is the 1.7, which has been around for
+version needed to run FidoCadJ is the 9, which has been around for
 a few years now.
 
 In some cases, it may be useful to run FidoCadJ from a command line
@@ -1734,7 +1734,7 @@ evocative.
 
 \subsection{How to download and execute FidoCadJ on macOS}
 FidoCadJ can work with a macOS\index{macOS} version more recent than 10.6 (Snow Leopard\index{Snow Leopard}).
-Under the hood, FidoCadJ needs at least the 1.7 version of Java. For marketing reasons, Apple does not seem to be prone to install Java with the last versions of macOS\index{macOS}. This is an essential piece of software needed for running FidoCadJ, so you might download and install it. By the way, Apple does not allow to distribute his App Store\index{App Store} software based on Java or distributed under GPL. This is one of the most important reasons for which it is quite improbable that FidoCadJ will be ported to iPad\index{iPad} and iPhone\index{iPhone}.
+Under the hood, FidoCadJ needs at least version 9 of Java. For marketing reasons, Apple does not install Java with the last versions of macOS\index{macOS}. By the way, Apple does not allow to distribute his App Store\index{App Store} software based on Java or distributed under GPL. This is one of the most important reasons for which it is quite improbable that FidoCadJ will be ported to iPad\index{iPad} and iPhone\index{iPhone}.
 
 Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on macOS you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
@@ -1747,8 +1747,8 @@ You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstin
 \label{installazione_linux} \textsl{by Roby IZ1CYN}\\
 
 
-Prerequisite: JRE\index{JRE} 6 from Sun\index{Sun} and/or OpenJDK\index{OpenJDK}
-6 JRE\index{JRE} (o previous versions compatible with the program's
+Prerequisite: JRE\index{JRE} 9 from Oracle\index{Oracle} and/or OpenJDK\index{OpenJDK}
+9 JRE\index{JRE} (or successive versions compatible with the program's
 specifications) must be installed. In paragraph \ref{inst_testo}
 the installation of the program using only commands from a terminal
 is described. In paragraph \ref{inst_grafica}, the interaction
@@ -1791,19 +1791,19 @@ Let us create a new directory (but at first we will become a superuser\index{sup
 \begin{lstlisting}
 $ su
 -> enter password
-# mkdir /usr/bin/fidocadj
+# mkdir /usr/local/bin/fidocadj
 \end{lstlisting}
 
 \dots\ and we can move there the downloaded file (substitute \lstinline!<user>! with the user name of the account where the file has been downloaded):
 
 \begin{lstlisting}
-# mv /home/<user>/fidocadj-0.24.8.jar /usr/bin/fidocadj
+# mv /home/<user>/fidocadj-0.24.8.jar /usr/local/bin/fidocadj
 \end{lstlisting}
 
 Let us make the file an executable
 
 \begin{lstlisting}
-# chmod +x /usr/bin/fidocadj/fidocadj-0.24.8.jar
+# chmod +x /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
 \end{lstlisting}
 
 And we must not forget to come back to be normal users:
@@ -1815,24 +1815,21 @@ And we must not forget to come back to be normal users:
 And now, we can execute the program:
 
 \begin{lstlisting}
-$ /usr/bin/fidocadj/fidocadj-0.24.8.jar
+$ /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
 \end{lstlisting}
 
 \subsection{On a graphical system}
 \label{inst_grafica}
-In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things does not change so much for older or newer versions:
+In the example, it will be an Ubuntu\index{Ubuntu} 8.04, but things do not change much for older or newer versions:
 
 \begin{itemize}
 \item {Let us download the file from the browser, or with Gwget or similar tools.}
 
-\item {We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the following directory:
+\item{We can then launch our File Manager (Nautilus, Konqueror\dots) as a root (if we do not have a specific command in the menu, we just need to launch it from the console by using \lstinline!sudo nautilus!). We can create the following directory:
 \begin{lstlisting}
-/usr/bin/fidocadj
+/usr/local/bin/fidocadj
 \end{lstlisting}
-and then move there the file we just downloaded. It will be somewhere in:
-\begin{lstlisting}
-/home/<user>/
-\end{lstlisting}}
+and then move there the file we just downloaded, which is in many cases put in a directory such as \lstinline!/home/[user_name]/Download/! after the download.}
 
 \begin{figure}
 \centering
@@ -1843,18 +1840,41 @@ and then move there the file we just downloaded. It will be somewhere in:
 
 \item {Let us do right click on the file, from the window we select the tab ``rights'', we add the check mark in front of the ``Allow the execution of the file as a program'', as shown in the figure~\ref{fig_permessi}}
 
-\begin{figure}
-\centering
-\includegraphics[width=.8\textwidth]{java6}
-\caption{Set the execution with the Java virtual machine, on Ubuntu\index{Ubuntu} 8.04.}
-\label{fig_java6}
-\end{figure}
+% Obsolete figure!!!
+%\begin{figure}
+%\centering
+%\includegraphics[width=.8\textwidth]{java6}
+%\caption{Set the execution with the Java virtual machine, on Ubuntu\index{Ubuntu} 8.04.}
+%\label{fig_java6}
+%\end{figure}
 
-\item {We can select the tab ``Open as'' and select ``OpenJDK Java 6 Runtime'' or ``Sun Java 6 Runtime'', as it can be seen in figure~\ref{fig_java6}.}
+\item {We can select the tab ``Open as'' and select ``OpenJDK Java 9 Runtime'' or ``Oracle Java 9 Runtime'' (or a successive version).}%, as it can be seen in figure~\ref{fig_java6}.}
 
-\item {Let us click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/bin/fidocadj/fidocadj-0.24.8.jar!.}
+\item {Let us click on ``Close'' and we are now ready to execute FidoCadJ: a double click on the executable, or we can add it to the main menu. The command to add is just \lstinline!/usr/local/bin/fidocadj/fidocadj-0.24.8.jar!.}
 \end{itemize}
 
+\subsection{``Portable'' install}
+ \textsl{by Max2433BO}\\
+ 
+If you can not install anything on the system, FidoCadJ can still be used as a ``portable'' application that can be executed everywhere without requiring super user rights.
+
+To do so, create a directory \lstinline!/home/[user_name]/fidocadj/! where the following files are put:
+
+
+\begin{itemize}
+\item \lstinline!fidocadj-0.24.8.jar!
+\item \lstinline!jdk-9.0.4! (javaSE 9, or greater)
+\item a script \lstinline!fidocadj-0.24.8.sh! to launch FidoCadJ, with the appropriate Java version.
+\end{itemize}
+
+\begin{lstlisting}
+#!/bin/bash
+export PATH=.:../fidocadj/jdk-9.0.4/bin
+export CLASSPATH=.:../fidocadj/jdk-9.0.4/lib:../fidocadj
+../fidocadj/jdk-9.0.4/bin/java -jar ../fidocadj/fidocadj_0.24.8.jar
+\end{lstlisting}
+
+Of course, you will need to adapt the Java version and the corresponding directory to your needs.
 
 \section{Windows}
 When FidoCadJ recognizes a Windows platform, it will try to use the native Look and Feel.
