@@ -1675,7 +1675,7 @@ A library \textit{must not contain} among the macro definitions any information 
 
 FidoCadJ contains two libraries traditionally supplied with
 FidoCAD\index{FidoCAD}. These are the standard library\index{standard library}
-and the library that contains the PCB symbols\index{PCB library}. Another library that has been developed for FidoCAD\index{FidoCAD} and is so useful that has been included as part of FidoCadJ is the IHRAM one. IHRAM stands for \lstinline!it.hobby.radioamatori.moderato! and it is an italian Usenet discussion group.
+and the library that contains the PCB symbols\index{PCB library}. Another library that has been developed for FidoCAD\index{FidoCAD} and is so useful that has been included as part of FidoCadJ is the IHRAM one. IHRAM stands for \lstinline!it.hobby.radioamatori.moderato! and it is an Italian Usenet discussion group.
 
 However, it is possible to override the content of these internal
 libraries by specifying (``File/Options/Libraries Directory'' menu)
@@ -1738,7 +1738,7 @@ Under the hood, FidoCadJ needs at least version 9 of Java. For marketing reasons
 
 Even if you can use directly the Java archive \lstinline!fidocadj.jar! as you would do on other operating systems, on macOS you can use the specifically tailored application. Everything works just like a native application: you can download the disk image at the following link:
 
-{\small
+{\footnotesize
 \href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ\_MacOSX.dmg}}\\
 You can then open the disk image and move \lstinline!FidoCadJ.app! in the \lstinline!Applications! folder, where you can use it exactly like any other Macintosh application. To uninstall FidoCadJ, just drag  \lstinline!FidoCadJ.app! in the trash bin.
 
@@ -1784,7 +1784,7 @@ Alternatively, or if you are experiencing problems, you can download the file fr
 {\small
 \href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}}
 
-and save the file in your \lstinline!/home/! directory.
+and save the file for example in your \lstinline!/home/[user_name]/Download! directory (many modern browsers do that by default).
 
 Let us create a new directory (but at first we will become a superuser\index{superuser} by using \lstinline!su! or \lstinline!sudo -s!):
 
@@ -1797,7 +1797,7 @@ $ su
 \dots\ and we can move there the downloaded file (substitute \lstinline!<user>! with the user name of the account where the file has been downloaded):
 
 \begin{lstlisting}
-# mv /home/<user>/fidocadj-0.24.8.jar /usr/local/bin/fidocadj
+# mv /home/[user_name]/Download/fidocadj-0.24.8.jar /usr/local/bin/fidocadj
 \end{lstlisting}
 
 Let us make the file an executable
@@ -1874,6 +1874,7 @@ export CLASSPATH=.:../fidocadj/jdk-9.0.4/lib:../fidocadj
 ../fidocadj/jdk-9.0.4/bin/java -jar ../fidocadj/fidocadj_0.24.8.jar
 \end{lstlisting}
 
+The script must be made executable using \lstinline!chmod +x fidocadj-0.24.8.sh! in the directory where the script is present.
 Of course, you will need to adapt the Java version and the corresponding directory to your needs.
 
 \section{Windows}
