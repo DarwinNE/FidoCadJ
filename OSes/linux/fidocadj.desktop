@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FidocadJ
+Icon=/usr/local/share/fidocadj/icon/fidocadj.png
+Categories=Graphics;
+Exec=java -jar /usr/local/bin/fidocadj.jar
+Terminal=false

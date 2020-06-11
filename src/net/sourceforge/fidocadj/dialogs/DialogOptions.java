@@ -31,9 +31,10 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 */
 public class DialogOptions extends MinimumSizeDialog
@@ -46,18 +47,12 @@ public class DialogOptions extends MinimumSizeDialog
     public int gridSize;
     public boolean extStrict;
 
-    // TODO: THOSE ARE OBSOLETE AND SHOULD BE REMOVED
-    public boolean split_n_s;
-    public boolean split_n_c;
-    ///
-
     public boolean shiftCP;
 
     public double stroke_size_straight_i;
 
     public double connectionSize_i;
 
-    public boolean quaquaActive;
     public String libDirectory;
 
     public int pcblinewidth_i;
@@ -105,11 +100,8 @@ public class DialogOptions extends MinimumSizeDialog
         @param pw the current PCB pad width.
         @param ph the current PCB pad height.
         @param piw the current PCB bad internal hole diameter.
-        @param qq the current Quaqua state.
         @param ex strict compatibility with FidoCAD for Windows.
         @param mf the current Macro font.
-        @param sn split non standard macros during save.
-        @param sc split non standard macros during copy.
         @param sssi stroke width to be used for segments and straight lines.
         @param ssoi stroke width to be used for ovals.
         @param ccs connection size.
@@ -119,8 +111,8 @@ public class DialogOptions extends MinimumSizeDialog
     public DialogOptions (JFrame pa, double z, boolean p, boolean a,
                           int gs, String libDir, boolean tt, boolean sit,
                           int plw, int pw, int ph, int piw,
-                          boolean qq, boolean ex, String mf,
-                          boolean sn, boolean sc, double sssi, double ssoi,
+                          boolean ex, String mf,
+                          double sssi, double ssoi,
                           double ccs, int ms, boolean sdcp)
     {
         super(600,450,pa, Globals.messages.getString("Cir_opt_t"), true);
@@ -135,13 +127,9 @@ public class DialogOptions extends MinimumSizeDialog
         libDirectory = libDir;
         textToolbar=tt;
         smallIconsToolbar=sit;
-        //extFCJ_s=es;
-        //extFCJ_c=ec;
-        quaquaActive=qq;
+
         extStrict=ex;
         macroFont = mf;
-        split_n_s = sn;
-        split_n_c = sc;
 
         pcblinewidth_i = plw;
         pcbpadwidth_i = pw;
@@ -151,7 +139,6 @@ public class DialogOptions extends MinimumSizeDialog
         macroSize_i = ms;
 
         stroke_size_straight_i =sssi;
-        //stroke_size_oval_i=ssoi;
 
         setSize(600,500);
 
@@ -211,16 +198,13 @@ public class DialogOptions extends MinimumSizeDialog
         {
             public void actionPerformed(ActionEvent evt)
             {
+                String origin="";
                 int ng=-1;
                 shiftCP=shiftCP_CB.isSelected();
                 antiAlias=antiAlias_CB.isSelected();
-                //zoomValue=(double)(zoom.getSelectedIndex());
                 profileTime=profile_CB.isSelected();
                 textToolbar=textToolbar_CB.isSelected();
                 smallIconsToolbar=smallIconsToolbar_CB.isSelected();
-                //extFCJ_s =extFCJ_s_CB.isSelected();
-                //extFCJ_c =extFCJ_c_CB.isSelected();
-                quaquaActive=quaquaActive_CB.isSelected();
                 extStrict = extStrict_CB.isSelected();
                 macroFont = (String)comboFont.getSelectedItem();
                 int s=0;
@@ -253,18 +237,19 @@ public class DialogOptions extends MinimumSizeDialog
                 } catch (NumberFormatException E)
                 {
                     invalidData=true;
+                    origin=E.getMessage();
                 }
-                if(ng>0 & !invalidData)
+                if(ng>0 && !invalidData)
                     gridSize=ng;
                 else {
-                    JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Format_invalid"),
-                        "",
-                        JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(parent,
+                            Globals.messages.getString("Format_invalid")+
+                            " ("+origin+")", "",
+                            JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
-                if(s<=0 & !invalidData) {
+                if(s<=0 && !invalidData) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("Font_size_invalid"),
                         "",
@@ -384,22 +369,23 @@ public class DialogOptions extends MinimumSizeDialog
             }
         });
 
+        JLabel restw = new JLabel(Globals.messages.getString("restart_info"));
+        constraints = DialogUtil.createConst(0,3,1,1,100,100,
+            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
+            new Insets(6,40,6,0));
+        restartOptionPanel.add(restw, constraints);
+
         textToolbar_CB=new JCheckBox(Globals.messages.getString("TextToolbar"));
         textToolbar_CB.setSelected(textToolbar);
         textToolbar_CB.setOpaque(false);
-        constraints = DialogUtil.createConst(0,3,1,1,100,100,
+        constraints = DialogUtil.createConst(0,4,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,6,0));
 
         // Add text in tb cb
         restartOptionPanel.add(textToolbar_CB, constraints);
 
-        quaquaActive_CB=new
-            JCheckBox(Globals.messages.getString("Quaqua"));
-        quaquaActive_CB.setSelected(quaquaActive);
-        quaquaActive_CB.setOpaque(false);
-
-        constraints = DialogUtil.createConst(0,4,1,1,100,100,
+        constraints = DialogUtil.createConst(0,5,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,6,20));
 
@@ -408,7 +394,7 @@ public class DialogOptions extends MinimumSizeDialog
         smallIconsToolbar_CB.setSelected(smallIconsToolbar);
         smallIconsToolbar_CB.setOpaque(false);
 
-        constraints = DialogUtil.createConst(0,5,1,1,100,100,
+        constraints = DialogUtil.createConst(0,6,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,40,20,20));
 
@@ -632,7 +618,7 @@ public class DialogOptions extends MinimumSizeDialog
     }
 
     /** Creates the panel dedicated to the extensions introduced by FidoCadJ on
-        the original FidoCad file format.
+        the original FidoCAD file format.
         @return the panel concerning extensions to the very old FidoCAD format.
     */
     private JPanel createExtensionsPanel()

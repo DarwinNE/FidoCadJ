@@ -27,9 +27,10 @@ import net.sourceforge.fidocadj.export.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -247,7 +248,7 @@ public class FileTools
                 */
                 ExportGraphic.export(new File(
                     cc.getParserActions().openFileName),  cc.dmp,
-                    "fcd", 1.0,true,false, !cc.extStrict, false);
+                    "fcd", 1.0,true,false, !cc.extStrict, false,false);
                 cc.getUndoActions().setModified(false);
             } else {
                 // Create file

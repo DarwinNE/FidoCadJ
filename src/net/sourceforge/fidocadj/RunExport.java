@@ -8,6 +8,8 @@ import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.*;
+
 
 /** The RunExport class implements a runnable class which can be employed
     to perform all exporting operations in a separate thread from the main
@@ -27,9 +29,10 @@ import net.sourceforge.fidocadj.globals.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2015 by Davide Bucci
+    Copyright 2012-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -44,15 +47,26 @@ class RunExport implements Runnable
     private boolean antiAlias;
     private boolean blackWhite;
     private boolean ext;
+    private boolean resBased;
+    private boolean splitLayers;
+    private int xsize;
+    private int ysize;
     private JFrame parent;
+    private ChangeCoordinatesListener coordL;
 
     /** Setting up the parameters needed for the export
     @param tfile the file name
     @param tP the DrawingModel object containing the drawing to be exported
     @param tformat the file format to be used
     @param tunitPerPixel the magnification factor to be used for the export
+        (used only if resb is true).
     @param tantiAlias the application of anti alias for bitmap export
-    @param tblackWhite black and white export
+    @param tblackWhite black and white export.
+    @param text export advanced FidoCadJ code (if applicable).
+    @param resb if true, the export is based on the resolution.
+    @param xs the x size of the drawing (used only if resb is false).
+    @param ys the y size of the drawing (used only if resb is false).
+    @param splitL if true split layers in different files.
     @param text the extensions to be activated or not
 
     */
@@ -63,6 +77,10 @@ class RunExport implements Runnable
         boolean tantiAlias,
         boolean tblackWhite,
         boolean text,
+        boolean resb,
+        int xs,
+        int ys,
+        boolean splitL,
         JFrame tparent)
     {
         file=tfile;
@@ -72,7 +90,20 @@ class RunExport implements Runnable
         antiAlias= tantiAlias;
         blackWhite=tblackWhite;
         ext=text;
+        xsize=xs;
+        ysize=ys;
+        resBased=resb;
         parent=tparent;
+        splitLayers=splitL;
+    }
+
+    /** Set the coordinate listener which is employed here for showing
+        message in a non-invasive way.
+        @param c the listener.
+    */
+    public void setCoordinateListener(ChangeCoordinatesListener c)
+    {
+        coordL=c;
     }
 
     /** Launch the export (in a new thread).
@@ -80,23 +111,63 @@ class RunExport implements Runnable
     public void run()
     {
         try {
-            ExportGraphic.export(file, dmp, format, unitPerPixel,
-                antiAlias, blackWhite, ext, true);
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Export_completed"));
-        }  catch(IOException ioe) {
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Export_error")+ioe);
+            if(resBased) {
+                ExportGraphic.export(file, dmp, format, unitPerPixel,
+                    antiAlias, blackWhite, ext, true, splitLayers);
+            } else {
+                ExportGraphic.exportSize(file, dmp, format, xsize, ysize,
+                    antiAlias, blackWhite, ext, true, splitLayers);
+            }
+            // It turns out (Issue #117) that this dialog is too disruptive.
+            // If we can, we opt for a much less invasive message
+            if(coordL==null) {
+                // Needed for thread safety!
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run()
+                    {
+                        JOptionPane.showMessageDialog(parent,
+                            Globals.messages.getString("Export_completed"));
+                    }
+                });
+            } else {
+                // Needed for thread safety!
+                // Much les disruptive version of the message.
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run()
+                    {
+                        coordL.changeInfos(
+                            Globals.messages.getString("Export_completed"));
+                    }
+                });
+            }
+        }  catch(final IOException ioe) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Export_error")+ioe);
+                }
+            });
         } catch(IllegalArgumentException iae) {
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Illegal_filename"));
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Illegal_filename"));
+                }
+            });
         } catch(java.lang.OutOfMemoryError|
             java.lang.NegativeArraySizeException om) {
             // It is not entirely clear to me (DB) why a negative array size
             // exception occours when there are memory issues creating the
             // images.
-            JOptionPane.showMessageDialog(parent,
-                Globals.messages.getString("Eport_Memory_Error"));
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run()
+                {
+                    JOptionPane.showMessageDialog(parent,
+                        Globals.messages.getString("Eport_Memory_Error"));
+                }
+            });
         }
     }
 }

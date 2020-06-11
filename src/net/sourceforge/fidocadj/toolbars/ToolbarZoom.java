@@ -30,9 +30,10 @@ import net.sourceforge.fidocadj.layers.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -44,8 +45,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private final JComboBox<String> zoom;
     private final JToggleButton showGrid;
     private final JToggleButton snapGrid;
+    private final JToggleButton showLibs;
     private final JLabel coords;
-    private final JLabel infos;
+
     private ChangeGridState changeListener;
     private boolean flagModify;
     private double oldzoom;
@@ -75,9 +77,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.addItem("1000%");
         zoom.addItem("1500%");
         zoom.addItem("2000%");
-        zoom.setPreferredSize(new Dimension (80,29));
-        zoom.setMaximumSize(new Dimension (80,38));
-        zoom.setMinimumSize(new Dimension (80,18));
+        zoom.addItem("3000%");
+        zoom.addItem("4000%");
+        zoom.setPreferredSize(new Dimension (100,29));
+        zoom.setMaximumSize(new Dimension (100,38));
+        zoom.setMinimumSize(new Dimension (100,18));
 
         /* Commented the following line due to this remark:
             http://www.electroyou.it/phpBB2/viewtopic.php?f=4&
@@ -91,7 +95,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         snapGrid=new JToggleButton(Globals.messages.getString("SnapToGrid"));
 
         coords = new JLabel("");
-        infos = new JLabel("");
 
         setBorderPainted(false);
         layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
@@ -100,16 +103,35 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         layerSel.setRenderer( new LayerCellRenderer());
         changeListener=null;
 
+        showLibs=new JToggleButton(Globals.messages.getString("Libs"));
 
-        // MacOSX Quaqua informations
+        // MacOSX Quaqua information
         zoomFit.putClientProperty("Quaqua.Button.style","toggleWest");
         showGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
-        snapGrid.putClientProperty("Quaqua.Button.style","toggleEast");
+        snapGrid.putClientProperty("Quaqua.Button.style","toggleCenter");
+        showLibs.putClientProperty("Quaqua.Button.style","toggleEast");
+
+        // VAqua7 information
+        String style="recessed";  // order: recessed, textured,
+        //  segmentedCapsule, segmentedRoundRect, segmented, segmentedTextured
+
+        zoomFit.putClientProperty("JButton.buttonType",style);
+        zoomFit.putClientProperty("JButton.segmentPosition","first");
+
+        showGrid.putClientProperty("JButton.buttonType",style);
+        showGrid.putClientProperty("JButton.segmentPosition","middle");
+
+        snapGrid.putClientProperty("JButton.buttonType",style);
+        snapGrid.putClientProperty("JButton.segmentPosition","middle");
+
+        showLibs.putClientProperty("JButton.buttonType",style);
+        showLibs.putClientProperty("JButton.segmentPosition","last");
 
         zoom.addActionListener(this);
         zoomFit.addActionListener(this);
         showGrid.addActionListener(this);
         snapGrid.addActionListener(this);
+        showLibs.addActionListener(this);
         layerSel.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent evt)
@@ -126,13 +148,11 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         add(zoomFit);
         add(showGrid);
         add(snapGrid);
+        add(showLibs);
         add(layerSel);
         add(Box.createGlue());
-        add(infos);
         add(coords);
-        infos.setPreferredSize(new Dimension (250,28));
-        infos.setMinimumSize(new Dimension (50,18));
-        infos.setMaximumSize(new Dimension (250,38));
+        add(Box.createGlue());
 
         coords.setPreferredSize(new Dimension (300,28));
         coords.setMinimumSize(new Dimension (300,18));
@@ -142,8 +162,10 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom.setEditable(true);
         showGrid.setSelected(true);
         snapGrid.setSelected(true);
+        showLibs.setSelected(true);
         changeCoordinates(0, 0);
     }
+
     /** Add a layer listener (object implementing the ChangeSelectionListener
         interface) whose change method will be called when the current
         layer should be changed.
@@ -153,7 +175,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     {
         changeLayerListener=c;
     }
-
 
     /** Add a grid state listener whose methods will be called when the current
         grid state should be changed.
@@ -187,26 +208,40 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     public void actionPerformed(ActionEvent evt)
     {
-
         String s = evt.getActionCommand();
 
         // Buttons
         if(s.equals(Globals.messages.getString("ShowGrid"))) {
-            //showGrid.setSelected(!showGrid.isSelected());
+            // Toggle grid visibility
             if(changeListener!=null)
                 changeListener.setGridVisibility(showGrid.isSelected());
         } else if(s.equals(Globals.messages.getString("SnapToGrid"))) {
-            //snapGrid.setSelected(!snapGrid.isSelected());
+            // Toggle snap to grid
             if(changeListener!=null)
                 changeListener.setSnapState(snapGrid.isSelected());
         } else if(s.equals(Globals.messages.getString("Zoom_fit"))) {
+            // Zoom to fit
             if(actualZoomToFitListener!=null) {
                 actualZoomToFitListener.zoomToFit();
             }
         } else if(evt.getSource() instanceof JComboBox) {
             // ComboBox: the only one is about the zoom settings.
             handleZoomChangeEvents(evt);
+        } else if(s.equals(Globals.messages.getString("Libs"))) {
+            // Toggle library visibility
+            actualZoomToFitListener.showLibs(showLibs.isSelected());
         }
+    }
+
+    /** Set the current state of the button which controls the visibility of
+        the library tree. This method is useful when the state is changed
+        elsewhere and one needs to update the visible appearance of the button
+        to follow the change.
+        @param s the true if the libs are visible.
+    */
+    public void setShowLibsState(boolean s)
+    {
+        showLibs.setSelected(s);
     }
 
     /** Handle events of zoom change from the combo box.
@@ -214,10 +249,9 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     */
     private void handleZoomChangeEvents(ActionEvent evt)
     {
-        JComboBox<String> source=(JComboBox<String>)evt.getSource();
         if (notifyZoomChangeListener!=null) {
             try {
-                String s=(String)source.getSelectedItem();
+                String s=(String)zoom.getSelectedItem();
                 // The percent symbol should be eliminated.
                 s=s.replace('%',' ').trim();
                 //System.out.println ("New zoom: "+s);
@@ -227,7 +261,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                 if(z==oldzoom)
                     return;
                 oldzoom=z;
-                if(10<=z && z<=2000) {
+                if(Globals.minZoomFactor<=z && z<=Globals.maxZoomFactor) {
                     notifyZoomChangeListener.changeZoom(z/100);
                 }
             } catch (NumberFormatException E) {
@@ -256,6 +290,13 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         float xmm=(float)xum/1000;
         float ymm=(float)yum/1000;
 
+        Color c1=UIManager.getColor("Label.foreground");
+        Color c2=UIManager.getColor("Label.background");
+        if(c1!=null && c2!=null) {
+            coords.setOpaque(false);
+            coords.setForeground(c1);
+            coords.setBackground(c2);
+        }
         coords.setText(""+x+"; "+y+ " ("+xmm+" mm; "+ymm+" mm)");
     }
 
@@ -267,11 +308,43 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         // Does nothing.
     }
 
+    /** Change the state of the show libs toggle button.
+        @param s the state of the button.
+    */
+    public void setShowLibs(boolean s)
+    {
+        showLibs.setSelected(s);
+    }
+
+    /** Change the state of the show grid toggle button.
+        @param s the state of the button.
+    */
+    public void setShowGrid(boolean s)
+    {
+        showGrid.setSelected(s);
+    }
+
+    /** Change the state of the show grid toggle button.
+        @param s the state of the button.
+    */
+    public void setSnapGrid(boolean s)
+    {
+        snapGrid.setSelected(s);
+    }
+
     /** Change the infos.
         @param s the string to be shown.
     */
     public void changeInfos(String s)
     {
-        infos.setText(s);
+        // Ensure that we will be able to restore colors back!
+        Color c1=UIManager.getColor("Label.background");
+        Color c2=UIManager.getColor("Label.foreground");
+        if(c1!=null && c2!=null) {
+            coords.setOpaque(true);
+            coords.setForeground(Color.WHITE);
+            coords.setBackground(Color.GREEN.darker().darker());
+        }
+        coords.setText(s);
     }
 }

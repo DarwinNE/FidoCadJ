@@ -33,6 +33,7 @@ import java.util.LinkedList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.*;
 
 /** Choose file format, size and options of the graphic exporting.
 
@@ -50,7 +51,8 @@ import javax.swing.border.Border;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2012-2015 Phylum2, Davide Bucci
     </pre>
@@ -324,13 +326,60 @@ public class DialogSymbolize extends MinimumSizeDialog
             h^=t & 0xFF;
         }
 
-        key.setText(String.valueOf(h));
         constraints = DialogUtil.createConst(2,5,1,1,100,100,
         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(6,0,12,0));
 
         panel.add(key, constraints);
+        key.getDocument().addDocumentListener(new DocumentListener() {
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void insertUpdate(DocumentEvent e)
+            {
+                showValidity();
+            }
 
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void removeUpdate(DocumentEvent e)
+            {
+                showValidity();
+            }
+
+            /** Needed to implement the DocumentListener interface
+                @param e the document event.
+            */
+            public void changedUpdate(DocumentEvent e)
+            {
+                showValidity();
+            }
+
+            /** Change the background color of the fiel depending on the
+                validity of the key currently defined.
+            */
+            public void showValidity()
+            {
+                if(isKeyInvalid()) {
+                    key.setBackground(Color.RED.darker());
+                    key.setForeground(Color.WHITE);
+                } else {
+                    Color c1=UIManager.getColor("TextField.background");
+                    Color c2=UIManager.getColor("TextField.foreground");
+                    if(c1!=null && c2!=null) {
+                        key.setBackground(c1);
+                        key.setForeground(c2);
+                    } else {
+                        key.setBackground(Color.GREEN.darker().darker());
+                        key.setForeground(Color.WHITE);
+                    }
+                }
+            }
+        });
+        while(isKeyInvalid()) {
+            key.setText(String.valueOf(h++));
+        }
         snapToGrid=new JCheckBox(
             Globals.messages.getString("SnapToGridOrigin"));
 
@@ -437,7 +486,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             {
                 // Check if there is a valid key available. We can not continue
                 // without a key!
-                if (key.getText().length()<1) {
+                if (isKeyAbsent()) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("InvKey"),
                         Globals.messages.getString("Symbolize"),
@@ -445,17 +494,14 @@ public class DialogSymbolize extends MinimumSizeDialog
                     key.requestFocus();
                     return;
 
-                } else if(LibUtils.checkKey(cp.getLibrary(),
-                        getPrefix().trim(),
-                        getPrefix().trim()+"."+key.getText().trim()))
-                {
+                } else if(isKeyDuplicate()) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("DupKey"),
                         Globals.messages.getString("Symbolize"),
                         JOptionPane.ERROR_MESSAGE);
                     key.requestFocus();
                     return;
-                } else if(key.getText().contains(" ")) {
+                } else if(isKeyContainingInvalidChars()) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("SpaceKey"),
                         Globals.messages.getString("Symbolize"),
@@ -469,8 +515,6 @@ public class DialogSymbolize extends MinimumSizeDialog
                     getGroup().trim(), getPrefix().trim(),p);
 
                 cp.getLibrary().put(macro.key, macro); // add to lib
-
-                System.out.println("key: "+macro.key);
 
                 // Save the new symbol in the current libFilename
                 try {
@@ -516,6 +560,40 @@ public class DialogSymbolize extends MinimumSizeDialog
         getRootPane().setDefaultButton(ok);
     }
 
+    /** Check if the current key is duplicate or not.
+        @return true if a duplicate exists in the library.
+    */
+    private boolean isKeyDuplicate()
+    {
+        return LibUtils.checkKey(cp.getLibrary(), getPrefix().trim(),
+            getPrefix().trim()+"."+key.getText().trim());
+    }
+
+    /** Check if the current key is containing invalid characters.
+        @return true the current key is containing invalid chars.
+    */
+    private boolean isKeyContainingInvalidChars()
+    {
+        // Currently, the only recognized invalid chars are spaces and dots.
+        return key.getText().contains(" ") || key.getText().contains(".");
+    }
+
+    /** Check if the current key is specified.
+        @return true the current key is not empty
+    */
+    private boolean isKeyAbsent()
+    {
+        return key.getText().length()<1;
+    }
+
+    /** Check if the key is valid or not.
+    */
+    private boolean isKeyInvalid()
+    {
+        return isKeyAbsent() || isKeyContainingInvalidChars()
+            || isKeyDuplicate();
+    }
+
     protected MacroDesc buildMacro(String myname, String mykey, String mylib,
             String mygrp, String myprefix, Point origin)
     {
@@ -541,7 +619,7 @@ public class DialogSymbolize extends MinimumSizeDialog
                     pa.addString(new StringBuffer(g.toString(true)), true);
                 }
             }
-            sa.setSelectionAll(true);
+            //sa.setSelectionAll(true);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -555,11 +633,9 @@ public class DialogSymbolize extends MinimumSizeDialog
 
         parent.repaint();
         String desc = ss.toString();
-        MacroDesc md = new MacroDesc(myprefix+"."+mykey, myname, desc, mygrp,
+        return new MacroDesc(myprefix+"."+mykey, myname, desc, mygrp,
             mylib, myprefix);
-        return md;
     }
-
 
     /** Update all the libs shown in the tree.
     */

@@ -208,6 +208,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
                 }
             });
 
+            if(files==null)
+                return;
             for (File f : files) {
                 desc = new LibraryDesc();
                 desc.filename = f.getName();

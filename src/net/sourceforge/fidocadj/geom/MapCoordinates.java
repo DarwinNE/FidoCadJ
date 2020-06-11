@@ -19,7 +19,8 @@ import java.util.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2015 by Davide Bucci
 </pre>
@@ -233,7 +234,6 @@ public class MapCoordinates
 
     /** Get the X magnification factor
         @return the X magnification factor
-
     */
     public final double getXMagnitude()
     {
@@ -248,9 +248,9 @@ public class MapCoordinates
         return yMagnitude;
     }
 
-    /** Set the X magnification factor
-        @param txm the X magnification factor
-
+    /** Set the X magnification factor. The factor is checked and will always
+        be comprised between limits defined by MIN_MAGNITUDE and MAX_MAGNITUDE.
+        @param txm the X magnification factor.
     */
     public final void setXMagnitude(double txm)
     {
@@ -264,8 +264,9 @@ public class MapCoordinates
         xMagnitude=xm;
     }
 
-    /** Set the Y magnification factor
-        @param tym the Y magnification factor
+    /** Set the Y magnification factor.  The factor is checked and will always
+        be comprised between limits defined by MIN_MAGNITUDE and MAX_MAGNITUDE.
+        @param tym the Y magnification factor.
     */
     public final void setYMagnitude(double tym)
     {
@@ -276,6 +277,24 @@ public class MapCoordinates
         if (Math.abs(ym)>MAX_MAGNITUDE)
             ym=MAX_MAGNITUDE;
 
+        yMagnitude=ym;
+    }
+
+    /** Set the X magnification factor. Does not check for limits of the
+        magnification factor. Use with care!
+        @param xm the X magnification factor.
+    */
+    public final void setXMagnitudeNoCheck(double xm)
+    {
+        xMagnitude=xm;
+    }
+
+    /** Set the Y magnification factor. Does not check for limits of the
+        magnification factor. Use with care!
+        @param ym the Y magnification factor.
+    */
+    public final void setYMagnitudeNoCheck(double ym)
+    {
         yMagnitude=ym;
     }
 
@@ -311,14 +330,25 @@ public class MapCoordinates
         yCenter=ym;
     }
 
-    /** Set both X and Y magnification factors
-        @param xm the X magnification factor
-        @param ym the Y magnification factor
+    /** Set both X and Y magnification factors.
+        @param xm the X magnification factor.
+        @param ym the Y magnification factor.
     */
     public final void setMagnitudes(double xm, double ym)
     {
         setXMagnitude(xm);
         setYMagnitude(ym);
+    }
+
+    /** Set both X and Y magnification factors. Does not check for limits of
+        the magnification factor. Use with care!
+        @param xm the X magnification factor.
+        @param ym the Y magnification factor.
+    */
+    public final void setMagnitudesNoCheck(double xm, double ym)
+    {
+        setXMagnitudeNoCheck(xm);
+        setYMagnitudeNoCheck(ym);
     }
 
     /** Get the maximum tracked X coordinate
@@ -548,7 +578,7 @@ public class MapCoordinates
     */
     public int unmapXnosnap(int x)
     {
-        return (int)((x-xCenter)/xMagnitude);
+        return (int)Math.round((x-xCenter)/xMagnitude);
     }
 
     /** Un Map the Y screen coordinate given in the drawing coordinate.
@@ -558,7 +588,7 @@ public class MapCoordinates
     */
     public int unmapYnosnap(int y)
     {
-        return (int)((y-yCenter)/yMagnitude);
+        return (int)Math.round((y-yCenter)/yMagnitude);
     }
 
     /** Un Map the X screen coordinate given in the drawing coordinate.
@@ -571,7 +601,7 @@ public class MapCoordinates
         int xc=unmapXnosnap(x);
         // perform the snapping.
         if(snapActive) {
-            xc= (int)((double)xc/xGridStep+.5);
+            xc= (int)Math.round((double)xc/xGridStep);
             xc*=xGridStep;
         }
         return xc;
@@ -588,7 +618,7 @@ public class MapCoordinates
         int yc=unmapYnosnap(y);
         // perform the snapping.
         if(snapActive) {
-            yc=(int)((double)yc/yGridStep+.5);
+            yc=(int)Math.round((double)yc/yGridStep);
             yc*=yGridStep;
         }
         return yc;

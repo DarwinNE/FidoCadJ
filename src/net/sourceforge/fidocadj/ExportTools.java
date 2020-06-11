@@ -4,11 +4,18 @@ import javax.swing.*;
 
 import java.util.prefs.*;
 import java.io.*;
+import java.awt.*;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.awt.datatransfer.*;
 
 import net.sourceforge.fidocadj.export.*;
 import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.model.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.*;
+
 
 /** ExportTools.java
 
@@ -29,15 +36,16 @@ import net.sourceforge.fidocadj.globals.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
 */
 
-public class ExportTools
+public class ExportTools implements ClipboardOwner
 {
     // Export default properties
     private String exportFileName;
@@ -45,7 +53,12 @@ public class ExportTools
     private boolean exportBlackWhite;
     private double exportUnitPerPixel;
     private double exportMagnification;
+    private int exportXsize;
+    private int exportYsize;
+    private boolean exportResolutionBased;
+    private boolean splitLayers;
     final private Preferences prefs;
+    private ChangeCoordinatesListener coordL;
 
     /** Standard constructor.
         @param p the preferences object which will be used to save or
@@ -58,6 +71,7 @@ public class ExportTools
         prefs=p;
         exportBlackWhite=false;
         exportFormat = "";
+        splitLayers=false;
     }
 
     /** Read the preferences regarding the export.
@@ -71,6 +85,82 @@ public class ExportTools
             exportMagnification = Double.parseDouble(
                 prefs.get("EXPORT_MAGNIFICATION", "1"));
             exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
+
+            exportXsize = Integer.parseInt(
+                prefs.get("EXPORT_XSIZE", "800"));
+            exportYsize = Integer.parseInt(
+                prefs.get("EXPORT_YSIZE", "600"));
+            exportResolutionBased = prefs.get("EXPORT_RESOLUTION_BASED",
+                "false").equals("true");
+            splitLayers = prefs.get("EXPORT_SPLIT_LAYERS",
+                "false").equals("true");
+        }
+    }
+
+    /** Show a dialog for exporting the current drawing in the clipboard.
+        @param fff the parent frame which will be used for dialogs and message
+            boxes.
+        @param CC the CircuitPanel containing the drawing to be exported.
+    */
+    public void exportAsCopiedImage(JFrame fff, CircuitPanel CC)
+    {
+        // At first, we create and configure the dialog allowing the user
+        // to choose the exporting options
+        DialogCopyAsImage dcai=new DialogCopyAsImage(fff, CC.getDrawingModel());
+        dcai.setAntiAlias(true);
+        dcai.setXsizeInPixels(exportXsize);
+        dcai.setYsizeInPixels(exportYsize);
+        dcai.setResolutionBasedExport(exportResolutionBased);
+        dcai.setUnitPerPixel(exportUnitPerPixel);
+        dcai.setBlackWhite(exportBlackWhite);
+        // Once configured, we show the modal dialog
+        dcai.setVisible(true);
+        if (dcai.shouldExport()) {
+            exportUnitPerPixel=dcai.getUnitPerPixel();
+            exportBlackWhite=dcai.getBlackWhite();
+            exportResolutionBased=dcai.getResolutionBasedExport();
+            try {
+                exportXsize=dcai.getXsizeInPixels();
+                exportYsize=dcai.getYsizeInPixels();
+            } catch (java.lang.NumberFormatException E) {
+                JOptionPane.showMessageDialog(null,
+                    Globals.messages.getString("Format_invalid"),
+                    Globals.messages.getString("Warning"),
+                    JOptionPane.INFORMATION_MESSAGE );
+                exportXsize=100;
+                exportYsize=100;
+            }
+
+            // We do the export
+            RunExport doExport = new RunExport();
+            doExport.setCoordinateListener(coordL);
+            try {
+                File fexp=File.createTempFile("FidoCadJ",".png");
+                doExport.setParam(fexp,  CC.dmp,
+                    "png", exportUnitPerPixel,
+                    dcai.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                    exportResolutionBased,
+                    exportXsize,
+                    exportYsize,
+                    false,
+                    fff);
+
+                doExport.run();
+                BufferedImage img = null;
+                img = ImageIO.read(fexp);
+                setClipboard(img);
+            } catch (IOException E) {
+                System.err.println("Issues reading image: "+E);
+            }
+            if(prefs!=null) {
+                prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
+                prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
+                prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
+                prefs.put("EXPORT_RESOLUTION_BASED",
+                    exportResolutionBased?"true":"false");
+                prefs.put("EXPORT_XSIZE", ""+exportXsize);
+                prefs.put("EXPORT_YSIZE", ""+exportYsize);
+            }
         }
     }
 
@@ -87,9 +177,14 @@ public class ExportTools
     {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
-        DialogExport export=new DialogExport(fff);
+        DialogExport export=new DialogExport(fff, CC.getDrawingModel());
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
+        export.setXsizeInPixels(exportXsize);
+        export.setYsizeInPixels(exportYsize);
+        export.setResolutionBasedExport(exportResolutionBased);
+        export.setSplitLayers(splitLayers);
+
         // The default export directory is the same where the FidoCadJ file
         // are opened.
         if("".equals(exportFileName)) {
@@ -109,12 +204,29 @@ public class ExportTools
             // file formats
             if("png".equals(exportFormat) ||
                 "jpg".equals(exportFormat))
+            {
+                exportResolutionBased=export.getResolutionBasedExport();
                 exportUnitPerPixel=export.getUnitPerPixel();
-            else
+            } else {
+                exportResolutionBased=true;
                 exportUnitPerPixel = export.getMagnification();
+            }
 
             exportBlackWhite=export.getBlackWhite();
             exportMagnification = export.getMagnification();
+            splitLayers=export.getSplitLayers();
+
+            try {
+                exportXsize=export.getXsizeInPixels();
+                exportYsize=export.getYsizeInPixels();
+            } catch (java.lang.NumberFormatException E) {
+                JOptionPane.showMessageDialog(null,
+                    Globals.messages.getString("Format_invalid"),
+                    Globals.messages.getString("Warning"),
+                    JOptionPane.INFORMATION_MESSAGE );
+                exportXsize=100;
+                exportYsize=100;
+            }
 
             File f = new File(exportFileName);
             // We first check if the file is a directory
@@ -155,10 +267,15 @@ public class ExportTools
             }
             // We do the export
             RunExport doExport = new RunExport();
+            doExport.setCoordinateListener(coordL);
             // Here we use the multithreaded structure of Java.
             doExport.setParam(new File(exportFileName),  CC.dmp,
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                exportResolutionBased,
+                exportXsize,
+                exportYsize,
+                splitLayers,
                 fff);
 
             SwingUtilities.invokeLater(doExport);
@@ -168,6 +285,11 @@ public class ExportTools
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
                 prefs.put("EXPORT_MAGNIFICATION", ""+exportMagnification);
                 prefs.put("EXPORT_BW", exportBlackWhite?"true":"false");
+                prefs.put("EXPORT_RESOLUTION_BASED",
+                    exportResolutionBased?"true":"false");
+                prefs.put("EXPORT_XSIZE", ""+exportXsize);
+                prefs.put("EXPORT_YSIZE", ""+exportYsize);
+                prefs.put("EXPORT_SPLIT_LAYERS", splitLayers?"true":"false");
             }
             /*
                 The following code would require a thread safe implementation
@@ -179,6 +301,81 @@ public class ExportTools
             // Start the thread
             thread.start();
             */
+        }
+    }
+    /** Called by the system when the application looses ownership over the
+        clipboard contents. This is here because an export operation is done
+        when the "Copy as a picture" operation is performed.
+
+        @param clip the current clipboard object.
+        @param trans tha object to be transfered.
+    */
+    public void lostOwnership(Clipboard clip, Transferable trans)
+    {
+    }
+    /** Set the coordinate listener which is employed here for showing
+        message in a non-invasive way.
+        @param c the listener.
+    */
+    public void setCoordinateListener(ChangeCoordinatesListener c)
+    {
+        coordL=c;
+    }
+
+    /** This method writes a image to the system clipboard.
+        @param image the image to be loaded in the clipboard.
+    */
+    public void setClipboard(Image image)
+    {
+        TransferableImage imgSel = new TransferableImage(image);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+            imgSel,
+            this);
+    }
+
+    /** Origin of this code:
+    https://stackoverflow.com/questions/4552045/copy-bufferedimage-to-clipboard
+
+        DB: I checked it, it seems reasonable and robust and it works well.
+        Using MacOS, I noticed that the system was not working for Java version
+        1.7. The types of the object copied in the clipboard were not those
+        that standard MacOS applications expect. I updated to Java 14 and it
+        started to work flawlessly.
+    */
+    private class TransferableImage implements Transferable
+    {
+        Image i;
+        public TransferableImage(Image i) {
+            this.i = i;
+        }
+
+        public Object getTransferData(DataFlavor flavor) throws
+            UnsupportedFlavorException, IOException
+        {
+            if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
+                return i;
+            } else {
+                throw new UnsupportedFlavorException(flavor);
+            }
+        }
+
+        public DataFlavor[] getTransferDataFlavors()
+        {
+            DataFlavor[] flavors = new DataFlavor[1];
+            flavors[0] = DataFlavor.imageFlavor;
+
+            return flavors;
+        }
+
+        public boolean isDataFlavorSupported(DataFlavor flavor)
+        {
+            DataFlavor[] flavors = getTransferDataFlavors();
+            for (int i = 0; i < flavors.length; ++i) {
+                if (flavor.equals(flavors[i])) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

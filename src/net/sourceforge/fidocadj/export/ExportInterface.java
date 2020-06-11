@@ -35,9 +35,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
    </pre>
 
 
@@ -68,6 +69,19 @@ public interface ExportInterface
     */
     public void exportEnd()
         throws IOException;
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u);
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p);
 
     /** Called when exporting an Advanced Text primitive.
 
@@ -171,7 +185,7 @@ public interface ExportInterface
 
     /** Called when exporting a Macro call.
         This function can just return false, to indicate that the macro should
-        be rendered by means of calling the other primitives. Please note that
+        be rendered by means of calling the other primitives. Please notice that
         a macro does not have a reference layer, since it is defined by its
         components.
 
@@ -229,7 +243,6 @@ public interface ExportInterface
     public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer) throws IOException;
 
-
     /** Called when exporting a PCBPad primitive.
 
         @param x the x position of the pad.
@@ -246,7 +259,7 @@ public interface ExportInterface
     public void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole) throws IOException;
 
-    /** Called when exporting a Polygon primitive
+    /** Called when exporting a Polygon primitive.
 
         @param vertices array containing the position of each vertex
         @param nVertices number of vertices
@@ -315,9 +328,10 @@ public interface ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if an error occurs.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException;

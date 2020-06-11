@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj.macropicker;
 
 import javax.swing.*;
 import javax.swing.tree.*;
-import java.awt.Graphics;
+import java.awt.*;
 
 /** Extended JTree for searching node.<BR>
     Features:<BR>
@@ -23,7 +23,8 @@ import java.awt.Graphics;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2014-2015 Kohta Ozaki, Davide Bucci
     </pre>
@@ -41,13 +42,27 @@ public class ExpandableJTree extends JTree
     // expanded.
     private boolean direction = false;
 
+    /** The creator.
+    */
+    public ExpandableJTree()
+    {
+        super();
+        // Apply a correction for the text size depending on the screen
+        // resolution.
+        final int base=114;
+        int res=Toolkit.getDefaultToolkit().getScreenResolution();
+        Font standardFont=getFont();
+        setFont(standardFont.deriveFont(standardFont.getSize()*res/base));
+        setRowHeight(getRowHeight()*res/base);
+    }
+
     private void fillExpandState(boolean expand)
     {
         //NOTES:
         //This only switchs expand state.
         //Actually expanding/collapsing tree is on next repaint.
         TreePath path;
-        for(int row=1; row<getRowCount(); row++) {
+        for(int row=0; row<getRowCount(); ++row) {
             path = getPathForRow(row);
             if(!getModel().isLeaf(path.getLastPathComponent())) {
                 setExpandedState(path, expand);

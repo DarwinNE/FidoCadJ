@@ -37,12 +37,13 @@ import java.net.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
-    @author Davide Bucci & Jose Emilio Munoz
+    @author Davide Bucci, Jose Emilio Munoz
 
 */
 
@@ -85,6 +86,7 @@ public class ToolButton
         // This property is very useful when using the Quaqua style
         // with Apple Macintosh computers.
         toolButton.putClientProperty("Quaqua.Button.style","toolBarTab");
+        toolButton.putClientProperty("JButton.buttonType","segmented");
 
     }
 

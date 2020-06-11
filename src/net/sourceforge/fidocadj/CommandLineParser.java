@@ -4,9 +4,12 @@ import java.util.Locale;
 
 import net.sourceforge.fidocadj.globals.*;
 
-
 /** CommandLineParser.java
     Parse the command line recognizing options, commands and files.
+
+    Only the parsing is done. The operations needed should be then be done
+    by checking the state of an instance of this object after that the
+    options have been parsed.
 
     <pre>
     This file is part of FidoCadJ.
@@ -22,9 +25,10 @@ import net.sourceforge.fidocadj.globals.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2019 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -49,6 +53,7 @@ public class CommandLineParser
     private boolean resolutionBasedExport = false;
     private boolean printSize=false;
     private boolean printTime=false;
+    private boolean splitLayers=false;
     private double resolution=1;
     private Locale currentLocale=null;
 
@@ -137,6 +142,10 @@ public class CommandLineParser
                     // -f forces FidoCadJ to skip some of the sanity checks
                     // for example in file extensions while exporting.
                     forceMode=true;
+                } else if (args[i].startsWith("-m")) {
+                    // -m indicates that during export multiple layers should
+                    // be exported towards multiple files.
+                    splitLayers=true;
                 } else if (args[i].startsWith("-c")) {
                     // -c indicates that FidoCadJ should read and convert
                     // the given file. The structure of the command must
@@ -156,7 +165,7 @@ public class CommandLineParser
                             resolutionBasedExport = true;
                             if (resolution<=0) {
                                 System.err.println("Resolution should be"+
-                                    "a positive real number");
+                                    " a positive real number");
                                 System.exit(1);
                             }
                         } else {
@@ -246,9 +255,9 @@ public class CommandLineParser
 
         //CHECKSTYLE.OFF: LineLength
         String help = "\nThis is FidoCadJ, version "+Globals.version+".\n"+
-            "By Davide Bucci, 2007-2014.\n\n"+
+            "By the FidoCadJ team, 2007-2020.\n\n"+
 
-            "Use: java -jar fidocadj.jar [-options] [file] \n"+
+            "Use: java -jar fidocadj-0.24.8.jar [-options] [file] \n"+
             "where options include:\n\n"+
 
             " -n     Do not start the graphical user interface (headless mode)\n\n"+
@@ -264,8 +273,15 @@ public class CommandLineParser
             "        An alternative is to specify the resolution in pixels per logical unit\n"+
             "        by preceding it by the letter 'r' (without spaces), instead of giving\n"+
             "        sx and sy.\n"+
-            "        NOTE: the coherence of the file extension is checked, unless the -f\n"+
+            "        NOTE: the correctness of the file extension is checked, unless the -f\n"+
             "        option is specified.\n\n"+
+
+            " -m     if a file export is done towards a vector graphic file format, split\n"+
+            "        the layers and write one file for each layer. The file name will be\n"+
+            "        obtained by appending _ followed by the layer number to the specified\n"+
+            "        file name. For example, the following command will create files\n"+
+            "        test_0.svg, test_1.svg ... from the drawing contained in test.fcd:\n\n"+
+            "           java -jar fidocadj.jar -n -m -c r2 svg test.svg test.fcd\n\n"+
 
             " -s     Print the size of the specified file in logical units.\n\n"+
 
@@ -281,7 +297,7 @@ public class CommandLineParser
 
             " -k     Show the current locale.\n\n"+
 
-            " -f     Force FidoCadJ to skip some tests about sanity of the inputs.\n\n"+
+            " -f     Force FidoCadJ to skip some sanity tests on the input data.\n\n"+
 
             " [file] The optional (except if you use the -d or -s options) FidoCadJ file to\n"+
             "        load at startup time.\n\n"+
@@ -293,13 +309,21 @@ public class CommandLineParser
             "        graphic user interface (the so called headless mode).\n"+
             "        Each FidoCadJ logical unit will be converted in 2 pixels on the image.\n"+
             "  java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd\n\n"+
-            "Example: load FidoCadJ forcing the locale to simplified chinese (zh).\n"+
+            "Example: load FidoCadJ forcing the locale to simplified Chinese (zh).\n"+
             "  java -jar fidocadj.jar -l zh\n\n";
 
         //CHECKSTYLE.ON: LineLength
         System.out.println(help);
     }
 
+    /** Check if layers must be split into different files when exporting
+        into a vector file format.
+        @return true if it's the case.
+    */
+    public boolean shouldSplitLayers()
+    {
+        return splitLayers;
+    }
     /** Check if a file conversion (export) should be done.
         @return true if an export should be done.
     */

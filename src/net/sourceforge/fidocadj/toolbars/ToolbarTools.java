@@ -50,11 +50,12 @@ import java.net.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
- @author Davide Bucci & Jose Emilio Munoz
+ @author Davide Bucci, Jose Emilio Munoz
 */
 
 public class ToolbarTools extends JToolBar implements ChangeSelectionListener
@@ -75,6 +76,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final JToggleButton connection;
     private final JToggleButton pcbline;
     private final JToggleButton pcbpad;
+    private final JLabel fileName;
 
     private final String base;
     private final boolean showText;
@@ -82,6 +84,15 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final ButtonGroup group;
     private final ArrayList<JToggleButton> toolButtonsList;
     private final HashMap<JToggleButton, Integer> circuitPanelConstants;
+
+    /** On some operating systems, namely MacOS, the filename is shown in the
+        toolbar.
+        @param t the name to be shown.
+    */
+    public void setTitle(String t)
+    {
+        fileName.setText(t);
+    }
 
     /** <code>base</code> is passed to the <code>ToolbarTools</code>
         constructor to create the toolbar, but will need to be accessed by the
@@ -403,6 +414,9 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             }
         });
 
+        fileName=new JLabel("");
+        add(Box.createGlue());
+        add(fileName);
         add(Box.createGlue());
 
         setFloatable(false);

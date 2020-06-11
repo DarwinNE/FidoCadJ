@@ -1,0 +1,43 @@
+#!/bin/bash
+
+DEST_DIR="/usr/local/share/fidocadj"
+
+if test -d "$DEST_DIR/bin"
+then
+    cp jar/fidocadj.jar "$DEST_DIR/bin"
+else
+    mkdir "$DEST_DIR/bin"
+    cp jar/fidocadj.jar "$DEST_DIR/bin"
+fi
+
+
+if test -d "$DEST_DIR/desktop"
+then
+    cp OSes/linux/fidocadj.desktop "$DEST_DIR/desktop"
+else
+    mkdir "$DEST_DIR/desktop"
+    cp OSes/linux/fidocadj.desktop "$DEST_DIR/desktop"
+fi
+
+if test -d "$DEST_DIR/icon"
+then
+    cp OSes/linux/fidocadj.png "$DEST_DIR/icon"
+else
+    mkdir "$DEST_DIR/icon"
+    cp OSes/linux/fidocadj.png "$DEST_DIR/icon"
+fi
+
+chown root:root /usr/local/share/fidocadj/bin/fidocadj.jar
+chmod 755 /usr/local/share/fidocadj/bin/fidocadj.jar
+
+if test ! -h /usr/local/bin/fidocadj.jar
+then
+    ln -s /usr/local/share/fidocadj/bin/fidocadj.jar /usr/local/bin/fidocadj.jar
+fi
+
+if test ! -h /usr/share/applications/fidocadj.desktop
+then
+    ln -s /usr/local/share/fidocadj/desktop/fidocadj.desktop /usr/share/applications/fidocadj.desktop
+fi
+
+exit 0

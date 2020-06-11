@@ -19,9 +19,10 @@ import net.sourceforge.fidocadj.layers.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
     </pre>
 */
 
@@ -32,10 +33,27 @@ public interface GraphicsInterface
     */
     public ColorInterface getColor();
 
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z);
+
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom();
+
     /** Set the current color.
         @param c the current color.
     */
     public void setColor(ColorInterface c);
+
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface();
 
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
@@ -106,16 +124,26 @@ public interface GraphicsInterface
         @param name the name of the typeface to be used.
         @param size the size in pixels
     */
-    public void setFont(String name, int size);
+    public void setFont(String name, double size);
 
-    /** Simple version. It sets the current font.
+    /**  Set the current font.
         @param name the name of the typeface.
         @param size the vertical size in pixels.
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, int size, boolean isItalic,
+    public void setFont(String name, double size, boolean isItalic,
         boolean isBold);
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize();
+
+    /** Set the font size.
+        @param size the font size to be set.
+    */
+    public void setFontSize(double size);
 
     /** Get the ascent metric of the current font.
         @return the value of the ascent, in pixels.

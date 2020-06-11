@@ -26,27 +26,77 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
 
-public class ExportEPS implements ExportInterface
+public class ExportEPS implements ExportInterface, TextInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
     private double actualWidth;
     private ColorInterface actualColor;
-    private int actualDash;
+    private int currentDash;
+    private float dashPhase;
+    private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
+    private String fontname;        // Some info about the font is stored
+    private String bold="";
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
 
     // Number of digits to be used when representing coordinates
     static final int PREC = 3;
     // Dash patterns
+    private String sDash[];
+
+    /*
     static final String dash[]={"[5.0 10]", "[2.5 2.5]",
-        "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
+        "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};*/
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+        sDash = new String[Globals.dashNumber];
+        // If the line width has been changed, we need to update the
+        // stroke table
+
+        // The first entry is non dashed
+        sDash[0]="";
+
+        // Resize the dash sizes depending on the current zoom size.
+        String dashArrayStretched;
+        // Then, the dashed stroke styles are created.
+        for(int i=1; i<Globals.dashNumber; ++i) {
+            // Prepare the resized dash array.
+            dashArrayStretched = new String();
+            for(int j=0; j<Globals.dash[i].length;++j) {
+                dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
+                if(j<Globals.dash[i].length-1)
+                    dashArrayStretched+=" ";
+            }
+            sDash[i]="["+dashArrayStretched+"]";
+        }
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
+        dashPhase=p;
+    }
 
     /** Constructor
         @param f the File object in which the export should be done.
@@ -56,6 +106,7 @@ public class ExportEPS implements ExportInterface
     public ExportEPS (File f) throws IOException
     {
         fstream = new FileWriter(f);
+        dt=new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -168,15 +219,17 @@ public class ExportEPS implements ExportInterface
         int orientation, int layer, String text_t)
         throws IOException
     {
-        String fontname = fontname_t;
         String text = text_t;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
-        String bold="";
-        int ys = (int)(sizex*12/(double)7+.5);
-
+        checkColorAndWidth(c, -1);
+        currentFontSize = (int)(sizex*12/(double)7+.5);
+        fontname = fontname_t;
+    
         if(isBold)
             bold="-Bold";
+        else
+            bold="";
 
         // It seems that Postscript fonts can not handle spaces. So I substitute
         // every space with a "-" sign.
@@ -185,11 +238,13 @@ public class ExportEPS implements ExportInterface
         substFont.put(" ","-");
         fontname=Globals.substituteBizarreChars(fontname, substFont);
         out.write("/"+fontname+bold+" findfont\n"+
-            ys+" scalefont\n"+
+            (int)currentFontSize+" scalefont\n"+
             "setfont\n");
         out.write("newpath\n");
 
         out.write("" +x+" "+y+" moveto\n");
+        textx=x;
+        texty=y;
         out.write("gsave\n");
 
         if(orientation !=0)
@@ -211,21 +266,18 @@ public class ExportEPS implements ExportInterface
         }
 
         out.write("  "+1+" "+ratio+" scale\n");
-        out.write("  0 " +(-ys*0.8)+" rmoveto\n");
+        out.write("  0 " +(-currentFontSize*0.8)+" rmoveto\n");
 
         checkColorAndWidth(c, 0.33);
 
-        //out.write("  "+c.getRed()/255.0+" "+c.getGreen()/255.0+ " "
-        //  +c.getBlue()/255.0+ " setrgbcolor\n");
 
         Map<String, String> subst = new HashMap<String, String>();
         subst.put("(","\\050");
         subst.put(")","\\051");
         text=Globals.substituteBizarreChars(text, subst);
 
-        out.write("  ("+text+") show\n");
+        dt.drawString(text,x,y);
         out.write("grestore\n");
-
     }
 
     /** Called when exporting a Bézier primitive.
@@ -270,12 +322,28 @@ public class ExportEPS implements ExportInterface
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                x1=(int)Math.round(p.x);
+                y1=(int)Math.round(p.y);
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x4, y4, x3, y3, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                x4=(int)Math.round(p.x);
+                y4=(int)Math.round(p.y);
+            }
+        }
         out.write(""+x1+" "+y1+" moveto \n");
         out.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" curveto stroke\n");
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
-            arrowHalfWidth, arrowStyle);
 
     }
 
@@ -340,15 +408,31 @@ public class ExportEPS implements ExportInterface
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
 
-
-
-        out.write(""+x1+" "+y1+" moveto "+
-            x2+" "+y2+" lineto stroke\n");
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                xstart=p.x;
+                ystart=p.y;
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                xend=p.x;
+                yend=p.y;
+            }
+        }
+        out.write(""+xstart+" "+ystart+" moveto "+
+            xend+" "+yend+" lineto stroke\n");
     }
 
     /** Called when exporting an arrow.
@@ -359,10 +443,11 @@ public class ExportEPS implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -396,9 +481,6 @@ public class ExportEPS implements ExportInterface
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
 
-        // Arrows are always done with dash 0
-        registerDash(0);
-
         out.write("newpath\n");
 
         out.write(""+Globals.roundTo(x)+" "+    Globals.roundTo(y)+" moveto\n");
@@ -427,6 +509,7 @@ public class ExportEPS implements ExportInterface
                 " moveto\n"+Globals.roundTo(x4)+" "+Globals.roundTo(y4)+
                 " lineto\nstroke\n");
         }
+        return new PointPr(x0,y0);
     }
 
     /** Called when exporting a Macro call.
@@ -626,8 +709,8 @@ public class ExportEPS implements ExportInterface
         } else {
             out.write("stroke\n");
         }
-
     }
+
     /** Called when exporting a Curve primitive.
         @param vertices array containing the position of each vertex.
         @param nVertices number of vertices.
@@ -677,7 +760,6 @@ public class ExportEPS implements ExportInterface
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
 
@@ -724,6 +806,12 @@ public class ExportEPS implements ExportInterface
         out.write("  "+(filled?"fill\n":"stroke\n"));
     }
 
+    /** Set the current color (only if necessary) and the stroke width which
+        will be employed for subsequent drawing operations.
+        @param c the color
+        @param wl the stroke width. If a negative number is employed, a new
+            stroke width will not be set.
+    */
     private void checkColorAndWidth(ColorInterface c, double wl)
         throws IOException
     {
@@ -734,7 +822,7 @@ public class ExportEPS implements ExportInterface
 
             actualColor=c;
         }
-        if(wl != actualWidth) {
+        if(wl>0 && wl != actualWidth) {
             out.write("  " +wl+" setlinewidth\n");
             actualWidth = wl;
         }
@@ -743,13 +831,65 @@ public class ExportEPS implements ExportInterface
     private void registerDash(int dashStyle)
         throws IOException
     {
-        if(actualDash!=dashStyle) {
-            actualDash=dashStyle;
+        if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
+            currentDash=dashStyle;
+            currentPhase=dashPhase;
             if(dashStyle==0)
                 out.write("[] 0 setdash\n");
             else
-                out.write(""+dash[dashStyle]+" 0 setdash\n");
+                out.write(""+sDash[dashStyle]+" "+dashPhase+" setdash\n");
+        }
+    }
 
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+        try {
+            out.write("/"+fontname+bold+" findfont\n"+
+                (int)currentFontSize+" scalefont\n"+
+                "setfont\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
+        }
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        return 0;
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try{
+            out.write("" + (textx-x) +" "+ (texty-y)+ " rmoveto\n");
+            texty=y;
+            out.write("  ("+str+") show\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
         }
     }
 }

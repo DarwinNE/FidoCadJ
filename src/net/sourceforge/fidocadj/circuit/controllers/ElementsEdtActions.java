@@ -8,6 +8,7 @@ import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.primitives.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.toolbars.*;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements
     to a drawing model.
@@ -31,9 +32,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -46,6 +48,7 @@ public class ElementsEdtActions
     protected final EditorActions edt;
     final SelectionActions sa;
     final AddElements ae;
+    private ChangeSelectionListener selectionListener;
 
     // The current layer being edited
     public int currentLayer;
@@ -74,7 +77,6 @@ public class ElementsEdtActions
     // TO IMPROVE: this must be synchronized with the value in PrimitivePolygon
     // Maximum number of polygon vertices
     public static final int NPOLY=256;
-
 
     // Selection states
     public static final int NONE = 0;
@@ -116,20 +118,22 @@ public class ElementsEdtActions
         currentLayer=0;
 
         primEdit = null;
+        selectionListener=null;
         primitivesParListener=null;
 
         actionSelected = SELECTION;
     }
 
-    /** Sets the action mode.
-        @param a the wanted editing mode.
+    /** Set the change selection listener. The selection listener is not called
+        when the selection state is changed manually by means of the
+        setActionSelected method, but it is instead when it is internally
+        changed by the ElementEdtActions class (such as with a mouse
+        operation).
+        @param c the new selection listener.
     */
-    public void setActionSelected(int a)
+    public void setChangeSelectionListener(ChangeSelectionListener c)
     {
-        if (a!=actionSelected)
-            clickNumber=0;
-
-        actionSelected = a;
+        selectionListener=c;
     }
 
     /** Get the current {@link AddElements} controller.
@@ -192,9 +196,6 @@ public class ElementsEdtActions
         }
     }
 
-
-
-
     /** Here we analyze and handle the mouse click. The behaviour is
         different depending on which selection state we are.
         @param cs the current coordinate mapping
@@ -220,14 +221,19 @@ public class ElementsEdtActions
         if(clickNumber>NPOLY-1)
             clickNumber=NPOLY-1;
 
-
-  //*************** coordinatesListener.changeInfos("");
-
         // We need to differentiate this case since when we are entering a
         // macro, primEdit already contains some useful hints about the
         // orientation and the mirroring, so we need to keep it.
         if (actionSelected !=MACRO)
             primEdit = null;
+
+        if(button3 && actionSelected==MACRO) {
+            actionSelected=SELECTION;
+            if(selectionListener!=null)
+                selectionListener.setSelectionState(actionSelected,"");
+            primEdit = null;
+            return true;
+        }
 
         // Right-click in certain cases shows the parameters dialog.
         if(button3 &&
@@ -237,7 +243,6 @@ public class ElementsEdtActions
             actionSelected!=TEXT &&
             primitivesParListener!=null)
         {
-
             primitivesParListener.selectAndSetProperties(x,y);
             return false;
         }
@@ -267,7 +272,7 @@ public class ElementsEdtActions
             // Zoom state
             case ZOOM:
                 if(primitivesParListener!=null)
-                    primitivesParListener.changeZoomByStep(!button3, x,y);
+                    primitivesParListener.changeZoomByStep(!button3, x,y,1.5);
                 break;
 
             // Put a connection (easy: just one click is needed)
@@ -280,9 +285,7 @@ public class ElementsEdtActions
             // Put a PCB pad (easy: just one click is needed)
             case PCB_PAD:
                 // Add a PCB pad primitive at the given point
-                ae.addPCBPad(cs.unmapXsnap(x),
-                                  cs.unmapYsnap(y), currentLayer);
-
+                ae.addPCBPad(cs.unmapXsnap(x), cs.unmapYsnap(y), currentLayer);
                 repaint=true;
                 break;
 
@@ -351,18 +354,16 @@ public class ElementsEdtActions
                     clickNumber = 0;
                     repaint=true;
                     break;
+                } else {
+                    ++ clickNumber;
+                    successiveMove=false;
+                    // clickNumber == 0 means that no polygon is being drawn
+                    // prevent that we exceed the number of allowed points
+                    if (clickNumber==NPOLY)
+                        return false;
+                    xpoly[clickNumber] = cs.unmapXsnap(x);
+                    ypoly[clickNumber] = cs.unmapYsnap(y);
                 }
-                ++ clickNumber;
-                if(doubleClick) successiveMove=false;
-                // clickNumber == 0 means that no polygon is being drawn
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                xpoly[clickNumber] = cs.unmapXsnap(x);
-                ypoly[clickNumber] = cs.unmapYsnap(y);
                 break;
 
             // Insert a complex curve: continue until double click.
@@ -381,16 +382,16 @@ public class ElementsEdtActions
                     dmp.addPrimitive(compc, true,ua);
                     clickNumber = 0;
                     repaint=true;
-                    break;
+                } else {
+                    ++ clickNumber;
+                    successiveMove=false;
+                    // prevent that we exceed the number of allowed points
+                    if (clickNumber==NPOLY)
+                        return false;
+                    // clickNumber == 0 means that no polygon is being drawn
+                    xpoly[clickNumber] = cs.unmapXsnap(x);
+                    ypoly[clickNumber] = cs.unmapYsnap(y);
                 }
-                ++ clickNumber;
-                if(doubleClick) successiveMove=false;
-                // prevent that we exceed the number of allowed points
-                if (clickNumber==NPOLY)
-                    return false;
-                // clickNumber == 0 means that no polygon is being drawn
-                xpoly[clickNumber] = cs.unmapXsnap(x);
-                ypoly[clickNumber] = cs.unmapYsnap(y);
                 break;
 
             // Enter an ellipse: two clicks needed

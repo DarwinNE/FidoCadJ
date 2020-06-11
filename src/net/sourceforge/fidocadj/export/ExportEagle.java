@@ -26,9 +26,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
    </pre>
 
 
@@ -61,6 +62,23 @@ public class ExportEagle implements ExportInterface
         macroList = "";
         junctionList = "";
         fstream = new FileWriter(f);
+    }
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -456,15 +474,17 @@ public class ExportEagle implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return always (0,0).
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
     {
         // Does nothing, since it will not be useful here.
+        return new PointPr();
     }
 
     /** Export a number: truncate it to four decimals

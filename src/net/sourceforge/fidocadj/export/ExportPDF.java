@@ -30,14 +30,15 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 </pre>
 
     @author Davide Bucci
 */
-public class ExportPDF implements ExportInterface
+public class ExportPDF implements ExportInterface, TextInterface
 {
     private final File temp;
     private final OutputStreamWriter fstream;
@@ -46,7 +47,17 @@ public class ExportPDF implements ExportInterface
     private BufferedWriter outt;
     private boolean fontWarning;
     private String userfont;
+    private float dashPhase;
+    private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
+    private String currentFont;        // Some info about the font is stored
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
 
+
+    // A graphic interface object is used here to get information about the
+    // size of the different glyphs in the font.
     private final GraphicsInterface gi;
 
     // Well, this is a complex stuff. In practice, in the PDF format we have to
@@ -79,12 +90,50 @@ public class ExportPDF implements ExportInterface
     private Vector layerV;
     private ColorInterface actualColor;
     private double actualWidth;
-    private int actualDash;
+    private int currentDash;
 
     static final String encoding="UTF8";
 
-    static final String dash[]={"[5.0 10]", "[2.5 2.5]",
-        "[1.0 1.0]", "[1.0 2.5]", "[1.0 2.5 2.5 2.5]"};
+    private String sDash[];
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+        sDash = new String[Globals.dashNumber];
+
+        // If the line width has been changed, we need to update the
+        // stroke table
+
+        // The first entry is non dashed
+        sDash[0]="";
+
+        // Resize the dash sizes depending on the current zoom size.
+        String dashArrayStretched;
+        // Then, the dashed stroke styles are created.
+        for(int i=1; i<Globals.dashNumber; ++i) {
+            // Prepare the resized dash array.
+            dashArrayStretched = new String();
+            for(int j=0; j<Globals.dash[i].length;++j) {
+                dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
+                if(j<Globals.dash[i].length-1)
+                    dashArrayStretched+=" ";
+            }
+            sDash[i]="["+dashArrayStretched+"]";
+        }
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
+        dashPhase=p;
+    }
 
     /** Constructor
         @param f the File object in which the export should be done.
@@ -96,6 +145,7 @@ public class ExportPDF implements ExportInterface
     public ExportPDF (File f, GraphicsInterface gg) throws IOException
     {
         gi=gg;
+        dashPhase=0;
 
         fstream =  new OutputStreamWriter(new FileOutputStream(f), encoding);
 
@@ -104,8 +154,8 @@ public class ExportPDF implements ExportInterface
 
         fstreamt =  new OutputStreamWriter(new FileOutputStream(temp),
             encoding);
-
         obj_PDF = new String[numOfObjects];
+        dt=new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -222,7 +272,7 @@ public class ExportPDF implements ExportInterface
                     else
                         codeStr=line.substring(p+1,q);
                     code=Integer.decode("0x"+codeStr);
-                    unicodeToGlyph.put(Integer.valueOf(code), glyph);
+                    unicodeToGlyph.put(code, glyph);
                 }
                 line = br.readLine();
             }
@@ -441,32 +491,35 @@ public class ExportPDF implements ExportInterface
 
     private String calcWidthsIndex(String font)
     {
-        String charWidths;
+        StringBuilder charWidths=new StringBuilder();
 
         gi.setFont(font, 24);
         int basewidth=gi.getStringWidth("M");
 
-        charWidths=
-            "    /FirstChar 32\n"+
-            "    /LastChar "+unicodeCharIndex+"\n"+
-            "    /Widths [";
+        charWidths.append("    /FirstChar 32\n");
+        charWidths.append("    /LastChar ");
+        charWidths.append(unicodeCharIndex);
+        charWidths.append("\n");
+        charWidths.append("    /Widths [");
 
         int calcwidth;
         int mwidth=900;
 
         for (int i=32; i<128;++i) {
             calcwidth=mwidth*gi.getStringWidth(""+(char)i)/basewidth;
-            charWidths+=""+calcwidth+ " ";
+            charWidths.append(calcwidth);
+            charWidths.append(" ");
         }
 
         for (Integer code : uncodeCharsNeeded.keySet()) {
             calcwidth=mwidth*gi.getStringWidth(""+
                 (char)uncodeCharsNeeded.get(code).intValue())/basewidth;
-            charWidths+=""+calcwidth+ " ";
+            charWidths.append(calcwidth);
+            charWidths.append(" ");
         }
-        charWidths+="]\n";
+        charWidths.append("]\n");
 
-        return charWidths;
+        return charWidths.toString();
     }
 
 
@@ -707,6 +760,8 @@ public class ExportPDF implements ExportInterface
 
     }
 
+
+
     /** Called when exporting an Advanced Text primitive.
 
         @param x the x position of the beginning of the string to be written.
@@ -723,7 +778,6 @@ public class ExportPDF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text_t)
@@ -745,41 +799,43 @@ public class ExportPDF implements ExportInterface
 
         if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
             if(isBold)
-                outt.write("/F2"+" "+ys+" Tf\n");
+                currentFont="/F2";
             else
-                outt.write("/F1"+" "+ys+" Tf\n");
+                currentFont="/F1";
         } else if("Times".equals(fontname) ||
             "Times New Roman".equals(fontname) ||
             "Times Roman".equals(fontname))
         {
             if(isBold)
-                outt.write("/F4"+" "+ys+" Tf\n");
+                currentFont="/F4";
             else
-                outt.write("/F3"+" "+ys+" Tf\n");
+                currentFont="/F3";
 
         } else if("Helvetica".equals(fontname) ||
             "Arial".equals(fontname))
         {
             if(isBold)
-                outt.write("/F6"+" "+ys+" Tf\n");
+                currentFont="/F6";
             else
-                outt.write("/F5"+" "+ys+" Tf\n");
+                currentFont="/F5";
 
         } else if("Symbol".equals(fontname)) {
             if(isBold)
-                outt.write("/F8"+" "+ys+" Tf\n");
+                currentFont="/F8";
             else
-                outt.write("/F7"+" "+ys+" Tf\n");
+                currentFont="/F7";
         } else {
             fontWarning = true;
             userfont=fontname;
-            outt.write("/F9"+" "+ys+" Tf\n");
+            currentFont="/F9";
         }
-
+        outt.write(currentFont+" "+ys+" Tf\n");
+        currentFontSize=(float)ys;
         outt.write("q\n");
         outt.write("  1 0 0 1 "+ Globals.roundTo(x)+" "+ Globals.roundTo(y)+
             " cm\n");
-
+        textx=x;
+        texty=y;
         if(orientation !=0) {
             double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
             outt.write("  "+Globals.roundTo(Math.cos(alpha))+" "
@@ -799,40 +855,9 @@ public class ExportPDF implements ExportInterface
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;
         }
-        outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+(-ys*ratio*0.8)+
-            " cm\n");
-
-        Map<String, String> subst = new HashMap<String, String>();
-        subst.put("(","\\050");
-        subst.put(")","\\051");
-        text=Globals.substituteBizarreChars(text, subst);
-
-        outt.write(" <");
-        int ch;
-        int codechar;
-        for(int i=0; i<text.length();++i) {
-            ch=(int)text.charAt(i);
-
-            // Proceed to encode UTF-8 characters as much as possible.
-            if(ch>127) {
-                if(uncodeCharsNeeded.containsKey(ch)) {
-                    ch=uncodeCharsNeeded.get(ch);
-                } else {
-                    ++unicodeCharIndex;
-                    if(unicodeCharIndex<256) {
-                        uncodeCharsNeeded.put(unicodeCharIndex,ch);
-                        ch=unicodeCharIndex;
-                    } else {
-                        System.err.println("Too many Unicode chars! "+
-                            "The present version of the PDF export filter "+
-                            "handles up to 128 Unicode chars in one file.");
-                    }
-                }
-            }
-            outt.write(Integer.toHexString(ch));
-            outt.write(" ");
-        }
-        outt.write("> Tj\n");
+        outt.write("  1 0 0 "+Globals.roundTo(ratio)+ " 0 "+
+                (-ys*ratio*0.8)+" cm\n");
+        dt.drawString(text,x,y);
         outt.write("Q\nET\n");
     }
 
@@ -879,13 +904,30 @@ public class ExportPDF implements ExportInterface
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                x1=(int)Math.round(p.x);
+                y1=(int)Math.round(p.y);
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x4, y4, x3, y3, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                x4=(int)Math.round(p.x);
+                y4=(int)Math.round(p.y);
+            }
+        }
+
         outt.write(""+x1+" "+y1+" m \n");
         outt.write(""+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4+" c S\n");
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
-            arrowHalfWidth, arrowStyle);
     }
 
     /** Called when exporting a Connection primitive.
@@ -940,19 +982,37 @@ public class ExportPDF implements ExportInterface
         double strokeWidth)
         throws IOException
     {
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
+
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
 
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
-        outt.write("  "+x1+" "+y1+" m "+
-            x2+" "+y2+" l S\n");
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                xstart=p.x;
+                ystart=p.y;
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                xend=p.x;
+                yend=p.y;
+            }
+        }
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        outt.write("  "+xstart+" "+ystart+" m "+ xend+" "+yend+" l S\n");
     }
 
     /** Called when exporting a Macro call.
@@ -1324,12 +1384,13 @@ public class ExportPDF implements ExportInterface
     private void registerDash(int dashStyle)
         throws IOException
     {
-        if(actualDash!=dashStyle) {
-            actualDash=dashStyle;
+        if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
+            currentDash=dashStyle;
+            currentPhase=dashPhase;
             if(dashStyle==0)
                 outt.write("[] 0 d\n");
             else
-                outt.write(""+dash[dashStyle]+" 0 d\n");
+                outt.write(""+sDash[dashStyle]+" "+dashPhase+" d\n");
 
         }
     }
@@ -1342,10 +1403,11 @@ public class ExportPDF implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -1379,9 +1441,6 @@ public class ExportPDF implements ExportInterface
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
 
-        // Arrows are always done with dash 0
-        registerDash(0);
-
         outt.write(""+Globals.roundTo(x)+" " +Globals.roundTo(y)+ " m\n");
         outt.write(""+Globals.roundTo(x1)+" "+Globals.roundTo(y1)+" l\n");
         outt.write(""+Globals.roundTo(x2)+" "+Globals.roundTo(y2)+" l\n");
@@ -1403,6 +1462,86 @@ public class ExportPDF implements ExportInterface
             y4 = y - h*Math.cos(alpha);
             outt.write(""+Globals.roundTo(x3)+" "+Globals.roundTo(y3)+" m\n"+
                 Globals.roundTo(x4)+" "+Globals.roundTo(y4)+" l s\n");
+        }
+        return new PointPr(x0,y0);
+    }
+
+
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+        try {
+            outt.write(currentFont+" "+currentFontSize+" Tf\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in PDF export.");
+        }
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        return 0;
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try {
+            outt.write("  1 0 0 1 "+ Globals.roundTo(textx-x)+
+                " "+ Globals.roundTo(texty-y)+
+                " cm\n");
+            texty=y;
+
+            outt.write(" <");
+            int ch;
+            int codechar;
+            for(int i=0; i<str.length();++i) {
+                ch=(int)str.charAt(i);
+                // Proceed to encode UTF-8 characters as much as possible.
+                if(ch>127) {
+                    if(uncodeCharsNeeded.containsKey(ch)) {
+                        ch=uncodeCharsNeeded.get(ch);
+                    } else {
+                        ++unicodeCharIndex;
+                        if(unicodeCharIndex<256) {
+                            uncodeCharsNeeded.put(unicodeCharIndex,ch);
+                            ch=unicodeCharIndex;
+                        } else {
+                            System.err.println("Too many Unicode chars! "+
+                                "The present version of the PDF export filter "+
+                                "handles up to 128 different Unicode chars in "+
+                                "one file.");
+                        }
+                    }
+                }
+                outt.write(Integer.toHexString(ch));
+                outt.write(" ");
+            }
+            outt.write("> Tj\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in EPS export.");
         }
     }
 }

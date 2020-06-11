@@ -2,6 +2,7 @@ package net.sourceforge.fidocadj.circuit.model;
 
 import java.util.*;
 
+import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.layers.*;
@@ -29,7 +30,8 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2014 by Davide Bucci
     </pre>
@@ -53,7 +55,7 @@ public class DrawingModel
     // drawn
     public int drawOnlyLayer;
 
-    private int exportBorder;
+    public ImageAsCanvas imgCanvas;
 
     // Font and size to be used for the text associated to the macros.
     private String macroFont;
@@ -85,11 +87,10 @@ public class DrawingModel
         layerV=new Vector<LayerDesc>(LayerDesc.MAX_LAYERS);
         library=new TreeMap<String, MacroDesc>();
         macroFont = "Courier New";
-
+        imgCanvas= new ImageAsCanvas();
         drawOnlyPads=false;
         drawOnlyLayer=-1;
         layersUsed = new boolean[LayerDesc.MAX_LAYERS];
-        exportBorder=0;
         changed=true;
     }
 
@@ -128,14 +129,6 @@ public class DrawingModel
             }
         });
         changed=true;
-    }
-
-    /** Sets whether during the export a border should be added.
-    @param b true if a border must be added.
-    */
-    public void setExportBorder(int b)
-    {
-        exportBorder=b;
     }
 
     /** Get the current library

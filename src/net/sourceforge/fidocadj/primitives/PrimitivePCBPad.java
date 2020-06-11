@@ -25,7 +25,8 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2014 by Davide Bucci
     </pre>
@@ -140,18 +141,16 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             x1=virtualPoint[0].x;
             y1=virtualPoint[0].y;
 
-            rrx=Math.abs(coordSys.mapXi(x1,y1, false)-
-                coordSys.mapXi(x1+rx,y1+ry, false));
-            rry=Math.abs(coordSys.mapYi(x1,y1, false)-
-                coordSys.mapYi(x1+rx,y1+ry, false));
+            xa=coordSys.mapXi(x1,y1,false);
+            ya=coordSys.mapYi(x1,y1,false);
+
+            rrx=Math.abs(xa-coordSys.mapXi(x1+rx,y1+ry, false));
+            rry=Math.abs(ya-coordSys.mapYi(x1+rx,y1+ry, false));
             rrx2 = rrx/2;
             rry2 = rry/2;
 
-            xa=coordSys.mapX(x1,y1);
-            ya=coordSys.mapY(x1,y1);
-
-            coordSys.trackPoint(x1-rrx,y1-rry);
-            coordSys.trackPoint(x1+rrx,y1+rry);
+            coordSys.trackPoint(xa-rrx2,ya-rry2);
+            coordSys.trackPoint(xa+rrx2,ya+rry2);
 
             rox=Math.abs(xa-coordSys.mapXi(x1+CORNER_DIAMETER,
                 y1+CORNER_DIAMETER, false));
@@ -236,7 +235,6 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             sty=Integer.parseInt(tokens[6]);
 
             if(N>7) parseLayer(tokens[7]);
-
 
         } else {
             IOException E=new IOException("PA: Invalid primitive:"+tokens[0]+

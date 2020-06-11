@@ -45,9 +45,10 @@ import net.sourceforge.fidocadj.layers.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2017 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -92,16 +93,17 @@ public class CircuitPanel extends JPanel implements
     private static final int MINSIZEX=1000;
     private static final int MINSIZEY=1000;
 
+
     // Views:
     public Drawing drawingAgent;
 
     // Controllers:
-    private final EditorActions edt;
-    private final CopyPasteActions cpa;
-    private final ParserActions pa;
-    private final UndoActions ua;
-    private final ContinuosMoveActions eea;
-    private final SelectionActions sa;
+    private EditorActions edt;
+    private CopyPasteActions cpa;
+    private ParserActions pa;
+    private UndoActions ua;
+    private ContinuosMoveActions eea;
+    private SelectionActions sa;
 
     // ********** PROFILING **********
 
@@ -131,9 +133,9 @@ public class CircuitPanel extends JPanel implements
 
     // ********** INTERFACE ELEMENTS **********
 
-    PopUpMenu popup;
-    MouseWheelHandler mwHandler;
-    MouseMoveClickHandler mmcHandler;
+    PopUpMenu popup;                    // Popup menu
+    MouseWheelHandler mwHandler;        // Wheel handler
+    MouseMoveClickHandler mmcHandler;   // Mouse click handler
 
     // ********** LISTENERS **********
 
@@ -148,21 +150,12 @@ public class CircuitPanel extends JPanel implements
     public CircuitPanel (boolean isEditable)
     {
         backgroundColor=Color.white;
-        dmp = new DrawingModel();
-        sa = new SelectionActions(dmp);
-        pa =new ParserActions(dmp);
-        ua = new UndoActions(pa);
-        edt = new EditorActions(dmp, sa, ua);
-        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
-        eea.setPrimitivesParListener(this);
-        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
+        setDrawingModel(new DrawingModel());
 
         mwHandler=new MouseWheelHandler(this);
         mmcHandler= new MouseMoveClickHandler(this);
 
         graphicSwing = new Graphics2DSwing();
-
-        drawingAgent=new Drawing(dmp);
 
         ruler = new Ruler(editingColor.getColorSwing(),
             editingColor.getColorSwing().darker().darker());
@@ -185,7 +178,7 @@ public class CircuitPanel extends JPanel implements
         runs = 0;
         average = 0;
 
-        // This is unot seful when preparing the applet: the circuit panel will
+        // This is not useful when preparing the applet: the circuit panel will
         // not be editable in this case.
         if (isEditable) {
             addMouseListener(mmcHandler);
@@ -270,6 +263,7 @@ public class CircuitPanel extends JPanel implements
     public void addChangeSelectionListener(ChangeSelectionListener c)
     {
         selectionListener=c;
+        eea.setChangeSelectionListener(c);
     }
 
     /** Define the listener to be called when the selected action is changed
@@ -318,8 +312,8 @@ public class CircuitPanel extends JPanel implements
         }
     }
 
-    /** The callback method which is called when the current grid visibility
-        has changed.
+    /** The method which is called when the current grid visibility
+        has to be changed.
         @param v is the wanted grid visibility state.
     */
     public void setGridVisibility(boolean v)
@@ -328,7 +322,15 @@ public class CircuitPanel extends JPanel implements
         repaint();
     }
 
-    /** The callback method which is called when the current snap visibility
+    /** Determines if the grid is visible or not.
+        @return the grid visibility.
+    */
+    public boolean getGridVisibility()
+    {
+        return isGridVisible;
+    }
+
+    /** The method to be called when the current snap visibility
         has changed.
         @param v is the wanted snap state.
     */
@@ -337,12 +339,22 @@ public class CircuitPanel extends JPanel implements
         cs.setSnap(v);
     }
 
+    /** Determines if the grid is visible or not.
+        @return the grid visibility.
+    */
+    public boolean getSnapState()
+    {
+        return cs.getSnap();
+    }
+
     /** Increase or decrease the zoom by a step of 33%.
         @param increase if true, increase the zoom, if false decrease.
         @param x coordinate to which center the viewport (screen coordinates).
         @param y coordinate to which center the viewport (screen coordinates).
+        @param rate the amount the zoom is multiplied (or divided). Should be
+          greater than 1.
     */
-    public void changeZoomByStep(boolean increase, int x, int y)
+    public void changeZoomByStep(boolean increase, int x, int y, double rate)
     {
         int xpos = cs.unmapXnosnap(x);
         int ypos = cs.unmapYnosnap(y);
@@ -352,13 +364,13 @@ public class CircuitPanel extends JPanel implements
         // Click raises the zoom
         double oldz=z;
         if(increase)
-            z=z*3.0/2.0;
+            z=z*rate;
         else
-            z=z*2.0/3.0;
+            z=z/rate;
 
         // Checking that reasonable limits are not exceeded.
-        if(z>20) z=20;
-        if(z<.25) z=.25;
+        if(z>Globals.maxZoomFactor/100) z=Globals.maxZoomFactor/100;
+        if(z<Globals.minZoomFactor/100) z=Globals.minZoomFactor/100;
 
         z=Math.round(z*100.0)/100.0;
 
@@ -373,8 +385,6 @@ public class CircuitPanel extends JPanel implements
         int height = father.getViewport().getExtentSize().height;
 
         Point rr=father.getViewport().getViewPosition();
-
-        System.out.println("x="+x+", rr.x="+rr.x);
 
         int corrx=x-rr.x;
         int corry=y-rr.y;
@@ -428,7 +438,7 @@ public class CircuitPanel extends JPanel implements
         double z=Math.round(tz*100.0)/100.0;
         cs.setMagnitudes(z,z);
         eea.successiveMove=false;
-
+        requestFocusInWindow(); // #
         repaint();
     }
 
@@ -458,14 +468,14 @@ public class CircuitPanel extends JPanel implements
     }
 
     /** Repaint the panel.
-        This method performs the following operations:
-        1. set the anti aliasing on (or off, depending on antiAlias).
-        2. paint in white the background and draw the grid.
-        3. call drawingAgent draw
-        4. draw all active handles
-        5. if needed, draw the primitive being edited
-        6. draw the ruler, if needed
-        7. if requested, print information about redraw speed.
+        This method performs the following operations:<br>
+        1. set the anti aliasing on (or off, depending on antiAlias).<br>
+        2. paint in white the background, draw the bk. image and the grid.<br>
+        3. call drawingAgent draw.<br>
+        4. draw all active handles.<br>
+        5. if needed, draw the primitive being edited.<br>
+        6. draw the ruler, if needed.<br>
+        7. if requested, print information about redraw speed.<br>
         @param g the graphic context on which perform the drawing operations.
     */
     public void paintComponent(Graphics g)
@@ -481,6 +491,8 @@ public class CircuitPanel extends JPanel implements
         // Draw the background.
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        dmp.imgCanvas.drawCanvasImage(g2, cs);
         // Draw the grid if necessary.
         if(isGridVisible) {
             graphicSwing.drawGrid(cs,0,0,getWidth(), getHeight());
@@ -488,9 +500,12 @@ public class CircuitPanel extends JPanel implements
 
         // The standard color is black.
         g.setColor(Color.black);
+        // This is important for taking into account the dashing size
+        graphicSwing.setZoom(cs.getXMagnitude());
 
         // Draw all the elements of the drawing.
         drawingAgent.draw(graphicSwing, cs);
+        dmp.imgCanvas.trackExtremePoints(cs);
 
         if (zoomListener!=null)
             zoomListener.changeZoom(cs.getXMagnitude());
@@ -624,6 +639,23 @@ public class CircuitPanel extends JPanel implements
         return dmp;
     }
 
+    /** Set the current drawing model. Changing it mean that all the
+        controllers and views associated to the panel will be updated.
+        @param dm the drawing model.
+    */
+    public void setDrawingModel(DrawingModel dm)
+    {
+        dmp=dm;
+        sa = new SelectionActions(dmp);
+        pa =new ParserActions(dmp);
+        ua = new UndoActions(pa);
+        edt = new EditorActions(dmp, sa, ua);
+        eea = new ContinuosMoveActions(dmp, sa, ua, edt);
+        drawingAgent=new Drawing(dmp);
+        eea.setPrimitivesParListener(this);
+        cpa=new CopyPasteActions(dmp, edt, sa, pa, ua, new TextTransfer());
+    }
+
     /** Get the current instance of SelectionActions controller class
         @return the class
     */
@@ -702,7 +734,7 @@ public class CircuitPanel extends JPanel implements
                 gp.setControls(dp.getCharacteristics());
             } else {
                 ParameterDescription pd=(ParameterDescription)v.get(0);
-                v=dp.getCharacteristics();
+                dp.getCharacteristics();
                 if (pd.parameter instanceof LayerInfo) {
                     int l=((LayerInfo)pd.parameter).getLayer();
                     edt.setLayerForSelectedPrimitives(l);
@@ -804,5 +836,13 @@ public class CircuitPanel extends JPanel implements
     public boolean isProfiling()
     {
         return profileTime;
+    }
+
+    /** Get the attached image as background.
+        @return the attached image object.
+    */
+    public ImageAsCanvas getAttachedImage()
+    {
+        return dmp.imgCanvas;
     }
 }

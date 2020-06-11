@@ -6,7 +6,7 @@ import java.awt.datatransfer.*;
 
 /** DragDropTools.java
 
-    Class handling the drag & drop operations.
+    Class handling the drag and drop operations.
 
     TODO: improve the descriptions in the Javadoc comments. Sometimes are
     cryptical or uninformative.
@@ -25,9 +25,10 @@ import java.awt.datatransfer.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -37,7 +38,7 @@ public class DragDropTools implements DropTargetListener
     FidoFrame fff;
 
     /** Constructor.
-        @param f the frame to which the drag&drop tools should be associated.
+      @param f the frame to which the drag and drop tools should be associated.
     */
     public DragDropTools(FidoFrame f)
     {
@@ -161,7 +162,7 @@ public class DragDropTools implements DropTargetListener
                     while (line != null){
                         line = in.readLine();
                         if (line!=null &&
-                            (k=line.toString().indexOf("file://"))>=0)
+                            (k=line.indexOf("file://"))>=0)
                         {
                             FidoFrame popFrame;
 
@@ -176,7 +177,8 @@ public class DragDropTools implements DropTargetListener
 
                             // Deprecated! It should indicate the encoding. But
                             // WE WANT the encoding using being the same of the
-                            // host system.
+                            // host system. It may be deprecated, but it is
+                            // the correct behaviour here.
 
                             popFrame.cc.getParserActions().openFileName =
                                 java.net.URLDecoder.decode(

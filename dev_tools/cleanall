@@ -1,0 +1,10 @@
+#!/bin/bash
+
+find doc/ -name *.html -delete
+
+find bin/ -name *.class -delete
+
+if test -e jar/fidocadj.jar
+then
+    rm  jar/fidocadj.jar
+fi

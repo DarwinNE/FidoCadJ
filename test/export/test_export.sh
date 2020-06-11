@@ -23,15 +23,17 @@ echo "  SVG (Scalar Vector Graphic)"
 java -jar ../../jar/fidocadj.jar -n -c r2 svg svg/test_out.svg original/test_pattern.fcd >output_svg_r.txt
 java -jar ../../jar/fidocadj.jar -n -c 800 600  svg svg/test_out_r.svg original/test_pattern.fcd >output_svg_1.txt
 java -jar ../../jar/fidocadj.jar -n -c 800 600  svg svg/led_circuit_r.svg original/led_circuit.fcd >output_svg_2.txt
+java -jar ../../jar/fidocadj.jar -n -m -c 800 600 svg svg/test_exp/test.svg svg/test_exp/test.fcd >output_svg_3.txt
 
 echo "  EPS (Encapsulated Postscript)"
 java -jar ../../jar/fidocadj.jar -n -c r2 eps eps/test_out.eps original/test_pattern.fcd >output_eps.txt
 echo "  PDF (Portable Document Format)"
 java -jar ../../jar/fidocadj.jar -n -c r2 pdf pdf/test_out.pdf original/test_pattern.fcd >output_pdf.txt
+java -jar ../../jar/fidocadj.jar -n -c r10 pdf pdf/test_out10.pdf original/test_pattern.fcd >output_pdf10.txt
 echo "  SCR (script for CadSoft Eagle)"
 java -jar ../../jar/fidocadj.jar -n -c r2 scr scr/test_out.scr original/test_pattern.fcd >output_scr.txt
 echo "  PGF (PGF/TikZ script for LaTeX)"
-java -jar ../../jar/fidocadj.jar -n -c r1.5 pgf pgf/test_out.pgf original/test_pattern.fcd >output_pgf.txt
+java -jar ../../jar/fidocadj.jar -n -c r1 pgf pgf/test_out.pgf original/test_pattern.fcd >output_pgf.txt
 cd pgf
 pdflatex test_out.tex >output_latex.tex
 rm test_out.aux

@@ -26,11 +26,12 @@ import java.util.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
     @author Davide Bucci
-    @version 1.0 December 2007 - February 2014
+    @version December 2007 - December 2015
 */
 public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
 {
@@ -51,7 +52,5 @@ public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
         final LayerDesc layer=(LayerDesc) value;
 
         return new CellLayer(layer, list, isSelected);
-
     }
-
 }

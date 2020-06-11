@@ -33,9 +33,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2019 by Davide Bucci
 </pre>
 */
 
@@ -44,7 +45,7 @@ public class ParserActions
     private final DrawingModel model;
 
     // This is the maximum number of tokens which will be considered in a line
-    static final int MAX_TOKENS=512;
+    static final int MAX_TOKENS=10000;
 
     // True if FidoCadJ should use Windows style line feeds (appending \r
     // to the text generated).
@@ -103,7 +104,7 @@ public class ParserActions
             else
                 frm = "fcd";
 
-            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false);
+            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false,false);
 
             FileInputStream input = new FileInputStream(temp);
             BufferedReader bufRead = new BufferedReader(
@@ -239,9 +240,12 @@ public class ParserActions
         int j; // Token counter within the string
         boolean hasFCJ=false; // The last primitive had FCJ extensions
         StringBuffer token=new StringBuffer();
-
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
+
+        // Flag indicating that the line is already too long and should not be
+        // processed anymore:
+        boolean lineTooLong=false;
 
         GraphicPrimitive g = new PrimitiveLine(macroFont, macroFontSize);
 
@@ -260,7 +264,6 @@ public class ParserActions
         // tokens found in it.
         String[] old_tokens=new String[MAX_TOKENS];
         int old_j=0;
-
 
         int macro_counter=0;
         int l;
@@ -282,7 +285,6 @@ public class ParserActions
             // Actual line number. This is useful to indicate where errors are.
             int lineNum=1;
 
-
             j=0;
             token.setLength(0);
             len=s.length();
@@ -293,13 +295,8 @@ public class ParserActions
 
             for(i=0; i<len;++i){
                 c=s.charAt(i);
-                /*
-                System.out.print("\u001B[31m");
-                System.out.print(c);
-                System.out.print("\u001B[0m");
-                */
-
                 if(c=='\n' || c=='\r'|| i==len-1) { //The string is finished
+                    lineTooLong=false;
                     if(i==len-1 && c!='\n' && c!=' '){
                         token.append(c);
                     }
@@ -310,13 +307,11 @@ public class ParserActions
 
                     try{
                         // When we enter here, we have tokenized the current
-                        // line
-                        // and we kept in memory also the previous one.
+                        // line and we kept in memory also the previous one.
 
                         // The first possibility is that the current line does
-                        // not
-                        // contain a FCJ modifier. In this case, process the
-                        // previous line since we have all the information
+                        // not contain a FCJ modifier. In this case, process
+                        // the previous line since we have all the information
                         // needed
                         // for doing that.
 
@@ -536,7 +531,6 @@ public class ParserActions
                             g=new PrimitivePCBLine(macroFont, macroFontSize);
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                            //addPrimitive(g,false,false);
                         } else if(tokens[0].equals("PA")) {
                             hasFCJ=true;
                             for(l=0; l<j+1; ++l)
@@ -546,7 +540,6 @@ public class ParserActions
                             old_j=j;
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                            //addPrimitive(g,false,false);
                         } else if(tokens[0].equals("SA")) {
                             hasFCJ=true;
                             for(l=0; l<j+1; ++l)
@@ -614,16 +607,20 @@ public class ParserActions
                     }
                     j=0;
                     token.setLength(0);
-                } else if (c==' '){ // Ready for next token
+                } else if (c==' ' && !lineTooLong){ // Ready for next token
                     tokens[j]=token.toString();
+                    token.setLength(0);
                     ++j;
                     if (j>=MAX_TOKENS) {
                         System.out.println("Too much tokens!");
                         System.out.println("string parsing line: "+lineNum);
+                        j=MAX_TOKENS-1;
+                        lineTooLong=true;
+                        continue;
                     }
-                    token.setLength(0);
                 } else {
-                    token.append(c);
+                    if (!lineTooLong)
+                        token.append(c);
                 }
             }
 
@@ -639,8 +636,6 @@ public class ParserActions
                 System.out.println("I could not read a number at line: "
                                          +lineNum);
             }
-
-
             model.sortPrimitiveLayers();
         }
     }
@@ -725,7 +720,6 @@ public class ParserActions
     {
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
-        Vector<GraphicPrimitive> primitiveVector=model.getPrimitiveVector();
         Vector<LayerDesc> layerV=model.getLayers();
 
         GraphicPrimitive g=gg;

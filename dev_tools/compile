@@ -1,0 +1,74 @@
+#!/bin/bash
+
+JAVA_VERSION="1.9"
+JAVA_TARGET_VERSION="1.9"
+SOURCE_PATH="src"
+CLASS_PATH="bin"
+
+JAVAC_DEBUG_OPTIONS="-g -Xlint:unchecked"
+JAVAC_JAVAV_OPTIONS="-source $JAVA_VERSION -target $JAVA_TARGET_VERSION"
+JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d $CLASS_PATH"
+JAVAC_OPTIMIZATION_OPTIONS="-O"
+
+JAVAC_OPTIONS="$JAVAC_PATH_OPTIONS $JAVAC_JAVAV_OPTIONS $JAVAC_OPTIMIZATION_OPTIONS"
+
+############## Darwin kernel detection ##############
+
+unamestr=`uname`
+
+if test "$unamestr" = 'Darwin'
+then
+  #echo "MacOSX detected: activated AppleSpecific classes."
+  #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
+  echo "Copying VAqua7 library files in jar/ directory."
+  cp OSes/mac/VAqua7/*.* jar
+fi
+
+
+############## Arguments parsing ##############
+
+WHAT_COMPILE="FidoCadJ"
+
+for arg in $@
+do
+    case $arg in
+        -debug)
+            JAVAC_OPTIONS="$JAVAC_OPTIONS $JAVAC_DEBUG_OPTIONS"
+                ;;
+        -mac)
+            #echo "MacOSX detected: activated AppleSpecific classes."
+            #javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/AppleSpecific.java
+            echo "Copying VAqua7 library files in jar/ directory."
+            cp OSes/mac/VAqua7/*.* jar
+                ;;
+        -applets)
+            WHAT_COMPILE="applets"
+                ;;
+        -all)
+            WHAT_COMPILE="all"
+                ;;
+        *)
+            echo "Unrecognized option."
+            exit -1
+                ;;
+    esac
+done
+
+############## Do compile ##############
+
+case $WHAT_COMPILE in
+    applets)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+            ;;
+    all)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoCadApplet.java
+            ;;
+    FidoCadJ)
+        javac $JAVAC_OPTIONS ./src/net/sourceforge/fidocadj/FidoMain.java
+            ;;
+esac
+
+exit 0

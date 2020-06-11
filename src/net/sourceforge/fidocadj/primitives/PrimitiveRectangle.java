@@ -25,9 +25,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -160,26 +161,23 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 
         g.applyStroke(w, dashStyle);
 
-
         if(isFilled){
             // We need to add 1 to the rectangle, since the behaviour of
             // Java api is to skip the rightmost and bottom pixels
             g.fillRect(xa,ya,width+1,height+1);
         } else {
             if(xb!=xa || yb!=ya) {
-                //g.drawRect(xa,ya,(xb-xa),(yb-ya));
-
-        // It seems that under MacOSX, drawing a rectangle by cycling with
-        // the lines is much more efficient than the drawRect method.
-        // Probably, a further investigation is needed to determine if
-        // this situation is the same with more recent Java runtimes
-        // (mine is 1.5.something on an iMac G5 at 2 GHz).
+                // It seems that under MacOSX, drawing a rectangle by cycling
+                // with the lines is much more efficient than the drawRect
+                // method. Probably, a further investigation is needed to
+                // determine if  this situation is the same with more recent
+                // Java runtimes (mine was 1.5.something on an iMac G5 at
+                // 2 GHz when I did the tests).
 
                 g.drawLine(xa, ya, xb,ya);
                 g.drawLine(xb, ya, xb,yb);
                 g.drawLine(xb, yb, xa,yb);
                 g.drawLine(xa, yb, xa,ya);
-
             }
         }
     }

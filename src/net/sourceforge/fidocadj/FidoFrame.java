@@ -56,9 +56,10 @@ The class describing the main frame in which FidoCadJ runs.
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -79,6 +80,10 @@ public class FidoFrame extends JFrame implements
     public CircuitPanel cc;
     // ... which is contained in a scroll pane.
     private JScrollPane sc;
+    // ... which at its turn is in a split pane.
+    private JSplitPane splitPane;
+    // Macro picker component
+    MacroTree macroLib;
 
     // Macro library model
     private LibraryModel libraryModel;
@@ -99,6 +104,9 @@ public class FidoFrame extends JFrame implements
     // The toolbar dedicated to the available tools (the first one under
     // thewindow title).
     private ToolbarTools toolBar;
+    // The second toolbar dedicated to the zoom factors and other niceties
+    // (the second one under the window title).
+    ToolbarZoom toolZoom;
 
     // Text description under icons
     private boolean textToolbar;
@@ -121,7 +129,7 @@ public class FidoFrame extends JFrame implements
         using the frame. You need to call the init procedure after you have
         set the configuration variables available for FidoFrame.
 
-        @param appl should be true if FidoCadJ is run as a standalone
+        @param appl should be true if FidoCadJ is run as a stand alone
             application or false if it is run as an applet. In this case, some
             local settings are not accessed because they would raise an
             exception.
@@ -136,19 +144,14 @@ public class FidoFrame extends JFrame implements
 
         currentLocale = registerLocale(loc);
 
-        // Those lines allow a better Cocoa-like integration
-        // under Leopard. Is it overridden by the use of the Quaqua L&F?
-        // No! It is actually needed to make all the window movable when
-        // clicking in the toolbar.
-
-        getRootPane().putClientProperty("apple.awt.brushMetalLook",
-            Boolean.TRUE);
+        getRootPane().putClientProperty("Aqua.windowStyle", "combinedToolBar");
 
         prepareLanguageResources();
         Globals.configureInterfaceDetailsFromPlatform(InputEvent.META_MASK,
             InputEvent.CTRL_MASK);
 
         DialogUtil.center(this, .75,.75,800,500);
+
         setDefaultCloseOperation(
             javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -168,7 +171,7 @@ public class FidoFrame extends JFrame implements
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
             libDirectory = System.getProperty("user.home");
-            smallIconsToolbar = true;
+            smallIconsToolbar = false;
             textToolbar = true;
             prefs=null;
         }
@@ -179,6 +182,62 @@ public class FidoFrame extends JFrame implements
         ft = new FileTools(this, prefs);
 
         readPreferences();
+        // In practice, we need to restore the size of the open current window
+        // only for the first window.
+        if (Globals.openWindowsNumber==1) {
+            restorePosition();
+        }
+    }
+
+    /** Store location & size of UI.
+        vaguely based on: http://stackoverflow.com/questions/7777640/\
+            best-practice-for-setting-jframe-locations
+    */
+    public void savePosition()
+    {
+        if (!runsAsApplication)
+            return;
+
+        int state=getExtendedState();
+        // restore the frame from 'full screen' first!
+        setExtendedState(Frame.NORMAL);
+        Rectangle r = getBounds();
+        int x = (int)r.getX();
+        int y = (int)r.getY();
+        int w = (int)r.getWidth();
+        int h = (int)r.getHeight();
+
+        prefs.put("FRAME_POSITION_X", "" + x);
+        prefs.put("FRAME_POSITION_Y", "" + y);
+        prefs.put("FRAME_WIDTH", "" + w);
+        prefs.put("FRAME_HEIGHT", "" + h);
+        prefs.put("FRAME_STATE", ""+state);
+    }
+
+    /** Restore location & size of UI
+    */
+    public final void restorePosition()
+    {
+        if (!runsAsApplication)
+            return;
+
+        try{
+            int x = Integer.parseInt(prefs.get("FRAME_POSITION_X","no"));
+            int y = Integer.parseInt(prefs.get("FRAME_POSITION_Y","no"));
+            int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
+            int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
+            int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
+            if((state & Frame.MAXIMIZED_HORIZ)>0 ||
+                (state & Frame.MAXIMIZED_VERT)>0)
+            {
+                setExtendedState(state);
+            } else {
+                Rectangle r = new Rectangle(x,y,w,h);
+                setBounds(r);
+            }
+        } catch (NumberFormatException E) {
+            System.out.println("Choosing default values for frame size");
+        }
     }
 
     /** Obtain the language resources associated to the current locale.
@@ -240,11 +299,12 @@ public class FidoFrame extends JFrame implements
             // Make sort that only the language is used for the current
             newLocale = new Locale(systemLanguage);
         } else {
-            newLocale = loc;
-            System.out.println("Forced the locale to be: " +loc+
-                " instead of: "+systemLanguage);
-        }
 
+            newLocale = loc;
+            if(!loc.getLanguage().equals(systemLanguage))
+                System.out.println("Forcing the locale to be: " +loc+
+                    " instead of: "+systemLanguage);
+        }
         return newLocale;
     }
 
@@ -301,19 +361,23 @@ public class FidoFrame extends JFrame implements
         // resolution screens begin to be widespread. So, if the pixel
         // density is greater than 150 dpi, bigger icons are used by at the
         // very first time FidoCadJ is run.
-        if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
+        /*if(java.awt.Toolkit.getDefaultToolkit().getScreenResolution()>150) {
             defaultSize="false";
         } else {
             defaultSize="true";
-        }
+        }*/
+        // 2020 I suspect the best result is now obtained with "false".
+        defaultSize="false";
 
         smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR",
                 defaultSize).equals("true");
         // Presence of the text description in the toolbar
         textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
 
-        // Export preferences
+        // Read export preferences
         et.readPrefs();
+        // Read file preferences
+        ft.readPrefs();
 
         // Element sizes
         Globals.lineWidth=Double.parseDouble(
@@ -335,16 +399,14 @@ public class FidoFrame extends JFrame implements
             prefs.get("GRID_SIZE", "5")));
     }
 
-    /** Load the saved configuration for the drawing primitives.
+    /** Load the saved configuration for the drawing primitives and zoom.
     */
     public void readDrawingSettings()
     {
         CopyPasteActions cpa = cc.getCopyPasteActions();
 
-        // Shift elements when copy/pasting them
-        cpa.setShiftCopyPaste(prefs.get("SHIFT_CP",
-                "true").equals("true"));
-
+        // Shift elements when copy/pasting them.
+        cpa.setShiftCopyPaste(prefs.get("SHIFT_CP","true").equals("true"));
         AddElements ae = cc.getContinuosMoveActions().getAddElements();
 
         // Default PCB sizes (pad/line)
@@ -353,6 +415,10 @@ public class FidoFrame extends JFrame implements
         ae.pcbPadStyle = Integer.parseInt(prefs.get("PCB_pad_style", "0"));
         ae.pcbPadDrill = Integer.parseInt(prefs.get("PCB_pad_drill", "5"));
         ae.pcbThickness = Integer.parseInt(prefs.get("PCB_thickness", "5"));
+
+        MapCoordinates mc=cc.getMapCoordinates();
+        double z=Double.parseDouble(prefs.get("CURRENT_ZOOM","4.0"));
+        mc.setMagnitudes(z,z);
     }
 
     /** Load the standard libraries according to the locale.
@@ -414,12 +480,6 @@ public class FidoFrame extends JFrame implements
     */
     public void init()
     {
-
-        // The second toolbar dedicated to the zoom factors and other niceties
-        // (the
-        // second one under the window title).
-        ToolbarZoom toolZoom;
-
         Container contentPane=getContentPane();
         cc=new CircuitPanel(true);
         cc.getParserActions().openFileName = "";
@@ -431,14 +491,13 @@ public class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-            cc.setStrictCompatibility(prefs.get("FCJ_EXT_STRICT",
-                "false").equals("true"));
             cc.dmp.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont),
                 Integer.parseInt(prefs.get("MACRO_SIZE", "3")),
                 cc.getUndoActions());
             readGridSettings();
             readDrawingSettings();
         }
+        cc.setStrictCompatibility(false);
 
         // Here we set the approximate size of the control at startup. This is
         // useful, since the scroll panel (created just below) use those
@@ -481,7 +540,7 @@ public class FidoFrame extends JFrame implements
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
         // something which is circuit-related.
-        // I followed merely the FidoCad tradition.
+        // I followed merely the FidoCAD tradition.
         Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
         cc.dmp.setLayers(layerDesc);
 
@@ -502,14 +561,7 @@ public class FidoFrame extends JFrame implements
 
         Box b=Box.createVerticalBox();
 
-        // In MacOSX with Aqua, make sort that those buttons have a nice
-        // rounded shape and appear like native components.
-
-        //toolBar.putClientProperty("Quaqua.Button.style","title");
-        //toolZoom.putClientProperty("Quaqua.Button.style","title");
-
         b.add(toolBar);
-
         b.add(toolZoom);
 
         toolZoom.setFloatable(false);
@@ -519,13 +571,9 @@ public class FidoFrame extends JFrame implements
         setJMenuBar(menuBar);
 
         // The initial state is the selection one.
-
         cc.setSelectionState(ElementsEdtActions.SELECTION, "");
 
         contentPane.add(b,"North");
-
-        // Macro picker component
-        MacroTree macroLib;
 
         libraryModel = new LibraryModel(cc.dmp);
         LayerModel layerModel = new LayerModel(cc.dmp);
@@ -541,13 +589,13 @@ public class FidoFrame extends JFrame implements
             LibUtils.saveLibraryState(cc.getUndoActions());
         } catch (IOException e) {
             System.out.println("Exception: "+e);
-
         }
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         // Useful for Quaqua with MacOSX.
         //splitPane.putClientProperty("Quaqua.SplitPane.style","bar");
+        splitPane.putClientProperty("JSplitPane.style","thick");
 
         Dimension windowSize = getSize();
         cc.setPreferredSize(new Dimension(windowSize.width*85/100,100));
@@ -564,47 +612,76 @@ public class FidoFrame extends JFrame implements
         cc.setFocusable(true);
         sc.setFocusable(true);
 
+        /*  Add a window listener to close the application when the frame is
+            closed. This behavior is platform dependent, for example a
+            Macintosh application can be made run without a visible frame.
+            There would anyway the need to customize the menu bar, in order
+            to allow the user to open a new FidoFrame, when it has been
+            closed once. The easiest solution to implement is therefore to
+            make the application close when the user closes the last frame.
+        */
+        addWindowListener(new WindowAdapter()
         {
-            /*  Add a window listener to close the application when the frame is
-                closed. This behavior is platform dependent, for example a
-                Macintosh application can be made run without a visible frame.
-                There would anyway the need to customize the menu bar, in order
-                to allow the user to open a new FidoFrame, when it has been
-                closed once. The easiest solution to implement is therefore to
-                make the application close when the user closes the last frame.
-            */
-            addWindowListener(new WindowAdapter()
+            public void windowClosing(WindowEvent e)
             {
-                public void windowClosing(WindowEvent e)
-                {
-                    if(!ft.checkIfToBeSaved()) {
-                        return;
-                    }
-
-                    setVisible(false);
-                    cc.getUndoActions().doTheDishes();
-                    dispose();
-                    Globals.openWindows.remove(FidoFrame.this);
-
-                    --Globals.openWindowsNumber;
-
-                    if (Globals.openWindowsNumber<1 && runsAsApplication)
-                        System.exit(0);
+                if(!ft.checkIfToBeSaved()) {
+                    return;
                 }
-            });
-        }
+                closeThisFrame();
+            }
+        });
 
-        //pack();
         addWindowFocusListener(this);
         Globals.activeWindow=this;
 
         // This is WAY too invasive!!!
-
-        //getRootPane().putClientProperty("apple.awt.draggableWindowBackground"
-        // ,
-        //  Boolean.TRUE);
-
         cc.getUndoActions().setModified(false);
+        if(runsAsApplication) {
+            // Show the library tab or not.
+            boolean s=prefs.get("SHOW_LIBS","true").equals("true");
+            showLibs(s);
+            s=prefs.get("SHOW_GRID","true").equals("true");
+            cc.setGridVisibility(s);
+            toolZoom.setShowGrid(s);
+            s=prefs.get("SNAP_GRID","true").equals("true");
+            cc.setSnapState(s);
+            toolZoom.setSnapGrid(s);
+        }
+    }
+
+    /** Procedure to close the current frame, check if there are other open
+        frames, and exit the program if there are no frames remaining.
+        Ensure that the configuration settings are properly saved.
+    */
+    public void closeThisFrame()
+    {
+        setVisible(false);
+        cc.getUndoActions().doTheDishes();
+        savePosition();
+        // Save the zoom factor. There is no reason to save the other
+        // coordinate mapping data as this will be used for an empty drawing.
+        MapCoordinates mc=cc.getMapCoordinates();
+        prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
+        if(areLibsVisible())
+            prefs.put("SHOW_LIBS","true");
+        else
+            prefs.put("SHOW_LIBS","false");
+
+        if(cc.getGridVisibility())
+            prefs.put("SHOW_GRID","true");
+        else
+            prefs.put("SHOW_GRID","false");
+
+        if(cc.getSnapState())
+            prefs.put("SNAP_GRID","true");
+        else
+            prefs.put("SNAP_GRID","false");
+
+        dispose();
+        Globals.openWindows.remove(FidoFrame.this);
+        --Globals.openWindowsNumber;
+        if (Globals.openWindowsNumber<1 && runsAsApplication)
+            System.exit(0);
     }
 
     /** The action listener. Recognize menu events and behaves consequently.
@@ -614,9 +691,8 @@ public class FidoFrame extends JFrame implements
     {
         // Recognize and handle menu events
         if(evt.getSource() instanceof JMenuItem)
-            mt.processMenuActions(evt, this);
+            mt.processMenuActions(evt, this, toolZoom);
     }
-
 
     /** Create a new instance of the window.
         @return the created instance
@@ -624,12 +700,14 @@ public class FidoFrame extends JFrame implements
     public FidoFrame createNewInstance()
     {
         FidoFrame popFrame=new FidoFrame(runsAsApplication, currentLocale);
-        popFrame.init();
-
         popFrame.setBounds(getX()+30, getY()+30, popFrame.getWidth(),
             popFrame.getHeight());
 
+        popFrame.init();
+
         popFrame.loadLibraries();
+        popFrame.setExtendedState(getExtendedState());
+
         popFrame.setVisible(true);
 
         return popFrame;
@@ -660,11 +738,8 @@ public class FidoFrame extends JFrame implements
             ae.getPCB_pad_sizex(),
             ae.getPCB_pad_sizey(),
             ae.getPCB_pad_drill(),
-            Globals.quaquaActive,
             cc.getStrictCompatibility(),
             cc.dmp.getTextFont(),
-            false,
-            false,
             Globals.lineWidth,
             Globals.lineWidthCircles,
             Globals.diameterConnection,
@@ -700,8 +775,6 @@ public class FidoFrame extends JFrame implements
         toolBar.setStrictCompatibility(options.extStrict);
         cpa.setShiftCopyPaste(options.shiftCP);
 
-        Globals.quaquaActive=options.quaquaActive;
-
         libDirectory=options.libDirectory;
 
         Globals.lineWidth = options.stroke_size_straight_i;
@@ -728,11 +801,6 @@ public class FidoFrame extends JFrame implements
 
             prefs.put("TEXT_TOOLBAR",
                 (textToolbar?"true":"false"));
-
-            prefs.put("QUAQUA",
-                (Globals.quaquaActive?"true":"false"));
-            prefs.put("FCJ_EXT_STRICT",
-                (cc.getStrictCompatibility()?"true":"false"));
 
             prefs.put("GRID_SIZE", ""+cc.getMapCoordinates().getXGridStep());
 
@@ -796,14 +864,8 @@ public class FidoFrame extends JFrame implements
             getRootPane().putClientProperty("Window.documentModified",
                 Boolean.valueOf(cc.getUndoActions().getModified()));
 
-            // On MacOSX >= 10.5, associate an icon and a file proxy to the
-            // title bar.
-            getRootPane( ).putClientProperty( "Window.documentFile",
-                new File(cc.getParserActions().openFileName));
-
-            setTitle("FidoCadJ "+Globals.version+" "+
-                Globals.prettifyPath(cc.getParserActions().openFileName,45)+
-                (cc.getUndoActions().getModified()?" *":""));
+            toolBar.setTitle(
+                Globals.prettifyPath(cc.getParserActions().openFileName,45));
         } else {
             setTitle("FidoCadJ "+Globals.version+" "+
                 Globals.prettifyPath(cc.getParserActions().openFileName,45)+
@@ -818,6 +880,8 @@ public class FidoFrame extends JFrame implements
     public void windowGainedFocus(WindowEvent e)
     {
         Globals.activeWindow = this;
+        // This should fix #182
+        cc.requestFocusInWindow();
     }
 
     /** The current window has lost focus.
@@ -826,5 +890,28 @@ public class FidoFrame extends JFrame implements
     public void windowLostFocus(WindowEvent e)
     {
         // Nothing to do
+    }
+
+    /** Control the presence of the libraries and the preview on the right
+        of the frame.
+        @param s true if the libs have to be shown.
+    */
+    public void showLibs(boolean s)
+    {
+        splitPane.setBottomComponent(s?macroLib:null);
+        toolZoom.setShowLibsState(areLibsVisible());
+        mt.setShowLibsState(areLibsVisible());
+        if(s) {
+            splitPane.setDividerLocation(0.75);
+        }
+        splitPane.revalidate();
+    }
+
+    /** Determine if the libraries are visible or not.
+        @return true if the libs are visible.
+    */
+    public boolean areLibsVisible()
+    {
+        return splitPane.getBottomComponent()!=null;
     }
 }

@@ -35,9 +35,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2019 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -67,7 +68,7 @@ public class FidoMain
 
             if("".equals(clp.getLoadFileName())) {
                 System.err.println("You should specify a FidoCadJ file to"+
-                    "read");
+                    " read");
                 System.exit(1);
             }
 
@@ -88,7 +89,7 @@ public class FidoMain
             }
 
             if (clp.shouldConvertFile()) {
-                doConvert(clp, P);
+                doConvert(clp, P, clp.shouldSplitLayers());
             }
 
             if (clp.getHasToPrintSize()) {
@@ -151,8 +152,10 @@ public class FidoMain
 
         @param clp command-line arguments.
         @param P the model containing the drawing.
+        @param splitLayers split layers into different files when exporting.
     */
-    private static void doConvert(CommandLineParser clp, DrawingModel P)
+    private static void doConvert(CommandLineParser clp, DrawingModel P,
+        boolean splitLayers)
     {
         if(!Globals.checkExtension(clp.getOutputFile(),
             clp.getExportFormat()) && !clp.getForceMode())
@@ -167,11 +170,11 @@ public class FidoMain
             if (clp.getResolutionBasedExport()) {
                 ExportGraphic.export(new File(clp.getOutputFile()),  P,
                     clp.getExportFormat(), clp.getResolution(),
-                    true,false,true, true);
+                    true,false,true, true, splitLayers);
             } else {
                 ExportGraphic.exportSize(new File(clp.getOutputFile()),
                     P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),
-                    true,false,true,true);
+                    true,false,true,true, splitLayers);
             }
             System.out.println("Export completed");
         } catch(IOException ioe) {
@@ -189,7 +192,6 @@ public class FidoMain
         @param englishLibraries a flag to specify if the internal libraries
             should be loaded in English or in Italian.
         @param libDirectoryO the path of the external directory.
-
     */
     public static void readLibrariesProbeDirectory(DrawingModel P,
         boolean englishLibraries, String libDirectoryO)
@@ -305,12 +307,8 @@ public class FidoMain
         {
             System.out.println("Standard EY_Libraries got from external file");
         } else {
-            if(englishLibraries)
-                pa.loadLibraryInJar(FidoFrame.class.getResource(
-                    "lib/EY_Libraries.fcl"), "EY_Libraries");
-            else
-                pa.loadLibraryInJar(FidoFrame.class.getResource(
-                    "lib/EY_Libraries.fcl"), "EY_Libraries");
+            pa.loadLibraryInJar(FidoFrame.class.getResource(
+                "lib/EY_Libraries.fcl"), "EY_Libraries");
         }
     }
 
@@ -384,9 +382,6 @@ class CreateSwingInterface implements Runnable
             Preferences prefs_static =
                 Preferences.userNodeForPackage(g.getClass());
 
-            Globals.quaquaActive = prefs_static.get("QUAQUA",
-                "true").equals("true");
-
             Globals.weAreOnAMac =true;
 
             // These settings allows to obtain menus on the right place
@@ -399,16 +394,10 @@ class CreateSwingInterface implements Runnable
                 "FidoCadJ");
 
             try {
-                //Globals.quaquaActive=true;
-                //System.setProperty("Quaqua.Debug.showVisualBounds","true");
-                //System.setProperty("Quaqua.Debug.showClipBounds","true");
-                if(Globals.quaquaActive) {
-                    UIManager.setLookAndFeel(
-                        "ch.randelshofer.quaqua.QuaquaLookAndFeel");
-
-                    System.out.println("Quaqua look and feel active");
-                }
-
+                System.out.println("Trying to activate VAqua7");
+                UIManager.setLookAndFeel(
+                    "org.violetlib.aqua.AquaLookAndFeel");
+                System.out.println("VAqua7 look and feel active");
             } catch (Exception e) {
                 // Quaqua is not active. Just continue!
 
@@ -428,9 +417,6 @@ class CreateSwingInterface implements Runnable
             } catch (Exception E) {
                 System.out.println("Could not load the Windows Look and feel!");
             }
-            Globals.quaquaActive=false;
-        } else {
-            Globals.quaquaActive=false;
         }
 
         // Un-comment to try to use the Metal LAF
@@ -445,6 +431,11 @@ class CreateSwingInterface implements Runnable
         /*******************************************************************
                         END OF THE PLATFORM SELECTION CODE
         *******************************************************************/
+        // This substitutes the AppleSpecific class for Java >=9 and it is a
+        // much more general and desirable solution.
+
+        Globals.desktopInt=new ADesktopIntegration();
+        Globals.desktopInt.registerActions();
 
         if(Globals.weAreOnAMac) {
             // Here we use the reflection provided by Java to understand
@@ -452,15 +443,18 @@ class CreateSwingInterface implements Runnable
             // This class should be compiled separately from the main
             // program since the compilation can be successful only on
             // a MacOSX system.
-
+            // OBSOLETE SINCE JAVA 9
+            /*
             try {
                 Class<?> a = Class.forName(
                     "net.sourceforge.fidocadj.AppleSpecific");
-                Object b = a.newInstance();
+                Object b = a.getConstructor().newInstance();
                 Method m = a.getMethod("answerFinder");
                 m.invoke(b);
-
-            } catch (Exception exc) {
+            } catch (NoClassDefFoundError|ClassNotFoundException|
+                InstantiationException|NoSuchMethodException|
+                IllegalAccessException|InvocationTargetException exc)
+            {
                 Globals.weAreOnAMac = false;
                 System.out.println("It seems that this software has been "+
                     "compiled on a system different from MacOSX. Some nice "+
@@ -468,7 +462,7 @@ class CreateSwingInterface implements Runnable
                     "you have compiled on MacOSX, make sure you used the "+
                     "'compile' or 'rebuild' script along with the 'mac' "+
                     "option.");
-            }
+            }*/
         }
 
         // Here we create the main window object

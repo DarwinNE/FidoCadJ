@@ -25,9 +25,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,7 +48,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     // without having to calculate everything from scratch.
     private int xa, ya, xb, yb;
     private int x1, y1,x2,y2;
-    private int wi_pix;
+    private float wi_pix;
     private int xbpap1, ybpap1;
 
     /** Gets the number of control points used.
@@ -120,15 +121,15 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
-            wi_pix=Math.abs(coordSys.mapXi(virtualPoint[0].x,
-                virtualPoint[0].y, false)
-            -coordSys.mapXi((int)(virtualPoint[0].x+width),
-                (int)(virtualPoint[0].y+width), false));
+            wi_pix=(float)Math.abs(coordSys.mapXr(virtualPoint[0].x,
+                virtualPoint[0].y)
+            -coordSys.mapXr((virtualPoint[0].x+width),
+                (virtualPoint[0].y+width)));
 
-            xa=Math.min(x1, x2)-wi_pix/2;
-            ya=Math.min(y1, y2)-wi_pix/2;
-            xb=Math.max(x1, x2)+wi_pix/2;
-            yb=Math.max(y1, y2)+wi_pix/2;
+            xa=(int)(Math.min(x1, x2)-wi_pix/2.0f);
+            ya=(int)(Math.min(y1, y2)-wi_pix/2.0f);
+            xb=(int)(Math.max(x1, x2)+wi_pix/2.0f);
+            yb=(int)(Math.max(y1, y2)+wi_pix/2.0f);
 
             coordSys.trackPoint(xa,ya);
             coordSys.trackPoint(xb,yb);
@@ -274,8 +275,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     public String toString(boolean extensions)
     {
         String s= "PL "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+(int)width+" "+
-            getLayer()+"\n";
+            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
+            roundIntelligently(width)+" "+getLayer()+"\n";
 
         s+=saveText(extensions);
 
