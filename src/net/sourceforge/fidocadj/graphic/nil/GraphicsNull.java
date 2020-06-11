@@ -3,6 +3,7 @@ package net.sourceforge.fidocadj.graphic.nil;
 import net.sourceforge.fidocadj.graphic.*;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.*;
 
 import net.sourceforge.fidocadj.geom.*;
@@ -31,15 +32,15 @@ import net.sourceforge.fidocadj.layers.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 */
 
-public class GraphicsNull implements GraphicsInterface
+public class GraphicsNull implements GraphicsInterface, TextInterface
 {
-    private Font f;
     private FontMetrics fm;
     Graphics g;
 
@@ -57,6 +58,18 @@ public class GraphicsNull implements GraphicsInterface
         // Create a graphics contents on the buffered image
         g = bufferedImage.createGraphics();
         fm = g.getFontMetrics();
+        /* Is that useful??? */
+        ((Graphics2D) g).setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+    }
+
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface()
+    {
+        return this;
     }
 
     /** Set the current color. Here nothing is done.
@@ -65,6 +78,24 @@ public class GraphicsNull implements GraphicsInterface
     public void setColor(ColorInterface c)
     {
         // nothing to do
+    }
+
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z)
+    {
+        // nothing to do
+    }
+
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom()
+    {
+        return 1.0;
     }
 
     /** Get the current color.
@@ -164,21 +195,40 @@ public class GraphicsNull implements GraphicsInterface
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, int size, boolean isItalic,
+    public void setFont(String name, double size, boolean isItalic,
         boolean isBold)
     {
-        Font f = new Font(name,
+        /*Font f = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
-            size);
+            size);*/
+        Font ft = new Font(name,
+            Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0), 100);
+        Font f = ft.deriveFont(
+            AffineTransform.getScaleInstance(
+                (double)size/100.0,(double)size/100.0));
 
         fm=g.getFontMetrics(f);
     }
+    /** Get the font size.
+        @return the size.
+    */
+    public double getFontSize()
+    {
+        return g.getFont().getSize();
+    }
 
+    /** Set the font size.
+        @param size the fort size.
+    */
+    public void setFontSize(double size)
+    {
+        g.setFont(g.getFont().deriveFont((int)Math.round(size)));
+    }
     /** Simple version. It sets the current font.
         @param name the name of the typeface.
         @param size the vertical size in pixels.
     */
-    public void setFont(String name, int size)
+    public void setFont(String name, double size)
     {
         setFont(name, size, false, false);
     }
@@ -207,6 +257,7 @@ public class GraphicsNull implements GraphicsInterface
     */
     public int getStringWidth(String s)
     {
+        //System.out.println("nil: "+fm.stringWidth(s));
         return fm.stringWidth(s);
     }
 

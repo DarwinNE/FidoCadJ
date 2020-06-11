@@ -19,9 +19,10 @@ package net.sourceforge.fidocadj.geom;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2017 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -118,9 +119,8 @@ public final class GeometricDistances
     */
     public static double pointToSegment(double xa, double ya,
                                  double xb, double yb,
-                                 double x, double y )
+                                 double x, double y)
     {
-
         // Shortcuts
         if(xa>xb) {
             xmin = xb; xmax = xa;
@@ -150,18 +150,17 @@ public final class GeometricDistances
         }
 
         t=((x-xa)*dx+(y-ya)*dy)/(dx*dx+dy*dy);
-        if (t<0) {
+        if (t<0.0) {
             dx=x-xa;
             dy=y-ya;
         } else if (t>1.0){
             dx=x-xb;
             dy=y-yb;
         } else {
-            dx=x-xa+t*dx;
-            dy=y-ya+t*dy;
+            dx=x-(xa+t*dx);
+            dy=y-(ya+t*dy);
         }
         return Math.sqrt(dx*dx+dy*dy);
-
     }
 
     /** Calculate the euclidean distance between a point and a segment.
@@ -276,12 +275,12 @@ public final class GeometricDistances
             return false;
         }
 
-        // Calculate the semi-latus rectum of the ellipse at the given point
         // The multiplication by four is mandatory as the principal axis of an
         // ellipse are the half of the width and the height.
 
         return (4.0*dx*dx/w/w+4.0*dy*dy/h/h)<1.0;
     }
+
     /** Tells if a point lies inside an ellipse (integer version).
 
         @param ex x coordinate of the top left corner of the ellipse.
@@ -336,10 +335,9 @@ public final class GeometricDistances
     public static double pointToEllipse(double ex,double ey,double w,
                                   double h,double px,double py)
     {
-        //Determine and normalize quadrant.
+        // Calculate distance of the point from center of ellipse.
         double dx = Math.abs(px-(ex+w/2.0)); // NOPMD parentheses are useful!
         double dy = Math.abs(py-(ey+h/2.0)); // NOPMD parentheses are useful!
-        double l;
 
         // Treat separately the degenerate cases. This will avoid a divide
         // by zero anomalous situation.
@@ -350,19 +348,10 @@ public final class GeometricDistances
         if (h==0)
             return pointToSegment(ex, ey, ex+w, ey, px, py);
 
-
         // Calculate the semi-latus rectum of the ellipse at the given point
-        // The multiplication by four is mandatory as the principal axis of an
-        // ellipse are the half of the width and the height.
+        double l=(dx*dx/w/w+dy*dy/h/h)*4.0;
 
-        l=4.0*dx*dx/w/w+4.0*dy*dy/h/h;
-
-        // I had to divide by 2 to compensate the loss of precision in certain
-        // cases. Maybe, this is due to the integer conversion when using
-        // the integer routine?
-
-        l=Math.sqrt(Math.abs(l-1.0)*Math.min(w,h)*Math.min(w,h)/4)/2;
-        return l;
+        return (Math.abs(l-1.0))*Math.min(w,h)/4.0;
     }
 
     /** Give the distance between the given point and the ellipse path
@@ -379,8 +368,8 @@ public final class GeometricDistances
     public static int pointToEllipse(int ex,int ey,int w,
                                   int h, int px,int py)
     {
-        return (int)pointToEllipse((double) ex,(double) ey,(double) w,
-                              (double) h,(double) px,(double) py);
+        return (int)Math.round(pointToEllipse((double) ex,(double)ey,(double) w,
+                              (double) h,(double) px,(double) py));
     }
 
 
@@ -455,23 +444,13 @@ public final class GeometricDistances
     public static int pointToRectangle(int ex,int ey,int w,
                                   int h, int px,int py)
     {
-        /* BUGGED!
-        if ( pointInRectangle(ex-1, ey-1, w+2, h+2, px, py) &&
-            !pointInRectangle(ex+1, ey+1, w-2, h-2, px, py))
-            return 1;
-        else
-            return Integer.MAX_VALUE;
-        */
-
         int d1=pointToSegment(ex,ey,ex+w,ey,px,py);
         int d2=pointToSegment(ex+w,ey,ex+w,ey+h,px,py);
         int d3=pointToSegment(ex+w,ey+h,ex,ey+h,px,py);
         int d4=pointToSegment(ex,ey+h,ex,ey,px,py);
 
         return Math.min(Math.min(d1,d2),Math.min(d3,d4));
-
     }
-
 
     /** Give an approximation of the distance between a point and
         a Bézier curve. The curve is divided into MAX_BEZIER_SEGMENTS
@@ -493,7 +472,6 @@ public final class GeometricDistances
         @return an approximate value of the distance between the given point
                 and the Bézier curve specified by the control points.
     */
-
     public static int pointToBezier(int x1, int y1,
                                  int x2, int y2,
                                  int x3, int y3,
@@ -512,9 +490,7 @@ public final class GeometricDistances
         double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
 
         // (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
-
-        for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit)
-        {
+        for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit) {
             // This is the parametric form of the Bézier curve.
             // Probably, this is not the most convenient way to draw the
             // curve (one should probably use De Casteljau's Algorithm),
@@ -535,7 +511,6 @@ public final class GeometricDistances
                         y3 * b23 +
                         y4 * b33);
             ++i;
-
         }
 
         // Calculate the distance of the given point with each of the
@@ -547,4 +522,3 @@ public final class GeometricDistances
         return distance;
     }
 }
-

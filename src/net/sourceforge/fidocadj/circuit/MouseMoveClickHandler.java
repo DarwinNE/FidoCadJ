@@ -30,7 +30,8 @@ import net.sourceforge.fidocadj.geom.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+   @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2015 by Davide Bucci
     </pre>
@@ -164,7 +165,9 @@ public class MouseMoveClickHandler implements MouseMotionListener,
             return;
         }
 
-        haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates());
+        haa.dragHandleDrag(cp, px, py, cp.getMapCoordinates(),
+            (evt.getModifiers() & ActionEvent.CTRL_MASK)==
+            ActionEvent.CTRL_MASK);
         // A little profiling if necessary. I noticed that time needed for
         // handling clicks is not negligible in large drawings, hence the
         // need of controlling it.

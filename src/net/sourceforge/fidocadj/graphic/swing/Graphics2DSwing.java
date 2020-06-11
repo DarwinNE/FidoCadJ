@@ -30,20 +30,28 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2020 by Davide Bucci
 </pre>
 */
 
-public class Graphics2DSwing implements GraphicsInterface
+public class Graphics2DSwing implements GraphicsInterface, TextInterface
 {
+    // Practical sizes to the image used a "brush" for the tiled fill.
+    // Larger images may yield faster results, until the memory penalty will
+    // decrease performance. Used to be 1000x1000, but it seems that this is
+    // too big on some Linux systems (see issue #166).
+    private final static int maxAllowableGridBrushWidth = 500;
+    private final static int maxAllowableGridBrushHeight = 500;
+
     Graphics2D g;
 
     // Here are some other local variables made global for avoiding memory
     // allocations (used in drawGrid).
     private BufferedImage bufferedImage; // Useful for grid calculation
-    private double oldZoom;
+    private double oldZoom;              // TODO: maybe the same as actualZoom?
     private TexturePaint tp;
     private int width;
     private int height;
@@ -51,11 +59,30 @@ public class Graphics2DSwing implements GraphicsInterface
     private BasicStroke[] strokeList;
     private float actual_w;
 
-    private AffineTransform at;
-    private AffineTransform stretching;
-    private AffineTransform ats;
-    private Font f;
-    private AffineTransform mm;
+    private double zoom;
+    private double actualZoom;
+
+    /*  Strategy in 0.24.7:
+        -------------------
+        The font size affects the way the font is drawn. For this reason (as
+        things such as the zoom and scaling should not change the relative
+        size of the text), the font size is kept always equal to 100. Then, a
+        coordinate change is applied to the font so that it is rescaled to the
+        wanted size.
+
+        Strategy in 0.24.8:
+        -------------------
+        Due to a strange bug for some (large) font sizes, I (DB) reverted the
+        mechanism and I derive a new font of a given calculated size from the
+        original font.
+        The situation does not seem to be now much worse than 0.24.7 as I can
+        set up the font size as a float and thus cope better with smaller
+        font sizes.
+    */
+    private final static int FONTSIZE=100; // The size of the unscaled font.
+    private Font f;                 // This is the scaled font.
+    private double fontScale=1.0;   // This is the scaling factor.
+    private Font mf;                // This is the original (unscaled) font.
 
     /** Constructor: fabricate a new object form a java.awt.Graphics2D object.
         @param gg the java.awt.Graphics2D graphic context.
@@ -64,6 +91,18 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=gg;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
+        /* Is that useful??? */
+        g.setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g.setRenderingHint(
+            RenderingHints.KEY_RENDERING,
+            RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /** Constructor: fabricate a new object form a java.awt.Graphics object.
@@ -73,6 +112,15 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=(Graphics2D)gg;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
+        /* Is that useful??? */
+        /*g.setRenderingHint(
+            RenderingHints.KEY_FRACTIONALMETRICS,
+            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
+        /*g.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIASING_ON);*/
     }
 
     /** Constructor: fabricate a new object without associating a graphic
@@ -84,6 +132,16 @@ public class Graphics2DSwing implements GraphicsInterface
     {
         g=null;
         oldZoom = -1;
+        actualZoom = -1;
+        zoom=1;
+    }
+
+    /** Retrieves an object implementing an appropriate TextInterface.
+        @return an object implementing TextInterface.
+    */
+    public TextInterface getTextInterface()
+    {
+        return this;
     }
 
     /** Retrieves or create a BasicStroke object having the wanted with and
@@ -93,7 +151,7 @@ public class Graphics2DSwing implements GraphicsInterface
     */
     public void applyStroke(float w, int dashStyle)
     {
-        if (w!=actual_w && w>0) {
+        if (w!=actual_w && w>0 || zoom!=actualZoom) {
             strokeList = new BasicStroke[Globals.dashNumber];
 
             // If the line width has been changed, we need to update the
@@ -102,14 +160,23 @@ public class Graphics2DSwing implements GraphicsInterface
             // The first entry is non dashed
             strokeList[0]=new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND);
-            // Then, the dashed stroke styles are created
+            // Resize the dash sizes depending on the current zoom size.
+            float[] dashArrayStretched;
+            // Then, the dashed stroke styles are created.
+            if(zoom<1.0) zoom=1.0;
             for(int i=1; i<Globals.dashNumber; ++i) {
+                // Prepare the resized dash array.
+                dashArrayStretched = new float[Globals.dash[i].length];
+                for(int j=0; j<Globals.dash[i].length;++j) {
+                    dashArrayStretched[j]=Globals.dash[i][j]*(float)zoom/2.0f;
+                }
                 strokeList[i]=new BasicStroke(w, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND,
-                    10.0f, Globals.dash[i],
+                    (float)(10.0f*zoom), dashArrayStretched,
                     0.0f);
             }
             actual_w=w;
+            actualZoom=zoom;
         }
 
         // Here we retrieve the stroke style corresponding to the given
@@ -121,6 +188,24 @@ public class Graphics2DSwing implements GraphicsInterface
         if(!stroke.equals(g.getStroke()))
             g.setStroke(stroke);
 
+    }
+
+    /** Set the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @param z the current zoom factor (pixels for logical units).
+    */
+    public void setZoom(double z)
+    {
+        zoom=z;
+    }
+
+    /** Get the current zoom factor. Currently employed for resizing the dash
+        styles.
+        @return the current zoom factor (pixels for logical units).
+    */
+    public double getZoom()
+    {
+        return zoom;
     }
 
     /** This is a Swing-related method: it sets the current graphic context
@@ -235,12 +320,15 @@ public class Graphics2DSwing implements GraphicsInterface
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, int size, boolean isItalic,
+    public void setFont(String name, double size, boolean isItalic,
         boolean isBold)
     {
-        f = new Font(name,
+        mf = new Font(name,
             Font.PLAIN+(isItalic?Font.ITALIC:0)+(isBold?Font.BOLD:0),
-            size);
+            FONTSIZE);
+        fontScale=size;
+        f = mf.deriveFont((float)size);
+
         // Check if there is the need to change the current font. Apparently,
         // on some systems (I have seen this on MacOSX), setting up the font
         // takes a surprisingly long amount of time.
@@ -253,9 +341,30 @@ public class Graphics2DSwing implements GraphicsInterface
         @param name the name of the typeface.
         @param size the vertical size in pixels.
     */
-    public void setFont(String name, int size)
+    public void setFont(String name, double size)
     {
         setFont(name, size, false, false);
+    }
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return fontScale;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        fontScale=size;
+        if(mf==null)
+            return;
+        f = mf.deriveFont((float)size);
+
+        if(!g.getFont().equals(f))
+            g.setFont(f);
     }
 
     /** Get the ascent metric of the current font.
@@ -264,7 +373,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getFontAscent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.getAscent();
+        return (int)Math.round(fm.getAscent());
     }
 
     /** Get the descent metric of the current font.
@@ -273,7 +382,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getFontDescent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.getDescent();
+        return (int)Math.round(fm.getDescent());
     }
 
     /** Get the width of the given string with the current font.
@@ -283,7 +392,7 @@ public class Graphics2DSwing implements GraphicsInterface
     public int getStringWidth(String s)
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return fm.stringWidth(s);
+        return (int)Math.round(fm.stringWidth(s));
     }
 
     /** Draw a string on the current graphic context.
@@ -413,11 +522,9 @@ public class Graphics2DSwing implements GraphicsInterface
         color1.getColorComponents (rgb1);
         color2.getColorComponents (rgb2);
 
-        Color color = new Color (rgb1[0] * r + rgb2[0] * ir,
-                             rgb1[1] * r + rgb2[1] * ir,
-                             rgb1[2] * r + rgb2[2] * ir);
-
-        return color;
+        return new Color (rgb1[0] * r + rgb2[0] * ir,
+            rgb1[1] * r + rgb2[1] * ir,
+            rgb1[2] * r + rgb2[2] * ir);
     }
 
     /** Draw a string by allowing for a certain degree of flexibility in
@@ -437,7 +544,6 @@ public class Graphics2DSwing implements GraphicsInterface
         @param mirror true if the text is mirrored.
         @param txt the string to be drawn.
     */
-
     public void drawAdvText(double xyfactor, int xa, int ya,
         int qq, int h, int w, int th, boolean needsStretching,
         int orientation, boolean mirror,
@@ -453,11 +559,16 @@ public class Graphics2DSwing implements GraphicsInterface
             transforms. What a pity!
 
             February 20, 2009: I noticed this is in fact a bug on JRE < 1.5
+            December 14, 2015: Maybe it is a way to obtain a more consistant
+                text output? Now FidoCadJ requires Java 1.7, get back to it?
         */
         AffineTransform at=(AffineTransform)g.getTransform().clone();
+
+        // Ats is used to save the current coordinate transform.
         AffineTransform ats=(AffineTransform)at.clone();
         AffineTransform stretching= new AffineTransform();
         AffineTransform mm= new AffineTransform();
+        DecoratedText dt=new DecoratedText(this);
 
         stretching.scale(1,xyfactor);
 
@@ -475,7 +586,7 @@ public class Graphics2DSwing implements GraphicsInterface
                     if(!g.getFont().equals(f))
                         g.setFont(f);
 
-                    g.drawString(txt,-xa,qq+h);
+                    dt.drawString(txt,-xa,qq+h);
                 }
             } else {
                 // Here the text is normal
@@ -493,7 +604,7 @@ public class Graphics2DSwing implements GraphicsInterface
                     } else {
                         if(!g.getFont().equals(f))
                             g.setFont(f);
-                        g.drawString(txt,xa,qq+h);
+                        dt.drawString(txt,xa,qq+h);
                         if(needsStretching)
                             g.setTransform(ats);
                         return;
@@ -510,7 +621,7 @@ public class Graphics2DSwing implements GraphicsInterface
                 if(!g.getFont().equals(f))
                     g.setFont(f);
 
-                g.drawString(txt,-xa,qq+h);
+                dt.drawString(txt,-xa,qq+h);
 
             } else {
                 // Here the text is just rotated
@@ -519,12 +630,11 @@ public class Graphics2DSwing implements GraphicsInterface
                 g.setTransform(at);
                 if(!g.getFont().equals(f))
                     g.setFont(f);
-                g.drawString(txt,xa,qq+h);
+                dt.drawString(txt,xa,qq+h);
             }
         }
         g.setTransform(ats);
     }
-
 
     /** Draw the grid in the given graphic context.
         @param cs the coordinate map description
@@ -540,12 +650,15 @@ public class Graphics2DSwing implements GraphicsInterface
         // Drawing the grid seems easy, but it appears that setting a pixel
         // takes a lot of time. Basically, we create a textured brush and we
         // use it to paint the entire specified region.
-
-        int dx=cs.getXGridStep();
-        int dy=cs.getYGridStep();
+        int dx=cs.getXGridStep();   // Horizontal grid pitch in logical units.
+        int dy=cs.getYGridStep();   // Vertical grid pitch in logical units.
         int mul=1;
         double toll=0.01;
         double z=cs.getYMagnitude();
+
+        // DB: I tried with d/2 instead of 0, but I get some very
+        // unpleasant aliasing effects for zoom such as 237%
+        double dd=0;
 
         double x;
         double y;
@@ -555,10 +668,9 @@ public class Graphics2DSwing implements GraphicsInterface
         // Fabricate a new image only if necessary, to save time.
         if(oldZoom!=z || bufferedImage == null || tp==null) {
             // It turns out that drawing the grid in an efficient way is not a
-            // trivial problem. What it is done here is that the program tries
-            // to calculate the minimum common integer multiple of the dot
-            // espacement to calculate the size of an image in order to be an
-            // integer.
+            // trivial task. The program here tries to calculate the minimum
+            // common integer multiple of the dot espacement, to calculate the
+            // size of an image in order to be an integer.
             // The pattern filling (which is fast) is then used to replicate the
             // image (very fast!) over the working surface.
 
@@ -571,13 +683,29 @@ public class Graphics2DSwing implements GraphicsInterface
             tp = null;
             double ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
             double ddy=Math.abs(cs.mapYi(0,dy,false)-cs.mapYi(0,0,false));
-            int d=1;
+            double d=1;
 
-            // This code applies a correction: draws bigger points if the pitch
-            // is very big, or draw much less points if it is too dense.
-            if (ddx>50 || ddy>50) {
+            // This code applies a correction: draws lines if the pitch
+            // is very large, or draw much less dots if it is too dense.
+            if (ddx>35 || ddy>35) {
+                // Lines!
+                bufferedImage=null;
                 d=2;
+                // The loops are done in logical units.
+                g.setColor(new Color(220,220,220));
+                for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
+                    g.drawLine(
+                        (int)Math.round(cs.mapXr(x,0)),ymin,
+                        (int)Math.round(cs.mapXr(x,0)), ymax);
+                }
+                for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
+                    g.drawLine(
+                        xmin,(int)Math.round(cs.mapYr(0,y)),
+                        xmax, (int)Math.round(cs.mapYr(0,y)));
+                }
+                return;
             } else if (ddx<3 || ddy <3) {
+                // Less dots
                 dx=5*cs.getXGridStep();
                 dy=5*cs.getYGridStep();
                 ddx=Math.abs(cs.mapXi(dx,0,false)-cs.mapXi(0,0,false));
@@ -595,15 +723,15 @@ public class Graphics2DSwing implements GraphicsInterface
                construction.
                This should happen rarely, only for particular zoom sizes.
             */
-            if (width>1000 || height>1000) {
-                g.setColor(Color.white);
-                g.fillRect(xmin,ymin,xmax,ymax);
+            if (width>maxAllowableGridBrushWidth ||
+                height>maxAllowableGridBrushHeight)
+            {
+                // Simpler (and generally less efficient) version of the grid
                 g.setColor(Color.gray);
                 for (x=cs.unmapXsnap(xmin); x<=cs.unmapXsnap(xmax); x+=dx) {
                     for (y=cs.unmapYsnap(ymin); y<=cs.unmapYsnap(ymax); y+=dy) {
-                        g.fillRect(cs.mapXi((int)x,(int)y,
-                            false),cs.mapYi((int)x,
-                            (int)y, false),d,d);
+                        g.fillRect((int)Math.round(cs.mapXr(x,y)-dd),
+                            (int)Math.round(cs.mapYr(x,y)-dd),(int)d,(int)d);
                     }
                 }
                 return;
@@ -611,8 +739,12 @@ public class Graphics2DSwing implements GraphicsInterface
 
             try {
                 // Create a buffered image in which to draw
-                bufferedImage = new BufferedImage(width, height,
-                                          BufferedImage.TYPE_INT_BGR);
+                GraphicsEnvironment env =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+                GraphicsDevice device = env.getDefaultScreenDevice();
+                GraphicsConfiguration config = device.getDefaultConfiguration();
+                bufferedImage = config.createCompatibleImage(width, height,
+                                          Transparency.TRANSLUCENT);
 
             } catch (java.lang.OutOfMemoryError E) {
                 System.out.println("Out of memory error when painting grid");
@@ -622,14 +754,13 @@ public class Graphics2DSwing implements GraphicsInterface
             // Create a graphics contents on the buffered image
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setColor(Color.white);
-            g2d.fillRect(0,0,width,height);
             g2d.setColor(Color.gray);
 
             // Prepare the image with the grid.
             for (x=0; x<=cs.unmapXsnap(width); x+=dx) {
                 for (y=0; y<=cs.unmapYsnap(height); y+=dy) {
-                    g2d.fillRect(cs.mapX((int)x,(int)y),cs.mapY((int)x,
-                        (int)y),d,d);
+                    g2d.fillRect((int)Math.round(cs.mapXr(x,y)-dd),
+                        (int)Math.round(cs.mapYr(x,y)-dd),(int)d,(int)d);
                 }
             }
             oldZoom=z;

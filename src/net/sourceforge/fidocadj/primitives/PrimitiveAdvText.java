@@ -26,9 +26,10 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -44,10 +45,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
     private boolean recalcSize;
 
-    /* Text style patterns */
+    // Text style patterns
     static final int TEXT_BOLD=1;
     static final int TEXT_MIRRORED=4;
     static final int TEXT_ITALIC=2;
+
+    // Maximum and minimum size allowed for the text.
+    static final int MAXSIZE=2000;
+    static final int MINSIZE=1;
 
     // A text is defined by one point.
     static final int N_POINTS=1;
@@ -145,7 +150,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             return;
         changed=true;
         ymagnitude=coordSys.getYMagnitude();
-        //coordorientation=coordSys.getOrientation();
         coordmirroring=coordSys.getMirror();
 
         if(changed) {
@@ -162,7 +166,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 1 typographical point is 1/72 of an inch.
             */
 
-            g.setFont(fontName, (int)(six*12*coordSys.getYMagnitude()/7+.5),
+            g.setFont(fontName, six*12*coordSys.getYMagnitude()/7+.5,
                 (sty & TEXT_ITALIC)!=0, (sty & TEXT_BOLD)!=0);
 
             orientation=o;
@@ -269,8 +273,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
             virtualPoint[0].x=Integer.parseInt(tokens[1]);
             virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            siy=Integer.parseInt(tokens[3]);
-            six=Integer.parseInt(tokens[4]);
+            // We may accept non-integer data in the future.
+            siy=(int)Math.round(Double.parseDouble(tokens[3]));
+            six=(int)Math.round(Double.parseDouble(tokens[4]));
+            checkSizes();
             o=Integer.parseInt(tokens[5]);
             sty=Integer.parseInt(tokens[6]);
             parseLayer(tokens[7]);
@@ -284,7 +290,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 fontName = tokens[8].replaceAll("\\+\\+"," ");
             }
 
-
             /* siy is the font horizontal size in mils (1/1000 of an inch).
                1 typographical point is 1/72 of an inch.
             */
@@ -294,9 +299,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 if (j<N-1) txtb.append(" ");
             }
             txt=txtb.toString();
-
-
-
         } else if (tokens[0].equals("TE")) {    // Text (simple)
             if (N<4) {
                 IOException E=new IOException("bad arguments on TE");
@@ -327,7 +329,22 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                                           " programming error?");
             throw E;
         }
+    }
 
+    /** Check and correct if necessary the text size range.
+    */
+    public void checkSizes()
+    {
+        // Safety checks!
+        if(siy<MINSIZE)
+            siy=MINSIZE;
+        if(six<MINSIZE)
+            six=MINSIZE;
+
+        if(siy>MAXSIZE)
+            siy=MAXSIZE;
+        if(six>MAXSIZE)
+            six=MAXSIZE;
     }
 
     /** Gets the distance (in primitive's coordinates space) between a
@@ -448,12 +465,6 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         pd.description=Globals.messages.getString("ctrl_text");
         v.add(pd);
 
-    /*  for (i=0;i<getControlPointNumber();++i) {
-            pd = new ParameterDescription();
-            pd.parameter=virtualPoint[i];
-            pd.description=Globals.messages.getString("ctrl_control")+(i+1)+":";
-            v.add(pd);
-        } */
 
         pd = new ParameterDescription();
         pd.parameter=new LayerInfo(getLayer());
@@ -572,6 +583,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             fontName = ((FontG)pd.parameter).getFamily();
         else
             System.out.println("Warning: unexpected parameter!"+pd);
+
+        checkSizes();
         return i;
     }
 
@@ -639,10 +652,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             subsFont=s.toString();
         }
 
-        String s= "TY "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+siy+" "
+        return "TY "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+siy+" "
             +six+" "+o+" "+sty+" "+getLayer()+" "+subsFont+" "+txt+"\n";
-
-        return s;
     }
 
     /** Export the text primitive on a vector graphic format.

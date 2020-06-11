@@ -25,9 +25,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 */
 public class Drawing
@@ -65,7 +66,6 @@ public class Drawing
     */
     public void drawSelectedHandles(GraphicsInterface gi, MapCoordinates cs)
     {
-        int i;
         for (GraphicPrimitive gp : dmp.getPrimitiveVector()) {
             if(gp.getSelected())
                 gp.drawHandles(gi, cs);
@@ -74,14 +74,14 @@ public class Drawing
 
     /** Draw the current drawing.
         This code is rather critical. Do not touch it unless you know very
-        precisely what to do.
+        precisely what you are doing.
         @param G the graphic context in which the drawing should be drawn.
         @param cs the coordinate mapping to be used.
     */
     public void draw(GraphicsInterface G, MapCoordinates cs)
     {
         if(cs==null) {
-            System.out.println(
+            System.err.println(
                 "DrawingModel.draw: ouch... cs not initialized :-(");
             return;
         }
@@ -161,6 +161,7 @@ public class Drawing
     {
         return needHoles;
     }
+
     /** Draws all the primitives and macros contained in the specified layer.
         This function is used mainly by the draw member.
         @param j_index the layer to be considered.
@@ -169,12 +170,8 @@ public class Drawing
     private void drawPrimitives(int j_index, GraphicsInterface graphic,
         MapCoordinates cs)
     {
-        GraphicPrimitive gg;
-        int i_index;
-
         // Here we process all the primitives, one by one!
-        for (i_index=0; i_index<dmp.getPrimitiveVector().size(); ++i_index) {
-            gg=(GraphicPrimitive)dmp.getPrimitiveVector().get(i_index);
+        for (GraphicPrimitive gg : dmp.getPrimitiveVector()) {
 
             // Layers are ordered. This improves the redrawing speed.
             if (j_index>0 && gg.layer>j_index) {
@@ -183,7 +180,6 @@ public class Drawing
 
             // Process a particular primitive if it is in the layer
             // being processed.
-
             if(gg.containsLayer(j_index)) {
                 gg.setDrawOnlyLayer(j_index);
                 gg.draw(graphic, cs, dmp.layerV);
@@ -193,5 +189,4 @@ public class Drawing
                 needHoles=true;
         }
     }
-
 }

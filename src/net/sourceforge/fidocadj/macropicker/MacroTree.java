@@ -47,9 +47,10 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -99,6 +100,8 @@ public class MacroTree extends JPanel
     private void initComponents()
     {
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane.putClientProperty("JSplitPane.style","thick");
+
         Box topBox = Box.createVerticalBox();
 
         setLayout(new GridLayout(1, 0));
@@ -420,7 +423,7 @@ public class MacroTree extends JPanel
         destCategory = getSelectedCategory();
         targetMacro = macroTreeModel.getMacro(copyTarget);
 
-        libraryModel.copy(targetMacro,destCategory);
+        libraryModel.copy(targetMacro, destCategory);
     }
 
     /** Create the object describing permissions.
@@ -602,7 +605,6 @@ public class MacroTree extends JPanel
     {
         // I think this must be initialized with localized label string
         // means search.
-        // searchField = new SearchField(Globals.messages.getString("Search"));
         searchField = new SearchField();
     }
 
@@ -673,7 +675,6 @@ public class MacroTree extends JPanel
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if(e.isShiftDown()) {
                         treeComponent.selectPrevLeaf();
-                        //System.out.println("prev");
                     } else {
                         treeComponent.selectNextLeaf();
                     }

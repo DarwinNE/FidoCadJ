@@ -3,12 +3,14 @@ package net.sourceforge.fidocadj;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
+import java.io.*;
 
 import net.sourceforge.fidocadj.globals.*;
 import net.sourceforge.fidocadj.circuit.controllers.*;
 import net.sourceforge.fidocadj.circuit.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.clipboard.*;
+import net.sourceforge.fidocadj.geom.*;
 
 /** MenuTools.java
 
@@ -30,9 +32,10 @@ import net.sourceforge.fidocadj.clipboard.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see<a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -40,13 +43,15 @@ import net.sourceforge.fidocadj.clipboard.*;
 
 public class MenuTools implements MenuListener
 {
+    JCheckBoxMenuItem libs;
+
     /** Create all the menus and associate to them all the needed listeners.
         @param al the action listener to associate to the menu elements.
         @return the menu bar.
     */
     public JMenuBar defineMenuBar(ActionListener al)
     {
-    // Menu creation
+        // Menu creation
         JMenuBar menuBar=new JMenuBar();
 
         menuBar.add(defineFileMenu(al));
@@ -59,7 +64,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
         JMenu about = defineAboutMenu(al);
-        if(!Globals.weAreOnAMac)
+        if(!Globals.desktopInt.handleAbout)
             menuBar.add(about);
 
         return menuBar;
@@ -155,7 +160,7 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
 
-        if(!Globals.weAreOnAMac) {
+        if(!Globals.desktopInt.handlePreferences) {
             fileMenu.add(options);
             fileMenu.addSeparator();
         }
@@ -211,6 +216,11 @@ public class MenuTools implements MenuListener
         editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
             Globals.shortcutKey));
 
+        JMenuItem editCopyImage = new
+            JMenuItem(Globals.messages.getString("Copy_as_image"));
+        editCopySplit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+            Globals.shortcutKey));
+
         JMenuItem editPaste = new
             JMenuItem(Globals.messages.getString("Paste"));
         editPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
@@ -241,6 +251,7 @@ public class MenuTools implements MenuListener
         editCut.addActionListener(al);
         editCopy.addActionListener(al);
         editCopySplit.addActionListener(al);
+        editCopyImage.addActionListener(al);
         editPaste.addActionListener(al);
         editSelectAll.addActionListener(al);
         editDuplicate.addActionListener(al);
@@ -255,6 +266,7 @@ public class MenuTools implements MenuListener
         editMenu.add(editCut);
         editMenu.add(editCopy);
         editMenu.add(editCopySplit);
+        editMenu.add(editCopyImage);
         editMenu.add(editPaste);
         editMenu.add(clipboardCircuit);
         editMenu.add(editDuplicate);
@@ -281,11 +293,20 @@ public class MenuTools implements MenuListener
 
         layerOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
             Globals.shortcutKey));
-
+        layerOptions.addActionListener(al);
         viewMenu.add(layerOptions);
 
+        JMenuItem attachImage = new
+            JMenuItem(Globals.messages.getString("Attach_image_menu"));
+        attachImage.addActionListener(al);
 
-        layerOptions.addActionListener(al);
+        viewMenu.add(attachImage);
+        viewMenu.addSeparator();
+
+        libs = new
+            JCheckBoxMenuItem(Globals.messages.getString("Libs"));
+        viewMenu.add(libs);
+        libs.addActionListener(al);
         return viewMenu;
     }
 
@@ -317,6 +338,14 @@ public class MenuTools implements MenuListener
         return circuitMenu;
     }
 
+    /** Change the state of the show libs toggle menu item.
+        @param s the state of the item.
+    */
+    public void setShowLibsState(boolean s)
+    {
+        libs.setState(s);
+    }
+
     /** Define the main About menu.
         @param al the action listener to associate to the menu.
         @return the menu.
@@ -336,10 +365,13 @@ public class MenuTools implements MenuListener
     /** Process the menu events.
         @param evt the event.
         @param fff the frame in which the menu is present.
+        @param coordL the coordinate listener to show messages if needed.
     */
-    public void processMenuActions(ActionEvent evt, FidoFrame fff)
+    public void processMenuActions(ActionEvent evt, FidoFrame fff,
+        ChangeCoordinatesListener coordL)
     {
         ExportTools et = fff.getExportTools();
+        et.setCoordinateListener(coordL);
         PrintTools pt = fff.getPrintTools();
         CircuitPanel cc = fff.cc;
         String arg=evt.getActionCommand();
@@ -376,9 +408,13 @@ public class MenuTools implements MenuListener
 
             cc.dmp.setChanged(true);
             fff.repaint();
+        } else if(arg.equals(Globals.messages.getString("Libs"))) {
+            fff.showLibs(!fff.areLibsVisible());
+            libs.setState(fff.areLibsVisible());
         } else if (arg.equals(Globals.messages.getString("Print"))) {
             // Print the current drawing
-            pt.printDrawing(fff, cc);
+            pt.associateToCircuitPanel(cc);
+            pt.printDrawing(fff);
         } else if (arg.equals(Globals.messages.getString("SaveName"))) {
             // Save with name
             fff.getFileTools().saveWithName(false);
@@ -407,17 +443,12 @@ public class MenuTools implements MenuListener
             // Open a file
             OpenFile openf=new OpenFile();
             openf.setParam(fff);
-            SwingUtilities.invokeLater(openf);
             /*
                 The following code would require a thread safe implementation
                 of some of the inner classes (such as CircuitModel), which was
                 indeed not the case... Now, yes!
             */
-            /*Thread thread = new Thread(openf);
-            thread.setDaemon(true);
-            // Start the thread
-            thread.start();*/
-
+            SwingUtilities.invokeLater(openf);
         } else if (arg.equals(Globals.messages.getString("Export"))) {
             // Export the current drawing
             et.launchExport(fff, cc, fff.getFileTools().openFileDirectory);
@@ -433,6 +464,11 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("Copy_split"))) {
             // Copy elements, splitting non standard macros
             cpa.copySelected(!cc.extStrict, true);
+        } else if (arg.equals(Globals.messages.getString("Copy_as_image"))) {
+            // Display a dialog similar to the Export menu and create an image
+            // that is stored in the clipboard, using a bitmap or vector
+            //format.
+            et.exportAsCopiedImage(fff, cc);
         } else if (arg.equals(Globals.messages.getString("Cut"))) {
             // Cut all the selected elements
             cpa.copySelected(!cc.extStrict, false);
@@ -480,15 +516,30 @@ public class MenuTools implements MenuListener
             if(!fff.getFileTools().checkIfToBeSaved()) {
                 return;
             }
-            fff.setVisible(false);
-            cc.getUndoActions().doTheDishes();
-            fff.dispose();
-            Globals.openWindows.remove(fff);
-
-            --Globals.openWindowsNumber;
-
-            if (Globals.openWindowsNumber<1)
-                System.exit(0);
+            fff.closeThisFrame();
+        } else if(arg.equals(Globals.messages.getString("Attach_image_menu"))){
+            // Show the attach image dialog.
+            ImageAsCanvas ii=fff.cc.getAttachedImage();
+            DialogAttachImage di = new DialogAttachImage(fff);
+            di.setFilename(ii.getFilename());
+            di.setCorner(ii.getCornerX(),ii.getCornerY());
+            di.setResolution(ii.getResolution());
+            di.setVisible(true);
+            if(di.shouldAttach()) {
+                try{
+                    if(di.getShowImage())
+                        ii.loadImage(di.getFilename());
+                    else
+                        ii.removeImage();
+                    ii.setResolution(di.getResolution());
+                    ii.setCorner(di.getCornerX(),di.getCornerY());
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(fff,
+                        Globals.messages.getString("Can_not_attach_image"),
+                        "",
+                        JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         }
     }
 }

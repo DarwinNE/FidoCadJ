@@ -18,7 +18,8 @@ package net.sourceforge.fidocadj.circuit.controllers;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2014 by Davide Bucci
 </pre>
@@ -49,8 +50,9 @@ public interface PrimitivesParInterface
         @param increase if true, increase the zoom, if false decrease
         @param x coordinate to which center the viewport (screen coordinates)
         @param y coordinate to which center the viewport (screen coordinates)
+        @param rate amount the zoom must be multiplied. Must be >1.0
     */
-    public void changeZoomByStep(boolean increase, int x, int y);
+    public void changeZoomByStep(boolean increase, int x, int y, double rate);
 
     /** Makes sure the object gets focus.
     */

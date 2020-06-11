@@ -37,7 +37,8 @@ import net.sourceforge.fidocadj.FidoMain;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2012-2014 by phylum2, Davide Bucci
     </pre>
@@ -209,7 +210,10 @@ public final class LibUtils
         List<File> l = new ArrayList<File>();
         if (!lst.exists())
             return null;
-        for (File f : lst.listFiles()) {
+        File[] list=lst.listFiles();
+        if(list==null)
+            return l;
+        for (File f : list) {
             if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);
         }
         return l;

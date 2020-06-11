@@ -24,9 +24,10 @@ import java.io.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -147,8 +148,6 @@ public class UndoManager
         if(pointer>undoBuffer.size())
             pointer=undoBuffer.size();
 
-        UndoState o=undoBuffer.get(pointer-1);
-
-        return o;
+        return undoBuffer.get(pointer-1);
     }
 }

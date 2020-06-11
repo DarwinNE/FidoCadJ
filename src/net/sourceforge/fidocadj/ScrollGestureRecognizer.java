@@ -26,17 +26,21 @@ import net.sourceforge.fidocadj.toolbars.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+    Copyright 2007-2016 Santhosh Kumar T, Davide Bucci
     </pre>
-    @author Santhosh Kumar T - santhosh@in.fiorano.com
 */
 public final class ScrollGestureRecognizer implements AWTEventListener,
     ChangeSelectionListener
 {
     private int actionSelected;
+    private boolean oldGesture=false;
 
     private static ScrollGestureRecognizer instance = new
         ScrollGestureRecognizer();
+
+    Point location= new Point();
 
     /** Constructor.
     */
@@ -58,6 +62,8 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     void start()
     {
         Toolkit.getDefaultToolkit().addAWTEventListener(this,
+            AWTEvent.MOUSE_MOTION_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(this,
             AWTEvent.MOUSE_EVENT_MASK);
     }
 
@@ -76,31 +82,50 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
         MouseEvent me = (MouseEvent)event;
         boolean isGesture = (SwingUtilities.isMiddleMouseButton(me) ||
             actionSelected==ElementsEdtActions.HAND) &&
-            me.getID()==MouseEvent.MOUSE_PRESSED;
+            me.getID()==MouseEvent.MOUSE_DRAGGED;
 
         Component co=me.getComponent();
 
         if (!(co instanceof CircuitPanel))
             return;
 
-        if(!isGesture)
-            return;
-
-        JViewport viewPort =
+        JViewport viewport =
             (JViewport)SwingUtilities.getAncestorOfClass(JViewport.class,
             me.getComponent());
-        if(viewPort==null)
+        if(viewport==null)
             return;
-        JRootPane rootPane = SwingUtilities.getRootPane(viewPort);
+        JRootPane rootPane = SwingUtilities.getRootPane(viewport);
         if(rootPane==null)
             return;
 
-        Point location = SwingUtilities.convertPoint(me.getComponent(),
+        Point mouseLocation = SwingUtilities.convertPoint(me.getComponent(),
             me.getPoint(), rootPane.getGlassPane());
-        ScrollGlassPane glassPane=new ScrollGlassPane(rootPane.getGlassPane(),
-            viewPort, location);
-        rootPane.setGlassPane(glassPane);
-        glassPane.setVisible(true);
+        if(!oldGesture && !isGesture) {
+            location=mouseLocation;
+        }
+        oldGesture=isGesture;
+        if(!isGesture)
+            return;
+
+        int deltax = -(mouseLocation.x - location.x);
+        int deltay = -(mouseLocation.y - location.y);
+
+        location.x=mouseLocation.x;
+        location.y=mouseLocation.y;
+        Point p = viewport.getViewPosition();
+        p.translate(deltax, deltay);
+
+        if(p.x<0)
+            p.x=0;
+        else if(p.x>=viewport.getView().getWidth()-viewport.getWidth())
+            p.x = viewport.getView().getWidth()-viewport.getWidth();
+
+        if(p.y<0)
+            p.y = 0;
+        else if(p.y>=viewport.getView().getHeight()-viewport.getHeight())
+            p.y = viewport.getView().getHeight()-viewport.getHeight();
+
+        viewport.setViewPosition(p);
     }
 
     /** ChangeSelectionListener interface implementation .

@@ -25,7 +25,7 @@ import java.lang.*;
 
 /** ExportGraphic.java
 
-    Handle graphic export of a Fidocad file
+    Handle graphic export of a FidoCadJ file
     This class should be used to export the circuit under different graphic
     formats.
 
@@ -43,16 +43,16 @@ import java.lang.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
 */
 public final class ExportGraphic
 {
-
     private ExportGraphic()
     {
         // Nothing to do.
@@ -69,6 +69,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
+        @param splitLayers write each layer on a separate output file.
         @throws IOException if the file can not be created or an error occurs.
     */
     public static void export(File file,
@@ -78,20 +79,22 @@ public final class ExportGraphic
                         boolean antiAlias,
                         boolean blackWhite,
                         boolean ext,
-                        boolean shiftMin)
+                        boolean shiftMin,
+                        boolean splitLayers)
         throws IOException
     {
-        exportSizeP( file,
-                         P,
-                         format,
-                         0,
-                         0,
-                         unitPerPixel,
-                         false,
-                         antiAlias,
-                         blackWhite,
-                         ext,
-                         shiftMin);
+        exportSizeP(file,
+             P,
+             format,
+             0,
+             0,
+             unitPerPixel,
+             false,
+             antiAlias,
+             blackWhite,
+             ext,
+             shiftMin,
+             splitLayers);
     }
 
     /** Exports the circuit contained in circ using the specified parsing
@@ -106,6 +109,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting
         @param shiftMin shift the exported image at the origin.
+        @param splitLayers split each layer into a different output file.
         @throws IOException if an error occurs.
     */
     public static void exportSize(File file,
@@ -116,20 +120,22 @@ public final class ExportGraphic
                         boolean antiAlias,
                         boolean blackWhite,
                         boolean ext,
-                        boolean shiftMin)
+                        boolean shiftMin,
+                        boolean splitLayers)
         throws IOException
     {
-        exportSizeP( file,
-                         P,
-                         format,
-                         width,
-                         height,
-                         1,
-                         true,
-                         antiAlias,
-                         blackWhite,
-                         ext,
-                         shiftMin);
+        exportSizeP(file,
+             P,
+             format,
+             width,
+             height,
+             1,
+             true,
+             antiAlias,
+             blackWhite,
+             ext,
+             shiftMin,
+             splitLayers);
     }
 
     /** Exports the circuit contained in circ using the specified parsing
@@ -147,6 +153,7 @@ public final class ExportGraphic
         @param blackWhite specify that the export should be done in B/W.
         @param ext activate FidoCadJ extensions when exporting.
         @param shiftMin shift the exported image at the origin.
+        @param splitLayers if true, split layers into different files.
         @throws IOException if an error occurs.
     */
     private static void exportSizeP(File file,
@@ -159,7 +166,8 @@ public final class ExportGraphic
                         boolean antiAlias,
                         boolean blackWhite,
                         boolean ext,
-                        boolean shiftMin)
+                        boolean shiftMin,
+                        boolean splitLayers)
         throws IOException
     {
         int width=width_t;
@@ -170,7 +178,6 @@ public final class ExportGraphic
         MapCoordinates m=new MapCoordinates();
 
         // This solves bug #3299281
-
         new SelectionActions(P).setSelectionAll(false);
 
         PointG org=new PointG(0,0);
@@ -181,7 +188,6 @@ public final class ExportGraphic
             // the correct zoom factor in order to fit the drawing in the
             // specified area.
 
-
             d.width+=Export.exportBorder;
             d.height+=Export.exportBorder;
 
@@ -190,7 +196,6 @@ public final class ExportGraphic
         } else {
             // In this situation, we do have to calculate the size from the
             // specified resolution.
-
             width=(int)((d.width+Export.exportBorder)*unitPerPixel);
             height=(int)((d.height+Export.exportBorder)*unitPerPixel);
         }
@@ -204,9 +209,8 @@ public final class ExportGraphic
 
         BufferedImage bufferedImage;
 
-        // To print in black and white, we only need to create a single layer
-        // in which all layers will be exported and drawn.
-        // Clearly, the choosen color will be black.
+        // To print in black and white, we only need to create an array layer
+        // in which all colours will be black.
         if(blackWhite) {
             Vector<LayerDesc> v=new Vector<LayerDesc>();
             for (int i=0; i<16;++i)
@@ -218,11 +222,10 @@ public final class ExportGraphic
         }
 
         // Center the drawing in the given space.
-
         m.setMagnitudes(unitPerPixel, unitPerPixel);
 
-        if(shiftMin) {
-            m.setXCenter(-org.x);
+        if(shiftMin && !"pcb".equals(format)) {// don't alter geometry
+            m.setXCenter(-org.x);              // if exported to pcb-rnd
             m.setYCenter(-org.y);
         }
         if ("png".equals(format)||"jpg".equals(format)) {
@@ -253,7 +256,10 @@ public final class ExportGraphic
                 g2d.fillRect(0,0, width, height);
                 // Save bitmap
                 Drawing drawingAgent = new Drawing(P);
-                drawingAgent.draw(new Graphics2DSwing(g2d),m);
+                Graphics2DSwing graphicSwing=new Graphics2DSwing(g2d);
+                // This is important for taking into account the dashing size
+                graphicSwing.setZoom(m.getXMagnitude());
+                drawingAgent.draw(graphicSwing,m);
 
                 ImageIO.write(bufferedImage, format, file);
                 // Graphics context no longer needed so dispose it
@@ -261,36 +267,99 @@ public final class ExportGraphic
             } finally {
                 P.setLayers(ol);
             }
-        } else if("svg".equals(format)) {
-            ExportSVG es = new ExportSVG(file);
-            new Export(P).exportDrawing(es, true, false, m);
-        } else if("eps".equals(format)) {
-            ExportEPS ep = new ExportEPS(file);
-            new Export(P).exportDrawing(ep, true, false, m);
+        } else {
+            exportVectorFormats(P, format,file,m,ext,splitLayers);
+        }
+        P.setLayers(ol);
+    }
+
+    /** Create a file name containing an index from a template.
+        For example, if the input name is example.txt and the index is 5,
+        the created name should be example_5.txt. If the input name does
+        not contain an extension, the "_5" will be added to the name.
+        @param name the template name.
+        @param index the index.
+        @return the new name containing the index separated by an underscore.
+    */
+    private static String addIndexInFilename(String name, int index)
+    {
+        int dotpos=name.lastIndexOf('.');
+        if(dotpos<0)
+            return name+"_"+index;
+        return name.substring(0,dotpos)+"_"+index+"."+name.substring(dotpos+1);
+    }
+
+    private static ExportInterface createExportInterface(String format,
+        File file, boolean ext)
+        throws IOException
+    {
+        ExportInterface ei;
+
+        if("eps".equals(format)) {
+            ei = new ExportEPS(file);
         } else if("pgf".equals(format)) {
-            ExportPGF ef = new ExportPGF(file);
-            new Export(P).exportDrawing(ef, true, false, m);
+            ei = new ExportPGF(file);
         } else if("pdf".equals(format)) {
-            ExportPDF ef = new ExportPDF(file, new GraphicsNull());
-            new Export(P).exportDrawing(ef, true, false, m);
+            ei = new ExportPDF(file, new GraphicsNull());
         } else if("scr".equals(format)) {
-            ExportEagle ef = new ExportEagle(file);
-            new Export(P).exportDrawing(ef, true, false, m);
+            ei = new ExportEagle(file);
+        } else if("pcb".equals(format)) {
+            ei = new ExportPCBRND(file);
         } else if("fcd".equals(format)) {
             ExportFidoCad ef = new ExportFidoCad(file);
             ef.setSplitStandardMacros(false);
             ef.setExtensions(ext);
-            new Export(P).exportDrawing(ef, true, true, m);
+            ei=ef;
         } else if("fcda".equals(format)) {
             ExportFidoCad ef = new ExportFidoCad(file);
             ef.setSplitStandardMacros(true);
             ef.setExtensions(ext);
-            new Export(P).exportDrawing(ef, true, true, m);
+            ei=ef;
+        } else if("svg".equals(format)) {
+            ei = new ExportSVG(file, new GraphicsNull());
         } else {
-            IOException E=new IOException(
-                "Wrong file format");
+            IOException E=new IOException("Wrong file format");
             throw E;
         }
-        P.setLayers(ol);
+        return ei;
+    }
+
+    /** Export a file in a vector format.
+        @param P the model to be used.
+        @param format the file format code.
+        @param file the output file to be written.
+        @param m the coordinate system to be used.
+        @param splitLayer true if the export should separate the different
+            layers into different files.
+    */
+    private static void exportVectorFormats(DrawingModel P, String format,
+        File file, MapCoordinates m, boolean ext, boolean splitLayer)
+        throws IOException
+    {
+        ExportInterface ei;
+
+        System.out.println("SplitLayer: "+splitLayer);
+        if(splitLayer) {
+            for(int i=0; i<16;++i) {
+                if(!P.containsLayer(i))   // Don't export empty layers.
+                    break;
+                // Create a new file and export the current layer.
+                File layerFile=new File(addIndexInFilename(file.toString(),i));
+                ei=createExportInterface(format, layerFile, ext);
+                Export e = new Export(P);
+                P.setDrawOnlyLayer(-1);
+                e.exportHeader(ei, m);
+                P.setDrawOnlyLayer(i);
+                e.exportDrawing(ei, false, m);
+                ei.exportEnd();
+            }
+            P.setDrawOnlyLayer(-1);
+        } else {
+            ei=createExportInterface(format, file,ext);
+            Export e = new Export(P);
+            e.exportHeader(ei, m);
+            e.exportDrawing(ei, false, m);
+            ei.exportEnd();
+        }
     }
 }

@@ -30,9 +30,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -46,6 +47,23 @@ public class ExportFidoCad implements ExportInterface
     private boolean splitStandardMacros; // Split also the standard macros
     private String textFont;
     private int textFontSize;
+
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
+    }
 
     /** Define the macro font to be used for the export.
         @param f the font name
@@ -545,14 +563,16 @@ public class ExportFidoCad implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return always (0,0).
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
     {
         // Does nothing, since it will not be useful here.
+        return new PointPr();
     }
 }

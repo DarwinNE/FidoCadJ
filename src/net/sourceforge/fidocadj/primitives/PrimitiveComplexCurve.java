@@ -25,9 +25,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2011-2015 by Davide Bucci
+    Copyright 2011-2020 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
@@ -43,13 +44,7 @@ public final class PrimitiveComplexCurve
     private boolean isFilled;
     private boolean isClosed;
 
-    private boolean arrowStart;
-    private boolean arrowEnd;
-
-    private int arrowLength;
-    private int arrowHalfWidth;
-
-    private int arrowStyle;
+    private final Arrow arrowData;
     private int dashStyle;
 
     // The natural spline is drawn as a polygon. Even if this is a rather
@@ -99,6 +94,7 @@ public final class PrimitiveComplexCurve
     public PrimitiveComplexCurve(String f, int size)
     {
         super();
+        arrowData=new Arrow();
         isFilled=false;
         nPoints=0;
         p = null;
@@ -126,11 +122,12 @@ public final class PrimitiveComplexCurve
     {
         super();
 
-        arrowLength = arrowLe;
-        arrowHalfWidth = arrowWi;
-        arrowStart = arrowS;
-        arrowEnd = arrowE;
-        arrowStyle =arrowSt;
+        arrowData=new Arrow();
+        arrowData.setArrowStart(arrowS);
+        arrowData.setArrowEnd(arrowE);
+        arrowData.setArrowHalfWidth(arrowWi);
+        arrowData.setArrowLength(arrowLe);
+        arrowData.setArrowStyle(arrowSt);
         dashStyle=dashSt;
 
         p = null;
@@ -191,7 +188,6 @@ public final class PrimitiveComplexCurve
 
         int dummy;
 
-
         for(int i=nPoints-1; i>minv; --i) {
             virtualPoint[i].x=virtualPoint[i-1].x;
             virtualPoint[i].y=virtualPoint[i-1].y;
@@ -242,30 +238,67 @@ public final class PrimitiveComplexCurve
     */
     public CurveStorage createComplexCurve(MapCoordinates coordSys)
     {
-        int np=nPoints;
 
-        double [] xPoints = new double[np];
-        double [] yPoints = new double[np];
+        double [] xPoints = new double[nPoints];
+        double [] yPoints = new double[nPoints];
 
-        int i;
-
-        for (i=0; i<nPoints; ++i) {
+        // The first and the last points may be the base of the arrows, if
+        // the latter are present and the points have been updated.
+        for (int i=0; i<nPoints; ++i) {
             xPoints[i] = coordSys.mapXr(virtualPoint[i].x,virtualPoint[i].y);
             yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
         }
-
-        // If the curve is closed, we need to add a last point which is the
-        // same as the first one.
 
         Cubic[] X;
         Cubic[] Y;
 
         if(isClosed) {
-            X = calcNaturalCubicClosed(np-1, xPoints);
-            Y = calcNaturalCubicClosed(np-1, yPoints);
+            X = calcNaturalCubicClosed(nPoints-1, xPoints);
+            Y = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
-            X = calcNaturalCubic(np-1, xPoints);
-            Y = calcNaturalCubic(np-1, yPoints);
+            X = calcNaturalCubic(nPoints-1, xPoints);
+            Y = calcNaturalCubic(nPoints-1, yPoints);
+            // Here we don't check if a point is in the arrow, but we exploit
+            // the code for calculating the base of the head of the arrows.
+            if (arrowData.atLeastOneArrow()) {
+                arrowData.prepareCoordinateMapping(coordSys);
+                if (arrowData.isArrowStart()) {
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[0].eval(0)),
+                        (int)Math.round(Y[0].eval(0)),
+                        (int)Math.round(X[0].eval(0.05)),
+                        (int)Math.round(Y[0].eval(0.05)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[0]=P.x;
+                        yPoints[0]=P.y;
+                    }
+                }
+
+                if (arrowData.isArrowEnd()) {
+                    int l=X.length-1;
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[l].eval(1)),
+                        (int)Math.round(Y[l].eval(1)),
+                        (int)Math.round(X[l].eval(0.95)),
+                        (int)Math.round(Y[l].eval(0.95)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[nPoints-1]=P.x;
+                        yPoints[nPoints-1]=P.y;
+                    }
+                }
+                // Since the arrow will occupy a certain size, the curve has
+                // to be recalculated. This means that the previous evaluation
+                // are just approximations, but the practice shows that they
+                // are enough for all purposes that can be foreseen.
+                // This is not needed if the length is negative, as in this
+                // case the arrow extends outside the curve.
+                if(arrowData.getArrowLength()>0) {
+                    X = calcNaturalCubic(nPoints-1, xPoints);
+                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                }
+            }
         }
 
         if(X==null || Y==null) return null;
@@ -277,7 +310,7 @@ public final class PrimitiveComplexCurve
 
         int x, y;
 
-        for (i = 0; i < X.length; ++i) {
+        for (int i = 0; i < X.length; ++i) {
             c.dd.add(new PointDouble(X[i].d1, Y[i].d1));
             for (int j = 1; j <= STEPS; ++j) {
                 double u = j / (double) STEPS;
@@ -525,7 +558,7 @@ public final class PrimitiveComplexCurve
         if(changed) {
             changed=false;
 
-            // Important: note that createComplexCurve has some important
+            // Important: notice that createComplexCurve has some important
             // side effects as the update of the xmin, ymin, width and height
             // variables. This means that the order of the two following
             // commands is important!
@@ -570,7 +603,6 @@ public final class PrimitiveComplexCurve
                     (float)(pp.get(i+increment).y-derY2),
                     (float)(pp.get(i+increment).x),
                     (float)(pp.get(i+increment).y));
-
             }
 
             if (isClosed) gp.closePath();
@@ -581,45 +613,49 @@ public final class PrimitiveComplexCurve
 
         if (p==null || gp==null)
             return;
+        g.applyStroke(w, dashStyle);
 
+        // Draw the arrows if they are needed
+        // Ensure that there are enough points to calculate a derivative.
+        if (arrowData.atLeastOneArrow() && p.getNpoints()>2) {
+            arrowData.prepareCoordinateMapping(coordSys);
+
+            if (arrowData.isArrowStart()&&!isClosed) {
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                    coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                    p.getXpoints()[1], p.getYpoints()[1]);
+            }
+
+            if (arrowData.isArrowEnd()&&!isClosed) {
+                int l=nPoints-1;
+                arrowData.drawArrow(g,
+                    coordSys.mapX(virtualPoint[l].x,virtualPoint[l].y),
+                    coordSys.mapY(virtualPoint[l].x,virtualPoint[l].y),
+                    p.getXpoints()[p.getNpoints()-2],
+                    p.getYpoints()[p.getNpoints()-2]);
+            }
+        }
         // If the curve is outside of the shown portion of the drawing,
         // exit immediately.
-        if(!g.hitClip(xmin,ymin, width, height))
+        if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
-
-        g.applyStroke(w, dashStyle);
 
         // If needed, fill the interior of the shape
         if (isFilled) {
             g.fill(gp);
         }
 
-        g.draw(gp);
-
-
-        // Ensure that there are enough points to calculate the derivative.
-        if (p.getNpoints()<2)
-            return;
-
-        // Draw the arrows if they are needed
-        if (arrowStart || arrowEnd) {
-            int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                coordSys.mapXi(0,0, false);
-            int l=coordSys.mapXi(arrowLength,arrowLength,false)-
-                coordSys.mapXi(0,0, false);
-
-            if (arrowStart&&!isClosed) {
-                Arrow.drawArrow(g, p.getXpoints()[0], p.getYpoints()[0],
-                    p.getXpoints()[1], p.getYpoints()[1],l, h, arrowStyle);
-            }
-
-            if (arrowEnd&&!isClosed) {
-                Arrow.drawArrow(g, p.getXpoints()[p.getNpoints()-1],
-                    p.getYpoints()[p.getNpoints()-1],
-                    p.getXpoints()[p.getNpoints()-2],
-                    p.getYpoints()[p.getNpoints()-2],l, h,
-                    arrowStyle);
-            }
+        if(width==0 || height==0) {
+            // Degenerate case: draw a segment.
+            int d=nPoints-1;
+            g.drawLine(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapX(virtualPoint[d].x,virtualPoint[d].y),
+                coordSys.mapY(virtualPoint[d].x,virtualPoint[d].y));
+        } else {
+            // Draw the curve.
+            g.draw(gp);
         }
     }
 
@@ -683,15 +719,8 @@ public final class PrimitiveComplexCurve
             // And we check finally for extensions (FCJ)
             if(N>j) {
                 parseLayer(tokens[j++]);
-
                 if(N>j && tokens[j++].equals("FCJ")) {
-                    int arrows = Integer.parseInt(tokens[j++]);
-                    arrowStart = (arrows & 0x01) !=0;
-                    arrowEnd = (arrows & 0x02) !=0;
-
-                    arrowStyle = Integer.parseInt(tokens[j++]);
-                    arrowLength = Integer.parseInt(tokens[j++]);
-                    arrowHalfWidth = Integer.parseInt(tokens[j++]);
+                    j=arrowData.parseTokens(tokens, j);
                     dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }
@@ -729,31 +758,7 @@ public final class PrimitiveComplexCurve
         pd.isExtension = true;
         v.add(pd);
 
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowStart);
-        pd.description=Globals.messages.getString("ctrl_arrow_start");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowEnd);
-        pd.description=Globals.messages.getString("ctrl_arrow_end");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowLength);
-        pd.description=Globals.messages.getString("ctrl_arrow_length");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowHalfWidth);
-        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowStyle);
-        pd.description=Globals.messages.getString("ctrl_arrow_style");
-        pd.isExtension = true;
-        v.add(pd);
+        arrowData.getControlsForArrow(v);
 
         pd = new ParameterDescription();
         pd.parameter=new DashInfo(dashStyle);
@@ -792,34 +797,7 @@ public final class PrimitiveComplexCurve
         else
             System.out.println("Warning: unexpected parameter!"+pd);
 
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowStart=((Boolean)pd.parameter).booleanValue();
-        else
-            System.out.println("Warning: unexpected parameter 1!"+pd);
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowEnd=((Boolean)pd.parameter).booleanValue();
-        else
-            System.out.println("Warning: unexpected parameter 2!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowLength=((Integer)pd.parameter).intValue();
-        else
-            System.out.println("Warning: unexpected parameter 3!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowHalfWidth=((Integer)pd.parameter).intValue();
-        else
-            System.out.println("Warning: unexpected parameter 4!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
-            arrowStyle=((ArrowInfo)pd.parameter).style;
-        else
-            System.out.println("Warning: unexpected parameter 5!"+pd);
+        i=arrowData.setParametersForArrow(v, i);
 
         pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof DashInfo)
@@ -874,6 +852,31 @@ public final class PrimitiveComplexCurve
         int [] xpoints=q.getXpoints();
         int [] ypoints=q.getYpoints();
 
+        // Check if the point is in the arrows. Correct the starting and ending
+        // points if needed.
+        if (arrowData.atLeastOneArrow()&& !isClosed) {
+            boolean r=false, t=false;
+
+            // We work with logic coordinates (default for MapCoordinates).
+            MapCoordinates m=new MapCoordinates();
+            arrowData.prepareCoordinateMapping(m);
+            if (arrowData.isArrowStart())
+                t=arrowData.isInArrow(px, py,
+                    virtualPoint[0].x, virtualPoint[0].y,
+                    xpoints[0], ypoints[0], null);
+
+            if (arrowData.isArrowEnd())
+                r=arrowData.isInArrow(px, py,
+                    xpoints[q.getNpoints()-1], ypoints[q.getNpoints()-1],
+                    virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y,
+                    null);
+
+            // Click on one of the arrows.
+            if(r||t)
+                return 1;
+        }
+
+
         for(int i=0; i<q.getNpoints()-1; ++i) {
             int d=GeometricDistances.pointToSegment(xpoints[i], ypoints[i],
                 xpoints[i+1], ypoints[i+1], px,py);
@@ -921,18 +924,16 @@ public final class PrimitiveComplexCurve
 
         String cmd=temp.toString();
 
-        if(extensions) {
-            int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-
-            if (arrows>0 || dashStyle>0 || hasName() || hasValue()) {
-                String text = "0";
-                // We take into account that there may be some text associated
-                // to that primitive.
-                if (name.length()!=0 || value.length()!=0)
-                    text = "1";
-                cmd+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
-            }
+        if(extensions && (arrowData.atLeastOneArrow() || dashStyle>0 ||
+            hasName() || hasValue()))
+        {
+            String text = "0";
+            // We take into account that there may be some text associated
+            // to that primitive.
+            if (name.length()!=0 || value.length()!=0)
+                text = "1";
+            cmd+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+" "
+                +text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.
         cmd+=saveText(false);
@@ -952,14 +953,12 @@ public final class PrimitiveComplexCurve
         double [] yPoints = new double[nPoints];
         PointDouble[] vertices = new PointDouble[nPoints*STEPS+1];
 
-        int i;
-
-        for (i=0; i<nPoints; ++i) {
+        for (int i=0; i<nPoints; ++i) {
             xPoints[i] = cs.mapXr(virtualPoint[i].x,virtualPoint[i].y);
             yPoints[i] = cs.mapYr(virtualPoint[i].x,virtualPoint[i].y);
 
             // This is a trick: we do not use another array, but we pre-charge
-            // the control points in vertices (sure we have some place, at
+            // the control points in vertices (surely we have some place, at
             // least if STEPS>-1). If the export is done via a polygon, those
             // points will be discarded and the array reused.
             vertices[i] = new PointDouble();
@@ -971,34 +970,36 @@ public final class PrimitiveComplexCurve
         // If not, we continue using a polygon with an high number of
         // vertex
         if (!exp.exportCurve(vertices, nPoints, isFilled, isClosed, getLayer(),
-                arrowStart, arrowEnd, arrowStyle,
-                (int)(arrowLength*cs.getXMagnitude()),
-                (int)(arrowHalfWidth*cs.getXMagnitude()),
+                arrowData.isArrowStart(), arrowData.isArrowEnd(),
+                arrowData.getArrowStyle(),
+                (int)(arrowData.getArrowLength()*cs.getXMagnitude()),
+                (int)(arrowData.getArrowHalfWidth()*cs.getXMagnitude()),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude()))
         {
             exportAsPolygonInterface(xPoints, yPoints, vertices, exp, cs);
 
             int totalnP=q.getNpoints();
 
-            //System.out.println("totalnP="+totalnP);
-
             // Draw the arrows if they are needed
             if(q.getNpoints()>2) {
-                if (arrowStart&&!isClosed) {
-                    exp.exportArrow(vertices[0].x, vertices[0].y,
+                if (arrowData.isArrowStart()&&!isClosed) {
+                    exp.exportArrow(
+                        cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                        cs.mapY(virtualPoint[0].x,virtualPoint[0].y),
                         vertices[1].x, vertices[1].y,
-                        arrowLength*cs.getXMagnitude(),
-                        arrowHalfWidth*cs.getXMagnitude(),
-                        arrowStyle);
+                        arrowData.getArrowLength()*cs.getXMagnitude(),
+                        arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
+                        arrowData.getArrowStyle());
                 }
-
-                if (arrowEnd&&!isClosed) {
-                    exp.exportArrow(vertices[totalnP-1].x,
-                        vertices[totalnP-1].y,
+                if (arrowData.isArrowEnd()&&!isClosed) {
+                    int l=nPoints-1;
+                    exp.exportArrow(
+                        cs.mapX(virtualPoint[l].x,virtualPoint[l].y),
+                        cs.mapY(virtualPoint[l].x,virtualPoint[l].y),
                         vertices[totalnP-2].x, vertices[totalnP-2].y,
-                        arrowLength*cs.getXMagnitude(),
-                        arrowHalfWidth*cs.getXMagnitude(),
-                        arrowStyle);
+                        arrowData.getArrowLength()*cs.getXMagnitude(),
+                        arrowData.getArrowHalfWidth()*cs.getXMagnitude(),
+                        arrowData.getArrowStyle());
                 }
             }
         }
@@ -1026,6 +1027,47 @@ public final class PrimitiveComplexCurve
         } else {
             X = calcNaturalCubic(nPoints-1, xPoints);
             Y = calcNaturalCubic(nPoints-1, yPoints);
+            // Here we don't check if a point is in the arrow, but we exploit
+            // the code for calculating the base of the head of the arrows.
+            if (arrowData.atLeastOneArrow()) {
+                arrowData.prepareCoordinateMapping(cs);
+                if (arrowData.isArrowStart()) {
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[0].eval(0)),
+                        (int)Math.round(Y[0].eval(0)),
+                        (int)Math.round(X[0].eval(0.05)),
+                        (int)Math.round(Y[0].eval(0.05)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[0]=P.x;
+                        yPoints[0]=P.y;
+                    }
+                }
+
+                if (arrowData.isArrowEnd()) {
+                    int l=X.length-1;
+                    PointG P = new PointG();
+                    arrowData.isInArrow(0, 0,
+                        (int)Math.round(X[l].eval(1)),
+                        (int)Math.round(Y[l].eval(1)),
+                        (int)Math.round(X[l].eval(0.95)),
+                        (int)Math.round(Y[l].eval(0.95)), P);
+                    if(arrowData.getArrowLength()>0) {
+                        xPoints[nPoints-1]=P.x;
+                        yPoints[nPoints-1]=P.y;
+                    }
+                }
+                // Since the arrow will occupy a certain size, the curve has
+                // to be recalculated. This means that the previous evaluation
+                // are just approximations, but the practice shows that they
+                // are enough for all purposes that can be foreseen.
+                // This is not needed if the length is negative, as in this
+                // case the arrow extends outside the curve.
+                if(arrowData.getArrowLength()>0) {
+                    X = calcNaturalCubic(nPoints-1, xPoints);
+                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                }
+            }
         }
 
         if(X==null || Y==null) return;
@@ -1058,7 +1100,9 @@ public final class PrimitiveComplexCurve
                 getLayer(),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude());
         } else {
+            float phase=0;
             for(i=1; i<X.length*STEPS+1;++i){
+                exp.setDashPhase(phase);
                 exp.exportLine(vertices[i-1].x,
                        vertices[i-1].y,
                        vertices[i].x,
@@ -1068,6 +1112,8 @@ public final class PrimitiveComplexCurve
                        0, 0, 0,
                        dashStyle,
                        Globals.lineWidth*cs.getXMagnitude());
+                phase+=Math.sqrt(Math.pow(vertices[i-1].x-vertices[i].x,2)+
+                    Math.pow(vertices[i-1].y-vertices[i].y,2));
             }
         }
     }

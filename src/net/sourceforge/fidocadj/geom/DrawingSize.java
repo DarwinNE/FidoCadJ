@@ -27,9 +27,10 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -68,6 +69,7 @@ public final class DrawingSize
         dm.setChanged(true);
         Drawing drawingAgent = new Drawing(dm);
         drawingAgent.draw(new GraphicsNull(),m);
+        dm.imgCanvas.trackExtremePoints(m);
         dm.setChanged(true);
 
         // Calculate image size
@@ -80,16 +82,13 @@ public final class DrawingSize
         }
 
         // Verify that the image size is reasonable
-        if(width<=0 || height<=0) {
-            System.out.println("Warning: Image has a zero"+
-                               "sized image");
-            width=100;
-            height=100;
-        }
+        if(width<=0)
+            width=1;
+        if(height<=0)
+            height=1;
 
-
-        if (m.getXMax() > m.getXMin() &&
-            m.getYMax() > m.getYMin())
+        if (m.getXMax() >= m.getXMin() &&
+            m.getYMax() >= m.getYMin())
         {
             origin.x=m.getXMin();
             origin.y=m.getYMin();
@@ -122,6 +121,7 @@ public final class DrawingSize
         // Draw the image. In this way, the min and max coordinates will be
         // tracked.
         Drawing drawingAgent = new Drawing(dm);
+        dm.imgCanvas.trackExtremePoints(m);
         drawingAgent.draw(new GraphicsNull(), m);
         dm.setChanged(true);
 
@@ -162,8 +162,8 @@ public final class DrawingSize
 
         // Determine the size and the origin of the current drawing.
         DimensionG D = getImageSize(dm,1,countMin, org);
-        maxsizex=D.width;
-        maxsizey=D.height;
+        maxsizex=D.width+1;
+        maxsizey=D.height+1;
 
         if (!countMin)
             org=new PointG(0,0);
@@ -178,7 +178,7 @@ public final class DrawingSize
         if(z<MapCoordinates.MIN_MAGNITUDE)
             z=MapCoordinates.MIN_MAGNITUDE;
 
-        newZoom.setMagnitudes(z,z);
+        newZoom.setMagnitudesNoCheck(z,z);
         // The zoom setting might have been rounded, or bounded.
         z = newZoom.getYMagnitude();
 

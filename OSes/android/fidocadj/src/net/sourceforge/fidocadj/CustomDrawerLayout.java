@@ -5,9 +5,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View.MeasureSpec;
 
-/**
-    
-<pre>
+/** CustomDrawerLayout is a DrawerLayout which is slightly modified so that
+    its measurement are exactly what we need.
+
+    <pre>
     This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
@@ -24,35 +25,45 @@ import android.view.View.MeasureSpec;
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2014 by Davide Bucci
-</pre>
-    
-    @author Davide Bucci
-
-
- TODO: document class and public methods.
+    </pre>
 */
-
-public class CustomDrawerLayout extends DrawerLayout 
+public class CustomDrawerLayout extends DrawerLayout
 {
 
-    public CustomDrawerLayout(Context context) 
+    /** Creator.
+        @param context the current context.
+    */
+    public CustomDrawerLayout(Context context)
     {
         super(context);
     }
 
-    public CustomDrawerLayout(Context context, AttributeSet attrs) 
-	{
+    /** Creator.
+        @param context the current context.
+        @param attrs attributes for the layout.
+    */
+    public CustomDrawerLayout(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public CustomDrawerLayout(Context context, AttributeSet attrs, 
-    	int defStyle) 
+    /** Creator.
+        @param context the current context.
+        @param attrs attributes for the layout.
+        @param defStyle style.
+    */
+    public CustomDrawerLayout(Context context, AttributeSet attrs,
+        int defStyle)
     {
         super(context, attrs, defStyle);
     }
 
+    /** Called when  a measurement operation is done.
+        @param widthMeasureSpec the wanted with.
+        @param heightMeasureSpec the wanted height.
+    */
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) 
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         widthMeasureSpec = MeasureSpec.makeMeasureSpec(
                 MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);

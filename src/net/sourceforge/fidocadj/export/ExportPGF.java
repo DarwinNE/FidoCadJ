@@ -48,9 +48,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2014 by Davide Bucci
+    Copyright 2008-2019 by Davide Bucci
 </pre>
     @author Davide Bucci
 */
@@ -61,12 +62,56 @@ public class ExportPGF implements ExportInterface
     private BufferedWriter out;
     private Vector layerV;
     private ColorInterface actualColor;
-    private int actualDash;
+    private int currentDash;
     private double actualWidth;
+    private float dashPhase;
+    private float currentPhase=-1;
+    // Dash patterns
+    private String sDash[];
 
+/*
     static final String dash[]={"{5.0pt}{10pt}", "{2.5pt}{2.5pt}",
         "{1.0pt}{1.0pt}", "{1.0pt}{2.5pt}", "{1.0pt}{2.5pt}{2.5pt}{2.5pt}"};
+*/
 
+    /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+        sDash = new String[Globals.dashNumber];
+
+        // If the line width has been changed, we need to update the
+        // stroke table
+
+        // The first entry is non dashed
+        sDash[0]="";
+
+        // Resize the dash sizes depending on the current zoom size.
+        String dashArrayStretched;
+        // Then, the dashed stroke styles are created.
+        for(int i=1; i<Globals.dashNumber; ++i) {
+            // Prepare the resized dash array.
+            dashArrayStretched = new String();
+            for(int j=0; j<Globals.dash[i].length;++j) {
+                dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
+                if(j<Globals.dash[i].length-1)
+                    dashArrayStretched+="pt}{";
+            }
+            sDash[i]="{"+dashArrayStretched+"pt}";
+        }
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
+        dashPhase=p;
+    }
 
     /** Constructor
 
@@ -233,17 +278,31 @@ public class ExportPGF implements ExportInterface
         registerColorSize(layer, strokeWidth);
         registerDash(dashStyle);
 
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                x1=(int)Math.round(p.x);
+                y1=(int)Math.round(p.y);
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x4, y4, x3, y3, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                x4=(int)Math.round(p.x);
+                y4=(int)Math.round(p.y);
+            }
+        }
+
         out.write("\\pgfmoveto{\\pgfxy("+x1+","+y1+")} \n"+
             "\\pgfcurveto{\\pgfxy("+x2+","+y2+")}{\\pgfxy("+x3+","+y3+
             ")}{\\pgfxy("+x4+","+y4+")}\n"+
             "\\pgfstroke\n");
-
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
-            arrowHalfWidth, arrowStyle);
-
-
     }
 
     /** Called when exporting a Connection primitive.
@@ -299,15 +358,31 @@ public class ExportPGF implements ExportInterface
     {
         registerColorSize(layer, strokeWidth);
         registerDash(dashStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
 
-        out.write("\\pgfline{\\pgfxy("+x1+","+y1+")}{\\pgfxy("+
-            x2+","+y2+")}\n");
-
-
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                xstart=p.x;
+                ystart=p.y;
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                xend=p.x;
+                yend=p.y;
+            }
+        }
+        out.write("\\pgfline{\\pgfxy("+xstart+","+ystart+")}{\\pgfxy("+
+            xend+","+yend+")}\n");
     }
 
     /** Called when exporting an arrow.
@@ -318,10 +393,11 @@ public class ExportPGF implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -355,9 +431,6 @@ public class ExportPGF implements ExportInterface
         x2 = x0 + h*Math.sin(alpha);
         y2 = y0 - h*Math.cos(alpha);
 
-        // Arrows are always done with dash 0
-        registerDash(0);
-
         out.write("\\pgfmoveto{\\pgfxy("+x+","+ y+")}\n");
         out.write("\\pgflineto{\\pgfxy("+x1+","+y1+")}\n");
         out.write("\\pgflineto{\\pgfxy("+x2+","+y2+")}\n");
@@ -383,7 +456,7 @@ public class ExportPGF implements ExportInterface
             out.write("\\pgfline{\\pgfxy("+x3+","+y3+")}{\\pgfxy("+
                 x4+","+y4+")}\n");
         }
-
+        return new PointPr(x0,y0);
     }
 
     /** Called when exporting a Macro call.
@@ -670,12 +743,14 @@ public class ExportPGF implements ExportInterface
     private void registerDash(int dashStyle)
         throws IOException
     {
-        if(actualDash!=dashStyle) {
-            actualDash=dashStyle;
+        if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
+            currentDash=dashStyle;
+            currentPhase=dashPhase;
             if(dashStyle==0)
                 out.write("\\pgfsetdash{}{0pt}\n");
             else
-                out.write("\\pgfsetdash{"+dash[dashStyle]+"}{0pt}\n");
+                out.write("\\pgfsetdash{"+sDash[dashStyle]+"}{"+dashPhase+
+                    "pt}\n");
         }
     }
 }

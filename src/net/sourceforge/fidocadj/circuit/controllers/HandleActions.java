@@ -26,9 +26,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2016 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -240,28 +241,24 @@ public class HandleActions
             handleBeingDragged=GraphicPrimitive.NO_DRAG;
             return;
         }
-
-        // Here we adjust the new positions...
-        primBeingDragged.virtualPoint[handleBeingDragged].x=cs.unmapXsnap(px);
-        primBeingDragged.virtualPoint[handleBeingDragged].y=cs.unmapYsnap(py);
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
         if(ua!=null) ua.saveUndoState();
     }
 
-
     /** Drag a handle.
-        @param CC the editor object
-        @param px the (screen) x coordinate of the pointer
-        @param py the (screen) y coordinate of the pointer
-        @param cs the coordinates mapping to be used
+        @param CC the editor object.
+        @param px the (screen) x coordinate of the pointer.
+        @param py the (screen) y coordinate of the pointer.
+        @param cs the coordinates mapping to be used.
+        @param isControl true if the control key is held down.
     */
     public void dragHandleDrag(PrimitivesParInterface CC,
-        int px, int py, MapCoordinates cs)
+        int px, int py, MapCoordinates cs, boolean isControl)
     {
         hasMoved=true;
         boolean flip=false;
 
-        // Check if we are effectively dragging and handle...
+        // Check if we are effectively dragging a handle...
         if(handleBeingDragged<0){
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE)
                 dragPrimitives(CC, px, py, cs);
@@ -323,7 +320,22 @@ public class HandleActions
 
         // Here we adjust the new positions for the handle being drag...
         primBeingDragged.virtualPoint[handleBeingDragged].x=cs.unmapXsnap(px);
-        primBeingDragged.virtualPoint[handleBeingDragged].y=cs.unmapYsnap(py);
+        // If control is hold, trace a square
+        int ymm;
+        if(!isControl || !(primBeingDragged instanceof PrimitiveOval ||
+            primBeingDragged instanceof PrimitiveRectangle))
+        {
+            ymm=py;
+        } else {
+            // Transform the rectangle in a square, or the oval in a circle.
+            int hn=0;
+            if(handleBeingDragged==0) hn=1;
+            ymm=cs.mapYi(primBeingDragged.virtualPoint[hn].x,
+                primBeingDragged.virtualPoint[hn].y,false)+px-
+                cs.mapXi(primBeingDragged.virtualPoint[hn].x,
+                primBeingDragged.virtualPoint[hn].y,false);
+        }
+        primBeingDragged.virtualPoint[handleBeingDragged].y=cs.unmapYsnap(ymm);
         primBeingDragged.setChanged(true);
     }
 }

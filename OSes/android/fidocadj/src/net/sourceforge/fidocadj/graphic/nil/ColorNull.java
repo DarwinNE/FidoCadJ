@@ -3,11 +3,11 @@ package net.sourceforge.fidocadj.graphic.nil;
 import net.sourceforge.fidocadj.graphic.*;
 
 
-/**  	ANDROID VERSION
+/**     ANDROID VERSION
 
-	Null color class. Does nothing :-)
-	
-	    
+    Null color class. Does nothing :-)
+
+
 <pre>
     This file is part of FidoCadJ.
 
@@ -27,62 +27,92 @@ import net.sourceforge.fidocadj.graphic.*;
     Copyright 2014 by Davide Bucci
 </pre>
 */
-
 public class ColorNull implements ColorInterface
 {
-	
-	public ColorNull()
-	{
-		// Does nothing.
-	}
-	
-	
-	public ColorInterface white() 
-	{	
-		return new ColorNull();
-	}
+    /** Standard constructor
+    */
+    public ColorNull()
+    {
+        // Does nothing.
+    }
 
-	public ColorInterface gray() 
-	{
-		return new ColorNull();
-	}
+    /** Get a white color.
+        @return a white color.
+    */
+    public ColorInterface white()
+    {
+        return new ColorNull();
+    }
 
-	public ColorInterface green() 
-	{
-		return new ColorNull();
-	}
-	
-	public ColorInterface red() 
-	{
-		return new ColorNull();
-	}
-	
-	public ColorInterface black() 
-	{
-		return new ColorNull();
-	}
-	
-	public int getRed()
-	{
-		return 0;
-	}
+    /** Get a gray color.
+        @return a gray color.
+    */
+    public ColorInterface gray()
+    {
+        return new ColorNull();
+    }
 
-	public int getGreen()
-	{
-		return 0;
-	}
+    /** Get a green color.
+        @return a green color.
+    */
+    public ColorInterface green()
+    {
+        return new ColorNull();
+    }
 
-	public int getBlue()
-	{
-		return 0;
-	}	
-	
-	public int getRGB()
-	{
-		return 0;
-	}
-	public void setRGB(int rgb)
-	{
-		// Does nothing.
-	}
+    /** Get a red color.
+        @return a red color.
+    */
+    public ColorInterface red()
+    {
+        return new ColorNull();
+    }
+
+    /** Get the green component of the color.
+        @return the component.
+    */
+    public ColorInterface black()
+    {
+        return new ColorNull();
+    }
+
+    /** Get the red component of the color.
+        @return the component.
+    */
+    public int getRed()
+    {
+        return 0;
+    }
+
+    /** Get the green component of the color.
+        @return the component.
+    */
+    public int getGreen()
+    {
+        return 0;
+    }
+
+    /** Get the blue component of the color.
+        @return the component.
+    */
+    public int getBlue()
+    {
+        return 0;
+    }
+
+    /** Get the RGB components packed as an integer.
+        @return an integer containing the RGB components.
+    */
+    public int getRGB()
+    {
+        return 0;
+    }
+
+    /** Set the color from a RGB description packed in a int.
+        @param rgb the packed description..
+    */
+    public void setRGB(int rgb)
+    {
+        // Does nothing.
+    }
 }

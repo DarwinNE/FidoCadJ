@@ -21,7 +21,8 @@ import java.util.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2008-2015 by Davide Bucci
     </pre>
@@ -78,6 +79,8 @@ public final class FileUtils
 
             // Process all the elements of the directory.
             String[] children = sourceLocation.list();
+            if (children==null)
+                return;
             for(int i = 0; i < children.length; ++i) {
                 copyDirectory(new File(sourceLocation, children[i]),
                     new File(targetLocation, children[i]));
@@ -143,6 +146,8 @@ public final class FileUtils
             criteria = criteria.toLowerCase(new Locale("en"));
 
             String[] children = sourceLocation.list();
+            if(children==null)
+                return;
             for(int i = 0; i < children.length; ++i) {
                 if(children[i].toLowerCase().contains(criteria)) {
                     copyFile(new File(sourceLocation, children[i]),

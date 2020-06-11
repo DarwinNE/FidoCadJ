@@ -35,9 +35,10 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
  */
 public class DialogParameters extends JDialog
@@ -90,10 +91,19 @@ public class DialogParameters extends JDialog
 
         keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
         keyb2 = new OSKeybPanel(KEYBMODES.MISC);
+        JPanel hints = new JPanel();
+        JTextArea hints_l = new JTextArea(
+            Globals.messages.getString("text_hints"),6,40);
+        hints_l.setLineWrap(true);
+        hints_l.setWrapStyleWord(true);
+        hints_l.setEditable(false);
+        hints_l.setOpaque(false);
+        hints.add(hints_l);
         keyb1.setField(this);
         keyb2.setField(this);
-        keyb.addTab("Greek", keyb1);
-        keyb.addTab("Misc", keyb2);
+        keyb.addTab(Globals.messages.getString("param_greek"), keyb1);
+        keyb.addTab(Globals.messages.getString("param_misc"), keyb2);
+        keyb.addTab(Globals.messages.getString("param_hints"), hints);
         keyb.setVisible(false);
         v = vec;
 
@@ -127,9 +137,6 @@ public class DialogParameters extends JDialog
 
         int ycount = 0;
         for (ParameterDescription pd : v) {
-            if (ycount++ > MAX)
-                break;
-
             // We do not need to store label objects, since we do not need
             // to retrieve data from them.
             lab = new JLabel(pd.description);
@@ -194,8 +201,9 @@ public class DialogParameters extends JDialog
                 // If we have a String text field in the first position, its
                 // contents should be evidenced, since it is supposed to be
                 // the most important field (e.g. for the AdvText primitive)
-                if (ycount == 0)
+                if (ycount == 0) {
                     jtf[tc].selectAll();
+                }
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -235,15 +243,8 @@ public class DialogParameters extends JDialog
                 jtf[tc].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof Float) {
-                // TODO.
-                // WARNING: (DB) this is supposed to be temporary. In fact, I
-                // am planning to upgrade some of the parameters from int
-                // to float. But for a few months, the users should not be
-                // aware of that, even if the internal representation is
-                // slowing being adapted.
                 jtf[tc] = new JTextField(24);
-                int dummy = java.lang.Math.round((Float) pd.parameter);
-                jtf[tc].setText(""+dummy);
+                jtf[tc].setText(""+pd.parameter);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -334,6 +335,9 @@ public class DialogParameters extends JDialog
                 jco[co].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jco[co++], constraints);
             }
+
+            if (ycount++ > MAX)
+                break;
         }
         // Put the OK and Cancel buttons and make them active.
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
@@ -358,7 +362,7 @@ public class DialogParameters extends JDialog
                 pack();
             }
         });
-
+        ++ycount;
         constraints.gridx = 0;
         constraints.gridy = ycount++;
         constraints.gridwidth = 4;
@@ -444,7 +448,8 @@ public class DialogParameters extends JDialog
                     // invalid string when FidoCadJ was expecting a numerical
                     // input.
                     JOptionPane.showMessageDialog(parent,
-                            Globals.messages.getString("Format_invalid"), "",
+                            Globals.messages.getString("Format_invalid")+
+                            " ("+E.getMessage()+")", "",
                             JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }

@@ -28,7 +28,8 @@ import net.sourceforge.fidocadj.clipboard.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2015 by Davide Bucci
     </pre>
@@ -257,19 +258,18 @@ public class PopUpMenu implements ActionListener
     /** Register a certain number of keyboard actions with an associated
         meaning:
     <pre>
-        [A] or [space]      Selection
-        [L]                 Line
-        [T]                 Text
-        [B]                 Bézier
-        [P]                 Polygon
-        [O]                 Complex curve
-        [E]                 Ellipse
-        [G]                 Rectangle
-        [C]                 Connection
-        [I]                 PCB track
-        [Z]                 PCB pad
-        [ESC]               Exit from current editing action
-        [DEL] or [BACKSPC]  Delete the selected objects
+        [A], [space] or [ESC]   Selection
+        [L]                     Line
+        [T]                     Text
+        [B]                     Bézier
+        [P]                     Polygon
+        [O]                     Complex curve
+        [E]                     Ellipse
+        [G]                     Rectangle
+        [C]                     Connection
+        [I]                     PCB track
+        [Z]                     PCB pad
+        [DEL] or [BACKSPC]      Delete the selected objects
     </pre>
     */
     public final void registerActiveKeys()
@@ -277,6 +277,9 @@ public class PopUpMenu implements ActionListener
         registerAction("selection", 'a', ElementsEdtActions.SELECTION);
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),
+                "selection");
+        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0,false),
                 "selection");
         registerAction("line", 'l', ElementsEdtActions.LINE);
         registerAction("text", 't', ElementsEdtActions.TEXT);
@@ -309,8 +312,8 @@ public class PopUpMenu implements ActionListener
         final String escape = "escape";
 
         // Escape: clear everything
-        cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);
+        /*cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("ESCAPE"), escape);*/
 
         cp.getActionMap().put(escape, new AbstractAction() {
             public void actionPerformed(ActionEvent ignored)
@@ -436,9 +439,7 @@ public class PopUpMenu implements ActionListener
                     edt.mirrorAllSelected();
 
                 cp.repaint();
-            }
-
-            else if (arg.equals(Globals.messages.getString("Symbolize"))) {
+            } else if (arg.equals(Globals.messages.getString("Symbolize"))) {
                 if (sa.getFirstSelectedPrimitive() == null) return;
                 DialogSymbolize s = new DialogSymbolize(cp,
                     cp.getDrawingModel());
@@ -450,17 +451,13 @@ public class PopUpMenu implements ActionListener
                     System.out.println("Exception: "+e);
                 }
                 cp.repaint();
-            }
-
-            else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
+            } else if (arg.equals(Globals.messages.getString("Unsymbolize"))) {
                 StringBuffer s=sa.getSelectedString(true, pa);
                 edt.deleteAllSelected(false);
                 pa.addString(pa.splitMacros(s,  true),true);
                 ua.saveUndoState();
                 cp.repaint();
-            }
-
-            else if(arg.equals(Globals.messages.getString("Remove_node"))) {
+            } else if(arg.equals(Globals.messages.getString("Remove_node"))) {
                 if(sa.getFirstSelectedPrimitive()
                     instanceof PrimitivePolygon)
                 {

@@ -28,9 +28,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci, phylum2
+    Copyright 2008-2020 by Davide Bucci, phylum2
     </pre>
 */
 public abstract class GraphicPrimitive
@@ -67,6 +68,9 @@ public abstract class GraphicPrimitive
     // density. It is the size in pixel for a BASE_RESOLUTION dpi monitor.
     private static final int HANDLE_WIDTH=10;
 
+    // Internal tolerance for snapping a double precision value to an integer.
+    // Employed by roundIntelligently.
+    private static final double INT_TOLERANCE=1E-5;
 
     // Array containing the points defining the primitive
     public PointG[] virtualPoint;
@@ -82,7 +86,7 @@ public abstract class GraphicPrimitive
     protected String value;
 
     // Some caching data
-    private LayerDesc l;
+    private LayerDesc currentLayer;
     private float alpha;
     private static float oldalpha=1.0f;
     private int old_layer=-1;
@@ -138,7 +142,6 @@ public abstract class GraphicPrimitive
     public void setMacroFont(String f, int size)
     {
         macroFont = f;
-
         setMacroFontSize(size);
         changed=true;
     }
@@ -300,15 +303,16 @@ public abstract class GraphicPrimitive
             g.setFont(macroFont,
                 (int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
 
+        DecoratedText dt=new DecoratedText(g.getTextInterface());
         /* The if's have been added thanks to this information:
          http://sourceforge.net/projects/fidocadj/forums/forum/997486
             /topic/3474689?message=7798139
         */
         if (name!=null && name.length()!=0) {
-            g.drawString(name,xa,ya+h);
+            dt.drawString(name,xa,ya+h);
         }
         if (value!=null && value.length()!=0) {
-            g.drawString(value,xb,yb+h);
+            dt.drawString(value,xb,yb+h);
         }
     }
 
@@ -491,9 +495,7 @@ public abstract class GraphicPrimitive
                                           " programming error?");
             throw E;
         }
-
     }
-
 
     /** Reads the TY line describing the "name" field
         @param tokens the array of tokens to be parsed
@@ -518,7 +520,6 @@ public abstract class GraphicPrimitive
                 Integer.parseInt(tokens[1]);
             virtualPoint[getNameVirtualPointNumber()].y=
                 Integer.parseInt(tokens[2]);
-
 
             while(j<N-1){
                 txtb.append(tokens[++j]);
@@ -561,8 +562,7 @@ public abstract class GraphicPrimitive
     {
         int a, n=getControlPointNumber();
 
-        for(a=0; a<n; a++)
-        {
+        for(a=0; a<n; ++a) {
             virtualPoint[a].x+=dx;
             virtualPoint[a].y+=dy;
         }
@@ -578,9 +578,7 @@ public abstract class GraphicPrimitive
         int a, n=getControlPointNumber();
         int xtmp;
 
-
-        for(a=0; a<n; a++)
-        {
+        for(a=0; a<n; ++a) {
             xtmp = virtualPoint[a].x;
             virtualPoint[a].x = 2*xPos - xtmp;
         }
@@ -616,16 +614,13 @@ public abstract class GraphicPrimitive
                 virtualPoint[b].y = pt.y + ptTmp.x-pt.x;
             }
         }
-
         changed=true;
     }
 
     /** Specifies that only the given layer should be drawn.
         This is in practice useful only for macros, since they have an
         internal layer structure.
-
         @param i the layer to be used.
-
     */
     public void setDrawOnlyLayer (int i)
     {
@@ -646,9 +641,7 @@ public abstract class GraphicPrimitive
         should redefined for macros, since they can contain more than one
         layer. The standard implementation returns the layer of the
         primitive, since this is the only one which is used.
-
         @return the maximum value of the layer contained in the primitive.
-
     */
     public int getMaxLayer()
     {
@@ -656,7 +649,8 @@ public abstract class GraphicPrimitive
     }
 
     /** Set the primitive as selected.
-        @param s the new state*/
+        @param s the new state.
+    */
     final public void setSelected(boolean s)
     {
         selectedState=s;
@@ -664,7 +658,8 @@ public abstract class GraphicPrimitive
     };
 
     /** Get the selection state of the primitive.
-        @return true if the primitive is selected, false otherwise. */
+        @return true if the primitive is selected, false otherwise.
+    */
     final public boolean getSelected()
     {
         return selectedState;
@@ -678,23 +673,23 @@ public abstract class GraphicPrimitive
         return layer;
     }
 
-    /** Parses the current string and interpret it as a layer indication.
+    /** Parse the current string and interpret it as a layer indication.
         If this is correct, the layer is saved in the current primitive.
         @param token the token which corresponds to the layer.
     */
     public void parseLayer(String token)
     {
         int l;
-        try{
+        try {
             l=Integer.parseInt(token);
 
-        } catch (NumberFormatException E)
-        {   // We are unable to get the layer. Just suppose it's zero.
+        } catch (NumberFormatException E) {
+            // We are unable to get the layer. Just suppose it's zero.
             l=0;
         }
 
         // We do check if everything is OK.
-        if (layer<0 || layer>=LayerDesc.MAX_LAYERS)
+        if (l<0 || l>=LayerDesc.MAX_LAYERS)
             layer=0;
         else
             layer=l;
@@ -716,10 +711,10 @@ public abstract class GraphicPrimitive
     /** Treat the current layer. In particular, select the corresponding
         color in the actual graphic context. If the primitive is selected,
         select the corrisponding color. This is a speed sensitive context.
-
         @param g the graphic context used for the drawing.
         @param layerV a LayerDesc vector with the descriptions of the layers
                 being used.
+        @return true if the layer is visible, false otherwise.
     */
     protected final boolean selectLayer(GraphicsInterface g, Vector layerV)
     {
@@ -729,33 +724,28 @@ public abstract class GraphicPrimitive
         // modified.
 
         if(old_layer != layer || changed) {
-            if (layer<layerV.size())
-                l= (LayerDesc)layerV.get(layer);
-            else
-                l = (LayerDesc)layerV.get(0);
+            if(layer>=layerV.size())
+                layer=layerV.size()-1;
+            currentLayer= (LayerDesc)layerV.get(layer);
             old_layer = layer;
         }
 
         // If the layer is not visible, we just exit, returning false. This
         // will made the caller not to draw the graphical element.
 
-        if (!l.isVisible) {
+        if (!currentLayer.isVisible) {
             return false;
         }
 
         if(selectedState) {
             // We change the color for selected objects
-
-            g.activateSelectColor(l);
-
+            g.activateSelectColor(currentLayer);
         } else {
-            if(g.getColor()!=l.getColor() || oldalpha!=alpha) {
-                g.setColor(l.getColor());
-                alpha=l.getAlpha();
+            if(g.getColor()!=currentLayer.getColor() || oldalpha!=alpha) {
+                g.setColor(currentLayer.getColor());
+                alpha=currentLayer.getAlpha();
                 oldalpha = alpha;
                 g.setAlpha(alpha);
-                //g.setComposite(AlphaComposite.getInstance(
-                //  AlphaComposite.SRC_OVER, alpha));
             }
         }
         return true;
@@ -780,22 +770,17 @@ public abstract class GraphicPrimitive
         int size_y=(int)Math.round(mult*HANDLE_WIDTH);
 
         for(int i=0;i<getControlPointNumber();++i) {
-
             if (!testIfValidHandle(i))
                 continue;
 
             xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
             ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
-
-            if(!g.hitClip(xa-size_x/2,ya-size_y/2,
-                            size_x,size_y))
+            if(!g.hitClip(xa-size_x/2,ya-size_y/2, size_x,size_y))
                 continue;
 
             // A handle is a small red rectangle
-
-            g.fillRect(xa-size_x/2,ya-size_y/2,
-                            size_x,size_y);
+            g.fillRect(xa-size_x/2,ya-size_y/2, size_x,size_y);
         }
     }
 
@@ -806,7 +791,7 @@ public abstract class GraphicPrimitive
         @param px the x (screen) coordinate of the pointer.
         @param py the y (screen) coordinate of the pointer.
         @return NO_DRAG if the pointer is not on an handle, or the index of the
-            handle selected.
+            selected handle.
     */
     public int onHandle(MapCoordinates cs, int px, int py)
     {
@@ -818,7 +803,6 @@ public abstract class GraphicPrimitive
         int hl2=(int)Math.round(mult*HANDLE_WIDTH/2);
 
         for(int i=0;i<getControlPointNumber();++i) {
-
             if (!testIfValidHandle(i))
                 continue;
 
@@ -1077,7 +1061,6 @@ public abstract class GraphicPrimitive
     */
     public DimensionG getSize()
     {
-        //
         GraphicPrimitive p = this;
         int qx = 0;
         int qy = 0;
@@ -1110,11 +1093,33 @@ public abstract class GraphicPrimitive
         int qy = Integer.MAX_VALUE;
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
-                    || i == p.getValueVirtualPointNumber()) continue;
+                    || i == p.getValueVirtualPointNumber())
+                continue;
             if (p.virtualPoint[i].x<qx) qx = p.virtualPoint[i].x;
             if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
         }
         return new PointG(qx,qy);
     }
-}
 
+    /** Check wether we are very close to an integer value. In this case,
+        the output will be done as an integer. This improves backward
+        compatibility in cases where the fractional part is not needed.
+        The output code is also marginally more compact.
+
+        For example, roundIntelligently(1.00) produces "1" whereas
+        roundIntelligently(1.23) produces "1.23".
+        @param v the value to be rounded.
+        @return a string containing the rounded value.
+    */
+    public StringBuffer roundIntelligently(double v)
+    {
+        StringBuffer sb;
+        if(Math.abs(v-Math.round(v))<INT_TOLERANCE) {
+            int w=(int)Math.round(v);
+            sb = new StringBuffer(""+w);
+        } else {
+            sb = new StringBuffer(""+v);
+        }
+        return sb;
+    }
+}

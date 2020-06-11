@@ -25,28 +25,82 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 </pre>
 
 
     @author Davide Bucci
 */
 
-public class ExportSVG implements ExportInterface
+public class ExportSVG implements ExportInterface, TextInterface
 {
     //private File fileExp;
     final private OutputStreamWriter fstream;
     private BufferedWriter out;
     private Vector layerV;
-    //private int numberPath;
 
-    private ColorInterface c;
+    private ColorInterface c;       // Current colour (used in advText export)
     private double strokeWidth;
+    private String sDash[];
+    private float dashPhase;
+    private float currentPhase=-1;
+    private float currentFontSize=0;
+    private DecoratedText dt;
+    private String fontname;        // Some info about the font is stored
+    private String bold="";
+    private float textx;            // This is used in sub-sup scripts position
+    private float texty;
+    private boolean isItalic;
+    private boolean isBold;
 
+    // A graphic interface object is used here to get information about the
+    // size of the different glyphs in the font.
+    private final GraphicsInterface gi;
+    /*
     static final String dash[]={"2.5,5", "1.25,1.25",
-        "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};
+        "0.5,0.5", "0.5,1.25", "0.5,1.25,1.25,1.25"};*/
+
+        /** Set the multiplication factor to be used for the dashing.
+        @param u the factor.
+    */
+    public void setDashUnit(double u)
+    {
+        sDash = new String[Globals.dashNumber];
+
+        // If the line width has been changed, we need to update the
+        // stroke table
+
+        // The first entry is non dashed
+        sDash[0]="";
+
+        // Resize the dash sizes depending on the current zoom size.
+        String dashArrayStretched;
+        // Then, the dashed stroke styles are created.
+        for(int i=1; i<Globals.dashNumber; ++i) {
+            // Prepare the resized dash array.
+            dashArrayStretched = new String();
+            for(int j=0; j<Globals.dash[i].length;++j) {
+                dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
+                if(j<Globals.dash[i].length-1)
+                    dashArrayStretched+=",";
+            }
+            sDash[i]=dashArrayStretched;
+        }
+    }
+
+    /** Set the "phase" in output units of the dashing style.
+        For example, if a dash style is composed by a line followed by a space
+        of equal size, a phase of 0 indicates that the dash starts with the
+        line.
+        @param p the phase, in output units.
+    */
+    public void setDashPhase(float p)
+    {
+        dashPhase=p;
+    }
 
     private double cLe(double l)
     {
@@ -58,12 +112,12 @@ public class ExportSVG implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public ExportSVG (File f) throws IOException
+    public ExportSVG (File f, GraphicsInterface g) throws IOException
     {
-        //fileExp=f;
-
+        gi=g;
         fstream = new OutputStreamWriter(new FileOutputStream(f),
             Globals.encoding);
+        dt = new DecoratedText(this);
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -142,22 +196,19 @@ public class ExportSVG implements ExportInterface
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         String path;
+        this.isItalic=isItalic;
+        this.isBold=isBold;
+        this.fontname=fontname;
 
         /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR,
             MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
             HANDLED
         */
 
- /*
-        if(isBold)
-            outt.write("/F2"+" "+sizey+" Tf\n");
-        else
-            outt.write("/F1"+" "+sizey+" Tf\n");
-*/
         out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
 
-
         double xscale = sizex/22.0/sizey*38.0;
+        setFontSize(sizey);
         if(orientation !=0) {
             double alpha= isMirrored?orientation:-orientation;
             out.write(" rotate("+alpha+") ");
@@ -168,18 +219,9 @@ public class ExportSVG implements ExportInterface
         out.write(" scale("+xscale+",1) ");
 
         out.write("\">");
-        out.write("<text x=\""+0+"\" y=\""+cLe(sizey)+"\" font-family=\""+
-            fontname+"\" font-size=\""+cLe(sizey)+"\" font-style=\""+
-            (isItalic?"italic":"")+"\" font-weigth=\""+
-            (isBold?"bold":"")+"\" "+
-            "fill=\"#"+
-                convertToHex2(c.getRed())+
-                convertToHex2(c.getGreen())+
-                convertToHex2(c.getBlue())+"\""+
-
-            ">");
-        out.write(text);
-        out.write("</text>\n");
+        textx=x;
+        texty=y;
+        dt.drawString(text,x,y);
         out.write("</g>\n");
 
     }
@@ -226,16 +268,31 @@ public class ExportSVG implements ExportInterface
         c=l.getColor();
 
         strokeWidth=sW;
+
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                x1=(int)Math.round(p.x);
+                y1=(int)Math.round(p.y);
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x4, y4, x3, y3, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                x4=(int)Math.round(p.x);
+                y4=(int)Math.round(p.y);
+            }
+        }
         out.write("<path d=\"M "+cLe(x1)+","+cLe(y1)+" C "+
                   cLe(x2)+ ","+cLe(y2)+" "+cLe(x3)+","+cLe(y3)+" "+cLe(x4)+
                   ","+cLe(y4)+"\" ");
-
         checkColorAndWidth("fill=\"none\"", dashStyle);
-
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x4, y4, x3, y3, arrowLength,
-            arrowHalfWidth, arrowStyle);
     }
 
     /** Called when exporting a Connection primitive.
@@ -302,14 +359,33 @@ public class ExportSVG implements ExportInterface
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
         strokeWidth=sW;
-        out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
-            cLe(x2)+"\" y2=\""+cLe(y2)+"\" ");
-        checkColorAndWidth("fill=\"none\"", dashStyle);
 
-        if (arrowStart) exportArrow(x1, y1, x2, y2, arrowLength,
-            arrowHalfWidth, arrowStyle);
-        if (arrowEnd) exportArrow(x2, y2, x1, y1, arrowLength,
-            arrowHalfWidth, arrowStyle);
+        double xstart=x1, ystart=y1;
+        double xend=x2, yend=y2;
+
+        if (arrowStart) {
+            PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // This fixes issue #172
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+            if(arrowLength>0) {
+                xstart=p.x;
+                ystart=p.y;
+            }
+        }
+        if (arrowEnd) {
+            PointPr p=exportArrow(x2, y2, x1, y1, arrowLength,
+                arrowHalfWidth, arrowStyle);
+            // Fix #172
+            if(arrowLength>0) {
+                xend=p.x;
+                yend=p.y;
+            }
+        }
+        out.write("<line x1=\""+cLe(xstart)+"\" y1=\""+cLe(ystart)+"\" x2=\""+
+            cLe(xend)+"\" y2=\""+cLe(yend)+"\" ");
+        checkColorAndWidth("fill=\"none\"", dashStyle);
     }
 
     /** Called when exporting a Macro call.
@@ -657,7 +733,12 @@ public class ExportSVG implements ExportInterface
                 convertToHex2(c.getBlue()));
 
             if (dashStyle>0)
-                out.write(";stroke-dasharray: "+dash[dashStyle]);
+                out.write(";stroke-dasharray: "+sDash[dashStyle]);
+
+            if (currentPhase!=dashPhase){
+                currentPhase=dashPhase;
+                out.write(";stroke-dashoffset: "+dashPhase);
+            }
 
             out.write(";stroke-width:"+strokeWidth+
                   ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
@@ -682,10 +763,11 @@ public class ExportSVG implements ExportInterface
         @param l length of the arrow.
         @param h width of the arrow.
         @param style style of the arrow.
+        @return the coordinates of the base of the arrow.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportArrow(double x, double y, double xc, double yc,
+    public PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException
@@ -753,6 +835,70 @@ public class ExportSVG implements ExportInterface
             out.write("<line x1=\""+cLe(x3)+"\" y1=\""+cLe(y3)+"\" x2=\""+
                 cLe(x4)+"\" y2=\""+cLe(y4)+"\" ");
             checkColorAndWidth("fill=\"none\"", 0);
+        }
+        return new PointPr(x0,y0);
+    }
+    // Functions required for the TextInterface.
+
+    /** Get the font size.
+        @return the font size.
+    */
+    public double getFontSize()
+    {
+        return currentFontSize;
+    }
+
+    /** Set the font size.
+        @param size the font size.
+    */
+    public void setFontSize(double size)
+    {
+        currentFontSize=(float)size;
+    }
+
+    /** Get the width of the given string with the current font.
+        @param s the string to be used.
+        @return the width of the string, in pixels.
+    */
+    public int getStringWidth(String s)
+    {
+        gi.setFont(fontname,currentFontSize);
+        return gi.getStringWidth(s);
+    }
+
+    /** Draw a string on the current graphic context.
+        @param str the string to be drawn.
+        @param x the x coordinate of the starting point.
+        @param y the y coordinate of the starting point.
+    */
+    public void drawString(String str,
+                                int x,
+                                int y)
+    {
+        try{
+            out.write("<text x=\""+(x-textx)+"\" y=\""
+                +cLe(currentFontSize+y-texty)
+                +"\" font-family=\""+
+                fontname+"\" font-size=\""+cLe(currentFontSize)+
+                "\" font-style=\""+
+                (isItalic?"italic":"")+"\" font-weigth=\""+
+                (isBold?"bold":"")+"\" "+
+                "fill=\"#"+
+                    convertToHex2(c.getRed())+
+                    convertToHex2(c.getGreen())+
+                    convertToHex2(c.getBlue())+"\""+
+                ">");
+            // Substitute potentially dangerous characters (issue #162)
+            String outtxt=str.replace("&", "&amp;");
+            outtxt=outtxt.replace("<", "&lt;");
+            outtxt=outtxt.replace(">", "&gt;");
+            outtxt=outtxt.replace("\"", "&quot;");
+            outtxt=outtxt.replace("'", "&apos;");
+
+            out.write(outtxt);
+            out.write("</text>\n");
+        } catch(IOException E) {
+            System.err.println("Can not write to file in SVG export.");
         }
     }
 }

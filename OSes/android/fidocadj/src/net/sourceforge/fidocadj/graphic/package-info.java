@@ -1,0 +1,1 @@
+../../../../../../../../src/net/sourceforge/fidocadj/graphic/package-info.java

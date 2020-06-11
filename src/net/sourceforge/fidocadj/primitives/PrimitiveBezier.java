@@ -25,9 +25,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2020 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -38,15 +39,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
     // A Bézier is defined by four points.
     static final int N_POINTS=6;
 
-    private boolean arrowStart;
-    private boolean arrowEnd;
-
-    private int arrowLength;
-    private int arrowHalfWidth;
-    private int arrowStyle;
-
     private int dashStyle;
-
+    private final Arrow arrowData;
 
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
@@ -72,6 +66,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
     public PrimitiveBezier(String f, int size)
     {
         super();
+        arrowData=new Arrow();
         initPrimitive(-1, f, size);
     }
 
@@ -102,11 +97,12 @@ public final class PrimitiveBezier extends GraphicPrimitive
     {
         super();
 
-        arrowLength = arrowLe;
-        arrowHalfWidth = arrowWi;
-        arrowStart = arrowS;
-        arrowEnd = arrowE;
-        arrowStyle =arrowSt;
+        arrowData=new Arrow();
+        arrowData.setArrowStart(arrowS);
+        arrowData.setArrowEnd(arrowE);
+        arrowData.setArrowHalfWidth(arrowWi);
+        arrowData.setArrowLength(arrowLe);
+        arrowData.setArrowStyle(arrowSt);
         dashStyle=dashSt;
 
         initPrimitive(-1, font, size);
@@ -135,36 +131,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
     public Vector<ParameterDescription> getControls()
     {
         Vector<ParameterDescription> v=super.getControls();
-
+        arrowData.getControlsForArrow(v);
         ParameterDescription pd = new ParameterDescription();
-
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowStart);
-        pd.description=Globals.messages.getString("ctrl_arrow_start");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Boolean.valueOf(arrowEnd);
-        pd.description=Globals.messages.getString("ctrl_arrow_end");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowLength);
-        pd.description=Globals.messages.getString("ctrl_arrow_length");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=Integer.valueOf(arrowHalfWidth);
-        pd.description=Globals.messages.getString("ctrl_arrow_half_width");
-        pd.isExtension = true;
-        v.add(pd);
-        pd = new ParameterDescription();
-        pd.parameter=new ArrowInfo(arrowStyle);
-        pd.description=Globals.messages.getString("ctrl_arrow_style");
-        pd.isExtension = true;
-        v.add(pd);
-
-        pd = new ParameterDescription();
         pd.parameter=new DashInfo(dashStyle);
         pd.description=Globals.messages.getString("ctrl_dash_style");
         pd.isExtension = true;
@@ -183,42 +151,13 @@ public final class PrimitiveBezier extends GraphicPrimitive
     public int setControls(Vector<ParameterDescription> v)
     {
         int i=super.setControls(v);
-        ParameterDescription pd;
 
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowStart=((Boolean)pd.parameter).booleanValue();
-        else
-            System.out.println("Warning: unexpected parameter 1!"+pd);
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-            arrowEnd=((Boolean)pd.parameter).booleanValue();
-        else
-            System.out.println("Warning: unexpected parameter 2!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowLength=((Integer)pd.parameter).intValue();
-        else
-            System.out.println("Warning: unexpected parameter 3!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Integer)
-            arrowHalfWidth=((Integer)pd.parameter).intValue();
-        else
-            System.out.println("Warning: unexpected parameter 4!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
-            arrowStyle=((ArrowInfo)pd.parameter).style;
-        else
-            System.out.println("Warning: unexpected parameter 5!"+pd);
-
-        pd=(ParameterDescription)v.get(i++);
+        i=arrowData.setParametersForArrow(v, i);
+        ParameterDescription pd=(ParameterDescription)v.get(i++);
         if (pd.parameter instanceof DashInfo)
             dashStyle=((DashInfo)pd.parameter).style;
         else
-            System.out.println("Warning: unexpected parameter 6!"+pd);
+            System.out.println("Warning: 6-unexpected parameter!"+pd);
 
         // Parameters validation and correction
         if(dashStyle>=Globals.dashNumber)
@@ -241,7 +180,43 @@ public final class PrimitiveBezier extends GraphicPrimitive
         if(!selectLayer(g,layerV))
             return;
 
+        int h=0;
+
+        PointG P0=new PointG(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+            coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y));
+        PointG P3=new PointG(coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+
         drawText(g, coordSys, layerV, -1);
+
+        if(changed) {
+            // Calculating stroke width
+            w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
+            if (w<D_MIN) w=D_MIN;
+        }
+        // Apply the stroke style
+        g.applyStroke(w, dashStyle);
+
+        // Check if there are arrows to be drawn and, if needed, draw them.
+        if (arrowData.atLeastOneArrow()) {
+            h=arrowData.prepareCoordinateMapping(coordSys);
+            // If the arrow length is negative, the arrow extends
+            // outside the line, so the limits must not be changed.
+
+            if (arrowData.isArrowStart()) {
+                if(arrowData.getArrowLength()>0)
+                    P0=drawArrow(g, coordSys, 0,1,2,3);
+                else
+                    drawArrow(g, coordSys, 0,1,2,3);
+            }
+
+            if (arrowData.isArrowEnd()) {
+                if(arrowData.getArrowLength()>0)
+                    P3=drawArrow(g, coordSys, 3,2,1,0);
+                else
+                    drawArrow(g, coordSys, 3,2,1,0);
+            }
+        }
 
         // in the Bézier primitive, the four virtual points represent
         // the control points of the shape.
@@ -251,51 +226,39 @@ public final class PrimitiveBezier extends GraphicPrimitive
             shape1=g.createShape();
             // Create the Bézier curve
             shape1.createCubicCurve(
-                coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
-                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                P0.x,
+                P0.y,
                 coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
                 coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y),
-                coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
-                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+                P3.x,
+                P3.y);
+
+
 
             // Calculating the bounds of this curve is useful since we can
             // check if it is visible and thus choose wether draw it or not.
             RectangleG r = shape1.getBounds();
-
-            xmin = r.x;
-            ymin = r.y;
-            width  = r.width;
-            height = r.height;
-
-            // Calculating stroke width
-            w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            xmin = r.x-h;
+            ymin = r.y-h;
+            width  = r.width+2*h;
+            height = r.height+2*h;
         }
 
         // If the curve is not visible, exit immediately
-        if(!g.hitClip(xmin,ymin, width, height))
+        if(!g.hitClip(xmin,ymin, width+1, height+1))
             return;
 
-        // Apply the stroke style
-        g.applyStroke(w, dashStyle);
-
-        // Draw the curve
-        g.draw(shape1);
-
-        // Check if there are arrows to be drawn and eventually draw them.
-        if (arrowStart || arrowEnd) {
-            int h=coordSys.mapXi(arrowHalfWidth,arrowHalfWidth,false)-
-                coordSys.mapXi(0,0, false);
-            int l=coordSys.mapXi(arrowLength,arrowLength,false)-
-                coordSys.mapXi(0,0, false);
-
-            if (arrowStart)
-                drawArrow(g, coordSys, 0,1,2,3, l, h);
-
-            if (arrowEnd)
-                drawArrow(g, coordSys, 3,2,1,0, l, h);
+        if(width==0 ||height==0) {
+            // Degenerate case: horizontal or vertical segment.
+            g.drawLine(coordSys.mapX(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y),
+                coordSys.mapX(virtualPoint[3].x,virtualPoint[3].y),
+                coordSys.mapY(virtualPoint[3].x,virtualPoint[3].y));
+        } else {
+            // Draw the curve.
+            g.draw(shape1);
         }
     }
 
@@ -310,9 +273,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
             the direction, unless equal to point A.
         @param D employs this point as a last resort!
     */
-    private void drawArrow(GraphicsInterface g, MapCoordinates coordSys,
-        int A, int B, int C, int D,
-        int l, int h)
+    private PointG drawArrow(GraphicsInterface g, MapCoordinates coordSys,
+        int A, int B, int C, int D)
     {
         int psx, psy; // starting coordinates.
         int pex, pey; // ending coordinates.
@@ -338,12 +300,11 @@ public final class PrimitiveBezier extends GraphicPrimitive
             pey = virtualPoint[D].y;
         }
 
-        Arrow.drawArrow(g,
+        return arrowData.drawArrow(g,
             coordSys.mapX(psx,psy),
             coordSys.mapY(psx,psy),
             coordSys.mapX(pex,pey),
-            coordSys.mapY(pex,pey),
-            l, h, arrowStyle);
+            coordSys.mapY(pex,pey));
     }
 
     /** Parse a token array and store the graphic data for a given primitive
@@ -383,14 +344,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
             if(N>9) parseLayer(tokens[9]);
 
             if(N>10 && tokens[10].equals("FCJ")) {
-                int arrows = Integer.parseInt(tokens[11]);
-                arrowStart = (arrows & 0x01) !=0;
-                arrowEnd = (arrows & 0x02) !=0;
-
-                arrowStyle = Integer.parseInt(tokens[12]);
-                arrowLength = Integer.parseInt(tokens[13]);
-                arrowHalfWidth = Integer.parseInt(tokens[14]);
-                dashStyle = checkDashStyle(Integer.parseInt(tokens[15]));
+                int i=arrowData.parseTokens(tokens, 11);
+                dashStyle = checkDashStyle(Integer.parseInt(tokens[i]));
             }
         } else {
             IOException E=new IOException("Invalid primitive: "+
@@ -412,14 +367,54 @@ public final class PrimitiveBezier extends GraphicPrimitive
         // Here, we check if the given point lies inside the text areas.
         if(checkText(px, py))
             return 0;
+        PointG P0,P3;
+        P0=new PointG(virtualPoint[0].x, virtualPoint[0].y);
+        P3=new PointG(virtualPoint[3].x, virtualPoint[3].y);
+
+        // Check if the point is in the arrows. Correct the starting and ending
+        // points if needed.
+        if (arrowData.atLeastOneArrow()) {
+            boolean r=false, t=false;
+
+            // We work with logic coordinates (default for MapCoordinates).
+            MapCoordinates m=new MapCoordinates();
+            arrowData.prepareCoordinateMapping(m);
+            if (arrowData.isArrowStart()) {
+                if(arrowData.getArrowLength()>0) {
+                    t=arrowData.isInArrow(px, py,
+                        virtualPoint[0].x, virtualPoint[0].y,
+                        virtualPoint[1].x, virtualPoint[1].y, P0);
+                } else {
+                    t=arrowData.isInArrow(px, py,
+                        virtualPoint[0].x, virtualPoint[0].y,
+                        virtualPoint[1].x, virtualPoint[1].y, null);
+                }
+            }
+
+            if (arrowData.isArrowEnd()) {
+                if(arrowData.getArrowLength()>0) {
+                    r=arrowData.isInArrow(px, py,
+                        virtualPoint[3].x, virtualPoint[3].y,
+                        virtualPoint[2].x, virtualPoint[2].y, P3);
+                } else {
+                    r=arrowData.isInArrow(px, py,
+                        virtualPoint[3].x, virtualPoint[3].y,
+                        virtualPoint[2].x, virtualPoint[2].y, null);
+                }
+            }
+
+            // Click on one of the arrows.
+            if(r||t)
+                return 1;
+
+        }
 
         // If not, we check for the distance to the Bézier curve.
         return GeometricDistances.pointToBezier(
-                virtualPoint[0].x, virtualPoint[0].y,
+                P0.x, P0.y,
                 virtualPoint[1].x, virtualPoint[1].y,
                 virtualPoint[2].x, virtualPoint[2].y,
-                virtualPoint[3].x, virtualPoint[3].y,
-                px,  py);
+                P3.x, P3.y, px,  py);
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -437,18 +432,16 @@ public final class PrimitiveBezier extends GraphicPrimitive
             +virtualPoint[3].x+" "+virtualPoint[3].y+" "+
             getLayer()+"\n";
 
-        if(extensions) {
-            int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-
-            if (arrows>0 || dashStyle>0 || hasName() || hasValue()) {
-                String text = "0";
-                // We take into account that there may be some text associated
-                // to that primitive.
-                if (name.length()!=0 || value.length()!=0)
-                    text = "1";
-                s+="FCJ "+arrows+" "+arrowStyle+" "+arrowLength+" "+
-                    arrowHalfWidth+" "+dashStyle+" "+text+"\n";
-            }
+        if(extensions && (arrowData.atLeastOneArrow()|| dashStyle>0 ||
+                hasName() || hasValue()))
+        {
+            String text = "0";
+            // We take into account that there may be some text associated
+            // to that primitive.
+            if (name.length()!=0 || value.length()!=0)
+                text = "1";
+            s+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+
+                " "+text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.
         s+=saveText(false);
@@ -475,9 +468,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
                        cs.mapX(virtualPoint[3].x,virtualPoint[3].y),
                        cs.mapY(virtualPoint[3].x,virtualPoint[3].y),
                        getLayer(),
-                       arrowStart, arrowEnd, arrowStyle,
-                       (int)(arrowLength*cs.getXMagnitude()),
-                       (int)(arrowHalfWidth*cs.getXMagnitude()),
+                       arrowData.isArrowStart(), arrowData.isArrowEnd(),
+                       arrowData.getArrowStyle(),
+                       (int)(arrowData.getArrowLength()*cs.getXMagnitude()),
+                       (int)(arrowData.getArrowHalfWidth()*cs.getXMagnitude()),
                        dashStyle,Globals.lineWidth*cs.getXMagnitude());
     }
 

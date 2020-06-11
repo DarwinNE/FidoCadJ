@@ -32,12 +32,13 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public class MacroTreeModel implements TreeModel,LibraryListener
 {
@@ -49,9 +50,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     private RootNode rootNode;
     final private LibraryModel libraryModel;
     final private List<TreeModelListener> listeners;
-
-    //private Map<Object,TreePath> pathMap;
-    //private Map<Object,AbstractMacroTreeNode> nodeMap;
 
     private HashMap<TreePath, AbstractMacroTreeNode> libraryNodeMap;
 
@@ -81,15 +79,15 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             this.filterWord = null;
             fireChanged();
         } else {
-            final String chainedWord =
-                filterWord.toLowerCase(new Locale("en"));
+            Locale lo = new Locale("en");
+            final String chainedWord = filterWord.toLowerCase(lo);
             synchronizeTree(new NodeFilterInterface() {
                 public boolean accept(MacroTreeNode node)
                 {
                     String[] words = chainedWord.trim().split(" ");
                     int matched=0;
                     for(String word:words) {
-                        if(0<=node.toString().toLowerCase().indexOf(word)) {
+                        if(0<=node.toString().toLowerCase(lo).indexOf(word)) {
                             matched++;
                         } else if(word.length()==0) {
                             matched++;
@@ -121,7 +119,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     */
     private void createMap()
     {
-        libraryNodeMap = new HashMap();
+        libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
     }
 
     /** Get the type of the specified node.
@@ -363,7 +361,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
-                    System.out.println("deleted in:"+parentPath);
                 }
             }
         }
@@ -390,7 +387,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
-                    System.out.println("added in:"+parentPath);
                 }
             }
         }
@@ -423,15 +419,6 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    private void fireTreeNodeRemoved(TreePath path)
-    {
-        if(path!=null) {
-            for(TreeModelListener l:listeners) {
-                l.treeNodesRemoved(new TreeModelEvent(this, path));
-            }
-        }
-    }
-
     private void fireTreeStructureChanged(TreePath path)
     {
         if(path!=null){
@@ -458,11 +445,12 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         TreePath categoryPath;
         TreePath macroPath;
 
-        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =
-               (HashMap<TreePath,AbstractMacroTreeNode>)libraryNodeMap.clone();
-        libraryNodeMap.clear();
+        // Save a copy of the current library note
+        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =libraryNodeMap;
 
-        if(rootNode==null){
+        libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
+
+        if(rootNode==null) {
             rootNode = new RootNode();
         }
 
@@ -504,19 +492,24 @@ public class MacroTreeModel implements TreeModel,LibraryListener
                     }
 
                     if(filter!=null && !filter.accept(mn)) {
+                        // If the search hasn't been successful, don't show the
+                        // current macro in the category.
                         continue;
                     }
                     cn.addMacroNode(mn);
                     libraryNodeMap.put(macroPath,mn);
                 }
-
                 if(filter!=null && cn.getChildCount()==0) {
+                    // If the no macros are to be shown, don't show the
+                    // current category in the library.
                     continue;
                 }
                 ln.addCategoryNode(cn);
                 libraryNodeMap.put(categoryPath,cn);
             }
             if(filter!=null && ln.getChildCount()==0) {
+                // If no categories are to be shown, don't show the
+                // current library.
                 continue;
             }
             rootNode.addLibraryNode(ln);
@@ -602,16 +595,31 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             }
         }
 
-        /** Inherit the behavior of compareTo.
+        /** Convert to string.
+            @return the name of the node.
         */
         public String toString()
         {
             return library.getName();
         }
 
-        public boolean equals(LibraryNode node)
+        /** Inherit the behavior of compareTo.
+        */
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof LibraryNode)
+                return compareTo((LibraryNode)node)==0;
+            else
+                return false;
+        }
+
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
         }
     }
 
@@ -652,12 +660,23 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(CategoryNode node)
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof CategoryNode)
+                return compareTo((CategoryNode)node)==0;
+            else
+                return false;
+        }
+
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
         }
     }
-
 
     private class MacroNode extends AbstractMacroTreeNode
         implements Comparable<MacroNode>
@@ -681,11 +700,20 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             return true;
         }
 
+        /** Compare two nodes. The comparison is done with respect to the name
+            and if the name is equal, then the key is compared too.
+        */
         public int compareTo(MacroNode node)
         {
             MacroDesc m1 = this.macro;
             MacroDesc m2 = node.getMacro();
-            return m1.name.compareToIgnoreCase(m2.name);
+            // At first, compare the two nodes using their name
+            int r=m1.name.compareToIgnoreCase(m2.name);
+            // If they have the same name, look at the keys.
+            if(r==0) {
+                r=m1.key.compareToIgnoreCase(m2.key);
+            }
+            return r;
         }
 
         public String toString()
@@ -695,9 +723,21 @@ public class MacroTreeModel implements TreeModel,LibraryListener
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(MacroNode node)
+        public boolean equals(Object node)
         {
-            return compareTo(node)==0;
+            if(node instanceof MacroNode)
+                return compareTo((MacroNode)node)==0;
+            else
+                return false;
+        }
+
+        /** No implementation of the hashCode for the moment
+            @return 42, because it is The Answer.
+        */
+        public int hashCode()
+        {
+            assert false : "hashCode not designed";
+            return 42; // any arbitrary constant will do
         }
     }
 }

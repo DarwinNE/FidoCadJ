@@ -5,6 +5,7 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.layers.*;
 import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.ADesktopIntegration;
 
 /** Globals.java
 
@@ -26,9 +27,10 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2020 by Davide Bucci
 
     </pre>
 */
@@ -36,6 +38,9 @@ public class Globals
 {
     // message bundle
     public static AccessResources messages;
+
+    // Information about desktop integration
+    public static ADesktopIntegration desktopInt;
 
     // shortcut key to be used:
     public static int shortcutKey;
@@ -51,9 +56,6 @@ public class Globals
     // We are on a Mac!!!
     public static boolean weAreOnAMac;
 
-    // Quaqua is a better Mac L&F
-    public static boolean quaquaActive;
-
     // Show the cancel button to the right of the OK button, as it is done in
     // Windows
     public static boolean okCancelWinOrder;
@@ -62,11 +64,9 @@ public class Globals
     public static int openWindowsNumber;
 
     // A pointer to the active window
-    //public static JFrame activeWindow;
     public static Object activeWindow;
 
 
-    //public static final HashSet<JFrame> openWindows = new HashSet<JFrame>();
     public static final HashSet<Object> openWindows = new HashSet<Object>();
 
     // Line width expressed in FidoCadJ coordinates
@@ -87,9 +87,10 @@ public class Globals
     public static Object lastCGrp;
 
     // Version. This is shown in the main window title bar
-    public static final String version = "0.24.6 alpha";
-    // Is it a beta version?
-    public static final boolean isBeta = false;
+    public static final String version = "0.24.8 η";
+    // Is it a beta version? Some debug options become available, such as
+    // timing each redraw operation.
+    public static final boolean isBeta = true;
 
     // The default file extension
     public static final String DEFAULT_EXTENSION = "fcd";
@@ -98,8 +99,12 @@ public class Globals
     public static final String defaultTextFont = "Courier New";
     // Comic Sans MS will send a 30 kV electrical discharge through USB...
 
+    // Dash styles
     public static final int dashNumber = 5;
-    public static final float dash[][] = {{10.0f,0f},{5.0f,5.0f},{2.0f, 2.0f},
+    public static final float dash[][] = {
+        {10.0f,0f},
+        {5.0f,5.0f},
+        {2.0f, 2.0f},
         {2.0f, 5.0f},
         {2.0f, 5.0f,5.0f,5.0f}};
 
@@ -109,12 +114,13 @@ public class Globals
     // The encoding to be used by FidoCadJ
     public static final String encoding = "UTF8";
 
-    /** Private constructor, for Utility class pattern
-    */
-    /*private Globals()
-    {
-        // nothing
-    }*/
+    // Maximum zoom factor in %
+    // NOTE: there is an internal limit on geom.MapCoordinates that should
+    // always be kept larger than this so that the limit is active.
+    public static final double maxZoomFactor = 4000;
+    // Maximum zoom factor in %
+    public static final double minZoomFactor = 10;
+
     /** Adjust a long string in order to cope with space limitations.
         Tipically, it will be used to show long paths in the window caption.
         @param s the string to be treated.
@@ -160,7 +166,10 @@ public class Globals
             // The order of the OK and Cancel buttons differs in Windows and
             // MacOSX. How about the most common Window Managers in Linux?
             okCancelWinOrder = false;
-
+        } else if (System.getProperty("os.name").startsWith("Win")) {
+            // This solves the bug #3076513
+            okCancelWinOrder = true;
+            shortcutKey=ctrlCode;
         } else {
             // This solves the bug #3076513
             okCancelWinOrder = true;
@@ -313,10 +322,8 @@ public class Globals
     public static String createCompleteFileName(String path, String filename)
     {
         boolean incl=!path.endsWith(System.getProperty("file.separator"));
-        String completeFileName= path +
-            (incl?System.getProperty("file.separator") : "") +
+        return path + (incl?System.getProperty("file.separator") : "") +
             filename;
-        return completeFileName;
     }
 
     /** Change characters which could give an error in some situations with
@@ -324,7 +331,7 @@ public class Globals
 
         @param p the input string, eventually containing the characters to be
             changed.
-        @param bc an hash table <char, String> in which each character to be
+        @param bc an hash table (char, String) in which each character to be
             changed is associated with its code, or escape sequence.
         @return the string with the characters changed.
 

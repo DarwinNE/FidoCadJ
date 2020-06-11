@@ -17,7 +17,7 @@ import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.graphic.swing.*;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
-/** The class dialogEditLayer allows to choose the style, visibility and
+/** The class DialogEditLayer allows to choose the style, visibility and
     description of the current layer.
 
     <pre>
@@ -34,9 +34,10 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2010 by Davide Bucci
+    Copyright 2007-2016 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -70,15 +71,13 @@ public class DialogEditLayer extends MinimumSizeDialog
         Container contentPane=getContentPane();
 
         GridBagLayout bgl=new GridBagLayout();
-        GridBagConstraints constraints=new GridBagConstraints();
         contentPane.setLayout(bgl);
-        constraints.insets.right=30;
-        ColorSwing c = (ColorSwing) l.getColor();
-        tcc = new JColorChooser(c.getColorSwing());
-        constraints = DialogUtil.createConst(0,0,3,1,100,100,
+
+        GridBagConstraints constraints = DialogUtil.createConst(0,0,3,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.NONE,
             new Insets(20,20,6,20));
-
+        ColorSwing c = (ColorSwing) l.getColor();
+        tcc = new JColorChooser(c.getColorSwing());
         contentPane.add(tcc, constraints);
 
         JLabel descrLabel=new JLabel(Globals.messages.getString("Description"));

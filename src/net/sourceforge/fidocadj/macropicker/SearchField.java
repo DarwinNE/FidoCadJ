@@ -15,11 +15,6 @@ import net.sourceforge.fidocadj.globals.*;
  * A text field for search/filter interfaces. The extra functionality includes
  * a placeholder string (when the user hasn't yet typed anything), and a button
  * to clear the currently-entered text.
-
-
-// TODO: add a menu of recent searches.
-// TODO: make recent searches persistent.
-
  *
  * @author Elliott Hughes
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
@@ -28,7 +23,6 @@ public class SearchField extends JTextField implements FocusListener
 {
 
     private static final Border CANCEL_BORDER = new CancelBorder();
-
     private boolean sendsNotificationForEachKeystroke = false;
     private static final boolean showingPlaceholderText = false;
     private boolean armed = false;
@@ -42,8 +36,7 @@ public class SearchField extends JTextField implements FocusListener
     {
         super(15);
 
-        // putClientProperty("JTextField.variant", "search");
-        // putClientProperty("JTextField.Search.Prompt", placeholderText);
+        putClientProperty("JTextField.style", "search");
         putClientProperty("Quaqua.TextField.style", "search");
 
         this.placeholderText = placeholderText;
@@ -71,7 +64,6 @@ public class SearchField extends JTextField implements FocusListener
     public void paintComponent(Graphics g)
     {
         if(Globals.weAreOnAMac) {
-
             // This is useful only on Macintosh, since the text field shown is
             // rounded.
             Rectangle r = getBounds();
@@ -115,28 +107,25 @@ public class SearchField extends JTextField implements FocusListener
 
         // Calculate text position.
         left = getBorder().getBorderInsets(this).left;
-        bottom = (int) (getHeight() / 2.0 + fontHeight / 2.0);
-
+        bottom = (int) ((getHeight()-4) / 2.0 + fontHeight / 2.0);
         // Show placeholder text when focused.
         if (!isFocusOwner() && getText().length() == 0) {
             g.setColor(Color.GRAY);
+            Graphics2D g2=(Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             g.drawString(placeholderText, left, bottom);
         }
     }
 
     private void initBorder()
     {
-
         setBorder(new CompoundBorder(getBorder(), CANCEL_BORDER));
-        //getBorder().setOpaque(true);
-        //getContentPane().setOpaque(true);
-
         MouseInputListener mouseInputListener = new CancelListener();
         addMouseListener(mouseInputListener);
         addMouseMotionListener(mouseInputListener);
         setMaximumSize(new Dimension(5000, 30));
     }
-
 
     /** Add a key listener
     */
@@ -150,11 +139,10 @@ public class SearchField extends JTextField implements FocusListener
                 } else if (sendsNotificationForEachKeystroke) {
                     maybeNotify();
                 }
-
             }
             public void keyPressed(KeyEvent e)
             {
-                // If the search field has the focus, it will be te only
+                // If the search field has the focus, it will be the only
                 // recipient of the key strokes (solves bug #50).
                 // Do this only for R and S keys.
 
@@ -195,7 +183,6 @@ public class SearchField extends JTextField implements FocusListener
      */
     static class CancelBorder extends EmptyBorder
     {
-
         private static final Color GRAY = new Color(0.7f, 0.7f, 0.7f);
 
         /** Standard constructor.
@@ -268,7 +255,6 @@ public class SearchField extends JTextField implements FocusListener
     {
         private boolean isOverButton(MouseEvent e)
         {
-
             // If the button is down, we might be outside the component
             // without having had mouseExited invoked.
             if (!contains(e.getPoint())) {

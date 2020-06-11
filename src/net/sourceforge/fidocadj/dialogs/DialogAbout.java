@@ -35,7 +35,8 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2014 by Davide Bucci
     </pre>
@@ -136,10 +137,12 @@ public class DialogAbout extends MinimumSizeDialog
             public void actionPerformed(ActionEvent e)
             {
                 BareBonesBrowserLaunch.openURL(
-                    "https://sourceforge.net/projects/fidocadj/");
+                    "http://darwinne.github.io/FidoCadJ/");
 
             // The following code works only in Java v. 1.6 and for the moment
             // the minimum requirements for FidoCadJ are Java 1.5
+            // UPDATE: this has changed and we may consider employing a more
+            // standard code now.
             /*  if (Desktop.isDesktopSupported()) {
                     try {
                         Desktop.getDesktop().browse(uri);
@@ -149,8 +152,8 @@ public class DialogAbout extends MinimumSizeDialog
         }
 
         JButton link=new JButton(
-            "<HTML> <a href=\"http://sourceforge.net/projects/fidocadj/\">"+
-            "http://sourceforge.net/projects/fidocadj/</a></HTML>");
+            "<HTML> <a href=\"http://darwinne.github.io/FidoCadJ/\">"+
+            "http://darwinne.github.io/FidoCadJ/</a></HTML>");
         constraints.gridx=0;
         constraints.gridy=6;
         constraints.gridwidth=1;

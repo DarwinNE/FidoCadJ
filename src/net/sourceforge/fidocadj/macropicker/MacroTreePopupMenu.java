@@ -28,9 +28,10 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -90,18 +91,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         renkeyMenu.setEnabled(permission.isRenKeyAvailable());
     }
 
-    /** Enable or disable all the items in the menu.
-        @param b enable all elements if b=true, disable them otherwise.
-    */
-    private void enableAllMenu(boolean b)
-    {
-        copyMenu.setEnabled(b);
-        pasteMenu.setEnabled(b);
-        removeMenu.setEnabled(b);
-        renameMenu.setEnabled(b);
-        renkeyMenu.setEnabled(b);
-    }
-
     /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
         to the renaming action.
@@ -110,7 +99,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRenameActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -137,7 +126,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -148,7 +136,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRemoveActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -175,7 +163,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
     /** Create an action listener associated to the menu, reacting to
         the different elements presented. This action listener is associated
@@ -187,7 +174,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createRenkeyActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
@@ -208,7 +195,6 @@ public class MacroTreePopupMenu extends JPopupMenu implements
                 }
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -219,13 +205,12 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createCopyActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 mt.setSelectedNodeToCopyTarget();
             }
         };
-        return al;
     }
 
     /** Create an action listener associated to the menu, reacting to
@@ -236,13 +221,12 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     private ActionListener createPasteActionListener()
     {
         final MacroTree mt = macroTree;
-        ActionListener al = new ActionListener(){
+        return new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
                 mt.pasteIntoSelectedNode();
             }
         };
-        return al;
     }
 }
 

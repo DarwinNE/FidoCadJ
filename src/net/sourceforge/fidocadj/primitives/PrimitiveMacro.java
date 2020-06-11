@@ -32,7 +32,8 @@ import net.sourceforge.fidocadj.graphic.*;
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
     Copyright 2007-2014 by Davide Bucci
     </pre>
@@ -45,8 +46,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
     static final int N_POINTS=3;
     private final Map<String, MacroDesc> library;
     private final Vector<LayerDesc> layers;
-    private int o;
-    private boolean m;
+    private int o;              // Macro orientation
+    private boolean m;          // Macro mirroring
     private boolean drawOnlyPads;
     private int drawOnlyLayer;
     private boolean alreadyExported;
@@ -698,8 +699,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
 
         macro.setDrawOnlyPads(drawOnlyPads);
-        new Export(macro).exportDrawing(exp, false, exportInvisible,
-            macroCoord);
+        new Export(macro).exportDrawing(exp, exportInvisible, macroCoord);
         exportText(exp, cs, drawOnlyLayer);
 
     }

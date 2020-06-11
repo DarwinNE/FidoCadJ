@@ -9,8 +9,8 @@ import android.graphics.Color;
 import android.view.View;
 
 /** This class provides a view showing the different arrow styles which
-	might be used in a spinner list.
-    
+    might be used in a spinner list.
+
     <pre>
     This file is part of FidoCadJ.
 
@@ -27,53 +27,55 @@ import android.view.View;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2014-2015 by Dante Loi, Davide Bucci
-</pre>
-    
-    */
-    
-public class CellArrow extends View 
+    Copyright 2014-2016 by Dante Loi, Davide Bucci
+    </pre>
+*/
+public class CellArrow extends View
 {
-	private ArrowInfo arrow;
-	
-	/** Standard constructor.
-	*/
-	public CellArrow(Context context) 
-	{
-		super(context);
+    private ArrowInfo arrow;
 
-	}
-	
-	/** Select the style of the arrow to be used.
-		@param arrow the wanted style.
-	*/
-	public void setStyle(ArrowInfo arrow)
-	{
-		this.arrow = arrow;
-	}
-	
-	@Override
+    /** Standard constructor.
+        @param context the context of the cell.
+    */
+    public CellArrow(Context context)
+    {
+        super(context);
+
+    }
+
+    /** Select the style of the arrow to be used.
+        @param arrow the wanted style.
+    */
+    public void setStyle(ArrowInfo arrow)
+    {
+        this.arrow = arrow;
+    }
+
+    /** Paint the cell with the arrow.
+        @param canvas the canvas where to draw.
+    */
+    @Override
     protected void onDraw(Canvas canvas)
     {
-    	// Background: white!
-		canvas.drawColor(Color.WHITE);
-		GraphicsAndroid g = new GraphicsAndroid(canvas);
-		
-		ColorAndroid c = new ColorAndroid();
-		g.setColor(c.black());
-		
-		// Compute a reasonable size for the arrows, depending on the
-		// screen resolution.
-		int mult=(int)Math.floor(g.getScreenDensity()/112);
-		if (mult<1) mult=1;
-		
-		// Draw the arrow.
-		g.applyStroke(2*mult, 0);
-		g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
-		Arrow.drawArrow(g, getWidth()/3, getHeight()/2,
-				2*getWidth()/3, getHeight()/2, mult*10, mult*4,
-				 arrow.style);
+        // Background: white!
+        canvas.drawColor(Color.WHITE);
+        GraphicsAndroid g = new GraphicsAndroid(canvas);
+
+        ColorAndroid c = new ColorAndroid();
+        g.setColor(c.black());
+
+        // Compute a reasonable size for the arrows, depending on the
+        // screen resolution.
+        int mult=(int)Math.floor(g.getScreenDensity()/112);
+        if (mult<1) mult=1;
+
+        // Draw the arrow.
+        g.applyStroke(2*mult, 0);
+        g.drawLine(getWidth()/3, getHeight()/2,2*getWidth()/3, getHeight()/2);
+        Arrow arrowDummy = new Arrow();
+        arrowDummy.drawArrowPixels(g, getWidth()/3, getHeight()/2,
+                2*getWidth()/3, getHeight()/2, mult*10, mult*4,
+                 arrow.style);
 
     }
 }
-
