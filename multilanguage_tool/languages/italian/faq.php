@@ -32,7 +32,7 @@ define("FAQ_TITLE_3","FidoCadJ è gratuito?");
 define("FAQ_CONTENT_3","<p>Si. FidoCadJ è un <b>Software Libero</b>, rilasciato sotto General Public License version 3.</p>");
 
 define("FAQ_TITLE_4","Quali sono i requisiti di sistema per utilizzare FidoCadJ?");
-define("FAQ_CONTENT_4","<p>Hai bisogno di un computer con Java ".JAVA_VERSION_REQUIRED." installato. Qualsiasi sistema operativo (Windows, Linux, MacOSX,...). È disponibile anche una versione di FidoCadJ per tablet o cellulari Android (necessaria almeno la versione 4.0).</p>");
+define("FAQ_CONTENT_4","<p>Hai bisogno di un computer con Java ".JAVA_VERSION_REQUIRED." installato. Qualsiasi sistema operativo (Windows, Linux, macOS,...). È disponibile anche una versione di FidoCadJ per tablet o cellulari Android (necessaria almeno la versione 4.0).</p>");
 
 define("FAQ_TITLE_5","Come si ruotano o specchiano i simboli?");
 define("FAQ_CONTENT_5","<p>Premi il tasto R oppure S mentre stai modificando o posizionando il simbolo. Puoi anche utilizzare le voci Ruota/Specchia nel menù Modifica.</p>");

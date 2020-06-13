@@ -15,4 +15,6 @@ define ("EXAMPLES_BUTTON","Esempi");
 
 define ("ENGLISH_FLAG_IMAGE_ALT","bandiera inglese");
 define ("ITALIAN_FLAG_IMAGE_ALT","bandiera italiana");
+define ("GREEK_FLAG_IMAGE_ALT","bandiera greca");
+
  ?>

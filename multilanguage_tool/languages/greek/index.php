@@ -2,13 +2,13 @@
 //this file contains the definitions of text included in index.html page
 
 //HEAD
-define("META_DESCRIPTION","Το FidoCadJ είναι ένα δωρεάν, φιλικό προς το χρήστη διανυσματικό γραφικό πρόγραμμα επεξεργασίας για MacOSX, Linux, Windows και Android. Διαθέσιμο στα Αγγλικά, Γαλλικά, Ιταλικά, Γερμανικά, Κινέζικα, Ισπανικά, Τσέχικα, Ιαπωνικά, Δανέζικα και Ελληνικά "); //page meta tag description
+define("META_DESCRIPTION","Το FidoCadJ είναι ένα δωρεάν, φιλικό προς το χρήστη διανυσματικό γραφικό πρόγραμμα επεξεργασίας για macOS, Linux, Windows και Android. Διαθέσιμο στα Αγγλικά, Γαλλικά, Ιταλικά, Γερμανικά, Κινέζικα, Ισπανικά, Τσέχικα, Ιαπωνικά, Δανέζικα και Ελληνικά "); //page meta tag description
 define("PAGE_TITLE","FidoCadJ Δωρεάν Γραφικός Επεξεργαστής για Ηλεκτρονικά και άλλα"); //page title attribute
 
 //CONTENT
-define("FIRST_LINE","Το FidoCadJ είναι ένα δωρεάν, φιλικό προς το χρήστη διανυσματικό γραφικό πρόγραμμα επεξεργασίας για MacOSX, Linux, Windows και Android."); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
+define("FIRST_LINE","Το FidoCadJ είναι ένα δωρεάν, φιλικό προς το χρήστη διανυσματικό γραφικό πρόγραμμα επεξεργασίας για macOS, Linux, Windows και Android."); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
-define("DOWNLOAD_BUTTON_TEXT_1","<strong>Κατεβάστε</strong> το FidoCadJ για MacOSX τώρα!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
+define("DOWNLOAD_BUTTON_TEXT_1","<strong>Κατεβάστε</strong> το FidoCadJ για macOS τώρα!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
 define("DOWNLOAD_BUTTON_TEXT_2","<strong>Κατεβάστε</strong> το FidoCadJ για Windows τώρα!"); //DOWNLOAD BUTTON TEXT FOR WINDOWS USERS
 define("DOWNLOAD_BUTTON_TEXT_3","<strong>Κατεβάστε</strong> το FidoCadJ για Linux τώρα!"); //DOWNLOAD BUTTON TEXT FOR LINUX USERS
 define("DOWNLOAD_BUTTON_TEXT_4","<strong>Κατεβάστε</strong> το FidoCadJ για Android τώρα!"); //DOWNLOAD BUTTON TEXT FOR ANDROID USERS

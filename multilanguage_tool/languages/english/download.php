@@ -2,7 +2,7 @@
 //this file contains the definitions of page download.php
 
 //description attribute of the download page
-define("DOWNLOAD_PAGE_DESCRIPTION", "Download FidoCadJ for free. No registration is required. Available for Windows, MacOSX, Linux and Android. Join us in the developement on GitHub!");
+define("DOWNLOAD_PAGE_DESCRIPTION", "Download FidoCadJ for free. No registration is required. Available for Windows, macOS, Linux and Android. Join us in the developement on GitHub!");
 
 //title attribute of the download page
 define("TITLE_PAGE_DESCRIPTION", "FidoCadJ Download");
@@ -16,14 +16,14 @@ define ("ALMOST_STABLE","almost stable");
 
 //logos alt attribute
 define ("WINDOWS_LOGO_ALT_ATTRIBUTE","Windows logo");
-define ("MAC_LOGO_ALT_ATTRIBUTE","MacOS logo");
+define ("MAC_LOGO_ALT_ATTRIBUTE","macOS logo");
 define ("LINUX_LOGO_ALT_ATTRIBUTE","Linux logo");
 define ("GIT_HUB_LOGO_ALT_ATTRIBUTE","GitHub logo");
 define ("ANDROID_LOGO_ALT_ATTRIBUTE","Android logo");
 
 //descriptions in the first table
 define ("WINDOWS_VERSION_DESCRIPTION","Windows installer (Java ".JAVA_VERSION_REQUIRED." at least).");
-define ("MAC_VERSION_DESCRIPTION","MacOSX application (>10.7.3, you need Java ".JAVA_VERSION_REQUIRED."). Open the disk image and copy FidoCadJ into your Application folder.");
+define ("MAC_VERSION_DESCRIPTION","macOS application (>10.7.3, you need Java ".JAVA_VERSION_REQUIRED."). Open the disk image and copy FidoCadJ into your Application folder.");
 define ("LINUX_VERSION_DESCRIPTION","Linux or any operating system (with at least Java ".JAVA_VERSION_REQUIRED."). Try to double click on the file. Or type from a shell:");
 
 //name and description about user manual in current version table

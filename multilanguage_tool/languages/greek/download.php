@@ -16,14 +16,14 @@ define ("ALMOST_STABLE","σχεδόν σταθερή");
 
 //logos alt attribute
 define ("WINDOWS_LOGO_ALT_ATTRIBUTE","λογότυπο Windows");
-define ("MAC_LOGO_ALT_ATTRIBUTE","λογότυπο MacOS");
+define ("MAC_LOGO_ALT_ATTRIBUTE","λογότυπο macOS");
 define ("LINUX_LOGO_ALT_ATTRIBUTE","λογότυπο Linux");
 define ("GIT_HUB_LOGO_ALT_ATTRIBUTE","λογότυπο GitHub");
 define ("ANDROID_LOGO_ALT_ATTRIBUTE","λογότυπο Android ");
 
 //descriptions in the first table
 define ("WINDOWS_VERSION_DESCRIPTION","Windows installer (Java ".JAVA_VERSION_REQUIRED." το ελάχιστο).");
-define ("MAC_VERSION_DESCRIPTION","MacOSX application (>10.7.3, Java ".JAVA_VERSION_REQUIRED." το ελάχιστο). Ανοίξτε το εικονίδιο εικόνας και αντιγράψτε το FidoCadJ μέσα στον φάκελο της εφαρμογής σας.");
+define ("MAC_VERSION_DESCRIPTION","macOS application (>10.7.3, Java ".JAVA_VERSION_REQUIRED." το ελάχιστο). Ανοίξτε το εικονίδιο εικόνας και αντιγράψτε το FidoCadJ μέσα στον φάκελο της εφαρμογής σας.");
 define ("LINUX_VERSION_DESCRIPTION","Linux ή οποιοδήποτε λειτουργικό σύστημα (με το λιγότερο έκδοση της Java ".JAVA_VERSION_REQUIRED."). Προσπαθήστε να κάνετε διπλό κλικ στο αρχείο. Η πληκτρολογείστε απο το shell:");
 
 //name and description about user manual in current version table

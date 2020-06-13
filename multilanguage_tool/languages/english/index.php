@@ -2,13 +2,13 @@
 //this file contains the definitions of text included in index.html page
 
 //HEAD
-define("META_DESCRIPTION","FidoCadJ is a free user-friendly vector graphic editor for MacOSX, Linux, Windows and Android. Available in English, French, Italian, German, Chinese, Spanish, Czech, Japanese and Dutch"); //page meta tag description
+define("META_DESCRIPTION","FidoCadJ is a free user-friendly vector graphic editor for macOS, Linux, Windows and Android. Available in English, French, Italian, German, Chinese, Spanish, Czech, Japanese and Dutch"); //page meta tag description
 define("PAGE_TITLE","FidoCadJ Free Graphical Editor for Electronics and more"); //page title attribute
 
 //CONTENT
-define("FIRST_LINE","FidoCadJ is a free user-friendly vector graphic editor for MacOSX, Linux, Windows and Android:"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
+define("FIRST_LINE","FidoCadJ is a free user-friendly vector graphic editor for macOS, Linux, Windows and Android:"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
-define("DOWNLOAD_BUTTON_TEXT_1","<strong>DOWNLOAD</strong> FidoCadJ for MacOSX now!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
+define("DOWNLOAD_BUTTON_TEXT_1","<strong>DOWNLOAD</strong> FidoCadJ for macOS now!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
 define("DOWNLOAD_BUTTON_TEXT_2","<strong>DOWNLOAD</strong> FidoCadJ for Windows now!"); //DOWNLOAD BUTTON TEXT FOR WINDOWS USERS
 define("DOWNLOAD_BUTTON_TEXT_3","<strong>DOWNLOAD</strong> FidoCadJ for Linux now!"); //DOWNLOAD BUTTON TEXT FOR LINUX USERS
 define("DOWNLOAD_BUTTON_TEXT_4","<strong>DOWNLOAD</strong> FidoCadJ for Android now!"); //DOWNLOAD BUTTON TEXT FOR ANDROID USERS

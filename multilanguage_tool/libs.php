@@ -7,6 +7,9 @@
 		case "en":
 			$language = "english";
 		break;
+		case "gr":
+			$language = "greek";
+		break;
 	}
 
 	include_once("config.php");
@@ -32,10 +35,13 @@
 		<header>
 				<a href="index.html"><h1>FidoCadJ</h1></a>
 				<h2><?php echo MAIN_SUBTITLE; ?></h2>
-				<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="https://twitter.com/share?via=davbucci" class="twitter-share-button">Tweet</a>
-				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				<a href="index.html" class="mainmenu">[<?php echo HOME_BUTTON; ?>]</a>
+				<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/".str_replace(".php",".html",basename(__FILE__)); ?>"><img src="http://darwinne.github.io/FidoCadJ/images/flags/english_flag.jpg" alt="<?php echo ENGLISH_FLAG_IMAGE_ALT; ?>"/></a>
+				&nbsp;
+				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/lang/it/".str_replace(".php",".html",basename(__FILE__)); ?>"> <img src="http://darwinne.github.io/FidoCadJ/images/flags/italian_flag.jpg" alt="<?php echo ITALIAN_FLAG_IMAGE_ALT; ?>"/></a>
+				&nbsp;
+				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/lang/gr/".str_replace(".php",".html",basename(__FILE__)); ?>"> <img src="http://darwinne.github.io/FidoCadJ/images/flags/greek_flag.jpg" alt="<?php echo GREEK_FLAG_IMAGE_ALT; ?>"/></a>
+				<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				<a href="index.html" class="mainmenu">[<?php echo HOME_BUTTON; ?>]</a>
 				&nbsp;
 				<a href="download.html" class="mainmenu">[<?php echo DOWNLOAD_BUTTON; ?>]</a>
 				&nbsp;
@@ -46,10 +52,6 @@
 				<a href="faq.html" class="mainmenu">[<?php echo FAQ_BUTTON; ?>]</a>
 				&nbsp;
 				<a href="examples.html" class="mainmenu">[<?php echo EXAMPLES_BUTTON; ?>]</a>
-				&nbsp;
-				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/".str_replace(".php",".html",basename(__FILE__)); ?>"><img src="http://darwinne.github.io/FidoCadJ/images/flags/english_flag.jpg" alt="<?php echo ENGLISH_FLAG_IMAGE_ALT; ?>"/></a>
-				&nbsp;
-				<a href="<?php echo "http://darwinne.github.io/FidoCadJ/lang/it/".str_replace(".php",".html",basename(__FILE__)); ?>"> <img src="http://darwinne.github.io/FidoCadJ/images/flags/italian_flag.jpg" alt="<?php echo ITALIAN_FLAG_IMAGE_ALT; ?>"/></a>
 		</header>
 
 		<div id="content">

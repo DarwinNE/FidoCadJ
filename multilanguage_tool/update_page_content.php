@@ -8,6 +8,8 @@ foreach (glob("*.*") as $filename) {
     echo '<iframe src="'.$filename.'?lang=en" height="3%" width="25%" ></iframe><br />'; //rendering of english pages
     echo $filename." - italian<br />";
     echo '<iframe src="'.$filename.'?lang=it" height="3%" width="25%" ></iframe><br />'; //rendering of italian pages
+	echo $filename." - greek<br />";
+    echo '<iframe src="'.$filename.'?lang=gr" height="3%" width="25%" ></iframe><br />'; //rendering of greek pages
   }
 }
 echo "<p>The translation process is completed, now you can find the pages in <b>multilanguage_tool/php_to_html_output/</b></p>";

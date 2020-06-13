@@ -9,7 +9,7 @@ define("PAGE_TITLE","FidoCadJ Libraries and Symbols"); //page title attribute
 //CONTENT
 define("FIRST_LINE","Libraries and symbols"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
-define("PARAGRAPH_1",'You can <b>freely download</b> user-contributed libraries of symbols from here. To install them in FidoCadJ, you should choose a directory in your computer, un-compress the downloaded file there. You will find one or several files with the fcl (FidoCadJ library) extension.<br/><br/><strong>On Windows: </strong>in FidoCadJ, go in the File menu, click on Options. In the "startup" tab select the directory containing the files with the fcl extension.<br/><br/><strong>On MacOSX:</strong> in the FidoCadJ menu, go in the program settings and in the "startup" tab select the directory containing the files with the fcl extension.'); //PARAGRAPH TEXT
+define("PARAGRAPH_1",'You can <b>freely download</b> user-contributed libraries of symbols from here. To install them in FidoCadJ, you should choose a directory in your computer, un-compress the downloaded file there. You will find one or several files with the fcl (FidoCadJ library) extension.<br/><br/><strong>On Windows: </strong>in FidoCadJ, go in the File menu, click on Options. In the "startup" tab select the directory containing the files with the fcl extension.<br/><br/><strong>On macOS:</strong> in the FidoCadJ menu, go in the program settings and in the "startup" tab select the directory containing the files with the fcl extension.'); //PARAGRAPH TEXT
 
 define("LIBRARY_1",'By elettrodomus, from <a href="http://www.electroyou.it/elettrodomus/wiki/una-piccola-libreria-ladder-per-fidocadj">this EY article</a>, ladder logic symbols (in italian, license CC BY-NC 4.0).'); //LIBRARY DESCRIPTION IN TABLE
 

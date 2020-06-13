@@ -32,7 +32,7 @@ define("FAQ_TITLE_3","How much does FidoCadJ cost?");
 define("FAQ_CONTENT_3","<p>Nothing. Zero. Nil. FidoCadJ is <b>Free Software</b>, released under the General Public License version 3.</p>");
 
 define("FAQ_TITLE_4","What are the requirements to run FidoCadJ?");
-define("FAQ_CONTENT_4","<p>You need a computer with Java ".JAVA_VERSION_REQUIRED." installed. Any operating system will do (Windows, Linux, MacOSX,...). You can also run FidoCadJ on an Android tablet or cellular phone (version 4.0 at least is required).</p>");
+define("FAQ_CONTENT_4","<p>You need a computer with Java ".JAVA_VERSION_REQUIRED." installed. Any operating system will do (Windows, Linux, macOS,...). You can also run FidoCadJ on an Android tablet or cellular phone (version 4.0 at least is required).</p>");
 
 define("FAQ_TITLE_5","How can I rotate/mirror symbols?");
 define("FAQ_CONTENT_5","<p>Press R or S while editing them. You also have Rotate/Mirror among the Edit menu items.</p>");

@@ -2,15 +2,15 @@
 //this file contains the definitions of text included in index.html page
 
 //HEAD
-define("META_DESCRIPTION","FidoCadJ è un software gratuito per il disegno tecnico e vettoriale, facilissimo da usare. Disponibile Per MacOSX, Linux, Windows e Android. Le lingue supportate sono: inglese, francese, italiano, tedesco, cinese, spagnolo, ceco, giapponese e olandese."); //page meta tag description
+define("META_DESCRIPTION","FidoCadJ è un software gratuito per il disegno tecnico e vettoriale, facilissimo da usare. Disponibile Per macOS, Linux, Windows e Android. Le lingue supportate sono: inglese, francese, italiano, tedesco, cinese, spagnolo, ceco, giapponese e olandese."); //page meta tag description
 
 define("PAGE_TITLE","FidoCadJ - il software gratuito per  schemi elettrici e non solo"); //page title attribute
 
 //CONTENT
-define("FIRST_LINE","FidoCadJ è un semplice software gratuito per il disegno tecnico e vettoriale. Disponibile Per MacOSX, Linux, Windows e Android:"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
+define("FIRST_LINE","FidoCadJ è un semplice software gratuito per il disegno tecnico e vettoriale. Disponibile Per macOS, Linux, Windows e Android:"); //FIRST LINE OF TEXT ON THE CONTENT SECTION OF PAGE
 
 
-define("DOWNLOAD_BUTTON_TEXT_1","<strong>SCARICA</strong> FidoCadJ per MacOSX ora!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
+define("DOWNLOAD_BUTTON_TEXT_1","<strong>SCARICA</strong> FidoCadJ per macOS ora!"); //DOWNLOAD BUTTON TEXT FOR MAC USERS
 define("DOWNLOAD_BUTTON_TEXT_2","<strong>SCARICA</strong> FidoCadJ per Windows ora!"); //DOWNLOAD BUTTON TEXT FOR WINDOWS USERS
 define("DOWNLOAD_BUTTON_TEXT_3","<strong>SCARICA</strong> FidoCadJ per Linux ora!"); //DOWNLOAD BUTTON TEXT FOR LINUX USERS
 define("DOWNLOAD_BUTTON_TEXT_4","<strong>SCARICA</strong> FidoCadJ per Android ora!"); //DOWNLOAD BUTTON TEXT FOR ANDROID USERS
