@@ -7,6 +7,7 @@ define ("MAC_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releas
 define ("WINDOWS_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.7/FidoCadJ_0.24.7_Windows.msi");
 define ("LINUX_VERSION_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar");
 define ("ANDROID_VERSION_DOWNLOAD_LINK","http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download");
+define ("MANUAL_EN_DOWNLOAD_LINK","https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/manual_en.pdf");
 
 //FidoCadJ current version (which is ready to distribute)
 define ("CURRENT_VERSION","0.24.8");
