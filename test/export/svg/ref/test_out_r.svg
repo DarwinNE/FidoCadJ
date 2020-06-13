@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
 <svg width="687.0" height="600.0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<!-- Created by FidoCadJ ver. 0.24.8 ε, export filter by Davide Bucci -->
+<!-- Created by FidoCadJ ver. 0.24.8, export filter by Davide Bucci -->
 <line x1="15.0" y1="98.0" x2="183.0" y2="98.0" style="stroke:#000000;stroke-dasharray: 1.980198,4.9504952,4.9504952,4.9504952;stroke-dashoffset: 0.0;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <line x1="15.0" y1="88.0" x2="183.0" y2="88.0" style="stroke:#000000;stroke-dasharray: 1.980198,4.9504952;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <line x1="15.0" y1="78.0" x2="183.0" y2="78.0" style="stroke:#000000;stroke-dasharray: 1.980198,1.980198;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
@@ -90,41 +90,41 @@
 <polygon points="243.0,326.0 332.0,296.0 243.0,365.0 342.0,316.0 " style="stroke:#000000;stroke-dasharray: 1.980198,1.980198;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <polygon points="322.0,326.0 411.0,296.0 322.0,365.0 421.0,316.0 " style="stroke:#000000;stroke-dasharray: 1.980198,4.9504952;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <polygon points="401.0,326.0 490.0,296.0 401.0,365.0 500.0,316.0 " style="stroke:#000000;stroke-dasharray: 1.980198,4.9504952,4.9504952,4.9504952;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
-<g transform="translate(441.0,19.0) scale(1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,19.0) scale(1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,19.0) scale(-1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,19.0) scale(-1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,39.0) scale(3.701298701298701,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,39.0) scale(3.701298701298701,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,39.0) scale(-3.701298701298701,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,39.0) scale(-3.701298701298701,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,49.0) scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,49.0) scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,49.0) scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,49.0) scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,68.0) scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,68.0) scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(451.0,78.0) rotate(-20.0)  scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(451.0,78.0) rotate(-20.0)  scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(460.0,88.0) rotate(-40.0)  scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(460.0,88.0) rotate(-40.0)  scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(470.0,98.0) rotate(-60.0)  scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(470.0,98.0) rotate(-60.0)  scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(480.0,108.0) rotate(-80.0)  scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(480.0,108.0) rotate(-80.0)  scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(490.0,118.0) rotate(-90.0)  scale(0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(490.0,118.0) rotate(-90.0)  scale(0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(431.0,78.0) rotate(20.0)  scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(431.0,78.0) rotate(20.0)  scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(421.0,88.0) rotate(40.0)  scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(421.0,88.0) rotate(40.0)  scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(411.0,98.0) rotate(60.0)  scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(411.0,98.0) rotate(60.0)  scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(401.0,108.0) rotate(80.0)  scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(401.0,108.0) rotate(80.0)  scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(441.0,68.0) scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(441.0,68.0) scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(391.0,118.0) rotate(90.0)  scale(-0.5757575757575757,1) "><text x="0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(391.0,118.0) rotate(90.0)  scale(-0.5757575757575757,1) "><text x="0.0" y="15.0" font-family="Courier New" font-size="15.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
 <ellipse cx="416.0" cy="128.0" rx="15.0" ry="10.0" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <ellipse cx="465.5" cy="128.0" rx="14.5" ry="10.0" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
@@ -133,13 +133,13 @@
 <path d="M 381.0,118.0 C 391.0,227.0 490.0,217.0 500.0,118.0" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <ellipse cx="416.0" cy="133.0" rx="5.0" ry="5.0" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="#000000"/>
 <ellipse cx="465.0" cy="133.0" rx="5.0" ry="5.0" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="#000000"/>
-<g transform="translate(460.0,256.0) scale(-1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(460.0,256.0) scale(-1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(460.0,256.0) rotate(90.0)  scale(-1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(460.0,256.0) rotate(90.0)  scale(-1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(460.0,256.0) rotate(180.0)  scale(-1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(460.0,256.0) rotate(180.0)  scale(-1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
-<g transform="translate(460.0,256.0) rotate(270.0)  scale(-1.2337662337662336,1) "><text x="0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
+<g transform="translate(460.0,256.0) rotate(270.0)  scale(-1.2337662337662336,1) "><text x="0.0" y="7.0" font-family="Courier New" font-size="7.0" font-style="" font-weigth="" fill="#000000">Text</text>
 </g>
 <line x1="341.63" y1="256.43" x2="344.38" y2="257.64" style="stroke:#000000;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
 <line x1="344.38" y1="257.64" x2="347.13" y2="258.85" style="stroke:#000000;stroke-dashoffset: 3.0079389;stroke-width:0.693069306930693;fill-rule: evenodd;" fill="none"/>
