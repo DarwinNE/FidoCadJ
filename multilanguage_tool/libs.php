@@ -337,7 +337,7 @@
 
         <tr>
           <td>
-            <a href="http://darwinne.github.io/FidoCadJ/libs/SchemiUnifilari.zip">simon-zz (zip)</a><br>
+            <a href="http://darwinne.github.io/FidoCadJ/libs/SchemiUnifilari.zip">Simboli Unifilari (zip)</a><br>
           </td>
           <td>
             4 KiB
