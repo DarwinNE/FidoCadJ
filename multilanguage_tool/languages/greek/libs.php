@@ -47,6 +47,8 @@ define("LIBRARY_17",'Βιβλιοθήκη απο τον MacZap σε <a href="htt
 
 define("LIBRARY_18",'Προτάθηκε απο τον simon-zz στο <a href="https://github.com/simon-zz/simon-zz-fidocadj-libs">Git Hub</a>. Πρόκειται για μια μικρή και βασική βιβλιοθήκη ηλεκτρικών και ηλεκτρονικών συμβόλων. Τα σύμβολα έχουν σχεδιαστεί για να μειώνεται το μέγεθος τους σε σχέση με τις άλλες βιβλιοθήκες, επιτρέποντας στον χρήστη να σχεδιάσει σχήματα μικρού μεγέθους.'); //LIBRARY DESCRIPTION IN TABLE
 
+define("LIBRARY_19",'By Sergio Moro on <a href="https://www.electroyou.it/nicsergio/wiki/libreria-fidocadj-di-simboli-elettrici-per-schemi-unifilari">this article on ElectroYou</a>. A small library containing symbols for single-wire electric circuits (such as those used in buildings, etc).'); //LIBRARY DESCRIPTION IN TABLE
+
 define("PARAGRAPH_2",'Εάν έχετε δημιουργήσει ένα αρχείο βιβλιοθήκης για το FidoCadJ και θέλετε να το μοιραστείτε μεταξύ της κοινότητας χρηστών, ανοίξτε ένα νέο ζήτημα στο GitHub. Από την άλλη πλευρά, εάν έχετε βρει κάτι που δεν πρέπει να είναι εδώ, ανοίξτε επίσης ένα ζήτημα και θα καταργήσουμε το προσβλητικό περιεχόμενο όσο πιο γρήγορα μπορούμε.'); //PARAGRAPH TEXT
 
  ?>

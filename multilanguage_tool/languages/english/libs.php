@@ -47,6 +47,8 @@ define("LIBRARY_17",'Library prepared by MacZap in <a href="http://www.grix.it/f
 
 define("LIBRARY_18",'Proposed by simon-zz on <a href="https://github.com/simon-zz/simon-zz-fidocadj-libs">Git Hub</a>. This is a small and basic library of electrical and electronic symbols. The symbols has been designed to be reduced in size respect to the other libraries, allowing the user to design small size schematics.'); //LIBRARY DESCRIPTION IN TABLE
 
+define("LIBRARY_19",'By Sergio Moro on <a href="https://www.electroyou.it/nicsergio/wiki/libreria-fidocadj-di-simboli-elettrici-per-schemi-unifilari">this article on ElectroYou</a>. A small library containing symbols for single-wire electric circuits (such as those used in buildings, etc).'); //LIBRARY DESCRIPTION IN TABLE
+
 define("PARAGRAPH_2",'If you have prepared a library file for FidoCadJ and you want to share it between the user community, please open a new Issue on GitHub. On the other hand, if you have found here something which should not be here, also open an Issue and we will remove the offending content as fast as we can.'); //PARAGRAPH TEXT
 
  ?>
