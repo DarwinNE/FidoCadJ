@@ -43,7 +43,7 @@ This file has been written by Davide Bucci and Dante Loi
 
 FidoCadJ is a very easy to use editor, with a vast library of electrical
 symbols and footprints (through hole and SMD). Its drawings can be exported
-in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even if
+in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even though 
 it is very simple to use, FidoCadJ can be very useful as a basic schematic
 capture and electronic design automation (EDA) software.
 FidoCadJ is inspired from the old FidoCAD (without "J"), which was a vector
@@ -70,7 +70,7 @@ FidoCadJ runs on the following systems:
 - MacOSX 10.8 and following
 - Android 4.0 or more recent devices.
 
-Java 1.9 at least is required for Windows, Linux and MacOSX.
+At least version 1.9 of Java is required for Windows, Linux and MacOSX.
 
 1.2 Where can I find FidoCadJ?
 ------------------------------
@@ -102,13 +102,13 @@ unpack it, and in the FidoCadJ-x.xx.x/ directory type:
     make
     sudo make install
 
-If you use Windows, you might find useful using the classical installer
+If you use Windows, you might find useful to use the classical installer
 contained in the `FidoCadJ_Windows.msi` file. If you run it, it will install
 FidoCadJ on your system and you can launch it via the Start menu.
 
 If you own an Apple Macintosh with MacOSX, you may download the `FidoCadJ_MacOSX.dmg`
 bundle and treat it just like any other native application. Since Apple does
-not seem to be very much prone to support Java, if you experience some
+not seem to keen to support Java, if you experience some
 problems running FidoCadJ, please check you do have a Java runtime
 correctly installed on your Mac. This is particularly true if you are using
 the MacOSX Lion/Mountain Lion/Mavericks/etc. operating system. Normally, you
@@ -190,7 +190,7 @@ Important classes in `src/net/sourceforge/fidocadj/` are:
 
 2.3 Developers' tools
 ----------------------------------------------------------------------
-The `dev_tools` directory, contains all the scripts for compile, build,
+The `dev_tools` directory, contains all the scripts to compile, build,
 run and test FidoCadJ.
 
 | Tool                 | Description                                     |
@@ -227,7 +227,7 @@ You will thus find in the main directory (see section 2 of this file) several
 scripts which will be useful for you, especially if you are working in a
 Unix-like environment.
 If you prefer to use some kind of IDE such as Eclipse, you may try, but I
-do not provide assistance about it and I will always refer to the scripts
+do not provide assistance with those IDE's and I will always refer to the scripts
 I wrote. And no, I will not change my habits, sorry :smile:
 
 3.1 Build automation tool
@@ -281,8 +281,8 @@ It must be used with the action to be accomplished, as an argument:
 [^1]: This option refers to the compiler resolving dependency.
 [^2]: The compiler starts on each source file. Very slow.
 
-Alternatively, you might handle manually the compilation with the following
-command, into the main directory:
+Alternatively, you can manually compile with the following
+command, in the main directory:
 
     javac  -g -O -sourcepath src -classpath bin .\src\FidoMain.java -d bin
 
@@ -305,12 +305,12 @@ separate `README.md` file which gives some relevant information.
 
 Great care has been put in sharing as much code as possible between the
 computer application and the Android one. Therefore, you will always
-find the same release number synchronized between the two.
+find their release numbers synchronized.
 
 4 - Coding conventions
 =====================================================
-Who wants to work on the FidoCadJ sourcecode should take care the following
-style conventions.
+For those who want to work on the FidoCadJ source code please use the following
+coding style conventions.
 
 4.1 General rules
 -------------------
@@ -381,8 +381,8 @@ int dummy(int i)
 - employing `_` in names of types or variables is deprecated :ok:
 - commits should not break the build
 - each commit *MUST* include a log
-- predilect simplicity to unnecessary complication
-- predilect quality to quantity
+- favor simplicity to unnecessary complication
+- favor quality to quantity
 - discuss what you want to do BEFORE start coding
 - documentation is important. Try to improve it and keep it up-to-date
 
@@ -396,7 +396,7 @@ request! Have a look at paragraph 4.4 and follow the checklist!
 4.2 Automated tests
 -------------------
 
-To ease the maintain of a certain degree of quality control when working
+To main a certain degree of quality control when working
 on the source code, the FidoCadJ source repository comes with a number of
 automated test scripts contained in the directory `test/`.
 You may launch all the tests by using the script `dev_tools/all_tests.sh` contained
@@ -414,12 +414,12 @@ The following list briefly describes the provided tests:
 `test/export/test_export.sh`
 :   Test the export on all available file formats. A set of reference files is
     provided, so it might be updated if differences on the export are introduced
-    by purpose. If a test has failed, this tells just that the exported file is
+    on purpose. If a test has failed, this tells just that the exported file is
     not identical to the model which has been used. You may have a look at the
     log file and at the result of the export. You may decide that it is OK.
 
 `test/messages/test_messages.sh`
-:   Test the coherence of all installed interface languages against the
+:   Test the coherence of all the installed interface languages against the
     reference (which is the English resource file!)
 
 `test/size/test_size.sh`
@@ -452,7 +452,7 @@ Effort will be done to reduce the size of those files in the future.
 
 FindBugs runs interactively and analyzes the JAR file resulting after the
 compilation and packaging.
-The great care applied to the code quality has made sort that FidoCadJ has
+The great care applied to the code quality has made sure that FidoCadJ has
 had some good results in a [quality assessment analysis](
 https://www.cs.usask.ca/documents/technical-reports/2013/TR-2013-01.pdf) done by
 researchers working in the Department of Computer Science of the University of
@@ -476,7 +476,7 @@ manual or in the program, any correction is very welcome. I will be very
 happy to know what do you think about FidoCadJ. I would be glad to receive
 some help: if you know Java and you want to work on the source code you will
 be welcome.
-If your Java coding is not fluent, you can participate to the project by
+If you are not fluent with Java coding, you can participate to the project by
 improving the manuals or translating the interface, or just giving an advice.
 Feel free to contact me at davbucciNOPE@tiscali.it, or in the GitHub
 discussions (the email address is valid without the nope part, but no
@@ -527,7 +527,7 @@ the file `bin/MessagesBundle_fr.properties`:
 
 That is all. If you want to translate FidoCadJ in your language, you just have
 to translate line by line the values in a language resource file, name it
-accordingly to your locale and place it in the `bin/` directory.
+accordingly for your locale and place it in the `bin/` directory.
 Pay attention that sometimes there are spaces at the end of the value
 strings which need to be kept in place. You may be careful about always
 providing complete files, since if a resource is missing, FidoCadJ can abort.
@@ -535,7 +535,7 @@ providing complete files, since if a resource is missing, FidoCadJ can abort.
 5.2 "I would like to participate to the coding activity"
 --------------------------------------------------------
 
-This is very nice from you. We will be happy for that.
+This is very nice of you. We will be happy for that.
 
 You can open an [issue](https://github.com/DarwinNE/FidoCadJ/issues) on GitHub
 and declare what you would like to do. We will discuss a little in order to see
@@ -547,7 +547,7 @@ Have a peek to section 4.1 of this `README.md` file to see what coding style
 should be applied to the sources.
 
 Apart from that, FidoCadJ is GPL v.3 and this means that if you have the mood
-for, you can download with Git the source files and play *as you want* with
+, you can download with Git the source files and play *as you want* with
 them. But keep in mind that if you want your contributions be included in the
 FidoCadJ main stream, you MUST keep in touch with us via GitHub and you must
 discuss about what are you willing to do.
@@ -575,7 +575,7 @@ YouTube video tutorial
 :   People love YouTube videos!
 
 Report bugs
-:   Use the bug and artefact tracking system on GitHub.
+:   Use the bug and artifact tracking system on GitHub.
 
 Export in Gerber format
 :   Exporting in graphical vector formats is easy with FidoCadJ. If you want to
@@ -607,7 +607,7 @@ For the PC app:
 6 - I found a bug...
 ====================
 
-Every program contains bugs and FidoCadJ is not an exception. Even if all
+Every program contains bugs and FidoCadJ is no exception. Even if all
 the people involved in the development of FidoCadJ pay a lot of attention
 at each release, some details could just go unnoticed.
 If you are familiar with the GitHub interface, do not hesitate to
