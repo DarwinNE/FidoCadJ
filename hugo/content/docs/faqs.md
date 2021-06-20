@@ -14,7 +14,7 @@ bookToc: true
 FidoCadJ is a **simple** vector graphic editor. You can draw whatever you want, and FidoCadJ comes with a large library of symbols related to the electrical and electronic engineering.
 
 ## Can I use FidoCadJ for other than electronics?
-Yes, you can! FidoCadJ can be used in [diagrams](http://www.matematicamente.it/forum/viewtopic.php?f=38&t=114624), [flow-charts](http://www.electroyou.it/pepito/wiki/libreria-flowchart-per-fidocadj) and [even comics](http://www.electroyou.it/admin/wiki/peanuts-fidocadj). In the [screenshots](/screenshots) you have some examples.
+Yes, you can! FidoCadJ can be used in [diagrams](http://www.matematicamente.it/forum/viewtopic.php?f=38&t=114624), [flow-charts](http://www.electroyou.it/pepito/wiki/libreria-flowchart-per-fidocadj) and [even comics](http://www.electroyou.it/admin/wiki/peanuts-fidocadj). In the [screenshots]({{< relref "/docs/screenshots" >}})) you have some examples.
 
 ## How much does FidoCadJ cost?
 Nothing. Zero. Nil. FidoCadJ is **Free Software**, released under the General Public License version 3.
