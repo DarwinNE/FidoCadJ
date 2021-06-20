@@ -1,8 +1,8 @@
-= README file for FidoCadJ website
+# README file for FidoCadJ website
 
 Copyright 2021
 
-== Description
+## Description
 The gh-pages of the FidoCadJ project contains the website dedicated to
 the users of the FidoCadJ project. The purpose of the site is to show
 an introduction to the software for the unexperienced user and provide
@@ -15,7 +15,7 @@ participate to the development.
 As for FidoCadJ, the guidelines for the website are oriented towards
 the KISS philosophy: Keep It Simple Stupid.
 
-== Licensing
+## Licensing
 FidoCadJ is distributed with the GPL v. 3 license:
 
     FidoCadJ is free software: you can redistribute it and/or modify
