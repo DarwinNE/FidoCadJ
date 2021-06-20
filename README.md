@@ -1,6 +1,6 @@
 # README file for FidoCadJ website
 
-Copyright 2021
+Copyright 2021 by DrGremi
 
 ## Description
 The gh-pages of the FidoCadJ project contains the website dedicated to

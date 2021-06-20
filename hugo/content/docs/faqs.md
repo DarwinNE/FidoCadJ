@@ -22,7 +22,7 @@ Nothing. Zero. Nil. FidoCadJ is **Free Software**, released under the General Pu
 ## What are the requirements to run FidoCadJ?
 You need a computer with Java 9 installed. Any operating system will do (Windows, Linux, macOS,...). You can also run FidoCadJ on an Android tablet or cellular phone (version 4.0 at least is required).
 
-##How can I rotate/mirror symbols?
+## How can I rotate/mirror symbols?
 Press R or S while editing them. You also have Rotate/Mirror among the Edit menu items.
 
 ## Why is FidoCadJ useful in my forum/website?
