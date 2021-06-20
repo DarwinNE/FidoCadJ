@@ -4,5 +4,3 @@
 #to all bots / crawlers
 User-agent: *
 
-#this directory contains just the tools for multilingual page creation
-Disallow: /multilanguage_tool/
