@@ -46,4 +46,4 @@ You can try them, but you are warned that some bugs might sneak here and there.
 ## How can I participate to the development?
 FidoCadJ is an **open source** project. You can freely have a look at the [complete source code in the GitHub repository](https://github.com/DarwinNE/FidoCadJ). Also this website is kept in the repository.
 
-You can review the code, spot bugs, suggest improvements in the application or in the documentation. Becoming an active contributor, with write access on the repository, requires you to read the [README](https://github.com/DarwinNE/FidoCadJ/blob/master/README) file, and discuss a little with the other developers using [Issues](https://github.com/DarwinNE/FidoCadJ/issues).
+You can review the code, spot bugs, suggest improvements in the application or in the documentation. Becoming an active contributor, with write access on the repository, requires you to read the [README](https://github.com/DarwinNE/FidoCadJ/blob/master/README.md) file, and discuss a little with the other developers using [Issues](https://github.com/DarwinNE/FidoCadJ/issues).
