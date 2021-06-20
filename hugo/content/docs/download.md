@@ -15,7 +15,7 @@ If fidocadj.jar is opened with a zip utility, you probably do not have Java on y
 
 |OS|Version|Size|Description|
 |-|-|-|-|
-| [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|Rolling](https://github.com/DarwinNE/FidoCadJ)|Unknown| The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code... |
+| [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|[Rolling](https://github.com/DarwinNE/FidoCadJ)|Unknown| The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code... |
 | ![Android logo](/Android_Robot_100.png) | [0.24.5 kappa]({{< siteparam "androidDevelopUrl" >}}) | 740 KiB | A preliminary version of FidoCadJ for Android™ (4.0 at least). Almost stable, any feedback will be welcomed. |
 
 ## Old stable version: {{< siteparam "oldStable" >}}
