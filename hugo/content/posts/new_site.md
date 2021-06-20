@@ -15,9 +15,7 @@ author: "drgremi"
 categories:
 - News
 tags:
-- News
-- Updates
+- Site updates
 ---
 # New site for FidoCadJ
-
-s
+We are pleased to announce the new site for FidoCadJ! Made using Hugo by drgremi!
