@@ -39,7 +39,7 @@ Requires Java 1.5 at least, so it might be useful for older computers.
 | ![macOS logo](/MacOS.png) | [{{< siteparam "oldStable" >}} oldstable]({{< siteparam "macOldStableUrl" >}}) | 10 MiB | MacOSX application (>10.4, requires Java 1.5 at least). Open the dmg disk image, and copy the FidoCadJ application into your Application directory. |
 | ![Linux logo](/linux_logo.png) | [{{< siteparam "oldStable" >}} oldstable]({{< siteparam "linuxOldStableUrl" >}}) | 530 KiB | Version for any operating system (with Java version 1.5 at least). Often, you can can double click on the file. Or type from a shell: `java -jar fidocadj.jar` |
 | ![Android logo](/Android_Robot_100.png) | [0.24.5 kappa]({{< siteparam "androidDevelopUrl" >}}) | 740 KiB | A preliminary version of FidoCadJ for Android™ (4.0 at least). Almost stable, any feedback will be welcomed. |
-| ![PDF Icon](/pdf-icon.png)| [User manual in english (pdf)](http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/manuals/fidocadj_manual_en.pdf/download) | 2.5 MiB | The English FidoCadJ user manual. |
+| ![PDF Icon](/pdf-icon.png)| [User manual in english (pdf)]({{< siteparam "oldUserManualUrl" >}}) | 2.5 MiB | The English FidoCadJ user manual. |
 
 Warning: we are progressively migrating all the FidoCadJ project from SourceForge to GitHub; some links in this website still point to SourceForge pages.
 
