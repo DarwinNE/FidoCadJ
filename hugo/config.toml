@@ -8,6 +8,9 @@ defaultContentLanguage = "en"
 
 publishDir = "../docs/"
 
+[markup.goldmark.renderer]
+unsafe= true
+
 [languages]
   [languages.en]
     title = "FidoCadJ"
@@ -37,7 +40,7 @@ publishDir = "../docs/"
 
       androidDevelopUrl = "http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download"
       userManualUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/manual_en.pdf"
-      oldUserManualUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/manual_en.pdf"
+      oldUserManualUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.6/manual_en.pdf"
 
 
       # (Optional, default light) Sets color theme: light, dark or auto.

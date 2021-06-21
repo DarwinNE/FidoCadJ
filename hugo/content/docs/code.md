@@ -13,7 +13,7 @@ weight: 1
 {{< columns >}} <!-- begin columns block -->
 ## Differential Amplifier
 ![Differential Amplifier](/differential_amplifier.png)
-
+{{< details "Show code" "...">}}
     [FIDOCAD]
     FJC B 0.5
     MC 30 60 0 0 280
@@ -182,14 +182,17 @@ weight: 1
     MC 225 65 0 0 000
     SA 185 65 0
     SA 205 50 0
-
+{{< /details >}}
 
 <---> <!-- magic separator, between columns -->
 
 ## Nixie clock
-
+<br />
 ![Nixie clock](/nixie_clock.png)
-
+<br />
+<br />
+<br />
+{{< details "Show code" "..." >}}
     [FIDOCAD]
     FJC C 1.5
     FJC A 1.0
@@ -946,4 +949,6 @@ weight: 1
     TY 165 485 14 8 0 0 3 * C11
     TY 270 415 14 8 0 0 3 * Q11
     TY 70 225 14 8 0 0 3 * C12
+{{< /details >}}
+
 {{< /columns >}}

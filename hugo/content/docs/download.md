@@ -19,7 +19,7 @@ title: "Download"
 | ![Linux logo](/linux_logo.png) | [{{< siteparam "currentStable" >}} stable]({{< siteparam "linuxStableUrl" >}}) | 640 KiB | Linux or any operating system (with at least Java 9). Try to double click on the file. Or type from a shell: java -jar fidocadj.jar |
 |![PDF Icon](/pdf-icon.png) |{{< siteparam "currentStable" >}} stable|2.5 MiB|[User manual in english (pdf)]({{< siteparam "userManualUrl" >}}) | The English FidoCadJ user manual. |
 
-If fidocadj.jar is opened with a zip utility, you probably do not have Java on your computer. You can freely download it from the [Oracle web site](https://www.java.com/download/).
+If fidocadj.jar is opened with a zip utility, you probably do not have Java on your computer. You can freely download it from the [Oracle web site](https://openjdk.java.net).
 
 
 ### Participate to the development
@@ -28,7 +28,7 @@ If fidocadj.jar is opened with a zip utility, you probably do not have Java on y
 |-|-|-|-|
 | [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|[Rolling](https://github.com/DarwinNE/FidoCadJ)|Unknown| The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code... |
 
-## Old stable version:
+## Old stable
 ***version {{< siteparam "oldStable" >}}***
 
 Requires Java 1.5 at least, so it might be useful for older computers.

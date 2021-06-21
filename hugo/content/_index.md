@@ -7,7 +7,7 @@ type: docs
 ***a free graphical editor for electronics***
 {{< columns >}}
 ## What is FidoCadJ
-![Fidocad](ecg.png)
+[![Fidocad](ecg.png)]({{< relref "/docs/fsimage" >}})
 FidoCadJ is a free user-friendly vector graphic editor for macOS, Linux, Windows and Android.
 <--->
 
@@ -18,8 +18,6 @@ FidoCadJ is a free user-friendly vector graphic editor for macOS, Linux, Windows
 * Export in several graphical formats: PDF, EPS, SVG, PNG, JPG, and PGF/TikZ for LaTeX;
 * User interface in English, French, Italian, German, Chinese, Spanish, Czech, Japanese and Dutch.
 {{< /columns >}}
-
-
 {{< buttonglobal "winStableUrl" >}}Windows Download (v{{< siteparam "currentStable" >}}){{< /buttonglobal >}}
 {{< buttonglobal "macStableUrl" >}}macOS Download (v{{< siteparam "currentStable" >}}){{< /buttonglobal >}}
 {{< buttonglobal "linuxStableUrl" >}}Linux Download (v{{< siteparam "currentStable" >}}){{< /buttonglobal >}}
