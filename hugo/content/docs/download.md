@@ -26,7 +26,7 @@ If fidocadj.jar is opened with a zip utility, you probably do not have Java on y
 
 |OS|Version|Size|Description|
 |-|-|-|-|
-| [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|[Rolling](https://github.com/DarwinNE/FidoCadJ)|Unknown| The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code... |
+| [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|[Contribute](https://github.com/DarwinNE/FidoCadJ)|Unknown| The FidoCadJ GitHub project: post a bug report, ask for a particular feature, checkout the source code... |
 
 ## Old stable
 ***version {{< siteparam "oldStable" >}}***
