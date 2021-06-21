@@ -1,5 +1,5 @@
 ---
-title: "Screenshot"
+title: "Screenshots"
 weight: 1
 # bookFlatSection: false
 # bookToc: true
@@ -9,7 +9,7 @@ weight: 1
 # bookSearchExclude: false
 ---
 
-# Screenshot
+# Screenshots
 ![Microfoni](/microfoni.png) [microfoni.fcd](/microfoni.fcd) [(from an EY article)](https://www.electroyou.it/mir/wiki/7-disegnare-con-fidocadj-microfono-a-granuli-di-carbone)
 
 ![t](/fidocadj.png) [eccitatore.fcd](/eccitatore.fcd)

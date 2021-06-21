@@ -26,18 +26,18 @@ publishDir = "../docs/"
 
 [params]
       currentStable = "0.24.8"
-      oldStable = "0.24.3"
+      oldStable = "0.24.7"
       winStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ-0.24.8.msi"
       macStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ-0.24.8.dmg"
       linuxStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar"
 
-      winOldStableUrl = "http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_Windows.msi/download"
-      macOldStableUrl = "http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/FidoCadJ_MacOSX.dmg/download"
-      linuxOldStableUrl = "http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/fidocadj.jar/download"
+      winOldStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.7/FidoCadJ_0.24.7_Windows.msi"
+      macOldStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.7/FidoCadJ_MacOSX.dmg"
+      linuxOldStableUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.7/fidocadj.jar"
 
       androidDevelopUrl = "http://sourceforge.net/projects/fidocadj/files/public_betas/Android/fidocadj-debug20150227.apk/download"
       userManualUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/manual_en.pdf"
-      oldUserManualUrl = "http://sourceforge.net/projects/fidocadj/files/versions/0.24.3/manuals/fidocadj_manual_en.pdf/download"
+      oldUserManualUrl = "https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/manual_en.pdf"
 
 
       # (Optional, default light) Sets color theme: light, dark or auto.

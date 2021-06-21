@@ -3,14 +3,15 @@ title: Home
 type: docs
 ---
 
-# FidoCadJ a free graphical editor for (more than) electronics
+# FidoCadJ
+***a free graphical editor for electronics***
 {{< columns >}}
 ## What is FidoCadJ
 ![Fidocad](ecg.png)
 FidoCadJ is a free user-friendly vector graphic editor for macOS, Linux, Windows and Android.
 <--->
 
-## Right
+## Features
 * A simple schematic capture with a built-in set of electrical symbols and footprints;
 * A versatile graphical editor with user-defined libraries;
 * Easy-sharing text format for web forums and blogs;
