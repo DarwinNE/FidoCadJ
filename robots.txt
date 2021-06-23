@@ -1,8 +1,0 @@
-#this is a file that saids to Search Engines Crawlers some directory or files
-#we do not want scanned
-
-#to all bots / crawlers
-User-agent: *
-
-#this directory contains just the tools for multilingual page creation
-Disallow: /multilanguage_tool/
