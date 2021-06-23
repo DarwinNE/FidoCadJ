@@ -36,7 +36,7 @@ If you want to publish and share your drawings and you are not interested in the
 ## FidoCadJ does not run or is very slow, what can I do?
 Most of the times, if you can not run FidoCadJ in your system, this means that Java is not correctly installed. If FidoCadJ runs, but is abnormally slow, this might indicate that the configuration of Java is not optimal.
 
-It happened in the past with some Linux distributions, that suboptimal graphic drivers gave disappointing rendering performance with Java. If other Java applications run perfectly fine, [contact us on the forum](https://sourceforge.net/p/fidocadj/discussion/?source=navbar).
+It happened in the past with some Linux distributions, that suboptimal graphic drivers gave disappointing rendering performance with Java. If other Java applications run perfectly fine, [contact us](https://github.com/DarwinNE/FidoCadJ/issues).
 
 ## Version number is 0.something. Is it an unstable/unfinished project?
 FidoCadJ is nowadays quite **mature**. The fact that version number begins with a zero has nothing to do with that. It is just a convention. Unstable/developer versions are instead followed by a greek letter.

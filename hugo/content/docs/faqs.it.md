@@ -44,7 +44,7 @@ Se ti interessa pubblicare e condividere i tuoi disegni, e non sei interessato a
 
 Per la maggior parte dei casi, se FidoCadJ non lavora bene sul tuo sistema, significa che Java non è installato correttamente. Se FidoCadJ si avvia, ma è davvero molto lento, questo potrebbe indicare che la configurazione di Java non è ottimale.
 
-È successo qualche volta in alcune distribuzioni Linux che i driver grafici elaboravano malamente le operazioni di rendering. Se invece altre applicazioni Java lavorano bene sul tuo sistema, [contattaci](https://sourceforge.net/p/fidocadj/discussion/?source=navbar) e saremo felici di aiutarti.
+È successo qualche volta in alcune distribuzioni Linux che i driver grafici elaboravano malamente le operazioni di rendering. Se invece altre applicazioni Java lavorano bene sul tuo sistema, [contattaci](https://github.com/DarwinNE/FidoCadJ/issues) e saremo felici di aiutarti.
 
 ## Il numero della versione è 0.qualcosa. È un progetto instabile o incompleto?
 
