@@ -1,5 +1,5 @@
 ---
-title: "Faqs"
+title: "FAQs"
 weight: 1
 # bookFlatSection: false
 bookToc: true
@@ -26,7 +26,7 @@ You need a computer with Java 9 installed. Any operating system will do (Windows
 Press R or S while editing them. You also have Rotate/Mirror among the Edit menu items.
 
 ## Why is FidoCadJ useful in my forum/website?
-You can share the source code of the drawings. It is a simple plain text format completely described in the FidoCadJ user [manual]( {{% siteparam "userManualUrl" %}}). Your users can pick it up, modifying the drawings as they wish and then upload them again.
+You can share the source code of the drawings. It is a simple plain text format completely described in the FidoCadJ user [manual]({{% siteparam "userManualUrl" %}}). Your users can pick it up, modifying the drawings as they wish and then upload them again.
 
 ## I already use Kicad, LTSpice, Cadence, Mentor, Altium or Visio, why is FidoCadJ interesting?
 Because it is a **different program** pursuing different purposes. It is complementary with the big EDA electronic tools. Ever tried to include your schematics in a document or in a presentation? Were you happy of the result?
