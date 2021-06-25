@@ -16,7 +16,7 @@ weight: 1
 
 **Su macOS:** dal menu FidoCadJ, raggiungere la voce Impostazioni e nella scheda Avvio, selezionare la cartella contenente i file con estensione fcl.
 
-|File|Size|Version|Description|
+|File|Dimensione|Versione|Descrizione|
 |-|-|-|-|
 | [LaddEYr (zip)](https://github.com/DarwinNE/FidoCadJ/raw/gh-pages/libs/LaddEYr.zip)| 2 kB | 1.0 | Proposta da elettrodomus e presentata in [questo articolo su EY](https://www.electroyou.it/elettrodomus/wiki/una-piccola-libreria-ladder-per-fidocadj) : Una piccola libreria ladder per FidoCadJ (in italiano, licenza CC BY-NC 4.0).|
 | [MusiCadJEY (zip)](https://github.com/DarwinNE/FidoCadJ/raw/gh-pages/libs/MusiCadJEY.zip)| 8 kB | 1.0 | Curata da elettrodomus e presentata in [questa discussione su EY](https://www.electroyou.it/forum/viewtopic.php?f=4&t=54536&start=250#p560385): simboli musicali (in italiano, licenza CC BY-NC 4.0).|
@@ -37,5 +37,6 @@ weight: 1
 | [arduino (zip)](https://github.com/DarwinNE/FidoCadJ/raw/gh-pages/libs/arduino.zip) | 4 kB | 1.0 | Libreria realizzata da MacZap in [questa discussione](https://www.grix.it/forum/forum_thread.php?ftpage=1&id_forum=1&id_thread=401194&tbackto=/forum/forum_discussioni.php?id_forum=1&dbackto=/forum/index.php) e didicata ad **Arduino**. |
 | [simon-zz (zip)](https://github.com/simon-zz/simon-zz-fidocadj-libs/archive/master.zip) | 5 kB | 1.0 | Curata da simon-zz su [Git Hub](https://github.com/simon-zz/simon-zz-fidocadj-libs). Questa è una piccola e semplice libreria di componenti elettronici e simboli. I simboli sono stati disegnati per occupare poco spazio rispetto alle altre librerie, consentendo all'utente di disegnare schemi più compatti. |
 | [Simboli Unifilari (zip)](https://github.com/DarwinNE/FidoCadJ/raw/gh-pages/libs/SchemiUnifilari.zip) | 4 kB | 1.0 | Proposta da Sergio Moro in [questo articolo su ElectroYou](https://www.electroyou.it/nicsergio/wiki/libreria-fidocadj-di-simboli-elettrici-per-schemi-unifilari). Una piccola libraria dedicata a simboli elettrici unifilari. |
+| [Simboli Multifilari (zip)](https://github.com/DarwinNE/FidoCadJ/raw/gh-pages/libs/SchemiMultifilariV1.1.zip) | 13 kB | 1.1 | Proposta da Sergio Moro in [questo articolo su ElectroYou](https://www.electroyou.it/nicsergio/wiki/libreria-fidocadj-simboli-elettrici-per-schemi-funzionali). Una piccola libraria dedicata a simboli elettrici multifilari. |
 
-Se avete messo a punto una nuova libreria per FidoCadJ e se volete condividerla con tutta la comunità, non esitate ad aprire una Issue su GitHub. D'altro canto, se avete trovato qualcosa qui che non dovrebbe esserci, aprite una Issue descrivendo il problema e provvederemo appena possibile a rimuovere il contenuto in questione.
+Se avete messo a punto una nuova libreria per FidoCadJ e se volete condividerla con tutta la comunità, non esitate ad aprire una [Issue](https://github.com/DarwinNE/FidoCadJ/issues) su GitHub. D'altro canto, se avete trovato qualcosa qui che non dovrebbe esserci, aprite una Issue descrivendo il problema e provvederemo appena possibile a rimuovere il contenuto in questione.
