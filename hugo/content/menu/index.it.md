@@ -8,4 +8,3 @@ headless: true
   - [Esempi di codice]({{< relref "/docs/code" >}})
 - [Librerie]({{< relref "/docs/libraries" >}})
 - [FAQ]({{< relref "/docs/faqs" >}})
-- [Novità]({{< relref "/posts" >}})
