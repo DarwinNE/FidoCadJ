@@ -31,7 +31,7 @@
     morecomment=[s]{[}{]},
     morecomment=[s][\color{blue}]{\{}{\}},
     morecomment=[l][\color{violet}]{*},
-    moredelim=[il][\color{violet}]{£},
+    moredelim=[il][\color{violet}]{*},
 }
 
 \lstset{language=FIDOCAD,%
@@ -84,8 +84,6 @@
 \maketitle
 
 \clearpage
-\pdfbookmark[1]{Licence}{Licence}
-
 
 \clearpage{} \pdfbookmark[1]{Licence}{Licence} This manual is covered
 by the Creative Commons Public License version 2.5 or more recent.
@@ -114,10 +112,7 @@ by their owners.
 %\let\cleardoublepage\relax
 
 
-
-\chapter*{Abstract}
-
-\pdfbookmark[1]{Abstract}{Abstract}
+\chapter*{\pdfbookmark[1]{Abstract}{Abstract}Abstract}
 
 This document is the FidoCadJ user manual. After a short
 introduction describing the history and the birth of this software, we
@@ -129,9 +124,7 @@ This document presents only the program itself and the file format. It does not 
 \endgroup
 
 
-\chapter*{Acknowledgements}
-
-\pdfbookmark[1]{Aknowledgements}{Aknowledgements}
+\chapter*{\pdfbookmark[1]{Aknowledgements}{Aknowledgements}Acknowledgements}
 
 A number of people used this software since its first versions and
 helped me by providing their advices. I thus want to thank the it.hobby.elettronica\index{it.hobby.elettronica}
@@ -156,15 +149,14 @@ Werner has also given useful advices about FidoCadJ's user interface: thanks for
 Part of this manual has been translated to English by ``Pasu''. I would like to thank him for his hard work. I would like to thank Miles ``qhg007'' as well, for the careful check and very useful remarks.
 
 In April 2010, FidoCadJ has been integrated in the well known Italian web site \href{http://www.electroyou.it}{www.electroyou.it}. It now silently runs on the server and it automagically converts drawings posted on the forum.
-I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolò Martini and to all users of this site. They gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced that deserves to be fully explored. FidoCadJ is also adopted on \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to the efforts of Arniek, Sstrix and Stan. Many kudos to them!
+I would like to express my gratitude to the admin Zeno Martini and webmaster Nicolo` Martini and to all users of this site. They gave me a lot of very useful ideas about batch controlling FidoCadJ: a very promising path has been traced that deserves to be fully explored. FidoCadJ is also adopted on \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. It has been used by the popular \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} website thanks to the efforts of Arniek, Sstrix and Stan. Many kudos to them!
 
 Useful hints about FidoCadJ's website came from Federica Garin and Emanuele Baggetta. Sergio Juanez also greatly contributed to it, improving technical aspects and organization.
 
-\chapter*{FidoCadJ License}
+\chapter*{\pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
+FidoCadJ License}
 
-\pdfbookmark[1]{License FidoCadJ}{License FidoCadJ}
-
-Copyright \copyright\ 2007-2020 the FidoCadJ development team.
+Copyright \copyright\ 2007-2022 the FidoCadJ development team.
 
 This software is free: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -375,7 +367,7 @@ in two selectable formats. To change these settings we can select
 the menu ``File/Options''\footnote{Except on macOS, where this item is found in the FidoCadJ's menu
 and it is called ``Preferences''.%
 }. Such changes in the settings become effective after a restart of the
-application, since it is arguably something that we may want to change
+application, since it is arguably not something that we may want to change
 every day. Figures \ref{fig_fidocadj} and \ref{fig_metal} show the
 command bar (right below the window's title), configured to show text
 and icons in their smallest version. On the second row, starting from
@@ -410,7 +402,7 @@ double-click to terminate the insertion
 \keyevidence{T}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/text}}
 \textsc{Text}\index{text}  & Insert a text string.\tabularnewline
 \keyevidence{B}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/bezier}}
-\textsc{Bézier}\index{Bézier}  & Draw a Bézier curve\tabularnewline
+\textsc{B\'ezier}\index{B\'ezier}  & Draw a B\'ezier curve\tabularnewline
 \keyevidence{P}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/polygon}}
 \textsc{Polyline}\index{polyline}  & Draw a polyline filled or empty. Double-click or press \keyevidence{Esc},
 to terminate the insertion of new vertices.\tabularnewline
@@ -875,9 +867,9 @@ When drawing a PCB, it is often useful to measure distances in the working area.
 The total length measured is shown in FidoCadJ logical units\index{logical unit} as well as in millimeter. This is useful when the drawing is printed in the 1:1 mode (such as for PCB's).
 
 \section{Arrow and stroke styles}
-FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, Bézier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Feel free to experiment!
+FidoCadJ allows to draw arrow heads\index{arrows} at the beginning and at the end of lines, B\'ezier curves and natural cubic splines. It also allows to specify whether the arrow should be at the beginning or at the end of an element (or both), and offers you a few different arrow styles. Arrow length can be negative: in this case, the arrow extends outside the line or curve. Feel free to experiment!
 
-A few stroke styles\index{stroke styles} are available too, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a Bézier curve is also being used. By doing double-click on this element, FidoCadJ shows a dialog like the one shown in figure~\ref{fig_parametri_bezier}. You notice that the option box ``Arrow at start'' has been checked. FidoCadJ traces an arrowhead by taking care of his orientation.
+A few stroke styles\index{stroke styles} are available too, for technical or mechanical drawings. Figure~\ref{fig_gyrator} shows an example in which an electrical circuit (a GIC\index{GIG}) is enclosed in a dashed rectangle. An arrow at the end of a B\'ezier curve is also being used. By doing double-click on this element, FidoCadJ shows a dialog like the one shown in figure~\ref{fig_parametri_bezier}. You notice that the option box ``Arrow at start'' has been checked. FidoCadJ traces an arrowhead by taking care of his orientation.
 There are several different drawing styles for the arrow\index{arrow styles} as well for dashing \index{dashing styles}. You may try to play a little bit with them to appreciate their differences. If the arrow length is negative, the arrow extends outside the length of the element, pointing towards it.
 
 \begin{figure}
@@ -888,7 +880,7 @@ There are several different drawing styles for the arrow\index{arrow styles} as 
 \begin{figure}
 \centering
 \includegraphics[width=.7\textwidth]{parametri_bezier}
-\caption{The parameter window of the Bézier curve shown used in the schematics of figure~\ref{fig_gyrator} (French locale).}
+\caption{The parameter window of the B\'ezier curve shown used in the schematics of figure~\ref{fig_gyrator} (French locale).}
 \label{fig_parametri_bezier}
 \end{figure}
 The possibility of choosing a dashing style and putting arrowheads was not comprised in the original FidoCAD format. This unfortunately means that FidoCadJ drawings using those functionalities are not completely backward compatible with FidoCAD\index{FidoCAD} per Windows.
@@ -1248,7 +1240,7 @@ follows
 \item Advanced text\index{text}
 \item Filled or empty polyline\index{polyline}
 \item Filled or empty ellipse\index{ellipse}
-\item Bézier curve \index{Bézier}
+\item B\'ezier curve \index{B\'ezier}
 \item Natural cubic spline curve \index{spline}
 \item Electrical junction\index{connection}
 \item PCB pad\index{PCB pad}
@@ -1294,7 +1286,7 @@ $a$ & Arrow head \\
 3   & both sides\\
 \bottomrule
 \end{tabular}
-\caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or Bézier primitive.}
+\caption{Meaning of the $a$ parameter for the presence of an arrow head at the sides of a line or B\'ezier primitive.}
 \label{tab_frecce_estremita}
 \end{table}
 
@@ -1349,7 +1341,7 @@ when saving the file.
 
 The command is \lstinline!TE!\index{TE} and the format is as follows:
 \begin{lstlisting}
-TE x1 y1 £text to be written
+TE x1 y1 *text to be written
 \end{lstlisting}
 the point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. Notice that the layer information is missing.
@@ -1368,7 +1360,7 @@ or mirrored\index{text!mirrored}), as well as dimensions along $x$
 and $y$ and the font used. Due to the quantity of information to
 provide, the resulting command string is quite complex:
 \begin{lstlisting}
-TY x1 y1 sy sx a s l f £text to be written
+TY x1 y1 sy sx a s l f *text to be written
 \end{lstlisting}
 The point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. The value of $s_{y}$ and $s_{x}$ indicates the
@@ -1452,9 +1444,9 @@ FCJ e nv
 where $e$ is an integer giving the dashing style. If $nv$ is equal to 1, the \lstinline!FCJ! command should be followed by two \lstinline!TY! commands giving the name and the value associated to this element.
 
 
-\subsubsection{Bézier curve}
+\subsubsection{B\'ezier curve}
 
-A Bézier\index{Bézier} curve segment, in its cubic variant, is identified
+A B\'ezier\index{B\'ezier} curve segment, in its cubic variant, is identified
 by four vertices, which are thus required by its associated command
 \lstinline!BE!\index{BE}:
 \begin{lstlisting}
@@ -1462,7 +1454,7 @@ BE x1 y1 x2 y2 x3 y3 x4 y4 l
 \end{lstlisting}
 where $P_{1}\equiv(x_{1},y_{1})$, $P_{2}\equiv(x_{2},y_{2})$,
 $P_{3}\equiv(x_{3},y_{3})$ e $P_{4}\equiv(x_{4},y_{4})$ are the
-four control points of the Bézier\index{Bézier} curve segment, while
+four control points of the B\'ezier\index{B\'ezier} curve segment, while
 $l$ is the layer, identified by a whole number between 0 and 15.
 Given the four points defined above, the curve segment is computed
 through the expression \begin{equation}
@@ -1607,11 +1599,11 @@ FJC C aaaa
 where $aaaa$ is a double precision floating point value (positive) that gives the diameter of the electrical connection, in FidoCadJ logical units.
 
  \subsection{Stroke width}
- The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ adopts the command \lstinline!FJC A!\index{FJC A} to specify the stroke width of the lines, ovals, Bézier, splines, rectangles and polygons. The width can be a double precision constant.
+ The stroke width for the ``pen'' used during the drawing of electrical schematics can be modified. FidoCadJ adopts the command \lstinline!FJC A!\index{FJC A} to specify the stroke width of the lines, ovals, B\'ezier, splines, rectangles and polygons. The width can be a double precision constant.
 \begin{lstlisting}
 FJC A aaaa
 \end{lstlisting}
-Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, Bézier). Since version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
+Where $aaaa$ represents the stroke width (in logical units). The default width is internally defined to 0.5 logical units. In older versions of FidoCadJ, a command \lstinline!FJC B bbbb!\index{FJC B} was used to specify the stroke width of curved lines (ovals, B\'ezier). Since version 0.23.6, this differentiation has been eliminated and this command is no longer adopted.
 
 \section{Syntax errors tolerance}
 
