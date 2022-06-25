@@ -1271,7 +1271,7 @@ where $a$ is an integer that represents the presence or not of the arrow heads a
 \begin{table}
 \centering
 
-\begin{tabular}{ccp{.7\textwidth}}
+\begin{tabular}{cp{.7\textwidth}}
 \toprule
 $a$ & Arrow head \\
 \midrule
@@ -1287,7 +1287,7 @@ $a$ & Arrow head \\
 
 \begin{table}
 \centering
-\begin{tabular}{ccp{.7\textwidth}}
+\begin{tabular}{cp{.7\textwidth}}
 \toprule
 $b$ & Arrow head style \\
 \midrule
@@ -1342,7 +1342,6 @@ the point $(x_{1},y_{1})$ is where the string ``text to be written''
 is to be positioned. Notice that the layer information is missing.
 FidoCadJ treats this object as it was placed on layer zero (circuit\index{circuit}).
 
-
 \subsubsection{Advanced Text}
 
 The primitive advanced text\index{advanced text} offers much more
@@ -1373,28 +1372,23 @@ Text commands support subscripts: to obtain them, insert text between the unders
 
 
 \begin{table}
-\centering \begin{tabular}{llp{0.7\textwidth}}
+\centering \begin{tabular}{ccp{0.7\textwidth}}
 \toprule Bit  & Weight  & Behavior \tabularnewline
 \midrule 0  & 1  & text in bold\tabularnewline
+1  & 2  & text in italic\tabularnewline
 2  & 4  & mirrored text\tabularnewline
 \bottomrule  &  & \tabularnewline
 \end{tabular}
-
 \caption{Function of the bits in the text style term.}
-
-
 \label{tab_stile_testo}
 \end{table}
-
 
 The maximum length of the text\index{maximum length of text} is about
 80 words. The counting is done in words and not in characters because
 in the internal structure of the program the words (and command terms)
 are separated when a line is being interpreted.
 
-
 \subsubsection{Filled or Empty polyline}
-
 A polyline\index{poliline} filled or empty is indicated with the
 commands \lstinline!PP!\index{PP} and \lstinline!PV!\index{PV}
 respectively, followed by the coordinates of the vertices that define
