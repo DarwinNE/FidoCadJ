@@ -1,7 +1,7 @@
 ---
 headless: true
 ---
-[🇺🇸](/)[🇮🇹](/it/)<!--🇬🇷-->
+<!--[🇺🇸](/)[🇮🇹](/it/)<!--🇬🇷-->
 - [**Download**]({{< relref "/docs/download" >}})
 - **Examples**
   - [Screenshots]({{< relref "/docs/screenshots" >}})

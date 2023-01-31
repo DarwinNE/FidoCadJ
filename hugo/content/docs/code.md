@@ -187,8 +187,8 @@ weight: 1
 <---> <!-- magic separator, between columns -->
 
 ## Nixie clock
-<br />
 ![Nixie clock](/nixie_clock.png)
+<br />
 <br />
 <br />
 <br />

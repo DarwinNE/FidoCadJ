@@ -1,7 +1,7 @@
 baseURL = "/"
 languageCode = "en-us"
 title = "FidoCadJ"
-theme = "book"
+theme = "hugo-book"
 relativeURLs = true
 copyright = "Everything is mine"
 defaultContentLanguage = "en"
