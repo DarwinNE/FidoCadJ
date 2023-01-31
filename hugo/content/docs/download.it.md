@@ -25,7 +25,7 @@ Se si apre fidocadj.jar con un software zip, probabilmente non hai Java installa
 ## Partecipa allo sviluppo
 
 |Host|Repo|Descrizione|
-|-|-|-|-|
+|-|-|-|
 | [![GitHub logo](/GitHub-Mark-64px.png)](https://github.com/DarwinNE/FidoCadJ)|[FidoCadJ](https://github.com/DarwinNE/FidoCadJ)|Il progetto FidoCadJ su GitHub: invia segnalazioni su malfunzionamenti, richiedi una caratteristica particolare, dai un'occhiata al nostro codice sorgente|
 
 ## Old stable
