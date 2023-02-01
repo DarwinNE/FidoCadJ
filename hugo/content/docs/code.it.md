@@ -187,7 +187,6 @@ weight: 1
 <---> <!-- magic separator, between columns -->
 
 ## Orologio Nixie
-<br />
 ![Orologio Nixie](/nixie_clock.png)
 <br />
 <br />
