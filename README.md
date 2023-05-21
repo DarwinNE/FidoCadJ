@@ -61,7 +61,9 @@ support of UTF-8 text, advanced features, internationalisation and a sleek,
 polished user interface with anti-aliasing.
 
 The FidoCadJ user manual is available in English. Translations in French,
-Italian and Chinese are available, but may not have been updated regularly. The user interface has been translated into English, French, Italian, Spanish, German, Chinese, Dutch, Japanese, Greek and Czech.
+Italian and Chinese are available, but may not have been updated regularly.
+The user interface has been translated into English, French, Italian, Spanish,
+German, Chinese, Dutch, Japanese, Greek and Czech.
 
 FidoCadJ runs on the following systems:
 
@@ -119,23 +121,28 @@ warmly welcome Java developers back then...
 If you just have to run the application bundle and not develop code, you will not need
 to install Java as everything needed is already contained in the application, that
 is self-sufficient. Unfortunately, the gatekeeper function of the last operating
-systems may show a very misleading error when trying to execute it.
+systems may show a very misleading error when trying to execute it. Something
+like "FidoCadJ.app is damaged and can’t be opened. You should move it to the Trash".
+I have nothing against an operating system that warns an unexperienced user against
+executing code downloaded from the internet, but the error can not be so misleading
+and should at least point the user towards the origin of the problem!
 
-Here is the GitHub issue: https://github.com/DarwinNE/FidoCadJ/issues/198
+Here is the relevant GitHub issue: https://github.com/DarwinNE/FidoCadJ/issues/198
 
-I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2, running
-macOS Ventura 13.3.
+I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2 running
+macOS Ventura 13.3. At first the system asks to download and install Rosetta.
+Then, here is the error shown on by the French macOS Ventura 13.3
+OS:
 
-At first the system asks to download and install Rosetta.
-Then, the unfortunate message "FidoCadJ.app is damaged and can’t be opened. You
-should move it to the Trash" is shown when one tries to launch the program,
-even after I moved it in the Applications folder.
+![Application is damaged](OSes/mac/error_macOS.png)
 
 To fix this I had to do three things:
 
 1 - Open a terminal and type xattr -c /Applications/FidoCadJ.app (if you have
     already copied FidoCadJ.app on the Applications folder. Otherwise, specify
-    the path to the file in your system.)
+    the path to the file in your system.) You must have admin access to the computer
+    to do this and you may have to authorize the Terminal.app application to modify
+    the files in the directory you are working.
 2 - Right click on the executable and select "open".
 3 - Then, the system asks me if I really want to run the software (downloaded
     on an untrusted source). I selected "Yes" (at your risk and peril!)
