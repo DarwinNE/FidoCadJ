@@ -3,7 +3,7 @@ README file for FidoCadJ
 
 Version 0.24.8
 
-Copyright 2007-2020
+Copyright 2007-2023
 
 This file has been written by Davide Bucci and Dante Loi
 
@@ -18,7 +18,7 @@ This file has been written by Davide Bucci and Dante Loi
 	- 2.3 Developers' tools
 3. Instructions about compiling and running FidoCadJ
 	- 3.1 Build automation tool
-	- 3.2 Compile and run the sources on a MacOSX or a Unix operating system
+	- 3.2 Compile and run the sources on a macOS or a Unix operating system
 	- 3.3 Compile and run the sources on a Windows system
 	- 3.4 Android
 4. Coding conventions
@@ -41,10 +41,10 @@ This file has been written by Davide Bucci and Dante Loi
 1.1 What is FidoCadJ?
 ---------------------
 
-FidoCadJ is a very easy to use editor, with a vast library of electrical
+FidoCadJ is an easy to use editor, with a vast library of electrical
 symbols and footprints (through hole and SMD). Its drawings can be exported
 in several graphic formats (PDF, EPS, PGF for LaTeX, SVG, PNG, JPG). Even though 
-it is very simple to use, FidoCadJ can be very useful as a basic schematic
+it is very simple to use, FidoCadJ can be useful as a basic schematic
 capture and electronic design automation (EDA) software.
 FidoCadJ is inspired from the old FidoCAD (without "J"), which was a vector
 graphic editor for electrical schematics and printed circuit boards.
@@ -65,12 +65,12 @@ Italian and Chinese are available, but may not have been updated regularly. The 
 
 FidoCadJ runs on the following systems:
 
-- Windows Seven, 8, 10.
+- Windows Seven, 8, 10, 11
 - All major distributions of Linux.
-- MacOSX 10.8 and following
+- macOS 10.8 and following
 - Android 4.0 or more recent devices.
 
-At least version 1.9 of Java is required for Windows, Linux and MacOSX.
+At least version 1.9 of Java is required for Windows, Linux and macOS.
 
 1.2 Where can I find FidoCadJ?
 ------------------------------
@@ -106,15 +106,47 @@ If you use Windows, you might find useful to use the classical installer
 contained in the `FidoCadJ_Windows.msi` file. If you run it, it will install
 FidoCadJ on your system and you can launch it via the Start menu.
 
-If you own an Apple Macintosh with MacOSX, you may download the `FidoCadJ_MacOSX.dmg`
+If you own an Apple Macintosh with macOS, you may download the `FidoCadJ_MacOSX.dmg`
 bundle and treat it just like any other native application. Since Apple does
 not seem to keen to support Java, if you experience some
 problems running FidoCadJ, please check you do have a Java runtime
 correctly installed on your Mac. This is particularly true if you are using
-the MacOSX Lion/Mountain Lion/Mavericks/etc. operating system. Normally, you
+the macOS Lion/Mountain Lion/Mavericks/etc. operating system. Normally, you
 will have to download the Java runtime in a few clicks. I tried my best, but
 the situation in 2007 was different from the current one and Apple used to
 warmly welcome Java developers back then...
+
+If you just have to run the application bundle and not develop code, you will not need
+to install Java as everything needed is already contained in the application, that
+is self-sufficient. Unfortunately, the gatekeeper function of the last operating
+systems may show a very misleading error when trying to execute it.
+
+Here is the GitHub issue: https://github.com/DarwinNE/FidoCadJ/issues/198
+
+I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2, running
+macOS Ventura 13.3.
+
+At first the system asks to download and install Rosetta.
+Then, the unfortunate message "FidoCadJ.app is damaged and can’t be opened. You
+should move it to the Trash" is shown when one tries to launch the program,
+even after I moved it in the Applications folder.
+
+To fix this I had to do three things:
+
+1 - Open a terminal and type xattr -c /Applications/FidoCadJ.app (if you have
+    already copied FidoCadJ.app on the Applications folder. Otherwise, specify
+    the path to the file in your system.)
+2 - Right click on the executable and select "open".
+3 - Then, the system asks me if I really want to run the software (downloaded
+    on an untrusted source). I selected "Yes" (at your risk and peril!)
+
+The xattr stuff is required because macOS activates the extended attribute
+"quarantine" on the downloaded file. The system refuses to run software with
+this attribute and shows the error. The error is very misleading because it
+lets the user think that the archive is corrupted even if it is not the case!
+
+If you have a way to solve this problem that does not require accessing to the
+terminal, please participate to the GitHub issue linked above.
 
 For Android, we had to develop a completely new application: you should
 download and install the APK file containing it. Most devices complain loudly
@@ -171,6 +203,7 @@ FidoCadJ source files.
 | `NEWS.txt`           |     | The big news, for each version tagged           |
 | `OSes/`              |  X  | Specific things for some OSes; Android app here |
 | `README.md`          |     | This file                                       |
+| `SECURITY.md`        |     | Security policies                               |
 | `src/`               |  X  | Contains all the Java source files              |
 | `test/`              |  X  | Automated tests for FidoCadJ                    |
 
@@ -220,15 +253,15 @@ Ok, you just forked the FidoCadJ project in GitHub.
 
 Good :smile:
 
-FidoCadJ is a pure Java project, and for many reasons I prefer to use a good
+FidoCadJ is a pure Java project, and for many reasons we prefer to use a good
 text editor as well as a few command line scripts, in order to compile and
-run the code on which I am working.
+run the code on which we are working.
 You will thus find in the main directory (see section 2 of this file) several
 scripts which will be useful for you, especially if you are working in a
 Unix-like environment.
-If you prefer to use some kind of IDE such as Eclipse, you may try, but I
-do not provide assistance with those IDE's and I will always refer to the scripts
-I wrote. And no, I will not change my habits, sorry :smile:
+If you prefer to use some kind of IDE such as Eclipse, you may try, but we
+do not provide assistance with those IDE's and we will always refer to the scripts
+we wrote. And no, we will not change our habits, sorry :smile:
 
 3.1 Build automation tool
 -----------------------------------------------------------------------
@@ -246,10 +279,10 @@ The tabled make rules have been implemented.
 | `make rebuild`       | Do a clean and then run FidoCadJ                |
 | `make run`           | Run FidoCadJ                                    |
 
-3.2 Compile and run the sources on a MacOSX or a Unix operating system
+3.2 Compile and run the sources on a macOS or a Unix operating system
 ----------------------------------------------------------------------
 
-If you are using MacOSX (>=10.8) or an Unix system (GNU/Linux included), just
+If you are using macOS (>=10.8) or an Unix system (GNU/Linux included), just
 open up a terminal window, go into the main directory of FidoCadJ and type:
 
     make rebuild
