@@ -1,0 +1,39 @@
+                              ------------------------
+                                      FidoCadJ
+  
+                              Important note for macOS
+                              ------------------------
+
+                                D.B. April 11, 2023
+
+FidoCadJ can run successfully on computers equipped with recent versions of
+the Apple macOS operating system. Unfortunately, changes to the Apple policy
+regarding how software is currently distributed can generate a very misleading 
+error the first time FidoCadJ is run on Macintosh computers.
+
+Here is the GitHub issue: https://github.com/DarwinNE/FidoCadJ/issues/198
+
+I tried downloading FidoCadJ 0.24.8 on a brand new MacBook Pro M2, running
+macOS Ventura 13.0.
+
+At first the system asks to download and install Rosetta.
+Then, the unfortunate message "FidoCadJ.app is damaged and can’t be opened. You
+should move it to the Trash" is shown when one tries to launch the program,
+even after I moved it in the Applications folder.
+
+To fix this I had to do three things:
+
+1 - Open a terminal and type xattr -c /Applications/FidoCadJ.app (if you have
+    already copied FidoCadJ.app on the Applications folder. Otherwise, specify
+    the path to the file in your system.)
+2 - Right click on the executable and select "open".
+3 - Then, the system asks me if I really want to run the software (downloaded
+    on an untrusted source). I selected "Yes" (at your risk and peril!)
+
+The xattr stuff is required because macOS activates the extended attribute
+"quarantine" on the downloaded file. The system refuses to run software with
+this attribute and shows the error. The error is very misleading because it
+lets the user think that the archive is corrupted even if it is not the case!
+
+If you have a way to solve this problem that does not require accessing to the
+terminal, please participate to the GitHub issue linked above.
