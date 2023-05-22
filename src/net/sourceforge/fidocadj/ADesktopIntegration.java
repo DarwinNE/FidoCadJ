@@ -6,8 +6,8 @@ import java.awt.desktop.*;
 import javax.swing.*;
 
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.dialogs.DialogAbout;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** The class ADesktopIntegration implements a few mechanism for interacting
     with the operating system. This class requires Java 9 at least, with the
@@ -57,8 +57,9 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     */
     public void registerActions()
     {
-        if(!Desktop.isDesktopSupported())
+        if(!Desktop.isDesktopSupported()) {
             return;
+        }
 
         handleAbout=true;
         handlePreferences=true;
@@ -67,7 +68,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
             d.setOpenFileHandler(this);
             d.setQuitHandler(this);
         } catch(UnsupportedOperationException eE) {
-            // This can be ignore, we are going to live without it.
+            // This can be ignored, we are going to live without it.
         }
         try {
             d.setAboutHandler(this);
@@ -124,17 +125,17 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         for(int i=0; i<windowArray.length;++i) { */
         for(Object ff : windowArray) {
             fff=(FidoFrame)ff; 
-            if(fff.getFileTools().checkIfToBeSaved())
-            {
+            if(fff.getFileTools().checkIfToBeSaved()) {
                 fff.closeThisFrame();
             } else {
                 ca = false;
             }
         }
 
-        if(ca)
+        if(ca) {
             response.performQuit();
-        else
+        } else {
             response.cancelQuit();
+        }
     }
 }

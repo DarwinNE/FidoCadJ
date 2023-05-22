@@ -46,7 +46,8 @@ public class CommandLineParser
     // The following variable will be true if one requests to convert a
     // file:
     private boolean convertFile = false;
-    private int totx=0, toty=0;
+    private int totx=0;
+    private int toty=0;
     private String exportFormat="";
     private String outputFile="";
     private boolean headlessMode = false;
@@ -103,7 +104,7 @@ public class CommandLineParser
         String[] args=orArgs;
 
         // called by jnlp
-        if (args[0].equalsIgnoreCase("-print")) {
+        if ("-print".equalsIgnoreCase(args[0])) {
             // TODO: verify if this can happen in a operating system
             // with case sensitive file system! Windows only code?
             String filename = args[1].toLowerCase().replace(".fcd", "");
@@ -120,7 +121,7 @@ public class CommandLineParser
                 // It is an option
 
                 // phylum
-                if (args[i].trim().equalsIgnoreCase("-open")) {
+                if ("-open".equalsIgnoreCase(args[i].trim())) {
                     continue;
                 }
                 if (args[i].startsWith("-k")) {
