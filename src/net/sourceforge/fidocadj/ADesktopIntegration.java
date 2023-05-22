@@ -5,9 +5,7 @@ import java.awt.desktop.*;
 
 import javax.swing.*;
 
-import java.util.*;
 
-import net.sourceforge.fidocadj.*;
 import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.globals.*;
 
@@ -34,7 +32,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2020 by Davide Bucci
+    Copyright 2020-2023 by Davide Bucci
     </pre>
 */
 
@@ -46,6 +44,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
 
     ADesktopIntegration()
     {
+        // Empty constructor.
     }
 
     /** Check if some actions are made available by the operating system and if
@@ -67,17 +66,17 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         try {
             d.setOpenFileHandler(this);
             d.setQuitHandler(this);
-        } catch(UnsupportedOperationException E) {
+        } catch(UnsupportedOperationException eE) {
             // This can be ignore, we are going to live without it.
         }
         try {
             d.setAboutHandler(this);
-        } catch(UnsupportedOperationException E) {
+        } catch(UnsupportedOperationException eE) {
             handleAbout=false;
         }
         try {
             d.setPreferencesHandler(this);
-        } catch(UnsupportedOperationException E) {
+        } catch(UnsupportedOperationException eE) {
             handlePreferences=false;
         }
     }
@@ -85,7 +84,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     /** Respond to an user double clicking on a FCD file
         @param e event referring for application.
     */
-    public void openFiles (OpenFilesEvent e)
+    @Override public void openFiles (OpenFilesEvent e)
     {
         String file = e.getFiles().get(0).getAbsolutePath();
         ((FidoFrame)Globals.activeWindow).getFileTools().load(file);
@@ -93,7 +92,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     /** Respond to an user clicking on an About menu.
         @param e event referring for application.
     */
-    public void handleAbout (AboutEvent e)
+    @Override public void handleAbout (AboutEvent e)
     {
         DialogAbout d=new DialogAbout((JFrame)Globals.activeWindow);
         d.setVisible(true);
@@ -102,7 +101,7 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
     /** Respond to an user clicking on the Preferences menu.
         @param e event referring for application.
     */
-    public void handlePreferences (PreferencesEvent e)
+    @Override public void handlePreferences (PreferencesEvent e)
     {
         ((FidoFrame)Globals.activeWindow).showPrefs();
     }
@@ -111,7 +110,8 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         @param e event referring for application.
         @param response the type of the response (quit or abort).
     */
-    public void handleQuitRequestWith(QuitEvent e, QuitResponse response)
+    @Override public void handleQuitRequestWith(QuitEvent e, 
+        QuitResponse response)
     {
         boolean ca = true;
         // I tried with an iterator, but when closing windows the map is
@@ -120,10 +120,11 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
         // java.util.ConcurrentModificationException (#179).
         Object[] windowArray=Globals.openWindows.toArray();
         FidoFrame fff;
-
-        for(int i=0; i<windowArray.length;++i) {
-            if((fff=(FidoFrame)windowArray[i]).getFileTools().
-                checkIfToBeSaved())
+/*
+        for(int i=0; i<windowArray.length;++i) { */
+        for(Object ff : windowArray) {
+            fff=(FidoFrame)ff; 
+            if(fff.getFileTools().checkIfToBeSaved())
             {
                 fff.closeThisFrame();
             } else {

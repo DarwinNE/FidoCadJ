@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2019 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
