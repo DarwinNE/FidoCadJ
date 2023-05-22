@@ -2,7 +2,7 @@ package net.sourceforge.fidocadj;
 
 import java.util.Locale;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** CommandLineParser.java
     Parse the command line recognizing options, commands and files.
@@ -160,7 +160,8 @@ public class CommandLineParser
                     // specifying the number of pixels for logical units.
 
                     try {
-                        if (args[++i].startsWith("r")) {
+                        ++i;
+                        if (args[i].startsWith("r")) {
                             resolution = Double.parseDouble(
                                 args[i].substring(1));
                             resolutionBasedExport = true;
