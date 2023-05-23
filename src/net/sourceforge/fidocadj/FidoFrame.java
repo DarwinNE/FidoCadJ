@@ -1,40 +1,44 @@
 package net.sourceforge.fidocadj;
 
 import java.awt.*;
-import java.awt.List;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.*;
-import javax.swing.event.*;
 
-import java.awt.dnd.*;
-import java.awt.datatransfer.*;
+//import java.awt.dnd.*;
 import java.io.*;
-import java.security.CodeSource;
 import java.util.*;
 import java.net.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
 import java.util.prefs.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import net.sourceforge.fidocadj.FidoMain;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.toolbars.*;
-import net.sourceforge.fidocadj.timer.*;
+import net.sourceforge.fidocadj.dialogs.DialogUtil;
+import net.sourceforge.fidocadj.dialogs.DialogOptions;
+import net.sourceforge.fidocadj.dialogs.DialogAbout;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.AccessResources;
+import net.sourceforge.fidocadj.globals.Utf8ResourceBundle;
+import net.sourceforge.fidocadj.globals.LibUtils;
+import net.sourceforge.fidocadj.circuit.HasChangedListener;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.circuit.controllers.CopyPasteActions;
+import net.sourceforge.fidocadj.circuit.controllers.AddElements;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.toolbars.ToolbarZoom;
+import net.sourceforge.fidocadj.toolbars.ToolbarTools;
+import net.sourceforge.fidocadj.toolbars.ZoomToFitListener;
 import net.sourceforge.fidocadj.macropicker.MacroTree;
 import net.sourceforge.fidocadj.librarymodel.LibraryModel;
 import net.sourceforge.fidocadj.layermodel.LayerModel;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.layers.StandardLayers;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.librarymodel.utils.CircuitPanelUpdater;
 import net.sourceforge.fidocadj.librarymodel.utils.LibraryUndoExecutor;
 
@@ -59,7 +63,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -113,16 +117,10 @@ public class FidoFrame extends JFrame implements
     // Small (16x16 pixel) icons instead of standard (32x32 pixel)
     private boolean smallIconsToolbar;
 
-    // Show macro origin (menu item).
-    private JCheckBoxMenuItem optionMacroOrigin;
-
     // Locale settings
     public Locale currentLocale;
     // Runs as an application or an applet.
     public boolean runsAsApplication;
-
-    // Useful for automatic scrolling in panning mode.
-    private ScrollGestureRecognizer sgr;
 
     /** The standard constructor: create the frame elements and set up all
         variables. Note that the constructor itself is not sufficient for
@@ -152,8 +150,7 @@ public class FidoFrame extends JFrame implements
 
         DialogUtil.center(this, .75,.75,800,500);
 
-        setDefaultCloseOperation(
-            javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         // We need to keep track of the number of open windows. If the last
         // one is closed, we exit from the program.
@@ -195,12 +192,13 @@ public class FidoFrame extends JFrame implements
     */
     public void savePosition()
     {
-        if (!runsAsApplication)
+        if (!runsAsApplication) {
             return;
+        }
 
         int state=getExtendedState();
         // restore the frame from 'full screen' first!
-        setExtendedState(Frame.NORMAL);
+        setExtendedState(NORMAL);
         Rectangle r = getBounds();
         int x = (int)r.getX();
         int y = (int)r.getY();
@@ -218,8 +216,9 @@ public class FidoFrame extends JFrame implements
     */
     public final void restorePosition()
     {
-        if (!runsAsApplication)
+        if (!runsAsApplication) {
             return;
+        }
 
         try{
             int x = Integer.parseInt(prefs.get("FRAME_POSITION_X","no"));
@@ -227,15 +226,15 @@ public class FidoFrame extends JFrame implements
             int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
             int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
             int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
-            if((state & Frame.MAXIMIZED_HORIZ)>0 ||
-                (state & Frame.MAXIMIZED_VERT)>0)
+            if((state & MAXIMIZED_HORIZ)>0 ||
+                (state & MAXIMIZED_VERT)>0)
             {
                 setExtendedState(state);
             } else {
                 Rectangle r = new Rectangle(x,y,w,h);
                 setBounds(r);
             }
-        } catch (NumberFormatException E) {
+        } catch (NumberFormatException eE) {
             System.out.println("Choosing default values for frame size");
         }
     }
@@ -301,9 +300,10 @@ public class FidoFrame extends JFrame implements
         } else {
 
             newLocale = loc;
-            if(!loc.getLanguage().equals(systemLanguage))
+            if(!loc.getLanguage().equals(systemLanguage)) {
                 System.out.println("Forcing the locale to be: " +loc+
                     " instead of: "+systemLanguage);
+            }
         }
         return newLocale;
     }
@@ -311,7 +311,7 @@ public class FidoFrame extends JFrame implements
     /** Get the locale employed by this instance.
         @return the current locale.
     */
-    public Locale getLocale()
+    @Override public Locale getLocale()
     {
         return currentLocale;
     }
@@ -349,8 +349,10 @@ public class FidoFrame extends JFrame implements
     */
     public final void readPreferences()
     {
-        if(prefs==null)
+        if(prefs==null) {
             return;
+        }
+        
         // The library directory
         libDirectory = prefs.get("DIR_LIBS", "");
 
@@ -369,10 +371,10 @@ public class FidoFrame extends JFrame implements
         // 2020 I suspect the best result is now obtained with "false".
         defaultSize="false";
 
-        smallIconsToolbar = prefs.get("SMALL_ICON_TOOLBAR",
-                defaultSize).equals("true");
+        smallIconsToolbar = "true".equals(prefs.get("SMALL_ICON_TOOLBAR",
+                defaultSize));
         // Presence of the text description in the toolbar
-        textToolbar = prefs.get("TEXT_TOOLBAR", "true").equals("true");
+        textToolbar = "true".equals(prefs.get("TEXT_TOOLBAR", "true"));
 
         // Read export preferences
         et.readPrefs();
@@ -406,7 +408,7 @@ public class FidoFrame extends JFrame implements
         CopyPasteActions cpa = cc.getCopyPasteActions();
 
         // Shift elements when copy/pasting them.
-        cpa.setShiftCopyPaste(prefs.get("SHIFT_CP","true").equals("true"));
+        cpa.setShiftCopyPaste("true".equals(prefs.get("SHIFT_CP","true")));
         AddElements ae = cc.getContinuosMoveActions().getAddElements();
 
         // Default PCB sizes (pad/line)
@@ -483,8 +485,8 @@ public class FidoFrame extends JFrame implements
         Container contentPane=getContentPane();
         cc=new CircuitPanel(true);
         cc.getParserActions().openFileName = "";
-
-        DropTarget drt = new DropTarget(cc, dt);
+        // Useful for automatic scrolling in panning mode.
+        ScrollGestureRecognizer sgr;
 
         // If FidoCadJ runs as a standalone application, we must read the
         // content of the current library directory.
@@ -622,7 +624,7 @@ public class FidoFrame extends JFrame implements
         */
         addWindowListener(new WindowAdapter()
         {
-            public void windowClosing(WindowEvent e)
+            @Override public void windowClosing(WindowEvent e)
             {
                 if(!ft.checkIfToBeSaved()) {
                     return;
@@ -638,12 +640,12 @@ public class FidoFrame extends JFrame implements
         cc.getUndoActions().setModified(false);
         if(runsAsApplication) {
             // Show the library tab or not.
-            boolean s=prefs.get("SHOW_LIBS","true").equals("true");
+            boolean s="true".equals(prefs.get("SHOW_LIBS","true"));
             showLibs(s);
-            s=prefs.get("SHOW_GRID","true").equals("true");
+            s="true".equals(prefs.get("SHOW_GRID","true"));
             cc.setGridVisibility(s);
             toolZoom.setShowGrid(s);
-            s=prefs.get("SNAP_GRID","true").equals("true");
+            s="true".equals(prefs.get("SNAP_GRID","true"));
             cc.setSnapState(s);
             toolZoom.setSnapGrid(s);
         }
@@ -662,36 +664,41 @@ public class FidoFrame extends JFrame implements
         // coordinate mapping data as this will be used for an empty drawing.
         MapCoordinates mc=cc.getMapCoordinates();
         prefs.put("CURRENT_ZOOM",""+mc.getXMagnitude());
-        if(areLibsVisible())
+        if(areLibsVisible()) {
             prefs.put("SHOW_LIBS","true");
-        else
+        } else {
             prefs.put("SHOW_LIBS","false");
+        }
 
-        if(cc.getGridVisibility())
+        if(cc.getGridVisibility()) {
             prefs.put("SHOW_GRID","true");
-        else
+        } else {
             prefs.put("SHOW_GRID","false");
+        }
 
-        if(cc.getSnapState())
+        if(cc.getSnapState()) {
             prefs.put("SNAP_GRID","true");
-        else
+        } else {
             prefs.put("SNAP_GRID","false");
+        }
 
         dispose();
-        Globals.openWindows.remove(FidoFrame.this);
+        Globals.openWindows.remove(this);
         --Globals.openWindowsNumber;
-        if (Globals.openWindowsNumber<1 && runsAsApplication)
+        if (Globals.openWindowsNumber<1 && runsAsApplication) {
             System.exit(0);
+        }
     }
 
     /** The action listener. Recognize menu events and behaves consequently.
         @param evt the event to be processed.
     */
-    public void actionPerformed(ActionEvent evt)
+    @Override public void actionPerformed(ActionEvent evt)
     {
         // Recognize and handle menu events
-        if(evt.getSource() instanceof JMenuItem)
+        if(evt.getSource() instanceof JMenuItem) {
             mt.processMenuActions(evt, this, toolZoom);
+        }
     }
 
     /** Create a new instance of the window.
@@ -791,17 +798,11 @@ public class FidoFrame extends JFrame implements
             prefs.put("DIR_LIBS", libDirectory);
             prefs.put("MACRO_FONT", cc.dmp.getTextFont());
             prefs.put("MACRO_SIZE", ""+cc.dmp.getTextFontSize());
-
             prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
             prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
             prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
-
-            prefs.put("SMALL_ICON_TOOLBAR",
-                (smallIconsToolbar?"true":"false"));
-
-            prefs.put("TEXT_TOOLBAR",
-                (textToolbar?"true":"false"));
-
+            prefs.put("SMALL_ICON_TOOLBAR", smallIconsToolbar?"true":"false");
+            prefs.put("TEXT_TOOLBAR", textToolbar?"true":"false");
             prefs.put("GRID_SIZE", ""+cc.getMapCoordinates().getXGridStep());
 
             // Save default PCB characteristics
@@ -810,7 +811,7 @@ public class FidoFrame extends JFrame implements
             prefs.put("pcbPadStyle", ""+ae.pcbPadStyle);
             prefs.put("pcbPadDrill", ""+ae.pcbPadDrill);
             prefs.put("pcbThickness", ""+ae.pcbThickness);
-            prefs.put("SHIFT_CP", (cpa.getShiftCopyPaste()?"true":"false"));
+            prefs.put("SHIFT_CP", cpa.getShiftCopyPaste()?"true":"false");
 
         }
         if(!libDirectory.equals(oldDirectory)) {
@@ -839,8 +840,7 @@ public class FidoFrame extends JFrame implements
 
         // We make the scroll pane show the interesting part of
         // the drawing.
-        Rectangle r= new Rectangle((int)(m.getXCenter()),
-            (int)(m.getYCenter()),
+        Rectangle r= new Rectangle((int)m.getXCenter(), (int)m.getYCenter(),
             sc.getViewport().getExtentSize().width,
             sc.getViewport().getExtentSize().height);
 
@@ -877,7 +877,7 @@ public class FidoFrame extends JFrame implements
     /** The current window has gained focus.
         @param e the window event.
     */
-    public void windowGainedFocus(WindowEvent e)
+    @Override public void windowGainedFocus(WindowEvent e)
     {
         Globals.activeWindow = this;
         // This should fix #182
@@ -887,7 +887,7 @@ public class FidoFrame extends JFrame implements
     /** The current window has lost focus.
         @param e the window event.
     */
-    public void windowLostFocus(WindowEvent e)
+    @Override public void windowLostFocus(WindowEvent e)
     {
         // Nothing to do
     }

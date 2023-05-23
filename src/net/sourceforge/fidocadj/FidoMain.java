@@ -394,10 +394,10 @@ class CreateSwingInterface implements Runnable
                 "FidoCadJ");
 
             try {
-                System.out.println("Trying to activate VAqua7");
+                System.out.println("Trying to activate VAqua11");
                 UIManager.setLookAndFeel(
                     "org.violetlib.aqua.AquaLookAndFeel");
-                System.out.println("VAqua7 look and feel active");
+                System.out.println("VAqua11 look and feel active");
             } catch (Exception e) {
                 // Quaqua is not active. Just continue!
 

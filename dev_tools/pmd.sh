@@ -13,7 +13,7 @@ fi
 #$@ pmd -f html -d ../src/ -rulesets java-basic,java-design -encoding UTF-8 >fidocadj_pmd.html
 
 # PMD 7.0
-$@ check -f html -d ../src -R rulesets/java/quickstart.xml  -r fidocadj_pmd.html
+$@ check -f html --minimum-priority low -d ../src -R rulesets/java/quickstart.xml  -r fidocadj_pmd.html
 
 echo "PMD results stored in fidocadj_pmd.html"
 

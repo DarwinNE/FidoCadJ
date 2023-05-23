@@ -28,7 +28,7 @@ import java.awt.datatransfer.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2016 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -51,7 +51,7 @@ public class DragDropTools implements DropTargetListener
             drop-functionality-in-your-applic.html
         @param dtde the drop target drag event
     */
-    public void dragEnter(DropTargetDragEvent dtde)
+    @Override public void dragEnter(DropTargetDragEvent dtde)
     {
         // does nothing
     }
@@ -59,7 +59,7 @@ public class DragDropTools implements DropTargetListener
     /** Exit from the drag target.
         @param dte the drop target event.
     */
-    public void dragExit(DropTargetEvent dte)
+    @Override public void dragExit(DropTargetEvent dte)
     {
         // does nothing
     }
@@ -67,7 +67,7 @@ public class DragDropTools implements DropTargetListener
     /** Drag over the target.
         @param dtde the drop target drag event.
     */
-    public void dragOver(DropTargetDragEvent dtde)
+    @Override public void dragOver(DropTargetDragEvent dtde)
     {
         // does nothing
     }
@@ -75,7 +75,7 @@ public class DragDropTools implements DropTargetListener
     /** Drop action changed.
         @param dtde the drop target drag event.
     */
-    public void dropActionChanged(DropTargetDragEvent dtde)
+    @Override public void dropActionChanged(DropTargetDragEvent dtde)
     {
         // does nothing
     }
@@ -87,26 +87,28 @@ public class DragDropTools implements DropTargetListener
         several cases.
         @param dtde the drop target event.
     */
-    public void drop(DropTargetDropEvent dtde)
+    @Override public void drop(DropTargetDropEvent dtde)
     {
         try {
             Transferable tr = dtde.getTransferable();
             DataFlavor[] flavors = tr.getTransferDataFlavors();
-            if (flavors==null)
+            if (flavors==null) {
                 return;
+            }
 
-            for (int i = 0; i < flavors.length; ++i) {
+            for (DataFlavor df : flavors) {
                 // try to avoid problematic situations
-                if(flavors[i]==null)
+                if(df==null) {
                     return;
+                }
                 // check the correct type of the drop flavor
-                if (flavors[i].isFlavorJavaFileListType()) {
+                if (df.isFlavorJavaFileListType()) {
                     // Great!  Accept copy drops...
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
 
                     // And add the list of file names to our text area
                     java.util.List list =
-                        (java.util.List)tr.getTransferData(flavors[i]);
+                        (java.util.List)tr.getTransferData(df);
 
                     FidoFrame popFrame;
 
@@ -118,16 +120,16 @@ public class DragDropTools implements DropTargetListener
 
                     // Only the first file of the list will be opened
                     popFrame.cc.getParserActions().openFileName=
-                        ((File)(list.get(0))).getAbsolutePath();
+                        ((File)list.get(0)).getAbsolutePath();
                     popFrame.getFileTools().openFile();
                     // If we made it this far, everything worked.
                     dtde.dropComplete(true);
                     return;
                 }
                 // Ok, is it another Java object?
-                else if (flavors[i].isFlavorSerializedObjectType()) {
+                else if (df.isFlavorSerializedObjectType()) {
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                    Object o = tr.getTransferData(flavors[i]);
+                    Object o = tr.getTransferData(df);
                     // If there is a valid FidoCad code, try to draw it.
                     FidoFrame popFrame;
 
@@ -149,12 +151,12 @@ public class DragDropTools implements DropTargetListener
                 // How about an input stream? In some Linux flavors, it contains
                 // the file name, with a few substitutions.
 
-                else if (flavors[i].isRepresentationClassInputStream()) {
+                else if (df.isRepresentationClassInputStream()) {
                     // Everything seems to be ok here, so we proceed handling
                     // the file
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
                     InputStreamReader reader=new InputStreamReader(
-                        (InputStream)tr.getTransferData(flavors[i]));
+                        (InputStream)tr.getTransferData(df));
                     BufferedReader in=new BufferedReader(reader);
 
                     String line="";

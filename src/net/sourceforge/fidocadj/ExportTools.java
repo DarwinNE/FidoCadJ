@@ -9,18 +9,19 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.awt.datatransfer.*;
 
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.dialogs.DialogCopyAsImage;
+import net.sourceforge.fidocadj.dialogs.DialogExport;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
 
 
 /** ExportTools.java
 
     Class performing interface operations for launching export operations.
     It also reads and stores preferences.
+    This class also contains code to export a drawing as a picture, then load
+    the exported image in the clipboard.
 
 <pre>
     This file is part of FidoCadJ.
@@ -39,7 +40,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2020 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -84,29 +85,29 @@ public class ExportTools implements ClipboardOwner
                 prefs.get("EXPORT_UNITPERPIXEL", "1"));
             exportMagnification = Double.parseDouble(
                 prefs.get("EXPORT_MAGNIFICATION", "1"));
-            exportBlackWhite = prefs.get("EXPORT_BW", "false").equals("true");
+            exportBlackWhite = "true".equals(prefs.get("EXPORT_BW", "false"));
 
             exportXsize = Integer.parseInt(
                 prefs.get("EXPORT_XSIZE", "800"));
             exportYsize = Integer.parseInt(
                 prefs.get("EXPORT_YSIZE", "600"));
-            exportResolutionBased = prefs.get("EXPORT_RESOLUTION_BASED",
-                "false").equals("true");
-            splitLayers = prefs.get("EXPORT_SPLIT_LAYERS",
-                "false").equals("true");
+            exportResolutionBased = "true".equals(
+                prefs.get("EXPORT_RESOLUTION_BASED","false"));
+            splitLayers = "true".equals(prefs.get("EXPORT_SPLIT_LAYERS",
+                "false"));
         }
     }
 
     /** Show a dialog for exporting the current drawing in the clipboard.
         @param fff the parent frame which will be used for dialogs and message
             boxes.
-        @param CC the CircuitPanel containing the drawing to be exported.
+        @param cC the CircuitPanel containing the drawing to be exported.
     */
-    public void exportAsCopiedImage(JFrame fff, CircuitPanel CC)
+    public void exportAsCopiedImage(JFrame fff, CircuitPanel cC)
     {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
-        DialogCopyAsImage dcai=new DialogCopyAsImage(fff, CC.getDrawingModel());
+        DialogCopyAsImage dcai=new DialogCopyAsImage(fff, cC.getDrawingModel());
         dcai.setAntiAlias(true);
         dcai.setXsizeInPixels(exportXsize);
         dcai.setYsizeInPixels(exportYsize);
@@ -122,7 +123,7 @@ public class ExportTools implements ClipboardOwner
             try {
                 exportXsize=dcai.getXsizeInPixels();
                 exportYsize=dcai.getYsizeInPixels();
-            } catch (java.lang.NumberFormatException E) {
+            } catch (NumberFormatException eE) {
                 JOptionPane.showMessageDialog(null,
                     Globals.messages.getString("Format_invalid"),
                     Globals.messages.getString("Warning"),
@@ -136,9 +137,9 @@ public class ExportTools implements ClipboardOwner
             doExport.setCoordinateListener(coordL);
             try {
                 File fexp=File.createTempFile("FidoCadJ",".png");
-                doExport.setParam(fexp,  CC.dmp,
+                doExport.setParam(fexp,  cC.dmp,
                     "png", exportUnitPerPixel,
-                    dcai.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                    dcai.getAntiAlias(),exportBlackWhite,!cC.extStrict,
                     exportResolutionBased,
                     exportXsize,
                     exportYsize,
@@ -149,8 +150,8 @@ public class ExportTools implements ClipboardOwner
                 BufferedImage img = null;
                 img = ImageIO.read(fexp);
                 setClipboard(img);
-            } catch (IOException E) {
-                System.err.println("Issues reading image: "+E);
+            } catch (IOException eE) {
+                System.err.println("Issues reading image: "+eE);
             }
             if(prefs!=null) {
                 prefs.put("EXPORT_UNITPERPIXEL", ""+exportUnitPerPixel);
@@ -167,17 +168,17 @@ public class ExportTools implements ClipboardOwner
     /** Show a dialog for exporting the current drawing.
         @param fff the parent frame which will be used for dialogs and message
             boxes.
-        @param CC the CircuitPanel containing the drawing to be exported.
+        @param cC the CircuitPanel containing the drawing to be exported.
         @param openFileDirectory the directory where to search if no file
             name has been already defined for the export (for example, because
             it is the first time an export is done).
     */
-    public void launchExport(JFrame fff, CircuitPanel CC,
+    public void launchExport(JFrame fff, CircuitPanel cC,
         String openFileDirectory)
     {
         // At first, we create and configure the dialog allowing the user
         // to choose the exporting options
-        DialogExport export=new DialogExport(fff, CC.getDrawingModel());
+        DialogExport export=new DialogExport(fff, cC.getDrawingModel());
         export.setAntiAlias(true);
         export.setFormat(exportFormat);
         export.setXsizeInPixels(exportXsize);
@@ -219,7 +220,7 @@ public class ExportTools implements ClipboardOwner
             try {
                 exportXsize=export.getXsizeInPixels();
                 exportYsize=export.getYsizeInPixels();
-            } catch (java.lang.NumberFormatException E) {
+            } catch (NumberFormatException eE) {
                 JOptionPane.showMessageDialog(null,
                     Globals.messages.getString("Format_invalid"),
                     Globals.messages.getString("Warning"),
@@ -249,9 +250,10 @@ public class ExportTools implements ClipboardOwner
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
-                if(selection==JOptionPane.OK_OPTION)
+                if(selection==JOptionPane.OK_OPTION) {
                     exportFileName = Globals.adjustExtension(
                         exportFileName, exportFormat);
+                }
                 f = new File(exportFileName);
             }
 
@@ -262,16 +264,17 @@ public class ExportTools implements ClipboardOwner
                     Globals.messages.getString("Warning"),
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE);
-                if(selection!=JOptionPane.OK_OPTION)
+                if(selection!=JOptionPane.OK_OPTION) {
                     return;
+                }
             }
             // We do the export
             RunExport doExport = new RunExport();
             doExport.setCoordinateListener(coordL);
             // Here we use the multithreaded structure of Java.
-            doExport.setParam(new File(exportFileName),  CC.dmp,
+            doExport.setParam(new File(exportFileName),  cC.dmp,
                 exportFormat, exportUnitPerPixel,
-                export.getAntiAlias(),exportBlackWhite,!CC.extStrict,
+                export.getAntiAlias(),exportBlackWhite,!cC.extStrict,
                 exportResolutionBased,
                 exportXsize,
                 exportYsize,
@@ -310,8 +313,9 @@ public class ExportTools implements ClipboardOwner
         @param clip the current clipboard object.
         @param trans tha object to be transfered.
     */
-    public void lostOwnership(Clipboard clip, Transferable trans)
+    @Override public void lostOwnership(Clipboard clip, Transferable trans)
     {
+        // There is no need to do something in particular.
     }
     /** Set the coordinate listener which is employed here for showing
         message in a non-invasive way.
@@ -337,9 +341,9 @@ public class ExportTools implements ClipboardOwner
     https://stackoverflow.com/questions/4552045/copy-bufferedimage-to-clipboard
 
         DB: I checked it, it seems reasonable and robust and it works well.
-        Using MacOS, I noticed that the system was not working for Java version
+        Using macOS, I noticed that the system was not working for Java version
         1.7. The types of the object copied in the clipboard were not those
-        that standard MacOS applications expect. I updated to Java 14 and it
+        that standard macOS applications expect. I updated to Java 14 and it
         started to work flawlessly.
     */
     private class TransferableImage implements Transferable
@@ -349,7 +353,7 @@ public class ExportTools implements ClipboardOwner
             this.i = i;
         }
 
-        public Object getTransferData(DataFlavor flavor) throws
+        @Override public Object getTransferData(DataFlavor flavor) throws
             UnsupportedFlavorException, IOException
         {
             if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
@@ -359,7 +363,7 @@ public class ExportTools implements ClipboardOwner
             }
         }
 
-        public DataFlavor[] getTransferDataFlavors()
+        @Override public DataFlavor[] getTransferDataFlavors()
         {
             DataFlavor[] flavors = new DataFlavor[1];
             flavors[0] = DataFlavor.imageFlavor;
@@ -367,11 +371,11 @@ public class ExportTools implements ClipboardOwner
             return flavors;
         }
 
-        public boolean isDataFlavorSupported(DataFlavor flavor)
+        @Override public boolean isDataFlavorSupported(DataFlavor flavor)
         {
             DataFlavor[] flavors = getTransferDataFlavors();
-            for (int i = 0; i < flavors.length; ++i) {
-                if (flavor.equals(flavors[i])) {
+            for (DataFlavor f: flavors) {
+                if (flavor.equals(f)) {
                     return true;
                 }
             }
