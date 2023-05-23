@@ -69,6 +69,8 @@ public class ADesktopIntegration implements AboutHandler, PreferencesHandler,
             d.setQuitHandler(this);
         } catch(UnsupportedOperationException eE) {
             // This can be ignored, we are going to live without it.
+            System.err.println(
+                "Warning: unsupported exception while setting handlers.");
         }
         try {
             d.setAboutHandler(this);

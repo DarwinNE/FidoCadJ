@@ -107,7 +107,8 @@ public class CommandLineParser
         if ("-print".equalsIgnoreCase(args[0])) {
             // TODO: verify if this can happen in a operating system
             // with case sensitive file system! Windows only code?
-            String filename = args[1].toLowerCase().replace(".fcd", "");
+            String filename = 
+                args[1].toLowerCase(Locale.US).replace(".fcd", "");
             if (filename.lastIndexOf(System.getProperty("file.separator"))>0) {
                 filename = filename.substring(filename.lastIndexOf(
                     System.getProperty("file.separator"))+1);
@@ -179,7 +180,7 @@ public class CommandLineParser
 
                         convertFile=true;
                         headlessMode = true;
-                    } catch (Exception E) {
+                    } catch (Exception eE) {
                         System.err.println("Unable to read the parameters"+
                             " given to -c");
                         System.exit(1);
