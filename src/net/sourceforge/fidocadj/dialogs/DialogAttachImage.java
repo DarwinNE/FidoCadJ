@@ -8,7 +8,7 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.event.*;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 
@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2017-2020 by Davide Bucci
+    Copyright 2017-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -91,7 +91,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 loadImage();
             }
@@ -99,7 +99,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 loadImage();
             }
@@ -107,7 +107,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 loadImage();
             }
@@ -144,7 +144,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useResolution);
             }
@@ -152,7 +152,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useResolution);
             }
@@ -160,7 +160,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useResolution);
             }
@@ -186,7 +186,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeX);
             }
@@ -194,7 +194,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeX);
             }
@@ -202,7 +202,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeX);
             }
@@ -219,7 +219,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeY);
             }
@@ -227,7 +227,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeY);
             }
@@ -235,7 +235,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 calculateSizeAndResolution(useSizeY);
             }
@@ -296,7 +296,7 @@ public class DialogAttachImage extends MinimumSizeDialog
         contentPane.add(b, constraints);            // Add buttons
         noImg.addActionListener(new ActionListener()
             {
-                public void actionPerformed(ActionEvent evt)
+                @Override public void actionPerformed(ActionEvent evt)
                 {
                     attach=true;
                     showImage=false;
@@ -306,7 +306,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             });
         ok.addActionListener(new ActionListener()
             {
-                public void actionPerformed(ActionEvent evt)
+                @Override public void actionPerformed(ActionEvent evt)
                 {
                     if(validateForm()) {
                         attach=true;
@@ -316,7 +316,7 @@ public class DialogAttachImage extends MinimumSizeDialog
             });
         cancel.addActionListener(new ActionListener()
             {
-                public void actionPerformed(ActionEvent evt)
+                @Override public void actionPerformed(ActionEvent evt)
                 {
                     setVisible(false);
                 }
@@ -324,7 +324,7 @@ public class DialogAttachImage extends MinimumSizeDialog
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -341,8 +341,9 @@ public class DialogAttachImage extends MinimumSizeDialog
     */
     private void calculateSizeAndResolution(int useSize)
     {
-        if(isCalculating || img==null)
+        if(isCalculating || img==null) {
             return;
+        }
 
         isCalculating=true;
         final double oneinch=25.4; // Conversion between inches and mm.
@@ -354,7 +355,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     double h=img.getHeight()/res*oneinch;
                     xsize.setText(Globals.roundTo(w,3));
                     ysize.setText(Globals.roundTo(h,3));
-                } catch (java.lang.NumberFormatException E){
+                } catch (NumberFormatException eE){
                     isCalculating=false;
                     return;
                 }
@@ -366,7 +367,7 @@ public class DialogAttachImage extends MinimumSizeDialog
                     setResolution(res);
                     double h=img.getHeight()/res*oneinch;
                     ysize.setText(Globals.roundTo(h,3));
-                } catch (java.lang.NumberFormatException E){
+                } catch (NumberFormatException eE){
                     isCalculating=false;
                     return;
                 }
@@ -378,11 +379,12 @@ public class DialogAttachImage extends MinimumSizeDialog
                     setResolution(res);
                     double w=img.getWidth()/res*oneinch;
                     xsize.setText(Globals.roundTo(w,3));
-                } catch (java.lang.NumberFormatException E){
+                } catch (NumberFormatException eE){
                     isCalculating=false;
                     return;
                 }
                 break;
+            default:
         }
         isCalculating=false;
     }
@@ -393,7 +395,7 @@ public class DialogAttachImage extends MinimumSizeDialog
     {
         return new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 // Open the browser in order to let the user select the file
                 // name on which export
@@ -442,13 +444,13 @@ public class DialogAttachImage extends MinimumSizeDialog
             getSizeY();
             getCornerX();
             getCornerY();
-        } catch (NumberFormatException N) {
+        } catch (NumberFormatException nN) {
             JOptionPane.showMessageDialog(parent,
                 Globals.messages.getString("Format_invalid"),
                 "",
                 JOptionPane.INFORMATION_MESSAGE);
             return false;
-        } catch (IOException E) {
+        } catch (IOException eE) {
             JOptionPane.showMessageDialog(parent,
                 Globals.messages.getString("Can_not_attach_image"),
                 "",
@@ -464,8 +466,8 @@ public class DialogAttachImage extends MinimumSizeDialog
     {
         try {
             img=ImageIO.read(new File(getFilename()));
-        } catch (IOException E) {
-            return;
+        } catch (IOException eE) {
+            System.err.println("Error: Could not load the background image");
         }
     }
     /** Indicates that the image attach should be done: the user selected
