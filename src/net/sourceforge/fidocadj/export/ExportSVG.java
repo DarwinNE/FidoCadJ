@@ -81,7 +81,7 @@ public class ExportSVG implements ExportInterface, TextInterface
         // Then, the dashed stroke styles are created.
         for(int i=1; i<Globals.dashNumber; ++i) {
             // Prepare the resized dash array.
-            dashArrayStretched = new String();
+            dashArrayStretched = "";
             for(int j=0; j<Globals.dash[i].length;++j) {
                 dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
                 if(j<Globals.dash[i].length-1)

@@ -5,18 +5,18 @@ import javax.swing.*;
 import java.util.prefs.*;
 import java.io.*;
 import java.util.*;
-import java.awt.*;
-import java.lang.reflect.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.timer.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.export.ExportGraphic;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.FileUtils;
+import net.sourceforge.fidocadj.layers.StandardLayers;
+import net.sourceforge.fidocadj.timer.MyTimer;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+
 
 /** FidoMain.java
     SWING App: The starting point of FidoCadJ.
@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -56,15 +56,16 @@ public class FidoMain
     {
         clp = new CommandLineParser();
 
-        if (args.length>=1)
+        if (args.length>=1) {
             clp.processArguments(args);
+        }
 
         applyOptimizationSettings(clp);
 
         // Now we proceed with all the operations: opening files, converting...
         if(clp.getHeadlessMode()) {
             // Creates a circuit object
-            DrawingModel P = new DrawingModel();
+            DrawingModel pP = new DrawingModel();
 
             if("".equals(clp.getLoadFileName())) {
                 System.err.println("You should specify a FidoCadJ file to"+
@@ -73,9 +74,9 @@ public class FidoMain
             }
 
             // Reads the standard libraries
-            readLibrariesProbeDirectory(P, false, clp.getLibDirectory());
-            P.setLayers(StandardLayers.createStandardLayers());
-            ParserActions pa=new ParserActions(P);
+            readLibrariesProbeDirectory(pP, false, clp.getLibDirectory());
+            pP.setLayers(StandardLayers.createStandardLayers());
+            ParserActions pa=new ParserActions(pP);
 
             MyTimer mt = new MyTimer();
             try {
@@ -89,12 +90,12 @@ public class FidoMain
             }
 
             if (clp.shouldConvertFile()) {
-                doConvert(clp, P, clp.shouldSplitLayers());
+                doConvert(clp, pP, clp.shouldSplitLayers());
             }
 
             if (clp.getHasToPrintSize()) {
                 PointG o=new PointG(0,0);
-                DimensionG d = DrawingSize.getImageSize(P,1, true, o);
+                DimensionG d = DrawingSize.getImageSize(pP,1, true, o);
                 System.out.println(""+d.width+" "+d.height);
             }
 
@@ -146,15 +147,15 @@ public class FidoMain
     }
 
     /** Perform a conversion into a graphic file, from command line parameters.
-        A file should have already been loaded and parsed into P.
+        A file should have already been loaded and parsed into pP.
         This routine also checks if the output file has a correct extension,
         coherent with the file format chosen.
 
         @param clp command-line arguments.
-        @param P the model containing the drawing.
+        @param pP the model containing the drawing.
         @param splitLayers split layers into different files when exporting.
     */
-    private static void doConvert(CommandLineParser clp, DrawingModel P,
+    private static void doConvert(CommandLineParser clp, DrawingModel pP,
         boolean splitLayers)
     {
         if(!Globals.checkExtension(clp.getOutputFile(),
@@ -168,12 +169,12 @@ public class FidoMain
 
         try {
             if (clp.getResolutionBasedExport()) {
-                ExportGraphic.export(new File(clp.getOutputFile()),  P,
+                ExportGraphic.export(new File(clp.getOutputFile()), pP,
                     clp.getExportFormat(), clp.getResolution(),
                     true,false,true, true, splitLayers);
             } else {
                 ExportGraphic.exportSize(new File(clp.getOutputFile()),
-                    P, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),
+                    pP, clp.getExportFormat(), clp.getXSize(), clp.getYSize(),
                     true,false,true,true, splitLayers);
             }
             System.out.println("Export completed");
@@ -188,25 +189,26 @@ public class FidoMain
         directory specified, the internal version is not loaded. Other files
         on the external directory are loaded.
 
-        @param P the parsing class in which the libraries should be loaded
+        @param pP the parsing class in which the libraries should be loaded
         @param englishLibraries a flag to specify if the internal libraries
             should be loaded in English or in Italian.
         @param libDirectoryO the path of the external directory.
     */
-    public static void readLibrariesProbeDirectory(DrawingModel P,
+    public static void readLibrariesProbeDirectory(DrawingModel pP,
         boolean englishLibraries, String libDirectoryO)
     {
         String libDirectory=libDirectoryO;
-        ParserActions pa = new ParserActions(P);
+        ParserActions pa = new ParserActions(pP);
 
-        synchronized(P) {
-            if (libDirectory == null || libDirectory.length()<3)
+        synchronized(pP) {
+            if (libDirectory == null || libDirectory.length()<3) {
                 libDirectory = System.getProperty("user.home");
+            }
 
             readIHRAM(englishLibraries, libDirectory, pa);
             readFCDstdlib(englishLibraries, libDirectory, pa);
             readPCBlib(englishLibraries, libDirectory, pa);
-            readEY_Libraries(englishLibraries, libDirectory, pa);
+            readEYLibraries(englishLibraries, libDirectory, pa);
             readElecLib(englishLibraries, libDirectory, pa);
         }
     }
@@ -229,12 +231,13 @@ public class FidoMain
         {
             System.out.println("IHRAM library got from external file");
         } else {
-            if(englishLibraries)
+            if(englishLibraries) {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/IHRAM_en.FCL"), "ihram");
-            else
+            } else {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/IHRAM.FCL"), "ihram");
+            }
         }
     }
 
@@ -255,12 +258,13 @@ public class FidoMain
         {
             System.out.println("Standard library got from external file");
         } else {
-            if(englishLibraries)
+            if(englishLibraries) {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/FCDstdlib_en.fcl"), "");
-            else
+            } else {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/FCDstdlib.fcl"), "");
+            }
         }
     }
 
@@ -281,16 +285,17 @@ public class FidoMain
         {
             System.out.println("Standard PCB library got from external file");
         } else {
-            if(englishLibraries)
+            if(englishLibraries) {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/PCB_en.fcl"), "pcb");
-            else
+            } else {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/PCB.fcl"), "pcb");
+            }
         }
     }
 
-    /** Read the internal EY_Libraries library, unless a file called
+    /** Read the internal EYLibraries library, unless a file called
         EY_Libraries.fcl is present in the library directory
 
         @param libDirectory path where to search for the library.
@@ -298,7 +303,7 @@ public class FidoMain
             should be loaded instead of the Italian one.
         @param pa the object by which the library will be crunched.
     */
-    private static void readEY_Libraries(boolean englishLibraries,
+    private static void readEYLibraries(boolean englishLibraries,
         String libDirectory,
         ParserActions pa)
     {
@@ -330,12 +335,13 @@ public class FidoMain
             System.out.println(
                 "Electrotechnics library got from external file");
         } else {
-            if(englishLibraries)
+            if(englishLibraries) {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/elettrotecnica_en.fcl"), "elettrotecnica");
-            else
+            } else {
                 pa.loadLibraryInJar(FidoFrame.class.getResource(
                     "lib/elettrotecnica.fcl"), "elettrotecnica");
+            }
         }
     }
 }
@@ -371,7 +377,7 @@ class CreateSwingInterface implements Runnable
 
     /** Run the thread.
     */
-    public void run()
+    @Override public void run()
     {
         /*******************************************************************
             PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
@@ -379,8 +385,7 @@ class CreateSwingInterface implements Runnable
         if (System.getProperty("os.name").startsWith("Mac")) {
             Globals g=new Globals();
 
-            Preferences prefs_static =
-                Preferences.userNodeForPackage(g.getClass());
+            Preferences.userNodeForPackage(g.getClass());
 
             Globals.weAreOnAMac =true;
 
@@ -414,7 +419,7 @@ class CreateSwingInterface implements Runnable
             try {
                 UIManager.setLookAndFeel(
                     "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (Exception E) {
+            } catch (Exception eE) {
                 System.out.println("Could not load the Windows Look and feel!");
             }
         }
@@ -437,36 +442,7 @@ class CreateSwingInterface implements Runnable
         Globals.desktopInt=new ADesktopIntegration();
         Globals.desktopInt.registerActions();
 
-        if(Globals.weAreOnAMac) {
-            // Here we use the reflection provided by Java to understand
-            // if the AppleSpecific class is available on the system.
-            // This class should be compiled separately from the main
-            // program since the compilation can be successful only on
-            // a MacOSX system.
-            // OBSOLETE SINCE JAVA 9
-            /*
-            try {
-                Class<?> a = Class.forName(
-                    "net.sourceforge.fidocadj.AppleSpecific");
-                Object b = a.getConstructor().newInstance();
-                Method m = a.getMethod("answerFinder");
-                m.invoke(b);
-            } catch (NoClassDefFoundError|ClassNotFoundException|
-                InstantiationException|NoSuchMethodException|
-                IllegalAccessException|InvocationTargetException exc)
-            {
-                Globals.weAreOnAMac = false;
-                System.out.println("It seems that this software has been "+
-                    "compiled on a system different from MacOSX. Some nice "+
-                    "integrations with MacOSX will therefore be absent. If "+
-                    "you have compiled on MacOSX, make sure you used the "+
-                    "'compile' or 'rebuild' script along with the 'mac' "+
-                    "option.");
-            }*/
-        }
-
         // Here we create the main window object
-
         FidoFrame popFrame=new FidoFrame(true, currentLocale);
 
         if (!"".equals(libDirectory)) {
@@ -485,8 +461,9 @@ class CreateSwingInterface implements Runnable
         popFrame.loadLibraries();
         // If a file should be loaded, load it now, since popFrame has been
         // created and initialized.
-        if(!"".equals(loadFile))
+        if(!"".equals(loadFile)) {
             popFrame.getFileTools().load(loadFile);
+        }
 
         // We force a global validation of the window size, by including
         // this time the tree containing the various libraries and the

@@ -175,7 +175,7 @@ public class DragDropTools implements DropTargetListener
                             }
 
                             popFrame.cc.getParserActions().openFileName =
-                                line.toString().substring(k+7);
+                                line.substring(k+7);
 
                             // Deprecated! It should indicate the encoding. But
                             // WE WANT the encoding using being the same of the

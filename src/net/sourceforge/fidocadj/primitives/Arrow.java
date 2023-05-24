@@ -32,7 +32,7 @@ import net.sourceforge.fidocadj.export.PointPr;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2020 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
    </pre>
 
 */
@@ -93,7 +93,7 @@ public final class Arrow
     public String createArrowTokens()
     {
         int arrows = (arrowStart?0x01:0x00)|(arrowEnd?0x02:0x00);
-        String result=new String();
+        String result="";
         result+=arrows+" ";
         result+=arrowStyle+" ";
         if (Math.abs(arrowLength-Math.round(arrowLength))<roundTolerance) {
