@@ -2,11 +2,11 @@ package net.sourceforge.fidocadj;
 
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 import java.io.*;
 import java.awt.*;
+import java.util.Locale;
 
 /** OpenFile.java
 
@@ -27,7 +27,7 @@ import java.awt.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2015 by Davide Bucci
+    Copyright 2012-2023 by Davide Bucci
 </pre>
 
     The OpenFile class allows to open a new file by using threads.
@@ -53,7 +53,7 @@ class OpenFile implements Runnable
         We pay attention to show the file chooser dialog which appears to be
         the best looking one on each operating system.
     */
-    public void run()
+    @Override public void run()
     {
         String fin;
         String din;
@@ -64,7 +64,7 @@ class OpenFile implements Runnable
                 Globals.messages.getString("Open"));
             fd.setDirectory(parent.getFileTools().openFileDirectory);
             fd.setFilenameFilter(new FilenameFilter(){
-                public boolean accept(File dir, String name)
+                @Override public boolean accept(File dir, String name)
                 {
                     return name.toLowerCase(
                         parent.getLocale()).endsWith(".fcd");
@@ -83,19 +83,20 @@ class OpenFile implements Runnable
                 new File(parent.getFileTools().openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("Open"));
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
-                public boolean accept(File f)
+                @Override public boolean accept(File f)
                 {
-                    return f.getName().toLowerCase().endsWith(".fcd")||
-                            f.isDirectory();
+                    return f.getName().toLowerCase(Locale.US)
+                        .endsWith(".fcd")||f.isDirectory();
                 }
-                public String getDescription()
+                @Override public String getDescription()
                 {
                     return "FidoCadJ (.fcd)";
                 }
             });
 
-            if(fc.showOpenDialog(parent)!=JFileChooser.APPROVE_OPTION)
+            if(fc.showOpenDialog(parent)!=JFileChooser.APPROVE_OPTION) {
                 return;
+            }
 
             fin=fc.getSelectedFile().getName();
             din=fc.getSelectedFile().getParentFile().getPath();
@@ -122,9 +123,10 @@ class OpenFile implements Runnable
                     selection=JOptionPane.OK_OPTION;
                 }
                 // If useful, we correct the extension.
-                if(selection==JOptionPane.OK_OPTION)
+                if(selection==JOptionPane.OK_OPTION) {
                     fin = Globals.adjustExtension(
                         fin, Globals.DEFAULT_EXTENSION);
+                }
             }
             try {
                 // DOUBT: this might be done not on a new thread, but in the
@@ -153,15 +155,14 @@ class OpenFile implements Runnable
                 }
                 popFrame.cc.getParserActions().openFileName=
                     Globals.createCompleteFileName(din, fin);
-                if (parent.runsAsApplication)
+                if (parent.runsAsApplication) {
                     parent.prefs.put("OPEN_DIR", din);
+                }
 
                 popFrame.getFileTools().openFileDirectory=din;
                 popFrame.getFileTools().openFile();
                 popFrame.cc.getUndoActions().saveUndoState();
                 popFrame.cc.getUndoActions().setModified(false);
-
-                //System.gc();
 
             } catch (IOException fnfex) {
                 JOptionPane.showMessageDialog(parent,

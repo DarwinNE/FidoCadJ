@@ -538,10 +538,11 @@ public class MenuTools implements MenuListener
             di.setVisible(true);
             if(di.shouldAttach()) {
                 try{
-                    if(di.getShowImage())
+                    if(di.getShowImage()) {
                         ii.loadImage(di.getFilename());
-                    else
+                    } else {
                         ii.removeImage();
+                    }
                     ii.setResolution(di.getResolution());
                     ii.setCorner(di.getCornerX(),di.getCornerY());
                 } catch (IOException e) {

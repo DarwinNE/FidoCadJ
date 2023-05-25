@@ -3,19 +3,21 @@ package net.sourceforge.fidocadj;
 import javax.swing.*;
 import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
-import java.io.*;
 import java.awt.print.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.geom.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.dialogs.print.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.dialogs.print.DialogPrint;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.swing.Graphics2DSwing;
+import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 /** PrintTools.java
 
@@ -39,7 +41,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2017 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -63,8 +65,6 @@ public class PrintTools implements Printable
     private CircuitPanel cc;
 
     private boolean showMargins;
-
-    private final static double LIMIT=1e-5;
 
     private final static double MULT=16.0;       // Multiplying 72dp times MULT
     private final static double INCH=2.54;  // in cm
@@ -125,10 +125,10 @@ public class PrintTools implements Printable
     */
     public void setMargins(double tm, double bm, double lm, double rm)
     {
-        if(tm>0.0) topMargin=tm;
-        if(bm>0.0) bottomMargin=bm;
-        if(lm>0.0) leftMargin=lm;
-        if(rm>0.0) rightMargin=rm;
+        if(tm>0.0) { topMargin=tm; }
+        if(bm>0.0) { bottomMargin=bm; }
+        if(lm>0.0) { leftMargin=lm; }
+        if(rm>0.0) { rightMargin=rm; }
     }
     /** Associate to a given CircuitPanel containing the circuit to be printed.
         @param rCC the CircuitPanel containing the drawing to be exported.
@@ -162,8 +162,9 @@ public class PrintTools implements Printable
             // Show the (modal) dialog.
             dp.setVisible(true);
             noexit=configurePrinting(dp, pp,true);
-            if (!dp.shouldPrint())
+            if (!dp.shouldPrint()) {
                 return;
+            }
         } while (noexit);
         try {
             // Launch printing.
@@ -189,8 +190,9 @@ public class PrintTools implements Printable
     {
         boolean noexit=false;
 
-        if (!dp.shouldPrint() && checkMarginSize)
+        if (!dp.shouldPrint() && checkMarginSize) {
             return true;
+        }
 
         // Get some information about the printing options.
         printMirror = dp.getMirror();
@@ -203,7 +205,7 @@ public class PrintTools implements Printable
             bottomMargin=dp.getBMargin();
             leftMargin=dp.getLMargin();
             rightMargin=dp.getRMargin();
-        } catch (java.lang.NumberFormatException n) {
+        } catch (NumberFormatException n) {
             System.out.println(
                 Globals.messages.getString("Format_invalid"));
         }
@@ -390,10 +392,11 @@ public class PrintTools implements Printable
             // which all colors are pitch black. This may be
             // useful for PCB's.
 
-            for (int i=0; i<LayerDesc.MAX_LAYERS;++i)
+            for (int i=0; i<LayerDesc.MAX_LAYERS;++i) {
                 v.add(new LayerDesc(new ColorSwing(Color.black),
                     ((LayerDesc)ol.get(i)).getVisible(),
                      "B/W",((LayerDesc)ol.get(i)).getAlpha()));
+            }
             cc.dmp.setLayers(v);
         }
         Graphics2DSwing graphicSwing = new Graphics2DSwing(g2d);
