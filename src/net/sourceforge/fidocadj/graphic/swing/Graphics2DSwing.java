@@ -373,7 +373,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
     public int getFontAscent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return (int)Math.round(fm.getAscent());
+        return fm.getAscent();
     }
 
     /** Get the descent metric of the current font.
@@ -382,7 +382,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
     public int getFontDescent()
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return (int)Math.round(fm.getDescent());
+        return fm.getDescent();
     }
 
     /** Get the width of the given string with the current font.
@@ -392,7 +392,7 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
     public int getStringWidth(String s)
     {
         FontMetrics fm = g.getFontMetrics(g.getFont());
-        return (int)Math.round(fm.stringWidth(s));
+        return fm.stringWidth(s);
     }
 
     /** Draw a string on the current graphic context.
@@ -674,9 +674,9 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
             // The pattern filling (which is fast) is then used to replicate the
             // image (very fast!) over the working surface.
 
-            for (double l=1; l<105; ++l) {
+            for (int l=1; l<105; ++l) {
                 if (Math.abs(l*z-Math.round(l*z))<toll) {
-                    mul=(int)l;
+                    mul=l;
                     break;
                 }
             }

@@ -5,12 +5,20 @@ import javax.swing.event.*;
 import java.awt.event.*;
 import java.io.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.clipboard.*;
-import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.controllers.CopyPasteActions;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.ImageAsCanvas;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.dialogs.DialogAttachImage;
+import net.sourceforge.fidocadj.dialogs.DialogAbout;
+import net.sourceforge.fidocadj.dialogs.DialogLayer;
+import net.sourceforge.fidocadj.dialogs.EnterCircuitFrame;
+import net.sourceforge.fidocadj.clipboard.TextTransfer;
+import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
 
 /** MenuTools.java
 
@@ -35,7 +43,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see<a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2020 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -64,8 +72,9 @@ public class MenuTools implements MenuListener
         // This needs the AppleSpecific extensions to be active.
 
         JMenu about = defineAboutMenu(al);
-        if(!Globals.desktopInt.handleAbout)
+        if(!Globals.desktopInt.handleAbout) {
             menuBar.add(about);
+        }
 
         return menuBar;
     }
@@ -73,7 +82,7 @@ public class MenuTools implements MenuListener
     /** The menuSelected method, useful for the MenuListener interface.
         @param evt the menu event object.
     */
-    public void menuSelected(MenuEvent evt)
+    @Override public void menuSelected(MenuEvent evt)
     {
         // does nothing
     }
@@ -81,7 +90,7 @@ public class MenuTools implements MenuListener
     /** The menuDeselected method, useful for the MenuListener interface.
         @param evt the menu event object.
     */
-    public void menuDeselected(MenuEvent evt)
+    @Override public void menuDeselected(MenuEvent evt)
     {
             // does nothing
     }
@@ -89,7 +98,7 @@ public class MenuTools implements MenuListener
     /** The menuCanceled method, useful for the MenuListener interface.
         @param evt the menu event object.
     */
-    public void menuCanceled(MenuEvent evt)
+    @Override public void menuCanceled(MenuEvent evt)
     {
         // does nothing
     }
@@ -476,17 +485,19 @@ public class MenuTools implements MenuListener
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Mirror_E"))) {
             // Mirror all the selected elements
-            if(eea.isEnteringMacro())
+            if(eea.isEnteringMacro()) {
                 eea.mirrorMacro();
-            else
+            } else {
                 edt.mirrorAllSelected();
+            }
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Rotate"))) {
             // 90 degrees rotation of all selected elements
-            if(eea.isEnteringMacro())
+            if(eea.isEnteringMacro()) {
                 eea.rotateMacro();
-            else
+            } else {
                 edt.rotateAllSelected();
+            }
             fff.repaint();
         } else if (arg.equals(Globals.messages.getString("Duplicate"))) {
             // Duplicate

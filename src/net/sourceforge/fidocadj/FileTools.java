@@ -4,11 +4,11 @@ import java.io.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.export.*;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.export.ExportGraphic;
 
 /** FileTools.java
     Class performing high level user interface operation involving files.
@@ -30,7 +30,7 @@ import net.sourceforge.fidocadj.export.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2019 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -61,8 +61,9 @@ public class FileTools
     public void readPrefs()
     {
         // The open file directory
-        if (prefs!=null)
+        if (prefs!=null) {
             openFileDirectory = prefs.get("OPEN_DIR", "");
+        }
     }
 
     /** Ask the user if the current file should be saved and do it if yes.
@@ -100,16 +101,18 @@ public class FileTools
             if(choice==JOptionPane.YES_OPTION) {
                 //  Save and exit
                 //System.out.println("Save and exit.");
-                if(!save(false))
+                if(!save(false)) {
                     shouldExit=false;
+                }
             } else if (choice==JOptionPane.CANCEL_OPTION) {
                 // Don't exit
                 shouldExit = false;
             }
         }
 
-        if(shouldExit)
+        if(shouldExit) {
             fff.cc.getUndoActions().doTheDishes();
+        }
 
         return shouldExit;
     }
@@ -154,10 +157,10 @@ public class FileTools
         native one, depending on the host operating system), in order to let
         the user choose a new name for the file to be saved.
         @return true if the save operation has gone well.
-        @param splitNonStandardMacro_s decides whether the non standard macros
+        @param splitNonStandardMacroS decides whether the non standard macros
                should be split during the save operation.
     */
-    public boolean saveWithName(boolean splitNonStandardMacro_s)
+    public boolean saveWithName(boolean splitNonStandardMacroS)
     {
         String fin;
         String din;
@@ -172,9 +175,9 @@ public class FileTools
                 FileDialog.SAVE);
             fd.setDirectory(openFileDirectory);
             fd.setFilenameFilter(new FilenameFilter(){
-                public boolean accept(File dir, String name)
+                @Override public boolean accept(File dir, String name)
                 {
-                    return name.toLowerCase(fff.getLocale()).endsWith(".fcd");
+                    return name.toLowerCase(Locale.US).endsWith(".fcd");
                 }
             });
             fd.setVisible(true);
@@ -186,12 +189,12 @@ public class FileTools
 
             JFileChooser fc = new JFileChooser();
             fc.setFileFilter(new javax.swing.filechooser.FileFilter(){
-                public boolean accept(File f)
+                @Override public boolean accept(File f)
                 {
-                    return f.getName().toLowerCase().endsWith(".fcd") ||
+                    return f.getName().toLowerCase(Locale.US).endsWith(".fcd") ||
                         f.isDirectory();
                 }
-                public String getDescription()
+                @Override public String getDescription()
                 {
                     return "FidoCadJ (.fcd)";
                 }
@@ -200,8 +203,9 @@ public class FileTools
             // Set the current working directory as well as the file name.
             fc.setCurrentDirectory(new File(openFileDirectory));
             fc.setDialogTitle(Globals.messages.getString("SaveName"));
-            if(fc.showSaveDialog(fff)!=JFileChooser.APPROVE_OPTION)
+            if(fc.showSaveDialog(fff)!=JFileChooser.APPROVE_OPTION) {
                 return false;
+            }
 
             fin=fc.getSelectedFile().getName();
             din=fc.getSelectedFile().getParentFile().getPath();
@@ -215,32 +219,33 @@ public class FileTools
             fff.cc.getParserActions().openFileName = Globals.adjustExtension(
                 fff.cc.getParserActions().openFileName,
                     Globals.DEFAULT_EXTENSION);
-            if (prefs!=null)
+            if (prefs!=null) {
                 prefs.put("OPEN_DIR", din);
+            }
 
             openFileDirectory=din;
 
             // Here everything is ready for saving the current drawing.
-            return save(splitNonStandardMacro_s);
+            return save(splitNonStandardMacroS);
         }
     }
 
     /** Save the current file.
-        @param splitNonStandardMacro_s decides whether the non standard macros
+        @param splitNonStandardMacroS decides whether the non standard macros
                should be split during the save operation.
         @return true if the save operation has gone well.
     */
-    public boolean save(boolean splitNonStandardMacro_s)
+    public boolean save(boolean splitNonStandardMacroS)
     {
         CircuitPanel cc=fff.cc;
 
         // If there is not a name currently defined, we use instead the
         // save with name function.
         if("".equals(cc.getParserActions().openFileName)) {
-            return saveWithName(splitNonStandardMacro_s);
+            return saveWithName(splitNonStandardMacroS);
         }
         try {
-            if (splitNonStandardMacro_s) {
+            if (splitNonStandardMacroS) {
                 /*  In fact, splitting the nonstandard macro when saving a file
                     is indeed an export operation. This ease the job, since
                     while exporting in a vector graphic format one has

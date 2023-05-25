@@ -226,8 +226,8 @@ public class FidoFrame extends JFrame implements
             int w = Integer.parseInt(prefs.get("FRAME_WIDTH","no"));
             int h = Integer.parseInt(prefs.get("FRAME_HEIGHT","no"));
             int state=Integer.parseInt(prefs.get("FRAME_STATE","no"));
-            if((state & MAXIMIZED_HORIZ)>0 ||
-                (state & MAXIMIZED_VERT)>0)
+            if((state & MAXIMIZED_HORIZ)!=0 ||
+                (state & MAXIMIZED_VERT)!=0)
             {
                 setExtendedState(state);
             } else {
