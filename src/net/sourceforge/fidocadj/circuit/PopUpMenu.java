@@ -1,21 +1,28 @@
 package net.sourceforge.fidocadj.circuit;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.clipboard.*;
+import net.sourceforge.fidocadj.dialogs.DialogSymbolize;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.LibUtils;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitiveComplexCurve;
+import net.sourceforge.fidocadj.primitives.PrimitivePolygon;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.controllers.CopyPasteActions;
+import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
+import net.sourceforge.fidocadj.circuit.controllers.ContinuosMoveActions;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
+import net.sourceforge.fidocadj.clipboard.TextTransfer;
 
 /** Pop up menu for the main editing panel.
 
     <pre>
-    cp file is part of FidoCadJ.
+    This file is part of FidoCadJ.
 
     FidoCadJ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +38,7 @@ import net.sourceforge.fidocadj.clipboard.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -195,11 +202,13 @@ public class PopUpMenu implements ActionListener
             g instanceof PrimitivePolygon)
         {
             s=true;
-        } else
+        } else {
             s=false;
+        }
 
-        if (!sa.isUniquePrimitiveSelected())
+        if (!sa.isUniquePrimitiveSelected()) {
             s=false;
+        }
 
         editAddNode.setEnabled(s);
         editRemoveNode.setEnabled(s);
@@ -211,10 +220,11 @@ public class PopUpMenu implements ActionListener
 
         TextTransfer textTransfer = new TextTransfer();
 
-        if(textTransfer.getClipboardContents().equals(""))
+        if("".equals(textTransfer.getClipboardContents())) {
             editPaste.setEnabled(false);
-        else
+        } else {
             editPaste.setEnabled(true);
+        }
 
         editSymbolize.setEnabled(somethingSelected);
 
@@ -243,7 +253,7 @@ public class PopUpMenu implements ActionListener
                 actionString);
 
         cp.getActionMap().put(actionString, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 // We now set the new editing state
                 cp.setSelectionState(state,"");
@@ -302,7 +312,7 @@ public class PopUpMenu implements ActionListener
                 .put(KeyStroke.getKeyStroke("BACK_SPACE"), delete);
 
         cp.getActionMap().put(delete, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 edt.deleteAllSelected(true);
                 cp.repaint();
@@ -316,7 +326,7 @@ public class PopUpMenu implements ActionListener
             .put(KeyStroke.getKeyStroke("ESCAPE"), escape);*/
 
         cp.getActionMap().put(escape, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 if(eea.clickNumber>0){
                     // Here we need to clear the variables which are used
@@ -334,10 +344,10 @@ public class PopUpMenu implements ActionListener
          // left key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
-            java.awt.event.InputEvent.ALT_MASK,false), left);
+            InputEvent.ALT_MASK,false), left);
 
         cp.getActionMap().put(left, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 edt.moveAllSelected(-1,0);
                 cp.repaint();
@@ -347,10 +357,10 @@ public class PopUpMenu implements ActionListener
          // right key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,
-            java.awt.event.InputEvent.ALT_MASK,false), right);
+            InputEvent.ALT_MASK,false), right);
 
         cp.getActionMap().put(right, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 edt.moveAllSelected(1,0);
                 cp.repaint();
@@ -361,10 +371,10 @@ public class PopUpMenu implements ActionListener
          // up key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-            java.awt.event.InputEvent.ALT_MASK,false), up);
+            InputEvent.ALT_MASK,false), up);
 
         cp.getActionMap().put(up, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 edt.moveAllSelected(0,-1);
                 cp.repaint();
@@ -374,10 +384,10 @@ public class PopUpMenu implements ActionListener
         // down key
         cp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
             .put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
-            java.awt.event.InputEvent.ALT_MASK,false), down);
+            InputEvent.ALT_MASK,false), down);
 
         cp.getActionMap().put(down, new AbstractAction() {
-            public void actionPerformed(ActionEvent ignored)
+            @Override public void actionPerformed(ActionEvent ignored)
             {
                 edt.moveAllSelected(0,1);
                 cp.repaint();
@@ -388,7 +398,7 @@ public class PopUpMenu implements ActionListener
     /** The action listener. Recognize menu events and behaves consequently.
         @param evt the MouseEvent to handle
     */
-    public void actionPerformed(ActionEvent evt)
+    @Override public void actionPerformed(ActionEvent evt)
     {
         // TODO: Avoid some copy/paste of code
 
@@ -424,23 +434,26 @@ public class PopUpMenu implements ActionListener
                 // Even if the drawing is not changed, a repaint operation is
                 // needed since all selected elements are rendered in green.
                 cp.repaint();
-            }else if (arg.equals(Globals.messages.getString("Rotate"))) {
+            } else if (arg.equals(Globals.messages.getString("Rotate"))) {
                 // Rotate the selected element
-                if(eea.isEnteringMacro())
+                if(eea.isEnteringMacro()) {
                     eea.rotateMacro();
-                else
+                } else {
                     edt.rotateAllSelected();
+                }
                 cp.repaint();
             } else if(arg.equals(Globals.messages.getString("Mirror_E"))) {
                 // Mirror the selected element
-                if(eea.isEnteringMacro())
+                if(eea.isEnteringMacro()) {
                     eea.mirrorMacro();
-                else
+                } else {
                     edt.mirrorAllSelected();
-
+                }
                 cp.repaint();
             } else if (arg.equals(Globals.messages.getString("Symbolize"))) {
-                if (sa.getFirstSelectedPrimitive() == null) return;
+                if (sa.getFirstSelectedPrimitive() == null) {
+                    return;
+                }
                 DialogSymbolize s = new DialogSymbolize(cp,
                     cp.getDrawingModel());
                 s.setModal(true);

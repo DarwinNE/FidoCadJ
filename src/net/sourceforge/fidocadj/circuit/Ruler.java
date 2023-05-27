@@ -1,10 +1,9 @@
 package net.sourceforge.fidocadj.circuit;
 
-import javax.swing.*;
 import java.awt.*;
 
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** Draw a ruler.
 
@@ -25,7 +24,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -82,8 +81,9 @@ public class Ruler
     */
     public void drawRuler(Graphics g, MapCoordinates cs)
     {
-        if (!isActiveRuler)
+        if (!isActiveRuler) {
             return;
+        }
 
         int sx=rulerStartX;
         int sy=rulerStartY;
@@ -99,8 +99,12 @@ public class Ruler
         int xb = cs.unmapXnosnap(ex);
         int yb = cs.unmapYnosnap(ey);
 
-        int x1, y1, x2, y2;
-        double x, y;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+        double x;
+        double y;
 
         // Calculates the ruler length.
         length = Math.sqrt((double)(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
@@ -110,10 +114,11 @@ public class Ruler
         // A little bit of trigonometry :-)
 
         double alpha;
-        if (sx==ex)
+        if (sx==ex) {
             alpha = Math.PI/2.0+(ey-sy<0?0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(ey-sy)/(double)(ex-sx));
+        }
 
         alpha += ex-sx>0?0:Math.PI;
 
@@ -128,10 +133,10 @@ public class Ruler
             l=5;
         }
 
-        double ll=0.0;
-        double ld=5.0;
+        double ll = 0.0;
+        double ld = 5.0;
         int m = 5;
-        int j=0;
+        int j = 0;
 
         double dex = sx + length*Math.cos(alpha)*cs.getXMagnitude();
         double dey = sy + length*Math.sin(alpha)*cs.getYMagnitude();
@@ -149,8 +154,8 @@ public class Ruler
             } else {
                 ll=ld;
             }
-            x = (dex*i)/length+((double)sx*(length-i))/length;
-            y = (dey*i)/length+((double)sy*(length-i))/length;
+            x = dex*i/length+(double)sx*(length-i)/length;
+            y = dey*i/length+(double)sy*(length-i)/length;
 
             x1 = (int)(x - ll*Math.cos(alpha));
             x2 = (int)(x + ll*Math.cos(alpha));
@@ -158,7 +163,6 @@ public class Ruler
             y2 = (int)(y + ll*Math.sin(alpha));
 
             g.drawLine(x1, y1, x2, y2);
-
         }
 
         Font f=new Font(rulerFont,Font.PLAIN,10);

@@ -1,12 +1,8 @@
 package net.sourceforge.fidocadj.circuit;
 
-import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.*;
-
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** MouseWheelHandler: handle wheel events for the zoom in/out.
 
@@ -27,7 +23,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by miklos80, Davide Bucci
+    Copyright 2014-2023 by miklos80, Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -52,8 +48,9 @@ public class MouseWheelHandler implements KeyListener,
     private int getKeyForWheel()
     {
         int keyCode=KeyEvent.VK_CONTROL;
-        if(Globals.weAreOnAMac)
+        if(Globals.weAreOnAMac) {
             keyCode=KeyEvent.VK_META;
+        }
         return keyCode;
     }
 
@@ -63,8 +60,9 @@ public class MouseWheelHandler implements KeyListener,
     @Override
     public void keyPressed(KeyEvent e)
     {
-        if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener())
+        if (e.getKeyCode() == getKeyForWheel() && !hasMouseWheelListener()) {
             cc.addMouseWheelListener(this);
+        }
     }
 
     /** Intercepts the moment when the Ctrl or Command key is released (see the
@@ -73,8 +71,9 @@ public class MouseWheelHandler implements KeyListener,
     @Override
     public void keyReleased(KeyEvent e)
     {
-        if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener())
+        if (e.getKeyCode() == getKeyForWheel() && hasMouseWheelListener()) {
             cc.removeMouseWheelListener(this);
+        }
     }
 
     /** Required by the KeyListener interface.
@@ -91,8 +90,9 @@ public class MouseWheelHandler implements KeyListener,
     {
         MouseWheelListener[] listeners = cc.getMouseWheelListeners();
         for (MouseWheelListener mouseWheelListener : listeners) {
-            if (mouseWheelListener.equals(this))
+            if (mouseWheelListener.equals(this)) {
                 return true;
+            }
         }
         return false;
     }
