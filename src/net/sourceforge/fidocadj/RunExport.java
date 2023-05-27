@@ -4,11 +4,10 @@ import javax.swing.*;
 
 import java.io.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.export.ExportGraphic;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
 
 
 /** The RunExport class implements a runnable class which can be employed
@@ -32,7 +31,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2019 by Davide Bucci
+    Copyright 2012-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -108,7 +107,7 @@ class RunExport implements Runnable
 
     /** Launch the export (in a new thread).
     */
-    public void run()
+    @Override public void run()
     {
         try {
             if(resBased) {
@@ -123,7 +122,7 @@ class RunExport implements Runnable
             if(coordL==null) {
                 // Needed for thread safety!
                 SwingUtilities.invokeLater(new Runnable() {
-                    public void run()
+                    @Override public void run()
                     {
                         JOptionPane.showMessageDialog(parent,
                             Globals.messages.getString("Export_completed"));
@@ -133,7 +132,7 @@ class RunExport implements Runnable
                 // Needed for thread safety!
                 // Much les disruptive version of the message.
                 SwingUtilities.invokeLater(new Runnable() {
-                    public void run()
+                    @Override public void run()
                     {
                         coordL.changeInfos(
                             Globals.messages.getString("Export_completed"));
@@ -142,7 +141,7 @@ class RunExport implements Runnable
             }
         }  catch(final IOException ioe) {
             SwingUtilities.invokeLater(new Runnable() {
-                public void run()
+                @Override public void run()
                 {
                     JOptionPane.showMessageDialog(parent,
                         Globals.messages.getString("Export_error")+ioe);
@@ -150,19 +149,18 @@ class RunExport implements Runnable
             });
         } catch(IllegalArgumentException iae) {
             SwingUtilities.invokeLater(new Runnable() {
-                public void run()
+                @Override public void run()
                 {
                     JOptionPane.showMessageDialog(parent,
                         Globals.messages.getString("Illegal_filename"));
                 }
             });
-        } catch(java.lang.OutOfMemoryError|
-            java.lang.NegativeArraySizeException om) {
+        } catch(OutOfMemoryError|NegativeArraySizeException om) {
             // It is not entirely clear to me (DB) why a negative array size
             // exception occours when there are memory issues creating the
             // images.
             SwingUtilities.invokeLater(new Runnable() {
-                public void run()
+                @Override public void run()
                 {
                     JOptionPane.showMessageDialog(parent,
                         Globals.messages.getString("Eport_Memory_Error"));

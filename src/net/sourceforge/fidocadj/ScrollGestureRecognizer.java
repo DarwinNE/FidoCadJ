@@ -1,14 +1,12 @@
 package net.sourceforge.fidocadj;
 
 import javax.swing.*;
-import javax.swing.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
 
-import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
 import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
-import net.sourceforge.fidocadj.toolbars.*;
+import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
 
 
 /** Employed in FidoCadJ with the author's permission.
@@ -28,7 +26,7 @@ import net.sourceforge.fidocadj.toolbars.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
-    Copyright 2007-2016 Santhosh Kumar T, Davide Bucci
+    Copyright 2007-2023 Santhosh Kumar T, Davide Bucci
     </pre>
 */
 public final class ScrollGestureRecognizer implements AWTEventListener,
@@ -77,7 +75,7 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     /** Event dispatched (?)
         @param event the AWT event dispatched.
     */
-    public void eventDispatched(AWTEvent event)
+    @Override public void eventDispatched(AWTEvent event)
     {
         MouseEvent me = (MouseEvent)event;
         boolean isGesture = (SwingUtilities.isMiddleMouseButton(me) ||
@@ -86,17 +84,20 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
 
         Component co=me.getComponent();
 
-        if (!(co instanceof CircuitPanel))
+        if (!(co instanceof CircuitPanel)) {
             return;
+        }
 
         JViewport viewport =
             (JViewport)SwingUtilities.getAncestorOfClass(JViewport.class,
             me.getComponent());
-        if(viewport==null)
+        if(viewport==null) {
             return;
+        }
         JRootPane rootPane = SwingUtilities.getRootPane(viewport);
-        if(rootPane==null)
+        if(rootPane==null) {
             return;
+        }
 
         Point mouseLocation = SwingUtilities.convertPoint(me.getComponent(),
             me.getPoint(), rootPane.getGlassPane());
@@ -104,8 +105,9 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
             location=mouseLocation;
         }
         oldGesture=isGesture;
-        if(!isGesture)
+        if(!isGesture) {
             return;
+        }
 
         int deltax = -(mouseLocation.x - location.x);
         int deltay = -(mouseLocation.y - location.y);
@@ -115,15 +117,17 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
         Point p = viewport.getViewPosition();
         p.translate(deltax, deltay);
 
-        if(p.x<0)
+        if(p.x<0) {
             p.x=0;
-        else if(p.x>=viewport.getView().getWidth()-viewport.getWidth())
+        } else if(p.x>=viewport.getView().getWidth()-viewport.getWidth()) {
             p.x = viewport.getView().getWidth()-viewport.getWidth();
+        }
 
-        if(p.y<0)
+        if(p.y<0) {
             p.y = 0;
-        else if(p.y>=viewport.getView().getHeight()-viewport.getHeight())
+        } else if(p.y>=viewport.getView().getHeight()-viewport.getHeight()) {
             p.y = viewport.getView().getHeight()-viewport.getHeight();
+        }
 
         viewport.setViewPosition(p);
     }

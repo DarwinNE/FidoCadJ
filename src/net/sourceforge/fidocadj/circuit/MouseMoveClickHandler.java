@@ -2,17 +2,14 @@ package net.sourceforge.fidocadj.circuit;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 
-import javax.swing.*;
-
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.clipboard.*;
-import net.sourceforge.fidocadj.timer.*;
-import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.controllers.ContinuosMoveActions;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.controllers.HandleActions;
+import net.sourceforge.fidocadj.timer.MyTimer;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
 
 
 /** Handle the mouse click operations, as well as some dragging actions.
@@ -33,7 +30,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -73,7 +70,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         instead of the complete click.
         @param evt the MouseEvent to handle.
     */
-    public void mouseClicked(MouseEvent evt)
+    @Override public void mouseClicked(MouseEvent evt)
     {
         cp.requestFocusInWindow();
     }
@@ -83,15 +80,16 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         to the user which element is being modified.
         @param evt the MouseEvent to handle.
     */
-    public void mouseMoved(MouseEvent evt)
+    @Override public void mouseMoved(MouseEvent evt)
     {
         int xa=evt.getX();
         int ya=evt.getY();
 
         boolean toggle = getToggle(evt);
 
-        if (eea.continuosMove(cp.getMapCoordinates(), xa, ya, toggle))
+        if (eea.continuosMove(cp.getMapCoordinates(), xa, ya, toggle)) {
             cp.repaint();
+        }
     }
 
     /** Check if the "toggle" keyboard button is pressed during the mouse
@@ -112,7 +110,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     /** Mouse interface: start of the dragging operations.
         @param evt the MouseEvent to handle
     */
-    public void mousePressed(MouseEvent evt)
+    @Override public void mousePressed(MouseEvent evt)
     {
         MyTimer mt = new MyTimer();
 
@@ -148,7 +146,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     /** Dragging event with the mouse.
         @param evt the MouseEvent to handle
     */
-    public void mouseDragged(MouseEvent evt)
+    @Override public void mouseDragged(MouseEvent evt)
     {
         MyTimer mt = new MyTimer();
         int px=evt.getX();
@@ -184,7 +182,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
     /** Mouse release event.
         @param evt the MouseEvent to handle
     */
-    public void mouseReleased(MouseEvent evt)
+    @Override public void mouseReleased(MouseEvent evt)
     {
         MyTimer mt = new MyTimer();
         int px=evt.getX();
@@ -194,12 +192,15 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         boolean button3 = false;
         boolean toggle = getToggle(evt);
 
-        // Key bindings are a little different with MacOSX.
+        // Key bindings are a little different with macOS.
         if(Globals.weAreOnAMac) {
-            if(evt.getButton()==MouseEvent.BUTTON3)
+            if(evt.getButton()==MouseEvent.BUTTON3) {
                 button3=true;
-            else if(evt.getButton()==MouseEvent.BUTTON1 && evt.isControlDown())
+            } else if(evt.getButton()==MouseEvent.BUTTON1 &&
+                evt.isControlDown())
+            {
                 button3=true;
+            }
         } else {
             button3 = (evt.getModifiers() & InputEvent.BUTTON3_MASK)==
                     InputEvent.BUTTON3_MASK;
@@ -249,7 +250,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         cursor associated to it.
         @param evt the MouseEvent to handle
     */
-    public void mouseEntered(MouseEvent evt)
+    @Override public void mouseEntered(MouseEvent evt)
     {
         selectCursor();
     }
@@ -291,7 +292,7 @@ public class MouseMoveClickHandler implements MouseMotionListener,
         cursor associated and restores the default one.
         @param evt the MouseEvent to handle
     */
-    public void mouseExited(MouseEvent evt)
+    @Override public void mouseExited(MouseEvent evt)
     {
         cp.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         if(eea.successiveMove) {

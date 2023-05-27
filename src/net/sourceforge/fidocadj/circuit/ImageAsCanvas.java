@@ -5,7 +5,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-import net.sourceforge.fidocadj.geom.*;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
 
 /** Employs a bitmap image as a canvas to trace on it.
 
@@ -26,7 +26,7 @@ import net.sourceforge.fidocadj.geom.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2017 by Davide Bucci
+    Copyright 2017-2023 by Davide Bucci
     </pre>
 */
 
@@ -56,7 +56,7 @@ public class ImageAsCanvas
             Dimension screensize=Toolkit.getDefaultToolkit().getScreenSize();
             maxResizedWidth=screensize.width*3;
             maxResizedHeight=screensize.height*3;
-        } catch (java.awt.HeadlessException E) {
+        } catch (HeadlessException eE) {
             maxResizedWidth=3000;
             maxResizedHeight=3000;
         }
@@ -142,8 +142,9 @@ public class ImageAsCanvas
     */
     public void trackExtremePoints(MapCoordinates mc)
     {
-        if(img==null)
+        if(img==null) {
             return;
+        }
         int ox=mc.mapXi(xcorner, ycorner,false);
         int oy=mc.mapYi(xcorner, ycorner,false);
         // The FidoCadJ resolution is 200dpi.
@@ -168,8 +169,9 @@ public class ImageAsCanvas
     */
     public void drawCanvasImage(Graphics2D g, MapCoordinates mc)
     {
-        if(img==null)
+        if(img==null) {
             return;
+        }
 
         // The image is drawn only in the "dirty" region of the drawing area
         // so to greatly improve redrawing speed.

@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     Copyright 2017 Erich Heinzle
    </pre>
 
@@ -81,7 +81,6 @@ public class ExportPCBRND implements ExportInterface
     static String currentMacro = "";
     int macroX = 0;
     int macroY = 0;
-    int macroRot = 0;
     static String previousMacro = "";
     static boolean newMacro = false;
     long defaultClearance = 1000; // centimils

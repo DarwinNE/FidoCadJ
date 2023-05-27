@@ -21,6 +21,8 @@ package net.sourceforge.fidocadj.circuit;
     </pre>
     @version 1.0
     @author Davide Bucci
+
+    Copyright 2007-2023 by Davide Bucci
 */
 
 public interface HasChangedListener
@@ -28,6 +30,6 @@ public interface HasChangedListener
     /** Method to be called to notify that something has changed in the
         drawing.
     */
-    public void somethingHasChanged();
+    void somethingHasChanged();
 
 }

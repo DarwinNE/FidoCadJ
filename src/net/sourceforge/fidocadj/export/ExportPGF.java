@@ -3,10 +3,16 @@ package net.sourceforge.fidocadj.export;
 import java.util.*;
 import java.io.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.Arrow;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
+import net.sourceforge.fidocadj.graphic.DecoratedText;
+import net.sourceforge.fidocadj.graphic.PointDouble;
+import net.sourceforge.fidocadj.graphic.TextInterface;
 
 
 /** Export in a LaTeX drawing using the pgf (Portable Graphic File) packet.
@@ -51,7 +57,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2019 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
 </pre>
     @author Davide Bucci
 */

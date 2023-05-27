@@ -257,8 +257,8 @@ public class PrintTools implements Printable
         @return PAGE_EXISTS if the page has to be printed.
         @throws PrinterException if a printing error occurs.
     */
-    public int print(Graphics g, PageFormat pf, int page) throws
-                                                   PrinterException
+    @Override public int print(Graphics g, PageFormat pf, int page) throws
+        PrinterException
     {
         // This is not a "real" margin, but just a tiny amount which ensures
         // that even when the calculations are rounded up, the printout does
@@ -355,8 +355,8 @@ public class PrintTools implements Printable
 
         // Calculate how many pages are needed in the horisontal and in the
         // vertical dimensions. The printout will be organized as a mosaic.
-        int npagesx = (int)Math.ceil((imageWidth)/(double)shownWidth);
-        int npagesy = (int)Math.ceil((imageHeight)/(double)shownHeight);
+        int npagesx = (int)Math.ceil(imageWidth/(double)shownWidth);
+        int npagesy = (int)Math.ceil(imageHeight/(double)shownHeight);
         // Calculate the total number of pages.
         int npages=npagesx*npagesy;
 

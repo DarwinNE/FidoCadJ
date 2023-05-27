@@ -4,10 +4,15 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.Arrow;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
+import net.sourceforge.fidocadj.graphic.DecoratedText;
+import net.sourceforge.fidocadj.graphic.PointDouble;
+import net.sourceforge.fidocadj.graphic.TextInterface;
 
 /**
     Drawing export in Encapsulated Postscript

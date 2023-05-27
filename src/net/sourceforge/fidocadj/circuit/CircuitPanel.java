@@ -1,28 +1,37 @@
 package net.sourceforge.fidocadj.circuit;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import java.util.*;
-import java.io.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.timer.*;
-import net.sourceforge.fidocadj.toolbars.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.circuit.views.*;
-import net.sourceforge.fidocadj.clipboard.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.dialogs.LayerInfo;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DialogParameters;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.timer.MyTimer;
+import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
+import net.sourceforge.fidocadj.toolbars.ChangeZoomListener;
+import net.sourceforge.fidocadj.toolbars.ChangeGridState;
+import net.sourceforge.fidocadj.toolbars.ChangeSelectedLayer;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.controllers.CopyPasteActions;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
+import net.sourceforge.fidocadj.circuit.controllers.ContinuosMoveActions;
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
+import net.sourceforge.fidocadj.circuit.controllers.PrimitivesParInterface;
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.views.Drawing;
+import net.sourceforge.fidocadj.clipboard.TextTransfer;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.swing.Graphics2DSwing;
+import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** Circuit panel: draw the circuit inside this panel. This is one of the most
     important components, as it is responsible of all editing actions.
@@ -48,7 +57,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2017 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -195,7 +204,7 @@ public class CircuitPanel extends JPanel implements
             // grab focus from macropicker.
             // NOTE: MouseListener.mouseEntered doesn't works stable.
             addMouseMotionListener(new MouseMotionAdapter() {
-                public void mouseMoved(MouseEvent e)
+                @Override public void mouseMoved(MouseEvent e)
                 {
                     if(eea.isEnteringMacro() && !isFocusOwner()){
                         requestFocus();
@@ -290,10 +299,12 @@ public class CircuitPanel extends JPanel implements
     {
         int l=cl;
         /* two little checks... */
-        if (l<0)
+        if (l<0) {
             l=0;
-        if (l>=dmp.getLayers().size())
+        }
+        if (l>=dmp.getLayers().size()) {
             l=dmp.getLayers().size()-1;
+        }
 
         eea.currentLayer=l;
     }
@@ -363,19 +374,21 @@ public class CircuitPanel extends JPanel implements
         // Click+Meta reduces the zoom
         // Click raises the zoom
         double oldz=z;
-        if(increase)
+        if(increase) {
             z=z*rate;
-        else
+        } else {
             z=z/rate;
+        }
 
         // Checking that reasonable limits are not exceeded.
-        if(z>Globals.maxZoomFactor/100) z=Globals.maxZoomFactor/100;
-        if(z<Globals.minZoomFactor/100) z=Globals.minZoomFactor/100;
+        if(z>Globals.maxZoomFactor/100) {z=Globals.maxZoomFactor/100;}
+        if(z<Globals.minZoomFactor/100) {z=Globals.minZoomFactor/100;}
 
         z=Math.round(z*100.0)/100.0;
 
-        if (Math.abs(oldz-z)<1e-5)
+        if (Math.abs(oldz-z)<1e-5) {
             return;
+        }
 
         cs.setMagnitudes(z,z);
 
@@ -414,9 +427,9 @@ public class CircuitPanel extends JPanel implements
                +MARGIN, minx),Math.max(d.height+MARGIN, miny));
 
         setPreferredSize(dd);
-        if(r!=null)
+        if(r!=null) {
             scrollRectangle = r;
-
+        }
         revalidate();
         repaint();
     }
@@ -445,7 +458,7 @@ public class CircuitPanel extends JPanel implements
     /** Sets the background color.
         @param sfondo the background color to be used.
     */
-    public void setBackground(Color sfondo)
+    @Override public void setBackground(Color sfondo)
     {
         backgroundColor=sfondo;
     }
@@ -478,7 +491,7 @@ public class CircuitPanel extends JPanel implements
         7. if requested, print information about redraw speed.<br>
         @param g the graphic context on which perform the drawing operations.
     */
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         MyTimer mt;
@@ -507,8 +520,9 @@ public class CircuitPanel extends JPanel implements
         drawingAgent.draw(graphicSwing, cs);
         dmp.imgCanvas.trackExtremePoints(cs);
 
-        if (zoomListener!=null)
+        if (zoomListener!=null) {
             zoomListener.changeZoom(cs.getXMagnitude());
+        }
 
         // Draw the handles of all selected primitives.
         drawingAgent.drawSelectedHandles(graphicSwing, cs);
@@ -518,11 +532,12 @@ public class CircuitPanel extends JPanel implements
         g2.setStroke(new BasicStroke(1));
 
         if(evidenceRect!=null && eea.actionSelected ==
-            ElementsEdtActions.SELECTION)
+            ElementsEdtActions.SELECTION) {
             g.drawRect(evidenceRect.x,evidenceRect.y, evidenceRect.width,
                 evidenceRect.height);
-        else
+        } else {
             evidenceRect = null;
+        }
 
         // If there is a primitive or a macro being edited, draws it.
         eea.drawPrimEdit(graphicSwing, cs);
@@ -597,7 +612,7 @@ public class CircuitPanel extends JPanel implements
     {
         Dimension d=new Dimension(cs.getXMax(), cs.getYMax());
 
-        if (d.width>0 && d.height>0){
+        if (d.width>0 && d.height>0) {
             int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
             int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
 
@@ -615,7 +630,7 @@ public class CircuitPanel extends JPanel implements
     /** Update the current size of the object, given the current size of the
         drawing.
     */
-    public void validate()
+    @Override public void validate()
     {
         int minx=cs.mapXi(MINSIZEX,MINSIZEY,false);
         int miny=cs.mapYi(MINSIZEX,MINSIZEY,false);
@@ -710,9 +725,9 @@ public class CircuitPanel extends JPanel implements
     public void setPropertiesForPrimitive()
     {
         GraphicPrimitive gp=sa.getFirstSelectedPrimitive();
-        if (gp==null)
+        if (gp==null) {
             return;
-
+        }
         Vector<ParameterDescription> v;
         if (sa.isUniquePrimitiveSelected()) {
             v=gp.getControls();
