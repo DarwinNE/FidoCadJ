@@ -2,9 +2,10 @@ package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.util.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.primitives.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.model.ProcessElementsInterface;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
 
 /** SelectionActions: contains a controller which handles those actions
     which involve selection operations or which apply to selected elements.
@@ -29,7 +30,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 */
 public class SelectionActions
@@ -50,8 +51,9 @@ public class SelectionActions
     public GraphicPrimitive getFirstSelectedPrimitive()
     {
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
-            if (g.getSelected())
+            if (g.getSelected()) {
                 return g;
+            }
         }
         return null;
     }
@@ -62,8 +64,9 @@ public class SelectionActions
     public void applyToSelectedElements(ProcessElementsInterface tt)
     {
         for (GraphicPrimitive g:dmp.getPrimitiveVector()){
-            if (g.getSelected())
+            if (g.getSelected()) {
                 tt.doAction(g);
+            }
         }
     }
     /** Get an array describing the state of selection of the objects.
@@ -72,7 +75,6 @@ public class SelectionActions
     */
     public Vector<Boolean> getSelectionStateVector()
     {
-        int i;
         Vector<Boolean> v =
             new Vector<Boolean>(dmp.getPrimitiveVector().size());
 
@@ -117,9 +119,9 @@ public class SelectionActions
 
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             if (g.getSelected()) {
-                if(hasFound)
+                if(hasFound) {
                     isUnique = false;
-
+                }
                 hasFound = true;
             }
         }
@@ -133,7 +135,6 @@ public class SelectionActions
     */
     public boolean selectionCanBeSplitted()
     {
-
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
             if (g.getSelected() &&
                 (g instanceof PrimitiveMacro ||
@@ -157,8 +158,9 @@ public class SelectionActions
         s.append(pa.registerConfiguration(extensions));
 
         for (GraphicPrimitive g: dmp.getPrimitiveVector()){
-            if(g.getSelected())
+            if(g.getSelected()) {
                 s.append(g.toString(extensions));
+            }
         }
         return s;
     }

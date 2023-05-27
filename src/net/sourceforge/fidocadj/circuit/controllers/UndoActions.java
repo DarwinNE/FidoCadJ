@@ -2,13 +2,13 @@ package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 import java.util.*;
-import java.net.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
+import net.sourceforge.fidocadj.circuit.HasChangedListener;
 import net.sourceforge.fidocadj.globals.FileUtils;
-import net.sourceforge.fidocadj.undo.*;
+import net.sourceforge.fidocadj.undo.UndoState;
+import net.sourceforge.fidocadj.undo.UndoManager;
+import net.sourceforge.fidocadj.undo.LibraryUndoListener;
+import net.sourceforge.fidocadj.undo.UndoActorListener;
 
 /** UndoActions: perform undo operations. Since some parsing operations are
     to be done, this class requires the ParserActions controller.
@@ -30,14 +30,13 @@ import net.sourceforge.fidocadj.undo.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 </pre>
 */
 
 public class UndoActions implements UndoActorListener
 {
     private final ParserActions pa;
-
 
     // Undo manager
     private final UndoManager um;
@@ -87,7 +86,7 @@ public class UndoActions implements UndoActorListener
         isModified = r.isModified;
         pa.openFileName = r.fileName;
 
-        if(cl!=null) cl.somethingHasChanged();
+        if(cl!=null) { cl.somethingHasChanged(); }
     }
 
     /** Redo the last undo action
@@ -107,7 +106,7 @@ public class UndoActions implements UndoActorListener
         isModified = r.isModified;
         pa.openFileName = r.fileName;
 
-        if(cl!=null) cl.somethingHasChanged();
+        if(cl!=null) { cl.somethingHasChanged(); }
     }
 
 
@@ -129,7 +128,7 @@ public class UndoActions implements UndoActorListener
 
         um.undoPush(s);
         isModified = true;
-        if(cl!=null) cl.somethingHasChanged();
+        if(cl!=null) { cl.somethingHasChanged(); }
     }
 
     /** Save the undo state, in the case an editing operation
@@ -146,7 +145,6 @@ public class UndoActions implements UndoActorListener
         s.fileName=pa.openFileName;
         s.libraryOperation=true;
         tempDir.add(t);
-
         um.undoPush(s);
     }
 
@@ -172,7 +170,7 @@ public class UndoActions implements UndoActorListener
     public void setModified (boolean s)
     {
         isModified = s;
-        if(cl!=null) cl.somethingHasChanged();
+        if(cl!=null) { cl.somethingHasChanged(); }
     }
 
     /** Set the listener of the state change.
@@ -192,8 +190,8 @@ public class UndoActions implements UndoActorListener
         {
             try {
                 FileUtils.deleteDirectory(new File(tempDir.get(i)));
-            } catch (IOException E) {
-                System.out.println("Warning: "+E);
+            } catch (IOException eE) {
+                System.out.println("Warning: "+eE);
             }
         }
     }

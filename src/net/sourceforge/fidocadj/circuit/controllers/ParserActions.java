@@ -4,13 +4,25 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.export.ExportGraphic;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.layers.StandardLayers;
+
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitiveAdvText;
+import net.sourceforge.fidocadj.primitives.PrimitiveBezier;
+import net.sourceforge.fidocadj.primitives.PrimitiveComplexCurve;
+import net.sourceforge.fidocadj.primitives.PrimitiveConnection;
+import net.sourceforge.fidocadj.primitives.PrimitiveLine;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBLine;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBPad;
+import net.sourceforge.fidocadj.primitives.PrimitiveRectangle;
+import net.sourceforge.fidocadj.primitives.PrimitiveOval;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.PrimitivePolygon;
 
 /** ParserActions: perform parsing of FidoCadJ code.
     In general, those routines are constructed such as they are relatively
@@ -36,7 +48,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2019 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 </pre>
 */
 
@@ -85,26 +97,28 @@ public class ParserActions
     {
         StringBuffer txt= new StringBuffer("");
 
-        DrawingModel Q=new DrawingModel();
-        Q.setLibrary(model.getLibrary());  // Inherit the library
-        Q.setLayers(model.getLayers());    // Inherit the layers
+        DrawingModel qQ=new DrawingModel();
+        qQ.setLibrary(model.getLibrary());  // Inherit the library
+        qQ.setLayers(model.getLayers());    // Inherit the layers
 
-        // from the obtained string, obtain the new Q object which will
+        // from the obtained string, obtain the new qQ object which will
         // be exported and then loaded into the clipboard.
 
         try {
-            ParserActions pas=new ParserActions(Q);
+            ParserActions pas=new ParserActions(qQ);
             pas.parseString(s);
 
             File temp= File.createTempFile("copy", ".fcd");
             temp.deleteOnExit();
             String frm="";
-            if(splitStandardMacros)
+            if(splitStandardMacros) {
                 frm = "fcda";
-            else
+            } else {
                 frm = "fcd";
+            }
 
-            ExportGraphic.export(temp,  Q, frm, 1,true,false, true,false,false);
+            ExportGraphic.export(temp,  qQ, frm, 1,true,false, true,false,
+                false);
 
             FileInputStream input = new FileInputStream(temp);
             BufferedReader bufRead = new BufferedReader(
@@ -140,13 +154,13 @@ public class ParserActions
     */
     public StringBuffer getText(boolean extensions)
     {
-        int i;
         StringBuffer s=registerConfiguration(extensions);
 
         for (GraphicPrimitive g:model.getPrimitiveVector()){
             s.append(g.toString(extensions));
-            if(useWindowsLineFeed)
+            if(useWindowsLineFeed) {
                 s.append("\r");
+            }
         }
         return s;
     }
@@ -257,15 +271,16 @@ public class ParserActions
         String[] name=null;
         String[] value=null;
 
-        int vn=0, vv=0;
+        int vn=0;
+        int vv=0;
 
         // Since the modifier FCJ follow the command, we need to save the
         // tokens of the line previously read, as well as the number of
         // tokens found in it.
-        String[] old_tokens=new String[MAX_TOKENS];
-        int old_j=0;
+        String[] oldTokens=new String[MAX_TOKENS];
+        int oldJ=0;
 
-        int macro_counter=0;
+        int macroCounter=0;
         int l;
 
         token.ensureCapacity(256);
@@ -278,7 +293,6 @@ public class ParserActions
         synchronized(this) {
             Vector<LayerDesc> layerV=model.getLayers();
 
-            int k;
             char c='\n';
             int len;
 
@@ -302,8 +316,9 @@ public class ParserActions
                     }
                     ++lineNum;
                     tokens[j]=token.toString();
-                    if (token.length()==0)  // Avoids trailing spaces
+                    if (token.length()==0) { // Avoids trailing spaces
                         j--;
+                    }
 
                     try{
                         // When we enter here, we have tokenized the current
@@ -315,23 +330,23 @@ public class ParserActions
                         // needed
                         // for doing that.
 
-                        if(hasFCJ && !tokens[0].equals("FCJ")) {
+                        if(hasFCJ && !"FCJ".equals(tokens[0])) {
                             hasFCJ = registerPrimitivesWithFCJ(hasFCJ,
-                                tokens, g, old_tokens, old_j, selectNew);
+                                tokens, g, oldTokens, oldJ, selectNew);
                         }
 
-                        if(tokens[0].equals("FCJ")) {
+                        if("FCJ".equals(tokens[0])) {
                             // FidoCadJ extension!
                             // Here the FCJ modifier changes something on the
                             // previous command. So ve check case by case what
                             // has to be modified.
 
-                            if(hasFCJ && old_tokens[0].equals("MC")) {
-                                macro_counter=2;
+                            if(hasFCJ && "MC".equals(oldTokens[0])) {
+                                macroCounter=2;
                                 g=new PrimitiveMacro(model.getLibrary(),layerV,
                                     macroFont, macroFontSize);
-                                g.parseTokens(old_tokens, old_j+1);
-                            } else if (hasFCJ && old_tokens[0].equals("LI")) {
+                                g.parseTokens(oldTokens, oldJ+1);
+                            } else if (hasFCJ && "LI".equals(oldTokens[0])) {
                                 g=new PrimitiveLine(macroFont, macroFontSize);
 
                                 // We concatenate the two lines in a single
@@ -340,179 +355,189 @@ public class ParserActions
                                 // several
                                 // times for other commands also).
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
                                 // Update the number of tokens
-                                old_j+=j+1;
+                                oldJ+=j+1;
 
                                 // The actual parsing of the tokens is
                                 // relegated
                                 // to the primitive.
-                                g.parseTokens(old_tokens, old_j+1);
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
 
-                                if(old_j>5 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>5 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
 
-                            } else if (hasFCJ && old_tokens[0].equals("BE")) {
+                            } else if (hasFCJ && "BE".equals(oldTokens[0])) {
                                 g=new PrimitiveBezier(macroFont, macroFontSize);
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
-                                old_j+=j+1;
-                                g.parseTokens(old_tokens, old_j+1);
+                                oldJ+=j+1;
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
-                                if(old_j>5 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>5 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
-
-                            } else if (hasFCJ && (old_tokens[0].equals("RV")||
-                                old_tokens[0].equals("RP")))
+                            } else if (hasFCJ && ("RV".equals(oldTokens[0])||
+                                "RP".equals(oldTokens[0])))
                             {
                                 g=new PrimitiveRectangle(macroFont,
                                     macroFontSize);
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
-                                old_j+=j+1;
-                                g.parseTokens(old_tokens, old_j+1);
+                                oldJ+=j+1;
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
-                                if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>2 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
-                            } else if (hasFCJ && (old_tokens[0].equals("EV")||
-                                old_tokens[0].equals("EP")))
+                            } else if (hasFCJ && ("EV".equals(oldTokens[0])||
+                                "EP".equals(oldTokens[0])))
                             {
                                 g=new PrimitiveOval(macroFont, macroFontSize);
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
-                                old_j+=j+1;
-                                g.parseTokens(old_tokens, old_j+1);
+                                oldJ+=j+1;
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
-                                if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>2 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
-                            } else if (hasFCJ && (old_tokens[0].equals("PV")||
-                                old_tokens[0].equals("PP")))
+                            } else if (hasFCJ && ("PV".equals(oldTokens[0])||
+                                "PP".equals(oldTokens[0])))
                             {
                                 g=new PrimitivePolygon(macroFont,
                                     macroFontSize);
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
-                                old_j+=j+1;
-                                g.parseTokens(old_tokens, old_j+1);
+                                oldJ+=j+1;
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
-                                if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>2 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
-                            } else if (hasFCJ && (old_tokens[0].equals("CV")||
-                                old_tokens[0].equals("CP")))
+                            } else if (hasFCJ && ("CV".equals(oldTokens[0])||
+                                "CP".equals(oldTokens[0])))
                             {
                                 g=new PrimitiveComplexCurve(macroFont,
                                     macroFontSize);
 
-                                for(l=0; l<j+1; ++l)
-                                    old_tokens[l+old_j+1]=tokens[l];
+                                for(l=0; l<j+1; ++l) {
+                                    oldTokens[l+oldJ+1]=tokens[l];
+                                }
 
-                                old_j+=j+1;
-                                g.parseTokens(old_tokens, old_j+1);
+                                oldJ+=j+1;
+                                g.parseTokens(oldTokens, oldJ+1);
                                 g.setSelected(selectNew);
                                 // If we have a name/value following, we
-                                // put macro_counter (successively used by
+                                // put macroCounter (successively used by
                                 // TY to determine that we are in a case in
                                 // which
                                 // TY commands must not be considered as
                                 // separate).
-                                if(old_j>2 && old_tokens[old_j].equals("1")) {
-                                    macro_counter = 2;
+                                if(oldJ>2 && "1".equals(oldTokens[oldJ])) {
+                                    macroCounter = 2;
                                 } else {
                                     model.addPrimitive(g,false,null);
                                 }
-                            } else if (hasFCJ && old_tokens[0].equals("PL")) {
-                                macro_counter = 2;
-                            } else if (hasFCJ && old_tokens[0].equals("PA")) {
-                                macro_counter = 2;
-                            } else if (hasFCJ && old_tokens[0].equals("SA")) {
-                                macro_counter = 2;
+                            } else if (hasFCJ && "PL".equals(oldTokens[0])) {
+                                macroCounter = 2;
+                            } else if (hasFCJ && "PA".equals(oldTokens[0])) {
+                                macroCounter = 2;
+                            } else if (hasFCJ && "SA".equals(oldTokens[0])) {
+                                macroCounter = 2;
                             }
                             hasFCJ=false;
 
-                        } else if(tokens[0].equals("FJC")) {
+                        } else if("FJC".equals(tokens[0])) {
                             fidoConfig(tokens, j, layerV);
-                        } else if(tokens[0].equals("LI")) {
+                        } else if("LI".equals(tokens[0])) {
                             // Save the tokenized line.
                             // We cannot create the macro until we parse the
                             // following line (which can be FCJ)
-                            macro_counter=0;
+                            macroCounter=0;
 
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
 
-                        } else if(tokens[0].equals("BE")) {
-                            macro_counter=0;
+                        } else if("BE".equals(tokens[0])) {
+                            macroCounter=0;
 
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("MC")) {
+                        } else if("MC".equals(tokens[0])) {
                             // Save the tokenized line.
-                            macro_counter=0;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            macroCounter=0;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("TE")) {
+                        } else if("TE".equals(tokens[0])) {
                             hasFCJ=false;
-                            macro_counter=0;
+                            macroCounter=0;
                             g=new PrimitiveAdvText();
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
                             model.addPrimitive(g,false,null);
-                        } else if(tokens[0].equals("TY")) {
+                        } else if("TY".equals(tokens[0])) {
                             // The TY command is somewhat special, because
                             // it can be used to specify the name and the value
                             // of a primitive or a macro. Therefore, we try
                             // to understand in which case we are
                             hasFCJ=false;
 
-                            if(macro_counter==2) {
-                                macro_counter--;
+                            if(macroCounter==2) {
+                                macroCounter--;
                                 name=new String[j+1];
-                                for(l=0; l<j+1;++l)
+                                for(l=0; l<j+1;++l) {
                                     name[l]=tokens[l];
+                                }
                                 vn=j;
-                            } else if(macro_counter==1) {
+                            } else if(macroCounter==1) {
                                 value=new String[j+1];
-                                for(l=0; l<j+1;++l)
+                                for(l=0; l<j+1;++l) {
                                     value[l]=tokens[l];
+                                }
                                 vv=j;
-                                if (name!=null) g.setName(name,vn+1);
+                                if (name!=null) { g.setName(name,vn+1); }
                                 g.setValue(value,vv+1);
 
                                 g.setSelected(selectNew);
                                 model.addPrimitive(g, false,null);
-                                macro_counter=0;
+                                macroCounter=0;
                             } else {
                                 // If we are in the classical case of a simple
                                 // isolated TY command, we process it.
@@ -521,89 +546,97 @@ public class ParserActions
                                 g.setSelected(selectNew);
                                 model.addPrimitive(g,false,null);
                             }
-                        } else if(tokens[0].equals("PL")) {
+                        } else if("PL".equals(tokens[0])) {
                             hasFCJ=true;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
 
-                            macro_counter=0;
-                            old_j=j;
+                            macroCounter=0;
+                            oldJ=j;
                             g=new PrimitivePCBLine(macroFont, macroFontSize);
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                        } else if(tokens[0].equals("PA")) {
+                        } else if("PA".equals(tokens[0])) {
                             hasFCJ=true;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            macro_counter=0;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            macroCounter=0;
                             g=new PrimitivePCBPad(macroFont, macroFontSize);
-                            old_j=j;
+                            oldJ=j;
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
-                        } else if(tokens[0].equals("SA")) {
+                        } else if("SA".equals(tokens[0])) {
                             hasFCJ=true;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
-                            macro_counter=0;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
+                            macroCounter=0;
                             g=new PrimitiveConnection(macroFont, macroFontSize);
                             g.parseTokens(tokens, j+1);
                             g.setSelected(selectNew);
                             //addPrimitive(g,false,false);
-                        }  else if(tokens[0].equals("EV")
-                            ||tokens[0].equals("EP"))
+                        }  else if("EV".equals(tokens[0])
+                            ||"EP".equals(tokens[0]))
                         {
-                            macro_counter=0;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            macroCounter=0;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("RV")
-                            ||tokens[0].equals("RP"))
+                        } else if("RV".equals(tokens[0])
+                            ||"RP".equals(tokens[0]))
                         {
-                            macro_counter=0;
+                            macroCounter=0;
 
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("PV")
-                            ||tokens[0].equals("PP"))
+                        } else if("PV".equals(tokens[0])
+                            ||"PP".equals(tokens[0]))
                         {
-                            macro_counter=0;
+                            macroCounter=0;
 
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
-                        } else if(tokens[0].equals("CV")
-                            ||tokens[0].equals("CP"))
+                        } else if("CV".equals(tokens[0])
+                            ||"CP".equals(tokens[0]))
                         {
-                            macro_counter=0;
-                            for(l=0; l<j+1; ++l)
-                                old_tokens[l]=tokens[l];
-                            old_j=j;
+                            macroCounter=0;
+                            for(l=0; l<j+1; ++l) {
+                                oldTokens[l]=tokens[l];
+                            }
+                            oldJ=j;
                             hasFCJ=true;
                         }
-                    } catch(IOException E) {
-                        System.out.println("Error encountered: "+E.toString());
+                    } catch(IOException eE) {
+                        System.out.println("Error encountered: "+eE.toString());
                         System.out.println("string parsing line: "+lineNum);
                         hasFCJ = true;
-                        macro_counter = 0;
+                        macroCounter = 0;
 
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-
-                        old_j=j;
-                    } catch(NumberFormatException F) {
+                        for(l=0; l<j+1; ++l) {
+                            oldTokens[l]=tokens[l];
+                        }
+                        oldJ=j;
+                    } catch(NumberFormatException fF) {
                         System.out.println(
                             "I could not read a number at line: "
                             +lineNum);
                         hasFCJ = true;
-                        macro_counter = 0;
-                        for(l=0; l<j+1; ++l)
-                            old_tokens[l]=tokens[l];
-                        old_j=j;
+                        macroCounter = 0;
+                        for(l=0; l<j+1; ++l) {
+                            oldTokens[l]=tokens[l];
+                        }
+                        oldJ=j;
                     }
                     j=0;
                     token.setLength(0);
@@ -619,20 +652,21 @@ public class ParserActions
                         continue;
                     }
                 } else {
-                    if (!lineTooLong)
+                    if (!lineTooLong) {
                         token.append(c);
+                    }
                 }
             }
 
             // We need to process the very last line, which is contained in
             // the tokens currently read.
             try{
-                registerPrimitivesWithFCJ(hasFCJ, tokens, g, old_tokens, old_j,
+                registerPrimitivesWithFCJ(hasFCJ, tokens, g, oldTokens, oldJ,
                     selectNew);
-            } catch(IOException E) {
-                System.out.println("Error encountered: "+E.toString());
+            } catch(IOException eE) {
+                System.out.println("Error encountered: "+eE.toString());
                 System.out.println("string parsing line: "+lineNum);
-            } catch(NumberFormatException F) {
+            } catch(NumberFormatException fF) {
                 System.out.println("I could not read a number at line: "
                                          +lineNum);
             }
@@ -652,21 +686,21 @@ public class ParserActions
 
         // FidoCadJ Configuration
 
-        if(tokens[1].equals("C")) {
+        if("C".equals(tokens[1])) {
             // Connection size
             newConnectionSize = Double.parseDouble(tokens[2]);
-        } else if(tokens[1].equals("L")) {
+        } else if("L".equals(tokens[1])) {
             // Layer configuration
             int layerNum = Integer.parseInt(tokens[2]);
-            if (layerNum>=0&&layerNum<layerV.size()){
+            if (layerNum>=0&&layerNum<layerV.size()) {
                 int rgb=Integer.parseInt(tokens[3]);
                 float alpha=Float.parseFloat(tokens[4]);
-                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                LayerDesc ll=(LayerDesc)layerV.get(layerNum);
                 ll.getColor().setRGB(rgb);
                 ll.setAlpha(alpha);
                 ll.setModified(true);
             }
-        } else if(tokens[1].equals("N")) {
+        } else if("N".equals(tokens[1])) {
             // Layer name
 
             int layerNum = Integer.parseInt(tokens[2]);
@@ -680,15 +714,15 @@ public class ParserActions
                 }
 
                 lName=temp.toString();
-                LayerDesc ll=(LayerDesc)(layerV.get(layerNum));
+                LayerDesc ll=(LayerDesc)layerV.get(layerNum);
                 ll.setDescription(lName);
                 ll.setModified(true);
             }
 
-        } else if(tokens[1].equals("A")) {
+        } else if("A".equals(tokens[1])) {
             // Connection size
             newLineWidth = Double.parseDouble(tokens[2]);
-        } else if(tokens[1].equals("B")) {
+        } else if("B".equals(tokens[1])) {
             // Connection size
             newLineWidthCircles = Double.parseDouble(tokens[2]);
         }
@@ -701,7 +735,6 @@ public class ParserActions
         if (newLineWidth>0) {
             Globals.lineWidth = newLineWidth;
         }
-
         if (newLineWidthCircles>0) {
             Globals.lineWidthCircles = newLineWidthCircles;
         }
@@ -712,9 +745,9 @@ public class ParserActions
         immediately. If a FCJ token follows, we proceed to further parsing
         what follows.
     */
-    private boolean registerPrimitivesWithFCJ(boolean hasFCJ_t,
+    private boolean registerPrimitivesWithFCJ(boolean hasFCJt,
         String[] tokens,
-        GraphicPrimitive gg, String[] old_tokens, int old_j,
+        GraphicPrimitive gg, String[] oldTokens, int oldJ,
         boolean selectNew)
         throws IOException
     {
@@ -723,53 +756,53 @@ public class ParserActions
         Vector<LayerDesc> layerV=model.getLayers();
 
         GraphicPrimitive g=gg;
-        boolean hasFCJ=hasFCJ_t;
+        boolean hasFCJ=hasFCJt;
         boolean addPrimitive = false;
-        if(hasFCJ && !tokens[0].equals("FCJ")) {
-            if (old_tokens[0].equals("MC")) {
+        if(hasFCJ && !"FCJ".equals(tokens[0])) {
+            if ("MC".equals(oldTokens[0])) {
                 g=new PrimitiveMacro(model.getLibrary(),
                     layerV, macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("LI")) {
+            } else if ("LI".equals(oldTokens[0])) {
                 g=new PrimitiveLine(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("BE")) {
+            } else if ("BE".equals(oldTokens[0])) {
                 g=new PrimitiveBezier(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("RP")||
-                old_tokens[0].equals("RV"))
+            } else if ("RP".equals(oldTokens[0])||
+                "RV".equals(oldTokens[0]))
             {
                 g=new PrimitiveRectangle(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("EP")||
-                old_tokens[0].equals("EV"))
+            } else if ("EP".equals(oldTokens[0])||
+                "EV".equals(oldTokens[0]))
             {
                 g=new PrimitiveOval(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("PP")
-                ||old_tokens[0].equals("PV"))
+            } else if ("PP".equals(oldTokens[0])
+                ||"PV".equals(oldTokens[0]))
             {
                 g=new PrimitivePolygon(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if(old_tokens[0].equals("PL")) {
+            } else if("PL".equals(oldTokens[0])) {
                 g=new PrimitivePCBLine(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if (old_tokens[0].equals("CP")
-                ||old_tokens[0].equals("CV"))
+            } else if ("CP".equals(oldTokens[0])
+                ||"CV".equals(oldTokens[0]))
             {
                 g=new PrimitiveComplexCurve(macroFont, macroFontSize);
                 addPrimitive = true;
-            }  else if(old_tokens[0].equals("PA")) {
+            }  else if("PA".equals(oldTokens[0])) {
                 g=new PrimitivePCBPad(macroFont, macroFontSize);
                 addPrimitive = true;
-            } else if(old_tokens[0].equals("SA")) {
+            } else if("SA".equals(oldTokens[0])) {
                 g=new PrimitiveConnection(macroFont, macroFontSize);
                 addPrimitive = true;
             }
         }
 
         if(addPrimitive) {
-            g.parseTokens(old_tokens, old_j+1);
+            g.parseTokens(oldTokens, oldJ+1);
             g.setSelected(selectNew);
             model.addPrimitive(g,false,null);
             hasFCJ = false;
@@ -785,19 +818,20 @@ public class ParserActions
             in the library. Most of the times it is the filename, except for
             standard or internal libraries.
     */
-    public void loadLibraryInJar(URL s, String prefix_s)
+    public void loadLibraryInJar(URL s, String prefixS)
     {
-        String prefix=prefix_s;
+        String prefix=prefixS;
         if(s==null) {
-            if (prefix==null)
+            if (prefix==null) {
                 prefix="";
+            }
             System.out.println("Resource not found! "+prefix);
             return;
         }
         try {
             readLibraryBufferedReader(new BufferedReader(new
                 InputStreamReader(s.openStream(), Globals.encoding)), prefix);
-        } catch (IOException E) {
+        } catch (IOException eE) {
             System.out.println("Problems reading library: "+s.toString());
         }
     }
@@ -817,8 +851,9 @@ public class ParserActions
         String prefix="";
 
         prefix = Globals.getFileNameOnly(openFileName);
-        if ("FCDstdlib".equals(prefix))
+        if ("FCDstdlib".equals(prefix)) {
             prefix="";
+        }
 
         readLibraryBufferedReader(bufRead, prefix);
 
@@ -850,15 +885,17 @@ public class ParserActions
             // Read and process line by line.
             line = bufRead.readLine();
 
-            if(line==null)
+            if(line==null) {
                 break;
+            }
 
             // Avoid trailing spaces
             line=line.trim();
 
             // Avoid processing shorter lines
-            if (line.length()<=1)
+            if (line.length()<=1) {
                 continue;
+            }
 
             // A category
             if(line.charAt(0)=='{') {
@@ -884,7 +921,8 @@ public class ParserActions
                 StringBuffer temp=new StringBuffer(25);
                 for(i=1; line.charAt(i)!=' ' &&
                          line.charAt(i)!=']' &&
-                         i<line.length(); ++i){
+                         i<line.length(); ++i)
+                {
                     temp.append(line.charAt(i));
                 }
                 macroName=temp.toString().trim();
@@ -904,8 +942,9 @@ public class ParserActions
                     libraryName = longName.trim();
                     continue;
                 } else {
-                    if(!"".equals(prefix))
+                    if(!"".equals(prefix)) {
                         macroName=prefix+"."+macroName;
+                    }
 
                     macroName=macroName.toLowerCase(new Locale("en"));
                     model.getLibrary().put(macroName, new
@@ -927,8 +966,9 @@ public class ParserActions
                 // careful, hence we convert the macro name to lower case.
                 macroName = macroName.toLowerCase(new Locale("en"));
                 macroDesc = model.getLibrary().get(macroName);
-                if(macroDesc==null)
+                if(macroDesc==null) {
                     return;
+                }
                 macroDesc.name = longName;
                 macroDesc.key = macroName;
                 macroDesc.category = categoryName;
@@ -953,7 +993,7 @@ public class ParserActions
         // Obtain the list of files in the specified directory.
         files = dir.list(new FilenameFilter()
         {
-            public boolean accept(File dir, String name)
+            @Override public boolean accept(File dir, String name)
             {
                 // This filter allows to obtain all files with the fcd
                 // file extension
@@ -972,16 +1012,15 @@ public class ParserActions
             return;
         }
         // We read all the directory content, file by file
-        for (int i = 0; i < files.length; i++) {
-            File f;  // One of the files in the directory.
-            f = new File(dir, files[i]);
+        for (String fs: files) {
+            File f = new File(dir, fs);
             try {
                 // Here we have a hopefully valid file in f, so we may read its
                 // contents
                 readLibraryFile(f.getPath());
-            } catch (IOException E) {
+            } catch (IOException eE) {
                 System.out.println("Problems reading library "+
-                    f.getName()+" "+E);
+                    f.getName()+" "+eE);
             }
         }
     }
