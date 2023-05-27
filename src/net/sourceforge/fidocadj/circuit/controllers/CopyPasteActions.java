@@ -1,8 +1,7 @@
 package net.sourceforge.fidocadj.circuit.controllers;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.globals.ProvidesCopyPasteInterface;
 
 /** CopyPasteActions: contains a controller which can perform copy and paste
     actions on a primitive database.
@@ -24,7 +23,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -71,12 +70,13 @@ public class CopyPasteActions
 
         try {
             pa.addString(new StringBuffer(cpi.pasteText()), true);
-        } catch (Exception E) {
+        } catch (Exception eE) {
             System.out.println("Warning: paste operation has gone wrong.");
         }
 
-        if(shiftCP)
+        if(shiftCP) {
             edt.moveAllSelected(xstep, ystep);
+        }
 
         ua.saveUndoState();
         dmp.setChanged(true);

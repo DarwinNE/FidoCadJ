@@ -2,11 +2,19 @@ package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
 
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.StandardLayers;
+import net.sourceforge.fidocadj.primitives.PrimitiveLine;
+import net.sourceforge.fidocadj.primitives.PrimitiveOval;
+import net.sourceforge.fidocadj.primitives.PrimitiveRectangle;
+import net.sourceforge.fidocadj.primitives.PrimitiveComplexCurve;
+import net.sourceforge.fidocadj.primitives.PrimitivePolygon;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBLine;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+
 
 /** Extends ElementsEdtActions in order to support those events such as
     MouseMove, which require a continuous interaction and an immediate
@@ -29,7 +37,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -87,17 +95,19 @@ public class ContinuosMoveActions extends ElementsEdtActions
         int y=cs.mapY(0,cs.unmapYsnap(ya));
 
         // If there is anything interesting to do, leave immediately.
-        if(oldx==x && oldy==y)
+        if(oldx==x && oldy==y) {
             return false;
+        }
 
         oldx=x;
         oldy=y;
 
         // Notify the current pointer coordinates, if a listener is available.
-        if (coordinatesListener!=null)
+        if (coordinatesListener!=null) {
             coordinatesListener.changeCoordinates(
                 cs.unmapXsnap(xa),
                 cs.unmapYsnap(ya));
+        }
 
         boolean toRepaint=false;
         // This is the newer code: if primEdit is different from null,
@@ -106,8 +116,9 @@ public class ContinuosMoveActions extends ElementsEdtActions
         // macro, primEdit contains some useful hints about the orientation
         // and the mirroring
 
-        if (actionSelected !=ElementsEdtActions.MACRO)
+        if (actionSelected !=ElementsEdtActions.MACRO) {
             primEdit = null;
+        }
 
         /*  MACRO ***********************************************************
 
@@ -142,11 +153,10 @@ public class ContinuosMoveActions extends ElementsEdtActions
                 primEdit = n;
                 toRepaint=true;
                 successiveMove = true;
-
-            } catch (IOException E) {
+            } catch (IOException eE) {
                 // Here we do not do nothing.
                 System.out.println("Warning: exception while handling macro: "
-                    +E);
+                    +eE);
             }
         }
 
@@ -175,7 +185,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
             toRepaint=true;
             successiveMove = true;
 
-            if (coordinatesListener!=null){
+            if (coordinatesListener!=null) {
                 double w = Math.sqrt((xpoly[1]-
                     cs.unmapXsnap(xa))*
                     (xpoly[1]-cs.unmapXsnap(xa))+
@@ -201,12 +211,12 @@ public class ContinuosMoveActions extends ElementsEdtActions
         if (actionSelected == ElementsEdtActions.PCB_LINE) {
             primEdit = new PrimitivePCBLine(xpoly[1],
                 ypoly[1], cs.unmapXsnap(x), cs.unmapYsnap(y),
-                ae.getPCB_thickness(), 0, dmp.getTextFont(),
+                ae.getPcbThickness(), 0, dmp.getTextFont(),
                 dmp.getTextFontSize());
 
             toRepaint=true;
             successiveMove = true;
-            if (coordinatesListener!=null){
+            if (coordinatesListener!=null) {
                 double w = Math.sqrt((xpoly[1]-
                     cs.unmapXsnap(xa))*
                     (xpoly[1]-cs.unmapXsnap(xa))+
@@ -234,8 +244,9 @@ public class ContinuosMoveActions extends ElementsEdtActions
             primEdit = new PrimitivePolygon(false, 0, 0,
                     dmp.getTextFont(), dmp.getTextFontSize());
 
-            for(int i=1; i<=clickNumber; ++i)
+            for(int i=1; i<=clickNumber; ++i) {
                 ((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
+            }
 
 
             ((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x),
@@ -259,17 +270,15 @@ public class ContinuosMoveActions extends ElementsEdtActions
             primEdit = new PrimitivePolygon(false, 0, 0,
                     dmp.getTextFont(), dmp.getTextFontSize());
 
-
-            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
+            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i) {
                 ((PrimitivePolygon)primEdit).addPoint(xpoly[i], ypoly[i]);
-
+            }
 
             ((PrimitivePolygon)primEdit).addPoint(cs.unmapXsnap(x),
                 cs.unmapYsnap(y));
 
             toRepaint=true;
             successiveMove = true;
-
         }
 
         /*  COMPLEX CURVE ****************************************************
@@ -287,8 +296,9 @@ public class ContinuosMoveActions extends ElementsEdtActions
                 false, false, 0, 3, 2, 0,
                 dmp.getTextFont(),dmp.getTextFontSize());
 
-            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i)
+            for(int i=1; i<=clickNumber && i<ElementsEdtActions.NPOLY; ++i) {
                 ((PrimitiveComplexCurve)primEdit).addPoint(xpoly[i], ypoly[i]);
+            }
 
             ((PrimitiveComplexCurve)primEdit).addPoint(cs.unmapXsnap(x),
                 cs.unmapYsnap(y));

@@ -1,13 +1,17 @@
 package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.io.*;
-import java.util.Vector;
 
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBPad;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBLine;
+import net.sourceforge.fidocadj.primitives.PrimitiveRectangle;
+import net.sourceforge.fidocadj.primitives.PrimitiveBezier;
+import net.sourceforge.fidocadj.primitives.PrimitiveOval;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.primitives.PrimitiveConnection;
+import net.sourceforge.fidocadj.primitives.PrimitiveLine;
 
 /** AddElements: handle the dynamic insertion of graphic elements.
 
@@ -28,7 +32,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -63,7 +67,7 @@ public class AddElements
     /** Sets the default PCB pad size x.
         @param s    the wanted size in logical units.
     */
-    public void setPCB_pad_sizex(int s)
+    public void setPcbPadSizeX(int s)
     {
         pcbPadSizeX=s;
     }
@@ -71,7 +75,7 @@ public class AddElements
     /** Gets the default PCB pad size x.
         @return     the x size in logical units.
     */
-    public int getPCB_pad_sizex()
+    public int getPcbPadSizeX()
     {
         return pcbPadSizeX;
     }
@@ -79,7 +83,7 @@ public class AddElements
     /** Sets the default PCB pad size y.
         @param s    the wanted size in logical units.
     */
-    public void setPCB_pad_sizey(int s)
+    public void setPcbPadSizeY(int s)
     {
         pcbPadSizeY=s;
     }
@@ -87,7 +91,7 @@ public class AddElements
     /** Gets the default PCB pad size y.
         @return     the size in logical units.
     */
-    public int getPCB_pad_sizey()
+    public int getPcbPadSizeY()
     {
         return pcbPadSizeY;
     }
@@ -95,7 +99,7 @@ public class AddElements
     /** Sets the default PCB pad style.
         @param s    the style.
     */
-    public void setPCB_pad_style(int s)
+    public void setPcbPadStyle(int s)
     {
         pcbPadStyle=s;
     }
@@ -103,7 +107,7 @@ public class AddElements
     /** Gets the default PCB pad style.
         @return     the style.
     */
-    public int getPCB_pad_style()
+    public int getPcbPadStyle()
     {
         return pcbPadStyle;
     }
@@ -111,7 +115,7 @@ public class AddElements
     /** Sets the default PCB pad drill size.
         @param s    the wanted drill size, in logical units.
     */
-    public void setPCB_pad_drill(int s)
+    public void setPcbPadDrill(int s)
     {
         pcbPadDrill=s;
     }
@@ -119,7 +123,7 @@ public class AddElements
     /** Gets the default PCB pad drill size.
         @return     the drill size, in logical units.
     */
-    public int getPCB_pad_drill()
+    public int getPcbPadDrill()
     {
         return pcbPadDrill;
     }
@@ -127,7 +131,7 @@ public class AddElements
     /** Sets the default PCB track thickness.
         @param s the wanted thickness in logical units.
     */
-    public void setPCB_thickness(int s)
+    public void setPcbThickness(int s)
     {
         pcbThickness=s;
     }
@@ -135,7 +139,7 @@ public class AddElements
     /** Gets the default PCB track thickness.
         @return     the track thickness in logical units.
     */
-    public int getPCB_thickness()
+    public int getPcbThickness()
     {
         return pcbThickness;
     }
@@ -249,9 +253,9 @@ public class AddElements
                     dmp.getTextFontSize(), orientation, mirror), true, ua);
             primEdit=null;
 
-        } catch (IOException G) {
+        } catch (IOException gG) {
             // A simple error message on the console will be enough
-            System.out.println(G);
+            System.out.println(gG);
         }
         return primEdit;
     }
@@ -279,8 +283,9 @@ public class AddElements
     {
         int y=ty;
         int cn=clickNumber;
-        if(isCircle)
+        if(isCircle) {
             y=ypoly[1]+x-xpoly[1];
+        }
 
         // clickNumber == 0 means that no ellipse is being drawn
 
@@ -373,11 +378,11 @@ public class AddElements
     {
         int y=ty;
         int cn=clickNumber;
-        if(isSquare)
+        if(isSquare) {
             y=ypoly[1]+x-xpoly[1];
+        }
 
-        // clickNumber == 0 means that no rectangle is being drawn
-
+        // clickNumber == 0 means that no rectangle is being drawn.
         xpoly[clickNumber] = x;
         ypoly[clickNumber] = y;
         if (cn == 2) {
@@ -394,7 +399,7 @@ public class AddElements
             dmp.addPrimitive(g, true, ua);
             cn = 0;
         }
-        if (cn>=2) cn = 0;
+        if (cn>=2)  { cn = 0; }
         return cn;
     }
 

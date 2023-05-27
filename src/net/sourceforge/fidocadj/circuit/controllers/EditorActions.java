@@ -2,11 +2,12 @@ package net.sourceforge.fidocadj.circuit.controllers;
 
 import java.util.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
+import net.sourceforge.fidocadj.circuit.model.ProcessElementsInterface;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
 
 /** EditorActions: contains a controller which can perform basic editor actions
     on a primitive database. Those actions include rotating and mirroring
@@ -29,7 +30,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -81,8 +82,9 @@ public class EditorActions
     {
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
 
-        if(g==null)
+        if(g==null) {
             return;
+        }
 
         final int ix = g.getFirstPoint().x;
         final int iy = g.getFirstPoint().y;
@@ -95,7 +97,7 @@ public class EditorActions
             }
         });
 
-        if(ua!=null) ua.saveUndoState();
+        if(ua!=null) { ua.saveUndoState(); }
     }
 
     /** Move all selected primitives.
@@ -112,7 +114,7 @@ public class EditorActions
             }
         });
 
-        if(ua!=null) ua.saveUndoState();
+        if(ua!=null) { ua.saveUndoState(); }
     }
 
     /** Mirror all selected primitives.
@@ -120,8 +122,9 @@ public class EditorActions
     public void mirrorAllSelected()
     {
         GraphicPrimitive g = sa.getFirstSelectedPrimitive();
-        if(g==null)
+        if(g==null) {
             return;
+        }
 
         final int ix = g.getFirstPoint().x;
 
@@ -132,7 +135,7 @@ public class EditorActions
             }
         });
 
-        if(ua!=null) ua.saveUndoState();
+        if(ua!=null) { ua.saveUndoState(); }
     }
 
     /** Delete all selected primitives.
@@ -148,11 +151,13 @@ public class EditorActions
         Vector<GraphicPrimitive> v=dmp.getPrimitiveVector();
 
         for (i=0; i<v.size(); ++i){
-            if(v.get(i).getSelected())
+            if(v.get(i).getSelected()) {
                 v.remove(v.get(i--));
+            }
         }
-        if (saveState && ua!=null)
+        if (saveState && ua!=null) {
             ua.saveUndoState();
+        }
     }
 
     /** Sets the layer for all selected primitives.
@@ -188,7 +193,6 @@ public class EditorActions
     */
     public int distancePrimitive(int px, int py)
     {
-        int i;
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer=0;
@@ -201,8 +205,9 @@ public class EditorActions
             if(distance<=mindistance) {
                 layer = g.getLayer();
 
-                if(layerV.get(layer).isVisible)
+                if(layerV.get(layer).isVisible) {
                     mindistance=distance;
+                }
             }
         }
         return mindistance;
@@ -222,13 +227,14 @@ public class EditorActions
         boolean toggle)
     {
         // Deselect primitives if needed.
-        if(!toggle)
+        if(!toggle) {
             sa.setSelectionAll(false);
+        }
 
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
         int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
-        if (toll<2) toll=2;
+        if (toll<2) { toll=2; }
         selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
     }
 
@@ -246,7 +252,6 @@ public class EditorActions
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer;
-        GraphicPrimitive gp;
         GraphicPrimitive gpsel=null;
         Vector<LayerDesc> layerV=dmp.getLayers();
 
@@ -290,8 +295,9 @@ public class EditorActions
         boolean s=false;
 
         // Avoid processing a trivial case.
-        if(w<1 || h <1)
+        if(w<1 || h <1) {
             return false;
+        }
 
         Vector<LayerDesc> layerV=dmp.getLayers();
         // Process every primitive, if the corresponding layer is visible.
@@ -300,7 +306,9 @@ public class EditorActions
             if((layer>=layerV.size() ||
                 layerV.get(layer).isVisible ||
                 g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
+            {
                 s=true;
+            }
         }
         return s;
     }

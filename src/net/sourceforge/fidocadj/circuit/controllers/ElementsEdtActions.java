@@ -1,14 +1,15 @@
 package net.sourceforge.fidocadj.circuit.controllers;
 
-import java.io.*;
-import java.util.Vector;
-
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.toolbars.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.layers.StandardLayers;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.PrimitiveComplexCurve;
+import net.sourceforge.fidocadj.primitives.PrimitivePolygon;
+import net.sourceforge.fidocadj.primitives.PrimitiveAdvText;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
 
 /** ElementsEdtActions: contains a controller for adding/modifying elements
     to a drawing model.
@@ -213,24 +214,24 @@ public class ElementsEdtActions
         int x, int y, boolean button3, boolean toggle,
         boolean doubleClick)
     {
-        String cmd;
-        int i;
-        GraphicPrimitive g;
         boolean repaint=false;
 
-        if(clickNumber>NPOLY-1)
+        if(clickNumber>NPOLY-1) {
             clickNumber=NPOLY-1;
+        }
 
         // We need to differentiate this case since when we are entering a
         // macro, primEdit already contains some useful hints about the
         // orientation and the mirroring, so we need to keep it.
-        if (actionSelected !=MACRO)
+        if (actionSelected !=MACRO) {
             primEdit = null;
+        }
 
         if(button3 && actionSelected==MACRO) {
             actionSelected=SELECTION;
-            if(selectionListener!=null)
+            if(selectionListener!=null) {
                 selectionListener.setSelectionState(actionSelected,"");
+            }
             primEdit = null;
             return true;
         }
@@ -271,8 +272,9 @@ public class ElementsEdtActions
 
             // Zoom state
             case ZOOM:
-                if(primitivesParListener!=null)
+                if(primitivesParListener!=null) {
                     primitivesParListener.changeZoomByStep(!button3, x,y,1.5);
+                }
                 break;
 
             // Put a connection (easy: just one click is needed)
@@ -321,9 +323,9 @@ public class ElementsEdtActions
                 dmp.addPrimitive(newtext, true, ua);
                 newtext.setSelected(true);
                 repaint=true;
-                if(primitivesParListener!=null)
+                if(primitivesParListener!=null) {
                     primitivesParListener.setPropertiesForPrimitive();
-
+                }
                 break;
 
             // Add a Bézier polygonal curve: we need four clicks.
@@ -332,7 +334,7 @@ public class ElementsEdtActions
                 if(button3) {
                     clickNumber = 0;
                 } else {
-                    if(doubleClick) successiveMove=false;
+                    if(doubleClick) { successiveMove=false; }
                     clickNumber=ae.addBezier(cs.unmapXsnap(x),
                                 cs.unmapYsnap(y), xpoly, ypoly,
                                 currentLayer, ++clickNumber);
@@ -347,8 +349,9 @@ public class ElementsEdtActions
                                          currentLayer,0,
                                          dmp.getTextFont(),
                                          dmp.getTextFontSize());
-                    for(i=1; i<=clickNumber; ++i)
+                    for(int i=1; i<=clickNumber; ++i) {
                         poly.addPoint(xpoly[i],ypoly[i]);
+                    }
 
                     dmp.addPrimitive(poly, true,ua);
                     clickNumber = 0;
@@ -359,8 +362,9 @@ public class ElementsEdtActions
                     successiveMove=false;
                     // clickNumber == 0 means that no polygon is being drawn
                     // prevent that we exceed the number of allowed points
-                    if (clickNumber==NPOLY)
+                    if (clickNumber==NPOLY) {
                         return false;
+                    }
                     xpoly[clickNumber] = cs.unmapXsnap(x);
                     ypoly[clickNumber] = cs.unmapYsnap(y);
                 }
@@ -376,8 +380,9 @@ public class ElementsEdtActions
                                         false, false, 0, 3, 2, 0,
                                         dmp.getTextFont(),
                                         dmp.getTextFontSize());
-                    for(i=1; i<=clickNumber; ++i)
+                    for(int i=1; i<=clickNumber; ++i) {
                         compc.addPoint(xpoly[i],ypoly[i]);
+                    }
 
                     dmp.addPrimitive(compc, true,ua);
                     clickNumber = 0;
@@ -386,8 +391,9 @@ public class ElementsEdtActions
                     ++ clickNumber;
                     successiveMove=false;
                     // prevent that we exceed the number of allowed points
-                    if (clickNumber==NPOLY)
+                    if (clickNumber==NPOLY) {
                         return false;
+                    }
                     // clickNumber == 0 means that no polygon is being drawn
                     xpoly[clickNumber] = cs.unmapXsnap(x);
                     ypoly[clickNumber] = cs.unmapYsnap(y);
@@ -430,7 +436,7 @@ public class ElementsEdtActions
                     xpoly, ypoly, currentLayer,
                     ++clickNumber,
                     button3,
-                    ae.getPCB_thickness());
+                    ae.getPcbThickness());
                 repaint=true;
                 break;
 
@@ -454,7 +460,6 @@ public class ElementsEdtActions
     */
     public void drawPrimEdit(GraphicsInterface g, MapCoordinates cs)
     {
-        int x, y;
         if(primEdit!=null) {
             primEdit.draw(g, cs, StandardLayers.createEditingLayerArray());
         }
@@ -466,7 +471,8 @@ public class ElementsEdtActions
     */
     public void showClicks(GraphicsInterface g, MapCoordinates cs)
     {
-        int x, y;
+        int x;
+        int y;
         g.setColor(g.getColor().red());
         // The data here begins at index 1, due to the internal construction.
 

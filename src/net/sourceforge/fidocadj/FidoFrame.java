@@ -741,10 +741,10 @@ public class FidoFrame extends JFrame implements
             libDirectory,
             textToolbar,
             smallIconsToolbar,
-            ae.getPCB_thickness(),
-            ae.getPCB_pad_sizex(),
-            ae.getPCB_pad_sizey(),
-            ae.getPCB_pad_drill(),
+            ae.getPcbThickness(),
+            ae.getPcbPadSizeX(),
+            ae.getPcbPadSizeY(),
+            ae.getPcbPadDrill(),
             cc.getStrictCompatibility(),
             cc.dmp.getTextFont(),
             Globals.lineWidth,
@@ -769,10 +769,10 @@ public class FidoFrame extends JFrame implements
         cc.getMapCoordinates().setXGridStep(options.gridSize);
         cc.getMapCoordinates().setYGridStep(options.gridSize);
 
-        ae.setPCB_thickness(options.pcblinewidth_i);
-        ae.setPCB_pad_sizex(options.pcbpadwidth_i);
-        ae.setPCB_pad_sizey(options.pcbpadheight_i);
-        ae.setPCB_pad_drill(options.pcbpadintw_i);
+        ae.setPcbThickness(options.pcblinewidth_i);
+        ae.setPcbPadSizeX(options.pcbpadwidth_i);
+        ae.setPcbPadSizeY(options.pcbpadheight_i);
+        ae.setPcbPadDrill(options.pcbpadintw_i);
 
         cc.dmp.setTextFont(options.macroFont,
             options.macroSize_i,
