@@ -42,7 +42,7 @@ public class UndoActions implements UndoActorListener
     private final UndoManager um;
 
     // Database of the temporary directories
-    private final Vector<String> tempDir;
+    private final List<String> tempDir;
 
     // Maximum number of levels to be retained for undo operations.
     private static final int MAX_UNDO=100;

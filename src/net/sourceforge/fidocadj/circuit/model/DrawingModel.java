@@ -2,12 +2,12 @@ package net.sourceforge.fidocadj.circuit.model;
 
 import java.util.*;
 
-import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.ImageAsCanvas;
 import net.sourceforge.fidocadj.circuit.controllers.UndoActions;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
 
 /**
     Database of the FidoCadJ drawing. This is the "model" in the
@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -175,8 +175,9 @@ public class DrawingModel
             // their layer
             // If there are more than a few primitives to insert, it is wise to
             // sort only once, at the end of the insertion process.
-            if (sort)
+            if (sort) {
                 sortPrimitiveLayers();
+            }
 
             // Check if it should be undoable.
             if (ua!=null) {
@@ -202,11 +203,11 @@ public class DrawingModel
         macroFont=f;
         macroFontSize = size;
 
-        for (GraphicPrimitive g:getPrimitiveVector()){
+        for (GraphicPrimitive g:getPrimitiveVector()) {
             g.setMacroFont(f, size);
         }
         changed=true;
-        if(ua!=null) ua.setModified(true);
+        if(ua!=null) { ua.setModified(true); }
     }
 
     /** Get the font of all macros.
@@ -222,15 +223,16 @@ public class DrawingModel
     */
     public int getTextFontSize()
     {
-        if(getPrimitiveVector().isEmpty())
+        if(getPrimitiveVector().isEmpty()) {
             return macroFontSize;
+        }
 
         // TODO: not very elegant piece of code.
         // Basically, we grab the settings of the very first object stored.
         int size=((GraphicPrimitive)getPrimitiveVector().get(0))
                    .getMacroFontSize();
 
-        if(size<=0) size=1;
+        if(size<=0) { size=1; }
         macroFontSize=size;
 
         return macroFontSize;
@@ -244,12 +246,13 @@ public class DrawingModel
     public void sortPrimitiveLayers()
     {
         int i;
-        GraphicPrimitive t,g,gg;
-        boolean cont=true;
+        GraphicPrimitive g;
         maxLayer = 0;
 
         // Indexes
-        int j,k,l;
+        int j;
+        int k;
+        int l;
         // Swap temporary variable
         GraphicPrimitive s;
 
@@ -259,8 +262,9 @@ public class DrawingModel
                 for(i=j-l; i>=0; i-=l) {
                     if(((GraphicPrimitive)getPrimitiveVector().get(i+l)).layer>=
                         ((GraphicPrimitive)getPrimitiveVector().get(i)).layer)
+                    {
                         break;
-                    else {
+                    } else {
                         // Swap
                         s = (GraphicPrimitive)getPrimitiveVector().get(i);
                         getPrimitiveVector().set(i,
@@ -280,18 +284,21 @@ public class DrawingModel
         for (l=0; l<LayerDesc.MAX_LAYERS; ++l) {
             layersUsed[l] = false;
 
-            for (i=k; i<getPrimitiveVector().size(); ++i){
+            for (i=k; i<getPrimitiveVector().size(); ++i) {
                 g=(GraphicPrimitive)getPrimitiveVector().get(i);
 
                 // We keep track of the maximum layer number used in the
                 // drawing.
-                if (g.layer>maxLayer)
+                if (g.layer>maxLayer) {
                         maxLayer = g.layer;
+                }
 
                 if (g.containsLayer(l)) {
                     layersUsed[l]=true;
                     k=i;
-                    for (int z = 0; z<l; ++z) layersUsed[z]=true;
+                    for (int z = 0; z<l; ++z) {
+                        layersUsed[z]=true;
+                    }
                     break;
                 }
             }
