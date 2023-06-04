@@ -1,0 +1,1514 @@
+\documentclass[10pt,a4paper,twoside]{report}
+\usepackage[dutch]{babel}
+
+\pagestyle{headings}
+
+\addtolength{\voffset}{0mm}   %>>> moves text field down
+\usepackage[latin1]{inputenc}   % Encodage ISO-8859-1.
+\usepackage{graphicx}
+% replacement of internal float with float package which allows very subtle changes with text.
+\usepackage{float}
+\graphicspath{{images/}}
+\newcommand{\keyevidence}[1]{\fbox{#1}}
+
+% Smaller italic font for marginpars
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize\normalfont \itshape #1]%
+{\raggedright\footnotesize\normalfont \itshape #1}}
+
+% ability to set references to tables right iie caption text above table will still have right reference nummber.
+\usepackage{tablefootnote}
+% ability to refer to a picture by the caption textand wit reference getting the whole picture and not only captioned text.
+\usepackage{caption}
+\usepackage{pgf}
+\usepackage{hyperref}
+% with caption package will start the reference at the beginning of the float, ie you end above picture and not at the cation text.
+\usepackage[figure]{hypcap} %only works with caption
+
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{Maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+
+\usepackage{listings}
+\usepackage{makeidx}
+\lstdefinelanguage{FIDOCAD}
+    {morekeywords={LI,PP,PV,TY,TE,MC,EV,EP,RP,RV,BE,SA,PA,PL,FCJ,FJC,CP,CV,%
+        [FIDOCAD],[FIDOLIB]},
+    sensitive=false,
+    morecomment=[s]{[}{]},
+    morecomment=[s][\color{blue}]{\{}{\}},
+    morecomment=[l][\color{violet}]{*},
+    moredelim=[il][\color{violet}]{£},
+}
+
+\lstset{language=FIDOCAD,%
+    basicstyle=\small\ttfamily}
+
+% *******************************************************
+% Hyperreferences
+% *******************************************************
+\hypersetup{%
+    colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
+    breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+    plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+    hypertexnames=true, pdfhighlight=/O,%hyperfootnotes=true,%nesting=true,%frenchlinks,%
+    urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
+    % uncomment the following line if you want to have black links (e.g., for printing)
+    %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
+    pdftitle={FidoCadJ -- gebruikers handleiding},%
+    pdfauthor={Davide Bucci},%
+    pdfsubject={Hoe FidoCadJ te gebruiken},%
+    pdfkeywords={FidoCAD, FidoCadJ, CAD, elektronische schema's, printplaten},%
+    pdfcreator={pdfLaTeX},%
+    pdfproducer={LaTeX with hyperref and classicthesis}%
+}
+\lstset{frame=single,%
+    backgroundcolor=\color{lightgray},
+    keywordstyle=\color{RoyalBlue},
+    breaklines=true
+    }
+
+\newcommand{\micron}{\,\mu\mathrm{m}}
+\newcommand{\toprule}{\hline}
+
+\newcommand{\midrule}{\hline}
+
+\newcommand{\bottomrule}{\hline}
+
+\title{\Huge\color{webbrown} FidoCadJ 0.24.8 \\ gebruikers handleiding}
+
+\author{Davide Bucci\\[3em]
+\includegraphics[width=.7\textwidth]{icona_fidocadj_a}
+}
+
+\makeindex
+
+
+\begin{document}
+\pagenumbering{roman}
+
+\pdfbookmark[1]{Front}{Front}
+\maketitle
+
+\clearpage
+\pdfbookmark[1]{Licence}{Licence}
+\index{Licentie}
+
+\clearpage{} \pdfbookmark[2]{Licence}{Licence} Deze handleiding valt onder de Creative Commons Public License versie 2.5 of recenter.
+De volledige tekst van deze licentie is beschikbaar op het adres\\
+ \href{http://creativecommons.org/licenses/by-nc-nd/3.0/}{http://creativecommons.org/licenses/by-nc-nd/3.0/}.
+
+U bent vrij om dit werk te reproduceren, te verspreiden, te communiceren of in het openbaar te vertonen, te vertegenwoordigen, uit te voeren en af te spelen onder de volgende voorwaarden:
+\begin{description}
+\item [{Naamsvermelding}] {U moet het werk toeschrijven op de manier die is gespecificeerd door de auteur of licentiegever (maar op geen enkele manier die suggereert dat zij u of uw gebruik van het werk steunen).}
+\item [{Niet-commercieel}] {U mag dit werk niet voor commerci\"{e}le doeleinden gebruiken.}
+\item [{Geen afgeleide werken}] {U mag dit werk niet veranderen, transformeren of erop voortbouwen.}
+\end{description}
+Van elk van de bovenstaande voorwaarden kan worden afgeweken als u toestemming krijgt van de auteursrechthebbende (Davide Bucci). \vfill{}
+
+
+\noindent Alle commerci\"{e}le namen, logo's en handelsmerken die in dit werk worden genoemd, zijn geregistreerd door hun eigenaren.
+
+\begingroup %\let\clearpage\relax
+%\let\cleardoublepage\relax
+%\let\cleardoublepage\relax
+
+
+\pdfbookmark[1]{Abstract}{Abstract}
+\chapter*{Abstract}\index{Abstract}
+
+Dit document is de FidoCadJ gebruikershandleiding. Na een korte inleiding over de geschiedenis en het ontstaan van deze software wordt het basisgebruik van FidoCadJ uitgelegd. Ons doel is om te laten zien hoe je zeer eenvoudige elektronische schema's en printplaten kunt tekenen.
+De handleiding eindigt met een gedetailleerde beschrijving van het FidoCadJ-formaat dat eerder ook door FidoCAD werd gebruikt. Tot slot geven we enkele tips over het downloaden en installeren van FidoCadJ met behulp van de meest voorkomende besturingssystemen: Linux, macOS en Windows.
+
+Dit document presenteert alleen het programma zelf en de bestandsindeling. Het gaat niet over de integratie van FidoCadJ in websites, noch over de organisatie van de code en de aspecten van ontwikkeling. Raadpleeg de GitHub-repository als u wilt deelnemen aan de ontwikkeling!
+\endgroup
+
+\pdfbookmark[1]{Dankbetuigingen}{Dankbetuigingen}
+\chapter*{Dankbetuigingen}\index{Dankbetuigingen}
+
+Een aantal mensen hebben deze software sinds de eerste versies gebruikt en mij met hun adviezen geholpen. Ik wil dus de it.hobby.elettronica\index{it.hobby.elettronica}
+newsgroup\index{newsgroup} deelnemers bedanken voor de zeer vruchtbare discussies die we samen hadden.
+
+Deze software is zeer zorgvuldig getest op Linux dankzij het geduld van Stefano Martini. Hij was een zeer attente alfa en beta tester! Ik wil Olaf Marzocchi en Emanuele Baggetta bedanken voor hun tests op macOS.\\
+
+Ik wil graag ``F. Bertolazzi'', die zeer nuttige adviezen gaf over de bruikbaarheid van deze software, bedanken. Hij heeft ook de CadSoft Eagle\index{Eagle} compatibiliteits bibliotheek samengesteld, handig om FidoCadJ-tekeningen naar Eagle te exporteren. Veel dank aan ``Celsius'', die de softwarefunctionaliteiten voor PCB's en de bijbehorende bibliotheken heeft getest.
+
+Dank ook aan Andrea D'Amore voor zijn adviezen over de FidoCadJ gebruikersinterface op de Apple Macintosh. Ik wil Roby IZ1CYN bedanken voor de discussies over bibliotheken en voor het schrijven van sectie~\ref{installazione_linux} van deze handleiding en over de installatie ervan op Linux\index{Linux}. Met dank aan Max2433BO voor advies over Linux en voor zijn geduldige werk aan GitHub-problemen.
+
+Macintosh-gebruikers kunnen FidoCadJ gebruiken dat goed ge\"{i}ntegreerd is in het uiterlijk van hun besturingssysteem dankzij de Quaqua\index{Quaqua} uitlerlijk en beleving, geleverd door Werner Randelshofer en meer recentelijk dankzij de VAqua7 uiterlijk en beleving. Werner heeft ook nuttige adviezen gegeven over de gebruikersinterface van FidoCadJ: bedankt daarvoor!\\
+
+Een deel van deze handleiding is vertaald naar het Engels door ``Pasu''. Ik wil hem bedanken voor zijn harde werk. Ik wil Miles ``qhg007'' ook bedanken voor de zorgvuldige controle en zeer nuttige opmerkingen.
+De Engelstalige handleiding is vertaald naar het Nederlands door Joop Nijenhuis als dank je wel voor FidoCadJ. De Nederlandstalige handleiding is met behulp van o.a. Google vertaald naar het Duits.\\   
+
+In april 2010 is FidoCadJ ge\"{i}ntegreerd in de bekende Italiaanse website \href{http://www.electroyou.it}{www.electroyou.it}. Het draait nu geruisloos op de server en converteert automatisch tekeningen die op het forum zijn geplaatst. Ik wil mijn dank uitspreken aan de beheerder Zeno Martini en webmaster Nicolò Martini en aan alle gebruikers van deze site. Ze gaven me veel zeer nuttige idee\"{e}n over batchcontrole FidoCadJ: er is een veelbelovend pad uitgestippeld dat het verdient om volledig te worden onderzocht. FidoCadJ wordt ook gebruikt op \href{http://www.matematicamente.it}{http://www.matematicamente.it}\index{http://www.matematicamente.it}. Het is gebruikt door de populaire website \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} dankzij de inspanningen van Arniek, Sstrix en Stan. Veel complimenten voor hen!
+
+Nuttige hints over de website van FidoCadJ kwamen van Federica Garin en Emanuele Baggetta. Sergio Juanez heeft er ook veel aan bijgedragen door de technische aspecten en de organisatie te verbeteren.
+
+\pdfbookmark[1]{Licentie FidoCadJ}{Licentie FidoCadJ}
+\chapter*{FidoCadJ Licentie}\index{FidoCadJ Licentie}
+
+Copyright \copyright\ 2007-2023 het FidoCadJ ontwikkelteam.
+
+Deze software is gratis: u kunt deze opnieuw distribueren en/of wijzigen onder de voorwaarden van de GNU General Public License zoals gepubliceerd door de Free Software Foundation, versie 3 van de licentie.
+
+Dit programma wordt verspreid in de hoop dat het nuttig zal zijn, maar ZONDER ENIGE GARANTIE; zonder zelfs de impliciete garantie van VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU General Public License voor meer details.
+
+U zou samen met dit programma een kopie van de GNU General Public License moeten hebben ontvangen. Zo niet, zie
+\href{http://www.gnu.org/licenses/}{http://www.gnu.org/licenses/}.
+
+\pdfbookmark[1]{Inhoudsopgave}{Inhoudsopgave}
+\tableofcontents \index{Inhoudsopgave}
+
+\pdfbookmark[1]{Lijst van figuren}{Lijst van figuren}
+\listoffigures \index{Lijst van figuren}
+
+\begingroup
+\let\clearpage\relax
+\let\cleardoublepage\relax
+\let\cleardoublepage\relax
+
+\endgroup
+
+\pdfbookmark[1]{Lijst van tabellen}{Lijst van tabellen}
+\listoftables \index{Lijst van tabellen}
+\begingroup
+\let\clearpage\relax
+\let\cleardoublepage\relax
+
+\endgroup
+
+\chapter{Inleiding} \index{Inleiding} \pagenumbering{arabic} In dit hoofdstuk zullen we FidoCadJ kort introduceren. We zullen in het bijzonder een beschrijving geven van de filosofie achter deze software, evenals een korte geschiedenis van de ontwikkeling ervan. Als u FidoCadJ moet installeren en uitvoeren, ga dan naar appendix~\ref{specifics}, waarin wordt beschreven hoe u FidoCadJ installeert op de meest voorkomende besturingssystemen.
+
+\section{De filosofie van FidoCadJ} \index{De filosofie van FidoCadJ}
+
+FidoCAD\index{FidoCAD} (zonder de J aan het einde) was een vectortekensoftware die bijzonder geschikt was voor elektrische schema's\index{elektrisch schema} en voor eenvoudige printplaten\index{PCB}\index{printplaat}. Het werd eind jaren negentig gebruikt door de Italiaanse Usenet-gemeenschap.
+
+Het kan nog steeds gratis worden gedownload (een Windows\index{Windows}-versie genationaliseerd in de Italiaanse taal) van Lorenzo Lutti's pagina\index{Lorenzo Lutti}:
+
+\href{http://www.enetsystems.com/~lorenzo/fidocad.asp}{http://www.enetsystems.com/\textasciitilde lorenzo/fidocad.asp}
+
+De uitvoerbestanden die door FidoCAD werden gegenereerd waren een zeer compacte tekstcode. Deze functie maakte het heel gemakkelijk om tekeningen in tekstberichten op te nemen, zoals die worden gebruikt in niet-binaire Usenet-groepen\index{Usenet-groep}.
+ 
+Helaas bestond FidoCAD alleen in een Windows\index{Windows}-versie. Linux-gebruikers konden het gebruiken met WInE\index{WInE}, maar degenen die afhankelijk waren van andere platforms zoals ik (ik gebruik macOS) moesten een andere oplossing vinden. Ik besloot daarom een kleine bijdrage te leveren aan de gemeenschap door FidoCadJ te schrijven (met de laatste J, deze keer). Deze editor is geschreven in pure Java\index{Java} en is volledig multi-platform. Met FidoCadJ kunt u een tekening weergeven en wijzigen met behulp van de bestandsindeling FidoCAD\index{FidoCAD}. Tegenwoordig werk ik niet meer alleen aan het project en is FidoCadJ een volwaardig en ik durf te schrijven een succesvol Open Source project met bijdragen van over de hele wereld.
+
+Wie in het verleden FidoCAD\index{FidoCAD} heeft gebruikt, zou heel snel bekend moeten zijn met FidoCadJ, aangezien veel commando's en procedures vrijwel gelijkaardig zijn aan de originele applicatie. FidoCadJ is bijna volledig compatibel met de originele FidoCAD, op enkele details na. Het doel van volledige compatibiliteit is nagestreefd voor zover mogelijk, maar vragen van nieuwe gebruikers hebben geleid tot enkele uitbreidingen van het oorspronkelijke formaat.
+
+Enkele functies die door FidoCadJ worden aangeboden en niet aanwezig zijn in de originele FidoCAD, zijn de beschikbare exportmogelijkheden. Aangezien ik een \LaTeX{}-gebruiker ben, heb ik besloten een exportfunctie op te nemen voor een aantal vectorformaten, waaronder Encapsulated PostScript (\textsc{EPS}\index{EPS}) en scripts voor de \textsc{PGF}\index{PGF} pakket. Natuurlijk kan FidoCadJ exporteren naar het zeer bekende \textsc{PDF}\index{PDF} formaat, met enkele beperkingen.
+
+\section{Geschiedenis van FidoCadJ} \index{Geschiedenis van FidoCadJ}
+
+Ik ben al lang ge\"{i}nteresseerd in elektronische schakelingen. Toen ik verschillende speciale Italiaanse Usenet-nieuwsgroepen\index{nieuwsgroepen} begon te volgen, merkte ik dat er veel schema's werden verstrekt met behulp van het FidoCAD voor Windows-formaat\index{FidoCAD}. Dit was veel beter dan onhandige ASCII-tekeningen. Aangezien ik geen Windows gebruik, was het voor mij bijna onmogelijk om ernaar te kijken en ik wilde proberen iets te doen om dit probleem op te lossen. \marginpar{Trouwens, ik denk dat het beter is om actief aan een oplossing te werken in plaats van zeuren, omdat een ander besturingssysteem dan Windows bepaalde software mist.}
+
+Het eerste dat ik eind 2006 deed, was het bestuderen van het bestandsformaat dat wordt gebruikt door FidoCAD\index{FidoCAD} en het schrijven van een Java\index{Java}-applet genaamd FidoReadJ\index{FidoReadJ}. Het was in staat om het circuit te ontleden om het in een webpagina te tonen. Het internet was toen anders! Om dat te doen, heb ik min of meer overal gezocht (oude berichten, webpagina's), en heb ik veel reverse-engineering gedaan vanuit bestaande FidoCAD-bestanden. Ik heb ook de FidoCAD-bronnen gedownload en bestudeerd, geschreven in een vrij duidelijke C++ door Lorenzo Lutti.
+
+Ik schreef de kern van de applet in maart 2007. Een paar maanden later was de applet online en werd hij getest door een deel van de gemeenschap die zich aangetrokken voelde tot it.hobby.elettronica\index{it.hobby.elettronica} en it.hobby.fai-da-te\index{it.hobby.fai-da-te}.% 
+\footnote{FidoReadJ\index{FidoReadJ} is nu nog steeds beschikbaar op het volgende adres, maar het is onwaarschijnlijk dat beschikbare webbrowsers Java applets nog steeds ondersteunen:\\ \href{http://davbucci.chez-alice.fr/index.php?argument=elettronica/fidoreadj/fidoreadj.inc}{http://davbucci.chez-alice.fr/index.php? argument=elettronica/fidoreadj/fidoreadj.inc}.%
+ }
+
+Aangezien ik een interpreter\index{interpreter} van het FidoCAD-formaat had, was het interessant om een complete editor te maken \marginpar{Om eerlijk te zijn, deed ik rond 1993 een eerste poging om een 2D-vectortekensysteem te schrijven}. Veel van het initi\"{e}le werk werd in verschillende stappen gedaan, tussen januari en juli 2008: FidoCadJ is geen port van FidoCAD voor Windows, maar het is een nieuw programma, helemaal opnieuw geschreven.
+
+De keuze om Java\index{Java} te gebruiken is vanwege het feit dat ik momenteel veel verschillende besturingssystemen gebruik. Tijd en energie steken in iets dat niet helemaal overdraagbaar is spreekt mij niet meer aan. De inspanning om het Cocoa-framework te leren zou waarschijnlijk een beter resultaat hebben opgeleverd op macOS, maar het zou FidoCadJ volledig niet overdraagbaar hebben gemaakt. Ik ben geen computerman. De tijd die ik besteed aan het programmeren is tijd die wordt weggenomen van mijn elektronische interesses. In feite, vooral in het begin, toonde de FidoCadJ-codebron aan dat ik niet erg Java\index{Java} en objectgeori\"{e}nteerd programmeren\index{Objectgeori\"{e}nteerd programmeren} purist ben en verschillende oplossingen waren meer praktisch dan elegant. Ik heb echter geprobeerd om de algehele codekwaliteit van FidoCadJ continu te verbeteren. Het is behoorlijk succesvol vergeleken met andere Open Source-projecten, tenminste bij \'{e}\'{e}n gelegenheid\footnote{Zie bijvoorbeeld \href{http://www.cs.usask.ca/~croy/papers/2013/RahmanStackOverflowTechReport.pdf}{Rahman, M. M., Roy, C. K., and Keivanloo, I. ``Subjective Evaluation of Software Quality Using Crowdsource Knowledge: An Exploratory Study''. Univ. of Saskatchewan, Department of Computer Science technical report 2013-01}}. Op deze manier doorgaand, is statische en dynamische analyse van de broncode gebruikt om aan te geven waar de code-organisatie kan worden aangepast en verbeterd.
+
+Waar het om gaat zijn de ervaringen van degenen die het programma gebruiken, veel meer dan de keuze van een bepaalde taal. Om deze reden luister ik altijd naar uw suggesties, om te begrijpen hoe dit project verder kan worden ontwikkeld. Java\index{Java} is misschien niet de perfecte keuze of de oplossing voor elk probleem. Het is echter flexibel genoeg gebleken voor een tool als FidoCadJ.
+
+% Het deel dat volledig door Pasu is vertaald, begint hier.
+
+Zonder te streven naar perfectie en de grenzen van mijn programmeervaardigheden te kennen, is het mijn bedoeling ervoor te zorgen dat FidoCadJ GEEN applicatie van slechte kwaliteit zal zijn. Om deze reden is elk bugrapport of commentaar over de bruikbaarheid van het programma meer dan welkom.
+
+In november 2009 opende ik een SourceForge\index{SourceForge}-project gewijd aan FidoCadJ. Vanaf deze plek kon je alle uitvoerbare bestanden, handleidingen en de broncode downloaden. Helaas heeft SourceForge sinds 2013 geleidelijk enkele duistere praktijken overgenomen: advertenties met valse downloadknoppen verschenen overal en crap-ware toegevoegd aan installatieprogramma's voor sommige projecten. In 2015 was de site ongeveer 15 dagen offline: het werd duidelijk dat het tijd was om te veranderen en we migreerden het FidoCadJ-project op GitHub\index{GitHub}. Vanaf augustus 2015 wordt alle ontwikkeling op FidoCadJ gedaan met Git: voel je vrij om FidoCadJ te forken en de bronnen te bekijken. De SourceForge\index{SourceForge}-pagina blijft echter bestaan, omdat iemand nog steeds graag pakketten van SourceForge laadt (maar de broncode is niet up-to-date).
+
+Een grondige herziening van de bestaande code is tussen 2013 en 2014 door Kohta Ozaki en mijzelf gedaan, en werd vervolgens geleidelijk voortgezet in 2015. Dit maakte het mogelijk om het programma over te zetten naar Android-platforms, wat mogelijk werd gemaakt door de bijdrage van andere mensen, in het bijzonder Dante Loi. Vele andere personen hebben op dat moment een handje geholpen. Het werk aan Android loopt helaas sinds 2016 vast, ondanks dat de port succesvol was en een pre-release bèta klaar en gedistribueerd was.
+
+Als u de gemeenschap wilt helpen met FidoCadJ, maakt u geen zorgen: u hoeft geen ervaren Java-programmeur te zijn. U kunt bijvoorbeeld de gebruikersinterface of de handleidingen in een nieuwe taal vertalen, de documentatie zorgvuldig controleren op inconsistenties, typefouten en fouten. FidoCadJ is momenteel beschikbaar in het Italiaans\index{Italiaans}, Frans\index{Frans}, Engels\index{Engels}, Spaans\index{Spaans}, Duits\index{Duits}, Chinees\index{Chinees}, Japans\index{Japans}, Grieks\index{Grieks}, Tsjechisch\index{Tsjechisch} en Nederlands\index{Nederlands}. Sommige vertalingen zijn mogelijk niet meer up-to-date en vereisen enig werk van de gemeenschap. Zoek tussen de problemen op GitHub (met de tag ``translation'') om te zien wat er nodig is. Het is vrij eenvoudig om menu's en commando's te vertalen, dus als u FidoCadJ in uw moedertaal wilt zien, maak dan een nieuw ``issue'' aan op GitHub!
+
+Er is ook werk aan de winkel om de bibliotheken (tenminste de standaard) en natuurlijk deze handleiding te controleren. 
+U kunt ook aan de standaardbibliotheek\dots\ werken. Ik ben van mening dat slechts de helft van de tijd die ik aan FidoCadJ besteed in werkelijkheid besteed is aan de codering zelf. De rest wordt besteed aan het beantwoorden van vragen van gebruikers, het schrijven en verbeteren van de documentatie en dergelijke. Op GitHub\index{GitHub} kunt u deelnemen aan de discussies, verbeteringen voorstellen of een bugrapport geven. Aarzel niet om deel te nemen:
+
+\href{https://github.com/DarwinNE/FidoCadJ}{https://github.com/DarwinNE/FidoCadJ}
+
+\section{FidoCadJ en de toekomst} \index{FidoCadJ en de toekomst}
+
+In april 2010 stuitte ik bijna per ongeluk op een thread op een bekende Italiaanse website \href{http://www.electroyou.it}{www.electroyou.it}. Piercarlo Boletti stelde daar voor om een schematisch opname hulpmiddel rechtstreeks in het forum te integreren, aangezien iets soortgelijks al is gedaan met \LaTeX\index{LaTeX@\LaTeX}-vergelijkingen. Omdat FidoCadJ werd geciteerd in zijn tussenkomst, heb ik een account aangemaakt om in het forum te kunnen schrijven en heb ik aangeboden om samen te werken. Ik heb een paar dagen contact gehad met de zeer aardige webmaster en het systeem was klaar: een simpel kopi\"{e}ren en plakken van de FidoCadJ-code en een paar tags. Het forum draait automatisch FidoCadJ op zijn servers en maakt direct een afbeelding uit de code. Deze afbeelding wordt dan getoond in de forumpost, maar de broncode blijft altijd beschikbaar. Op deze manier hoeft degene die de discussie leest niets te hebben ge\"{i}nstalleerd, maar als men iets wil veranderen, kan de code met een paar klikken worden verkregen.
+
+Figuur~\ref{fig_discussione_electroyou} toont een deel van een van mijn berichten op  \href{http://www.electroyou.it}{www.electroyou.it}. Dit systeem is zo krachtig en flexibel dat ik de eerste was die verbaasd was over het enthousiasme van de gebruikers! \footnote{Als je Italiaans kunt lezen, hier is een artikel dat ik heb geschreven:\\ \href{http://www.electroyou.it/darwinne/wiki/fidocadj}{http://www.electroyou.it/darwinne/wiki/fidocadj}} 
+
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{discussione_electroyou.png}
+	\caption{Deel van een van mijn berichten op \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it}.
+	Met slechts \'{e}\'{e}n klik zoomt u in op het schema. Met een tweede kunt u onmiddellijk de broncode verkrijgen die u op FidoCadJ kunt plakken om deze te wijzigen.}
+	\label{fig_discussione_electroyou}
+\end{figure}
+\pagebreak
+FidoCadJ is ook nuttig gebleken voor tekeningen die niet direct met elektronica te maken hebben (zie bijlagen \ref{chap_fidocadj_other_uses} en \ref{chap_fidocadj_art} om te zien wat ik bedoel).
+
+Het succes dat FidoCadJ had op \href{http://www.electroyou.it}{www.electroyou.it}\index{www.electroyou.it} stimuleerde enkele verzoeken om een soortgelijk systeem op andere platforms te implementeren, en in het bijzonder op \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, een andere bekende Italiaanse elektronicawebsite. FidoCadJ wordt ook gebruikt door de \href{http://www.matematicamente.it/forum/viewtopic.php?f=38&t=121249}{Matematicamente}\index{Matematicamente} gemeenschap. 
+In het geval van \href{http://www.grix.it}{www.grix.it}\index{www.grix.it}, kon de server geen Java-programma uitvoeren en daarom is de FidoReadPHP-klasse geschreven. Het kan worden uitgevoerd op een PHP-interpreter om de afbeeldingen van de FidoCadJ-broncode te verkrijgen. Het FidoReadPHP-project is open source en is beschikbaar op SourceForge:
+
+\href{https://sourceforge.net/projects/fidoreadphp/}{https://sourceforge.net/projects/fidoreadphp/}
+
+maar het wordt momenteel helaas niet actief onderhouden. Het resultaat is enigszins vergelijkbaar met wat het is verkregen op  \href{http://www.electroyou.it}{www.electroyou.it}, zelfs als de grafische mogelijkheden van PHP vrij beperkt zijn met betrekking tot Java\footnote{Nogmaals, als je Italiaans kunt lezen, hier is een artikel:\\
+\href{http://www.grix.it/viewer.php?page=9335}{http://www.grix.it/viewer.php?page=9335}}.
+Figure~\ref{fig_fidocadj_grix3} toont een voorbeeld van een tekening verkregen met FidoReadPHP.
+
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{fidocadj_grix3.png}
+	\caption{Een voorbeeld van een FidoCadJ-tekening ge\"{i}ntegreerd in een \href{http://www.grix.it}{www.grix.it}\index{www.grix.it} forumbericht. U kunt de broncode van de tekening met slechts \'{e}\'{e}n klik opvragen.}
+	\label{fig_fidocadj_grix3}
+\end{figure}
+
+Ik denk dat de toekomst van FidoCadJ niet complexer zal worden, als een complete CAD voor elektronica. In plaats daarvan verdient de integratie met discussiegroepen en forums te worden ontwikkeld. De ervaring leert dat dit mogelijk is en het enthousiasme van de gebruikers prikkelt.
+
+\chapter{Tekenen met FidoCadJ} \index{Tekenen met FidoCadJ}
+
+Het gebruik van FidoCadJ zou vrij intu\"{i}tief moeten zijn voor wie al een vector tekening programma\index{vector tekening} gebruikt. Een schermafbeelding van het programma dat draait op macOS\index{macOS} wordt getoond in Fig.~\ref{fig_fidocadj};\marginpar{Expert Mac-gebruikers zullen merken dat alle menu's op hun eigen plaats staan!} Een paar details kunnen anders zijn bij gebruik op andere besturingssystemen (bijvoorbeeld Fig.~\ref{fig_fidocadj_metal_nl} toont het resultaat met aanzien en beleving Metal\index{Raspberry Pi 400} op een Raspberry Pi 400\index{Raspberry Pi 400}), maar de filosofie blijft hetzelfde. We zullen de kenmerken van het programma beschrijven, evenals de basiselementen (de primitieven)\index{primitief}, waaruit een FidoCadJ-tekening bestaat.
+Onderstaand een afbeelding met daarin de drie werkbalken en hoe deze worden aangegeven in FidoCadJ.
+%
+\begin{figure}[h]
+	\includegraphics[width=1.00 \textwidth]{topbars-nl3.png}
+	\caption{De drie menu balken van FidoCadJ 0.24.8\index{menu balken}.}
+	\label{fig_bars}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=1.00 \textwidth]{fidocadj_macosx.png}
+	\caption{Een FidoCadJ 0.24.8 sessie dat draait op een macOS 10.13 High Sierra\index{macOS}.
+	Appendix~\ref{specifics} beschrijft de eigenaardigheden van de versie voor Macintosh-computers\index{Macintosh}.}
+	\label{fig_fidocadj}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=1.00\textwidth]{fidocadj_metal_nl.png}
+	\caption{Een FidoCadJ 0.24.8 sessie dat draait op een Raspberry Pi met aanzien en beleving Metal\index{Raspberry Pi 400}.}
+	\label{fig_fidocadj_metal_nl}
+\end{figure}
+
+\section{Teken hulpmiddelen} \index{Teken hulpmiddelen}
+
+In de gereedschapbalk\index{gereedschapbalk} bovenaan het venster kunnen we de meest gebruikte functies vinden voor het maken en bewerken van een tekening. Table~\ref{tab_comandi} toont een korte samenvatting van de functionaliteiten, de opdrachten en de mogelijke acties. U zult merken dat als een knop in de gereedschapsbalk eenmaal is ingedrukt, deze op die positie blijft totdat een andere functie van de gereedschapsbalk wordt geselecteerd.\marginpar{Dit gedrag in gebruikersinterfaces wordt meestal ``drukknoppen'' genoemd en is ge\"{i}nspireerd op de oude buizenradio's en de schakelaars die tot 1970 in de mode waren.} In de gereedschapbalk kunnen we selecteren welk tekening element\index{element} zal worden gebruikt\footnote{Voor meer informatie over de tekenelementen, zie ~\ref{sec_primitive}.%
+}. In de Werkvlakbalk\index{Werkvlakbalk} wordt rechts de huidige werklaag getoond.(zie ~\ref{sec_layer} voor meer informatie).
+
+De gereedschapbalk\index{gereedschapbalk} kan gedeeltelijk worden aangepast. We kunnen kiezen tussen alleen pictogrammen of pictogrammen met een omschrijving. De pictogrammen zijn in twee formaten beschikbaar. Om deze instellingen te wijzigen kunt u in de menubalk\index{menubalk} het menu ``Bestand/Opties'' selecteren \footnote{Behalve op macOS waar dit item in het menu van FidoCadJ te vinden is onder de aanduiding ``Voorkeuren''.}. Dergelijke wijzigingen in de instellingen worden pas van kracht na een herstart van FidoCadJ omdat het niet denkbaar is dat we deze instellingen elke dag willen veranderen. Figuren \ref{fig_fidocadj} en \ref{fig_fidocadj_metal_nl} tonen de gereedschapbalk\index{gereedschapbalk} geconfigureerd om geen tekst en pictogrammen in hun normale omvang weer te geven. In de Werkvlakbalk\index{Werkvlakbalk} kunnen we de zoominstellingen zien en de knoppen ``Passend'', ``Toon raster'', ``Snap to grid'' en ``Libs''. De eerste maakt het mogelijk om automatisch de meest geschikte zoominstellingen te selecteren om de hele tekening op het scherm te tonen. De tweede schakelt tussen een zichtbaar en onzichtbaar raster. De derde knop regelt het snappen, d.w.z. de automatische uitlijning van elementen op het raster. Met de laatste kan de zichtbaarheid van het bibliotheekpaneel aan de rechterkant van het venster worden gewijzigd. Als u de elementen zorgvuldig moet uitlijnen, kan het handig zijn om \keyevidence{Alt} ingedrukt te houden terwijl u de cursortoetsen gebruikt: de geselecteerde objecten worden als \'{e}\'{e}n geheel in de gewenste richting verplaatst.
+
+%
+\begin{table} \index{Samenvatting tekenopdrachten}
+	\captionsetup{width=1.1\textwidth,margin={0cm,-2cm}}
+	\caption{Samenvatting van de tekenopdrachten die beschikbaar zijn in FidoCadJ. De toets die in de meest linkse kolom wordt weergegeven, maakt een snelle selectie met het toetsenbord mogelijk. Klik met de rechtermuisknop in een van de primitieve plaatsingsmodi om toegang te krijgen tot de eigenschappen ervan.}
+	\label{tab_comandi}
+	\hspace{\textwidth}
+	\centering 
+	\begin{tabular}{clp{0.6\textwidth}}
+		\toprule Toets & Opdracht  & Gebruik\tabularnewline
+		\midrule
+		\keyevidence{A},\keyevidence{ESC} of \newline \keyevidence{spatie}  & \raisebox{-.2em}{\includegraphics[width=1em]{icons/arrow}}
+		\textsc{Select}\index{selectie}  & Selecteer een of meer grafische elementen. Gebruik \keyevidence{Control}
+		(\keyevidence{Command} in macOS) voor meerdere selecties of om slechts \'{e}\'{e}n element te deselecteren. Klik en sleep om meerdere elementen in een gebied te selecteren. Gebruik \keyevidence{R} om de geselecteerde elementen te roteren. Gebruik \keyevidence{S} om de geselecteerde elementen te spiegelen. Dubbelklik op een element om de eigenschappen ervan te wijzigen.
+		\tabularnewline
+		& \raisebox{-.2em}{\includegraphics[width=1em,]{icons/magnifier}}
+		\textsc{Zoom}\index{zoom}  & Klik met de linkermuisknop om het zoomniveau te vergroten. Klik met de rechtermuisknop om het te verkleinen. \tabularnewline
+		& \raisebox{-.2em}{\includegraphics[width=1em,]{icons/move}}
+		\textsc{Verschuiven}\index{verschuiven}  & Klik op de tekening en beweeg de muis om de tekening te verplaatsen. \tabularnewline
+		\keyevidence{L}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/line}}
+		\textsc{Lijn}\index{lijn}  & Voeg een lijn of een reeks lijnen in. Druk op \keyevidence{Esc} of dubbelklik om het invoegen te be\"{e}indigen.
+		\tabularnewline
+		\keyevidence{T}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/text}}
+		\textsc{Tekst}\index{tekst}  & Voeg een tekenreeks in.\tabularnewline
+		\keyevidence{B}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/bezier}}
+		\textsc{B\'{e}zier}\index{B\'{e}zier}  & Teken een B\'{e}zier-curve\tabularnewline
+		\keyevidence{P}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/polygon}}
+		\textsc{Veelhoek}\index{veelhoek}  & Teken een veelhoek curve gevuld of leeg. Dubbelklik of druk op \keyevidence{Esc}, om het invoegen van nieuwe hoekpunten te be\"{e}indigen.\tabularnewline
+		\keyevidence{K} & \raisebox{-.2em}{\includegraphics[width=1em]{icons/complexcurve}} 
+		\textsc{Kromme}\index{kromme} & Open of gesloten natuurlijke kromme curve. Dubbelklik of druk op \keyevidence{Esc} om het invoegen van nieuwe hoekpunten te be\"{e}indigen.\tabularnewline
+		\keyevidence{E}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/ellipse}}
+		\textsc{Ellips}\index{ellips}  & Teken een ellips gevuld of leeg (houd \keyevidence{Control} of \keyevidence{Command} in macOS ingedrukt voor een cirkel). \tabularnewline
+		\keyevidence{G}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/rectangle}}
+		\textsc{Rechthoek.}\index{rechthoek}  & Teken een rechthoek gevuld of leeg (houd \keyevidence{Control} of \keyevidence{Command} in macOS ingedrukt voor een vierkant). \tabularnewline
+		\keyevidence{C}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/connection}}
+		\textsc{Connectie}\index{connectie}  & Plaats een elektrische verbinding.\tabularnewline
+		\keyevidence{I}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbline}}
+		\textsc{PCB spoor}\index{PCB spoor}  & Teken een PCB-spoor. De standaardbreedte kan worden gewijzigd via het dialoogvenster dat toegankelijk is via het menu ``Bestand/Opties''. \tabularnewline
+		\keyevidence{Z}  & \raisebox{-.2em}{\includegraphics[width=1em,]{icons/pcbpad}}
+		\textsc{PCB oog}\index{PCB oog@\textsc{PCB }oog}  & Tekent een PCB-oog. De standaardgrootte kan worden gewijzigd via het menu ``Bestand/Opties''. \tabularnewline
+		\bottomrule  &  & \tabularnewline
+	\end{tabular}
+\end{table}
+
+Aan de rechterkant van het hoofdvenster van FidoCadJ worden de symbolen \index{macro} (ook wel macro's genoemd) weergegeven in de geladen bibliotheken, weergegeven als een boom. Om een element uit de bibliotheek in de tekening in te voegen, selecteert u het in de lijst en klikt u op de tekening. FidoCAD\index{FidoCAD}-bibliotheken bevatten alle standaardsymbolen die worden gebruikt in elektrische schema's\index{elektrisch schema} en een brede selectie van footprints\index{PCB!footprint} voor het tekenen van PCB's. 
+
+U kunt ook snel zoeken\index{Snel zoeken} in de bibliotheken. Typ gewoon iets in het tekstveld dat net boven de bibliotheekstructuur verschijnt (kijk naar figuur~\ref{fig_ricerca}). U kunt door de resultaten navigeren door return te typen.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.4\textwidth]{ricerca}
+	\caption{De snelzoekfunctie voor de ge\"{i}nstalleerde bibliotheken.}
+	\label{fig_ricerca}
+\end{figure}
+%
+\begin{figure}
+	\centering \includegraphics[width=0.7\textwidth,]{param_testo_nl}
+	\caption{Dialoogvenster voor de parameters van een symbool in een FidoCadJ-tekening. Het besturingssysteem is Raspberry Pi OS, in het Nederlands. Druk op de knop linksonder om symbolen in te voeren of hints te krijgen.}
+	\label{fig_param_testo}
+\end{figure}
+
+Figure~\ref{fig_param_testo} toont een voorbeeld van wat kan worden verkregen door te dubbelklikken, in selectiemodus\index{selectie}, op een tekenelement (in dit geval een transistor symbool). Binnen dit venster is het mogelijk om alle parameters (coördinaten, rotatie\dots) van elk tekenelement te wijzigen. Het aspect van dit venster is afhankelijk van het geselecteerde element.
+
+\section{Een eenvoudig schema} \index{Een eenvoudig schema}
+
+Als voorbeeld van het gebruik van deze applicatie laten we zien hoe u het eenvoudige elektrische schema van de figuur kunt tekenen~\ref{fig_schema}. %
+\begin{figure}[h]
+	\centering %\includegraphics[width=.5\textwidth]{schema}
+	\input{images/schema.pgf}
+	\caption{Het referentieschema: stroomspiegel gemaakt met NPN-transistors.}
+	\label{fig_schema}
+\end{figure}
+
+\begin{table}[h]
+Zodra FidoCadJ draait, maakt u een nieuwe tekening via de menubalk\index{menubalk} en menu ``Bestand/Nieuw''. We beginnen dan met het plaatsen van de twee transistors in het Werkvlak\index{transistor} waaromheen ons schema is opgebouwd. Om dit te doen hebben we de symbolen (ook wel macro's genoemd) nodig die in de standaardbibliotheek\index{standaardbibliotheek} staan en standaard wordt geladen. De bibliotheek bevindt zich aan de rechterkant van het venster. Het symbool dat we gebruiken wordt ``NPN-transistor'' genoemd en is opgenomen in de categorie ``Diodes en transistors'' van de ``Standaardbibliotheek''. Door op de naam van het gewenste symbool te klikken\index{symbool} wordt het symbool geselecteerd en kan vervolgens overal in de tekening geplaatst worden (FidoCadJ toont een voorbeeld) door een tweede keer op de gewenste locatie te klikken. We zouden nu in een stadium moeten zijn dat vergelijkbaar is met dat in de figuur~\ref{fig_fidocadj_fase1}.
+\end{table}
+%
+\begin{figure}
+	\includegraphics[width=1\textwidth,]{fidocadj_fase1_nl}		
+	\caption{We beginnen met het tekenen van een paar transistors.}
+	\label{fig_fidocadj_fase1}
+\end{figure}
+%
+\begin{table}
+We kunnen opmerken dat de bipolaire transistor aan de linkerkant niet correct is geori\"{e}nteerd. Om het probleem op te lossen volstaat het om in de werkbalk op ``Selectie'' te klikken, vervolgens op de transistor te klikken (die groen wordt gemarkeerd, met een controlepunt\index{controlepunt} ge\"{i}dentificeerd door een klein rood vierkantje) en druk vervolgens op \keyevidence{S} om een gespiegelde versie te verkrijgen. U kunt ook op \keyevidence{S} drukken als u het symbool in de bibliotheken heeft geselecteerd en u het in de tekening gaat plaatsen. We krijgen dus een resultaat dat vergelijkbaar is met het resultaat dat in de figuur~\ref{fig_fidocadj_fase2} wordt weergegeven.
+\end{table}
+%
+\begin{figure}
+	\includegraphics[width=1\textwidth,]{fidocadj_fase2_nl}
+	\caption{Selecteer en spiegel de transistor aan de linkerkant door te drukken op \keyevidence{S}.}
+	\label{fig_fidocadj_fase2}
+\end{figure}
+%
+\begin{table}
+Door het gereedschap ``Lijn'' van de gereedschapbalk\index{gereedschapbalk} te gebruiken, kunnen we een paar elektrische verbindingen tekenen, totdat we ons realiseren dat we met tekenen te dicht bij de randen van het Werkvlak begonnen zijn. Dit kan eenvoudig worden opgelost door de hele tekening te selecteren: in de modus ``Selecteren'' kunnen we op de linkerbovenhoek van de tekening klikken en, terwijl we de linkermuisknop ingedrukt houden, de cursor naar de rechteronderhoek slepen . Er verschijnt een rechthoek met een groene contour om aan te geven dat we alle elementen erin proberen te selecteren. Omdat we alles willen verplaatsen wat we tot nu toe hebben getekend, moeten we ze eerst allemaal selecteren (zie figuur~\ref{fig_fidocadj_fase3}). Nu, nog steeds in de selectiemodus, kunnen we op elk geselecteerd element klikken om de gehele selectie naar de gewenste positie te slepen.
+\end{table}
+%
+\begin{figure}
+	\includegraphics[width=1\textwidth,]{fidocadj_fase3_nl}
+	\caption{We zijn te dicht bij de bovenrand van het blad: selecteer de hele tekening en verplaats deze naar het midden.}
+	\label{fig_fidocadj_fase3}
+\end{figure}
+%
+\begin{table}
+We kunnen dan doorgaan met het plaatsen van de andere delen van de schakeling, een weerstand \index{weerstand} (Standard Library/Discrete devices/Resistor) en het label voor de positieve voeding (Standard Library/Basic symbols/ Terminal +). We moeten de laatste draaien om in de gewenste positie te plaatsen. We kunnen het selecteren en op toets  \keyevidence{R} drukken totdat we het gewenste resultaat hebben verkregen. We zouden nu een tekening moeten hebben die lijkt op die in de figuur~\ref{fig_fidocadj_fase4}.
+\end{table}
+%
+\begin{figure}
+	\includegraphics[width=1\textwidth,]{fidocadj_fase4_nl}
+	\caption{Het circuit is bijna voltooid.}	
+	\label{fig_fidocadj_fase4}
+\end{figure}
+%
+\begin{table}
+Om het schema compleet te maken hoeven we alleen de tekstreeksen en de pijl toe te voegen om de richting van de stroom aan te geven. Voor dat laatste is er een symbool genaamd ``Arrow'', opgenomen in ``Standard library/Basic symbols''. Om de tekst te plaatsen, kunnen we dubbelklikken op het symbool (zie figuur~\ref{fig_param_testo}). Het onderdeelnummer en de gebruikte naam van de transistoren worden gespecificeerd in de velden ``Naam'' en ``Waarde''. De functie waarmee een naam en een waarde aan een element kunnen worden toegevoegd, is een extensie die is ge\"{i}ntroduceerd met FidoCadJ \index{FidoCadJ-extensie}. Zie sectie~\ref{FCJ_extension} voor meer informatie over compatibiliteit. De tekstafmeting is 4 units verticaal en 3 units horizontaal. Het volledige circuit wordt getoond in figuur~\ref{fig_fidocadj_fase5}.
+\end{table}
+%(in ons voorbeeld is het eigenlijk een transistor-matched pair)
+%, niet aanwezig in de originele FidoCAD\index{FidoCAD}
+\begin{figure}
+	\includegraphics[width=1\textwidth,]{fidocadj_fase5_nl}
+	\caption{Het complete circuit.}
+	\label{fig_fidocadj_fase5}
+\end{figure}
+%
+\pagebreak
+Als curiositeit, de code \index{code} die het circuit van ons voorbeeld beschrijft staat hierboven. Om toegang te krijgen tot deze code volstaat het om ``Broncode'' te selecteren in het menu ``Circuit''. We zijn nu klaar om ons circuit te kopi\"{e}ren en te plakken in een e-mailbericht\index{e-mail}, in een nieuwsgroep\index{nieuwsgroep} of in een forum\index{forum} bericht.
+
+\begin{table}
+	\caption{Deze code beschrijft het circuit uit ons voorbeeld.}
+\begin{lstlisting}
+[FIDOCAD]
+MC 95 65 0 0 280
+FCJ
+TY 115 60 4 3 0 0 0 * Q1B
+TY 115 65 4 3 0 0 0 * LM394
+MC 55 65 0 1 280
+FCJ
+TY 20 60 4 3 0 0 0 * Q1A
+TY 20 65 4 3 0 0 0 * LM394
+LI 55 65 95 65 0
+LI 40 75 40 95 0
+LI 110 75 110 95 0
+LI 40 40 40 55 0
+MC 40 30 0 0 115
+LI 40 15 40 30 0
+LI 30 15 40 15 0
+MC 30 15 2 0 010
+LI 40 50 60 50 0
+LI 60 50 60 65 0
+SA 60 65 0
+SA 40 50 0
+LI 110 45 110 55 0
+LI 110 35 110 40 0
+LI 110 25 110 30 0
+MC 40 95 0 0 040
+MC 110 95 0 0 040
+TY 45 30 4 3 0 0 0 * 10 k
+TY 115 50 4 3 0 0 0 * I
+MC 110 50 1 0 074
+\end{lstlisting}
+\end{table}
+Als u ge\"{i}nteresseerd bent in het exportformaat dat door FidoCadJ wordt gebruikt, dan vindt u een gedetailleerde beschrijving in hoofdstuk~\ref{chap_formato}. Het is echter niet nodig om uit het dialoogvenster ``Broncode'' te gebruiken; je kunt gewoon de hele tekening selecteren, kopi\"{e}ren (door ``Bewerken/Kopi\"{e}ren'' te selecteren of door op \keyevidence{Ctrl+C} te drukken) en plakken in het bericht dat we aan het schrijven zijn en de code wordt automatisch toegevoegd\index{code}. FidoCadJ past meestal een diagonale shift\index{diagonale shift} toe op de gekopieerde elementen; de $x$ en $y$ breedte en hoogte zijn gelijk aan de rasterafstand. Het standaardgedrag is om zo te werk te gaan, om de geplakte elementen te onderscheiden van de originele. Aangezien dit in sommige situaties problematisch kan zijn, kan deze instelling worden gewijzigd in de programmaopties.
+\vfill
+
+\pagebreak
+\pagebreak
+
+\section{De lagen} \index{De lagen}
+\label{sec_layer} Een manier om lagen\index{laag} voor te stellen, is door te denken aan een tekening gemaakt van bovenop elkaar liggende acetaatfolie vellen. Elke laag wordt gekenmerkt door een andere kleur en kan zichtbaar of verborgen zijn. Deze aanpak is gebruikelijk in veel CAD\index{CAD}-pakketten, omdat het een eenvoudige weergave en beheer mogelijk maakt van verschillende delen van de tekening die over elkaar zijn geplaatst, bijvoorbeeld in een printplaatontwerp\index{printplaat}. FidoCadJ staat maximaal 16 lagen toe, genummerd van 0 tot 15. Conventioneel hebben sommige lagen een specifiek doel. Laag nul wordt gewoonlijk gebruikt voor elektrische schema's\index{elektrisch schema}, laag 1 voor de kopersoldeerzijde\index{solderen}, laag 2 voor de kopercomponentenzijde en laag 3 voor de zeefdruk\index{zeefdruk} . De overige lagen hebben geen vooraf bepaald doel en kunnen vrij worden gebruikt. Naam en kleur\index{kleur} van elke laag kan worden opgegeven met behulp van de menubalk\index{menubalk} en het menu ``Bekijk/Lagen''\index{Bekijk/Lagen}. Vanuit hetzelfde menu kunnen we ook de lagen selecteren die we op het scherm willen zien of die we willen afdrukken. De volgorde van de lagen is belangrijk, omdat lagen met een lager nummer eerder worden getekend: elementen op opeenvolgende lagen bedekken de reeds getekende.
+
+\section{Het raster} \index{Het raster}
+De logische eenheid\index{logische eenheid} in FidoCadJ is 5 mils (127 micron) en ``halve eenheden'' zijn niet toegestaan, wat betekent dat de coördinaten van elk grafisch element gehele getallen moeten zijn. Dit maakt het mogelijk een resolutie\index{resolutie} te verkrijgen die voldoende fijn is om een elektrisch schema en de meeste printplaten te tekenen. Om het tekenen te vergemakkelijken, maakt de toepassing het echter mogelijk om een grover raster in te stellen en de muis te dwingen uit te lijnen met het dichtstbijzijnde punt van het raster\index{raster}. Om deze functionaliteit in te schakelen zijn er twee knoppen in de Werkvlakbalk\index{Werkvlakbalk}, ``Laat raster zien''\index{Laat raster zien} en ``Klem aan raster''\index{Klem aan raster}, die het mogelijk maken om te schakelen tussen zichtbaar/verborgen raster en de muiscursor op het raster te forceren of vrij te laten bewegen. De rasterstap kan worden gekozen via een dialoogvenster dat toegankelijk is via de menubalk\index{menubalk} en het menu ``Bestand/Opties tabblad Tekening''.
+
+\section{Een eenvoudige printplaat} \index{Een eenvoudige printplaat}
+\marginpar{Een paar krabbels gemaakt met papier en potlood (en veel gummen) resulteren in tijdwinst door een duidelijk idee te verkrijgen dat met behulp van de computer moet worden ontwikkeld.}
+
+Om te oefenen wat we tot nu toe hebben geleerd, zullen we zien hoe we een eenvoudige printplaat kunnen ontwerpen. In tegenstelling tot andere software voor elektronische CAD die erg krachtig maar soms behoorlijk moeilijk te beheren is, biedt FidoCadJ een elektronische versie van de goede oude R41-transfers\index{R41 transfers}, of de tape op mylar-vellen. Het werken op een computer maakt het natuurlijk mogelijk om te profiteren van alle flexibiliteit die de machine biedt.
+
+Opgemerkt moet worden dat het ontwerp van een printplaat\index{printplaat}, vooral als dit een complexe is, geen gemakkelijke taak is. De functies autoplacer\index{autoplacer} en autorouter\index{autorouter} beloven wonderen in de publiciteitsfolders van grote CAD-bedrijven, maar het lijdt geen twijfel dat dit nog steeds taken zijn waarbij de ervaring van de gebruiker nog steeds een belangrijke rol speelt. FidoCadJ vormt een zeer directe en snelle manier om kleine printplaten op doe-het-zelf-schaal te tekenen. Deze benadering is heel eenvoudig, maar als u een zeer complexe printplaat moet ontwerpen, dan is FidoCadJ NIET de tool voor u: gebruik dan bijvoorbeeld de uitstekende KiCad\index{KiCad}: de extra complexiteit is dan gerechtvaardigd. We zullen hier zien hoe je een heel eenvoudige, maar complete tekening kunt maken.
+%
+\begin{figure}
+	\centering \includegraphics[width=0.5\textwidth]{amplificateur}	
+	\caption{Een zeer eenvoudige versterkertrap die een NPN-transistor gebruikt die is aangesloten in een gemeenschappelijke emitterconfiguratie.}	
+	\label{fig_amplificateur}
+\end{figure}
+%fig2.12
+
+Ik zou willen voorstellen om te beginnen met een duidelijk idee van waar elk onderdeel moet worden geplaatst en hoe alle sporen moeten worden getekend zodat ze elkaar zo min mogelijk kruisen\index{kruisen van sporen}.\\
+
+Hier spelen we een beetje vals en gaan we uit van het resultaat dat we willen bereiken, zoals weergegeven in figuur~\ref{fig_amplificateur}. Het is een eenvoudige common-emitter versterker opgebouwd rond een NPN-transistor, type BC547 of vergelijkbaar. Het is handig om aan het bord te denken alsof het transparant was, door vanaf de kant van de componenten te kijken. Hiervoor is de zeefdruk\index{zeefdruk} met de onderdelentekening erg handig, al willen we die waarschijnlijk niet op het eigenlijke bord afdrukken voor een doe-het-zelf-project.\\
+
+Het eerste dat ik zou willen voorstellen, is om alle componenten zo goed mogelijk te plaatsen. In ons voorbeeld zijn dit de transistor (uit de bibliotheek ``PCB footprints/3 terminals semiconductors/TO92''), de weerstanden (``PCB footprints/Resistors/Resistor 1/4 W 0,4i resistor''), en de elektrolytische condensatoren (``PCB-footprints/Electrolytic capacitors/Vert. diam. 5 mm 2.5 mm pitch'').
+Om het bord af te bakenen, kan het handig zijn om een lege rechthoek op de zeefdruklaag te plaatsen (laag nr.~3). Om dit te doen kunnen we de \emph{rechthoek.} primitieve\index{rechthoek.} gebruiken om er zeker van te zijn dat we eerst de juiste laag hebben geselecteerd. We zouden een resultaat moeten krijgen dat lijkt op het resultaat in de afbeelding~\ref{fig_amplificateur_phase1}.\\
+\begin{figure}
+	\centering \includegraphics[width=1\textwidth]{amplificateur_phase1}		
+	\caption{De belangrijkste onderdelen worden op het bord geplaatst.}	
+	\label{fig_amplificateur_phase1}
+\end{figure}
+%fig2.13
+
+We kunnen dan de koperen gebieden introduceren die de positieve en negatieve voeding leveren. Deze worden gespecificeerd door een polygoon\index{polygoon} te tekenen (met behulp van de \emph{veelhoek} primitieve) en te dubbelklikken nabij de grens in selectiemodus\index{selectiemodus} om FidoCadJ te vertellen (via dialoogvenster) dat we een gevulde veelhoek willen hebben. Voordat u de polygoon plaatst, moet u ervoor zorgen dat de huidige laag\index{laag} degene is waar we het kopergebied in willen plaatsen (laag nr.~1 of koperkant). Het gebruik van een opgevuld gebied voor de voedingslijnen kan nuttig zijn om ervoor te zorgen dat deze verbindingen lage strooi-inducties hebben. We zouden het resultaat zoals in de figuur~\ref{fig_amplificateur_phase2} moeten kunnen reproduceren.
+\begin{figure}[h]
+	\centering \includegraphics[width=1\textwidth]{amplificateur_phase2}		
+	\caption{Voedingsaansluitingen toegevoegd met polygonale lijnen\index{polygoon}.}		
+	\label{fig_amplificateur_phase2}	
+\end{figure}
+%fig2.14
+Om de elektrische verbindingen te voltooien kunnen we de \emph{PCB Spoor} primitieve\index{PCB Spoor} gebruiken. Ik koos voor een spoordikte van 10 eenheden (1,27~mm), wat het soldeerproces ten goede komt, zie figuur~ \ref{fig_amplificateur_phase3}. We realiseren ons dat we een paar connectoren nodig hebben: \'{e}\'{e}n voor de input, \'{e}\'{e}n voor de output en \'{e}\'{e}n voor de voeding. We kunnen de voetafdruk gebruiken die is ontworpen voor een polyester condensator. Het heeft waarschijnlijk de juiste afmetingen. Laten we niet vergeten dat FidoCadJ wordt beschouwd als een vervanging voor de
+transfers\index{R41 transfers}\dots
+ %fig2.15
+\begin{figure}[h]
+	\centering \includegraphics[width=0.95\textwidth]{amplificateur_phase3}		
+	\caption{De resterende verbindingen toegevoegd PCB-sporen\index{PCB Spoor}.}		
+	\label{fig_amplificateur_phase3}
+\end{figure}
+
+We kunnen ook een ``$+$'' en een ``$-$'' op de koperlaag plaatsen en parallel aan de voeding een keramische condensator plaatsen. \marginpar{Wees voorzichtig met de spoorbreedtes: iets dat op het scherm op een snelweg lijkt, zal waarschijnlijk een spoor zijn dat zo dun is dat het tijdens het solderen loskomt van het bord.} Laten we ook tekst op de bovenkant zetten. Om op de koperlaag te schrijven is na het selecteren van de juiste laag het ook nodig om alle teksten te spiegelen\index{teksten spiegelen}. Dit is eenvoudig te doen in het gebruikelijke eigenschappendialoogvenster dat toegankelijk is door te dubbelklikken op de tekenreeks die we willen wijzigen wanneer we in de selectiemodus zijn. Mogelijk moet u een beetje experimenteren voor de juiste grootte van de tekens. Om een idee te geven is het handig om een verhouding aan te houden van 3/4 tussen de horizontale en de verticale afmetingen van de tekens\index{teken afmetingen}. Figuur~\ref{fig_amplificateur_phase4} toont het verkregen resultaat met 11 eenheden voor de horizontale en 18 eenheden voor de verticale dimensie van de tekst.
+%fig2.16
+\begin{figure}[h]
+	\centering \includegraphics[width=1\textwidth]{amplificateur_phase4}	
+	\caption{De printplaat is bijna voltooid\index{printplaat}.}		
+	\label{fig_amplificateur_phase4}
+\end{figure}
+\vfill
+\pagebreak
+In dit stadium ontbreekt alleen de tekst met de naam van elk onderdeel, die op laag 3 (Componentenkant) kan worden geplaatst. Het programma met voltooide printplaat wordt getoond in figuur~\ref{fig_amplificateur_complet}.
+
+%2.17
+\begin{figure}
+	\centering \includegraphics[width=0.9\textwidth]{amplificateur_complet}
+	\caption{De klus geklaard met de zeefdruk.}	
+	\label{fig_amplificateur_complet}
+\end{figure}
+
+Zodra de tekening is voltooid, moeten we deze waarschijnlijk afdrukken\index{printen} op een transparant om het te gebruiken met een ontwikkelmachine\index{ontwikkelmachine} of om het te gebruiken met andere methoden zoals de ``Press\&Peel' '\index{Press&Peel@Press\&Peel} transfersystemen. Om dit te doen moeten we alle lagen die we niet willen printen onzichtbaar maken. Dit wordt gedaan vanuit het dialoogvenster dat toegankelijk is via de menubalk\index{menubalk} en het menu ``Bekijk/Lagen''. In ons geval is het voldoende om laag 3 met de componentenkant te verbergen. Het programma toont dan alleen de koperlaag.
+\vfill
+\pagebreak
+Vervolgens drukken we alles af wat op het scherm wordt weergegeven (uiteraard NIET aangepast aan de grootte van de pagina, aangezien we de afmetingen in de tekening willen hebben), waarbij we ervoor zorgen dat de zwart-wit afdruk wordt geselecteerd om het maximale contrast te garanderen. Het kan handig zijn om de hele tekening te spiegelen, afhankelijk van de gekozen techniek voor de productie van de printplaat\index{printplaat}. Aangezien onze printplaat vrij klein is, neemt hij in zijn werkelijke afmetingen slechts een klein hoekje van het blad in beslag (uitgaande van een standaard ISO-UNI A4\index{A4}), zoals we kunnen zien in figuur~\ref{fig_amplificateur_impression}.
+
+%
+\begin{figure}[t]
+	\centering \fbox{ \includegraphics[width=0.6\textwidth]{amplificateur_impression}}	
+	\caption{De printplaat, zoals deze wordt afgedrukt (gespiegeld) op een ISO-UNI A4-vel.}	
+	\label{fig_amplificateur_impression}
+\end{figure}
+
+
+\begin{table}
+	\caption{Deze code beschrijft de printplaat uit ons voorbeeld.}
+Ter informatie is hieronder de code gegenereerd voor de printplaat van het bovenstaande voorbeeld (pas op met lange regels!):
+	\begin{lstlisting}
+[FIDOCAD]
+TY 320 10 18 11 0 4 1 * Darwin Ampli Esempio 08
+TY 85 240 12 8 0 5 1 * +
+TY 44 239 12 8 0 5 1 * -
+PL 35 90 35 225 10 1
+PL 55 130 95 130 10 1
+PL 250 130 305 130 10 1
+PL 215 130 230 130 10 1
+PL 195 140 215 130 10 1
+PL 115 130 175 130 10 1
+MC 155 220 3 0 PCB.R01
+MC 75 80 0 0 PCB.R01
+MC 270 185 2 0 PCB.R01
+MC 270 80 2 0 PCB.R01
+MC 230 130 3 0 PCB.CE00
+MC 115 130 1 0 PCB.CE00
+MC 40 175 0 0 PCB.CC50
+PL 190 80 190 120 10 1
+PL 190 140 190 185 10 1
+PL 155 80 155 120 10 1
+PL 155 120 175 130 10 1
+PL 155 140 175 130 10 1
+PP 30 30 30 105 90 105 130 55 215 55 260 105 320 105 320 30 1
+PP 320 240 320 155 260 155 215 205 135 205 90 155 55 155 55 240 1
+MC 190 120 0 0 PCB.TO92
+MC 305 90 1 0 PCB.CPBX352
+MC 55 90 1 0 PCB.CPBX352
+MC 80 225 2 0 PCB.CPBX352
+TY 290 65 12 8 0 0 3 * Out
+TY 40 60 12 8 0 0 3 * In
+TY 95 225 12 8 0 0 3 * Alimentazione
+TY 70 190 12 8 0 0 3 * C3
+TY 230 95 12 8 0 0 3 * C2
+TY 115 150 12 8 0 0 3 * C1
+TY 120 170 12 8 0 0 3 * R4
+TY 220 200 12 8 0 0 3 * R3
+TY 230 55 12 8 0 0 3 * R2
+TY 100 55 12 8 0 0 3 * R1
+RV 30 5 320 255 3
+\end{lstlisting}
+\end{table}
+
+\vfill
+\pagebreak
+
+\section{De liniaal gebruiken}\index{De liniaal gebruiken}
+Bij het tekenen van een printplaat is het vaak handig om afstanden in het werkgebied te meten. U kunt bijvoorbeeld een spoorbreedte, de ruimte tussen twee sporen of de totale grootte van een print controleren. FidoCadJ biedt (sinds versie 0.23.2) een liniaalfunctie waarmee u deze taken gemakkelijk kunt uitvoeren. Gewoon met de rechtermuisknop klikken en slepen. Je zou een groene liniaal moeten krijgen, zoals die getoond in figuur~\ref{fig_fidocadj_righello}. Als rechtsklikken en slepen niet gemakkelijk werkt in uw systeem, kunt u ook linksklikken en slepen terwijl u op de \keyevidence{Shift} toets drukt.
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{fidocadj_righello}
+	\caption{Klik met de rechtermuisknop en sleep om de FidoCadJ-liniaal te activeren.}
+	\label{fig_fidocadj_righello}
+\end{figure}
+De totaal gemeten lengte wordt weergegeven in FidoCadJ logische eenheden\index{logische eenheid} en ook in millimeters. Dit is handig wanneer de tekening wordt afgedrukt in de 1:1-modus (zoals voor printplaten).
+
+\section{Pijl- en lijnstijlen} \index{Pijl- en lijnstijlen}
+Met FidoCadJ kunnen pijlpunten\index{pijlen} worden getekend aan het begin en aan het einde van lijnen, B\'{e}zier-curven en natuurlijke kromme curves. Het is mogelijk om te kiezen of de pijl aan het begin of aan het einde van een element (of beide) moet staan en geeft een keuze tussen verschillende pijlstijlen. Pijllengte kan negatief zijn: in dit geval steekt de pijl buiten de lijn of curve uit. Experimenteer gerust! Er zijn ook enkele lijnstijlen\index{lijnstijlen} beschikbaar, voor technische of mechanische tekeningen. Figuur~\ref{fig_gyrator} toont een voorbeeld waarin een elektrisch circuit (een GIC\index{GIG}) is ingesloten in een gestreepte rechthoek. er wordt ook een pijl aan het einde van een B\'{e}zier-curve gebruikt. Door op dit element te dubbelklikken, toont FidoCadJ een dialoogvenster zoals getoond in figuur~\ref{fig_parametri_bezier}. U ziet dat het keuzevak ``Pijl aan het begin'' is aangevinkt. FidoCadJ zorgt ervoor dat de pijlpunt correct wordt geori\"{e}nteerd. Er zijn verschillende tekenstijlen voor de pijl\index{pijlstijlen} en ook voor streepjes \index{streepjesstijlen}. Je kunt er een beetje mee proberen te spelen om hun verschillen te ontdekken. Als de pijllengte negatief is, strekt de pijl zich uit buiten de lengte van het element en wijst ernaar.
+
+\begin{figure}
+	\includegraphics[width=0.9\textwidth]{gyrator}
+	\caption{Een elektrische tekening (een GIC van Antoniou) waarin enkele FidoCadJ-extensies zijn gebruikt.}
+	\label{fig_gyrator}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{parametri_bezier_nl}
+	\caption{Het parametervenster van de getoonde B\'{e}zier-curve gebruikt in de schema's van figuur~\ref{fig_gyrator}.}
+	\label{fig_parametri_bezier}
+\end{figure}
+De mogelijkheid om een streepjes stijl te kiezen en pijlpunten te plaatsen was niet aanwezig in het originele FidoCAD-formaat. Dit betekent helaas dat FidoCadJ-tekeningen die deze functionaliteiten gebruiken niet volledig achterwaarts compatibel zijn met FidoCAD\index{FidoCAD} voor Windows. Als u volledige FidoCAD-compatibiliteit nodig heeft, kunt u de optie ``Strikte FidoCAD compatibiliteit'' activeren op het tabblad ``FidoCadJ extensies'' van het venster ``FidoCadJ-voorkeuren''. Op deze manier staat het programma u niet toe om grafische elementen in te voeren die compatibiliteitsproblemen zouden geven met FidoCAD. Als je meer informatie nodig hebt over de compatibiliteit van de nieuwe grafische elementen met FidoCAD\index{FidoCAD}, kijk dan in de sectie~\ref{FCJ_extension}.
+\vfill
+\pagebreak
+
+\section{Exporteren} \index{Exporteren}
+
+Een van de belangrijkste dingen aan FidoCadJ voor mij is de mogelijkheid om eenvoudige schema's te maken voor typografisch gebruik. Om deze reden heb ik een functie ge\"{i}ntroduceerd die de export\index{export} van tekeningen via een aantal verschillende bestandsindelingen mogelijk maakt. Om de huidige tekening te exporteren, selecteert u in de menubalk\index{menubalk} uit het menu ``Bestand'' de opdracht ``Exporteren''. De tabel~\ref{tab_esportazione} toont een lijst met momenteel beschikbare grafische bestandsindelingen. \marginpar{Een vectorformaat\index{vectorformaat} slaat de elementen op waaruit de tekening bestaat. Een bitmapformaat\index{bitmapformaat} werkt op een matrix van pixels.} Voor elk bestandsformaat geeft de tabel (maar ook het exportdialoogvenster in FidoCadJ) aan of het vector- of bitmap\footnote{De codestructuur van FidoCadJ staat de toevoeging van een ander bestandsformaat vrij eenvoudig toe. Neem contact met me op als je wilt deelnemen aan het project.}. 
+Voor de bitmap bestandsformaten kan het handig zijn om de optie ``Anti-aliasing'' in te schakelen, om het vervelende effect van de kwantisatie, vooral zichtbaar op diagonale lijnen, te verminderen. De resolutie en de ``Anti-aliasing''-opties worden niet gebruikt bij het exporteren naar een vectorbestandsindeling. In dit geval kunt u in plaats daarvan een schaalfactor opgeven.
+Met de optie ``Zwart/Wit'' kan elke zichtbare laag in effen zwart worden afgedrukt. Dit is belangrijk voor de voorbereiding van films voor typografische doeleinden of een ontwikkelmachine.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\textwidth]{exporteer-nl}
+	\caption{Het exporteer naar afbeelding instel menu.}
+\end{figure}
+
+%
+\begin{table} \index{Lijst met exportbestandsindelingen}
+	
+	\centering 
+	\caption{Lijst met alle exportbestandsindelingen die beschikbaar zijn in FidoCadJ.}	
+	\label{tab_esportazione}
+	\hspace{\textwidth}
+	\begin{tabular}{lp{0.7\textwidth}}
+		\toprule Formaat  & Opmerking\tabularnewline
+		\midrule \textsc{jpg}\index{JPG}  & Alomtegenwoordig bitmapformaat. De gebruikte compressie is lossy\index{compressie met verlies}, daarom is het niet perfect voor het exporteren van FidoCadJ-schema's, omdat het enkele zichtbare artefacten kan opleveren. \tabularnewline
+		\textsc{png}\index{PNG}  & Gecomprimeerd bitmapformaat, geschikt voor het exporteren van schema's. Dit is waarschijnlijk de beste manier om een FidoCadJ-tekening te exporteren wanneer een vectorindeling niet kan worden gebruikt. \tabularnewline
+		\textsc{svg}\index{SVG}  & W3C standaard vectorformaat. Internetbrowsers kunnen het binnen een webpagina weergeven. Zeer goed formaat voor afbeeldingen en schema's, het kan worden gebruikt met toepassingen zoals Inkscape\index{Inkscape}, om de tekeningen gemaakt met FidoCadJ te wijzigen. Er zijn enkele beperkingen bij het exporteren van geroteerde en gespiegelde tekst. \tabularnewline
+		\textsc{eps}\index{EPS}  & Ingekapseld Postscript-vectorformaat\index{Postscript}. Gebruikt op 
+		professionele grafische toepassingen, handig voor het integreren van een FidoCadJ-tekening in een \LaTeX{}\index{\LaTeX{}@\LaTeX}-document. Dit is gebruikt om figuur~\ref{fig_amplificateur}, pagina~\pageref{fig_amplificateur} in deze handleiding te verkrijgen (via een \textsc{pdf}-conversie, 
+		aangezien ik \textsc{pdf}\LaTeX{}\index{\textsc{pdf}\LaTeX{}}  gebruik). \tabularnewline
+		\textsc{pdf}\index{PDF}  & De zeer bekende Portable Document File. Ge\"{e}xporteerde bestanden bevatten geen lettertypen, dus de weergave van tekst kan op sommige platforms enigszins worden gewijzigd.
+		%F1 - Courier
+		%F2 - Courier Bold
+		%F3 - Times Roman
+		%F4 - Times Bold
+		%F5 - Helvetica
+		%F6 - Helvetica Bold
+		%F7 - Symbol
+		%F8 - Symbol
+		\tabularnewline
+		\textsc{pgf}\index{PGF}  & Vectorformaat om direct te gebruiken in een \LaTeX{}\index{\LaTeX{}@\LaTeX}-document bij gebruik van het \textsl{pgf}-pakket, beschikbaar in het CTAN-archief. Dit is de gedachte exportoptie om schema's te exporteren naar bewerkbaar script. Tekstattributen worden niet vertaald. Dit maakt de introductie van \LaTeX{}\index{\LaTeX{}@\LaTeX}-code direct in de tekening mogelijk en dit is de techniek die in deze handleiding wordt gebruikt om Figuur~\ref{fig_schema}, pagina~\pageref{fig_schema} te verkrijgen. \tabularnewline
+		\textsc{scr}\index{SCR}  & Met FidoCadJ kan een tekening worden ge\"{e}xporteerd naar een script dat kan worden ge\"{i}mporteerd in CadSoft\index{CadSoft} Eagle\index{Eagle}. Om deze functie te gebruiken is het noodzakelijk om de bibliotheek \lstinline!FidoCadJLIB.lbr! in de map \lstinline!lbr! van de huidige installatie van Eagle te installeren. De bibliotheek kan worden gedownload van de website van FidoCadJ. Op het moment van schrijven werkt deze optie alleen met schema's die alleen de meest voorkomende symbolen bevatten. Sommige tekenelementen zoals pads en tracks zijn niet beschikbaar en worden niet ge\"{e}xporteerd.\tabularnewline
+		\bottomrule  & \tabularnewline
+	\end{tabular}
+\end{table}
+
+\pagebreak
+
+\section{Opdrachtregel opties} \index{Opdrachtregel opties}
+
+De applicatie wordt gedistribueerd als een bestand\lstinline!.jar!\index{jar}, 
+wat een Java-archief is.\footnote{Met uitzondering van de Macintosh\index{Macintosh}-versie, die een stand-alone applicatie is.}
+%
+In veel besturingssystemen zou het voldoende moeten zijn om op het bestand te dubbelklikken om de applicatie uit te voeren, vooropgesteld dat een recente versie van Java\index{Java} op de machine is ge\"{i}nstalleerd. In Oracle's\index{Oracle} terminologie, de zogenaamde JRE\index{JRE}, of de Java Runtime Environment, is alles wat nodig is om een in Java geschreven programma uit te voeren (maar niet om het te schrijven, in dat geval zou de SDK nodig zijn\dots). De minimale Java-versie die nodig is om FidoCadJ uit te voeren is versie 9 die al een paar jaar bestaat.\\
+
+In sommige gevallen kan het handig zijn om FidoCadJ uit te voeren vanaf een opdrachtregel (de terminal\index{terminal} in Unix\index{Unix}-systemen, of de MS-DOS\index{MS-DOS-prompt} Prompt in Windows\index{Windows}). Hiervoor volstaat het om het commando \lstinline!java! uit te voeren, met de optie \lstinline!-jar!:
+\begin{lstlisting}
+java -jar fidocadj-0.24.8.jar
+\end{lstlisting}
+
+Als een bestand is opgegeven in de opdrachtregel\index{opdrachtregel}, probeert FidoCadJ het te openen. Bijvoorbeeld (op een Unix\index{Unix}-machine):
+\begin{lstlisting}
+java -jar fidocadj-0.24.8.jar ~/FidoCadJ/test.fcd
+\end{lstlisting}
+
+FidoCadJ wordt uitgevoerd en probeert het bestand \lstinline!~/FidoCadJ/test.fcd! (mits deze bestaat). Er zijn nog enkele andere interessante dingen die FidoCadJ kan doen. Optie \lstinline!-h! toont een Engelstalige lijst van de FidoCadJ-opties: \lstset{language={},basicstyle=\scriptsize\ttfamily} \index{FidoCadJ-opties}
+
+\begin{lstlisting} 
+[davidebucci@davide-bucci-portable]$ java -jar fidocadj-0.24.8.jar -h
+
+Dit is FidoCadJ, versie 0.24.8.
+Door het FidoCadJ-team, 2007-2023.
+
+Gebruik: java -jar fidocadj-0.24.8.jar [-opties] [bestand]
+waarbij de opties zijn (vertaald):
+
+-n     Start de grafische gebruikersinterface niet (headless-modus)
+
+-d     Stel de externe bibliotheekdirectory in
+       Gebruik: -d dir
+       waarbij 'dir' het pad is van de map die u wilt gebruiken.
+
+-c     Converteer het opgegeven bestand naar een grafisch formaat.
+       Gebruik: -c sx sy eps|pdf|svg|png|jpg|fcd|sch uitgaand_bestand
+       Als u deze opdrachtregeloptie gebruikt, *moet* u een FidoCadJ-bestand 
+       specificeren om te converteren.
+       Een alternatief is om de resolutie in pixels per logische eenheid op 
+       te geven door deze vooraf te laten gaan door de letter 'r' (zonder 
+       spaties), in plaats van sx en sy op te geven.
+       OPMERKING: de juistheid van de bestandsextensie wordt gecontroleerd, 
+       tenzij de optie -f is opgegeven.
+
+-m     Als een bestand wordt geëxporteerd naar een vectorafbeeldings-
+       bestandsformaat, splitst u de lagen en schrijft u één bestand 
+       voor elke laag. De bestandsnaam wordt verkregen door _ gevolgd 
+       door het laagnummer toe te voegen aan de opgegeven bestandsnaam. 
+       Met de volgende opdracht worden bijvoorbeeld de bestanden 
+       test_0.svg, test_1.svg ... gemaakt van de tekening in test.fcd:
+
+       java -jar fidocadj.jar -n -m -c r2 svg test.svg test.fcd
+       
+       
+vervolg lijst van de FidoCadJ-opties       
+
+-s     Druk de grootte van het opgegeven bestand af in logische eenheden.
+
+-h     Druk deze hulp af en sluit af.
+
+-t     Druk de tijd af die FidoCadJ heeft gebruikt voor de opgegeven 
+       bewerking.
+
+-p     Activeer sommige platformafhankelijke optimalisaties niet. U kunt deze 
+       optie proberen als FidoCadJ vastloopt of tergend traag is.
+
+-l     Forceer FidoCadJ om een bepaalde landinstelling te gebruiken (de code
+       kan onmiddellijk volgen of worden gescheiden door een optionele 
+       spatie).
+
+-k     Toon de huidige landinstelling.
+
+-f     Forceer FidoCadJ om enkele gezondheidstests op de invoergegevens over
+       te slaan.
+
+[bestand] Het optionele (behalve als u de -d of -s opties gebruikt) FidoCadJ-
+bestand om te laden tijdens het opstarten.
+
+Voorbeeld: laad en converteer een FidoCadJ-tekening naar een png-bestand van 
+800x600 pixels zonder de GUI te gebruiken.
+   java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+
+Voorbeeld: laad en converteer een FidoCadJ-tekening naar een png-bestand 
+zonder gebruik te maken van de grafische gebruikersinterface (de zogenaamde 
+headless-modus). Elke logische eenheid van FidoCadJ wordt geconverteerd in 
+2 pixels op de afbeelding.
+   java -jar fidocadj.jar -n -c r2 png out2.png test2.fcd
+
+Voorbeeld: laad FidoCadJ en forceer de locale naar vereenvoudigd Chinees (zh).
+   java -jar fidocadj.jar -l zh
+
+
+[davidebucci@davide-bucci-portable]$
+\end{lstlisting}
+\lstset{language=FIDOCAD,
+	basicstyle=\small\ttfamily}
+
+De eenvoudigste optie is \lstinline!-n!, waarmee de software\dots\ niets doet, d.w.z. het activeert de GUI niet en sluit gewoon af. In dit geval is de Java-omgevingsvariabele \lstinline!java.awt.headless! ingesteld op ``waar''. Vanzelfsprekend is alleen deze optie niet zo nuttig, maar wel waardevol bij gebruik in combinatie met andere functionaliteiten die we gaan beschrijven. 
+Optie \lstinline!-d! maakt het mogelijk om de map te specificeren waarin FidoCadJ zoekt naar bibliotheken die bij het opstarten moeten worden geladen. 
+Optie \lstinline!-c! maakt het mogelijk om FidoCadJ een FidoCAD-bestand (dat moet worden opgegeven) te laten converteren naar een afbeelding in vector- of rasterformaat. Dit kan erg handig zijn, omdat FidoCadJ op een niet-interactieve manier als een converter kan worden gebruikt (samen met de optie \lstinline!-n!).
+\\
+We kunnen dus kijken naar het eerste voorbeeld in de help:
+
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c 800 600 png out1.png test1.fcd
+\end{lstlisting}
+
+FidoCadJ draait zonder de GUI te activeren en exporteert in het png\index{PNG} formaat het bestand \lstinline!test1.fcd!. Het uitvoerbestand krijgt de naam \lstinline!out1.png! en heeft een pixelgrootte van 800x600. Er is een alternatieve versie van de \lstinline!-c! optie, waarmee kan worden opgegeven hoeveel pixels moeten worden gebruikt om \'{e}\'{e}n logische eenheid te converteren (we noemen deze factor $r_\mathrm{p}$). FidoCadJ werkt niet met halve logische eenheden (het zijn altijd gehele getallen), door bijvoorbeeld $r_\mathrm{p}$ te kiezen, dat gelijk is aan twee pixels per logische eenheid, zorgt ervoor dat schema's altijd begrijpelijk zijn (ook al is het waarschijnlijk een beetje klein). De factor $r_\mathrm{p}$ kan een niet geheel getal zijn, zoals in het volgende voorbeeld:
+
+\begin{lstlisting}
+java -jar fidocadj.jar -n -c r1.25 png out2.png test2.fcd
+\end{lstlisting}
+
+Om de totale grootte (in logische eenheden) van een schema te kennen, kun je de \lstinline!-s! keuze gebruiken. Onthoud hoe dan ook dat FidoCadJ tijdens het exporteren altijd een marge van $t_\mathrm{margin}=3$ logische eenheden toevoegt voor elke zijde van de tekening. Dus als $t_\mathrm{w}$ de breedte van de tekening is in logische eenheden gegeven door \lstinline!-s!, zou je kunnen verwachten dat $p_\mathrm{w}$ de breedte van je tekening in pixels wordt berekend als volgt:
+
+\begin{equation}
+p_\mathrm{w} = r_\mathrm{p} (t_\mathrm{w}+ 2 t_\mathrm{margin})
+\end{equation}
+
+Een andere interessante optie, hoewel een kenmerk van Java\index{Java} meer dan van FidoCadJ, is de mogelijkheid om het uiterlijk van de applicatie te wijzigen (in Java-jargon genaamd look \& feel\index{look feel@look \& feel }). U kunt de look\&feel kiezen die u wilt zonder een enkele regel code te wijzigen. Hier is iets dat Linux\index{Linux}-gebruikers waarderen, de GTK+\index{GTK+}-look:
+
+\begin{lstlisting}
+java -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -jar fidocadj.jar
+\end{lstlisting}
+
+Er is ook de klassieke Motif\index{Motif} look \& feel, getoond in Figure~\ref{fig_fidocadj_motif}\footnote{Deze stijl kan op de een of andere manier mensen choqueren die goed bekend zijn met zeer verfijnde grafische interfaces zoals Aqua, met macOS. Ik zag echter vele jaren geleden een synchrotronbesturingssysteem met een grafische interface gebaseerd op Motif en dat dwong respect af.}:
+
+\begin{lstlisting}
+java -Dswing.defaultlaf=com.sun.java.swing.plaf.motif.MotifLookAndFeel -jar fidocadj.jar
+\end{lstlisting} 
+%fig.2.23
+\begin{figure}[h]
+	\includegraphics[width=1\textwidth]{motif_look_and_feel}	
+	\caption{Het uiterlijk van FidoCadJ, met behulp van de Motif look \& feel.}	
+	\label{fig_fidocadj_motif}
+\end{figure}
+
+Vanzelfsprekend zijn de hierboven genoemde commando's bedoeld om vanaf een terminal te worden verzonden, waarbij ervoor moet worden gezorgd dat de huidige map het bestand \lstinline!fidocad.jar! bevat en alles op dezelfde regel geschreven wordt.\vfill{}
+
+\lstset{language=FIDOCAD,
+	basicstyle=\small\ttfamily}
+
+\pagebreak
+
+\section{Beheer van de bibliotheek}
+\subsection{Bibliotheekbestanden gebruiken} \index{Bibliotheekbestanden gebruiken}
+Een bibliotheek is een verzameling symbolen die de gebruiker in zijn tekeningen kan opnemen. Er is een verzameling bibliotheken opgenomen in het FidoCadJ-pakket, evenals de mogelijkheid om nieuwe symbolen en bibliotheken te defini\"{e}ren. FidoCadJ maakt het zelfs mogelijk om een directory op te geven waarin alle gebruikersbibliotheek\index{bibliotheek}-bestanden (met de bestandsextensie \lstinline!.fcl!) worden geplaatst. Dit kan via de menubalk\index{menubalk} en het menu ``Bestand/Opties''\index{Bestand/Opties}.\\
+
+In enkele zeer speciale gevallen (of om te testen) kunnen de bibliotheken in het FidoCadJ-pakket worden vervangen door externe. Als een bestand met de naam \lstinline!FCDstdlib.fcl! aanwezig is, vervangt de inhoud de standaard bibliotheek\index{bibliotheek!standaard bibliotheek} die direct beschikbaar is in de toepassing. Analoog, als een bestand met de naam \lstinline!PCB.fcl! aanwezig is, vervangt de inhoud de PCB-bibliotheek\footnote{Let op het gebruik van hoofdletters, als uw besturingssysteem onderscheid maakt tussen hoofdletters en kleine letters in het bestandsbeheer.}.\\
+
+In versie 0.23 kon ik dankzij Roby IZ1CYN de IHRaM 3.1-bibliotheek\index{IHRaM-bibliotheek} rechtstreeks in de FidoCadJ-distributie opnemen. Ik heb dit gedaan omdat van alle bibliotheken die ik heb gezien, deze een van de meest complete en rationeel opgebouwde is gebleken. Precies zoals het gebeurt voor de andere bibliotheken die in FidoCadJ zijn ingesloten, als er een bestand is met de naam \lstinline!IHRAM.FCL! in het huidige zoekpad van de bibliotheek wordt deze geladen op de plaats van de versie die in het programma is ingesloten. Je hebt ook een bibliotheek met elektrische symbolen waarvan het bestand \lstinline!elettrotecnica.fcl! heet.
+
+Andere bestanden met \lstinline!.fcl! extensie in het zoekpad van de bibliotheek worden beschouwd als bibliotheken en FidoCadJ probeert ze te laden wanneer het wordt gestart. Dit wordt gedaan als de applicatie start, wanneer de gebruiker het zoekpad van de bibliotheek wijzigt, of wanneer in de menubalk\index{menubalk} en het menu ``Circuit''\index{circuit} de optie ``Bibliotheken bijwerken''\index{Bibliotheken bijwerken} wordt gekozen.\\
+
+Met FidoCadJ kunnen niet-standaard symbolen worden gesplitst (zoals de originele FidoCAD\index{FidoCAD} doet). Dit kan erg handig zijn bij het plaatsen van een tekening in een nieuwsgroep, omdat op deze manier elk symbool dat niet tot de standaard FidoCAD\index{FidoCAD}-bibliotheken behoort, wordt omgezet naar zijn grafische primitieven. Wie uw bericht leest, hoeft dus niet dezelfde bibliotheken te hebben die u in uw systeem heeft ge\"{i}nstalleerd. Voor kopi\"{e}ren/plakken is een opdracht en een snelkoppeling beschikbaar in de menubalk\index{menubalk} in het menu ``Bewerken'', genaamd ``Kopi\"{e}ren, split de niet standaard macros''\index{Kopi\"{e}ren, split de niet standaard macros} (of \keyevidence{Control}+\keyevidence{I}\footnote{Op macOS systemen, is de snelkoppeling \keyevidence{Command}+\keyevidence{I}}), om ervoor te zorgen dat de gekopieerde tekening alle niet-standaard macro's splitst. U kunt een bestand ook opslaan met de niet-standaard macro's gesplitst, door in de menubalk\index{menubalk} in het menu ``Bestand'' en ``Opslaan als..., split de niet standaard macros''\index{Opslaan als..., split de niet standaard macros} te kiezen. Er verschijnt een dialoogvenster waarin u een nieuwe bestandsnaam kunt kiezen, aangezien u het bestand waarmee u werkt meestal niet wilt overschrijven.
+
+\subsection{Nieuwe symbolen defini\"{e}ren} \index{Nieuwe symbolen defini\"{e}ren}
+Met FidoCadJ kunnen nieuwe bibliotheken en nieuwe symbolen worden gemaakt op een manier die redelijk intu\"{i}tief zou moeten zijn. Dit zijn de te volgen stappen:
+\begin{itemize}
+	\item FidoCadJ heeft een plaats nodig om de geproduceerde bestanden op te slaan. Zorg ervoor dat er een map met de gebruikersbibliotheken is gedefinieerd. Zo niet, specificeer het dan in de FidoCadJ-gebruikersinstellingen. 
+	\item Teken je nieuwe symbool. 
+	\item Selecteer wat je zojuist hebt getekend en klik er met de rechtermuisknop op. Er verschijnt een pop-up menu, zoals in figuur~\ref{fig_symbol_o_matic}.
+	\begin{figure}
+		\begin{center}
+			\includegraphics[width=.5\textwidth]{symbol_o_matic_nl}
+		\end{center}
+		\caption{Het pop-upmenu dat verschijnt als u met de rechtermuisknop klikt maakt het mogelijk om tekenelementen om te zetten in een symbool}
+		\label{fig_symbol_o_matic}
+	\end{figure}
+	\item Kies ``Symbool-o-matic.'' Er verschijnt een dialoog voor de definitie van de details van het nieuw gecre\"{e}erde symbool (zie figuur~\ref{fig_new_symbols}).
+	\begin{figure}
+		\begin{center}
+			\includegraphics[width=1\textwidth]{new_symbols_nl}
+		\end{center}
+		\caption{Het nieuwe dialoogvenster voor symbooldefinities. Hier kunt u alle belangrijke kenmerken van het symbool instellen. Let op de oorsprong gedefinieerd door de twee rode assen.}
+		\label{fig_new_symbols}
+	\end{figure}
+	
+	\item In het eerste veld ``Bibliotheek bestandsnaam:''\index{Bibliotheek bestandsnaam} vindt u de bestandsnaam van de bibliotheek waarin het nieuwe symbool moet worden opgenomen. Als u daar een nieuwe naam typt, maakt FidoCadJ een nieuw bestand aan. 
+	\item Het tweede veld ``Volledige bibliotheek bestandsnaam:''\index{Bibliotheek bestandsnaam} is de volledige naam van de bibliotheek, degene die getoond wordt in de bibliotheekboom. Je zou daar kunnen schrijven wat je wilt, maar het is beter om een korte en zinvolle naam te kiezen. 
+	\item Het derde veld ``Groep:''\index{Groep} stelt je in staat om te kiezen in welke groep je het nieuwe symbool wilt plaatsen binnen de bibliotheek. Nogmaals, als u een nieuwe naam typt, wordt er een nieuwe groep gemaakt. 
+	\item Het vierde veld ``Naam:''\index{Naam} is de naam van het symbool, zoals het getoond wordt in de bibliotheekboom. Kies opnieuw een kort maar betekenisvolle naam. 
+	\item Het vijfde veld ``Toets:''\index{Toets} is een zeer korte tag die het symbool in de code identificeert. Het moet binnen elke bibliotheek uniek zijn en mag geen spaties bevatten, evenals tekens zoals haakjes, punten, enzovoort. FidoCadJ stelt een korte numerieke code voor, maar u kunt ook geheugensteuntjes gebruiken. 
+	\item Door in het veld aan de rechterkant te klikken, moet u de Oorsprong\index{Oorsprong} van het symbool kiezen, het punt dat als referentie moet worden gebruikt om het symbool in de tekening te plaatsen. U kunt ervoor kiezen om de gewenste positie op het raster vast te klikken door te klikken op ``Oorsprong uitlijnen op raster''. 
+	\item Zodra u op ``OK'' klikt, zou u uw nieuw gecre\"{e}erde symbool moeten vinden in de gebruikersbibliotheek in de bibliotheekboom in het hoofdvenster van FidoCadJ.
+\end{itemize}
+\begin{figure}
+	\includegraphics[width=1\textwidth]{new_symbol_use_nl}
+	\caption{Het nieuw aangemaakte symbool, weergegeven in de symbolenlijst en in de tekening. Aan de linkerkant staat nog steeds de tekening die is gebruikt voor de symbooldefinitie. Merk op dat er slechts \'{e}\'{e}n controlepunt aanwezig is voor het nieuwe bibliotheeksymbool in de tekening.}
+	\label{fig_new_symbol_use}
+\end{figure}
+
+Een voorbeeld van een gebruikerssymbool dat in een tekening wordt gebruikt, wordt getoond in figuur~\ref{fig_new_symbol_use}. Let op het verschil tussen het geselecteerde deel van de tekening aan de linkerkant (eigenlijk wat is gebruikt om een nieuw symbool te defini\"{e}ren) en het nieuwe symbool dat aan de rechterkant is geplaatst. In feite is er slechts \'{e}\'{e}n controlepunt beschikbaar voor de plaatsing van het symbool en dit controlepunt komt overeen met de keuze van de oorsprong tijdens de symbooldefinitie. Het is dus handig om daarvoor een punt te kiezen dat enige relevantie heeft in je symbool. Je kunt een symbool\index{Een symbool splitsen} weer splitsen in zijn primitieven door het te selecteren en op ``Vectoriseren'' te klikken.
+
+\subsection{Wijzigen van bestaande symbolen} \index{Wijzigen van bestaande symbolen}
+Er zijn enkele menu-acties beschikbaar voor symbolen in de bibliotheekstructuur. Zodra u een symbool in een gebruikersbibliotheek selecteert en er met de rechtermuisknop op klikt, verschijnt er een pop-up menu, zoals weergegeven in figuur~\ref{fig_popup_menu_lib}. Hier heb je verschillende opties:
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{popup_menu_lib_nl}
+	\end{center}
+	\caption{Het pop-up menu dat wordt gebruikt voor het wijzigen van symbooleigenschappen in een gebruikersbibliotheek.}
+	\label{fig_popup_menu_lib}
+\end{figure}
+\begin{itemize}
+	\item ``Kopi\"{e}ren''\index{Kopi\"{e}ren bibliotheek(symbool)} kopieer een hele bibliotheek of een biblotheeksymbool.
+	\item ``Plakken''\index{Plakken bibliotheek(symbool)} plak op de gewenste plaats de hele bibliotheek of een bibliotheeksymbool.
+	\item ``Hernoemen''\index{Hernoemen (bibliotheeksymbool)} verandert de weergegeven naam van het symbool. 
+	\item ``Verwijderen''\index{Verwijderen (bibliotheeksymbool)} gooit het symbool weg. Wees hier voorzichtig mee: als een tekening het symbool bevat, wordt het ongeldig en verdwijnt het. 
+	\item ``Wijzigen sneltoets''\index{Wijzigen sneltoets} is handig om de sneltoets die bij het symbool hoort te wijzigen. Nogmaals, dit is iets dat moet worden gedaan als het symbool niet in de tekening is gebruikt.
+\end{itemize}
+Door slepen en neerzetten\index{slepen en neerzetten} te gebruiken, kunt u de bibliotheek of de categorie waarop een symbool is gecategoriseerd wijzigen. Houd er rekening mee dat een symbool compleet identificatielabel is samengesteld uit de naam van de bibliotheek, gevolgd door de sleutel van het symbool. Het verplaatsen van een symbool van de ene bibliotheek naar een andere maakt dus tekeningen die het bevatten ongeldig.
+
+Alle bibliotheekbewerkingen kunnen ongedaan worden gemaakt, precies zoals tekening bewerkingen. Houd er rekening mee dat lege bibliotheken of groepen niet worden weergegeven.
+
+\chapter{Tekenformaat, macro's \& bibliotheek} \label{chap_formato} \index{Tekenformaat, macro's \& bibliotheek}
+
+Dit hoofdstuk bevat een gedetailleerde beschrijving van het formaat dat door FidoCAD en, als gevolg daarvan, door FidoCadJ wordt gebruikt om een tekening op te slaan. Het is een eenvoudig tekstformaat dat als voordeel heeft dat het zeer compact en effici\"{e}nt is. Aangezien het formaat nooit in detail in een document is beschreven, probeer ik alles wat ik erover heb geleerd samen te vatten. Aangezien ik een paar extensies heb toegevoegd die alleen beschikbaar zijn in FidoCadJ, beschrijf ik deze ook hier. Onthoud dat FidoCadJ sinds versie 0.23.4 alleen de UTF-8\index{UTF-8}-codering\index{codering} op alle platforms gebruikt.
+
+\section{Koptekst beschrijving} \index{Koptekst beschrijving}
+
+Alle bestanden met een tekening in het FidoCAD \emph{\index{FidoCAD}}-formaat moeten beginnen met de tag \emph{\lstinline!{[}FIDOCAD{]}!.} Een programma kan daarom de aanwezigheid van FidoCAD-commando's herkennen door deze tag te lezen. In dit opzicht is FidoCadJ toleranter dan de originele FidoCAD \emph{\index{FidoCAD}} en herkent en interpreteert een bestand dat niet de standaard header\emph{\index{header}} bevat. Zelfs commando's met tekst kunnen daarom correct worden ge\"{i}nterpreteerd, zolang het aantal foute regels een intern in het programma ingestelde waarde (ongeveer 100) niet overschrijdt. Dit zorgt ervoor dat FidoCadJ geen minuten tijd verspilt aan het proberen van een zeer groot binair bestand te openen.
+
+\section{Coördinaten systeem} \index{Coördinaten systeem}
+
+FidoCadJ werkt op een zeer eenvoudig coördinatensysteem\emph{\index{coördinatensysteem}}. In de praktijk heeft het een zeer groot gebied tot zijn beschikking dat alleen wordt ge\"{i}dentificeerd door hele en positieve coördinaten. De lengte van elke eenheid in x en in y is vastgesteld op \emph{$127\micron$}, een waarde die het mogelijk maakt om zelfs voor het kleinste SMD-pakket een goede resolutie te verkrijgen zonder te fijn te zijn voor dagelijks gebruik. In typografische termen is de FidoCadJ-resolutie 200 dots per inch.
+
+De originele FidoCAD\emph{\index{FidoCAD}} had twee verschillende verwerkingsmodi: PCB\emph{\index{PCB}} en elektrisch schema\index{elektrisch schema}. In FidoCadJ is dit verschil vervaagd en verschijnt pas op het moment dat de tekening wordt afgedrukt. Het is daarom aan te raden om het programma zo in te stellen dat het formaat van een elektrisch schema wordt aangepast om beter gebruik te maken van het paginaformaat, anders heeft het afgedrukte resultaat het formaat van een postzegel.
+
+\section{Elementen tekenen} \index{Elementen tekenen}
+
+\label{sec_primitive}FidoCadJ kan als volgt 12 tekenelementen beheren
+\begin{itemize}
+	\item Lijn\index{lijn} 
+	\item Gevulde of lege rechthoek\index{rechthoek} 
+	\item Eenvoudige tekst (verouderd) 
+	\item Geavanceerde tekst\index{tekst} 
+	\item Gevulde of lege veelhoek\index{veelhoek} 
+	\item Gevulde of lege ellips\index{ellips} 
+	\item B\'{e}zier curve \index{B\'{e}zier} 
+	\item Natuurlijke kubieke kromme \index{kromme} 
+	\item Elektrisch knooppunt\index{knooppunt} 
+	\item PCB oog\index{PCB oog} 
+	\item PCB spoor\index{PCB-spoor} 
+	\item Macro\index{macro}
+\end{itemize}
+We zullen ze allemaal beschrijven. Over het algemeen wordt elk element\index{element} ge\"{i}dentificeerd door een commando en een aantal parameters\index{parameters} (meestal gehele getallen of tekenreeksen) op dezelfde regel geplaatst en gescheiden door een spatie.
+
+\subsubsection{Lijn} \index{lijn}
+De lijn primitief\marginpar{Wiskundigen zouden waarschijnlijk de term ``segment''\index{segment} geschikter vinden.} wordt ge\"{i}dentificeerd door de opdracht \lstinline!LI!\index{LI} en de definitie ervan vereist alleen begin- en eindcoördinaten en de laag:
+\begin{lstlisting}
+LI x1 y1 x2 y2 l
+\end{lstlisting}
+de punten $(x_{1},y_{1})$ en $(x_{2},y_{2})$ vertegenwoordigen respectievelijk de begin- en eindcoördinaten, terwijl $l$ de laag is, gekenmerkt door een geheel getal tussen 0 en 15.
+
+\textbf{FidoCadJ extension}: vanaf FidoCadJ versie 0.23 kan \lstinline!LI!\index{LI} in de volgende regel worden gevolgd door een extensie:
+\begin{lstlisting}
+FCJ a b c d e nv
+\end{lstlisting}
+waarbij $a$ een geheel getal is dat de aanwezigheid of niet-aanwezigheid van de pijlpunten aan de uiteinden van het segment weergeeft (kijk eens naar tabel~\ref{tab_frecce_estremita}), $b$ vertegenwoordigt de stijl van de pijlpunt (als tabel~\ref{tab_frecce_stile}). Parameters $c$ en $d$ geven respectievelijk de totale lengte en de halve breedte van de pijlpunt, terwijl $e$ een geheel getal is dat de streepstijl geeft. Als $nv$ gelijk is aan 1, moet de opdracht  \lstinline!FCJ! gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\begin{table}
+	\centering
+	\caption{Betekenis van de parameter $a$ voor de aanwezigheid van een pijlpunt aan de zijkanten van een lijn of B\'{e}zier-primitief.}
+	\label{tab_frecce_estremita}
+	
+	\begin{tabular}{clp{.7\textwidth}}
+		\toprule
+		$a$ & Pijlpunt \\
+		\midrule
+		0   & geen \\
+		1   & aan de startzijde\\
+		2   & aan de eindzijde\\
+		3   & beide kanten\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}
+	\centering
+	\caption{Betekenis van de parameter $b$ voor de pijlpuntstijl.}
+	\label{tab_frecce_stile}
+	\begin{tabular}{clp{.7\textwidth}}
+		\toprule
+		$b$ & Pijlpunt stijl \\
+		\midrule
+		0   & gevulde standaard pijlpunt \\
+		1   & gevulde standaard pijlpunt met maatlijn \\
+		2   & lege standaard pijlpunt\\
+		3   & lege standaard pijlpunt met maatlijn\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsubsection{Gevulde of lege rechthoek} \index{Gevulde of lege rechthoek}
+Een rechthoek gevuld of leeg wordt ge\"{i}dentificeerd door respectievelijk de opdrachten \lstinline!RP!\index{RP} en \lstinline!RV!\index{RV}, gevolgd door de coördinaten van de twee hoekpunten op een van de twee diagonalen en de laag.
+\begin{lstlisting}
+RP x1 y1 x2 y2 l
+RV x1 y1 x2 y2 l
+\end{lstlisting} 
+de punten $(x_{1},y_{1})$ en $(x_{2},y_{2})$ vertegenwoordigen de twee hoekpunten en $l$ is de laag, gekenmerkt door een geheel getal tussen 0 en 15 .
+
+\textbf{FidoCadJ extension}: vanaf FidoCadJ versie 0.23 kunnen \lstinline!RP!\index{RP} en \lstinline!RV!\index{RV} in de volgende regel gevolgd worden door een extensie:
+\begin{lstlisting}
+FCJ e nv
+\end{lstlisting}
+waarbij $e$ een geheel getal is dat de streepstijl aangeeft. Als $nv$ gelijk is aan 1, moet de \lstinline!FCJ! opdracht worden gevolgd door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{Eenvoudige tekst (verouderd)} \index{Eenvoudige tekst (verouderd)}
+
+De eenvoudige tekst was de eerste primitieve die werd geleverd met de vroege versies van FidoCAD\index{FidoCAD}. FidoCadJ herkent het en schrijft eenvoudig tekst met grootte 12, ongeacht de huidige zoom\index{zoom}.
+
+Aangezien deze primitieve als achterhaald werd beschouwd\index{verouderd} door Lorenzo Lutti\index{Lorenzo Lutti}, de maker van FidoCAD\index{FidoCAD}, doet FidoCadJ precies hetzelfde en hoewel dit correct wordt ge\"{i}nterpreteerd, is het niet beschikbaar op de gereedschapbalk. FidoCadJ slaat dit element precies op als of het geavanceerde tekst was en gebruikt de opdracht \lstinline!TY!\index{TY} bij het opslaan van het bestand.
+
+De opdracht is \lstinline!TE!\index{TE} en het formaat is als volgt:
+\begin{lstlisting}
+TE x1 y1 £te schrijven tekst
+\end{lstlisting}
+het punt $(x_{1},y_{1})$ is waar de string ``te schrijven tekst'' moet worden geplaatst. Merk op dat de laaginformatie ontbreekt. FidoCadJ behandelt dit object als of het op laag nul is geplaatst (circuit\index{circuit}).
+
+\subsubsection{Geavanceerde tekst} \index{Geavanceerde tekst}
+De primitieve geavanceerde tekst biedt veel meer flexibiliteit met betrekking tot eenvoudige tekst\index{eenvoudige tekst} die hierboven is ge\"{i}ntroduceerd.
+
+Het wordt ge\"{i}dentificeerd door de opdracht \lstinline!TY!\index{TY}, gevolgd door een aantal parameters om de tekstori\"{e}ntatie te bepalen (geroteerd\index{tekst!geroteerd} of gespiegeld\index{tekst!gespiegeld}), en voor afmetingen $x$ en $y$ en het gebruikte lettertype. Vanwege de hoeveelheid informatie die moet worden verstrekt, is de resulterende opdrachtreeks vrij complex:
+
+\begin{lstlisting}
+TY x1 y1 sy sx a s l f £te schrijven tekst
+\end{lstlisting}
+Het punt $(x_{1},y_{1})$ is waar de string ``te schrijven tekst'' moet worden geplaatst. De waarde van $s_{y}$ en $s_{x}$ geeft de horizontale en verticale afmetingen van de tekst aan in logische eenheden\index{logische eenheid}. FidoCadJ respecteert de verticale dimensie, uitgaande van de horizontale, en die beeldverhouding wordt alleen gewijzigd als dit strikt noodzakelijk is. De tekstrotatie wordt beschreven door de term $a$, uitgedrukt in sexagesimale graden, terwijl de waarde van $s$ de tekststijl\index{tekst!stijl} bepaalt, volgens tabel~\ref{tab_stile_testo}. De laag wordt gegeven door de gebruikelijke term $l$, en $f$ geeft het te gebruiken lettertype aan, of het kan een sterretje\index{sterretje} zijn om het gebruik van standaard Courier New font\index{Courier New} aan te geven. Als de naam van het lettertype spaties bevat moeten deze worden vervangen door ``++''\index{++}.
+
+Tekstopdrachten ondersteunen subscripts: om ze te gebruiken voegt u tekst in tussen het onderstrepingsteken \_ en het dakje \^{}; bijvoorbeeld \_12\^{} schrijft 12 als subscript. Ze ondersteunen ook superscript: voeg tekst in tussen het dakje \^{} en het onderstrepingsteken \_; bijvoorbeeld \^{}56\_ schrijft 56 als superscript. In beide gevallen zijn de laatste \^{} of \_ optioneel. Gebruik een backspace om het teken \_ of \^{} af te drukken, d.w.z. \textbackslash \_ voor \_ en \textbackslash \^{} voor \^{}. Gebruik twee backspaces voor \'{e}\'{e}n \textbackslash. Voorbeeld van tekst met superscript: 3\^{}2\_+4\^{}2\_=5\^{}2 of C\_12
+
+\begin{table}
+	\centering 
+	\caption{Functie van de bits in de term tekststijl.}
+	\label{tab_stile_testo}
+	\begin{tabular}{llp{0.7\textwidth}}
+		\toprule Bit & Waarde & Gedrag \tabularnewline
+		\midrule 0  & 1  & tekst vetgedrukt\tabularnewline
+		2  & 4  & gespiegelde tekst\tabularnewline
+		\bottomrule  &  & \tabularnewline
+	\end{tabular}
+\end{table}
+
+De maximale lengte van de tekst\index{maximale lengte van de tekst} is ongeveer 80 woorden. Het tellen gebeurt in woorden en niet in tekens omdat in de interne structuur van het programma de woorden (en opdracht termen) gescheiden zijn wanneer een regel ge\"{i}nterpreteerd wordt.
+
+\subsubsection{Gevulde of Lege veelhoek} \index{Gevulde of Lege veelhoek} \index{Polylijnbogen}
+
+Een gevulde of lege veelhoek wordt aangegeven met respectievelijk de opdrachten \lstinline!PP!\index{PP} en \lstinline!PV!\index{PV}, gevolgd door de coördinaten van de hoekpunten die de veelhoek defini\"{e}ren en de laag. De opdrachten zijn
+\begin{lstlisting}
+PP x1 y1 x2 y2 ... l
+PV x1 y1 x2 y2 ... l
+\end{lstlisting}
+waarbij de punten $(x_{1},y_{1})$, $(x_{2},y_{2})$\dots\ de hoekpunten zijn die de veelhoek defini\"{e}ren en $l$ de laag is, gekenmerkt door een geheel getal tussen 0 en 15. De lengte van de opdrachtregel kan dus vari\"{e}ren afhankelijk van het aantal gebruikte hoekpunten. Het maximum aantal beschikbare hoekpunten\index{maximum aantal hoekpunten} is willekeurig vastgesteld op iets minder dan 5000.
+
+\textbf{FidoCadJ-extensie}: vanaf FidoCadJ versie 0.23, \lstinline!PP!\index{PP} en \lstinline!PV!\index{PV} kan in de volgende regel gevolgd worden door een extensie:
+\begin{lstlisting}
+FCJ e nv
+\end{lstlisting}
+waarbij $e$ een geheel getal is dat de streepstijl aangeeft. Als $nv$ gelijk is aan 1, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{Gevulde of lege ellips} \index{Gevulde of lege ellips}
+
+Een ellips gevuld of leeg wordt ge\"{i}dentificeerd door respectievelijk de opdrachten \lstinline!EP!\index{EP} en \lstinline!EV!\index{EV}, gevolgd door de coördinaten van de twee hoekpunten op de diagonaal en het laagnummer.
+\begin{lstlisting}
+EP x1 y1 x2 y2 l
+EV x1 y1 x2 y2 l
+\end{lstlisting}
+het punt $(x_{1},y_{1})$ vertegenwoordigt het eerste hoekpunt op de diagonaal, $(x_{2},y_{2})$ is het tweede hoekpunt en $l$ is de ge\"{i}dentificeerde laag met een geheel getal tussen 0 en 15.
+
+\textbf{FidoCadJ-extensie}: vanaf FidoCadJ versie 0.23, \lstinline!EP!\index{EP} en \lstinline!EV!\index{EV} kan in de volgende regel gevolgd worden door een extensie:
+\begin{lstlisting}
+FCJ e nv
+\end{lstlisting}
+waarbij $e$ een geheel getal is dat de streepstijl aangeeft. Als $nv$ gelijk is aan 1, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{B\'{e}zier-curve} \index{B\'{e}zier-curve}
+
+Een B\'{e}zier-curve segment, in zijn kubische variant, wordt ge\"{i}dentificeerd door vier hoekpunten, die dus vereist zijn in de bijbehorende opdracht
+\lstinline!BE!\index{BE}:
+\begin{lstlisting}
+BE x1 y1 x2 y2 x3 y3 x4 y4 l
+\end{lstlisting}
+waarbij $P_{1}\equiv(x_{1},y_{1})$, $P_{2}\equiv(x_{2},y_{2})$, $P_{3}\equiv(x_ {3},y_{3})$ en $P_{4}\equiv(x_{4},y_{4})$ de vier controlepunten van het B\'{e}zier\index{B\'{e}zier}-curve segment zijn, terwijl $l$ de laag is, ge\"{i}dentificeerd door een geheel getal tussen 0 en 15. Gegeven de vier hierboven gedefinieerde punten, wordt het curvesegment berekend met de uitdrukking \begin{equation}
+B(t)=(1-t)^{3}P_{1}+3t(1-t)^{2}P_{2}+3t^{2}(1-t)P_{3}+t^{3}P_{4},\end{equation} waarbij $t\in[0,1]$ een parameter is.
+
+\textbf{FidoCadJ-extensie}: vanaf FidoCadJ versie 0.23, \lstinline!BE!\index{BE} kan in de volgende regel gevolgd worden door een extensie:
+\begin{lstlisting}
+FCJ a b c d e nv
+\end{lstlisting}
+waar $a$ een geheel getal is dat de aanwezigheid of niet-aanwezigheid van pijlpunten aan de uiteinden van de curve weergeeft (kijk eens naar tabel~\ref{tab_frecce_estremita}), $b$ vertegenwoordigt de stijl van de pijlpunt (als tabel~\ref{tab_frecce_stile}). Parameters $c$ en $d$ geven respectievelijk de totale lengte en de halve breedte van de pijlpunt, terwijl $e$ een geheel getal is dat de streepstijl geeft. Als $nv$ gelijk is aan 1, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{Natuurlijke kubieke kromme (complexe kromme)} \index{Natuurlijke kubieke kromme (complexe kromme)} \index{Spline}
+Een natuurlijke kubieke kromme wordt gedefinieerd door een bepaald aantal hoekpunten. De curve doorkruist elk hoekpunt en wordt op zo'n manier berekend dat het erg vloeiend is. In het FidoCadJ-formaat wordt een kromme ge\"{i}dentificeerd door de opdrachten \lstinline!CV!\index{CV} en \lstinline!CP!\index{CP}:
+% referenced website http://www.cse.unsw.edu.au/~lambert/splines/natcubic.html is no longer available and gives a 404 error..
+\begin{lstlisting}
+CV aa x1 y1 x2 y2 ... l
+CP aa x1 y1 x2 y2 ... l
+\end{lstlisting}
+de parameter $aa$ is gelijk aan 1 als de curve gesloten is, anders is hij 0. Hoekpunten $(x_1, y_1)$, $(x_2, y_2)$\dots defini\"{e}ren de kromme en $l$ is de laag, een geheel getal van 0 tot 15. De lengte van de opdrachtregel kan dus vari\"{e}ren afhankelijk van hoeveel hoekpunten er worden opgenomen. Wat polygonen betreft, is het maximale aantal hoekpunten\index{maximum aantal hoekpunten} dat beschikbaar is intern vastgesteld op iets minder dan 5000. Deze primitief is ge\"{i}ntroduceerd in versie 0.24 en is niet aanwezig in de originele FidoCAD\index{FidoCAD}.
+
+\textbf{FidoCadJ-extensie}: \lstinline!CV!\index{CV} en \lstinline!CP!\index{CP} kan in de volgende regel gevolgd worden door een extensie:
+\begin{lstlisting}
+FCJ a b c d e nv
+\end{lstlisting}
+waar $a$ een geheel getal is dat de aanwezigheid of niet-aanwezigheid van de pijlpunten aan de uiteinden van de curve weergeeft (kijk eens naar tabel~\ref{tab_frecce_estremita}), $b$ vertegenwoordigt de stijl van de pijlpunt (als tabel~\ref{tab_frecce_stile}). Parameters $c$ en $d$ geven respectievelijk de totale lengte en de halve breedte van de pijlpunt, terwijl $e$ een geheel getal is dat de streepstijl geeft. Als $nv$ gelijk is aan 1, moet de \lstinline!FCJ! opdracht worden gevolgd door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\vfill
+\pagebreak
+
+\subsubsection{Elektrisch knooppunt} \index{Elektrisch knooppunt}
+De primitieve elektrisch knooppunt is gewoon een gevulde cirkel met constante afmetingen en wordt gebruikt om een verbinding in een elektrisch schema weer te geven. Het wordt ge\"{i}dentificeerd door de opdracht \lstinline!SA!\index{SA} en het vereist alleen de coördinaten en de laag:
+\begin{lstlisting}
+SA x1 y1 l
+\end{lstlisting}
+Met FidoCadJ wordt de diameter van de cirkel intern in het programma vastgelegd in twee logische eenheden.
+
+Als \lstinline!SA!\index{SA} wordt gevolgd door \lstinline!FCJ! moet \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{PCB oog} \index{PCB oog}
+Een PCB oog wordt ge\"{i}dentificeerd door de opdracht \lstinline!PA!\index{PA} en wordt gekenmerkt door zijn stijl (rond, rechthoekig, rechthoekig met afgevlakte hoeken) en de diameter van het interne gat:
+\begin{lstlisting}
+PA x1 y1 dx dy si st l
+\end{lstlisting}
+waarbij het punt $(x_{1},y_{1})$ de positie van het oog vertegenwoordigt, $d_{x}$ de breedte van het oog is (langs de $x$-as), $d_{y}$ de hoogte (langs de $y$-as). De waarde $s_{i}$ is de diameter van het gat in het oog, terwijl $s_{t}$ de stijl van het oog is:
+\begin{itemize}
+	\item [0] ovaal oog
+	\item [1] rechthoekig oog
+	\item [2] rechthoekig oog met afgeronde hoeken
+\end{itemize}
+De waarde van $l$ moet een geheel getal zijn om de laag aan te geven waarin het oog moet worden geplaatst. Als \lstinline!PA!\index{PA} wordt gevolgd door \lstinline!FCJ!, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{PCB spoor} \index{PCB-spoor}
+De PCB-spoor is in wezen een segment waarvan de breedte kan worden gespecificeerd. De hoeken aan de uiteinden van het segment zijn altijd afgerond om de verbinding met andere PCB-sporen of -ogen te vergemakkelijken. De te gebruiken opdracht is \lstinline!PL!\index{PL}, met het volgende formaat:
+\begin{lstlisting}
+PL x1 y1 x2 y2 di l
+\end{lstlisting}
+Het spoor wordt getekend tussen de punten $(x_{1},y_{1})$ en $(x_{2},y_{2})$, met een totale breedte van $d_{i}$, en de gebruikte laag is $l$. De breedte $d_{i}$ kan een gebroken getal zijn. Als \lstinline!PL!\index{PL} gevolgd wordt door \lstinline!FCJ!, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\subsubsection{Macro-oproep} \index{Macro-oproep}
+
+Een macro is een tekening of een symbool in een bibliotheek. Over het algemeen is dit de manier waarop veel gebruikte elektrische symbolen worden weergegeven. De opdracht die gebruikt wordt om een macro aan te roepen is \lstinline!MC!\index{MC}, en het aanroepen gaat als volgt:
+\begin{lstlisting}
+MC x1 y1 o m n
+\end{lstlisting}
+Het symbool wordt getekend met positie $(x_{1},y_{1})$ als referentie, en de ori\"{e}ntatie wordt bepaald door de waarde van $o$ (vermenigvuldigd met 90\textdegree{} rechtsom) en als $m$ gelijk is aan 1 wordt de macro gespiegeld. de laatste parameter, $n$, is de naam van de macro in de bibliotheek, gespecificeerd als \emph{library.code}.
+
+Als \lstinline!MC!\index{MC} gevolgd wordt door \lstinline!FCJ!, moet de \lstinline!FCJ! opdracht gevolgd worden door twee \lstinline!TY! opdrachten die de naam en de waarde geven die aan dit element zijn gekoppeld.
+
+\section{FidoCadJ extensies} \index{FidoCadJ extensies}
+\label{FCJ_extension}
+Sinds versie 0.21 is FidoCadJ begonnen met het introduceren van enkele verfijningen ten opzichte van het oorspronkelijke FidoCAD-formaat\index{FidoCadJ-extensie}. De FidoCadJ-extensies worden in de code weergegeven door de opdracht \lstinline!FCJ!\index{FCJ}. Deze opdracht wordt niet alleen gebruikt, maar betekent dat FidoCadJ aanvullende informatie moet specificeren over wat er in de vorige regel is gespecificeerd. Hier is een voorbeeld:
+\begin{lstlisting}
+[FIDOCAD]
+MC 40 30 0 0 080
+FCJ
+TY 50 35 4 3 0 0 0 * R1
+TY 50 40 4 3 0 0 0 * 47k
+\end{lstlisting}
+De aanwezigheid van de \lstinline!FCJ! opdracht geeft aan dat de naam en de waarde van de macro gespecificeerd in de eerste regel worden gegeven door de twee \lstinline!TY! opdrachten die volgen. Alleen de coördinaten en de lettertypen worden in aanmerking genomen voor de tekstweergave.
+
+Met FidoCadJ kan een ``strikte FidoCAD-compatibiliteitsmodus'' worden geactiveerd, waarin alle extensies zijn uitgeschakeld. Op deze manier is FidoCadJ perfect compatibel met de originele FidoCAD\index{FidoCAD}, behalve dat FidoCadJ de UTF-8\index{UTF-8}-codering\index{encoding} blijft gebruiken in plaats van de oude CP-1252\index{CP -1252} gebruikt door FidoCAD\index{FidoCAD}. FidoCAD voor Windows kan de aanvullende informatie die door de opdracht \lstinline!FCJ!\index{FCJ} wordt overgedragen, niet begrijpen. Bij het lezen met de originele FidoCAD van een FidoCadJ-tekening die een extensie bevat, geeft het programma enkele fouten en geeft een resultaat dat afwijkt van de originele FidoCadJ-tekening. De resultaten zijn afhankelijk van de gebruikte extensie: een stippellijn wordt weergegeven als ononderbroken en de pijlpunten worden niet getekend. Aan de andere kant wordt de tekst die is gekoppeld aan de naam en de waarde van een macro perfect weergegeven.
+
+Figuur~\ref{fig_gyrator_n} laat zien wat kan worden verkregen met FidoCAD\index{FidoCAD} om het FidoCadJ-bestand te lezen dat figuur~\ref{fig_gyrator} beschrijft. Na het negeren van de FidoCAD-fouten, ontbreken er enkele details (de streepjes en de pijl), maar de algehele tekening is nog steeds begrijpelijk.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{gyrator_n}
+	\caption{Figuur~\ref{fig_gyrator} zoals het zou verschijnen op FidoCAD voor Windows.}
+	\label{fig_gyrator_n}
+\end{figure}
+
+Een belangrijk verschil met de oorspronkelijke FidoCAD\index{FidoCAD} is dat FidoCadJ het mogelijk maakt om een 
+bepaald aantal configuratietips op te slaan in de uitvoerbestanden. De opdracht die daarvoor wordt gebruikt is 
+\lstinline!FJC!\index{FJC} en moet normaal helemaal aan het begin van het bestand worden geplaatst. In de volgende paragrafen worden de casussen beschreven die worden behandeld.
+
+\subsection{Laag instelling} \index{Laag instelling}
+De opbouw van de lagen wordt gespecificeerd met de opdracht \lstinline!FJC L!\index{FJC L}. FidoCadJ slaat alleen gegevens op als de corresponderende laag is gewijzigd ten opzichte van de standaard laag. De syntaxis is als volgt:
+\begin{lstlisting}
+FJC L n xxxx yy
+\end{lstlisting}
+waar $n$ staat voor het nummer van de laag (vari\"{e}rend van 0 tot 15), $xxxx$ is een 32-bits geheel getal met instellingen over de te gebruiken RGB-kleur. De rode component zit in de bits 16-23, de groene in de bits 8-15 en de blauwe in de bits 0-7. De waarde $yy$ is een floating point constante met een enkele precisie die de laagtransparantie tussen 0,0 (volledig transparant) en 1,0 (volledig ondoorzichtig) geeft.
+
+Een tweede belangrijke informatie is de naam van de laag, gespecificeerd (als de gebruiker deze heeft gewijzigd) als volgt:
+\begin{lstlisting}
+FJC N n aaaaa
+\end{lstlisting}
+waarbij $n$ het nummer van de laag is (geheel getal van 0 tot 15), terwijl {\normalfont \itshape aaaa} de naam is van de laag die in aanmerking moet worden genomen. Als deze opdracht niet aanwezig is, is de naam van de laag de naam die standaard door FidoCadJ wordt gebruikt, afhankelijk van de taal en de lokale configuratie van het besturingssysteem.
+
+\subsection{Instelling elektrische aansluiting} \index{Instelling elektrische aansluiting}
+De grootte van de zwarte cirkel die wordt gebruikt om een elektrische verbinding aan te geven kan door de gebruiker worden gewijzigd. Wanneer de FidoCadJ-extensies actief zijn, wordt de geselecteerde waarde als volgt in het bestand opgeslagen met de opdracht \lstinline!FJC C!\index{FJC C}:
+\begin{lstlisting}
+FJC C aaaa
+\end{lstlisting}
+waarbij $aaaa$ een floating point waarde met dubbele precisie is (positief) die de diameter van de elektrische verbinding geeft, in FidoCadJ logische eenheden.
+
+\subsection{Lijnbreedte} \index{Lijnbreedte}
+De lijnbreedte voor de ``pen'' die wordt gebruikt tijdens het tekenen van elektrische schema's kan worden gewijzigd. FidoCadJ gebruikt het commando \lstinline!FJC A!\index{FJC A} om de lijnbreedte van de lijnen, ovalen, B\'{e}zier, complexe krommen, rechthoeken en polygonen te specificeren. De breedte kan een dubbele precisieconstante zijn.
+\begin{lstlisting}
+FJC A aaaa
+\end{lstlisting}
+Waar $aaaa$ staat voor de lijnbreedte (in logische eenheden). De standaardbreedte is intern gedefinieerd op 0,5 logische eenheden. In oudere versies van FidoCadJ werd een commando \lstinline!FJC B bbbb!\index{FJC B} gebruikt om de lijnbreedte van gebogen lijnen (ovalen, B\'{e}zier) te specificeren. Sinds versie 0.23.6 is dit onderscheid ge\"{e}limineerd en wordt dit commando niet meer overgenomen.
+
+\section{Tolerantie voor syntaxisfouten} \index{Tolerantie voor syntaxisfouten}
+
+FidoCadJ is ontworpen om fouten\index{fouttolerantie} en/of bepaalde syntaxisfouten in de opdrachten die aan het programma worden doorgegeven te tolereren. Het is duidelijk dat, tenzij je een kristallen bol hebt aangesloten als een USB-apparaat\index{kristallen bol}, het programma geen fouten kan corrigeren, maar gewoon alle betrokken regels overslaat (en verwijdert). 
+
+Een uitzondering op dit gedrag is dat een aantal elementen kan worden opgegeven zonder de laag, die wordt beschouwd als onderdeel van laag\index{laag} 0 (schema's). Dit is voor achterwaartse compatibiliteit met FidoCAD\index{FidoCAD}.
+\vfill
+\pagebreak
+
+\section{Bibliotheek formaat} \index{Bibliotheek formaat}
+
+De bestandsstructuur van een bibliotheekbestand is vrij eenvoudig:
+
+\begin{lstlisting}
+[FIDOLIB Librairie de base]
+{Syboles de base}
+[000 Terminal]
+LI 100 100 102 100
+EV 102 98 106 102
+[010 Terminal +]
+LI 100 100 102 100
+EV 102 98 106 102
+LI 103 100 105 100
+LI 104 99 104 101
+[020 Terminal -]
+LI 100 100 102 100
+EV 102 98 106 102
+LI 103 100 105 100
+...
+\end{lstlisting}
+De eerste regel bevat, tussen vierkante haakjes\index{vierkante haakjes}, de naam van de bibliotheek (voorafgegaan door ``FIDOLIB''\index{FIDOLIB}). De tweede regel moet tussen accolades de bibliotheekcategorie bevatten waaronder de (later) in het bestand gespecificeerde macro's moeten worden opgeslagen.
+
+Elke macro bestaat uit een header\index{header} (tussen vierkante haken) en een reeks opdrachten. De header bestaat uit een \emph{onderdeelnaam} (die uniek moet zijn binnen de bibliotheek) en de beschrijving ervan. De onderdeelnaam wordt gebruikt in een FidoCadJ-script, terwijl de beschrijving de gebruiker helpt bij het bladeren door alle macro's\index{macro} in het bestand. De opdrachten zijn niets anders dan FidoCadJ-tekeningen, waarbij het coördinaatpunt (100.100) als oorsprong wordt gebruikt. Dit is het punt dat moet worden gebruikt als referentie wanneer de macro wordt aangeroepen. In een FidoCadJ-script wordt een macro ge\"{i}dentificeerd door ``library.macro'' gebruikt met de MC\index{MC}-opdracht.
+
+Niets verhindert het aanroepen van een macro binnen een andere macro. Recursie\index{recursie} (d.w.z. een macro die zichzelf aanroept) moet echter worden vermeden.
+
+Een bibliotheek \textit{mag niet} onder de macrodefinities enige informatie over de FidoCadJ-configuratie \textit{bevatten}. Met andere woorden, opdrachten \lstinline!FJC!\index{FJC} zouden \textit{nooit} moeten verschijnen in een bibliotheekbestand.
+
+\section{Standaard bibliotheken} \index{Standaard bibliotheken}
+
+FidoCadJ bevat twee bibliotheken die traditioneel worden geleverd met FidoCAD\index{FidoCAD}. Dit zijn de standaardbibliotheek\index{standaardbibliotheek} en de bibliotheek die de PCB-symbolen\index{PCB-bibliotheek} bevat. Een andere bibliotheek die is ontwikkeld voor FidoCAD\index{FidoCAD} en zo nuttig is dat deze is opgenomen als onderdeel van FidoCadJ, is de IHRAM-bibliotheek. IHRAM staat voor \lstinline!it.hobby.radioamatori.moderato! en het is een Italiaanse Usenet-discussiegroep.
+
+Het is echter mogelijk om de inhoud van deze interne bibliotheken te overschrijven door (menubalk en dan menu ``Bestand/Opties/Bibliothekenmap'') een map op te geven die de te laden bibliotheken bevat. Als een bestand met de naam \lstinline!FCDstdlib.fcl! in deze map aanwezig is, wordt de inhoud ervan gebruikt in plaats van de standaardbibliotheek. Als een bestand met de naam \lstinline!PCB.fcl! aanwezig is, wordt de inhoud ervan gebruikt in plaats van de interne PCB-bibliotheek. Andere bibliotheken met andere bestandsnamen (maar nog steeds met de extensie \lstinline!fcl!) worden samen met de standaardbibliotheken geladen. Als er een bestand met de naam \lstinline!IHRAM.FCL! in het huidige zoekpad van de bibliotheek wordt deze geladen op de plaats van de versie die in het programma is ingesloten. Je hebt ook een bibliotheek met elektrische symbolen waarvan het bestand \lstinline!elettrotecnica.fcl! heet.
+
+De standaard bibliotheken zijn in FidoCadJ buiten de naam te herkennen aan het symbool met drie schijfjes boven elkaar (van ``harddisk''). Eigen en andere bibliotheken die in de gedefinieerde map ``Bestand/Opties/Bibliothekenmap'' staan zijn te herkennen aan het diskette symbool.  
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.5\textwidth]{library_symbols}
+	\caption{Voorbeeld van hoe bibliotheken in de bibliothekenmap verschijnen.}
+	\label{fig_library_symbols}
+\end{figure}
+
+FidoCadJ beschouwt de bovenstaande bibliotheken als onderdeel van de standaardset. Met andere woorden, het splitst de symbolen in tekeningen niet, als ze tot die bibliotheken behoren, behalve wanneer de optie ``Strikte compatibiliteit met FidoCAD''\index{Compatibiliteit met FidoCAD} actief is. In dit geval wordt alleen de originele FidoCAD\index{FidoCAD}-bibliotheek als standaard beschouwd, precies zoals vroeger de originele software.
+
+\chapter{Conclusie} \index{Conclusie}
+We hebben in deze handleiding gezien hoe FidoCadJ gebruikt kan worden om een elektrisch schema of een eenvoudige printplaat te tekenen. In dit stadium moet de lezer over alle elementen beschikken die nodig zijn om FidoCadJ effectief te gebruiken voor zijn behoeften.
+
+FidoCadJ mag niet als uniek worden beschouwd voor elektronica-ontwerpen. Het kan voor elk type 2D-tekening en in veel situaties worden gebruikt, op voorwaarde dat er specifieke bibliotheken beschikbaar zijn.
+
+De voordelen van een gratis programma zijn dat het volledig openstaat naar de gebruikersgemeenschap. Om deze reden is uw feedback erg belangrijk (in ieder geval om te begrijpen of het project de moeite waard is om verder ontwikkeld te worden, en in welke richting). Als u contact met mij wilt opnemen, opent u een ``issue'' op het GitHub FidoCadJ-project\footnote{\href{https://github.com/DarwinNE/FidoCadJ/issues}{https://github.com/DarwinNE/FidoCadJ/issues}}.
+
+\appendix
+
+\chapter{Platformspecifieke informatie} \label{specifics} \index{Platformspecifieke informatie}
+
+
+\section{macOS} \index{macOS}
+
+Een van de meest voorkomende kritieken op de vroege versies van FidoCadJ van Macintosh-gebruikers (zoals ik trouwens) was de slechte integratie van het programma op macOS. Vanaf versie 0.21.1 levert FidoCadJ specifieke inspanningen om beter te voldoen aan het uiterlijk en de filosofie van Mac's native applicaties. Om deze reden zijn sommige details in het programma enigszins anders wanneer FidoCadJ op een Apple-platform wordt uitgevoerd:
+\begin{itemize}
+	\item standaard gebruikt FidoCadJ de Quaqua%
+	\footnote{\href{http://www.randelshofer.ch/quaqua/}{http://www.randelshofer.ch/quaqua/}%
+	}\index{Quaqua} look and feel wanneer de volledige applicatie (FidoCadJ.app\index{FidoCadJ.app}
+	in plaats van fidocadj.jar\index{fidocadj.jar}) wordt uitgevoerd. Aangezien Quaqua de prestaties op niet zo recente machines kan vertragen, is het mogelijk om het uit te schakelen via de instellingen van het menu Voorkeuren.
+	\item De menubalk wordt weergegeven op zijn plaats, dat is de bovenkant van het scherm.
+	\item De menu-items ``Voorkeuren'' en ``Over FidoCadJ'' staan op hun plaats, namelijk in het FidoCadJ-menu.   
+	\item Het programma vertelt het besturingssysteem dat het \lstinline!.fcd! bestanden kan openen; Deze zijn gekoppeld aan een specifiek icoon, dat voldoende suggestief moet zijn.
+\end{itemize}
+
+\subsection{Hoe FidoCadJ op macOS te downloaden en uit te voeren} \index{Hoe FidoCadJ op macOS te downloaden en uit te voeren}
+FidoCadJ kan werken met een macOS\index{macOS}-versie die recenter is dan 10.6 (Snow Leopard\index{Snow Leopard}). Onder de motorkap heeft FidoCadJ minimaal versie 9 van Java nodig. Om marketing redenen installeert Apple Java niet met de laatste versies van macOS\index{macOS}. Trouwens, Apple staat niet toe om zijn App Store\index{App Store}-software te verspreiden op basis van Java of gedistribueerd onder GPL. Dit is een van de belangrijkste redenen waarom het vrij onwaarschijnlijk is dat FidoCadJ zal worden overgezet naar iPad\index{iPad} en iPhone\index{iPhone}.
+
+Zelfs als u het Java-archief \lstinline!fidocadj.jar! gebruikt zoals u zou doen op andere besturingssystemen, kunt u op macOS de specifiek op maat gemaakte applicatie gebruiken. Alles werkt net als een native applicatie: u kunt de schijfkopie down- loaden via de volgende link:
+
+{\footnotesize \noindent
+\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ_MacOSX.dmg}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/FidoCadJ\_MacOSX.dmg}}\\
+%
+U kunt dan de kopie openen en \lstinline!FidoCadJ.app! verplaatsen naar de \lstinline!Toepassingen! map, waar u het op precies dezelfde manier kunt gebruiken als elke andere Macintosh-toepassing. Om FidoCadJ te verwijderen, sleept u gewoon \lstinline!FidoCadJ.app! naar de prullenbak.
+
+\section{Linux} \index{Linux}
+\label{installazione_linux} \textsl{door Roby IZ1CYN}\\
+
+Voorwaarde: JRE\index{JRE} 9 van Oracle\index{Oracle} en/of OpenJDK\index{OpenJDK} 9 JRE\index{JRE} (of opeenvolgende versies die compatibel zijn met de specificaties van het programma) moeten zijn ge\"{i}nstalleerd. In paragraaf \ref{inst_testo} wordt de installatie van het programma met alleen commando's van een terminal beschreven. In paragraaf \ref{inst_grafica} wordt in plaats daarvan de interactie met een grafische omgeving gebruikt. Een slechte configuratie van uw Java-runtime-omgeving geeft slechte prestaties van FidoCadJ\footnote{Opmerking redacteur: Ik zweer het, het is waar! \textit{Alsjeblieft}, beledig me niet als je favoriete Linux-distributie wordt geleverd met een zeer onbetrouwbare versie van Java.}.
+
+\subsection{Via elk platform, vanaf de terminal} \index{Via elk platform, vanaf de terminal}
+
+\label{inst_testo} Download het programma met behulp van de \lstinline!wget! commando:
+
+
+%\lstset{language=plain,%
+%   basicstyle=\tiny\ttfamily}
+
+\begin{lstlisting}
+$ wget https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar
+--00:48:18--  https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar
+=> `fidocadj.jar'
+Resolution of github.com is being done... xxx.xxx.xxx.xxx
+Connection to github.com is being done... xxx.xxx.xxx.xxx connected.
+HTTP request sent, waiting for answer... 200 OK
+Length: 343,207 (335K) [application/java-archive]
+
+100%[====================================>] 343,207      422.48K/s
+
+00:48:30 (420.55 KB/s) - ``fidocadj-0.24.8.jar'' saved [xxx/yyy]
+$
+\end{lstlisting}
+\lstset{
+	basicstyle=\small\ttfamily}
+
+Als alternatief, of als u problemen ondervindt, kunt u het bestand vanuit elke browser downloaden via de volgende URL:
+
+{\small \noindent
+	\href{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}{https://github.com/DarwinNE/FidoCadJ/releases/download/v0.24.8/fidocadj-0.24.8.jar}}
+
+en sla het bestand bijvoorbeeld op in uw \lstinline!/home/[user_name]/Download! directory (veel moderne browsers doen dat standaard).
+
+Maak een nieuwe map aan (maar in eerste instantie worden we een superuser\index{superuser} door \lstinline!su! of \lstinline!sudo -s!):
+
+\begin{lstlisting}
+$ su
+-> enter password
+# mkdir /usr/local/bin/fidocadj
+\end{lstlisting}
+
+\dots\ en we kunnen het gedownloade bestand daar naartoe verplaatsen (vervang \lstinline!<user>! door de gebruikersnaam van het account waar het bestand is gedownload):
+
+\begin{lstlisting}
+# mv /home/[user_name]/Download/fidocadj-0.24.8.jar /usr/local/bin/fidocadj
+\end{lstlisting}
+
+Maak van het bestand een uitvoerbaar bestand
+
+\begin{lstlisting}
+# chmod +x /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
+\end{lstlisting}
+
+En we mogen niet vergeten om weer normale gebruikers te worden:
+
+\begin{lstlisting}
+# exit
+\end{lstlisting}
+
+En nu kunnen we het programma uitvoeren:
+
+\begin{lstlisting}
+$ /usr/local/bin/fidocadj/fidocadj-0.24.8.jar
+\end{lstlisting}
+
+\subsection{Op een grafisch systeem} \index{Op een grafisch systeem}
+\label{inst_grafica}
+In het voorbeeld gebruiken we Ubuntu\index{Ubuntu} 8.04, maar voor oudere of nieuwere versies verandert er niet veel:
+
+\begin{itemize}
+	\item {Download het bestand vanuit de browser of met Gwget of vergelijkbare tools.}
+	
+	\item{Start onze Bestandsbeheerder (Nautilus, Konqueror\dots) als root (als we geen specifiek commando in het menu hebben, hoeven we het alleen maar vanaf de console te starten met behulp van \lstinline!sudo nautilus!). We kunnen de volgende directory maken:
+\begin{lstlisting}
+/usr/local/bin/fidocadj
+\end{lstlisting}
+	en verplaats daar het bestand dat we zojuist hebben gedownload, dat in veel gevallen in een map staat zoals \lstinline!/home/[gebruikersnaam]/Download/! na het downloaden.}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=.8\textwidth]{permessi}
+		\caption{Het instellen van bestandsrechten, op Ubuntu\index{Ubuntu} 8.04.}
+		\label{fig_permessi}
+	\end{figure}
+	
+	\item {Klik met de rechtermuisknop op het bestand, vanuit het venster selecteren we het tabblad ``rechten'', we voegen het vinkje toe voor ``Sta de uitvoering van het bestand toe als een programma'', zoals weergegeven in de figuur~\ref{fig_permessi}} (alleen dan op zijn Italiaans\dots)
+	
+	% Obsolete figure!!!
+	%\begin{figure}
+	%\centering
+	%\includegraphics[width=.8\textwidth]{java6}
+	%\caption{Set the execution with the Java virtual machine, on Ubuntu\index{Ubuntu} 8.04.}
+	%\label{fig_java6}
+	%\end{figure}
+	
+	\item {Selecteer het tabblad ``Openen als'' en selecteer ``OpenJDK Java 9 Runtime'' of ``Oracle Java 9 Runtime'' (of een volgende versie).}%, as it can be seen in figure~\ref{fig_java6}.}
+	
+	\item {Klik op ``Sluiten'' en we zijn nu klaar om FidoCadJ uit te voeren: een dubbelklik op het uitvoerbare bestand, of we kunnen het toevoegen aan het hoofdmenu. De opdracht om toe te voegen is gewoon \lstinline!/usr/local/bin/fidocadj/fidocadj-0.24.8.jar!.}
+\end{itemize}
+
+\subsection{``Portable'' installatie} \index{Portable installatie}
+\textsl{door Max2433BO}\\
+
+Als u niets op het systeem kunt installeren, kan FidoCadJ nog steeds worden gebruikt als een ``draagbare'' toepassing die overal kan worden uitgevoerd zonder dat hiervoor supergebruikersrechten nodig zijn.
+
+Maak hiervoor een map \lstinline!/home/[user_name]/fidocadj/! waar de volgende bestanden worden geplaatst:
+
+\begin{itemize}
+	\item \lstinline!fidocadj-0.24.8.jar!
+	\item \lstinline!jdk-9.0.4! (javaSE 9, of groter)
+	\item a script \lstinline!fidocadj-0.24.8.sh! om FidoCadJ te starten, met de juiste Java-versie.
+\end{itemize}
+
+\begin{lstlisting}
+#!/bin/bash
+export PATH=.:../fidocadj/jdk-9.0.4/bin
+export CLASSPATH=.:../fidocadj/jdk-9.0.4/lib:../fidocadj
+../fidocadj/jdk-9.0.4/bin/java -jar ../fidocadj/fidocadj_0.24.8.jar
+\end{lstlisting}
+\noindent
+Het script moet uitvoerbaar worden gemaakt met \lstinline!chmod +x fidocadj-0.24.8.sh! in de directory waar het script aanwezig is.
+Natuurlijk moet u de Java-versie en de bijbehorende directory aanpassen aan uw behoeften.
+
+\subsection{Raspberry Pi 400} \index{Raspberry Pi 400}
+\label{installazione_Raspberry_Pi_400} \textsl{door Joop Nijenhuis}\\
+
+De Raspberry Pi 400 is een zeer goedkope computer. Goedkoop zijn betekent hier niet een armetierig uitgevoerd systeem. Dit is wat de toekomst zou kunnen zijn. Binnenin een 64-bit quad-core ARM-processor met 4Gb ram, Gigabit Ethernet, Wifi, Bluetooth. Het heeft 2 HDMI-videopoorten, dus het kan op bijna alles worden aangesloten en het gebruikt een microSD-kaart als hoofdstation. Er zijn 1 USB 2.0-poort en 2 USB 3.0-poorten. Voeding via een USB type-C-poort. Er is een uitbreidingspoort voor experimenten. Hij verbruikt maar 15 Watt aan energie, waarschijnlijk veel minder omdat je niet alles gebruikt. Dit type computer wordt onder jongeren gepromoot om ze te laten programmeren en ze meer inzicht te geven in wat een computer is en kan. Raspberry Pi wordt geleverd met zijn eigen op Debian gebaseerde OS-distributie genaamd NOOBS\index{NOOBS}. Op de kaart staat ook OpenJDK Java versie 11.x.x. Alles is al ge\"{i}nstalleerd! Je zou de microSD-kaart achter in de kaartreader kunnen steken en het systeem laten draaien, of dat verstandig is, is een andere zaak. Als je een andere achtergrond hebt, dan vind je Linux misschien niet gemakkelijk. Wees je ervan bewust dat het ook anders kan! Je kunt de hierboven beschreven weg gaan of je kunt het op mijn manier doen. Om de een of andere reden houdt de Raspberry Pi-gemeenschap niet van Java, weet niet waarom, dus geen antwoorden daar. Ik vond ``native'' oplossingen niet beter en soms slechter dan wat ik al in Java had draaien. FidoCadJ is er een van en werkt prima met/op de Pi. Hoe nu verder? Maak in /home/pi een nieuwe map aan en geef deze de naam ``Apps'' of iets dergelijks. Open deze map en maak opnieuw een nieuwe map aan met de naam ``fidocadj''. Kopieer de download ``fidocadj-0.24.8.jar'' naar deze map.
+
+Start de teksteditor en kopieer de volgende regels erin:
+\begin{lstlisting}
+#!/bin/sh
+
+#go to script's directory
+progdir=${0%/*} 
+cd $progdir
+
+#launch fidocadj
+java -Duser.home=$progdir -jar fidocadj-0.24.8.jar 2>fidocadj-bugs.txt
+\end{lstlisting}
+
+Sla het op als ``fidocadj.sh'' in dezelfde map als FidoCadJ. U kunt dit bestand toevoegen aan het programma ``Main Menu Editor'' in de NOOBS-distributie. Met enige aanpassing kan deze opstelling voor elk ander Java-programma worden gebruikt. De ``-Duser.home=\$progdir'' zorgt ervoor dat altijd ``\$progdir'' wordt gebruikt. De ``2\textgreater fidocadj-bugs.txt'' stuurt elk probleem naar het bestand ``fidocadj-bugs.txt''. Maak je geen zorgen, het bestand blijft leeg op mijn systeem, maar voor het geval er iets misgaat, heb ik waarschijnlijk enkele hints waar ik het probleem kan zoeken.
+
+Het mooie van dit systeem is dat het altijd werkt (tot nu toe) en dat je ALLE dingen over het programma in \'{E}\'{E}N map kunt vinden, in geval van problemen of als je gewoon alles wilt wissen. Omdat OpenJDK Java, versie 11, deel uitmaakt van de NOOBS-distributie, krijgt het updates elke keer dat u het Pi-systeem bijwerkt en als er een update voor Java is. Nog iets: ik werk met een Wacom Tablet\index{Wacom tablet} en een pen als muis. Werkt heel goed met FidoCadJ. Als je meer wilt lezen; \href{https://forums.raspberrypi.com/viewtopic.php?t=320892}{https://forums.raspberrypi.com/viewtopic.php?t=320892}
+
+\section{Windows} \index{Windows}
+Wanneer FidoCadJ een Windows-platform herkent, zal het proberen de native Look and Feel te gebruiken.
+
+\subsection{Hoe FidoCadJ te downloaden en uit te voeren} \index{Hoe FidoCadJ te downloaden en uit te voeren}
+Heel vaak, als je Java hebt ge\"{i}nstalleerd, hoef je alleen maar \lstinline!fidocadj-0.24.8.jar! bestand te downloaden en met een dubbelklik te laten starten. Als uw besturingssysteem het na het downloaden als een \lstinline!zip! archive ziet, is Java waarschijnlijk niet beschikbaar op uw computer. Met Oracle kunt u de huidige versie van de Java-runtime gratis downloaden en installeren (vervang ``it'' eventueel voor ``nl'' of de aanduiding voor uw land): \href{http://www.java.com/it/download/}{http://www.java.com/it/download/}
+OpenJDK is o.a. te downloaden van: \href{https://bell-sw.com/pages/downloads/}{https://bell-sw.com/pages/downloads/}
+
+%\vspace*{5cm plus 0.5cm}
+
+%\pagebreak
+
+\section{Compileren van sources} \index{Compileren van sources}
+Als u wilt compileren\index{compileren} uit FidoCadJ-bronnen\index{FidoCadJ-bronnen}, is dat gelukkig een eenvoudige taak, omdat u alleen een werkende Java SDK en GNU-make-up nodig hebt. Meer details worden gegeven in het bestand README.md. Het FidoCadJ-project heeft een build-automatiseringssysteem, gebaseerd op make. 
+Je moet eerst de volledige bron repository\index{repository} downloaden van GitHub. De make-regels in tabel~\ref{tab_make_targets} zijn ge\"{i}mplementeerd en kunnen vanaf de opdrachtregel worden gebruikt. Als u de broncode van FidoCadJ wilt bestuderen, voert u \lstinline!make createdoc! in om de Javadoc-beschrijving te verkrijgen die geplaatst wordt in de \lstinline!doc! submap.
+
+
+\begin{table}
+	\centering
+	\caption{Lijst met beschikbare make doelen om FidoCadJ uit bronnen te compileren.}
+	\label{tab_make_targets}
+	\begin{tabular}{ll}
+		\hline
+		\textbf{Regel} & \textbf{Beschrijving} \\
+		\hline
+		\lstinline!make! & Compile FidoCadJ (implicit)\\
+		\lstinline!make clean!& Erase all the compiled classes\\
+		\lstinline!make cleanall!& Do a clean, erase fidocadj.jar, Javadocs\\
+		\lstinline!make compile!& Compile FidoCadJ (explicit)\\
+		\lstinline!make createdoc!& Run Javadoc on all source files\\
+		\lstinline!make createjar!& Prepare jar/fidocadj.jar\\
+		\lstinline!make rebuild!& Do a clean and then run FidoCadJ\\
+		\lstinline!make run!& Run FidoCadJ\\
+		\hline
+	\end{tabular}
+\end{table}
+
+Als u Windows gebruikt, kan het handig zijn om de \lstinline!winbuild.bat! script te gebruiken in plaats van \lstinline!make!. Het script wordt in de \lstinline!dev_tools! directory geplaatst en moet worden gebruikt met een actie gekozen uit \lstinline!{run|clean|compile|force|rebuild}!.
+
+\section{Android} \index{Android}
+In 2015 is een specifieke versie van FidoCadJ voor Android ontwikkeld. Het deelt veel van de broncode met de pc-versie, maar alle grafische gebruikersinterfacecode moest worden herschreven. Het zou moeten werken op verschillende apparaten met minimaal Android 4.0: zowel smartphones als tablets. Figuur~\ref{fig_fidocadj_s5} toont bijvoorbeeld het uiterlijk van FidoCadJ voor Android met een Samsung S5-smartphone.
+
+Er zijn enkele kleine verschillen tussen de Android-applicatie en de pc-applicatie die in de handleiding wordt beschreven. Ze zijn natuurlijk perfect compatibel met het bestandsformaat en kunnen tekeningen uitwisselen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{fidocadj_s5}
+	\caption{FidoCadJ voor Android, draaiend op een Samsung S5-smartphone.}
+	\label{fig_fidocadj_s5}
+\end{figure}
+
+\begin{itemize}
+	\item U kunt geen gebruikersbibliotheken maken en bewerken, maar u kunt wel de op een pc gebouwde bibliotheken gebruiken. 
+	\item U slaat de gebruikersbibliotheken op in het externe bestandssysteem (de ``SD-kaart''), in de \lstinline!FidoCadJ/Libs! map. 
+	\item De symbolen worden niet de hele tijd getoond om ruimte te besparen: je moet met je vinger over de rechterkant van het scherm vegen om ze te tonen. 
+	\item Je hebt een extra knop in de werkbalk, waarmee je het getoonde gedeelte van de tekening kunt verplaatsen en zoomen. Terwijl u zich in deze ``Verplaatsen''-status bevindt, raakt u het scherm aan en beweegt u uw vinger om de tekening te verplaatsen(pannen). Gebruik twee vingers en ``knijp'' om de zoom te vergroten of te verkleinen.
+\end{itemize}
+
+In 2020 ziet de toekomst van de Android-applicatie er echter nogal somber uit. Allereerst lijkt het erop dat Google Play de enige effectieve manier is om de applicatie te verspreiden. Een ontwikkelaarsaccount om een applicatie te publiceren kost geld. Alternatieven bestaan, maar zijn niet wijdverbreid. Bovendien is de applicatie in 2014 ontwikkeld met technieken die nu blijkbaar door Google worden uitgefaseerd. Wat nog belangrijker is, het onderhouden van een moderne app is gewoon niet iets dat ik alleen wil doen, gezien de tijd die ik heb gekozen om aan FidoCadJ te besteden. Als iemand ervoor wil zorgen, stap dan naar voren.
+
+\chapter{FidoCadJ voorbeelden} \label{chap_fidocadj_other_uses} \index{FidoCadJ voorbeelden}
+en hoe het ook anders kan\dots
+\noindent
+\vfill
+\pagebreak
+
+\begin{figure}[h] \index{Voorbeeld van gebruiker DanteCpp (Oostenrijk)}
+	\includegraphics[width=1.00 \textwidth]{Example_from_DanteCpp-30_aug_2016.png}
+	\caption{Voorbeeld van gebruiker DanteCpp (Oostenrijk)}
+\end{figure}
+ Dit voorbeeld komt uit https://github.com/DarwinNE/FidoCadJ/issues/16 en is oorspronkelijk gemaakt in een Ubuntu Linux systeem. Ik heb de code uit de forumpost gekopieerd en in een ascii tekstverwerker geplakt en opgeslagen met een bestandsnaam en de extensie ``.fcd''. Daarna ingelezen in FidoCadJ op een Raspberry Pi 400 (Nederland). Het enigste wat ik moest herstellen waren de ``N1'' en ``N2''  bijschriften waarbij de getallen op de letter ``N'' werden gezet. Voor de rest is de tekening ongewijzigd. Vervolgens in FidoCadJ ge\"{e}xporteerd naar een png-afbeelding. En dit is het resultaat.
+\begin{figure}[h] \index{Voorbeeld FidoCadJ tekening met andere inzet lagen}
+	\includegraphics[width=1.00 \textwidth]{battery_power_monitor.png}
+	\caption{Een voorbeeld van een FidoCadJ tekening met andere inzet van de beschikbare lagen (lees kleuren).}
+\end{figure}
+
+\begin{figure}[h] \index{Modulair samengesteld effectrack}
+	\includegraphics[width=1.00 \textwidth]{effectrack-1s.png}
+	\caption{Modulair samengesteld effectrack. Door op de pagina in te zoomen (\textgreater 200\%) kunnen knoppen en teksten beter leesbaar worden.}
+\end{figure}
+
+\begin{figure}[h] \index{Tuner samengesteld uit mengversterkereenheden van Philips}
+	\includegraphics[width=1.05 \textwidth]{Philips_mengversterkereenheden-s.png}
+	\caption{Tuner samengesteld uit mengversterkereenheden van Philips. Door op de pagina in te zoomen (\textgreater 200\%) kunnen knoppen en teksten beter leesbaar worden.}
+\end{figure}
+
+\begin{figure}[h] \index{Voorbeeld van een geluidsstudio indeling}
+	\includegraphics[width=1.10 \textwidth]{opzet_studio_v1b.png}
+	\caption{Voorbeeld van een geluidsstudio indeling (de werkelijke opzet is veel gecompliceerder en past niet op een A4, het idee zal wel duidelijk zijn). Door op de pagina in te zoomen (\textgreater 200\%) kunnen teksten beter leesbaar worden.}
+\end{figure}
+
+\begin{figure}[h] \index{Nieuwe indeling woonkamer}
+	\includegraphics[width=1.00 \textwidth]{lundia_woonkamer.png}
+	\caption{Mijn poging voor een nieuwe indeling van de woonkamer.}
+\end{figure}
+
+
+\chapter{FidoCadJ art} \label{chap_fidocadj_art} \index{FidoCadJ art}
+
+\noindent
+\resizebox{\textwidth}{!}{\input{images/steinmetz.pgf}}
+\label{steinmetz}
+\index{Een van de grondleggers van circuitanalyse}
+
+\noindent
+\includegraphics[width=\textwidth]{images/tiger}
+\index{Tiger, tiger, burning bright...}
+\begin{center}
+	Tiger, tiger, burning bright... By Igor Arbanas ``elettrodomus''.
+\end{center}
+
+\printindex
+\cleardoublepage
+\thispagestyle{empty}
+\mbox{ }
+\vfill
+Deze handleiding is geschreven met behulp van \textsc{pdf}\LaTeX\ met TeXstudio op een Raspberry Pi 400. Lijsten zijn samengesteld met behulp van de \href{http://www.ctan.org/tex-archive/macros/latex/ contrib/listings/}{listings} pakket. Het \href{http://www.ctan.org/tex-archive/graphics/pgf/}{pgf} pakket is gebruikt voor de figuur~\ref{fig_schema} en ook voor de afbeelding op pagina \pageref{steinmetz}. Zie de preambule van het tex-bestand voor de benodigde pakketten (met enkele opmerkingen). Al die pakketten zijn beschikbaar in het CTAN-archief.
+
+
+\end{document}

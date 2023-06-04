@@ -1,0 +1,4 @@
+#!/bin/sh
+pdflatex manual_nl
+makeindex manual_nl
+bibtex manual_nl
