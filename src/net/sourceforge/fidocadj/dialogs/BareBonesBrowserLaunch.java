@@ -1,7 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import javax.swing.JOptionPane;
-import java.util.Arrays;
 
 /**
     <b>Bare Bones Browser Launch for Java</b><br>
@@ -15,7 +14,7 @@ import java.util.Arrays;
         www.centerkey.com/java/browser</a><br>
     Author: Dem Pilafian<br>
     Public Domain Software -- Free to Use as You Like
-    @version 3.1, June 6, 2010
+    @version 3.1, June 6, 2010 - (mod. 2023)
 */
 public final class BareBonesBrowserLaunch
 {
@@ -52,12 +51,12 @@ public final class BareBonesBrowserLaunch
                         .getDeclaredMethod("openURL",
                         new Class[] {String.class}).invoke(null,
                             new Object[] {url});
-                } else if (osName.startsWith("Windows"))
+                } else if (osName.startsWith("Windows")) {
                     Runtime.getRuntime().exec(
                         "rundll32 url.dll,FileProtocolHandler " + url);
-                else { //assume Unix or Linux
+                } else { //assume Unix or Linux
                     String browser = null;
-                    for (String b : browsers)
+                    for (String b : browsers) {
                         if (browser == null &&
                             Runtime.getRuntime().exec(new String[]
                             {"which", b}).getInputStream().read() != -1)
@@ -65,8 +64,10 @@ public final class BareBonesBrowserLaunch
                             Runtime.getRuntime().exec(new String[]
                                 {browser = b, url});
                         }
-                    if (browser == null)
+                    }
+                    if (browser == null) {
                         System.out.println("Browser not found");
+                    }
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, errMsg + "\n" +

@@ -1,16 +1,10 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.primitives.*;
-
-import java.util.*;
-
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
+import net.sourceforge.fidocadj.primitives.Arrow;
+import net.sourceforge.fidocadj.graphic.swing.Graphics2DSwing;
 
 /** The class CellArrow is a simple panel showing the arrow characteristics.
     To be used with ArrowCellRenderer.
@@ -34,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2020 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
     </pre>
 */
 public class CellArrow extends JPanel
@@ -62,7 +56,7 @@ public class CellArrow extends JPanel
     /** Paint the arrow in the panel, using the current style.
         @param g the graphic context.
     */
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         g.setColor(isSelected ? list.getSelectionBackground():
                                 list.getBackground());

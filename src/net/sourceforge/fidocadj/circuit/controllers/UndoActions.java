@@ -186,10 +186,10 @@ public class UndoActions implements UndoActorListener
     */
     public void doTheDishes()
     {
-        for (int i=0; i<tempDir.size();++i)
+        for (String fileName:tempDir)
         {
             try {
-                FileUtils.deleteDirectory(new File(tempDir.get(i)));
+                FileUtils.deleteDirectory(new File(fileName));
             } catch (IOException eE) {
                 System.out.println("Warning: "+eE);
             }

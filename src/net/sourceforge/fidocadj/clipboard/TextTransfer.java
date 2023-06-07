@@ -9,7 +9,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.Toolkit;
 import java.io.*;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.ProvidesCopyPasteInterface;
 
 /**
     Clipboard handling class.
@@ -31,6 +31,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
+    Copyright 2015-2023 by Davide Bucci
    </pre>
 
     @author Davide Bucci
@@ -69,7 +70,8 @@ public final class TextTransfer implements ClipboardOwner,
         @param aClipboard handle to the clipboard to use.
         @param aContents handle to the contents.
     */
-    public void lostOwnership(Clipboard aClipboard, Transferable aContents)
+    @Override public void lostOwnership(Clipboard aClipboard,
+        Transferable aContents)
     {
         // does nothing
     }
@@ -103,11 +105,8 @@ public final class TextTransfer implements ClipboardOwner,
             try {
                 result = (String)contents.getTransferData(
                     DataFlavor.stringFlavor);
-            } catch (UnsupportedFlavorException ex){
+            } catch (UnsupportedFlavorException | IOException ex){
                 //highly unlikely since we are using a standard DataFlavor
-                System.out.println(ex);
-                ex.printStackTrace();
-            } catch (IOException ex) {
                 System.out.println(ex);
                 ex.printStackTrace();
             }

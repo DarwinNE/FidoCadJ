@@ -1,7 +1,5 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import net.sourceforge.fidocadj.primitives.*;
-
 /** This class contains information about the arrow style. It is useful
     for the automatic generation of the properties dialog.
 
@@ -24,7 +22,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
     </pre>
 */
 public class ArrowInfo

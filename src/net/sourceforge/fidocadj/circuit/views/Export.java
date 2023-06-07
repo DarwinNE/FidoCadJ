@@ -2,12 +2,16 @@ package net.sourceforge.fidocadj.circuit.views;
 
 import java.io.*;
 
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBPad;
+import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 
 /** Export: export the FidoCadJ drawing. This is a view of the drawing.
 
@@ -28,7 +32,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 */
 public class Export
@@ -64,7 +68,7 @@ public class Export
             if(g.getLayer()==dmp.drawOnlyLayer &&
                 !(g instanceof PrimitiveMacro))
             {
-                if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible||
+                if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible||
                     exportInvisible)
                 {
                     g.export(exp, mp);
@@ -73,7 +77,7 @@ public class Export
                 ((PrimitiveMacro)g).setDrawOnlyLayer(dmp.drawOnlyLayer);
                 ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
 
-                if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible||
+                if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible||
                     exportInvisible)
                 {
                     g.export(exp, mp);
@@ -119,7 +123,6 @@ public class Export
         boolean exportInvisible, MapCoordinates mp)
         throws IOException
     {
-        GraphicPrimitive g;
         synchronized(this) {
             if(dmp.drawOnlyLayer>=0 && !dmp.drawOnlyPads){
                 exportAllObjects(exp, exportInvisible, mp);
@@ -133,14 +136,11 @@ public class Export
 
             // Export in a second time only the PCB pads, in order to ensure
             // that the drilling holes are always open.
-
-            for (int i=0; i<dmp.getPrimitiveVector().size(); ++i){
-                if ((g=(GraphicPrimitive)dmp.getPrimitiveVector().get(i))
-                    instanceof PrimitivePCBPad)
-                {
+            for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+                if (g instanceof PrimitivePCBPad) {
                     ((PrimitivePCBPad)g).setDrawOnlyPads(true);
 
-                    if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible
+                    if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible
                         ||exportInvisible)
                     {
                         g.export(exp, mp);
@@ -150,7 +150,7 @@ public class Export
                     // Uhm... not beautiful
                     ((PrimitiveMacro)g).setExportInvisible(exportInvisible);
                     ((PrimitiveMacro)g).setDrawOnlyPads(true);
-                    if(((LayerDesc)(dmp.layerV.get(g.getLayer()))).isVisible
+                    if(((LayerDesc)dmp.layerV.get(g.getLayer())).isVisible
                         ||exportInvisible)
                     {
                         g.export(exp, mp);
@@ -159,8 +159,6 @@ public class Export
                     ((PrimitiveMacro)g).resetExport();
                 }
             }
-            //if (header)
-            //    exp.exportEnd();
         }
     }
 }

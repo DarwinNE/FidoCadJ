@@ -1,11 +1,7 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
-
-import java.util.*;
 
 /** The class ArrowCellRenderer is used in the arrow list.
 
@@ -29,7 +25,7 @@ import java.util.*;
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
-    Copyright 2009-2010 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
 */
 public class ArrowCellRenderer implements ListCellRenderer
 {
@@ -42,7 +38,7 @@ public class ArrowCellRenderer implements ListCellRenderer
         @param cellHasFocus true if the cell has focus.
         @return the created {@link Component}.
     */
-    public Component getListCellRendererComponent(final JList list,
+    @Override public Component getListCellRendererComponent(final JList list,
         final Object value, final int index, final boolean isSelected,
         final boolean cellHasFocus)
     {

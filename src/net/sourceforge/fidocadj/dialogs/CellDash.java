@@ -1,12 +1,10 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-import java.awt.event.*;
 
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.primitives.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 import java.util.*;
 
@@ -35,7 +33,7 @@ import java.util.*;
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
-    Copyright 2009-2014 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
 */
 public class CellDash extends JPanel
 {
@@ -57,7 +55,6 @@ public class CellDash extends JPanel
         dash=la;
         list=l;
         isSelected=is;
-        //Box b=Box.createHorizontalBox();
         setPreferredSize(new Dimension(50,18));
     }
 
