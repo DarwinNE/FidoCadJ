@@ -1,7 +1,5 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import net.sourceforge.fidocadj.primitives.*;
-
 /** This class contains some settings about the actual dashing style. It is used
     in the automatic primitive characteristics dialog.
 
@@ -24,7 +22,7 @@ import net.sourceforge.fidocadj.primitives.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2009-2014 by Davide Bucci
+    Copyright 2009-2023 by Davide Bucci
     </pre>
 
 */

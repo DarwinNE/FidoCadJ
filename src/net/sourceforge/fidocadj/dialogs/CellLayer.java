@@ -1,17 +1,10 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.layers.*;
-
-import java.util.*;
-
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
-
+import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 /** The class CellLayer is a simple panel showing the color, the visibility
     and the description of each layer. To be used with LayerCellRenderer
@@ -36,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.swing.*;
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
     </pre>
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 */
 public class CellLayer extends JPanel
 {
@@ -66,7 +59,7 @@ public class CellLayer extends JPanel
         where we are writing the layer name.
         @param g the graphic context on which to draw.
     */
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         g.setColor(isSelected ? list.getSelectionBackground():
                                 list.getBackground());
@@ -76,8 +69,9 @@ public class CellLayer extends JPanel
         g.fillRect(2,2, getHeight(), getHeight()-4);
 
         if(layer.getVisible()) {
-            if (isSelected)
+            if (isSelected) {
                 g.setColor(list.getSelectionForeground());
+            }
         } else {
             g.setColor(SystemColor.textInactiveText);
         }

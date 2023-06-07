@@ -2,18 +2,10 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
-
 import javax.swing.*;
-
-import java.io.*;
-
-import javax.imageio.*;
-
 import java.net.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.toolbars.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /**
@@ -38,7 +30,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -74,7 +66,7 @@ public class DialogAbout extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.CENTER;
         constraints.insets=new Insets(10,20,0,20);
 
-        if (url != null) icon.setIcon(new ImageIcon(url));
+        if (url != null) { icon.setIcon(new ImageIcon(url)); }
         contentPane.add(icon, constraints);
 
         JLabel programName=new JLabel("FidoCadJ");
@@ -134,13 +126,13 @@ public class DialogAbout extends MinimumSizeDialog
 
         class OpenUrlAction implements ActionListener
         {
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 BareBonesBrowserLaunch.openURL(
                     "http://darwinne.github.io/FidoCadJ/");
 
-            // The following code works only in Java v. 1.6 and for the moment
-            // the minimum requirements for FidoCadJ are Java 1.5
+            // The following code works only in Java above v. 1.6 and
+            // the minimum requirements for FidoCadJ are Java 1.9
             // UPDATE: this has changed and we may consider employing a more
             // standard code now.
             /*  if (Desktop.isDesktopSupported()) {

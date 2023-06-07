@@ -1,13 +1,9 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-
 import javax.swing.*;
 
 import net.sourceforge.fidocadj.globals.Globals;
-
-import java.util.*;
-
 
 /** The class CellArrow is a simple panel showing the dash style
     characteristics.
@@ -62,7 +58,7 @@ public class CellDash extends JPanel
         to draw on the screen the element.
         @param g the graphic context on which to draw.
     */
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         // Show the dashing styles in a list.
         g.setColor(isSelected ? list.getSelectionBackground():
