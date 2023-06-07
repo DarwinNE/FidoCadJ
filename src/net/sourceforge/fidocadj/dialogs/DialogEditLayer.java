@@ -1,20 +1,12 @@
 package net.sourceforge.fidocadj.dialogs;
 
-
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
-import java.util.*;
-
-import javax.swing.event.*;
-import javax.swing.colorchooser.*;
-
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** The class DialogEditLayer allows to choose the style, visibility and
@@ -37,7 +29,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,7 +39,6 @@ public class DialogEditLayer extends MinimumSizeDialog
     static final int ALPHA_MIN = 0;
     static final int ALPHA_MAX = 100;
 
-    private JButton color;
     private final JColorChooser tcc;
     private final JCheckBox visibility;
     private final JTextField description;
@@ -155,7 +146,7 @@ public class DialogEditLayer extends MinimumSizeDialog
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 active=true;
                 setVisible(false);
@@ -165,7 +156,7 @@ public class DialogEditLayer extends MinimumSizeDialog
 
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -176,7 +167,7 @@ public class DialogEditLayer extends MinimumSizeDialog
 
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
