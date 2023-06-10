@@ -2,18 +2,12 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
-
 import javax.swing.*;
-
 import java.io.*;
 
-import javax.imageio.*;
-import javax.swing.border.*;
-
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointG;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.geom.DrawingSize;
@@ -38,7 +32,7 @@ import net.sourceforge.fidocadj.circuit.views.Export;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -195,7 +189,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 int selection;
                 // Check if the magnification factor is correct.
@@ -209,7 +203,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
                     return;
                 }
 
-                if(fileName.getText().trim().equals("")){
+                if("".equals(fileName.getText().trim())){
                     export=false;
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("Warning_noname"),
@@ -226,7 +220,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -234,7 +228,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -381,13 +375,13 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     {
         int index=0;
 
-        if (Math.abs(d-0.36)<EPS) index=0;
-        if (Math.abs(d-0.75)<EPS) index=1;
-        if (Math.abs(d-1.50)<EPS) index=2;
-        if (Math.abs(d-3.00)<EPS) index=3;
-        if (Math.abs(d-6.00)<EPS) index=4;
-        if (Math.abs(d-9.00)<EPS) index=5;
-        if (Math.abs(d-12.00)<EPS) index=6;
+        if (Math.abs(d-0.36)<EPS) { index=0; }
+        if (Math.abs(d-0.75)<EPS) { index=1; }
+        if (Math.abs(d-1.50)<EPS) { index=2; }
+        if (Math.abs(d-3.00)<EPS) { index=3; }
+        if (Math.abs(d-6.00)<EPS) { index=4; }
+        if (Math.abs(d-9.00)<EPS) { index=5; }
+        if (Math.abs(d-12.0)<EPS) { index=6; }
 
         resolution.setSelectedIndex(index);
     }
@@ -657,7 +651,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
     {
         return new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 // Open the browser in order to let the user select the file
                 // name on which export
@@ -706,7 +700,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         res.addItem("1800x1800 dpi");
         res.addItem("2400x2400 dpi");
         res.addActionListener (new ActionListener () {
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 int width = (int)(
                     (dim.width+Export.exportBorder)*getUnitPerPixel());
@@ -724,7 +718,7 @@ public class DialogExport extends MinimumSizeDialog implements ActionListener
         of export is being done.
         @param evt the event to be processed.
     */
-    public void actionPerformed(ActionEvent evt)
+    @Override public void actionPerformed(ActionEvent evt)
     {
         int idx=fileFormat.getSelectedIndex();
 

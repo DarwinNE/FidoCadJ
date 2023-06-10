@@ -2,11 +2,10 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 import java.util.*;
@@ -32,7 +31,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -105,7 +104,7 @@ public class DialogLayer extends MinimumSizeDialog implements ComponentListener
 
         edit.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 activateLayerEditor(layerList.getSelectedIndex());
             }
@@ -113,14 +112,14 @@ public class DialogLayer extends MinimumSizeDialog implements ComponentListener
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -129,7 +128,7 @@ public class DialogLayer extends MinimumSizeDialog implements ComponentListener
 
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -184,7 +183,7 @@ class ActionDClick extends MouseAdapter
     /** Handle a click of the mouse.
         @param e the mouse event object.
     */
-    public void mouseClicked(MouseEvent e)
+    @Override public void mouseClicked(MouseEvent e)
     {
         if(e.getClickCount() == 2){
             int t = dl.layerList.locationToIndex(e.getPoint());

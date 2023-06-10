@@ -2,18 +2,11 @@ package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
-
 import javax.swing.*;
 
-import java.io.*;
-
-import javax.imageio.*;
-import javax.swing.border.*;
-
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointG;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.geom.DrawingSize;
@@ -39,7 +32,7 @@ import net.sourceforge.fidocadj.circuit.views.Export;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2020 by Davide Bucci
+    Copyright 2020-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,8 +40,6 @@ import net.sourceforge.fidocadj.circuit.views.Export;
 public class DialogCopyAsImage extends MinimumSizeDialog implements
     ActionListener
 {
-    private final JFrame parent;
-
     private boolean copy;     // Indicates that the copy should be done
 
     private static final double EPS=1E-5;   // Resolution comparison precision
@@ -84,7 +75,6 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
 
         addComponentListener(this);
         copy=false;
-        parent=p;
 
         // Obtain the current content pane and create the grid layout manager
         // which will be used for putting the elements of the interface.
@@ -161,7 +151,7 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 int selection;
                 selection=JOptionPane.OK_OPTION;
@@ -173,7 +163,7 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -181,7 +171,7 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -264,13 +254,13 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
     {
         int index=0;
 
-        if (Math.abs(d-0.36)<EPS) index=0;
-        if (Math.abs(d-0.75)<EPS) index=1;
-        if (Math.abs(d-1.50)<EPS) index=2;
-        if (Math.abs(d-3.00)<EPS) index=3;
-        if (Math.abs(d-6.00)<EPS) index=4;
-        if (Math.abs(d-9.00)<EPS) index=5;
-        if (Math.abs(d-12.00)<EPS) index=6;
+        if (Math.abs(d-0.36)<EPS) { index=0; }
+        if (Math.abs(d-0.75)<EPS) { index=1; }
+        if (Math.abs(d-1.50)<EPS) { index=2; }
+        if (Math.abs(d-3.00)<EPS) { index=3; }
+        if (Math.abs(d-6.00)<EPS) { index=4; }
+        if (Math.abs(d-9.00)<EPS) { index=5; }
+        if (Math.abs(d-12.0)<EPS) { index=6; }
 
         resolution.setSelectedIndex(index);
     }
@@ -456,7 +446,7 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
         res.addItem("1800x1800 dpi");
         res.addItem("2400x2400 dpi");
         res.addActionListener (new ActionListener () {
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 int width = (int)(
                     (dim.width+Export.exportBorder)*getUnitPerPixel());
@@ -474,7 +464,7 @@ public class DialogCopyAsImage extends MinimumSizeDialog implements
         of copy is being done.
         @param evt the event to be processed.
     */
-    public void actionPerformed(ActionEvent evt)
+    @Override public void actionPerformed(ActionEvent evt)
     {
         // It is a bitmap based copy
         xsizePixel.setEnabled(true);

@@ -748,7 +748,6 @@ public class FidoFrame extends JFrame implements
             cc.getStrictCompatibility(),
             cc.dmp.getTextFont(),
             Globals.lineWidth,
-            Globals.lineWidthCircles,
             Globals.diameterConnection,
             cc.dmp.getTextFontSize(),
             cpa.getShiftCopyPaste());

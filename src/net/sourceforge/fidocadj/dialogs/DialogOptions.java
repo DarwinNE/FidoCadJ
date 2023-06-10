@@ -1,15 +1,11 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-
 import javax.swing.*;
-import javax.swing.border.*;
-
 import java.awt.event.*;
 import java.io.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 /** The dialogOptions class implements a modal dialog, which allows the user to
@@ -34,7 +30,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 */
 public class DialogOptions extends MinimumSizeDialog
@@ -46,15 +42,10 @@ public class DialogOptions extends MinimumSizeDialog
     public boolean smallIconsToolbar;
     public int gridSize;
     public boolean extStrict;
-
     public boolean shiftCP;
-
     public double stroke_size_straight_i;
-
     public double connectionSize_i;
-
     public String libDirectory;
-
     public int pcblinewidth_i;
     public int pcbpadwidth_i;
     public int pcbpadheight_i;
@@ -67,9 +58,7 @@ public class DialogOptions extends MinimumSizeDialog
     private JCheckBox antiAlias_CB;
     private JCheckBox profile_CB;
     private JCheckBox extStrict_CB;
-
     private JCheckBox shiftCP_CB;
-
     private JTextField gridWidth;
     private JTextField libD;
     private JCheckBox textToolbar_CB;
@@ -80,10 +69,7 @@ public class DialogOptions extends MinimumSizeDialog
     private JTextField pcbpadintw;
     private JTextField connectionSize;
     private JTextField macroSize;
-
     private JTextField stroke_size_straight;
-
-    private JCheckBox quaquaActive_CB;
     private JComboBox<String> comboFont;
 
     /** Standard constructor.
@@ -103,7 +89,6 @@ public class DialogOptions extends MinimumSizeDialog
         @param ex strict compatibility with FidoCAD for Windows.
         @param mf the current Macro font.
         @param sssi stroke width to be used for segments and straight lines.
-        @param ssoi stroke width to be used for ovals.
         @param ccs connection size.
         @param ms text height for macros.
         @param sdcp shift during copy and paste.
@@ -112,8 +97,7 @@ public class DialogOptions extends MinimumSizeDialog
                           int gs, String libDir, boolean tt, boolean sit,
                           int plw, int pw, int ph, int piw,
                           boolean ex, String mf,
-                          double sssi, double ssoi,
-                          double ccs, int ms, boolean sdcp)
+                          double sssi, double ccs, int ms, boolean sdcp)
     {
         super(600,450,pa, Globals.messages.getString("Cir_opt_t"), true);
         addComponentListener(this);
@@ -196,7 +180,7 @@ public class DialogOptions extends MinimumSizeDialog
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 String origin="";
                 int ng=-1;
@@ -234,14 +218,14 @@ public class DialogOptions extends MinimumSizeDialog
                     connectionSize_i=Double.parseDouble(
                         connectionSize.getText().trim());
 
-                } catch (NumberFormatException E)
+                } catch (NumberFormatException eE)
                 {
                     invalidData=true;
-                    origin=E.getMessage();
+                    origin=eE.getMessage();
                 }
-                if(ng>0 && !invalidData)
+                if(ng>0 && !invalidData) {
                     gridSize=ng;
-                else {
+                } else {
                     JOptionPane.showMessageDialog(parent,
                             Globals.messages.getString("Format_invalid")+
                             " ("+origin+")", "",
@@ -264,7 +248,7 @@ public class DialogOptions extends MinimumSizeDialog
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -273,7 +257,7 @@ public class DialogOptions extends MinimumSizeDialog
 
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -321,7 +305,7 @@ public class DialogOptions extends MinimumSizeDialog
         restartOptionPanel.add(libB, constraints);      // Add lib dir button
         libB.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 String din;
 
@@ -330,7 +314,6 @@ public class DialogOptions extends MinimumSizeDialog
                     FileDialog fd = new FileDialog(parent,
                         Globals.messages.getString("Select_lib_directory"),
                         FileDialog.LOAD);
-                    String openFileName;
 
                     fd.setDirectory(libD.getText());
                     System.setProperty("apple.awt.fileDialogForDirectories",
@@ -338,11 +321,12 @@ public class DialogOptions extends MinimumSizeDialog
                     fd.setVisible(true);
                     System.setProperty("apple.awt.fileDialogForDirectories",
                         "false");
-                    if(fd.getDirectory()==null || fd.getFile() ==null)
+                    if(fd.getDirectory()==null || fd.getFile() ==null) {
                         din = null;
-                    else
+                    } else {
                         din=new File(fd.getDirectory(),fd.getFile()).
                             getPath();
+                    }
                 } else {
                     // Use Swing's file dialog.
                     JFileChooser fc = new JFileChooser(
@@ -357,13 +341,12 @@ public class DialogOptions extends MinimumSizeDialog
                     int r = fc.showOpenDialog(null);
                     if (r == JFileChooser.APPROVE_OPTION) {
                         din=fc.getSelectedFile().getPath();
-                    } else
+                    } else {
                         din=null;
-
+                    }
                 }
 
                 if(din != null) {
-                    //libDirectory=din;
                     libD.setText(din);
                 }
             }
@@ -423,8 +406,9 @@ public class DialogOptions extends MinimumSizeDialog
             GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
             new Insets(6,6,6,20));
 
-        if(Globals.isBeta)
+        if(Globals.isBeta) {
             drawingOptPanel.add(profile_CB, constraints);   // Add profiler cb
+        }
 
         JLabel gridlbl=new JLabel(Globals.messages.getString("Grid_width"));
 
@@ -460,12 +444,12 @@ public class DialogOptions extends MinimumSizeDialog
             new Insets(6,6,6,6));
         drawingOptPanel.add(connectionSize, constraints);
 
-        JLabel stroke_size_strlbl=new JLabel(Globals.messages.getString(
+        JLabel strokeSizeStrlbl=new JLabel(Globals.messages.getString(
             "stroke_size_straight"));
         constraints = DialogUtil.createConst(0,9,1,1,100,100,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
             new Insets(6,6,6,6));
-        drawingOptPanel.add(stroke_size_strlbl, constraints);
+        drawingOptPanel.add(strokeSizeStrlbl, constraints);
 
         stroke_size_straight=new JTextField(10);
         stroke_size_straight.setText(""+stroke_size_straight_i);
@@ -496,8 +480,9 @@ public class DialogOptions extends MinimumSizeDialog
         //System.out.println(macroFont);
         for (int i = 0; i < s.length; ++i) {
             comboFont.addItem(s[i]);
-            if (s[i].equals(macroFont))
+            if (s[i].equals(macroFont)) {
                 comboFont.setSelectedIndex(i);
+            }
         }
         constraints = DialogUtil.createConst(1,11,1,1,100,100,
             GridBagConstraints.WEST, GridBagConstraints.NONE,
