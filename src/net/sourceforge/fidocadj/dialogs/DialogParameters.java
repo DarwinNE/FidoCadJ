@@ -7,12 +7,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
 import net.sourceforge.fidocadj.dialogs.OSKeybPanel.KEYBMODES;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.FontG;
 
 /**
     Allows to create a generic dialog, capable of displaying and let the user
@@ -38,13 +37,13 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
  */
 public class DialogParameters extends JDialog
 {
-    private int minWidth = 450;
-    private int minHeight = 350;
+    //private int minWidth = 450;
+    //private int minHeight = 350;
     private static final int MAX = 20;
 
     // Maximum number of user interface elements of the same type present
@@ -65,7 +64,8 @@ public class DialogParameters extends JDialog
 
     private final Vector<ParameterDescription> v;
 
-    OSKeybPanel keyb1,keyb2;
+    OSKeybPanel keyb1;
+    OSKeybPanel keyb2;
     JTabbedPane keyb = new JTabbedPane();
 
     /**
@@ -92,13 +92,13 @@ public class DialogParameters extends JDialog
         keyb1 = new OSKeybPanel(KEYBMODES.GREEK);
         keyb2 = new OSKeybPanel(KEYBMODES.MISC);
         JPanel hints = new JPanel();
-        JTextArea hints_l = new JTextArea(
+        JTextArea hintsL = new JTextArea(
             Globals.messages.getString("text_hints"),6,40);
-        hints_l.setLineWrap(true);
-        hints_l.setWrapStyleWord(true);
-        hints_l.setEditable(false);
-        hints_l.setOpaque(false);
-        hints.add(hints_l);
+        hintsL.setLineWrap(true);
+        hintsL.setWrapStyleWord(true);
+        hintsL.setEditable(false);
+        hintsL.setOpaque(false);
+        hints.add(hintsL);
         keyb1.setField(this);
         keyb2.setField(this);
         keyb.addTab(Globals.messages.getString("param_greek"), keyb1);
@@ -148,10 +148,11 @@ public class DialogParameters extends JDialog
             constraints.gridheight = 1;
 
             // The first element needs a little bit more space at the top.
-            if (ycount == 0)
+            if (ycount == 0) {
                 top = 10;
-            else
+            } else {
                 top = 0;
+            }
 
             // Here, we configure the grid layout.
             constraints.insets = new Insets(top, 20, 0, 6);
@@ -160,9 +161,9 @@ public class DialogParameters extends JDialog
             constraints.anchor = GridBagConstraints.EAST;
             lab.setEnabled(!(pd.isExtension && extStrict));
 
-            if (!(pd.parameter instanceof Boolean))
+            if (!(pd.parameter instanceof Boolean)) {
                 contentPane.add(lab, constraints);
-
+            }
             constraints.anchor = GridBagConstraints.WEST;
             constraints.insets = new Insets(top, 0, 0, 0);
             constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -171,7 +172,7 @@ public class DialogParameters extends JDialog
             // elements and we populate the dialog.
             if (pd.parameter instanceof PointG) {
                 jtf[tc] = new JTextField(10);
-                jtf[tc].setText("" + ((PointG) (pd.parameter)).x);
+                jtf[tc].setText("" + ((PointG) pd.parameter).x);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -184,7 +185,7 @@ public class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
 
                 jtf[tc] = new JTextField(10);
-                jtf[tc].setText("" + ((PointG) (pd.parameter)).y);
+                jtf[tc].setText("" + ((PointG) pd.parameter).y);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 3;
@@ -197,7 +198,7 @@ public class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof String) {
                 jtf[tc] = new JTextField(24);
-                jtf[tc].setText((String) (pd.parameter));
+                jtf[tc].setText((String) pd.parameter);
                 // If we have a String text field in the first position, its
                 // contents should be evidenced, since it is supposed to be
                 // the most important field (e.g. for the AdvText primitive)
@@ -213,12 +214,10 @@ public class DialogParameters extends JDialog
                 constraints.insets = new Insets(top, 0, 0, 20);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 jtf[tc].setEnabled(!(pd.isExtension && extStrict));
-
                 contentPane.add(jtf[tc++], constraints);
-
             } else if (pd.parameter instanceof Boolean) {
                 jcb[cc] = new JCheckBox(pd.description);
-                jcb[cc].setSelected(((Boolean) (pd.parameter)).booleanValue());
+                jcb[cc].setSelected(((Boolean) pd.parameter).booleanValue());
                 constraints.weightx = 100;
                 constraints.weighty = 100;
                 constraints.gridx = 2;
@@ -263,8 +262,9 @@ public class DialogParameters extends JDialog
 
                 for (int i = 0; i < s.length; ++i) {
                     jco[co].addItem(s[i]);
-                    if (s[i].equals(((FontG) pd.parameter).getFamily()))
+                    if (s[i].equals(((FontG) pd.parameter).getFamily())) {
                         jco[co].setSelectedIndex(i);
+                    }
                 }
                 constraints.weightx = 100;
                 constraints.weighty = 100;
@@ -335,9 +335,9 @@ public class DialogParameters extends JDialog
                 jco[co].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jco[co++], constraints);
             }
-
-            if (ycount++ > MAX)
+            if (ycount++ > MAX) {
                 break;
+            }
         }
         // Put the OK and Cancel buttons and make them active.
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
@@ -345,19 +345,18 @@ public class DialogParameters extends JDialog
         JButton keybd = new JButton("\u00B6\u2211\u221A");// phylum
         keybd.setFocusable(false);
         keybd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 // If at this point, the keyboard is not visible, this means
                 // that it will become visible in a while. It is better to
                 // resize first and then show up the keyboard.
-                if (keyb.isVisible()) {
+                /*if (keyb.isVisible()) {
                     minWidth = 400;
                     minHeight = 350;
                 } else {
                     minWidth = 400;
                     minHeight = 500;
-
-                }
+                }*/
                 keyb.setVisible(!keyb.isVisible());
                 pack();
             }
@@ -397,7 +396,7 @@ public class DialogParameters extends JDialog
         contentPane.add(keyb, constraints);
 
         ok.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 try {
                     int ycount=0;
@@ -410,13 +409,13 @@ public class DialogParameters extends JDialog
                     // update the contents of the parameter description array.
 
                     for (ParameterDescription pd: v) {
-                        if (ycount++ > MAX)
+                        if (ycount++ > MAX) {
                             break;
-
+                        }
                         if (pd.parameter instanceof PointG) {
-                            ((PointG) (pd.parameter)).x = Integer
+                            ((PointG) pd.parameter).x = Integer
                                     .parseInt(jtf[tc++].getText());
-                            ((PointG) (pd.parameter)).y = Integer
+                            ((PointG) pd.parameter).y = Integer
                                     .parseInt(jtf[tc++].getText());
                         } else if (pd.parameter instanceof String) {
                             pd.parameter = jtf[tc++].getText();
@@ -443,13 +442,13 @@ public class DialogParameters extends JDialog
                                     .getSelectedIndex());
                         }
                     }
-                } catch (NumberFormatException E) {
+                } catch (NumberFormatException eE) {
                     // Error detected. Probably, the user has entered an
                     // invalid string when FidoCadJ was expecting a numerical
                     // input.
                     JOptionPane.showMessageDialog(parent,
                             Globals.messages.getString("Format_invalid")+
-                            " ("+E.getMessage()+")", "",
+                            " ("+eE.getMessage()+")", "",
                             JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
@@ -461,7 +460,7 @@ public class DialogParameters extends JDialog
 
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 setVisible(false);
                 keyb.setVisible(false);
@@ -471,7 +470,7 @@ public class DialogParameters extends JDialog
         DialogUtil.addCancelEscape(this, cancelAction);
 
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e)
+            @Override public void windowClosing(WindowEvent e)
             {
                 keyb.setVisible(false);
             }

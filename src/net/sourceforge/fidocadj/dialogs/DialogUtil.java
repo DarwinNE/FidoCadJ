@@ -5,8 +5,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.globals.*;
-
 /**  Some routines useful with dialog windows.
 
     <pre>
@@ -27,7 +25,7 @@ import net.sourceforge.fidocadj.globals.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2013 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 */
 public final class DialogUtil
@@ -50,7 +48,8 @@ public final class DialogUtil
         int w = frame.getWidth();
         int h = frame.getHeight();
 
-        int x = center.x - w/2, y = center.y - h/2;
+        int x = center.x - w/2;
+        int y = center.y - h/2;
 
         frame.setBounds(x, y, w, h);
         frame.validate();
@@ -72,10 +71,9 @@ public final class DialogUtil
                         bounds.width));
         int h = Math.max((int)(bounds.height*propY), Math.min(frame.getHeight(),
                         bounds.height));
-        int x = center.x - w/2, y = center.y - h/2;
+        int x = center.x - w/2;
+        int y = center.y - h/2;
         frame.setBounds(x, y, w, h);
-    /*    if (w == bounds.width && h == bounds.height)
-            frame.setExtendedState(Frame.MAXIMIZED_BOTH);*/
         frame.validate();
     }
 
@@ -99,19 +97,20 @@ public final class DialogUtil
         int w = Math.max((int)(bounds.width*propX), Math.min(frame.getWidth(),
                         bounds.width));
 
-        if(w<minx)
+        if(w<minx) {
             w=minx;
+        }
 
         int h = Math.max((int)(bounds.height*propY), Math.min(frame.getHeight(),
                         bounds.height));
 
-        if(h<miny)
+        if(h<miny) {
             h=miny;
+        }
 
-        int x = center.x - w/2, y = center.y - h/2;
+        int x = center.x - w/2;
+        int y = center.y - h/2;
         frame.setBounds(x, y, w, h);
-    /*    if (w == bounds.width && h == bounds.height)
-            frame.setExtendedState(Frame.MAXIMIZED_BOTH);*/
         frame.validate();
     }
 
@@ -141,7 +140,7 @@ public final class DialogUtil
         // Map the Esc key to the cancel action description in the dialog box's
         // input map.
 
-        String CANCEL_ACTION_KEY = "CANCEL_ACTION_KEY";
+        String cancelActionKey = "CANCEL_ACTION_KEY";
 
         int noModifiers = 0;
 
@@ -151,9 +150,9 @@ public final class DialogUtil
         InputMap inputMap = f.getRootPane ().getInputMap
             (JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        inputMap.put (escapeKey, CANCEL_ACTION_KEY);
+        inputMap.put (escapeKey, cancelActionKey);
 
-        f.getRootPane ().getActionMap ().put (CANCEL_ACTION_KEY, cancelAction);
+        f.getRootPane ().getActionMap ().put (cancelActionKey, cancelAction);
     }
 
     /** Set up the constraints for the GridLayout manager

@@ -5,34 +5,23 @@ import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
 import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
 import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
-import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.geom.MapCoordinates;
 import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.globals.LibUtils;
-import net.sourceforge.fidocadj.layers.LayerDesc;
 import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
-import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 import java.awt.*;
-import java.awt.datatransfer.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Vector;
-import java.util.prefs.Preferences;
 import java.util.LinkedList;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.*;
 
 /** Choose file format, size and options of the graphic exporting.
@@ -54,7 +43,7 @@ import javax.swing.event.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2015 Phylum2, Davide Bucci
+    Copyright 2012-2023 Phylum2, Davide Bucci
     </pre>
     @author Phylum2, Davide Bucci
 
@@ -127,8 +116,9 @@ public class DialogSymbolize extends MinimumSizeDialog
                 lst.add(md.filename);
             }
         }
-        if (((DefaultComboBoxModel) libFilename.getModel()).getSize() == 0)
+        if (((DefaultComboBoxModel) libFilename.getModel()).getSize() == 0) {
             libFilename.addItem("user_lib");
+        }
         libFilename.setEditable(true);
     }
 
@@ -153,8 +143,6 @@ public class DialogSymbolize extends MinimumSizeDialog
         panel.add(libraryLabel, constraints);
 
         libFilename=new JComboBox<String>();
-
-        String e = null;
 
         constraints = DialogUtil.createConst(2,0,1,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
@@ -184,7 +172,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             /** Mouse click: either show the grid (button 3), or move the
                 origin.
             */
-            public void mouseReleased(MouseEvent e)
+            @Override public void mouseReleased(MouseEvent e)
             {
                 // Toggle grid visibility, via the secondary mouse button
                 if (e.getButton()==e.BUTTON3) {
@@ -198,7 +186,7 @@ public class DialogSymbolize extends MinimumSizeDialog
 
             /** Drag the origin of axes using the mouse.
             */
-            public void mouseDragged(MouseEvent evt)
+            @Override public void mouseDragged(MouseEvent evt)
             {
                 int x=evt.getX();
                 int y=evt.getY();
@@ -267,8 +255,9 @@ public class DialogSymbolize extends MinimumSizeDialog
 
         group=new JComboBox<String>();
         listGroups();
-        if (group.getItemCount()==0)
+        if (group.getItemCount()==0) {
             group.addItem(Globals.messages.getString("Group").toLowerCase());
+        }
         group.setEditable(true);
 
         libFilename.addItemListener(new ItemListener() {
@@ -335,7 +324,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 showValidity();
             }
@@ -343,7 +332,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 showValidity();
             }
@@ -351,7 +340,7 @@ public class DialogSymbolize extends MinimumSizeDialog
             /** Needed to implement the DocumentListener interface
                 @param e the document event.
             */
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 showValidity();
             }
@@ -389,13 +378,14 @@ public class DialogSymbolize extends MinimumSizeDialog
         panel.add(snapToGrid, constraints);
 
         // Keep in mind the last edited library and group
-        if (Globals.lastCLib!=null)
+        if (Globals.lastCLib!=null) {
             libFilename.setSelectedItem(Globals.lastCLib);
-        if (Globals.lastCGrp!=null)
+        }
+        if (Globals.lastCGrp!=null) {
             group.setSelectedItem(Globals.lastCGrp);
+        }
 
         libFilename.getEditor().selectAll();
-
         return panel;
     }
 
@@ -410,9 +400,9 @@ public class DialogSymbolize extends MinimumSizeDialog
 
         // Update the group list.
         group.removeAllItems();
-        for (String s : l)
+        for (String s : l) {
             group.addItem(s);
-
+        }
         libName.setText(LibUtils.getLibName(cp.getLibrary(),
             libFilename.getEditor().getItem().toString()));
     }
@@ -482,7 +472,7 @@ public class DialogSymbolize extends MinimumSizeDialog
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 // Check if there is a valid key available. We can not continue
                 // without a key!
@@ -521,7 +511,7 @@ public class DialogSymbolize extends MinimumSizeDialog
                     LibUtils.save(cp.getLibrary(),
                         LibUtils.getLibPath(getPrefix()).trim(),
                         getLibraryName(), getPrefix());
-                } catch (FileNotFoundException F) {
+                } catch (FileNotFoundException fF) {
                     JOptionPane.showMessageDialog(null,
                         Globals.messages.getString("DirNotFound"),
                         Globals.messages.getString("Symbolize"),
@@ -540,7 +530,7 @@ public class DialogSymbolize extends MinimumSizeDialog
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -549,7 +539,7 @@ public class DialogSymbolize extends MinimumSizeDialog
         // Here is an action in which the dialog is closed
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -602,8 +592,9 @@ public class DialogSymbolize extends MinimumSizeDialog
         EditorActions edt=new EditorActions(cp, sa, null);
 
         // Check if there is anything selected.
-        if (sa.getFirstSelectedPrimitive() == null)
+        if (sa.getFirstSelectedPrimitive() == null) {
             return null;
+        }
 
         // Move the selected primitives around the origin just
         // determined and add them to the macro description contained
@@ -625,8 +616,9 @@ public class DialogSymbolize extends MinimumSizeDialog
         }
 
         for (GraphicPrimitive psp : ps.getPrimitiveVector()) {
-            if (!psp.getSelected())
+            if (!psp.getSelected()) {
                 continue;
+            }
             psp.movePrimitive(origin.x, origin.y);
             ss.append(psp.toString(true));
         }
