@@ -22,7 +22,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
     </pre>
 */
 

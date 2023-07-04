@@ -1,19 +1,15 @@
 package net.sourceforge.fidocadj.dialogs.print;
 
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-
 import java.awt.print.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.geom.AffineTransform;
 import java.awt.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.BorderFactory;
 
 import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.geom.*;
 import net.sourceforge.fidocadj.*;
 
@@ -36,7 +32,7 @@ import net.sourceforge.fidocadj.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci

@@ -21,31 +21,31 @@ import java.awt.event.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015 by Davide Bucci
+    Copyright 2015-2023 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
 public class MinimumSizeDialog extends JDialog implements ComponentListener
 {
     // The minimum size in pixels.
-    private final int min_width;
-    private final int min_height;
+    private final int minWidth;
+    private final int minHeight;
 
     /** Constructor.
-        @param min_w minimum width in pixels.
-        @param min_h minimum height in pixels.
+        @param minW minimum width in pixels.
+        @param minH minimum height in pixels.
         @param parent the parent frame.
         @param title the tile of the dialog.
         @param modal true if it is a modal dialog, false otherwise.
     */
     public MinimumSizeDialog(
-        int min_w, int min_h,
+        int minW, int minH,
         JFrame parent, String title,
         boolean modal)
     {
         super(parent, title, modal);
-        min_width=min_w;
-        min_height=min_h;
+        minWidth=minW;
+        minHeight=minH;
     }
 
     /** Required for the implementation of the ComponentListener interface.
@@ -53,19 +53,19 @@ public class MinimumSizeDialog extends JDialog implements ComponentListener
         too small.
         @param e the component event which happened.
     */
-    public void componentResized(ComponentEvent e)
+    @Override public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
 
         boolean resize = false;
-        if (width < min_width) {
+        if (width < minWidth) {
             resize = true;
-            width = min_width;
+            width = minWidth;
         }
-        if (height < min_height) {
+        if (height < minHeight) {
             resize = true;
-            height = min_height;
+            height = minHeight;
         }
         if (resize) {
             setSize(width, height);
@@ -75,7 +75,7 @@ public class MinimumSizeDialog extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentMoved(ComponentEvent e)
+    @Override public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
@@ -83,7 +83,7 @@ public class MinimumSizeDialog extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentShown(ComponentEvent e)
+    @Override public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
@@ -91,7 +91,7 @@ public class MinimumSizeDialog extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentHidden(ComponentEvent e)
+    @Override public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }

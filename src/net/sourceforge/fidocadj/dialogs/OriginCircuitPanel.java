@@ -1,28 +1,10 @@
 package net.sourceforge.fidocadj.dialogs;
 
 
-// TODO: remove un-useful imports
 import net.sourceforge.fidocadj.circuit.CircuitPanel;
-import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
-import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
-import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
-import net.sourceforge.fidocadj.circuit.model.DrawingModel;
-import net.sourceforge.fidocadj.export.ExportGraphic;
-import net.sourceforge.fidocadj.geom.DrawingSize;
-import net.sourceforge.fidocadj.geom.MapCoordinates;
 import net.sourceforge.fidocadj.globals.Globals;
-import net.sourceforge.fidocadj.globals.LibUtils;
-import net.sourceforge.fidocadj.layers.LayerDesc;
-import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
-import net.sourceforge.fidocadj.primitives.MacroDesc;
-import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
-import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
 import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.event.*;
-
-import javax.swing.*;
 
 /** The class OriginCircuitPanel extends the CircuitPanel class by adding
     coordinate axis which can be moved.
@@ -44,7 +26,7 @@ import javax.swing.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2015 Phylum2, Davide Bucci
+    Copyright 2012-2023 Phylum2, Davide Bucci
     </pre>
     @author Phylum2, Davide Bucci
 
@@ -58,11 +40,13 @@ public class OriginCircuitPanel extends CircuitPanel
                             1.0f, dash1, 1.0f);
 
     // x and y coordinates of the origin in pixel.
-    private int dx = 20,dy = 20;
+    private int dx = 20;
+    private int dy = 20;
 
     // x and y coordinates of the origin in logical units.
     // TODO: improve data encapsulation (these should be private).
-    public int xl=5, yl=5;
+    public int xl=5;
+    public int yl=5;
 
     /** Get the x coordinate of the origin in pixels.
         @return the x coordinate of the origin in pixel.
@@ -96,8 +80,9 @@ public class OriginCircuitPanel extends CircuitPanel
     */
     public void setDx(int dx)
     {
-        if (dx < 0 || dx>getWidth())
+        if (dx < 0 || dx>getWidth()) {
             return;
+        }
         this.dx = dx;
     }
 
@@ -106,8 +91,9 @@ public class OriginCircuitPanel extends CircuitPanel
     */
     public void setDy(int dy)
     {
-        if (dy<0 || dy>getHeight())
+        if (dy<0 || dy>getHeight()) {
             return;
+        }
         this.dy = dy;
     }
 

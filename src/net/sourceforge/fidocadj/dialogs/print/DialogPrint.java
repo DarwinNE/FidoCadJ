@@ -2,22 +2,17 @@ package net.sourceforge.fidocadj.dialogs.print;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
+import java.awt.print.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
-
-import java.io.*;
-import java.awt.print.*;
-
-import javax.imageio.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
-import net.sourceforge.fidocadj.dialogs.*;
+import net.sourceforge.fidocadj.dialogs.DialogUtil;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.dialogs.LayerCellRenderer;
 import net.sourceforge.fidocadj.layers.LayerDesc;
 
 /** Choose file format, size and options of the graphic exporting.
@@ -40,7 +35,7 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -91,8 +86,8 @@ public class DialogPrint extends MinimumSizeDialog
         super(400,350, parent,Globals.messages.getString("Print_dlg"), true);
         addComponentListener(this);
         print=false;
-        final int LCOLUMN=5;
-        final int ECOLUMN=6;
+        final int lColumn=5;
+        final int eColumn=6;
 
         // Ensure that under MacOSX >= 10.5 Leopard, this dialog will appear
         // as a document modal sheet
@@ -119,7 +114,7 @@ public class DialogPrint extends MinimumSizeDialog
         JLabel empty1=new JLabel("  ");
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=ECOLUMN+2;
+        constraints.gridx=eColumn+2;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -170,10 +165,11 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(decr, constraints);              // Decrement page
         decr.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
-                if(currentPage>0)
+                if(currentPage>0) {
                     --currentPage;
+                }
                 currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
@@ -194,10 +190,11 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(incr, constraints);              // Increment page
         incr.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
-                if(currentPage<numberOfPages-1)
+                if(currentPage<numberOfPages-1) {
                     ++currentPage;
+                }
                 currentPage=prp.setCurrentPage(currentPage);
                 prp.updatePreview();
                 prp.repaint();
@@ -216,7 +213,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.fill=GridBagConstraints.HORIZONTAL;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=ECOLUMN;
+        constraints.gridx=eColumn;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -237,28 +234,29 @@ public class DialogPrint extends MinimumSizeDialog
                     currentPage=prp.setCurrentPage(currentPage);
                     prp.updatePreview();
                     pageNum.setText(""+(currentPage+1)+"/"+numberOfPages);
-                } catch (java.lang.NumberFormatException n) {
+                } catch (NumberFormatException n) {
+                    System.out.println("Warning: can not convert a number");
                 }
                 prp.repaint();
             }
-            public void changedUpdate(DocumentEvent e)
+            @Override public void changedUpdate(DocumentEvent e)
             {
                 patata();
             }
 
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 patata();
             }
 
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 patata();
             }
         };
         // The event listener for all those checkboxes
         ChangeListener updatePreview = new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent)
+            @Override public void stateChanged(ChangeEvent changeEvent)
             {
                 numberOfPages=prp.getTotalNumberOfPages();
                 /*if(fit_CB.isSelected()) {
@@ -288,7 +286,7 @@ public class DialogPrint extends MinimumSizeDialog
         tTopMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=0;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -301,7 +299,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=ECOLUMN;
+        constraints.gridx=eColumn;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -314,7 +312,7 @@ public class DialogPrint extends MinimumSizeDialog
         tBottomMargin.setMinimumSize(ddmin);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -326,7 +324,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=ECOLUMN;
+        constraints.gridx=eColumn;
         constraints.gridy=2;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -335,7 +333,7 @@ public class DialogPrint extends MinimumSizeDialog
         tLeftMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=2;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -347,7 +345,7 @@ public class DialogPrint extends MinimumSizeDialog
         constraints.anchor=GridBagConstraints.WEST;
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=ECOLUMN;
+        constraints.gridx=eColumn;
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -356,7 +354,7 @@ public class DialogPrint extends MinimumSizeDialog
         tRightMargin=new JTextField(10);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=3;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -365,7 +363,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         onlyLayerCB=new JCheckBox(Globals.messages.getString(
             "PrintOnlyLayer"));
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=4;
         constraints.gridwidth=1;
         constraints.gridheight=1;
@@ -373,7 +371,7 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(onlyLayerCB, constraints);     // Print only 1 layer cb
 
         onlyLayerCB.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent)
+            @Override public void stateChanged(ChangeEvent changeEvent)
             {
                 if(onlyLayerCB.isSelected()) {
                     if(layerSel!=null) {
@@ -393,14 +391,14 @@ public class DialogPrint extends MinimumSizeDialog
         layerSel.setEnabled(false);
         constraints.weightx=100;
         constraints.weighty=100;
-        constraints.gridx=LCOLUMN+1;
+        constraints.gridx=lColumn+1;
         constraints.gridy=4;
         constraints.gridwidth=1;
         constraints.gridheight=1;
         contentPane.add(layerSel, constraints);           // Layer selection
         layerSel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 if (layerSel.getSelectedIndex()>=0) {
                     currentLayerSelected=layerSel.getSelectedIndex();
@@ -413,7 +411,7 @@ public class DialogPrint extends MinimumSizeDialog
         });
 
         mirror_CB=new JCheckBox(Globals.messages.getString("Mirror"));
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=5;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -422,7 +420,7 @@ public class DialogPrint extends MinimumSizeDialog
         mirror_CB.addChangeListener(updatePreview);
 
         fit_CB=new JCheckBox(Globals.messages.getString("FitPage"));
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=6;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -431,7 +429,7 @@ public class DialogPrint extends MinimumSizeDialog
         fit_CB.addChangeListener(updatePreview);
 
         bw_CB=new JCheckBox(Globals.messages.getString("B_W"));
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=7;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -440,7 +438,7 @@ public class DialogPrint extends MinimumSizeDialog
         bw_CB.addChangeListener(updatePreview);
 
         landscape_CB=new JCheckBox(Globals.messages.getString("Landscape"));
-        constraints.gridx=LCOLUMN;
+        constraints.gridx=lColumn;
         constraints.gridy=8;
         constraints.gridwidth=2;
         constraints.gridheight=1;
@@ -448,7 +446,7 @@ public class DialogPrint extends MinimumSizeDialog
         contentPane.add(landscape_CB, constraints);     // Add landscape cb
 
         landscape_CB.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent)
+            @Override public void stateChanged(ChangeEvent changeEvent)
             {
                 // If the page was rotated, the margins should be adapted
                 // so they always correspond to the same place in the page.
@@ -501,7 +499,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 if(validateInput()) {
                     print=true;
@@ -511,7 +509,7 @@ public class DialogPrint extends MinimumSizeDialog
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 print=false;
                 setVisible(false);
@@ -521,7 +519,7 @@ public class DialogPrint extends MinimumSizeDialog
 
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
@@ -564,8 +562,9 @@ public class DialogPrint extends MinimumSizeDialog
     */
     public int getSingleLayerToPrint()
     {
-        if (!onlyLayerCB.isSelected())
+        if (!onlyLayerCB.isSelected()) {
             return -1;
+        }
         return currentLayerSelected;
     }
 
@@ -634,7 +633,7 @@ public class DialogPrint extends MinimumSizeDialog
             bm=Double.parseDouble(tBottomMargin.getText());
             lm=Double.parseDouble(tLeftMargin.getText());
             rm=Double.parseDouble(tRightMargin.getText());
-        } catch (java.lang.NumberFormatException n) {
+        } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(this,
                 Globals.messages.getString("Format_invalid"), "",
                 JOptionPane.INFORMATION_MESSAGE);
