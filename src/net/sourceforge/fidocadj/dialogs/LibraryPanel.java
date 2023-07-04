@@ -5,7 +5,7 @@ import javax.swing.event.*;
 import javax.swing.border.*;
 import javax.swing.plaf.metal.*;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 import java.awt.*;
 import java.io.*;
@@ -15,9 +15,29 @@ import java.util.*;
 
 /**
 * JFileChooser accessory panel for listing libraries description.
-*
-* @author Kohta Ozaki
+
+    <pre>
+    This file is part of FidoCadJ.
+
+    FidoCadJ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    FidoCadJ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with FidoCadJ. If not,
+    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+
+    Copyright 2014-2023 by Kohta Ozaki, Davide Bucci
+    </pre>
+    @author Kohta Ozaki, Davide Bucci
 */
+
 public class LibraryPanel extends JPanel implements PropertyChangeListener
 {
     final private static int PREFERRED_PANEL_WIDTH = 250;
@@ -63,12 +83,12 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         // If this class is run as a standalone program, the Globals.messages
         // resource handler might not be initizalized. In this case,
         // an english tag will do the job.
-        if(Globals.messages==null)
+        if(Globals.messages==null) {
             add(BorderLayout.NORTH, new JLabel("Libraries in directory:"));
-        else
+        } else {
             add(BorderLayout.NORTH,new JLabel(
                 Globals.messages.getString("lib_in_dir")));
-
+        }
 
         fileList = new JList<LibraryDesc>(listModel);
         fileList.setCellRenderer(new ListCellRenderer<LibraryDesc>() {
@@ -113,17 +133,16 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
         fileList.setFocusable(false);
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt)
+    @Override public void propertyChange(PropertyChangeEvent evt)
     {
 
-        if (evt.getPropertyName().equals(
-            JFileChooser.SELECTED_FILE_CHANGED_PROPERTY))
+        if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(
+            evt.getPropertyName()))
         {
             listModel.setDirectory(fc.getSelectedFile());
         }
-        if (evt.getPropertyName().equals(
-            JFileChooser.DIRECTORY_CHANGED_PROPERTY))
+        if (JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals(
+            evt.getPropertyName()))
         {
             listModel.setDirectory(fc.getCurrentDirectory());
         }
@@ -136,8 +155,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     public static void main(String... args)
     {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run()
+            @Override public void run()
             {
                 JFileChooser fc;
                 fc = new JFileChooser();
@@ -195,21 +213,17 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
             LibraryDesc desc;
 
             files = currentDir.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File f)
+                @Override public boolean accept(File f)
                 {
-                    if (f.isFile() &&
-                        f.getName().toLowerCase().matches("^.*\\.fcl$"))
-                    {
-                        return true;
-                    }
-                    // DB -> KO check if it is correct. I removed a "}"
-                    return false;
+                    return f.isFile() &&
+                        f.getName().toLowerCase(Locale.US).
+                        matches("^.*\\.fcl$");
                 }
             });
 
-            if(files==null)
+            if(files==null) {
                 return;
+            }
             for (File f : files) {
                 desc = new LibraryDesc();
                 desc.filename = f.getName();

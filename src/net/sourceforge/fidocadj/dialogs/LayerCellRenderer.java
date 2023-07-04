@@ -1,13 +1,10 @@
 package net.sourceforge.fidocadj.dialogs;
 
 import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
 
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
-import java.util.*;
 
 /** The class LayerCellRenderer is used in the layer list in order to
     show the characteristics of each layer (visibility, color).
@@ -31,7 +28,7 @@ import java.util.*;
     </pre>
 
     @author Davide Bucci
-    @version December 2007 - December 2015
+    @version December 2007 - 2023
 */
 public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
 {
@@ -44,7 +41,7 @@ public class LayerCellRenderer implements ListCellRenderer<LayerDesc>
         @param cellHasFocus true if the element has focus.
         @return the created component.
     */
-    public Component getListCellRendererComponent(
+    @Override public Component getListCellRendererComponent(
         final JList<? extends LayerDesc> list,
         final LayerDesc value, final int index, final boolean isSelected,
         final boolean cellHasFocus)

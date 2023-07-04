@@ -1,37 +1,17 @@
 package net.sourceforge.fidocadj.dialogs;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.basic.BasicBorders;
-
-import net.sourceforge.fidocadj.globals.Globals;
 
 /** Create a small virtual keyboard for help inserting UTF-8 symbols such
     as greek alphabet letters and so on.
@@ -53,7 +33,7 @@ import net.sourceforge.fidocadj.globals.Globals;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2014 by phylum2, Davide Bucci
+    Copyright 2012-2023 by phylum2, Davide Bucci
 
     TODO: avoid using magic numbers in the code
 </pre>
@@ -77,7 +57,8 @@ public class OSKeybPanel extends JPanel
 
     JButton[] k = new JButton[symbols.length()];
     JDialog txt;
-    int posX=0,posY=0;
+    int posX=0;
+    int posY=0;
 
     /** Attach the current panel to a dialog to intercept keyboard operations.
         @param o the dialog to be attached to.
@@ -89,7 +70,7 @@ public class OSKeybPanel extends JPanel
 
     /** Types of keyboard available.
     */
-    public enum KEYBMODES {GREEK, MATH, MISC};
+    public enum KEYBMODES {GREEK, MATH, MISC}
 
     /** Create the keyboard panel of the selected type.
         @param mode type of the keyboard to be employed.
@@ -112,13 +93,14 @@ public class OSKeybPanel extends JPanel
 
         ActionListener al = new ActionListener() {
 
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 JDialog jd = (JDialog) txt;
                 // We must find a target for the results of the keyboard
                 // actions.
-                if (!(jd.getMostRecentFocusOwner() instanceof JTextField))
+                if (!(jd.getMostRecentFocusOwner() instanceof JTextField)) {
                     return;
+                }
                 JTextField jfd = (JTextField)jd.getMostRecentFocusOwner();
                 if (jfd.getSelectedText()!=null) {
                     String ee = jfd.getText().replace(
@@ -149,10 +131,12 @@ public class OSKeybPanel extends JPanel
         for (int i=0;i<symbols.length();i++)
         {
             k[i] = new JButton(String.valueOf(symbols.charAt(i)));
-            if (mode == KEYBMODES.GREEK && i>47)
+            if (mode == KEYBMODES.GREEK && i>47) {
                 continue;
-            if (mode == KEYBMODES.MISC && i<48)
+            }
+            if (mode == KEYBMODES.MISC && i<48) {
                 continue;
+            }
 
             k[i].setFont(i>71 ? fbig : f);
             k[i].setFocusable(false);

@@ -5,9 +5,7 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
+import net.sourceforge.fidocadj.globals.Globals;
 
 /** EnterCircuitFrame.java
 
@@ -28,7 +26,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2012 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
 
@@ -69,7 +67,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     /** Impose a minimum size for this dialog.
         @param e the component event received.
     */
-    public void componentResized(ComponentEvent e)
+    @Override public void componentResized(ComponentEvent e)
     {
         int width = getWidth();
         int height = getHeight();
@@ -91,7 +89,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentMoved(ComponentEvent e)
+    @Override public void componentMoved(ComponentEvent e)
     {
         // Nothing to do
     }
@@ -99,7 +97,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentShown(ComponentEvent e)
+    @Override public void componentShown(ComponentEvent e)
     {
         // Nothing to do
     }
@@ -107,7 +105,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
     /** Required for the implementation of the ComponentListener interface.
         @param e the component event which happened.
     */
-    public void componentHidden(ComponentEvent e)
+    @Override public void componentHidden(ComponentEvent e)
     {
         // Nothing to do
     }
@@ -156,7 +154,6 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
             b.add(ok);
             b.add(Box.createHorizontalStrut(12));
             b.add(cancel);
-
         } else {
             b.add(cancel);
             b.add(Box.createHorizontalStrut(12));
@@ -172,7 +169,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 
         ok.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
                 stringCircuit=textArea.getText();
@@ -180,7 +177,7 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
         });
         cancel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 setVisible(false);
             }
@@ -190,15 +187,11 @@ public class EnterCircuitFrame extends JDialog implements ComponentListener
 
         AbstractAction cancelAction = new AbstractAction ()
         {
-            public void actionPerformed (ActionEvent e)
+            @Override public void actionPerformed (ActionEvent e)
             {
                 setVisible(false);
             }
         };
         DialogUtil.addCancelEscape (this, cancelAction);
-
     }
-
-
-
 }
