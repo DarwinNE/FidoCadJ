@@ -2,14 +2,25 @@ package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
 
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.primitives.PrimitiveAdvText;
+import net.sourceforge.fidocadj.primitives.PrimitiveBezier;
+import net.sourceforge.fidocadj.primitives.PrimitiveConnection;
+import net.sourceforge.fidocadj.primitives.PrimitiveLine;
+import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
+import net.sourceforge.fidocadj.primitives.PrimitiveOval;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBLine;
+import net.sourceforge.fidocadj.primitives.PrimitivePCBPad;
+import net.sourceforge.fidocadj.primitives.PrimitivePolygon;
+import net.sourceforge.fidocadj.primitives.PrimitiveComplexCurve;
+import net.sourceforge.fidocadj.primitives.PrimitiveRectangle;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointDouble;
 
 
 /**
@@ -33,7 +44,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -53,6 +64,7 @@ public class ExportFidoCad implements ExportInterface
     */
     public void setDashUnit(double u)
     {
+        // Nothing special to do here.
     }
 
     /** Set the "phase" in output units of the dashing style.
@@ -63,6 +75,7 @@ public class ExportFidoCad implements ExportInterface
     */
     public void setDashPhase(float p)
     {
+        // Nothing special to do here.
     }
 
     /** Define the macro font to be used for the export.
@@ -140,14 +153,11 @@ public class ExportFidoCad implements ExportInterface
         // We need to save layers informations, since we will use them later.
 
         layerV=la;
-        int wi=totalSize.width;
-        int he=totalSize.height;
-
         out.write("[FIDOCAD]\n");
 
-        DrawingModel P = new DrawingModel();
-        ParserActions pa = new ParserActions(P);
-        P.setLayers(la);
+        DrawingModel p = new DrawingModel();
+        ParserActions pa = new ParserActions(p);
+        p.setLayers(la);
         out.write(new String(pa.registerConfiguration(extensions)));
     }
 
@@ -185,12 +195,15 @@ public class ExportFidoCad implements ExportInterface
     {
         int style=0;
 
-        if (isBold)
+        if (isBold) {
             style+=1;
-        if (isItalic)
+        }
+        if (isItalic) {
             style+=2;
-        if (isMirrored)
+        }
+        if (isMirrored) {
             style+=4;
+        }
 
         out.write(new PrimitiveAdvText(cLe(x),
             cLe(y),
@@ -339,16 +352,17 @@ public class ExportFidoCad implements ExportInterface
         int fontSize, Map<String, MacroDesc> m)
         throws IOException
     {
-        if(splitStandardMacros)
+        if(splitStandardMacros) {
             return false;
+        }
 
         boolean isStandard=false;
-        int dotpos=-1;
 
         // A first way to determine if a macro is standard is to see if its
         // name does not contains a dot (original FidoCAD standard library)
 
-        if ((dotpos=macroName.indexOf("."))<0) {
+        int dotpos=macroName.indexOf(".");
+        if (dotpos<0) {
             isStandard = true;
         } else {
             // If the name contains a dot, we might check whether we have
@@ -447,12 +461,13 @@ public class ExportFidoCad implements ExportInterface
         int indiam, int layer, boolean onlyHole)
         throws IOException
     {
-        if(!onlyHole)
+        if(!onlyHole) {
             out.write(new PrimitivePCBPad(cLe(x),
                 cLe(y),cLe(six),
                 cLe(siy),cLe(indiam), style,
                 layer,
                 textFont, textFontSize).toString(extensions));
+        }
     }
 
     /** Called when exporting a Polygon primitive.

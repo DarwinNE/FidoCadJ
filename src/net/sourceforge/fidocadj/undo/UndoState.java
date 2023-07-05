@@ -1,7 +1,5 @@
 package net.sourceforge.fidocadj.undo;
 
-import java.util.*;
-
 /** Track the undo/redo state.
     <pre>
     This file is part of FidoCadJ.
@@ -20,7 +18,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -57,7 +55,7 @@ public class UndoState
         This method is useful mainly for debug purposes.
         @return a String completely describing the object.
     */
-    public String toString()
+    @Override public String toString()
     {
         return "text="+text+"\nfileName="+fileName+
             "\nOperation on a library: "+libraryOperation+

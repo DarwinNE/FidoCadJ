@@ -1,7 +1,6 @@
 package net.sourceforge.fidocadj.undo;
 
 import java.util.*;
-import java.io.*;
 
 /**
     Implementation of a circular buffer of the given size.
@@ -27,7 +26,7 @@ import java.io.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -54,12 +53,13 @@ public class UndoManager
     {
         System.out.println("===============================================");
         for (int i=0; i<undoBuffer.size();++i) {
-            if(i==pointer-2)
+            if(i==pointer-2) {
                 System.out.println("*****************");
+            }
             System.out.println("undoBuffer["+i+"]="+undoBuffer.get(i));
-            if(i==pointer-2)
+            if(i==pointer-2) {
                 System.out.println("*****************");
-
+            }
         }
         System.out.println("Is the next operation on a library? "+
             (isNextOperationOnALibrary()?"Yes":"No"));
@@ -95,8 +95,9 @@ public class UndoManager
         // edit: you can not redo or merge the old undo "timeline" with the
         // new one.
 
-        for(int i=pointer; i<undoBuffer.size();++i)
+        for(int i=pointer; i<undoBuffer.size();++i) {
             undoBuffer.removeElementAt(pointer);
+        }
     }
 
     /** Checks if the next operation is done on a library instead than on a
@@ -105,12 +106,15 @@ public class UndoManager
     */
     public boolean isNextOperationOnALibrary()
     {
-        if(pointer>=undoBuffer.size() || pointer<1)
+        if(pointer>=undoBuffer.size() || pointer<1) {
             return false;
+        }
+
         try {
-            if(undoBuffer.get(pointer).libraryOperation)
+            if(undoBuffer.get(pointer).libraryOperation) {
                 return true;
-        } catch (NoSuchElementException E) {
+            }
+        } catch (NoSuchElementException e) {
             return false;
         }
         return false;
@@ -124,8 +128,9 @@ public class UndoManager
         throws NoSuchElementException
     {
         --pointer;
-        if(pointer<1)
+        if(pointer<1) {
             pointer=1;
+        }
         UndoState o=undoBuffer.get(pointer-1);
 
         isRedoable=true;
@@ -140,13 +145,14 @@ public class UndoManager
         throws NoSuchElementException
     {
         if (!isRedoable) {
-            NoSuchElementException E=new NoSuchElementException();
-            throw E;
+            NoSuchElementException e=new NoSuchElementException();
+            throw e;
         }
 
         ++pointer;
-        if(pointer>undoBuffer.size())
+        if(pointer>undoBuffer.size()) {
             pointer=undoBuffer.size();
+        }
 
         return undoBuffer.get(pointer-1);
     }

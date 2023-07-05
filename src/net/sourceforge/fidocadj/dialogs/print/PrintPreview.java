@@ -9,9 +9,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.BorderFactory;
 
 import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.globals.Globals;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.*;
+import net.sourceforge.fidocadj.PrintTools;
 
 /** Shows a print preview.
 
@@ -138,8 +136,9 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         int shadowShiftY=4;
 
         double baseline=getWidth()*0.6;
-        if(Math.abs(oldBaseline-baseline)>1e5)    /// ??? 1e-5 I would say!!!
+        if(Math.abs(oldBaseline-baseline)>1e5) {   /// TODO check -> 1e-5 !!!
             updatePreview();
+        }
         double ratio=pageDescription.getHeight()/pageDescription.getWidth();
 
         if(dialog.getLandscape()) {
@@ -179,7 +178,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         each time the panel is resized.
         @param e the event descriptor.
     */
-    public void componentResized(ComponentEvent e)
+    @Override public void componentResized(ComponentEvent e)
     {
         updatePreview();
     }
@@ -207,10 +206,12 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
         int width=(int)baseline;
         int height=(int)Math.round(baseline*ratio);
 
-        if(width<1)
+        if(width<1) {
             width=1;
-        if(height<1)
+        }
+        if(height<1) {
             height=1;
+        }
 
         pageImage = new BufferedImage(width, height,
             BufferedImage.TYPE_INT_RGB);
@@ -264,7 +265,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     /** Called when the panel is hidden.
         @param e the event descriptor.
     */
-    public void componentHidden(ComponentEvent e)
+    @Override public void componentHidden(ComponentEvent e)
     {
         // Nothing to do here
     }
@@ -272,7 +273,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     /** Called when the panel is moved.
         @param e the event descriptor.
     */
-    public void componentMoved(ComponentEvent e)
+    @Override public void componentMoved(ComponentEvent e)
     {
         // Nothing to do here
     }
@@ -280,7 +281,7 @@ public class PrintPreview extends CircuitPanel implements ComponentListener
     /** Called when the panel is shown.
         @param e the event descriptor.
     */
-    public void componentShown(ComponentEvent e)
+    @Override public void componentShown(ComponentEvent e)
     {
         // Nothing to do here
     }

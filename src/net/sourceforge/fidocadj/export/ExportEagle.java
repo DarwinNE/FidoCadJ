@@ -70,6 +70,7 @@ public class ExportEagle implements ExportInterface
     */
     public void setDashUnit(double u)
     {
+        // Nothing particular to do here, dashing is not supported.
     }
 
     /** Set the "phase" in output units of the dashing style.
@@ -80,6 +81,7 @@ public class ExportEagle implements ExportInterface
     */
     public void setDashPhase(float p)
     {
+        // Nothing particular to do here, dashing is not supported.
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -156,8 +158,9 @@ public class ExportEagle implements ExportInterface
             mirror="M";
         }
 
-        if(oldtextsize!=sizey)
+        if(oldtextsize!=sizey) {
             out.write("Change size "+sizey*res*text_stretch+"\n");
+        }
         oldtextsize=sizey;
 
         out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+
@@ -288,8 +291,9 @@ public class ExportEagle implements ExportInterface
         throws IOException
     {
         String mirror ="";
-        if (isMirrored)
+        if (isMirrored) {
             mirror = "M";
+        }
 
         // The component name should not contain spaces. Substitute with
         // the underline character.
@@ -322,7 +326,6 @@ public class ExportEagle implements ExportInterface
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-        String fill_pattern="";
         out.write("# Circle export not fully implemented\n");
 
         out.write("Circle ("+een(x1*res)+" "+een((dim.height-y1)*res)+") ("
@@ -363,9 +366,6 @@ public class ExportEagle implements ExportInterface
         int indiam, int layer, boolean onlyHole)
         throws IOException
     {
-        double xdd;
-        double ydd;
-
         // At first, draw the pad...
         if(!onlyHole) {
             switch (style) {
@@ -396,8 +396,6 @@ public class ExportEagle implements ExportInterface
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-        String fill_pattern="";
-
         out.write("# Polygon export not implemented yet\n");
     }
 

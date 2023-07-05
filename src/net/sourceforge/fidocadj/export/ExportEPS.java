@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.TextInterface;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -85,8 +85,9 @@ public class ExportEPS implements ExportInterface, TextInterface
             dashArrayStretched = "";
             for(int j=0; j<Globals.dash[i].length;++j) {
                 dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
-                if(j<Globals.dash[i].length-1)
+                if(j<Globals.dash[i].length-1) {
                     dashArrayStretched+=" ";
+                }
             }
             sDash[i]="["+dashArrayStretched+"]";
         }
@@ -137,22 +138,19 @@ public class ExportEPS implements ExportInterface, TextInterface
         layerV=la;
         out = new BufferedWriter(fstream);
 
-        int wi=totalSize.width;
-        int he=totalSize.height;
-
         // An header of the EPS file
 
         // 200 dpi is the internal resolution of FidoCadJ
         // 72 dpi is the internal resolution of the Postscript coordinates
 
-        double res_mult=200.0/72.0;
+        double resMult=200.0/72.0;
 
-        //res_mult /= getMagnification();
+        //resMult /= getMagnification();
 
         out.write("%!PS-Adobe-3.0 EPSF-3.0\n");
         out.write("%%Pages: 0\n");
-        out.write("%%BoundingBox: -1 -1 "+(int)(totalSize.width/res_mult+1)+" "+
-            (int)(totalSize.height/res_mult+1)+"\n");
+        out.write("%%BoundingBox: -1 -1 "+(int)(totalSize.width/resMult+1)+" "+
+            (int)(totalSize.height/resMult+1)+"\n");
         out.write("%%Creator: FidoCadJ "+Globals.version+
             ", EPS export filter by Davide Bucci\n");
 
@@ -189,8 +187,8 @@ public class ExportEPS implements ExportInterface, TextInterface
         // we introduce a coordinate transformation to have it at the top
         // left of the drawing.
 
-        out.write("0 "+(totalSize.height/res_mult)+" translate\n");
-        out.write(""+(1/res_mult)+" "+(-1/res_mult)+" scale\n");
+        out.write("0 "+(totalSize.height/resMult)+" translate\n");
+        out.write(""+(1/resMult)+" "+(-1/resMult)+" scale\n");
     }
 
     /** Called at the end of the export phase.
@@ -209,32 +207,33 @@ public class ExportEPS implements ExportInterface, TextInterface
         @param y the y position of the beginning of the string to be written.
         @param sizex the x size of the font to be used.
         @param sizey the y size of the font to be used.
-        @param fontname_t the font to be used.
+        @param fontnameT the font to be used.
         @param isBold true if the text should be written with a boldface font.
         @param isMirrored true if the text should be mirrored.
         @param isItalic true if the text should be written with an italic font.
         @param orientation angle of orientation (degrees).
         @param layer the layer that should be used.
-        @param text_t the text that should be written.
+        @param textT the text that should be written.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
     public void exportAdvText (int x, int y, int sizex, int sizey,
-        String fontname_t, boolean isBold, boolean isMirrored, boolean isItalic,
-        int orientation, int layer, String text_t)
+        String fontnameT, boolean isBold, boolean isMirrored, boolean isItalic,
+        int orientation, int layer, String textT)
         throws IOException
     {
-        String text = text_t;
+        String text = textT;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, -1);
         currentFontSize = (int)(sizex*12/(double)7+.5);
-        fontname = fontname_t;
+        fontname = fontnameT;
     
-        if(isBold)
+        if(isBold) {
             bold="-Bold";
-        else
+        } else {
             bold="";
+        }
 
         // It seems that Postscript fonts can not handle spaces. So I substitute
         // every space with a "-" sign.
@@ -252,13 +251,15 @@ public class ExportEPS implements ExportInterface, TextInterface
         texty=y;
         out.write("gsave\n");
 
-        if(orientation !=0)
+        if(orientation !=0) {
             out.write("  "+(isMirrored?orientation:-orientation)+" rotate\n");
+        }
 
-        if(isMirrored)
+        if(isMirrored) {
             out.write("  -1 -1 scale\n");
-        else
+        } else {
             out.write("  1 -1 scale\n");
+        }
 
         // Remember that we consider sizex/sizey=7/12 as the "normal" aspect
         // ratio.
@@ -357,12 +358,12 @@ public class ExportEPS implements ExportInterface, TextInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
-        @param node_size the size of the electrical connection in logical
+        @param nodeSize the size of the electrical connection in logical
             units.
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportConnection (int x, int y, int layer, double node_size)
+    public void exportConnection (int x, int y, int layer, double nodeSize)
         throws IOException
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -373,7 +374,7 @@ public class ExportEPS implements ExportInterface, TextInterface
 
         out.write("newpath\n");
         out.write(""+x+" "+y+" "+
-            node_size/2.0+ " " + node_size/2.0+
+            nodeSize/2.0+ " " + nodeSize/2.0+
             " 0 360 ellipse\n");
         out.write("fill\n");
     }
@@ -413,8 +414,10 @@ public class ExportEPS implements ExportInterface, TextInterface
         ColorInterface c=l.getColor();
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
-        double xstart=x1, ystart=y1;
-        double xend=x2, yend=y2;
+        double xstart=x1;
+        double ystart=y1;
+        double xend=x2;
+        double yend=y2;
 
         if (arrowStart) {
             PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
@@ -457,7 +460,6 @@ public class ExportEPS implements ExportInterface, TextInterface
         int style)
         throws IOException
     {
-        double s;
         double alpha;
         double x0;
         double y0;
@@ -469,10 +471,11 @@ public class ExportEPS implements ExportInterface, TextInterface
         // At first we need the angle giving the direction of the arrow
         // a little bit of trigonometry :-)
 
-        if (x==xc)
+        if (x==xc) {
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+        }
 
         alpha += x-xc>0.0?0.0:Math.PI;
 
@@ -495,10 +498,11 @@ public class ExportEPS implements ExportInterface, TextInterface
         out.write("closepath\n");
 
 
-        if ((style & Arrow.flagEmpty) == 0)
+        if ((style & Arrow.flagEmpty) == 0) {
             out.write("fill \n");
-        else
+        } else {
             out.write("stroke \n");
+        }
 
         if ((style & Arrow.flagLimiter) != 0) {
             double x3;
@@ -693,10 +697,10 @@ public class ExportEPS implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
-        String fill_pattern="";
 
-        if (nVertices<1)
+        if (nVertices<1) {
             return;
+        }
 
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
@@ -705,8 +709,9 @@ public class ExportEPS implements ExportInterface, TextInterface
 
         out.write(""+vertices[0].x+" "+vertices[0].y+" moveto\n");
 
-        for (int i=1; i<nVertices; ++i)
+        for (int i=1; i<nVertices; ++i) {
             out.write(""+vertices[i].x+" "+vertices[i].y+" lineto\n");
+        }
 
         out.write("closepath\n");
         if(isFilled) {
@@ -791,9 +796,9 @@ public class ExportEPS implements ExportInterface, TextInterface
         double r, boolean filled)
         throws IOException
     {
-        out.write(""+(x1+r) + " " +(y1)+" moveto\n");
-        out.write(""+(x1+w-r) + " " +(y1)+" lineto\n");
-        out.write(""+(x1+w) + " " +(y1)+" "+ (x1+w) + " "+(y1)
+        out.write(""+(x1+r) + " " +y1+" moveto\n");
+        out.write(""+(x1+w-r) + " " +y1+" lineto\n");
+        out.write(""+(x1+w) + " " +y1+" "+ (x1+w) + " "+y1
             + " "+(x1+w) + " " +(y1+r)+ " curveto\n");
 
         out.write(""+(x1+w) + " " +(y1+h-r)+" lineto\n");
@@ -802,11 +807,11 @@ public class ExportEPS implements ExportInterface, TextInterface
 
         out.write(""+ (x1+r) + " " +(y1+h)+" lineto\n");
         out.write(""+ x1+ " " +(y1+h)+" "+ x1+ " " +(y1+h)+
-            " "+ (x1) + " " +(y1+h-r)+" curveto\n");
+            " "+ x1 + " " +(y1+h-r)+" curveto\n");
 
-        out.write(""+ (x1) + " " +(y1+r)+" lineto\n");
-        out.write(""+(x1) + " " +(y1)+" "+(x1) + " " +(y1)+" "+
-            (x1+r)+" "+(y1)+" curveto\n");
+        out.write(""+ x1 + " " +(y1+r)+" lineto\n");
+        out.write(""+x1 + " " +y1+" "+x1 + " " +y1+" "+
+            (x1+r)+" "+y1+" curveto\n");
 
         out.write("  "+(filled?"fill\n":"stroke\n"));
     }
@@ -839,10 +844,11 @@ public class ExportEPS implements ExportInterface, TextInterface
         if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
             currentDash=dashStyle;
             currentPhase=dashPhase;
-            if(dashStyle==0)
+            if(dashStyle==0) {
                 out.write("[] 0 setdash\n");
-            else
+            } else {
                 out.write(""+sDash[dashStyle]+" "+dashPhase+" setdash\n");
+            }
         }
     }
 
@@ -866,7 +872,7 @@ public class ExportEPS implements ExportInterface, TextInterface
             out.write("/"+fontname+bold+" findfont\n"+
                 (int)currentFontSize+" scalefont\n"+
                 "setfont\n");
-        } catch(IOException E) {
+        } catch(IOException e) {
             System.err.println("Can not write to file in EPS export.");
         }
     }
@@ -893,7 +899,7 @@ public class ExportEPS implements ExportInterface, TextInterface
             out.write("" + (textx-x) +" "+ (texty-y)+ " rmoveto\n");
             texty=y;
             out.write("  ("+str+") show\n");
-        } catch(IOException E) {
+        } catch(IOException e) {
             System.err.println("Can not write to file in EPS export.");
         }
     }

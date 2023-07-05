@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2016 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -52,10 +52,18 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
-    private int x1, y1,x2,y2;
-    private int width, height;
-    private float w;
+    // For this reason, they are NOT local variables.
+    private int xa;         // NOPMD
+    private int ya;         // NOPMD
+    private int xb;         // NOPMD
+    private int yb;         // NOPMD
+    private int x1;         // NOPMD
+    private int y1;         // NOPMD
+    private int x2;         // NOPMD
+    private int y2;         // NOPMD
+    private int width;      // NOPMD
+    private int height;     // NOPMD
+    private float w;        // NOPMD
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -268,22 +276,27 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             isFilled=((Boolean)pd.parameter).booleanValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
+        if (pd.parameter instanceof DashInfo) {
             dashStyle=((DashInfo)pd.parameter).style;
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
+        }
+
+        if(dashStyle<0) {
             dashStyle=0;
+        }
         return i;
     }
 
@@ -299,8 +312,9 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
         int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
         int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
@@ -308,10 +322,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 
 
         if(isFilled) {
-            if(GeometricDistances.pointInRectangle(xa,ya, xb-xa, yb-ya,px,py))
+            if(GeometricDistances.pointInRectangle(xa,ya, xb-xa, yb-ya,px,py)) {
                 return DISTANCE_IN;
-            else
+            } else {
                 return DISTANCE_OUT;
+            }
         }
         return GeometricDistances.pointToRectangle(xa,ya, xb-xa, yb-ya,px,py);
     }
@@ -325,10 +340,11 @@ public final class PrimitiveRectangle extends GraphicPrimitive
     {
         String cmd;
 
-        if (isFilled)
+        if (isFilled) {
             cmd="RP ";
-        else
+        } else {
             cmd="RV ";
+        }
 
         cmd+=virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
@@ -336,8 +352,9 @@ public final class PrimitiveRectangle extends GraphicPrimitive
 
         if(extensions && (dashStyle>0 || hasName() || hasValue())) {
             String text = "0";
-            if (name.length()!=0 || value.length()!=0)
+            if (name.length()!=0 || value.length()!=0) {
                 text = "1";
+            }
             cmd+="FCJ "+dashStyle+" "+text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.
