@@ -11,7 +11,6 @@ import javax.swing.tree.*;
 
 import net.sourceforge.fidocadj.circuit.CircuitPanel;
 import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
-import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.geom.MapCoordinates;
 import net.sourceforge.fidocadj.globals.Globals;
@@ -23,7 +22,6 @@ import net.sourceforge.fidocadj.layermodel.LayerModel;
 import net.sourceforge.fidocadj.librarymodel.event.LibraryListenerAdapter;
 import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
 import net.sourceforge.fidocadj.macropicker.model.MacroTreeModel;
-import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 /** Library view component.<br>
@@ -50,7 +48,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -156,7 +154,9 @@ public class MacroTree extends JPanel
         TreePath path = treeComponent.getSelectionPath();
         int type;
 
-        if(path==null) return -1;
+        if(path==null) {
+            return -1;
+        }
 
         type = macroTreeModel.getNodeType(path);
         switch(type) {
@@ -450,8 +450,6 @@ public class MacroTree extends JPanel
         int copyTargetType;
 
         Library lib = getSelectedLibrary();
-        Category cat = getSelectedCategory();
-        MacroDesc macro = getSelectedMacro();
 
         selectedPath = treeComponent.getSelectionPath();
 
@@ -506,7 +504,7 @@ public class MacroTree extends JPanel
         // Relate with JTree.
         treeComponent.getSelectionModel().
             addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e)
+                @Override public void valueChanged(TreeSelectionEvent e)
                 {
                     MacroDesc md;
                     md = macroTreeModel.getMacro(e.getPath());
@@ -546,7 +544,7 @@ public class MacroTree extends JPanel
         selectionListener=l;
         treeComponent.getSelectionModel().
             addTreeSelectionListener(new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e)
+                @Override public void valueChanged(TreeSelectionEvent e)
                 {
                     MacroDesc md;
                     if (selectionListener!=null) {
@@ -588,7 +586,7 @@ public class MacroTree extends JPanel
 
         treeComponent.getSelectionModel().addTreeSelectionListener(
             new TreeSelectionListener() {
-                public void valueChanged(TreeSelectionEvent e)
+                @Override public void valueChanged(TreeSelectionEvent e)
                 {
                     updateOperationPermission();
                     for(ChangeListener l:changeListeners) {
@@ -632,11 +630,11 @@ public class MacroTree extends JPanel
             {
                 // Nothing to do
             }
-            public void removeUpdate(DocumentEvent e)
+            @Override public void removeUpdate(DocumentEvent e)
             {
                 setWord(e);
             }
-            public void insertUpdate(DocumentEvent e)
+            @Override public void insertUpdate(DocumentEvent e)
             {
                 setWord(e);
             }
@@ -714,7 +712,9 @@ public class MacroTree extends JPanel
     public MacroDesc getSelectedMacro()
     {
         TreePath path = treeComponent.getSelectionPath();
-        if(path==null) return null;
+        if(path==null) {
+            return null;
+        }
         return macroTreeModel.getMacro(path);
     }
 
@@ -724,7 +724,9 @@ public class MacroTree extends JPanel
     public Category getSelectedCategory()
     {
         TreePath path = treeComponent.getSelectionPath();
-        if(path==null) return null;
+        if(path==null) {
+            return null;
+        }
         return macroTreeModel.getCategory(path);
     }
 
@@ -734,7 +736,9 @@ public class MacroTree extends JPanel
     public Library getSelectedLibrary()
     {
         TreePath path = treeComponent.getSelectionPath();
-        if(path==null) return null;
+        if(path==null) {
+            return null;
+        }
         return macroTreeModel.getLibrary(path);
     }
 }

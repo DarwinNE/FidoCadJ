@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci, phylum2
+    Copyright 2008-2023 by Davide Bucci, phylum2
     </pre>
 */
 public abstract class GraphicPrimitive
@@ -166,12 +166,14 @@ public abstract class GraphicPrimitive
         value = "";
         int npoints=number;
 
-        if (npoints<0)
+        if (npoints<0) {
             npoints = getControlPointNumber();
+        }
 
         virtualPoint = new PointG[npoints];
-        for(int i=0;i<npoints;++i)
+        for(int i=0;i<npoints;++i) {
             virtualPoint[i]=new PointG();
+        }
     }
 
     /** Get the font used for name and value
@@ -209,10 +211,11 @@ public abstract class GraphicPrimitive
     */
     public int checkDashStyle(int dashStyle)
     {
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             return Globals.dashNumber-1;
-        else if(dashStyle<0)
+        } else if(dashStyle<0) {
             return 0;
+        }
         return dashStyle;
     }
 
@@ -232,14 +235,17 @@ public abstract class GraphicPrimitive
                               Vector layerV, int drawOnlyLayer)
     {
         // If this method is not needed, exit immediately.
-        if (value==null && name==null)
+        if (value==null && name==null) {
             return;
+        }
 
-        if ("".equals(value) && "".equals(name))
+        if ("".equals(value) && "".equals(name)) {
             return;
+        }
 
-        if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer())
+        if(drawOnlyLayer>=0 && drawOnlyLayer!=getLayer()) {
             return;
+        }
 
         if(changed) {
             // Calculate the positions of the text lines
@@ -262,15 +268,17 @@ public abstract class GraphicPrimitive
             h = g.getFontAscent();
             th = h+g.getFontDescent();
 
-            if(name==null)
+            if(name==null) {
                 w1=0;
-            else
+            } else {
                 w1 = g.getStringWidth(name);
+            }
 
-            if(value==null)
+            if(value==null) {
                 w2 = 0;
-            else
+            } else {
                 w2 = g.getStringWidth(value);
+            }
 
             // Calculates the size of the text in logical units. This is
             // useful for calculating wether the user has clicked inside a
@@ -334,10 +342,11 @@ public abstract class GraphicPrimitive
             StringBuffer s1=new StringBuffer("");
 
             for (int i=0; i<macroFont.length(); ++i) {
-                if(macroFont.charAt(i)==' ')
+                if(macroFont.charAt(i)==' ') {
                     s1.append("++");
-                else
+                } else {
                     s1.append(macroFont.charAt(i));
+                }
             }
             subsFont=s1.toString();
         }
@@ -346,8 +355,9 @@ public abstract class GraphicPrimitive
         if (name!=null && !"".equals(name) ||
             value!=null && !"".equals(value))
         {
-            if(extensions)
+            if(extensions) {
                 s2.append("FCJ\n");
+            }
 
             s2.append("TY ");
             s2.append(virtualPoint[getNameVirtualPointNumber()].x);
@@ -403,7 +413,7 @@ public abstract class GraphicPrimitive
 
         // Export the text associated to the name and value of the macro
         if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
-            if(name!=null && !name.equals(""))
+            if(name!=null && !name.equals("")) {
                 exp.exportAdvText (cs.mapX(
                     virtualPoint[getNameVirtualPointNumber()].x,
                     virtualPoint[getNameVirtualPointNumber()].y),
@@ -416,8 +426,9 @@ public abstract class GraphicPrimitive
                     false,
                     false,
                     0, getLayer(), name);
+            }
 
-            if(value!=null && !value.equals(""))
+            if(value!=null && !value.equals("")) {
                 exp.exportAdvText (cs.mapX(
                     virtualPoint[getValueVirtualPointNumber()].x,
                     virtualPoint[getValueVirtualPointNumber()].y),
@@ -431,6 +442,7 @@ public abstract class GraphicPrimitive
                     false,
                     false,
                     0, getLayer(), value);
+            }
         }
     }
 

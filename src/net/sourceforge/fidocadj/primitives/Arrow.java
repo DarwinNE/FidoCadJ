@@ -1,12 +1,15 @@
 package net.sourceforge.fidocadj.primitives;
 
-import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.PolygonInterface;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.ArrowInfo;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.export.PointPr;
 
 
@@ -63,7 +66,8 @@ public final class Arrow
     private boolean arrowEnd;       // Draw arrow at the end point.
 
     // Arrow sizes in pixels.
-    private int h,l;
+    private int h;
+    private int l;
 
     /** Constructor is private since this is an utility class.
     */
@@ -97,13 +101,13 @@ public final class Arrow
         result+=arrows+" ";
         result+=arrowStyle+" ";
         if (Math.abs(arrowLength-Math.round(arrowLength))<roundTolerance) {
-            result+=new Integer(Math.round(arrowLength));
+            result+= (int)Math.round(arrowLength);
         } else {
             result+=arrowLength;
         }
         result+=" ";
         if (Math.abs(arrowHalfWidth-Math.round(arrowHalfWidth))<roundTolerance){
-            result+=new Integer(Math.round(arrowHalfWidth));
+            result+= (int)Math.round(arrowHalfWidth);
         } else {
             result+=arrowHalfWidth;
         }
@@ -238,8 +242,12 @@ public final class Arrow
         // h and l must conserve the sign of arrowHalfWidth and
         // arrowLength, regardless of the coordinate system
         // orientation.
-        if(arrowHalfWidth<0) h=-h;
-        if(arrowLength<0) l=-l;
+        if(arrowHalfWidth<0) {
+            h=-h;
+        }
+        if(arrowLength<0) {
+            l=-l;
+        }
         return h;
     }
 
@@ -292,33 +300,38 @@ public final class Arrow
     {
         int i=start;
         ParameterDescription pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             setArrowStart(((Boolean)pd.parameter).booleanValue());
-        else
+        } else {
             System.out.println("Warning: 1-unexpected parameter!"+pd);
+        }
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
              setArrowEnd(((Boolean)pd.parameter).booleanValue());
-        else
+        } else {
             System.out.println("Warning: 2-unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Float)
+        if (pd.parameter instanceof Float) {
             setArrowLength(((Float)pd.parameter).floatValue());
-        else
+        } else {
             System.out.println("Warning: 3-unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Float)
+        if (pd.parameter instanceof Float) {
             setArrowHalfWidth(((Float)pd.parameter).floatValue());
-        else
+        } else {
             System.out.println("Warning: 4-unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof ArrowInfo)
+        if (pd.parameter instanceof ArrowInfo) {
             setArrowStyle(((ArrowInfo)pd.parameter).style);
-        else
+        } else {
             System.out.println("Warning: 5-unexpected parameter!"+pd);
+        }
 
         return i;
     }
@@ -353,55 +366,53 @@ public final class Arrow
         @param y the y coordinate of the arrow tip.
         @param xc the x coordinate of the direction point.
         @param yc the y coordinate of the direction point.
-        @param Pbase return the coordinate of the base point of the arrow head.
-            If Pbase is specified, it modifies its values. If it is null,
+        @param pBase return the coordinate of the base point of the arrow head.
+            If pBase is specified, it modifies its values. If it is null,
             nothing will be stored.
         @return true if the coordinates are inside the arrow.
     */
     public boolean isInArrow(int xs, int ys, int x, int y, int xc, int yc,
-        PointG Pbase)
+        PointG pBase)
     {
         // Consider the arrow as a polygon.
         int[] xp=new int[3];
         int[] yp=new int[3];
 
-        int k;
-
-        PointPr[] P=calculateArrowPoints(x,y,xc,yc);
+        PointPr[] p=calculateArrowPoints(x,y,xc,yc);
         xp[0]=x;
-        xp[1]=(int)Math.round(P[1].x);
-        xp[2]=(int)Math.round(P[2].x);
+        xp[1]=(int)Math.round(p[1].x);
+        xp[2]=(int)Math.round(p[2].x);
         yp[0]=y;
-        yp[1]=(int)Math.round(P[1].y);
-        yp[2]=(int)Math.round(P[2].y);
+        yp[1]=(int)Math.round(p[1].y);
+        yp[2]=(int)Math.round(p[2].y);
 
-        if(Pbase!=null) {
-            Pbase.x=(int)Math.round(P[0].x);
-            Pbase.y=(int)Math.round(P[0].y);
+        if(pBase!=null) {
+            pBase.x=(int)Math.round(p[0].x);
+            pBase.y=(int)Math.round(p[0].y);
         }
         return GeometricDistances.pointInPolygon(xp,yp,3,xs,ys);
     }
 
     private PointPr[] calculateArrowPoints(int x, int y, int xc, int yc)
     {
-        PointPr[] P;
+        PointPr[] p;
         // At first we need the angle giving the direction of the arrow
         double alpha=getArrowAngle(x,y,xc,yc);
 
         // Then, we calculate the points for the polygon
         double cosalpha=Math.cos(alpha);
         double sinalpha=Math.sin(alpha);
-        P = new PointPr[5];
+        p = new PointPr[5];
 
-        P[0] = new PointPr(x - l*cosalpha, y - l*sinalpha);
-        P[1] = new PointPr(P[0].x - h*sinalpha, P[0].y + h*cosalpha);
-        P[2] = new PointPr(P[0].x + h*sinalpha, P[0].y - h*cosalpha);
+        p[0] = new PointPr(x - l*cosalpha, y - l*sinalpha);
+        p[1] = new PointPr(p[0].x - h*sinalpha, p[0].y + h*cosalpha);
+        p[2] = new PointPr(p[0].x + h*sinalpha, p[0].y - h*cosalpha);
 
         if ((arrowStyle & flagLimiter) != 0) {
-            P[3] = new PointPr(x - h*sinalpha, y + h*cosalpha);
-            P[4] = new PointPr(x + h*sinalpha, y - h*cosalpha);
+            p[3] = new PointPr(x - h*sinalpha, y + h*cosalpha);
+            p[4] = new PointPr(x + h*sinalpha, y - h*cosalpha);
         }
-        return P;
+        return p;
     }
 
 
@@ -412,10 +423,11 @@ public final class Arrow
         // The idea is that the arrow head should be oriented in the direction
         // specified by the second point.
 
-        if (x==xc)
+        if (x==xc) {
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+        }
 
         // Alpha is the angle of the arrow, against an horizontal line with
         // the trigonometric convention (anti clockwise is positive).
@@ -434,39 +446,38 @@ public final class Arrow
     */
     public PointG drawArrow(GraphicsInterface g, int x, int y, int xc, int yc)
     {
-        double s;
-
-        PointPr[] P = calculateArrowPoints(x,y,xc,yc);
+        PointPr[] p = calculateArrowPoints(x,y,xc,yc);
 
         // The arrow head is traced using a polygon. Here we create the
         // object and populate it with the calculated coordinates.
-        PolygonInterface p = g.createPolygon();
+        PolygonInterface pp = g.createPolygon();
 
-        p.addPoint(x,y);
-        p.addPoint((int)Math.round(P[1].x),(int)Math.round(P[1].y));
-        p.addPoint((int)Math.round(P[2].x),(int)Math.round(P[2].y));
+        pp.addPoint(x,y);
+        pp.addPoint((int)Math.round(p[1].x),(int)Math.round(p[1].y));
+        pp.addPoint((int)Math.round(p[2].x),(int)Math.round(p[2].y));
 
         if(m!=null) {
             m.trackPoint(x,y);
-            m.trackPoint(P[1].x,P[1].y);
-            m.trackPoint(P[2].x,P[2].y);
+            m.trackPoint(p[1].x,p[1].y);
+            m.trackPoint(p[2].x,p[2].y);
         }
 
-        if ((arrowStyle & flagEmpty) == 0)
-            g.fillPolygon(p);
-        else
-            g.drawPolygon(p);
+        if ((arrowStyle & flagEmpty) == 0) {
+            g.fillPolygon(pp);
+        } else {
+            g.drawPolygon(pp);
+        }
 
         // Check if we need to draw the limiter or not
         // This is a small line useful for quotes.
         if ((arrowStyle & flagLimiter) != 0) {
-            g.drawLine((int)Math.round(P[3].x),(int)Math.round(P[3].y),
-                (int)Math.round(P[4].x),(int)Math.round(P[4].y));
+            g.drawLine((int)Math.round(p[3].x),(int)Math.round(p[3].y),
+                (int)Math.round(p[4].x),(int)Math.round(p[4].y));
             if(m!=null) {
-                m.trackPoint(P[3].x,P[3].y);
-                m.trackPoint(P[4].x,P[4].y);
+                m.trackPoint(p[3].x,p[3].y);
+                m.trackPoint(p[4].x,p[4].y);
             }
         }
-        return new PointG((int)(P[0].x),(int)(P[0].y));
+        return new PointG((int)p[0].x,(int)p[0].y);
     }
 }

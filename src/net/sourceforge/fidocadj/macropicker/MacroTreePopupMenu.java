@@ -31,7 +31,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -100,7 +100,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         return new ActionListener(){
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
                     case MacroTree.MACRO:
@@ -137,7 +137,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         return new ActionListener(){
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
                     case MacroTree.MACRO:
@@ -175,7 +175,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         return new ActionListener(){
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 switch(mt.getSelectedType()) {
                     case MacroTree.MACRO:
@@ -206,7 +206,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         return new ActionListener(){
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 mt.setSelectedNodeToCopyTarget();
             }
@@ -222,7 +222,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
     {
         final MacroTree mt = macroTree;
         return new ActionListener(){
-            public void actionPerformed(ActionEvent e)
+            @Override public void actionPerformed(ActionEvent e)
             {
                 mt.pasteIntoSelectedNode();
             }

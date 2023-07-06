@@ -9,22 +9,6 @@ import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.tree.*;
 
-import net.sourceforge.fidocadj.circuit.CircuitPanel;
-import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
-import net.sourceforge.fidocadj.export.ExportGraphic;
-import net.sourceforge.fidocadj.geom.DrawingSize;
-import net.sourceforge.fidocadj.geom.MapCoordinates;
-import net.sourceforge.fidocadj.globals.Globals;
-import net.sourceforge.fidocadj.toolbars.ChangeSelectionListener;
-import net.sourceforge.fidocadj.librarymodel.LibraryModel;
-import net.sourceforge.fidocadj.librarymodel.Library;
-import net.sourceforge.fidocadj.librarymodel.Category;
-import net.sourceforge.fidocadj.layermodel.LayerModel;
-import net.sourceforge.fidocadj.librarymodel.event.LibraryListenerAdapter;
-import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
-import net.sourceforge.fidocadj.macropicker.model.MacroTreeModel;
-import net.sourceforge.fidocadj.macropicker.model.MacroTreeNode;
-import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 /** Describe which permissions are available.
 
@@ -45,7 +29,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci

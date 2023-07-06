@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 
 
 /**
@@ -16,7 +16,7 @@ import net.sourceforge.fidocadj.globals.*;
  * a placeholder string (when the user hasn't yet typed anything), and a button
  * to clear the currently-entered text.
  *
- * @author Elliott Hughes
+ * @author Elliott Hughes, Davide Bucci
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
 public class SearchField extends JTextField implements FocusListener
@@ -61,7 +61,7 @@ public class SearchField extends JTextField implements FocusListener
         needed.
         @param g the graphic context to use.
     */
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         if(Globals.weAreOnAMac) {
             // This is useful only on Macintosh, since the text field shown is
@@ -94,7 +94,8 @@ public class SearchField extends JTextField implements FocusListener
     {
         // It works fine on Windows.
         // Other environment have not been tested yet.
-        int left, bottom;
+        int left;
+        int bottom;
         float fontHeight;
         Font f;
         LineMetrics lm;
@@ -132,7 +133,7 @@ public class SearchField extends JTextField implements FocusListener
     private void initKeyListener()
     {
         addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e)
+            @Override public void keyReleased(KeyEvent e)
             {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     cancel();
@@ -140,7 +141,7 @@ public class SearchField extends JTextField implements FocusListener
                     maybeNotify();
                 }
             }
-            public void keyPressed(KeyEvent e)
+            @Override public void keyPressed(KeyEvent e)
             {
                 // If the search field has the focus, it will be the only
                 // recipient of the key strokes (solves bug #50).
@@ -200,8 +201,8 @@ public class SearchField extends JTextField implements FocusListener
             @param width the width of the button.
             @param height the height of the button.
         */
-        public void paintBorder(Component c, Graphics gc, int x, int y,
-                                int width, int height)
+        @Override public void paintBorder(Component c, Graphics gc, int x, 
+                                int y, int width, int height)
         {
             SearchField field = (SearchField) c;
             Graphics2D g = (Graphics2D) gc;
@@ -268,27 +269,27 @@ public class SearchField extends JTextField implements FocusListener
             return !innerArea.contains(e.getPoint());
         }
 
-        public void mouseDragged(MouseEvent e)
+        @Override public void mouseDragged(MouseEvent e)
         {
             arm(e);
         }
 
-        public void mouseEntered(MouseEvent e)
+        @Override public void mouseEntered(MouseEvent e)
         {
             arm(e);
         }
 
-        public void mouseExited(MouseEvent e)
+        @Override public void mouseExited(MouseEvent e)
         {
             disarm();
         }
 
-        public void mousePressed(MouseEvent e)
+        @Override public void mousePressed(MouseEvent e)
         {
             arm(e);
         }
 
-        public void mouseReleased(MouseEvent e)
+        @Override public void mouseReleased(MouseEvent e)
         {
             if (armed) {
                 cancel();
@@ -312,7 +313,7 @@ public class SearchField extends JTextField implements FocusListener
     /** For the FocusListener interface. The field gained focus.
         @param e the focus event.
     */
-    public void focusGained(FocusEvent e)
+    @Override public void focusGained(FocusEvent e)
     {
         repaint();
     }
@@ -320,7 +321,7 @@ public class SearchField extends JTextField implements FocusListener
     /** For the FocusListener interface. The field lost focus.
         @param e the focus event.
     */
-    public void focusLost(FocusEvent e)
+    @Override public void focusLost(FocusEvent e)
     {
         repaint();
     }
