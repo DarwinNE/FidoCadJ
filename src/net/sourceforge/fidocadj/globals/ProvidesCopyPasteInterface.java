@@ -20,7 +20,7 @@ package net.sourceforge.fidocadj.globals;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
 
     </pre>
 */
@@ -29,10 +29,10 @@ public interface ProvidesCopyPasteInterface
     /** Copy a text into the clipboard.
         @param s the text to be copied.
     */
-    public void copyText(String s);
+    void copyText(String s);
 
     /** Paste a text from the clipboard.
         @return the text retrieved from the clipboard.
     */
-    public String pasteText();
+    String pasteText();
 }

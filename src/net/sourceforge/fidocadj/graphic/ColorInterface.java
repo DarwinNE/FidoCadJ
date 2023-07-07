@@ -25,7 +25,7 @@ package net.sourceforge.fidocadj.graphic;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 */
 
@@ -34,50 +34,50 @@ public interface ColorInterface
     /** Get a white color.
         @return a white color.
     */
-    public ColorInterface white();
+    ColorInterface white();
 
     /** Get a gray color.
         @return a gray color.
     */
-    public ColorInterface gray();
+    ColorInterface gray();
 
     /** Get a green color.
         @return a green color.
     */
-    public ColorInterface green();
+    ColorInterface green();
 
     /** Get a red color.
         @return a red color.
     */
-    public ColorInterface red();
+    ColorInterface red();
 
     /** Get a black color.
         @return a black color.
     */
-    public ColorInterface black();
+    ColorInterface black();
 
     /** Get the green component of the color.
         @return the component.
     */
-    public int getGreen();
+    int getGreen();
 
     /** Get the red component of the color.
         @return the component.
     */
-    public int getRed();
+    int getRed();
 
     /** Get the blue component of the color.
         @return the component.
     */
-    public int getBlue();
+    int getBlue();
 
     /** Get the RGB description of the color.
         @return the description, packed in an int.
     */
-    public int getRGB();
+    int getRGB();
 
     /** Set the color from a RGB description packed in a int.
         @param rgb the packed description..
     */
-    public void setRGB(int rgb);
+    void setRGB(int rgb);
 }

@@ -5,11 +5,15 @@ import java.util.*;
 
 import net.sourceforge.fidocadj.dialogs.ParameterDescription;
 import net.sourceforge.fidocadj.dialogs.LayerInfo;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.graphic.DecoratedText;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** GraphicPrimitive is an abstract class implementing the basic behaviour
     of a graphic primitive, which should be derived from it.
@@ -42,9 +46,6 @@ public abstract class GraphicPrimitive
     public static final int DRAG_PRIMITIVE=-2;
     // Tell that we want to perform a selection in a rectangular area
     public static final int RECT_SELECTION=-3;
-
-    // Maximum number of tokens
-    private static final int MAX_TOKENS=120;
 
     // Indicates wether the primitive is selected or not
     public boolean selectedState;
@@ -94,13 +95,24 @@ public abstract class GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
+    private int xa;
+    private int ya;
+    private int xb;
+    private int yb;
     // Text sizes in pixels
-    private int h,th, w1, w2;
+    private int h;
+    private int th;
+    private int w1;
+    private int w2;
 
     // Text sizes in logical units.
-    private int t_th, t_w1, t_w2;
-    private int x2,y2,x3,y3;
+    private int t_th;
+    private int t_w1;
+    private int t_w2;
+    private int x2;
+    private int y2;
+    private int x3;
+    private int y3;
 
 
     /* At first, non abstract methods */
@@ -201,8 +213,9 @@ public abstract class GraphicPrimitive
         // Silently correct a wrong size. This should never happen (the dialog
         // has a control, but avoids a wrong configuration to sneak somewhere
         // else.
-        if(macroFontSize<=0)
+        if(macroFontSize<=0) {
             macroFontSize=1;
+        }
     }
 
     /** Check and correct if necessary the dashStyle number.
@@ -297,8 +310,9 @@ public abstract class GraphicPrimitive
         }
 
         // If there is no need to draw the text, just exit.
-        if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th))
+        if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th)) {
             return;
+        }
 
         // This is useful and faster for small zooms
         if(th<Globals.textSizeLimit) {
@@ -307,9 +321,10 @@ public abstract class GraphicPrimitive
             return;
         }
 
-        if(!changed)
+        if(!changed) {
             g.setFont(macroFont,
                 (int)(macroFontSize*12*coordSys.getYMagnitude()/7+.5));
+        }
 
         DecoratedText dt=new DecoratedText(g.getTextInterface());
         /* The if's have been added thanks to this information:
@@ -413,13 +428,13 @@ public abstract class GraphicPrimitive
 
         // Export the text associated to the name and value of the macro
         if(drawOnlyLayer<0 || drawOnlyLayer==getLayer()) {
-            if(name!=null && !name.equals("")) {
+            if(!"".equals(name)) {
                 exp.exportAdvText (cs.mapX(
                     virtualPoint[getNameVirtualPointNumber()].x,
                     virtualPoint[getNameVirtualPointNumber()].y),
                     cs.mapY(virtualPoint[getNameVirtualPointNumber()].x,
                     virtualPoint[getNameVirtualPointNumber()].y),
-                    (int)(size),
+                    (int)size,
                     (int)(size*12/7+.5),
                     macroFont,
                     false,
@@ -428,7 +443,7 @@ public abstract class GraphicPrimitive
                     0, getLayer(), name);
             }
 
-            if(value!=null && !value.equals("")) {
+            if(!"".equals(value)) {
                 exp.exportAdvText (cs.mapX(
                     virtualPoint[getValueVirtualPointNumber()].x,
                     virtualPoint[getValueVirtualPointNumber()].y),
@@ -465,21 +480,20 @@ public abstract class GraphicPrimitive
 
     /** Reads the TY line describing the "value" field
         @param tokens the array of tokens to be parsed
-        @param N the number of tokens to be parsed.
+        @param nn the number of tokens to be parsed.
         @throws IOException if something goes wrong, for example there is
             an invalid primitive found at an incongruous place (probably a
             programming error).
     */
-    public void setValue(String[] tokens, int N)
+    public void setValue(String[] tokens, int nn)
         throws IOException
     {
         StringBuffer txtb=new StringBuffer();
         int j=8;
         changed=true;
-        if (tokens[0].equals("TY")) {   // Text (advanced)
-            if (N<9) {
-                IOException E=new IOException("bad arguments on TY");
-                throw E;
+        if ("TY".equals(tokens[0])) {   // Text (advanced)
+            if (nn<9) {
+                throw new IOException("Bad arguments on TY");
             }
 
             virtualPoint[getValueVirtualPointNumber()].x=
@@ -487,7 +501,7 @@ public abstract class GraphicPrimitive
             virtualPoint[getValueVirtualPointNumber()].y=
                 Integer.parseInt(tokens[2]);
 
-            if(tokens[8].equals("*")) {
+            if("*".equals(tokens[8])) {
                 macroFont = Globals.defaultTextFont;
             } else {
                 macroFont = tokens[8].replaceAll("\\+\\+"," ");
@@ -496,36 +510,35 @@ public abstract class GraphicPrimitive
             // Adding the following line should fix bug #3522962
             setMacroFontSize(Integer.parseInt(tokens[4]));
 
-            while(j<N-1){
+            while(j<nn-1){
                 txtb.append(tokens[++j]);
-                if (j<N-1) txtb.append(" ");
+                if (j<nn-1) {
+                    txtb.append(" ");
+                }
             }
             value=txtb.toString();
-
         } else {
-            IOException E=new IOException("Invalid primitive: "+tokens[0]+
+            throw new IOException("Invalid primitive: "+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
     /** Reads the TY line describing the "name" field
         @param tokens the array of tokens to be parsed
-        @param N the number of tokens to be parsed.
+        @param nn the number of tokens to be parsed.
         @throws IOException if something goes wrong, for example there is
             an invalid primitive found at an incongruous place (probably a
             programming error).
     */
-    public void setName(String[] tokens, int N)
+    public void setName(String[] tokens, int nn)
         throws IOException
     {
         StringBuffer txtb=new StringBuffer();
         int j=8;
         changed=true;
-        if (tokens[0].equals("TY")) {   // Text (advanced)
-            if (N<9) {
-                IOException E=new IOException("bad arguments on TY");
-                throw E;
+        if ("TY".equals(tokens[0])) {   // Text (advanced)
+            if (nn<9) {
+                throw new IOException("bad arguments on TY");
             }
 
             virtualPoint[getNameVirtualPointNumber()].x=
@@ -533,16 +546,17 @@ public abstract class GraphicPrimitive
             virtualPoint[getNameVirtualPointNumber()].y=
                 Integer.parseInt(tokens[2]);
 
-            while(j<N-1){
+            while(j<nn-1) {
                 txtb.append(tokens[++j]);
-                if (j<N-1) txtb.append(" ");
+                if (j<nn-1) {
+                    txtb.append(" ");
+                }
             }
             name=txtb.toString();
 
         } else {
-            IOException E=new IOException("Invalid primitive:"+tokens[0]+
+            throw new IOException("Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -572,9 +586,7 @@ public abstract class GraphicPrimitive
     */
     public void movePrimitive(int dx, int dy)
     {
-        int a, n=getControlPointNumber();
-
-        for(a=0; a<n; ++a) {
+        for(int a=0; a<getControlPointNumber(); ++a) {
             virtualPoint[a].x+=dx;
             virtualPoint[a].y+=dy;
         }
@@ -587,10 +599,9 @@ public abstract class GraphicPrimitive
     */
     public void mirrorPrimitive(int xPos)
     {
-        int a, n=getControlPointNumber();
         int xtmp;
 
-        for(a=0; a<n; ++a) {
+        for(int a=0; a<getControlPointNumber(); ++a) {
             xtmp = virtualPoint[a].x;
             virtualPoint[a].x = 2*xPos - xtmp;
         }
@@ -607,14 +618,13 @@ public abstract class GraphicPrimitive
     public void rotatePrimitive(boolean bCounterClockWise, int ix, int iy)
     {
 
-        int b, m=getControlPointNumber();
         PointG ptTmp=new PointG();
         PointG pt=new PointG();
 
         pt.x=ix;
         pt.y=iy;
 
-        for(b=0; b<m; ++b) {
+        for(int b=0; b<getControlPointNumber(); ++b) {
             ptTmp.x = virtualPoint[b].x;
             ptTmp.y = virtualPoint[b].y;
 
@@ -666,8 +676,7 @@ public abstract class GraphicPrimitive
     final public void setSelected(boolean s)
     {
         selectedState=s;
-        //changed=true;
-    };
+    }
 
     /** Get the selection state of the primitive.
         @return true if the primitive is selected, false otherwise.
@@ -695,16 +704,17 @@ public abstract class GraphicPrimitive
         try {
             l=Integer.parseInt(token);
 
-        } catch (NumberFormatException E) {
+        } catch (NumberFormatException e) {
             // We are unable to get the layer. Just suppose it's zero.
             l=0;
         }
 
         // We do check if everything is OK.
-        if (l<0 || l>=LayerDesc.MAX_LAYERS)
+        if (l<0 || l>=LayerDesc.MAX_LAYERS) {
             layer=0;
-        else
+        } else {
             layer=l;
+        }
         changed=true;
     }
 
@@ -713,10 +723,11 @@ public abstract class GraphicPrimitive
     */
     final public void setLayer(int l)
     {
-        if (l<0 || l>=LayerDesc.MAX_LAYERS)
+        if (l<0 || l>=LayerDesc.MAX_LAYERS) {
             layer=0;
-        else
+        } else {
             layer=l;
+        }
         changed=true;
     }
 
@@ -736,8 +747,9 @@ public abstract class GraphicPrimitive
         // modified.
 
         if(old_layer != layer || changed) {
-            if(layer>=layerV.size())
+            if(layer>=layerV.size()) {
                 layer=layerV.size()-1;
+            }
             currentLayer= (LayerDesc)layerV.get(layer);
             old_layer = layer;
         }
@@ -778,21 +790,23 @@ public abstract class GraphicPrimitive
         // Calculation of the reasonable multiplication factor.
         mult=g.getScreenDensity()/BASE_RESOLUTION;
 
-        int size_x=(int)Math.round(mult*HANDLE_WIDTH);
-        int size_y=(int)Math.round(mult*HANDLE_WIDTH);
+        int sizeX=(int)Math.round(mult*HANDLE_WIDTH);
+        int sizeY=(int)Math.round(mult*HANDLE_WIDTH);
 
         for(int i=0;i<getControlPointNumber();++i) {
-            if (!testIfValidHandle(i))
+            if (!testIfValidHandle(i)) {
                 continue;
+            }
 
             xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
             ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
 
-            if(!g.hitClip(xa-size_x/2,ya-size_y/2, size_x,size_y))
+            if(!g.hitClip(xa-sizeX/2,ya-sizeY/2, sizeX,sizeY)) {
                 continue;
+            }
 
             // A handle is a small red rectangle
-            g.fillRect(xa-size_x/2,ya-size_y/2, size_x,size_y);
+            g.fillRect(xa-sizeX/2,ya-sizeY/2, sizeX,sizeY);
         }
     }
 
@@ -815,8 +829,9 @@ public abstract class GraphicPrimitive
         int hl2=(int)Math.round(mult*HANDLE_WIDTH/2);
 
         for(int i=0;i<getControlPointNumber();++i) {
-            if (!testIfValidHandle(i))
+            if (!testIfValidHandle(i)) {
                 continue;
+            }
 
             xa=cs.mapX(virtualPoint[i].x,virtualPoint[i].y);
             ya=cs.mapY(virtualPoint[i].x,virtualPoint[i].y);
@@ -830,7 +845,9 @@ public abstract class GraphicPrimitive
                 (int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
                 (int)Math.round(mult*(HANDLE_WIDTH+2*increase)),
                 px,py))
+            {
                 return i;
+            }
         }
         return NO_DRAG;
     }
@@ -849,8 +866,9 @@ public abstract class GraphicPrimitive
         int ya;
 
         for(int i=0;i<getControlPointNumber();++i) {
-            if (!testIfValidHandle(i))
+            if (!testIfValidHandle(i)) {
                 continue;
+            }
 
             xa=virtualPoint[i].x;
             ya=virtualPoint[i].y;
@@ -888,16 +906,20 @@ public abstract class GraphicPrimitive
     protected boolean testIfValidHandle(int i)
     {
         if (i==getNameVirtualPointNumber()) {
-            if (name==null)
+            if (name==null) {
                 return false;
-            if(name.length()==0)
+            }
+            if(name.length()==0) {
                 return false;
+            }
         }
         if (i==getValueVirtualPointNumber()) {
-            if(value==null)
+            if(value==null) {
                 return false;
-            if(value.length()==0)
+            }
+            if(value.length()==0) {
                 return false;
+            }
         }
         return true;
     }
@@ -913,7 +935,6 @@ public abstract class GraphicPrimitive
     */
     public Vector<ParameterDescription> getControls()
     {
-        int i;
         Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
         ParameterDescription pd = new ParameterDescription();
 
@@ -958,25 +979,28 @@ public abstract class GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof String)
+        if (pd.parameter instanceof String) {
             name=((String)pd.parameter);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof String)
+        if (pd.parameter instanceof String) {
             value=((String)pd.parameter);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd = (ParameterDescription)v.get(i);
         // Check, just for sure...
-        if (pd.parameter instanceof LayerInfo)
+        if (pd.parameter instanceof LayerInfo) {
             layer=((LayerInfo)pd.parameter).getLayer();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter! (layer)");
+        }
 
         return ++i;
     }
@@ -1006,10 +1030,10 @@ public abstract class GraphicPrimitive
     /** Draw the graphic primitive on the given graphic context.
         @param g the graphic context in which the primitive should be drawn.
         @param coordSys the graphic coordinates system to be applied.
-        @param LayerDesc the layer description.
+        @param layerDesc the layer description.
     */
     public abstract void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector LayerDesc);
+                              Vector layerDesc);
 
     /** Parse a token array and store the graphic data for a given primitive
         Obviously, that routine should be called *after* having recognized
@@ -1019,10 +1043,10 @@ public abstract class GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException if something goes wrong.
     */
-    public abstract void parseTokens(String[] tokens, int N)
+    public abstract void parseTokens(String[] tokens, int nn)
         throws IOException;
 
     /** Gets the distance (in primitive's coordinates space) between a
@@ -1106,9 +1130,15 @@ public abstract class GraphicPrimitive
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
                     || i == p.getValueVirtualPointNumber())
+            {
                 continue;
-            if (p.virtualPoint[i].x<qx) qx = p.virtualPoint[i].x;
-            if (p.virtualPoint[i].y<qy) qy = p.virtualPoint[i].y;
+            }
+            if (p.virtualPoint[i].x<qx) {
+                qx = p.virtualPoint[i].x;
+            }
+            if (p.virtualPoint[i].y<qy) {
+                qy = p.virtualPoint[i].y;
+            }
         }
         return new PointG(qx,qy);
     }

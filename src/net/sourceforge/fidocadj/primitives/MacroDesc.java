@@ -59,7 +59,7 @@ public class MacroDesc
     /** Provide a text describing the macro, usually for debug purposes.
         @return the description.
     */
-    public String toString()
+    @Override public String toString()
     {
         String s;
         switch (level) {

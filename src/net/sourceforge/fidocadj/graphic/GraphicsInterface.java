@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.graphic;
 
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 /** Provides a general way to draw on the screen.
 
@@ -31,36 +31,36 @@ public interface GraphicsInterface
     /** Get the current color.
         @return the current color.
     */
-    public ColorInterface getColor();
+    ColorInterface getColor();
 
     /** Set the current zoom factor. Currently employed for resizing the dash
         styles.
         @param z the current zoom factor (pixels for logical units).
     */
-    public void setZoom(double z);
+    void setZoom(double z);
 
     /** Get the current zoom factor. Currently employed for resizing the dash
         styles.
         @return the current zoom factor (pixels for logical units).
     */
-    public double getZoom();
+    double getZoom();
 
     /** Set the current color.
         @param c the current color.
     */
-    public void setColor(ColorInterface c);
+    void setColor(ColorInterface c);
 
     /** Retrieves an object implementing an appropriate TextInterface.
         @return an object implementing TextInterface.
     */
-    public TextInterface getTextInterface();
+    TextInterface getTextInterface();
 
     /** Retrieves or create a BasicStroke object having the wanted with and
         style and apply it to the current graphic context.
         @param w the width in pixel
         @param dashStyle the style of the stroke
     */
-    public void applyStroke(float w, int dashStyle);
+    void applyStroke(float w, int dashStyle);
 
     /** Draws a rectangle on the current graphic context.
         @param x the x coordinate of the uppermost left corner
@@ -68,7 +68,7 @@ public interface GraphicsInterface
         @param width the width of the rectangle
         @param height the height of the rectangle
     */
-    public void drawRect(int x, int y, int width, int height);
+    void drawRect(int x, int y, int width, int height);
 
     /** Fill a rectangle on the current graphic context.
         @param x the x coordinate of the uppermost left corner
@@ -76,7 +76,7 @@ public interface GraphicsInterface
         @param width the width of the rectangle
         @param height the height of the rectangle
     */
-    public void fillRect(int x, int y, int width, int height);
+    void fillRect(int x, int y, int width, int height);
 
     /** Fill a rounded rectangle on the current graphic context.
         @param x the x coordinate of the uppermost left corner.
@@ -86,7 +86,7 @@ public interface GraphicsInterface
         @param arcWidth the width of the arc of the round corners.
         @param arcHeight the height of the arc of the round corners.
     */
-    public void fillRoundRect(int x,
+    void fillRoundRect(int x,
                                    int y,
                                    int width,
                                    int height,
@@ -104,7 +104,7 @@ public interface GraphicsInterface
         @param height the height of the rectangle of the rectangle.
         @return true if the rectangle hits the dirty region.
     */
-    public boolean hitClip(int x,
+    boolean hitClip(int x,
                        int y,
                        int width,
                        int height);
@@ -115,7 +115,7 @@ public interface GraphicsInterface
         @param x2 second coordinate x value
         @param y2 second coordinate y value
     */
-    public void drawLine(int x1,
+    void drawLine(int x1,
                               int y1,
                               int x2,
                               int y2);
@@ -124,7 +124,7 @@ public interface GraphicsInterface
         @param name the name of the typeface to be used.
         @param size the size in pixels
     */
-    public void setFont(String name, double size);
+    void setFont(String name, double size);
 
     /**  Set the current font.
         @param name the name of the typeface.
@@ -132,41 +132,41 @@ public interface GraphicsInterface
         @param isItalic true if an italic variant should be used.
         @param isBold true if a bold variant should be used.
     */
-    public void setFont(String name, double size, boolean isItalic,
+    void setFont(String name, double size, boolean isItalic,
         boolean isBold);
 
     /** Get the font size.
         @return the font size.
     */
-    public double getFontSize();
+    double getFontSize();
 
     /** Set the font size.
         @param size the font size to be set.
     */
-    public void setFontSize(double size);
+    void setFontSize(double size);
 
     /** Get the ascent metric of the current font.
         @return the value of the ascent, in pixels.
     */
-    public int getFontAscent();
+    int getFontAscent();
 
     /** Get the descent metric of the current font.
         @return the value of the descent, in pixels.
     */
-    public int getFontDescent();
+    int getFontDescent();
 
     /** Get the width of the given string with the current font.
         @param s the string to be used.
         @return the width of the string, in pixels.
     */
-    public int getStringWidth(String s);
+    int getStringWidth(String s);
 
     /** Draw a string on the current graphic context.
         @param str the string to be drawn.
         @param x the x coordinate of the starting point.
         @param y the y coordinate of the starting point.
     */
-    public void drawString(String str,
+    void drawString(String str,
                                 int x,
                                 int y);
 
@@ -174,7 +174,7 @@ public interface GraphicsInterface
         @param alpha the transparency, between 0.0 (transparent) and 1.0
             (fully opaque).
     */
-    public void setAlpha(float alpha);
+    void setAlpha(float alpha);
 
     /** Draw a completely filled oval in the current graphic context.
         @param x the x coordinate of the starting point.
@@ -182,7 +182,7 @@ public interface GraphicsInterface
         @param width the width of the oval.
         @param height the height of the oval.
     */
-    public void fillOval(int x,
+    void fillOval(int x,
                               int y,
                               int width,
                               int height);
@@ -193,7 +193,7 @@ public interface GraphicsInterface
         @param width the width of the oval.
         @param height the height of the oval.
     */
-    public void drawOval(int x,
+    void drawOval(int x,
                               int y,
                               int width,
                               int height);
@@ -201,29 +201,29 @@ public interface GraphicsInterface
     /** Fill a given  shape.
         @param s the shape to be filled.
     */
-    public void fill(ShapeInterface s);
+    void fill(ShapeInterface s);
 
     /** Draw a given  shape.
         @param s the shape to be drawn.
     */
-    public void draw(ShapeInterface s);
+    void draw(ShapeInterface s);
 
     /** Fill a given  polygon.
         @param p the polygon to be filled.
     */
-    public void fillPolygon(PolygonInterface p);
+    void fillPolygon(PolygonInterface p);
 
     /** Draw a given  polygon.
         @param p the polygon to be drawn.
     */
-    public void drawPolygon(PolygonInterface p);
+    void drawPolygon(PolygonInterface p);
 
     /** Select the selection color (normally, green) for the current graphic
         context.
         @param l the layer whose color should be blended with the selection
             color (green).
     */
-    public void activateSelectColor(LayerDesc l);
+    void activateSelectColor(LayerDesc l);
 
     /** Draw a string by allowing for a certain degree of flexibility in
         specifying how the text will be handled.
@@ -242,7 +242,7 @@ public interface GraphicsInterface
         @param mirror true if the text is mirrored.
         @param txt the string to be drawn.
     */
-    public void drawAdvText(double xyfactor, int xa, int ya,
+    void drawAdvText(double xyfactor, int xa, int ya,
         int qq, int h, int w, int th, boolean needsStretching,
         int orientation, boolean mirror,
         String txt);
@@ -254,27 +254,27 @@ public interface GraphicsInterface
         @param xmax the x (screen) coordinate of the bottom right corner.
         @param ymax the y (screen) coordinate of the bottom right corner.
     */
-    public void drawGrid(MapCoordinates cs,
+    void drawGrid(MapCoordinates cs,
         int xmin, int ymin,
         int xmax, int ymax);
 
     /** Create a polygon object, compatible with the current implementation.
         @return a polygon object.
     */
-    public PolygonInterface createPolygon();
+    PolygonInterface createPolygon();
 
     /** Create a color object, compatible with the current implementation.
         @return a color object.
     */
-    public ColorInterface createColor();
+    ColorInterface createColor();
 
     /** Create a shape object, compatible with the current implementation.
         @return a shape object.
     */
-    public ShapeInterface createShape();
+    ShapeInterface createShape();
 
     /** Retrieve the current screen density in dots-per-inch.
         @return the screen resolution (density) in dots-per-inch.
     */
-    public float getScreenDensity();
+    float getScreenDensity();
 }

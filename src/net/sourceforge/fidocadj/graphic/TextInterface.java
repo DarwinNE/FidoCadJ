@@ -19,7 +19,7 @@ package net.sourceforge.fidocadj.graphic;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2020 by Davide Bucci
+    Copyright 2020-2023 by Davide Bucci
 </pre>
 */
 
@@ -28,25 +28,25 @@ public interface TextInterface
     /** Get the font size.
         @return the font size.
     */
-    public double getFontSize();
+    double getFontSize();
 
     /** Set the font size.
         @param size the font size.
     */
-    public void setFontSize(double size);
+    void setFontSize(double size);
 
     /** Get the width of the given string with the current font.
         @param s the string to be used.
         @return the width of the string, in pixels.
     */
-    public int getStringWidth(String s);
+    int getStringWidth(String s);
 
     /** Draw a string on the current graphic context.
         @param str the string to be drawn.
         @param x the x coordinate of the starting point.
         @param y the y coordinate of the starting point.
     */
-    public void drawString(String str,
+    void drawString(String str,
                                 int x,
                                 int y);
 }

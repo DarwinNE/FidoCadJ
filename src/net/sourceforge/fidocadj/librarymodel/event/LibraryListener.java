@@ -19,32 +19,32 @@ package net.sourceforge.fidocadj.librarymodel.event;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 */
 public interface LibraryListener
 {
     /** Called when a library has been loaded.
     */
-    public void libraryLoaded();
+    void libraryLoaded();
 
     /** Called when a node has been renamed.
         @param e information about the rename event.
     */
-    public void libraryNodeRenamed(RenameEvent e);
+    void libraryNodeRenamed(RenameEvent e);
 
     /** Called when a node has been removed.
         @param e information about the remove event.
     */
-    public void libraryNodeRemoved(RemoveEvent e);
+    void libraryNodeRemoved(RemoveEvent e);
 
     /** Called when a node has been added.
         @param e information about the added event.
     */
-    public void libraryNodeAdded(AddEvent e);
+    void libraryNodeAdded(AddEvent e);
 
     /** Called when a key has been changed in a node
         @param e information about the key change event.
     */
-    public void libraryNodeKeyChanged(KeyChangeEvent e);
+    void libraryNodeKeyChanged(KeyChangeEvent e);
 }

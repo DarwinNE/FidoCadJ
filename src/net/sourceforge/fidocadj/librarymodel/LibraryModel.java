@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
-import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.globals.LibUtils;
 import net.sourceforge.fidocadj.librarymodel.event.*;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
@@ -32,7 +31,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
    along with FidoCadJ. If not,
    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-   Copyright 2014-2020 Kohta Ozaki - Davide Bucci
+   Copyright 2014-2023 Kohta Ozaki - Davide Bucci
 */
 public class LibraryModel
 {

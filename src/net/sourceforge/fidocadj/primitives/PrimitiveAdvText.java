@@ -29,7 +29,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -520,69 +520,77 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof String)
+        if (pd.parameter instanceof String) {
             txt=(String)pd.parameter;
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd = (ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof LayerInfo)
+        if (pd.parameter instanceof LayerInfo) {
             setLayer(((LayerInfo)pd.parameter).getLayer());
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!");
+        }
         pd=(ParameterDescription)v.get(i);
         ++i;
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             six=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             siy=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             o=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             sty = ((Boolean)pd.parameter).booleanValue()?
                 sty | TEXT_MIRRORED:
                 sty & (~TEXT_MIRRORED);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             sty = ((Boolean)pd.parameter).booleanValue() ?
                 sty | TEXT_ITALIC:
                 sty & (~TEXT_ITALIC);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof Boolean)
-
+        if (pd.parameter instanceof Boolean) {
             sty= ((Boolean)pd.parameter).booleanValue() ?
                 sty | TEXT_BOLD:
                 sty & (~TEXT_BOLD);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof FontG)
+        if (pd.parameter instanceof FontG) {
             fontName = ((FontG)pd.parameter).getFamily();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         checkSizes();
         return i;

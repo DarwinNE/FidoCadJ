@@ -38,9 +38,8 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
    </pre>
-
 
     @author Davide Bucci
 */
@@ -60,20 +59,20 @@ public interface ExportInterface
             the target.
         @throws IOException if an error occurs.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
         int grid)
         throws IOException;
 
     /** Called at the end of the export phase.
         @throws IOException if an error occurs.
     */
-    public void exportEnd()
+    void exportEnd()
         throws IOException;
 
     /** Set the multiplication factor to be used for the dashing.
         @param u the factor.
     */
-    public void setDashUnit(double u);
+    void setDashUnit(double u);
 
     /** Set the "phase" in output units of the dashing style.
         For example, if a dash style is composed by a line followed by a space
@@ -81,7 +80,7 @@ public interface ExportInterface
         line.
         @param p the phase, in output units.
     */
-    public void setDashPhase(float p);
+    void setDashPhase(float p);
 
     /** Called when exporting an Advanced Text primitive.
 
@@ -98,7 +97,7 @@ public interface ExportInterface
         @param text the text that should be written.
         @throws IOException if an error occurs.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException;
@@ -126,7 +125,7 @@ public interface ExportInterface
         @param strokeWidth the width of the pen to be used when drawing.
         @throws IOException if an error occurs.
     */
-    public void exportBezier (int x1, int y1,
+    void exportBezier (int x1, int y1,
         int x2, int y2,
         int x3, int y3,
         int x4, int y4,
@@ -148,7 +147,7 @@ public interface ExportInterface
         @param layer the layer that should be used.
         @throws IOException if an error occurs.
     */
-    public void exportConnection (int x, int y, int layer, double size)
+    void exportConnection (int x, int y, int layer, double size)
         throws IOException;
 
     /** Called when exporting a Line primitive.
@@ -170,7 +169,7 @@ public interface ExportInterface
         @param strokeWidth the width of the pen to be used when drawing.
         @throws IOException if an error occurs.
     */
-    public void exportLine (double x1, double y1,
+    void exportLine (double x1, double y1,
         double x2, double y2,
         int layer,
         boolean arrowStart,
@@ -208,7 +207,7 @@ public interface ExportInterface
             to be split into primitives.
         @throws IOException if an error occurs.
     */
-    public boolean exportMacro(int x, int y, boolean isMirrored,
+    boolean exportMacro(int x, int y, boolean isMirrored,
         int orientation, String macroName, String macroDesc,
         String name, int xn, int yn, String value, int xv, int yv, String font,
         int fontSize, Map<String, MacroDesc> m)
@@ -226,7 +225,7 @@ public interface ExportInterface
         @param strokeWidth the width of the pen to be used when drawing
         @throws IOException if an error occurs.
     */
-    public void exportOval(int x1, int y1, int x2, int y2,
+    void exportOval(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException;
 
@@ -240,7 +239,7 @@ public interface ExportInterface
         @param layer the layer that should be used.
         @throws IOException if an error occurs.
     */
-    public void exportPCBLine(int x1, int y1, int x2, int y2, int width,
+    void exportPCBLine(int x1, int y1, int x2, int y2, int width,
         int layer) throws IOException;
 
     /** Called when exporting a PCBPad primitive.
@@ -256,7 +255,7 @@ public interface ExportInterface
         @param onlyHole true if only the hole should be exported.
         @throws IOException if an error occurs.
     */
-    public void exportPCBPad(int x, int y, int style, int six, int siy,
+    void exportPCBPad(int x, int y, int style, int six, int siy,
         int indiam, int layer, boolean onlyHole) throws IOException;
 
     /** Called when exporting a Polygon primitive.
@@ -269,7 +268,7 @@ public interface ExportInterface
         @param strokeWidth the width of the pen to be used when drawing
         @throws IOException if an error occurs.
     */
-    public void exportPolygon(PointDouble[] vertices, int nVertices,
+    void exportPolygon(PointDouble[] vertices, int nVertices,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException;
 
@@ -293,7 +292,7 @@ public interface ExportInterface
             if it is handled by the function.
         @throws IOException if an error occurs.
     */
-    public boolean exportCurve(PointDouble[] vertices, int nVertices,
+    boolean exportCurve(PointDouble[] vertices, int nVertices,
         boolean isFilled, boolean isClosed, int layer,
         boolean arrowStart,
         boolean arrowEnd,
@@ -316,7 +315,7 @@ public interface ExportInterface
         @param strokeWidth the width of the pen to be used when drawing.
         @throws IOException if an error occurs.
     */
-    public void exportRectangle(int x1, int y1, int x2, int y2,
+    void exportRectangle(int x1, int y1, int x2, int y2,
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException;
 
@@ -331,7 +330,7 @@ public interface ExportInterface
         @return the coordinates of the base of the arrow.
         @throws IOException if an error occurs.
     */
-    public PointPr exportArrow(double x, double y, double xc, double yc,
+    PointPr exportArrow(double x, double y, double xc, double yc,
         double l, double h,
         int style)
         throws IOException;

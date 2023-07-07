@@ -34,10 +34,10 @@ public interface ChangeCoordinatesListener
         @param x the x coordinate of the mouse pointer
         @param y the y coordinate of the mouse pointer
     */
-    public void changeCoordinates(int x, int y);
+    void changeCoordinates(int x, int y);
 
     /** Callback useful when some infos are to be shown.
         @param s the text to be shown (usually coordinates of the cursor).
     */
-    public void changeInfos(String s);
+    void changeInfos(String s);
 }
