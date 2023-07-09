@@ -3,11 +3,17 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DashInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.PolygonInterface;
+import net.sourceforge.fidocadj.graphic.ShapeInterface;
+import net.sourceforge.fidocadj.graphic.PointDouble;
 
 /** Class to handle the ComplexCurve primitive.
 
@@ -28,7 +34,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2011-2020 by Davide Bucci
+    Copyright 2011-2023 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
@@ -68,8 +74,10 @@ public final class PrimitiveComplexCurve
     static final int STEPS=24;
 
     // Some stored data
-    private int xmin, ymin;
-    private int width, height;
+    private int xmin;
+    private int ymin;
+    private int width;
+    private int height;
 
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
@@ -177,7 +185,7 @@ public final class PrimitiveComplexCurve
 
         minv /= STEPS;
         ++minv;
-        if(minv<0) minv=nPoints-1;
+        if(minv<0) { minv=nPoints-1; }
 
         // Now minv contains the index of the vertex before the one which
         // should be entered. We begin to enter the new vertex at the end...
@@ -185,9 +193,6 @@ public final class PrimitiveComplexCurve
         addPoint(px, py);
 
         // ...then we do the swap
-
-        int dummy;
-
         for(int i=nPoints-1; i>minv; --i) {
             virtualPoint[i].x=virtualPoint[i-1].x;
             virtualPoint[i].y=virtualPoint[i-1].y;
@@ -207,11 +212,11 @@ public final class PrimitiveComplexCurve
     public void addPoint(int x, int y)
     {
         if(nPoints+2>=storageSize) {
-            int o_n=storageSize;
+            int oN=storageSize;
             int i;
             storageSize += 10;
             PointG[] nv = new PointG[storageSize];
-            for(i=0;i<o_n;++i) {
+            for(i=0;i<oN;++i) {
                 nv[i]=virtualPoint[i];
             }
             for(;i<storageSize;++i) {
@@ -249,43 +254,43 @@ public final class PrimitiveComplexCurve
             yPoints[i] = coordSys.mapYr(virtualPoint[i].x,virtualPoint[i].y);
         }
 
-        Cubic[] X;
-        Cubic[] Y;
+        Cubic[] xx;
+        Cubic[] yy;
 
         if(isClosed) {
-            X = calcNaturalCubicClosed(nPoints-1, xPoints);
-            Y = calcNaturalCubicClosed(nPoints-1, yPoints);
+            xx = calcNaturalCubicClosed(nPoints-1, xPoints);
+            yy = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
-            X = calcNaturalCubic(nPoints-1, xPoints);
-            Y = calcNaturalCubic(nPoints-1, yPoints);
+            xx = calcNaturalCubic(nPoints-1, xPoints);
+            yy = calcNaturalCubic(nPoints-1, yPoints);
             // Here we don't check if a point is in the arrow, but we exploit
             // the code for calculating the base of the head of the arrows.
             if (arrowData.atLeastOneArrow()) {
                 arrowData.prepareCoordinateMapping(coordSys);
                 if (arrowData.isArrowStart()) {
-                    PointG P = new PointG();
+                    PointG pp = new PointG();
                     arrowData.isInArrow(0, 0,
-                        (int)Math.round(X[0].eval(0)),
-                        (int)Math.round(Y[0].eval(0)),
-                        (int)Math.round(X[0].eval(0.05)),
-                        (int)Math.round(Y[0].eval(0.05)), P);
+                        (int)Math.round(xx[0].eval(0)),
+                        (int)Math.round(yy[0].eval(0)),
+                        (int)Math.round(xx[0].eval(0.05)),
+                        (int)Math.round(yy[0].eval(0.05)), pp);
                     if(arrowData.getArrowLength()>0) {
-                        xPoints[0]=P.x;
-                        yPoints[0]=P.y;
+                        xPoints[0]=pp.x;
+                        yPoints[0]=pp.y;
                     }
                 }
 
                 if (arrowData.isArrowEnd()) {
-                    int l=X.length-1;
-                    PointG P = new PointG();
+                    int l=xx.length-1;
+                    PointG pp = new PointG();
                     arrowData.isInArrow(0, 0,
-                        (int)Math.round(X[l].eval(1)),
-                        (int)Math.round(Y[l].eval(1)),
-                        (int)Math.round(X[l].eval(0.95)),
-                        (int)Math.round(Y[l].eval(0.95)), P);
+                        (int)Math.round(xx[l].eval(1)),
+                        (int)Math.round(yy[l].eval(1)),
+                        (int)Math.round(xx[l].eval(0.95)),
+                        (int)Math.round(yy[l].eval(0.95)), pp);
                     if(arrowData.getArrowLength()>0) {
-                        xPoints[nPoints-1]=P.x;
-                        yPoints[nPoints-1]=P.y;
+                        xPoints[nPoints-1]=pp.x;
+                        yPoints[nPoints-1]=pp.y;
                     }
                 }
                 // Since the arrow will occupy a certain size, the curve has
@@ -295,29 +300,27 @@ public final class PrimitiveComplexCurve
                 // This is not needed if the length is negative, as in this
                 // case the arrow extends outside the curve.
                 if(arrowData.getArrowLength()>0) {
-                    X = calcNaturalCubic(nPoints-1, xPoints);
-                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                    xx = calcNaturalCubic(nPoints-1, xPoints);
+                    yy = calcNaturalCubic(nPoints-1, yPoints);
                 }
             }
         }
 
-        if(X==null || Y==null) return null;
+        if(xx==null || yy==null) { return null; }
 
         // very crude technique: just break each segment up into steps lines
         CurveStorage c = new CurveStorage();
 
-        c.pp.add(new PointDouble(X[0].eval(0), Y[0].eval(0)));
+        c.pp.add(new PointDouble(xx[0].eval(0), yy[0].eval(0)));
 
-        int x, y;
-
-        for (int i = 0; i < X.length; ++i) {
-            c.dd.add(new PointDouble(X[i].d1, Y[i].d1));
+        for (int i = 0; i < xx.length; ++i) {
+            c.dd.add(new PointDouble(xx[i].d1, yy[i].d1));
             for (int j = 1; j <= STEPS; ++j) {
                 double u = j / (double) STEPS;
-                c.pp.add(new PointDouble(X[i].eval(u), Y[i].eval(u)));
+                c.pp.add(new PointDouble(xx[i].eval(u), yy[i].eval(u)));
             }
         }
-        c.dd.add(new PointDouble(X[X.length-1].d2, Y[X.length-1].d2));
+        c.dd.add(new PointDouble(xx[xx.length-1].d2, yy[xx.length-1].d2));
 
         return c;
     }
@@ -339,26 +342,30 @@ public final class PrimitiveComplexCurve
 
         CurveStorage c=createComplexCurve(coordSys);
 
-        if (c==null) return null;
+        if (c==null) { return null; }
         Vector<PointDouble> pp = c.pp;
-        if (pp==null) return null;
+        if (pp==null) { return null; }
 
-        int x, y;
+        int x;
+        int y;
 
-        for (int i = 0; i < pp.size(); ++i) {
-            x=(int)Math.round(pp.get(i).x);
-            y=(int)Math.round(pp.get(i).y);
+        for (PointDouble ppp : pp) {
+            x=(int)Math.round(ppp.x);
+            y=(int)Math.round(ppp.y);
             poly.addPoint(x, y);
             coordSys.trackPoint(x,y);
-            if (x<xmin)
+            if (x<xmin) {
                 xmin=x;
-            if (x>xmax)
+            }
+            if (x>xmax) {
                 xmax=x;
-            if(y<ymin)
+            }
+            if(y<ymin) {
                 ymin=y;
-            if(y>ymax)
+            }
+            if(y>ymax) {
                 ymax=y;
-
+            }
         }
         width = xmax-xmin;
         height = ymax-ymin;
@@ -377,23 +384,23 @@ public final class PrimitiveComplexCurve
     Cubic[] calcNaturalCubic(int n, double... x)
     {
 
-        if(n<1) return null;
+        if(n<1) { return null; }
 
         double[] gamma = new double[n+1];
         double[] delta = new double[n+1];
-        double[] D = new double[n+1];
+        double[] dd = new double[n+1];
         int i;
 
         /* We solve the equation
-        [2 1       ] [D[0]]   [3(x[1] - x[0])  ]
-        |1 4 1     | |D[1]|   |3(x[2] - x[0])  |
+        [2 1       ] [dd[0]]   [3(x[1] - x[0])  ]
+        |1 4 1     | |dd[1]|   |3(x[2] - x[0])  |
         |  1 4 1   | | .  | = |      .         |
         |    ..... | | .  |   |      .         |
         |     1 4 1| | .  |   |3(x[n] - x[n-2])|
-        [       1 2] [D[n]]   [3(x[n] - x[n-1])]
+        [       1 2] [dd[n]]   [3(x[n] - x[n-1])]
 
         by using row operations to convert the matrix to upper triangular
-        and then back substitution.  The D[i] are the derivatives at the knots.
+        and then back substitution.  The dd[i] are the derivatives at the knots.
        */
         gamma[0] = 1.0/2.0;
         for (i = 1; i<n; ++i) {
@@ -407,20 +414,20 @@ public final class PrimitiveComplexCurve
         }
         delta[n] = (3.0*(x[n]-x[n-1])-delta[n-1])*gamma[n];
 
-        D[n] = delta[n];
+        dd[n] = delta[n];
         for (i = n-1; i>=0; --i) {
-            D[i] = delta[i] - gamma[i]*D[i+1];
+            dd[i] = delta[i] - gamma[i]*dd[i+1];
         }
 
         /* now compute the coefficients of the cubics */
-        Cubic[] C = new Cubic[n];
+        Cubic[] cc = new Cubic[n];
         for (i = 0; i<n; ++i) {
-            C[i] = new Cubic(x[i], D[i], 3.0*(x[i+1] - x[i]) -2.0*D[i]-D[i+1],
-               2.0*(x[i] - x[i+1]) + D[i] + D[i+1]);
-            C[i].d1=D[i];
-            C[i].d2=D[i+1];
+            cc[i] = new Cubic(x[i], dd[i], 3.0*(x[i+1]-x[i])-2.0*dd[i]-dd[i+1],
+               2.0*(x[i] - x[i+1]) + dd[i] + dd[i+1]);
+            cc[i].d1=dd[i];
+            cc[i].d2=dd[i+1];
         }
-        return C;
+        return cc;
     }
 
     /** Code mainly taken from Tim Lambert's snippets:
@@ -430,70 +437,73 @@ public final class PrimitiveComplexCurve
         calculates the closed natural cubic spline that interpolates
          x[0], x[1], ... x[n]
         The first segment is returned as
-        C[0].a + C[0].b*u + C[0].c*u^2 + C[0].d*u^3 0<=u <1
-        the other segments are in C[1], C[2], ...  C[n] */
+        cc[0].a + cc[0].b*u + cc[0].c*u^2 + cc[0].d*u^3 0<=u <1
+        the other segments are in cc[1], cc[2], ...  cc[n] */
 
     Cubic[] calcNaturalCubicClosed(int n, double... x)
     {
-        if(n<1) return null;
+        if(n<1) { return null; }
 
         double[] w = new double[n+1];
         double[] v = new double[n+1];
         double[] y = new double[n+1];
-        double[] D = new double[n+1];
-        double z, F, G, H;
+        double[] dd = new double[n+1];
+        double z;
+        double ff;
+        double gg;
+        double hh;
         int k;
         /* We solve the equation
-           [4 1      1] [D[0]]   [3(x[1] - x[n])  ]
-           |1 4 1     | |D[1]|   |3(x[2] - x[0])  |
+           [4 1      1] [dd[0]]   [3(x[1] - x[n])  ]
+           |1 4 1     | |dd[1]|   |3(x[2] - x[0])  |
            |  1 4 1   | | .  | = |      .         |
            |    ..... | | .  |   |      .         |
            |     1 4 1| | .  |   |3(x[n] - x[n-2])|
-           [1      1 4] [D[n]]   [3(x[0] - x[n-1])]
+           [1      1 4] [dd[n]]   [3(x[0] - x[n-1])]
 
             by decomposing the matrix into upper triangular and lower matrices
             and then back substitution.  See Spath "Spline Algorithms for
-            Curves and Surfaces" pp 19--21. The D[i] are the derivatives at
+            Curves and Surfaces" pp 19--21. The dd[i] are the derivatives at
             the knots.
         */
         w[1] = v[1] = z = 1.0f/4.0f;
         y[0] = z * 3 * (x[1] - x[n]);
-        H = 4;
-        F = 3 * (x[0] - x[n-1]);
-        G = 1;
+        hh = 4;
+        ff = 3 * (x[0] - x[n-1]);
+        gg = 1;
         for (k = 1; k < n; ++k) {
             v[k+1] = z = 1/(4 - v[k]);
             w[k+1] = -z * w[k];
             y[k] = z * (3*(x[k+1]-x[k-1]) - y[k-1]);
-            H = H - G * w[k];
-            F = F - G * y[k-1];
-            G = -v[k] * G;
+            hh = hh - gg * w[k];
+            ff = ff - gg * y[k-1];
+            gg = -v[k] * gg;
         }
-        H = H - (G+1)*(v[n]+w[n]);
-        y[n] = F - (G+1)*y[n-1];
+        hh = hh - (gg+1)*(v[n]+w[n]);
+        y[n] = ff - (gg+1)*y[n-1];
 
-        D[n] = y[n]/H;
-        D[n-1] = y[n-1] - (v[n]+w[n])*D[n]; /* This equation is WRONG! in
+        dd[n] = y[n]/hh;
+        dd[n-1] = y[n-1] - (v[n]+w[n])*dd[n]; /* This equation is WRONG! in
                                                my copy of Spath */
         for (k = n-2; k >= 0; --k) {
-            D[k] = y[k] - v[k+1]*D[k+1] - w[k+1]*D[n];
+            dd[k] = y[k] - v[k+1]*dd[k+1] - w[k+1]*dd[n];
         }
 
         /* now compute the coefficients of the cubics */
-        Cubic[] C = new Cubic[n+1];
+        Cubic[] cc = new Cubic[n+1];
         for (k = 0; k < n; ++k) {
-            C[k] = new Cubic((float)x[k], D[k],
-                3*(x[k+1] - x[k]) - 2*D[k] - D[k+1],
-                2*(x[k] - x[k+1]) + D[k] + D[k+1]);
-            C[k].d1=D[k];
-            C[k].d2=D[k+1];
+            cc[k] = new Cubic((float)x[k], dd[k],
+                3*(x[k+1] - x[k]) - 2*dd[k] - dd[k+1],
+                2*(x[k] - x[k+1]) + dd[k] + dd[k+1]);
+            cc[k].d1=dd[k];
+            cc[k].d2=dd[k+1];
         }
-        C[n] = new Cubic((float)x[n], D[n], 3*(x[0] - x[n]) - 2*D[n] - D[0],
-             2*(x[n] - x[0]) + D[n] + D[0]);
-        C[n].d1=D[n];
-        C[n].d2=D[0];
+        cc[n] = new Cubic((float)x[n], dd[n], 3*(x[0] - x[n]) - 2*dd[n] - dd[0],
+             2*(x[n] - x[0]) + dd[n] + dd[0]);
+        cc[n].d1=dd[n];
+        cc[n].d2=dd[0];
 
-        return C;
+        return cc;
     }
 
 
@@ -508,33 +518,34 @@ public final class PrimitiveComplexCurve
     public void removePoint(int x, int y, double tolerance)
     {
         // We can not have a spline with less than three vertices
-        if (nPoints<=3)
+        if (nPoints<=3) {
             return;
+        }
 
         int i;
         double distance;
-        double min_distance= GeometricDistances.pointToPoint(virtualPoint[0].x,
+        double minDistance= GeometricDistances.pointToPoint(virtualPoint[0].x,
                 virtualPoint[0].y,x,y);
-        int sel_i=-1;
+        int selI=-1;
 
         for(i=1;i<nPoints;++i) {
             distance = GeometricDistances.pointToPoint(virtualPoint[i].x,
                 virtualPoint[i].y,x,y);
 
-            if (distance<min_distance) {
-                min_distance=distance;
-                sel_i=i;
+            if (distance<minDistance) {
+                minDistance=distance;
+                selI=i;
             }
         }
 
         // Check if the control node losest to the given coordinates
         // is closer than the given tolerance
-        if(min_distance<=tolerance){
+        if(minDistance<=tolerance){
             --nPoints;
             for(i=0;i<nPoints;++i) {
                 // Shift all the points subsequent to the one which needs
                 // to be erased.
-                if(i>=sel_i) {
+                if(i>=selI) {
                     virtualPoint[i].x=virtualPoint[i+1].x;
                     virtualPoint[i].y=virtualPoint[i+1].y;
                 }
@@ -551,8 +562,9 @@ public final class PrimitiveComplexCurve
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
                               Vector layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
         drawText(g, coordSys, layerV, -1);
 
         if(changed) {
@@ -569,13 +581,14 @@ public final class PrimitiveComplexCurve
             // Prevent a null pointer exception when the user does three clicks
             // on the same point. TODO: an incomplete toString output is
             // created.
-            if (c==null)
+            if (c==null) {
                 return;
+            }
 
             Vector<PointDouble> dd = c.dd;
             Vector<PointDouble> pp = c.pp;
 
-            if(q==null) return;
+            if(q==null) { return; }
 
             gp = g.createShape();
             gp.createGeneralPath(q.getNpoints());
@@ -583,10 +596,13 @@ public final class PrimitiveComplexCurve
             gp.moveTo((float)pp.get(0).x, (float)pp.get(0).y);
 
             int increment=STEPS;
-            double derX1=0.0, derX2=0.0;
-            double derY1=0.0, derY2=0.0;
-            double w1=0.666667, w2=0.666667;
-            int j=0;
+            double derX1=0.0;
+            double derX2=0.0;
+            double derY1=0.0;
+            double derY2=0.0;
+            double w1=0.666667;
+            double w2=0.666667;
+            int j=0; // TODO: check if using i instead of j is sufficient.
             for(int i=0; i<pp.size()-increment; i+=increment) {
 
                 derX1=dd.get(j).x/2.0*w1;
@@ -601,18 +617,19 @@ public final class PrimitiveComplexCurve
                     (float)(pp.get(i).y+derY1),
                     (float)(pp.get(i+increment).x-derX2),
                     (float)(pp.get(i+increment).y-derY2),
-                    (float)(pp.get(i+increment).x),
-                    (float)(pp.get(i+increment).y));
+                    (float)pp.get(i+increment).x,
+                    (float)pp.get(i+increment).y);
             }
 
-            if (isClosed) gp.closePath();
+            if (isClosed) { gp.closePath(); }
 
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
         }
 
-        if (p==null || gp==null)
+        if (p==null || gp==null) {
             return;
+        }
         g.applyStroke(w, dashStyle);
 
         // Draw the arrows if they are needed
@@ -638,8 +655,9 @@ public final class PrimitiveComplexCurve
         }
         // If the curve is outside of the shown portion of the drawing,
         // exit immediately.
-        if(!g.hitClip(xmin,ymin, width+1, height+1))
+        if(!g.hitClip(xmin,ymin, width+1, height+1)) {
             return;
+        }
 
         // If needed, fill the interior of the shape
         if (isFilled) {
@@ -665,21 +683,20 @@ public final class PrimitiveComplexCurve
         That routine also sets the current layer.
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException it parsing goes wrong, parameters can not be read
             or primitive is incorrect.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
         // assert it is the correct primitive
 
-        if (tokens[0].equals("CP")||tokens[0].equals("CV")) {
-            if (N<6) {
-                IOException E=new IOException("bad arguments on CP/CV");
-                throw E;
+        if ("CP".equals(tokens[0])||"CV".equals(tokens[0])) {
+            if (nn<6) {
+                throw  new IOException("Bad arguments on CP/CV");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -689,20 +706,23 @@ public final class PrimitiveComplexCurve
             int y1 = 0;
 
             // The first token says if the spline is opened or closed
-            if(tokens[j++].equals("1"))
+            if("1".equals(tokens[j])) {
                 isClosed = true;
-            else
+            } else {
                 isClosed = false;
+            }
+            ++j;
+
             // Then we have the points defining the curve
-            while(j<N-1) {
-                if (j+1<N-1 && tokens[j+1].equals("FCJ"))
+            while(j<nn-1) {
+                if (j+1<nn-1 && "FCJ".equals(tokens[j+1])) {
                     break;
+                }
                 x1 =Integer.parseInt(tokens[j++]);
 
                 // Check if the following point is available
-                if(j>=N-1) {
-                    IOException E=new IOException("bad arguments on CP/CV");
-                    throw E;
+                if(j>=nn-1) {
+                    throw new IOException("bad arguments on CP/CV");
                 }
                 y1 =Integer.parseInt(tokens[j++]);
                 ++i;
@@ -717,23 +737,23 @@ public final class PrimitiveComplexCurve
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 
             // And we check finally for extensions (FCJ)
-            if(N>j) {
+            if(nn>j) {
                 parseLayer(tokens[j++]);
-                if(N>j && tokens[j++].equals("FCJ")) {
+                if(nn>j && "FCJ".equals(tokens[j++])) {
                     j=arrowData.parseTokens(tokens, j);
                     dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
                 }
             }
 
             // See if the curve should be filled (command CP) or empty (CV)
-            if (tokens[0].equals("CP"))
+            if ("CP".equals(tokens[0])) {
                 isFilled=true;
-            else
+            } else {
                 isFilled=false;
+            }
         } else {
-            IOException E=new IOException("CP/CV: Invalid primitive:"+tokens[0]+
+            throw new IOException("CP/CV: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -785,31 +805,36 @@ public final class PrimitiveComplexCurve
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             isFilled=((Boolean)pd.parameter).booleanValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
         // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             isClosed=((Boolean)pd.parameter).booleanValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         i=arrowData.setParametersForArrow(v, i);
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
+        if (pd.parameter instanceof DashInfo) {
             dashStyle=((DashInfo)pd.parameter).style;
-        else
+        } else {
             System.out.println("Warning: unexpected parameter 6!"+pd);
+        }
 
         // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
+        }
+        if(dashStyle<0) {
             dashStyle=0;
+        }
 
         return i;
     }
@@ -826,8 +851,9 @@ public final class PrimitiveComplexCurve
     public int getDistanceToPoint(int px, int py)
     {
         // Here we check if the given point lies inside the text areas
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         int distance = 100;
 
@@ -855,36 +881,38 @@ public final class PrimitiveComplexCurve
         // Check if the point is in the arrows. Correct the starting and ending
         // points if needed.
         if (arrowData.atLeastOneArrow()&& !isClosed) {
-            boolean r=false, t=false;
+            boolean r=false;
+            boolean t=false;
 
             // We work with logic coordinates (default for MapCoordinates).
             MapCoordinates m=new MapCoordinates();
             arrowData.prepareCoordinateMapping(m);
-            if (arrowData.isArrowStart())
+            if (arrowData.isArrowStart()) {
                 t=arrowData.isInArrow(px, py,
                     virtualPoint[0].x, virtualPoint[0].y,
                     xpoints[0], ypoints[0], null);
-
-            if (arrowData.isArrowEnd())
+            }
+            if (arrowData.isArrowEnd()) {
                 r=arrowData.isInArrow(px, py,
                     xpoints[q.getNpoints()-1], ypoints[q.getNpoints()-1],
                     virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y,
                     null);
+            }
 
             // Click on one of the arrows.
-            if(r||t)
+            if(r||t) {
                 return 1;
+            }
         }
-
 
         for(int i=0; i<q.getNpoints()-1; ++i) {
             int d=GeometricDistances.pointToSegment(xpoints[i], ypoints[i],
                 xpoints[i+1], ypoints[i+1], px,py);
 
-            if(d<distance)
+            if(d<distance) {
                 distance = d;
+            }
         }
-
         return distance;
     }
 
@@ -902,15 +930,17 @@ public final class PrimitiveComplexCurve
 
         StringBuffer temp=new StringBuffer(25);
 
-        if(isFilled)
+        if(isFilled) {
             temp.append("CP ");
-        else
+        } else {
             temp.append("CV ");
+        }
 
-        if(isClosed)
+        if(isClosed) {
             temp.append("1 ");
-        else
+        } else {
             temp.append("0 ");
+        }
 
         for(int i=0; i<nPoints;++i) {
             temp.append(virtualPoint[i].x);
@@ -930,8 +960,9 @@ public final class PrimitiveComplexCurve
             String text = "0";
             // We take into account that there may be some text associated
             // to that primitive.
-            if (name.length()!=0 || value.length()!=0)
+            if (name.length()!=0 || value.length()!=0) {
                 text = "1";
+            }
             cmd+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+" "
                 +text+"\n";
         }
@@ -1017,44 +1048,44 @@ public final class PrimitiveComplexCurve
         ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
-        Cubic[] X;
-        Cubic[] Y;
+        Cubic[] xx;
+        Cubic[] yy;
         int i;
 
         if(isClosed) {
-            X = calcNaturalCubicClosed(nPoints-1, xPoints);
-            Y = calcNaturalCubicClosed(nPoints-1, yPoints);
+            xx = calcNaturalCubicClosed(nPoints-1, xPoints);
+            yy = calcNaturalCubicClosed(nPoints-1, yPoints);
         } else {
-            X = calcNaturalCubic(nPoints-1, xPoints);
-            Y = calcNaturalCubic(nPoints-1, yPoints);
+            xx = calcNaturalCubic(nPoints-1, xPoints);
+            yy = calcNaturalCubic(nPoints-1, yPoints);
             // Here we don't check if a point is in the arrow, but we exploit
             // the code for calculating the base of the head of the arrows.
             if (arrowData.atLeastOneArrow()) {
                 arrowData.prepareCoordinateMapping(cs);
                 if (arrowData.isArrowStart()) {
-                    PointG P = new PointG();
+                    PointG pp = new PointG();
                     arrowData.isInArrow(0, 0,
-                        (int)Math.round(X[0].eval(0)),
-                        (int)Math.round(Y[0].eval(0)),
-                        (int)Math.round(X[0].eval(0.05)),
-                        (int)Math.round(Y[0].eval(0.05)), P);
+                        (int)Math.round(xx[0].eval(0)),
+                        (int)Math.round(yy[0].eval(0)),
+                        (int)Math.round(xx[0].eval(0.05)),
+                        (int)Math.round(yy[0].eval(0.05)), pp);
                     if(arrowData.getArrowLength()>0) {
-                        xPoints[0]=P.x;
-                        yPoints[0]=P.y;
+                        xPoints[0]=pp.x;
+                        yPoints[0]=pp.y;
                     }
                 }
 
                 if (arrowData.isArrowEnd()) {
-                    int l=X.length-1;
-                    PointG P = new PointG();
+                    int l=xx.length-1;
+                    PointG pp = new PointG();
                     arrowData.isInArrow(0, 0,
-                        (int)Math.round(X[l].eval(1)),
-                        (int)Math.round(Y[l].eval(1)),
-                        (int)Math.round(X[l].eval(0.95)),
-                        (int)Math.round(Y[l].eval(0.95)), P);
+                        (int)Math.round(xx[l].eval(1)),
+                        (int)Math.round(yy[l].eval(1)),
+                        (int)Math.round(xx[l].eval(0.95)),
+                        (int)Math.round(yy[l].eval(0.95)), pp);
                     if(arrowData.getArrowLength()>0) {
-                        xPoints[nPoints-1]=P.x;
-                        yPoints[nPoints-1]=P.y;
+                        xPoints[nPoints-1]=pp.x;
+                        yPoints[nPoints-1]=pp.y;
                     }
                 }
                 // Since the arrow will occupy a certain size, the curve has
@@ -1064,44 +1095,41 @@ public final class PrimitiveComplexCurve
                 // This is not needed if the length is negative, as in this
                 // case the arrow extends outside the curve.
                 if(arrowData.getArrowLength()>0) {
-                    X = calcNaturalCubic(nPoints-1, xPoints);
-                    Y = calcNaturalCubic(nPoints-1, yPoints);
+                    xx = calcNaturalCubic(nPoints-1, xPoints);
+                    yy = calcNaturalCubic(nPoints-1, yPoints);
                 }
             }
         }
 
-        if(X==null || Y==null) return;
+        if(xx==null || yy==null) { return; }
 
         /* very crude technique - just break each segment up into steps lines */
 
         vertices[0]=new PointDouble();
 
-        vertices[0].x=X[0].eval(0);
-        vertices[0].y=Y[0].eval(0);
+        vertices[0].x=xx[0].eval(0);
+        vertices[0].y=yy[0].eval(0);
 
-        int x, y;
-
-        for (i = 0; i < X.length; ++i) {
+        for (i = 0; i < xx.length; ++i) {
             for (int j = 1; j <= STEPS; ++j) {
                 double u = j / (double) STEPS;
                 vertices[i*STEPS+j]=new PointDouble();
-
-                vertices[i*STEPS+j].x=X[i].eval(u);
-                vertices[i*STEPS+j].y=Y[i].eval(u);
+                vertices[i*STEPS+j].x=xx[i].eval(u);
+                vertices[i*STEPS+j].y=yy[i].eval(u);
             }
         }
 
-        vertices[X.length*STEPS]=new PointDouble();
-        vertices[X.length*STEPS].x=X[X.length-1].eval(1.0);
-        vertices[X.length*STEPS].y=Y[X.length-1].eval(1.0);
+        vertices[xx.length*STEPS]=new PointDouble();
+        vertices[xx.length*STEPS].x=xx[xx.length-1].eval(1.0);
+        vertices[xx.length*STEPS].y=yy[xx.length-1].eval(1.0);
 
         if (isClosed) {
-            exp.exportPolygon(vertices, X.length*STEPS+1, isFilled,
+            exp.exportPolygon(vertices, xx.length*STEPS+1, isFilled,
                 getLayer(),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude());
         } else {
             float phase=0;
-            for(i=1; i<X.length*STEPS+1;++i){
+            for(i=1; i<xx.length*STEPS+1;++i){
                 exp.setDashPhase(phase);
                 exp.exportLine(vertices[i-1].x,
                        vertices[i-1].y,
@@ -1139,8 +1167,12 @@ public final class PrimitiveComplexCurve
 
 class Cubic
 {
-    double a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
-    public double d1, d2;       // Derivatives
+    double a;         /* a + b*u + c*u^2 +d*u^3 */
+    double b;
+    double c;
+    double d;
+    public double d1;       // Derivatives
+    public double d2;
 
     public Cubic(double a, double b, double c, double d)
     {

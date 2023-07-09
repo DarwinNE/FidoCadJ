@@ -109,10 +109,10 @@ public abstract class GraphicPrimitive
     private int t_th;
     private int t_w1;
     private int t_w2;
-    private int x2;
-    private int y2;
-    private int x3;
-    private int y3;
+    private int x2;         // NOPMD
+    private int y2;         // NOPMD
+    private int x3;         // NOPMD
+    private int y3;         // NOPMD
 
 
     /* At first, non abstract methods */

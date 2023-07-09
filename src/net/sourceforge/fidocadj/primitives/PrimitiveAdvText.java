@@ -3,12 +3,16 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.nil.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.LayerInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.FontG;
+import net.sourceforge.fidocadj.graphic.nil.GraphicsNull;
 
 /** Class to handle the advanced text primitive.
 
@@ -60,21 +64,31 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xaSCI;
-    private int yaSCI;
-    private int orientationSCI;
-    private int hSCI, thSCI, wSCI;
-    private int[] xpSCI, ypSCI;
+    private int xaSCI;              // NOPMD
+    private int yaSCI;              // NOPMD
+    private int orientationSCI;     // NOPMD
+    private int hSCI;               // NOPMD
+    private int thSCI;              // NOPMD
+    private int wSCI;               // NOPMD
+    private int[] xpSCI, ypSCI;     // NOPMD
 
     private boolean mirror;
     private int orientation;
 
-    private int h, th, w;
+    private int h;
+    private int th;
+    private int w;
     private double ymagnitude;
     private boolean coordmirroring;
 
-    private int x1, y1, xa, ya, qq;
-    private double xyfactor, si, co;
+    private int x1;                 // NOPMD
+    private int y1;                 // NOPMD
+    private int xa;
+    private int ya;
+    private int qq;
+    private double xyfactor;
+    private double si;              // NOPMD
+    private double co;              // NOPMD
     private boolean needsStretching;
 
     /** Gets the number of control points used.
@@ -96,9 +110,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         txt="";
         fontName = Globals.defaultTextFont;
         virtualPoint = new PointG[N_POINTS];
-        for(int i=0;i<N_POINTS;++i)
+        for(int i=0;i<N_POINTS;++i) {
             virtualPoint[i]=new PointG();
-
+        }
         changed=true;
         recalcSize=true;
     }
@@ -138,16 +152,18 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
 
         /* For this:
            http://sourceforge.net/tracker/?func=detail&aid=2908420&group_id=
                 274886&atid=1167997
            we are now checking if the text is "" before printing it. */
 
-        if(txt.length()==0)
+        if(txt.length()==0) {
             return;
+        }
         changed=true;
         ymagnitude=coordSys.getYMagnitude();
         coordmirroring=coordSys.getMirror();
@@ -254,21 +270,20 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         That routine also sets the current layer.
         @param tokens the tokens to be processed. tokens[0] should be the
             command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException if the arguments are incorrect or a problem
             occurs.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         // assert it is the correct primitive
         changed=true;
         recalcSize = true;
 
-        if (tokens[0].equals("TY")) {   // Text (advanced)
-            if (N<9) {
-                IOException E=new IOException("bad arguments on TY");
-                throw E;
+        if ("TY".equals(tokens[0])) {   // Text (advanced)
+            if (nn<9) {
+                throw new IOException("bad arguments on TY");
             }
 
             virtualPoint[0].x=Integer.parseInt(tokens[1]);
@@ -284,7 +299,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             int j=8;
             StringBuffer txtb=new StringBuffer();
 
-            if(tokens[8].equals("*")) {
+            if("*".equals(tokens[8])) {
                 fontName = Globals.defaultTextFont;
             } else {
                 fontName = tokens[8].replaceAll("\\+\\+"," ");
@@ -294,15 +309,14 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                1 typographical point is 1/72 of an inch.
             */
 
-            while(j<N-1){
+            while(j<nn-1){
                 txtb.append(tokens[++j]);
-                if (j<N-1) txtb.append(" ");
+                if (j<nn-1) { txtb.append(" "); }
             }
             txt=txtb.toString();
-        } else if (tokens[0].equals("TE")) {    // Text (simple)
-            if (N<4) {
-                IOException E=new IOException("bad arguments on TE");
-                throw E;
+        } else if ("TE".equals(tokens[0])) {    // Text (simple)
+            if (nn<4) {
+                throw new IOException("bad arguments on TE");
             }
 
             virtualPoint[0].x=Integer.parseInt(tokens[1]);
@@ -316,8 +330,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             int j=2;
             txt="";
 
-            while(j<N-1)
+            while(j<nn-1) {
                 txt+=tokens[++j]+" ";
+            }
 
             // In the original simple text primitive, the layer was not
             // handled. Here we just suppose it is always 0.
@@ -325,9 +340,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             parseLayer("0");
 
         } else {
-            IOException E=new IOException("Invalid primitive:"+
+            throw new IOException("Invalid primitive:"+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -336,15 +350,19 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public void checkSizes()
     {
         // Safety checks!
-        if(siy<MINSIZE)
+        if(siy<MINSIZE) {
             siy=MINSIZE;
-        if(six<MINSIZE)
+        }
+        if(six<MINSIZE) {
             six=MINSIZE;
+        }
 
-        if(siy>MAXSIZE)
+        if(siy>MAXSIZE) {
             siy=MAXSIZE;
-        if(six>MAXSIZE)
+        }
+        if(six>MAXSIZE) {
             six=MAXSIZE;
+        }
     }
 
     /** Gets the distance (in primitive's coordinates space) between a
@@ -431,10 +449,13 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         if(orientationSCI==0) {
             if(GeometricDistances.pointInRectangle(Math.min(xaSCI,
                 xaSCI+wSCI),yaSCI,Math.abs(wSCI),thSCI,px,py))
+            {
                 return 0;
+            }
         } else {
-            if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py))
+            if(GeometricDistances.pointInPolygon(xpSCI,ypSCI,4, px,py)) {
                 return 0;
+            }
         }
 
         // It is better not to obtain Integer.MAX_VALUE, but a value which
@@ -458,29 +479,23 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public Vector<ParameterDescription> getControls()
     {
         Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
-        int i;
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=txt;
         pd.description=Globals.messages.getString("ctrl_text");
         v.add(pd);
-
-
         pd = new ParameterDescription();
         pd.parameter=new LayerInfo(getLayer());
         pd.description=Globals.messages.getString("ctrl_layer");
         v.add(pd);
-
         pd = new ParameterDescription();
         pd.parameter=Integer.valueOf(six);
         pd.description=Globals.messages.getString("ctrl_xsize");
         v.add(pd);
-
         pd = new ParameterDescription();
         pd.parameter=Integer.valueOf(siy);
         pd.description=Globals.messages.getString("ctrl_ysize");
         v.add(pd);
-
         pd = new ParameterDescription();
         pd.parameter=Integer.valueOf(o);
         pd.description=Globals.messages.getString("ctrl_angle");
@@ -503,6 +518,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         v.add(pd);
         return v;
     }
+
     /** Set the control parameters of the given primitive.
         This method is specular to getControls().
         @param v a vector of ParameterDescription containing each control
@@ -614,10 +630,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             bCounterClockWise=!bCounterClockWise;
         }
 
-        if (bCounterClockWise)
+        if (bCounterClockWise) {
             po=++po%4;
-        else
+        } else {
             po=(po+3)%4;
+        }
 
         o=90*po;
     }
@@ -652,10 +669,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             // All spaces are substituted with "++" in order to avoid problems
             // while parsing.
             for (int i=0; i<fontName.length(); ++i) {
-                if(fontName.charAt(i)==' ')
+                if(fontName.charAt(i)==' ') {
                     s.append("++");
-                else
+                } else {
                     s.append(fontName.charAt(i));
+                }
             }
             subsFont=s.toString();
         }
@@ -673,7 +691,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
-        int resulting_o=o-cs.getOrientation()*90;
+        int resultingO=o-cs.getOrientation()*90;
 
         exp.exportAdvText (cs.mapX(virtualPoint[0].x,virtualPoint[0].y),
             cs.mapY(virtualPoint[0].x,virtualPoint[0].y),
@@ -683,7 +701,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             (sty & TEXT_BOLD)!=0,
             (sty & TEXT_MIRRORED)!=0,
             (sty & TEXT_ITALIC)!=0,
-            resulting_o, getLayer(), txt);
+            resultingO, getLayer(), txt);
     }
 
     /** Get the number of the virtual point associated to the Name property.
