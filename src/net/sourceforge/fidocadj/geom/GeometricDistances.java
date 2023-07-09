@@ -22,7 +22,7 @@ package net.sourceforge.fidocadj.geom;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2017 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -41,15 +41,22 @@ public final class GeometricDistances
     private static  int idx;
     private static  int idy;
     private static  int it;
-    private static  int ixmin, ixmax, iymin, iymax;
+    private static  int ixmin;
+    private static  int ixmax;
+    private static  int iymin;
+    private static  int iymax;
 
     private static double dx;
     private static double dy;
     private static double t;
-    private static double xmin, ymin, xmax, ymax;
+    private static double xmin;
+    private static double ymin;
+    private static double xmax;
+    private static double ymax;
 
 
-    private static int i, j;
+    private static int i;
+    private static int j;
     private static  boolean c;
 
     private GeometricDistances()
@@ -72,10 +79,11 @@ public final class GeometricDistances
     public static double pointToPoint(double xa, double ya,
                                  double xb, double yb)
     {
-        if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE)
+        if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE) {
             return Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
-        else
+        } else {
             return MIN_DISTANCE;
+        }
     }
 
 
@@ -94,11 +102,11 @@ public final class GeometricDistances
     public static int pointToPoint(int xa, int ya,
                             int xb, int yb)
     {
-        if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE)
+        if(Math.abs(xa-xb) < MIN_DISTANCE || Math.abs(ya-yb) < MIN_DISTANCE) {
             return (int)Math.sqrt((xa-xb)*(xa-xb)+(ya-yb)*(ya-yb));
-        else
+        } else {
             return MIN_DISTANCE;
-
+        }
     }
 
     /** Calculate the euclidean distance between a point and a segment.
@@ -128,8 +136,9 @@ public final class GeometricDistances
             xmin = xa; xmax = xb;
         }
 
-        if(x<xmin-MIN_DISTANCE || x>xmax+MIN_DISTANCE)
+        if(x<xmin-MIN_DISTANCE || x>xmax+MIN_DISTANCE) {
             return MIN_DISTANCE;
+        }
 
         if(ya>yb) {
             ymin = yb; ymax = ya;
@@ -137,8 +146,9 @@ public final class GeometricDistances
             ymin = ya; ymax = yb;
         }
 
-        if(y<ymin-MIN_DISTANCE || y>ymax+MIN_DISTANCE)
+        if(y<ymin-MIN_DISTANCE || y>ymax+MIN_DISTANCE) {
             return MIN_DISTANCE;
+        }
 
         dx=xb-xa;
         dy=yb-ya;
@@ -188,18 +198,17 @@ public final class GeometricDistances
         } else {
             ixmin = xa; ixmax = xb;
         }
-        if(x<ixmin-MIN_DISTANCE || x>ixmax+MIN_DISTANCE)
+        if(x<ixmin-MIN_DISTANCE || x>ixmax+MIN_DISTANCE) {
             return MIN_DISTANCE;
-
+        }
         if(ya>yb) {
             iymin = yb; iymax = ya;
         } else {
             iymin = ya; iymax = yb;
         }
-
-        if(y<iymin-MIN_DISTANCE || y>iymax+MIN_DISTANCE)
+        if(y<iymin-MIN_DISTANCE || y>iymax+MIN_DISTANCE) {
             return MIN_DISTANCE;
-
+        }
         if (xb==xa && yb==ya) {
             idx=x-xa;
             idy=y-yb;
@@ -213,7 +222,7 @@ public final class GeometricDistances
         // This is an integer, fixed point implementation. We suppose to make
         // calculations with three decimals.
 
-        it=(1000*((x-xa)*idx+(y-ya)*idy))/(idx*idx+idy*idy);
+        it=1000*((x-xa)*idx+(y-ya)*idy)/(idx*idx+idy*idy);
         if (it<0) {
             idx=x-xa;
             idy=y-ya;
@@ -247,7 +256,9 @@ public final class GeometricDistances
             if ((yp[i] <= y && y < yp[j] ||
                  yp[j] <= y && y < yp[i]) &&
                 x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i])
+            {
                 c = !c;
+            }
             j=i;
         }
         return c;
@@ -342,16 +353,18 @@ public final class GeometricDistances
         // Treat separately the degenerate cases. This will avoid a divide
         // by zero anomalous situation.
 
-        if (w==0)
+        if (w==0) {
             return pointToSegment(ex, ey, ex, ey+h, px, py);
+        }
 
-        if (h==0)
+        if (h==0) {
             return pointToSegment(ex, ey, ex+w, ey, px, py);
+        }
 
         // Calculate the semi-latus rectum of the ellipse at the given point
         double l=(dx*dx/w/w+dy*dy/h/h)*4.0;
 
-        return (Math.abs(l-1.0))*Math.min(w,h)/4.0;
+        return Math.abs(l-1.0)*Math.min(w,h)/4.0;
     }
 
     /** Give the distance between the given point and the ellipse path
@@ -480,14 +493,17 @@ public final class GeometricDistances
     {
         int distance=Integer.MAX_VALUE;
 
-        double b03, b13, b23, b33;
+        double b03;
+        double b13;
+        double b23;
+        double b33;
         double umu;
         double u;
 
         i=0;
         int[] x=new int[MAX_BEZIER_SEGMENTS+1];
         int[] y=new int[MAX_BEZIER_SEGMENTS+1];
-        double limit=1.0/(double)(MAX_BEZIER_SEGMENTS);
+        double limit=1.0/(double)MAX_BEZIER_SEGMENTS;
 
         // (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
         for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit) {

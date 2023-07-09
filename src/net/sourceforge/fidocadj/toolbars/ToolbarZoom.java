@@ -1,17 +1,18 @@
 package net.sourceforge.fidocadj.toolbars;
 
-import java.awt.*;
-import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.event.*;
-
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import net.sourceforge.fidocadj.dialogs.LayerCellRenderer;
+import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 
 /** ToolbarZoom class
@@ -33,7 +34,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -49,7 +50,6 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     private final JLabel coords;
 
     private ChangeGridState changeListener;
-    private boolean flagModify;
     private double oldzoom;
     private ChangeZoomListener notifyZoomChangeListener;
     private ZoomToFitListener actualZoomToFitListener;
@@ -134,7 +134,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         showLibs.addActionListener(this);
         layerSel.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent evt)
+            @Override public void actionPerformed(ActionEvent evt)
             {
                 if (layerSel.getSelectedIndex()>=0 && changeListener!=null) {
                     changeLayerListener.changeSelectedLayer(
@@ -206,19 +206,21 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
         zoom setup is changed.
         @param evt the event to be processed.
     */
-    public void actionPerformed(ActionEvent evt)
+    @Override public void actionPerformed(ActionEvent evt)
     {
         String s = evt.getActionCommand();
 
         // Buttons
         if(s.equals(Globals.messages.getString("ShowGrid"))) {
             // Toggle grid visibility
-            if(changeListener!=null)
+            if(changeListener!=null) {
                 changeListener.setGridVisibility(showGrid.isSelected());
+            }
         } else if(s.equals(Globals.messages.getString("SnapToGrid"))) {
             // Toggle snap to grid
-            if(changeListener!=null)
+            if(changeListener!=null) {
                 changeListener.setSnapState(snapGrid.isSelected());
+            }
         } else if(s.equals(Globals.messages.getString("Zoom_fit"))) {
             // Zoom to fit
             if(actualZoomToFitListener!=null) {
@@ -258,14 +260,16 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
                 double z=Double.parseDouble(s);
                 // Very important: if I remove that, CPU goes to 100%
                 // since this is called continuously!
-                if(z==oldzoom)
+                if(z==oldzoom) {
                     return;
+                }
                 oldzoom=z;
                 if(Globals.minZoomFactor<=z && z<=Globals.maxZoomFactor) {
                     notifyZoomChangeListener.changeZoom(z/100);
                 }
-            } catch (NumberFormatException E) {
+            } catch (NumberFormatException ee) {
                 // Just ignore
+                System.out.println("Exception while changing the zoom.");
             }
         }
     }

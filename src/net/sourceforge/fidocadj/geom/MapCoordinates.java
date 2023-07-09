@@ -22,7 +22,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2015 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -108,11 +108,13 @@ public class MapCoordinates
         orientation=o;
 
         // Check for sanity
-        if (orientation<0)
+        if (orientation<0) {
             orientation=0;
+        }
 
-        if (orientation>3)
+        if (orientation>3) {
             orientation=3;
+        }
     }
 
     /** Get the current orientation.
@@ -203,8 +205,9 @@ public class MapCoordinates
     */
     public final void setXGridStep(int xg)
     {
-        if (xg>0)
+        if (xg>0) {
             xGridStep=xg;
+        }
     }
 
     /** Set the Y grid step
@@ -212,8 +215,9 @@ public class MapCoordinates
     */
     public final void setYGridStep(int yg)
     {
-        if (yg>0)
+        if (yg>0) {
             yGridStep=yg;
+        }
     }
 
     /** Get the X grid step
@@ -255,11 +259,13 @@ public class MapCoordinates
     public final void setXMagnitude(double txm)
     {
         double xm=txm;
-        if (Math.abs(xm)<MIN_MAGNITUDE)
+        if (Math.abs(xm)<MIN_MAGNITUDE) {
             xm=MIN_MAGNITUDE;
+        }
 
-        if (Math.abs(xm)>MAX_MAGNITUDE)
+        if (Math.abs(xm)>MAX_MAGNITUDE) {
             xm=MAX_MAGNITUDE;
+        }
 
         xMagnitude=xm;
     }
@@ -271,11 +277,12 @@ public class MapCoordinates
     public final void setYMagnitude(double tym)
     {
         double ym=tym;
-        if (Math.abs(ym)<MIN_MAGNITUDE)
+        if (Math.abs(ym)<MIN_MAGNITUDE) {
             ym=MIN_MAGNITUDE;
-
-        if (Math.abs(ym)>MAX_MAGNITUDE)
+        }
+        if (Math.abs(ym)>MAX_MAGNITUDE) {
             ym=MAX_MAGNITUDE;
+        }
 
         yMagnitude=ym;
     }
@@ -413,10 +420,12 @@ public class MapCoordinates
             to the lowest integer. We need to round correctly; */
 
         if(track) {
-            if(ivx<xMin)
+            if(ivx<xMin) {
                 xMin=ivx;
-            if(ivx>xMax)
+            }
+            if(ivx>xMax) {
                 xMax=ivx;
+            }
         }
 
         return ivx;
@@ -430,7 +439,8 @@ public class MapCoordinates
     */
     public final double mapXr(double txc,double tyc)
     {
-        double xc=txc, yc=tyc;
+        double xc=txc;
+        double yc=tyc;
         // The orientation data is not used outside a macro
         if(isMacro){
             xc-=100.0;
@@ -504,11 +514,13 @@ public class MapCoordinates
             to the lowest integer. We need to round correctly; */
 
         if(track) {
-            if(ivy<yMin)
+            if(ivy<yMin) {
                 yMin=ivy;
+            }
 
-            if(ivy>yMax)
+            if(ivy>yMax) {
                 yMax=ivy;
+            }
         }
         return ivy;
     }
@@ -521,7 +533,8 @@ public class MapCoordinates
     */
     public final double mapYr(double txc,double tyc)
     {
-        double xc=txc, yc=tyc;
+        double xc=txc;
+        double yc=tyc;
         if(isMacro){
             xc-=100.0;
             yc-=100.0;
@@ -557,17 +570,18 @@ public class MapCoordinates
     */
     public final void trackPoint(double xp, double yp)
     {
-        if(yp<yMin)
+        if(yp<yMin) {
             yMin=(int)yp;
-
-        if(yp>yMax)
+        }
+        if(yp>yMax) {
             yMax=(int)yp;
-
-        if(xp<xMin)
+        }
+        if(xp<xMin) {
             xMin=(int)xp;
-
-        if(xp>xMax)
+        }
+        if(xp>xMax) {
             xMax=(int)xp;
+        }
     }
 
     /** Un Map the X screen coordinate given in the drawing coordinate.
@@ -629,7 +643,7 @@ public class MapCoordinates
         @return a {@link String} describing the coordinates system, mainly
             for debugging purposes.
     */
-    public String toString()
+    @Override public String toString()
     {
         String s="";
         s+="[xCenter="+ xCenter;

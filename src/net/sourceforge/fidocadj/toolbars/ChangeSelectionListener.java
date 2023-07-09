@@ -19,7 +19,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
 
@@ -36,19 +36,19 @@ public interface ChangeSelectionListener
         @param macroKey the key of the macro being used (if necessary).
 
     */
-    public void setSelectionState(int s, String macroKey);
+    void setSelectionState(int s, String macroKey);
 
     /** Set if the strict FidoCAD compatibility mode is active
         @param strict true if the compatibility with FidoCAD should be
         obtained.
 
     */
-    public void setStrictCompatibility(boolean strict);
+    void setStrictCompatibility(boolean strict);
 
     /** Get the actual selection state.
         @return the actual selection state (see the CircuitPanel class for the
         definition of the constants used here).
 
     */
-    public int getSelectionState();
+    int getSelectionState();
 }

@@ -20,7 +20,7 @@ package net.sourceforge.fidocadj.undo;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
     @author Davide Bucci
 */
@@ -30,5 +30,5 @@ public interface LibraryUndoListener
         TODO: complete that.
         @param s the ?
     */
-    public void undoLibrary(String s);
+    void undoLibrary(String s);
 }

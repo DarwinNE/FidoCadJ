@@ -21,7 +21,7 @@ package net.sourceforge.fidocadj.toolbars;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2017 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
 */
@@ -31,5 +31,5 @@ public interface ChangeZoomListener
     /** Set the current zoom to the given parameter.
         @param z the new zoom
     */
-    public void changeZoom(double z);
+    void changeZoom(double z);
 }
