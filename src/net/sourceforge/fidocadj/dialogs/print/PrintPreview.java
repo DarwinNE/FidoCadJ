@@ -1,14 +1,14 @@
 package net.sourceforge.fidocadj.dialogs.print;
 
+import java.awt.*;
 import java.awt.print.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.geom.AffineTransform;
-import java.awt.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.BorderFactory;
+import javax.swing.border.EtchedBorder;     // NOPMD (bug in PMD 7.0?)
+import javax.swing.BorderFactory;           // NOPMD (bug in PMD 7.0?)
 
-import net.sourceforge.fidocadj.circuit.*;
+import net.sourceforge.fidocadj.circuit.CircuitPanel;
 import net.sourceforge.fidocadj.PrintTools;
 
 /** Shows a print preview.

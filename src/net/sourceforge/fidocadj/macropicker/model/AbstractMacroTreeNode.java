@@ -22,7 +22,7 @@ import javax.swing.tree.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2016 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -117,7 +117,7 @@ public abstract class AbstractMacroTreeNode implements MacroTreeNode
     public void sortTree()
     {
         Collections.sort(childNodes, new Comparator<AbstractMacroTreeNode>(){
-                public int compare(AbstractMacroTreeNode o1,
+                @Override public int compare(AbstractMacroTreeNode o1,
                     AbstractMacroTreeNode o2)
                 {
                     return o1.toString().compareTo(o2.toString());
@@ -156,7 +156,7 @@ public abstract class AbstractMacroTreeNode implements MacroTreeNode
     /** Get a string describing the tree.
         @return the description (the label).
     */
-    public String toString()
+    @Override public String toString()
     {
         return label;
     }

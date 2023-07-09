@@ -1,10 +1,7 @@
 package net.sourceforge.fidocadj.globals;
 
 import java.util.*;
-import java.io.*;
 
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
 import net.sourceforge.fidocadj.ADesktopIntegration;
 
 /** Globals.java
@@ -34,8 +31,13 @@ import net.sourceforge.fidocadj.ADesktopIntegration;
 
     </pre>
 */
-public class Globals
+public final class Globals
 {
+    // Make sort that this is an utility class (private constructor). 
+    private Globals()
+    {
+    }
+
     // message bundle
     public static AccessResources messages;
 
@@ -130,17 +132,17 @@ public class Globals
     public static String prettifyPath(String s, int len)
     {
         int l=len;
-        if(s.length()<l)
+        if(s.length()<l) {
             return s;
-
-        if (l<10)
+        }
+        if (l<10) {
             l=10;
-
-        String R;
-        R= s.substring(0,l/2-5)+ "...  "+
+        }
+        String r;
+        r= s.substring(0,l/2-5)+ "...  "+
            s.substring(s.length()-l/2);
 
-        return R;
+        return r;
     }
 
     /** Determine what is the current platform and configures some interface
@@ -200,15 +202,16 @@ public class Globals
         boolean skip=false;
 
         for (i=0; i<p.length(); ++i) {
-            if(p.charAt(i)=='"')
+            if(p.charAt(i)=='"') {
                 skip=true;
-            else
+            } else {
                 t.append(p.charAt(i));
+            }
         }
 
-        if (skip)
+        if (skip) {
             return true;
-
+        }
         s=t.toString();
         // We need to check only the file name and not the entire path.
         // So we begin our research only after the last file separation
@@ -217,7 +220,7 @@ public class Globals
         int search=s.lastIndexOf(".");
 
         // If the separator has not been found, start is negative.
-        if(start<0) start=0;
+        if(start<0) { start=0; }
 
         // Search if there is a dot (separation of the extension)
         if (search>start && search>=0) {
@@ -254,17 +257,18 @@ public class Globals
         boolean skip=false;
         StringBuffer temp=new StringBuffer(25);
         for (i=0; i<p.length(); ++i) {
-            if(p.charAt(i)=='"')
+            if(p.charAt(i)=='"') {
                 skip=true;
-            else
+            } else {
                 temp.append(p.charAt(i));
+            }
         }
 
         String s=temp.toString();
 
-        if (skip)
+        if (skip) {
             return s;
-
+        }
         // We need to check only the file name and not the entire path.
         // So we begin our research only after the last file separation
 
@@ -272,7 +276,7 @@ public class Globals
         int search=s.lastIndexOf(".");
 
         // If the separator has not been found, start is negative.
-        if(start<0) start=0;
+        if(start<0) { start=0; }
 
         // Search if there is a dot (separation of the extension)
         if (search>start && search>=0) {
@@ -292,8 +296,6 @@ public class Globals
     */
     public static String getFileNameOnly(String s)
     {
-        int i;
-
         // We need to check only the file name and not the entire path.
         // So we begin our research only after the last file separation
 
@@ -302,11 +304,12 @@ public class Globals
 
         // If the separator has not been found, start is negative.
 
-        if(start<0)
+        if(start<0) {
             start=0;
-        else
+        } else {
             start+=1;
-        if(search<0) search=s.length();
+        }
+        if(search<0) { search=s.length(); }
 
         return s.substring(start,search);
     }
@@ -340,12 +343,12 @@ public class Globals
     {
         StringBuffer s=new StringBuffer("");
         for (int i=0; i<p.length(); ++i) {
-            if((String)bc.get(""+p.charAt(i))==null)
+            if((String)bc.get(""+p.charAt(i))==null) {
                 s.append(p.charAt(i));
-            else
+            } else {
                 s.append((String)bc.get(""+p.charAt(i)));
+            }
         }
-
         return s.toString();
     }
 

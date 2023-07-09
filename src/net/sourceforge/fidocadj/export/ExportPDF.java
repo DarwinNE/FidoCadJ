@@ -123,8 +123,9 @@ public class ExportPDF implements ExportInterface, TextInterface
             dashArrayStretched = "";
             for(int j=0; j<Globals.dash[i].length;++j) {
                 dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
-                if(j<Globals.dash[i].length-1)
+                if(j<Globals.dash[i].length-1) {
                     dashArrayStretched+=" ";
+                }
             }
             sDash[i]="["+dashArrayStretched+"]";
         }
@@ -205,7 +206,7 @@ public class ExportPDF implements ExportInterface, TextInterface
         // 200 dpi is the internal resolution of FidoCadJ
         // 72 dpi is the internal resolution of the Postscript coordinates
 
-        double res_mult=200.0/72.0;
+        double resMult=200.0/72.0;
 
 
         int border = 5;
@@ -219,8 +220,8 @@ public class ExportPDF implements ExportInterface, TextInterface
                 "    /Count 1\n"+
                 "    /Type /Pages\n"+
                 "    /MediaBox [ 0 0  "+
-                (int)(totalSize.width/res_mult+1+border)+" "+
-                (int)(totalSize.height/res_mult+1+border)+" ]\n"+
+                (int)(totalSize.width/resMult+1+border)+" "+
+                (int)(totalSize.height/resMult+1+border)+" ]\n"+
                 "  >> endobj\n";
 
         // Since in a postscript drawing, the origin is at the bottom left,
@@ -229,10 +230,10 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         actualColor = null;
         actualWidth = -1;
-        outt.write("   1 0 0 1 0 "+(totalSize.height/res_mult+border)+
+        outt.write("   1 0 0 1 0 "+(totalSize.height/resMult+border)+
             "  cm\n");
 
-        outt.write("  "+(1/res_mult)+" 0  0 "+(-1/res_mult)+" 0 0  cm\n");
+        outt.write("  "+(1/resMult)+" 0  0 "+(-1/resMult)+" 0 0  cm\n");
 
         outt.write("1 J\n");
 
@@ -267,30 +268,33 @@ public class ExportPDF implements ExportInterface, TextInterface
             String glyph;
             Integer code;
             String codeStr;
-            int p,q;
+            int p;
+            int q;
             while (line != null) {
                 if(!line.startsWith("#")) {
                     p=line.indexOf(';');
                     q=line.indexOf(' ');
                     glyph=line.substring(0,p);
-                    if(q<0)
+                    if(q<0) {
                         codeStr=line.substring(p+1);
-                    else
+                    } else {
                         codeStr=line.substring(p+1,q);
+                    }
                     code=Integer.decode("0x"+codeStr);
                     unicodeToGlyph.put(code, glyph);
                 }
                 line = br.readLine();
             }
-        } catch(IOException E) {
+        } catch(IOException ee) {
             System.err.println("We could not access glyphlist.txt. A standard"+
                 " matching of glyphs is attempted.");
             for(int i=32; i<128; ++i) {
                 unicodeToGlyph.put(Integer.valueOf(i), ""+i);
             }
         } finally {
-            if (br!=null)
+            if (br!=null) {
                 br.close();
+            }
         }
     }
 
@@ -407,7 +411,7 @@ public class ExportPDF implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    private void writeFontDescription() throws java.io.IOException
+    private void writeFontDescription() throws IOException
     {
         obj_PDF[6]= "6 0 obj\n" +
                 "  <<   /Type /Font\n" +
@@ -538,12 +542,11 @@ public class ExportPDF implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    private void writeCrossReferenceTable()  throws java.io.IOException
+    private void writeCrossReferenceTable()  throws IOException
     {
         out.write("xref \n"+
             "0 15\n"+
             "0000000000 65535 f \n"+          // header
-
             addLeadZeros(head.length()+
             obj_PDF[5].length()+
             obj_PDF[6].length()+
@@ -780,18 +783,19 @@ public class ExportPDF implements ExportInterface, TextInterface
         @param isItalic true if the text should be written with an italic font.
         @param orientation angle of orientation (degrees).
         @param layer the layer that should be used.
-        @param text_t the text that should be written.
+        @param textT the text that should be written.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
     public void exportAdvText (int x, int y, int sizex, int sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
-        int orientation, int layer, String text_t)
+        int orientation, int layer, String textT)
         throws IOException
     {
-        String text=text_t;
-        if ("".equals(text))
+        String text=textT;
+        if ("".equals(text)) {
             return;
+        }
 
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
@@ -804,32 +808,34 @@ public class ExportPDF implements ExportInterface, TextInterface
 
 
         if("Courier".equals(fontname) || "Courier New".equals(fontname)) {
-            if(isBold)
+            if(isBold) {
                 currentFont="/F2";
-            else
+            } else {
                 currentFont="/F1";
+            }
         } else if("Times".equals(fontname) ||
             "Times New Roman".equals(fontname) ||
             "Times Roman".equals(fontname))
         {
-            if(isBold)
+            if(isBold) {
                 currentFont="/F4";
-            else
+            } else {
                 currentFont="/F3";
-
+            }
         } else if("Helvetica".equals(fontname) ||
             "Arial".equals(fontname))
         {
-            if(isBold)
+            if(isBold) {
                 currentFont="/F6";
-            else
+            } else {
                 currentFont="/F5";
-
+            }
         } else if("Symbol".equals(fontname)) {
-            if(isBold)
+            if(isBold) {
                 currentFont="/F8";
-            else
+            } else {
                 currentFont="/F7";
+            }
         } else {
             fontWarning = true;
             userfont=fontname;
@@ -846,14 +852,14 @@ public class ExportPDF implements ExportInterface, TextInterface
             double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
             outt.write("  "+Globals.roundTo(Math.cos(alpha))+" "
                 + Globals.roundTo(Math.sin(alpha))+ " "
-                +(Globals.roundTo(-Math.sin(alpha)))+
+                + Globals.roundTo(-Math.sin(alpha))+
                 " "+Globals.roundTo(Math.cos(alpha))+" 0 0 cm\n");
         }
-        if(isMirrored)
+        if(isMirrored) {
             outt.write("  -1 0 0 -1 0 0 cm\n");
-        else
+        } else {
             outt.write("  1 0 0 -1 0 0 cm\n");
-
+        }
         double ratio;
 
         if(sizey/sizex == 10/7){
@@ -1182,19 +1188,19 @@ public class ExportPDF implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
-        String fill_pattern="";
 
-        if (nVertices<1)
+        if (nVertices<1) {
             return;
+        }
 
         checkColorAndWidth(c, strokeWidth);
         registerDash(dashStyle);
 
         outt.write("  "+vertices[0].x+" "+vertices[0].y+" m\n");
 
-        for (int i=1; i<nVertices; ++i)
+        for (int i=1; i<nVertices; ++i) {
             outt.write("  "+vertices[i].x+" "+vertices[i].y+" l\n");
-
+        }
         if(isFilled) {
             outt.write("  f*\n");
         } else {
@@ -1275,18 +1281,18 @@ public class ExportPDF implements ExportInterface, TextInterface
         double r, boolean filled)
         throws IOException
     {
-        outt.write(""+ (x1+r) + " " +(y1)+" m\n");
-        outt.write(""+ (x1+w-r) + " " +(y1)+" l\n");
-        outt.write(""+ (x1+w) + " " +(y1)+" "+ (x1+w) + " " +(y1+r)+" y\n");
+        outt.write(""+ (x1+r) + " " +y1+" m\n");
+        outt.write(""+ (x1+w-r) + " " +y1+" l\n");
+        outt.write(""+ (x1+w) + " " +y1+" "+ (x1+w) + " " +(y1+r)+" y\n");
 
         outt.write(""+ (x1+w) + " " +(y1+h-r)+" l\n");
         outt.write(""+ (x1+w) + " " +(y1+h)+" "+ (x1+w-r) + " " +(y1+h)+" y\n");
 
         outt.write(""+ (x1+r) + " " +(y1+h)+" l\n");
-        outt.write(""+ (x1) + " " +(y1+h)+" "+ (x1) + " " +(y1+h-r)+" y\n");
+        outt.write(""+ x1 + " " +(y1+h)+" "+ x1 + " " +(y1+h-r)+" y\n");
 
-        outt.write(""+ (x1) + " " +(y1+r)+" l\n");
-        outt.write(""+ (x1) + " " +(y1)+" "+ (x1+r) + " " +(y1)+" y \n");
+        outt.write(""+ x1 + " " +(y1+r)+" l\n");
+        outt.write(""+ x1 + " " +y1+" "+ (x1+r) + " " +y1+" y \n");
 
         outt.write("  "+(filled?"f\n":"s\n"));
     }
@@ -1298,15 +1304,13 @@ public class ExportPDF implements ExportInterface, TextInterface
         boolean filled)
         throws IOException
     {
-        int i;
-
         double cx = (x1+x2)/2.0;
         double cy = (y1+y2)/2.0;
 
         double rx = Math.abs(x2-x1)/2.0;
         double ry = Math.abs(y2-y1)/2.0;
 
-        final int NMAX=32;
+        final int nMAX=32;
 
         double xA;
         double yA;
@@ -1328,23 +1332,23 @@ public class ExportPDF implements ExportInterface, TextInterface
         outt.write("  "+ Globals.roundTo(cx+rx)+" "+ Globals.roundTo(cy)+
             " m\n");
 
-        for(i=0; i<NMAX; ++i) {
+        for(int i=0; i<nMAX; ++i) {
 
-            alpha = 2.0*Math.PI*(double)i/(double)NMAX;
+            alpha = 2.0*Math.PI*(double)i/(double)nMAX;
             xA = cx + rx * Math.cos(alpha);
             yA = cy + ry * Math.sin(alpha);
 
-            alpha += 2.0*Math.PI/(double)NMAX/3.0;
+            alpha += 2.0*Math.PI/(double)nMAX/3.0;
 
             xB = cx + rr*rx * Math.cos(alpha);
             yB = cy + rr*ry * Math.sin(alpha);
 
-            alpha += 2.0*Math.PI/(double)NMAX/3.0;
+            alpha += 2.0*Math.PI/(double)nMAX/3.0;
 
             xC = cx + tt*rx * Math.cos(alpha);
             yC = cy + tt*ry * Math.sin(alpha);
 
-            alpha += 2.0*Math.PI/(double)NMAX/3.0;
+            alpha += 2.0*Math.PI/(double)nMAX/3.0;
 
             xD = cx + rx * Math.cos(alpha);
             yD = cy + ry * Math.sin(alpha);
@@ -1393,11 +1397,11 @@ public class ExportPDF implements ExportInterface, TextInterface
         if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
             currentDash=dashStyle;
             currentPhase=dashPhase;
-            if(dashStyle==0)
+            if(dashStyle==0) {
                 outt.write("[] 0 d\n");
-            else
+            } else {
                 outt.write(""+sDash[dashStyle]+" "+dashPhase+" d\n");
-
+            }
         }
     }
 
@@ -1430,11 +1434,11 @@ public class ExportPDF implements ExportInterface, TextInterface
         // At first we need the angle giving the direction of the arrow
         // a little bit of trigonometry :-)
 
-        if (x==xc)
+        if (x==xc) {
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
-
+        }
         alpha += x-xc>0.0?0.0:Math.PI;
 
         // Then, we calculate the points for the polygon
@@ -1451,10 +1455,11 @@ public class ExportPDF implements ExportInterface, TextInterface
         outt.write(""+Globals.roundTo(x1)+" "+Globals.roundTo(y1)+" l\n");
         outt.write(""+Globals.roundTo(x2)+" "+Globals.roundTo(y2)+" l\n");
 
-        if ((style & Arrow.flagEmpty) == 0)
+        if ((style & Arrow.flagEmpty) == 0) {
             outt.write("  f*\n");
-        else
+        } else {
             outt.write("  s\n");
+        }
 
         if ((style & Arrow.flagLimiter) != 0) {
             double x3;
@@ -1491,7 +1496,7 @@ public class ExportPDF implements ExportInterface, TextInterface
         currentFontSize=(float)size;
         try {
             outt.write(currentFont+" "+currentFontSize+" Tf\n");
-        } catch(IOException E) {
+        } catch(IOException ee) {
             System.err.println("Can not write to file in PDF export.");
         }
     }
@@ -1546,7 +1551,7 @@ public class ExportPDF implements ExportInterface, TextInterface
                 outt.write(" ");
             }
             outt.write("> Tj\n");
-        } catch(IOException E) {
+        } catch(IOException ee) {
             System.err.println("Can not write to file in EPS export.");
         }
     }

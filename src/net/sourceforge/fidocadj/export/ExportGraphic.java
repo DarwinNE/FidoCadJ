@@ -1,27 +1,24 @@
 package net.sourceforge.fidocadj.export;
 
-import javax.imageio.*;
-
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
-
-import javax.swing.*;
-
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.circuit.views.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.swing.*;
-import net.sourceforge.fidocadj.graphic.nil.*;
-
-import java.awt.event.*;
 import java.util.*;
-import java.lang.*;
+import javax.imageio.*;
+
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.views.Export;
+import net.sourceforge.fidocadj.circuit.views.Drawing;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.DrawingSize;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.swing.Graphics2DSwing;
+import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
+import net.sourceforge.fidocadj.graphic.nil.GraphicsNull;
+
 
 /** ExportGraphic.java
 
@@ -46,7 +43,7 @@ import java.lang.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -62,7 +59,7 @@ public final class ExportGraphic
         class.
 
         @param file the file name of the graphic file which will be created.
-        @param P the parsing schematics class which should be used (libraries).
+        @param pp the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
         @param unitPerPixel the number of unit for each graphic pixel.
         @param antiAlias specify whether the anti alias option should be on.
@@ -73,7 +70,7 @@ public final class ExportGraphic
         @throws IOException if the file can not be created or an error occurs.
     */
     public static void export(File file,
-                        DrawingModel P,
+                        DrawingModel pp,
                         String format,
                         double unitPerPixel,
                         boolean antiAlias,
@@ -84,7 +81,7 @@ public final class ExportGraphic
         throws IOException
     {
         exportSizeP(file,
-             P,
+             pp,
              format,
              0,
              0,
@@ -101,7 +98,7 @@ public final class ExportGraphic
         class.
 
         @param file the file name of the graphic file which will be created.
-        @param P the parsing schematics class which should be used (libraries).
+        @param pp the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
         @param width the image width in pixels (raster images only)
         @param height the image heigth in pixels (raster images only)
@@ -113,7 +110,7 @@ public final class ExportGraphic
         @throws IOException if an error occurs.
     */
     public static void exportSize(File file,
-                        DrawingModel P,
+                        DrawingModel pp,
                         String format,
                         int width,
                         int height,
@@ -125,7 +122,7 @@ public final class ExportGraphic
         throws IOException
     {
         exportSizeP(file,
-             P,
+             pp,
              format,
              width,
              height,
@@ -142,7 +139,7 @@ public final class ExportGraphic
         class.
 
         @param file the file name of the graphic file which will be created.
-        @param P the parsing schematics class which should be used (libraries).
+        @param pp the parsing schematics class which should be used (libraries).
         @param format the graphic format which should be used {png|jpg}.
         @param unitperpixel the number of unit for each graphic pixel.
         @param width the image width in pixels (raster images only)
@@ -157,11 +154,11 @@ public final class ExportGraphic
         @throws IOException if an error occurs.
     */
     private static void exportSizeP(File file,
-                        DrawingModel P,
+                        DrawingModel pp,
                         String format,
-                        int width_t,
-                        int height_t,
-                        double unitPerPixel_t,
+                        int widthT,
+                        int heightT,
+                        double unitPerPixelT,
                         boolean setSize,
                         boolean antiAlias,
                         boolean blackWhite,
@@ -170,19 +167,19 @@ public final class ExportGraphic
                         boolean splitLayers)
         throws IOException
     {
-        int width=width_t;
-        int height=height_t;
-        double unitPerPixel=unitPerPixel_t;
+        int width=widthT;
+        int height=heightT;
+        double unitPerPixel=unitPerPixelT;
 
         // obtain drawing size
         MapCoordinates m=new MapCoordinates();
 
         // This solves bug #3299281
-        new SelectionActions(P).setSelectionAll(false);
+        new SelectionActions(pp).setSelectionAll(false);
 
         PointG org=new PointG(0,0);
 
-        DimensionG d = DrawingSize.getImageSize(P, 1,true,org);
+        DimensionG d = DrawingSize.getImageSize(pp, 1,true,org);
         if (setSize) {
             // In this case, the image size is set and so we need to calculate
             // the correct zoom factor in order to fit the drawing in the
@@ -205,7 +202,7 @@ public final class ExportGraphic
         org.x -= Export.exportBorder*unitPerPixel/2.0;
         org.y -= Export.exportBorder*unitPerPixel/2.0;
 
-        Vector<LayerDesc> ol=P.getLayers();
+        Vector<LayerDesc> ol=pp.getLayers();
 
         BufferedImage bufferedImage;
 
@@ -213,12 +210,12 @@ public final class ExportGraphic
         // in which all colours will be black.
         if(blackWhite) {
             Vector<LayerDesc> v=new Vector<LayerDesc>();
-            for (int i=0; i<16;++i)
+            for (int i=0; i<16;++i) {
                 v.add(new LayerDesc((new ColorSwing()).black(), // NOPMD
                     ((LayerDesc)ol.get(i)).getVisible(),
                     "B/W",((LayerDesc)ol.get(i)).getAlpha()));
-
-            P.setLayers(v);
+            }
+            pp.setLayers(v);
         }
 
         // Center the drawing in the given space.
@@ -255,7 +252,7 @@ public final class ExportGraphic
                 g2d.setColor(Color.white);
                 g2d.fillRect(0,0, width, height);
                 // Save bitmap
-                Drawing drawingAgent = new Drawing(P);
+                Drawing drawingAgent = new Drawing(pp);
                 Graphics2DSwing graphicSwing=new Graphics2DSwing(g2d);
                 // This is important for taking into account the dashing size
                 graphicSwing.setZoom(m.getXMagnitude());
@@ -265,12 +262,12 @@ public final class ExportGraphic
                 // Graphics context no longer needed so dispose it
                 g2d.dispose();
             } finally {
-                P.setLayers(ol);
+                pp.setLayers(ol);
             }
         } else {
-            exportVectorFormats(P, format,file,m,ext,splitLayers);
+            exportVectorFormats(pp, format,file,m,ext,splitLayers);
         }
-        P.setLayers(ol);
+        pp.setLayers(ol);
     }
 
     /** Create a file name containing an index from a template.
@@ -284,8 +281,9 @@ public final class ExportGraphic
     private static String addIndexInFilename(String name, int index)
     {
         int dotpos=name.lastIndexOf('.');
-        if(dotpos<0)
+        if(dotpos<0) {
             return name+"_"+index;
+        }
         return name.substring(0,dotpos)+"_"+index+"."+name.substring(dotpos+1);
     }
 
@@ -318,21 +316,20 @@ public final class ExportGraphic
         } else if("svg".equals(format)) {
             ei = new ExportSVG(file, new GraphicsNull());
         } else {
-            IOException E=new IOException("Wrong file format");
-            throw E;
+            throw new IOException("Wrong file format");
         }
         return ei;
     }
 
     /** Export a file in a vector format.
-        @param P the model to be used.
+        @param pp the model to be used.
         @param format the file format code.
         @param file the output file to be written.
         @param m the coordinate system to be used.
         @param splitLayer true if the export should separate the different
             layers into different files.
     */
-    private static void exportVectorFormats(DrawingModel P, String format,
+    private static void exportVectorFormats(DrawingModel pp, String format,
         File file, MapCoordinates m, boolean ext, boolean splitLayer)
         throws IOException
     {
@@ -341,22 +338,23 @@ public final class ExportGraphic
         System.out.println("SplitLayer: "+splitLayer);
         if(splitLayer) {
             for(int i=0; i<16;++i) {
-                if(!P.containsLayer(i))   // Don't export empty layers.
+                if(!pp.containsLayer(i)) {   // Don't export empty layers.
                     break;
+                }
                 // Create a new file and export the current layer.
                 File layerFile=new File(addIndexInFilename(file.toString(),i));
                 ei=createExportInterface(format, layerFile, ext);
-                Export e = new Export(P);
-                P.setDrawOnlyLayer(-1);
+                Export e = new Export(pp);
+                pp.setDrawOnlyLayer(-1);
                 e.exportHeader(ei, m);
-                P.setDrawOnlyLayer(i);
+                pp.setDrawOnlyLayer(i);
                 e.exportDrawing(ei, false, m);
                 ei.exportEnd();
             }
-            P.setDrawOnlyLayer(-1);
+            pp.setDrawOnlyLayer(-1);
         } else {
             ei=createExportInterface(format, file,ext);
-            Export e = new Export(P);
+            Export e = new Export(pp);
             e.exportHeader(ei, m);
             e.exportDrawing(ei, false, m);
             ei.exportEnd();

@@ -22,25 +22,25 @@ import javax.swing.tree.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public interface MacroTreeNode extends TreeNode
 {
     /** Sort child nodes.
         This must be called recursively.
      */
-    public void sortTree();
+    void sortTree();
 
     /** Return icon for identifying node type.
         @return the icon.
     */
-    public Icon getIcon();
+    Icon getIcon();
 
     /** Return string for label.
         @return the text label.
     */
-    public String toString();
+    @Override String toString();
 }

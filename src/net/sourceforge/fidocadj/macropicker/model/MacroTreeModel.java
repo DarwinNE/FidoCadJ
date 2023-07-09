@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -130,9 +130,8 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     public int getNodeType(TreePath path)
     {
         Object o;
-        int type;
 
-        if(path==null) return -1;
+        if(path==null) { return -1; }
 
         o = path.getLastPathComponent();
         if(o instanceof RootNode) {
@@ -160,7 +159,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         Add a tree model listener.
         @param l the tree model listener.
     */
-    public void addTreeModelListener(TreeModelListener l)
+    @Override public void addTreeModelListener(TreeModelListener l)
     {
         listeners.add(l);
     }
@@ -171,7 +170,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         @param index the index of the child.
         @return the child object retrieved.
     */
-    public Object getChild(Object parent, int index)
+    @Override public Object getChild(Object parent, int index)
     {
         return ((TreeNode)parent).getChildAt(index);
     }
@@ -180,7 +179,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         @param parent the parent object.
         @return the number of the children.
     */
-    public int getChildCount(Object parent)
+    @Override public int getChildCount(Object parent)
     {
         return ((TreeNode)parent).getChildCount();
     }
@@ -191,7 +190,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         @return the index of the child or -1 if the child has not been found.
         TODO: check if it is true that it is -1...
     */
-    public int getIndexOfChild(Object parent, Object child)
+    @Override public int getIndexOfChild(Object parent, Object child)
     {
         return ((TreeNode)parent).getIndex((TreeNode)child);
     }
@@ -200,7 +199,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         Get the root node.
         @return the root node.
     */
-    public Object getRoot()
+    @Override public Object getRoot()
     {
         return rootNode;
     }
@@ -210,7 +209,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         @param node the node to check.
         @return true if the node is a leaf (in this context, a macro).
     */
-    public boolean isLeaf(Object node)
+    @Override public boolean isLeaf(Object node)
     {
         return ((TreeNode)node).isLeaf();
     }
@@ -219,7 +218,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         Remove the given listener.
         @param l the listener to remove.
     */
-    public void removeTreeModelListener(TreeModelListener l)
+    @Override public void removeTreeModelListener(TreeModelListener l)
     {
         listeners.remove(l);
     }
@@ -230,7 +229,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         @param path the path.
         @param newValue the new value.
     */
-    public void valueForPathChanged(TreePath path, Object newValue)
+    @Override public void valueForPathChanged(TreePath path, Object newValue)
     {
         // NOP
     }
@@ -243,7 +242,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     {
         Object o;
 
-        if(path==null) return null;
+        if(path==null) { return null; }
 
         o = getPathComponentAt(path,3);
         if(o instanceof MacroNode) {
@@ -261,7 +260,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     {
         Object o;
 
-        if(path==null) return null;
+        if(path==null) { return null; }
 
         o = getPathComponentAt(path,2);
         if(o instanceof CategoryNode) {
@@ -279,7 +278,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     {
         Object o;
 
-        if(path==null) return null;
+        if(path==null) { return null; }
 
         o = getPathComponentAt(path,1);
         if(o instanceof LibraryNode) {
@@ -331,7 +330,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             fireTreeNodeChanged(new TreePath(rootNode));
         } else {
             for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-                if(path.getLastPathComponent()==renamedNode){
+                if(path.getLastPathComponent().equals(renamedNode)){
                     renamedMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     renamedPath = createAbsolutePath(renamedMacroTreeNode);
                     fireTreeNodeChanged(renamedPath);
@@ -357,7 +356,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             fireTreeStructureChanged(new TreePath(rootNode));
         } else {
             for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-                if(path.getLastPathComponent()==parentNode){
+                if(path.getLastPathComponent().equals(parentNode)){
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
@@ -383,7 +382,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             fireTreeStructureChanged(new TreePath(rootNode));
         } else {
             for(TreePath path:(Set<TreePath>)libraryNodeMap.keySet()){
-                if(path.getLastPathComponent()==parentNode){
+                if(path.getLastPathComponent().equals(parentNode)){
                     parentMacroTreeNode = (TreeNode)libraryNodeMap.get(path);
                     parentPath = createAbsolutePath(parentMacroTreeNode);
                     fireTreeStructureChanged(parentPath);
@@ -580,7 +579,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             node.setParent((TreeNode)this);
         }
 
-        public int compareTo(LibraryNode node)
+        @Override public int compareTo(LibraryNode node)
         {
             Library l1 = this.library;
             Library l2 = node.getLibrary();
@@ -598,25 +597,23 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         /** Convert to string.
             @return the name of the node.
         */
-        public String toString()
+        @Override public String toString()
         {
             return library.getName();
         }
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(Object node)
+        @Override public boolean equals(Object node)
         {
-            if(node instanceof LibraryNode)
-                return compareTo((LibraryNode)node)==0;
-            else
-                return false;
+            return node instanceof LibraryNode &&
+                compareTo((LibraryNode)node)==0;
         }
 
         /** No implementation of the hashCode for the moment
             @return 42, because it is The Answer.
         */
-        public int hashCode()
+        @Override public int hashCode()
         {
             assert false : "hashCode not designed";
             return 42; // any arbitrary constant will do
@@ -645,7 +642,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             node.setParent((TreeNode)this);
         }
 
-        public int compareTo(CategoryNode node)
+        @Override public int compareTo(CategoryNode node)
         {
             Category c1 = this.category;
             Category c2 = node.getCategory();
@@ -653,25 +650,23 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
 
 
-        public String toString()
+        @Override public String toString()
         {
             return category.getName();
         }
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(Object node)
+        @Override public boolean equals(Object node)
         {
-            if(node instanceof CategoryNode)
-                return compareTo((CategoryNode)node)==0;
-            else
-                return false;
+            return node instanceof CategoryNode &&
+                compareTo((CategoryNode)node)==0;
         }
 
         /** No implementation of the hashCode for the moment
             @return 42, because it is The Answer.
         */
-        public int hashCode()
+        @Override public int hashCode()
         {
             assert false : "hashCode not designed";
             return 42; // any arbitrary constant will do
@@ -694,8 +689,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             return macro;
         }
 
-        @Override
-        public boolean isLeaf()
+        @Override public boolean isLeaf()
         {
             return true;
         }
@@ -703,7 +697,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         /** Compare two nodes. The comparison is done with respect to the name
             and if the name is equal, then the key is compared too.
         */
-        public int compareTo(MacroNode node)
+        @Override public int compareTo(MacroNode node)
         {
             MacroDesc m1 = this.macro;
             MacroDesc m2 = node.getMacro();
@@ -716,25 +710,23 @@ public class MacroTreeModel implements TreeModel,LibraryListener
             return r;
         }
 
-        public String toString()
+        @Override public String toString()
         {
             return macro.name;
         }
 
         /** Inherit the behavior of compareTo.
         */
-        public boolean equals(Object node)
+        @Override public boolean equals(Object node)
         {
-            if(node instanceof MacroNode)
-                return compareTo((MacroNode)node)==0;
-            else
-                return false;
+            return node instanceof MacroNode &&
+                compareTo((MacroNode)node)==0;
         }
 
         /** No implementation of the hashCode for the moment
             @return 42, because it is The Answer.
         */
-        public int hashCode()
+        @Override public int hashCode()
         {
             assert false : "hashCode not designed";
             return 42; // any arbitrary constant will do

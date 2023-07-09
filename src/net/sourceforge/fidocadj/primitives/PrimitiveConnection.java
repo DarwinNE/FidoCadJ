@@ -3,10 +3,11 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** Class to handle the Connection primitive.
 
@@ -27,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -42,9 +43,13 @@ public final class PrimitiveConnection
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int x1, y1, xa1, ya1, ni;
-    private double nn;
-    private float w;
+    private int x1;         // NOPMD
+    private int y1;         // NOPMD
+    private int xa1;        // NOPMD
+    private int ya1;        // NOPMD
+    private int ni;         // NOPMD
+    private double nn;      // NOPMD
+    private float w;        // NOPMD
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -96,8 +101,9 @@ public final class PrimitiveConnection
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
 
         drawText(g, coordSys, layerV, -1);
 
@@ -124,25 +130,27 @@ public final class PrimitiveConnection
             ni=(int)Math.round(nn);
             // Make sure that something is drawn even for very small
             // connections
-            if(ni==0)
+            if(ni==0) {
                 ni=1;
+            }
 
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
         }
 
-        if(!g.hitClip(xa1, ya1, ni, ni))
+        if(!g.hitClip(xa1, ya1, ni, ni)) {
             return;
+        }
 
         g.applyStroke(w, 0);
 
         // When the circle is very small, it is better to set a single pixel
         // than trying to fill the oval.
-        if(ni>1)
+        if(ni>1) {
             g.fillOval(xa1, ya1, ni, ni);
-        else
+        } else {
             g.fillRect(xa1, ya1, ni, ni);
-
+        }
     }
 
     /** Parse a token array and store the graphic data for a given primitive
@@ -151,20 +159,18 @@ public final class PrimitiveConnection
         That routine also sets the current layer.
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param nn the number of tokens present in the array
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
-        if (tokens[0].equals("SA")) {   // Connection
-
-            if (N<3)  {
-                IOException E=new IOException("bad arguments on SA");
-                throw E;
+        if ("SA".equals(tokens[0])) {   // Connection
+            if (nn<3)  {
+                throw new IOException("Bad arguments on SA");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -175,13 +181,12 @@ public final class PrimitiveConnection
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
-            if(N>3) parseLayer(tokens[3]);
+            if(nn>3) { parseLayer(tokens[3]); }
 
 
         } else {
-            IOException E=new IOException("Invalid primitive:"+
+            throw new IOException("Invalid primitive:"+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -197,8 +202,9 @@ public final class PrimitiveConnection
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         // If not, we check for the distance with the connection center.
         return GeometricDistances.pointToPoint(

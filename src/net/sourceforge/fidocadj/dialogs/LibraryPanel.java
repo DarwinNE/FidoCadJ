@@ -360,14 +360,12 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Library description class.
     */
-    private class LibraryDesc
+    private final class LibraryDesc
     {
-
         public String filename;
         public String libraryName;
 
-        @Override
-        public String toString()
+        @Override public String toString()
         {
             return String.format("%s (%s)", filename, libraryName);
         }
@@ -390,20 +388,17 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
             this.height = height;
         }
 
-        @Override
-        public int getIconHeight()
+        @Override public int getIconHeight()
         {
             return height;
         }
 
-        @Override
-        public int getIconWidth()
+        @Override public int getIconWidth()
         {
             return width;
         }
 
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y)
+        @Override public void paintIcon(Component c, Graphics g, int x, int y)
         {
             // NOP
         }

@@ -19,10 +19,10 @@ package net.sourceforge.fidocadj.macropicker.model;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 Kohta Ozaki
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
-    @author Kohta Ozaki
+    @author Kohta Ozaki, Davide Bucci
 */
 public interface NodeFilterInterface
 {
@@ -30,5 +30,5 @@ public interface NodeFilterInterface
         @param node the node to be checked.
         @return true if the node is accepted.
     */
-    public boolean accept(MacroTreeNode node);
+    boolean accept(MacroTreeNode node);
 }

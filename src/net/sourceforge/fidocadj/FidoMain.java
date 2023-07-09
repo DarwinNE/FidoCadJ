@@ -11,6 +11,7 @@ import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.export.ExportGraphic;
 import net.sourceforge.fidocadj.geom.DrawingSize;
 import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.globals.AccessResources;
 import net.sourceforge.fidocadj.globals.FileUtils;
 import net.sourceforge.fidocadj.layers.StandardLayers;
 import net.sourceforge.fidocadj.timer.MyTimer;
@@ -383,7 +384,7 @@ class CreateSwingInterface implements Runnable
             PLATFORM SELECTION AND CONFIGURATION CODE GOES IN THIS SECTION
         *******************************************************************/
         if (System.getProperty("os.name").startsWith("Mac")) {
-            Globals g=new Globals();
+            AccessResources g=new AccessResources();
 
             Preferences.userNodeForPackage(g.getClass());
 

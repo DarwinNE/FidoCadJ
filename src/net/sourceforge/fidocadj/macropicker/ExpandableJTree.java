@@ -26,7 +26,7 @@ import java.awt.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 Kohta Ozaki, Davide Bucci
+    Copyright 2014-2023 Kohta Ozaki, Davide Bucci
     </pre>
 
     @author Kohta Ozaki, Davide Bucci
@@ -178,7 +178,7 @@ public class ExpandableJTree extends JTree
         Determines wether the nodes should be expanded or not.
         @param g the graphics context.
     */
-    public void paint(Graphics g)
+    @Override public void paint(Graphics g)
     {
         if(runOnce) {
             fillExpandState(direction);

@@ -104,6 +104,7 @@ public class ExportPCBRND implements ExportInterface
     */
     public void setDashUnit(double u)
     {
+        // Nothing is implemented for the moment.
     }
 
     /** Set the "phase" in output units of the dashing style.
@@ -114,6 +115,7 @@ public class ExportPCBRND implements ExportInterface
     */
     public void setDashPhase(float p)
     {
+        // Nothing is implemented for the moment.
     }
 
     /** Called at the beginning of the export phase. Ideally, in this routine
@@ -538,10 +540,9 @@ public class ExportPCBRND implements ExportInterface
         boolean isFilled, int layer, int dashStyle, double strokeWidth)
         throws IOException
     {
-        String Poly = fidoPolyToPCBPoly(vertices, nVertices,
+        String poly = fidoPolyToPCBPoly(vertices, nVertices,
                                         strokeWidth, isFilled);
-        pushElement(Poly, layer);
-        //out.write("# Polygon exported\n");
+        pushElement(poly, layer);
     }
 
     /** Called when exporting a Rectangle primitive.
@@ -711,14 +712,12 @@ public class ExportPCBRND implements ExportInterface
         String footprintElements = "";
         while ((line = buffer.readLine()) != null) {
             macroDefs.add(line);
-            // System.out.println("# processing macro line: " + line);
         }
-        for (int i= 0; i < macroDefs.size(); i++) {
-            // System.out.println("# " + macroDefs.get(i));
-            tokens = macroDefs.get(i).split(" ");
+        for (String macro : macroDefs) {
+            tokens = macro.split(" ");
             if (tokens.length >= 5) {
-                if (tokens[0].equals("LI")
-                    && tokens[5].equals("3"))
+                if ("LI".equals(tokens[0])
+                    && "3".equals(tokens[5]))
                 { // silk
                     footprintElements = footprintElements +
                         fidoLineToPCBLineElement(sToInt(tokens[1]) - 100,
@@ -726,8 +725,8 @@ public class ExportPCBRND implements ExportInterface
                                                  sToInt(tokens[3]) - 100,
                                                  sToInt(tokens[4]) - 100,
                                                  2);
-                } else if (tokens[0].equals("EP") // filled
-                           && tokens[5].equals("3"))
+                } else if ("EP".equals(tokens[0]) // filled
+                           && "3".equals(tokens[5]))
                 { // silk
                     int dx = sToInt(tokens[3])-sToInt(tokens[1]);
                     if (dx < 0) {
@@ -748,8 +747,8 @@ public class ExportPCBRND implements ExportInterface
                                                    midy-100,
                                                    dx, 2, true);
                     }
-                } else if (tokens[0].equals("EV") // not filled
-                           && tokens[5].equals("3"))
+                } else if ("EV".equals(tokens[0]) // not filled
+                           && "3".equals(tokens[5]))
                 { // silk
                     int dx
                         = sToInt(tokens[3])-sToInt(tokens[1]);
@@ -771,8 +770,8 @@ public class ExportPCBRND implements ExportInterface
                                                    midy - 100,
                                                    dx, 2, false);
                     }
-                } else if (tokens[0].equals("RP") //filled rectangle pad
-                           && !tokens[5].equals("0"))
+                } else if ("RP".equals(tokens[0]) //filled rectangle pad
+                           && !"0".equals(tokens[5]))
                 { // not circuit
                     footprintElements = footprintElements +
                         fidoRectToPCBPadElement(sToInt(tokens[1]) - 100,
@@ -782,8 +781,8 @@ public class ExportPCBRND implements ExportInterface
                                                 sToInt(tokens[5]),
                                                 padCounter);
                     padCounter++;
-                } else if (tokens[0].equals("RV") // empty rectangle
-                           && tokens[5].equals("3"))
+                } else if ("RV".equals(tokens[0]) // empty rectangle
+                           && "3".equals(tokens[5]))
                 { // on silk
                     footprintElements = footprintElements +
                         fidoRectToPCBLineElements(sToInt(tokens[1]) - 100,
@@ -791,7 +790,7 @@ public class ExportPCBRND implements ExportInterface
                                                   sToInt(tokens[3]) - 100,
                                                   sToInt(tokens[4]) - 100,
                                                   sToInt(tokens[5]));
-                } else if (tokens[0].equals("PA")) { // pin
+                } else if ("PA".equals(tokens[0])) { // pin
                     footprintElements = footprintElements +
                         fidoPadToPCBPinElement(sToInt(tokens[1]) - 100,
                                                sToInt(tokens[2]) - 100,
@@ -802,7 +801,7 @@ public class ExportPCBRND implements ExportInterface
                                                sToInt(tokens[7]),
                                                padCounter);
                     padCounter++;
-                } else if (tokens[0].equals("PV")) { // empty polyline
+                } else if ("PV".equals(tokens[0])) { // empty polyline
                     // silk
                     int nVertices = 0;
                     if (tokens.length%2 == 0) { // an even number
@@ -822,8 +821,8 @@ public class ExportPCBRND implements ExportInterface
                         fidoPolylineToPCBLineElements(vertices,
                                                       nVertices,
                                                       2); // 10 mil default
-                } else if (tokens[0].equals("BE") // bezier
-                           && !tokens[9].equals("0"))
+                } else if ("BE".equals(tokens[0]) // bezier
+                           && !"0".equals(tokens[9]))
                 { // not circuit
                     // System.out.println("# About to process FP bezier");
                     int x1 = sToInt(tokens[1]) - 100;
@@ -846,7 +845,7 @@ public class ExportPCBRND implements ExportInterface
                                                       nVertices,
                                                       2);
                     // 10 mil default for exported lines
-                } else if (tokens[0].equals("TY")) {
+                } else if ("TY".equals(tokens[0])) {
                     // We don't support text in footprints in gEDA
                 } else {
                     System.out.println("# Unsure what to do with: "
@@ -869,22 +868,22 @@ public class ExportPCBRND implements ExportInterface
                                               int nsegments)
     {
 
-        int SPCP1deltaX = x2 - x1;
-        int SPCP1deltaY = y2 - y1;
-        int CP1CP2deltaX = x3 - x2;
-        int CP1CP2deltaY = y3 - y2;
-        int CP2EPdeltaX = x4 - x3;
-        int CP2EPdeltaY = y4 - y3;
+        int sPCP1deltaX = x2 - x1;
+        int sPCP1deltaY = y2 - y1;
+        int cP1CP2deltaX = x3 - x2;
+        int cP1CP2deltaY = y3 - y2;
+        int cP2EPdeltaX = x4 - x3;
+        int cP2EPdeltaY = y4 - y3;
 
         int minSegments = nsegments;
         double segFrac = 1.0/minSegments;
 
-        double CP1dx = SPCP1deltaX*segFrac;
-        double CP1dy = SPCP1deltaY*segFrac;
-        double CP2dx = CP1CP2deltaX*segFrac;
-        double CP2dy = CP1CP2deltaY*segFrac;
-        double EPdx = CP2EPdeltaX*segFrac;
-        double EPdy = CP2EPdeltaY*segFrac;
+        double cP1dx = sPCP1deltaX*segFrac;
+        double cP1dy = sPCP1deltaY*segFrac;
+        double cP2dx = cP1CP2deltaX*segFrac;
+        double cP2dy = cP1CP2deltaY*segFrac;
+        double ePdx = cP2EPdeltaX*segFrac;
+        double ePdy = cP2EPdeltaY*segFrac;
 
         double currentSeg1X = x1;
         double currentSeg1Y = y1;
@@ -913,13 +912,13 @@ public class ExportPCBRND implements ExportInterface
         double tFrac = 0.0;
 
         for (int t = 1; t < minSegments; t++) {
-            tFrac = (1.0*t)/minSegments;
-            currentSeg1X += CP1dx;
-            currentSeg1Y += CP1dy;
-            currentSeg2X += CP2dx;
-            currentSeg2Y += CP2dy;
-            currentSeg3X += EPdx;
-            currentSeg3Y += EPdy;
+            tFrac = 1.0*t/minSegments;
+            currentSeg1X += cP1dx;
+            currentSeg1Y += cP1dy;
+            currentSeg2X += cP2dx;
+            currentSeg2Y += cP2dy;
+            currentSeg3X += ePdx;
+            currentSeg3Y += ePdy;
 
             virtSegX1 = currentSeg1X + tFrac*(currentSeg2X - currentSeg1X);
             virtSegY1 = currentSeg1Y + tFrac*(currentSeg2Y - currentSeg1Y);
@@ -961,7 +960,7 @@ public class ExportPCBRND implements ExportInterface
                                  (double) x2, (double) y2, thickness);
     }
 
-
+/*
     private String fidoLineToPCBLine(PointDouble p1, PointDouble p2,
                                      double thickness)
     {
@@ -977,6 +976,7 @@ public class ExportPCBRND implements ExportInterface
                                         (double) thickness);
     }
 
+*/
     private String
         fidoLineToPCBLineElement(double x1, double y1, double x2,
                                double y2, double thickness)
@@ -1070,13 +1070,13 @@ public class ExportPCBRND implements ExportInterface
         }
         return arc;
     }
-
+/*
     private String fidoArcToPCBArc(PointDouble loc, int dx,
                                    double thickness, boolean fill)
     {
         return fidoArcToPCBArc(loc.x, loc.y, dx, thickness, fill);
     }
-
+*/
     private String fidoArcToPCBArcElement(double midx, double midy,
                                           int dx, double thickness,
                                           boolean filled)
@@ -1123,7 +1123,7 @@ public class ExportPCBRND implements ExportInterface
         return fidoArcToPCBArcElement(p1.x, p1.y, dx, thickness, filled);
     }
 
-    // Pad[X1 Y1 X2 Y2 Thickness Clearance Mask Name Number SFlags]
+    // Pad[xX1 yY1 xX2 yY2 Thickness Clearance Mask Name Number SFlags]
 
     private String fidoRectToPCBPadElement(int x1, int y1, int x2,
                                            int y2, int layer,
@@ -1144,10 +1144,10 @@ public class ExportPCBRND implements ExportInterface
         double dy = y2-y1;
         double midx = dx/2.0 + x1;
         double midy = dy/2.0 + y1;
-        double X1 = 0;
-        double Y1 = 0;
-        double X2 = 0;
-        double Y2 = 0;
+        double xX1 = 0;
+        double yY1 = 0;
+        double xX2 = 0;
+        double yY2 = 0;
         if (dy < 0) {
             dy = -dy;
         }
@@ -1157,13 +1157,13 @@ public class ExportPCBRND implements ExportInterface
         double thickness = dy;
         if (dy > dx) { // taller than wide
             thickness = dx;
-            X1 = X2 = midx;
-            Y1 = midy + (dy - thickness)/2;
-            Y2 = midy - (dy - thickness)/2;
+            xX1 = xX2 = midx;
+            yY1 = midy + (dy - thickness)/2;
+            yY2 = midy - (dy - thickness)/2;
         } else {
-            Y1 = Y2 = midy;
-            X1 = midx + (dx - thickness)/2;
-            X2 = midx - (dx - thickness)/2;
+            yY1 = yY2 = midy;
+            xX1 = midx + (dx - thickness)/2;
+            xX2 = midx - (dx - thickness)/2;
         }
         String flags = "square";
         if (actualLayer == 1) {
@@ -1171,10 +1171,10 @@ public class ExportPCBRND implements ExportInterface
         }
         if (layer != 3) { // not silk
             return "\tPad[" // x1, y1, x2, y2 next
-                + coordToPCB(X1) + " "
-                + coordToPCB(Y1) + " "
-                + coordToPCB(X2) + " "
-                + coordToPCB(Y2) + " "
+                + coordToPCB(xX1) + " "
+                + coordToPCB(yY1) + " "
+                + coordToPCB(xX2) + " "
+                + coordToPCB(yY2) + " "
                 + coordToPCB(thickness) + " " // thickness
                 + defaultClearance + " " // then mask
                 + (coordToPCB(thickness) + 600) + " "
@@ -1183,10 +1183,10 @@ public class ExportPCBRND implements ExportInterface
                 + "\"" + flags + "\"]\n"; //refdes, pinnum, flags
         } else { // silk rectangle/poly
             return "\tElementLine[" // x1, y1, x2, y2 thickness
-                + coordToPCB(X1) + " "
-                + coordToPCB(Y1) + " "
-                + coordToPCB(X2) + " "
-                + coordToPCB(Y2) + " "
+                + coordToPCB(xX1) + " "
+                + coordToPCB(yY1) + " "
+                + coordToPCB(xX2) + " "
+                + coordToPCB(yY2) + " "
                 + coordToPCB(thickness) + "]\n";
         }
     }
@@ -1213,16 +1213,16 @@ public class ExportPCBRND implements ExportInterface
             + "\"" + padCounter + "\" "
             + "\"" + flags + "\"]\n"; //refdes, pinnum, flags
         if (style > 0) { // not round
-            double X1 = x1 - dx/2.0;
-            double X2 = x1 + dx/2.0;
-            double Y1 = y1 - dy/2.0;
-            double Y2 = y1 + dy/2.0;
+            double xX1 = x1 - dx/2.0;
+            double xX2 = x1 + dx/2.0;
+            double yY1 = y1 - dy/2.0;
+            double yY2 = y1 + dy/2.0;
             // we put a pad on the top and bottom layer
             newPin = newPin
-                + fidoRectToPCBPadElement(X1, Y1, X2, Y2, 1,
+                + fidoRectToPCBPadElement(xX1, yY1, xX2, yY2, 1,
                                           padCounter);
             newPin = newPin
-                + fidoRectToPCBPadElement(X1, Y1, X2, Y2, 2,
+                + fidoRectToPCBPadElement(xX1, yY1, xX2, yY2, 2,
                                           padCounter);
             // need to think about rounded corners
         }

@@ -1,15 +1,5 @@
 package net.sourceforge.fidocadj.macropicker;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.tree.*;
-
-
 /** Describe which permissions are available.
 
     <pre>
