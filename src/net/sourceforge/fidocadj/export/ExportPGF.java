@@ -62,7 +62,7 @@ public class ExportPGF implements ExportInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;
-    private Vector layerV;
+    private List layerV;
     private ColorInterface actualColor;
     private int currentDash;
     private double actualWidth;
@@ -141,7 +141,7 @@ public class ExportPGF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

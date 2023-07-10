@@ -132,9 +132,9 @@ public final class PrimitiveLine extends GraphicPrimitive
         @return a vector of ParameterDescription containing each control
                 parameter.
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=super.getControls();
+        List<ParameterDescription> v=super.getControls();
 
         arrowData.getControlsForArrow(v);
         ParameterDescription pd = new ParameterDescription();
@@ -154,7 +154,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=super.setControls(v);
         i=arrowData.setParametersForArrow(v, i);
@@ -182,7 +182,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
+        List layerV)
     {
         if(!selectLayer(g,layerV)) {
             return;

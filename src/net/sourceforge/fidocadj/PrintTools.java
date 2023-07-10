@@ -379,14 +379,14 @@ public class PrintTools implements Printable
             g2d.translate(0,-(shownHeight*pagey));
         }
 
-        Vector<LayerDesc> ol=cc.dmp.getLayers();
+        java.util.List<LayerDesc> ol=cc.dmp.getLayers();
         // Check if only one layer should be printed.
         if(currentLayerSelected>=0) {
             cc.dmp.drawOnlyLayer=currentLayerSelected;
         }
         // Check if the drawing should be black and white
         if(printBlackWhite) {
-            Vector<LayerDesc> v=new Vector<LayerDesc>();
+            java.util.List<LayerDesc> v=new Vector<LayerDesc>();
 
             // Here we create an alternative array of layers in
             // which all colors are pitch black. This may be

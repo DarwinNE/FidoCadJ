@@ -37,14 +37,14 @@ import java.util.*;
 */
 public class DialogLayer extends MinimumSizeDialog implements ComponentListener
 {
-    private final Vector<LayerDesc> layers;
+    private final java.util.List<LayerDesc> layers;
     public JList<LayerDesc> layerList;
 
     /** Constructor.
         @param parent the dialog parent
         @param l a LayerDesc vector containing the layers' attributes
     */
-    public DialogLayer (JFrame parent, Vector<LayerDesc> l)
+    public DialogLayer (JFrame parent, java.util.List<LayerDesc> l)
     {
         super(400,350, parent,
             Globals.messages.getString("Layer_editor"), true);

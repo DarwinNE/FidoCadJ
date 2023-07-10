@@ -343,7 +343,7 @@ public final class PrimitiveComplexCurve
         CurveStorage c=createComplexCurve(coordSys);
 
         if (c==null) { return null; }
-        Vector<PointDouble> pp = c.pp;
+        List<PointDouble> pp = c.pp;
         if (pp==null) { return null; }
 
         int x;
@@ -560,7 +560,7 @@ public final class PrimitiveComplexCurve
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV)
+                              List layerV)
     {
         if(!selectLayer(g,layerV)) {
             return;
@@ -585,8 +585,8 @@ public final class PrimitiveComplexCurve
                 return;
             }
 
-            Vector<PointDouble> dd = c.dd;
-            Vector<PointDouble> pp = c.pp;
+            List<PointDouble> dd = c.dd;
+            List<PointDouble> pp = c.pp;
 
             if(q==null) { return; }
 
@@ -763,9 +763,9 @@ public final class PrimitiveComplexCurve
                 The first parameters should always be the virtual points.
 
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=super.getControls();
+        List<ParameterDescription> v=super.getControls();
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=Boolean.valueOf(isFilled);
@@ -797,7 +797,7 @@ public final class PrimitiveComplexCurve
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=super.setControls(v);
         ParameterDescription pd;
@@ -1197,8 +1197,8 @@ class Cubic
 */
 class CurveStorage
 {
-    Vector<PointDouble> pp; // Curve as a polygon (relatively big)
-    Vector<PointDouble> dd; // Derivatives
+    List<PointDouble> pp; // Curve as a polygon (relatively big)
+    List<PointDouble> dd; // Derivatives
 
     public CurveStorage()
     {

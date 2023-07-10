@@ -59,7 +59,7 @@ public interface ExportInterface
             the target.
         @throws IOException if an error occurs.
     */
-    void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException;
 

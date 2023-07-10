@@ -10,7 +10,6 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.*;
 
-//import java.awt.dnd.*;
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -161,9 +160,8 @@ public class FidoFrame extends JFrame implements
         setIconForApplication();
 
         if (runsAsApplication) {
-            // Prepare the preferences associated to the FidoMain class
-            FidoMain fm=new FidoMain();
-            prefs = Preferences.userNodeForPackage(fm.getClass());
+            // Prepare the preferences associated to the FidoFrame class
+            prefs = Preferences.userNodeForPackage(this.getClass());
         } else {
             // If we can not access to the preferences, we inizialize those
             // configuration variables with default values.
@@ -514,19 +512,6 @@ public class FidoFrame extends JFrame implements
         sc.setVerticalScrollBarPolicy(
             JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        // I planned to add rulers at the borders of the scroll panel.
-        // Unfortunately, they does not seem to work as expected and this
-        // feature will be implemented when possible.
-        /*RulerPanel vertRuler = new RulerPanel(
-            SwingConstants.VERTICAL, 20, 20, 5,
-            cc.getMapCoordinates());
-
-        RulerPanel horRuler = new RulerPanel(
-            SwingConstants.HORIZONTAL, 20, 20, 5,
-            cc.getMapCoordinates());
-
-        sc.setRowHeaderView(vertRuler);
-        sc.setColumnHeaderView(horRuler);*/
         if (runsAsApplication) {
             sgr = new ScrollGestureRecognizer();
             cc.addScrollGestureSelectionListener(sgr);
@@ -541,8 +526,8 @@ public class FidoFrame extends JFrame implements
 
         // Create the layer vector. Basically, this is a rather standard
         // attribution in which only the first layers are attributed to
-        // something which is circuit-related.
-        // I followed merely the FidoCAD tradition.
+        // something that is circuit-related.
+        // I followed the FidoCAD tradition on this.
         Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
         cc.dmp.setLayers(layerDesc);
 

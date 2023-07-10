@@ -53,7 +53,7 @@ public class ExportFidoCad implements ExportInterface
 {
 
     private final BufferedWriter out;
-    private Vector<LayerDesc> layerV;
+    private List<LayerDesc> layerV;
     private boolean extensions;     // use FidoCadJ extensions
     private boolean splitStandardMacros; // Split also the standard macros
     private String textFont;
@@ -146,7 +146,7 @@ public class ExportFidoCad implements ExportInterface
             accessed.
     */
 
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

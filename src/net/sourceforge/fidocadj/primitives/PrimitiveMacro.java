@@ -35,17 +35,16 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
 */
 public final class PrimitiveMacro extends GraphicPrimitive
 {
-
     static final int N_POINTS=3;
     private final Map<String, MacroDesc> library;
-    private final Vector<LayerDesc> layers;
+    private final List<LayerDesc> layers;
     private int o;              // Macro orientation
     private boolean m;          // Macro mirroring
     private boolean drawOnlyPads;
@@ -89,7 +88,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveMacro(Map<String, MacroDesc>lib, Vector<LayerDesc> l,
+    public PrimitiveMacro(Map<String, MacroDesc>lib, List<LayerDesc> l,
             String f, int size)
     {
         super();
@@ -126,7 +125,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param mm the macro mirroring.
         @throws IOException if an unrecognized macro is found.
     */
-    public PrimitiveMacro(Map<String, MacroDesc> lib, Vector<LayerDesc> l,
+    public PrimitiveMacro(Map<String, MacroDesc> lib, List<LayerDesc> l,
          int x, int y, String key_t,
          String na, int xa, int ya, String va, int xv, int yv, String macroF,
          int macroS, int oo, boolean mm)
@@ -189,7 +188,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param layerV the vector containing all layers.
     */
     private void drawMacroContents(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV)
+                              List layerV)
     {
         /* in the macro primitive, the the virtual point represents
            the position of the reference point of the macro to be drawn. */
@@ -248,7 +247,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @layerV the array containing the layer description to be inherited.
 
     */
-    private void macroStore(Vector<LayerDesc> layerV)
+    private void macroStore(List<LayerDesc> layerV)
     {
         macro.setLibrary(library);          // Inherit the library
         macro.setLayers(layerV);    // Inherit the layers
@@ -264,7 +263,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
     /** Set the layer vector.
         @param layerV the layer vector.
     */
-    public void setLayers(Vector<LayerDesc> layerV)
+    public void setLayers(List<LayerDesc> layerV)
     {
         macro.setLayers(layerV);
     }
@@ -275,7 +274,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV)
+                              List layerV)
     {
         // Macros are *always* on layer 0 (they can contain elements to be
         // drawn, of course, on other layers).
@@ -578,9 +577,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
                 The first parameters should always be the virtual points.
 
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=new Vector<ParameterDescription>(10);
+        List<ParameterDescription> v=new Vector<ParameterDescription>(10);
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=name;
@@ -606,7 +605,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=0;
         ParameterDescription pd;

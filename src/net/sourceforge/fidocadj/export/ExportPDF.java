@@ -88,7 +88,7 @@ public class ExportPDF implements ExportInterface, TextInterface
     private String closeObject;
     private long fileLength;
 
-    private Vector layerV;
+    private List layerV;
     private ColorInterface actualColor;
     private double actualWidth;
     private int currentDash;
@@ -174,7 +174,7 @@ public class ExportPDF implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

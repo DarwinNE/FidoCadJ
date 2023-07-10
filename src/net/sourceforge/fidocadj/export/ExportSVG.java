@@ -46,7 +46,7 @@ public class ExportSVG implements ExportInterface, TextInterface
     //private File fileExp;
     final private OutputStreamWriter fstream;
     private BufferedWriter out;
-    private Vector layerV;
+    private List layerV;
 
     private ColorInterface c;       // Current colour (used in advText export)
     private double strokeWidth;
@@ -140,7 +140,7 @@ public class ExportSVG implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

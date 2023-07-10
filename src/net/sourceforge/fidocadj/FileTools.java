@@ -124,21 +124,24 @@ public class FileTools
         throws IOException
     {
 
-        BufferedReader bufRead = new BufferedReader(
-            new InputStreamReader(new FileInputStream(
-                fff.cc.getParserActions().openFileName),
-            Globals.encoding));
+        BufferedReader bufRead = null;
+        StringBuffer txt = new StringBuffer();
 
-        StringBuffer txt= new StringBuffer();
+        try {
+            bufRead = new BufferedReader(
+                new InputStreamReader(new FileInputStream(
+                    fff.cc.getParserActions().openFileName),
+                Globals.encoding));
 
-        String line =bufRead.readLine();
-        while (line != null){
-            txt.append(line);
-            txt.append("\n");
-            line =bufRead.readLine();
+            String line = bufRead.readLine();
+            while (line != null) {
+                txt.append(line);
+                txt.append("\n");
+                line = bufRead.readLine();
+            }
+        } finally {
+            if(bufRead!=null) { bufRead.close(); }
         }
-
-        bufRead.close();
 
         // Here txt contains the new circuit: draw it!
         fff.cc.getParserActions().parseString(
@@ -257,15 +260,20 @@ public class FileTools
                 cc.getUndoActions().setModified(false);
             } else {
                 // Create file
-                BufferedWriter output = new BufferedWriter(new
-                    OutputStreamWriter(new FileOutputStream(
-                    cc.getParserActions().openFileName),
-                    Globals.encoding));
+                BufferedWriter output = null;
+                try {
+                     output= new BufferedWriter(new
+                        OutputStreamWriter(new FileOutputStream(
+                        cc.getParserActions().openFileName),
+                        Globals.encoding));
 
-                output.write("[FIDOCAD]\n");
-                output.write(
-                    cc.getParserActions().getText(!cc.extStrict).toString());
-                output.close();
+                    output.write("[FIDOCAD]\n");
+                    output.write(
+                        cc.getParserActions().getText(!cc.extStrict)
+                        .toString());
+                } finally {
+                    if(output!=null) { output.close(); }
+                }
                 cc.getUndoActions().setModified(false);
             }
         } catch (IOException fnfex) {

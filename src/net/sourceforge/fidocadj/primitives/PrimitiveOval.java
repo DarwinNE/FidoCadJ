@@ -114,7 +114,7 @@ public final class PrimitiveOval extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
+        List layerV)
     {
 
         if(!selectLayer(g,layerV)) {
@@ -226,9 +226,9 @@ public final class PrimitiveOval extends GraphicPrimitive
                 The first parameters should always be the virtual points.
 
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=super.getControls();
+        List<ParameterDescription> v=super.getControls();
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=Boolean.valueOf(isFilled);

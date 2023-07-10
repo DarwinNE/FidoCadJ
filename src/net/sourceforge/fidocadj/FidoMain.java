@@ -45,8 +45,12 @@ import net.sourceforge.fidocadj.graphic.DimensionG;
     @author Davide Bucci
 */
 
-public class FidoMain
+public final class FidoMain
 {
+    /** Ensure that this is an utility class.
+    */
+    private FidoMain() {}
+
     private static CommandLineParser clp;
 
     /** The main method. Process the command line options and if necessary
@@ -308,6 +312,9 @@ public class FidoMain
         String libDirectory,
         ParserActions pa)
     {
+        if(!englishLibraries) {
+            System.out.println("EY library is only available in english");
+        }
         if (new File(Globals.createCompleteFileName(
             libDirectory,"EY_Libraries.fcl")).exists())
         {

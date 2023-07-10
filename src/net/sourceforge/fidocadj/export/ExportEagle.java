@@ -98,7 +98,7 @@ public class ExportEagle implements ExportInterface
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

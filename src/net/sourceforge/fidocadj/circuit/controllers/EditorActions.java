@@ -148,7 +148,7 @@ public class EditorActions
     public void deleteAllSelected(boolean saveState)
     {
         int i;
-        Vector<GraphicPrimitive> v=dmp.getPrimitiveVector();
+        List<GraphicPrimitive> v=dmp.getPrimitiveVector();
 
         for (i=0; i<v.size(); ++i){
             if(v.get(i).getSelected()) {
@@ -196,7 +196,7 @@ public class EditorActions
         int distance;
         int mindistance=Integer.MAX_VALUE;
         int layer=0;
-        Vector<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=dmp.getLayers();
 
         // Check the minimum distance by searching among all
         // primitives
@@ -253,7 +253,7 @@ public class EditorActions
         int mindistance=Integer.MAX_VALUE;
         int layer;
         GraphicPrimitive gpsel=null;
-        Vector<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=dmp.getLayers();
 
         /*  The search method is very simple: we compute the distance of the
             given point from each primitive and we retain the minimum value, if
@@ -299,7 +299,7 @@ public class EditorActions
             return false;
         }
 
-        Vector<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=dmp.getLayers();
         // Process every primitive, if the corresponding layer is visible.
         for (GraphicPrimitive g: dmp.getPrimitiveVector()){
             layer= g.getLayer();

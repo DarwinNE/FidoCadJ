@@ -154,7 +154,7 @@ public class HandleActions
         hasMoved=false;
 
         GraphicPrimitive gp;
-        Vector<LayerDesc> layerV=dmp.getLayers();
+        List<LayerDesc> layerV=dmp.getLayers();
 
         oldpx=cs.unmapXnosnap(px);
         oldpy=cs.unmapXnosnap(py);

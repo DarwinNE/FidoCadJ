@@ -99,7 +99,7 @@ public final class PrimitiveConnection
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
+        List layerV)
     {
         if(!selectLayer(g,layerV)) {
             return;

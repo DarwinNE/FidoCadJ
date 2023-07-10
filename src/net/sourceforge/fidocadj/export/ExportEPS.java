@@ -43,7 +43,7 @@ public class ExportEPS implements ExportInterface, TextInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;
-    private Vector layerV;
+    private List layerV;
     private double actualWidth;
     private ColorInterface actualColor;
     private int currentDash;
@@ -129,7 +129,7 @@ public class ExportEPS implements ExportInterface, TextInterface
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportStart(DimensionG totalSize, Vector<LayerDesc> la,
+    public void exportStart(DimensionG totalSize, List<LayerDesc> la,
         int grid)
         throws IOException
     {

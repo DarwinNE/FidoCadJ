@@ -124,7 +124,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV)
+                              List layerV)
     {
 
         if(!selectLayer(g,layerV))
@@ -242,9 +242,9 @@ public final class PrimitiveRectangle extends GraphicPrimitive
                 parameter.
                 The first parameters should always be the virtual points.
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=super.getControls();
+        List<ParameterDescription> v=super.getControls();
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=Boolean.valueOf(isFilled);
@@ -268,7 +268,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=super.setControls(v);
         ParameterDescription pd;

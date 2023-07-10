@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.print.*;
 
+import java.util.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -386,7 +388,8 @@ public class DialogPrint extends MinimumSizeDialog
             }
         });
 
-        layerSel = new JComboBox<LayerDesc>(drawingModel.getLayers());
+        layerSel = new JComboBox<LayerDesc>(
+            (Vector<LayerDesc>)drawingModel.getLayers());
         layerSel.setRenderer(new LayerCellRenderer());
         layerSel.setEnabled(false);
         constraints.weightx=100;

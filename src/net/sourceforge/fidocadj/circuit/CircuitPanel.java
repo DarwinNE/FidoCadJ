@@ -728,7 +728,7 @@ public class CircuitPanel extends JPanel implements
         if (gp==null) {
             return;
         }
-        Vector<ParameterDescription> v;
+        java.util.List<ParameterDescription> v;
         if (sa.isUniquePrimitiveSelected()) {
             v=gp.getControls();
         } else {

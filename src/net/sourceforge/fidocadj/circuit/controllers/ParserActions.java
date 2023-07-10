@@ -120,25 +120,31 @@ public class ParserActions
             ExportGraphic.export(temp,  qQ, frm, 1,true,false, true,false,
                 false);
 
-            FileInputStream input = new FileInputStream(temp);
-            BufferedReader bufRead = new BufferedReader(
-                new InputStreamReader(input, Globals.encoding));
+            FileInputStream input = null;
+            BufferedReader bufRead = null;
 
-            String line=bufRead.readLine();
-            if (line==null) {
-                bufRead.close();
-                return new StringBuffer("");
+            try {
+                input = new FileInputStream(temp);
+                bufRead = new BufferedReader(
+                    new InputStreamReader(input, Globals.encoding));
+
+                String line=bufRead.readLine();
+                if (line==null) {
+                    bufRead.close();
+                    return new StringBuffer("");
+                }
+
+                txt = new StringBuffer();
+
+                do {
+                    txt.append(line);
+                    txt.append("\n");
+                    line =bufRead.readLine();
+                } while (line != null);
+            } finally {
+                if(input!=null) { input.close(); }
+                if(bufRead!=null) { bufRead.close(); }
             }
-
-            txt = new StringBuffer();
-
-            do {
-                txt.append(line);
-                txt.append("\n");
-                line =bufRead.readLine();
-            } while (line != null);
-
-            bufRead.close();
 
         } catch(IOException e) {
             System.out.println("Error: "+e);
@@ -217,8 +223,8 @@ public class ParserActions
     private StringBuffer checkAndRegisterLayers()
     {
         StringBuffer s=new StringBuffer();
-        Vector<LayerDesc> layerV=model.getLayers();
-        Vector<LayerDesc> standardLayers =
+        List<LayerDesc> layerV=model.getLayers();
+        List<LayerDesc> standardLayers =
             StandardLayers.createStandardLayers();
 
         for(int i=0; i<layerV.size();++i) {
@@ -291,7 +297,7 @@ public class ParserActions
             state machine.
         */
         synchronized(this) {
-            Vector<LayerDesc> layerV=model.getLayers();
+            List<LayerDesc> layerV=model.getLayers();
 
             char c='\n';
             int len;
@@ -678,7 +684,7 @@ public class ParserActions
 
     */
     private void fidoConfig(String[] tokens, int ntokens,
-        Vector<LayerDesc> layerV)
+        List<LayerDesc> layerV)
     {
         double newConnectionSize = -1.0;
         double newLineWidth = -1.0;
@@ -753,7 +759,7 @@ public class ParserActions
     {
         String macroFont = model.getTextFont();
         int macroFontSize = model.getTextFontSize();
-        Vector<LayerDesc> layerV=model.getLayers();
+        List<LayerDesc> layerV=model.getLayers();
 
         GraphicPrimitive g=gg;
         boolean hasFCJ=hasFCJt;

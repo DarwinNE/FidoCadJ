@@ -253,12 +253,12 @@ public final class Arrow
 
     /** Add elements for the Arrow description inside a parameter description
         array used to create a parameters dialog.
-        @param v the Vector to which the elements have to be added (of course,
-            this means that that Vector will be modified!
+        @param v the List to which the elements have to be added (of course,
+            this means that that List will be modified!
         @return the vector itself.
     */
-    public Vector<ParameterDescription> getControlsForArrow(
-        Vector<ParameterDescription> v)
+    public List<ParameterDescription> getControlsForArrow(
+        List<ParameterDescription> v)
     {
         ParameterDescription pd = new ParameterDescription();
         pd.parameter=Boolean.valueOf(isArrowStart());
@@ -290,13 +290,13 @@ public final class Arrow
     }
 
     /** Read the elements for the Arrow description inside a parameter
-        description Vector, coming from a parameters dialog.
-        @param v the Vector to which the elements have been added
+        description List, coming from a parameters dialog.
+        @param v the List to which the elements have been added
         @param start the starting index to which the parameters should be
             interpreted as describing an Arrow.
         @return the index+1 of the last element employed for the Arrow.
     */
-    public int setParametersForArrow(Vector<ParameterDescription> v, int start)
+    public int setParametersForArrow(List<ParameterDescription> v, int start)
     {
         int i=start;
         ParameterDescription pd=(ParameterDescription)v.get(i++);

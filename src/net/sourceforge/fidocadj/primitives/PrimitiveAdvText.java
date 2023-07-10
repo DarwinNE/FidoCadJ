@@ -150,7 +150,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-        Vector layerV)
+        List layerV)
     {
         if(!selectLayer(g,layerV)) {
             return;
@@ -476,9 +476,9 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 The first parameters should always be the virtual points.
 
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
+        List<ParameterDescription> v = new Vector<ParameterDescription>(10);
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=txt;
@@ -526,7 +526,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=0;
         changed=true;

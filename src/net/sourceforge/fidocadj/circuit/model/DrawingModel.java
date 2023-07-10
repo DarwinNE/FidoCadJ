@@ -69,10 +69,10 @@ public class DrawingModel
 
     // ******* PRIMITIVE DATABASE ********
 
-    // Vector containing all primitives in the drawing.
-    private Vector<GraphicPrimitive> primitiveVector;
-    // Vector containing all layers used in the drawing.
-    public Vector<LayerDesc> layerV;
+    // List containing all primitives in the drawing.
+    private List<GraphicPrimitive> primitiveVector;
+    // List containing all layers used in the drawing.
+    public List<LayerDesc> layerV;
 
     // Library of macros loaded.
     private Map<String, MacroDesc> library;
@@ -108,7 +108,7 @@ public class DrawingModel
     /** Get the layer description vector
         @return a vector of LayerDesc describing layers.
     */
-    public Vector<LayerDesc> getLayers()
+    public List<LayerDesc> getLayers()
     {
         return layerV;
     }
@@ -116,7 +116,7 @@ public class DrawingModel
     /** Set the layer description vector.
         @param v a vector of LayerDesc describing layers.
     */
-    public void setLayers(final Vector<LayerDesc> v)
+    public void setLayers(final List<LayerDesc> v)
     {
         layerV=v;
         applyToAllElements(new ProcessElementsInterface()
@@ -351,7 +351,7 @@ public class DrawingModel
     /** Obtains a vector containing all elements.
         @return the vector containing all graphical objects.
     */
-    public Vector<GraphicPrimitive> getPrimitiveVector()
+    public List<GraphicPrimitive> getPrimitiveVector()
     {
         return primitiveVector;
     }
@@ -359,7 +359,7 @@ public class DrawingModel
     /** Sets a vector containing all elements.
         @param primitiveVector the vector containing all graphical objects.
     */
-    public void setPrimitiveVector(Vector<GraphicPrimitive> primitiveVector)
+    public void setPrimitiveVector(List<GraphicPrimitive> primitiveVector)
     {
         this.primitiveVector = primitiveVector;
     }

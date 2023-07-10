@@ -14,7 +14,7 @@
 // along with FidoCadJ. If not,
 //   @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 //
-// Copyright 2014 Kohta Ozaki
+// Copyright 2014-2023 Kohta Ozaki
 
 package net.sourceforge.fidocadj.layermodel;
 
@@ -42,7 +42,7 @@ public class LayerModel
     /** Get the layer description from the drawing model.
         @return the array of layers.
     */
-    public Vector<LayerDesc> getAllLayers()
+    public List<LayerDesc> getAllLayers()
     {
         return drawingModel.getLayers();
     }

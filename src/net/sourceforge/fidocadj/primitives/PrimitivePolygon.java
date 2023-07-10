@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -276,7 +276,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param layerV the layer description.
     */
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV)
+                              List layerV)
     {
         if(!selectLayer(g,layerV))
             return;
@@ -383,9 +383,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
                 The first parameters should always be the virtual points.
 
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v=super.getControls();
+        List<ParameterDescription> v=super.getControls();
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=Boolean.valueOf(isFilled);
@@ -410,7 +410,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=super.setControls(v);
         ParameterDescription pd;

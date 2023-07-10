@@ -62,7 +62,7 @@ public class DialogParameters extends JDialog
     private final JComboBox jco[];
     private int co; // NOPMD this field can NOT be final! It is a counter.
 
-    private final Vector<ParameterDescription> v;
+    private final java.util.List<ParameterDescription> v;
 
     OSKeybPanel keyb1;
     OSKeybPanel keyb2;
@@ -84,8 +84,8 @@ public class DialogParameters extends JDialog
     // there is no risk of an actual error, but Java issues a warning.
     @SuppressWarnings("unchecked")
     public DialogParameters(final JFrame parent,
-            Vector<ParameterDescription> vec,
-            boolean strict, Vector<LayerDesc> layers)
+            java.util.List<ParameterDescription> vec,
+            boolean strict, java.util.List<LayerDesc> layers)
     {
         super(parent, Globals.messages.getString("Param_opt"), true);
 
@@ -486,7 +486,7 @@ public class DialogParameters extends JDialog
         modified by the user.
         @return a ParameterDescription vector describing each parameter.
      */
-    public Vector<ParameterDescription> getCharacteristics()
+    public java.util.List<ParameterDescription> getCharacteristics()
     {
         return v;
     }

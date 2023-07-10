@@ -202,14 +202,14 @@ public final class ExportGraphic
         org.x -= Export.exportBorder*unitPerPixel/2.0;
         org.y -= Export.exportBorder*unitPerPixel/2.0;
 
-        Vector<LayerDesc> ol=pp.getLayers();
+        java.util.List<LayerDesc> ol=pp.getLayers();
 
         BufferedImage bufferedImage;
 
         // To print in black and white, we only need to create an array layer
         // in which all colours will be black.
         if(blackWhite) {
-            Vector<LayerDesc> v=new Vector<LayerDesc>();
+            java.util.List<LayerDesc> v=new Vector<LayerDesc>();
             for (int i=0; i<16;++i) {
                 v.add(new LayerDesc((new ColorSwing()).black(), // NOPMD
                     ((LayerDesc)ol.get(i)).getVisible(),

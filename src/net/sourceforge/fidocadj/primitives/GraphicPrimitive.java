@@ -241,11 +241,11 @@ public abstract class GraphicPrimitive
         its needs, BEFORE calling drawText.
         @param g the graphic context.
         @param coordSys the current coordinate mapping system.
-        @param layerV the vector containing the layers.
+        @param layerV the list containing the layers.
         @param drawOnlyLayer current layer which should be drawn (or -1).
     */
     protected void drawText(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerV, int drawOnlyLayer)
+                              List layerV, int drawOnlyLayer)
     {
         // If this method is not needed, exit immediately.
         if (value==null && name==null) {
@@ -739,7 +739,7 @@ public abstract class GraphicPrimitive
                 being used.
         @return true if the layer is visible, false otherwise.
     */
-    protected final boolean selectLayer(GraphicsInterface g, Vector layerV)
+    protected final boolean selectLayer(GraphicsInterface g, List layerV)
     {
         // At first, we see if we need to retrieve the current layer.
         // It is important to check also the changed flag, since if not we
@@ -933,9 +933,9 @@ public abstract class GraphicPrimitive
                 The first parameters should always be the name and the
                 value fields, followed by the layer.
     */
-    public Vector<ParameterDescription> getControls()
+    public List<ParameterDescription> getControls()
     {
-        Vector<ParameterDescription> v = new Vector<ParameterDescription>(10);
+        List<ParameterDescription> v = new Vector<ParameterDescription>(10);
         ParameterDescription pd = new ParameterDescription();
 
         pd.parameter=(name==null?"":name);
@@ -970,7 +970,7 @@ public abstract class GraphicPrimitive
             after this function ends.
 
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v)
     {
         int i=0;
         ParameterDescription pd;
@@ -1033,7 +1033,7 @@ public abstract class GraphicPrimitive
         @param layerDesc the layer description.
     */
     public abstract void draw(GraphicsInterface g, MapCoordinates coordSys,
-                              Vector layerDesc);
+                              List layerDesc);
 
     /** Parse a token array and store the graphic data for a given primitive
         Obviously, that routine should be called *after* having recognized
