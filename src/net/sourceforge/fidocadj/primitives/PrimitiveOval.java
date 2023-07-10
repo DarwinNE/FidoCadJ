@@ -3,12 +3,13 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DashInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** Class to handle the Oval primitive.
 
@@ -29,7 +30,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2014 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -46,10 +47,15 @@ public final class PrimitiveOval extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
-    private int x1, x2, y1, y2;
+    private int xa;
+    private int ya;
+    private int xb;
+    private int yb;
+    private int x1;         // NOPMD
+    private int x2;         // NOPMD
+    private int y1;         // NOPMD
+    private int y2;         // NOPMD
     private float w;
-
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -111,8 +117,9 @@ public final class PrimitiveOval extends GraphicPrimitive
         Vector layerV)
     {
 
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
 
         drawText(g, coordSys, layerV, -1);
 
@@ -144,18 +151,19 @@ public final class PrimitiveOval extends GraphicPrimitive
             coordSys.trackPoint(xa,ya);
             coordSys.trackPoint(xb,yb);
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
         }
 
-        if(!g.hitClip(xa,ya, xb-xa+1,yb-ya+1))
+        if(!g.hitClip(xa,ya, xb-xa+1,yb-ya+1)) {
             return;
+        }
 
         g.applyStroke(w, dashStyle);
 
         // Draw the oval, filled or not.
-        if (isFilled)
+        if (isFilled) {
             g.fillOval(xa,ya,xb-xa,yb-ya);
-        else {
+        } else {
             if(xa!=xb && ya!=yb) {
                 g.drawOval(xa,ya,xb-xa,yb-ya);
             } else {
@@ -172,20 +180,19 @@ public final class PrimitiveOval extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param nn the number of tokens present in the array
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
         // assert it is the correct primitive
-        if (tokens[0].equals("EV")||tokens[0].equals("EP")) {   // Oval
-            if (N<5) {
-                IOException E=new IOException("bad arguments on EV/EP");
-                throw E;
+        if ("EV".equals(tokens[0])||"EP".equals(tokens[0])) {   // Oval
+            if (nn<5) {
+                throw new IOException("Bad arguments on EV/EP");
             }
             int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
             int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
@@ -197,21 +204,19 @@ public final class PrimitiveOval extends GraphicPrimitive
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 
-            if(N>5) parseLayer(tokens[5]);
-            if(tokens[0].equals("EP"))
+            if(nn>5) { parseLayer(tokens[5]); }
+            if("EP".equals(tokens[0])) {
                 isFilled=true;
-            else
+            } else {
                 isFilled=false;
-            if(N>6 && tokens[6].equals("FCJ")) {
+            }
+            if(nn>6 && "FCJ".equals(tokens[6])) {
                 dashStyle = checkDashStyle(Integer.parseInt(tokens[7]));
             }
         } else {
-            IOException E=new IOException("EV/EP: Invalid primitive:"+tokens[0]+
+            throw new IOException("EV/EP: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
-
-
     }
 
     /** Get the control parameters of the given primitive.
@@ -254,24 +259,27 @@ public final class PrimitiveOval extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             isFilled=((Boolean)pd.parameter).booleanValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
+        if (pd.parameter instanceof DashInfo) {
             dashStyle=((DashInfo)pd.parameter).style;
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
+        }
+        if(dashStyle<0) {
             dashStyle=0;
+        }
 
         return i;
-
     }
 
 
@@ -287,8 +295,9 @@ public final class PrimitiveOval extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
         int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
@@ -296,13 +305,15 @@ public final class PrimitiveOval extends GraphicPrimitive
         int yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
 
         if(isFilled){
-            if(GeometricDistances.pointInEllipse(xa,ya,xb-xa,yb-ya,px,py))
+            if(GeometricDistances.pointInEllipse(xa,ya,xb-xa,yb-ya,px,py)) {
                 return 0;
-            else
+            } else {
                 return 1000;
-        } else
+            }
+        } else {
             return GeometricDistances.pointToEllipse(xa,ya,
                 xb-xa,yb-ya,px,py);
+        }
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -314,10 +325,11 @@ public final class PrimitiveOval extends GraphicPrimitive
     {
         String cmd;
 
-        if (isFilled)
+        if (isFilled) {
             cmd="EP ";
-        else
+        } else {
             cmd="EV ";
+        }
 
         cmd+=virtualPoint[0].x+" "+virtualPoint[0].y+" "+
             +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
@@ -325,8 +337,9 @@ public final class PrimitiveOval extends GraphicPrimitive
 
         if(extensions && (dashStyle>0 || hasName() || hasValue())) {
             String text = "0";
-            if (name.length()!=0 || value.length()!=0)
+            if (name.length()!=0 || value.length()!=0) {
                 text = "1";
+            }
             cmd+="FCJ "+dashStyle+" "+text+"\n";
         }
         // The false is needed since saveText should not write the FCJ tag.

@@ -3,12 +3,14 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
-
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DashInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.PointG;
 
 /** Class to handle the line primitive.
 
@@ -29,7 +31,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2020 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -47,8 +49,14 @@ public final class PrimitiveLine extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
-    private int x1, y1,x2,y2;
+    private int xa;
+    private int ya;
+    private int xb;         // NOPMD
+    private int yb;         // NOPMD
+    private int x1;         // NOPMD
+    private int x2;         // NOPMD
+    private int y1;         // NOPMD
+    private int y2;         // NOPMD
     private float w;
     private int length2;
     private int xbpap1, ybpap1;
@@ -152,17 +160,19 @@ public final class PrimitiveLine extends GraphicPrimitive
         i=arrowData.setParametersForArrow(v, i);
 
         ParameterDescription pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
+        if (pd.parameter instanceof DashInfo) {
             dashStyle=((DashInfo)pd.parameter).style;
-        else
+        } else {
             System.out.println("Warning: 6-unexpected parameter!"+pd);
+        }
 
         // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
+        }
+        if(dashStyle<0) {
             dashStyle=0;
-
+        }
         return i;
     }
 
@@ -174,8 +184,9 @@ public final class PrimitiveLine extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
         Vector layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
 
         drawText(g, coordSys, layerV, -1);
 
@@ -209,7 +220,7 @@ public final class PrimitiveLine extends GraphicPrimitive
             // make our lines disappear, even at very small zoom ratios.
             // So we put a limit D_MIN.
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
 
             // Calculate the square of the length in pixel.
             length2=(xa-xb)*(xa-xb)+(ya-yb)*(ya-yb);
@@ -231,13 +242,16 @@ public final class PrimitiveLine extends GraphicPrimitive
         }
         // This is a trick. We skip drawing the line if it is too short.
         if(length2>2) {
-            if(!g.hitClip(xa,ya, xbpap1,ybpap1))
+            if(!g.hitClip(xa,ya, xbpap1,ybpap1)) {
                 return;
+            }
 
             g.applyStroke(w, dashStyle);
 
-            int xstart=x1, ystart=y1;
-            int xend=x2, yend=y2;
+            int xstart=x1;
+            int ystart=y1;
+            int xend=x2;
+            int yend=y2;
             // If needed, we draw the arrows at the extremes.
             if (arrows) {
                 arrowData.prepareCoordinateMapping(coordSys);
@@ -273,20 +287,19 @@ public final class PrimitiveLine extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
 
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
         // assert it is the correct primitive
-        if (tokens[0].equals("LI")) {   // Line
-            if (N<5) {
-                IOException E=new IOException("bad arguments on LI");
-                throw E;
+        if ("LI".equals(tokens[0])) {   // Line
+            if (nn<5) {
+                throw new IOException("Bad arguments on LI");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -301,18 +314,17 @@ public final class PrimitiveLine extends GraphicPrimitive
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 
-            if(N>5) parseLayer(tokens[5]);
+            if(nn>5) { parseLayer(tokens[5]); }
 
             // FidoCadJ extensions
 
-            if(N>6 && tokens[6].equals("FCJ")) {
+            if(nn>6 && "FCJ".equals(tokens[6])) {
                 int i=arrowData.parseTokens(tokens, 7);
                 dashStyle = checkDashStyle(Integer.parseInt(tokens[i]));
             }
         } else {
-            IOException E=new IOException("LI: Invalid primitive:"+tokens[0]+
+            throw new IOException("LI: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -328,31 +340,35 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
         // Check if the point is in the arrows. Correct the starting and ending
         // points if needed.
         if (arrowData.atLeastOneArrow()) {
-            boolean r=false, t=false;
+            boolean r=false;
+            boolean t=false;
 
             // We work with logic coordinates (default for MapCoordinates).
             MapCoordinates m=new MapCoordinates();
             arrowData.prepareCoordinateMapping(m);
-            PointG P=new PointG();
-            if (arrowData.isArrowStart())
+            PointG pp=new PointG();
+            if (arrowData.isArrowStart()) {
                 t=arrowData.isInArrow(px, py,
                     virtualPoint[0].x, virtualPoint[0].y,
-                    virtualPoint[1].x, virtualPoint[1].y, P);
+                    virtualPoint[1].x, virtualPoint[1].y, pp);
+            }
 
-            if (arrowData.isArrowEnd())
+            if (arrowData.isArrowEnd()) {
                 r=arrowData.isInArrow(px, py,
                     virtualPoint[1].x, virtualPoint[1].y,
-                    virtualPoint[0].x, virtualPoint[0].y, P);
+                    virtualPoint[0].x, virtualPoint[0].y, pp);
+            }
 
             // Click on one of the arrows.
-            if(r||t)
+            if(r||t) {
                 return 1;
-
+            }
         }
         return GeometricDistances.pointToSegment(
                 virtualPoint[0].x,virtualPoint[0].y,
@@ -386,8 +402,9 @@ public final class PrimitiveLine extends GraphicPrimitive
             String text = "0";
             // We take into account that there may be some text associated
             // to that primitive.
-            if (hasName() || hasValue())
+            if (hasName() || hasValue()) {
                 text = "1";
+            }
             s+="FCJ "+arrowData.createArrowTokens()+" "+dashStyle+
                 " "+text+"\n";
         }

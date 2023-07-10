@@ -154,49 +154,56 @@ public class DragDropTools implements DropTargetListener
                 else if (df.isRepresentationClassInputStream()) {
                     // Everything seems to be ok here, so we proceed handling
                     // the file
+                    InputStreamReader reader=null;
+                    BufferedReader in=null; 
                     dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                    InputStreamReader reader=new InputStreamReader(
-                        (InputStream)tr.getTransferData(df));
-                    BufferedReader in=new BufferedReader(reader);
+                    try {
+                        reader=new InputStreamReader(
+                            (InputStream)tr.getTransferData(df));
+                        in=new BufferedReader(reader);
 
-                    String line="";
-                    int k;
-                    while (line != null){
+                        String line="";
+                        int k;
                         line = in.readLine();
-                        if (line!=null &&
-                            (k=line.indexOf("file://"))>=0)
-                        {
-                            FidoFrame popFrame;
 
-                            if(fff.cc.getUndoActions().getModified()) {
-                                popFrame=fff.createNewInstance();
-                            } else {
-                                popFrame=fff;
+                        while (line != null) {
+                            k=line.indexOf("file://");
+                            if (k>=0) {
+                                FidoFrame popFrame;
+
+                                if(fff.cc.getUndoActions().getModified()) {
+                                    popFrame=fff.createNewInstance();
+                                } else {
+                                    popFrame=fff;
+                                }
+
+                                popFrame.cc.getParserActions().openFileName =
+                                    line.substring(k+7);
+
+                                // Deprecated! It should indicate the encoding,
+                                // but WE WANT the encoding using being the
+                                // same of the host system. It may be
+                                // deprecated, but it is the correct behaviour,
+                                // here.
+
+                                popFrame.cc.getParserActions().openFileName =
+                                    java.net.URLDecoder.decode(
+                                    popFrame.cc.getParserActions().
+                                    openFileName);
+
+                                // After we set the current file name, we just 
+                                // open it.
+                                popFrame.getFileTools().openFile();
+                                popFrame.cc.getUndoActions().saveUndoState();
+                                popFrame.cc.getUndoActions().setModified(false);
+                                break;
                             }
-
-                            popFrame.cc.getParserActions().openFileName =
-                                line.substring(k+7);
-
-                            // Deprecated! It should indicate the encoding. But
-                            // WE WANT the encoding using being the same of the
-                            // host system. It may be deprecated, but it is
-                            // the correct behaviour here.
-
-                            popFrame.cc.getParserActions().openFileName =
-                                java.net.URLDecoder.decode(
-                                popFrame.cc.getParserActions().openFileName);
-
-                            // After we set the current file name, we just open
-                            // it.
-                            popFrame.getFileTools().openFile();
-                            popFrame.cc.getUndoActions().saveUndoState();
-                            popFrame.cc.getUndoActions().setModified(false);
-
-                            break;
+                            line = in.readLine();
                         }
+                    } finally {
+                        if(in!=null) { in.close(); }
+                        if(reader!=null) { reader.close(); }
                     }
-                    in.close();
-                    reader.close();
                     fff.cc.repaint();
 
                     dtde.dropComplete(true);

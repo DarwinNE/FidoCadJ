@@ -451,15 +451,15 @@ public class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        String fill_pattern="";
+        String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
-            fill_pattern="fill=\"#"+
+            fillPattern="fill=\"#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"";
         } else {
-            fill_pattern="fill=\"none\"";
+            fillPattern="fill=\"none\"";
 
         }
 
@@ -467,7 +467,7 @@ public class ExportSVG implements ExportInterface, TextInterface
                   cLe((y1+y2)/2.0)+
                   "\" rx=\""+cLe(Math.abs(x2-x1)/2.0)+"\" ry=\""+
                   cLe(Math.abs(y2-y1)/2.0)+"\" ");
-        checkColorAndWidth(fill_pattern, dashStyle);
+        checkColorAndWidth(fillPattern, dashStyle);
     }
 
     /** Called when exporting a PCBLine primitive.
@@ -602,15 +602,15 @@ public class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        String fill_pattern="";
+        String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
-            fill_pattern="fill=\"#"+
+            fillPattern="fill=\"#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"";
         } else {
-            fill_pattern="fill=\"none\"";
+            fillPattern="fill=\"none\"";
 
         }
         int i;
@@ -622,7 +622,7 @@ public class ExportSVG implements ExportInterface, TextInterface
 
         }
         out.write("\" ");
-        checkColorAndWidth(fill_pattern, dashStyle);
+        checkColorAndWidth(fillPattern, dashStyle);
     }
     /** Called when exporting a Curve primitive.
 
@@ -678,15 +678,15 @@ public class ExportSVG implements ExportInterface, TextInterface
         strokeWidth=sW;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        String fill_pattern="";
+        String fillPattern="";
 
         if(isFilled) {
-            fill_pattern="fill=\"#"+
+            fillPattern="fill=\"#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"";
         } else {
-            fill_pattern="fill=\"none\"";
+            fillPattern="fill=\"none\"";
 
         }
 
@@ -695,7 +695,7 @@ public class ExportSVG implements ExportInterface, TextInterface
                   "\" rx=\"0\" ry=\"0\" "+
                   "width=\""+cLe(Math.abs(x2-x1))+"\" height=\""+
                   cLe(Math.abs(y2-y1))+"\" ");
-        checkColorAndWidth(fill_pattern, dashStyle);
+        checkColorAndWidth(fillPattern, dashStyle);
 
     }
 
@@ -723,14 +723,14 @@ public class ExportSVG implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    private void checkColorAndWidth(String fill_pattern, int dashStyle)
+    private void checkColorAndWidth(String fillPattern, int dashStyle)
         throws IOException
     {
 
         // Write only if necessary, to save space.
         // It does not work...
 
-        //if(oc!=c || owl!=wl || !fill_pattern.equals(ofp) || ods!=dashStyle) {
+        //if(oc!=c || owl!=wl || !fillPattern.equals(ofp) || ods!=dashStyle) {
         //if(true) {
         {
             out.write("style=\"stroke:#"+
@@ -747,12 +747,12 @@ public class ExportSVG implements ExportInterface, TextInterface
             }
 
             out.write(";stroke-width:"+strokeWidth+
-                  ";fill-rule: evenodd;\" " + fill_pattern + "/>\n");
+                  ";fill-rule: evenodd;\" " + fillPattern + "/>\n");
         }
             // Saving old values.
             //oc=c;
             //owl=strokeWidth;
-            //ofp=fill_pattern;
+            //ofp=fillPattern;
             //ods=dashStyle;
 
         //} else {
@@ -796,7 +796,7 @@ public class ExportSVG implements ExportInterface, TextInterface
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
 
         alpha += x-xc>0.0?0.0:Math.PI;
-        String fill_pattern;
+        String fillPattern;
 
 
         // Then, we calculate the points for the polygon
@@ -819,14 +819,14 @@ public class ExportSVG implements ExportInterface, TextInterface
             +Globals.roundTo(y2)+"\" ");
 
         if ((style & Arrow.flagEmpty) == 0)
-            fill_pattern="fill=\"#"+
+            fillPattern="fill=\"#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"";
         else
-            fill_pattern="fill=\"none\"";
+            fillPattern="fill=\"none\"";
 
-        checkColorAndWidth(fill_pattern,0);
+        checkColorAndWidth(fillPattern,0);
 
         if ((style & Arrow.flagLimiter) != 0) {
             double x3;

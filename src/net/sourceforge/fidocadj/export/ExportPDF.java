@@ -2,15 +2,10 @@ package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
-
 import javax.swing.*;
-
-import java.net.URL;
 
 import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.layers.LayerDesc;
-import net.sourceforge.fidocadj.primitives.MacroDesc;
 import net.sourceforge.fidocadj.primitives.Arrow;
 import net.sourceforge.fidocadj.graphic.DimensionG;
 import net.sourceforge.fidocadj.graphic.GraphicsInterface;
@@ -198,9 +193,6 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         outt = new BufferedWriter(fstreamt);
 
-        int wi=totalSize.width;
-        int he=totalSize.height;
-
         // A header of the EPS file
 
         // 200 dpi is the internal resolution of FidoCadJ
@@ -258,8 +250,9 @@ public class ExportPDF implements ExportInterface, TextInterface
         // Read the glyphlist.txt file and store its contents in the hash
         // map for easy retrieval during the calculation of encoding needs.
         BufferedReader br=null;
+        InputStreamReader isr=null;
         try{
-            InputStreamReader isr = new InputStreamReader(
+            isr = new InputStreamReader(
                       getClass().getResourceAsStream("glyphlist.txt"),
                       encoding);
             br = new BufferedReader(isr);
@@ -294,6 +287,9 @@ public class ExportPDF implements ExportInterface, TextInterface
         } finally {
             if (br!=null) {
                 br.close();
+            }
+            if (isr!=null) {
+                isr.close();
             }
         }
     }

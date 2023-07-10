@@ -847,6 +847,7 @@ public class ExportPCBRND implements ExportInterface
                     // 10 mil default for exported lines
                 } else if ("TY".equals(tokens[0])) {
                     // We don't support text in footprints in gEDA
+                    System.out.println("Text not supported.");
                 } else {
                     System.out.println("# Unsure what to do with: "
                                        + tokens[0] + " in macro.");
@@ -992,7 +993,7 @@ public class ExportPCBRND implements ExportInterface
             + coordToPCB(y2) + " "
             + exportedThickness + "]\n";
     }
-
+/*
     private String fidoLineToPCBLineElement(PointDouble p1,
                                             PointDouble p2,
                                             int thickness)
@@ -1000,7 +1001,7 @@ public class ExportPCBRND implements ExportInterface
         return fidoLineToPCBLineElement(p1.x, p1.y,
                                         p2.x, p2.y, thickness);
     }
-
+*/
     private String
         fidoPolylineToPCBLineElements(PointDouble[] vertices,
                                       int nVertices, double strokeWidth)
