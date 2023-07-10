@@ -10,15 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.prefs.Preferences;
 import java.util.Locale;
 
-import net.sourceforge.fidocadj.primitives.GraphicPrimitive;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
-import net.sourceforge.fidocadj.undo.*;
+import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.FidoMain;
 
 /** Class to handle library files and databases.
@@ -40,7 +37,7 @@ import net.sourceforge.fidocadj.FidoMain;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2014 by phylum2, Davide Bucci
+    Copyright 2012-2023 by phylum2, Davide Bucci
     </pre>
 
     @author phylum2, Davide Bucci
@@ -77,8 +74,9 @@ public final class LibUtils
 
             // If no dot is found, this is by definition the original FidoCAD
             // standard library (immutable).
-            if(dotPos<0)
+            if(dotPos<0) {
                 continue;
+            }
             String lib = md.key.substring(0,dotPos).trim();
             if (lib.equalsIgnoreCase(libfile)) {
                 mm.put(e.getKey(), md);
@@ -132,14 +130,15 @@ public final class LibUtils
     public static void saveToFile(String file, String text)
         throws FileNotFoundException
     {
-        PrintWriter pw;
+        PrintWriter pw = null;
         try {
             pw = new PrintWriter(file, Globals.encoding);
             pw.print(text);
             pw.flush();
-            pw.close();
-        } catch (UnsupportedEncodingException e) {
+        }  catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        } finally {
+            if (pw!=null) { pw.close(); }
         }
     }
 
@@ -153,9 +152,9 @@ public final class LibUtils
         String libname, String prefix)
     {
         try {
-            LibUtils.saveToFile(file + ".fcl",
-                LibUtils.prepareText(
-                LibUtils.getLibrary(m, prefix), libname));
+            saveToFile(file + ".fcl",
+                prepareText(
+                getLibrary(m, prefix), libname));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -172,8 +171,9 @@ public final class LibUtils
         if (s == null || s.length()==0) {
             throw new FileNotFoundException();
         }
-        if (!s.endsWith(System.getProperty("file.separator")))
+        if (!s.endsWith(System.getProperty("file.separator"))) {
             s+=System.getProperty("file.separator");
+        }
         return s;
     }
 
@@ -196,8 +196,9 @@ public final class LibUtils
         IOException
     {
         File f = new File(getLibDir()+s+".fcl");
-        if(!f.delete())
+        if(!f.delete()) {
             throw new IOException("Can not delete library.");
+        }
     }
 
     /** Get all the library in the current library directory.
@@ -206,15 +207,19 @@ public final class LibUtils
     */
     public static List<File> getLibs() throws FileNotFoundException
     {
-        File lst = new File(LibUtils.getLibDir());
+        File lst = new File(getLibDir());
         List<File> l = new ArrayList<File>();
-        if (!lst.exists())
+        if (!lst.exists()) {
             return null;
+        }
         File[] list=lst.listFiles();
-        if(list==null)
+        if(list==null) {
             return l;
+        }
         for (File f : list) {
-            if (f.getName().toLowerCase().endsWith(".fcl")) l.add(f);
+            if (f.getName().toLowerCase(Locale.US).endsWith(".fcl")) {
+                l.add(f);
+            }
         }
         return l;
     }
@@ -226,10 +231,10 @@ public final class LibUtils
     public static boolean isStdLib(MacroDesc tlib)
     {
         String szlib=tlib.library;
-        String szfn=tlib.filename;
 
-        if(szlib==null)
+        if(szlib==null) {
             return false;
+        }
 
         boolean isStandard=false;
         int dotpos=-1;
@@ -238,7 +243,8 @@ public final class LibUtils
         // A first way to determine if a macro is standard is to see if its
         // name does not contains a dot (original FidoCAD standard library)
 
-        if ((dotpos=tlib.key.indexOf("."))<0) {
+        dotpos=tlib.key.indexOf(".");
+        if (dotpos<0) {
             isStandard = true;
         } else {
             // If the name contains a dot, we might check whether we have
@@ -283,8 +289,9 @@ public final class LibUtils
                 prefix = md.filename;
             }
         }
-        if ("".equals(prefix))
+        if ("".equals(prefix)) {
             return;
+        }
         save(libref, getLibPath(tlib), tlib.trim(), prefix);
     }
 
@@ -303,7 +310,9 @@ public final class LibUtils
         for (MacroDesc md : libref.values()) {
             if (md.library.equalsIgnoreCase(tlib) &&
                 md.key.equalsIgnoreCase(key.trim()))
-                    return true;
+            {
+                return true;
+            }
         }
         return key.contains("]");
     }
@@ -317,7 +326,7 @@ public final class LibUtils
     */
     public static boolean checkLibrary(String library)
     {
-        if (library == null) return false;
+        if (library == null) { return false; }
 
         return library.contains("[")||library.contains(".")||
            library.contains("/")||library.contains("\\")||
@@ -349,8 +358,9 @@ public final class LibUtils
                 prefix = md.filename;
             }
         }
-        if("".equals(prefix))
+        if("".equals(prefix)) {
             return;
+        }
         save(m, getLibPath(tlib), tlib, prefix);
     }
 
@@ -405,15 +415,17 @@ public final class LibUtils
             // This is an hack: at first, we create a temporary file. We store
             // its name and we use it to create a temporary directory.
             File tempDir = File.createTempFile("fidocadj_", "");
-            if(!tempDir.delete())
+            if(!tempDir.delete()) {
                 throw new IOException(
                     "saveLibraryState: Can not delete temp file.");
+            }
 
-            if(!tempDir.mkdir())
+            if(!tempDir.mkdir()) {
                 throw new IOException(
                     "saveLibraryState: Can not create temp directory.");
+            }
 
-            String s=LibUtils.getLibDir();
+            String s=getLibDir();
 
             String d=tempDir.getAbsolutePath();
 
@@ -426,8 +438,9 @@ public final class LibUtils
 
             // We store the directory name in the stack structure of the
             // undo system.
-            if(ua != null)
+            if(ua != null) {
                 ua.saveUndoLibrary(d);
+            }
         } catch (IOException e) {
             System.out.println("Cannot save the library status.");
         }

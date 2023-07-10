@@ -850,20 +850,26 @@ public class ParserActions
     public void readLibraryFile(String openFileName)
         throws IOException
     {
-        InputStreamReader input = new InputStreamReader(new
-            FileInputStream(openFileName), Globals.encoding);
-
-        BufferedReader bufRead = new BufferedReader(input);
+        InputStreamReader input = null;
+        BufferedReader bufRead = null;
         String prefix="";
 
-        prefix = Globals.getFileNameOnly(openFileName);
-        if ("FCDstdlib".equals(prefix)) {
-            prefix="";
+        try {
+            input = new InputStreamReader(new
+                FileInputStream(openFileName), Globals.encoding);
+
+            bufRead = new BufferedReader(input);
+
+            prefix = Globals.getFileNameOnly(openFileName);
+            if ("FCDstdlib".equals(prefix)) {
+                prefix="";
+            }
+
+            readLibraryBufferedReader(bufRead, prefix);
+        } finally {
+            if(bufRead!=null) { bufRead.close(); }
+            if(input!=null) { input.close(); }
         }
-
-        readLibraryBufferedReader(bufRead, prefix);
-
-        bufRead.close();
     }
 
     /** Read a library provided by a buffered reader. Adds all the macro keys

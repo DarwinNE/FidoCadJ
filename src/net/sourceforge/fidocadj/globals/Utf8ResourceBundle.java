@@ -9,11 +9,11 @@ import java.util.ResourceBundle;
 /** Taken here http://www.thoughtsabout.net/blog/archives/000044.html
     TODO: review Javadoc comments, check the license.
 */
-public abstract class Utf8ResourceBundle
+public final class Utf8ResourceBundle
 {
     /** Standard creator.
     */
-    public Utf8ResourceBundle()
+    private Utf8ResourceBundle()
     {
         // Nothing to do.
     }
@@ -22,7 +22,7 @@ public abstract class Utf8ResourceBundle
         @param baseName the name of the bundle to be retrieved.
         @return the resource bundle object.
     */
-    public static final ResourceBundle getBundle(String baseName)
+    public static ResourceBundle getBundle(String baseName)
     {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName);
         return createUtf8PropertyResourceBundle(bundle);
@@ -33,7 +33,7 @@ public abstract class Utf8ResourceBundle
         @param locale the locale to be searched for.
         @return the resource bundle object.
     */
-    public static final ResourceBundle getBundle(String baseName,
+    public static ResourceBundle getBundle(String baseName,
         Locale locale)
     {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale);
@@ -62,8 +62,9 @@ public abstract class Utf8ResourceBundle
     private static ResourceBundle createUtf8PropertyResourceBundle(
         ResourceBundle bundle)
     {
-        if (!(bundle instanceof PropertyResourceBundle)) return bundle;
-
+        if (!(bundle instanceof PropertyResourceBundle)) {
+            return bundle;
+        }
         return new Utf8PropertyResourceBundle((PropertyResourceBundle)bundle);
     }
 
@@ -78,14 +79,14 @@ public abstract class Utf8ResourceBundle
         /* (non-Javadoc)
         * @see java.util.ResourceBundle#getKeys()
         */
-        public Enumeration<String> getKeys()
+        @Override public Enumeration<String> getKeys()
         {
             return bundle.getKeys();
         }
         /* (non-Javadoc)
         * @see java.util.ResourceBundle#handleGetObject(java.lang.String)
         */
-        protected Object handleGetObject(String key)
+        @Override protected Object handleGetObject(String key)
         {
             String value = (String)bundle.getString(key);
             String version = System.getProperty("java.specification.version");

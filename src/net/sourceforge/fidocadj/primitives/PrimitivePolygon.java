@@ -3,11 +3,16 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DashInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.PointDouble;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.PolygonInterface;
 
 /** Class to handle the Polygon primitive.
 
@@ -46,8 +51,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
     int storageSize=5;
 
     // Some private data cached.
-    private int xmin, ymin;
-    private int width, height;
+    private int xmin;
+    private int ymin;
+    private int width;
+    private int height;
 
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
@@ -106,33 +113,33 @@ public final class PrimitivePolygon extends GraphicPrimitive
     public void removePoint(int x, int y, double tolerance)
     {
         // We can not have a polygon with less than three vertices
-        if (nPoints<=3)
+        if (nPoints<=3) {
             return;
+        }
 
-        int i;
         double distance;
-        double min_distance= GeometricDistances.pointToPoint(virtualPoint[0].x,
+        double minDistance= GeometricDistances.pointToPoint(virtualPoint[0].x,
                 virtualPoint[0].y,x,y);
-        int sel_i=-1;
+        int selI=-1;
 
-        for(i=1;i<nPoints;++i) {
+        for(int i=1;i<nPoints;++i) {
             distance = GeometricDistances.pointToPoint(virtualPoint[i].x,
                 virtualPoint[i].y,x,y);
 
-            if (distance<min_distance) {
-                min_distance=distance;
-                sel_i=i;
+            if (distance<minDistance) {
+                minDistance=distance;
+                selI=i;
             }
         }
 
         // Check if the control node losest to the given coordinates
         // is closer than the given tolerance
-        if(min_distance<=tolerance){
+        if(minDistance<=tolerance){
             --nPoints;
-            for(i=0;i<nPoints;++i) {
+            for(int i=0;i<nPoints;++i) {
                 // Shift all the points subsequent to the one which needs
                 // to be erased.
-                if(i>=sel_i) {
+                if(i>=selI) {
                     virtualPoint[i].x=virtualPoint[i+1].x;
                     virtualPoint[i].y=virtualPoint[i+1].y;
                 }
@@ -169,8 +176,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int minv=0;
         for(int i=0; i<nPoints; ++i) {
             j=i;
-            if (j==nPoints-1)
+            if (j==nPoints-1) {
                 j=-1;
+            }
 
             d=GeometricDistances.pointToSegment(xp[i],
                 yp[i], xp[j+1],
@@ -188,9 +196,6 @@ public final class PrimitivePolygon extends GraphicPrimitive
         addPoint(px, py);
 
         // ...then we do the swap
-
-        int dummy;
-
 
         for(int i=nPoints-1; i>minv; --i) {
             virtualPoint[i].x=virtualPoint[i-1].x;
@@ -210,11 +215,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
     public void addPoint(int x, int y)
     {
         if(nPoints+2>=storageSize) {
-            int o_n=storageSize;
+            int oN=storageSize;
             int i;
             storageSize += 10;
             PointG[] nv = new PointG[storageSize];
-            for(i=0;i<o_n;++i) {
+            for(i=0;i<oN;++i) {
                 nv[i]=virtualPoint[i];
             }
             for(;i<storageSize;++i) {
@@ -247,7 +252,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int xmax = -Integer.MAX_VALUE;
         int ymax = -Integer.MAX_VALUE;
 
-        int x, y;
+        int x;
+        int y;
         p=g.createPolygon();
         p.reset();
         for(j=0;j<nPoints;++j) {
@@ -255,15 +261,19 @@ public final class PrimitivePolygon extends GraphicPrimitive
             y = coordSys.mapY(virtualPoint[j].x,virtualPoint[j].y);
             p.addPoint(x,y);
 
-            if (x<xmin)
+            if (x<xmin) {
                 xmin=x;
-            if (x>xmax)
+            }
+            if (x>xmax) {
                 xmax=x;
+            }
 
-            if(y<ymin)
+            if(y<ymin) {
                 ymin=y;
-            if(y>ymax)
+            }
+            if(y>ymax) {
                 ymax=y;
+            }
 
         }
         width = xmax-xmin;
@@ -278,26 +288,29 @@ public final class PrimitivePolygon extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
                               List layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
         drawText(g, coordSys, layerV, -1);
         if(changed) {
             changed=false;
             createPolygon(coordSys, g);
 
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
         }
 
-        if(!g.hitClip(xmin,ymin, width, height))
+        if(!g.hitClip(xmin,ymin, width, height)) {
             return;
+        }
 
         g.applyStroke(w, dashStyle);
 
         // Here we implement a small optimization: when the polygon is very
         // small, it is not filled.
-        if (isFilled && width>=2 && height >=2)
+        if (isFilled && width>=2 && height >=2) {
             g.fillPolygon(p);
+        }
 
         g.drawPolygon(p);
         // It seems that under MacOSX, drawing a polygon by cycling with
@@ -323,20 +336,19 @@ public final class PrimitivePolygon extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param nn the number of tokens present in the array
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
         // assert it is the correct primitive
-        if (tokens[0].equals("PP")||tokens[0].equals("PV")) {
-            if (N<6) {
-                IOException E=new IOException("bad arguments on PP/PV");
-                throw E;
+        if ("PP".equals(tokens[0])||"PV".equals(tokens[0])) {
+            if (nn<6) {
+                throw new IOException("Bad arguments on PP/PV");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -345,9 +357,10 @@ public final class PrimitivePolygon extends GraphicPrimitive
             int x1 = 0;
             int y1 = 0;
 
-            while(j<N-1){
-                if (j+1<N-1 && tokens[j+1].equals("FCJ"))
+            while(j<nn-1){
+                if (j+1<nn-1 && "FCJ".equals(tokens[j+1])) {
                     break;
+                }
                 x1 = Integer.parseInt(tokens[j++]);
                 y1 = Integer.parseInt(tokens[j++]);
                 ++i;
@@ -358,21 +371,22 @@ public final class PrimitivePolygon extends GraphicPrimitive
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
-            if(N>j) {
+            if(nn>j) {
                 parseLayer(tokens[j++]);
-                if(j<N-1 && tokens[j++].equals("FCJ")) {
-                    dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
+                if(j<nn-1 && "FCJ".equals(tokens[j])) {
+                    dashStyle = checkDashStyle(Integer.parseInt(tokens[++j]));
                 }
+                ++j;
             }
 
-            if (tokens[0].equals("PP"))
+            if ("PP".equals(tokens[0])) {
                 isFilled=true;
-            else
+            } else {
                 isFilled=false;
+            }
         } else {
-            IOException E=new IOException("PP/PV: Invalid primitive:"+tokens[0]+
+            throw new IOException("PP/PV: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -418,22 +432,26 @@ public final class PrimitivePolygon extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Boolean)
+        if (pd.parameter instanceof Boolean) {
             isFilled=((Boolean)pd.parameter).booleanValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i++);
-        if (pd.parameter instanceof DashInfo)
+        if (pd.parameter instanceof DashInfo) {
             dashStyle=((DashInfo)pd.parameter).style;
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         // Parameters validation and correction
-        if(dashStyle>=Globals.dashNumber)
+        if(dashStyle>=Globals.dashNumber) {
             dashStyle=Globals.dashNumber-1;
-        if(dashStyle<0)
+        }
+        if(dashStyle<0) {
             dashStyle=0;
+        }
         return i;
     }
 
@@ -450,8 +468,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         int[] xp=new int[storageSize];
         int[] yp=new int[storageSize];
@@ -463,8 +482,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
             yp[k]=virtualPoint[k].y;
         }
 
-        if(isFilled && GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py))
+        if(isFilled&&GeometricDistances.pointInPolygon(xp,yp,nPoints, px,py)) {
             return 1;
+        }
 
 
         // If the curve is not filled, we calculate the distance between the
@@ -478,15 +498,17 @@ public final class PrimitivePolygon extends GraphicPrimitive
         int d;
         for(int i=0; i<nPoints; ++i) {
             j=i;
-            if (j==nPoints-1)
+            if (j==nPoints-1) {
                 j=-1;
+            }
 
             d=GeometricDistances.pointToSegment(xp[i],
                 yp[i], xp[j+1],
                 yp[j+1], px,py);
 
-            if(d<distance)
+            if(d<distance) {
                 distance = d;
+            }
         }
 
         return distance;
@@ -501,10 +523,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
     {
         StringBuffer temp=new StringBuffer(25);
 
-        if(isFilled)
+        if(isFilled) {
             temp.append("PP ");
-        else
+        } else {
             temp.append("PV ");
+        }
 
         for(int i=0; i<nPoints;++i) {
             temp.append(virtualPoint[i].x);
@@ -520,8 +543,9 @@ public final class PrimitivePolygon extends GraphicPrimitive
 
         if(extensions && (dashStyle>0 || hasName() || hasValue())) {
             String text = "0";
-            if (name.length()!=0 || value.length()!=0)
+            if (name.length()!=0 || value.length()!=0) {
                 text = "1";
+            }
             cmd+="FCJ "+dashStyle+" "+text+"\n";
         }
 
