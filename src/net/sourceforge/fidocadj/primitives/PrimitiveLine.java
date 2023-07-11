@@ -59,7 +59,8 @@ public final class PrimitiveLine extends GraphicPrimitive
     private int y2;         // NOPMD
     private float w;
     private int length2;
-    private int xbpap1, ybpap1;
+    private int xbpap1;
+    private int ybpap1;
     private boolean arrows;
 
     /** Constructor.

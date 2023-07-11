@@ -3,16 +3,18 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.circuit.views.*;
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.circuit.controllers.SelectionActions;
+import net.sourceforge.fidocadj.circuit.controllers.EditorActions;
+import net.sourceforge.fidocadj.circuit.controllers.ParserActions;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.views.Drawing;
+import net.sourceforge.fidocadj.circuit.views.Export;
+import net.sourceforge.fidocadj.layers.LayerDesc;
 
 
 /** Class to handle the macro primitive. Code is somewhat articulated since
@@ -57,11 +59,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
     private String macroDesc;
     private boolean exportInvisible;
 
-
     private Drawing drawingAgent;
 
     // Stored data for caching
-    private int x1, y1;
+    private int x1;             // NOPMD
+    private int y1;             // NOPMD
 
     /** Some layers may be shown or hidden by the user. Therefore, in some
         cases they may be exported or not. Set if invisible layers should be
@@ -110,7 +112,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param l the list of layers.
         @param x the x coordinate of the control point of the macro.
         @param y the y coordinate of the control point of the macro.
-        @param key_t the key to be used to uniquely identify the macro (it will
+        @param keyT the key to be used to uniquely identify the macro (it will
             be converted to lowercase).
         @param na the name to be shown.
         @param xa the x coordinate of the name of the macro.
@@ -126,7 +128,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @throws IOException if an unrecognized macro is found.
     */
     public PrimitiveMacro(Map<String, MacroDesc> lib, List<LayerDesc> l,
-         int x, int y, String key_t,
+         int x, int y, String keyT,
          String na, int xa, int ya, String va, int xv, int yv, String macroF,
          int macroS, int oo, boolean mm)
         throws IOException
@@ -135,7 +137,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         initPrimitive(-1, macroF, macroS);
         library=lib;
         layers=l;
-        String key=key_t.toLowerCase(new Locale("en"));
+        String key=keyT.toLowerCase(new Locale("en"));
         macro=new DrawingModel();
         macroCoord=new MapCoordinates();
         changed=true;
@@ -159,9 +161,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
         // Check if the macro description is contained in the database
         // containing all the libraries.
         if (macro==null){
-            IOException G=new IOException("Unrecognized macro "
+            throw new IOException("Unrecognized macro "
                                           + key);
-            throw G;
         }
         macroDesc = macro.description;
         macroName = key;
@@ -187,8 +188,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param coordSys the coordinate system.
         @param layerV the vector containing all layers.
     */
-    private void drawMacroContents(GraphicsInterface g, MapCoordinates coordSys,
-                              List layerV)
+    private void drawMacroContents(GraphicsInterface g, MapCoordinates coordSys)
     {
         /* in the macro primitive, the the virtual point represents
            the position of the reference point of the macro to be drawn. */
@@ -279,10 +279,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
         // Macros are *always* on layer 0 (they can contain elements to be
         // drawn, of course, on other layers).
         setLayer(0);
-        if(selectLayer(g,layerV))
+        if(selectLayer(g,layerV)) {
             drawText(g, coordSys, layerV, drawOnlyLayer);
+        }
 
-        drawMacroContents(g, coordSys, layerV);
+        drawMacroContents(g, coordSys);
     }
 
     /** Set the Draw Only Pads mode.
@@ -318,19 +319,18 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param nn the number of tokens present in the array
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         // assert it is the correct primitive
         changed=true;
-        if (tokens[0].equals("MC")) {   // Line
-            if (N<6) {
-                IOException E=new IOException("bad arguments on MC");
-                throw E;
+        if ("MC".equals(tokens[0])) {   // Line
+            if (nn<6) {
+                throw new IOException("Bad arguments on MC");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -348,8 +348,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
             // This is useful when a filename contains spaces. However, it does
             // not work when there are two or more consecutive spaces.
 
-            for (int i=6; i<N; ++i)
+            for (int i=6; i<nn; ++i) {
                 macroName+=" "+tokens[i];
+            }
 
             // The macro key recognition is made case insensitive by converting
             // internally all keys to lower case.
@@ -360,18 +361,15 @@ public final class PrimitiveMacro extends GraphicPrimitive
             MacroDesc macro=(MacroDesc)library.get(macroName);
 
             if (macro==null){
-
-                IOException G=new IOException("Unrecognized macro '"
+                throw new IOException("Unrecognized macro '"
                                               + macroName+"'");
-                throw G;
             }
             macroDesc = macro.description;
             macroStore(layers);
 
         } else {
-            IOException E=new IOException("MC: Invalid primitive:"+tokens[0]+
+            throw new IOException("MC: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
 
     }
@@ -405,8 +403,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         // If not, we need to see more throughly about the inners of the macro
 
@@ -472,10 +471,10 @@ public final class PrimitiveMacro extends GraphicPrimitive
             }
         }
 
-        if (macroDesc==null)
+        if (macroDesc==null) {
             System.out.println("1-Unrecognized macro "+
                     "WARNING this can be a programming problem...");
-        else {
+        } else {
             SelectionActions sa = new SelectionActions(macro);
             EditorActions edt=new EditorActions(macro, sa, null);
             return Math.min(edt.distancePrimitive(vx, vy), dt);
@@ -532,10 +531,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
     {
         super.rotatePrimitive(bCounterClockWise, ix, iy);
 
-        if (bCounterClockWise)
+        if (bCounterClockWise) {
             o=(o+3)%4;
-        else
+        } else {
             o=++o%4;
+        }
 
         changed=true;
     }
@@ -560,8 +560,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
     public String toString(boolean extensions)
     {
         String mirror="0";
-        if(m)
+        if(m) {
             mirror="1";
+        }
 
         String s="MC "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+o+" "
                 +mirror+" "+macroName+"\n";
@@ -615,18 +616,20 @@ public final class PrimitiveMacro extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof String)
+        if (pd.parameter instanceof String) {
             name=((String)pd.parameter);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof String)
+        if (pd.parameter instanceof String) {
             value=((String)pd.parameter);
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         return i;
     }
@@ -652,11 +655,11 @@ public final class PrimitiveMacro extends GraphicPrimitive
     public void export(ExportInterface exp, MapCoordinates cs)
         throws IOException
     {
-        if(alreadyExported)
+        if(alreadyExported) {
             return;
+        }
 
         // Call the macro interface, to see if the macro should be expanded
-
         if (exp.exportMacro(cs.mapX(virtualPoint[0].x, virtualPoint[0].y),
             cs.mapY(virtualPoint[0].x, virtualPoint[0].y),
             m, o*90, macroName, macroDesc, name,
@@ -693,16 +696,17 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         macro.setDrawOnlyLayer(drawOnlyLayer);
 
-        if(getSelected())
+        if(getSelected()) {
             new SelectionActions(macro).setSelectionAll(true);
-
+        }
 
         macro.setDrawOnlyPads(drawOnlyPads);
         new Export(macro).exportDrawing(exp, exportInvisible, macroCoord);
         exportText(exp, cs, drawOnlyLayer);
 
     }
-        /** Get the number of the virtual point associated to the Name property
+
+    /** Get the number of the virtual point associated to the Name property
         @return the number of the virtual point associated to the Name property
     */
     public int getNameVirtualPointNumber()
@@ -726,7 +730,6 @@ public final class PrimitiveMacro extends GraphicPrimitive
         return macroDesc;
     }
 
-
     /** Set the current macro description string.
         @param macroDesc the macro description string.
     */
@@ -734,5 +737,4 @@ public final class PrimitiveMacro extends GraphicPrimitive
     {
         this.macroDesc = macroDesc;
     }
-
 }

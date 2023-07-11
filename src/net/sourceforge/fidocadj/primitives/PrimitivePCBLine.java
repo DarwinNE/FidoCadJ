@@ -3,11 +3,12 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** Class to handle the PCB line primitive.
 
@@ -46,10 +47,17 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa, ya, xb, yb;
-    private int x1, y1,x2,y2;
-    private float wi_pix;
-    private int xbpap1, ybpap1;
+    private int xa;
+    private int ya;
+    private int xb;             // NOPMD
+    private int yb;             // NOPMD
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+    private float wiPix;
+    private int xbpap1;
+    private int ybpap1;
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -107,8 +115,9 @@ public final class PrimitivePCBLine extends GraphicPrimitive
                               List layerV)
     {
 
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
 
         drawText(g, coordSys, layerV, -1);
 
@@ -121,15 +130,15 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             y1=coordSys.mapY(virtualPoint[0].x,virtualPoint[0].y);
             x2=coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y);
             y2=coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y);
-            wi_pix=(float)Math.abs(coordSys.mapXr(virtualPoint[0].x,
+            wiPix=(float)Math.abs(coordSys.mapXr(virtualPoint[0].x,
                 virtualPoint[0].y)
-            -coordSys.mapXr((virtualPoint[0].x+width),
-                (virtualPoint[0].y+width)));
+                -coordSys.mapXr(virtualPoint[0].x+width,
+                virtualPoint[0].y+width));
 
-            xa=(int)(Math.min(x1, x2)-wi_pix/2.0f);
-            ya=(int)(Math.min(y1, y2)-wi_pix/2.0f);
-            xb=(int)(Math.max(x1, x2)+wi_pix/2.0f);
-            yb=(int)(Math.max(y1, y2)+wi_pix/2.0f);
+            xa=(int)(Math.min(x1, x2)-wiPix/2.0f);
+            ya=(int)(Math.min(y1, y2)-wiPix/2.0f);
+            xb=(int)(Math.max(x1, x2)+wiPix/2.0f);
+            yb=(int)(Math.max(y1, y2)+wiPix/2.0f);
 
             coordSys.trackPoint(xa,ya);
             coordSys.trackPoint(xb,yb);
@@ -142,10 +151,11 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         // ensures that the primitive is correctly drawn when it is
         // partially visible.
 
-        if(!g.hitClip(xa,ya, xbpap1,ybpap1))
+        if(!g.hitClip(xa,ya, xbpap1,ybpap1)) {
             return;
+        }
 
-        g.applyStroke(wi_pix, 0);
+        g.applyStroke(wiPix, 0);
         g.drawLine(x1, y1, x2, y2);
     }
 
@@ -155,21 +165,20 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         That routine also sets the current layer.
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
         // assert it is the correct primitive
 
-        if (tokens[0].equals("PL")) {   // Line
-            if (N<6) {
-                IOException E=new IOException("bad arguments on PL");
-                throw E;
+        if ("PL".equals(tokens[0])) {   // Line
+            if (nn<6) {
+                throw new IOException("Bad arguments on PL");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -185,20 +194,16 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
 
             width=Float.parseFloat(tokens[5]);
-            if(N>6) parseLayer(tokens[6]);
+            if(nn>6) { parseLayer(tokens[6]); }
 
 
         } else {
-            IOException E=new IOException("PL: Invalid primitive:"+tokens[0]+
+            throw new IOException("PL: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
-
-
     }
 
     /** Get the control parameters of the given primitive.
-
         @return a vector of ParameterDescription containing each control
                 parameter.
                 The first parameters should always be the virtual points.
@@ -234,11 +239,11 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Float)
+        if (pd.parameter instanceof Float) {
             width=((Float)pd.parameter).floatValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
-
+        }
         return i;
     }
 
@@ -256,8 +261,9 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         int distance=(int)(GeometricDistances.pointToSegment(
                 virtualPoint[0].x,virtualPoint[0].y,
@@ -314,5 +320,4 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     {
         return 3;
     }
-
 }

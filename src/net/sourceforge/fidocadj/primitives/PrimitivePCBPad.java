@@ -3,11 +3,12 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** Class to handle the PCB pad primitive.
 
@@ -54,8 +55,20 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int x1, y1, rrx, rry, xa,ya, rox, roy, rix, riy;
-    private int rrx2, rry2, rix2, riy2;
+    private int x1;         // NOPMD
+    private int y1;         // NOPMD
+    private int rrx;
+    private int rry;
+    private int xa;
+    private int ya;
+    private int rox;
+    private int roy;
+    private int rix;
+    private int riy;
+    private int rrx2;
+    private int rry2;
+    private int rix2;
+    private int riy2;
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -129,8 +142,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     public void draw(GraphicsInterface g, MapCoordinates coordSys,
                               List layerV)
     {
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
         drawText(g, coordSys, layerV, -1);
 
         if(changed) {
@@ -168,8 +182,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         // ensures that the primitive is correctly drawn when it is
         // partially visible.
 
-        if(!g.hitClip(xa-rrx2,ya-rry2, rrx, rry))
+        if(!g.hitClip(xa-rrx2,ya-rry2, rrx, rry)) {
             return;
+        }
 
         g.applyStroke(1, 0);
 
@@ -202,23 +217,22 @@ public final class PrimitivePCBPad extends GraphicPrimitive
 
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array.
+        @param nn the number of tokens present in the array.
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
 
         // assert it is the correct primitive
 
-        if (tokens[0].equals("PA")) {   // PCB Area pad
+        if ("PA".equals(tokens[0])) {   // PCB Area pad
             /* Example PA 752 50 15 15 4 1 1 */
 
-            if (N<7)  {
-                IOException E=new IOException("bad arguments on PA");
-                throw E;
+            if (nn<7)  {
+                throw new IOException("bad arguments on PA");
             }
             // Load the points in the virtual points associated to the
             // current primitive.
@@ -234,12 +248,11 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             ri=Integer.parseInt(tokens[5]);
             sty=Integer.parseInt(tokens[6]);
 
-            if(N>7) parseLayer(tokens[7]);
+            if(nn>7) { parseLayer(tokens[7]); }
 
         } else {
-            IOException E=new IOException("PA: Invalid primitive:"+tokens[0]+
+            throw new IOException("PA: Invalid primitive:"+tokens[0]+
                                           " programming error?");
-            throw E;
         }
     }
 
@@ -296,33 +309,37 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             rx=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             ry=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
 
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             ri=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer)
+        if (pd.parameter instanceof Integer) {
             sty=((Integer)pd.parameter).intValue();
-        else
+        } else {
             System.out.println("Warning: unexpected parameter!"+pd);
+        }
         return i;
     }
 
@@ -353,8 +370,9 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py))
+        if(checkText(px, py)) {
             return 0;
+        }
 
         int distance=GeometricDistances.pointToPoint(
                 virtualPoint[0].x,virtualPoint[0].y,
@@ -412,5 +430,4 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     {
         return 2;
     }
-
 }

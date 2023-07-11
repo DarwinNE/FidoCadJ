@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import net.sourceforge.fidocadj.globals.*;
+import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.librarymodel.Library;
 import net.sourceforge.fidocadj.librarymodel.Category;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
@@ -82,7 +82,7 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         element is currently selected.
         @param e the event change object.
     */
-    public void stateChanged(ChangeEvent e)
+    @Override public void stateChanged(ChangeEvent e)
     {
         copyMenu.setEnabled(permission.isCopyAvailable());
         pasteMenu.setEnabled(permission.isPasteAvailable());

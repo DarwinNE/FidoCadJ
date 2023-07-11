@@ -42,30 +42,28 @@ public class ExportPCBRND implements ExportInterface
     private final FileWriter fstream;
     private BufferedWriter out;
     private DimensionG dim;
-    //private int oldtextsize;
-    private String macroList;
-    private String junctionList;
-    private static ArrayList<String> viaList = new ArrayList<String>();
-    private static ArrayList<String> pinList = new ArrayList<String>();
-    private static ArrayList<String> footprints = new ArrayList<String>();
-    private static ArrayList<String> fpList = new ArrayList<String>();
-
-    private static ArrayList<String> layerEls1 = new ArrayList<String>();
-    private static ArrayList<String> layerEls2 = new ArrayList<String>();
-    private static ArrayList<String> layerEls3 = new ArrayList<String>();
-    private static ArrayList<String> layerEls4 = new ArrayList<String>();
-    private static ArrayList<String> layerEls5 = new ArrayList<String>();
-    private static ArrayList<String> layerEls6 = new ArrayList<String>();
-    private static ArrayList<String> layerEls7 = new ArrayList<String>();
-    private static ArrayList<String> layerEls8 = new ArrayList<String>();
-    private static ArrayList<String> layerEls9 = new ArrayList<String>();
-    private static ArrayList<String> layerEls10 = new ArrayList<String>();
-    private static ArrayList<String> layerEls11 = new ArrayList<String>();
-    private static ArrayList<String> layerEls12 = new ArrayList<String>();
-    private static ArrayList<String> layerEls13 = new ArrayList<String>();
-    private static ArrayList<String> layerEls14 = new ArrayList<String>();
-    private static ArrayList<String> layerEls15 = new ArrayList<String>();
-    private static ArrayList<String> layerEls16 = new ArrayList<String>();
+    //private String macroList;
+    //private String junctionList;
+    private static List<String> viaList = new ArrayList<String>();
+    private static List<String> pinList = new ArrayList<String>();
+    private static List<String> footprints = new ArrayList<String>();
+    private static List<String> fpList = new ArrayList<String>();
+    private static List<String> layerEls1 = new ArrayList<String>();
+    private static List<String> layerEls2 = new ArrayList<String>();
+    private static List<String> layerEls3 = new ArrayList<String>();
+    private static List<String> layerEls4 = new ArrayList<String>();
+    private static List<String> layerEls5 = new ArrayList<String>();
+    private static List<String> layerEls6 = new ArrayList<String>();
+    private static List<String> layerEls7 = new ArrayList<String>();
+    private static List<String> layerEls8 = new ArrayList<String>();
+    private static List<String> layerEls9 = new ArrayList<String>();
+    private static List<String> layerEls10 = new ArrayList<String>();
+    private static List<String> layerEls11 = new ArrayList<String>();
+    private static List<String> layerEls12 = new ArrayList<String>();
+    private static List<String> layerEls13 = new ArrayList<String>();
+    private static List<String> layerEls14 = new ArrayList<String>();
+    private static List<String> layerEls15 = new ArrayList<String>();
+    private static List<String> layerEls16 = new ArrayList<String>();
 
     static final double text_stretch = 0.73;
     static final String EagleFidoLib = "FidoCadJLIB";
@@ -94,8 +92,8 @@ public class ExportPCBRND implements ExportInterface
     */
     public ExportPCBRND (File f) throws IOException
     {
-        macroList = "";
-        junctionList = "";
+        //macroList = "";
+        //junctionList = "";
         fstream = new FileWriter(f);
     }
 
@@ -139,8 +137,8 @@ public class ExportPCBRND implements ExportInterface
         dim=totalSize;
         out = new BufferedWriter(fstream);
         //oldtextsize=-1;
-        macroList = "";
-        junctionList = "";
+        //macroList = "";
+        //junctionList = "";
 
         // start with a gEDA PCB file header
         gEDALayoutHeader();
@@ -249,8 +247,8 @@ public class ExportPCBRND implements ExportInterface
     public void exportConnection (int x, int y, int layer, double size)
         throws IOException
     {
-        junctionList += "Junction ("+een(x*res)+" "
-            +een((dim.height-y)*res)+");\n";
+        //junctionList += "Junction ("+een(x*res)+" "
+        //    +een((dim.height-y)*res)+");\n";
     }
 
     /** Called when exporting a Line primitive.
@@ -1520,12 +1518,11 @@ public class ExportPCBRND implements ExportInterface
         }
     }
 
-    private void writeElements(ArrayList<String> elements)
+    private void writeElements(List<String> elements)
         throws IOException
     {
         for (String el : elements) {
             out.write(el);
-            //System.out.println("Writing out elements.");
         }
         elements.clear(); // in case we export again later; it's static.
     }

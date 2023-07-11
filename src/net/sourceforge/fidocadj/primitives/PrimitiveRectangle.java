@@ -3,11 +3,13 @@ package net.sourceforge.fidocadj.primitives;
 import java.io.*;
 import java.util.*;
 
-import net.sourceforge.fidocadj.dialogs.*;
-import net.sourceforge.fidocadj.export.*;
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.dialogs.ParameterDescription;
+import net.sourceforge.fidocadj.dialogs.DashInfo;
+import net.sourceforge.fidocadj.export.ExportInterface;
+import net.sourceforge.fidocadj.geom.GeometricDistances;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
 
 /** Class to handle the rectangle primitive.
 
@@ -127,8 +129,9 @@ public final class PrimitiveRectangle extends GraphicPrimitive
                               List layerV)
     {
 
-        if(!selectLayer(g,layerV))
+        if(!selectLayer(g,layerV)) {
             return;
+        }
         drawText(g, coordSys, layerV, -1);
         // in the rectangle primitive, the first two virtual points represent
         //   the two corners of the segment
@@ -157,15 +160,16 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             }
             // Calculate the stroke width
             w = (float)(Globals.lineWidth*coordSys.getXMagnitude());
-            if (w<D_MIN) w=D_MIN;
+            if (w<D_MIN) { w=D_MIN; }
 
             width = xb-xa;
             height = yb-ya;
         }
 
         // If we do not need to perform the drawing, exit immediately
-        if(!g.hitClip(xa,ya, width+1,height+1))
+        if(!g.hitClip(xa,ya, width+1,height+1)) {
             return;
+        }
 
         g.applyStroke(w, dashStyle);
 
@@ -196,19 +200,18 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         That routine also sets the current layer.
         @param tokens the tokens to be processed. tokens[0] should be the
         command of the actual primitive.
-        @param N the number of tokens present in the array
+        @param nn the number of tokens present in the array
         @throws IOException if the arguments are incorrect or the primitive
             is invalid.
     */
-    public void parseTokens(String[] tokens, int N)
+    public void parseTokens(String[] tokens, int nn)
         throws IOException
     {
         changed=true;
         // assert it is the correct primitive
-        if (tokens[0].equals("RV")||tokens[0].equals("RP")) {   // Oval
-            if (N<5) {
-                IOException E=new IOException("bad arguments on RV/RP");
-                throw E;
+        if ("RV".equals(tokens[0])||"RP".equals(tokens[0])) {   // Oval
+            if (nn<5) {
+                throw new IOException("Bad arguments on RV/RP");
             }
             int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
             int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
@@ -219,20 +222,20 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
-            if(N>5) parseLayer(tokens[5]);
+            if(nn>5) { parseLayer(tokens[5]); }
 
-            if(tokens[0].equals("RP"))
+            if("RP".equals(tokens[0])) {
                 isFilled=true;
-            else
+            } else {
                 isFilled=false;
+            }
 
-            if(N>6 && tokens[6].equals("FCJ")) {
+            if(nn>6 && "FCJ".equals(tokens[6])) {
                 dashStyle = checkDashStyle(Integer.parseInt(tokens[7]));
             }
         } else {
-            IOException E=new IOException("RV/RP: Invalid primitive: "
+            throw new IOException("RV/RP: Invalid primitive: "
                 +tokens[0]+" programming error?");
-            throw E;
         }
     }
 
