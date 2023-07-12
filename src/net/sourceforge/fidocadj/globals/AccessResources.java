@@ -1,7 +1,6 @@
 package net.sourceforge.fidocadj.globals;
 
 import java.util.*;
-import java.io.*;
 
 /**         SWING VERSION
 
@@ -26,7 +25,7 @@ import java.io.*;
     You should have received a copy of the GNU General Public License
     along with FidoCadJ. If not,If not, see http://www.gnu.org/licenses/
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 
 </pre>
 */

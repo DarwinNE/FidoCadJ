@@ -60,7 +60,7 @@ public class ToolbarZoom extends JToolBar implements ActionListener,
     /** Standard constructor
         @param l the layer description
     */
-    public ToolbarZoom (Vector<LayerDesc> l)
+    public ToolbarZoom (List<LayerDesc> l)
     {
         putClientProperty("Quaqua.ToolBar.style", "title");
         zoom = new JComboBox<String>();

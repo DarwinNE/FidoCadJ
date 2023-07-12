@@ -24,7 +24,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
 */
@@ -44,20 +44,27 @@ public final class FileUtils
     */
     public static String readFile(String filename) throws IOException
     {
-        FileReader input = new FileReader(filename);
-        BufferedReader bufRead = new BufferedReader(input);
+        FileReader input = null;
+        BufferedReader bufRead = null;
+        StringBuffer txt=new StringBuffer("");
 
-        String line="";
-        StringBuffer txt = new StringBuffer(bufRead.readLine());
+        try {
+            bufRead =  new BufferedReader(input);
+            input=new FileReader(filename);
+            String line="";
+            txt = new StringBuffer(bufRead.readLine());
 
-        txt.append("\n");
-
-        while (line != null){
-            line =bufRead.readLine();
-            txt.append(line);
             txt.append("\n");
+
+            while (line != null){
+                line =bufRead.readLine();
+                txt.append(line);
+                txt.append("\n");
+            }
+        } finally {
+            if(bufRead!=null) { bufRead.close(); }
+            if(input!=null) { input.close(); }
         }
-        bufRead.close();
         return txt.toString();
     }
 
@@ -79,11 +86,12 @@ public final class FileUtils
 
             // Process all the elements of the directory.
             String[] children = sourceLocation.list();
-            if (children==null)
+            if (children==null) {
                 return;
-            for(int i = 0; i < children.length; ++i) {
-                copyDirectory(new File(sourceLocation, children[i]),
-                    new File(targetLocation, children[i]));
+            }
+            for(String currentFile: children) {
+                copyDirectory(new File(sourceLocation, currentFile),
+                    new File(targetLocation, currentFile));
             }
         } else {
             copyFile(sourceLocation, targetLocation);
@@ -98,8 +106,9 @@ public final class FileUtils
     public static void copyFile(File sourceLocation, File targetLocation)
         throws IOException
     {
-        if(sourceLocation.isDirectory())
+        if(sourceLocation.isDirectory()) {
             return;
+        }
 
         InputStream in = null;
         OutputStream out = null;
@@ -115,8 +124,8 @@ public final class FileUtils
                 out.write(buf, 0, len);
             }
         } finally {
-            if (out!=null) out.close();
-            if (in!=null) in.close();
+            if (out!=null) { out.close(); }
+            if (in!=null) { in.close(); }
         }
     }
 
@@ -146,12 +155,13 @@ public final class FileUtils
             criteria = criteria.toLowerCase(new Locale("en"));
 
             String[] children = sourceLocation.list();
-            if(children==null)
+            if(children==null) {
                 return;
-            for(int i = 0; i < children.length; ++i) {
-                if(children[i].toLowerCase().contains(criteria)) {
-                    copyFile(new File(sourceLocation, children[i]),
-                        new File(targetLocation, children[i]));
+            }
+            for(String s : children) {
+                if(s.toLowerCase(Locale.US).contains(criteria)) {
+                    copyFile(new File(sourceLocation, s),
+                        new File(targetLocation, s));
                 }
             }
         }
@@ -169,13 +179,13 @@ public final class FileUtils
         if(directory.exists()){
             File[] files = directory.listFiles();
             if(null!=files){
-                for(int i=0; i<files.length; i++) {
-                    if(files[i].isDirectory()) {
-                        deleteDirectory(files[i]);
+                for(File f : files) {
+                    if(f.isDirectory()) {
+                        deleteDirectory(f);
                     } else {
-                        if (!files[i].delete())
-                            throw new IOException("Can not delete file"+
-                                files[i]);
+                        if (!f.delete()) {
+                            throw new IOException("Can not delete file"+f);
+                        }
                     }
                 }
             }

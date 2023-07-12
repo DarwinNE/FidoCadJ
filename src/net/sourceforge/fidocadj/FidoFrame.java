@@ -528,7 +528,8 @@ public class FidoFrame extends JFrame implements
         // attribution in which only the first layers are attributed to
         // something that is circuit-related.
         // I followed the FidoCAD tradition on this.
-        Vector<LayerDesc> layerDesc=StandardLayers.createStandardLayers();
+        java.util.List<LayerDesc> layerDesc=
+            StandardLayers.createStandardLayers();
         cc.dmp.setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);

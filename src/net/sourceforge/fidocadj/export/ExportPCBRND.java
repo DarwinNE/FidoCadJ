@@ -2,12 +2,13 @@ package net.sourceforge.fidocadj.export;
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
 
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.globals.Globals;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.PointDouble;
+
 
 /** Circuit export to gEDA PCB and gEDA pcb-rnd.
 
@@ -33,7 +34,6 @@ import net.sourceforge.fidocadj.graphic.*;
     Copyright 2017 Erich Heinzle
    </pre>
 
-
     @author Davide Bucci, Erich Heinzle
 */
 
@@ -41,9 +41,6 @@ public class ExportPCBRND implements ExportInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;
-    private DimensionG dim;
-    //private String macroList;
-    //private String junctionList;
     private static List<String> viaList = new ArrayList<String>();
     private static List<String> pinList = new ArrayList<String>();
     private static List<String> footprints = new ArrayList<String>();
@@ -134,12 +131,7 @@ public class ExportPCBRND implements ExportInterface
         int grid)
         throws IOException
     {
-        dim=totalSize;
         out = new BufferedWriter(fstream);
-        //oldtextsize=-1;
-        //macroList = "";
-        //junctionList = "";
-
         // start with a gEDA PCB file header
         gEDALayoutHeader();
     }
@@ -343,10 +335,7 @@ public class ExportPCBRND implements ExportInterface
             String header = gEDAElementHeader(currentMacro,
                                               macroX,
                                               macroY);
-            String footprintBody = parseMacro(macroDesc,
-                                              macroX,
-                                              macroY,
-                                              orientation);
+            String footprintBody = parseMacro(macroDesc);
             String footer = gEDAElementFooter();
             if (!"".equals(footprintBody)) {
                 pushFootprint(header + footprintBody + footer, macroName);
@@ -635,24 +624,7 @@ public class ExportPCBRND implements ExportInterface
         return new PointPr();
     }
 
-    /** Export a number: truncate it to four decimals
-    */
-    private String een(double n)
-    {
-        // Force the Java system to use ALWAYS the dot as a decimal separator,
-        // regardless the locale settings (in Italy and France, the
-        // decimal separator is the comma).
-
-        DecimalFormatSymbols separators = new DecimalFormatSymbols();
-        separators.setDecimalSeparator('.');
-
-        DecimalFormat exportFormat
-            = new DecimalFormat(ExportFormatString,
-            separators);
-        return exportFormat.format(n);
-    }
-
-  ////////////////////// custom routines below /////////////////////
+  ////////////////////// Custom routines below /////////////////////
 
     private void gEDALayoutHeader() throws IOException
     {
@@ -697,160 +669,163 @@ public class ExportPCBRND implements ExportInterface
         return Integer.parseInt(val);
     }
 
-    private String parseMacro(String macroDesc,
-                              int macroX, int macroY,
-                              int orientation) throws IOException
+    private String parseMacro(String macroDesc) throws IOException
     {
-        BufferedReader buffer
-            = new BufferedReader(new StringReader(macroDesc));
-        ArrayList<String> macroDefs = new ArrayList<String>();
+        BufferedReader buffer =null;
+        List<String> macroDefs = new ArrayList<String>();
         int padCounter = 1;
         String line;
         String [] tokens;
         String footprintElements = "";
-        while ((line = buffer.readLine()) != null) {
-            macroDefs.add(line);
-        }
-        for (String macro : macroDefs) {
-            tokens = macro.split(" ");
-            if (tokens.length >= 5) {
-                if ("LI".equals(tokens[0])
-                    && "3".equals(tokens[5]))
-                { // silk
-                    footprintElements = footprintElements +
-                        fidoLineToPCBLineElement(sToInt(tokens[1]) - 100,
-                                                 sToInt(tokens[2]) - 100,
-                                                 sToInt(tokens[3]) - 100,
-                                                 sToInt(tokens[4]) - 100,
-                                                 2);
-                } else if ("EP".equals(tokens[0]) // filled
-                           && "3".equals(tokens[5]))
-                { // silk
-                    int dx = sToInt(tokens[3])-sToInt(tokens[1]);
-                    if (dx < 0) {
-                        dx = -dx;
-                    }
-                    int dy = sToInt(tokens[4])-sToInt(tokens[2]);
-                    if (dy < 0) {
-                        dy = -dy;
-                    }
-                    if (dx == dy) { // circle; ignore ellipses for now
-                        double midx
-                            = (sToInt(tokens[3])+sToInt(tokens[1]))/2;
-                        double midy
-                            = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
-                        // System.out.println("Filled FP ellipse");
+        
+        try {
+            buffer = new BufferedReader(new StringReader(macroDesc));
+            while ((line = buffer.readLine()) != null) {
+                macroDefs.add(line);
+            }
+            for (String macro : macroDefs) {
+                tokens = macro.split(" ");
+                if (tokens.length >= 5) {
+                    if ("LI".equals(tokens[0])
+                        && "3".equals(tokens[5]))
+                    { // silk
                         footprintElements = footprintElements +
-                            fidoArcToPCBArcElement(midx-100,
-                                                   midy-100,
-                                                   dx, 2, true);
-                    }
-                } else if ("EV".equals(tokens[0]) // not filled
-                           && "3".equals(tokens[5]))
-                { // silk
-                    int dx
-                        = sToInt(tokens[3])-sToInt(tokens[1]);
-                    if (dx < 0) {
-                        dx = -dx;
-                    }
-                    int dy = sToInt(tokens[4])-sToInt(tokens[2]);
-                    if (dy < 0) {
-                        dy = -dy;
-                    }
-                    if (dx == dy) { // circle; ignore ellipses for now
-                        double midx
-                            = (sToInt(tokens[3])+sToInt(tokens[1]))/2;
-                        double midy
-                            = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
-                        System.out.println("Processing empty FP ellipse");
+                            fidoLineToPCBLineElement(sToInt(tokens[1]) - 100,
+                                                     sToInt(tokens[2]) - 100,
+                                                     sToInt(tokens[3]) - 100,
+                                                     sToInt(tokens[4]) - 100,
+                                                     2);
+                    } else if ("EP".equals(tokens[0]) // filled
+                               && "3".equals(tokens[5]))
+                    { // silk
+                        int dx = sToInt(tokens[3])-sToInt(tokens[1]);
+                        if (dx < 0) {
+                            dx = -dx;
+                        }
+                        int dy = sToInt(tokens[4])-sToInt(tokens[2]);
+                        if (dy < 0) {
+                            dy = -dy;
+                        }
+                        if (dx == dy) { // circle; ignore ellipses for now
+                            double midx
+                                = (sToInt(tokens[3])+sToInt(tokens[1]))/2;
+                            double midy
+                                = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
+                            // System.out.println("Filled FP ellipse");
+                            footprintElements = footprintElements +
+                                fidoArcToPCBArcElement(midx-100,
+                                                       midy-100,
+                                                       dx, 2, true);
+                        }
+                    } else if ("EV".equals(tokens[0]) // not filled
+                               && "3".equals(tokens[5]))
+                    { // silk
+                        int dx
+                            = sToInt(tokens[3])-sToInt(tokens[1]);
+                        if (dx < 0) {
+                            dx = -dx;
+                        }
+                        int dy = sToInt(tokens[4])-sToInt(tokens[2]);
+                        if (dy < 0) {
+                            dy = -dy;
+                        }
+                        if (dx == dy) { // circle; ignore ellipses for now
+                            double midx
+                                = (sToInt(tokens[3])+sToInt(tokens[1]))/2;
+                            double midy
+                                = (sToInt(tokens[4])+sToInt(tokens[2]))/2;
+                            System.out.println("Processing empty FP ellipse");
+                            footprintElements = footprintElements +
+                                fidoArcToPCBArcElement(midx - 100,
+                                                       midy - 100,
+                                                       dx, 2, false);
+                        }
+                    } else if ("RP".equals(tokens[0]) //filled rectangle pad
+                               && !"0".equals(tokens[5]))
+                    { // not circuit
                         footprintElements = footprintElements +
-                            fidoArcToPCBArcElement(midx - 100,
-                                                   midy - 100,
-                                                   dx, 2, false);
-                    }
-                } else if ("RP".equals(tokens[0]) //filled rectangle pad
-                           && !"0".equals(tokens[5]))
-                { // not circuit
-                    footprintElements = footprintElements +
-                        fidoRectToPCBPadElement(sToInt(tokens[1]) - 100,
-                                                sToInt(tokens[2]) - 100,
-                                                sToInt(tokens[3]) - 100,
-                                                sToInt(tokens[4]) - 100,
-                                                sToInt(tokens[5]),
-                                                padCounter);
-                    padCounter++;
-                } else if ("RV".equals(tokens[0]) // empty rectangle
-                           && "3".equals(tokens[5]))
-                { // on silk
-                    footprintElements = footprintElements +
-                        fidoRectToPCBLineElements(sToInt(tokens[1]) - 100,
-                                                  sToInt(tokens[2]) - 100,
-                                                  sToInt(tokens[3]) - 100,
-                                                  sToInt(tokens[4]) - 100,
-                                                  sToInt(tokens[5]));
-                } else if ("PA".equals(tokens[0])) { // pin
-                    footprintElements = footprintElements +
-                        fidoPadToPCBPinElement(sToInt(tokens[1]) - 100,
-                                               sToInt(tokens[2]) - 100,
-                                               sToInt(tokens[3]),
-                                               sToInt(tokens[4]),
-                                               sToInt(tokens[5]),
-                                               sToInt(tokens[6]),
-                                               sToInt(tokens[7]),
-                                               padCounter);
-                    padCounter++;
-                } else if ("PV".equals(tokens[0])) { // empty polyline
-                    // silk
-                    int nVertices = 0;
-                    if (tokens.length%2 == 0) { // an even number
-                        nVertices = (tokens.length-2)/2;
-                    }
-                    //System.out.println("# nvertices: " + nVertices);
-                    PointDouble [] vertices = new PointDouble[nVertices];
-                    for (int vertex = 0;
-                         vertex < 2*nVertices;
-                         vertex = vertex + 2) {
-                        PointDouble newV = new PointDouble();
-                        newV.x = Double.parseDouble(tokens[vertex+1]) - 100;
-                        newV.y = Double.parseDouble(tokens[vertex+2]) - 100;
-                        vertices[vertex/2] = newV;
-                    } // NB number of line segments = vertices - 1
-                    footprintElements = footprintElements +
-                        fidoPolylineToPCBLineElements(vertices,
-                                                      nVertices,
-                                                      2); // 10 mil default
-                } else if ("BE".equals(tokens[0]) // bezier
-                           && !"0".equals(tokens[9]))
-                { // not circuit
-                    // System.out.println("# About to process FP bezier");
-                    int x1 = sToInt(tokens[1]) - 100;
-                    int y1 = sToInt(tokens[2]) - 100;
-                    int x2 = sToInt(tokens[3]) - 100;
-                    int y2 = sToInt(tokens[4]) - 100;
-                    int x3 = sToInt(tokens[5]) - 100;
-                    int y3 = sToInt(tokens[6]) - 100;
-                    int x4 = sToInt(tokens[7]) - 100;
-                    int y4 = sToInt(tokens[8]) - 100;
+                            fidoRectToPCBPadElement(sToInt(tokens[1]) - 100,
+                                                    sToInt(tokens[2]) - 100,
+                                                    sToInt(tokens[3]) - 100,
+                                                    sToInt(tokens[4]) - 100,
+                                                    sToInt(tokens[5]),
+                                                    padCounter);
+                        padCounter++;
+                    } else if ("RV".equals(tokens[0]) // empty rectangle
+                               && "3".equals(tokens[5]))
+                    { // on silk
+                        footprintElements = footprintElements +
+                            fidoRectToPCBLineElements(sToInt(tokens[1]) - 100,
+                                                      sToInt(tokens[2]) - 100,
+                                                      sToInt(tokens[3]) - 100,
+                                                      sToInt(tokens[4]) - 100,
+                                                      sToInt(tokens[5]));
+                    } else if ("PA".equals(tokens[0])) { // pin
+                        footprintElements = footprintElements +
+                            fidoPadToPCBPinElement(sToInt(tokens[1]) - 100,
+                                                   sToInt(tokens[2]) - 100,
+                                                   sToInt(tokens[3]),
+                                                   sToInt(tokens[4]),
+                                                   sToInt(tokens[5]),
+                                                   sToInt(tokens[6]),
+                                                   //sToInt(tokens[7]),
+                                                   padCounter);
+                        padCounter++;
+                    } else if ("PV".equals(tokens[0])) { // empty polyline
+                        // silk
+                        int nVertices = 0;
+                        if (tokens.length%2 == 0) { // an even number
+                            nVertices = (tokens.length-2)/2;
+                        }
+                        //System.out.println("# nvertices: " + nVertices);
+                        PointDouble [] vertices = new PointDouble[nVertices];
+                        for (int vertex = 0;
+                             vertex < 2*nVertices;
+                             vertex = vertex + 2) {
+                            PointDouble newV = new PointDouble();
+                            newV.x = Double.parseDouble(tokens[vertex+1]) - 100;
+                            newV.y = Double.parseDouble(tokens[vertex+2]) - 100;
+                            vertices[vertex/2] = newV;
+                        } // NB number of line segments = vertices - 1
+                        footprintElements = footprintElements +
+                            fidoPolylineToPCBLineElements(vertices,
+                                                          nVertices,
+                                                          2); // 10 mil default
+                    } else if ("BE".equals(tokens[0]) // bezier
+                               && !"0".equals(tokens[9]))
+                    { // not circuit
+                        // System.out.println("# About to process FP bezier");
+                        int x1 = sToInt(tokens[1]) - 100;
+                        int y1 = sToInt(tokens[2]) - 100;
+                        int x2 = sToInt(tokens[3]) - 100;
+                        int y2 = sToInt(tokens[4]) - 100;
+                        int x3 = sToInt(tokens[5]) - 100;
+                        int y3 = sToInt(tokens[6]) - 100;
+                        int x4 = sToInt(tokens[7]) - 100;
+                        int y4 = sToInt(tokens[8]) - 100;
 
-                    int nVertices = 10;
-                    PointDouble [] vertices
-                        = new PointDouble[nVertices];
-                    vertices = cubicBezierToVector(x1, y1, x2, y2, x3,
-                                                   y3, x4, y4,
-                                                   nVertices-1);
-                    footprintElements = footprintElements +
-                        fidoPolylineToPCBLineElements(vertices,
-                                                      nVertices,
-                                                      2);
-                    // 10 mil default for exported lines
-                } else if ("TY".equals(tokens[0])) {
-                    // We don't support text in footprints in gEDA
-                    System.out.println("Text not supported.");
-                } else {
-                    System.out.println("# Unsure what to do with: "
-                                       + tokens[0] + " in macro.");
+                        int nVertices = 10;
+                        PointDouble [] vertices
+                            = new PointDouble[nVertices];
+                        vertices = cubicBezierToVector(x1, y1, x2, y2, x3,
+                                                       y3, x4, y4,
+                                                       nVertices-1);
+                        footprintElements = footprintElements +
+                            fidoPolylineToPCBLineElements(vertices,
+                                                          nVertices,
+                                                          2);
+                        // 10 mil default for exported lines
+                    } else if ("TY".equals(tokens[0])) {
+                        // We don't support text in footprints in gEDA
+                        System.out.println("Text not supported.");
+                    } else {
+                        System.out.println("# Unsure what to do with: "
+                                           + tokens[0] + " in macro.");
+                    }
                 }
             }
+        } finally {
+            if (buffer!=null) { buffer.close(); }
         }
         return footprintElements;
     }
@@ -1107,32 +1082,6 @@ public class ExportPCBRND implements ExportInterface
         return arc;
     }
 
-    private String fidoArcToPCBArcElement(int midx, int midy,
-                                          int dx,
-                                          double thickness,
-                                          boolean filled)
-    {
-        return fidoArcToPCBArcElement((double)midx, (double)midy,
-                                      dx, thickness, filled);
-    }
-
-    private String fidoArcToPCBArcElement(PointDouble p1, int dx,
-                                          int thickness, boolean filled)
-    {
-        return fidoArcToPCBArcElement(p1.x, p1.y, dx, thickness, filled);
-    }
-
-    // Pad[xX1 yY1 xX2 yY2 Thickness Clearance Mask Name Number SFlags]
-
-    private String fidoRectToPCBPadElement(int x1, int y1, int x2,
-                                           int y2, int layer,
-                                           int padCounter)
-    {
-        return fidoRectToPCBPadElement((double)x1, (double)y1,
-                                       (double)x2, (double)y2, layer,
-                                       padCounter);
-    }
-
     private String fidoRectToPCBPadElement(double x1, double y1,
                                            double x2, double y2,
                                            int layer,
@@ -1193,7 +1142,6 @@ public class ExportPCBRND implements ExportInterface
     private String fidoPadToPCBPinElement(double x1, double y1,
                                           double dx, double dy,
                                           int drill, int style,
-                                          int layer,
                                           int padCounter)
     {
         double thickness = dx;
@@ -1231,23 +1179,11 @@ public class ExportPCBRND implements ExportInterface
     private String fidoPadToPCBPinElement(int x1, int y1,
                                           int dx, int dy,
                                           int drill, int style,
-                                          int layer,
                                           int padCounter)
     {
         return fidoPadToPCBPinElement((double)x1, (double)y1,
                                       (double)dx, (double)dy,
-                                      drill, style, layer,
-                                      padCounter);
-    }
-
-    private String fidoPadToPCBPinElement(PointDouble p1, int dx,
-                                          int dy, int drill,
-                                          int style, int layer,
-                                          int padCounter)
-    {
-        return fidoPadToPCBPinElement(p1.x, p1.y, dx, dy,
-                                      drill, style, layer,
-                                      padCounter);
+                                      drill, style, padCounter);
     }
 
     private String fidoTextToPCBText(double x, double y,
@@ -1259,7 +1195,7 @@ public class ExportPCBRND implements ExportInterface
         // based on default_font 'm', 'l', p', 'q' glyphs
         // which includes default stroke thickness of 800 centimil
         // an additional scaling factor of 2 seems necessary
-        long scaling = (2*100*coordToPCB(height))/5789; // in % of gEDA size
+        long scaling = 2*100*coordToPCB(height)/5789; // in % of gEDA size
         int gEDAorientation = 0; // default
         if (orientation > 45 && orientation <= 135) {
             gEDAorientation = 1;
@@ -1283,12 +1219,6 @@ public class ExportPCBRND implements ExportInterface
     {
         return fidoTextToPCBText((double)x,
                                  (double)y, text, height, orientation);
-    }
-
-    private String fidoTextToPCBText(PointDouble loc, String text,
-                                   int height, int orient)
-    {
-        return fidoTextToPCBText(loc.x, loc.y, text, height, orient);
     }
 
     private String
@@ -1366,26 +1296,9 @@ public class ExportPCBRND implements ExportInterface
             + fidoLineToPCBLine(x2, y1, x1, y1, strokeWidth);
     }
 
-    private String fidoPadToPCBVia(double x, double y, int dia, int drill)
+    private String fidoPadToPCBVia(double x,double y,int dia,int drill)//NOPMD
     {
         return "#FidoPadToPCBVia stub\n";
-    }
-
-    private String fidoPadToPCBVia(int x, int y, int dia, int drill)
-    {
-        return  fidoPadToPCBVia((double)x, (double)y, dia, drill);
-    }
-
-    private String fidoPadToPCBVia(PointDouble loc, int dia, int drill)
-    {
-        return  fidoPadToPCBVia(loc.x, loc.y, dia, drill);
-    }
-
-    private long fidoCoordToPCB(int coord)
-    {
-        // coords are in multiples of 5mil = 127micron
-        // if we export in centimil PCBcoord = 500x
-        return (long)(500*coord); // are they using 25.4 microns??
     }
 
     private long fidoCoordToPCB(double coord)
@@ -1408,39 +1321,6 @@ public class ExportPCBRND implements ExportInterface
         // coords are in multiples of 5mil = 127micron
         // if we export in centimil PCBcoord = 500x
         return (long)(500*thickness); // are they using 25.4 microns??
-    }
-
-    private void createPinAsSquareElement(int x, int y, int size, int drill)
-    {
-        String newEl = "Element[\"\" \"\" \"\" \"\" "
-            + coordToPCB(x) + " "
-            + coordToPCB(y) + " "
-            + "0 0 0 100 \"\"]\n"
-            + "(\n"
-            + "\tPin[0 0 " // diameter next
-            + coordToPCB(size) + " " // mask diameter next
-            + (coordToPCB(size) + 600) + " " // hole diameter next
-            + coordToPCB(drill) // then refdes, pin num and flags
-            + "\"\" \"1\" \"square\"]\n" // square flag
-            + ")\n";
-        pinList.add(newEl);
-    }
-
-
-    private void createPinAsRoundElement(int x, int y, int size, int drill)
-    {
-        String newEl = "Element[\"\" \"\" \"\" \"\" "
-            + coordToPCB(x) + " "
-            + coordToPCB(y) + " "
-            + "0 0 0 100 \"\"]\n"
-            + "(\n"
-            + "\tPin[0 0 " // diameter next
-            + coordToPCB(size) + " " // mask diameter next
-            + (coordToPCB(size) + 600) + " " // hole diameter next
-            + coordToPCB(drill) // then refdes, pin num and flags
-            + "\"\" \"1\" \"\"]\n" // no square flag
-            + ")\n";
-        pinList.add(newEl);
     }
 
     private boolean footprintUnique(String macroName)
