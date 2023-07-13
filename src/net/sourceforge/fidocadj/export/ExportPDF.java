@@ -488,7 +488,6 @@ public class ExportPDF implements ExportInterface, TextInterface
                 "    /Differences [";
 
         for (Integer code : uncodeCharsNeeded.keySet()) {
-            String glyph=unicodeToGlyph.get(uncodeCharsNeeded.get(code));
             obj_PDF[16]+=""+code+"/"+unicodeToGlyph.get(
                 uncodeCharsNeeded.get(code))+" ";
         }
@@ -795,7 +794,6 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
-        String bold="";
 
         checkColorAndWidth(c, .33);
 
@@ -942,11 +940,11 @@ public class ExportPDF implements ExportInterface, TextInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
-        @param node_size the size of the connection, in logical units.
+        @param nodeSize the size of the connection, in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportConnection (int x, int y, int layer, double node_size)
+    public void exportConnection (int x, int y, int layer, double nodeSize)
         throws IOException
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -954,8 +952,8 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         checkColorAndWidth(c, .33);
 
-        ellipse(x-node_size/2.0, y-node_size/2.0,
-                x+node_size/2.0, y+node_size/2.0, true);
+        ellipse(x-nodeSize/2.0, y-nodeSize/2.0,
+                x+nodeSize/2.0, y+nodeSize/2.0, true);
     }
 
     /** Called when exporting a Line primitive.
@@ -990,8 +988,10 @@ public class ExportPDF implements ExportInterface, TextInterface
         double strokeWidth)
         throws IOException
     {
-        double xstart=x1, ystart=y1;
-        double xend=x2, yend=y2;
+        double xstart=x1;
+        double ystart=y1;
+        double xend=x2;
+        double yend=y2;
 
         LayerDesc l=(LayerDesc)layerV.get(layer);
         ColorInterface c=l.getColor();
@@ -1308,12 +1308,6 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         final int nMAX=32;
 
-        double xA;
-        double yA;
-
-        double xB;
-        double yB;
-
         double xC;
         double yC;
 
@@ -1322,23 +1316,14 @@ public class ExportPDF implements ExportInterface, TextInterface
 
         double alpha;
 
-        final double rr = 1.02;
         final double tt = 1.01;
 
         outt.write("  "+ Globals.roundTo(cx+rx)+" "+ Globals.roundTo(cy)+
             " m\n");
 
         for(int i=0; i<nMAX; ++i) {
-
             alpha = 2.0*Math.PI*(double)i/(double)nMAX;
-            xA = cx + rx * Math.cos(alpha);
-            yA = cy + ry * Math.sin(alpha);
-
             alpha += 2.0*Math.PI/(double)nMAX/3.0;
-
-            xB = cx + rr*rx * Math.cos(alpha);
-            yB = cy + rr*ry * Math.sin(alpha);
-
             alpha += 2.0*Math.PI/(double)nMAX/3.0;
 
             xC = cx + tt*rx * Math.cos(alpha);
@@ -1348,7 +1333,6 @@ public class ExportPDF implements ExportInterface, TextInterface
 
             xD = cx + rx * Math.cos(alpha);
             yD = cy + ry * Math.sin(alpha);
-
 
             outt.write(Globals.roundTo(xC)+" "+
                 Globals.roundTo(yC)+" "+ Globals.roundTo(xD)+" "+
@@ -1418,7 +1402,6 @@ public class ExportPDF implements ExportInterface, TextInterface
         int style)
         throws IOException
     {
-        double s;
         double alpha;
         double x0;
         double y0;
@@ -1523,7 +1506,6 @@ public class ExportPDF implements ExportInterface, TextInterface
 
             outt.write(" <");
             int ch;
-            int codechar;
             for(int i=0; i<str.length();++i) {
                 ch=(int)str.charAt(i);
                 // Proceed to encode UTF-8 characters as much as possible.

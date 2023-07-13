@@ -1,16 +1,9 @@
 package net.sourceforge.fidocadj.toolbars;
 
-import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.event.*;
-
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.globals.*;
-
-import java.util.*;
 import java.net.*;
+
+import net.sourceforge.fidocadj.globals.Globals;
 
 /**
     ToolButton class
@@ -40,7 +33,7 @@ import java.net.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci, Jose Emilio Munoz
@@ -74,8 +67,8 @@ public class ToolButton
 
         URL url = ToolbarTools.class.getResource(base+image);
 
-        toolButton = new JToggleButton((showText?Globals.messages.
-                                        getString(toolText):""),
+        toolButton = new JToggleButton(showText?Globals.messages.
+                                        getString(toolText):"",
                                        new ImageIcon(url));
 
         toolButton.setActionCommand(actionCommand);

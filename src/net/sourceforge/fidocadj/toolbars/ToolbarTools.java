@@ -1,17 +1,11 @@
 package net.sourceforge.fidocadj.toolbars;
 
-import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.event.*;
-
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
-import net.sourceforge.fidocadj.globals.*;
-
 import java.util.*;
-import java.net.*;
+
+import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
+
 
 /** SWING VERSION.
  ToolbarTools class
@@ -82,8 +76,8 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     private final boolean showText;
 
     private final ButtonGroup group;
-    private final ArrayList<JToggleButton> toolButtonsList;
-    private final HashMap<JToggleButton, Integer> circuitPanelConstants;
+    private final List<JToggleButton> toolButtonsList;
+    private final Map<JToggleButton, Integer> circuitPanelConstants;
 
     /** On some operating systems, namely MacOS, the filename is shown in the
         toolbar.
@@ -461,7 +455,7 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
             return ElementsEdtActions.NONE;
         } else {
             Integer circuitPanelConstantInteger =
-                (Integer)(circuitPanelConstants.get(selectedButton));
+                (Integer)circuitPanelConstants.get(selectedButton);
             return circuitPanelConstantInteger.intValue();
         }
     }
@@ -484,15 +478,16 @@ public class ToolbarTools extends JToolBar implements ChangeSelectionListener
     */
     public void setSelectionState(int s, String m)
     {
-        for(int i=0; i<toolButtonsList.size(); ++i) {
-            if(s == ElementsEdtActions.NONE || s == ElementsEdtActions.MACRO)
+        for(JToggleButton button : toolButtonsList) {
+            if(s == ElementsEdtActions.NONE || s == ElementsEdtActions.MACRO) {
                 break;
-            JToggleButton button = (JToggleButton) toolButtonsList.get(i);
+            }
             Integer circuitPanelConstantInteger =
-                (Integer)(circuitPanelConstants.get(button));
+                (Integer)circuitPanelConstants.get(button);
             int circuitPanelConstant = circuitPanelConstantInteger.intValue();
-            if(s == circuitPanelConstant)
+            if(s == circuitPanelConstant) {
                 button.setSelected(true);
+            }
         }
     }
 }

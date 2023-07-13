@@ -35,7 +35,7 @@ import net.sourceforge.fidocadj.graphic.swing.ColorSwing;
 public final class StandardLayers
 {
     // A dummy list of layers.
-    private static Vector<LayerDesc> ll_dummy;
+    private static java.util.List<LayerDesc> ll_dummy;
     private final static Object lock = new Object();
 
     /** Private constructor, for Utility class pattern
@@ -51,9 +51,9 @@ public final class StandardLayers
 
         @return the list of the layers being created.
     */
-    public static Vector<LayerDesc> createStandardLayers()
+    public static java.util.List<LayerDesc> createStandardLayers()
     {
-        Vector<LayerDesc> layerDesc;
+        java.util.List<LayerDesc> layerDesc;
         synchronized(lock) {
             String s="";
 
@@ -149,7 +149,7 @@ public final class StandardLayers
          @return an Vector composed by LayerDesc.MAX_LAYERS opaque layers in
             green.
     */
-    public static Vector<LayerDesc> createEditingLayerArray()
+    public static java.util.List<LayerDesc> createEditingLayerArray()
     {
         synchronized(lock) {
             // This is called at each redraw, so it is a good idea to avoid

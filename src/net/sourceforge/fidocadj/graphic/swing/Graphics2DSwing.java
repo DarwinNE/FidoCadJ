@@ -823,6 +823,6 @@ public class Graphics2DSwing implements GraphicsInterface, TextInterface
     */
     public float getScreenDensity()
     {
-        return java.awt.Toolkit.getDefaultToolkit().getScreenResolution();
+        return Toolkit.getDefaultToolkit().getScreenResolution();
     }
 }

@@ -5,7 +5,6 @@ import java.io.*;
 
 import net.sourceforge.fidocadj.globals.Globals;
 import net.sourceforge.fidocadj.layers.LayerDesc;
-import net.sourceforge.fidocadj.primitives.MacroDesc;
 import net.sourceforge.fidocadj.primitives.Arrow;
 import net.sourceforge.fidocadj.graphic.DimensionG;
 import net.sourceforge.fidocadj.graphic.GraphicsInterface;
@@ -56,7 +55,6 @@ public class ExportSVG implements ExportInterface, TextInterface
     private float currentFontSize=0;
     private DecoratedText dt;
     private String fontname;        // Some info about the font is stored
-    private String bold="";
     private float textx;            // This is used in sub-sup scripts position
     private float texty;
     private boolean isItalic;
@@ -90,8 +88,9 @@ public class ExportSVG implements ExportInterface, TextInterface
             dashArrayStretched = "";
             for(int j=0; j<Globals.dash[i].length;++j) {
                 dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
-                if(j<Globals.dash[i].length-1)
+                if(j<Globals.dash[i].length-1) {
                     dashArrayStretched+=",";
+                }
             }
             sDash[i]=dashArrayStretched;
         }
@@ -150,8 +149,8 @@ public class ExportSVG implements ExportInterface, TextInterface
         out = new BufferedWriter(fstream);
         //numberPath=0;
 
-        int wi=(int)(totalSize.width);
-        int he=(int)(totalSize.height);
+        int wi=(int)totalSize.width;
+        int he=(int)totalSize.height;
 
         // A dumb, basic header of the SVG file
 
@@ -201,7 +200,6 @@ public class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
-        String path;
         this.isItalic=isItalic;
         this.isBold=isBold;
         this.fontname=fontname;
@@ -229,7 +227,6 @@ public class ExportSVG implements ExportInterface, TextInterface
         texty=y;
         dt.drawString(text,x,y);
         out.write("</g>\n");
-
     }
 
     /** Called when exporting a Bézier primitive.
@@ -306,11 +303,11 @@ public class ExportSVG implements ExportInterface, TextInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
-        @param node_size the size of the connection in logical units.
+        @param nodeSize the size of the connection in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportConnection (int x, int y, int layer, double node_size)
+    public void exportConnection (int x, int y, int layer, double nodeSize)
         throws IOException
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
@@ -318,7 +315,7 @@ public class ExportSVG implements ExportInterface, TextInterface
         strokeWidth = cLe(0.33);
 
         out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
-            " r=\""+cLe(node_size/2.0)+"\" style=\"stroke:#"+
+            " r=\""+cLe(nodeSize/2.0)+"\" style=\"stroke:#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+";stroke-width:"+strokeWidth+
@@ -366,8 +363,10 @@ public class ExportSVG implements ExportInterface, TextInterface
         c=l.getColor();
         strokeWidth=sW;
 
-        double xstart=x1, ystart=y1;
-        double xend=x2, yend=y2;
+        double xstart=x1;
+        double ystart=y1;
+        double xend=x2;
+        double yend=y2;
 
         if (arrowStart) {
             PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
@@ -705,9 +704,9 @@ public class ExportSVG implements ExportInterface, TextInterface
     private String convertToHex2(int v)
     {
         String s=Integer.toHexString(v);
-        if (s.length()==1)
+        if (s.length()==1) {
             s="0"+s;
-
+        }
         return s;
     }
 
@@ -738,10 +737,11 @@ public class ExportSVG implements ExportInterface, TextInterface
                 convertToHex2(c.getGreen())+
                 convertToHex2(c.getBlue()));
 
-            if (dashStyle>0)
+            if (dashStyle>0) {
                 out.write(";stroke-dasharray: "+sDash[dashStyle]);
+            }
 
-            if (currentPhase!=dashPhase){
+            if (currentPhase!=dashPhase) {
                 currentPhase=dashPhase;
                 out.write(";stroke-dashoffset: "+dashPhase);
             }
@@ -749,15 +749,6 @@ public class ExportSVG implements ExportInterface, TextInterface
             out.write(";stroke-width:"+strokeWidth+
                   ";fill-rule: evenodd;\" " + fillPattern + "/>\n");
         }
-            // Saving old values.
-            //oc=c;
-            //owl=strokeWidth;
-            //ofp=fillPattern;
-            //ods=dashStyle;
-
-        //} else {
-        //  out.write("/>\n");
-        //}
     }
 
 
@@ -778,7 +769,6 @@ public class ExportSVG implements ExportInterface, TextInterface
         int style)
         throws IOException
     {
-        double s;
         double alpha;
         double x0;
         double y0;
@@ -790,10 +780,11 @@ public class ExportSVG implements ExportInterface, TextInterface
         // At first we need the angle giving the direction of the arrow
         // a little bit of trigonometry :-)
 
-        if (x==xc)
+        if (x==xc) {
             alpha = Math.PI/2.0+(y-yc<0.0?0.0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+        }
 
         alpha += x-xc>0.0?0.0:Math.PI;
         String fillPattern;
@@ -818,13 +809,14 @@ public class ExportSVG implements ExportInterface, TextInterface
         out.write(""+Globals.roundTo(x2)+","
             +Globals.roundTo(y2)+"\" ");
 
-        if ((style & Arrow.flagEmpty) == 0)
+        if ((style & Arrow.flagEmpty) == 0) {
             fillPattern="fill=\"#"+
                   convertToHex2(c.getRed())+
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+"\"";
-        else
+        } else {
             fillPattern="fill=\"none\"";
+        }
 
         checkColorAndWidth(fillPattern,0);
 
@@ -903,7 +895,7 @@ public class ExportSVG implements ExportInterface, TextInterface
 
             out.write(outtxt);
             out.write("</text>\n");
-        } catch(IOException E) {
+        } catch(IOException e) {
             System.err.println("Can not write to file in SVG export.");
         }
     }

@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.layers;
 
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
 
 /** layerDesc.java
 
@@ -23,7 +23,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2015 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
 
     </pre>
 

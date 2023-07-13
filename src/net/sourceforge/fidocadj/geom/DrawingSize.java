@@ -1,13 +1,10 @@
 package net.sourceforge.fidocadj.geom;
 
-import net.sourceforge.fidocadj.circuit.*;
-import net.sourceforge.fidocadj.circuit.controllers.*;
-import net.sourceforge.fidocadj.circuit.model.*;
-import net.sourceforge.fidocadj.circuit.views.*;
-import net.sourceforge.fidocadj.globals.*;
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.graphic.*;
-import net.sourceforge.fidocadj.graphic.nil.*;
+import net.sourceforge.fidocadj.circuit.model.DrawingModel;
+import net.sourceforge.fidocadj.circuit.views.Drawing;
+import net.sourceforge.fidocadj.graphic.PointG;
+import net.sourceforge.fidocadj.graphic.DimensionG;
+import net.sourceforge.fidocadj.graphic.nil.GraphicsNull;
 
 
 /**
@@ -30,7 +27,7 @@ import net.sourceforge.fidocadj.graphic.nil.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2020 by Davide Bucci
+    Copyright 2008-2023 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -82,10 +79,12 @@ public final class DrawingSize
         }
 
         // Verify that the image size is reasonable
-        if(width<=0)
+        if(width<=0) {
             width=1;
-        if(height<=0)
+        }
+        if(height<=0) {
             height=1;
+        }
 
         if (m.getXMax() >= m.getXMin() &&
             m.getYMax() >= m.getYMin())
@@ -161,22 +160,24 @@ public final class DrawingSize
         MapCoordinates newZoom=new MapCoordinates();
 
         // Determine the size and the origin of the current drawing.
-        DimensionG D = getImageSize(dm,1,countMin, org);
-        maxsizex=D.width+1;
-        maxsizey=D.height+1;
+        DimensionG d = getImageSize(dm,1,countMin, org);
+        maxsizex=d.width+1;
+        maxsizey=d.height+1;
 
-        if (!countMin)
+        if (!countMin) {
             org=new PointG(0,0);
+        }
 
-        double zoomx=1.0/((maxsizex)/(double)sizex);
-        double zoomy=1.0/((maxsizey)/(double)sizey);
+        double zoomx=1.0/(maxsizex/(double)sizex);
+        double zoomy=1.0/(maxsizey/(double)sizey);
 
         double z= zoomx>zoomy ? zoomy:zoomx;
 
         z=Math.round(z*100.0)/100.0;        // 0.20.5
 
-        if(z<MapCoordinates.MIN_MAGNITUDE)
+        if(z<MapCoordinates.MIN_MAGNITUDE) {
             z=MapCoordinates.MIN_MAGNITUDE;
+        }
 
         newZoom.setMagnitudesNoCheck(z,z);
         // The zoom setting might have been rounded, or bounded.

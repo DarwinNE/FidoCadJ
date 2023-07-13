@@ -97,8 +97,9 @@ public class ExportPGF implements ExportInterface
             dashArrayStretched = "";
             for(int j=0; j<Globals.dash[i].length;++j) {
                 dashArrayStretched+=(Globals.dash[i][j]*(float)u/2.0f);
-                if(j<Globals.dash[i].length-1)
+                if(j<Globals.dash[i].length-1) {
                     dashArrayStretched+="pt}{";
+                }
             }
             sDash[i]="{"+dashArrayStretched+"pt}";
         }
@@ -159,8 +160,8 @@ public class ExportPGF implements ExportInterface
 
         // A basic header of the PGF file
 
-        out.write("\\begin{pgfpicture}{0cm}{0cm}{"+(wi)+
-            "pt}{"+(he)+"pt}\n"
+        out.write("\\begin{pgfpicture}{0cm}{0cm}{"+wi+
+            "pt}{"+he+"pt}\n"
             +"% Created by FidoCadJ ver. "+Globals.version
             +", export filter by Davide Bucci\n");
         out.write("\\pgfsetxvec{\\pgfpoint{"+1+"pt}{0pt}}\n");
@@ -216,9 +217,6 @@ public class ExportPGF implements ExportInterface
         throws IOException
     {
         registerColorSize(layer, -1.0);
-
-
-        String path;
 
         /*  THIS VERSION OF TEXT EXPORT IS NOT COMPLETE! IN PARTICULAR,
             MIRRORING EFFECTS, ANGLES AND A PRECISE SIZE CONTROL IS NOT
@@ -311,17 +309,17 @@ public class ExportPGF implements ExportInterface
         @param x the x position of the position of the connection.
         @param y the y position of the position of the connection.
         @param layer the layer that should be used.
-        @param node_size the sieze of the connection in logical units.
+        @param nodeSize the sieze of the connection in logical units.
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportConnection (int x, int y, int layer, double node_size)
+    public void exportConnection (int x, int y, int layer, double nodeSize)
         throws IOException
     {
         registerColorSize(layer, .33);
 
         out.write("\\pgfcircle[fill]{\\pgfxy("+x+","+y+")}{"+
-            node_size/2.0+"pt}");
+            nodeSize/2.0+"pt}");
 
     }
 
@@ -360,8 +358,10 @@ public class ExportPGF implements ExportInterface
     {
         registerColorSize(layer, strokeWidth);
         registerDash(dashStyle);
-        double xstart=x1, ystart=y1;
-        double xend=x2, yend=y2;
+        double xstart=x1;
+        double ystart=y1;
+        double xend=x2;
+        double yend=y2;
 
         if (arrowStart) {
             PointPr p=exportArrow(x1, y1, x2, y2, arrowLength,
@@ -404,7 +404,6 @@ public class ExportPGF implements ExportInterface
         int style)
         throws IOException
     {
-        double s;
         double alpha;
         double x0;
         double y0;
@@ -416,10 +415,11 @@ public class ExportPGF implements ExportInterface
         // At first we need the angle giving the direction of the arrow
         // a little bit of trigonometry :-)
 
-        if (x==xc)
+        if (x==xc) {
             alpha = Math.PI/2.0+(y-yc<0?0:Math.PI);
-        else
+        } else {
             alpha = Math.atan((double)(y-yc)/(double)(x-xc));
+        }
 
         alpha += x-xc>0?0:Math.PI;
 
@@ -440,10 +440,11 @@ public class ExportPGF implements ExportInterface
 
         out.write("\\pgfclosepath \n");
 
-        if ((style & Arrow.flagEmpty) == 0)
+        if ((style & Arrow.flagEmpty) == 0) {
             out.write("\\pgffill \n");
-        else
+        } else {
             out.write("\\pgfqstroke \n");
+        }
 
         if ((style & Arrow.flagLimiter) != 0) {
             double x3;
@@ -629,22 +630,19 @@ public class ExportPGF implements ExportInterface
         registerColorSize(layer, strokeWidth);
         registerDash(dashStyle);
 
-        String fill_pattern="";
-        int i;
-
         out.write("\\pgfmoveto{\\pgfxy("+vertices[0].x+","+
             vertices[0].y+")}\n");
-        for (i=1; i<nVertices; ++i) {
+        for (int i=1; i<nVertices; ++i) {
             out.write("\\pgflineto{\\pgfxy("+vertices[i].x+
                 ","+vertices[i].y+")}\n");
 
         }
         out.write("\\pgfclosepath \n");
-        if(isFilled)
+        if(isFilled) {
             out.write("\\pgffill \n");
-        else
+        } else {
             out.write("\\pgfqstroke \n");
-
+        }
     }
 
     /** Called when exporting a Curve primitive.
@@ -707,10 +705,11 @@ public class ExportPGF implements ExportInterface
         out.write("\\pgflineto{\\pgfxy("+x1+","+y2+")}\n");
 
         out.write("\\pgfclosepath \n");
-        if(isFilled)
+        if(isFilled) {
             out.write("\\pgffill \n");
-        else
+        } else {
             out.write("\\pgfqstroke \n");
+        }
     }
 
 
@@ -748,11 +747,12 @@ public class ExportPGF implements ExportInterface
         if(currentDash!=dashStyle ||currentPhase!=dashPhase) {
             currentDash=dashStyle;
             currentPhase=dashPhase;
-            if(dashStyle==0)
+            if(dashStyle==0) {
                 out.write("\\pgfsetdash{}{0pt}\n");
-            else
+            } else {
                 out.write("\\pgfsetdash{"+sDash[dashStyle]+"}{"+dashPhase+
                     "pt}\n");
+            }
         }
     }
 }

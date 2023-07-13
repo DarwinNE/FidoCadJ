@@ -1,10 +1,6 @@
 package net.sourceforge.fidocadj.timer;
 
-import java.awt.*;
-import java.awt.image.*;
-import javax.swing.*;
-
-/** MyTimer.java v.1.1
+/** MyTimer.java
 
     Profiling class.
 
@@ -33,7 +29,7 @@ Version   Date                Author       Remarks
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007 by Davide Bucci
+    Copyright 2007-2023 by Davide Bucci
     </pre>
 */
 public class MyTimer

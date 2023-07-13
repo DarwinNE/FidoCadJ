@@ -1,6 +1,6 @@
 package net.sourceforge.fidocadj.graphic.nil;
 
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
 
 
 /**         SWING VERSION
@@ -25,19 +25,12 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 */
 
 public class ColorNull implements ColorInterface
 {
-
-    /** Standard constructor. Does nothing :-)
-    */
-    public ColorNull()
-    {
-        // Does nothing.
-    }
 
     /** Does nothing.
         @return a new ColorNull instance.

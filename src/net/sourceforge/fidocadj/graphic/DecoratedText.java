@@ -33,7 +33,7 @@ package net.sourceforge.fidocadj.graphic;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2020 by Davide Bucci
+    Copyright 2020-2023 by Davide Bucci
     </pre>
 */
 public class DecoratedText
@@ -69,8 +69,9 @@ public class DecoratedText
 
     private int getToken()
     {
-        if(currentIndex >= lastIndex)
+        if(currentIndex >= lastIndex) {
             return END;
+        }
         char c=bstr.charAt(currentIndex);
         char cp=0;
         if(currentIndex < lastIndex-1) {
@@ -92,11 +93,13 @@ public class DecoratedText
             btoken.append(c);
             ++currentIndex;
 
-            if(currentIndex>=lastIndex)
+            if(currentIndex>=lastIndex) {
                 return CHUNK;
+            }
             c=bstr.charAt(currentIndex);
-            if(c=='_' || c=='^' || c=='\\')
+            if(c=='_' || c=='^' || c=='\\') {
                 return CHUNK;
+            }
         }
     }
 

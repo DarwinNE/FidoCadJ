@@ -21,14 +21,14 @@ import java.util.*;
    along with FidoCadJ. If not,
    @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-   Copyright 2014 Kohta Ozaki
+   Copyright 2014-2023 Kohta Ozaki
 */
 public class Library
 {
     private String libraryName;
     private final String filename;
     private final boolean isStd;
-    private final ArrayList<Category> categories;
+    private final List<Category> categories;
 
     /** Standard constructor.
         @param libraryName the name of the library.
@@ -156,7 +156,7 @@ public class Library
     /** Provide a string description of the library.
         @return the string description (simply the name) of the library.
     */
-    public String toString()
+    @Override public String toString()
     {
         return getName();
     }

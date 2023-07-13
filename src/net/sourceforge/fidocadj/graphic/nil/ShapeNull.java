@@ -2,8 +2,8 @@ package net.sourceforge.fidocadj.graphic.nil;
 
 import java.awt.*;
 import java.awt.geom.*;
-import net.sourceforge.fidocadj.graphic.*;
-
+import net.sourceforge.fidocadj.graphic.ShapeInterface;
+import net.sourceforge.fidocadj.graphic.RectangleG;
 
 
 /**     SWING VERSION
@@ -28,7 +28,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
     </pre>
 */
 public class ShapeNull implements ShapeInterface

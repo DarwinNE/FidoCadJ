@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.graphic.swing;
 
 import java.awt.Color;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
 
 
 /** This class maps the general interface to java.awt.Color.
@@ -25,7 +25,7 @@ import net.sourceforge.fidocadj.graphic.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 */
 

@@ -1,7 +1,7 @@
 package net.sourceforge.fidocadj.graphic.swing;
 
 import java.awt.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.graphic.PolygonInterface;
 
 /** PolygonInterface specifies methods for handling a polygon.
 

@@ -1,13 +1,16 @@
 package net.sourceforge.fidocadj.graphic.nil;
 
-import net.sourceforge.fidocadj.graphic.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 
-import net.sourceforge.fidocadj.geom.*;
-import net.sourceforge.fidocadj.layers.*;
+import net.sourceforge.fidocadj.geom.MapCoordinates;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.graphic.GraphicsInterface;
+import net.sourceforge.fidocadj.graphic.ShapeInterface;
+import net.sourceforge.fidocadj.graphic.TextInterface;
+import net.sourceforge.fidocadj.graphic.PolygonInterface;
+import net.sourceforge.fidocadj.graphic.ColorInterface;
 
 
 /**         SWING VERSION
@@ -16,7 +19,10 @@ import net.sourceforge.fidocadj.layers.*;
     Null graphic class. Does nothing. Nil. Zero. :-)
     Except... calculating text size correctly!
 
-    Yes. There is a reason for that.
+    Yes. There is a reason for that. This is used for calculating the size of
+    a drawing. In practice, a redraw is launched to keep track of all the
+    drawing elements. They are not drawn, but the program keeps track of their
+    positions and size.
 
 <pre>
     This file is part of FidoCadJ.
@@ -35,7 +41,7 @@ import net.sourceforge.fidocadj.layers.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 by Davide Bucci
+    Copyright 2014-2023 by Davide Bucci
 </pre>
 */
 
