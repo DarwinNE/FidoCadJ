@@ -51,7 +51,7 @@ import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
 
 public class MenuTools implements MenuListener
 {
-    JCheckBoxMenuItem libs;
+    JCheckBoxMenuItem libs=new JCheckBoxMenuItem();
 
     /** Create all the menus and associate to them all the needed listeners.
         @param al the action listener to associate to the menu elements.

@@ -178,7 +178,7 @@ public final class LibraryPanel extends JPanel
     {
         final private java.util.List<ListDataListener> listeners;
         final private java.util.List<LibraryDesc> libraryList;
-        private File currentDir;
+        private File currentDir=null;
 
     /** Constructs model.
     */
@@ -210,8 +210,8 @@ public final class LibraryPanel extends JPanel
 
         private void refreshList()
         {
-            File[] files;
-            LibraryDesc desc;
+            File[] files=null;
+            LibraryDesc desc=null;
 
             files = currentDir.listFiles(new FileFilter() {
                 @Override public boolean accept(File f)

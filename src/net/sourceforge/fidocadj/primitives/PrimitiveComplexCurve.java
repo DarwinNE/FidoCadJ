@@ -739,9 +739,15 @@ public final class PrimitiveComplexCurve
             // And we check finally for extensions (FCJ)
             if(nn>j) {
                 parseLayer(tokens[j++]);
-                if(nn>j && "FCJ".equals(tokens[j++])) {
-                    j=arrowData.parseTokens(tokens, j);
-                    dashStyle = checkDashStyle(Integer.parseInt(tokens[j++]));
+                if(nn>j) { 
+                    if ("FCJ".equals(tokens[j])) {
+                        ++j;
+                        j=arrowData.parseTokens(tokens, j);
+                        dashStyle = 
+                            checkDashStyle(Integer.parseInt(tokens[j++]));
+                    } else {
+                        ++j;
+                    }
                 }
             }
 

@@ -70,14 +70,9 @@ public final class ExportPCBRND implements ExportInterface
     static double res=5e-2;
 
     // these variable are used with recursive calls to embed FPs
-    static boolean exportMacros = false;
-    static boolean exportingMacro = false;
-    static String fpPrefix = "";
-    static String currentMacro = "";
+    String currentMacro = "";
     int macroX = 0;
     int macroY = 0;
-    static String previousMacro = "";
-    static boolean newMacro = false;
     long defaultClearance = 1000; // centimils
     long minExportedLineThickness = 1000; // centimils
     int bezierSegments = 11; // number of line elements per cubic bezier
@@ -375,8 +370,8 @@ public final class ExportPCBRND implements ExportInterface
     {
         int dx = x2 - x1;
         int dy = y2 - y1;
-        double midx = (x1 + x2)/2;
-        double midy = (y1 + y2)/2;
+        double midx = ((double)x1 + (double)x2)/2.0;
+        double midy = ((double)y1 + (double)y2)/2.0;
         String ellipse = "";
 
         if (dx < 0) {
@@ -979,18 +974,17 @@ public final class ExportPCBRND implements ExportInterface
         fidoPolylineToPCBLineElements(PointDouble[] vertices,
                                       int nVertices, double strokeWidth)
     {
-        String newPolylines = "";
-        // System.out.println("# About to generate
-        // polyLines as LineElements");
+        StringBuffer newPolylines = new StringBuffer();
+
         for (int v = 0; v < (nVertices - 1); v++) {
-            newPolylines = newPolylines +
-                fidoLineToPCBLineElement(vertices[v].x,
+            newPolylines.append(
+                            fidoLineToPCBLineElement(vertices[v].x,
                                          vertices[v].y,
                                          vertices[v+1].x,
                                          vertices[v+1].y,
-                                         strokeWidth);
+                                         strokeWidth));
         }
-        return newPolylines;
+        return newPolylines.toString();
     }
 
     private String
@@ -1259,16 +1253,16 @@ public final class ExportPCBRND implements ExportInterface
         fidoPolylineToPCBLines(PointDouble[] vertices, int nVertices,
                              double strokeWidth)
     {
-        String newPolylines = "";
+        StringBuffer newPolylines = new StringBuffer();
         for (int v = 0; v < (nVertices - 1); v++) {
-            newPolylines = newPolylines +
+            newPolylines.append(
                 fidoLineToPCBLine(vertices[v].x,
                                     vertices[v].y,
                                     vertices[v+1].x,
                                     vertices[v+1].y,
-                                    strokeWidth);
+                                    strokeWidth));
         }
-        return newPolylines;
+        return newPolylines.toString();
     }
 
     private String fidoRectToPCBPoly(int x1, int y1, int x2, int y2)

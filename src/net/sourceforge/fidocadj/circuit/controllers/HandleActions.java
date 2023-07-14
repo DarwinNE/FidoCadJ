@@ -50,7 +50,7 @@ public class HandleActions
     private boolean firstDrag;
 
     // The graphic primitive being treated.
-    private GraphicPrimitive primBeingDragged;
+    private GraphicPrimitive primBeingDragged=null;
     // The handle of the active graphic primitive being treated.
     private int handleBeingDragged;
 

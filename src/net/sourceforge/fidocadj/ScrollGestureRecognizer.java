@@ -35,9 +35,9 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     private int actionSelected;
     private boolean oldGesture=false;
 
-    private static ScrollGestureRecognizer instance = new
+   /* private ScrollGestureRecognizer instance = new
         ScrollGestureRecognizer();
-
+*/
     Point location= new Point();
 
     /** Constructor.
@@ -50,9 +50,9 @@ public final class ScrollGestureRecognizer implements AWTEventListener,
     /** Get the current instance.
         @return the instance.
     */
-    public static ScrollGestureRecognizer getInstance()
+    public ScrollGestureRecognizer getInstance()
     {
-        return instance;
+        return this;
     }
 
     /** Start the scroll operation.

@@ -38,7 +38,7 @@ import java.util.Locale;
 class OpenFile implements Runnable
 {
 
-    private FidoFrame parent;
+    private FidoFrame parent=null;
 
     /** Set up the parent window object
         @param tparent the FidoFrame parent asking for a file open.

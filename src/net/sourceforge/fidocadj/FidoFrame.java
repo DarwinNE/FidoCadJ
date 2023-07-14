@@ -212,7 +212,7 @@ public final class FidoFrame extends JFrame implements
 
     /** Restore location & size of UI
     */
-    public final void restorePosition()
+    public void restorePosition()
     {
         if (!runsAsApplication) {
             return;
@@ -345,7 +345,7 @@ public final class FidoFrame extends JFrame implements
         editing window is created.
         If no preferences settings are accessible, does nothing.
     */
-    public final void readPreferences()
+    public void readPreferences()
     {
         if(prefs==null) {
             return;
