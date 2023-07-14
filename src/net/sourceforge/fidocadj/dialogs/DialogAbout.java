@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     </pre>
     @author Davide Bucci
 */
-public class DialogAbout extends MinimumSizeDialog
+public final class DialogAbout extends MinimumSizeDialog
 {
     /** Standard constructor: it needs the parent frame.
         @param parent the dialog's parent

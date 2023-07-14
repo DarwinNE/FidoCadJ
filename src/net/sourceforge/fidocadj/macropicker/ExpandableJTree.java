@@ -31,7 +31,7 @@ import java.awt.*;
 
     @author Kohta Ozaki, Davide Bucci
 */
-public class ExpandableJTree extends JTree
+public final class ExpandableJTree extends JTree
 {
     // runOnce = true means that a change in the expansion state of the tree
     // has been requested and it should be taken into account during the next

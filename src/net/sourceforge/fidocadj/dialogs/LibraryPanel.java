@@ -38,7 +38,8 @@ import java.util.*;
     @author Kohta Ozaki, Davide Bucci
 */
 
-public class LibraryPanel extends JPanel implements PropertyChangeListener
+public final class LibraryPanel extends JPanel
+    implements PropertyChangeListener
 {
     final private static int PREFERRED_PANEL_WIDTH = 250;
 
@@ -173,7 +174,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     * This model searches libraries in selected directory.
     * And provide library name and filename to JList component.
     */
-    public class LibraryListModel implements ListModel<LibraryDesc>
+    public static class LibraryListModel implements ListModel<LibraryDesc>
     {
         final private java.util.List<ListDataListener> listeners;
         final private java.util.List<LibraryDesc> libraryList;
@@ -360,7 +361,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Library description class.
     */
-    private final class LibraryDesc
+    private static final class LibraryDesc
     {
         public String filename;
         public String libraryName;
@@ -374,7 +375,7 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     /**
     * Dummy icon class for spacing.
     */
-    private class SpaceIcon implements Icon
+    private static class SpaceIcon implements Icon
     {
 
         final private int width;

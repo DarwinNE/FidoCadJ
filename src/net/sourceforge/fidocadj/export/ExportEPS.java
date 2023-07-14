@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.graphic.TextInterface;
     @author Davide Bucci
 */
 
-public class ExportEPS implements ExportInterface, TextInterface
+public final class ExportEPS implements ExportInterface, TextInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;

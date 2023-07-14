@@ -49,7 +49,7 @@ import javax.swing.event.*;
 
     */
 
-public class DialogSymbolize extends MinimumSizeDialog
+public final class DialogSymbolize extends MinimumSizeDialog
 {
     final private JPanel parent;
     private DrawingModel cp;

@@ -43,7 +43,7 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
     @author Davide Bucci
 */
 
-public class DialogPrint extends MinimumSizeDialog
+public final class DialogPrint extends MinimumSizeDialog
 {
     private final JCheckBox mirror_CB;
     private final JCheckBox fit_CB;

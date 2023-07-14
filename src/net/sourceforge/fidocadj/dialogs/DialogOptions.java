@@ -33,7 +33,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     Copyright 2007-2023 by Davide Bucci
     </pre>
 */
-public class DialogOptions extends MinimumSizeDialog
+public final class DialogOptions extends MinimumSizeDialog
 {
     public double zoomValue;
     public boolean profileTime;
@@ -182,7 +182,6 @@ public class DialogOptions extends MinimumSizeDialog
         {
             @Override public void actionPerformed(ActionEvent evt)
             {
-                String origin="";
                 int ng=-1;
                 shiftCP=shiftCP_CB.isSelected();
                 antiAlias=antiAlias_CB.isSelected();
@@ -193,7 +192,6 @@ public class DialogOptions extends MinimumSizeDialog
                 macroFont = (String)comboFont.getSelectedItem();
                 int s=0;
 
-                boolean invalidData=false;
                 try{
                     s=Integer.parseInt(macroSize.getText().trim());
 
@@ -218,32 +216,32 @@ public class DialogOptions extends MinimumSizeDialog
                     connectionSize_i=Double.parseDouble(
                         connectionSize.getText().trim());
 
-                } catch (NumberFormatException eE)
-                {
-                    invalidData=true;
-                    origin=eE.getMessage();
-                }
-                if(ng>0 && !invalidData) {
-                    gridSize=ng;
-                } else {
-                    JOptionPane.showMessageDialog(parent,
-                            Globals.messages.getString("Format_invalid")+
-                            " ("+origin+")", "",
+                    if(ng>0) {
+                        gridSize=ng;
+                    } else {
+                        JOptionPane.showMessageDialog(parent,
+                                Globals.messages.getString("Format_invalid"),
+                                "",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    if(s>0) {
+                        macroSize_i=s;
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                            Globals.messages.getString("Font_size_invalid"),
+                            "",
                             JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-
-                if(s<=0 && !invalidData) {
-                    JOptionPane.showMessageDialog(null,
-                        Globals.messages.getString("Font_size_invalid"),
-                        "",
-                        JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                } else {
-                    macroSize_i=s;
-                }
-
-                setVisible(false);
+                        return;
+                    } 
+                    setVisible(false);
+                } catch (NumberFormatException eE) {
+                    JOptionPane.showMessageDialog(parent,
+                                Globals.messages.getString("Format_invalid")+
+                                " "+eE.getMessage(), "",
+                                JOptionPane.INFORMATION_MESSAGE);
+                } 
             }
         });
         cancel.addActionListener(new ActionListener()

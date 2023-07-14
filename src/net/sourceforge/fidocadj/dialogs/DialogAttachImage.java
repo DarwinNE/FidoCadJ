@@ -38,7 +38,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
     @author Davide Bucci
 */
 
-public class DialogAttachImage extends MinimumSizeDialog
+public final class DialogAttachImage extends MinimumSizeDialog
 {
     private final JFrame parent;        // Parent window
     private final JTextField fileName;      // File name text field

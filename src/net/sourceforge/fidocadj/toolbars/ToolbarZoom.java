@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.layers.LayerDesc;
 
     @author Davide Bucci
 */
-public class ToolbarZoom extends JToolBar implements ActionListener,
+public final class ToolbarZoom extends JToolBar implements ActionListener,
                                                      ChangeZoomListener,
                                                      ChangeCoordinatesListener
 {

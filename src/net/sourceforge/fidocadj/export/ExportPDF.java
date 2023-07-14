@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.graphic.TextInterface;
 
     @author Davide Bucci
 */
-public class ExportPDF implements ExportInterface, TextInterface
+public final class ExportPDF implements ExportInterface, TextInterface
 {
     private final File temp;
     private final OutputStreamWriter fstream;

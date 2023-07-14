@@ -210,7 +210,7 @@ public final class LibUtils
         File lst = new File(getLibDir());
         List<File> l = new ArrayList<File>();
         if (!lst.exists()) {
-            return null;
+            return l;
         }
         File[] list=lst.listFiles();
         if(list==null) {

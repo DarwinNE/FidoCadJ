@@ -52,7 +52,8 @@ import net.sourceforge.fidocadj.circuit.controllers.ElementsEdtActions;
  @author Davide Bucci, Jose Emilio Munoz
 */
 
-public class ToolbarTools extends JToolBar implements ChangeSelectionListener
+public final class ToolbarTools extends JToolBar
+    implements ChangeSelectionListener
 {
     private ChangeSelectionListener selectionListener;
 

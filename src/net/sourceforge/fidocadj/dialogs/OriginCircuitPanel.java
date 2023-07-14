@@ -31,7 +31,7 @@ import java.awt.*;
     @author Phylum2, Davide Bucci
 
 */
-public class OriginCircuitPanel extends CircuitPanel
+public final class OriginCircuitPanel extends CircuitPanel
 {
     final float dash1[] = {2.0f};
     final BasicStroke dashed = new BasicStroke(1.0f,

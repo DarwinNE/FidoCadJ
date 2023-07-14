@@ -37,7 +37,7 @@ import net.sourceforge.fidocadj.graphic.PointDouble;
     @author Davide Bucci
 */
 
-public class ExportEagle implements ExportInterface
+public final class ExportEagle implements ExportInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;

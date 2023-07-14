@@ -251,7 +251,7 @@ public final class PrimitiveOval extends GraphicPrimitive
         @return the next index in v to be scanned (if needed) after the
             execution of this function.
     */
-    public int setControls(Vector<ParameterDescription> v)
+    public int setControls(List<ParameterDescription> v) // NOPMD bug in PMD?
     {
         int i=super.setControls(v);
         ParameterDescription pd;

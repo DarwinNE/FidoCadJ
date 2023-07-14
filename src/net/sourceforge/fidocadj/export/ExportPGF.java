@@ -58,7 +58,7 @@ import net.sourceforge.fidocadj.graphic.PointDouble;
     @author Davide Bucci
 */
 
-public class ExportPGF implements ExportInterface
+public final class ExportPGF implements ExportInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;

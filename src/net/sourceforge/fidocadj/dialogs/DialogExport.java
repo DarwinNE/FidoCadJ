@@ -37,7 +37,8 @@ import net.sourceforge.fidocadj.circuit.views.Export;
 
     @author Davide Bucci
 */
-public class DialogExport extends MinimumSizeDialog implements ActionListener
+public final class DialogExport extends MinimumSizeDialog
+    implements ActionListener
 {
     private final JFrame parent;
 

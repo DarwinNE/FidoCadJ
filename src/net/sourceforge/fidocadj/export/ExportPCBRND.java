@@ -37,7 +37,7 @@ import net.sourceforge.fidocadj.graphic.PointDouble;
     @author Davide Bucci, Erich Heinzle
 */
 
-public class ExportPCBRND implements ExportInterface
+public final class ExportPCBRND implements ExportInterface
 {
     private final FileWriter fstream;
     private BufferedWriter out;

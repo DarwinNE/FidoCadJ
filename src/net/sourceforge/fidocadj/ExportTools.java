@@ -346,7 +346,7 @@ public class ExportTools implements ClipboardOwner
         that standard macOS applications expect. I updated to Java 14 and it
         started to work flawlessly.
     */
-    private class TransferableImage implements Transferable
+    private static class TransferableImage implements Transferable
     {
         Image i;
         public TransferableImage(Image i) {

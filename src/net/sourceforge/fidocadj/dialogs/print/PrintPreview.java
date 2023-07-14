@@ -35,7 +35,8 @@ import net.sourceforge.fidocadj.PrintTools;
 
     @author Davide Bucci
 */
-public class PrintPreview extends CircuitPanel implements ComponentListener
+public final class PrintPreview extends CircuitPanel
+    implements ComponentListener
 {
     private final PageFormat pageDescription;
     private double topMargin;

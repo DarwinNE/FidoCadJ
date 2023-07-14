@@ -518,7 +518,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         rootNode.sortTree();
     }
 
-    private class RootNode extends AbstractMacroTreeNode
+    private static class RootNode extends AbstractMacroTreeNode
     {
         RootNode()
         {
@@ -673,7 +673,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         }
     }
 
-    private class MacroNode extends AbstractMacroTreeNode
+    private static class MacroNode extends AbstractMacroTreeNode
         implements Comparable<MacroNode>
     {
         MacroDesc macro;

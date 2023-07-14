@@ -49,7 +49,7 @@ import net.sourceforge.fidocadj.graphic.PointDouble;
 
     @author Davide Bucci
 */
-public class ExportFidoCad implements ExportInterface
+public final class ExportFidoCad implements ExportInterface
 {
 
     private final BufferedWriter out;

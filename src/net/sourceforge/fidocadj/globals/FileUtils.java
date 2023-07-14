@@ -49,8 +49,8 @@ public final class FileUtils
         StringBuffer txt=new StringBuffer("");
 
         try {
-            bufRead =  new BufferedReader(input);
             input=new FileReader(filename);
+            bufRead =  new BufferedReader(input);
             String line="";
             txt = new StringBuffer(bufRead.readLine());
 

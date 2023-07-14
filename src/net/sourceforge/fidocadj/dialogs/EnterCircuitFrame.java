@@ -36,7 +36,8 @@ import net.sourceforge.fidocadj.globals.Globals;
 
 
 */
-public class EnterCircuitFrame extends JDialog implements ComponentListener
+public final class EnterCircuitFrame extends JDialog
+    implements ComponentListener
 {
     private static final int MIN_WIDTH=400;
     private static final int MIN_HEIGHT=350;

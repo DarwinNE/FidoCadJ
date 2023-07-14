@@ -71,7 +71,7 @@ The class describing the main frame in which FidoCadJ runs.
     @author Davide Bucci
 */
 
-public class FidoFrame extends JFrame implements
+public final class FidoFrame extends JFrame implements
                                             ActionListener,
                                             ZoomToFitListener,
                                             HasChangedListener,

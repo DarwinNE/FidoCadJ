@@ -40,7 +40,7 @@ import net.sourceforge.fidocadj.graphic.FontG;
     Copyright 2007-2023 by Davide Bucci
     </pre>
  */
-public class DialogParameters extends JDialog
+public final class DialogParameters extends JDialog
 {
     //private int minWidth = 450;
     //private int minHeight = 350;

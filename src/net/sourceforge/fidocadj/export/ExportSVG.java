@@ -40,7 +40,7 @@ import net.sourceforge.fidocadj.graphic.TextInterface;
     @author Davide Bucci
 */
 
-public class ExportSVG implements ExportInterface, TextInterface
+public final class ExportSVG implements ExportInterface, TextInterface
 {
     //private File fileExp;
     final private OutputStreamWriter fstream;

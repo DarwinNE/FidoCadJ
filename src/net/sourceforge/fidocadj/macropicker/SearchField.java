@@ -19,7 +19,7 @@ import net.sourceforge.fidocadj.globals.Globals;
  * @author Elliott Hughes, Davide Bucci
  * http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html
  */
-public class SearchField extends JTextField implements FocusListener
+public final class SearchField extends JTextField implements FocusListener
 {
 
     private static final Border CANCEL_BORDER = new CancelBorder();

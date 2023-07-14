@@ -34,7 +34,7 @@ import net.sourceforge.fidocadj.dialogs.mindimdialog.MinimumSizeDialog;
 
     @author Davide Bucci
 */
-public class DialogEditLayer extends MinimumSizeDialog
+public final class DialogEditLayer extends MinimumSizeDialog
 {
     static final int ALPHA_MIN = 0;
     static final int ALPHA_MAX = 100;

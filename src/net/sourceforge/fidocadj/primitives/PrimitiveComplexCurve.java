@@ -384,7 +384,7 @@ public final class PrimitiveComplexCurve
     Cubic[] calcNaturalCubic(int n, double... x)
     {
 
-        if(n<1) { return null; }
+        if(n<1) { return new Cubic[0]; }
 
         double[] gamma = new double[n+1];
         double[] delta = new double[n+1];
@@ -442,7 +442,7 @@ public final class PrimitiveComplexCurve
 
     Cubic[] calcNaturalCubicClosed(int n, double... x)
     {
-        if(n<1) { return null; }
+        if(n<1) { return new Cubic[0]; }
 
         double[] w = new double[n+1];
         double[] v = new double[n+1];

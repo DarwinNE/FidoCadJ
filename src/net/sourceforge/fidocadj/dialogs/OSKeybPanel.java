@@ -40,7 +40,7 @@ import javax.swing.UIManager;
 
 @author phylum2
 */
-public class OSKeybPanel extends JPanel
+public final class OSKeybPanel extends JPanel
 {
 
     String symbols =

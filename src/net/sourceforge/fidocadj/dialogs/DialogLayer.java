@@ -35,7 +35,8 @@ import java.util.*;
     </pre>
     @author Davide Bucci
 */
-public class DialogLayer extends MinimumSizeDialog implements ComponentListener
+public final class DialogLayer extends MinimumSizeDialog 
+    implements ComponentListener
 {
     private final java.util.List<LayerDesc> layers;
     public JList<LayerDesc> layerList;

@@ -37,7 +37,7 @@ import net.sourceforge.fidocadj.circuit.views.Export;
 
     @author Davide Bucci
 */
-public class DialogCopyAsImage extends MinimumSizeDialog implements
+public final class DialogCopyAsImage extends MinimumSizeDialog implements
     ActionListener
 {
     private boolean copy;     // Indicates that the copy should be done
