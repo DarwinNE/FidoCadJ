@@ -175,8 +175,8 @@ public class LibraryPanel extends JPanel implements PropertyChangeListener
     */
     public class LibraryListModel implements ListModel<LibraryDesc>
     {
-        final private ArrayList<ListDataListener> listeners;
-        final private ArrayList<LibraryDesc> libraryList;
+        final private java.util.List<ListDataListener> listeners;
+        final private java.util.List<LibraryDesc> libraryList;
         private File currentDir;
 
     /** Constructs model.

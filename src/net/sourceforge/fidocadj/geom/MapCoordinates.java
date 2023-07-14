@@ -80,7 +80,7 @@ public class MapCoordinates
     private int xGridStep;
     private int yGridStep;
 
-    private final Stack<MapCoordinates> stack;
+    private final Deque<MapCoordinates> stack;
 
     /** Standard constructor
     */
@@ -96,7 +96,7 @@ public class MapCoordinates
         isMacro=false;
         snapActive=true;
         resetMinMax();
-        stack = new Stack<MapCoordinates>();
+        stack = new ArrayDeque<MapCoordinates>();
     }
 
     /** Change the current orientation.
@@ -154,18 +154,18 @@ public class MapCoordinates
 
         m.xGridStep=xGridStep;
         m.yGridStep=yGridStep;
-        stack.push(m);
+        stack.addFirst(m);
     }
 
     /** Pop from a stack the coordinate state.
     */
     public void pop()
     {
-        if(stack.empty()) {
+        if(stack.isEmpty()) {
             System.out.println("Warning: I can not pop the coordinate state "+
                 "out of an empty stack!");
         } else {
-            MapCoordinates m=(MapCoordinates) stack.pop();
+            MapCoordinates m=(MapCoordinates) stack.removeFirst();
             xCenter=m.xCenter;
             yCenter=m.yCenter;
             xMagnitude=m.xMagnitude;

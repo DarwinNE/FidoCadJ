@@ -3,9 +3,10 @@ package net.sourceforge.fidocadj.export;
 import java.util.*;
 import java.io.*;
 
-import net.sourceforge.fidocadj.layers.*;
-import net.sourceforge.fidocadj.primitives.*;
-import net.sourceforge.fidocadj.graphic.*;
+import net.sourceforge.fidocadj.layers.LayerDesc;
+import net.sourceforge.fidocadj.primitives.MacroDesc;
+import net.sourceforge.fidocadj.graphic.PointDouble;
+import net.sourceforge.fidocadj.graphic.DimensionG;
 
 /** ExportInterface.java
 

@@ -51,7 +51,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     final private LibraryModel libraryModel;
     final private List<TreeModelListener> listeners;
 
-    private HashMap<TreePath, AbstractMacroTreeNode> libraryNodeMap;
+    private Map<TreePath, AbstractMacroTreeNode> libraryNodeMap;
 
     private String filterWord;
 
@@ -445,7 +445,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
         TreePath macroPath;
 
         // Save a copy of the current library note
-        HashMap<TreePath,AbstractMacroTreeNode> tmpMap =libraryNodeMap;
+        Map<TreePath,AbstractMacroTreeNode> tmpMap =libraryNodeMap;
 
         libraryNodeMap = new HashMap<TreePath, AbstractMacroTreeNode>();
 

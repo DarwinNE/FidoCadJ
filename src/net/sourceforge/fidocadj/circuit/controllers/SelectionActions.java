@@ -73,9 +73,9 @@ public class SelectionActions
         @return a vector containing Boolean objects with the selection states
             of all objects in the database.
     */
-    public Vector<Boolean> getSelectionStateVector()
+    public List<Boolean> getSelectionStateVector()
     {
-        Vector<Boolean> v =
+        List<Boolean> v =
             new Vector<Boolean>(dmp.getPrimitiveVector().size());
 
         for(GraphicPrimitive g : dmp.getPrimitiveVector()) {
@@ -98,7 +98,7 @@ public class SelectionActions
         vector.
         @param v the vector containing the selection state of elements
     */
-    public void setSelectionStateVector(Vector<Boolean> v)
+    public void setSelectionStateVector(List<Boolean> v)
     {
         int i=0;
 

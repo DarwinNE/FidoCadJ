@@ -34,16 +34,18 @@ import java.util.*;
 
 public class UndoManager
 {
-    private final Vector<UndoState> undoBuffer;
+    private final List<UndoState> undoBuffer;
     private int pointer;
+    private int sizeMax;
     private boolean isRedoable;
 
     /** Creates a new undo buffer of the given size.
-        @param size the size of the circular buffer.
+        @param s the size of the circular buffer.
     */
-    public UndoManager (int size)
+    public UndoManager (int s)
     {
-        undoBuffer = new Vector<UndoState>(size);
+        sizeMax=s;
+        undoBuffer = new Vector<UndoState>(sizeMax);
         undoReset();
     }
 
@@ -69,8 +71,7 @@ public class UndoManager
     */
     public final void undoReset()
     {
-        undoBuffer.removeAllElements();
-        //undoPush(new UndoState());
+        undoBuffer.clear();
         pointer=0;
         isRedoable=false;
     }
@@ -80,10 +81,8 @@ public class UndoManager
     */
     public void undoPush(UndoState state)
     {
-        //Thread.dumpStack();
-        //System.out.println(""+state);
-        if(undoBuffer.size()==undoBuffer.capacity()) {
-            undoBuffer.removeElementAt(0);
+        if(undoBuffer.size()==sizeMax) {
+            undoBuffer.remove(0);
             --pointer;
         }
         undoBuffer.add(pointer++, state);
@@ -96,7 +95,7 @@ public class UndoManager
         // new one.
 
         for(int i=pointer; i<undoBuffer.size();++i) {
-            undoBuffer.removeElementAt(pointer);
+            undoBuffer.remove(pointer);
         }
     }
 

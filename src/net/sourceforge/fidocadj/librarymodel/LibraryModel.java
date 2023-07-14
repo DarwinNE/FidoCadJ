@@ -7,7 +7,11 @@ import java.io.IOException;
 import net.sourceforge.fidocadj.undo.UndoActorListener;
 import net.sourceforge.fidocadj.circuit.model.DrawingModel;
 import net.sourceforge.fidocadj.globals.LibUtils;
-import net.sourceforge.fidocadj.librarymodel.event.*;
+import net.sourceforge.fidocadj.librarymodel.event.KeyChangeEvent;
+import net.sourceforge.fidocadj.librarymodel.event.LibraryListener;
+import net.sourceforge.fidocadj.librarymodel.event.RemoveEvent;
+import net.sourceforge.fidocadj.librarymodel.event.AddEvent;
+import net.sourceforge.fidocadj.librarymodel.event.RenameEvent;
 import net.sourceforge.fidocadj.primitives.MacroDesc;
 
 // TODO: comment public methods
@@ -35,7 +39,7 @@ import net.sourceforge.fidocadj.primitives.MacroDesc;
 */
 public class LibraryModel
 {
-    final private ArrayList<LibraryListener> libraryListeners;
+    final private List<LibraryListener> libraryListeners;
     final private DrawingModel drawingModel;
     final private List<Library> libraries;
 
@@ -595,6 +599,7 @@ public class LibraryModel
                         library.getName().trim(), library.getFileName());
                 }
             } catch (FileNotFoundException e) {
+                System.out.println("Error accessing to the file.");
             }
         }
     }
@@ -658,7 +663,7 @@ public class LibraryModel
         Category category;
         boolean catIsHidden;
         String key;
-        HashMap<String,Library> tmpLibraryMap = new HashMap<String,Library>();
+        Map<String,Library> tmpLibraryMap = new HashMap<String,Library>();
         masterLibrary = drawingModel.getLibrary();
         libraries.clear();
 

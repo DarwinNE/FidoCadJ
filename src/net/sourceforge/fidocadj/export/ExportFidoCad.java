@@ -53,6 +53,7 @@ public class ExportFidoCad implements ExportInterface
 {
 
     private final BufferedWriter out;
+    private final OutputStreamWriter fstream;
     private List<LayerDesc> layerV;
     private boolean extensions;     // use FidoCadJ extensions
     private boolean splitStandardMacros; // Split also the standard macros
@@ -116,7 +117,7 @@ public class ExportFidoCad implements ExportInterface
         splitStandardMacros=false;
         textFont=Globals.defaultTextFont;
         textFontSize=3;
-        OutputStreamWriter fstream = new OutputStreamWriter(
+        fstream = new OutputStreamWriter(
             new FileOutputStream(f),
             Globals.encoding);
         out = new BufferedWriter(fstream);
@@ -170,6 +171,7 @@ public class ExportFidoCad implements ExportInterface
         throws IOException
     {
         out.close();
+        fstream.close();
     }
 
     /** Called when exporting an Advanced Text primitive.

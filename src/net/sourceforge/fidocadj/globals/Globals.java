@@ -69,7 +69,7 @@ public final class Globals
     public static Object activeWindow;
 
 
-    public static final HashSet<Object> openWindows = new HashSet<Object>();
+    public static final Set<Object> openWindows = new HashSet<Object>();
 
     // Line width expressed in FidoCadJ coordinates
     public static final double lineWidthDefault = 0.5;

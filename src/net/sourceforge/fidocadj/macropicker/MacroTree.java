@@ -76,7 +76,7 @@ public class MacroTree extends JPanel
     // A Listener for sending selected macro to CircuitPanel.
     private ChangeSelectionListener selectionListener;
 
-    private ArrayList<ChangeListener> changeListeners;
+    private java.util.List<ChangeListener> changeListeners; // NOPMD bug PMD?
 
     private TreePath copyTarget = null;
 
@@ -445,13 +445,10 @@ public class MacroTree extends JPanel
     */
     private void updateOperationPermission()
     {
-        TreePath selectedPath;
         int selectedType;
         int copyTargetType;
 
         Library lib = getSelectedLibrary();
-
-        selectedPath = treeComponent.getSelectionPath();
 
         permissionObject.disableAll();
         selectedType = getSelectedType();
