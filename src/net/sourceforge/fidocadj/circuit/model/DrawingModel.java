@@ -39,7 +39,7 @@ import net.sourceforge.fidocadj.primitives.PrimitiveMacro;
     @author Davide Bucci
 */
 
-public class DrawingModel
+public final class DrawingModel
 {
     // ************* DRAWING *************
 
@@ -309,7 +309,7 @@ public class DrawingModel
 
         @return the maximum layer number.
     */
-    final public int getMaxLayer()
+    public int getMaxLayer()
     {
         return maxLayer;
     }
@@ -343,7 +343,7 @@ public class DrawingModel
             parameters at the first redraw.
 
     */
-    public final void setChanged(boolean c)
+    public void setChanged(boolean c)
     {
         changed=c;
     }

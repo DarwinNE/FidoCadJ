@@ -33,11 +33,7 @@ import net.sourceforge.fidocadj.ADesktopIntegration;
 */
 public final class Globals
 {
-    // Make sort that this is an utility class (private constructor). 
-    private Globals()
-    {
-    }
-
+ 
     // message bundle
     public static AccessResources messages;
 
@@ -122,6 +118,11 @@ public final class Globals
     public static final double maxZoomFactor = 4000;
     // Maximum zoom factor in %
     public static final double minZoomFactor = 10;
+
+   // Make sort that this is an utility class (private constructor). 
+    private Globals()
+    {
+    }
 
     /** Adjust a long string in order to cope with space limitations.
         Tipically, it will be used to show long paths in the window caption.

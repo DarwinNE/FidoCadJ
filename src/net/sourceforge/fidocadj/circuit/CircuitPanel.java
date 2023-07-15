@@ -649,7 +649,7 @@ public class CircuitPanel extends JPanel implements
     /** Get the current drawing model.
         @return the drawing model.
     */
-    public DrawingModel getDrawingModel()
+    public final DrawingModel getDrawingModel()
     {
         return dmp;
     }
@@ -658,7 +658,7 @@ public class CircuitPanel extends JPanel implements
         controllers and views associated to the panel will be updated.
         @param dm the drawing model.
     */
-    public void setDrawingModel(DrawingModel dm)
+    public final void setDrawingModel(DrawingModel dm)
     {
         dmp=dm;
         sa = new SelectionActions(dmp);

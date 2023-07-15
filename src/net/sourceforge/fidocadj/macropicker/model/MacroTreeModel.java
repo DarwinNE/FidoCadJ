@@ -676,7 +676,7 @@ public class MacroTreeModel implements TreeModel,LibraryListener
     private static class MacroNode extends AbstractMacroTreeNode
         implements Comparable<MacroNode>
     {
-        MacroDesc macro;
+        final MacroDesc macro;
 
         MacroNode(MacroDesc macroDesc)
         {

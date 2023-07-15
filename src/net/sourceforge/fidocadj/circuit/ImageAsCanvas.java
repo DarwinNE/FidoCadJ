@@ -44,22 +44,23 @@ public class ImageAsCanvas
     private int oldh=0;
     private int shiftx=0;
     private int shifty=0;
-    private int maxResizedWidth;
-    private int maxResizedHeight;
+    private final int maxResizedWidth;
+    private final int maxResizedHeight;
 
     /** Constructor.
     */
     public ImageAsCanvas()
     {
         img=null;
+        Dimension screensize;
+
         try {
-            Dimension screensize=Toolkit.getDefaultToolkit().getScreenSize();
-            maxResizedWidth=screensize.width*3;
-            maxResizedHeight=screensize.height*3;
+            screensize=Toolkit.getDefaultToolkit().getScreenSize();
         } catch (HeadlessException eE) {
-            maxResizedWidth=3000;
-            maxResizedHeight=3000;
+            screensize=new Dimension(1000,1000);
         }
+        maxResizedWidth=screensize.width*3;
+        maxResizedHeight=screensize.height*3;
     }
 
     /** Specify an image to attach to the current drawing.

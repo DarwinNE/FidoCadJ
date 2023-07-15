@@ -47,11 +47,12 @@ import net.sourceforge.fidocadj.graphic.DimensionG;
 
 public final class FidoMain
 {
+    private static CommandLineParser clp;
+
     /** Ensure that this is an utility class.
     */
     private FidoMain() {}
 
-    private static CommandLineParser clp;
 
     /** The main method. Process the command line options and if necessary
         shows an instance of FidoFrame.

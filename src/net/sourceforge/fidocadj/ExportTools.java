@@ -348,7 +348,7 @@ public class ExportTools implements ClipboardOwner
     */
     private static class TransferableImage implements Transferable
     {
-        Image i;
+        final Image i;
         public TransferableImage(Image i) {
             this.i = i;
         }
