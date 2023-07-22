@@ -268,8 +268,8 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
                     notifyZoomChangeListener.changeZoom(z/100);
                 }
             } catch (NumberFormatException ee) {
-                // Just ignore
-                System.out.println("Exception while changing the zoom.");
+                System.out.println("Exception while changing the zoom. "+
+                    evt);
             }
         }
     }

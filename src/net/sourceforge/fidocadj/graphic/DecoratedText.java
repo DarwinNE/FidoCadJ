@@ -39,7 +39,7 @@ package net.sourceforge.fidocadj.graphic;
 public class DecoratedText
 {
     private TextInterface g;
-    private StringBuffer btoken;
+    private String btoken;
     private String bstr;
     private int currentIndex;
     private int lastIndex;
@@ -69,6 +69,7 @@ public class DecoratedText
 
     private int getToken()
     {
+        StringBuffer processToken;
         if(currentIndex >= lastIndex) {
             return END;
         }
@@ -88,19 +89,21 @@ public class DecoratedText
             ++currentIndex;
             return EXPONENT;
         }
-        btoken=new StringBuffer();
+        processToken=new StringBuffer();
         while(true) {
-            btoken.append(c);
+            processToken.append(c);
             ++currentIndex;
 
             if(currentIndex>=lastIndex) {
-                return CHUNK;
+                break;
             }
             c=bstr.charAt(currentIndex);
             if(c=='_' || c=='^' || c=='\\') {
-                return CHUNK;
+                break;
             }
         }
+        btoken=processToken.toString();
+        return CHUNK;
     }
 
     private void resetTokenization(String s)

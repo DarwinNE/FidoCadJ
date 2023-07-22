@@ -29,7 +29,7 @@ import javax.swing.tree.*;
 */
 public abstract class AbstractMacroTreeNode implements MacroTreeNode
 {
-    protected Vector<AbstractMacroTreeNode> childNodes;
+    protected Vector<AbstractMacroTreeNode> childNodes; // NOPMD
     protected TreeNode parent;
     protected String label;         // The description of the node
     protected Icon icon;
