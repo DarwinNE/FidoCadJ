@@ -335,7 +335,8 @@ public final class DialogParameters extends JDialog
                 jco[co].setEnabled(!(pd.isExtension && extStrict));
                 contentPane.add(jco[co++], constraints);
             }
-            if (ycount++ > MAX) {
+            ++ycount;
+            if (ycount >= MAX) {
                 break;
             }
         }
@@ -409,7 +410,8 @@ public final class DialogParameters extends JDialog
                     // update the contents of the parameter description array.
 
                     for (ParameterDescription pd: v) {
-                        if (ycount++ > MAX) {
+                        ++ycount;
+                        if (ycount >= MAX) {
                             break;
                         }
                         if (pd.parameter instanceof PointG) {

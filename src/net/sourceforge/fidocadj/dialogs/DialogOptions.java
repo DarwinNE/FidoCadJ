@@ -334,7 +334,7 @@ public final class DialogOptions extends MinimumSizeDialog
                     fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                     // Dock library panel.
-                    LibraryPanel p = new LibraryPanel(fc);
+                    new LibraryPanel(fc);
 
                     int r = fc.showOpenDialog(null);
                     if (r == JFileChooser.APPROVE_OPTION) {

@@ -508,11 +508,9 @@ public class MenuTools implements MenuListener
         } else if (arg.equals(Globals.messages.getString("DefineClipboard"))) {
             // Paste as a new circuit
             TextTransfer textTransfer = new TextTransfer();
-            FidoFrame popFrame;
+            //FidoFrame popFrame;
             if(cc.getUndoActions().getModified()) {
-                popFrame = fff.createNewInstance();
-            } else {
-                popFrame=fff;
+                fff.createNewInstance();
             }
             pa.parseString(
                 new StringBuffer(textTransfer.getClipboardContents()));

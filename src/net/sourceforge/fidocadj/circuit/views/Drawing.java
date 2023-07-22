@@ -48,7 +48,7 @@ public class Drawing
     private double oX;
     private double oY;
     private double oO;
-    private GraphicPrimitive gg;
+    private GraphicPrimitive gg;    // NOPMD
     private int i_index; // NOPMD
     private int jIndex; // NOPMD
 
@@ -143,8 +143,8 @@ public class Drawing
                     // We will process only primitive which require holes (pads
                     // as well as macros containing pads).
 
-                    if ((gg=(GraphicPrimitive)dmp.getPrimitiveVector().
-                        get(i_index)).needsHoles())
+                    gg=(GraphicPrimitive)dmp.getPrimitiveVector().get(i_index);
+                    if (gg.needsHoles())
                     {
                         gg.setDrawOnlyPads(true);
                         gg.draw(gG, cs, dmp.layerV);

@@ -96,7 +96,7 @@ public final class FidoFrame extends JFrame implements
     final private ExportTools et;
     final private PrintTools pt;
     final private MenuTools mt;
-    final private DragDropTools dt;
+    //final private DragDropTools dt;
     final private FileTools ft;
 
     // Libraries properties
@@ -173,7 +173,7 @@ public final class FidoFrame extends JFrame implements
         et = new ExportTools(prefs);
         pt = new PrintTools();
         mt = new MenuTools();
-        dt = new DragDropTools(this);
+        new DragDropTools(this);
         ft = new FileTools(this, prefs);
 
         readPreferences();

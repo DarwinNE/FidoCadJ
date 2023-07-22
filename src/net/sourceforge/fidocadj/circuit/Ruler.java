@@ -147,13 +147,14 @@ public class Ruler
 
         // Draw the ticks.
         for(double i=0; i<=length; i+=l) {
-            if (j++==m || debut) {
-                j=1;
+            if (j==m || debut) {
+                j=0;
                 ll=2*ld;
                 debut=false;
             } else {
                 ll=ld;
             }
+            ++j;
             x = dex*i/length+(double)sx*(length-i)/length;
             y = dey*i/length+(double)sy*(length-i)/length;
 

@@ -589,7 +589,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     {
         StringBuilder ss = new StringBuilder();
         SelectionActions sa = new SelectionActions(cp);
-        EditorActions edt=new EditorActions(cp, sa, null);
+        new EditorActions(cp, sa, null);
 
         // Check if there is anything selected.
         if (sa.getFirstSelectedPrimitive() == null) {
