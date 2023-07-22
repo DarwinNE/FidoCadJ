@@ -4,6 +4,7 @@ package net.sourceforge.fidocadj.dialogs;
 import net.sourceforge.fidocadj.circuit.CircuitPanel;
 import net.sourceforge.fidocadj.globals.Globals;
 
+import java.io.*;
 import java.awt.*;
 
 /** The class OriginCircuitPanel extends the CircuitPanel class by adding
@@ -47,6 +48,24 @@ public final class OriginCircuitPanel extends CircuitPanel
     // TODO: improve data encapsulation (these should be private).
     public int xl=5;
     public int yl=5;
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    }
 
     /** Get the x coordinate of the origin in pixels.
         @return the x coordinate of the origin in pixel.

@@ -1,9 +1,8 @@
 package net.sourceforge.fidocadj.dialogs;
 
+import java.io.*;
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
 import java.util.*;
 
@@ -481,6 +480,24 @@ public final class DialogParameters extends JDialog
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /**

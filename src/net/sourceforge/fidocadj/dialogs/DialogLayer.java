@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -138,6 +139,24 @@ public final class DialogLayer extends MinimumSizeDialog
         pack();
         DialogUtil.center(this);
         getRootPane().setDefaultButton(ok);
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Check if the layer index is non negative and then show the dialog for

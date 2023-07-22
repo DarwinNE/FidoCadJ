@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -52,6 +53,24 @@ public class CellDash extends JPanel
         list=l;
         isSelected=is;
         setPreferredSize(new Dimension(50,18));
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** This routine is called by the callback system when there is the need

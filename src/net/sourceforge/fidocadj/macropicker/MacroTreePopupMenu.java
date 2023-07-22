@@ -2,6 +2,7 @@ package net.sourceforge.fidocadj.macropicker;
 
 import java.awt.event.*;
 
+import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -76,6 +77,24 @@ public class MacroTreePopupMenu extends JPopupMenu implements
         removeMenu.addActionListener(createRemoveActionListener());
         renameMenu.addActionListener(createRenameActionListener());
         renkeyMenu.addActionListener(createRenkeyActionListener());
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Update all the "enabled" states of the menu items, depending on which

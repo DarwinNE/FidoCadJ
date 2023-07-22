@@ -1,6 +1,7 @@
 package net.sourceforge.fidocadj.circuit;
 
 import java.awt.*;
+import java.io.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
@@ -212,6 +213,24 @@ public class CircuitPanel extends JPanel implements
                 }
             });
         }
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Show a popup menu representing the actions that can be done on the

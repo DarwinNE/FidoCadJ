@@ -184,6 +184,24 @@ public final class FidoFrame extends JFrame implements
         }
     }
 
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    }
+
     /** Store location & size of UI.
         vaguely based on: http://stackoverflow.com/questions/7777640/\
             best-practice-for-setting-jframe-locations

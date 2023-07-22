@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.dialogs;
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -51,6 +52,24 @@ public class CellLayer extends JPanel
         list=l;
         isSelected=is;
         setPreferredSize(new Dimension(150,18));
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Here we draw the layer description. A coloured box followed by the

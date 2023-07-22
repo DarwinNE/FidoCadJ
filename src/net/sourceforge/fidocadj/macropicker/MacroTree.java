@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.macropicker;
 
+import java.io.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -91,6 +92,24 @@ public class MacroTree extends JPanel
         this.libraryModel = libraryModel;
         this.layerModel = layerModel;
         initComponents();
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Initialize view components and relate models.

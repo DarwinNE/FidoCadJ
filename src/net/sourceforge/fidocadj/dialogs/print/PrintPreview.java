@@ -1,5 +1,6 @@
 package net.sourceforge.fidocadj.dialogs.print;
 
+import java.io.*;
 import java.awt.*;
 import java.awt.print.*;
 import java.awt.event.*;
@@ -81,6 +82,24 @@ public final class PrintPreview extends CircuitPanel
         {
             System.err.println("Some problem here!");
         }
+    }
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
     }
 
     /** Set the size of the margins, in centimeters. The orientation of those

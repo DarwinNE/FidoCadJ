@@ -388,6 +388,26 @@ public final class DialogAttachImage extends MinimumSizeDialog
         }
         isCalculating=false;
     }
+
+
+    /** By implementing writeObject method, 
+    // we can prevent 
+    // subclass from serialization 
+    */
+    private void writeObject(ObjectOutputStream out) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    } 
+      
+    /* By implementing readObject method, 
+    // we can prevent 
+    // subclass from de-serialization 
+    */
+    private void readObject(ObjectInputStream in) throws IOException 
+    { 
+        throw new NotSerializableException(); 
+    }
+
     /** Create an action listener which handle clicking on the 'browse' button.
         @return the ActionListener
     */
