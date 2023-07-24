@@ -153,10 +153,9 @@ public class DecoratedText
                     g.setFontSize(fontSize*getSizeMultLevel());
                     // Font size is given in points, i.e. 1/72 of an inch.
                     // FidoCadJ has a 200 dpi internal resolution.
-                    g.drawString(btoken.toString(),xc,
-                        y-(int)Math.round(
+                    g.drawString(btoken, xc, y-(int)Math.round(
                             exponentLevel*fontSize*getSizeMultLevel()*0.5));
-                    xc+=g.getStringWidth(btoken.toString());
+                    xc+=g.getStringWidth(btoken);
                     break;
                 case EXPONENT:
                     ++exponentLevel;

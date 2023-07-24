@@ -49,7 +49,7 @@ import net.sourceforge.fidocadj.geom.ChangeCoordinatesListener;
 public class ExportTools implements ClipboardOwner
 {
     // Export default properties
-    private String exportFileName;
+    private String exportFilename;
     private String exportFormat;
     private boolean exportBlackWhite;
     private double exportUnitPerPixel;
@@ -67,7 +67,7 @@ public class ExportTools implements ClipboardOwner
     */
     public ExportTools(Preferences p)
     {
-        exportFileName="";
+        exportFilename="";
         exportMagnification=1.0;
         prefs=p;
         exportBlackWhite=false;
@@ -188,10 +188,10 @@ public class ExportTools implements ClipboardOwner
 
         // The default export directory is the same where the FidoCadJ file
         // are opened.
-        if("".equals(exportFileName)) {
-            exportFileName=openFileDirectory;
+        if("".equals(exportFilename)) {
+            exportFilename=openFileDirectory;
         }
-        export.setFileName(exportFileName);
+        export.setFilename(exportFilename);
         export.setUnitPerPixel(exportUnitPerPixel);
         export.setBlackWhite(exportBlackWhite);
         export.setMagnification(exportMagnification);
@@ -199,7 +199,7 @@ public class ExportTools implements ClipboardOwner
         // Once configured, we show the modal dialog
         export.setVisible(true);
         if (export.shouldExport()) {
-            exportFileName=export.getFileName();
+            exportFilename=export.getFilename();
             exportFormat=export.getFormat();
             // The resolution based export should be used only for bitmap
             // file formats
@@ -229,7 +229,7 @@ public class ExportTools implements ClipboardOwner
                 exportYsize=100;
             }
 
-            File f = new File(exportFileName);
+            File f = new File(exportFilename);
             // We first check if the file is a directory
             if(f.isDirectory()) {
                 JOptionPane.showMessageDialog(null,
@@ -243,7 +243,7 @@ public class ExportTools implements ClipboardOwner
 
             // We first check if the file name chosen by the user has a correct
             // file extension, coherent with the file format chosen.
-            if(!Globals.checkExtension(exportFileName, exportFormat)) {
+            if(!Globals.checkExtension(exportFilename, exportFormat)) {
                 selection = JOptionPane.showConfirmDialog(null,
                     Globals.messages.getString("Warning_extension"),
                     Globals.messages.getString("Warning"),
@@ -251,10 +251,10 @@ public class ExportTools implements ClipboardOwner
                     JOptionPane.WARNING_MESSAGE);
                 // If useful, we correct the extension.
                 if(selection==JOptionPane.OK_OPTION) {
-                    exportFileName = Globals.adjustExtension(
-                        exportFileName, exportFormat);
+                    exportFilename = Globals.adjustExtension(
+                        exportFilename, exportFormat);
                 }
-                f = new File(exportFileName);
+                f = new File(exportFilename);
             }
 
             // If the file already exists, we asks for confirmation
@@ -272,7 +272,7 @@ public class ExportTools implements ClipboardOwner
             RunExport doExport = new RunExport();
             doExport.setCoordinateListener(coordL);
             // Here we use the multithreaded structure of Java.
-            doExport.setParam(new File(exportFileName),  cC.dmp,
+            doExport.setParam(new File(exportFilename),  cC.dmp,
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!cC.extStrict,
                 exportResolutionBased,

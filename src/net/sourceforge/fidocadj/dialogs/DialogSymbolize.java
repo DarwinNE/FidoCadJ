@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -275,7 +276,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
         group=new JComboBox<String>();
         listGroups();
         if (group.getItemCount()==0) {
-            group.addItem(Globals.messages.getString("Group").toLowerCase());
+            group.addItem(Globals.messages.getString("Group").
+                toLowerCase(Locale.getDefault()));
         }
         group.setEditable(true);
 
@@ -310,7 +312,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
 
         name=new JTextField();
         name.setText(
-            Globals.messages.getString("Name").toLowerCase());
+            Globals.messages.getString("Name").
+                toLowerCase(Locale.getDefault()));
         constraints = DialogUtil.createConst(2,4,1,1,100,100,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
             new Insets(6,0,12,0));

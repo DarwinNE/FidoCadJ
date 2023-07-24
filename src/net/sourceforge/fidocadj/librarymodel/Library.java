@@ -62,7 +62,7 @@ public class Library
     /** Get the name of the file of the library.
         @return the filename.
     */
-    public String getFileName()
+    public String getFilename()
     {
         return filename;
     }

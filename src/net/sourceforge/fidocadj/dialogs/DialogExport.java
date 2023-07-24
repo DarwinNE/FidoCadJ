@@ -357,7 +357,7 @@ public final class DialogExport extends MinimumSizeDialog
 
     /** @return a string containing the file name given by the user
     */
-    public String getFileName()
+    public String getFilename()
     {
         return fileName.getText();
     }
@@ -366,7 +366,7 @@ public final class DialogExport extends MinimumSizeDialog
 
         @param f a string containing the default file name
     */
-    public void setFileName(String f)
+    public void setFilename(String f)
     {
         fileName.setText(f);
     }

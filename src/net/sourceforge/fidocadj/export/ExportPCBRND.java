@@ -67,7 +67,7 @@ public final class ExportPCBRND implements ExportInterface
     static final String ExportFormatString = "####.####";
 
     // Conversion between FidoCadJ units and Eagle units (1/10 inches)
-    static double res=5e-2;
+    //static double res=5e-2;
 
     // these variable are used with recursive calls to embed FPs
     String currentMacro = "";

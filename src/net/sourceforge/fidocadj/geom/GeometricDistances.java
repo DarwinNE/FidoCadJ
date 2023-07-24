@@ -500,13 +500,11 @@ public final class GeometricDistances
         double umu;
         double u;
 
-        i=0;
         int[] x=new int[MAX_BEZIER_SEGMENTS+1];
         int[] y=new int[MAX_BEZIER_SEGMENTS+1];
-        double limit=1.0/(double)MAX_BEZIER_SEGMENTS;
 
-        // (1+MAX_BEZIER_SEGMENTS/100) is to avoid roundoff
-        for(u = 0; u < (1+MAX_BEZIER_SEGMENTS/100); u += limit) {
+        for(i=0; i<=MAX_BEZIER_SEGMENTS; ++i) {
+            u=(double)i/MAX_BEZIER_SEGMENTS;
             // This is the parametric form of the Bézier curve.
             // Probably, this is not the most convenient way to draw the
             // curve (one should probably use De Casteljau's Algorithm),
@@ -526,7 +524,6 @@ public final class GeometricDistances
                         y2 * b13 +
                         y3 * b23 +
                         y4 * b33);
-            ++i;
         }
 
         // Calculate the distance of the given point with each of the

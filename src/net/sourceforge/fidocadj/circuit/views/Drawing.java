@@ -163,7 +163,9 @@ public class Drawing
     */
     public final boolean getNeedHoles()
     {
-        return needHoles;
+        synchronized(this) {
+            return needHoles;
+        }
     }
 
     /** Draws all the primitives and macros contained in the specified layer.
@@ -190,7 +192,9 @@ public class Drawing
             }
 
             if(gg.needsHoles()) {
-                needHoles=true;
+                synchronized (this) {
+                    needHoles=true;
+                }
             }
         }
     }

@@ -130,9 +130,9 @@ public class LibraryModel
         libraries.remove(library);
         synchronizeMasterLibrary();
         try{
-            LibUtils.deleteLib(library.getFileName());
+            LibUtils.deleteLib(library.getFilename());
         } catch (FileNotFoundException e){
-            System.out.println("library not found:"+library.getFileName());
+            System.out.println("library not found:"+library.getFilename());
         } catch (IOException e) {
             System.out.println("Exception: "+e);
         }
@@ -322,7 +322,7 @@ public class LibraryModel
             throw new RuntimeException("Key generation failed.");
         }
         newMacro.key = createMacroKey(destCategory.getParentLibrary().
-                                      getFileName(),newPlainKey);
+                                      getFilename(),newPlainKey);
         destCategory.addMacro(newMacro);
 
         return newMacro;
@@ -473,9 +473,9 @@ public class LibraryModel
             for(MacroDesc m:category.getAllMacros()) {
                 m.category = category.getName();
                 m.library = library.getName();
-                m.filename = library.getFileName();
+                m.filename = library.getFilename();
                 plainKey = getPlainMacroKey(m);
-                m.key = createMacroKey(library.getFileName(),plainKey);
+                m.key = createMacroKey(library.getFilename(),plainKey);
             }
         }
     }
@@ -595,8 +595,8 @@ public class LibraryModel
             try{
                 if(!library.isStdLib()){
                     LibUtils.save(masterLibrary,
-                        LibUtils.getLibPath(library.getFileName()),
-                        library.getName().trim(), library.getFileName());
+                        LibUtils.getLibPath(library.getFilename()),
+                        library.getName().trim(), library.getFilename());
                 }
             } catch (FileNotFoundException e) {
                 System.out.println("Error accessing to the file.");

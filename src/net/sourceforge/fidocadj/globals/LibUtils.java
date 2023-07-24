@@ -103,14 +103,14 @@ public final class LibUtils
             // Category (check if it is changed)
             if (prev == null || !prev.equalsIgnoreCase(md.category.trim())) {
                 sb.append("{"+md.category+"}\n");
-                prev = md.category.toLowerCase(new Locale("en")).trim();
+                prev = md.category.toLowerCase(Locale.US).trim();
             }
             sb.append("[");
             // When the macros are written in the library, they contain only
             // the last part of the key, since the first part (before the .)
             // is always the file name.
             sb.append(md.key.substring(
-                md.key.lastIndexOf(".")+1).toUpperCase().trim());
+                md.key.lastIndexOf(".")+1).toUpperCase(Locale.US).trim());
             sb.append(" ");
             sb.append(md.name.trim());
             sb.append("]");
