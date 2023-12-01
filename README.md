@@ -61,7 +61,7 @@ support of UTF-8 text, advanced features, internationalisation and a sleek,
 polished user interface with anti-aliasing.
 
 The FidoCadJ user manual is available in English. Translations in French,
-Italian and Chinese are available, but may not have been updated regularly.
+Italian, Dutch and Chinese are available, but may not have been updated regularly.
 The user interface has been translated into English, French, Italian, Spanish,
 German, Chinese, Dutch, Japanese, Greek and Czech.
 
