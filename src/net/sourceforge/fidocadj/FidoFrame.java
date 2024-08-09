@@ -828,6 +828,9 @@ public final class FidoFrame extends JFrame implements
     */
     public void zoomToFit()
     {
+		// If the drawing is empty, there's no need to go further.
+    	if(cc.getDrawingModel().isEmpty())
+    	    return;
         //double oldz=cc.getMapCoordinates().getXMagnitude();
 
         // We calculate the zoom to fit factor here.
