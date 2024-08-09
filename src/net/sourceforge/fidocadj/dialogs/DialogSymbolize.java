@@ -156,33 +156,33 @@ public final class DialogSymbolize extends MinimumSizeDialog
         JLabel libraryLabel=new
             JLabel(Globals.messages.getString("Library_file"));
 
-        constraints = DialogUtil.createConst(1,0,1,1,0,0,
+        constraints = DialogUtil.createConst(1,0,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,0,0,0));
+            new Insets(0,0,0,6));
 
         panel.add(libraryLabel, constraints);
 
         libFilename=new JComboBox<String>();
 
-        constraints = DialogUtil.createConst(2,0,1,1,100,100,
+        constraints = DialogUtil.createConst(2,0,1,1,0.01,0.01,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-            new Insets(6,0,0,0));
+            new Insets(0,0,0,0));
 
         panel.add(libFilename, constraints);
 
         JLabel libraryNameLabel=new
             JLabel(Globals.messages.getString("Library_name"));
 
-        constraints = DialogUtil.createConst(1,1,1,1,0,0,
+        constraints = DialogUtil.createConst(1,1,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,0,0,0));
+            new Insets(8,0,0,6));
 
         panel.add(libraryNameLabel, constraints);
 
         libName = new JTextField();
-        constraints = DialogUtil.createConst(2,1,1,1,0,0,
-            GridBagConstraints.EAST, GridBagConstraints.BOTH,
-            new Insets(6,0,0,0));
+        constraints = DialogUtil.createConst(2,1,1,1,0.01,0.01,
+            GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
+            new Insets(8,0,0,0));
 
         panel.add(libName, constraints);
 
@@ -245,7 +245,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
         MacroDesc macro = buildMacro("temp","temp","temp","temp", "temp",
             new Point(100,100));
 
-        cpanel.setBorder(BorderFactory.createLoweredBevelBorder());
+        cpanel.setBorder(BorderFactory.createEtchedBorder());
 
         // Set the current objects in the preview panel.
         cpanel.getParserActions().addString(
@@ -260,17 +260,18 @@ public final class DialogSymbolize extends MinimumSizeDialog
         cpanel.setMapCoordinates(m);
         cpanel.resetOrigin();
 
-        constraints = DialogUtil.createConst(3,0,8,8,100,100,
+        constraints = DialogUtil.createConst(3,0,8,8,0.01,0.01,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(6,6,6,6));
+            new Insets(0,6,6,6));
+
         panel.add(cpanel, constraints);
 
         JLabel groupLabel=new
             JLabel(Globals.messages.getString("Group")); //
 
-        constraints = DialogUtil.createConst(1,3,1,1,0,0,
+        constraints = DialogUtil.createConst(1,3,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,40,0,0));
+            new Insets(8,0,0,6));
         panel.add(groupLabel, constraints);
 
         group=new JComboBox<String>();
@@ -297,35 +298,35 @@ public final class DialogSymbolize extends MinimumSizeDialog
             }
         });
 
-        constraints = DialogUtil.createConst(2,3,1,1,100,100,
+        constraints = DialogUtil.createConst(2,3,1,1,0.01,0.01,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-            new Insets(6,0,0,0));
+            new Insets(8,0,0,0));
         panel.add(group, constraints);
 
         JLabel nameLabel=new
             JLabel(Globals.messages.getString("Name")); //
 
-        constraints = DialogUtil.createConst(1,4,1,1,0,0,
+        constraints = DialogUtil.createConst(1,4,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,40,12,0));
+            new Insets(8,0,0,6));
         panel.add(nameLabel, constraints);
 
         name=new JTextField();
         name.setText(
             Globals.messages.getString("Name").
                 toLowerCase(Locale.getDefault()));
-        constraints = DialogUtil.createConst(2,4,1,1,100,100,
+        constraints = DialogUtil.createConst(2,4,1,1,0.01,0.01,
             GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-            new Insets(6,0,12,0));
+            new Insets(8,0,0,0));
 
         panel.add(name, constraints);
 
         JLabel nameLabel1=new
                 JLabel(Globals.messages.getString("Key")); //
 
-        constraints = DialogUtil.createConst(1,5,1,1,0,0,
+        constraints = DialogUtil.createConst(1,5,1,1,0.01,0.01,
             GridBagConstraints.EAST, GridBagConstraints.NONE,
-            new Insets(6,40,12,0));
+            new Insets(8,0,0,6));
         panel.add(nameLabel1, constraints);
 
         key=new JTextField();
@@ -337,9 +338,9 @@ public final class DialogSymbolize extends MinimumSizeDialog
             h^=t & 0xFF;
         }
 
-        constraints = DialogUtil.createConst(2,5,1,1,100,100,
+        constraints = DialogUtil.createConst(2,5,1,1,0.01,0.01,
         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(6,0,12,0));
+                new Insets(8,0,0,0));
 
         panel.add(key, constraints);
         key.getDocument().addDocumentListener(new DocumentListener() {
@@ -393,10 +394,11 @@ public final class DialogSymbolize extends MinimumSizeDialog
         }
         snapToGrid=new JCheckBox(
             Globals.messages.getString("SnapToGridOrigin"));
+        snapToGrid.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-        constraints = DialogUtil.createConst(2,6,1,1,0,0,
+        constraints = DialogUtil.createConst(2,6,2,1,0.1,0.1,
             GridBagConstraints.WEST, GridBagConstraints.NONE,
-            new Insets(6,0,0,0));
+            new Insets(8,0,0,0));
         panel.add(snapToGrid, constraints);
 
         // Keep in mind the last edited library and group
@@ -435,7 +437,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     */
     public DialogSymbolize (CircuitPanel circuitPanel, DrawingModel p)
     {
-        super(350,250,(JFrame)null,
+        super(600,430,(JFrame)null,
             Globals.messages.getString("SaveSymbol"), true);
         parent = circuitPanel;
         addComponentListener(this);
