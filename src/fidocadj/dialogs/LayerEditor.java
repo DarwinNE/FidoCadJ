@@ -49,8 +49,8 @@ public class LayerEditor extends AbstractCellEditor implements ComboBoxEditor {
         visibilityLabel = new JLabel();
         nameLabel = new JLabel();
         
-        visibleIcon = new ImageIcon("./icons/layer-on.png");
-        invisibleIcon = new ImageIcon("./icons/layer-off.png");
+        visibleIcon = new ImageIcon(getClass().getResource("/icons/layer-on.png"));
+        invisibleIcon = new ImageIcon(getClass().getResource("/icons/layer-off.png"));
 
         visibilityLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
         

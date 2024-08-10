@@ -23,8 +23,8 @@ public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc>
         visibilityLabel = new JLabel();
         nameLabel = new JLabel();
         
-        visibleIcon = new ImageIcon("./icons/layer-on.png");
-        invisibleIcon = new ImageIcon("./icons/layer-off.png");
+        visibleIcon = new ImageIcon(getClass().getResource("/icons/layer-on.png"));
+        invisibleIcon = new ImageIcon(getClass().getResource("/icons/layer-off.png"));
 
         add(colorLabel);
         add(visibilityLabel);
