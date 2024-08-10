@@ -89,14 +89,14 @@ public class Drawing
 
         synchronized (this) {
             // At first, we check if the current view has changed.
-            if(dmp.changed || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() ||
+            if(dmp.getChanged() || oZ!=cs.getXMagnitude() || oX!=cs.getXCenter() ||
                 oY!=cs.getYCenter() || oO!=cs.getOrientation())
             {
                 oZ=cs.getXMagnitude();
                 oX=cs.getXCenter();
                 oY=cs.getYCenter();
                 oO=cs.getOrientation();
-                dmp.changed = false;
+                dmp.setChanged(false);
 
                 // Here we force for a global refresh of graphic data at the
                 // primitive level.

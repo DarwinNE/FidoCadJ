@@ -65,7 +65,7 @@ public final class DrawingModel
     // that during the first redraw a in-depth calculation of all coordinates
     // will be done. For performance reasons, this is indeed done only when
     // necessary.
-    public boolean changed;     // TODO: should be private
+    private boolean changed;
 
     // ******* PRIMITIVE DATABASE ********
 
@@ -332,6 +332,14 @@ public final class DrawingModel
     public boolean isEmpty()
     {
         return getPrimitiveVector().isEmpty();
+    }
+        
+    /** Returns changed state
+        @return changed state.
+    */
+    public boolean getChanged()
+    {
+        return changed;
     }
 
     /** Set the change state of the class. Changed just means that we want
