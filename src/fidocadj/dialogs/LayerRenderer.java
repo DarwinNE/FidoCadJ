@@ -2,13 +2,38 @@ package fidocadj.dialogs;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 import fidocadj.layers.LayerDesc;
 import fidocadj.graphic.swing.ColorSwing;
 
-
+/** 
+ * LayerRenderer.java
+ * 
+ * This class defines a custom renderer for displaying layers in a JList within FidoCadJ.
+ * It handles the visual representation of each layer, including its color, visibility, and name.
+ *
+ * <pre>
+ * This file is part of FidoCadJ.
+ *
+ * FidoCadJ is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * FidoCadJ is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with FidoCadJ. If not,
+ * @see<a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
+ *
+ * Copyright 2015-2023 by Davide Bucci
+ * </pre>
+ *
+ * @author Manuel Finessi
+ */
 public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc> {
     private JLabel colorLabel;
     private JLabel visibilityLabel;
@@ -17,6 +42,11 @@ public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc>
     private Icon invisibleIcon;
     private final int ICON_SIZE = 20;
 
+    /**
+     * Constructs a LayerRenderer with control over the visibility of layers.
+     *
+     * @param visibilityCtrl a boolean indicating whether visibility control is enabled.
+     */
     public LayerRenderer(boolean visibilityCtrl) {
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         colorLabel = new JLabel();
@@ -31,6 +61,16 @@ public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc>
         add(nameLabel);
     }
 
+    /**
+     * Configures the renderer component for each cell in the JList.
+     *
+     * @param list the JList we're painting.
+     * @param layer the layer to be rendered.
+     * @param index the index of the cell being drawn.
+     * @param isSelected true if the specified cell is currently selected.
+     * @param cellHasFocus true if the cell has focus.
+     * @return the component used to render the value.
+     */
     @Override
     public Component getListCellRendererComponent(JList<? extends LayerDesc> list, LayerDesc layer, int index, boolean isSelected, boolean cellHasFocus) {
         colorLabel.setOpaque(true);
@@ -48,7 +88,6 @@ public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc>
         
         if (!layer.getVisible()) 
             nameLabel.setForeground(SystemColor.textInactiveText);
-        
 
         if (isSelected) {
             setBackground(list.getSelectionBackground());
@@ -61,4 +100,3 @@ public class LayerRenderer extends JPanel implements ListCellRenderer<LayerDesc>
         return this;
     }
 }
-
