@@ -551,7 +551,7 @@ public final class FidoFrame extends JFrame implements
         cc.getDrawingModel().setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
-        toolZoom = new ToolbarZoom(layerDesc);
+        toolZoom = new ToolbarZoom(layerDesc, this);
 
         toolBar.addSelectionListener(cc);
         toolZoom.addLayerListener(cc);

@@ -1,6 +1,7 @@
 package fidocadj.toolbars;
 
 
+import fidocadj.FidoFrame;
 import javax.swing.*;
 import java.util.*;
 
@@ -13,6 +14,9 @@ import fidocadj.dialogs.LayerCellRenderer;
 import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
+
+import fidocadj.dialogs.LayerRenderer;
+import fidocadj.dialogs.LayerEditor;
 
 
 /** ToolbarZoom class
@@ -56,12 +60,15 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
 
     private final JComboBox<LayerDesc> layerSel;
     private ChangeSelectedLayer changeLayerListener;
+    
+    private FidoFrame fidoFrame;
 
     /** Standard constructor
         @param l the layer description
     */
-    public ToolbarZoom (List<LayerDesc> l)
+    public ToolbarZoom (List<LayerDesc> l, FidoFrame fidoFrame)
     {
+        this.fidoFrame = fidoFrame;
         putClientProperty("Quaqua.ToolBar.style", "title");
         zoom = new JComboBox<String>();
         zoom.addItem("25%");
@@ -100,7 +107,10 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
         layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
         layerSel.setToolTipText(
             Globals.messages.getString("tooltip_layerSel"));
-        layerSel.setRenderer( new LayerCellRenderer());
+        layerSel.setRenderer( new LayerRenderer(false));
+        layerSel.setEditor(new LayerEditor(layerSel, fidoFrame));
+        layerSel.setEditable(true);
+        layerSel.setPreferredSize(new Dimension(150, 12));
         changeListener=null;
 
         showLibs=new JToggleButton(Globals.messages.getString("Libs"));
