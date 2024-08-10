@@ -137,7 +137,7 @@ public class ExportTools implements ClipboardOwner
             doExport.setCoordinateListener(coordL);
             try {
                 File fexp=File.createTempFile("FidoCadJ",".png");
-                doExport.setParam(fexp,  cC.dmp,
+                doExport.setParam(fexp,  cC.getDrawingModel(),
                     "png", exportUnitPerPixel,
                     dcai.getAntiAlias(),exportBlackWhite,!cC.extStrict,
                     exportResolutionBased,
@@ -272,7 +272,7 @@ public class ExportTools implements ClipboardOwner
             RunExport doExport = new RunExport();
             doExport.setCoordinateListener(coordL);
             // Here we use the multithreaded structure of Java.
-            doExport.setParam(new File(exportFilename),  cC.dmp,
+            doExport.setParam(new File(exportFilename),  cC.getDrawingModel(),
                 exportFormat, exportUnitPerPixel,
                 export.getAntiAlias(),exportBlackWhite,!cC.extStrict,
                 exportResolutionBased,

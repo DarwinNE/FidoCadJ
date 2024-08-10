@@ -134,7 +134,7 @@ class OpenFile implements Runnable
 
                 FidoFrame popFrame;
                 if(parent.cc.getUndoActions().getModified() ||
-                    !parent.cc.dmp.isEmpty())
+                    !parent.cc.getDrawingModel().isEmpty())
                 {
                     // Here we create a new window in order to display
                     // the file.

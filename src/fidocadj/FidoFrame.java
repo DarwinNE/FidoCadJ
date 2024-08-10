@@ -453,11 +453,11 @@ public final class FidoFrame extends JFrame implements
 
         // This is useful if this is not the first time that libraries are
         // being loaded.
-        cc.dmp.resetLibrary();
+        cc.getDrawingModel().resetLibrary();
         ParserActions pa=cc.getParserActions();
 
         if(runsAsApplication) {
-            FidoMain.readLibrariesProbeDirectory(cc.dmp,
+            FidoMain.readLibrariesProbeDirectory(cc.getDrawingModel(),
                 englishLibraries, libDirectory);
         } else {
             // This code is useful when FidoCadJ is used whithout having access
@@ -509,7 +509,7 @@ public final class FidoFrame extends JFrame implements
         // at the same time, we see if we should maintain a strict FidoCad
         // compatibility.
         if (runsAsApplication)  {
-            cc.dmp.setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont),
+            cc.getDrawingModel().setTextFont(prefs.get("MACRO_FONT", Globals.defaultTextFont),
                 Integer.parseInt(prefs.get("MACRO_SIZE", "3")),
                 cc.getUndoActions());
             readGridSettings();
@@ -548,7 +548,7 @@ public final class FidoFrame extends JFrame implements
         // I followed the FidoCAD tradition on this.
         java.util.List<LayerDesc> layerDesc=
             StandardLayers.createStandardLayers();
-        cc.dmp.setLayers(layerDesc);
+        cc.getDrawingModel().setLayers(layerDesc);
 
         toolBar = new ToolbarTools(textToolbar,smallIconsToolbar);
         toolZoom = new ToolbarZoom(layerDesc);
@@ -581,8 +581,8 @@ public final class FidoFrame extends JFrame implements
 
         contentPane.add(b,"North");
 
-        libraryModel = new LibraryModel(cc.dmp);
-        LayerModel layerModel = new LayerModel(cc.dmp);
+        libraryModel = new LibraryModel(cc.getDrawingModel());
+        LayerModel layerModel = new LayerModel(cc.getDrawingModel());
         macroLib = new MacroTree(libraryModel,layerModel);
         macroLib.setSelectionListener(cc);
 
@@ -750,10 +750,10 @@ public final class FidoFrame extends JFrame implements
             ae.getPcbPadSizeY(),
             ae.getPcbPadDrill(),
             cc.getStrictCompatibility(),
-            cc.dmp.getTextFont(),
+            cc.getDrawingModel().getTextFont(),
             Globals.lineWidth,
             Globals.diameterConnection,
-            cc.dmp.getTextFontSize(),
+            cc.getDrawingModel().getTextFontSize(),
             cpa.getShiftCopyPaste());
 
         // The panel is now made visible. Its properties will be updated only
@@ -777,7 +777,7 @@ public final class FidoFrame extends JFrame implements
         ae.setPcbPadSizeY(options.pcbpadheight_i);
         ae.setPcbPadDrill(options.pcbpadintw_i);
 
-        cc.dmp.setTextFont(options.macroFont,
+        cc.getDrawingModel().setTextFont(options.macroFont,
             options.macroSize_i,
             cc.getUndoActions());
 
@@ -799,8 +799,8 @@ public final class FidoFrame extends JFrame implements
 
         if (runsAsApplication) {
             prefs.put("DIR_LIBS", libDirectory);
-            prefs.put("MACRO_FONT", cc.dmp.getTextFont());
-            prefs.put("MACRO_SIZE", ""+cc.dmp.getTextFontSize());
+            prefs.put("MACRO_FONT", cc.getDrawingModel().getTextFont());
+            prefs.put("MACRO_SIZE", ""+cc.getDrawingModel().getTextFontSize());
             prefs.put("STROKE_SIZE_STRAIGHT", ""+Globals.lineWidth);
             prefs.put("STROKE_SIZE_OVAL", ""+Globals.lineWidthCircles);
             prefs.put("CONNECTION_SIZE", ""+Globals.diameterConnection);
@@ -834,7 +834,7 @@ public final class FidoFrame extends JFrame implements
         //double oldz=cc.getMapCoordinates().getXMagnitude();
 
         // We calculate the zoom to fit factor here.
-        MapCoordinates m=DrawingSize.calculateZoomToFit(cc.dmp,
+        MapCoordinates m=DrawingSize.calculateZoomToFit(cc.getDrawingModel(),
             sc.getViewport().getExtentSize().width-35,
             sc.getViewport().getExtentSize().height-35,
             true);

@@ -261,7 +261,7 @@ public class FileTools
                     indeed to split macros.
                 */
                 ExportGraphic.export(new File(
-                    cc.getParserActions().openFileName),  cc.dmp,
+                    cc.getParserActions().openFileName),  cc.getDrawingModel(),
                     "fcd", 1.0,true,false, !cc.extStrict, false,false);
                 cc.getUndoActions().setModified(false);
             } else {

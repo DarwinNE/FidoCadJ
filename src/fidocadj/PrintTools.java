@@ -379,10 +379,10 @@ public class PrintTools implements Printable
             g2d.translate(0,-(shownHeight*pagey));
         }
 
-        java.util.List<LayerDesc> ol=cc.dmp.getLayers();
+        java.util.List<LayerDesc> ol=cc.getDrawingModel().getLayers();
         // Check if only one layer should be printed.
         if(currentLayerSelected>=0) {
-            cc.dmp.drawOnlyLayer=currentLayerSelected;
+            cc.getDrawingModel().drawOnlyLayer=currentLayerSelected;
         }
         // Check if the drawing should be black and white
         if(printBlackWhite) {
@@ -397,7 +397,7 @@ public class PrintTools implements Printable
                     ((LayerDesc)ol.get(i)).getVisible(),
                      "B/W",((LayerDesc)ol.get(i)).getAlpha()));
             }
-            cc.dmp.setLayers(v);
+            cc.getDrawingModel().setLayers(v);
         }
         Graphics2DSwing graphicSwing = new Graphics2DSwing(g2d);
         // This is important for taking into account the dashing size
@@ -405,12 +405,12 @@ public class PrintTools implements Printable
         // Now we perform our rendering
         cc.drawingAgent.draw(graphicSwing, m);
         if(currentLayerSelected>=0) {
-            cc.dmp.setDrawOnlyPads(true);
+            cc.getDrawingModel().setDrawOnlyPads(true);
             cc.drawingAgent.draw(new Graphics2DSwing(g2d), m);
-            cc.dmp.setDrawOnlyPads(false);
-            cc.dmp.drawOnlyLayer=-1;
+            cc.getDrawingModel().setDrawOnlyPads(false);
+            cc.getDrawingModel().drawOnlyLayer=-1;
         }
-        cc.dmp.setLayers(ol);
+        cc.getDrawingModel().setLayers(ol);
         g2d.setTransform(oldTransform);
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;

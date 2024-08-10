@@ -106,7 +106,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
     {
         libFilename.removeAllItems();
         List<String> lst = new LinkedList<String>();
-        Map<String,MacroDesc> m=cpanel.dmp.getLibrary();
+        Map<String,MacroDesc> m=cpanel.getDrawingModel().getLibrary();
 
         for (Entry<String,MacroDesc> e : m.entrySet()) {
             MacroDesc md = e.getValue();
@@ -237,8 +237,8 @@ public final class DialogSymbolize extends MinimumSizeDialog
         cpanel.add(Box.createVerticalStrut(256));
         cpanel.add(Box.createHorizontalStrut(256));
 
-        cpanel.dmp.setLayers(cp.getLayers());
-        cpanel.dmp.setLibrary(cp.getLibrary());
+        cpanel.getDrawingModel().setLayers(cp.getLayers());
+        cpanel.getDrawingModel().setLibrary(cp.getLibrary());
         enumLibs();
         cpanel.antiAlias = true;
         cpanel.profileTime = false;
@@ -252,7 +252,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
             new StringBuffer(macro.description), false);
         // Calculate an optimum preview size in order to show all elements.
         MapCoordinates m =
-                DrawingSize.calculateZoomToFit(cpanel.dmp,
+                DrawingSize.calculateZoomToFit(cpanel.getDrawingModel(),
                 cpanel.getSize().width*80/100, cpanel.getSize().height*80/100,
                 true);
         m.setXCenter(-m.getXCenter()+10);

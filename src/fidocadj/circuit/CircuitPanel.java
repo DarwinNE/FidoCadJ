@@ -94,9 +94,7 @@ public class CircuitPanel extends JPanel implements
     // Color of elements during editing
     static final ColorSwing editingColor=new ColorSwing(Color.green);
 
-    // Model:
-    // TODO: This should be kept private!
-    public transient DrawingModel dmp;
+    private transient DrawingModel dmp;
 
     // Scrolling pane data
     public JScrollPane father;
