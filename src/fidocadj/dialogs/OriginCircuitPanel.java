@@ -46,8 +46,8 @@ public final class OriginCircuitPanel extends CircuitPanel
 
     // x and y coordinates of the origin in logical units.
     // TODO: improve data encapsulation (these should be private).
-    public int xl=5;
-    public int yl=5;
+    private int xl=5;
+    private int yl=5;
 
     /** By implementing writeObject method,
     // we can prevent
@@ -82,6 +82,37 @@ public final class OriginCircuitPanel extends CircuitPanel
     {
         return dy;
     }
+    
+    /** Get the x coordinates of the origin in logical units.
+    @return the x coordinate of the origin in logical units.
+    */
+    public int getLx()
+    {
+        return xl;
+    }
+
+    /** Get the y coordinates of the origin in logical units.
+    @return the y coordinate of the origin in logical units.
+    */
+    public int getLy()
+    {
+        return yl;
+    }
+    
+    /** Set the x coordinates of the origin in logical units.
+    */
+    public void setLx(int xl)
+    {
+        this.xl = xl;
+    }
+
+    /** Set the y coordinates of the origin in logical units.
+    */
+    public void setLy(int yl)
+    {
+        this.yl = yl;
+    }
+
 
     /** Put the origin in the 10,10 logical coordinates.
     */

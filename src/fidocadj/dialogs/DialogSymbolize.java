@@ -212,14 +212,14 @@ public final class DialogSymbolize extends MinimumSizeDialog
                 int y=evt.getY();
 
                 if(snapToGrid.isSelected()) {
-                    cpanel.xl=cpanel.getMapCoordinates().unmapXsnap(x);
-                    cpanel.yl=cpanel.getMapCoordinates().unmapYsnap(y);
+                    cpanel.setLx(cpanel.getMapCoordinates().unmapXsnap(x));
+                    cpanel.setLy(cpanel.getMapCoordinates().unmapYsnap(y));
                 } else {
-                    cpanel.xl=cpanel.getMapCoordinates().unmapXnosnap(x);
-                    cpanel.yl=cpanel.getMapCoordinates().unmapYnosnap(y);
+                    cpanel.setLx(cpanel.getMapCoordinates().unmapXnosnap(x));
+                    cpanel.setLy(cpanel.getMapCoordinates().unmapYnosnap(y));
                 }
-                x=cpanel.getMapCoordinates().mapXi(cpanel.xl,cpanel.yl,false);
-                y=cpanel.getMapCoordinates().mapYi(cpanel.xl,cpanel.yl,false);
+                x=cpanel.getMapCoordinates().mapXi(cpanel.getLx(),cpanel.getLy(),false);
+                y=cpanel.getMapCoordinates().mapYi(cpanel.getLx(),cpanel.getLy(),false);
                 cpanel.setDx(x);
                 cpanel.setDy(y);
                 cpanel.repaint();
@@ -523,7 +523,7 @@ public final class DialogSymbolize extends MinimumSizeDialog
                     key.requestFocus();
                     return;
                 }
-                Point p = new Point(200-cpanel.xl, 200-cpanel.yl);
+                Point p = new Point(200-cpanel.getLx(), 200-cpanel.getLy());
                 MacroDesc macro = buildMacro(getMacroName().trim(),
                     key.getText().trim(),getLibraryName().trim(),
                     getGroup().trim(), getPrefix().trim(),p);
