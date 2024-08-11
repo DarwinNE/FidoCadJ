@@ -1170,7 +1170,7 @@ public final class PrimitiveComplexCurve
     }
     
     /**
-     * Determines whether the shape defined by the points in `q` intersects with
+     * Determines whether the shape defined by the points in q intersects with
      * the specified rectangle.
      *
      * This method first checks if the bounding box of the shape intersects with
@@ -1181,14 +1181,19 @@ public final class PrimitiveComplexCurve
      * Note: The precision of this method is marked as questionable and may
      * require review and refinement.
      *
-     * @param rect the `Rectangle` object to check for intersection.
+     * @param rect the Rectangle object to check for intersection.
+     * 
+     * @param isLeftToRightSelection Determine the direction of the selection
      *
-     * @return `true` if any part of the shape intersects the rectangle, `false`
+     * @return true if any part of the shape intersects the rectangle, false
      *         otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect)
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);      
+        
         // TODO: Review needed, this method is not very precise
 
         if (!rect.intersects(xmin, ymin, width, height)) {

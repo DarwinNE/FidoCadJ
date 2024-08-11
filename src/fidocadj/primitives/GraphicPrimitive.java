@@ -1167,20 +1167,45 @@ public abstract class GraphicPrimitive
     }
     
     /**
-     * Determines whether any point in `virtualPoint` is contained within the
-     * specified rectangle.
+     * Determines if the virtual points are fully contained within the specified
+     * rectangle based on the selection direction.
      *
-     * This method should be overridden in all derived classes. Each
-     * `GraphicPrimitive` must have its own implementation of this method to
-     * accurately determine if it intersects with the given rectangle.
+     * @param rect                   the selection rectangle.
+     * @param isLeftToRightSelection true if the selection is from left to
+     *                               right.
      *
-     * @param rect the `Rectangle` object to check for containment.
-     *
-     * @return `true` if any point in `virtualPoint` is inside the rectangle,
-     *         `false` otherwise.
+     * @return true if all points are within the rectangle for left-to-right
+     *         selection, or if any point is within the rectangle for
+     *         right-to-left selection.
      */
-    public boolean intersects(Rectangle rect) 
+    public boolean isFullyContained(Rectangle rect)
     {
+        // Check if all points are fully contained within the rectangle
+        for (PointG point : virtualPoint) {
+            if (!rect.contains(point.x, point.y)) {
+                return false; // At least one point is outside the rectangle
+            }
+        }
+        return true; // All points are contained
+    }
+
+    
+    /**
+     * Determines whether the primitive is contained within or intersects with
+     * the specified rectangle, depending on the selection direction.
+     *
+     * @param rect                   the Rectangle object to check for
+     *                               containment or intersection.
+     * @param isLeftToRightSelection Determine the direction of the selection.
+     *
+     * @return true if the primitive should be selected based on the selection
+     *         criteria, false otherwise.
+     */
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
+    {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);          
+
         for (PointG point : virtualPoint) {
             if (rect.contains(point.x, point.y)) {
                 return true;

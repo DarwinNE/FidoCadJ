@@ -731,14 +731,19 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      * It then creates a bounding box around the text and checks if this 
      * bounding box intersects with the given rectangle.
      *
-     * @param rect the `Rectangle` object to check for intersection.
+     * @param rect the Rectangle object to check for intersection.
+     * 
+     * @param isLeftToRightSelection Determine the direction of the selection
      *
-     * @return `true` if the bounding box of the text intersects the rectangle,
-     *         `false` otherwise.
+     * @return true if the bounding box of the text intersects the rectangle,
+     *         false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect)
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);  
+        
         GraphicsNull g = new GraphicsNull();
         g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5), (sty & TEXT_ITALIC) != 0, (sty & TEXT_BOLD) != 0);
 

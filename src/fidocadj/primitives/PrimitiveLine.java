@@ -457,16 +457,21 @@ public final class PrimitiveLine extends GraphicPrimitive
     }
     
     /**
-     * Determines whether the line defined by the points in `virtualPoint`
+     * Determines whether the line defined by the points in virtualPoint
      * intersects the specified rectangle.
      *
-     * @param rect the `Rectangle` object to check for intersection.
+     * @param rect the Rectangle object to check for intersection.
+     * 
+     * @param isLeftToRightSelection Determine the direction of the selection
      *
-     * @return `true` if the line intersects the rectangle, `false` otherwise.
+     * @return true if the line intersects the rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect) 
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection) 
     {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);  
+                
         int x1 = virtualPoint[0].x;
         int y1 = virtualPoint[0].y;
         int x2 = virtualPoint[1].x;

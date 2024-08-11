@@ -385,7 +385,7 @@ public final class PrimitiveOval extends GraphicPrimitive
     }
     
     /**
-     * Determines whether the oval defined by the points in `virtualPoint`
+     * Determines whether the oval defined by the points in virtualPoint
      * intersects with the specified rectangle.
      *
      * This method calculates the bounding box of the oval, checks for an
@@ -393,14 +393,19 @@ public final class PrimitiveOval extends GraphicPrimitive
      * check to see if any point on the edge of the oval falls within the
      * rectangle.
      *
-     * @param rect the `Rectangle` object to check for intersection.
+     * @param rect the Rectangle object to check for intersection.
+     * 
+     * @param isLeftToRightSelection Determine the direction of the selection
      *
-     * @return `true` if any point on the edge of the oval intersects the
-     *         rectangle, `false` otherwise.
+     * @return true if any point on the edge of the oval intersects the
+     *         rectangle, false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect)
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);  
+        
         int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
         int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
         int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);

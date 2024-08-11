@@ -44,7 +44,7 @@ public class HandleActions
     private final EditorActions edt;
     private final UndoActions ua;
     private final SelectionActions sa;
-
+    
 
     // ******** DRAG & INTERFACE *********
 
@@ -66,6 +66,8 @@ public class HandleActions
     // Other old cursor position for handle drag...
     private int oldpx;
     private int oldpy;
+    
+    private boolean isLeftToRightSelection;
 
 
     /** Standard constructor: provide the database class.
@@ -84,6 +86,7 @@ public class HandleActions
         sa=s;
         firstDrag=false;
         handleBeingDragged=GraphicPrimitive.NO_DRAG;
+        isLeftToRightSelection = false;
     }
 
     /** Drag all the selected primitives during a drag operation.
@@ -254,7 +257,7 @@ public class HandleActions
                 }
 
                 for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
-                    if (g.intersects(selectionRect)) {
+                    if (g.intersects(selectionRect, isLeftToRightSelection)) {
                         g.setSelected(true);
                     }
                 }
@@ -301,9 +304,11 @@ public class HandleActions
                 int yb = opy;
                 
                 if (xb < xa) {
+                    isLeftToRightSelection = false;
                     cC.setSelectionColor(Color.GREEN); 
                 } else {
                     cC.setSelectionColor(Color.BLUE); 
+                    isLeftToRightSelection = true;
                 }
 
                 if(opx>xa && px<xa) {

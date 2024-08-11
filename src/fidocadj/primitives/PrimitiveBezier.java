@@ -508,7 +508,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
     
     /**
      * Determines whether the Bézier curve defined by the control points in
-     * `virtualPoint` intersects with the specified rectangle.
+     * virtualPoint intersects with the specified rectangle.
      *
      * This method first checks if the bounding box of the Bézier curve
      * intersects with the rectangle. If the bounding box intersects, it then
@@ -518,14 +518,19 @@ public final class PrimitiveBezier extends GraphicPrimitive
      * Note: The precision of this method is marked as questionable and may
      * require review and refinement.
      *
-     * @param rect the `Rectangle` object to check for intersection.
+     * @param rect the Rectangle object to check for intersection.
+     * 
+     * @param isLeftToRightSelection Determine the direction of the selection
      *
-     * @return `true` if any part of the Bézier curve intersects the rectangle,
-     *         `false` otherwise.
+     * @return true if any part of the Bézier curve intersects the rectangle,
+     *         false otherwise.
      */
     @Override
-    public boolean intersects(Rectangle rect)
+    public boolean intersects(Rectangle rect, boolean isLeftToRightSelection)
     {
+        if (isLeftToRightSelection)
+            return isFullyContained(rect);  
+        
         // TODO: Review needed, this method is not very precise
 
         // Check if the bounding box of the Bézier curve intersects the rectangle
