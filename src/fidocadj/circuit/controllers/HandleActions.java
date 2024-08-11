@@ -9,6 +9,8 @@ import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.PrimitiveRectangle;
 import fidocadj.primitives.PrimitiveMacro;
 import fidocadj.primitives.PrimitiveOval;
+import java.awt.Color;
+import java.awt.Rectangle;
 
 /** CopyPasteActions: contains a controller which can perform handle drag and
     move actions on a primitive database
@@ -229,7 +231,7 @@ public class HandleActions
     {
         // Check if we are effectively dragging something...
         cC.setEvidenceRect(0,0,-1,-1);
-        if(handleBeingDragged<0){
+        if(handleBeingDragged<0){/*
             if(handleBeingDragged==GraphicPrimitive.RECT_SELECTION){
                 int xa=Math.min(oldpx, cs.unmapXnosnap(px));
                 int ya=Math.min(oldpy, cs.unmapYnosnap(py));
@@ -237,7 +239,28 @@ public class HandleActions
                 int yb=Math.max(oldpy, cs.unmapYnosnap(py));
                 if(!multiple) { sa.setSelectionAll(false); }
                 edt.selectRect(xa, ya, xb-xa, yb-ya);
+            }*/
+            
+            if (handleBeingDragged == GraphicPrimitive.RECT_SELECTION) {
+                int xa = Math.min(oldpx, cs.unmapXnosnap(px));
+                int ya = Math.min(oldpy, cs.unmapYnosnap(py));
+                int xb = Math.max(oldpx, cs.unmapXnosnap(px));
+                int yb = Math.max(oldpy, cs.unmapYnosnap(py));
+
+                Rectangle selectionRect = new Rectangle(xa, ya, xb - xa, yb - ya);
+
+                if (!multiple) {
+                    sa.setSelectionAll(false);
+                }
+
+                for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
+                    if (g.intersects(selectionRect)) {
+                        g.setSelected(true);
+                    }
+                }
             }
+
+            
             // Test if we are anyway dragging an entire primitive
             if(handleBeingDragged==GraphicPrimitive.DRAG_PRIMITIVE &&
                 hasMoved && ua!=null)
@@ -276,6 +299,12 @@ public class HandleActions
                 int ya = cs.mapYi(oldpx, oldpy, false);
                 int xb = opx;
                 int yb = opy;
+                
+                if (xb < xa) {
+                    cC.setSelectionColor(Color.GREEN); 
+                } else {
+                    cC.setSelectionColor(Color.BLUE); 
+                }
 
                 if(opx>xa && px<xa) {
                     flip=true;

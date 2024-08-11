@@ -1,5 +1,7 @@
 package fidocadj.circuit.controllers;
 
+import java.awt.Color;
+
 /** PrimitivesParInterface specifies some actions useful to modify
     characteristics of primitives.
     They are usually provided by the editor component.
@@ -78,4 +80,6 @@ public interface PrimitivesParInterface
         @param h    the height of the rectangle
     */
     void setEvidenceRect(int lx, int ly, int w, int h);
+    
+    void setSelectionColor(Color color);
 }

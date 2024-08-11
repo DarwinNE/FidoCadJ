@@ -11,6 +11,7 @@ import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointG;
+import java.awt.Rectangle;
 
 /** Class to handle the line primitive.
 
@@ -454,4 +455,24 @@ public final class PrimitiveLine extends GraphicPrimitive
     {
         return 3;
     }
+    
+    /**
+     * Determines whether the line defined by the points in `virtualPoint`
+     * intersects the specified rectangle.
+     *
+     * @param rect the `Rectangle` object to check for intersection.
+     *
+     * @return `true` if the line intersects the rectangle, `false` otherwise.
+     */
+    @Override
+    public boolean intersects(Rectangle rect) 
+    {
+        int x1 = virtualPoint[0].x;
+        int y1 = virtualPoint[0].y;
+        int x2 = virtualPoint[1].x;
+        int y2 = virtualPoint[1].y;
+
+        return rect.intersectsLine(x1, y1, x2, y2);
+    }
+
 }

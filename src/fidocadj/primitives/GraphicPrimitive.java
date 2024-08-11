@@ -14,6 +14,7 @@ import fidocadj.graphic.DecoratedText;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.DimensionG;
 import fidocadj.graphic.GraphicsInterface;
+import java.awt.Rectangle;
 
 /** GraphicPrimitive is an abstract class implementing the basic behaviour
     of a graphic primitive, which should be derived from it.
@@ -1163,5 +1164,28 @@ public abstract class GraphicPrimitive
             sb = new StringBuffer(""+v);
         }
         return sb;
+    }
+    
+    /**
+     * Determines whether any point in `virtualPoint` is contained within the
+     * specified rectangle.
+     *
+     * This method should be overridden in all derived classes. Each
+     * `GraphicPrimitive` must have its own implementation of this method to
+     * accurately determine if it intersects with the given rectangle.
+     *
+     * @param rect the `Rectangle` object to check for containment.
+     *
+     * @return `true` if any point in `virtualPoint` is inside the rectangle,
+     *         `false` otherwise.
+     */
+    public boolean intersects(Rectangle rect) 
+    {
+        for (PointG point : virtualPoint) {
+            if (rect.contains(point.x, point.y)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

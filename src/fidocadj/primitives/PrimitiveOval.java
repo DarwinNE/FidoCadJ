@@ -10,6 +10,7 @@ import fidocadj.geom.GeometricDistances;
 import fidocadj.geom.MapCoordinates;
 import fidocadj.globals.Globals;
 import fidocadj.graphic.GraphicsInterface;
+import java.awt.Rectangle;
 
 /** Class to handle the Oval primitive.
 
@@ -381,5 +382,47 @@ public final class PrimitiveOval extends GraphicPrimitive
     public  int getValueVirtualPointNumber()
     {
         return 3;
+    }
+    
+    /**
+     * Determines whether the oval defined by the points in `virtualPoint`
+     * intersects with the specified rectangle.
+     *
+     * This method calculates the bounding box of the oval, checks for an
+     * intersection with the given rectangle, and then performs a more precise
+     * check to see if any point on the edge of the oval falls within the
+     * rectangle.
+     *
+     * @param rect the `Rectangle` object to check for intersection.
+     *
+     * @return `true` if any point on the edge of the oval intersects the
+     *         rectangle, `false` otherwise.
+     */
+    @Override
+    public boolean intersects(Rectangle rect)
+    {
+        int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
+        int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
+        int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
+        int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
+        
+        Rectangle ovalBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        if (rect.intersects(ovalBounds)) {
+            int centerX = (x1 + x2) / 2;
+            int centerY = (y1 + y2) / 2;
+            int a = (x2 - x1) / 2;
+            int b = (y2 - y1) / 2;
+
+            for (int i = rect.x; i <= rect.x + rect.width; i++) {
+                for (int j = rect.y; j <= rect.y + rect.height; j++) {
+                    double normalizedX = (double) (i - centerX) / a;
+                    double normalizedY = (double) (j - centerY) / b;
+                    if (Math.abs(normalizedX * normalizedX + normalizedY * normalizedY - 1) < 0.05) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

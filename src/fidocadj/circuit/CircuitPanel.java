@@ -93,6 +93,8 @@ public class CircuitPanel extends JPanel implements
 
     // Color of elements during editing
     static final ColorSwing editingColor=new ColorSwing(Color.green);
+    
+    private Color selectionColor = editingColor.getColorSwing();
 
     private transient DrawingModel dmp;
 
@@ -547,7 +549,15 @@ public class CircuitPanel extends JPanel implements
         // If an evidence rectangle is active, draw it.
         g.setColor(editingColor.getColorSwing());
         g2.setStroke(new BasicStroke(1));
-
+       /* 
+        float dash1[] = {3.0f};
+        BasicStroke dashed =
+        new BasicStroke(2.0f,
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_MITER,
+                        10.0f, dash1, 0.0f);
+        g2.setStroke(dashed);*/
+/*
         if(evidenceRect!=null && eea.actionSelected ==
             ElementsEdtActions.SELECTION)
         {
@@ -556,6 +566,17 @@ public class CircuitPanel extends JPanel implements
         } else {
             evidenceRect = null;
         }
+        */
+        if (evidenceRect != null && 
+                eea.actionSelected == ElementsEdtActions.SELECTION) {
+            g.setColor(selectionColor);
+            g.drawRect(evidenceRect.x, evidenceRect.y, 
+                    evidenceRect.width, evidenceRect.height);
+        } else {
+            evidenceRect = null;
+        }
+  
+        g2.setStroke(new BasicStroke(1));
 
         // If there is a primitive or a macro being edited, draws it.
         eea.drawPrimEdit(graphicSwing, cs);
@@ -877,5 +898,10 @@ public class CircuitPanel extends JPanel implements
     public ImageAsCanvas getAttachedImage()
     {
         return dmp.imgCanvas;
+    }
+    
+    public void setSelectionColor(Color color) 
+    {
+        this.selectionColor = color;
     }
 }

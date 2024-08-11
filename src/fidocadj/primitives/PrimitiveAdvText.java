@@ -13,6 +13,7 @@ import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.FontG;
 import fidocadj.graphic.nil.GraphicsNull;
+import java.awt.Rectangle;
 
 /** Class to handle the advanced text primitive.
 
@@ -720,5 +721,32 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public  int getValueVirtualPointNumber()
     {
         return -1;
+    }
+
+    /**
+     * Determines whether the bounding box of the text defined by the current
+     * font settings intersects with the specified rectangle.
+     *
+     * Calculate the dimensions of the text based on the current font settings. 
+     * It then creates a bounding box around the text and checks if this 
+     * bounding box intersects with the given rectangle.
+     *
+     * @param rect the `Rectangle` object to check for intersection.
+     *
+     * @return `true` if the bounding box of the text intersects the rectangle,
+     *         `false` otherwise.
+     */
+    @Override
+    public boolean intersects(Rectangle rect)
+    {
+        GraphicsNull g = new GraphicsNull();
+        g.setFont(fontName, (int) (six * 12.0 / 7.0 + .5), (sty & TEXT_ITALIC) != 0, (sty & TEXT_BOLD) != 0);
+
+        int textWidth = g.getStringWidth(txt);
+        int textHeight = g.getFontAscent() + g.getFontDescent();
+
+        Rectangle textBounds = new Rectangle(virtualPoint[0].x, virtualPoint[0].y - textHeight, textWidth, textHeight);
+
+        return rect.intersects(textBounds);
     }
 }

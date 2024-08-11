@@ -13,6 +13,7 @@ import fidocadj.graphic.GraphicsInterface;
 import fidocadj.graphic.PointG;
 import fidocadj.graphic.ShapeInterface;
 import fidocadj.graphic.RectangleG;
+import java.awt.Rectangle;
 
 /** Class to handle the Bézier primitive.
 
@@ -503,5 +504,55 @@ public final class PrimitiveBezier extends GraphicPrimitive
     public  int getValueVirtualPointNumber()
     {
         return 5;
+    }
+    
+    /**
+     * Determines whether the Bézier curve defined by the control points in
+     * `virtualPoint` intersects with the specified rectangle.
+     *
+     * This method first checks if the bounding box of the Bézier curve
+     * intersects with the rectangle. If the bounding box intersects, it then
+     * checks each segment of the Bézier curve to determine if it intersects
+     * with the rectangle.
+     *
+     * Note: The precision of this method is marked as questionable and may
+     * require review and refinement.
+     *
+     * @param rect the `Rectangle` object to check for intersection.
+     *
+     * @return `true` if any part of the Bézier curve intersects the rectangle,
+     *         `false` otherwise.
+     */
+    @Override
+    public boolean intersects(Rectangle rect)
+    {
+        // TODO: Review needed, this method is not very precise
+
+        // Check if the bounding box of the Bézier curve intersects the rectangle
+        if (!rect.intersects(xmin, ymin, width, height)) {
+            return false;
+        }
+
+        // Check if the Bézier curve itself intersects the selection rectangle
+        if (shape1 != null) {
+            // Get the control points of the Bézier curve
+            int[] xpoints = {
+                virtualPoint[0].x, virtualPoint[1].x,
+                virtualPoint[2].x, virtualPoint[3].x
+            };
+            int[] ypoints = {
+                virtualPoint[0].y, virtualPoint[1].y,
+                virtualPoint[2].y, virtualPoint[3].y
+            };
+
+            // Check for intersection between the rectangle and the Bézier segments
+            for (int i = 0; i < xpoints.length - 1; i++) {
+                if (rect.intersectsLine(xpoints[i], ypoints[i], xpoints[i + 1], ypoints[i + 1])) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }
