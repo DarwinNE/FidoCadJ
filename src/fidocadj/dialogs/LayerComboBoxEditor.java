@@ -48,7 +48,7 @@ import fidocadj.layers.LayerDesc;
  *
  * @author Manuel Finessi
  */
-public class LayerEditor extends AbstractCellEditor implements ComboBoxEditor {
+public class LayerComboBoxEditor extends AbstractCellEditor implements ComboBoxEditor {
     private JPanel panel;
     private JLabel colorLabel;
     private JLabel visibilityLabel;
@@ -68,7 +68,7 @@ public class LayerEditor extends AbstractCellEditor implements ComboBoxEditor {
      * @param comboBox the JComboBox that this editor is associated with.
      * @param fidoFrame the FidoFrame instance to which this editor is linked.
      */
-    public LayerEditor(JComboBox comboBox, FidoFrame fidoFrame) {
+    public LayerComboBoxEditor(JComboBox comboBox, FidoFrame fidoFrame) {
         this.fidoFrame = fidoFrame;
         this.circuitPanel = this.fidoFrame.cc;
         panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 4));

@@ -10,13 +10,12 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import fidocadj.dialogs.LayerCellRenderer;
 import fidocadj.geom.ChangeCoordinatesListener;
 import fidocadj.globals.Globals;
 import fidocadj.layers.LayerDesc;
 
-import fidocadj.dialogs.LayerRenderer;
-import fidocadj.dialogs.LayerEditor;
+import fidocadj.dialogs.LayerCellRenderer;
+import fidocadj.dialogs.LayerComboBoxEditor;
 
 
 /** ToolbarZoom class
@@ -107,8 +106,8 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
         layerSel = new JComboBox<LayerDesc>(new Vector<LayerDesc>(l));
         layerSel.setToolTipText(
             Globals.messages.getString("tooltip_layerSel"));
-        layerSel.setRenderer( new LayerRenderer(false));
-        layerSel.setEditor(new LayerEditor(layerSel, fidoFrame));
+        layerSel.setRenderer(new LayerCellRenderer());
+        layerSel.setEditor(new LayerComboBoxEditor(layerSel, fidoFrame));
         layerSel.setEditable(true);
         layerSel.setPreferredSize(new Dimension(150, 12));
         changeListener=null;
