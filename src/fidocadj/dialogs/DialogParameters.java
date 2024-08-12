@@ -145,12 +145,12 @@ public final class DialogParameters extends JDialog
             constraints.gridy = ycount;
             constraints.gridwidth = 1;
             constraints.gridheight = 1;
-
+            
             // The first element needs a little bit more space at the top.
             if (ycount == 0) {
                 top = 10;
             } else {
-                top = 0;
+                top = 5;
             }
 
             // Here, we configure the grid layout.
@@ -171,6 +171,7 @@ public final class DialogParameters extends JDialog
             // elements and we populate the dialog.
             if (pd.parameter instanceof PointG) {
                 jtf[tc] = new JTextField(10);
+                jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText("" + ((PointG) pd.parameter).x);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
@@ -184,6 +185,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
 
                 jtf[tc] = new JTextField(10);
+                jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText("" + ((PointG) pd.parameter).y);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
@@ -197,6 +199,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof String) {
                 jtf[tc] = new JTextField(24);
+                jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText((String) pd.parameter);
                 // If we have a String text field in the first position, its
                 // contents should be evidenced, since it is supposed to be
@@ -229,6 +232,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jcb[cc++], constraints);
             } else if (pd.parameter instanceof Integer) {
                 jtf[tc] = new JTextField(24);
+                jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText(((Integer) pd.parameter).toString());
                 constraints.weightx = 100;
                 constraints.weighty = 100;
@@ -242,6 +246,7 @@ public final class DialogParameters extends JDialog
                 contentPane.add(jtf[tc++], constraints);
             } else if (pd.parameter instanceof Float) {
                 jtf[tc] = new JTextField(24);
+                jtf[tc].setPreferredSize(new Dimension(150,20));
                 jtf[tc].setText(""+pd.parameter);
                 constraints.weightx = 100;
                 constraints.weighty = 100;
