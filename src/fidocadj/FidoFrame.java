@@ -772,7 +772,7 @@ public final class FidoFrame extends JFrame implements
         ae.setPcbPadSizeY(options.pcbpadheight_i);
         ae.setPcbPadDrill(options.pcbpadintw_i);
 
-        circuitPanel.getDrawingModel().setTextFont(options.macroFont,
+        circuitPanel.getDrawingModel().setTextFont(options.macroFont_s,
             options.macroSize_i,
             circuitPanel.getUndoActions());
 

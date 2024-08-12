@@ -50,7 +50,7 @@ public final class DialogOptions extends MinimumSizeDialog
     public int pcbpadwidth_i;
     public int pcbpadheight_i;
     public int pcbpadintw_i;
-    public String macroFont;
+    public String macroFont_s;
     public int macroSize_i;
 
     private final JFrame parent;
@@ -74,55 +74,57 @@ public final class DialogOptions extends MinimumSizeDialog
 
     /** Standard constructor.
 
-        @param pa the parent frame.
-        @param z the current zoom.
-        @param p the current profile status.
-        @param a the current anti aliasing state.
-        @param gs the current grid activation state.
+        @param parentFrame the parent frame.
+        @param currentZoom the current zoom.
+        @param profileStatus the current profile status.
+        @param antiAliasingState the current anti aliasing state.
+        @param gridState the current grid activation state.
         @param libDir the current library directory.
-        @param tt the current text in the toolbar state.
-        @param sit the current small icon state.
-        @param plw the current PCB line width.
-        @param pw the current PCB pad width.
-        @param ph the current PCB pad height.
-        @param piw the current PCB bad internal hole diameter.
-        @param ex strict compatibility with FidoCAD for Windows.
-        @param mf the current Macro font.
-        @param sssi stroke width to be used for segments and straight lines.
-        @param ccs connection size.
-        @param ms text height for macros.
-        @param sdcp shift during copy and paste.
+        @param toolBarTextState the current text in the toolbar state.
+        @param toolBarSmallIconState the current small icon state.
+        @param pcbLineWidth the current PCB line width.
+        @param pcbPadWidth the current PCB pad width.
+        @param pcbPadHeight the current PCB pad height.
+        @param pcbPadHoleDiameter the current PCB pad internal hole diameter.
+        @param fidocadCompatibility strict compatibility with FidoCAD for Windows.
+        @param macroFont the current Macro font.
+        @param strokeWidth stroke width to be used for segments and straight lines.
+        @param connSize connection size.
+        @param macroTextHeight text height for macros.
+        @param shiftDuringCopyAndPaste shift during copy and paste.
     */
-    public DialogOptions (JFrame pa, double z, boolean p, boolean a,
-                          int gs, String libDir, boolean tt, boolean sit,
-                          int plw, int pw, int ph, int piw,
-                          boolean ex, String mf,
-                          double sssi, double ccs, int ms, boolean sdcp)
+    public DialogOptions (JFrame parentFrame, double currentZoom, boolean profileStatus, 
+                          boolean antiAliasingState, int gridState, String libDir, 
+                          boolean toolBarTextState, boolean toolBarSmallIconState,
+                          int pcbLineWidth, int pcbPadWidth, int pcbPadHeight, 
+                          int pcbPadHoleDiameter, boolean fidocadCompatibility, 
+                          String macroFont, double strokeWidth, double connSize, 
+                          int macroTextHeight, boolean shiftDuringCopyAndPaste)
     {
-        super(600,450,pa, Globals.messages.getString("Cir_opt_t"), true);
+        super(600,450,parentFrame, Globals.messages.getString("Cir_opt_t"), true);
         addComponentListener(this);
 
-        shiftCP=sdcp;
-        parent=pa;
-        zoomValue=z;
-        profileTime=p;
-        antiAlias=a;
-        gridSize=gs;
+        shiftCP=shiftDuringCopyAndPaste;
+        parent=parentFrame;
+        zoomValue=currentZoom;
+        profileTime=profileStatus;
+        antiAlias=antiAliasingState;
+        gridSize=gridState;
         libDirectory = libDir;
-        textToolbar=tt;
-        smallIconsToolbar=sit;
+        textToolbar=toolBarTextState;
+        smallIconsToolbar=toolBarSmallIconState;
 
-        extStrict=ex;
-        macroFont = mf;
+        extStrict=fidocadCompatibility;
+        macroFont_s = macroFont;
 
-        pcblinewidth_i = plw;
-        pcbpadwidth_i = pw;
-        pcbpadheight_i = ph;
-        pcbpadintw_i = piw;
-        connectionSize_i=ccs;
-        macroSize_i = ms;
+        pcblinewidth_i = pcbLineWidth;
+        pcbpadwidth_i = pcbPadWidth;
+        pcbpadheight_i = pcbPadHeight;
+        pcbpadintw_i = pcbPadHoleDiameter;
+        connectionSize_i=connSize;
+        macroSize_i = macroTextHeight;
 
-        stroke_size_straight_i =sssi;
+        stroke_size_straight_i =strokeWidth;
 
         setSize(600,500);
 
@@ -189,7 +191,7 @@ public final class DialogOptions extends MinimumSizeDialog
                 textToolbar=textToolbar_CB.isSelected();
                 smallIconsToolbar=smallIconsToolbar_CB.isSelected();
                 extStrict = extStrict_CB.isSelected();
-                macroFont = (String)comboFont.getSelectedItem();
+                macroFont_s = (String)comboFont.getSelectedItem();
                 int s=0;
 
                 try{
@@ -478,7 +480,7 @@ public final class DialogOptions extends MinimumSizeDialog
         //System.out.println(macroFont);
         for (int i = 0; i < s.length; ++i) {
             comboFont.addItem(s[i]);
-            if (s[i].equals(macroFont)) {
+            if (s[i].equals(macroFont_s)) {
                 comboFont.setSelectedIndex(i);
             }
         }
